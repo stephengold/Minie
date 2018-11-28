@@ -1,0 +1,30 @@
+// Note: "common.gradle" in the root project contains additional initialization
+//   for this project. This initialization is applied in the "build.gradle"
+//   of the root project.
+
+description = 'demos, examples, and tests that do not generate reports'
+
+dependencies {
+    compile 'jme3utilities:jme3-utilities-nifty:0.8.2'
+    compile 'jme3utilities:jme3-utilities-ui:0.6.6'
+    compile "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    runtime "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
+    runtime "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"
+    compile "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+    runtime 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
+
+    //compile "jme3utilities:Minie:$minieVersion"
+    compile project(':MinieLibrary')
+}
+
+// cleanup tasks
+clean { dependsOn 'cleanDLLs', 'cleanSOs', 'cleanWrittenAssets' }
+task cleanDLLs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.dll')
+}
+task cleanSOs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.so')
+}
+task cleanWrittenAssets(type: Delete) {
+    delete 'Written Assets'
+}

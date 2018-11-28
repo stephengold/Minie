@@ -1,0 +1,11 @@
+Licensing history for assets in tests/src/main/resources/Models/Puppet
+
+The puppet.blend model asset was created by Nathan Vegdahl as part of
+the production of the short film "Sintel" and is
+(c) Copyright Blender Foundation durian.blender.org
+
+The Blender Foundation released it under a Creative Commons Attribution 3.0
+license.  For details, see https://durian.blender.org/sharing/
+
+Stephen Gold converted the model to J3O format and releases the converted
+file Puppet.j3o under the same Creative Commons Attribution 3.0 license.

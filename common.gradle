@@ -1,0 +1,58 @@
+// Gradle settings and tasks common to all subprojects
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'jme3utilities'
+
+// select one source-code option
+//sourceCompatibility = '1.7'
+sourceCompatibility = '1.8'
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        // compile-time options:
+        options.compilerArgs << '-Xdiags:verbose'
+        options.compilerArgs << '-Xlint:unchecked'
+        options.deprecation = true
+        options.encoding = 'UTF-8'
+    }
+    tasks.withType(JavaExec) {
+        // runtime options:
+        classpath sourceSets.main.runtimeClasspath
+        //doFirst { println commandLine }
+        enableAssertions true
+        jvmArgs '-XX:+UseConcMarkSweepGC'
+        //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
+    }
+}
+
+ext {
+    // current versions of the libraries
+    jmonkeyengineVersion = '3.2.1-stable'
+    minieVersion = '0.4.5'
+}
+
+repositories {
+    //mavenLocal()
+    maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
+    maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for testdata
+    jcenter()
+    maven { url 'http://nifty-gui.sourceforge.net/nifty-maven-repo' }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes, description: 'Create a jar of source files.') {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc, description: 'Create a jar of javadoc.') {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+    archives javadocJar
+}

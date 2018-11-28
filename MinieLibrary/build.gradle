@@ -1,0 +1,52 @@
+// Note: "common.gradle" in the root project contains additional initialization
+//   for this project. This initialization is applied in the "build.gradle"
+//   of the root project.
+
+description = 'the Minie physics-support library for jMonkeyEngine'
+ext {
+    artifact = 'Minie'
+    version = minieVersion
+    baseName = "$artifact-$version"
+}
+
+jar { baseName project.ext.baseName }
+javadocJar { baseName project.ext.baseName }
+sourcesJar { baseName project.ext.baseName }
+
+dependencies {
+    compile "jme3utilities:jme3-utilities-heart:2.14.0"
+    compile "jme3utilities:jme3-utilities-debug:0.9.6"
+    testCompile 'junit:junit:4.12'
+    testCompile "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    testRuntime 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
+}
+
+compileJava.options.headerOutputDirectory = new File('build/cpp')
+
+// cleanup tasks
+clean { dependsOn 'cleanDLLs', 'cleanSOs' }
+task cleanDLLs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.dll')
+}
+task cleanSOs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.so')
+}
+
+build.dependsOn('pom')
+task pom {
+    doLast {
+        pom {
+            project {
+                artifactId project.ext.artifact
+                licenses {
+                    license {
+                        distribution 'repo'
+                        name 'New BSD (3-clause) License'
+                        url 'https://opensource.org/licenses/BSD-3-Clause'
+                    }
+                }
+                version project.ext.version
+            }
+        }.writeTo("${buildDir}/libs/${project.ext.baseName}.pom")
+    }
+}
