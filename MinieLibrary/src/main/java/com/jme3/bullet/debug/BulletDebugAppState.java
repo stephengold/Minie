@@ -168,6 +168,8 @@ public class BulletDebugAppState extends AbstractAppState {
         this.filter = filter;
         this.initListener = initListener;
     }
+    // *************************************************************************
+    // new methods exposed
 
     /**
      * Alter which objects are visualized.
@@ -187,6 +189,22 @@ public class BulletDebugAppState extends AbstractAppState {
         int length = viewPorts.length;
         this.viewPorts = new ViewPort[length];
         System.arraycopy(viewPorts, 0, this.viewPorts, 0, length);
+    }
+    // *************************************************************************
+    // AbstractAppState methods
+
+    /**
+     * Transition this state from terminating to detached. Should be invoked
+     * only by a subclass or by the AppStateManager. Invoked once for each time
+     * {@link #initialize(com.jme3.app.state.AppStateManager, com.jme3.app.Application)}
+     * is invoked.
+     */
+    @Override
+    public void cleanup() {
+        for (ViewPort viewPort : viewPorts) {
+            viewPort.detachScene(physicsDebugRootNode);
+        }
+        super.cleanup();
     }
 
     /**
@@ -212,17 +230,20 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Transition this state from terminating to detached. Should be invoked
-     * only by a subclass or by the AppStateManager. Invoked once for each time
-     * {@link #initialize(com.jme3.app.state.AppStateManager, com.jme3.app.Application)}
-     * is invoked.
+     * Render this state. Should be invoked only by a subclass or by the
+     * AppStateManager. Invoked once per frame, provided the state is attached
+     * and enabled.
+     *
+     * @param rm the render manager (not null)
      */
     @Override
-    public void cleanup() {
+    public void render(RenderManager rm) {
+        super.render(rm);
         for (ViewPort viewPort : viewPorts) {
-            viewPort.detachScene(physicsDebugRootNode);
+            if (viewPort.isEnabled()) {
+                rm.renderScene(physicsDebugRootNode, viewPort);
+            }
         }
-        super.cleanup();
     }
 
     /**
@@ -247,23 +268,8 @@ public class BulletDebugAppState extends AbstractAppState {
         physicsDebugRootNode.updateLogicalState(tpf);
         physicsDebugRootNode.updateGeometricState();
     }
-
-    /**
-     * Render this state. Should be invoked only by a subclass or by the
-     * AppStateManager. Invoked once per frame, provided the state is attached
-     * and enabled.
-     *
-     * @param rm the render manager (not null)
-     */
-    @Override
-    public void render(RenderManager rm) {
-        super.render(rm);
-        for (ViewPort viewPort : viewPorts) {
-            if (viewPort.isEnabled()) {
-                rm.renderScene(physicsDebugRootNode, viewPort);
-            }
-        }
-    }
+    // *************************************************************************
+    // private methods
 
     /**
      * Initialize the materials.
@@ -287,61 +293,30 @@ public class BulletDebugAppState extends AbstractAppState {
         DEBUG_YELLOW.setName("DEBUG_YELLOW");
     }
 
-    private void updateRigidBodies() {
-        HashMap<PhysicsRigidBody, Spatial> oldObjects = bodies;
-        bodies = new HashMap<>();
-        Collection<PhysicsRigidBody> current = space.getRigidBodyList();
+    private void updateCharacters() {
+        HashMap<PhysicsCharacter, Spatial> oldObjects = characters;
+        characters = new HashMap<>();
+        Collection<PhysicsCharacter> current = space.getCharacterList();
         //create new map
-        for (PhysicsRigidBody physicsObject : current) {
+        for (PhysicsCharacter physicsObject : current) {
             //copy existing spatials
             if (oldObjects.containsKey(physicsObject)) {
                 Spatial spat = oldObjects.get(physicsObject);
-                bodies.put(physicsObject, spat);
+                characters.put(physicsObject, spat);
                 oldObjects.remove(physicsObject);
             } else {
                 if (filter == null || filter.displayObject(physicsObject)) {
-                    logger.log(Level.FINE, "Create new debug RigidBody");
+                    logger.log(Level.FINE, "Create new debug Character");
                     //create new spatial
                     Node node = new Node(physicsObject.toString());
-                    Control debugControl = new BulletRigidBodyDebugControl(this,
-                            physicsObject);
-                    node.addControl(debugControl);
-                    bodies.put(physicsObject, node);
+                    node.addControl(new BulletCharacterDebugControl(this, physicsObject));
+                    characters.put(physicsObject, node);
                     physicsDebugRootNode.attachChild(node);
                 }
             }
         }
         //remove leftover spatials
-        for (Map.Entry<PhysicsRigidBody, Spatial> entry : oldObjects.entrySet()) {
-            Spatial spatial = entry.getValue();
-            spatial.removeFromParent();
-        }
-    }
-
-    private void updateJoints() {
-        HashMap<PhysicsJoint, Spatial> oldObjects = joints;
-        joints = new HashMap<>();
-        Collection<PhysicsJoint> current = space.getJointList();
-        //create new map
-        for (PhysicsJoint physicsObject : current) {
-            //copy existing spatials
-            if (oldObjects.containsKey(physicsObject)) {
-                Spatial spat = oldObjects.get(physicsObject);
-                joints.put(physicsObject, spat);
-                oldObjects.remove(physicsObject);
-            } else {
-                if (filter == null || filter.displayObject(physicsObject)) {
-                    logger.log(Level.FINE, "Create new debug Joint");
-                    //create new spatial
-                    Node node = new Node(physicsObject.toString());
-                    node.addControl(new BulletJointDebugControl(this, physicsObject));
-                    joints.put(physicsObject, node);
-                    physicsDebugRootNode.attachChild(node);
-                }
-            }
-        }
-        //remove leftover spatials
-        for (Map.Entry<PhysicsJoint, Spatial> entry : oldObjects.entrySet()) {
+        for (Map.Entry<PhysicsCharacter, Spatial> entry : oldObjects.entrySet()) {
             Spatial spatial = entry.getValue();
             spatial.removeFromParent();
         }
@@ -376,30 +351,61 @@ public class BulletDebugAppState extends AbstractAppState {
         }
     }
 
-    private void updateCharacters() {
-        HashMap<PhysicsCharacter, Spatial> oldObjects = characters;
-        characters = new HashMap<>();
-        Collection<PhysicsCharacter> current = space.getCharacterList();
+    private void updateJoints() {
+        HashMap<PhysicsJoint, Spatial> oldObjects = joints;
+        joints = new HashMap<>();
+        Collection<PhysicsJoint> current = space.getJointList();
         //create new map
-        for (PhysicsCharacter physicsObject : current) {
+        for (PhysicsJoint physicsObject : current) {
             //copy existing spatials
             if (oldObjects.containsKey(physicsObject)) {
                 Spatial spat = oldObjects.get(physicsObject);
-                characters.put(physicsObject, spat);
+                joints.put(physicsObject, spat);
                 oldObjects.remove(physicsObject);
             } else {
                 if (filter == null || filter.displayObject(physicsObject)) {
-                    logger.log(Level.FINE, "Create new debug Character");
+                    logger.log(Level.FINE, "Create new debug Joint");
                     //create new spatial
                     Node node = new Node(physicsObject.toString());
-                    node.addControl(new BulletCharacterDebugControl(this, physicsObject));
-                    characters.put(physicsObject, node);
+                    node.addControl(new BulletJointDebugControl(this, physicsObject));
+                    joints.put(physicsObject, node);
                     physicsDebugRootNode.attachChild(node);
                 }
             }
         }
         //remove leftover spatials
-        for (Map.Entry<PhysicsCharacter, Spatial> entry : oldObjects.entrySet()) {
+        for (Map.Entry<PhysicsJoint, Spatial> entry : oldObjects.entrySet()) {
+            Spatial spatial = entry.getValue();
+            spatial.removeFromParent();
+        }
+    }
+
+    private void updateRigidBodies() {
+        HashMap<PhysicsRigidBody, Spatial> oldObjects = bodies;
+        bodies = new HashMap<>();
+        Collection<PhysicsRigidBody> current = space.getRigidBodyList();
+        //create new map
+        for (PhysicsRigidBody physicsObject : current) {
+            //copy existing spatials
+            if (oldObjects.containsKey(physicsObject)) {
+                Spatial spat = oldObjects.get(physicsObject);
+                bodies.put(physicsObject, spat);
+                oldObjects.remove(physicsObject);
+            } else {
+                if (filter == null || filter.displayObject(physicsObject)) {
+                    logger.log(Level.FINE, "Create new debug RigidBody");
+                    //create new spatial
+                    Node node = new Node(physicsObject.toString());
+                    Control debugControl = new BulletRigidBodyDebugControl(this,
+                            physicsObject);
+                    node.addControl(debugControl);
+                    bodies.put(physicsObject, node);
+                    physicsDebugRootNode.attachChild(node);
+                }
+            }
+        }
+        //remove leftover spatials
+        for (Map.Entry<PhysicsRigidBody, Spatial> entry : oldObjects.entrySet()) {
             Spatial spatial = entry.getValue();
             spatial.removeFromParent();
         }
@@ -438,6 +444,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * Interface to restrict which physics objects are visualized.
      */
     public static interface DebugAppStateFilter {
+
         /**
          * Test whether the specified physics object should be displayed.
          *
