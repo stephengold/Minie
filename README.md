@@ -13,20 +13,20 @@ Summary of features:
 
  + `DynamicAnimControl` for ragdoll simulation:
     + set dynamic/kinematic mode per bone
-    + attachment nodes
+    + deals with attachment nodes
     + multiple options for bone mass, center, and shape
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + enhanced visualization for debugging:
     + visualize in multiple viewports
     + hi-res debug meshes for convex shapes
     + customize debug material per collision object
-    + debug meshes with normals
+    + options to generate debug meshes with normals
  + single-ended joints
- + ... etcetera
- + fixes for many issues
+ + settable global default for collision margin
+ + fixes for many `jme3-bullet` bugs (including 740, 877, 896, 923, and 938)
  + improved JavaDoc and inline documentation
  + decoupled from the jMonkeyEngine release cycle
- + demonstration apps provided
+ + demo apps provided
  + Java source code provided under FreeBSD license
 
 ## Contents of this document
@@ -43,8 +43,11 @@ Summary of features:
 
 ### Downloads
 
+Newer releases (since v0.5.0) can be downloaded from
+[GitHub](https://github.com/stephengold/jme3-utilities/releases).
+
 Older releases (v0.1.1 through v0.4.5) can be downloaded from
-[the Jme3-Utilities Project](https://github.com/stephengold/jme3-utilities/releases).
+[the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
 
 Maven artifacts are available from
 [JFrog Bintray](https://bintray.com/stephengold/jme3utilities).
@@ -134,7 +137,7 @@ Section to be written.
         maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.4.5'
+        compile 'jme3utilities:Minie:0.5.0'
     }
 
 <a name="links"/>
@@ -143,6 +146,7 @@ Section to be written.
 
   + November 2018 [MultiSphere demo video](https://www.youtube.com/watch?OS2zjB01c6E)
   + October 2018 [DynamicAnimControl demo video](https://www.youtube.com/watch?v=A1Rii99nb3Q)
+  + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
 
 [blender]: https://docs.blender.org "Blender Project"
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"

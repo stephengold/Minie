@@ -1,5 +1,38 @@
 # release notes for the Minie library and related tests
 
+
+## Version 0.5.0 released on TBD
+
+Minie moved from the Jme3-utilities Project to a new GitHub repo.
+
+Main features added:
+
+ + Added single-ended versions of all 6 `PhysicsJoint` types.
+ + Added optional heuristics for configuring the center, shape, and
+   mass of a `PhysicsLink`.
+ + Added 4 methods for compatibility with the `jme3-bullet` library.
+ + Cache and re-use debug meshes.
+ + Added an enable flag and a breaking impulse threshold to every
+   `PhysicsJoint` object.
+ + Added an MhGame model for use by `TestDac`.
+ + Added `SeJointDemo`, `TestLargeMesh` and `TestRectangularSolid` applications.
+ + Added a `HullCollisionShape` constructor based on `RectangularSolid`.
+ + Added `MultiSphere` constructors based on `BoundingSphere`
+   and `RectangularSolid`.
+
+Other important changes:
+ + Debug-mesh properties are now per-collision object, instead of per-shape.
+ + In the example model tunings, configure masses based on density.
+ + In `BulletJointDebugControl`, visualize the A and B ends of each joint
+   in distinct colors.
+ + Moved 10 assertion-based tests to the library's "test" source set.
+ + Fixed a bug in the `TestDac` application where controls were not removed
+   for certain models.
+ + Fixed a bug in `BulletVehicleDebugControl` where odd-numbered wheels were
+   never updated.
+ + Updated the native libraries to version 1.0.18 of `jme3-bullet-native`.
+ + Based on version 2.14 of the `jme3-utilities-heart` library.
+
 ## Version 0.4.5 released on 20 November 2018
 
 Main features added:
@@ -34,7 +67,7 @@ Incompatible changes to the library API:
 
 Other details:
 
- + Updated shared libraries to version 1.0.15 of `jme3-bullet-native`.
+ + Updated the native libraries to version 1.0.15 of `jme3-bullet-native`.
  + Based on version 2.13 of the `jme3-utilities-heart` library.
 
 ## Version 0.4.4 released on 12 November 2018
@@ -103,7 +136,7 @@ Other noteworthy changes to Minie:
  + Added an `activate()` method to `PhysicsCollisionObject`.
  + Fixed a bug that caused an assertion failure while reading
    a `CompoundCollisionShape`.
- + Updated native shared libraries to v1.0.12 of `jme3-bullet-native`.
+ + Updated the native libraries to v1.0.12 of `jme3-bullet-native`.
 
 ## Version 0.4.0 released on 20 October 2018
 
@@ -213,17 +246,17 @@ Other noteworthy changes:
  + Implemented limb damping in `KinematicRagdollControl`.
  + Added `getTorso()` method to `KinematicRagdollControl`.
  + Added check for rotation/translation of a heightfield rigid body.
- + Converted PhysicsBoneLink to a standalone class.
+ + Converted `PhysicsBoneLink` to a standalone class.
  + Removed unnecessary constructor from CollisionShape.
  + Added tests.
 
 ## Version 0.3.1 released on 24 September 2018
 
  + Fixed JME issue #896 and added a test for it.
- + Disabled getMargin() and setMargin() for capsule and sphere shapes.
+ + Disabled `getMargin()` and `setMargin()` for capsule and sphere shapes.
  + Initialized the scale and margin of compound shapes.
  + Removed various methods and arguments.
- + Added TestSetMargin to the test project.
+ + Added `TestSetMargin` to the test project.
 
 ## Version 0.3.0 released on 23 September 2018
 
@@ -231,14 +264,14 @@ Other noteworthy changes:
  + Standardized the design of constructors and accessors to reduce aliasing
    of vectors and quaternions and enable the use of caller-allocated storage.
  + Implemented a more practical approach to filtering debug objects.
- + Simplified PhysicsCollisionEvent by eliminating event types.
- + Renamed 2 PhysicsJoint methods that misspelled "bodies".
+ + Simplified `PhysicsCollisionEvent` by eliminating event types.
+ + Renamed 2 `PhysicsJoint` methods that misspelled "bodies".
  + Removed many needless fields, methods, and constructors.
- + Made the VehicleTuning class JmeCloneable and Savable.
+ + Made the `VehicleTuning` class `JmeCloneable` and `Savable`.
  + Addressed the possibility of multiple physics controls added to the
    same Spatial.
- + Replaced 6 parameters of VehicleWheel with a VehicleTuning reference.
- + Eviscerated 5 cloneForSpatial() methods.
+ + Replaced 6 parameters of `VehicleWheel` with a `VehicleTuning` reference.
+ + Eviscerated 5 `cloneForSpatial()` methods.
  + Based on version 2.10 of the jme3-utilities-heart library.
 
 ## Version 0.2.10 released on 12 September 2018
