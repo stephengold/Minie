@@ -43,7 +43,9 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -69,6 +71,13 @@ public class DebugShapeFactory {
      */
     final public static Logger logger
             = Logger.getLogger(DebugShapeFactory.class.getName());
+    // *************************************************************************
+    // fields
+
+    /**
+     * map keys to previously generated debug meshes, for reuse
+     */
+    final private static Map<DebugMeshKey, Mesh> cache = new HashMap<>(100);
     // *************************************************************************
     // constructors
 
@@ -171,7 +180,13 @@ public class DebugShapeFactory {
         assert resolution >= 0 : resolution;
         assert resolution <= 1 : resolution;
 
-        Mesh mesh = createMesh(shape, normals, resolution);
+        DebugMeshKey key = new DebugMeshKey(shape, normals, resolution);
+        Mesh mesh = cache.get(key);
+        if (mesh == null) {
+            mesh = createMesh(shape, normals, resolution);
+            cache.put(key, mesh);
+        }
+
         Geometry geometry = new Geometry("Bullet debug", mesh);
         geometry.updateModelBound();
 
