@@ -65,7 +65,7 @@ public class SinbadControl extends DynamicAnimControl {
         super.link("Chest", hull,
                 new RangeOfMotion(0.4f, 0f, 0.4f));
         super.link("Neck", hull,
-                new RangeOfMotion(1f, -0.5f, 1f, -1f, 1f, -1f));
+                new RangeOfMotion(0.5f, 1f, 0.7f));
 
         super.link("Clavicle.R", hull,
                 new RangeOfMotion(0.3f, -0.6f, 0f, 0f, 0.4f, -0.4f));
