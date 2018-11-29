@@ -1,9 +1,8 @@
-# Minie Project
+<img height="150" src="https://i.imgur.com/YEPFEcx.png">
 
-The [Minie Project](https://github.com/stephengold/Minie)
-is about improving the integration of
-[Bullet Physics](https://github.com/bulletphysics/bullet3) into the
-[jMonkeyEngine Game Engine](https://github.com/jMonkeyEngine/jmonkeyengine).
+The [Minie Project][minie] is about improving the integration of
+[Bullet Real-Time Physics][bullet] into the
+[jMonkeyEngine Game Engine][jme].
 
 It contains 2 sub-projects:
 
@@ -13,15 +12,15 @@ It contains 2 sub-projects:
 Summary of features:
 
  + `DynamicAnimControl` for ragdoll simulation:
- + + set dynamic/kinematic mode per bone
- + + attachment nodes
- + + multiple options for bone mass, center, and shape
+    + set dynamic/kinematic mode per bone
+    + attachment nodes
+    + multiple options for bone mass, center, and shape
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + enhanced visualization for debugging:
- + + visualize in multiple viewports
- + + hi-res debug meshes for convex shapes
- + + customize debug material per collision object
- + + debug meshes with normals
+    + visualize in multiple viewports
+    + hi-res debug meshes for convex shapes
+    + customize debug material per collision object
+    + debug meshes with normals
  + single-ended joints
  + ... etcetera
  + fixes for many issues
@@ -44,8 +43,8 @@ Summary of features:
 
 ### Downloads
 
-Older releases can be downloaded from
-[GitHub](https://github.com/stephengold/jme3-utilities/releases).
+Older releases (v0.1.1 through v0.4.5) can be downloaded from
+[the Jme3-Utilities Project](https://github.com/stephengold/jme3-utilities/releases).
 
 Maven artifacts are available from
 [JFrog Bintray](https://bintray.com/stephengold/jme3utilities).
@@ -65,13 +64,13 @@ The source code is compatible with JDK 7.
 ### History
 
 Since November 2018, the Minie Project has been hosted at
-[GitHub](https://github.com/stephengold/Minie).
+[GitHub][minie].
 
-From January 2018 to November 2018, Minie was a sub-project of the
-[Jme3-utilities Project](https://github.com/stephengold/jme3-utilities).
+From January 2018 to November 2018, Minie was a sub-project of
+[the Jme3-Utilities Project][utilities].
 
 Most of Minie was originally forked from `jme3-bullet`,
-a library in the jMonkeyEngine project.
+a library in the [jMonkeyEngine Game Engine][jme].
 
 <a name="install"/>
 
@@ -142,7 +141,27 @@ Section to be written.
 
 ## External links
 
+  + November 2018 [MultiSphere demo video](https://www.youtube.com/watch?OS2zjB01c6E)
   + October 2018 [DynamicAnimControl demo video](https://www.youtube.com/watch?v=A1Rii99nb3Q)
+
+[blender]: https://docs.blender.org "Blender Project"
+[bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
+[bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
+[chrome]: https://www.google.com/chrome "Chrome"
+[elements]: http://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
+[findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
+[git]: https://git-scm.com "Git"
+[github]: https://github.com "GitHub"
+[gradle]: https://gradle.org "Gradle Project"
+[jfrog]: https://www.jfrog.com "JFrog"
+[jme]: http://jmonkeyengine.org  "jMonkeyEngine Project"
+[markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
+[minie]: https://github.com/stephengold/Minie "Minie Project"
+[netbeans]: https://netbeans.org "NetBeans Project"
+[obs]: https://obsproject.com "Open Broadcaster Software Project"
+[utilities]: https://github.com/stephengold/jme3-utilities "Jme3-Utilities Project"
+[vegdahl]: http://www.cessen.com "Nathan Vegdahl"
+[winmerge]: http://winmerge.org "WinMerge Project"
 
 <a name="acks"/>
 
@@ -158,25 +177,25 @@ artists and software developers:
   `KinematicRagdollControl` (on which `DynamicAnimControl` is based)
   and also for many helpful insights
 + Paul Speed, for helpful insights
-+ Nathan Vegdahl, for creating the Puppet model (used by `TestDac`)
++ [Nathan Vegdahl][vegdahl], for creating the Puppet model (used by `TestDac`)
 + the creators of (and contributors to) the following software:
-    + the Gradle build tool
-    + the Blender 3-D animation suite
-    + the Bullet real-time physics library
-    + the FindBugs source-code analyzer
-    + the Git revision-control systems
-    + the Google Chrome web browser
+    + the [Blender][] 3-D animation suite
+    + the [Bullet][] real-time physics library
+    + the [FindBugs][] source-code analyzer
+    + the [Git][] revision-control system and GitK commit viewer
+    + the [Google Chrome web browser][chrome]
+    + the [Gradle][] build tool
     + the Java compiler, standard doclet, and runtime environment
     + jMonkeyEngine and the jME3 Software Development Kit
     + LWJGL, the Lightweight Java Game Library
     + the Markdown document conversion tool
     + Microsoft Windows
-    + the NetBeans integrated development environment
-    + Open Broadcaster Software Studio
+    + the [NetBeans][] integrated development environment
+    + [Open Broadcaster Software Studio][obs]
     + the PMD source-code analyzer
-    + the WinMerge differencing and merging tool
+    + the [WinMerge][] differencing and merging tool
 
-I am grateful to JFrog, Google, and Github for providing free hosting for the
+I am grateful to [JFrog][] and [Github][] for providing free hosting for the
 Minie Project and many other open-source projects.
 
 I'm also grateful to my dear Holly, for keeping me sane.
