@@ -23,6 +23,8 @@ dependencies {
 
 compileJava.options.headerOutputDirectory = new File('build/cpp')
 
+test { forkEvery 1 }
+
 // cleanup tasks
 clean { dependsOn 'cleanDLLs', 'cleanSOs' }
 task cleanDLLs(type: Delete) {
