@@ -155,6 +155,7 @@ Section to be written.
 [gradle]: https://gradle.org "Gradle Project"
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: http://jmonkeyengine.org  "jMonkeyEngine Project"
+[makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
 [minie]: https://github.com/stephengold/Minie "Minie Project"
 [netbeans]: https://netbeans.org "NetBeans Project"
@@ -186,9 +187,10 @@ artists and software developers:
     + the [Google Chrome web browser][chrome]
     + the [Gradle][] build tool
     + the Java compiler, standard doclet, and runtime environment
-    + jMonkeyEngine and the jME3 Software Development Kit
+    + [jMonkeyEngine][jme] and the jME3 Software Development Kit
     + LWJGL, the Lightweight Java Game Library
-    + the Markdown document conversion tool
+    + the [MakeHuman][] Community
+    + the [Markdown][] document conversion tool
     + Microsoft Windows
     + the [NetBeans][] integrated development environment
     + [Open Broadcaster Software Studio][obs]

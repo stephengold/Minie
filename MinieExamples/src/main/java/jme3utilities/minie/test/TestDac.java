@@ -663,7 +663,8 @@ public class TestDac extends ActionApplication {
      * Load the MhGame model.
      */
     private void loadMhGame() {
-        cgModel = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
+        cgModel = (Node) assetManager.loadModel(
+                "Models/MhGame/MhGame.mesh.xml");
         dac = new MhGameControl();
         animationName = "expr-lib-pose";
         leftClavicleName = "upperarm_l";

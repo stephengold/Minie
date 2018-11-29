@@ -1,0 +1,21 @@
+Licensing history for assets in src/main/resources/Models/MhGame and
+src/main/resources/Models/MhGame/textures
+
+The MhGame model asset was created by Stephen Gold using the the export
+functionality of an official and unmodified version (v1.1.1) of MakeHuman.
+
+The files "MhGame.material", "MhGame.mesh.xml", "MhGame.skeleton.xml",
+"brown_eye.png", "eyebrow001.png", "lit_matte.png", "lit_standard_skin.png",
+"male_worksuit01_ao.png", "male_worksuit01_diffuse.png",
+"male_worksuit01_normal.png", "shoes03_diffuse.png", "skinmat_eye.png",
+"young_lightskinned_male_diffuse2.png" are therefore dual licensed under both
+(1) the GNU Affero General Public License (http://www.gnu.org/licenses/)
+and (2) Creative Commons CC0 1.0 Universal license
+(https://creativecommons.org/publicdomain/zero/1.0/).
+
+Stephen Gold affirms that, to the extent of his rights to the files listed
+above, he voluntarily elects to apply the Creative Commons CC0 1.0 Universal
+license.
+
+For more information about these license terms
+see http://www.makehuman.org/content/license_explanation.html
