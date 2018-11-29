@@ -26,33 +26,29 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Misc;
+import org.junit.Test;
 
 /**
  * Test cloning a rigid body.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestCloneBody extends SimpleApplication {
+public class TestCloneBody {
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] args) {
-        TestCloneBody app = new TestCloneBody();
-        app.start();
-    }
-    // *************************************************************************
-    // SimpleApplication methods
+    @Test
+    public void testCloneBody() {
+        NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
-    @Override
-    public void simpleInitApp() {
         CollisionShape capsule = new SphereCollisionShape(1f);
         PhysicsRigidBody body = new PhysicsRigidBody(capsule, 1f);
         setParameters(body, 0f);
@@ -70,8 +66,6 @@ public class TestCloneBody extends SimpleApplication {
         setParameters(clone, 0.6f);
         verifyParameters(body, 0.3f);
         verifyParameters(clone, 0.6f);
-
-        stop();
     }
     // *************************************************************************
     // private methods

@@ -26,9 +26,10 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.app.SimpleApplication;
+import com.jme3.asset.AssetManager;
+import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
-import com.jme3.bullet.BulletAppState;
+import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -43,48 +44,42 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.export.binary.BinaryLoader;
+import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
+import com.jme3.system.NativeLibraryLoader;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
+import com.jme3.texture.plugins.AWTLoader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import jme3utilities.MyAsset;
+import org.junit.Test;
 
 /**
  * Try the setMargin() function on collision shapes of all types.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSetMargin extends SimpleApplication {
-    // *************************************************************************
-    // constants and loggers
-
-    /**
-     * message logger for this class
-     */
-    final public static Logger logger
-            = Logger.getLogger(TestSetMargin.class.getName());
+public class TestSetMargin {
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] args) {
-        TestSetMargin app = new TestSetMargin();
-        app.start();
-    }
-    // *************************************************************************
-    // SimpleApplication methods
+    @Test
+    public void testSetMargin() {
+        NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
-    @Override
-    public void simpleInitApp() {
-        BulletAppState bulletAppState = new BulletAppState();
-        stateManager.attach(bulletAppState);
+        AssetManager assetManager = new DesktopAssetManager();
+        assetManager.registerLoader(AWTLoader.class, "jpg", "png");
+        assetManager.registerLoader(BinaryLoader.class, "j3o");
+        assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
+        assetManager.registerLocator(null, ClasspathLocator.class);
 
         CollisionShape box = new BoxCollisionShape(new Vector3f(1f, 1f, 1f));
         assert box.getMargin() == 0.04f;
@@ -176,7 +171,5 @@ public class TestSetMargin extends SimpleApplication {
         assert sphere.getMargin() == 0f;
         sphere.setMargin(0.3f); // cannot alter margin
         assert sphere.getMargin() == 0f;
-
-        stop();
     }
 }

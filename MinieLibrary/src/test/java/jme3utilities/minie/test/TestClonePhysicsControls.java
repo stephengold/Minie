@@ -26,7 +26,6 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
@@ -35,26 +34,23 @@ import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.control.VehicleControl;
 import com.jme3.math.Vector3f;
+import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Misc;
+import org.junit.Test;
 
 /**
  * Test cloning physics controls.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestClonePhysicsControls extends SimpleApplication {
+public class TestClonePhysicsControls {
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] args) {
-        TestClonePhysicsControls app = new TestClonePhysicsControls();
-        app.start();
-    }
-    // *************************************************************************
-    // SimpleApplication methods
+    @Test
+    public void testCloneBody() {
+        NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
-    @Override
-    public void simpleInitApp() {
         CollisionShape capsule = new SphereCollisionShape(1f);
 
         RigidBodyControl rbc = new RigidBodyControl(capsule, 1f);
@@ -84,7 +80,6 @@ public class TestClonePhysicsControls extends SimpleApplication {
         DynamicAnimControl dacClone
                 = (DynamicAnimControl) Misc.deepCopy(dac);
 
-        stop();
         // TODO test cloning controls added to a scene graph
     }
 }

@@ -26,8 +26,10 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.app.SimpleApplication;
+import com.jme3.asset.AssetManager;
+import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
+import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -41,35 +43,41 @@ import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.export.binary.BinaryLoader;
+import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
+import com.jme3.system.NativeLibraryLoader;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
+import com.jme3.texture.plugins.AWTLoader;
 import jme3utilities.MyAsset;
+import org.junit.Test;
 
 /**
  * Try the setScale() function on collision shapes of all types.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSetScale extends SimpleApplication {
+public class TestSetScale {
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] args) {
-        TestSetScale app = new TestSetScale();
-        app.start();
-    }
-    // *************************************************************************
-    // SimpleApplication methods
+    @Test
+    public void testSetMargin() {
+        NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
-    @Override
-    public void simpleInitApp() {
+        AssetManager assetManager = new DesktopAssetManager();
+        assetManager.registerLoader(AWTLoader.class, "jpg", "png");
+        assetManager.registerLoader(BinaryLoader.class, "j3o");
+        assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
+        assetManager.registerLocator(null, ClasspathLocator.class);
+
         Vector3f ident = new Vector3f(1f, 1f, 1f);
         Vector3f uni = new Vector3f(9f, 9f, 9f);
         Vector3f non = new Vector3f(9f, 9f, 1f);
@@ -186,7 +194,5 @@ public class TestSetScale extends SimpleApplication {
         assert sphere.getScale(null).equals(ident);
         sphere.setScale(uni);
         assert sphere.getScale(null).equals(uni);
-
-        stop();
     }
 }
