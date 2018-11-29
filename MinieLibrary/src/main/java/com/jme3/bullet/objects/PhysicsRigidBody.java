@@ -268,6 +268,15 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
+     * For compatability with the jme3-bullet library.
+     *
+     * @return a new velocity vector (in physics-space coordinates, not null)
+     */
+    public Vector3f getAngularVelocity() {
+        return getAngularVelocity(null);
+    }
+
+    /**
      * Copy this body's angular velocity.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -408,6 +417,15 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
+     * For compatability with the jme3-bullet library.
+     *
+     * @return a new location vector (in physics-space coordinates, not null)
+     */
+    public Vector3f getPhysicsLocation() {
+        return getPhysicsLocation(null);
+    }
+
+    /**
      * Copy the location of this body's center of mass.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -420,6 +438,15 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
         assert Vector3f.isValidVector(result);
         return result;
+    }
+
+    /**
+     * For compatability with the jme3-bullet library.
+     *
+     * @return a new quaternion (in physics-space coordinates, not null)
+     */
+    public Quaternion getPhysicsRotation() {
+        return getPhysicsRotation(null);
     }
 
     /**
