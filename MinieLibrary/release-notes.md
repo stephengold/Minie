@@ -1,11 +1,11 @@
 # release notes for the Minie library and related tests
 
 
-## Version 0.5.0 released on TBD
+## Version 0.5.0 released on 29 November 2018
 
 Minie moved from the Jme3-utilities Project to a new GitHub repo.
 
-Main features added:
+Noteworthy features added:
 
  + Added single-ended versions of all 6 `PhysicsJoint` types.
  + Added optional heuristics for configuring the center, shape, and
@@ -15,7 +15,7 @@ Main features added:
  + Added an enable flag and a breaking impulse threshold to every
    `PhysicsJoint` object.
  + Added an MhGame model for use by `TestDac`.
- + Added `SeJointDemo`, `TestLargeMesh` and `TestRectangularSolid` applications.
+ + Added `SeJointDemo`, `TestLargeMesh` and `TestRectangularSolid` example apps.
  + Added a `HullCollisionShape` constructor based on `RectangularSolid`.
  + Added `MultiSphere` constructors based on `BoundingSphere`
    and `RectangularSolid`.
