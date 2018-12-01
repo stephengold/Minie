@@ -526,7 +526,7 @@ public class DacPhysicsLinks extends ConfigDynamicAnimControl {
 
     /**
      * Create spatial-dependent data. Invoked each time the control is added to
-     * a spatial.
+     * a spatial. Also invoked by {@link #rebuild()}.
      *
      * @param spatial the controlled spatial (not null)
      */
@@ -582,12 +582,12 @@ public class DacPhysicsLinks extends ConfigDynamicAnimControl {
         /*
          * Enumerate mesh-vertex coordinates and assign them to managers.
          */
-        Map<String, List<Vector3f>> coordsMap
+        Map<String, Collection<Vector3f>> coordsMap
                 = RagUtils.coordsMap(targets, tempManagerMap);
         /*
          * Create the torso link.
          */
-        List<Vector3f> vertexLocations = coordsMap.get(torsoName);
+        Collection<Vector3f> vertexLocations = coordsMap.get(torsoName);
         createTorsoLink(vertexLocations, targets);
         /*
          * Create bone links without joints.
@@ -1011,7 +1011,7 @@ public class DacPhysicsLinks extends ConfigDynamicAnimControl {
 
         Spatial attachModel = getAttachmentModel(boneName);
         attachModel = (Spatial) Misc.deepCopy(attachModel);
-        List<Vector3f> vertexLocations
+        Collection<Vector3f> vertexLocations
                 = RagUtils.vertexLocations(attachModel, null);
 
         Node node = skeletonControl.getAttachmentsNode(boneName);
@@ -1027,12 +1027,15 @@ public class DacPhysicsLinks extends ConfigDynamicAnimControl {
             manager = boneLinks.get(managerName);
         }
         /*
-         * Create the collision shape.
+         * Determine the center of mass.
          */
         LinkConfig linkConfig = attachmentConfig(boneName);
         CenterHeuristic centerHeuristic = linkConfig.centerHeuristic();
         assert centerHeuristic != CenterHeuristic.Joint;
         Vector3f center = centerHeuristic.center(vertexLocations, null);
+        /*
+         * Create the collision shape.
+         */
         CollisionShape shape = linkConfig.createShape(transformIdentity,
                 center, vertexLocations);
         PhysicsRigidBody rigidBody = createRigidBody(linkConfig, shape);
@@ -1051,7 +1054,7 @@ public class DacPhysicsLinks extends ConfigDynamicAnimControl {
      * empty)
      */
     private void createBoneLink(String boneName,
-            List<Vector3f> vertexLocations) {
+            Collection<Vector3f> vertexLocations) {
         if (vertexLocations == null || vertexLocations.isEmpty()) {
             String msg = String.format("No mesh vertices for linked bone %s.",
                     MyString.quote(boneName));

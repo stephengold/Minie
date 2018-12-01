@@ -47,9 +47,10 @@ import com.jme3.scene.VertexBuffer;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -98,11 +99,11 @@ public class RagUtils {
      * null, unaffected)
      * @return a new map from link names to lists of coordinates
      */
-    public static Map<String, List<Vector3f>> coordsMap(Mesh[] meshes,
+    public static Map<String, Collection<Vector3f>> coordsMap(Mesh[] meshes,
             String[] managerMap) {
         float[] wArray = new float[4];
         int[] iArray = new int[4];
-        Map<String, List<Vector3f>> coordsMap = new HashMap<>(32);
+        Map<String, Collection<Vector3f>> coordsMap = new HashMap<>(32);
         for (Mesh mesh : meshes) {
             int numVertices = mesh.getVertexCount();
             for (int vertexI = 0; vertexI < numVertices; vertexI++) {
@@ -125,11 +126,11 @@ public class RagUtils {
                  * Add the bind-pose coordinates of the vertex
                  * to the linked bone's list.
                  */
-                List<Vector3f> coordList;
+                Collection<Vector3f> coordList;
                 if (coordsMap.containsKey(bestLbName)) {
                     coordList = coordsMap.get(bestLbName);
                 } else {
-                    coordList = new ArrayList<>(20);
+                    coordList = new HashSet<>(256);
                     coordsMap.put(bestLbName, coordList);
                 }
                 Vector3f bindPosition = MyMesh.vertexVector3f(mesh,
@@ -342,10 +343,10 @@ public class RagUtils {
      * @param storeResult (added to if not null)
      * @return an expanded list (either storeResult or a new instance)
      */
-    public static List<Vector3f> vertexLocations(Spatial subtree,
-            List<Vector3f> storeResult) {
-        List<Vector3f> result = (storeResult == null)
-                ? new ArrayList<Vector3f>(100) : storeResult;
+    public static Collection<Vector3f> vertexLocations(Spatial subtree,
+            Collection<Vector3f> storeResult) {
+        Collection<Vector3f> result = (storeResult == null)
+                ? new HashSet<Vector3f>(256) : storeResult;
 
         if (subtree instanceof Geometry) {
             Geometry geometry = (Geometry) subtree;
