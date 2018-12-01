@@ -162,6 +162,7 @@ public class TestDac extends ActionApplication {
          * Mute the chatty loggers found in some imported packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
+        Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
         Logger.getLogger(MeshLoader.class.getName()).setLevel(Level.SEVERE);
         Logger.getLogger(ALAudioRenderer.class.getName())
                 .setLevel(Level.SEVERE);
