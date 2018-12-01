@@ -53,13 +53,13 @@ public enum CenterHeuristic {
      */
     AABB,
     /**
-     * unweighted average of vertex locations
-     */
-    Mean,
-    /**
      * for bone links only: center on the joint's pivot
      */
     Joint,
+    /**
+     * unweighted average of vertex locations
+     */
+    Mean,
     /**
      * center of the smallest enclosing sphere (using Welzl's algorithm)
      */
@@ -113,7 +113,7 @@ public enum CenterHeuristic {
 
             default:
                 String message = "heuristic = " + toString();
-                throw new IllegalArgumentException(message);
+                throw new IllegalStateException(message);
         }
 
         return result;
