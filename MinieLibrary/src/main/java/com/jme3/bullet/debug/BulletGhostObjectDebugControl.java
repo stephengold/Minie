@@ -32,6 +32,8 @@
 package com.jme3.bullet.debug;
 
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
+import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.material.Material;
@@ -59,9 +61,17 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
+     * debug-mesh normals option for which geom was generated
+     */
+    private DebugMeshNormals oldNormals;
+    /**
      * collision-shape margin for which geom was generated
      */
     private float oldMargin;
+    /**
+     * debug-mesh resolution for which geom was generated
+     */
+    private int oldResolution;
     /**
      * ghost object to visualize (not null)
      */
@@ -102,6 +112,8 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
 
         myShape = ghost.getCollisionShape();
         oldMargin = myShape.getMargin();
+        oldNormals = gh.debugMeshNormals();
+        oldResolution = gh.debugMeshResolution();
         myShape.getScale(oldScale);
 
         geom = DebugShapeFactory.getDebugShape(ghost);
@@ -141,11 +153,32 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
     protected void controlUpdate(float tpf) {
         CollisionShape newShape = ghost.getCollisionShape();
         float newMargin = newShape.getMargin();
+        DebugMeshNormals newNormals = ghost.debugMeshNormals();
+        int newResolution = ghost.debugMeshResolution();
         Vector3f newScale = newShape.getScale(null);
-        if (myShape != newShape || oldMargin != newMargin
-                || !oldScale.equals(newScale)) {
+
+        boolean rebuild;
+        if (newShape instanceof CompoundCollisionShape) {
+            rebuild = true;
+        } else if (myShape != newShape) {
+            rebuild = true;
+        } else if (oldMargin != newMargin) {
+            rebuild = true;
+        } else if (oldNormals != newNormals) {
+            rebuild = true;
+        } else if (oldResolution != newResolution) {
+            rebuild = true;
+        } else if (!oldScale.equals(newScale)) {
+            rebuild = true;
+        } else {
+            rebuild = false;
+        }
+
+        if (rebuild) {
             myShape = newShape;
             oldMargin = newMargin;
+            oldNormals = newNormals;
+            oldResolution = newResolution;
             oldScale.set(newScale);
 
             Node node = (Node) spatial;
