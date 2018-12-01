@@ -75,6 +75,9 @@ From January 2018 to November 2018, Minie was a sub-project of
 Most of Minie was originally forked from `jme3-bullet`,
 a library in the [jMonkeyEngine Game Engine][jme].
 
+The evolution of Minie is chronicled in
+[its release notes](https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md).
+
 <a name="install"/>
 
 ## How to install the SDK and the Minie Project
@@ -144,9 +147,16 @@ Section to be written.
 
 ## External links
 
-  + November 2018 [MultiSphere demo video](https://www.youtube.com/watch?OS2zjB01c6E)
-  + October 2018 [DynamicAnimControl demo video](https://www.youtube.com/watch?v=A1Rii99nb3Q)
   + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
+
+YouTube videos about Minie:
+
+  + November 2018 demo (single-ended joints):
+    https://www.youtube.com/watch?v=Mh9k5AfWzbg (5:50)
+  + November 2018 demo (MultiSphere):
+    https://www.youtube.com/watch?v=OS2zjB01c6E (0:13)
+  + October 2018 demo (DynamicAnimControl):
+    https://www.youtube.com/watch?v=A1Rii99nb3Q (2:49)
 
 [blender]: https://docs.blender.org "Blender Project"
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
