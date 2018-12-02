@@ -47,11 +47,9 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyAsset;
@@ -83,25 +81,25 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     final private DebugInitListener initListener;
     /**
-     * map physics characters to visualizations
+     * map physics characters to visualization nodes
      */
-    private HashMap<PhysicsCharacter, Spatial> characters = new HashMap<>();
+    private HashMap<PhysicsCharacter, Node> characters = new HashMap<>();
     /**
-     * map ghosts to visualizations
+     * map ghosts to visualization nodes
      */
-    private HashMap<PhysicsGhostObject, Spatial> ghosts = new HashMap<>();
+    private HashMap<PhysicsGhostObject, Node> ghosts = new HashMap<>();
     /**
-     * map joints to visualizations
+     * map joints to visualization nodes
      */
-    private HashMap<PhysicsJoint, Spatial> joints = new HashMap<>();
+    private HashMap<PhysicsJoint, Node> joints = new HashMap<>();
     /**
-     * map rigid bodies to visualizations
+     * map rigid bodies to visualization nodes
      */
-    private HashMap<PhysicsRigidBody, Spatial> bodies = new HashMap<>();
+    private HashMap<PhysicsRigidBody, Node> bodies = new HashMap<>();
     /**
-     * map vehicles to visualizations
+     * map vehicles to visualization nodes
      */
-    private HashMap<PhysicsVehicle, Spatial> vehicles = new HashMap<>();
+    private HashMap<PhysicsVehicle, Node> vehicles = new HashMap<>();
     /**
      * material for inactive rigid bodies
      */
@@ -293,150 +291,147 @@ public class BulletDebugAppState extends AbstractAppState {
         DEBUG_YELLOW.setName("DEBUG_YELLOW");
     }
 
+    /**
+     * Synchronize character debug controls with the characters in the physics
+     * space.
+     */
     private void updateCharacters() {
-        HashMap<PhysicsCharacter, Spatial> oldObjects = characters;
+        HashMap<PhysicsCharacter, Node> oldMap = characters;
+        //create new map
         characters = new HashMap<>();
-        Collection<PhysicsCharacter> current = space.getCharacterList();
-        //create new map
-        for (PhysicsCharacter physicsObject : current) {
-            //copy existing spatials
-            if (oldObjects.containsKey(physicsObject)) {
-                Spatial spat = oldObjects.get(physicsObject);
-                characters.put(physicsObject, spat);
-                oldObjects.remove(physicsObject);
-            } else {
-                if (filter == null || filter.displayObject(physicsObject)) {
-                    logger.log(Level.FINE, "Create new debug Character");
-                    //create new spatial
-                    Node node = new Node(physicsObject.toString());
-                    node.addControl(new BulletCharacterDebugControl(this, physicsObject));
-                    characters.put(physicsObject, node);
+        Collection<PhysicsCharacter> list = space.getCharacterList();
+        for (PhysicsCharacter character : list) {
+            if (filter == null || filter.displayObject(character)) {
+                Node node = oldMap.remove(character);
+                if (node == null) {
+                    logger.log(Level.FINE,
+                            "Create new character debug control");
+                    Control control
+                            = new BulletCharacterDebugControl(this, character);
+                    node = new Node(character.toString());
+                    node.addControl(control);
                     physicsDebugRootNode.attachChild(node);
                 }
+                characters.put(character, node);
             }
         }
-        //remove leftover spatials
-        for (Map.Entry<PhysicsCharacter, Spatial> entry : oldObjects.entrySet()) {
-            Spatial spatial = entry.getValue();
-            spatial.removeFromParent();
+        //remove any leftover nodes
+        for (Node node : oldMap.values()) {
+            node.removeFromParent();
         }
     }
 
+    /**
+     * Synchronize ghost debug controls with the ghosts in the physics space.
+     */
     private void updateGhosts() {
-        HashMap<PhysicsGhostObject, Spatial> oldObjects = ghosts;
+        HashMap<PhysicsGhostObject, Node> oldMap = ghosts;
+        //create new map
         ghosts = new HashMap<>();
-        Collection<PhysicsGhostObject> current = space.getGhostObjectList();
-        //create new map
-        for (PhysicsGhostObject physicsObject : current) {
-            //copy existing spatials
-            if (oldObjects.containsKey(physicsObject)) {
-                Spatial spat = oldObjects.get(physicsObject);
-                ghosts.put(physicsObject, spat);
-                oldObjects.remove(physicsObject);
-            } else {
-                if (filter == null || filter.displayObject(physicsObject)) {
-                    logger.log(Level.FINE, "Create new debug GhostObject");
-                    //create new spatial
-                    Node node = new Node(physicsObject.toString());
-                    node.addControl(new BulletGhostObjectDebugControl(this, physicsObject));
-                    ghosts.put(physicsObject, node);
+        Collection<PhysicsGhostObject> list = space.getGhostObjectList();
+        for (PhysicsGhostObject ghost : list) {
+            if (filter == null || filter.displayObject(ghost)) {
+                Node node = oldMap.remove(ghost);
+                if (node == null) {
+                    logger.log(Level.FINE, "Create new ghost debug control");
+                    Control control
+                            = new BulletGhostObjectDebugControl(this, ghost);
+                    node = new Node(ghost.toString());
+                    node.addControl(control);
                     physicsDebugRootNode.attachChild(node);
                 }
+                ghosts.put(ghost, node);
             }
         }
-        //remove leftover spatials
-        for (Map.Entry<PhysicsGhostObject, Spatial> entry : oldObjects.entrySet()) {
-            Spatial spatial = entry.getValue();
-            spatial.removeFromParent();
+        //remove any leftover nodes
+        for (Node node : oldMap.values()) {
+            node.removeFromParent();
         }
     }
 
+    /**
+     * Synchronize joint debug controls with the joints in the physics space.
+     */
     private void updateJoints() {
-        HashMap<PhysicsJoint, Spatial> oldObjects = joints;
+        HashMap<PhysicsJoint, Node> oldMap = joints;
+        //create new map
         joints = new HashMap<>();
-        Collection<PhysicsJoint> current = space.getJointList();
-        //create new map
-        for (PhysicsJoint physicsObject : current) {
-            //copy existing spatials
-            if (oldObjects.containsKey(physicsObject)) {
-                Spatial spat = oldObjects.get(physicsObject);
-                joints.put(physicsObject, spat);
-                oldObjects.remove(physicsObject);
-            } else {
-                if (filter == null || filter.displayObject(physicsObject)) {
-                    logger.log(Level.FINE, "Create new debug Joint");
-                    //create new spatial
-                    Node node = new Node(physicsObject.toString());
-                    node.addControl(new BulletJointDebugControl(this, physicsObject));
-                    joints.put(physicsObject, node);
+        Collection<PhysicsJoint> list = space.getJointList();
+        for (PhysicsJoint joint : list) {
+            if (filter == null || filter.displayObject(joint)) {
+                Node node = oldMap.remove(joint);
+                if (node == null) {
+                    logger.log(Level.FINE, "Create new joint debug control");
+                    Control control = new BulletJointDebugControl(this, joint);
+                    node = new Node(joint.toString());
+                    node.addControl(control);
                     physicsDebugRootNode.attachChild(node);
                 }
+                joints.put(joint, node);
             }
         }
-        //remove leftover spatials
-        for (Map.Entry<PhysicsJoint, Spatial> entry : oldObjects.entrySet()) {
-            Spatial spatial = entry.getValue();
-            spatial.removeFromParent();
+        //remove any leftover nodes
+        for (Node node : oldMap.values()) {
+            node.removeFromParent();
         }
     }
 
+    /**
+     * Synchronize rigid-body debug controls with the rigid bodies in the
+     * physics space.
+     */
     private void updateRigidBodies() {
-        HashMap<PhysicsRigidBody, Spatial> oldObjects = bodies;
-        bodies = new HashMap<>();
-        Collection<PhysicsRigidBody> current = space.getRigidBodyList();
+        HashMap<PhysicsRigidBody, Node> oldMap = bodies;
         //create new map
-        for (PhysicsRigidBody physicsObject : current) {
-            //copy existing spatials
-            if (oldObjects.containsKey(physicsObject)) {
-                Spatial spat = oldObjects.get(physicsObject);
-                bodies.put(physicsObject, spat);
-                oldObjects.remove(physicsObject);
-            } else {
-                if (filter == null || filter.displayObject(physicsObject)) {
-                    logger.log(Level.FINE, "Create new debug RigidBody");
-                    //create new spatial
-                    Node node = new Node(physicsObject.toString());
-                    Control debugControl = new BulletRigidBodyDebugControl(this,
-                            physicsObject);
-                    node.addControl(debugControl);
-                    bodies.put(physicsObject, node);
+        bodies = new HashMap<>();
+        Collection<PhysicsRigidBody> list = space.getRigidBodyList();
+        for (PhysicsRigidBody body : list) {
+            if (filter == null || filter.displayObject(body)) {
+                Node node = oldMap.remove(body);
+                if (node == null) {
+                    logger.log(Level.FINE,
+                            "Create new rigid-body debug control");
+                    Control control
+                            = new BulletRigidBodyDebugControl(this, body);
+                    node = new Node(body.toString());
+                    node.addControl(control);
                     physicsDebugRootNode.attachChild(node);
                 }
+                bodies.put(body, node);
             }
         }
-        //remove leftover spatials
-        for (Map.Entry<PhysicsRigidBody, Spatial> entry : oldObjects.entrySet()) {
-            Spatial spatial = entry.getValue();
-            spatial.removeFromParent();
+        //remove any leftover nodes
+        for (Node node : oldMap.values()) {
+            node.removeFromParent();
         }
     }
 
+    /**
+     * Synchronize vehicle debug controls with the vehicles in the physics
+     * space.
+     */
     private void updateVehicles() {
-        HashMap<PhysicsVehicle, Spatial> oldObjects = vehicles;
-        vehicles = new HashMap<>();
-        Collection<PhysicsVehicle> current = space.getVehicleList();
+        HashMap<PhysicsVehicle, Node> oldMap = vehicles;
         //create new map
-        for (PhysicsVehicle physicsObject : current) {
-            //copy existing spatials
-            if (oldObjects.containsKey(physicsObject)) {
-                Spatial spat = oldObjects.get(physicsObject);
-                vehicles.put(physicsObject, spat);
-                oldObjects.remove(physicsObject);
-            } else {
-                if (filter == null || filter.displayObject(physicsObject)) {
-                    logger.log(Level.FINE, "Create new debug Vehicle");
-                    //create new spatial
-                    Node node = new Node(physicsObject.toString());
-                    node.addControl(new BulletVehicleDebugControl(this, physicsObject));
-                    vehicles.put(physicsObject, node);
+        vehicles = new HashMap<>();
+        Collection<PhysicsVehicle> list = space.getVehicleList();
+        for (PhysicsVehicle vehicle : list) {
+            if (filter == null || filter.displayObject(vehicle)) {
+                Node node = oldMap.remove(vehicle);
+                if (node == null) {
+                    logger.log(Level.FINE, "Create new vehicle debug control");
+                    Control control
+                            = new BulletVehicleDebugControl(this, vehicle);
+                    node = new Node(vehicle.toString());
+                    node.addControl(control);
                     physicsDebugRootNode.attachChild(node);
                 }
+                vehicles.put(vehicle, node);
             }
         }
-        //remove leftover spatials
-        for (Map.Entry<PhysicsVehicle, Spatial> entry : oldObjects.entrySet()) {
-            Spatial spatial = entry.getValue();
-            spatial.removeFromParent();
+        //remove any leftover nodes
+        for (Node node : oldMap.values()) {
+            node.removeFromParent();
         }
     }
 
@@ -444,7 +439,6 @@ public class BulletDebugAppState extends AbstractAppState {
      * Interface to restrict which physics objects are visualized.
      */
     public static interface DebugAppStateFilter {
-
         /**
          * Test whether the specified physics object should be displayed.
          *
