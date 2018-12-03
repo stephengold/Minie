@@ -109,10 +109,12 @@ public class CollisionShapeFactory {
      */
     public static CollisionShape createDynamicMeshShape(Spatial spatial) {
         if (spatial instanceof Geometry) {
-            return createSingleDynamicMeshShape((Geometry) spatial, spatial);
+            return createSingleHullShape((Geometry) spatial, spatial);
         } else if (spatial instanceof Node) {
+            boolean meshAccurate = true;
+            boolean dynamic = true;
             return createCompoundShape((Node) spatial, (Node) spatial,
-                    new CompoundCollisionShape(), true, true);
+                    new CompoundCollisionShape(), meshAccurate, dynamic);
         } else {
             throw new IllegalArgumentException(
                     "The spatial must either be a Node or a Geometry!");
@@ -156,74 +158,65 @@ public class CollisionShapeFactory {
      * This type of collision shape creates a CompoundShape made out of boxes
      * that are based on the bounds of the Geometries in the tree.
      *
-     * @param rootNode the node on which to base the shape (not null)
+     * @param modelRoot the node on which to base the shape (not null)
      * @return a new shape (not null)
      */
     private static CompoundCollisionShape createBoxCompoundShape(
-            Node rootNode) {
-        return createCompoundShape(rootNode, new CompoundCollisionShape(),
-                false);
+            Node modelRoot) {
+        boolean meshAccurate = false;
+        return createCompoundShape(modelRoot, new CompoundCollisionShape(),
+                meshAccurate);
     }
 
-    private static CompoundCollisionShape createCompoundShape(
-            Node rootNode, CompoundCollisionShape shape, boolean meshAccurate) {
-        return createCompoundShape(rootNode, rootNode, shape, meshAccurate,
-                false);
+    private static CompoundCollisionShape createCompoundShape(Node modelRoot,
+            CompoundCollisionShape shape, boolean meshAccurate) {
+        boolean dynamic = false;
+        return createCompoundShape(modelRoot, modelRoot, shape, meshAccurate,
+                dynamic);
     }
 
-    private static CompoundCollisionShape createCompoundShape(Node realRootNode,
-            Node rootNode, CompoundCollisionShape shape, boolean meshAccurate,
+    private static CompoundCollisionShape createCompoundShape(Node modelRoot,
+            Node parent, CompoundCollisionShape shape, boolean meshAccurate,
             boolean dynamic) {
-        for (Spatial spatial : rootNode.getChildren()) {
-            if (spatial instanceof TerrainQuad) {
-                Boolean bool = spatial.getUserData(UserData.JME_PHYSICSIGNORE);
-                if (bool != null && bool) {
-                    continue; // go to the next child in the loop
-                }
-                TerrainQuad terrain = (TerrainQuad) spatial;
-                Transform trans = getTransform(spatial, realRootNode);
-                shape.addChildShape(
-                        new HeightfieldCollisionShape(terrain.getHeightMap(),
-                                trans.getScale()),
-                        trans.getTranslation(),
-                        trans.getRotation().toRotationMatrix());
-            } else if (spatial instanceof Node) {
-                createCompoundShape(realRootNode, (Node) spatial, shape,
-                        meshAccurate, dynamic);
-            } else if (spatial instanceof TerrainPatch) {
-                Boolean bool = spatial.getUserData(UserData.JME_PHYSICSIGNORE);
-                if (bool != null && bool) {
-                    continue; // go to the next child in the loop
-                }
-                TerrainPatch terrain = (TerrainPatch) spatial;
-                Transform trans = getTransform(spatial, realRootNode);
-                shape.addChildShape(
-                        new HeightfieldCollisionShape(terrain.getHeightMap(),
-                                terrain.getLocalScale()),
-                        trans.getTranslation(),
-                        trans.getRotation().toRotationMatrix());
-            } else if (spatial instanceof Geometry) {
-                Boolean bool = spatial.getUserData(UserData.JME_PHYSICSIGNORE);
-                if (bool != null && bool) {
-                    continue; // go to the next child in the loop
-                }
+        for (Spatial child : parent.getChildren()) {
+            Boolean skipChild = child.getUserData(UserData.JME_PHYSICSIGNORE);
+            if (skipChild != null && skipChild) {
+                continue; // to the next child spatial
+            }
+            Transform transform = getTransform(child, modelRoot);
 
+            CollisionShape childShape;
+            if (child instanceof TerrainQuad) {
+                TerrainQuad terrainQuad = (TerrainQuad) child;
+                childShape = new HeightfieldCollisionShape(
+                        terrainQuad.getHeightMap(),
+                        transform.getScale());
+                shape.addChildShape(childShape, transform);
+
+            } else if (child instanceof Node) {
+                createCompoundShape(modelRoot, (Node) child, shape,
+                        meshAccurate, dynamic);
+
+            } else if (child instanceof TerrainPatch) {
+                TerrainPatch patch = (TerrainPatch) child;
+                childShape = new HeightfieldCollisionShape(
+                        patch.getHeightMap(),
+                        patch.getLocalScale());
+                shape.addChildShape(childShape, transform);
+
+            } else if (child instanceof Geometry) {
+                Geometry geometry = (Geometry) child;
                 if (meshAccurate) {
-                    CollisionShape childShape = dynamic
-                            ? createSingleDynamicMeshShape((Geometry) spatial, realRootNode)
-                            : createSingleMeshShape((Geometry) spatial, realRootNode);
-                    if (childShape != null) {
-                        Transform trans = getTransform(spatial, realRootNode);
-                        shape.addChildShape(childShape,
-                                trans.getTranslation(),
-                                trans.getRotation().toRotationMatrix());
+                    if (dynamic) {
+                        childShape = createSingleHullShape(geometry, modelRoot);
+                    } else {
+                        childShape = createSingleMeshShape(geometry, modelRoot);
                     }
                 } else {
-                    Transform trans = getTransform(spatial, realRootNode);
-                    shape.addChildShape(
-                            createSingleBoxShape(spatial),
-                            trans.getTranslation(),
-                            trans.getRotation().toRotationMatrix());
+                    childShape = createSingleBoxShape(geometry);
+                }
+                if (childShape != null) {
+                    shape.addChildShape(childShape, transform);
                 }
             }
         }
@@ -241,8 +234,9 @@ public class CollisionShapeFactory {
      */
     private static CompoundCollisionShape createMeshCompoundShape(
             Node rootNode) {
+        boolean meshAccurate = true;
         return createCompoundShape(rootNode, new CompoundCollisionShape(),
-                true);
+                meshAccurate);
     }
 
     /**
@@ -265,19 +259,20 @@ public class CollisionShapeFactory {
      * Create a hull collision shape for the specified geometry.
      *
      * @param geom the geometry on which to base the shape (not null)
-     * @param parent
+     * @param modelRoot
      */
-    private static HullCollisionShape createSingleDynamicMeshShape(
-            Geometry geom, Spatial parent) {
+    private static HullCollisionShape createSingleHullShape(
+            Geometry geom, Spatial modelRoot) {
         Mesh mesh = geom.getMesh();
-        Transform trans = getTransform(geom, parent);
-        if (mesh != null) {
-            HullCollisionShape dynamicShape = new HullCollisionShape(mesh);
-            dynamicShape.setScale(trans.getScale());
-            return dynamicShape;
-        } else {
+        if (mesh == null) {
             return null;
         }
+
+        Transform transform = getTransform(geom, modelRoot);
+        HullCollisionShape hullShape = new HullCollisionShape(mesh);
+        hullShape.setScale(transform.getScale());
+
+        return hullShape;
     }
 
     /**
@@ -285,46 +280,41 @@ public class CollisionShapeFactory {
      * "world objects". Examples include terrain, houses or whole shooter
      * levels.
      */
-    private static MeshCollisionShape createSingleMeshShape(Geometry geom,
-            Spatial parent) {
-        Mesh mesh = geom.getMesh();
-        Transform trans = getTransform(geom, parent);
-        if (mesh != null && mesh.getMode() == Mesh.Mode.Triangles) {
-            MeshCollisionShape mColl = new MeshCollisionShape(mesh);
-            mColl.setScale(trans.getScale());
-            return mColl;
-        } else {
+    private static MeshCollisionShape createSingleMeshShape(Geometry geometry,
+            Spatial modelRoot) {
+        Mesh mesh = geometry.getMesh();
+        if (mesh == null) {
             return null;
         }
+
+        Transform transform = getTransform(geometry, modelRoot);
+        MeshCollisionShape meshShape = new MeshCollisionShape(mesh);
+        meshShape.setScale(transform.getScale());
+
+        return meshShape;
     }
 
     /**
-     * Calculate the correct transform for a collision shape relative to the
-     * ancestor for which the shape was generated.
+     * Calculate the correct transform for a child collision shape relative to
+     * the ancestor for which the shape is being generated.
      *
-     * @param spat
-     * @param parent
-     * @return a new instance (not null)
+     * @param spatial (not null, unaffected)
+     * @param modelRoot the ancestor for which the shape is being generated (not
+     * null, unaffected)
+     * @return a new transform (not null)
      */
-    private static Transform getTransform(Spatial spat, Spatial parent) {
-        Transform shapeTransform = new Transform();
-        Spatial parentNode = spat.getParent() != null ? spat.getParent() : spat;
-        Spatial currentSpatial = spat;
-        //if we have parents combine their transforms
-        while (parentNode != null) {
-            if (parent == currentSpatial) {
-                //real parent -> only apply scale, not transform
-                Transform trans = new Transform();
-                trans.setScale(currentSpatial.getLocalScale());
-                shapeTransform.combineWithParent(trans);
-                parentNode = null;
-            } else {
-                shapeTransform.combineWithParent(currentSpatial.getLocalTransform());
-                parentNode = currentSpatial.getParent();
-                currentSpatial = parentNode;
-            }
+    private static Transform getTransform(Spatial spatial, Spatial modelRoot) {
+        Transform result = new Transform();
+        Spatial currentSpatial = spatial;
+        while (currentSpatial != modelRoot) {
+            result.combineWithParent(currentSpatial.getLocalTransform());
+            currentSpatial = currentSpatial.getParent();
         }
+        //include the model root's scale only
+        Transform mrTransform = new Transform();
+        mrTransform.setScale(modelRoot.getLocalScale());
+        result.combineWithParent(mrTransform);
 
-        return shapeTransform;
+        return result;
     }
 }
