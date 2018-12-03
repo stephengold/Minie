@@ -138,13 +138,13 @@ public class MeshCollisionShape extends CollisionShape {
      * memory optimized version and then serialize the resulting
      * MeshCollisionshape as this will also save the generated BVH. An exception
      * can be procedurally / generated collision shapes, where the generation
-     * time is more of a concern
+     * time is more of a concern.
      *
      * @param mesh the mesh on which to base the shape (not null)
      * @param memoryOptimized true to generate a memory-optimized BVH, false to
      * generate quantized BVH
      */
-    public MeshCollisionShape(final Mesh mesh, final boolean memoryOptimized) {
+    public MeshCollisionShape(Mesh mesh, boolean memoryOptimized) {
         this.memoryOptimized = memoryOptimized;
         createCollisionMesh(mesh);
     }
@@ -274,6 +274,8 @@ public class MeshCollisionShape extends CollisionShape {
     // private methods
 
     private void createCollisionMesh(Mesh mesh) {
+        assert mesh.getMode() == Mesh.Mode.Triangles; // TODO other modes
+
         triangleIndexBase = BufferUtils.createByteBuffer(mesh.getTriangleCount() * 3 * 4);
         vertexBase = BufferUtils.createByteBuffer(mesh.getVertexCount() * 3 * 4);
         numVertices = mesh.getVertexCount();
