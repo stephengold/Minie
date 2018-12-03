@@ -47,7 +47,7 @@ import jme3utilities.math.MyVolume;
 
 /**
  * A simple point, line-segment, triangle, or tetrahedron collision shape based
- * on Bullet's btBU_Simplex1to4.
+ * on Bullet's btBU_Simplex1to4. These shapes cannot be scaled.
  *
  * @author normenhansen
  */
@@ -222,6 +222,22 @@ public class SimplexCollisionShape extends CollisionShape {
     }
     // *************************************************************************
     // CollisionShape methods
+
+    /**
+     * Test whether the specified scaling factors can be applied to this shape.
+     * For simplex shapes, scaling must be unity.
+     *
+     * @param scale the desired scaling factor for each local axis (may be null,
+     * unaffected)
+     * @return true if applicable, otherwise false
+     */
+    @Override
+    public boolean canScale(Vector3f scale) {
+        boolean canScale = super.canScale(scale)
+                && MyVector3f.isScaleIdentity(scale);
+
+        return canScale;
+    }
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this

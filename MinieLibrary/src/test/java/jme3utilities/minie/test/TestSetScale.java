@@ -183,12 +183,6 @@ public class TestSetScale {
         Vector3f p3 = new Vector3f(1f, 1f, 0f);
         CollisionShape simplex = new SimplexCollisionShape(p1, p2, p3);
         assert simplex.getScale(null).equals(ident);
-        simplex.setScale(uni);
-        assert simplex.getScale(null).equals(uni);
-        simplex.setScale(non);
-        assert simplex.getScale(null).equals(non);
-        simplex.setScale(non2);
-        assert simplex.getScale(null).equals(non2);
 
         CollisionShape sphere = new SphereCollisionShape(1f);
         assert sphere.getScale(null).equals(ident);

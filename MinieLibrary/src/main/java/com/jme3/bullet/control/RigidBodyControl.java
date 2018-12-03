@@ -410,7 +410,9 @@ public class RigidBodyControl
                             newScale.x * newScale.y * newScale.z);
                     newScale.set(factor, factor, factor);
                 }
-                setPhysicsScale(newScale);
+                if (collisionShape.canScale(newScale)) {
+                    setPhysicsScale(newScale);
+                }
             }
 
         } else if (!MySpatial.isIgnoringTransforms(spatial)) {
