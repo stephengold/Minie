@@ -67,7 +67,7 @@ public class GhostControl
     /**
      * message logger for this class
      */
-    final public static Logger logger2
+    final public static Logger logger3
             = Logger.getLogger(GhostControl.class.getName());
     /**
      * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
@@ -121,9 +121,9 @@ public class GhostControl
     }
 
     /**
-     * Instantiate an enabled control with the specified shape.
+     * Instantiate an enabled control with the specified collision shape.
      *
-     * @param shape (not null)
+     * @param shape the desired shape (not null, alias created)
      */
     public GhostControl(CollisionShape shape) {
         super(shape);
