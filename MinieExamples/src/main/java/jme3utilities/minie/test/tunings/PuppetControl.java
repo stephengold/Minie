@@ -27,7 +27,6 @@
 package jme3utilities.minie.test.tunings;
 
 import com.jme3.bullet.animation.CenterHeuristic;
-import static com.jme3.bullet.animation.ConfigDynamicAnimControl.torsoName;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.MassHeuristic;

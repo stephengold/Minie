@@ -300,7 +300,7 @@ public class RagUtils {
                 String msg = String.format("Bone %d in skeleton has null name!",
                         boneIndex);
                 throw new IllegalArgumentException(msg);
-            } else if (boneName.equals(ConfigDynamicAnimControl.torsoName)) {
+            } else if (boneName.equals(DynamicAnimControl.torsoName)) {
                 String msg = String.format(
                         "Bone %d in skeleton has a reserved name!",
                         boneIndex);

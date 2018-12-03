@@ -98,8 +98,6 @@ public class ChildCollisionShape
      */
     public ChildCollisionShape(Vector3f location, Matrix3f rotation,
             CollisionShape shape) {
-        Validate.nonNull(location, "location");
-        Validate.nonNull(rotation, "rotation");
         Validate.nonNull(shape, "shape");
         if (shape instanceof CompoundCollisionShape) {
             throw new IllegalArgumentException(

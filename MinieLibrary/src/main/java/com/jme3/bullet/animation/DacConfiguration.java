@@ -61,7 +61,7 @@ import jme3utilities.Validate;
  *
  * Based on KinematicRagdollControl by Normen Hansen and Rémy Bouquet (Nehon).
  */
-abstract public class ConfigDynamicAnimControl extends AbstractPhysicsControl {
+abstract public class DacConfiguration extends AbstractPhysicsControl {
     // *************************************************************************
     // constants and loggers
 
@@ -69,7 +69,7 @@ abstract public class ConfigDynamicAnimControl extends AbstractPhysicsControl {
      * message logger for this class
      */
     final public static Logger logger2
-            = Logger.getLogger(ConfigDynamicAnimControl.class.getName());
+            = Logger.getLogger(DacConfiguration.class.getName());
     /**
      * name for the ragdoll's torso, must not be used for any bone
      */
@@ -119,7 +119,7 @@ abstract public class ConfigDynamicAnimControl extends AbstractPhysicsControl {
      * Instantiate an enabled control without any attachments or linked bones
      * (torso only).
      */
-    ConfigDynamicAnimControl() {
+    DacConfiguration() {
     }
     // *************************************************************************
     // new methods exposed
@@ -774,8 +774,8 @@ abstract public class ConfigDynamicAnimControl extends AbstractPhysicsControl {
         jointMap = cloner.clone(jointMap);
 
         attachModelMap = new HashMap<>(5);
-        ConfigDynamicAnimControl originalCdac
-                = (ConfigDynamicAnimControl) original;
+        DacConfiguration originalCdac
+                = (DacConfiguration) original;
         for (Map.Entry<String, Spatial> entry
                 : originalCdac.attachModelMap.entrySet()) {
             String boneName = entry.getKey();
@@ -793,10 +793,10 @@ abstract public class ConfigDynamicAnimControl extends AbstractPhysicsControl {
      * @return a new instance
      */
     @Override
-    public ConfigDynamicAnimControl jmeClone() {
+    public DacConfiguration jmeClone() {
         try {
-            ConfigDynamicAnimControl clone
-                    = (ConfigDynamicAnimControl) super.clone();
+            DacConfiguration clone
+                    = (DacConfiguration) super.clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

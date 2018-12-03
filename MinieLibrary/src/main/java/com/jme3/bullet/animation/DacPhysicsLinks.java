@@ -73,7 +73,7 @@ import jme3utilities.Validate;
  *
  * Based on KinematicRagdollControl by Normen Hansen and Rémy Bouquet (Nehon).
  */
-public class DacPhysicsLinks extends ConfigDynamicAnimControl {
+public class DacPhysicsLinks extends DacConfiguration {
     // *************************************************************************
     // constants and loggers
 
