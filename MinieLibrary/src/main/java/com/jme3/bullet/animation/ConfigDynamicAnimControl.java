@@ -498,6 +498,23 @@ abstract public class ConfigDynamicAnimControl extends AbstractPhysicsControl {
     }
 
     /**
+     * Alter the configuration of the attachment associated with the named bone.
+     *
+     * @param boneName the name of the associated bone (not null, not empty)
+     * @param config the desired configuration (not null)
+     */
+    public void setAttachmentConfig(String boneName, LinkConfig config) {
+        Validate.nonNull(config, "configuration");
+
+        if (alConfigMap.containsKey(boneName)) {
+            alConfigMap.put(boneName, config);
+        } else {
+            String msg = "No attachment link for " + MyString.quote(boneName);
+            throw new IllegalArgumentException(msg);
+        }
+    }
+
+    /**
      * Alter the mass of the attachment associated with the named bone.
      *
      * @param boneName the name of the associated bone (not null, not empty)

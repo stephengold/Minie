@@ -782,6 +782,28 @@ public class DacPhysicsLinks extends ConfigDynamicAnimControl {
     }
 
     /**
+     * Alter the configuration of the attachment associated with the named bone.
+     *
+     * @param boneName the name of the associated bone (not null, not empty)
+     * @param config the desired configuration (not null)
+     */
+    @Override
+    public void setAttachmentConfig(String boneName, LinkConfig config) {
+        Validate.nonNull(config, "configuration");
+
+        super.setAttachmentConfig(boneName, config);
+
+        AttachmentLink link = attachmentLinks.get(boneName);
+        if (link != null) {
+            Spatial spatial = getSpatial();
+            SkeletonControl skeletonControl
+                    = spatial.getControl(SkeletonControl.class);
+            String[] managerMap = managerMap(skeleton);
+            createAttachmentLink(boneName, skeletonControl, managerMap);
+        }
+    }
+
+    /**
      * Alter the viscous damping ratio for all rigid bodies, including new ones.
      *
      * @param dampingRatio the desired damping ratio (non-negative, 0&rarr;no
@@ -1008,15 +1030,21 @@ public class DacPhysicsLinks extends ConfigDynamicAnimControl {
         assert boneName != null;
         assert skeletonControl != null;
         assert managerMap != null;
-
+        /*
+         * Collect the location of every mesh vertex in the attached model.
+         */
         Spatial attachModel = getAttachmentModel(boneName);
         attachModel = (Spatial) Misc.deepCopy(attachModel);
         Collection<Vector3f> vertexLocations
                 = RagUtils.vertexLocations(attachModel, null);
-
+        /*
+         * Attach the model to the attachments node.
+         */
         Node node = skeletonControl.getAttachmentsNode(boneName);
         node.attachChild(attachModel);
-
+        /*
+         * Determine which link will manage the new AttachmentLink.
+         */
         Bone bone = skeleton.getBone(boneName);
         int boneIndex = skeleton.getBoneIndex(bone);
         String managerName = managerMap[boneIndex];
@@ -1027,7 +1055,7 @@ public class DacPhysicsLinks extends ConfigDynamicAnimControl {
             manager = boneLinks.get(managerName);
         }
         /*
-         * Determine the center of mass.
+         * Locate the attached model's center of mass.
          */
         LinkConfig linkConfig = attachmentConfig(boneName);
         CenterHeuristic centerHeuristic = linkConfig.centerHeuristic();
