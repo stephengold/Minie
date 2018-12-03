@@ -135,6 +135,15 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
+     * Access the list of children.
+     *
+     * @return the pre-existing list (not null) TODO
+     */
+    public List<ChildCollisionShape> getChildren() {
+        return children;
+    }
+
+    /**
      * Remove a child from this shape.
      *
      * @param shape the child shape to remove (not null)
@@ -148,15 +157,6 @@ public class CompoundCollisionShape extends CollisionShape {
                 it.remove();
             }
         }
-    }
-
-    /**
-     * Access the list of children.
-     *
-     * @return the pre-existing list (not null) TODO
-     */
-    public List<ChildCollisionShape> getChildren() {
-        return children;
     }
     // *************************************************************************
     // CollisionShape methods
@@ -195,19 +195,6 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
-     * Serialize this shape, for example when saving to a J3O file.
-     *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
-     */
-    @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule capsule = ex.getCapsule(this);
-        capsule.writeSavableArrayList(children, "children", null);
-    }
-
-    /**
      * De-serialize this shape, for example when loading from a J3O file.
      *
      * @param im importer (not null)
@@ -220,6 +207,19 @@ public class CompoundCollisionShape extends CollisionShape {
         InputCapsule capsule = im.getCapsule(this);
         children = capsule.readSavableArrayList("children", null);
         loadChildren();
+    }
+
+    /**
+     * Serialize this shape, for example when saving to a J3O file.
+     *
+     * @param ex exporter (not null)
+     * @throws IOException from exporter
+     */
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.writeSavableArrayList(children, "children", null);
     }
     // *************************************************************************
     // private methods
