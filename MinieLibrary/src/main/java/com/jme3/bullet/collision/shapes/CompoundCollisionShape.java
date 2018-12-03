@@ -37,6 +37,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -61,6 +62,10 @@ public class CompoundCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(CompoundCollisionShape.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Matrix3f#IDENTITY}
+     */
+    final private static Matrix3f matrixIdentity = new Matrix3f();
     // *************************************************************************
     // fields
 
@@ -89,7 +94,7 @@ public class CompoundCollisionShape extends CollisionShape {
      * null, unaffected)
      */
     public void addChildShape(CollisionShape shape, Vector3f location) {
-        addChildShape(shape, location, new Matrix3f());
+        addChildShape(shape, location, matrixIdentity);
     }
 
     /**
@@ -108,9 +113,25 @@ public class CompoundCollisionShape extends CollisionShape {
             throw new IllegalArgumentException(
                     "CompoundCollisionShapes cannot have CompoundCollisionShapes as children!");
         }
-        children.add(new ChildCollisionShape(location.clone(),
-                rotation.clone(), shape));
+        ChildCollisionShape child
+                = new ChildCollisionShape(location, rotation, shape);
+        children.add(child);
         addChildShape(objectId, shape.getObjectId(), location, rotation);
+    }
+
+    /**
+     * Add a child shape with the specified local transform. The transform scale
+     * is ignored.
+     *
+     * @param shape the child shape to add (not null, not a compound shape,
+     * alias created)
+     * @param transform the local transform of the child shape (not null,
+     * unaffected)
+     */
+    public void addChildShape(CollisionShape shape, Transform transform) {
+        Vector3f offset = transform.getTranslation();
+        Matrix3f orientation = transform.getRotation().toRotationMatrix();
+        addChildShape(shape, offset, orientation);
     }
 
     /**
@@ -183,8 +204,7 @@ public class CompoundCollisionShape extends CollisionShape {
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
-        capsule.writeSavableArrayList(children, "children",
-                new ArrayList<ChildCollisionShape>());
+        capsule.writeSavableArrayList(children, "children", null);
     }
 
     /**
@@ -198,8 +218,7 @@ public class CompoundCollisionShape extends CollisionShape {
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule capsule = im.getCapsule(this);
-        children = capsule.readSavableArrayList("children",
-                new ArrayList<ChildCollisionShape>());
+        children = capsule.readSavableArrayList("children", null);
         loadChildren();
     }
     // *************************************************************************
