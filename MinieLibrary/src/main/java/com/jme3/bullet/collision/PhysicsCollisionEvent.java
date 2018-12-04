@@ -81,7 +81,7 @@ public class PhysicsCollisionEvent extends EventObject {
         super(nodeA);
         Validate.nonNull(nodeA, "node A");
         Validate.nonNull(nodeB, "node B");
-        Validate.nonZero(manifoldPointId, "manifold point id");
+        Validate.nonZero(manifoldPointId, "manifold point ID");
 
         this.nodeA = nodeA;
         this.nodeB = nodeB;

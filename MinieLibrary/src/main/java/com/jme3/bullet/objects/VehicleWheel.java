@@ -212,11 +212,11 @@ public class VehicleWheel
     /**
      * Assign this wheel to a vehicle.
      *
-     * @param vehicleId the id of the btRaycastVehicle (not zero)
+     * @param vehicleId the ID of the btRaycastVehicle (not zero)
      * @param wheelIndex index among the vehicle's wheels (&ge;0)
      */
     public void setVehicleId(long vehicleId, int wheelIndex) {
-        Validate.nonZero(vehicleId, "vehicle id");
+        Validate.nonZero(vehicleId, "vehicle ID");
         Validate.nonNegative(wheelIndex, "wheel index");
 
         this.vehicleId = vehicleId;
