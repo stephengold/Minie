@@ -44,7 +44,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -117,25 +116,11 @@ public class BulletAppState
      */
     protected BulletDebugAppState.DebugAppStateFilter filter = null;
 
-    private Callable<Boolean> detachedPhysicsUpdate = new Callable<Boolean>() {
-        @Override
-        public Boolean call() throws Exception {
-            pSpace.update(getPhysicsSpace().getAccuracy() * getSpeed());
-            pSpace.distributeEvents();
-            long update = System.currentTimeMillis() - detachedPhysicsLastUpdate;
-            detachedPhysicsLastUpdate = System.currentTimeMillis();
-            executor.schedule(detachedPhysicsUpdate,
-                    Math.round(getPhysicsSpace().getAccuracy() * 1_000_000.0f) - (update * 1000),
-                    TimeUnit.MICROSECONDS);
-
-            return true;
-        }
-    };
     final private Callable<Boolean> parallelPhysicsUpdate
             = new Callable<Boolean>() {
         @Override
         public Boolean call() throws Exception {
-            pSpace.update(tpf * getSpeed());
+            pSpace.update(isEnabled ? tpf * speed : 0f);
             return true;
         }
     };
