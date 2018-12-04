@@ -140,8 +140,6 @@ public class BulletAppState
      * current physics task, or null if none
      */
     private Future physicsFuture;
-
-    protected long detachedPhysicsLastUpdate = 0L;
     /**
      * physics space managed by this state, or null if no simulation running
      */
@@ -152,7 +150,7 @@ public class BulletAppState
      */
     protected ScheduledThreadPoolExecutor executor;
     /**
-     * threading mode to use (not null)
+     * threading mode to use (not null, default=SEQUENTIAL)
      */
     protected ThreadingType threadingType = ThreadingType.SEQUENTIAL;
     /**
@@ -611,7 +609,6 @@ public class BulletAppState
         Callable<Boolean> call = new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                detachedPhysicsLastUpdate = System.currentTimeMillis();
                 pSpace = new PhysicsSpace(worldMin, worldMax, broadphaseType);
                 pSpace.addTickListener(appState);
                 return true;
