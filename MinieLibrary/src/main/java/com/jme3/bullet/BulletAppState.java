@@ -88,7 +88,7 @@ public class BulletAppState
     /**
      * manager that manages this state, set during attach
      */
-    private AppStateManager stateManager;
+    protected AppStateManager stateManager;
     /**
      * true if-and-only-if debug visualization is enabled
      */
@@ -101,21 +101,21 @@ public class BulletAppState
      * true if-and-only-if the physics simulation is running (started but not
      * yet stopped)
      */
-    private boolean isRunning = false;
+    protected boolean isRunning = false;
     /**
      * broadphase collision-detection algorithm for the physics space to use
      * (not null)
      */
-    private BroadphaseType broadphaseType = BroadphaseType.DBVT;
+    protected BroadphaseType broadphaseType = BroadphaseType.DBVT;
     /**
      * app state to manage the debug visualization, or null if none
      */
-    private BulletDebugAppState debugAppState;
+    protected BulletDebugAppState debugAppState;
     /**
      * filter to limit which objects are visualized in the debug visualization,
      * or null to visualize all objects
      */
-    private BulletDebugAppState.DebugAppStateFilter filter = null;
+    protected BulletDebugAppState.DebugAppStateFilter filter = null;
 
     private Callable<Boolean> detachedPhysicsUpdate = new Callable<Boolean>() {
         @Override
@@ -142,7 +142,7 @@ public class BulletAppState
     /**
      * registered debug init listener, or null if none
      */
-    private DebugInitListener debugInitListener = null;
+    protected DebugInitListener debugInitListener = null;
     /**
      * simulation speed multiplier (default=1, paused=0)
      */
@@ -150,40 +150,40 @@ public class BulletAppState
     /**
      * time interval between frames (in seconds) from the most recent update
      */
-    private float tpf;
+    protected float tpf;
     /**
      * current physics task, or null if none
      */
     private Future physicsFuture;
 
-    private long detachedPhysicsLastUpdate = 0L;
+    protected long detachedPhysicsLastUpdate = 0L;
     /**
      * physics space managed by this state, or null if no simulation running
      */
-    private PhysicsSpace pSpace;
+    protected PhysicsSpace pSpace;
     /**
      * executor service for physics tasks, or null if parallel simulation is not
      * running
      */
-    private ScheduledThreadPoolExecutor executor;
+    protected ScheduledThreadPoolExecutor executor;
     /**
      * threading mode to use (not null)
      */
-    private ThreadingType threadingType = ThreadingType.SEQUENTIAL;
+    protected ThreadingType threadingType = ThreadingType.SEQUENTIAL;
     /**
      * maximum coordinate values for the physics space when using AXIS_SWEEP
      * broadphase algorithms (not null)
      */
-    final private Vector3f worldMax = new Vector3f(10000f, 10000f, 10000f);
+    final protected Vector3f worldMax = new Vector3f(10000f, 10000f, 10000f);
     /**
      * minimum coordinate values for the physics space when using AXIS_SWEEP
      * broadphase algorithms (not null)
      */
-    final private Vector3f worldMin = new Vector3f(-10000f, -10000f, -10000f);
+    final protected Vector3f worldMin = new Vector3f(-10000f, -10000f, -10000f);
     /**
      * view ports in which to render the debug visualization
      */
-    private ViewPort[] debugViewPorts = null;
+    protected ViewPort[] debugViewPorts = null;
     // *************************************************************************
     // constructors
 

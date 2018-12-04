@@ -491,10 +491,10 @@ abstract public class PhysicsJoint
                 Long.toHexString(objectId));
         finalizeNative(objectId);
     }
+
+    native protected void finalizeNative(long jointId);
     // *************************************************************************
     // private methods
-
-    native private void finalizeNative(long jointId);
 
     native private float getAppliedImpulse(long jointId);
 

@@ -75,7 +75,7 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * limit which objects are visualized, or null to visualize all objects
      */
-    private DebugAppStateFilter filter;
+    protected DebugAppStateFilter filter;
     /**
      * registered init listener, or null if none
      */
@@ -127,12 +127,12 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * scene-graph node to parent the geometries
      */
-    final private Node physicsDebugRootNode
+    final protected Node physicsDebugRootNode
             = new Node("Physics Debug Root Node");
     /**
      * physics space to visualize (not null)
      */
-    final private PhysicsSpace space;
+    final protected PhysicsSpace space;
     /**
      * view ports in which to render (not null)
      */

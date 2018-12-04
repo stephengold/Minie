@@ -179,7 +179,7 @@ public class PhysicsSpace {
      * Bullet identifier of the physics space. The constructor sets this to a
      * non-zero value.
      */
-    private long physicsSpaceId = 0L;
+    protected long physicsSpaceId = 0L;
     /**
      * map from collision groups to registered group listeners
      */
@@ -213,17 +213,17 @@ public class PhysicsSpace {
     /**
      * first-in/first-out (FIFO) queue of physics tasks
      */
-    final private Queue<AppTask<?>> pQueue
+    final protected Queue<AppTask<?>> pQueue
             = new ConcurrentLinkedQueue<>();
     /**
      * physics space for each thread
      */
-    final private static ThreadLocal<PhysicsSpace> physicsSpaceTL
+    final protected static ThreadLocal<PhysicsSpace> physicsSpaceTL
             = new ThreadLocal<PhysicsSpace>();
     /**
      * first-in/first-out (FIFO) queue of physics tasks for each thread
      */
-    final private static ThreadLocal<Queue<AppTask<?>>> pQueueTL
+    final protected static ThreadLocal<Queue<AppTask<?>>> pQueueTL
             = new ThreadLocal<Queue<AppTask<?>>>() {
         @Override
         protected ConcurrentLinkedQueue<AppTask<?>> initialValue() {
@@ -991,6 +991,23 @@ public class PhysicsSpace {
         update(time, maxSubSteps);
     }
     // *************************************************************************
+    // new protected methods
+
+    /**
+     * Must be invoked on the designated physics thread.
+     */
+    protected void create() {
+        physicsSpaceId = createPhysicsSpace(worldMin.x, worldMin.y, worldMin.z,
+                worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal(),
+                false);
+        assert physicsSpaceId != 0L;
+        logger.log(Level.FINE, "Created Space {0}",
+                Long.toHexString(physicsSpaceId));
+
+        pQueueTL.set(pQueue);
+        physicsSpaceTL.set(this);
+    }
+    // *************************************************************************
     // Object methods
 
     /**
@@ -1107,21 +1124,6 @@ public class PhysicsSpace {
             physicsVehicles.put(vehicleId, vehicle);
             addVehicle(physicsSpaceId, vehicleId);
         }
-    }
-
-    /**
-     * Must be invoked on the designated physics thread.
-     */
-    private void create() {
-        physicsSpaceId = createPhysicsSpace(worldMin.x, worldMin.y, worldMin.z,
-                worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal(),
-                false);
-        assert physicsSpaceId != 0L;
-        logger.log(Level.FINE, "Created Space {0}",
-                Long.toHexString(physicsSpaceId));
-
-        pQueueTL.set(pQueue);
-        physicsSpaceTL.set(this);
     }
 
     /**
