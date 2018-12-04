@@ -87,7 +87,7 @@ public class BulletAppState
     /**
      * manager that manages this state, set during attach
      */
-    protected AppStateManager stateManager;
+    private AppStateManager stateManager;
     /**
      * true if-and-only-if debug visualization is enabled
      */
@@ -100,21 +100,21 @@ public class BulletAppState
      * true if-and-only-if the physics simulation is running (started but not
      * yet stopped)
      */
-    protected boolean isRunning = false;
+    private boolean isRunning = false;
     /**
      * broadphase collision-detection algorithm for the physics space to use
      * (not null)
      */
-    protected BroadphaseType broadphaseType = BroadphaseType.DBVT;
+    private BroadphaseType broadphaseType = BroadphaseType.DBVT;
     /**
      * app state to manage the debug visualization, or null if none
      */
-    protected BulletDebugAppState debugAppState;
+    private BulletDebugAppState debugAppState;
     /**
      * filter to limit which objects are visualized in the debug visualization,
      * or null to visualize all objects
      */
-    protected BulletDebugAppState.DebugAppStateFilter filter = null;
+    private BulletDebugAppState.DebugAppStateFilter filter = null;
 
     final private Callable<Boolean> parallelPhysicsUpdate
             = new Callable<Boolean>() {
@@ -127,7 +127,7 @@ public class BulletAppState
     /**
      * registered debug init listener, or null if none
      */
-    protected DebugInitListener debugInitListener = null;
+    private DebugInitListener debugInitListener = null;
     /**
      * simulation speed multiplier (default=1, paused=0)
      */
@@ -135,7 +135,7 @@ public class BulletAppState
     /**
      * time interval between frames (in seconds) from the most recent update
      */
-    protected float tpf;
+    private float tpf;
     /**
      * current physics task, or null if none
      */
@@ -143,30 +143,30 @@ public class BulletAppState
     /**
      * physics space managed by this state, or null if no simulation running
      */
-    protected PhysicsSpace pSpace;
+    private PhysicsSpace pSpace;
     /**
      * executor service for physics tasks, or null if parallel simulation is not
      * running
      */
-    protected ScheduledThreadPoolExecutor executor;
+    private ScheduledThreadPoolExecutor executor;
     /**
      * threading mode to use (not null, default=SEQUENTIAL)
      */
-    protected ThreadingType threadingType = ThreadingType.SEQUENTIAL;
+    private ThreadingType threadingType = ThreadingType.SEQUENTIAL;
     /**
      * maximum coordinate values for the physics space when using AXIS_SWEEP
      * broadphase algorithms (not null)
      */
-    final protected Vector3f worldMax = new Vector3f(10000f, 10000f, 10000f);
+    final private Vector3f worldMax = new Vector3f(10000f, 10000f, 10000f);
     /**
      * minimum coordinate values for the physics space when using AXIS_SWEEP
      * broadphase algorithms (not null)
      */
-    final protected Vector3f worldMin = new Vector3f(-10000f, -10000f, -10000f);
+    final private Vector3f worldMin = new Vector3f(-10000f, -10000f, -10000f);
     /**
      * view ports in which to render the debug visualization
      */
-    protected ViewPort[] debugViewPorts = null;
+    private ViewPort[] debugViewPorts = null;
     // *************************************************************************
     // constructors
 
@@ -408,7 +408,7 @@ public class BulletAppState
                 break;
 
             case SEQUENTIAL:
-                pSpace = new PhysicsSpace(worldMin, worldMax, broadphaseType);
+                pSpace = createPhysicsSpace(worldMin, worldMax, broadphaseType);
                 pSpace.addTickListener(this);
                 break;
 
@@ -417,6 +417,37 @@ public class BulletAppState
         }
 
         isRunning = true;
+    }
+    // *************************************************************************
+    // new protected methods
+
+    /**
+     * Create the configured debug app state.
+     *
+     * @param space the physics space (not null, alias created)
+     * @param viewPorts the view ports in which to render (not null)
+     * @param filter the display filter, or null for none
+     * @param listener the init listener, or null for none
+     * @return a new instance (not null)
+     */
+    protected BulletDebugAppState createDebugAppState(PhysicsSpace space,
+            ViewPort[] viewPorts,
+            BulletDebugAppState.DebugAppStateFilter filter,
+            DebugInitListener listener) {
+        return new BulletDebugAppState(space, viewPorts, filter, listener);
+    }
+
+    /**
+     * Create the configured physics space.
+     *
+     * @param min the minimum coordinate values (not null, unaffected)
+     * @param max the maximum coordinate values (not null, unaffected)
+     * @param type the broadphase collision-detection algorithm (not null)
+     * @return a new instance (not null)
+     */
+    protected PhysicsSpace createPhysicsSpace(Vector3f min, Vector3f max,
+            BroadphaseType type) {
+        return new PhysicsSpace(min, max, type);
     }
     // *************************************************************************
     // AppState methods
@@ -557,8 +588,8 @@ public class BulletAppState
         if (debugEnabled && debugAppState == null) {
             assert pSpace != null;
             assert debugViewPorts != null;
-            debugAppState = new BulletDebugAppState(pSpace, debugViewPorts,
-                    filter, debugInitListener);
+            debugAppState = createDebugAppState(pSpace, debugViewPorts, filter,
+                    debugInitListener);
             stateManager.attach(debugAppState);
 
         } else if (!debugEnabled && debugAppState != null) {
@@ -609,7 +640,7 @@ public class BulletAppState
         Callable<Boolean> call = new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                pSpace = new PhysicsSpace(worldMin, worldMax, broadphaseType);
+                pSpace = createPhysicsSpace(worldMin, worldMax, broadphaseType);
                 pSpace.addTickListener(appState);
                 return true;
             }
