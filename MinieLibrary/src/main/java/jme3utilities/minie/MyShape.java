@@ -99,7 +99,7 @@ public class MyShape {
 
     /**
      * Generate a brief textual description of a shape, consisting of its type
-     * and id.
+     * and ID.
      *
      * @param shape instance to describe (not null, unaffected)
      * @return description (not null, not empty)
@@ -278,10 +278,10 @@ public class MyShape {
     }
 
     /**
-     * Parse the id of a shape from its description.
+     * Parse the ID of a shape from its description.
      *
      * @param description input text (not null, not empty)
-     * @return the shape's id
+     * @return the shape's ID
      *
      * @see #describe(com.jme3.bullet.collision.shapes.CollisionShape)
      */

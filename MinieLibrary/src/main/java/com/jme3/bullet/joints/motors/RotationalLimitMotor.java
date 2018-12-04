@@ -53,7 +53,7 @@ public class RotationalLimitMotor {
 
     /**
      * Unique identifier of the btRotationalLimitMotor. The constructor sets
-     * this to a non-zero value. After that, the id never changes.
+     * this to a non-zero value. After that, the ID never changes.
      */
     private long motorId = 0L;
     // *************************************************************************
@@ -145,7 +145,7 @@ public class RotationalLimitMotor {
     }
 
     /**
-     * Read the id of the btRotationalLimitMotor.
+     * Read the ID of the btRotationalLimitMotor.
      *
      * @return the unique identifier (not zero)
      */

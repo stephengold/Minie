@@ -63,7 +63,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Unique identifier of btKinematicCharacterController (as opposed to its
      * collision object, which is a ghost). Constructors are responsible for
-     * setting this to a non-zero value. The id might change if the character
+     * setting this to a non-zero value. The ID might change if the character
      * gets rebuilt.
      */
     private long characterId = 0L;
@@ -483,7 +483,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * used internally
      *
-     * @return the Bullet id
+     * @return the Bullet ID
      */
     public long getControllerId() {
         return characterId;

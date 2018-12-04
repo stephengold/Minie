@@ -54,7 +54,7 @@ public class TranslationalLimitMotor {
 
     /**
      * Unique identifier of the btTranslationalLimitMotor. The constructor sets
-     * this to a non-zero value. After that, the id never changes.
+     * this to a non-zero value. After that, the ID never changes.
      */
     private long motorId = 0L;
     // *************************************************************************
@@ -147,7 +147,7 @@ public class TranslationalLimitMotor {
     }
 
     /**
-     * Read the id of the btTranslationalLimitMotor.
+     * Read the ID of the btTranslationalLimitMotor.
      *
      * @return the unique identifier (not zero)
      */

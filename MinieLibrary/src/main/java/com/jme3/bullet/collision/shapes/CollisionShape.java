@@ -81,7 +81,7 @@ abstract public class CollisionShape
      * unique identifier of the btCollisionShape
      * <p>
      * Constructors are responsible for setting this to a non-zero value. After
-     * that, the id never changes.
+     * that, the ID never changes.
      */
     protected long objectId = 0L;
     /**
@@ -110,7 +110,7 @@ abstract public class CollisionShape
     }
 
     /**
-     * Read the id of the btCollisionShape.
+     * Read the ID of the btCollisionShape.
      *
      * @return the unique identifier (not zero)
      */

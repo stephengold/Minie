@@ -336,7 +336,7 @@ public class MeshCollisionShape extends CollisionShape {
     native private byte[] saveBVH(long objectId);
 
     /**
-     * Read the id of the native buffer used by the in-place de-serialized
+     * Read the ID of the native buffer used by the in-place de-serialized
      * shape. The buffer must be freed when no longer used.
      */
     native private long setBVH(byte[] buffer, long objectid);

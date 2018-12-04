@@ -266,7 +266,7 @@ abstract public class PhysicsJoint
     }
 
     /**
-     * Read the id of the btTypedConstraint.
+     * Read the ID of the btTypedConstraint.
      *
      * @return the unique identifier (not zero)
      */

@@ -61,7 +61,7 @@ public class RigidBodyMotionState implements JmeCloneable {
 
     /**
      * Unique identifier of the native object. Constructors are responsible for
-     * setting this to a non-zero value. After that, the id never changes.
+     * setting this to a non-zero value. After that, the ID never changes.
      */
     private long motionStateId;
 
@@ -124,9 +124,9 @@ public class RigidBodyMotionState implements JmeCloneable {
     }
 
     /**
-     * Read the unique id of the native object.
+     * Read the unique ID of the native object.
      *
-     * @return id (not zero)
+     * @return ID (not zero)
      */
     public long getObjectId() {
         return motionStateId;
@@ -137,7 +137,7 @@ public class RigidBodyMotionState implements JmeCloneable {
      *
      * @param storeResult (modified if not null)
      * @return the location vector (in physics-space coordinates, either
-     * storeResult of a new vector, not null)
+     * storeResult or a new vector, not null)
      */
     public Vector3f getLocation(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -152,7 +152,7 @@ public class RigidBodyMotionState implements JmeCloneable {
      *
      * @param storeResult (modified if not null)
      * @return the rotation matrix (in physics-space coordinates, either
-     * storeResult of a new vector, not null)
+     * storeResult or a new vector, not null)
      */
     public Matrix3f getOrientation(Matrix3f storeResult) {
         Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
@@ -165,7 +165,7 @@ public class RigidBodyMotionState implements JmeCloneable {
      *
      * @param storeResult (modified if not null)
      * @return the rotation quaternion (in physics-space coordinates, either
-     * storeResult of a new vector, not null)
+     * storeResult or a new vector, not null)
      */
     public Quaternion getOrientation(Quaternion storeResult) {
         Quaternion result
