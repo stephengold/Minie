@@ -32,6 +32,7 @@
 package com.jme3.bullet.objects;
 
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.CollisionFlag;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
@@ -75,8 +76,13 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      */
     final public static float massForStatic = 0f;
     // *************************************************************************
-    // fields
+    // fields TODO re-order
 
+    /**
+     * copy of the contact response state: true&rarr;responds to contacts,
+     * false&rarr;doesn't respond (default=true)
+     */
+    private boolean contactResponseState = true;
     /**
      * motion state
      */
@@ -528,6 +534,15 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
+     * Test whether this body responds to contacts.
+     *
+     * @return true if responsive, otherwise false
+     */
+    public boolean isContactResponse() {
+        return contactResponseState;
+    }
+
+    /**
      * Test whether this body is added to any physics space.
      *
      * @return true&rarr;in a space, false&rarr;not in a space
@@ -680,6 +695,26 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
+     * Enable/disable this body's contact response.
+     *
+     * @param newState true to respond to contacts, false to ignore it
+     * (default=true)
+     */
+    public void setContactResponse(boolean newState) {
+        if (newState != contactResponseState) {
+            int flags = getCollisionFlags(objectId);
+            if (newState) {
+                flags &= ~CollisionFlag.noContactResponse;
+            } else {
+                flags |= CollisionFlag.noContactResponse;
+            }
+            setCollisionFlags(objectId, flags);
+
+            contactResponseState = newState;
+        }
+    }
+
+    /**
      * Alter this body's damping.
      *
      * @param linearDamping the desired linear damping value (default=0)
@@ -794,11 +829,13 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
             if (collisionShape != null) {
                 updateMassProps(objectId, collisionShape.getObjectId(), mass);
             }
+            int flags = getCollisionFlags(objectId);
             if (mass == massForStatic) {
-                setStatic(objectId, true);
+                flags |= CollisionFlag.staticObject;
             } else {
-                setStatic(objectId, false);
+                flags &= ~CollisionFlag.staticObject;
             }
+            setCollisionFlags(objectId, flags);
         }
     }
 
@@ -914,11 +951,14 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      * For use by subclasses.
      */
     protected void postRebuild() {
+        int flags = getCollisionFlags(objectId);
         if (mass == massForStatic) {
-            setStatic(objectId, true);
+            flags |= CollisionFlag.staticObject;
         } else {
-            setStatic(objectId, false);
+            flags &= ~CollisionFlag.staticObject;
         }
+        setCollisionFlags(objectId, flags);
+
         initUserPointer();
     }
 
@@ -1022,6 +1062,8 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         InputCapsule capsule = im.getCapsule(this);
         mass = capsule.readFloat("mass", 1f);
         rebuildRigidBody();
+
+        setContactResponse(capsule.readBoolean("contactResponse", true));
         setGravity((Vector3f) capsule.readSavable("gravity",
                 Vector3f.ZERO.clone()));
         setFriction(capsule.readFloat("friction", 0.5f));
@@ -1066,6 +1108,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
         capsule.write(getMass(), "mass", 1f);
 
+        capsule.write(isContactResponse(), "contactResponse", true);
         capsule.write(getGravity(null), "gravity", Vector3f.ZERO);
         capsule.write(getFriction(), "friction", 0.5f);
         capsule.write(getRestitution(), "restitution", 0f);
@@ -1199,8 +1242,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     native private void setSleepingThresholds(long objectId, float linear,
             float angular);
-
-    native private void setStatic(long objectId, boolean state);
 
     native private long updateMassProps(long objectId, long collisionShapeId,
             float mass);

@@ -161,7 +161,7 @@ abstract public class PhysicsCollisionObject
     private int debugMeshResolution = DebugShapeFactory.lowResolution;
     /**
      * Unique identifier of the btCollisionObject. Constructors are responsible
-     * for setting this to a non-zero value. The id might change if the object
+     * for setting this to a non-zero value. The ID might change if the object
      * gets rebuilt.
      */
     protected long objectId = 0L;
@@ -231,7 +231,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Read the collision group for this physics object.
+     * Read the collision group of this object.
      *
      * @return the collision group (bit mask with exactly one bit set)
      */
@@ -240,7 +240,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Access the shape of this physics object.
+     * Access the shape of this object.
      *
      * @return the pre-existing instance, which can then be applied to other
      * physics objects (sharing improves performance)
@@ -303,7 +303,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter the collision group for this physics object.
+     * Alter the collision group for this object.
      * <p>
      * Groups are represented by integer bit masks with exactly 1 bit set.
      * Pre-made variables are available in PhysicsCollisionObject. By default,
@@ -392,9 +392,18 @@ abstract public class PhysicsCollisionObject
     /**
      * Finalize the identified btCollisionObject. Native method.
      *
-     * @param objectId the identifier of the btCollisionObject (not zero)
+     * @param objectId the ID of the btCollisionObject (not zero)
      */
     native protected void finalizeNative(long objectId);
+
+    /**
+     * Read the collision flags of this object. Subclasses are responsible for
+     * cloning/loading/saving these flags.
+     *
+     * @param objectId the ID of the btCollisionObject (not zero)
+     * @return the collision flags (bit mask)
+     */
+    native protected int getCollisionFlags(long objectId);
 
     /**
      * Initialize the collision-group information of this object.
@@ -404,6 +413,15 @@ abstract public class PhysicsCollisionObject
                 Long.toHexString(objectId));
         initUserPointer(objectId, collisionGroup, collideWithGroups);
     }
+
+    /**
+     * Alter the collision flags of this object. Subclasses are responsible for
+     * cloning/loading/saving these flags.
+     *
+     * @param objectId the ID of the btCollisionObject (not zero)
+     * @param desiredFlags the desired collision flags (bit mask)
+     */
+    native protected void setCollisionFlags(long objectId, int desiredFlags);
     // *************************************************************************
     // JmeCloneable methods
 
@@ -463,6 +481,7 @@ abstract public class PhysicsCollisionObject
 
         Savable shape = capsule.readSavable("collisionShape", null);
         collisionShape = (CollisionShape) shape;
+        // subclass must create the btCollisionObject
     }
 
     /**

@@ -71,6 +71,10 @@ public class TestCloneBody {
     // private methods
 
     private void setParameters(PhysicsRigidBody body, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        body.setContactResponse(flag);
+        body.setKinematic(!flag);
+
         body.setAngularDamping(b + 0.01f);
         body.setAngularFactor(b + 0.02f);
         body.setSleepingThresholds(b + 0.17f, b + 0.03f);
@@ -93,6 +97,10 @@ public class TestCloneBody {
     }
 
     private void verifyParameters(PhysicsRigidBody body, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        assert body.isContactResponse() == flag;
+        assert body.isKinematic() == !flag;
+
         assert body.getAngularDamping() == b + 0.01f;
         assert body.getAngularFactor() == b + 0.02f;
         assert body.getAngularSleepingThreshold() == b + 0.03f;
