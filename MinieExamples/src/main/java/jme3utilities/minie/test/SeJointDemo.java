@@ -301,8 +301,8 @@ public class SeJointDemo extends ActionApplication {
             orbitAngle -= tpf;
         }
         if (orbitAngle != 0f) {
+            orbitAngle /= speed;
             orbitCamera(orbitAngle);
-
         }
     }
     // *************************************************************************
@@ -603,7 +603,7 @@ public class SeJointDemo extends ActionApplication {
      * Toggle physics simulation paused/running.
      */
     private void togglePause() {
-        float newSpeed = (speed > Float.MIN_VALUE) ? Float.MIN_VALUE : 1f;
+        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
         setSpeed(newSpeed);
     }
 
