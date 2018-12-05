@@ -68,14 +68,14 @@ public class TestCloneJoints {
          */
         ConeJoint cone
                 = new ConeJoint(bodyA, bodyB, new Vector3f(), new Vector3f());
-        set(cone, 0f);
-        verify(cone, 0f);
+        setParameters(cone, 0f);
+        verifyParameters(cone, 0f);
         ConeJoint coneClone = (ConeJoint) Misc.deepCopy(cone);
         cloneTest(cone, coneClone);
 
         ConeJoint seCone = new ConeJoint(bodyA, new Vector3f(), new Matrix3f());
-        set(seCone, 0f);
-        verify(seCone, 0f);
+        setParameters(seCone, 0f);
+        verifyParameters(seCone, 0f);
         ConeJoint seConeClone = (ConeJoint) Misc.deepCopy(seCone);
         cloneTest(seCone, seConeClone);
         /*
@@ -84,16 +84,16 @@ public class TestCloneJoints {
         HingeJoint hinge = new HingeJoint(bodyA, bodyB, new Vector3f(),
                 new Vector3f(), new Vector3f(1f, 0f, 0f),
                 new Vector3f(1f, 0f, 0f));
-        set(hinge, 0f);
-        verify(hinge, 0f);
+        setParameters(hinge, 0f);
+        verifyParameters(hinge, 0f);
         HingeJoint hingeClone = (HingeJoint) Misc.deepCopy(hinge);
         cloneTest(hinge, hingeClone);
 
         HingeJoint seHinge = new HingeJoint(bodyA, new Vector3f(),
                 new Vector3f(), new Vector3f(1f, 0f, 0f),
                 new Vector3f(1f, 0f, 0f), JointEnd.A);
-        set(seHinge, 0f);
-        verify(seHinge, 0f);
+        setParameters(seHinge, 0f);
+        verifyParameters(seHinge, 0f);
         HingeJoint seHingeClone = (HingeJoint) Misc.deepCopy(seHinge);
         cloneTest(seHinge, seHingeClone);
         /*
@@ -101,15 +101,15 @@ public class TestCloneJoints {
          */
         Point2PointJoint p2p = new Point2PointJoint(bodyA, bodyB,
                 new Vector3f(), new Vector3f());
-        set(p2p, 0f);
-        verify(p2p, 0f);
+        setParameters(p2p, 0f);
+        verifyParameters(p2p, 0f);
         Point2PointJoint p2pClone = (Point2PointJoint) Misc.deepCopy(p2p);
         cloneTest(p2p, p2pClone);
 
         Point2PointJoint sep2p
                 = new Point2PointJoint(bodyA, new Vector3f(), new Vector3f());
-        set(sep2p, 0f);
-        verify(sep2p, 0f);
+        setParameters(sep2p, 0f);
+        verifyParameters(sep2p, 0f);
         Point2PointJoint sep2pClone = (Point2PointJoint) Misc.deepCopy(sep2p);
         cloneTest(sep2p, sep2pClone);
         /*
@@ -117,15 +117,15 @@ public class TestCloneJoints {
          */
         SixDofJoint six = new SixDofJoint(bodyA, bodyB, new Vector3f(),
                 new Vector3f(), new Matrix3f(), new Matrix3f(), false);
-        set(six, 0f);
-        verify(six, 0f);
+        setParameters(six, 0f);
+        verifyParameters(six, 0f);
         SixDofJoint sixClone = (SixDofJoint) Misc.deepCopy(six);
         cloneTest(six, sixClone);
 
         SixDofJoint seSix = new SixDofJoint(bodyA, new Vector3f(),
                 new Vector3f(), new Matrix3f(), new Matrix3f(), JointEnd.A);
-        set(seSix, 0f);
-        verify(seSix, 0f);
+        setParameters(seSix, 0f);
+        verifyParameters(seSix, 0f);
         SixDofJoint seSixClone = (SixDofJoint) Misc.deepCopy(seSix);
         cloneTest(seSix, seSixClone);
         /*
@@ -134,8 +134,8 @@ public class TestCloneJoints {
         SixDofSpringJoint spring = new SixDofSpringJoint(bodyA, bodyB,
                 new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
                 false);
-        set(spring, 0f);
-        verify(spring, 0f);
+        setParameters(spring, 0f);
+        verifyParameters(spring, 0f);
         SixDofSpringJoint springClone
                 = (SixDofSpringJoint) Misc.deepCopy(spring);
         cloneTest(spring, springClone);
@@ -143,8 +143,8 @@ public class TestCloneJoints {
         SixDofSpringJoint seSpring = new SixDofSpringJoint(bodyA, bodyB,
                 new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
                 false);
-        set(seSpring, 0f);
-        verify(seSpring, 0f);
+        setParameters(seSpring, 0f);
+        verifyParameters(seSpring, 0f);
         SixDofSpringJoint seSpringClone
                 = (SixDofSpringJoint) Misc.deepCopy(seSpring);
         cloneTest(seSpring, seSpringClone);
@@ -153,15 +153,15 @@ public class TestCloneJoints {
          */
         SliderJoint slide = new SliderJoint(bodyA, bodyB, new Vector3f(),
                 new Vector3f(), new Matrix3f(), new Matrix3f(), false);
-        set(slide, 0f);
-        verify(slide, 0f);
+        setParameters(slide, 0f);
+        verifyParameters(slide, 0f);
         SliderJoint slideClone = (SliderJoint) Misc.deepCopy(slide);
         cloneTest(slide, slideClone);
 
         SliderJoint seSlide = new SliderJoint(bodyB, new Vector3f(),
                 new Vector3f(), JointEnd.B);
-        set(seSlide, 0f);
-        verify(seSlide, 0f);
+        setParameters(seSlide, 0f);
+        verifyParameters(seSlide, 0f);
         SliderJoint seSlideClone = (SliderJoint) Misc.deepCopy(seSlide);
         cloneTest(seSlide, seSlideClone);
     }
@@ -189,19 +189,19 @@ public class TestCloneJoints {
             assert b.getObjectId() != bClone.getObjectId();
         }
 
-        verify(joint, 0f);
-        verify(jointClone, 0f);
+        verifyParameters(joint, 0f);
+        verifyParameters(jointClone, 0f);
 
-        set(joint, 0.3f);
-        verify(joint, 0.3f);
-        verify(jointClone, 0f);
+        setParameters(joint, 0.3f);
+        verifyParameters(joint, 0.3f);
+        verifyParameters(jointClone, 0f);
 
-        set(jointClone, 0.6f);
-        verify(joint, 0.3f);
-        verify(jointClone, 0.6f);
+        setParameters(jointClone, 0.6f);
+        verifyParameters(joint, 0.3f);
+        verifyParameters(jointClone, 0.6f);
     }
 
-    private static void set(PhysicsJoint joint, float b) {
+    private static void setParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         joint.setEnabled(flag);
         joint.setBreakingImpulseThreshold(b + 0.505f);
@@ -320,7 +320,7 @@ public class TestCloneJoints {
         slide.setUpperLinLimit(b + 0.26f);
     }
 
-    private static void verify(PhysicsJoint joint, float b) {
+    private static void verifyParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert joint.isEnabled() == flag;
         assert joint.getBreakingImpulseThreshold() == b + 0.505f;
