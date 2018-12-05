@@ -692,17 +692,15 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      * (default=true)
      */
     public void setContactResponse(boolean newState) {
-        if (newState != contactResponseState) {
-            int flags = getCollisionFlags(objectId);
-            if (newState) {
-                flags &= ~CollisionFlag.noContactResponse;
-            } else {
-                flags |= CollisionFlag.noContactResponse;
-            }
-            setCollisionFlags(objectId, flags);
-
-            contactResponseState = newState;
+        int flags = getCollisionFlags(objectId);
+        if (newState) {
+            flags &= ~CollisionFlag.noContactResponse;
+        } else {
+            flags |= CollisionFlag.noContactResponse;
         }
+        setCollisionFlags(objectId, flags);
+
+        contactResponseState = newState;
     }
 
     /**
@@ -1014,6 +1012,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         setAngularVelocity(old.getAngularVelocity(null));
         setCcdMotionThreshold(old.getCcdMotionThreshold());
         setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
+        setContactResponse(old.isContactResponse());
         setFriction(old.getFriction());
         setGravity(old.getGravity(null));
         setLinearDamping(old.getLinearDamping());
