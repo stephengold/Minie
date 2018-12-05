@@ -105,7 +105,7 @@ public class TestDac extends ActionApplication {
     final public static Logger logger
             = Logger.getLogger(TestDac.class.getName());
     /**
-     * asset path for saving j3O
+     * asset path for saving J3O
      */
     final private static String saveAssetPath = "TestDac.j3o";
     /**
@@ -134,7 +134,10 @@ public class TestDac extends ActionApplication {
     private CollisionShape ballShape;
     private DynamicAnimControl dac;
     final private float ballRadius = 0.2f; // mesh units
-    final private Generator random = new Generator();
+    /**
+     * random number generator for this application
+     */
+    final private Generator rng = new Generator();
     private Material ballMaterial;
     final private Mesh ballMesh = new Sphere(16, 32, ballRadius);
     final private NameGenerator nameGenerator = new NameGenerator();
@@ -154,7 +157,7 @@ public class TestDac extends ActionApplication {
     // new methods exposed
 
     /**
-     * Main entry point.
+     * Main entry point for the application.
      *
      * @param arguments array of command-line arguments (not null)
      */
@@ -187,9 +190,7 @@ public class TestDac extends ActionApplication {
      */
     @Override
     public void actionInitializeApplication() {
-        flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
-        cam.setLocation(new Vector3f(0f, 1.2f, 5f));
+        configureCamera();
 
         ColorRGBA ballColor = new ColorRGBA(0.4f, 0f, 0f, 1f);
         ballMaterial = MyAsset.createShinyMaterial(assetManager, ballColor);
@@ -199,13 +200,7 @@ public class TestDac extends ActionApplication {
         viewPort.setBackgroundColor(ColorRGBA.Gray);
         addLighting();
 
-        bulletAppState = new BulletAppState();
-        stateManager.attach(bulletAppState);
-        CollisionShape.setDefaultMargin(0.005f); // 5 mm
-
-        physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setSolverNumIterations(30);
-
+        configurePhysics();
         addBox();
         addModel("Sinbad");
     }
@@ -227,7 +222,7 @@ public class TestDac extends ActionApplication {
         dim.bind("go bind pose", KeyInput.KEY_B);
         dim.bind("go floating", KeyInput.KEY_0);
         dim.bind("go limp", KeyInput.KEY_SPACE);
-        dim.bind("limp left arm", KeyInput.KEY_LBRACKET); // TODO drop
+        dim.bind("limp left arm", KeyInput.KEY_LBRACKET);
         dim.bind("limp right arm", KeyInput.KEY_RBRACKET);
         dim.bind("load", KeyInput.KEY_L);
         dim.bind("load elephant", KeyInput.KEY_F3);
@@ -396,6 +391,10 @@ public class TestDac extends ActionApplication {
         super.simpleUpdate(tpf);
 
         Signals signals = getSignals();
+        if (signals.test("shower")) {
+            addBall();
+        }
+
         if (signals.test("rotateLeft")) {
             Quaternion orientation = MySpatial.worldOrientation(cgModel, null);
             Quaternion rotate = new Quaternion().fromAngles(0f, -tpf, 0f);
@@ -407,9 +406,6 @@ public class TestDac extends ActionApplication {
             Quaternion rotate = new Quaternion().fromAngles(0f, tpf, 0f);
             rotate.mult(orientation, orientation);
             MySpatial.setWorldOrientation(cgModel, orientation);
-        }
-        if (signals.test("shower")) {
-            addBall();
         }
     }
     // *************************************************************************
@@ -425,7 +421,7 @@ public class TestDac extends ActionApplication {
 
         geometry.setMaterial(ballMaterial);
         geometry.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-        Vector3f location = random.nextVector3f();
+        Vector3f location = rng.nextVector3f();
         location.multLocal(0.5f, 1f, 0.5f);
         location.y += 4f;
         geometry.move(location);
@@ -575,6 +571,29 @@ public class TestDac extends ActionApplication {
         Vector3f location = model.getWorldTranslation();
         location.subtractLocal(offset);
         MySpatial.setWorldLocation(model, location);
+    }
+
+    /**
+     * Configure the camera during startup.
+     */
+    private void configureCamera() {
+        flyCam.setDragToRotate(true);
+        flyCam.setMoveSpeed(4f);
+
+        cam.setLocation(new Vector3f(0f, 1.2f, 5f));
+    }
+
+    /**
+     * Configure physics during startup.
+     */
+    private void configurePhysics() {
+        CollisionShape.setDefaultMargin(0.005f); // 5 mm
+
+        bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+
+        physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace.setSolverNumIterations(30);
     }
 
     /**
@@ -775,8 +794,8 @@ public class TestDac extends ActionApplication {
     private void pin(BoneLink boneLink) {
         PhysicsRigidBody body = boneLink.getRigidBody();
         Vector3f currentWorld = body.getPhysicsLocation(null);
-        Point2PointJoint sep2p = new Point2PointJoint(body,
-                new Vector3f(0f, 0f, 0f), currentWorld);
+        Point2PointJoint sep2p
+                = new Point2PointJoint(body, Vector3f.ZERO, currentWorld);
         body.addJoint(sep2p);
         physicsSpace.add(sep2p);
     }
@@ -878,7 +897,7 @@ public class TestDac extends ActionApplication {
     }
 
     /**
-     * Toggle the physics-debug visualization on/off.
+     * Toggle physics-debug visualization on/off.
      */
     private void togglePhysicsDebug() {
         boolean enabled = bulletAppState.isDebugEnabled();
