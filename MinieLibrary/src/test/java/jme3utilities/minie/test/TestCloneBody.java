@@ -28,7 +28,10 @@ package jme3utilities.minie.test;
 
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.control.VehicleControl;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -37,7 +40,7 @@ import jme3utilities.Misc;
 import org.junit.Test;
 
 /**
- * Test cloning a rigid body.
+ * Test cloning a rigid body and all its subclasses.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -49,26 +52,57 @@ public class TestCloneBody {
     public void testCloneBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
-        CollisionShape capsule = new SphereCollisionShape(1f);
-        PhysicsRigidBody body = new PhysicsRigidBody(capsule, 1f);
+        CollisionShape shape = new SphereCollisionShape(1f);
+        /*
+         * PhysicsRigidBody
+         */
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, 1f);
         setParameters(body, 0f);
         verifyParameters(body, 0f);
-
-        PhysicsRigidBody clone = (PhysicsRigidBody) Misc.deepCopy(body);
-        assert clone.getObjectId() != body.getObjectId();
-        verifyParameters(body, 0f);
-        verifyParameters(clone, 0f);
-
-        setParameters(body, 0.3f);
-        verifyParameters(body, 0.3f);
-        verifyParameters(clone, 0f);
-
-        setParameters(clone, 0.6f);
-        verifyParameters(body, 0.3f);
-        verifyParameters(clone, 0.6f);
+        PhysicsRigidBody bodyClone = (PhysicsRigidBody) Misc.deepCopy(body);
+        cloneTest(body, bodyClone);
+        /*
+         * RigidBodyControl
+         */
+        RigidBodyControl rbc = new RigidBodyControl(shape, 1f);
+        setParameters(rbc, 0f);
+        verifyParameters(rbc, 0f);
+        RigidBodyControl rbcClone = (RigidBodyControl) Misc.deepCopy(rbc);
+        cloneTest(rbc, rbcClone);
+        /*
+         * PhysicsVehicle
+         */
+        PhysicsVehicle vehicle = new PhysicsVehicle(shape, 1f);
+        setParameters(vehicle, 0f);
+        verifyParameters(vehicle, 0f);
+        PhysicsRigidBody vehicleClone = (PhysicsRigidBody) Misc.deepCopy(vehicle);
+        cloneTest(vehicle, vehicleClone);
+        /*
+         * VehicleControl
+         */
+        VehicleControl vc = new VehicleControl(shape, 1f);
+        setParameters(vc, 0f);
+        verifyParameters(vc, 0f);
+        VehicleControl vcClone = (VehicleControl) Misc.deepCopy(vc);
+        cloneTest(vc, vcClone);
     }
     // *************************************************************************
     // private methods
+
+    private void cloneTest(PhysicsRigidBody body, PhysicsRigidBody bodyClone) {
+        assert bodyClone.getObjectId() != body.getObjectId();
+
+        verifyParameters(body, 0f);
+        verifyParameters(bodyClone, 0f);
+
+        setParameters(body, 0.3f);
+        verifyParameters(body, 0.3f);
+        verifyParameters(bodyClone, 0f);
+
+        setParameters(bodyClone, 0.6f);
+        verifyParameters(body, 0.3f);
+        verifyParameters(bodyClone, 0.6f);
+    }
 
     private void setParameters(PhysicsRigidBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
