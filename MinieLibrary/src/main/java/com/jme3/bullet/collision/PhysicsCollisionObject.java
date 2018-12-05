@@ -279,6 +279,28 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Test whether this object responds to contact with other objects.
+     *
+     * @return true if responsive, otherwise false
+     */
+    public boolean isContactResponse() {
+        int flags = getCollisionFlags(objectId);
+        boolean result = (flags & CollisionFlag.noContactResponse) == 0x0;
+        return result;
+    }
+
+    /**
+     * Test whether this object is static.
+     *
+     * @return true if static, otherwise false
+     */
+    public boolean isStatic() {
+        int flags = getCollisionFlags(objectId);
+        boolean result = (flags & CollisionFlag.staticObject) != 0x0;
+        return result;
+    }
+
+    /**
      * Remove collision groups from the set with which this object can collide.
      *
      * @param collisionGroup groups to remove, ORed together (bit mask)

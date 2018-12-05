@@ -28,7 +28,6 @@ package jme3utilities.minie;
 
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -72,7 +71,7 @@ public class MyObject {
     public static String describe(PhysicsRigidBody body) {
         String result;
         float mass = body.getMass();
-        if (mass == RigidBodyControl.massForStatic) {
+        if (body.isStatic()) {
             result = "sta";
         } else if (body.isKinematic()) {
             result = "kin";

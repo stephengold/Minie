@@ -534,15 +534,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Test whether this body responds to contacts.
-     *
-     * @return true if responsive, otherwise false
-     */
-    public boolean isContactResponse() {
-        return contactResponseState;
-    }
-
-    /**
      * Test whether this body is added to any physics space.
      *
      * @return true&rarr;in a space, false&rarr;not in a space
@@ -679,7 +670,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         //if (isInWorld()) {
         //    throw new IllegalStateException(
         //            "Cannot reshape body while in physics space!");
-        // }
+        // } TODO
         if (mass != massForStatic) {
             validateDynamicShape(collisionShape);
         }
