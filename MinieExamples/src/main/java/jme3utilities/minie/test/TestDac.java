@@ -220,7 +220,7 @@ public class TestDac extends ActionApplication {
         dim.bind("blend all to kinematic", KeyInput.KEY_K);
         dim.bind("drop attachments", KeyInput.KEY_PGDN);
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scene", KeyInput.KEY_P);
+        dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("freeze all", KeyInput.KEY_F);
         dim.bind("freeze upper body", KeyInput.KEY_U);
         dim.bind("go bind pose", KeyInput.KEY_B);
@@ -279,8 +279,8 @@ public class TestDac extends ActionApplication {
                 case "dump physicsSpace":
                     dumpPhysicsSpace();
                     return;
-                case "dump scene":
-                    dumpScene();
+                case "dump scenes":
+                    dumpScenes();
                     return;
                 case "freeze all":
                     dac.freezeSubtree(dac.getTorsoLink(), false);
@@ -609,9 +609,9 @@ public class TestDac extends ActionApplication {
     }
 
     /**
-     * Process a "dump scene" action.
+     * Process a "dump scenes" action.
      */
-    private void dumpScene() {
+    private void dumpScenes() {
         PhysicsDumper dumper = new PhysicsDumper();
         //dumper.setDumpBucket(true);
         //dumper.setDumpCull(true);
@@ -619,7 +619,7 @@ public class TestDac extends ActionApplication {
         //dumper.setDumpShadow(true);
         dumper.setDumpTransform(true);
         //dumper.setDumpUser(true);
-        dumper.dump(rootNode);
+        dumper.dump(renderManager);
     }
 
     /**
