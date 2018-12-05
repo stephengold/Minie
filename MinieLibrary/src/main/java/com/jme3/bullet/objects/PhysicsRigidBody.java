@@ -84,20 +84,20 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      */
     private boolean contactResponseState = true;
     /**
-     * motion state
+     * copy of kinematic flag: true&rarr;set kinematic mode (spatial controls
+     * body), false&rarr;dynamic/static mode (body controls spatial)
+     * (default=false)
      */
-    protected RigidBodyMotionState motionState = new RigidBodyMotionState();
+    private boolean kinematic = false;
     /**
      * copy of the mass (&gt;0) of a dynamic body, or 0 for a static body
      * (default=1)
      */
     protected float mass = 1f;
     /**
-     * copy of kinematic flag: true&rarr;set kinematic mode (spatial controls
-     * body), false&rarr;dynamic/static mode (body controls spatial)
-     * (default=false)
+     * motion state
      */
-    private boolean kinematic = false;
+    protected RigidBodyMotionState motionState = new RigidBodyMotionState();
     /**
      * list of joints that connect to this body: The list isn't filled until the
      * body is added to a PhysicsSpace.
