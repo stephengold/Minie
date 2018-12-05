@@ -60,8 +60,6 @@ import jme3utilities.Validate;
  * Each link is either dynamic (driven by forces and collisions) or kinematic
  * (unperturbed by forces and collisions). Transitions from dynamic to kinematic
  * can be immediate or gradual.
- * <p>
- * TODO ghost mode
  *
  * @author Stephen Gold sgold@sonic.net
  *
@@ -229,6 +227,41 @@ public class DynamicAnimControl
         PhysicsLink[] children = rootLink.listChildren();
         for (PhysicsLink child : children) {
             freezeSubtree(child, forceKinematic);
+        }
+    }
+
+    /**
+     * Immediately alter the contact-response setting of the specified link and
+     * all its descendants (excluding released attachments). Note: recursive!
+     * <p>
+     * Allowed only when the control IS added to a spatial.
+     *
+     * @param rootLink the root of the subtree to modify (not null)
+     * @param desiredResponse true for the usual rigid-body response, false for
+     * ghost-like response
+     */
+    public void setContactResponseSubtree(PhysicsLink rootLink,
+            boolean desiredResponse) {
+        Validate.nonNull(rootLink, "root link");
+        if (getSpatial() == null) {
+            throw new IllegalStateException(
+                    "Cannot change modes unless added to a spatial.");
+        }
+
+        PhysicsRigidBody rigidBody = rootLink.getRigidBody();
+        if (rootLink instanceof AttachmentLink) {
+            AttachmentLink attachmentLink = (AttachmentLink) rootLink;
+            if (attachmentLink.isReleased()) {
+                rigidBody = null;
+            }
+        }
+        if (rigidBody != null) {
+            rigidBody.setContactResponse(desiredResponse);
+        }
+
+        PhysicsLink[] children = rootLink.listChildren();
+        for (PhysicsLink child : children) {
+            setContactResponseSubtree(child, desiredResponse);
         }
     }
 

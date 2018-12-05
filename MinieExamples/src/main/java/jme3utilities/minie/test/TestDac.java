@@ -223,6 +223,7 @@ public class TestDac extends ActionApplication {
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("freeze all", KeyInput.KEY_F);
         dim.bind("freeze upper body", KeyInput.KEY_U);
+        dim.bind("ghost upper body", KeyInput.KEY_8);
         dim.bind("go bind pose", KeyInput.KEY_B);
         dim.bind("go floating", KeyInput.KEY_0);
         dim.bind("go limp", KeyInput.KEY_SPACE);
@@ -287,6 +288,9 @@ public class TestDac extends ActionApplication {
                     return;
                 case "freeze upper body":
                     dac.freezeSubtree(upperBody, false);
+                    return;
+                case "ghost upper body":
+                    dac.setContactResponseSubtree(upperBody, false);
                     return;
                 case "go bind pose":
                     dac.bindSubtree(dac.getTorsoLink(), 2f);
