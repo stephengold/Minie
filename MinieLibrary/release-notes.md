@@ -1,5 +1,31 @@
 # release notes for the Minie library and related tests
 
+## Version 0.5.1 released on 5 December 2018
+
+ + Added a "contact response" option for rigid bodies.
+ + Added an `isStatic()` method to `PhysicsCollisionObject`.
+ + Prohibited scaling of `SimplexCollisionShape`.
+ + Added a `MultiSphere` constructor for a capsule shape with specified axis.
+
+Noteworthy changes to debug visualization:
+
+ + Fixed a bug where physics objects and joints continued being visualized after
+   setting a filter to exclude them.
+ + Update debug spatials on every change to `debugMeshNormals`
+   or `debugMeshResolution`.
+ + For a `CompoundCollisionShape`, generate a new debug spatial on every frame.
+ + Visualize non-responsive rigid bodies in yellow.
+
+Noteworthy changes to `DynamicAnimControl`:
+
+ + Added `centerOfMass()` and `setAttachmentConfig()` methods.
+ + Collect mesh-vertex coordinates in a `HashSet` (instead of an `ArrayList`)
+   to increase the efficiency of `createSpatialData()`.
+
+Other details:
+
+ + Updated the native libraries to version 1.0.20 of `jme3-bullet-native`.
+ + Based on version 2.15 of the `jme3-utilities-heart` library.
 
 ## Version 0.5.0 released on 29 November 2018
 
@@ -30,6 +56,9 @@ Other important changes:
    for certain models.
  + Fixed a bug in `BulletVehicleDebugControl` where odd-numbered wheels were
    never updated.
+
+Other details:
+
  + Updated the native libraries to version 1.0.18 of `jme3-bullet-native`.
  + Based on version 2.14 of the `jme3-utilities-heart` library.
 

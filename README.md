@@ -140,7 +140,7 @@ Section to be written.
         maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.5.0'
+        compile 'jme3utilities:Minie:0.5.1'
     }
 
 <a name="links"/>
