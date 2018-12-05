@@ -166,6 +166,8 @@ public class RangeOfMotion implements Savable {
                 minZ = -1f;
                 break;
             default:
+                String msg = String.format("axisIndex=%d", axisIndex);
+                throw new IllegalArgumentException(msg);
         }
     }
     // *************************************************************************
@@ -179,8 +181,6 @@ public class RangeOfMotion implements Savable {
      * @return the rotation angle (in radians)
      */
     public float getMaxRotation(int axisIndex) {
-        Validate.inRange(axisIndex, "axis index", 0, 2);
-
         float result;
         switch (axisIndex) {
             case PhysicsSpace.AXIS_X:
@@ -193,7 +193,8 @@ public class RangeOfMotion implements Savable {
                 result = maxZ;
                 break;
             default:
-                throw new RuntimeException();
+                String msg = String.format("axisIndex=%d", axisIndex);
+                throw new IllegalArgumentException(msg);
         }
 
         return result;
@@ -207,8 +208,6 @@ public class RangeOfMotion implements Savable {
      * @return the rotation angle (in radians)
      */
     public float getMinRotation(int axisIndex) {
-        Validate.inRange(axisIndex, "axis index", 0, 2);
-
         float result;
         switch (axisIndex) {
             case PhysicsSpace.AXIS_X:
@@ -221,7 +220,8 @@ public class RangeOfMotion implements Savable {
                 result = minZ;
                 break;
             default:
-                throw new RuntimeException();
+                String msg = String.format("axisIndex=%d", axisIndex);
+                throw new IllegalArgumentException(msg);
         }
 
         return result;

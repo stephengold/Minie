@@ -165,7 +165,7 @@ public class MyShape {
                     result.set(radius, radius, axisHalfExtent);
                     break;
                 default:
-                    String msg = Integer.toString(axisIndex);
+                    String msg = String.format("axisIndex=%d", axisIndex);
                     throw new IllegalStateException(msg);
             }
 
@@ -186,7 +186,7 @@ public class MyShape {
                     result.set(radius, radius, axisHalfExtent);
                     break;
                 default:
-                    String msg = Integer.toString(axisIndex);
+                    String msg = String.format("axisIndex=%d", axisIndex);
                     throw new IllegalStateException(msg);
             }
 
@@ -258,7 +258,7 @@ public class MyShape {
                     result = halfExtents.z;
                     break;
                 default:
-                    String msg = Integer.toString(axisIndex);
+                    String msg = String.format("axisIndex=%d", axisIndex);
                     throw new IllegalStateException(msg);
             }
 
@@ -333,7 +333,7 @@ public class MyShape {
                     r2 = halfExtents.y;
                     break;
                 default:
-                    String msg = Integer.toString(axisIndex);
+                    String msg = String.format("axisIndex=%d", axisIndex);
                     throw new IllegalStateException(msg);
             }
             if (r1 == r2) {
@@ -392,7 +392,7 @@ public class MyShape {
                     radius2 = newHalfExtents.y;
                     break;
                 default:
-                    String msg = Integer.toString(axisIndex);
+                    String msg = String.format("axisIndex=%d", axisIndex);
                     throw new IllegalStateException(msg);
             }
             if (radius1 != radius2) {
@@ -471,7 +471,7 @@ public class MyShape {
                     halfExtents.z = newHeight;
                     break;
                 default:
-                    String msg = Integer.toString(axisIndex);
+                    String msg = String.format("axisIndex=%d", axisIndex);
                     throw new IllegalStateException(msg);
             }
             result = new CylinderCollisionShape(halfExtents, axisIndex);
@@ -538,7 +538,7 @@ public class MyShape {
                     halfExtents.y = newRadius;
                     break;
                 default:
-                    String msg = Integer.toString(axisIndex);
+                    String msg = String.format("axisIndex=%d", axisIndex);
                     throw new IllegalStateException(msg);
             }
             result = new CylinderCollisionShape(halfExtents, axisIndex);
