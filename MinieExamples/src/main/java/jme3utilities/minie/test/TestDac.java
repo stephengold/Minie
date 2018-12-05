@@ -35,7 +35,11 @@ import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.BoneLink;
+import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.LinkConfig;
+import com.jme3.bullet.animation.MassHeuristic;
+import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
@@ -773,9 +777,12 @@ public class TestDac extends ActionApplication {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
 
+        LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
+                ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
+                CenterHeuristic.AABB);
         dac = new SinbadControl();
-        dac.attach("Handle.L", 5f, sword);
-        dac.attach("Handle.R", 5f, sword);
+        dac.attach("Handle.L", swordConfig, sword);
+        dac.attach("Handle.R", swordConfig, sword);
 
         animationName = "Dance";
         leftClavicleName = "Clavicle.L";
