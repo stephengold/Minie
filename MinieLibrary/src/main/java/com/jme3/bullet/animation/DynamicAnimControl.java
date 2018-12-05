@@ -193,6 +193,50 @@ public class DynamicAnimControl
     }
 
     /**
+     * Locate the ragdoll's center of mass, excluding released attachments.
+     * <p>
+     * Allowed only when the control IS added to a spatial.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the location (in physics-space coordinates, either storeResult or
+     * a new vector, not null)
+     */
+    public Vector3f centerOfMass(Vector3f storeResult) {
+        if (getSpatial() == null) {
+            throw new IllegalStateException(
+                    "Control is not added to a spatial.");
+        }
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        Vector3f tmp = new Vector3f();
+        /*
+         * weighted sum of each link's center-of-mass
+         */
+        double massSum = 0.0;
+        result.zero();
+        List<PhysicsLink> links = listLinks(PhysicsLink.class);
+        for (PhysicsLink link : links) {
+            PhysicsRigidBody rigidBody = link.getRigidBody();
+            if (link instanceof AttachmentLink) {
+                AttachmentLink attachmentLink = (AttachmentLink) link;
+                if (attachmentLink.isReleased()) {
+                    rigidBody = null;
+                }
+            }
+            if (rigidBody != null) {
+                float mass = rigidBody.getMass();
+                massSum += (double) mass;
+                rigidBody.getPhysicsLocation(tmp);
+                tmp.multLocal(mass);
+                result.addLocal(tmp);
+            }
+        }
+
+        result.divideLocal((float) massSum);
+
+        return result;
+    }
+
+    /**
      * Release all unreleased attachments to gravity.
      */
     public void dropAttachments() {
