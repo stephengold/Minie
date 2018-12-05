@@ -32,6 +32,7 @@
 package com.jme3.bullet.collision.shapes;
 
 import com.jme3.bounding.BoundingSphere;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -119,6 +120,47 @@ public class MultiSphere extends CollisionShape {
         centers = new Vector3f[2];
         centers[0] = new Vector3f(0f, halfHeight, 0f);
         centers[1] = new Vector3f(0f, -halfHeight, 0f);
+
+        radii = new float[2];
+        radii[0] = radius;
+        radii[1] = radius;
+
+        createShape();
+    }
+
+    /**
+     * Instantiate a centered capsule shape with the specified radius, height,
+     * and axis.
+     *
+     * @param radius the desired radius (in unscaled units, &ge;0)
+     * @param height the desired height (of the cylindrical portion) (in
+     * unscaled units, &ge;0)
+     * @param axisIndex which local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     */
+    public MultiSphere(float radius, float height, int axisIndex) {
+        Validate.nonNegative(radius, "radius");
+        Validate.nonNegative(height, "height");
+
+        float halfHeight = height / 2f;
+
+        centers = new Vector3f[2];
+        switch (axisIndex) {
+            case PhysicsSpace.AXIS_X:
+                centers[0] = new Vector3f(halfHeight, 0f, 0f);
+                centers[1] = new Vector3f(-halfHeight, 0f, 0f);
+                break;
+            case PhysicsSpace.AXIS_Y:
+                centers[0] = new Vector3f(0f, halfHeight, 0f);
+                centers[1] = new Vector3f(0f, -halfHeight, 0f);
+                break;
+            case PhysicsSpace.AXIS_Z:
+                centers[0] = new Vector3f(0f, 0f, halfHeight);
+                centers[1] = new Vector3f(0f, 0f, -halfHeight);
+                break;
+            default:
+                String msg = String.format("axisIndex=%d", axisIndex);
+                throw new IllegalArgumentException(msg);
+        }
 
         radii = new float[2];
         radii[0] = radius;
