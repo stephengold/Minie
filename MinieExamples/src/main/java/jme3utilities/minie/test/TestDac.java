@@ -399,15 +399,18 @@ public class TestDac extends ActionApplication {
             addBall();
         }
 
-        if (signals.test("rotateLeft")) {
-            Quaternion orientation = MySpatial.worldOrientation(cgModel, null);
-            Quaternion rotate = new Quaternion().fromAngles(0f, -tpf, 0f);
-            rotate.mult(orientation, orientation);
-            MySpatial.setWorldOrientation(cgModel, orientation);
-        }
+        float rotateAngle = 0f;
         if (signals.test("rotateRight")) {
+            rotateAngle += tpf;
+        }
+        if (signals.test("rotateLeft")) {
+            rotateAngle -= tpf;
+        }
+        if (rotateAngle != 0f) {
+            rotateAngle /= speed;
             Quaternion orientation = MySpatial.worldOrientation(cgModel, null);
-            Quaternion rotate = new Quaternion().fromAngles(0f, tpf, 0f);
+            Quaternion rotate = new Quaternion();
+            rotate.fromAngles(0f, rotateAngle, 0f);
             rotate.mult(orientation, orientation);
             MySpatial.setWorldOrientation(cgModel, orientation);
         }
@@ -899,7 +902,7 @@ public class TestDac extends ActionApplication {
      * Toggle the animation and physics simulation: paused/running.
      */
     private void togglePause() {
-        float newSpeed = (speed > Float.MIN_VALUE) ? Float.MIN_VALUE : 1f;
+        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
         setSpeed(newSpeed);
     }
 
