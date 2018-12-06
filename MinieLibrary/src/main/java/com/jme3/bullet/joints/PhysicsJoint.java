@@ -122,6 +122,47 @@ abstract public class PhysicsJoint
      * @param bodyEnd at which end to attach the body (not null)
      * @param pivotInBody the pivot location in the body's scaled local
      * coordinates (not null, unaffected)
+     */
+    protected PhysicsJoint(PhysicsRigidBody body, JointEnd bodyEnd,
+            Vector3f pivotInBody) {
+        Validate.nonNull(body, "body");
+        Validate.nonNull(bodyEnd, "body end");
+        Validate.nonNull(pivotInBody, "pivot in body");
+
+        switch (bodyEnd) {
+            case A:
+                nodeA = body;
+                nodeB = null;
+                pivotA = pivotInBody.clone();
+                pivotB = null;
+                nodeA.addJoint(this);
+                break;
+
+            case B:
+                nodeA = null;
+                nodeB = body;
+                pivotA = null;
+                pivotB = pivotInBody.clone();
+                nodeB.addJoint(this);
+                break;
+
+            default:
+                String message = "body end = " + bodyEnd.toString();
+                throw new IllegalArgumentException(message);
+        }
+    }
+
+    /**
+     * Instantiate a single-ended PhysicsJoint using the specified body at the
+     * specified end.
+     * <p>
+     * To be effective, the joint must be added to the physics space with the
+     * body and the body must be dynamic.
+     *
+     * @param body the body to constrain (not null, alias created)
+     * @param bodyEnd at which end to attach the body (not null)
+     * @param pivotInBody the pivot location in the body's scaled local
+     * coordinates (not null, unaffected)
      * @param pivotInWorld the pivot location in physics-space coordinates (not
      * null, unaffected)
      */
@@ -332,27 +373,6 @@ abstract public class PhysicsJoint
     }
 
     /**
-     * Copy the location of the connection point in physics space (for a
-     * single-ended joint).
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a location vector (in scaled local coordinates, either
-     * storeResult or a new instance)
-     */
-    public Vector3f getPivotInWorld(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        if (nodeA == null) {
-            result.set(pivotA);
-        } else if (nodeB == null) {
-            result.set(pivotB);
-        } else {
-            throw new IllegalStateException("Joint is double-ended.");
-        }
-
-        return result;
-    }
-
-    /**
      * Test whether collisions are allowed between the linked bodies.
      *
      * @return true if collision are allowed, otherwise false
@@ -449,7 +469,7 @@ abstract public class PhysicsJoint
         nodeA = (PhysicsRigidBody) capsule.readSavable("nodeA", null);
         nodeB = (PhysicsRigidBody) capsule.readSavable("nodeB", null);
         pivotA = (Vector3f) capsule.readSavable("pivotA", new Vector3f());
-        pivotB = (Vector3f) capsule.readSavable("pivotB", null);
+        pivotB = (Vector3f) capsule.readSavable("pivotB", new Vector3f());
         /*
          * Each subclass must create the btCollisionObject and
          * read the breaking impulse threshold and the enabled flag.
