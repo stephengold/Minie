@@ -91,47 +91,36 @@ public class RagUtils {
     // new methods exposed
 
     /**
-     * Assign each mesh vertex to a link and add its location (mesh coordinates
-     * in bind pose) to that link's list.
+     * Assign each mesh vertex to a bone/torso link and add its location (mesh
+     * coordinates in bind pose) to that link's list.
      *
      * @param meshes array of animated meshes to use (not null, unaffected)
      * @param managerMap a map from bone indices to managing link names (not
      * null, unaffected)
-     * @return a new map from link names to lists of coordinates
+     * @return a new map from bone/torso names to lists of coordinates
      */
     public static Map<String, Collection<Vector3f>> coordsMap(Mesh[] meshes,
             String[] managerMap) {
+        Validate.nonNull(managerMap, "manager map");
+
         float[] wArray = new float[4];
         int[] iArray = new int[4];
         Map<String, Collection<Vector3f>> coordsMap = new HashMap<>(32);
         for (Mesh mesh : meshes) {
             int numVertices = mesh.getVertexCount();
             for (int vertexI = 0; vertexI < numVertices; vertexI++) {
-                MyMesh.vertexBoneIndices(mesh, vertexI, iArray);
-                MyMesh.vertexBoneWeights(mesh, vertexI, wArray);
-
-                Map<String, Float> weightMap
-                        = weightMap(iArray, wArray, managerMap);
-
-                float bestTotalWeight = Float.NEGATIVE_INFINITY;
-                String bestLbName = null;
-                for (Map.Entry<String, Float> entry : weightMap.entrySet()) {
-                    float totalWeight = entry.getValue();
-                    if (totalWeight >= bestTotalWeight) {
-                        bestTotalWeight = totalWeight;
-                        bestLbName = entry.getKey();
-                    }
-                }
+                String managerName = findManager(mesh, vertexI, iArray, wArray,
+                        managerMap);
                 /*
                  * Add the bind-pose coordinates of the vertex
-                 * to the linked bone's list.
+                 * to the manager's list.
                  */
                 Collection<Vector3f> coordList;
-                if (coordsMap.containsKey(bestLbName)) {
-                    coordList = coordsMap.get(bestLbName);
+                if (coordsMap.containsKey(managerName)) {
+                    coordList = coordsMap.get(managerName);
                 } else {
                     coordList = new HashSet<>(256);
-                    coordsMap.put(bestLbName, coordList);
+                    coordsMap.put(managerName, coordList);
                 }
                 Vector3f bindPosition = MyMesh.vertexVector3f(mesh,
                         VertexBuffer.Type.BindPosePosition, vertexI, null);
@@ -173,6 +162,42 @@ public class RagUtils {
         }
 
         return result;
+    }
+
+    /**
+     * Determine which physics link should manage the specified mesh vertex.
+     *
+     * @param mesh the mesh containing the vertex (not null, unaffected)
+     * @param vertexIndex the vertex index in the mesh (&ge;0)
+     * @param iArray temporary storage for bone indices (not null, modified)
+     * @param wArray temporary storage for bone weights (not null, modified)
+     * @param managerMap a map from bone indices to bone/torso names (not null,
+     * unaffected)
+     * @return a bone/torso name
+     */
+    public static String findManager(Mesh mesh, int vertexIndex, int[] iArray,
+            float[] wArray, String[] managerMap) {
+        Validate.nonNull(mesh, "mesh");
+        Validate.nonNegative(vertexIndex, "vertex index");
+        Validate.nonNull(iArray, "index array");
+        Validate.nonNull(wArray, "weight array");
+        Validate.nonNull(managerMap, "manager map");
+
+        MyMesh.vertexBoneIndices(mesh, vertexIndex, iArray);
+        MyMesh.vertexBoneWeights(mesh, vertexIndex, wArray);
+        Map<String, Float> weightMap = weightMap(iArray, wArray, managerMap);
+
+        float bestTotalWeight = Float.NEGATIVE_INFINITY;
+        String bestName = null;
+        for (Map.Entry<String, Float> entry : weightMap.entrySet()) {
+            float totalWeight = entry.getValue();
+            if (totalWeight >= bestTotalWeight) {
+                bestTotalWeight = totalWeight;
+                bestName = entry.getKey();
+            }
+        }
+
+        return bestName;
     }
 
     /**
