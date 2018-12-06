@@ -452,7 +452,7 @@ public class DacPhysicsLinks extends DacConfiguration {
         return result;
     }
     // *************************************************************************
-    // DacPhysicsLinks methods
+    // DacConfiguration methods
 
     /**
      * Add all managed physics objects to the physics space.

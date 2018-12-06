@@ -55,7 +55,7 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 
 /**
- * Methods to configure a DynamicAnimControl and access its configuration.
+ * Configure a DynamicAnimControl and access its configuration.
  *
  * @author Stephen Gold sgold@sonic.net
  *
