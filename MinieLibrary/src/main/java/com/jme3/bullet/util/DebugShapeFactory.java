@@ -37,6 +37,7 @@ import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
@@ -137,6 +138,30 @@ public class DebugShapeFactory {
         result.updateGeometricState();
 
         return result;
+    }
+
+    /**
+     * Estimate the footprint of the specified convex shape. The shape's current
+     * scale and margin are taken into account, but not its debug-mesh
+     * resolution.
+     *
+     * @param shape (not null, unaffected, must be convex)
+     * @param shapeToWorld the world transform of the collision object (not
+     * null, unaffected)
+     * @param meshResolution (0=low, 1=high)
+     * @return a new array of corner locations (in world coordinates)
+     */
+    public static Vector3f[] footprint(CollisionShape shape,
+            Transform shapeToWorld, int meshResolution) {
+        assert !shape.isConcave();
+        Validate.inRange(meshResolution, "mesh resolution", 0, 1);
+
+        long id = shape.getObjectId();
+        DebugMeshCallback callback = new DebugMeshCallback();
+        getVertices2(id, meshResolution, callback);
+        Vector3f[] cornerLocations = callback.footprint(shapeToWorld);
+
+        return cornerLocations;
     }
 
     /**

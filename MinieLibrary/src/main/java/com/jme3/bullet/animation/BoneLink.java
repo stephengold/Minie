@@ -32,8 +32,10 @@
 package com.jme3.bullet.animation;
 
 import com.jme3.animation.Bone;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -216,6 +218,23 @@ public class BoneLink extends PhysicsLink {
         for (Bone managedBone : managedBones) {
             managedBone.setUserControl(wantUserControl);
         }
+    }
+
+    /**
+     * Estimate the footprint of this link.
+     *
+     * @return the corner locations of a rectangle (in world coordinates)
+     */
+    public Vector3f[] footprint() {
+        CollisionShape shape = getRigidBody().getCollisionShape();
+        assert !shape.isConcave();
+
+        Transform localToWorld = physicsTransform(null);
+        localToWorld.setScale(1f);
+
+        Vector3f[] result = DebugShapeFactory.footprint(shape,
+                localToWorld, DebugShapeFactory.lowResolution);
+        return result;
     }
 
     /**
