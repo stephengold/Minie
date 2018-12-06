@@ -36,6 +36,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -271,8 +272,14 @@ public class Point2PointJoint extends PhysicsJoint {
              */
             Vector3f saveLocation = nodeA.getPhysicsLocation(null);
 
-            Vector3f offset = pivotB.subtract(pivotA);
-            nodeA.setPhysicsLocation(offset);
+            Transform localToWorld = new Transform();
+            localToWorld.setTranslation(saveLocation);
+            nodeA.getPhysicsRotation(localToWorld.getRotation());
+
+            Vector3f pivotAWorld = localToWorld.transformVector(pivotA, null);
+            Vector3f worldOffset = pivotB.subtract(pivotAWorld);
+            Vector3f tempLocation = saveLocation.add(worldOffset);
+            nodeA.setPhysicsLocation(tempLocation);
             objectId = createJoint1(nodeA.getObjectId(), pivotA);
 
             nodeA.setPhysicsLocation(saveLocation);
