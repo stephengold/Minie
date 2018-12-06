@@ -80,6 +80,11 @@ public class DynamicAnimControl
     // fields
 
     /**
+     * false until the 1st physics tick, true thereafter, indicating that all
+     * links are ready for dynamic mode
+     */
+    private boolean isReady = false;
+    /**
      * list of registered collision listeners
      */
     private List<RagdollCollisionListener> listeners
@@ -275,8 +280,17 @@ public class DynamicAnimControl
     }
 
     /**
-     * Immediately alter the contact-response setting of the specified link and
-     * all its descendants (excluding released attachments). Note: recursive!
+     * Test whether all links are ready for dynamic mode.
+     *
+     * @return true if ready, otherwise false
+     */
+    public boolean isReady() {
+        return isReady;
+    }
+
+    /**
+     * Alter the contact-response setting of the specified link and all its
+     * descendants (excluding released attachments). Note: recursive!
      * <p>
      * Allowed only when the control IS added to a spatial.
      *
@@ -384,7 +398,7 @@ public class DynamicAnimControl
         }
     }
     // *************************************************************************
-    // ConfigDynamicAnimControl methods
+    // DacPhysicsLinks methods
 
     /**
      * Add all managed physics objects to the physics space.
@@ -512,6 +526,9 @@ public class DynamicAnimControl
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
+        assert space == getPhysicsSpace();
+        Validate.nonNegative(timeStep, "time step");
+
         PhysicsRigidBody prb = getTorsoLink().getRigidBody();
         prb.activate();
 
@@ -524,6 +541,10 @@ public class DynamicAnimControl
             prb = attachmentLink.getRigidBody();
             prb.activate();
         }
+
+        if (!isReady) {
+            isReady = true;
+        }
     }
 
     /**
@@ -535,6 +556,9 @@ public class DynamicAnimControl
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+        assert space == getPhysicsSpace();
+        Validate.nonNegative(timeStep, "time step");
+
         getTorsoLink().prePhysicsTick();
         for (BoneLink boneLink : getBoneLinks()) {
             boneLink.prePhysicsTick();

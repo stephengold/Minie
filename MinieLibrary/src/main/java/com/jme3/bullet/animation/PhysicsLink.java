@@ -326,13 +326,18 @@ abstract public class PhysicsLink
     }
 
     /**
-     * Immediately put this link into dynamic mode.
+     * Immediately put this link into dynamic mode. The control must be "ready".
      *
      * @param uniformAcceleration the uniform acceleration vector (in
      * physics-space coordinates, not null, unaffected)
      */
     public void setDynamic(Vector3f uniformAcceleration) {
         Validate.nonNull(uniformAcceleration, "uniform acceleration");
+        boolean controlReady = ((DynamicAnimControl) control).isReady();
+        if (!controlReady) {
+            throw new IllegalStateException(
+                    "The control is not ready for dynamic mode.");
+        }
 
         kinematicWeight = 0f;
         rigidBody.setGravity(uniformAcceleration);
