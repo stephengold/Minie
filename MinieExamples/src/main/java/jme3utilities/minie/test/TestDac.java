@@ -766,7 +766,7 @@ public class TestDac extends ActionApplication {
         leftUlnaName = "Ulna.L";
         rightClavicleName = "Clavicle.R";
         rightFemurName = "Thigh.R";
-        upperBodyName = "Chest";
+        upperBodyName = "Waist";
     }
 
     /**
@@ -797,7 +797,7 @@ public class TestDac extends ActionApplication {
         leftUlnaName = "Ulna.L";
         rightClavicleName = "Clavicle.R";
         rightFemurName = "Thigh.R";
-        upperBodyName = "Chest";
+        upperBodyName = "Waist";
     }
 
     /**
