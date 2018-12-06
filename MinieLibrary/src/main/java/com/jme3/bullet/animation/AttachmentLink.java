@@ -204,20 +204,6 @@ public class AttachmentLink extends PhysicsLink {
     }
 
     /**
-     * Test whether the attached model has been released.
-     *
-     * @return true if released, otherwise false
-     */
-    public boolean isReleased() {
-        PhysicsJoint joint = getJoint();
-        if (joint == null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Release the attached model. The link must already be in dynamic mode and
      * cannot have been previously released.
      */
@@ -283,6 +269,21 @@ public class AttachmentLink extends PhysicsLink {
             blendToKinematicMode(0f, null);
         } else {
             setDynamic(translateIdentity);
+        }
+    }
+
+    /**
+     * Test whether the attached model has been released.
+     *
+     * @return true if released, otherwise false
+     */
+    @Override
+    public boolean isReleased() {
+        PhysicsJoint joint = getJoint();
+        if (joint == null) {
+            return true;
+        } else {
+            return false;
         }
     }
 

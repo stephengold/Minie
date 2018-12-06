@@ -249,6 +249,15 @@ abstract public class PhysicsLink
     }
 
     /**
+     * Test whether the attached model (if any) has been released.
+     *
+     * @return false unless this is an AttachmentLink
+     */
+    public boolean isReleased() {
+        return false;
+    }
+
+    /**
      * Read the kinematic weight of this link.
      *
      * @return 0 if entirely dynamic, 1 if entirely kinematic
