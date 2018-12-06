@@ -133,6 +133,25 @@ public class DynamicAnimControl
     }
 
     /**
+     * Begin blending the specified link and all its descendants to kinematic
+     * animation.
+     *
+     * @param rootLink the root of the subtree to bind (not null)
+     * @param blendInterval the duration of the blend interval (in seconds,
+     * &ge;0)
+     */
+    public void animateSubtree(PhysicsLink rootLink, float blendInterval) {
+        Validate.nonNull(rootLink, "root link");
+        Validate.nonNegative(blendInterval, "blend interval");
+        if (getSpatial() == null) {
+            throw new IllegalStateException(
+                    "Cannot change modes unless added to a spatial.");
+        }
+
+        blendSubtree(rootLink, KinematicSubmode.Animated, blendInterval);
+    }
+
+    /**
      * Begin blending the specified link and all its descendants into bind pose.
      *
      * @param rootLink the root of the subtree to bind (not null)
