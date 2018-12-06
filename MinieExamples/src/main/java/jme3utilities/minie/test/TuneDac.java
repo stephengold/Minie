@@ -26,13 +26,6 @@
  */
 package jme3utilities.minie.test;
 
-import jme3utilities.minie.test.tunings.SinbadControl;
-import jme3utilities.minie.test.tunings.PuppetControl;
-import jme3utilities.minie.test.tunings.OtoControl;
-import jme3utilities.minie.test.tunings.NinjaControl;
-import jme3utilities.minie.test.tunings.JaimeControl;
-import jme3utilities.minie.test.tunings.ElephantControl;
-import jme3utilities.minie.test.tunings.MhGameControl;
 import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.bullet.BulletAppState;
@@ -65,6 +58,13 @@ import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.tunings.ElephantControl;
+import jme3utilities.minie.test.tunings.JaimeControl;
+import jme3utilities.minie.test.tunings.MhGameControl;
+import jme3utilities.minie.test.tunings.NinjaControl;
+import jme3utilities.minie.test.tunings.OtoControl;
+import jme3utilities.minie.test.tunings.PuppetControl;
+import jme3utilities.minie.test.tunings.SinbadControl;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
@@ -360,7 +360,7 @@ public class TuneDac extends ActionApplication {
      * Load the MhGame model.
      */
     private void loadMhGame() {
-        model = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
+        model = (Node) assetManager.loadModel("Models/MhGame/MhGame.mesh.xml");
         dac = new MhGameControl();
     }
 
