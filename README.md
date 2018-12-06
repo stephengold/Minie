@@ -13,18 +13,20 @@ Summary of features:
 
  + `DynamicAnimControl` for ragdoll simulation:
     + set dynamic/kinematic mode per bone
-    + deals with attachment nodes
-    + multiple options for bone mass, center, and shape
+    + deals with attachments
+    + highly configurable, with multiple options for bone mass, center, and shape
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
- + enhanced visualization for debugging:
+ + enhanced debug visualization:
+    + customize debug material per collision object
+    + dump contents of physics space
     + visualize in multiple viewports
     + hi-res debug meshes for convex shapes
-    + customize debug material per collision object
     + options to generate debug meshes with normals
+ + joints, shapes, and collision objects are fully `JmeCloneable`
  + single-ended joints
  + settable global default for collision margin
  + fixes for many `jme3-bullet` bugs (including 740, 877, 896, 923, and 938)
- + improved JavaDoc and inline documentation
+ + improved Javadoc and inline documentation
  + decoupled from the jMonkeyEngine release cycle
  + demo apps provided
  + Java source code provided under FreeBSD license
