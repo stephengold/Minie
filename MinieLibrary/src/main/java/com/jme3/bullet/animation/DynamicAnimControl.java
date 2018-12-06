@@ -147,21 +147,7 @@ public class DynamicAnimControl
                     "Cannot change modes unless added to a spatial.");
         }
 
-        blendDescendants(rootLink, KinematicSubmode.Bound, blendInterval);
-
-        if (rootLink == getTorsoLink()) {
-            getTorsoLink().blendToKinematicMode(KinematicSubmode.Bound,
-                    blendInterval, null);
-        } else if (rootLink instanceof BoneLink) {
-            BoneLink boneLink = (BoneLink) rootLink;
-            boneLink.blendToKinematicMode(KinematicSubmode.Bound,
-                    blendInterval);
-        } else {
-            AttachmentLink attachmentLink = (AttachmentLink) rootLink;
-            if (!attachmentLink.isReleased()) {
-                attachmentLink.blendToKinematicMode(blendInterval, null);
-            }
-        }
+        blendSubtree(rootLink, KinematicSubmode.Bound, blendInterval);
     }
 
     /**
@@ -220,14 +206,8 @@ public class DynamicAnimControl
         result.zero();
         List<PhysicsLink> links = listLinks(PhysicsLink.class);
         for (PhysicsLink link : links) {
-            PhysicsRigidBody rigidBody = link.getRigidBody();
-            if (link instanceof AttachmentLink) {
-                AttachmentLink attachmentLink = (AttachmentLink) link;
-                if (attachmentLink.isReleased()) {
-                    rigidBody = null;
-                }
-            }
-            if (rigidBody != null) {
+            if (!link.isReleased()) {
+                PhysicsRigidBody rigidBody = link.getRigidBody();
                 float mass = rigidBody.getMass();
                 massSum += (double) mass;
                 rigidBody.getPhysicsLocation(tmp);
@@ -306,20 +286,14 @@ public class DynamicAnimControl
                     "Cannot change modes unless added to a spatial.");
         }
 
-        PhysicsRigidBody rigidBody = rootLink.getRigidBody();
-        if (rootLink instanceof AttachmentLink) {
-            AttachmentLink attachmentLink = (AttachmentLink) rootLink;
-            if (attachmentLink.isReleased()) {
-                rigidBody = null;
-            }
-        }
-        if (rigidBody != null) {
+        if (!rootLink.isReleased()) {
+            PhysicsRigidBody rigidBody = rootLink.getRigidBody();
             rigidBody.setContactResponse(desiredResponse);
-        }
 
-        PhysicsLink[] children = rootLink.listChildren();
-        for (PhysicsLink child : children) {
-            setContactResponseSubtree(child, desiredResponse);
+            PhysicsLink[] children = rootLink.listChildren();
+            for (PhysicsLink child : children) {
+                setContactResponseSubtree(child, desiredResponse);
+            }
         }
     }
 
@@ -571,7 +545,7 @@ public class DynamicAnimControl
     // private methods
 
     /**
-     * Begin blending the descendents of the specified BoneLink to the specified
+     * Begin blending the descendents of the specified link to the specified
      * kinematic submode. Note: recursive!
      *
      * @param rootLink the root of the subtree to blend (not null)
@@ -597,6 +571,36 @@ public class DynamicAnimControl
                 }
             }
             blendDescendants(child, submode, blendInterval);
+        }
+    }
+
+    /**
+     * Begin blending the specified link and all its descendants to the
+     * specified kinematic submode.
+     *
+     * @param rootLink the root of the subtree to blend (not null)
+     * @param submode the desired submode (not null)
+     * @param blendInterval the duration of the blend interval (in seconds,
+     * &ge;0)
+     */
+    private void blendSubtree(PhysicsLink rootLink, KinematicSubmode submode,
+            float blendInterval) {
+        assert rootLink != null;
+        assert submode != null;
+        assert blendInterval >= 0f : blendInterval;
+
+        blendDescendants(rootLink, submode, blendInterval);
+
+        if (rootLink == getTorsoLink()) {
+            getTorsoLink().blendToKinematicMode(submode, blendInterval, null);
+        } else if (rootLink instanceof BoneLink) {
+            BoneLink boneLink = (BoneLink) rootLink;
+            boneLink.blendToKinematicMode(submode, blendInterval);
+        } else {
+            AttachmentLink attachmentLink = (AttachmentLink) rootLink;
+            if (!attachmentLink.isReleased()) {
+                attachmentLink.blendToKinematicMode(blendInterval, null);
+            }
         }
     }
 }
