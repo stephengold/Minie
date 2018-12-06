@@ -73,7 +73,24 @@ public class Point2PointJoint extends PhysicsJoint {
     }
 
     /**
-     * Instantiate a single-ended Point2PointJoint.
+     * Instantiate a single-ended Point2PointJoint where the constraint is
+     * already satisfied.
+     * <p>
+     * To be effective, the joint must be added to the physics space with the
+     * body and the body must be dynamic.
+     *
+     * @param nodeA the body to constrain (not null, alias created)
+     * @param pivotInWorld the pivot location in physics-space coordinates (not
+     * null, unaffected)
+     */
+    public Point2PointJoint(PhysicsRigidBody nodeA, Vector3f pivotInWorld) {
+        super(nodeA, JointEnd.A, pivotInWorld);
+        createJoint();
+    }
+
+    /**
+     * Instantiate a single-ended Point2PointJoint where the constraint might
+     * not be satisfied yet.
      * <p>
      * To be effective, the joint must be added to the physics space with the
      * body and the body must be dynamic.
@@ -262,29 +279,37 @@ public class Point2PointJoint extends PhysicsJoint {
         assert objectId == 0L;
         assert nodeA != null;
         assert pivotA != null;
-        assert pivotB != null;
 
         if (nodeB == null) {
             /*
-             * Create a single-ended joint.  Bullet assumes single-ended
-             * btPoint2PointConstraints are satisfied at creation, so we
-             * temporarily re-position the body to satisfy the constraint.
+             * Create a single-ended joint.
              */
-            Vector3f saveLocation = nodeA.getPhysicsLocation(null);
+            if (pivotB == null) {
+                objectId = createJoint1(nodeA.getObjectId(), pivotA);
+            } else {
+                /*
+                 * Bullet assumes single-ended btPoint2PointConstraints are
+                 * satisfied at creation, so we temporarily re-position the body
+                 * to satisfy the constraint.
+                 */
+                Vector3f saveLocation = nodeA.getPhysicsLocation(null);
 
-            Transform localToWorld = new Transform();
-            localToWorld.setTranslation(saveLocation);
-            nodeA.getPhysicsRotation(localToWorld.getRotation());
+                Transform localToWorld = new Transform();
+                localToWorld.setTranslation(saveLocation);
+                nodeA.getPhysicsRotation(localToWorld.getRotation());
 
-            Vector3f pivotAWorld = localToWorld.transformVector(pivotA, null);
-            Vector3f worldOffset = pivotB.subtract(pivotAWorld);
-            Vector3f tempLocation = saveLocation.add(worldOffset);
-            nodeA.setPhysicsLocation(tempLocation);
-            objectId = createJoint1(nodeA.getObjectId(), pivotA);
+                Vector3f pivotAWorld
+                        = localToWorld.transformVector(pivotA, null);
+                Vector3f worldOffset = pivotB.subtract(pivotAWorld);
+                Vector3f tempLocation = saveLocation.add(worldOffset);
+                nodeA.setPhysicsLocation(tempLocation);
+                objectId = createJoint1(nodeA.getObjectId(), pivotA);
 
-            nodeA.setPhysicsLocation(saveLocation);
+                nodeA.setPhysicsLocation(saveLocation);
+            }
 
         } else {
+            assert pivotB != null;
             /*
              * Create a double-ended joint.
              */
