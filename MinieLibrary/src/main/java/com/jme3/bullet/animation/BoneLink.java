@@ -343,7 +343,7 @@ public class BoneLink extends PhysicsLink {
             switch (submode) {
                 case Amputated:
                     MySkeleton.copyBindTransform(managedBone, transform);
-                    transform.getScale().set(0.001f, 0.001f, 0.001f);
+                    transform.setScale(0.001f);
                     break;
                 case Animated:
                     MySkeleton.copyLocalTransform(managedBone, transform);
