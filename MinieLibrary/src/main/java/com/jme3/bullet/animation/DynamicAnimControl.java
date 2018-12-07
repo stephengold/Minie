@@ -31,18 +31,29 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.animation.Bone;
+import com.jme3.animation.Skeleton;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.VertexBuffer;
 import com.jme3.util.SafeArrayList;
 import com.jme3.util.clone.Cloner;
 import java.util.List;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
+import jme3utilities.MySkeleton;
+import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 
 /**
@@ -254,6 +265,91 @@ public class DynamicAnimControl
     }
 
     /**
+     * Find the link that manages the specified vertex and optionally calculate
+     * the location of the vertex.
+     *
+     * @param vertexSpecifier a String of the form "index/geometry" or
+     * "index/geometry/bone" (not null, not empty)
+     * @param storeWorldLocation (modified if not null)
+     * @return the pre-existing link (not null)
+     */
+    public PhysicsLink findManagerForVertex(String vertexSpecifier,
+            Vector3f storeWorldLocation) {
+        Validate.nonEmpty(vertexSpecifier, "vertex specifier");
+        /*
+         * Parse the vertex index and geometry name from the specifier.
+         */
+        String[] fields = vertexSpecifier.split("/");
+        int numFields = fields.length;
+        if (numFields < 2 || numFields > 3) {
+            throw new IllegalArgumentException(vertexSpecifier);
+        }
+        /*
+         * Find the mesh that contains the vertex.
+         */
+        Skeleton skeleton = getSkeleton();
+        Spatial subtree;
+        if (numFields == 3) { // The vertex is in an attached model.
+            Bone attachBone = skeleton.getBone(fields[2]);
+            assert attachBone != null;
+            subtree = MySkeleton.getAttachments(attachBone);
+            assert subtree != null;
+        } else { // The vertex is in the controlled model.
+            subtree = getSpatial();
+            assert subtree != null;
+        }
+        String geometryName = fields[1];
+        Spatial gSpatial = MySpatial.findNamed(subtree, geometryName);
+        Geometry geometry = (Geometry) gSpatial;
+        Mesh mesh = geometry.getMesh();
+        /*
+         * Calculate the mesh location (pos) of the vertex.
+         */
+        int vertexIndex = Integer.parseInt(fields[0]);
+        int numVertices = mesh.getVertexCount();
+        if (vertexIndex < 0 || vertexIndex >= numVertices) {
+            throw new IllegalArgumentException(vertexSpecifier);
+        }
+        assert vertexIndex < numVertices : vertexIndex;
+        Vector3f pos = MyMesh.vertexVector3f(mesh, VertexBuffer.Type.Position,
+                vertexIndex, null);
+        /*
+         * Find the manager and convert the pos to a world location.
+         */
+        PhysicsLink manager;
+        if (numFields == 3) { // The vertex is in an attached model.
+            assert !MyMesh.isAnimated(mesh);
+            manager = findAttachmentLink(fields[2]);
+            if (manager == null) {
+                throw new IllegalArgumentException(vertexSpecifier);
+            }
+
+            if (storeWorldLocation != null) {
+                geometry.localToWorld(pos, storeWorldLocation);
+            }
+
+        } else { // The vertex is in the controlled model.
+            assert MyMesh.isAnimated(mesh);
+            String[] managerMap = managerMap(skeleton);
+            String managerName = RagUtils.findManager(mesh, vertexIndex,
+                    new int[4], new float[4], managerMap);
+            if (managerName.equals(torsoName)) {
+                manager = getTorsoLink();
+            } else {
+                manager = findBoneLink(managerName);
+            }
+            assert manager != null;
+
+            if (storeWorldLocation != null) {
+                Transform meshToWorld = meshTransform(null);
+                meshToWorld.transformVector(pos, storeWorldLocation);
+            }
+        }
+
+        return manager;
+    }
+
+    /**
      * Immediately freeze the specified link and all its descendants. Note:
      * recursive!
      * <p>
@@ -285,6 +381,58 @@ public class DynamicAnimControl
      */
     public boolean isReady() {
         return isReady;
+    }
+
+    /**
+     * Add an IK joint that will cause the specified link to move until the a
+     * fixed pivot reaches the goal.
+     *
+     * @param link which link to move (not null)
+     * @param pivotInBody the pivot location (in the rigid body's local
+     * coordinates, not null, unaffected)
+     * @param goalInWorld the goal location (in physics-space coordinates, not
+     * null, unaffected)
+     * @return a new joint (not null)
+     */
+    public PhysicsJoint moveToWorld(PhysicsLink link, Vector3f pivotInBody,
+            Vector3f goalInWorld) {
+        Validate.nonNull(pivotInBody, "pivot location");
+        Validate.nonNull(goalInWorld, "goal location");
+
+        PhysicsRigidBody rigidBody = link.getRigidBody();
+        Point2PointJoint moveJoint
+                = new Point2PointJoint(rigidBody, pivotInBody, goalInWorld);
+        rigidBody.addJoint(moveJoint);
+        getPhysicsSpace().add(moveJoint);
+
+        return moveJoint;
+    }
+
+    /**
+     * Add an IK joint that will restrict the specified link to pivoting around
+     * a fixed pivot.
+     *
+     * @param link which link to pin (not null)
+     * @param pivotInWorld the pivot location (in physics-space coordinates, not
+     * null, unaffected)
+     * @return a new joint (not null)
+     */
+    public PhysicsJoint pinToWorld(PhysicsLink link, Vector3f pivotInWorld) {
+        Validate.nonNull(pivotInWorld, "pivot location");
+
+        PhysicsRigidBody rigidBody = link.getRigidBody();
+
+        Transform localToWorld = link.physicsTransform(null);
+        localToWorld.setScale(1f);
+        Vector3f pivotInBody
+                = localToWorld.transformInverseVector(pivotInWorld, null);
+
+        Point2PointJoint pinJoint
+                = new Point2PointJoint(rigidBody, pivotInBody);
+        rigidBody.addJoint(pinJoint);
+        getPhysicsSpace().add(pinJoint);
+
+        return pinJoint;
     }
 
     /**
