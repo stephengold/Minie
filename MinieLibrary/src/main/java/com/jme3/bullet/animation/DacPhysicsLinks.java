@@ -542,6 +542,7 @@ public class DacPhysicsLinks extends DacConfiguration {
                     + "Make sure the control is there and not on a subnode.");
         }
         sortControls(skeletonControl);
+        skeletonControl.setHardwareSkinningPreferred(false);
         /*
          * Analyze the model's skeleton.
          */
