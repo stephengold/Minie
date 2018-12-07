@@ -153,11 +153,13 @@ Section to be written.
 
 YouTube videos about Minie:
 
+  + December 2018 teaser (inverse kinematics)
+    https://www.youtube.com/watch?v=fTWQ9m47GIA (0:51)
   + November 2018 demo (single-ended joints):
     https://www.youtube.com/watch?v=Mh9k5AfWzbg (5:50)
-  + November 2018 demo (MultiSphere):
+  + November 2018 demo (`MultiSphere`):
     https://www.youtube.com/watch?v=OS2zjB01c6E (0:13)
-  + October 2018 demo (DynamicAnimControl):
+  + October 2018 demo (`DynamicAnimControl`):
     https://www.youtube.com/watch?v=A1Rii99nb3Q (2:49)
 
 [blender]: https://docs.blender.org "Blender Project"
