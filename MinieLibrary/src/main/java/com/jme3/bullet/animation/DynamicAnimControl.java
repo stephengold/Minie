@@ -105,6 +105,10 @@ public class DynamicAnimControl
      */
     private float ragdollMass = -1f;
     /**
+     * registered provider for the center-of-mass goals, or null if none
+     */
+    private ImpulseController comImpulseProvider = null;
+    /**
      * list of registered collision listeners
      */
     private List<RagdollCollisionListener> collisionListeners
@@ -446,6 +450,15 @@ public class DynamicAnimControl
     }
 
     /**
+     * Alter the center-of-mass impulse provider for this control.
+     *
+     * @param provider (alias created if not null)
+     */
+    public void setCenterGoalProvider(ImpulseController provider) {
+        comImpulseProvider = provider;
+    }
+
+    /**
      * Alter the contact-response setting of the specified link and all its
      * descendants (excluding released attachments). Note: recursive!
      * <p>
@@ -742,7 +755,15 @@ public class DynamicAnimControl
         assert space == getPhysicsSpace();
         Validate.nonNegative(timeStep, "time step");
 
-        getTorsoLink().preTick(translateIdentity);
+        Vector3f comImpulse = new Vector3f(0f, 0f, 0f);
+        if (comImpulseProvider != null) {
+            recalculateCenter();
+            comImpulseProvider.impulse(centerLocation, centerVelocity,
+                    ragdollMass, timeStep, this, comImpulse);
+        }
+
+        TorsoLink torsoLink = getTorsoLink();
+        torsoLink.preTick(comImpulse);
         for (BoneLink boneLink : getBoneLinks()) {
             boneLink.preTick(translateIdentity);
         }
