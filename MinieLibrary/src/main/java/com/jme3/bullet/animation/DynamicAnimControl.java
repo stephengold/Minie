@@ -674,17 +674,12 @@ public class DynamicAnimControl
         assert space == getPhysicsSpace();
         Validate.nonNegative(timeStep, "time step");
 
-        PhysicsRigidBody prb = getTorsoLink().getRigidBody();
-        prb.activate();
-
+        getTorsoLink().postTick();
         for (BoneLink boneLink : getBoneLinks()) {
-            prb = boneLink.getRigidBody();
-            prb.activate();
+            boneLink.postTick();
         }
-
-        for (AttachmentLink attachmentLink : listAttachmentLinks()) {
-            prb = attachmentLink.getRigidBody();
-            prb.activate();
+        for (AttachmentLink link : listAttachmentLinks()) {
+            link.postTick();
         }
 
         if (!isReady) {

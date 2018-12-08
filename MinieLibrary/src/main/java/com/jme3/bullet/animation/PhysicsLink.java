@@ -118,7 +118,8 @@ abstract public class PhysicsLink
      */
     private Transform kpTransform = new Transform();
     /**
-     * location of the rigid body's center (in local coordinates)
+     * location of the rigid body's center (in the skeleton bone's local
+     * coordinates)
      */
     private Vector3f localOffset;
     /**
@@ -338,6 +339,15 @@ abstract public class PhysicsLink
         } else {
             blendInterval = 0f;
             kinematicWeight = 1f;
+        }
+    }
+
+    /**
+     * Internal callback, invoked just AFTER the physics is stepped.
+     */
+    void postTick() {
+        if (!isKinematic()) {
+            rigidBody.activate();
         }
     }
 
