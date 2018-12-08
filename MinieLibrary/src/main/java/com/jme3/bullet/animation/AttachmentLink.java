@@ -166,7 +166,7 @@ public class AttachmentLink extends PhysicsLink {
     // new methods exposed
 
     /**
-     * Begin blending this link to a fully kinematic mode.
+     * Begin blending this link to a purely kinematic mode.
      *
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
@@ -314,7 +314,7 @@ public class AttachmentLink extends PhysicsLink {
 
         Transform transform = new Transform();
 
-        if (endModelTransform != null && isKinematic()) {
+        if (endModelTransform != null) {
             /*
              * For a smooth transition, blend the saved model transform
              * (from the start of the blend interval) into the goal transform.
