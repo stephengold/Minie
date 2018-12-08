@@ -73,7 +73,7 @@ import jme3utilities.Validate;
  *
  * Based on KinematicRagdollControl by Normen Hansen and Rémy Bouquet (Nehon).
  */
-public class DacPhysicsLinks extends DacConfiguration {
+public class DacLinks extends DacConfiguration {
     // *************************************************************************
     // constants and loggers
 
@@ -81,7 +81,7 @@ public class DacPhysicsLinks extends DacConfiguration {
      * message logger for this class
      */
     final public static Logger logger3
-            = Logger.getLogger(DacPhysicsLinks.class.getName());
+            = Logger.getLogger(DacLinks.class.getName());
     /**
      * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
      */
@@ -128,7 +128,7 @@ public class DacPhysicsLinks extends DacConfiguration {
      * Instantiate an enabled control without any linked bones or attachments
      * (torso only).
      */
-    DacPhysicsLinks() {
+    DacLinks() {
     }
     // *************************************************************************
     // new methods exposed
@@ -497,7 +497,7 @@ public class DacPhysicsLinks extends DacConfiguration {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        DacPhysicsLinks originalDac = (DacPhysicsLinks) original;
+        DacLinks originalDac = (DacLinks) original;
 
         boneLinkList = cloner.clone(boneLinkList);
 
@@ -636,9 +636,9 @@ public class DacPhysicsLinks extends DacConfiguration {
      * @return a new instance
      */
     @Override
-    public DacPhysicsLinks jmeClone() {
+    public DacLinks jmeClone() {
         try {
-            DacPhysicsLinks clone = (DacPhysicsLinks) super.clone();
+            DacLinks clone = (DacLinks) super.clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

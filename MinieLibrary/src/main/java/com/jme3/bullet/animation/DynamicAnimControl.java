@@ -82,7 +82,7 @@ import jme3utilities.Validate;
  * Based on KinematicRagdollControl by Normen Hansen and Rémy Bouquet (Nehon).
  */
 public class DynamicAnimControl
-        extends DacPhysicsLinks
+        extends DacLinks
         implements PhysicsCollisionListener, PhysicsTickListener {
     // *************************************************************************
     // constants and loggers
@@ -681,7 +681,7 @@ public class DynamicAnimControl
         Object userB = pcoB.getUserObject();
         if (userA instanceof PhysicsLink) {
             physicsLink = (PhysicsLink) userA;
-            DacPhysicsLinks control = physicsLink.getControl();
+            DacLinks control = physicsLink.getControl();
             if (control == this) {
                 isThisControlInvolved = true;
             }
@@ -689,7 +689,7 @@ public class DynamicAnimControl
         }
         if (userB instanceof PhysicsLink) {
             physicsLink = (PhysicsLink) userB;
-            DacPhysicsLinks control = physicsLink.getControl();
+            DacLinks control = physicsLink.getControl();
             if (control == this) {
                 isThisControlInvolved = true;
             }

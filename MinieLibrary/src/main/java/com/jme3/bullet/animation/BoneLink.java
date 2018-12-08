@@ -115,7 +115,7 @@ public class BoneLink extends PhysicsLink {
      * @param localOffset the location of the body's center (in the bone's local
      * coordinates, not null, unaffected)
      */
-    BoneLink(DacPhysicsLinks control, Bone bone, PhysicsRigidBody rigidBody,
+    BoneLink(DacLinks control, Bone bone, PhysicsRigidBody rigidBody,
             Vector3f localOffset) {
         super(control, bone, rigidBody, localOffset);
     }
