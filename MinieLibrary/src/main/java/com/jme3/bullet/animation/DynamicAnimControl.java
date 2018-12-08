@@ -41,6 +41,10 @@ import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -49,6 +53,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.SafeArrayList;
 import com.jme3.util.clone.Cloner;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
@@ -96,10 +101,22 @@ public class DynamicAnimControl
      */
     private boolean isReady = false;
     /**
+     * calculated total mass, not including released attachments
+     */
+    private float ragdollMass = -1f;
+    /**
      * list of registered collision listeners
      */
     private List<RagdollCollisionListener> collisionListeners
             = new SafeArrayList<>(RagdollCollisionListener.class);
+    /*
+     * center-of-mass actual location (in physics-space coordinates)
+     */
+    private Vector3f centerLocation = new Vector3f();
+    /*
+     * center-of-mass estimated velocity (psu/second in physics-space coordinates)
+     */
+    private Vector3f centerVelocity = new Vector3f();
     /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
@@ -231,28 +248,17 @@ public class DynamicAnimControl
             throw new IllegalStateException(
                     "Control is not added to a spatial.");
         }
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        Vector3f tmp = new Vector3f();
-        /*
-         * weighted sum of each link's center-of-mass
-         */
-        double massSum = 0.0;
-        result.zero();
-        List<PhysicsLink> links = listLinks(PhysicsLink.class);
-        for (PhysicsLink link : links) {
-            if (!link.isReleased()) {
-                PhysicsRigidBody rigidBody = link.getRigidBody();
-                float mass = rigidBody.getMass();
-                massSum += (double) mass;
-                rigidBody.getPhysicsLocation(tmp);
-                tmp.multLocal(mass);
-                result.addLocal(tmp);
-            }
+        if (!isReady) {
+            throw new IllegalStateException(
+                    "Control is not ready.");
         }
 
-        result.divideLocal((float) massSum);
-
-        return result;
+        recalculateCenter();
+        if (storeResult == null) {
+            return centerLocation.clone();
+        } else {
+            return storeResult.set(centerLocation);
+        }
     }
 
     /**
@@ -569,7 +575,10 @@ public class DynamicAnimControl
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
+
         collisionListeners = cloner.clone(collisionListeners);
+        centerLocation = cloner.clone(centerLocation);
+        centerVelocity = cloner.clone(centerVelocity);
     }
 
     /**
@@ -588,6 +597,24 @@ public class DynamicAnimControl
     }
 
     /**
+     * De-serialize this control, for example when loading from a J3O file.
+     *
+     * @param im importer (not null)
+     * @throws IOException from importer
+     */
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+        InputCapsule ic = im.getCapsule(this);
+
+        ragdollMass = ic.readFloat("ragdollMass", 1f);
+        centerLocation
+                = (Vector3f) ic.readSavable("centerLocation", new Vector3f());
+        centerVelocity
+                = (Vector3f) ic.readSavable("centerVelocity", new Vector3f());
+    }
+
+    /**
      * Remove all managed physics objects from the physics space.
      */
     @Override
@@ -597,6 +624,22 @@ public class DynamicAnimControl
         PhysicsSpace space = getPhysicsSpace();
         space.removeCollisionListener(this);
         space.removeTickListener(this);
+    }
+
+    /**
+     * Serialize this control, for example when saving to a J3O file.
+     *
+     * @param ex exporter (not null)
+     * @throws IOException from exporter
+     */
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+        OutputCapsule oc = ex.getCapsule(this);
+
+        oc.write(ragdollMass, "ragdollMass", 1f);
+        oc.write(centerLocation, "centerLocation", null);
+        oc.write(centerVelocity, "centerVelocity", null);
     }
     // *************************************************************************
     // PhysicsCollisionListener methods
@@ -768,5 +811,37 @@ public class DynamicAnimControl
                 attachmentLink.blendToKinematicMode(blendInterval, null);
             }
         }
+    }
+
+    /**
+     * Recalculate the location, velocity, and total mass for the ragdoll's
+     * center of mass, not including released attachments.
+     */
+    private void recalculateCenter() {
+        double massSum = 0.0;
+        Vector3f locationSum = new Vector3f();
+        Vector3f velocitySum = new Vector3f();
+        Vector3f tmpVector = new Vector3f();
+        List<PhysicsLink> links = listLinks(PhysicsLink.class);
+        for (PhysicsLink link : links) {
+            if (!link.isReleased()) {
+                PhysicsRigidBody rigidBody = link.getRigidBody();
+                float mass = rigidBody.getMass();
+                massSum += (double) mass;
+
+                rigidBody.getPhysicsLocation(tmpVector);
+                tmpVector.multLocal(mass);
+                locationSum.addLocal(tmpVector);
+
+                link.velocity(tmpVector);
+                tmpVector.multLocal(mass);
+                velocitySum.addLocal(tmpVector);
+            }
+        }
+
+        float invMass = (float) (1.0 / massSum);
+        locationSum.mult(invMass, centerLocation);
+        velocitySum.mult(invMass, centerVelocity);
+        ragdollMass = (float) massSum;
     }
 }
