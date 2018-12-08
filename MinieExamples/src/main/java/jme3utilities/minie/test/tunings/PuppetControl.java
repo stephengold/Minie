@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test.tunings;
 
+import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.LinkConfig;
@@ -40,7 +41,9 @@ import java.util.logging.Logger;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class PuppetControl extends DynamicAnimControl {
+public class PuppetControl
+        extends DynamicAnimControl
+        implements Biped {
     // *************************************************************************
     // constants and loggers
 
@@ -104,5 +107,27 @@ public class PuppetControl extends DynamicAnimControl {
                 new RangeOfMotion(0.5f, 0.4f, 0.2f));
         super.link("toe.L", hull,
                 new RangeOfMotion(0.5f, 0f, 0f));
+    }
+    // *************************************************************************
+    // Biped methods
+
+    /**
+     * Access the BoneLink that manages the model's left foot.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    public BoneLink getLeftFoot() {
+        return findBoneLink("foot.L");
+    }
+
+    /**
+     * Access the BoneLink that manages the model's right foot.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    public BoneLink getRightFoot() {
+        return findBoneLink("foot.R");
     }
 }
