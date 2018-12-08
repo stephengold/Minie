@@ -84,6 +84,7 @@ import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.tunings.Biped;
 import jme3utilities.minie.test.tunings.ElephantControl;
 import jme3utilities.minie.test.tunings.JaimeControl;
 import jme3utilities.minie.test.tunings.MhGameControl;
@@ -155,10 +156,8 @@ public class TestDac extends ActionApplication {
      * name some important linked bones
      */
     private String leftClavicleName;
-    private String leftFemurName;
     private String leftUlnaName;
     private String rightClavicleName;
-    private String rightFemurName;
     private String upperBodyName;
     private Transform resetTransform;
     // *************************************************************************
@@ -243,6 +242,7 @@ public class TestDac extends ActionApplication {
         dim.bind("load oto", KeyInput.KEY_F6);
         dim.bind("load puppet", KeyInput.KEY_F8);
         dim.bind("load sinbad", KeyInput.KEY_F1);
+        dim.bind("load sinbadWith1Sword", KeyInput.KEY_F10);
         dim.bind("load sinbadWithSwords", KeyInput.KEY_F4);
         dim.bind("pin leftFemur", KeyInput.KEY_9);
         dim.bind("raise leftFoot", KeyInput.KEY_LCONTROL);
@@ -339,6 +339,9 @@ public class TestDac extends ActionApplication {
                     return;
                 case "load sinbad":
                     addModel("Sinbad");
+                    return;
+                case "load sinbadWith1Sword":
+                    addModel("SinbadWith1Sword");
                     return;
                 case "load sinbadWithSwords":
                     addModel("SinbadWithSwords");
@@ -539,6 +542,9 @@ public class TestDac extends ActionApplication {
             case "SinbadWithSwords":
                 loadSinbadWithSwords();
                 break;
+            case "SinbadWith1Sword":
+                loadSinbadWith1Sword();
+                break;
         }
 
         List<Spatial> list
@@ -557,14 +563,31 @@ public class TestDac extends ActionApplication {
         assert scList.size() == 1;
         sc = scList.get(0);
         Spatial controlledSpatial = sc.getSpatial();
+
         controlledSpatial.addControl(dac);
         dac.setPhysicsSpace(physicsSpace);
 
         leftClavicle = dac.findBoneLink(leftClavicleName);
-        leftFemur = dac.findBoneLink(leftFemurName);
+        if (dac instanceof Biped) {
+            BoneLink leftFoot = ((Biped) dac).getLeftFoot();
+            leftFemur = leftFoot;
+            while (leftFemur.getParent() instanceof BoneLink) {
+                leftFemur = (BoneLink) leftFemur.getParent();
+            }
+
+            BoneLink rightFoot = ((Biped) dac).getRightFoot();
+            rightFemur = rightFoot;
+            while (rightFemur.getParent() instanceof BoneLink) {
+                rightFemur = (BoneLink) rightFemur.getParent();
+            }
+
+        } else if (dac instanceof ElephantControl) {
+            leftFemur = dac.findBoneLink("Oberschenkel_B_L");
+            rightFemur = dac.findBoneLink("Oberschenkel_B_R");
+        }
+
         leftUlna = dac.findBoneLink(leftUlnaName);
         rightClavicle = dac.findBoneLink(rightClavicleName);
-        rightFemur = dac.findBoneLink(rightFemurName);
         upperBody = dac.findBoneLink(upperBodyName);
 
         AnimControl animControl = controlledSpatial.getControl(AnimControl.class);
@@ -673,10 +696,8 @@ public class TestDac extends ActionApplication {
         dac = new ElephantControl();
         animationName = "legUp";
         leftClavicleName = "Oberschenkel_F_L";
-        leftFemurName = "Oberschenkel_B_L";
         leftUlnaName = "Knee_F_L";
         rightClavicleName = "Oberschenkel_F_R";
-        rightFemurName = "Oberschenkel_B_R";
         upperBodyName = "joint5";
     }
 
@@ -691,10 +712,8 @@ public class TestDac extends ActionApplication {
         dac = new JaimeControl();
         animationName = "Punches";
         leftClavicleName = "shoulder.L";
-        leftFemurName = "thigh.L";
         leftUlnaName = "forearm.L";
         rightClavicleName = "shoulder.R";
-        rightFemurName = "thigh.R";
         upperBodyName = "ribs";
     }
 
@@ -707,10 +726,8 @@ public class TestDac extends ActionApplication {
         dac = new MhGameControl();
         animationName = "expr-lib-pose";
         leftClavicleName = "upperarm_l";
-        leftFemurName = "thigh_l";
         leftUlnaName = "lowerarm_l";
         rightClavicleName = "upperarm_r";
-        rightFemurName = "thigh_r";
         upperBodyName = "spine_01";
     }
 
@@ -723,10 +740,8 @@ public class TestDac extends ActionApplication {
         dac = new NinjaControl();
         animationName = "Walk";
         leftClavicleName = "Joint14";
-        leftFemurName = "Joint23";
         leftUlnaName = "Joint16";
         rightClavicleName = "Joint9";
-        rightFemurName = "Joint18";
         upperBodyName = "Joint4";
     }
 
@@ -738,10 +753,8 @@ public class TestDac extends ActionApplication {
         dac = new OtoControl();
         animationName = "Walk";
         leftClavicleName = "uparm.left";
-        leftFemurName = "hip.left";
         leftUlnaName = "arm.left";
         rightClavicleName = "uparm.right";
-        rightFemurName = "hip.right";
         upperBodyName = "spinehigh";
     }
 
@@ -753,10 +766,8 @@ public class TestDac extends ActionApplication {
         dac = new PuppetControl();
         animationName = "walk";
         leftClavicleName = "upper_arm.1.L";
-        leftFemurName = "thigh.L";
         leftUlnaName = "forearm.1.L";
         rightClavicleName = "upper_arm.1.R";
-        rightFemurName = "thigh.R";
         upperBodyName = "spine";
     }
 
@@ -769,10 +780,36 @@ public class TestDac extends ActionApplication {
         dac = new SinbadControl();
         animationName = "Dance";
         leftClavicleName = "Clavicle.L";
-        leftFemurName = "Thigh.L";
         leftUlnaName = "Ulna.L";
         rightClavicleName = "Clavicle.R";
-        rightFemurName = "Thigh.R";
+        upperBodyName = "Waist";
+    }
+
+    /**
+     * Load the Sinbad model with an attached sword.
+     */
+    private void loadSinbadWith1Sword() {
+        cgModel = (Node) assetManager.loadModel(
+                "Models/Sinbad/Sinbad.mesh.xml");
+
+        Node sword = (Node) assetManager.loadModel(
+                "Models/Sinbad/Sword.mesh.xml");
+        List<Spatial> list
+                = MySpatial.listSpatials(sword, Spatial.class, null);
+        for (Spatial spatial : list) {
+            spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
+        }
+
+        LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
+                ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
+                CenterHeuristic.AABB);
+        dac = new SinbadControl();
+        dac.attach("Handle.R", swordConfig, sword);
+
+        animationName = "IdleTop";
+        leftClavicleName = "Clavicle.L";
+        leftUlnaName = "Ulna.L";
+        rightClavicleName = "Clavicle.R";
         upperBodyName = "Waist";
     }
 
@@ -800,10 +837,8 @@ public class TestDac extends ActionApplication {
 
         animationName = "Dance";
         leftClavicleName = "Clavicle.L";
-        leftFemurName = "Thigh.L";
         leftUlnaName = "Ulna.L";
         rightClavicleName = "Clavicle.R";
-        rightFemurName = "Thigh.R";
         upperBodyName = "Waist";
     }
 
