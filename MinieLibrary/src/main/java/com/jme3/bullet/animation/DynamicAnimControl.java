@@ -100,6 +100,10 @@ public class DynamicAnimControl
      */
     private List<RagdollCollisionListener> collisionListeners
             = new SafeArrayList<>(RagdollCollisionListener.class);
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // constructors
 
@@ -700,12 +704,12 @@ public class DynamicAnimControl
         assert space == getPhysicsSpace();
         Validate.nonNegative(timeStep, "time step");
 
-        getTorsoLink().prePhysicsTick();
+        getTorsoLink().preTick(translateIdentity);
         for (BoneLink boneLink : getBoneLinks()) {
-            boneLink.prePhysicsTick();
+            boneLink.preTick(translateIdentity);
         }
         for (AttachmentLink link : listAttachmentLinks()) {
-            link.prePhysicsTick();
+            link.preTick(translateIdentity);
         }
     }
     // *************************************************************************

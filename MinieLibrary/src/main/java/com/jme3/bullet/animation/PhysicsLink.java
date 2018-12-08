@@ -71,6 +71,10 @@ abstract public class PhysicsLink
      */
     final public static Logger logger
             = Logger.getLogger(PhysicsLink.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -340,9 +344,11 @@ abstract public class PhysicsLink
     /**
      * Internal callback, invoked just BEFORE the physics is stepped.
      */
-    void prePhysicsTick() {
+    void preTick(Vector3f impulse) {
         if (isKinematic()) {
             rigidBody.setPhysicsTransform(kpTransform);
+        } else {
+            rigidBody.applyImpulse(impulse, translateIdentity);
         }
     }
 
@@ -582,7 +588,7 @@ abstract public class PhysicsLink
         oc.write(listChildren(), "children", null);
         oc.write(rigidBody, "rigidBody", null);
         oc.write(kpTransform, "kpTransform", null);
-        oc.write(localOffset, "offset", new Vector3f());
+        oc.write(localOffset, "offset", null);
         oc.write(kpVelocity, "kpVelocity", null);
     }
     // *************************************************************************
