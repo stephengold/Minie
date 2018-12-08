@@ -29,6 +29,7 @@ package jme3utilities.minie.test;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
+import com.jme3.app.StatsAppState;
 import com.jme3.asset.AssetNotFoundException;
 import com.jme3.asset.ModelKey;
 import com.jme3.audio.openal.ALAudioRenderer;
@@ -150,6 +151,9 @@ public class TestDac extends ActionApplication {
     private SkeletonControl sc;
     private SkeletonVisualizer sv;
     private String animationName = null;
+    /**
+     * name some important linked bones
+     */
     private String leftClavicleName;
     private String leftFemurName;
     private String leftUlnaName;
@@ -182,8 +186,9 @@ public class TestDac extends ActionApplication {
         AppSettings settings = new AppSettings(true);
         String title = applicationName + " " + MyString.join(arguments);
         settings.setTitle(title);
-        application.setSettings(settings);
 
+        settings.setVSync(true);
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************
@@ -195,6 +200,7 @@ public class TestDac extends ActionApplication {
     @Override
     public void actionInitializeApplication() {
         configureCamera();
+        stateManager.getState(StatsAppState.class).toggleStats();
 
         ColorRGBA ballColor = new ColorRGBA(0.4f, 0f, 0f, 1f);
         ballMaterial = MyAsset.createShinyMaterial(assetManager, ballColor);
@@ -598,13 +604,14 @@ public class TestDac extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5 mm
+        CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
 
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setSolverNumIterations(30);
+        physicsSpace.setAccuracy(0.01f); // 10 msec timestep
     }
 
     /**
