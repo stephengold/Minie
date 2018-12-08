@@ -109,9 +109,19 @@ abstract public class PhysicsLink
      */
     private PhysicsRigidBody rigidBody;
     /**
+     * transform of the rigid body as of the most recent update (in
+     * physics-space coordinates, updated in kinematic mode only)
+     */
+    private Transform kpTransform = new Transform();
+    /**
      * location of the rigid body's center (in local coordinates)
      */
     private Vector3f localOffset;
+    /**
+     * estimate of the body's linear velocity as of the most recent update
+     * (psu/sec in physics-space coordinates, kinematic mode only)
+     */
+    private Vector3f kpVelocity = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -152,6 +162,7 @@ abstract public class PhysicsLink
 
         rigidBody.setKinematic(true);
         rigidBody.setUserObject(this);
+        updateKPTransform();
     }
     // *************************************************************************
     // new methods exposed
@@ -297,7 +308,13 @@ abstract public class PhysicsLink
      */
     public Transform physicsTransform(Transform storeResult) {
         Transform result
-                = control.physicsTransform(bone, localOffset, storeResult);
+                = (storeResult == null) ? new Transform() : storeResult;
+        if (isKinematic()) {
+            result.set(kpTransform);
+        } else {
+            rigidBody.getPhysicsTransform(result);
+        }
+
         return result;
     }
 
@@ -325,12 +342,7 @@ abstract public class PhysicsLink
      */
     void prePhysicsTick() {
         if (isKinematic()) {
-            /*
-             * Update the rigid body's transform, including
-             * the scale of its shape.
-             */
-            Transform transform = physicsTransform(null);
-            rigidBody.setPhysicsTransform(transform);
+            rigidBody.setPhysicsTransform(kpTransform);
         }
     }
 
@@ -366,6 +378,24 @@ abstract public class PhysicsLink
         } else {
             dynamicUpdate();
         }
+    }
+
+    /**
+     * Copy the body's linear velocity, or an estimate thereof.
+     *
+     * @param storeResult (modified if not null)
+     * @return a new velocity vector (psu/sec in physics-space coordinates)
+     */
+    Vector3f velocity(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        if (isKinematic()) {
+            result.set(kpVelocity);
+        } else {
+            assert !rigidBody.isKinematic();
+            rigidBody.getLinearVelocity(result);
+        }
+
+        return result;
     }
     // *************************************************************************
     // new protected methods
@@ -404,6 +434,16 @@ abstract public class PhysicsLink
             setKinematicWeight(1f); // done blending
         } else {
             setKinematicWeight(kinematicWeight + tpf / blendInterval);
+        }
+        /*
+         * If we didn't need kpVelocity, we could defer this
+         * calculation until the preTick().
+         */
+        Vector3f previousLocation = kpTransform.getTranslation(null);
+        updateKPTransform();
+        if (tpf > 0f) {
+            kpTransform.getTranslation().subtract(previousLocation, kpVelocity);
+            kpVelocity.divideLocal(tpf);
         }
     }
 
@@ -471,7 +511,9 @@ abstract public class PhysicsLink
         joint = cloner.clone(joint);
         parent = cloner.clone(parent);
         rigidBody = cloner.clone(rigidBody);
+        kpTransform = cloner.clone(kpTransform);
         localOffset = cloner.clone(localOffset);
+        kpVelocity = cloner.clone(kpVelocity);
     }
 
     /**
@@ -516,7 +558,9 @@ abstract public class PhysicsLink
         }
 
         rigidBody = (PhysicsRigidBody) ic.readSavable("rigidBody", null);
+        kpTransform = (Transform) ic.readSavable("kpTransform", new Transform());
         localOffset = (Vector3f) ic.readSavable("offset", new Vector3f());
+        kpVelocity = (Vector3f) ic.readSavable("kpVelocity", new Vector3f());
     }
 
     /**
@@ -537,7 +581,9 @@ abstract public class PhysicsLink
         oc.write(parent, "parent", null);
         oc.write(listChildren(), "children", null);
         oc.write(rigidBody, "rigidBody", null);
+        oc.write(kpTransform, "kpTransform", null);
         oc.write(localOffset, "offset", new Vector3f());
+        oc.write(kpVelocity, "kpVelocity", null);
     }
     // *************************************************************************
     // private methods
@@ -557,8 +603,19 @@ abstract public class PhysicsLink
 
         if (wasKinematic && !isKinematic) {
             rigidBody.setKinematic(false);
+            rigidBody.setPhysicsTransform(kpTransform);
+            rigidBody.setLinearVelocity(kpVelocity);
         } else if (isKinematic && !wasKinematic) {
+            rigidBody.getPhysicsTransform(kpTransform);
+            rigidBody.getLinearVelocity(kpVelocity);
             rigidBody.setKinematic(true);
         }
+    }
+
+    /**
+     * Update the kinematic physics transform.
+     */
+    private void updateKPTransform() {
+        control.physicsTransform(bone, localOffset, kpTransform);
     }
 }

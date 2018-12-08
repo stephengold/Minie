@@ -379,7 +379,6 @@ public class BoneLink extends PhysicsLink {
              */
             MySkeleton.setLocalTransform(managedBone, transform);
             managedBone.updateModelTransforms();
-            // The rigid-body transform gets updated by prePhysicsTick().
         }
 
         super.kinematicUpdate(tpf);

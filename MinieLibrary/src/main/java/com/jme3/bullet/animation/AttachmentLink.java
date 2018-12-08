@@ -460,7 +460,7 @@ public class AttachmentLink extends PhysicsLink {
         /*
          * Start with the rigid body's transform in physics/world coordinates.
          */
-        getRigidBody().getPhysicsTransform(result);
+        physicsTransform(result);
         /*
          * Convert to mesh coordinates.
          */
