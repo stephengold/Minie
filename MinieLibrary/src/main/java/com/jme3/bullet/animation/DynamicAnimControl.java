@@ -98,7 +98,7 @@ public class DynamicAnimControl
     /**
      * list of registered collision listeners
      */
-    private List<RagdollCollisionListener> listeners
+    private List<RagdollCollisionListener> collisionListeners
             = new SafeArrayList<>(RagdollCollisionListener.class);
     // *************************************************************************
     // constructors
@@ -119,7 +119,7 @@ public class DynamicAnimControl
      */
     public void addCollisionListener(RagdollCollisionListener listener) {
         Validate.nonNull(listener, "listener");
-        listeners.add(listener);
+        collisionListeners.add(listener);
     }
 
     /**
@@ -181,7 +181,7 @@ public class DynamicAnimControl
     }
 
     /**
-     * Begin blending all links to fully kinematic mode, driven by animation.
+     * Begin blending all links to purely kinematic mode, driven by animation.
      * TODO callback when the transition completes
      * <p>
      * Allowed only when the control IS added to a spatial.
@@ -503,7 +503,7 @@ public class DynamicAnimControl
     }
 
     /**
-     * Immediately put all links into fully kinematic mode.
+     * Immediately put all links into purely kinematic mode.
      * <p>
      * Allowed only when the control IS added to a spatial.
      */
@@ -518,7 +518,7 @@ public class DynamicAnimControl
     }
 
     /**
-     * Immediately put all links into fully dynamic mode with gravity.
+     * Immediately put all links into dynamic mode with gravity.
      * <p>
      * Allowed only when the control IS added to a spatial.
      */
@@ -565,7 +565,7 @@ public class DynamicAnimControl
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        listeners = cloner.clone(listeners);
+        collisionListeners = cloner.clone(collisionListeners);
     }
 
     /**
@@ -651,7 +651,7 @@ public class DynamicAnimControl
         /*
          * Dispatch an event.
          */
-        for (RagdollCollisionListener listener : listeners) {
+        for (RagdollCollisionListener listener : collisionListeners) {
             listener.collide(physicsLink, otherPco, event);
         }
     }
