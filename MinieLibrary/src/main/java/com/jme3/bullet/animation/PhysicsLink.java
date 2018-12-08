@@ -133,8 +133,8 @@ abstract public class PhysicsLink
      * @param localOffset the location of the body's center (in the bone's local
      * coordinates, not null, unaffected)
      */
-    PhysicsLink(DacPhysicsLinks control, Bone bone,
-            PhysicsRigidBody rigidBody, Vector3f localOffset) {
+    PhysicsLink(DacPhysicsLinks control, Bone bone, PhysicsRigidBody rigidBody,
+            Vector3f localOffset) {
         assert control != null;
         assert bone != null;
         assert rigidBody != null;
@@ -150,7 +150,6 @@ abstract public class PhysicsLink
         this.rigidBody = rigidBody;
         this.localOffset = localOffset.clone();
 
-        kinematicWeight = 1f;
         rigidBody.setKinematic(true);
         rigidBody.setUserObject(this);
     }
@@ -238,7 +237,7 @@ abstract public class PhysicsLink
     /**
      * Test whether the link is in kinematic mode.
      *
-     * @return true if kinematic, or false if entirely dynamic
+     * @return true if kinematic, or false if purely dynamic
      */
     public boolean isKinematic() {
         if (kinematicWeight > 0f) {
@@ -260,7 +259,7 @@ abstract public class PhysicsLink
     /**
      * Read the kinematic weight of this link.
      *
-     * @return 0 if entirely dynamic, 1 if entirely kinematic
+     * @return 0 if purely dynamic, 1 if purely kinematic
      */
     public float kinematicWeight() {
         assert kinematicWeight >= 0f : kinematicWeight;
@@ -289,7 +288,8 @@ abstract public class PhysicsLink
     abstract public String name();
 
     /**
-     * Calculate a physics transform for the rigid body.
+     * Calculate a physics transform for the rigid body (to match the skeleton
+     * bone).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the calculated transform (in physics-space coordinates, either
@@ -321,7 +321,7 @@ abstract public class PhysicsLink
     }
 
     /**
-     * Internal callback, invoked just before the physics is stepped.
+     * Internal callback, invoked just BEFORE the physics is stepped.
      */
     void prePhysicsTick() {
         if (isKinematic()) {
@@ -348,9 +348,8 @@ abstract public class PhysicsLink
                     "The control is not ready for dynamic mode.");
         }
 
-        kinematicWeight = 0f;
+        setKinematicWeight(0f);
         rigidBody.setGravity(uniformAcceleration);
-        rigidBody.setKinematic(false);
     }
 
     /**
@@ -372,7 +371,7 @@ abstract public class PhysicsLink
     // new protected methods
 
     /**
-     * Begin blending this link to a fully kinematic mode.
+     * Begin blending this link to a purely kinematic mode.
      *
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
@@ -381,8 +380,7 @@ abstract public class PhysicsLink
         assert blendInterval >= 0f : blendInterval;
 
         this.blendInterval = blendInterval;
-        kinematicWeight = Float.MIN_VALUE; // non-zero to trigger blending
-        rigidBody.setKinematic(true);
+        setKinematicWeight(Float.MIN_VALUE); // non-zero to trigger blending
     }
 
     /**
@@ -403,12 +401,9 @@ abstract public class PhysicsLink
          * If blending, increase the kinematic weight.
          */
         if (blendInterval == 0f) {
-            kinematicWeight = 1f; // done blending
+            setKinematicWeight(1f); // done blending
         } else {
-            kinematicWeight += tpf / blendInterval;
-            if (kinematicWeight > 1f) {
-                kinematicWeight = 1f; // done blending
-            }
+            setKinematicWeight(kinematicWeight + tpf / blendInterval);
         }
     }
 
@@ -472,9 +467,9 @@ abstract public class PhysicsLink
     public void cloneFields(Cloner cloner, Object original) {
         bone = cloner.clone(bone);
         control = cloner.clone(control);
+        children = cloner.clone(children);
         joint = cloner.clone(joint);
         parent = cloner.clone(parent);
-        children = cloner.clone(children);
         rigidBody = cloner.clone(rigidBody);
         localOffset = cloner.clone(localOffset);
     }
@@ -543,5 +538,27 @@ abstract public class PhysicsLink
         oc.write(listChildren(), "children", null);
         oc.write(rigidBody, "rigidBody", null);
         oc.write(localOffset, "offset", new Vector3f());
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Alter the kinematic weight and copy the physics transform and velocity
+     * info as needed.
+     *
+     * @param weight (&ge;0)
+     */
+    private void setKinematicWeight(float weight) {
+        assert weight >= 0f : weight;
+
+        boolean wasKinematic = (kinematicWeight > 0f);
+        kinematicWeight = (weight > 1f) ? 1f : weight;
+        boolean isKinematic = (kinematicWeight > 0f);
+
+        if (wasKinematic && !isKinematic) {
+            rigidBody.setKinematic(false);
+        } else if (isKinematic && !wasKinematic) {
+            rigidBody.setKinematic(true);
+        }
     }
 }
