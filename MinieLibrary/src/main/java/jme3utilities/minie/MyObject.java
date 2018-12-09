@@ -70,15 +70,20 @@ public class MyObject {
      */
     public static String describe(PhysicsRigidBody body) {
         String result;
-        float mass = body.getMass();
         if (body.isStatic()) {
-            result = "sta";
+            result = "Sta";
         } else if (body.isKinematic()) {
-            result = "kin";
+            result = "Kin";
         } else {
-            boolean active = body.isActive();
-            result = String.format("dyn/%f kg/%sactive", mass,
-                    active ? "" : "in");
+            float mass = body.getMass();
+            String massText = String.format("%f", mass);
+            massText = MyString.trimFloat(massText);
+            String activeText = body.isActive() ? "" : "/inactive";
+            result = String.format("Dyn(%s kg)%s", massText, activeText);
+        }
+
+        if (!body.isContactResponse()) {
+            result += "/NOresponse";
         }
 
         return result;
