@@ -164,7 +164,8 @@ public class SixDofJoint extends PhysicsJoint {
      * Instantiate a double-ended SixDofJoint.
      * <p>
      * To be effective, the joint must be added to the physics space of the 2
-     * bodies. Also, the bodies must be dynamic and distinct.
+     * bodies. Also, the bodies must be distinct and at least one of them must
+     * be dynamic.
      *
      * @param nodeA the body for the A end (not null, alias created)
      * @param nodeB the body for the B end (not null, alias created)
