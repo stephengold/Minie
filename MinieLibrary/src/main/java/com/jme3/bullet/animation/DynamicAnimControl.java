@@ -398,28 +398,61 @@ public class DynamicAnimControl
     }
 
     /**
-     * Add an IK joint that will cause the specified link to move until the a
-     * fixed pivot reaches the goal.
+     * Add an IK joint that will cause the specified link to move until its
+     * pivot location coincides with that of the specified goal body.
      *
      * @param link which link to move (not null)
-     * @param pivotInBody the pivot location (in the rigid body's local
+     * @param pivotInLinkBody the pivot location (in the link body's local
+     * coordinates, not null, unaffected)
+     * @param goal the rigid body that represents the goal (alias created)
+     * @param pivotInGoal the pivot location (the goal's local coordinates, not
+     * null, unaffected)
+     * @return a new joint with the link body at the A end and the goal at the B
+     * end (not null)
+     */
+    public PhysicsJoint moveToBody(PhysicsLink link, Vector3f pivotInLinkBody,
+            PhysicsRigidBody goal, Vector3f pivotInGoal) {
+        Validate.nonNull(pivotInLinkBody, "pivot in link body");
+        Validate.nonNull(goal, "goal");
+        Validate.nonNull(pivotInGoal, "pivot in goal");
+
+        PhysicsRigidBody linkBody = link.getRigidBody();
+        Point2PointJoint newJoint = new Point2PointJoint(linkBody, goal,
+                pivotInLinkBody, pivotInGoal);
+
+        linkBody.addJoint(newJoint);
+        goal.addJoint(newJoint);
+        getPhysicsSpace().add(newJoint);
+
+        assert newJoint.getBodyA() == linkBody;
+        return newJoint;
+    }
+
+    /**
+     * Add an IK joint that will cause the specified link to move until a fixed
+     * pivot location coincides with the specified goal location.
+     *
+     * @param link which link to move (not null)
+     * @param pivotInLinkBody the pivot location (in the link body's local
      * coordinates, not null, unaffected)
      * @param goalInWorld the goal location (in physics-space coordinates, not
      * null, unaffected)
-     * @return a new joint (not null)
+     * @return a new joint with the link body at the A end (not null)
      */
-    public PhysicsJoint moveToWorld(PhysicsLink link, Vector3f pivotInBody,
+    public PhysicsJoint moveToWorld(PhysicsLink link, Vector3f pivotInLinkBody,
             Vector3f goalInWorld) {
-        Validate.nonNull(pivotInBody, "pivot location");
+        Validate.nonNull(pivotInLinkBody, "pivot in link body");
         Validate.nonNull(goalInWorld, "goal location");
 
-        PhysicsRigidBody rigidBody = link.getRigidBody();
-        Point2PointJoint moveJoint
-                = new Point2PointJoint(rigidBody, pivotInBody, goalInWorld);
-        rigidBody.addJoint(moveJoint);
-        getPhysicsSpace().add(moveJoint);
+        PhysicsRigidBody linkBody = link.getRigidBody();
+        Point2PointJoint newJoint
+                = new Point2PointJoint(linkBody, pivotInLinkBody, goalInWorld);
 
-        return moveJoint;
+        linkBody.addJoint(newJoint);
+        getPhysicsSpace().add(newJoint);
+
+        assert newJoint.getBodyA() == linkBody;
+        return newJoint;
     }
 
     /**
@@ -429,24 +462,23 @@ public class DynamicAnimControl
      * @param link which link to pin (not null)
      * @param pivotInWorld the pivot location (in physics-space coordinates, not
      * null, unaffected)
-     * @return a new joint (not null)
+     * @return a new joint with the link body at the A end (not null)
      */
     public PhysicsJoint pinToWorld(PhysicsLink link, Vector3f pivotInWorld) {
         Validate.nonNull(pivotInWorld, "pivot location");
 
-        PhysicsRigidBody rigidBody = link.getRigidBody();
-
+        PhysicsRigidBody linkBody = link.getRigidBody();
         Transform localToWorld = link.physicsTransform(null);
         localToWorld.setScale(1f);
         Vector3f pivotInBody
                 = localToWorld.transformInverseVector(pivotInWorld, null);
+        Point2PointJoint newJoint = new Point2PointJoint(linkBody, pivotInBody);
 
-        Point2PointJoint pinJoint
-                = new Point2PointJoint(rigidBody, pivotInBody);
-        rigidBody.addJoint(pinJoint);
-        getPhysicsSpace().add(pinJoint);
+        linkBody.addJoint(newJoint);
+        getPhysicsSpace().add(newJoint);
 
-        return pinJoint;
+        assert newJoint.getBodyA() == linkBody;
+        return newJoint;
     }
 
     /**
