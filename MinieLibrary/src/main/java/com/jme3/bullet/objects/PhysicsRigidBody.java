@@ -524,16 +524,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Test whether this body has been deactivated due to lack of motion. TODO
-     * move to PhysicsCollisionObject
-     *
-     * @return true if still active, false if deactivated
-     */
-    public boolean isActive() {
-        return isActive(objectId);
-    }
-
-    /**
      * Test whether this body is added to any physics space.
      *
      * @return true&rarr;in a space, false&rarr;not in a space
@@ -1189,8 +1179,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
             Matrix3f storeResult);
 
     native private float getRestitution(long objectId);
-
-    native private boolean isActive(long objectId);
 
     native private boolean isInWorld(long objectId);
 
