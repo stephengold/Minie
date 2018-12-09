@@ -62,6 +62,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -480,23 +481,23 @@ public class PhysicsSpace {
     }
 
     /**
-     * Copy the list of physics characters that have been added to this space
-     * and not yet removed.
+     * Copy the set of physics characters that have been added to this space and
+     * not yet removed.
      *
-     * @return a new list (not null)
+     * @return a new set (not null)
      */
     public Collection<PhysicsCharacter> getCharacterList() {
-        return new LinkedList<>(physicsCharacters.values());
+        return new TreeSet<>(physicsCharacters.values());
     }
 
     /**
-     * Copy the list of ghost objects that have been added to this space and not
+     * Copy the set of ghost objects that have been added to this space and not
      * yet removed.
      *
-     * @return a new list (not null)
+     * @return a new set (not null)
      */
     public Collection<PhysicsGhostObject> getGhostObjectList() {
-        return new LinkedList<>(physicsGhostObjects.values());
+        return new TreeSet<>(physicsGhostObjects.values());
     }
 
     /**
@@ -513,13 +514,13 @@ public class PhysicsSpace {
     }
 
     /**
-     * Copy the list of physics joints that have been added to this space and
-     * not yet removed.
+     * Copy the set of physics joints that have been added to this space and not
+     * yet removed.
      *
-     * @return a new list (not null)
+     * @return a new set (not null)
      */
     public Collection<PhysicsJoint> getJointList() {
-        return new LinkedList<>(physicsJoints.values());
+        return new TreeSet<>(physicsJoints.values());
     }
 
     /**
@@ -544,13 +545,13 @@ public class PhysicsSpace {
     }
 
     /**
-     * Copy the list of rigid bodies that have been added to this space and not
+     * Copy the set of rigid bodies that have been added to this space and not
      * yet removed.
      *
-     * @return a new list (not null)
+     * @return a new set (not null)
      */
     public Collection<PhysicsRigidBody> getRigidBodyList() {
-        return new LinkedList<>(physicsBodies.values());
+        return new TreeSet<>(physicsBodies.values());
     }
 
     /**
@@ -572,13 +573,13 @@ public class PhysicsSpace {
     }
 
     /**
-     * Copy the list of physics vehicles that have been added to this space and
+     * Copy the set of physics vehicles that have been added to this space and
      * not yet removed.
      *
-     * @return a new list (not null)
+     * @return a new set (not null)
      */
     public Collection<PhysicsVehicle> getVehicleList() {
-        return new LinkedList<>(physicsVehicles.values());
+        return new TreeSet<>(physicsVehicles.values());
     }
 
     /**
