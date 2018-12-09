@@ -153,7 +153,7 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Dump the specified joint.
+     * Dump the specified joint. TODO move guts to PhysicsDescriber
      *
      * @param joint the joint to dump (not null, unaffected)
      */
@@ -170,13 +170,34 @@ public class PhysicsDumper extends Dumper {
             stream.print(" DISABLED");
         }
 
-        long aId = joint.getBodyA().getObjectId();
-        stream.printf(" a=%s", Long.toHexString(aId));
+        int numDyn = 0;
+
+        PhysicsRigidBody bodyA = joint.getBodyA();
+        if (bodyA != null) {
+            long aId = joint.getBodyA().getObjectId();
+            stream.printf(" a=%s", Long.toHexString(aId));
+            if (!bodyA.isInWorld()) {
+                stream.print("(NOT IN WORLD)");
+            }
+            if (!bodyA.isStatic() && !bodyA.isKinematic()) {
+                ++numDyn;
+            }
+        }
 
         PhysicsRigidBody bodyB = joint.getBodyB();
         if (bodyB != null) {
             long bId = bodyB.getObjectId();
             stream.printf(" b=%s", Long.toHexString(bId));
+            if (!bodyB.isInWorld()) {
+                stream.print("_NOT_IN_WORLD)");
+            }
+            if (!bodyB.isStatic() && !bodyB.isKinematic()) {
+                ++numDyn;
+            }
+        }
+
+        if (numDyn == 0) {
+            stream.printf("NO_DYNAMIC_BODY");
         }
 
         float bit = joint.getBreakingImpulseThreshold();
@@ -210,18 +231,23 @@ public class PhysicsDumper extends Dumper {
         if (!MyQuaternion.isRotationIdentity(orientation)) {
             stream.printf(" orient=%s", orientation);
         }
-
+        // TODO velocity, gravity, sleep thresholds, etc.
+        /*
+         * 2nd line has the shape and the number of joints.
+         */
         CollisionShape shape = body.getCollisionShape();
         PhysicsDescriber describer = getDescriber();
         desc = describer.describe(shape);
-        stream.printf("%n   shape=%s", desc);
+        stream.printf("%n   %s", desc);
 
         Vector3f scale = shape.getScale(null);
         desc = describer.describeScale(scale);
         if (!desc.isEmpty()) {
             stream.print(" " + desc);
         }
-
+        /*
+         * Each joint has its own line in the dump.
+         */
         PhysicsJoint[] joints = body.listJoints();
         stream.printf(" joints=%d", joints.length);
         if (joints.length > 0) {
@@ -304,8 +330,8 @@ public class PhysicsDumper extends Dumper {
         int rayTestFlags = space.getRayTestFlags();
         PhysicsDescriber describer = getDescriber();
         String rtText = describer.describeRayTestFlags(rayTestFlags);
-        Vector3f worldMax = space.getWorldMax(null);
-        Vector3f worldMin = space.getWorldMin(null);
+        Vector3f worldMax = space.getWorldMax(null); // TODO trim
+        Vector3f worldMin = space.getWorldMin(null); // TODO trim
         stream.printf(" iters=%d, rayTest=(%s), wMin=%s, wMax=%s%n",
                 numIterations, rtText, worldMin, worldMax);
 
