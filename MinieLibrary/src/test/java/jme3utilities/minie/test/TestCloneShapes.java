@@ -36,6 +36,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
@@ -103,14 +104,18 @@ public class TestCloneShapes {
         assert compoundClone.getMargin() == 0.04f;
         compound.setMargin(0.13f);
         assert compoundClone.getMargin() == 0.04f;
-
+        /*
+         * Cone
+         */
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
         CollisionShape coneClone = (CollisionShape) Misc.deepCopy(cone);
         assert coneClone.getObjectId() != cone.getObjectId();
         assert coneClone.getMargin() == 0.04f;
         cone.setMargin(0.14f);
         assert coneClone.getMargin() == 0.04f;
-
+        /*
+         * Cylinder
+         */
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
         CollisionShape cylinderClone = (CollisionShape) Misc.deepCopy(cylinder);
@@ -118,7 +123,18 @@ public class TestCloneShapes {
         assert cylinderClone.getMargin() == 0.04f;
         cylinder.setMargin(0.15f);
         assert cylinderClone.getMargin() == 0.04f;
-
+        /*
+         * Empty
+         */
+        CollisionShape empty = new EmptyShape(true);
+        CollisionShape emptyClone = (CollisionShape) Misc.deepCopy(empty);
+        assert emptyClone.getObjectId() != empty.getObjectId();
+        assert emptyClone.getMargin() == 0.04f;
+        empty.setMargin(0.155f);
+        assert emptyClone.getMargin() == 0.04f;
+        /*
+         * GImpact
+         */
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
         Node model = (Node) assetManager.loadModel(key);
         Geometry geo = (Geometry) model.getChild(0);

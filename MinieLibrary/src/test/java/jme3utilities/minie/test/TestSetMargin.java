@@ -36,6 +36,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
@@ -90,24 +91,39 @@ public class TestSetMargin {
         assert capsule.getMargin() == 0f;
         capsule.setMargin(0.12f); // cannot alter margin
         assert capsule.getMargin() == 0f;
-
+        /*
+         * Compound
+         */
         CompoundCollisionShape compound = new CompoundCollisionShape();
         compound.addChildShape(capsule, new Vector3f(0f, 1f, 0f));
         assert compound.getMargin() == 0.04f;
         compound.setMargin(0.13f);
         assert compound.getMargin() == 0.13f;
-
+        /*
+         * Cone
+         */
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
         assert cone.getMargin() == 0.04f;
         cone.setMargin(0.14f);
         assert cone.getMargin() == 0.14f;
-
+        /*
+         * Cylinder
+         */
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
         assert cylinder.getMargin() == 0.04f;
         cylinder.setMargin(0.15f);
         assert cylinder.getMargin() == 0.15f;
-
+        /*
+         * Empty
+         */
+        CollisionShape empty = new EmptyShape(true);
+        assert empty.getMargin() == 0.04f;
+        empty.setMargin(0.155f);
+        assert empty.getMargin() == 0.155f;
+        /*
+         * GImpact
+         */
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
         Node model = (Node) assetManager.loadModel(key);
         Geometry geo = (Geometry) model.getChild(0);

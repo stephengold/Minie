@@ -16,6 +16,7 @@ Summary of features:
     + deals with attachments
     + highly configurable, with multiple options for bone mass, center, and shape
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
+ + `EmptyShape` collision shapes based on `btEmptyShape`
  + enhanced debug visualization:
     + customize debug material per collision object
     + dump contents of physics space

@@ -36,6 +36,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
@@ -106,12 +107,16 @@ public class TestSetScale {
         assert compound.getScale(null).equals(non);
         compound.setScale(non2);
         assert compound.getScale(null).equals(non2);
-
+        /*
+         * Cone
+         */
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
         assert cone.getScale(null).equals(ident);
         cone.setScale(uni);
         assert cone.getScale(null).equals(uni);
-
+        /*
+         * Cylinder
+         */
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(3f, 3f, 3f));
         assert cylinder.getScale(null).equals(ident);
@@ -119,7 +124,20 @@ public class TestSetScale {
         assert cylinder.getScale(null).equals(uni);
         cylinder.setScale(non);
         assert cylinder.getScale(null).equals(non);
-
+        /*
+         * Empty
+         */
+        CollisionShape empty = new EmptyShape(true);
+        assert empty.getScale(null).equals(ident);
+        empty.setScale(uni);
+        assert empty.getScale(null).equals(uni);
+        empty.setScale(non);
+        assert empty.getScale(null).equals(non);
+        empty.setScale(non2);
+        assert empty.getScale(null).equals(non2);
+        /*
+         * GImpact
+         */
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
         Node model = (Node) assetManager.loadModel(key);
         Geometry geo = (Geometry) model.getChild(0);
