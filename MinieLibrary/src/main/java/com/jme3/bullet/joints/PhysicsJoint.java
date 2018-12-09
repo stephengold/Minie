@@ -59,7 +59,7 @@ import jme3utilities.Validate;
  * @author normenhansen
  */
 abstract public class PhysicsJoint
-        implements JmeCloneable, Savable {
+        implements Comparable<PhysicsJoint>, JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -495,6 +495,23 @@ abstract public class PhysicsJoint
         capsule.write(getBreakingImpulseThreshold(), "breakingImpulseThreshold",
                 Float.MAX_VALUE);
         capsule.write(isEnabled(), "isEnabled", true);
+    }
+    // *************************************************************************
+    // Comparable methods
+
+    /**
+     * Compare (by ID) with another joint.
+     *
+     * @param otherJoint (not null, unaffected)
+     * @return 0 if this joint equals other joint; negative if this comes before
+     * otherJoint; positive if this comes after otherJoint
+     */
+    @Override
+    public int compareTo(PhysicsJoint otherJoint) {
+        long otherId = otherJoint.getObjectId();
+        int result = Long.compare(objectId, otherId);
+
+        return result;
     }
     // *************************************************************************
     // Object methods
