@@ -1008,6 +1008,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         setLinearDamping(old.getLinearDamping());
         setLinearFactor(old.getLinearFactor(null));
         setLinearSleepingThreshold(old.getLinearSleepingThreshold());
+        setLinearVelocity(old.getLinearVelocity(null));
         setPhysicsLocation(old.getPhysicsLocation(null));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
         setRestitution(old.getRestitution());
@@ -1050,15 +1051,10 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         setKinematic(capsule.readBoolean("kinematic", false));
 
         setRestitution(capsule.readFloat("restitution", 0f));
-        Vector3f angularFactor = (Vector3f) capsule.readSavable("angularFactor",
-                null);
-        if (angularFactor == null) {
-            setAngularFactor(capsule.readFloat("angularFactor", 1f));
-        } else {
-            setAngularFactor(angularFactor);
-            setLinearFactor((Vector3f) capsule.readSavable("linearFactor",
-                    Vector3f.UNIT_XYZ.clone()));
-        }
+        setAngularFactor((Vector3f) capsule.readSavable("angularFactor",
+                Vector3f.UNIT_XYZ.clone()));
+        setLinearFactor((Vector3f) capsule.readSavable("linearFactor",
+                Vector3f.UNIT_XYZ.clone()));
         setDamping(capsule.readFloat("linearDamping", 0f),
                 capsule.readFloat("angularDamping", 0f));
         setSleepingThresholds(
@@ -1068,9 +1064,13 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
 
         setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
-                new Vector3f()));
+                Vector3f.ZERO.clone()));
         setPhysicsRotation((Matrix3f) capsule.readSavable("physicsRotation",
-                new Matrix3f()));
+                Matrix3f.ZERO.clone()));
+        setLinearVelocity((Vector3f) capsule.readSavable("linearVelocity",
+                Vector3f.ZERO.clone()));
+        setAngularVelocity((Vector3f) capsule.readSavable("angularVelocity",
+                Vector3f.ZERO.clone()));
 
         joints = capsule.readSavableArrayList("joints", null);
     }
@@ -1089,19 +1089,11 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         capsule.write(getMass(), "mass", 1f);
 
         capsule.write(isContactResponse(), "contactResponse", true);
-        capsule.write(getGravity(null), "gravity", Vector3f.ZERO);
+        capsule.write(getGravity(null), "gravity", null);
         capsule.write(getFriction(), "friction", 0.5f);
         capsule.write(getRestitution(), "restitution", 0f);
-        Vector3f angularFactor = getAngularFactor(null);
-        if (angularFactor.x == angularFactor.y
-                && angularFactor.y == angularFactor.z) {
-            capsule.write(getAngularFactor(), "angularFactor", 1f);
-        } else {
-            capsule.write(getAngularFactor(null), "angularFactor",
-                    Vector3f.UNIT_XYZ);
-            capsule.write(getLinearFactor(null), "linearFactor",
-                    Vector3f.UNIT_XYZ);
-        }
+        capsule.write(getAngularFactor(null), "angularFactor", null);
+        capsule.write(getLinearFactor(null), "linearFactor", null);
         capsule.write(kinematic, "kinematic", false);
 
         capsule.write(getLinearDamping(), "linearDamping", 0f);
@@ -1114,10 +1106,10 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
         capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
 
-        capsule.write(getPhysicsLocation(new Vector3f()), "physicsLocation",
-                new Vector3f());
-        capsule.write(getPhysicsRotationMatrix(new Matrix3f()),
-                "physicsRotation", new Matrix3f());
+        capsule.write(getPhysicsLocation(null), "physicsLocation", null);
+        capsule.write(getPhysicsRotationMatrix(null), "physicsRotation", null);
+        capsule.write(getLinearVelocity(null), "linearVelocity", null);
+        capsule.write(getAngularVelocity(null), "angularVelocity", null);
 
         capsule.writeSavableArrayList(joints, "joints", null);
     }
