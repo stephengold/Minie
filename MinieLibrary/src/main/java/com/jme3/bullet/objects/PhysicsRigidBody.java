@@ -684,9 +684,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     public void setContactResponse(boolean newState) {
         int flags = getCollisionFlags(objectId);
         if (newState) {
-            flags &= ~CollisionFlag.noContactResponse;
+            flags &= ~CollisionFlag.NO_CONTACT_RESPONSE;
         } else {
-            flags |= CollisionFlag.noContactResponse;
+            flags |= CollisionFlag.NO_CONTACT_RESPONSE;
         }
         setCollisionFlags(objectId, flags);
 
@@ -810,9 +810,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
             }
             int flags = getCollisionFlags(objectId);
             if (mass == massForStatic) {
-                flags |= CollisionFlag.staticObject;
+                flags |= CollisionFlag.STATIC_OBJECT;
             } else {
-                flags &= ~CollisionFlag.staticObject;
+                flags &= ~CollisionFlag.STATIC_OBJECT;
             }
             setCollisionFlags(objectId, flags);
         }
@@ -932,9 +932,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     protected void postRebuild() {
         int flags = getCollisionFlags(objectId);
         if (mass == massForStatic) {
-            flags |= CollisionFlag.staticObject;
+            flags |= CollisionFlag.STATIC_OBJECT;
         } else {
-            flags &= ~CollisionFlag.staticObject;
+            flags &= ~CollisionFlag.STATIC_OBJECT;
         }
         setCollisionFlags(objectId, flags);
 

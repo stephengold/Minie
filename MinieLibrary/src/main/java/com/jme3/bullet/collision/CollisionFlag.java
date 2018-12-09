@@ -37,7 +37,7 @@ import java.util.logging.Logger;
  * Named collision flags for a PhysicsCollisionObject.
  *
  * @author Stephen Gold sgold@sonic.net
- * @see PhysicsCollisionObject#setCollisionFlags(long, int)
+ * @see PhysicsCollisionObject#getCollisionFlags(long)
  */
 public class CollisionFlag {
     // *************************************************************************
@@ -46,50 +46,50 @@ public class CollisionFlag {
     /**
      * flag for a static object
      */
-    final public static int staticObject = 0x0001;
+    final public static int STATIC_OBJECT = 0x1;
     /**
      * flag for a kinematic object
      */
-    final public static int kinematicObject = 0x0002;
+    final public static int KINEMATIC_OBJECT = 0x2;
     /**
      * flag for an object with no contact response, such as a PhysicsGhostObject
      */
-    final public static int noContactResponse = 0x0004;
+    final public static int NO_CONTACT_RESPONSE = 0x4;
     /**
      * flag to enable a custom material callback for per-triangle
      * friction/restitution (not supported by Minie)
      */
-    final public static int customMaterialCallback = 0x0008;
+    final public static int CUSTOM_MATERIAL_CALLBACK = 0x8;
     /**
      * flag for a character object, such as a PhysicsCharacter
      */
-    final public static int characterObject = 0x0010;
+    final public static int CHARACTER_OBJECT = 0x10;
     /**
      * flag to disable debug visualization (not supported by Minie)
      */
-    final public static int disableVisualizeObject = 0x0020;
+    final public static int DISABLE_VISUALIZE_OBJECT = 0x20;
     /**
      * flag to disable parallel/SPU processing (not supported by Minie)
      */
-    final public static int disableSpuCollisionProcessing = 0x0040;
+    final public static int DISABLE_SPU_COLLISION_PROCESSING = 0x40;
     /**
      * flag not supported by Minie
      */
-    final public static int hasContactStiffnessDamping = 0x0080;
+    final public static int HAS_CONTACT_STIFFNESS_DAMPING = 0x80;
     /**
      * flag not supported by Minie: use
      * {@link PhysicsCollisionObject#setDebugMaterial(com.jme3.material.Material)}
      * instead
      */
-    final public static int hasCustomDebugRenderingColor = 0x0100;
+    final public static int HAS_CUSTOM_DEBUG_RENDERING_COLOR = 0x100;
     /**
      * flag not supported by Minie
      */
-    final public static int hasFrictionAnchor = 0x0200;
+    final public static int HAS_FRICTION_ANCHOR = 0x200;
     /**
      * flag not supported by Minie
      */
-    final public static int hasCollisionSoundTrigger = 0x0400;
+    final public static int HAS_COLLISION_SOUND_TRIGGER = 0x400;
     /**
      * message logger for this class
      */

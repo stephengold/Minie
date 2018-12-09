@@ -294,7 +294,7 @@ abstract public class PhysicsCollisionObject
      */
     public boolean isContactResponse() {
         int flags = getCollisionFlags(objectId);
-        boolean result = (flags & CollisionFlag.noContactResponse) == 0x0;
+        boolean result = (flags & CollisionFlag.NO_CONTACT_RESPONSE) == 0x0;
         return result;
     }
 
@@ -305,7 +305,7 @@ abstract public class PhysicsCollisionObject
      */
     public boolean isStatic() {
         int flags = getCollisionFlags(objectId);
-        boolean result = (flags & CollisionFlag.staticObject) != 0x0;
+        boolean result = (flags & CollisionFlag.STATIC_OBJECT) != 0x0;
         return result;
     }
 
