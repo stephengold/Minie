@@ -40,7 +40,7 @@ import jme3utilities.Misc;
 import org.junit.Test;
 
 /**
- * Test cloning a rigid body and all its subclasses.
+ * Test cloning on PhysicsRigidBody and all its subclasses.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -128,6 +128,7 @@ public class TestCloneBody {
         body.setPhysicsRotation(matrix);
 
         body.setRestitution(b + 0.25f);
+        body.setLinearVelocity(new Vector3f(b + 0.26f, b + 0.27f, b + 0.28f));
     }
 
     private void verifyParameters(PhysicsRigidBody body, float b) {
@@ -140,32 +141,32 @@ public class TestCloneBody {
         assert body.getAngularSleepingThreshold() == b + 0.03f;
 
         Vector3f w = body.getAngularVelocity(null);
-        assert w.x == b + 0.04f : w.x;
-        assert w.y == b + 0.05f : w.y;
-        assert w.z == b + 0.06f : w.z;
+        assert w.x == b + 0.04f : w;
+        assert w.y == b + 0.05f : w;
+        assert w.z == b + 0.06f : w;
 
         assert body.getCcdMotionThreshold() == b + 0.07f;
         assert body.getCcdSweptSphereRadius() == b + 0.08f;
         assert body.getFriction() == b + 0.09f;
 
         Vector3f g = body.getGravity(null);
-        assert g.x == b + 0.10f : g.x;
-        assert g.y == b + 0.11f : g.y;
-        assert g.z == b + 0.12f : g.z;
+        assert g.x == b + 0.10f : g;
+        assert g.y == b + 0.11f : g;
+        assert g.z == b + 0.12f : g;
 
         assert body.getLinearDamping() == b + 0.13f;
 
         Vector3f f = body.getLinearFactor(null);
-        assert f.x == b + 0.14f : g.x;
-        assert f.y == b + 0.15f : g.y;
-        assert f.z == b + 0.16f : g.z;
+        assert f.x == b + 0.14f : f;
+        assert f.y == b + 0.15f : f;
+        assert f.z == b + 0.16f : f;
 
         assert body.getLinearSleepingThreshold() == b + 0.17f;
 
         Vector3f x = body.getPhysicsLocation(null);
-        assert x.x == b + 0.18f : x.x;
-        assert x.y == b + 0.19f : x.y;
-        assert x.z == b + 0.20f : x.z;
+        assert x.x == b + 0.18f : x;
+        assert x.y == b + 0.19f : x;
+        assert x.z == b + 0.20f : x;
 
         Quaternion orient
                 = new Quaternion(b + 0.21f, b + 0.22f, b + 0.23f, b + 0.24f);
@@ -175,5 +176,10 @@ public class TestCloneBody {
         assert m.equals(matrix);
 
         assert body.getRestitution() == b + 0.25f;
+
+        Vector3f v = body.getLinearVelocity(null);
+        assert v.x == b + 0.26f : v;
+        assert v.y == b + 0.27f : v;
+        assert v.z == b + 0.28f : v;
     }
 }
