@@ -57,7 +57,7 @@ import jme3utilities.Validate;
  * @author normenhansen
  */
 abstract public class PhysicsCollisionObject
-        implements JmeCloneable, Savable {
+        implements Comparable<PhysicsCollisionObject>, JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -279,6 +279,15 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Test whether this object has been deactivated due to lack of motion.
+     *
+     * @return true if object still active, false if deactivated
+     */
+    public boolean isActive() {
+        return isActive(objectId);
+    }
+
+    /**
      * Test whether this object responds to contact with other objects.
      *
      * @return true if responsive, otherwise false
@@ -445,6 +454,23 @@ abstract public class PhysicsCollisionObject
      */
     native protected void setCollisionFlags(long objectId, int desiredFlags);
     // *************************************************************************
+    // Comparable methods
+
+    /**
+     * Compare (by ID) with another collision object.
+     *
+     * @param other (not null, unaffected)
+     * @return 0 if the objects are equal; negative if this comes before other;
+     * positive if this comes after other
+     */
+    @Override
+    public int compareTo(PhysicsCollisionObject other) {
+        long otherId = other.getObjectId();
+        int result = Long.compare(objectId, otherId);
+
+        return result;
+    }
+    // *************************************************************************
     // JmeCloneable methods
 
     /**
@@ -547,6 +573,8 @@ abstract public class PhysicsCollisionObject
     native private void activate(long objectId, boolean forceFlag);
 
     native private void initUserPointer(long objectId, int group, int groups);
+
+    native private boolean isActive(long objectId);
 
     native private void setCollideWithGroups(long objectId,
             int collisionGroups);
