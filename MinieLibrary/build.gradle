@@ -14,8 +14,8 @@ javadocJar { baseName project.ext.baseName }
 sourcesJar { baseName project.ext.baseName }
 
 dependencies {
-    compile "jme3utilities:jme3-utilities-heart:2.15.0"
-    compile "jme3utilities:jme3-utilities-debug:0.9.6"
+    compile "jme3utilities:jme3-utilities-heart:2.16.0"
+    compile "jme3utilities:jme3-utilities-debug:0.9.7"
     testCompile 'junit:junit:4.12'
     testCompile "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     testRuntime 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
@@ -23,7 +23,7 @@ dependencies {
 
 compileJava.options.headerOutputDirectory = new File('build/cpp')
 
-test { forkEvery 1 }
+test { forkEvery 1 } // don't run tests in parallel
 
 // cleanup tasks
 clean { dependsOn 'cleanDLLs', 'cleanSOs' }
