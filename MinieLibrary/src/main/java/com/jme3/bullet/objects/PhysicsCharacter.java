@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.objects;
 
+import com.jme3.bullet.collision.CollisionFlag;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.export.InputCapsule;
@@ -232,9 +233,9 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy the location of this character's center.
+     * For compatability with the jme3-bullet library.
      *
-     * @return a new location vector (not null)
+     * @return a new location vector (in physics-space coordinates, not null)
      */
     public Vector3f getPhysicsLocation() {
         return getPhysicsLocation(null);
@@ -244,12 +245,14 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * Copy the location of this character's center.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the location vector (either storeResult or a new vector, not
-     * null)
+     * @return a location vector (in physics-space coordinates, either
+     * storeResult or a new vector, not null)
      */
     public Vector3f getPhysicsLocation(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         getPhysicsLocation(objectId, result);
+
+        assert Vector3f.isValidVector(result);
         return result;
     }
 
@@ -263,7 +266,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy the character's walk offset.
+     * Copy the character's walk offset. TODO standardize
      *
      * @return a new offset vector (not null)
      */
@@ -350,6 +353,22 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         } else {
             attachCollisionShape(objectId, collisionShape.getObjectId());
         }
+    }
+
+    /**
+     * Enable/disable this character's contact response.
+     *
+     * @param newState true to respond to contacts, false to ignore it
+     * (default=true)
+     */
+    public void setContactResponse(boolean newState) {
+        int flags = getCollisionFlags(objectId);
+        if (newState) {
+            flags &= ~CollisionFlag.NO_CONTACT_RESPONSE;
+        } else {
+            flags |= CollisionFlag.NO_CONTACT_RESPONSE;
+        }
+        setCollisionFlags(objectId, flags);
     }
 
     /**
@@ -490,6 +509,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setAngularVelocity(old.getAngularVelocity(null));
         setCcdMotionThreshold(old.getCcdMotionThreshold());
         setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
+        setContactResponse(old.isContactResponse());
         setFallSpeed(old.getFallSpeed());
         setGravity(old.getGravity(null));
         setJumpSpeed(old.getJumpSpeed());
@@ -525,15 +545,18 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * De-serialize this character from the specified importer, for example when
      * loading from a J3O file.
      *
-     * @param im importer (not null)
+     * @param im the importer (not null)
      * @throws IOException from importer
      */
     @Override
     public void read(JmeImporter im) throws IOException {
         super.read(im);
+
         InputCapsule capsule = im.getCapsule(this);
         stepHeight = capsule.readFloat("stepHeight", 1f);
         buildObject();
+
+        setContactResponse(capsule.readBoolean("contactResponse", true));
         Vector3f tmp = (Vector3f) capsule.readSavable("gravityVector",
                 new Vector3f(0f, -9.81f, 0f));
         setGravity(tmp);
@@ -549,13 +572,15 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Serialize this character, for example when saving to a J3O file.
      *
-     * @param ex exporter (not null)
+     * @param ex the exporter (not null)
      * @throws IOException from exporter
      */
     @Override
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
+
+        capsule.write(isContactResponse(), "contactResponse", true);
         capsule.write(stepHeight, "stepHeight", 1f);
         capsule.write(getGravity(null), "gravityVector", new Vector3f(0f, -9.81f, 0f));
         capsule.write(getMaxSlope(), "maxSlope", 1f);
