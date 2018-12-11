@@ -79,11 +79,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     // fields TODO re-order
 
     /**
-     * copy of the contact response state: true&rarr;responds to contacts,
-     * false&rarr;doesn't respond (default=true)
-     */
-    private boolean contactResponseState = true;
-    /**
      * copy of kinematic flag: true&rarr;set kinematic mode (spatial controls
      * body), false&rarr;dynamic/static mode (body controls spatial)
      * (default=false)
@@ -689,8 +684,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
             flags |= CollisionFlag.NO_CONTACT_RESPONSE;
         }
         setCollisionFlags(objectId, flags);
-
-        contactResponseState = newState;
     }
 
     /**
