@@ -30,16 +30,12 @@ import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.BetterCharacterControl;
-import com.jme3.bullet.control.GhostControl;
-import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.control.VehicleControl;
-import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Misc;
 import org.junit.Test;
 
 /**
- * Test cloning physics controls.
+ * Test cloning abstract physics controls.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -48,28 +44,12 @@ public class TestClonePhysicsControls {
     // new methods exposed
 
     @Test
-    public void testCloneBody() {
+    public void testClonePhysicsControls() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
         CollisionShape capsule = new SphereCollisionShape(1f);
 
-        RigidBodyControl rbc = new RigidBodyControl(capsule, 1f);
-        RigidBodyControl rbcClone = (RigidBodyControl) Misc.deepCopy(rbc);
-
-        GhostControl gc = new GhostControl(capsule);
-        GhostControl gcClone = (GhostControl) Misc.deepCopy(gc);
-
-        VehicleControl vc = new VehicleControl(capsule);
-        Vector3f wheelDirection = new Vector3f(0, -1, 0);
-        Vector3f wheelAxle = new Vector3f(-1, 0, 0);
-        float radius = 0.5f;
-        float restLength = 0.3f;
-        Vector3f connectionPoint = new Vector3f(0f, 0f, 0f);
-        vc.addWheel(null, connectionPoint,
-                wheelDirection, wheelAxle, restLength, radius, true);
-
-        VehicleControl vcClone = (VehicleControl) Misc.deepCopy(vc);
-
+        float radius = 1f;
         float height = 3f;
         BetterCharacterControl bcc
                 = new BetterCharacterControl(radius, height, 1f);
