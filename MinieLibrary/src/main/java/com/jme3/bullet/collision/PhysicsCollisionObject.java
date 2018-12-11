@@ -288,7 +288,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether this object responds to contact with other objects.
+     * Test whether this object responds to contact with other objects. All
+     * ghost objects are non-responsive. Other types are responsive by default.
      *
      * @return true if responsive, otherwise false
      */

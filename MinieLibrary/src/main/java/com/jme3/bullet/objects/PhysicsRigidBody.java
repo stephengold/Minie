@@ -430,8 +430,8 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      * Copy the location of this body's center of mass.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the location (in physics-space coordinates, either storeResult or
-     * a new vector, not null)
+     * @return a location vector (in physics-space coordinates, either
+     * storeResult or a new vector, not null)
      */
     public Vector3f getPhysicsLocation(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -968,9 +968,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
             PhysicsSpace.getPhysicsSpace().add(this);
         }
     }
-
     // *************************************************************************
     // PhysicsCollisionObject methods
+
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
      * shallow-cloned body into a deep-cloned one, using the specified cloner
@@ -1025,7 +1025,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * De-serialize this body, for example when loading from a J3O file.
      *
-     * @param im importer (not null)
+     * @param im the importer (not null)
      * @throws IOException from importer
      */
     @Override
@@ -1071,7 +1071,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Serialize this body, for example when saving to a J3O file.
      *
-     * @param ex exporter (not null)
+     * @param ex the exporter (not null)
      * @throws IOException from exporter
      */
     @Override
@@ -1080,7 +1080,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         OutputCapsule capsule = ex.getCapsule(this);
 
         capsule.write(getMass(), "mass", 1f);
-
         capsule.write(isContactResponse(), "contactResponse", true);
         capsule.write(getGravity(null), "gravity", null);
         capsule.write(getFriction(), "friction", 0.5f);

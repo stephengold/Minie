@@ -663,10 +663,10 @@ public class TestDac extends ActionApplication {
      * Load the saved model from the J3O file.
      */
     private void load() {
+        ModelKey key = new ModelKey(saveAssetPath);
         /*
          * Remove any copy from the asset manager's cache.
          */
-        ModelKey key = new ModelKey(saveAssetPath);
         assetManager.deleteFromCache(key);
 
         Spatial loadedScene;
