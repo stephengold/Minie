@@ -23,10 +23,12 @@ Summary of features:
     + visualize in multiple viewports
     + hi-res debug meshes for convex shapes
     + options to generate debug meshes with normals
- + joints, shapes, and collision objects are fully `JmeCloneable`
- + single-ended joints
+ + all joints, shapes, and collision objects implement `JmeCloneable`
+ + enable/disable a joint
+ + create single-ended joints
  + settable global default for collision margin
  + fixes for many `jme3-bullet` bugs (including 740, 877, 896, 923, and 938)
+ + access the linear factor of a rigid body
  + improved Javadoc and inline documentation
  + decoupled from the jMonkeyEngine release cycle
  + demo apps provided
@@ -69,7 +71,7 @@ The source code is compatible with JDK 7.
 
 ### History
 
-Since November 2018, the Minie Project has been hosted at
+Since November 2018, the Minie Project has been an independent project at
 [GitHub][minie].
 
 From January 2018 to November 2018, Minie was a sub-project of
