@@ -38,6 +38,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
+import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,7 +70,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     private long characterId = 0L;
 
     private float stepHeight;
-    final private Vector3f walkOffset = new Vector3f();
+    private Vector3f walkOffset = new Vector3f();
     private float fallSpeed = 55f;
     private float jumpSpeed = 10f;
     // *************************************************************************
@@ -172,7 +173,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * Copy this character's gravitational acceleration.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the acceleration vector (either storeResult or a new vector, not
+     * @return an acceleration vector (either storeResult or a new vector, not
      * null)
      */
     public Vector3f getGravity(Vector3f storeResult) {
@@ -262,12 +263,12 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Access the walk offset.
+     * Copy the character's walk offset.
      *
-     * @return the pre-existing instance TODO
+     * @return a new offset vector (not null)
      */
     public Vector3f getWalkDirection() {
-        return walkOffset;
+        return walkOffset.clone();
     }
 
     /**
@@ -319,6 +320,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * disable CCD (default=0)
      */
     public void setCcdMotionThreshold(float threshold) {
+        assert objectId != 0L;
         setCcdMotionThreshold(objectId, threshold);
     }
 
@@ -329,6 +331,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @param radius (&ge;0, default=0)
      */
     public void setCcdSweptSphereRadius(float radius) {
+        assert objectId != 0L;
         setCcdSweptSphereRadius(objectId, radius);
     }
 
@@ -464,7 +467,59 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         warp(characterId, location);
     }
     // *************************************************************************
-    // PhysicsCollisionObject methods - TODO cloneFields(), jmeClone()
+    // PhysicsCollisionObject methods
+
+    /**
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned character into a deep-cloned one, using the specified
+     * cloner and original to resolve copied fields.
+     *
+     * @param cloner the cloner that's cloning this body (not null)
+     * @param original the instance from which this instance was shallow-cloned
+     * (not null, unaffected)
+     */
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        super.cloneFields(cloner, original);
+        characterId = 0L;
+        buildObject();
+        walkOffset = cloner.clone(walkOffset);
+
+        PhysicsCharacter old = (PhysicsCharacter) original;
+        setAngularDamping(old.getAngularDamping());
+        setAngularVelocity(old.getAngularVelocity(null));
+        setCcdMotionThreshold(old.getCcdMotionThreshold());
+        setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
+        setFallSpeed(old.getFallSpeed());
+        setGravity(old.getGravity(null));
+        setJumpSpeed(old.getJumpSpeed());
+        setLinearDamping(old.getLinearDamping());
+        /*
+         * Walk direction affects linear velocity, so set it first!
+         */
+        setWalkDirection(old.getWalkDirection());
+        setLinearVelocity(old.getLinearVelocity(null));
+
+        setMaxPenetrationDepth(old.getMaxPenetrationDepth());
+        setMaxSlope(old.getMaxSlope());
+        setPhysicsLocation(old.getPhysicsLocation(null));
+        setStepHeight(old.getStepHeight());
+    }
+
+    /**
+     * Create a shallow clone for the JME cloner.
+     *
+     * @return a new instance
+     */
+    @Override
+    public PhysicsCharacter jmeClone() {
+        try {
+            PhysicsCharacter clone = (PhysicsCharacter) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 
     /**
      * De-serialize this character from the specified importer, for example when
