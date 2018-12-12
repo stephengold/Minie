@@ -217,21 +217,7 @@ public class SixDofJoint extends PhysicsJoint {
         createJoint();
     }
     // *************************************************************************
-    // new methods exposed TODO re-order
-
-    private void gatherMotors() {
-        assert rotationalMotors == null;
-        assert translationalMotor == null;
-
-        rotationalMotors = new RotationalLimitMotor[3];
-        for (int axisIndex = 0; axisIndex < 3; axisIndex++) {
-            long motorId = getRotationalLimitMotor(objectId, axisIndex);
-            rotationalMotors[axisIndex] = new RotationalLimitMotor(motorId);
-        }
-
-        long motorId = getTranslationalLimitMotor(objectId);
-        translationalMotor = new TranslationalLimitMotor(motorId);
-    }
+    // new methods exposed
 
     /**
      * Copy the joint's lower limits for rotation on all 3 axes.
@@ -294,16 +280,6 @@ public class SixDofJoint extends PhysicsJoint {
     }
 
     /**
-     * Access the TranslationalLimitMotor of this joint, the motor which
-     * influences translation on all 3 axes.
-     *
-     * @return the pre-existing instance
-     */
-    public TranslationalLimitMotor getTranslationalLimitMotor() {
-        return translationalMotor;
-    }
-
-    /**
      * Access the indexed RotationalLimitMotor of this joint, the motor which
      * influences rotation around one axis.
      *
@@ -318,23 +294,23 @@ public class SixDofJoint extends PhysicsJoint {
     }
 
     /**
-     * Alter the joint's upper limits for translation of all 3 axes.
+     * Access the TranslationalLimitMotor of this joint, the motor which
+     * influences translation on all 3 axes.
      *
-     * @param vector the desired upper limits (not null, unaffected)
+     * @return the pre-existing instance
      */
-    public void setLinearUpperLimit(Vector3f vector) {
-        linearUpperLimit.set(vector);
-        setLinearUpperLimit(objectId, vector);
+    public TranslationalLimitMotor getTranslationalLimitMotor() {
+        return translationalMotor;
     }
 
     /**
-     * Alter the joint's lower limits for translation of all 3 axes.
+     * Alter the joint's lower limits for rotation of all 3 axes.
      *
-     * @param vector the desired lower limits (not null, unaffected)
+     * @param vector the desired lower limits (in radians, not null, unaffected)
      */
-    public void setLinearLowerLimit(Vector3f vector) {
-        linearLowerLimit.set(vector);
-        setLinearLowerLimit(objectId, vector);
+    public void setAngularLowerLimit(Vector3f vector) {
+        angularLowerLimit.set(vector);
+        setAngularLowerLimit(objectId, vector);
     }
 
     /**
@@ -348,13 +324,23 @@ public class SixDofJoint extends PhysicsJoint {
     }
 
     /**
-     * Alter the joint's lower limits for rotation of all 3 axes.
+     * Alter the joint's lower limits for translation of all 3 axes.
      *
-     * @param vector the desired lower limits (in radians, not null, unaffected)
+     * @param vector the desired lower limits (not null, unaffected)
      */
-    public void setAngularLowerLimit(Vector3f vector) {
-        angularLowerLimit.set(vector);
-        setAngularLowerLimit(objectId, vector);
+    public void setLinearLowerLimit(Vector3f vector) {
+        linearLowerLimit.set(vector);
+        setLinearLowerLimit(objectId, vector);
+    }
+
+    /**
+     * Alter the joint's upper limits for translation of all 3 axes.
+     *
+     * @param vector the desired upper limits (not null, unaffected)
+     */
+    public void setLinearUpperLimit(Vector3f vector) {
+        linearUpperLimit.set(vector);
+        setLinearUpperLimit(objectId, vector);
     }
 
     /**
@@ -630,6 +616,20 @@ public class SixDofJoint extends PhysicsJoint {
                 Long.toHexString(objectId));
 
         gatherMotors();
+    }
+
+    private void gatherMotors() {
+        assert rotationalMotors == null;
+        assert translationalMotor == null;
+
+        rotationalMotors = new RotationalLimitMotor[3];
+        for (int axisIndex = 0; axisIndex < 3; axisIndex++) {
+            long motorId = getRotationalLimitMotor(objectId, axisIndex);
+            rotationalMotors[axisIndex] = new RotationalLimitMotor(motorId);
+        }
+
+        long motorId = getTranslationalLimitMotor(objectId);
+        translationalMotor = new TranslationalLimitMotor(motorId);
     }
 
     native private void getFrameOffsetA(long jointId, Transform frameInA);
