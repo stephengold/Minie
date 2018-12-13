@@ -45,7 +45,6 @@ import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
@@ -71,19 +70,23 @@ abstract public class PhysicsLink
      */
     final public static Logger logger
             = Logger.getLogger(PhysicsLink.class.getName());
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#ZERO}
-     */
-    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
+    /**
+     * list of controllers for this link's inverse kinematics
+     */
+    private ArrayList<IKController> ikControllers = new ArrayList<>(8);
+    /**
+     * immediate children in the link hierarchy (not null)
+     */
+    private ArrayList<PhysicsLink> children = new ArrayList<>(8);
     /**
      * corresponding bone in the skeleton (not null)
      */
     private Bone bone;
     /**
-     * back pointer to the control that manages this link
+     * scene-graph control that manages this link (not null)
      */
     private DacLinks control;
     /**
@@ -95,10 +98,6 @@ abstract public class PhysicsLink
      * kinematic, default=1, progresses from 0 to 1 during the blend interval)
      */
     private float kinematicWeight = 1f;
-    /**
-     * immediate children in the link hierarchy (not null)
-     */
-    private List<PhysicsLink> children = new ArrayList<>(8);
     /**
      * joint between the rigid body and the parent's rigid body, or null if not
      * yet created
@@ -118,15 +117,15 @@ abstract public class PhysicsLink
      */
     private Transform kpTransform = new Transform();
     /**
-     * location of the rigid body's center (in the skeleton bone's local
-     * coordinates)
-     */
-    private Vector3f localOffset;
-    /**
      * estimate of the body's linear velocity as of the most recent update
      * (psu/sec in physics-space coordinates, kinematic mode only)
      */
     private Vector3f kpVelocity = new Vector3f();
+    /**
+     * location of the rigid body's center (in the skeleton bone's local
+     * coordinates)
+     */
+    private Vector3f localOffset;
     // *************************************************************************
     // constructors
 
@@ -171,6 +170,19 @@ abstract public class PhysicsLink
     }
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Add an IK controller.
+     *
+     * @param controller the controller to add (not null)
+     */
+    public void addIKController(IKController controller) {
+        Validate.nonNull(controller, "controller");
+        assert controller.getLink() == this;
+        assert !ikControllers.contains(controller);
+
+        ikControllers.add(controller);
+    }
 
     /**
      * Read the name of the corresponding bone.
@@ -297,6 +309,19 @@ abstract public class PhysicsLink
     }
 
     /**
+     * Enumerate all inverse kinematics controllers for this link.
+     *
+     * @return a new array of pre-existing instances
+     */
+    public IKController[] listIKControllers() {
+        int numControllers = ikControllers.size();
+        IKController[] result = new IKController[numControllers];
+        ikControllers.toArray(result);
+
+        return result;
+    }
+
+    /**
      * Unambiguously identify this link by name, within its DynamicAnimControl.
      *
      * @return a text string (not null, not empty)
@@ -353,19 +378,35 @@ abstract public class PhysicsLink
 
     /**
      * Internal callback, invoked just BEFORE the physics is stepped.
+     *
+     * @param timeStep the physics time step (in seconds, &ge;0)
      */
-    void preTick(Vector3f impulse) {
+    void preTick(float timeStep) {
         if (isKinematic()) {
             rigidBody.setPhysicsTransform(kpTransform);
         } else {
-            rigidBody.applyImpulse(impulse, translateIdentity);
+            for (IKController controller : ikControllers) {
+                controller.preTick(timeStep);
+            }
         }
+    }
+
+    /**
+     * Remove an IK controller.
+     *
+     * @param controller the controller to remove (not null)
+     * @return true if successful, otherwise false
+     */
+    public boolean removeIKController(IKController controller) {
+        Validate.nonNull(controller, "controller");
+        boolean success = ikControllers.remove(controller);
+        return success;
     }
 
     /**
      * Immediately put this link into dynamic mode. The control must be "ready".
      *
-     * @param uniformAcceleration the uniform acceleration vector (in
+     * @param uniformAcceleration the uniform acceleration vector to apply (in
      * physics-space coordinates, not null, unaffected)
      */
     public void setDynamic(Vector3f uniformAcceleration) {
@@ -523,13 +564,14 @@ abstract public class PhysicsLink
     public void cloneFields(Cloner cloner, Object original) {
         bone = cloner.clone(bone);
         control = cloner.clone(control);
+        ikControllers = cloner.clone(ikControllers);
         children = cloner.clone(children);
         joint = cloner.clone(joint);
         parent = cloner.clone(parent);
         rigidBody = cloner.clone(rigidBody);
         kpTransform = cloner.clone(kpTransform);
-        localOffset = cloner.clone(localOffset);
         kpVelocity = cloner.clone(kpVelocity);
+        localOffset = cloner.clone(localOffset);
     }
 
     /**
@@ -556,27 +598,24 @@ abstract public class PhysicsLink
      * @throws IOException from importer
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void read(JmeImporter im) throws IOException {
         InputCapsule ic = im.getCapsule(this);
 
+        ikControllers
+                = ic.readSavableArrayList("ikControllers", new ArrayList(1));
+        children = ic.readSavableArrayList("children", new ArrayList(1));
         bone = (Bone) ic.readSavable("bone", null);
         control = (DacLinks) ic.readSavable("control", null);
         blendInterval = ic.readFloat("blendInterval", 1f);
         kinematicWeight = ic.readFloat("kinematicWeight", 1f);
         joint = (PhysicsJoint) ic.readSavable("joint", null);
         parent = (PhysicsLink) ic.readSavable("parent", null);
-
-        Savable[] tmp = ic.readSavableArray("children", null);
-        children.clear();
-        for (Savable savable : tmp) {
-            PhysicsLink child = (PhysicsLink) savable;
-            children.add(child);
-        }
-
         rigidBody = (PhysicsRigidBody) ic.readSavable("rigidBody", null);
-        kpTransform = (Transform) ic.readSavable("kpTransform", new Transform());
-        localOffset = (Vector3f) ic.readSavable("offset", new Vector3f());
+        kpTransform
+                = (Transform) ic.readSavable("kpTransform", new Transform());
         kpVelocity = (Vector3f) ic.readSavable("kpVelocity", new Vector3f());
+        localOffset = (Vector3f) ic.readSavable("offset", new Vector3f());
     }
 
     /**
@@ -589,17 +628,18 @@ abstract public class PhysicsLink
     public void write(JmeExporter ex) throws IOException {
         OutputCapsule oc = ex.getCapsule(this);
 
+        oc.writeSavableArrayList(ikControllers, "ikControllers", null);
+        oc.writeSavableArrayList(children, "children", null);
         oc.write(bone, "bone", null);
         oc.write(control, "control", null);
         oc.write(blendInterval, "blendInterval", 1f);
         oc.write(kinematicWeight, "kinematicWeight", 1f);
         oc.write(joint, "joint", null);
         oc.write(parent, "parent", null);
-        oc.write(listChildren(), "children", null);
         oc.write(rigidBody, "rigidBody", null);
         oc.write(kpTransform, "kpTransform", null);
-        oc.write(localOffset, "offset", null);
         oc.write(kpVelocity, "kpVelocity", null);
+        oc.write(localOffset, "offset", null);
     }
     // *************************************************************************
     // private methods

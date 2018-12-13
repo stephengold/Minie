@@ -103,11 +103,7 @@ public class DynamicAnimControl
     /**
      * calculated total mass, not including released attachments
      */
-    private float ragdollMass = -1f;
-    /**
-     * registered provider for the center-of-mass goals, or null if none
-     */
-    private ImpulseController comImpulseProvider = null;
+    private float ragdollMass = 0f;
     /**
      * list of registered collision listeners
      */
@@ -121,10 +117,6 @@ public class DynamicAnimControl
      * center-of-mass estimated velocity (psu/second in physics-space coordinates)
      */
     private Vector3f centerVelocity = new Vector3f();
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#ZERO}
-     */
-    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // constructors
 
@@ -239,15 +231,18 @@ public class DynamicAnimControl
     }
 
     /**
-     * Locate the ragdoll's center of mass, excluding released attachments.
+     * Calculate the ragdoll's total mass and center of mass, excluding released
+     * attachments.
      * <p>
      * Allowed only when the control IS added to a spatial.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return the location (in physics-space coordinates, either storeResult or
-     * a new vector, not null)
+     * @param storeLocation storage for the location of the center (in
+     * physics-space coordinates, modified if not null)
+     * @param storeVelocity storage for the velocity of the center (psu/second
+     * in physics-space coordinates, modified if not null)
+     * @return the total mass (&gt;0)
      */
-    public Vector3f centerOfMass(Vector3f storeResult) {
+    public float centerOfMass(Vector3f storeLocation, Vector3f storeVelocity) {
         if (getSpatial() == null) {
             throw new IllegalStateException(
                     "Control is not added to a spatial.");
@@ -258,15 +253,18 @@ public class DynamicAnimControl
         }
 
         recalculateCenter();
-        if (storeResult == null) {
-            return centerLocation.clone();
-        } else {
-            return storeResult.set(centerLocation);
+        if (storeLocation != null) {
+            storeLocation.set(centerLocation);
         }
+        if (storeVelocity != null) {
+            storeVelocity.set(centerVelocity);
+        }
+
+        return ragdollMass;
     }
 
     /**
-     * Release all unreleased attachments to gravity.
+     * Release (to gravity) all unreleased attachments.
      */
     public void dropAttachments() {
         for (AttachmentLink link : listAttachmentLinks()) {
@@ -404,24 +402,25 @@ public class DynamicAnimControl
      * @param link which link to move (not null)
      * @param pivotInLinkBody the pivot location (in the link body's local
      * coordinates, not null, unaffected)
-     * @param goal the rigid body that represents the goal (alias created)
-     * @param pivotInGoal the pivot location (the goal's local coordinates, not
-     * null, unaffected)
+     * @param goalBody a rigid body that represents the goal (not null, alias
+     * created)
+     * @param pivotInGoalBody the pivot location (in the goal's local
+     * coordinates, not null, unaffected)
      * @return a new joint with the link body at the A end and the goal at the B
      * end (not null)
      */
     public PhysicsJoint moveToBody(PhysicsLink link, Vector3f pivotInLinkBody,
-            PhysicsRigidBody goal, Vector3f pivotInGoal) {
+            PhysicsRigidBody goalBody, Vector3f pivotInGoalBody) {
         Validate.nonNull(pivotInLinkBody, "pivot in link body");
-        Validate.nonNull(goal, "goal");
-        Validate.nonNull(pivotInGoal, "pivot in goal");
+        Validate.nonNull(goalBody, "goal body");
+        Validate.nonNull(pivotInGoalBody, "pivot in goal body");
 
         PhysicsRigidBody linkBody = link.getRigidBody();
-        Point2PointJoint newJoint = new Point2PointJoint(linkBody, goal,
-                pivotInLinkBody, pivotInGoal);
+        Point2PointJoint newJoint = new Point2PointJoint(linkBody, goalBody,
+                pivotInLinkBody, pivotInGoalBody);
 
         linkBody.addJoint(newJoint);
-        goal.addJoint(newJoint);
+        goalBody.addJoint(newJoint);
         getPhysicsSpace().add(newJoint);
 
         assert newJoint.getBodyA() == linkBody;
@@ -479,15 +478,6 @@ public class DynamicAnimControl
 
         assert newJoint.getBodyA() == linkBody;
         return newJoint;
-    }
-
-    /**
-     * Alter the center-of-mass impulse provider for this control.
-     *
-     * @param provider (alias created if not null)
-     */
-    public void setCenterGoalProvider(ImpulseController provider) {
-        comImpulseProvider = provider;
     }
 
     /**
@@ -573,7 +563,8 @@ public class DynamicAnimControl
     }
 
     /**
-     * Immediately put all links into dynamic mode with gravity.
+     * Immediately put all links into dynamic mode with gravity and no IK
+     * controllers.
      * <p>
      * Allowed only when the control IS added to a spatial.
      */
@@ -787,20 +778,13 @@ public class DynamicAnimControl
         assert space == getPhysicsSpace();
         Validate.nonNegative(timeStep, "time step");
 
-        Vector3f comImpulse = new Vector3f(0f, 0f, 0f);
-        if (comImpulseProvider != null) {
-            recalculateCenter();
-            comImpulseProvider.impulse(centerLocation, centerVelocity,
-                    ragdollMass, timeStep, this, comImpulse);
-        }
-
         TorsoLink torsoLink = getTorsoLink();
-        torsoLink.preTick(comImpulse);
+        torsoLink.preTick(timeStep);
         for (BoneLink boneLink : getBoneLinks()) {
-            boneLink.preTick(translateIdentity);
+            boneLink.preTick(timeStep);
         }
         for (AttachmentLink link : listAttachmentLinks()) {
-            link.preTick(translateIdentity);
+            link.preTick(timeStep);
         }
     }
     // *************************************************************************
@@ -867,8 +851,9 @@ public class DynamicAnimControl
     }
 
     /**
-     * Recalculate the location, velocity, and total mass for the ragdoll's
-     * center of mass, not including released attachments.
+     * Recalculate the total mass of the ragdoll, not including released
+     * attachments. Also updates the location and estimated velocity of the
+     * center of mass.
      */
     private void recalculateCenter() {
         double massSum = 0.0;
@@ -880,7 +865,7 @@ public class DynamicAnimControl
             if (!link.isReleased()) {
                 PhysicsRigidBody rigidBody = link.getRigidBody();
                 float mass = rigidBody.getMass();
-                massSum += (double) mass;
+                massSum += mass;
 
                 rigidBody.getPhysicsLocation(tmpVector);
                 tmpVector.multLocal(mass);
