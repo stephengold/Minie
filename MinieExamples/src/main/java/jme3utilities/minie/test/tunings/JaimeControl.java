@@ -195,7 +195,7 @@ public class JaimeControl
      */
     @Override
     public BoneLink getLeftFoot() {
-        return findBoneLink("foot.R");
+        return findBoneLink("foot.L");
     }
 
     /**
@@ -205,6 +205,6 @@ public class JaimeControl
      */
     @Override
     public BoneLink getRightFoot() {
-        return findBoneLink("foot.L");
+        return findBoneLink("foot.R");
     }
 }
