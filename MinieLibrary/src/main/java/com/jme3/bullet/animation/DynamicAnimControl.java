@@ -605,8 +605,8 @@ public class DynamicAnimControl
     }
 
     /**
-     * Immediately put all links into dynamic mode with full gravity and no IK
-     * controllers/joints.
+     * Immediately put all links into dynamic mode with full gravity and disable
+     * all IK controllers/joints.
      * <p>
      * Allowed only when the control IS added to a spatial.
      */
@@ -705,7 +705,7 @@ public class DynamicAnimControl
         InputCapsule ic = im.getCapsule(this);
 
         // isReady and collisionListeners not read
-        ikJoints = ic.readSavableArrayList("ikJoints", new ArrayList());
+        ikJoints = ic.readSavableArrayList("ikJoints", new ArrayList(1));
         ragdollMass = ic.readFloat("ragdollMass", 1f);
         centerLocation
                 = (Vector3f) ic.readSavable("centerLocation", new Vector3f());

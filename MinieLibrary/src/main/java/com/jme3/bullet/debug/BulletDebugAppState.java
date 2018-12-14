@@ -83,23 +83,23 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * map physics characters to visualization nodes
      */
-    private HashMap<PhysicsCharacter, Node> characters = new HashMap<>();
+    private HashMap<PhysicsCharacter, Node> characters = new HashMap<>(64);
     /**
      * map ghosts to visualization nodes
      */
-    private HashMap<PhysicsGhostObject, Node> ghosts = new HashMap<>();
+    private HashMap<PhysicsGhostObject, Node> ghosts = new HashMap<>(64);
     /**
      * map joints to visualization nodes
      */
-    private HashMap<PhysicsJoint, Node> joints = new HashMap<>();
+    private HashMap<PhysicsJoint, Node> joints = new HashMap<>(64);
     /**
      * map rigid bodies to visualization nodes
      */
-    private HashMap<PhysicsRigidBody, Node> bodies = new HashMap<>();
+    private HashMap<PhysicsRigidBody, Node> bodies = new HashMap<>(64);
     /**
      * map vehicles to visualization nodes
      */
-    private HashMap<PhysicsVehicle, Node> vehicles = new HashMap<>();
+    private HashMap<PhysicsVehicle, Node> vehicles = new HashMap<>(64);
     /**
      * material for inactive rigid bodies
      */
@@ -298,7 +298,7 @@ public class BulletDebugAppState extends AbstractAppState {
     private void updateCharacters() {
         HashMap<PhysicsCharacter, Node> oldMap = characters;
         //create new map
-        characters = new HashMap<>();
+        characters = new HashMap<>(oldMap.size());
         Collection<PhysicsCharacter> list = space.getCharacterList();
         for (PhysicsCharacter character : list) {
             if (filter == null || filter.displayObject(character)) {
@@ -327,7 +327,7 @@ public class BulletDebugAppState extends AbstractAppState {
     private void updateGhosts() {
         HashMap<PhysicsGhostObject, Node> oldMap = ghosts;
         //create new map
-        ghosts = new HashMap<>();
+        ghosts = new HashMap<>(oldMap.size());
         Collection<PhysicsGhostObject> list = space.getGhostObjectList();
         for (PhysicsGhostObject ghost : list) {
             if (filter == null || filter.displayObject(ghost)) {
@@ -355,7 +355,7 @@ public class BulletDebugAppState extends AbstractAppState {
     private void updateJoints() {
         HashMap<PhysicsJoint, Node> oldMap = joints;
         //create new map
-        joints = new HashMap<>();
+        joints = new HashMap<>(oldMap.size());
         Collection<PhysicsJoint> list = space.getJointList();
         for (PhysicsJoint joint : list) {
             if (filter == null || filter.displayObject(joint)) {
@@ -383,7 +383,7 @@ public class BulletDebugAppState extends AbstractAppState {
     private void updateRigidBodies() {
         HashMap<PhysicsRigidBody, Node> oldMap = bodies;
         //create new map
-        bodies = new HashMap<>();
+        bodies = new HashMap<>(oldMap.size());
         Collection<PhysicsRigidBody> list = space.getRigidBodyList();
         for (PhysicsRigidBody body : list) {
             if (filter == null || filter.displayObject(body)) {
@@ -413,7 +413,7 @@ public class BulletDebugAppState extends AbstractAppState {
     private void updateVehicles() {
         HashMap<PhysicsVehicle, Node> oldMap = vehicles;
         //create new map
-        vehicles = new HashMap<>();
+        vehicles = new HashMap<>(oldMap.size());
         Collection<PhysicsVehicle> list = space.getVehicleList();
         for (PhysicsVehicle vehicle : list) {
             if (filter == null || filter.displayObject(vehicle)) {

@@ -148,7 +148,7 @@ public class PhysicsSpace {
      * queue of collision events not yet distributed to listeners
      */
     final private Deque<PhysicsCollisionEvent> collisionEvents
-            = new ArrayDeque<>();
+            = new ArrayDeque<>(20);
     /**
      * physics time step (in seconds, &gt;0)
      */
@@ -185,32 +185,32 @@ public class PhysicsSpace {
      * map from collision groups to registered group listeners
      */
     final private Map<Integer, PhysicsCollisionGroupListener> collisionGroupListeners
-            = new ConcurrentHashMap<>();
+            = new ConcurrentHashMap<>(20);
     /**
      * map character ids to objects
      */
     final private Map<Long, PhysicsCharacter> physicsCharacters
-            = new ConcurrentHashMap<>();
+            = new ConcurrentHashMap<>(64);
     /**
      * map ghost ids to objects
      */
     final private Map<Long, PhysicsGhostObject> physicsGhostObjects
-            = new ConcurrentHashMap<>();
+            = new ConcurrentHashMap<>(64);
     /**
      * map joint ids to objects
      */
     final private Map<Long, PhysicsJoint> physicsJoints
-            = new ConcurrentHashMap<>();
+            = new ConcurrentHashMap<>(64);
     /**
      * map rigid body ids to objects
      */
     final private Map<Long, PhysicsRigidBody> physicsBodies
-            = new ConcurrentHashMap<>();
+            = new ConcurrentHashMap<>(64);
     /**
-     * map verhicle ids to objects
+     * map vehicle ids to objects
      */
     final private Map<Long, PhysicsVehicle> physicsVehicles
-            = new ConcurrentHashMap<>();
+            = new ConcurrentHashMap<>(64);
     /**
      * first-in/first-out (FIFO) queue of physics tasks
      */
@@ -289,7 +289,7 @@ public class PhysicsSpace {
             Spatial node = (Spatial) obj;
             for (int i = 0; i < node.getNumControls(); i++) {
                 if (node.getControl(i) instanceof PhysicsControl) {
-                    add(((PhysicsControl) node.getControl(i)));
+                    add(node.getControl(i));
                 }
             }
         } else if (obj instanceof PhysicsCollisionObject) {
@@ -648,7 +648,7 @@ public class PhysicsSpace {
      * @return a new list of results (not null)
      */
     public List<PhysicsRayTestResult> rayTest(Vector3f from, Vector3f to) {
-        List<PhysicsRayTestResult> results = new ArrayList<>();
+        List<PhysicsRayTestResult> results = new ArrayList<>(10);
         rayTest(from, to, results);
 
         return results;
@@ -685,7 +685,7 @@ public class PhysicsSpace {
      * @return a new list of results (not null)
      */
     public List rayTestRaw(Vector3f from, Vector3f to) {
-        List<PhysicsRayTestResult> results = new ArrayList<>();
+        List<PhysicsRayTestResult> results = new ArrayList<>(10);
         rayTestRaw(from, to, results);
 
         return results;

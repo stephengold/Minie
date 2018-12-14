@@ -92,7 +92,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * list of wheels
      */
-    protected ArrayList<VehicleWheel> wheels = new ArrayList<>();
+    protected ArrayList<VehicleWheel> wheels = new ArrayList<>(6);
     /**
      * physics space where this vehicle is added, or null if none
      */
@@ -706,8 +706,9 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         tuning.suspensionStiffness = capsule.readFloat(
                 "suspensionStiffness", 5.88f);
         wheels = capsule.readSavableArrayList(
-                "wheelsList", new ArrayList<VehicleWheel>());
+                "wheelsList", new ArrayList<VehicleWheel>(6));
         motionState.setVehicle(this);
+        
         super.read(im);
     }
 
@@ -728,8 +729,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
                 "suspensionCompression", 0.83f);
         capsule.write(tuning.suspensionDamping, "suspensionDamping", 0.88f);
         capsule.write(tuning.suspensionStiffness, "suspensionStiffness", 5.88f);
-        capsule.writeSavableArrayList(wheels,
-                "wheelsList", new ArrayList<VehicleWheel>());
+        capsule.writeSavableArrayList(wheels, "wheelsList", null);
+        
         super.write(ex);
     }
     // *************************************************************************
