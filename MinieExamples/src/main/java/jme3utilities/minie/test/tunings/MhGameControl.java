@@ -93,18 +93,18 @@ public class MhGameControl
                 new RangeOfMotion(0.7f, 0f, 0.2f));
 
         super.link("thigh_r", hull,
-                new RangeOfMotion(1f, -0.2f, 0.2f, -0.2f, 0.2f, -0.5f));
+                new RangeOfMotion(2.2f, -0.2f, 0.2f, -0.2f, 0.2f, -0.5f));
         super.link("calf_r", hull,
-                new RangeOfMotion(0f, -1.8f, 0f, 0f, 0f, 0f));
+                new RangeOfMotion(0f, -2.2f, 0f, 0f, 0f, 0f));
         super.link("foot_r", hull,
-                new RangeOfMotion(0.8f, 0.3f, 0.5f));
+                new RangeOfMotion(1f, 0.3f, 0.5f));
 
         super.link("thigh_l", hull,
-                new RangeOfMotion(1f, -0.2f, 0.2f, -0.2f, 0.5f, -0.2f));
+                new RangeOfMotion(2.2f, -0.2f, 0.2f, -0.2f, 0.5f, -0.2f));
         super.link("calf_l", hull,
-                new RangeOfMotion(0f, -1.8f, 0f, 0f, 0f, 0f));
+                new RangeOfMotion(0f, -2.2f, 0f, 0f, 0f, 0f));
         super.link("foot_l", hull,
-                new RangeOfMotion(0.5f, 0.3f, 0.5f));
+                new RangeOfMotion(1f, 0.3f, 0.5f));
     }
     // *************************************************************************
     // Biped methods
