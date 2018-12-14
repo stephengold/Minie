@@ -95,4 +95,12 @@ public class CollisionFlag {
      */
     final public static Logger logger
             = Logger.getLogger(CollisionFlag.class.getName());
+    // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private CollisionFlag() {
+    }
 }
