@@ -54,6 +54,7 @@ import com.jme3.scene.VertexBuffer;
 import com.jme3.util.SafeArrayList;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
@@ -73,8 +74,8 @@ import jme3utilities.Validate;
  * The mass of each rigid body and the range-of-motion of each joint can be
  * reconfigured on the fly.
  * <p>
- * Each link is either dynamic (driven by forces and collisions) or kinematic
- * (unperturbed by forces and collisions). Transitions from dynamic to kinematic
+ * Each link is either dynamic (driven by forces and torques) or kinematic
+ * (unperturbed by forces and torques). Transitions from dynamic to kinematic
  * can be immediate or gradual.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -95,6 +96,10 @@ public class DynamicAnimControl
     // *************************************************************************
     // fields
 
+    /**
+     * list of IK joints
+     */
+    private ArrayList<PhysicsJoint> ikJoints = new ArrayList<>(20);
     /**
      * false until the 1st physics tick, true thereafter, indicating that all
      * links are ready for dynamic mode
@@ -421,6 +426,7 @@ public class DynamicAnimControl
 
         linkBody.addJoint(newJoint);
         goalBody.addJoint(newJoint);
+        ikJoints.add(newJoint);
         getPhysicsSpace().add(newJoint);
 
         assert newJoint.getBodyA() == linkBody;
@@ -448,6 +454,7 @@ public class DynamicAnimControl
                 = new Point2PointJoint(linkBody, pivotInLinkBody, goalInWorld);
 
         linkBody.addJoint(newJoint);
+        ikJoints.add(newJoint);
         getPhysicsSpace().add(newJoint);
 
         assert newJoint.getBodyA() == linkBody;
@@ -474,6 +481,7 @@ public class DynamicAnimControl
         Point2PointJoint newJoint = new Point2PointJoint(linkBody, pivotInBody);
 
         linkBody.addJoint(newJoint);
+        ikJoints.add(newJoint);
         getPhysicsSpace().add(newJoint);
 
         assert newJoint.getBodyA() == linkBody;
@@ -583,6 +591,9 @@ public class DynamicAnimControl
         for (AttachmentLink link : listAttachmentLinks()) {
             link.setDynamic(ragdollGravity);
         }
+        for (PhysicsJoint joint : ikJoints) {
+            joint.setEnabled(false);
+        }
     }
     // *************************************************************************
     // DacPhysicsLinks methods
@@ -597,6 +608,10 @@ public class DynamicAnimControl
         PhysicsSpace space = getPhysicsSpace();
         space.addCollisionListener(this);
         space.addTickListener(this);
+
+        for (PhysicsJoint joint : ikJoints) {
+            space.add(joint);
+        }
     }
 
     /**
@@ -612,6 +627,7 @@ public class DynamicAnimControl
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
+        ikJoints = cloner.clone(ikJoints);
         collisionListeners = cloner.clone(collisionListeners);
         centerLocation = cloner.clone(centerLocation);
         centerVelocity = cloner.clone(centerVelocity);
@@ -635,14 +651,17 @@ public class DynamicAnimControl
     /**
      * De-serialize this control, for example when loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param im the importer (not null)
+     * @throws IOException from the importer
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule ic = im.getCapsule(this);
 
+        // isReady and collisionListeners not read
+        ikJoints = ic.readSavableArrayList("ikJoints", new ArrayList());
         ragdollMass = ic.readFloat("ragdollMass", 1f);
         centerLocation
                 = (Vector3f) ic.readSavable("centerLocation", new Vector3f());
@@ -660,19 +679,25 @@ public class DynamicAnimControl
         PhysicsSpace space = getPhysicsSpace();
         space.removeCollisionListener(this);
         space.removeTickListener(this);
+
+        for (PhysicsJoint joint : ikJoints) {
+            space.remove(joint);
+        }
     }
 
     /**
      * Serialize this control, for example when saving to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param ex the exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule oc = ex.getCapsule(this);
 
+        // isReady and collisionListeners not written
+        oc.writeSavableArrayList(ikJoints, "ikJoints", null);
         oc.write(ragdollMass, "ragdollMass", 1f);
         oc.write(centerLocation, "centerLocation", null);
         oc.write(centerVelocity, "centerVelocity", null);
