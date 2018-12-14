@@ -207,6 +207,15 @@ abstract public class PhysicsLink
     }
 
     /**
+     * Disable all IK controllers.
+     */
+    public void disableAllIKControllers() {
+        for (IKController controller : ikControllers) {
+            controller.setEnabled(false);
+        }
+    }
+
+    /**
      * Immediately freeze this link.
      *
      * @param forceKinematic true&rarr;force to kinematic mode,
