@@ -178,7 +178,7 @@ class DebugMeshCallback {
          */
         for (int i = 0; i < totals.length; i++) {
             assert numFaces[i] > 0 : numFaces[i];
-            float factor = 1f / (float) numFaces[i];
+            float factor = 1f / numFaces[i];
             totals[i].multLocal(factor);
             totals[i].normalizeLocal();
         }

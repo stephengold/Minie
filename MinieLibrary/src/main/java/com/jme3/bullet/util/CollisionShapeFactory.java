@@ -86,7 +86,7 @@ public class CollisionShapeFactory {
      */
     public static CollisionShape createBoxShape(Spatial spatial) {
         if (spatial instanceof Geometry) {
-            return createSingleBoxShape((Geometry) spatial);
+            return createSingleBoxShape(spatial);
         } else if (spatial instanceof Node) {
             return createBoxCompoundShape((Node) spatial);
         } else {
