@@ -43,7 +43,7 @@ import java.util.logging.Logger;
  */
 public class JaimeControl
         extends DynamicAnimControl
-        implements Biped {
+        implements Binocular, Biped {
     // *************************************************************************
     // constants and loggers
 
@@ -71,6 +71,10 @@ public class JaimeControl
                 new RangeOfMotion(0.3f, -0.6f, 0.5f, -0.5f, 0.5f, -0.5f));
         super.link("head", hull,
                 new RangeOfMotion(0.3f, -0.6f, 0.5f, -0.5f, 0.5f, -0.5f));
+        super.link("eye.L", hull,
+                new RangeOfMotion(0.5f, 0f, 0.5f));
+        super.link("eye.R", hull,
+                new RangeOfMotion(0.5f, 0f, 0.5f));
 
         super.link("tail.001", hull,
                 new RangeOfMotion(0.5f, 0.2f, 0.5f));
@@ -158,6 +162,28 @@ public class JaimeControl
                 new RangeOfMotion(0f, 0f, 0f, 0f, 0f, -2f));
         super.link("foot.L", hull,
                 new RangeOfMotion(0.6f, 0.2f, 0f));
+    }
+    // *************************************************************************
+    // Binocular methods
+
+    /**
+     * Access the BoneLink that manages the model's left eye.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    public BoneLink getLeftEye() {
+        return findBoneLink("eye.R");
+    }
+
+    /**
+     * Access the BoneLink that manages the model's right eye.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    public BoneLink getRightEye() {
+        return findBoneLink("eye.L");
     }
     // *************************************************************************
     // Biped methods

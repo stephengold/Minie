@@ -43,7 +43,7 @@ import java.util.logging.Logger;
  */
 public class SinbadControl
         extends DynamicAnimControl
-        implements Biped {
+        implements Binocular, Biped {
     // *************************************************************************
     // constants and loggers
 
@@ -69,6 +69,10 @@ public class SinbadControl
                 new RangeOfMotion(0.4f, 0f, 0.4f));
         super.link("Neck", hull,
                 new RangeOfMotion(0.5f, 1f, 0.7f));
+        super.link("Eye.L", hull,
+                new RangeOfMotion(0.5f, 0f, 0.5f));
+        super.link("Eye.R", hull,
+                new RangeOfMotion(0.5f, 0f, 0.5f));
 
         super.link("Clavicle.R", hull,
                 new RangeOfMotion(0.3f, -0.6f, 0f, 0f, 0.4f, -0.4f));
@@ -101,6 +105,28 @@ public class SinbadControl
                 new RangeOfMotion(2f, 0f, 0f, 0f, 0f, 0f));
         super.link("Foot.L", hull,
                 new RangeOfMotion(0.3f, 0.5f, 0f));
+    }
+    // *************************************************************************
+    // Binocular methods
+
+    /**
+     * Access the BoneLink that manages the model's left eye.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    public BoneLink getLeftEye() {
+        return findBoneLink("Eye.L");
+    }
+
+    /**
+     * Access the BoneLink that manages the model's right eye.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    public BoneLink getRightEye() {
+        return findBoneLink("Eye.R");
     }
     // *************************************************************************
     // Biped methods
