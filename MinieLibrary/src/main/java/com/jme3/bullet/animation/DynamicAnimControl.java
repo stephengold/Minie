@@ -518,6 +518,40 @@ public class DynamicAnimControl
     }
 
     /**
+     * Immediately put the specified link and all its ancestors (excluding the
+     * torso) into dynamic mode. Note: recursive!
+     * <p>
+     * Allowed only when the control IS added to a spatial.
+     *
+     * @param startLink the start of the chain to modify (not null)
+     * @param uniformAcceleration the uniform acceleration vector (in
+     * physics-space coordinates, not null, unaffected)
+     * @param lockAll true to lock all axes of links (except the torso)
+     */
+    public void setDynamicChain(PhysicsLink startLink,
+            Vector3f uniformAcceleration, boolean lockAll) {
+        Validate.nonNull(startLink, "start link");
+        Validate.nonNull(uniformAcceleration, "uniform acceleration");
+        if (getSpatial() == null) {
+            throw new IllegalStateException(
+                    "Cannot change modes unless added to a spatial.");
+        }
+
+        if (startLink instanceof BoneLink) {
+            BoneLink boneLink = (BoneLink) startLink;
+            boneLink.setDynamic(uniformAcceleration, lockAll, lockAll, lockAll);
+        } else if (startLink instanceof AttachmentLink) {
+            AttachmentLink attachmentLink = (AttachmentLink) startLink;
+            attachmentLink.setDynamic(uniformAcceleration);
+        }
+
+        PhysicsLink parent = startLink.getParent();
+        if (parent != null) {
+            setDynamicChain(parent, uniformAcceleration, lockAll);
+        }
+    }
+
+    /**
      * Immediately put the specified link and all its descendants (excluding
      * released attachments) into dynamic mode. Note: recursive!
      * <p>
@@ -571,8 +605,8 @@ public class DynamicAnimControl
     }
 
     /**
-     * Immediately put all links into dynamic mode with gravity and no IK
-     * controllers.
+     * Immediately put all links into dynamic mode with full gravity and no IK
+     * controllers/joints.
      * <p>
      * Allowed only when the control IS added to a spatial.
      */
@@ -584,12 +618,22 @@ public class DynamicAnimControl
 
         Vector3f ragdollGravity = gravity(null);
 
-        getTorsoLink().setDynamic(ragdollGravity);
+        TorsoLink torsoLink = getTorsoLink();
+        torsoLink.setDynamic(ragdollGravity);
+        for (IKController controller : torsoLink.listIKControllers()) {
+            controller.setEnabled(false);
+        }
         for (BoneLink boneLink : getBoneLinks()) {
             boneLink.setDynamic(ragdollGravity, false, false, false);
+            for (IKController controller : boneLink.listIKControllers()) {
+                controller.setEnabled(false);
+            }
         }
         for (AttachmentLink link : listAttachmentLinks()) {
             link.setDynamic(ragdollGravity);
+            for (IKController controller : link.listIKControllers()) {
+                controller.setEnabled(false);
+            }
         }
         for (PhysicsJoint joint : ikJoints) {
             joint.setEnabled(false);
