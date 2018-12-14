@@ -473,7 +473,6 @@ public class SeJointDemo extends ActionApplication {
         rbc.setGravity(gravity); // must be set *after* setPhysicsSpace!
 
         geometry.addControl(rbc);
-        ++numSeeds;
     }
 
     /**
