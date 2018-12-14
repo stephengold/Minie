@@ -226,8 +226,8 @@ public class BetterCharacterControl
         float existingLeftVelocity = velocity.dot(localLeft);
         float existingForwardVelocity = velocity.dot(localForward);
         Vector3f counter = vars.vect1;
-        existingLeftVelocity = existingLeftVelocity * physicsDamping;
-        existingForwardVelocity = existingForwardVelocity * physicsDamping;
+        existingLeftVelocity *= physicsDamping;
+        existingForwardVelocity *= physicsDamping;
         counter.set(-existingLeftVelocity, 0, -existingForwardVelocity);
         localForwardRotation.multLocal(counter);
         velocity.addLocal(counter);
