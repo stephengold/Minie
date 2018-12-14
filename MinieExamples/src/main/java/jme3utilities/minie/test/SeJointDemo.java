@@ -589,17 +589,18 @@ public class SeJointDemo extends ActionApplication {
      * Toggle seed rendering on/off.
      */
     private void toggleMeshes() {
-        Spatial.CullHint hint = seedNode.getCullHint();
-        if (hint == Spatial.CullHint.Always) {
-            hint = Spatial.CullHint.Dynamic;
-        } else {
+        Spatial.CullHint hint = seedNode.getLocalCullHint();
+        if (hint == Spatial.CullHint.Inherit
+                || hint == Spatial.CullHint.Never) {
             hint = Spatial.CullHint.Always;
+        } else if (hint == Spatial.CullHint.Always) {
+            hint = Spatial.CullHint.Never;
         }
         seedNode.setCullHint(hint);
     }
 
     /**
-     * Toggle physics simulation paused/running.
+     * Toggle the physics simulation: paused/running.
      */
     private void togglePause() {
         float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;

@@ -428,9 +428,9 @@ public class TorsoLink extends PhysicsLink {
     }
 
     /**
-     * Immediately put this link into dynamic mode.
+     * Immediately put this link into dynamic mode. The control must be "ready".
      *
-     * @param uniformAcceleration the uniform acceleration vector (in
+     * @param uniformAcceleration the uniform acceleration vector to apply (in
      * physics-space coordinates, not null, unaffected)
      */
     @Override

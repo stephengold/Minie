@@ -73,6 +73,10 @@ public class BoneLink extends PhysicsLink {
      * local copy of {@link com.jme3.math.Matrix3f#IDENTITY}
      */
     final private static Matrix3f matrixIdentity = new Matrix3f();
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -238,7 +242,8 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
-     * Immediately put this link into dynamic mode and update its joint.
+     * Immediately put this link into dynamic mode and update the range of
+     * motion of its joint.
      *
      * @param uniformAcceleration the uniform acceleration vector (in
      * physics-space coordinates, not null, unaffected)
@@ -308,7 +313,7 @@ public class BoneLink extends PhysicsLink {
         if (forceKinematic || isKinematic()) {
             blendToKinematicMode(KinematicSubmode.Frozen, 0f);
         } else {
-            setDynamic(new Vector3f(0f, 0f, 0f), true, true, true);
+            setDynamic(translateIdentity, true, true, true);
         }
     }
 
@@ -454,10 +459,10 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
-     * Immediately put this link into dynamic mode.
+     * Immediately put this link into dynamic mode. The control must be "ready".
      *
-     * @param uniformAcceleration the uniform acceleration vector (in physics
-     * space, not null, unaffected)
+     * @param uniformAcceleration the uniform acceleration vector to apply (in
+     * physics-space coordinates, not null, unaffected)
      */
     @Override
     public void setDynamic(Vector3f uniformAcceleration) {

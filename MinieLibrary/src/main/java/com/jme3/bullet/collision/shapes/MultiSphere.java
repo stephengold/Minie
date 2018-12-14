@@ -382,8 +382,8 @@ public class MultiSphere extends CollisionShape {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
 
-        capsule.write(centers, "centers", new Vector3f[0]);
-        capsule.write(radii, "radii", new float[0]);
+        capsule.write(centers, "centers", null);
+        capsule.write(radii, "radii", null);
     }
     // *************************************************************************
     // private methods
@@ -392,6 +392,8 @@ public class MultiSphere extends CollisionShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
+        assert objectId == 0L;
+
         int numSpheres = radii.length;
         assert centers.length == numSpheres : numSpheres;
         objectId = createShape(centers, radii, numSpheres);

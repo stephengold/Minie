@@ -97,7 +97,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Test scaling and load/save of a DynamicAnimControl.
+ * Test scaling and load/save on a DynamicAnimControl.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -138,6 +138,9 @@ public class TestDac extends ActionApplication {
     private BoneLink upperBody;
     private BulletAppState bulletAppState;
     private CollisionShape ballShape;
+    /**
+     * control being tested
+     */
     private DynamicAnimControl dac;
     final private float ballRadius = 0.2f; // mesh units
     /**
@@ -199,6 +202,10 @@ public class TestDac extends ActionApplication {
     @Override
     public void actionInitializeApplication() {
         configureCamera();
+        configurePhysics();
+        viewPort.setBackgroundColor(ColorRGBA.Gray);
+        addLighting();
+
         stateManager.getState(StatsAppState.class).toggleStats();
 
         ColorRGBA ballColor = new ColorRGBA(0.4f, 0f, 0f, 1f);
@@ -206,10 +213,6 @@ public class TestDac extends ActionApplication {
         ballMaterial.setFloat("Shininess", 5f);
         ballShape = new SphereCollisionShape(ballRadius);
 
-        viewPort.setBackgroundColor(ColorRGBA.Gray);
-        addLighting();
-
-        configurePhysics();
         addBox();
         addModel("Sinbad");
     }
@@ -235,15 +238,15 @@ public class TestDac extends ActionApplication {
         dim.bind("limp left arm", KeyInput.KEY_LBRACKET);
         dim.bind("limp right arm", KeyInput.KEY_RBRACKET);
         dim.bind("load", KeyInput.KEY_L);
-        dim.bind("load elephant", KeyInput.KEY_F3);
-        dim.bind("load jaime", KeyInput.KEY_F2);
-        dim.bind("load ninja", KeyInput.KEY_F7);
-        dim.bind("load mhgame", KeyInput.KEY_F9);
-        dim.bind("load oto", KeyInput.KEY_F6);
-        dim.bind("load puppet", KeyInput.KEY_F8);
-        dim.bind("load sinbad", KeyInput.KEY_F1);
-        dim.bind("load sinbadWith1Sword", KeyInput.KEY_F10);
-        dim.bind("load sinbadWithSwords", KeyInput.KEY_F4);
+        dim.bind("load Elephant", KeyInput.KEY_F3);
+        dim.bind("load Jaime", KeyInput.KEY_F2);
+        dim.bind("load MhGame", KeyInput.KEY_F9);
+        dim.bind("load Ninja", KeyInput.KEY_F7);
+        dim.bind("load Oto", KeyInput.KEY_F6);
+        dim.bind("load Puppet", KeyInput.KEY_F8);
+        dim.bind("load Sinbad", KeyInput.KEY_F1);
+        dim.bind("load SinbadWith1Sword", KeyInput.KEY_F10);
+        dim.bind("load SinbadWithSwords", KeyInput.KEY_F4);
         dim.bind("pin leftFemur", KeyInput.KEY_9);
         dim.bind("raise leftFoot", KeyInput.KEY_LCONTROL);
         dim.bind("raise leftHand", KeyInput.KEY_LSHIFT);
@@ -319,33 +322,6 @@ public class TestDac extends ActionApplication {
                 case "load":
                     load();
                     return;
-                case "load elephant":
-                    addModel("Elephant");
-                    return;
-                case "load jaime":
-                    addModel("Jaime");
-                    return;
-                case "load mhgame":
-                    addModel("MhGame");
-                    return;
-                case "load ninja":
-                    addModel("Ninja");
-                    return;
-                case "load oto":
-                    addModel("Oto");
-                    return;
-                case "load puppet":
-                    addModel("Puppet");
-                    return;
-                case "load sinbad":
-                    addModel("Sinbad");
-                    return;
-                case "load sinbadWith1Sword":
-                    addModel("SinbadWith1Sword");
-                    return;
-                case "load sinbadWithSwords":
-                    addModel("SinbadWithSwords");
-                    return;
                 case "pin leftFemur":
                     pin(leftFemur);
                     return;
@@ -393,6 +369,11 @@ public class TestDac extends ActionApplication {
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
+            }
+            String[] words = actionString.split(" ");
+            if (words.length >= 2 && "load".equals(words[0])) {
+                addModel(words[1]);
+                return;
             }
         }
         super.onAction(actionString, ongoing, tpf);
@@ -539,12 +520,14 @@ public class TestDac extends ActionApplication {
             case "Sinbad":
                 loadSinbad();
                 break;
-            case "SinbadWithSwords":
-                loadSinbadWithSwords();
-                break;
             case "SinbadWith1Sword":
                 loadSinbadWith1Sword();
                 break;
+            case "SinbadWithSwords":
+                loadSinbadWithSwords();
+                break;
+            default:
+                throw new IllegalArgumentException(modelName);
         }
 
         List<Spatial> list
@@ -633,7 +616,7 @@ public class TestDac extends ActionApplication {
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setSolverNumIterations(30);
+        physicsSpace.setSolverNumIterations(15);
         physicsSpace.setAccuracy(0.01f); // 10 msec timestep
     }
 
@@ -709,6 +692,7 @@ public class TestDac extends ActionApplication {
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
+
         dac = new JaimeControl();
         animationName = "Punches";
         leftClavicleName = "shoulder.L";
@@ -772,7 +756,7 @@ public class TestDac extends ActionApplication {
     }
 
     /**
-     * Load the Sinbad model.
+     * Load the Sinbad model without attachments.
      */
     private void loadSinbad() {
         cgModel = (Node) assetManager.loadModel(
@@ -835,7 +819,7 @@ public class TestDac extends ActionApplication {
         dac.attach("Handle.L", swordConfig, sword);
         dac.attach("Handle.R", swordConfig, sword);
 
-        animationName = "Dance";
+        animationName = "RunTop";
         leftClavicleName = "Clavicle.L";
         leftUlnaName = "Ulna.L";
         rightClavicleName = "Clavicle.R";
