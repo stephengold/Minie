@@ -461,8 +461,8 @@ abstract public class PhysicsCollisionObject
      * Compare (by ID) with another collision object.
      *
      * @param other (not null, unaffected)
-     * @return 0 if the objects are equal; negative if this comes before other;
-     * positive if this comes after other
+     * @return 0 if the objects have the same ID; negative if this comes before
+     * other; positive if this comes after other
      */
     @Override
     public int compareTo(PhysicsCollisionObject other) {
@@ -556,6 +556,28 @@ abstract public class PhysicsCollisionObject
     // Object methods
 
     /**
+     * Test for ID equality.
+     *
+     * @param otherObject (may be null)
+     * @return true if the collision objects have the same ID, otherwise false
+     */
+    @Override
+    public boolean equals(Object otherObject) {
+        boolean result;
+        if (this == otherObject) {
+            result = true;
+        } else if (otherObject instanceof PhysicsCollisionObject) {
+            PhysicsCollisionObject other = (PhysicsCollisionObject) otherObject;
+            long otherId = other.getObjectId();
+            result = (objectId == otherId);
+        } else {
+            result = false;
+        }
+
+        return result;
+    }
+
+    /**
      * Finalize this collision object just before it is destroyed. Should be
      * invoked only by a subclass or by the garbage collector.
      *
@@ -567,6 +589,17 @@ abstract public class PhysicsCollisionObject
         logger.log(Level.FINE, "Finalizing CollisionObject {0}",
                 Long.toHexString(objectId));
         finalizeNative(objectId);
+    }
+
+    /**
+     * Generate the hash code for this object.
+     *
+     * @return value for use in hashing
+     */
+    @Override
+    public int hashCode() {
+        int hash = (int) (objectId >> 4);
+        return hash;
     }
     // *************************************************************************
     // private methods
