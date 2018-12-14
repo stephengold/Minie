@@ -304,43 +304,63 @@ public class TestDac extends ActionApplication {
                 case "go bind pose":
                     dac.bindSubtree(dac.getTorsoLink(), 2f);
                     return;
+
                 case "go floating":
-                    dac.setDynamicSubtree(dac.getTorsoLink(), Vector3f.ZERO,
-                            false);
+                    if (dac.isReady()) {
+                        dac.setDynamicSubtree(dac.getTorsoLink(), Vector3f.ZERO,
+                                false);
+                    }
                     return;
                 case "go limp":
-                    dac.setRagdollMode();
+                    if (dac.isReady()) {
+                        dac.setRagdollMode();
+                    }
                     return;
                 case "limp left arm":
-                    dac.setDynamicSubtree(leftClavicle,
-                            new Vector3f(0f, -30f, 0f), false);
+                    if (dac.isReady()) {
+                        dac.setDynamicSubtree(leftClavicle,
+                                new Vector3f(0f, -30f, 0f), false);
+                    }
                     return;
                 case "limp right arm":
-                    dac.setDynamicSubtree(rightClavicle,
-                            new Vector3f(0f, -30f, 0f), false);
+                    if (dac.isReady()) {
+                        dac.setDynamicSubtree(rightClavicle,
+                                new Vector3f(0f, -30f, 0f), false);
+                    }
                     return;
+
                 case "load":
                     load();
                     return;
                 case "pin leftFemur":
                     pin(leftFemur);
                     return;
+
                 case "raise leftFoot":
-                    dac.setDynamicSubtree(leftFemur,
-                            new Vector3f(0f, 20f, 0f), false);
+                    if (dac.isReady()) {
+                        dac.setDynamicSubtree(leftFemur,
+                                new Vector3f(0f, 20f, 0f), false);
+                    }
                     return;
                 case "raise leftHand":
-                    dac.setDynamicSubtree(leftClavicle,
-                            new Vector3f(0f, 20f, 0f), false);
+                    if (dac.isReady()) {
+                        dac.setDynamicSubtree(leftClavicle,
+                                new Vector3f(0f, 20f, 0f), false);
+                    }
                     return;
                 case "raise rightFoot":
-                    dac.setDynamicSubtree(rightFemur,
-                            new Vector3f(0f, 20f, 0f), false);
+                    if (dac.isReady()) {
+                        dac.setDynamicSubtree(rightFemur,
+                                new Vector3f(0f, 20f, 0f), false);
+                    }
                     return;
                 case "raise rightHand":
-                    dac.setDynamicSubtree(rightClavicle,
-                            new Vector3f(0f, 20f, 0f), false);
+                    if (dac.isReady()) {
+                        dac.setDynamicSubtree(rightClavicle,
+                                new Vector3f(0f, 20f, 0f), false);
+                    }
                     return;
+
                 case "reset model transform":
                     cgModel.setLocalTransform(resetTransform);
                     return;

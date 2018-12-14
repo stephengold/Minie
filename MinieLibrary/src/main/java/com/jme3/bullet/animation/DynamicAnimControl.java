@@ -253,8 +253,7 @@ public class DynamicAnimControl
                     "Control is not added to a spatial.");
         }
         if (!isReady) {
-            throw new IllegalStateException(
-                    "Control is not ready.");
+            throw new IllegalStateException("Control is not ready.");
         }
 
         recalculateCenter();
@@ -608,32 +607,29 @@ public class DynamicAnimControl
      * Immediately put all links into dynamic mode with full gravity and disable
      * all IK controllers/joints.
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the control IS added to a spatial and all links are "ready".
      */
     public void setRagdollMode() {
         if (getSpatial() == null) {
             throw new IllegalStateException(
                     "Cannot change modes unless added to a spatial.");
         }
+        if (!isReady) {
+            throw new IllegalStateException("Control is not ready.");
+        }
 
         Vector3f ragdollGravity = gravity(null);
 
         TorsoLink torsoLink = getTorsoLink();
         torsoLink.setDynamic(ragdollGravity);
-        for (IKController controller : torsoLink.listIKControllers()) {
-            controller.setEnabled(false);
-        }
+        torsoLink.disableAllIKControllers();
         for (BoneLink boneLink : getBoneLinks()) {
             boneLink.setDynamic(ragdollGravity, false, false, false);
-            for (IKController controller : boneLink.listIKControllers()) {
-                controller.setEnabled(false);
-            }
+            boneLink.disableAllIKControllers();
         }
         for (AttachmentLink link : listAttachmentLinks()) {
             link.setDynamic(ragdollGravity);
-            for (IKController controller : link.listIKControllers()) {
-                controller.setEnabled(false);
-            }
+            link.disableAllIKControllers();
         }
         for (PhysicsJoint joint : ikJoints) {
             joint.setEnabled(false);
