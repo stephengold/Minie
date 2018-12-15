@@ -1,15 +1,72 @@
 # release notes for the Minie library and related tests
 
+## Version 0.6.0 released on TBD
+
+Noteworthy additions:
+
+ + An `IKController` class for inverse kinematics.  Each `PhysicsLink` maintains
+   a list of IK controllers.
+ + 3 IK joint creation methods in `DynamicAnimControl`:
+   `moveToBody()`, `moveToWorld()`, and `pinToWorld()`.
+ + Each `DynamicAnimControl` keeps a list of IK joints and disables those
+   joint when entering to ragdoll mode.
+ + A `BalanceDemo` with 2 examples of `IKController`.
+ + An `EmptyShape` class.
+ + A `setDynamicChain()` method in `DynamicAnimControl`.
+ + Optional `Biped` and `Binocular` interfaces for `DynamicAnimControl`
+   subclasses.
+ + A `footprint()` method to calculate the "footprint" of a `PhysicsLink`.
+ + An `animateSubtree()` method for `DynamicAnimControl`.
+ + A constructor for a single-ended `Point2PointJoint` with its
+   constraint already satisfied.
+ + An `isActive()` method for all collision objects (not just rigid bodies).
+ + An `isDetached()` method for all physics links (not just attachments).
+ + A `setContactResponse()` method for physics characters (not just bodies).
+ + Simple `compareTo()`, `equals()`, and `hash()` methods for collision objects.
+
+Bugs fixed:
+
+ + Single-ended point-to-point joints were created with incorrect world
+   locations for their pivots.
+ + `PhysicsRigidBody` and `PhysicsCharacter` were not cloned properly.
+
+Debugging improvements:
+
+ + Generally made dumps more compact by trimming trailing zeros.
+ + In dumps, indicate joints with out-of-space bodies.
+ + In dumps, indicate joints that lack a dynamic body.
+ + In dumps, indicate non-responsive rigid bodies.
+ + In visualizations, draw non-contact physics characters in yellow wireframe.
+
+Other important changes:
+
+ + Added the concept of a `DynamicAnimControl` being "ready" for dynamic-mode
+   only after the 1st physics timestep.  This helps avert initialization bugs.
+ + Turned off hardware skinning in `DacLinks.createSpatialData()` to provide
+   access to the true positions of mesh vertices.
+ + Modified the `DynamicAnimControl.centerOfMass()` method to also estimate the
+   velocity vector of the center of mass.
+ + Links in kinematic mode now update their body's location and velocity for
+   every frame, instead of just for each timestep.
+ + Eliminated the `PhysicsJoint.getPivotInWorld()` method. (API change)
+ + Renamed `DacPhysicsLinks` to `DacLinks`. (API change)
+ + `PhysicsSpace` accessors now return physics-object collections sorted by ID.
+
+Other details:
+
+ + Updated the native libraries to version 1.0.21 of `jme3-bullet-native`.
+ + Based on version 2.16 of the `jme3-utilities-heart` library.
+
 ## Version 0.5.1 released on 5 December 2018
 
  + Added a "contact response" option for rigid bodies.
  + Added an `isStatic()` method to `PhysicsCollisionObject`.
  + Prohibited scaling of `SimplexCollisionShape`.
- + Added a `MultiSphere` constructor for a capsule shape with specified axis.
+ + Added a `MultiSphere` constructor for a capsule shape with indexed axis.
 
 Noteworthy changes to debug visualization:
 
- + Fixed a bug where physics objects and joints continued being visualized after
+ + Fixed a bug where physics objects and joints continued to be visualized after
    setting a filter to exclude them.
  + Update debug spatials on every change to `debugMeshNormals`
    or `debugMeshResolution`.

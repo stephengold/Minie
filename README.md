@@ -144,9 +144,10 @@ Section to be written.
 
     repositories {
         maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
+        jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.5.1'
+        compile 'jme3utilities:Minie:0.6.0'
     }
 
 <a name="links"/>
