@@ -67,11 +67,11 @@ public class BalanceController extends IKController {
     /**
      * factor used to calculate the location gain
      */
-    private float locationGainFactor = 0.05f;
+    private float locationGainFactor = 0.02f;
     /**
      * factor used to calculate the velocity gain
      */
-    private float velocityGainFactor = 0.05f;
+    private float velocityGainFactor = 0.02f;
     /**
      * location of the center of support (in physics-space coordinates, not
      * null)
@@ -131,7 +131,7 @@ public class BalanceController extends IKController {
     /**
      * Alter the location gain factor.
      *
-     * @param newFactor (default = 0.05)
+     * @param newFactor (default = 0.02)
      */
     public void setLocationGainFactor(float newFactor) {
         locationGainFactor = newFactor;
@@ -140,7 +140,7 @@ public class BalanceController extends IKController {
     /**
      * Alter the velocity gain factor.
      *
-     * @param newFactor (default = 0.05)
+     * @param newFactor (default = 0.02)
      */
     public void setVelocityGainFactor(float newFactor) {
         velocityGainFactor = newFactor;
@@ -230,8 +230,8 @@ public class BalanceController extends IKController {
         super.read(importer);
         InputCapsule ic = importer.getCapsule(this);
 
-        locationGainFactor = ic.readFloat("locationGainFactor", 0.05f);
-        velocityGainFactor = ic.readFloat("velocityGainFactor", 0.05f);
+        locationGainFactor = ic.readFloat("locationGainFactor", 0.02f);
+        velocityGainFactor = ic.readFloat("velocityGainFactor", 0.02f);
         centerOfSupport
                 = (Vector3f) ic.readSavable("centerOfSupport", new Vector3f());
     }
@@ -246,8 +246,8 @@ public class BalanceController extends IKController {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule oc = exporter.getCapsule(this);
 
-        oc.write(locationGainFactor, "locationGainFactor", 0.05f);
-        oc.write(velocityGainFactor, "velocityGainFactor", 0.05f);
+        oc.write(locationGainFactor, "locationGainFactor", 0.02f);
+        oc.write(velocityGainFactor, "velocityGainFactor", 0.02f);
         oc.write(centerOfSupport, "centerOfSupport", null);
     }
 }
