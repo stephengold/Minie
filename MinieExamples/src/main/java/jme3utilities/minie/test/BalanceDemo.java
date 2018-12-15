@@ -115,8 +115,12 @@ public class BalanceDemo extends ActionApplication {
      */
     private DynamicAnimControl dac;
     private float rightSupportFraction = 0.5f;
-    private float vaSign = +1f;
+    /**
+     * parameters that determine the vertical acceleration
+     */
+    private float vaBias = 0f;
     private float vaMagnitude = 0f;
+    private float vaSign = +1f;
     /**
      * C-G model on which the control is being tested
      */
@@ -313,8 +317,9 @@ public class BalanceDemo extends ActionApplication {
             comPoint.setEnabled(true);
 
             if (balance.isEnabled()) {
-                Vector3f acc = new Vector3f(0f, vaSign * vaMagnitude, 0f);
-                torso.setDynamic(acc);
+                Vector3f verticalAcceleration
+                        = new Vector3f(0f, vaBias + vaSign * vaMagnitude, 0f);
+                torso.setDynamic(verticalAcceleration);
 
                 Vector3f supportLocation = MyVector3f.lerp(rightSupportFraction,
                         leftSupportLocation, rightSupportLocation, null);
@@ -437,7 +442,6 @@ public class BalanceDemo extends ActionApplication {
         AnimControl animControl
                 = controlledSpatial.getControl(AnimControl.class);
         animChannel = animControl.createChannel();
-        animChannel.setAnim(animationName);
 
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow); // TODO clean up visualization
@@ -530,9 +534,9 @@ public class BalanceDemo extends ActionApplication {
             dac.pinToWorld(rightFoot, location);
         }
         /*
-         * Add a balance controller to the torso.
+         * Apply a BalanceController to the torso.
          */
-        Vector3f acc = new Vector3f(0f, vaSign * vaMagnitude, 0f);
+        Vector3f acc = new Vector3f(0f, vaBias + vaSign * vaMagnitude, 0f);
         torso.setDynamic(acc);
         leftSupportLocation = MyArray.mean(leftSole, null);
         rightSupportLocation = MyArray.mean(rightSole, null);
@@ -541,15 +545,22 @@ public class BalanceDemo extends ActionApplication {
         balance = new BalanceController(torso, supportLocation);
         torso.addIKController(balance);
         /*
-         * Add an upright controller to the torso.
+         * Apply an UprightController to the torso.
          */
         UprightController upright
                 = new UprightController(torso, torsoUpDirection);
         torso.addIKController(upright);
-        if (dac instanceof OtoControl || dac instanceof PuppetControl) {
-            upright.setErrorGainFactor(0.1f);
-            upright.setDeltaGainFactor(0.1f);
+        if (dac instanceof MhGameControl || dac instanceof PuppetControl) {
+            upright.setDeltaGainFactor(0.3f);
+            upright.setErrorGainFactor(0.3f);
+        } else if (dac instanceof NinjaControl || dac instanceof SinbadControl) {
+            upright.setDeltaGainFactor(1f);
+            upright.setErrorGainFactor(1f);
         }
+        /*
+         * Start playing a canned animation.
+         */
+        animChannel.setAnim(animationName);
     }
 
     /**
@@ -564,7 +575,8 @@ public class BalanceDemo extends ActionApplication {
 
         dac = new JaimeControl();
         animationName = "Punches";
-        vaMagnitude = 40f;
+        vaBias = 5f;
+        vaMagnitude = 15f;
         torsoUpDirection = Vector3f.UNIT_Z;
     }
 
@@ -586,11 +598,11 @@ public class BalanceDemo extends ActionApplication {
      */
     private void loadNinja() {
         cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
-        cgModel.rotate(0f, -2.5f, 0f);
-        cgModel.rotate(0f, 3f, 0f);
+        cgModel.rotate(0f, 1.6f, 0f);
         dac = new NinjaControl();
         animationName = "Walk";
-        vaMagnitude = 5f;
+        vaBias = -8f;
+        vaMagnitude = 12f;
         torsoUpDirection = Vector3f.UNIT_Y;
     }
 
@@ -599,10 +611,10 @@ public class BalanceDemo extends ActionApplication {
      */
     private void loadOto() {
         cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.mesh.xml");
-        cgModel.rotate(0f, -2.5f, 0f);
+        cgModel.rotate(0f, -1.6f, 0f);
         dac = new OtoControl();
         animationName = "pull";
-        vaMagnitude = 40f;
+        vaMagnitude = 80f;
     }
 
     /**
@@ -610,10 +622,11 @@ public class BalanceDemo extends ActionApplication {
      */
     private void loadPuppet() {
         cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
-        cgModel.rotate(0f, -0.5f, 0f);
+        cgModel.rotate(0f, -1.6f, 0f);
         dac = new PuppetControl();
         animationName = "wave";
-        vaMagnitude = 40f;
+        vaBias = 10f;
+        vaMagnitude = 30f;
         torsoUpDirection = new Vector3f(0f, 0f, -1f);
     }
 
