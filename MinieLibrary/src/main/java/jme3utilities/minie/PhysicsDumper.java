@@ -43,6 +43,7 @@ import jme3utilities.MyString;
 import jme3utilities.debug.Describer;
 import jme3utilities.debug.Dumper;
 import jme3utilities.math.MyQuaternion;
+import jme3utilities.math.MyVector3f;
 
 /**
  * Dump portions of a jME3 scene graph for debugging.
@@ -126,8 +127,8 @@ public class PhysicsDumper extends Dumper {
         stream.print(desc);
 
         Vector3f location = character.getPhysicsLocation();
-        stream.printf(" loc=[%.3f, %.3f, %.3f]",
-                location.x, location.y, location.z);
+        String locString = MyVector3f.describe(location);
+        stream.printf(" loc=[%s]", locString);
 
         stream.println();
 
@@ -146,8 +147,8 @@ public class PhysicsDumper extends Dumper {
         stream.print(desc);
 
         Vector3f location = ghost.getPhysicsLocation(null);
-        stream.printf(" loc=[%.3f, %.3f, %.3f]",
-                location.x, location.y, location.z);
+        String locString = MyVector3f.describe(location);
+        stream.printf(" loc=[%s]", locString);
 
         stream.println();
     }
@@ -197,7 +198,7 @@ public class PhysicsDumper extends Dumper {
         }
 
         if (numDyn == 0) {
-            stream.printf("NO_DYNAMIC_BODY");
+            stream.printf(" NO_DYNAMIC_BODY");
         }
 
         float bit = joint.getBreakingImpulseThreshold();
@@ -224,12 +225,13 @@ public class PhysicsDumper extends Dumper {
         stream.print(desc);
 
         Vector3f location = body.getPhysicsLocation(null);
-        stream.printf(" loc=[%.3f, %.3f, %.3f]",
-                location.x, location.y, location.z);
+        String locString = MyVector3f.describe(location);
+        stream.printf(" loc=[%s]", locString);
 
         Quaternion orientation = body.getPhysicsRotation(null);
         if (!MyQuaternion.isRotationIdentity(orientation)) {
-            stream.printf(" orient=%s", orientation);
+            String orient = MyQuaternion.describe(orientation);
+            stream.printf(" orient=[%s]", orient);
         }
         // TODO velocity, gravity, sleep thresholds, etc.
         /*
@@ -286,7 +288,7 @@ public class PhysicsDumper extends Dumper {
             } else {
                 stream.printf("to=#%s", Long.toHexString(otherId));
             }
-            stream.printf(" piv=%s%n", pivot);
+            stream.printf(" piv=[%s]%n", MyVector3f.describe(pivot));
         }
     }
 
@@ -323,17 +325,21 @@ public class PhysicsDumper extends Dumper {
         Vector3f gravity = space.getGravity(null);
         int maxSubSteps = space.maxSubSteps();
 
-        stream.printf(" accu=%f, bphase=%s, grav=%s, maxStep=%d%n",
-                accuracy, broadphaseType, gravity, maxSubSteps);
+        String accuString = MyString.describe(accuracy);
+        String gravString = MyVector3f.describe(gravity);
+        stream.printf(" accu=%s, bphase=%s, grav=[%s], maxStep=%d%n",
+                accuString, broadphaseType, gravString, maxSubSteps);
 
         int numIterations = space.getSolverNumIterations();
         int rayTestFlags = space.getRayTestFlags();
         PhysicsDescriber describer = getDescriber();
         String rtText = describer.describeRayTestFlags(rayTestFlags);
-        Vector3f worldMax = space.getWorldMax(null); // TODO trim
-        Vector3f worldMin = space.getWorldMin(null); // TODO trim
-        stream.printf(" iters=%d, rayTest=(%s), wMin=%s, wMax=%s%n",
-                numIterations, rtText, worldMin, worldMax);
+        Vector3f worldMax = space.getWorldMax(null);
+        String maxString = MyVector3f.describe(worldMax);
+        Vector3f worldMin = space.getWorldMin(null);
+        String minString = MyVector3f.describe(worldMin);
+        stream.printf(" iters=%d, rayTest=(%s), wMin=[%s], wMax=[%s]%n",
+                numIterations, rtText, minString, maxString);
 
         for (PhysicsCharacter character : characters) {
             dump(character);
@@ -367,8 +373,8 @@ public class PhysicsDumper extends Dumper {
         stream.print(desc);
 
         Vector3f location = vehicle.getPhysicsLocation(null);
-        stream.printf(" loc=[%.3f, %.3f, %.3f]",
-                location.x, location.y, location.z);
+        String locString = MyVector3f.describe(location);
+        stream.printf(" loc=[%s]", locString);
 
         stream.println();
     }

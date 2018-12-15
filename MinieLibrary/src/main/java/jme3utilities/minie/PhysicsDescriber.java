@@ -45,6 +45,7 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.debug.Describer;
 import jme3utilities.math.MyQuaternion;
+import jme3utilities.math.MyVector3f;
 
 /**
  * Generate compact textual descriptions of jME3 objects. TODO add describe
@@ -82,23 +83,30 @@ public class PhysicsDescriber extends Describer {
         if (shape instanceof BoxCollisionShape) {
             BoxCollisionShape box = (BoxCollisionShape) shape;
             Vector3f he = box.getHalfExtents(null);
-            result += String.format("[hx=%f,hy=%f,hz=%f]", he.x, he.y, he.z);
+            String xText = MyString.describe(he.x);
+            String yText = MyString.describe(he.y);
+            String zText = MyString.describe(he.z);
+            result += String.format("[hx=%s,hy=%s,hz=%s]", xText, yText, zText);
 
         } else if (shape instanceof CapsuleCollisionShape) {
             CapsuleCollisionShape capsule = (CapsuleCollisionShape) shape;
             int axis = capsule.getAxis();
             result += describeAxis(axis);
             float height = capsule.getHeight();
+            String hText = MyString.describe(height);
             float radius = capsule.getRadius();
-            result += String.format("[h=%f,r=%f]", height, radius);
+            String rText = MyString.describe(radius);
+            result += String.format("[h=%s,r=%s]", hText, rText);
 
         } else if (shape instanceof ConeCollisionShape) {
             ConeCollisionShape cone = (ConeCollisionShape) shape;
             int axis = cone.getAxis();
             result += describeAxis(axis);
             float height = cone.getHeight();
+            String hText = MyString.describe(height);
             float radius = cone.getRadius();
-            result += String.format("[h=%f,r=%f]", height, radius);
+            String rText = MyString.describe(radius);
+            result += String.format("[h=%s,r=%s]", hText, rText);
 
         } else if (shape instanceof CompoundCollisionShape) {
             CompoundCollisionShape compound = (CompoundCollisionShape) shape;
@@ -109,9 +117,11 @@ public class PhysicsDescriber extends Describer {
             CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
             int axis = cylinder.getAxis();
             result += describeAxis(axis);
-            Vector3f halfExtents = cylinder.getHalfExtents(null);
-            result += String.format("[hx=%f,hy=%f,hz=%f]",
-                    halfExtents.x, halfExtents.y, halfExtents.z);
+            Vector3f he = cylinder.getHalfExtents(null);
+            String xText = MyString.describe(he.x);
+            String yText = MyString.describe(he.y);
+            String zText = MyString.describe(he.z);
+            result += String.format("[hx=%s,hy=%s,hz=%s]", xText, yText, zText);
 
         } else if (shape instanceof MultiSphere) {
             MultiSphere multiSphere = (MultiSphere) shape;
@@ -122,14 +132,15 @@ public class PhysicsDescriber extends Describer {
                 if (sphereIndex > 0) {
                     result += ",";
                 }
-                result += Float.toString(radius);
+                result += MyString.describe(radius);
             }
             result += "]";
 
         } else if (shape instanceof SphereCollisionShape) {
             SphereCollisionShape sphere = (SphereCollisionShape) shape;
             float radius = sphere.getRadius();
-            result += String.format("[r=%f]", radius);
+            String rText = MyString.describe(radius);
+            result += String.format("[r=%s]", rText);
         }
 
         return result;
@@ -155,16 +166,17 @@ public class PhysicsDescriber extends Describer {
             result.append(desc);
 
             Vector3f location = child.getLocation(null);
-            desc = String.format("@[%.3f, %.3f, %.3f]",
-                    location.x, location.y, location.z);
+            String locString = MyVector3f.describe(location);
+            desc = String.format("@[%s]", locString);
             result.append(desc);
 
             Quaternion rotation = new Quaternion();
             rotation.fromRotationMatrix(child.getRotation(null));
             if (!MyQuaternion.isRotationIdentity(rotation)) {
-                result.append("rot");
-                desc = rotation.toString();
+                result.append("rot[");
+                desc = MyQuaternion.describe(rotation);
                 result.append(desc);
+                result.append("]");
             }
         }
 
