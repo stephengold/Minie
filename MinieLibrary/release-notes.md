@@ -1,6 +1,6 @@
 # release notes for the Minie library and related tests
 
-## Version 0.6.0 released on TBD
+## Version 0.6.0 released on 15 December 2018
 
 Noteworthy additions:
 
@@ -9,7 +9,7 @@ Noteworthy additions:
  + 3 IK joint creation methods in `DynamicAnimControl`:
    `moveToBody()`, `moveToWorld()`, and `pinToWorld()`.
  + Each `DynamicAnimControl` keeps a list of IK joints and disables those
-   joint when entering to ragdoll mode.
+   joints when entering ragdoll mode.
  + A `BalanceDemo` with 2 examples of `IKController`.
  + An `EmptyShape` class.
  + A `setDynamicChain()` method in `DynamicAnimControl`.
