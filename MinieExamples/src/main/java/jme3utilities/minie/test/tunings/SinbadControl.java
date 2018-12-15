@@ -93,14 +93,14 @@ public class SinbadControl
                 new RangeOfMotion(0.8f, 0f, 0.2f));
 
         super.link("Thigh.R", hull,
-                new RangeOfMotion(0.4f, -1f, 0.4f, -0.4f, 0.5f, -0.5f));
+                new RangeOfMotion(0.4f, -1f, 0.4f, -0.4f, 1f, -0.5f));
         super.link("Calf.R", hull,
                 new RangeOfMotion(2f, 0f, 0f, 0f, 0f, 0f));
         super.link("Foot.R", hull,
                 new RangeOfMotion(0.3f, 0.5f, 0f));
 
         super.link("Thigh.L", hull,
-                new RangeOfMotion(1f, -0.4f, 0.4f, -0.4f, 0.5f, -0.5f));
+                new RangeOfMotion(0.4f, -1f, 0.4f, -0.4f, 0.5f, -1f));
         super.link("Calf.L", hull,
                 new RangeOfMotion(2f, 0f, 0f, 0f, 0f, 0f));
         super.link("Foot.L", hull,
