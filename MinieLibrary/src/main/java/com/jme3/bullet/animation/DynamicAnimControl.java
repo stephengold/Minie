@@ -607,7 +607,8 @@ public class DynamicAnimControl
      * Immediately put all links into dynamic mode with full gravity and disable
      * all IK controllers/joints.
      * <p>
-     * Allowed only when the control IS added to a spatial and all links are "ready".
+     * Allowed only when the control IS added to a spatial and all links are
+     * "ready".
      */
     public void setRagdollMode() {
         if (getSpatial() == null) {
