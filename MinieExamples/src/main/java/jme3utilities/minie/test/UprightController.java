@@ -66,11 +66,11 @@ public class UprightController extends IKController {
     /**
      * factor used to calculate the delta gain
      */
-    private float deltaGainFactor = 1f;
+    private float deltaGainFactor = 0.1f;
     /**
      * factor used to calculate the error gain
      */
-    private float errorGainFactor = 1f;
+    private float errorGainFactor = 0.1f;
     /**
      * desired up direction (unit vector in the link body's local coordinates)
      */
@@ -119,7 +119,7 @@ public class UprightController extends IKController {
     /**
      * Alter the delta gain factor.
      *
-     * @param newFactor (default = 1)
+     * @param newFactor (default = 0.1)
      */
     public void setDeltaGainFactor(float newFactor) {
         deltaGainFactor = newFactor;
@@ -128,7 +128,7 @@ public class UprightController extends IKController {
     /**
      * Alter the error gain factor.
      *
-     * @param newFactor (default = 1)
+     * @param newFactor (default = 0.1)
      */
     public void setErrorGainFactor(float newFactor) {
         errorGainFactor = newFactor;
@@ -228,8 +228,8 @@ public class UprightController extends IKController {
         super.read(importer);
         InputCapsule ic = importer.getCapsule(this);
 
-        deltaGainFactor = ic.readFloat("deltaGainFactor", 1f);
-        errorGainFactor = ic.readFloat("errorGainFactor", 1f);
+        deltaGainFactor = ic.readFloat("deltaGainFactor", 0.1f);
+        errorGainFactor = ic.readFloat("errorGainFactor", 0.1f);
         directionInLinkBody = (Vector3f) ic.readSavable("directionInLinkBody",
                 new Vector3f(1f, 0f, 0f));
         previousError = (Vector3f) ic.readSavable("previousError",
@@ -246,8 +246,8 @@ public class UprightController extends IKController {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule oc = exporter.getCapsule(this);
 
-        oc.write(deltaGainFactor, "deltaGainFactor", 1f);
-        oc.write(errorGainFactor, "errorGainFactor", 1f);
+        oc.write(deltaGainFactor, "deltaGainFactor", 0.1f);
+        oc.write(errorGainFactor, "errorGainFactor", 0.1f);
         oc.write(directionInLinkBody, "directionInLinkBody", null);
         oc.write(previousError, "previousError", null);
     }
