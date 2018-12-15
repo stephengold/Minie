@@ -15,6 +15,7 @@ Summary of features:
     + set dynamic/kinematic mode per bone
     + deals with attachments
     + highly configurable, with multiple options for bone mass, center, and shape
+    + apply inverse-kinematic controllers and joints
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `EmptyShape` collision shapes based on `btEmptyShape`
  + enhanced debug visualization:
@@ -22,7 +23,7 @@ Summary of features:
     + dump contents of physics space
     + visualize in multiple viewports
     + hi-res debug meshes for convex shapes
-    + options to generate debug meshes with normals
+    + options to generate debug meshes that include normals
  + all joints, shapes, and collision objects implement `JmeCloneable`
  + enable/disable a joint
  + create single-ended joints
@@ -156,6 +157,8 @@ Section to be written.
 
 YouTube videos about Minie:
 
+  + December 2018 demo (inverse kinematics)
+    https://www.youtube.com/watch?v=ZGqN9ZCCu-8 (6:27)
   + December 2018 teaser (inverse kinematics)
     https://www.youtube.com/watch?v=fTWQ9m47GIA (0:51)
   + November 2018 demo (single-ended joints):
