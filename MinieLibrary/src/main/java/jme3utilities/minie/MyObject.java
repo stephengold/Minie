@@ -63,7 +63,8 @@ public class MyObject {
     // new methods exposed
 
     /**
-     * Briefly describe a rigid body for MyControlP or PhysicsDumper.
+     * Briefly describe a rigid body for MyControlP or PhysicsDumper. TODO add a
+     * similar method for PhysicsCharacter
      *
      * @param body (not null, unaffected)
      * @return a descriptive string (not null, not empty)
@@ -90,7 +91,7 @@ public class MyObject {
     }
 
     /**
-     * Describe the user of a collision object.
+     * Describe the user of a collision object. TODO move to PhysicsDescriber
      *
      * @param pco the collision object to describe (not null, unaffected)
      * @return a descriptive string (not null)
