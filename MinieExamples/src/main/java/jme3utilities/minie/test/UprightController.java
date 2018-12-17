@@ -190,7 +190,7 @@ public class UprightController extends IKController {
             // Error angle is 180 degrees!
             Vector3f ortho = new Vector3f();
             MyVector3f.generateBasis(unitY, ortho, new Vector3f());
-            error = ortho.cross(actual);
+            error = actual.cross(ortho);
             sinErrorAngle = error.length();
         }
         Vector3f errorAxis = error.divide(sinErrorAngle);
