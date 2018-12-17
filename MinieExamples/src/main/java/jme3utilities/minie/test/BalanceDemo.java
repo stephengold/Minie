@@ -86,7 +86,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Demo/testbed for BalanceController.
+ * Demo/testbed for BalanceController inverse kinematics.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -423,6 +423,7 @@ public class BalanceDemo extends ActionApplication {
         for (Spatial spatial : list) {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
+        cgModel.setCullHint(Spatial.CullHint.Never);
 
         rootNode.attachChild(cgModel);
         setHeight(cgModel, 2f);

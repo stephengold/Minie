@@ -308,6 +308,8 @@ public class TuneDac extends ActionApplication {
         //loadPuppet();
         //loadSinbad();
 
+        model.setCullHint(Spatial.CullHint.Never);
+
         rootNode.attachChild(model);
         setHeight(model, 2f);
         center(model);
@@ -343,7 +345,6 @@ public class TuneDac extends ActionApplication {
     private void loadElephant() {
         model = (Node) assetManager.loadModel(
                 "Models/Elephant/Elephant.mesh.xml");
-        model.setCullHint(Spatial.CullHint.Never);
         model.rotate(0f, 1.6f, 0f);
         dac = new ElephantControl();
     }

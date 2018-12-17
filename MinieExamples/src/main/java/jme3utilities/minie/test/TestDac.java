@@ -555,6 +555,7 @@ public class TestDac extends ActionApplication {
         for (Spatial spatial : list) {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
+        cgModel.setCullHint(Spatial.CullHint.Never);
 
         rootNode.attachChild(cgModel);
         setHeight(cgModel, 2f);
@@ -694,7 +695,6 @@ public class TestDac extends ActionApplication {
     private void loadElephant() {
         cgModel = (Node) assetManager.loadModel(
                 "Models/Elephant/Elephant.mesh.xml");
-        cgModel.setCullHint(Spatial.CullHint.Never);
         cgModel.rotate(0f, 1.6f, 0f);
         dac = new ElephantControl();
         animationName = "legUp";
