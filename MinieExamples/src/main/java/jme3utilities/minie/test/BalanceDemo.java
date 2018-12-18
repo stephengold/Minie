@@ -83,7 +83,6 @@ import jme3utilities.minie.test.tunings.PuppetControl;
 import jme3utilities.minie.test.tunings.SinbadControl;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
-import jme3utilities.ui.Signals;
 
 /**
  * Demo/testbed for BalanceController inverse kinematics.
@@ -236,7 +235,7 @@ public class BalanceDemo extends ActionApplication {
      *
      * @param actionString textual description of the action (not null)
      * @param ongoing true if the action is ongoing, otherwise false
-     * @param tpf time interval between render passes (in seconds, &ge;0)
+     * @param tpf time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void onAction(String actionString, boolean ongoing, float tpf) {
@@ -281,26 +280,13 @@ public class BalanceDemo extends ActionApplication {
     }
 
     /**
-     * Callback invoked once per render pass.
+     * Callback invoked once per frame.
      *
-     * @param tpf time interval between render passes (in seconds, &ge;0)
+     * @param tpf time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
-
-        Signals signals = getSignals();
-        float orbitAngle = 0f;
-        if (signals.test("orbitLeft")) {
-            orbitAngle += tpf;
-        }
-        if (signals.test("orbitRight")) {
-            orbitAngle -= tpf;
-        }
-        if (orbitAngle != 0f) {
-            orbitAngle /= speed;
-            orbitCamera(orbitAngle);
-        }
 
         comPoint.setEnabled(false);
         supportPoint.setEnabled(false);
@@ -472,6 +458,10 @@ public class BalanceDemo extends ActionApplication {
 
         cam.setLocation(new Vector3f(-3.3f, 1.5f, -0.1f));
         cam.setRotation(new Quaternion(0.08f, 0.687f, -0.06f, 0.72f));
+
+        CameraOrbitAppState orbitState
+                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
+        stateManager.attach(orbitState);
     }
 
     /**
@@ -697,26 +687,6 @@ public class BalanceDemo extends ActionApplication {
         animationName = "RunTop";
         vaMagnitude = 40f;
         torsoUpDirection = Vector3f.UNIT_Y;
-    }
-
-    /**
-     * Orbit the camera around the world's Y axis.
-     */
-    private void orbitCamera(float orbitAngle) {
-        Quaternion rotate = new Quaternion();
-        rotate.fromAngles(0f, orbitAngle, 0f);
-
-        Vector3f camLocation = cam.getLocation().clone();
-        Vector3f centerLocation
-                = camLocation.clone().multLocal(Vector3f.UNIT_Y);
-        Vector3f xzOffset = camLocation.subtract(centerLocation);
-        rotate.mult(xzOffset, xzOffset);
-        Vector3f newLocation = centerLocation.add(xzOffset);
-        cam.setLocation(newLocation);
-
-        Vector3f camDirection = cam.getDirection();
-        rotate.mult(camDirection, camDirection);
-        cam.lookAtDirection(camDirection, Vector3f.UNIT_Y);
     }
 
     /**

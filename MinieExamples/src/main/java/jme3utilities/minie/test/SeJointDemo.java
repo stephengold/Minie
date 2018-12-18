@@ -231,7 +231,7 @@ public class SeJointDemo extends ActionApplication {
      *
      * @param actionString textual description of the action (not null)
      * @param ongoing true if the action is ongoing, otherwise false
-     * @param tpf time interval between render passes (in seconds, &ge;0)
+     * @param tpf time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void onAction(String actionString, boolean ongoing, float tpf) {
@@ -280,9 +280,9 @@ public class SeJointDemo extends ActionApplication {
     }
 
     /**
-     * Callback invoked once per render pass.
+     * Callback invoked once per frame.
      *
-     * @param tpf time interval between render passes (in seconds, &ge;0)
+     * @param tpf time interval between frame (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float tpf) {
@@ -291,18 +291,6 @@ public class SeJointDemo extends ActionApplication {
         Signals signals = getSignals();
         if (signals.test("shower")) {
             addSeed();
-        }
-
-        float orbitAngle = 0f;
-        if (signals.test("orbitLeft")) {
-            orbitAngle += tpf;
-        }
-        if (signals.test("orbitRight")) {
-            orbitAngle -= tpf;
-        }
-        if (orbitAngle != 0f) {
-            orbitAngle /= speed;
-            orbitCamera(orbitAngle);
         }
     }
     // *************************************************************************
@@ -503,6 +491,10 @@ public class SeJointDemo extends ActionApplication {
 
         cam.setLocation(new Vector3f(2.65f, 2.42f, 9.37f));
         cam.setRotation(new Quaternion(0f, 0.9759f, -0.04f, -0.2136f));
+
+        CameraOrbitAppState orbitState
+                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
+        stateManager.attach(orbitState);
     }
 
     /**
@@ -563,26 +555,6 @@ public class SeJointDemo extends ActionApplication {
         dumper.setDumpTransform(true);
         //dumper.setDumpUser(true);
         dumper.dump(rootNode);
-    }
-
-    /**
-     * Orbit the camera around the world's Y axis.
-     */
-    private void orbitCamera(float orbitAngle) {
-        Quaternion rotate = new Quaternion();
-        rotate.fromAngles(0f, orbitAngle, 0f);
-
-        Vector3f camLocation = cam.getLocation().clone();
-        Vector3f centerLocation
-                = camLocation.clone().multLocal(Vector3f.UNIT_Y);
-        Vector3f xzOffset = camLocation.subtract(centerLocation);
-        rotate.mult(xzOffset, xzOffset);
-        Vector3f newLocation = centerLocation.add(xzOffset);
-        cam.setLocation(newLocation);
-
-        Vector3f camDirection = cam.getDirection();
-        rotate.mult(camDirection, camDirection);
-        cam.lookAtDirection(camDirection, Vector3f.UNIT_Y);
     }
 
     /**
