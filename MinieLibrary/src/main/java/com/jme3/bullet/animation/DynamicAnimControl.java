@@ -60,6 +60,7 @@ import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
+import jme3utilities.MyString;
 import jme3utilities.Validate;
 
 /**
@@ -303,7 +304,9 @@ public class DynamicAnimControl
         String[] fields = vertexSpecifier.split("/");
         int numFields = fields.length;
         if (numFields < 2 || numFields > 3) {
-            throw new IllegalArgumentException(vertexSpecifier);
+            String message = "malformed vertex specifier "
+                    + MyString.quote(vertexSpecifier);
+            throw new IllegalArgumentException(message);
         }
         /*
          * Find the mesh that contains the vertex.
@@ -312,26 +315,48 @@ public class DynamicAnimControl
         Spatial subtree;
         if (numFields == 3) { // The vertex is in an attached model.
             Bone attachBone = skeleton.getBone(fields[2]);
-            assert attachBone != null;
+            if (attachBone == null) {
+                String message = String.format("non-existent bone %s"
+                        + " in vertex specifier", MyString.quote(fields[2]));
+                throw new IllegalArgumentException(message);
+            }
             subtree = MySkeleton.getAttachments(attachBone);
-            assert subtree != null;
+            if (subtree == null) {
+                String message = String.format("no attachment to bone %s",
+                        MyString.quote(fields[2]));
+                throw new IllegalArgumentException(message);
+            }
         } else { // The vertex is in the controlled model.
             subtree = getSpatial();
             assert subtree != null;
         }
         String geometryName = fields[1];
         Spatial gSpatial = MySpatial.findNamed(subtree, geometryName);
+        if (gSpatial == null) {
+            String message = String.format(
+                    "non-existent geometry %s in vertex specifier",
+                    MyString.quote(fields[1]));
+            throw new IllegalArgumentException(message);
+        }
         Geometry geometry = (Geometry) gSpatial;
         Mesh mesh = geometry.getMesh();
         /*
          * Calculate the mesh location (pos) of the vertex.
          */
-        int vertexIndex = Integer.parseInt(fields[0]);
+        int vertexIndex;
+        try {
+            vertexIndex = Integer.parseInt(fields[0]);
+        } catch (NumberFormatException e) {
+            vertexIndex = -1;
+        }
         int numVertices = mesh.getVertexCount();
         if (vertexIndex < 0 || vertexIndex >= numVertices) {
-            throw new IllegalArgumentException(vertexSpecifier);
+            String message = String.format(
+                    "non-existent vertex %s in vertex specifier (legal range: "
+                    + "0 to %d)", MyString.quote(fields[0]),
+                    numVertices - 1);
+            throw new IllegalArgumentException(message);
         }
-        assert vertexIndex < numVertices : vertexIndex;
         Vector3f pos = MyMesh.vertexVector3f(mesh, VertexBuffer.Type.Position,
                 vertexIndex, null);
         /*
@@ -341,9 +366,6 @@ public class DynamicAnimControl
         if (numFields == 3) { // The vertex is in an attached model.
             assert !MyMesh.isAnimated(mesh);
             manager = findAttachmentLink(fields[2]);
-            if (manager == null) {
-                throw new IllegalArgumentException(vertexSpecifier);
-            }
             geometry.localToWorld(pos, worldLocation);
 
         } else { // The vertex is in the controlled model.
