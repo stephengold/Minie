@@ -119,8 +119,9 @@ public class MultiSphereDemo
         AppSettings settings = new AppSettings(true);
         String title = applicationName + " " + MyString.join(arguments);
         settings.setTitle(title);
-        application.setSettings(settings);
 
+        settings.setVSync(true);
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************
@@ -131,12 +132,10 @@ public class MultiSphereDemo
      */
     @Override
     public void actionInitializeApplication() {
-        flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
-        cam.setLocation(new Vector3f(0f, 1.2f, 5f));
-        CameraOrbitAppState orbitState
-                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
-        stateManager.attach(orbitState);
+        configureCamera();
+        configurePhysics();
+        viewPort.setBackgroundColor(ColorRGBA.Gray);
+        addLighting(rootNode);
 
         ColorRGBA gemColors[] = new ColorRGBA[gemMaterials.length];
         gemColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
@@ -150,18 +149,6 @@ public class MultiSphereDemo
                     = MyAsset.createShinyMaterial(assetManager, color);
             gemMaterials[i].setFloat("Shininess", 15f);
         }
-
-        viewPort.setBackgroundColor(ColorRGBA.Gray);
-        addLighting(rootNode);
-
-        CollisionShape.setDefaultMargin(0.005f); // 5 mm
-        bulletAppState = new BulletAppState();
-        bulletAppState.setDebugEnabled(true);
-        bulletAppState.setDebugFilter(this);
-        bulletAppState.setDebugInitListener(this);
-        stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setSolverNumIterations(30);
 
         addBox();
     }
@@ -337,6 +324,38 @@ public class MultiSphereDemo
     }
 
     /**
+     * Configure the camera during startup.
+     */
+    private void configureCamera() {
+        flyCam.setDragToRotate(true);
+        flyCam.setMoveSpeed(4f);
+
+        cam.setLocation(new Vector3f(0f, 1.2f, 5f));
+
+        CameraOrbitAppState orbitState
+                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
+        stateManager.attach(orbitState);
+    }
+
+    /**
+     * Configure physics during startup.
+     */
+    private void configurePhysics() {
+        CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
+
+        bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+
+        bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugFilter(this);
+        bulletAppState.setDebugInitListener(this);
+
+        physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace.setAccuracy(1f / 60); // 16.67 msec timestep
+        physicsSpace.setSolverNumIterations(30);
+    }
+
+    /**
      * Process a "dump physicsSpace" action.
      */
     private void dumpPhysicsSpace() {
@@ -362,7 +381,7 @@ public class MultiSphereDemo
      * Toggle the animation and physics simulation: paused/running.
      */
     private void togglePause() {
-        float newSpeed = (speed > Float.MIN_VALUE) ? Float.MIN_VALUE : 1f;
+        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
         setSpeed(newSpeed);
     }
 }
