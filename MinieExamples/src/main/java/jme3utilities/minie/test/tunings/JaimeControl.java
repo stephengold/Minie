@@ -67,8 +67,6 @@ public class JaimeControl
                 new RangeOfMotion(1f, 1f, 1f));
         super.link("ribs", hull,
                 new RangeOfMotion(0.6f, 0.4f, 0.4f));
-        super.link("neck", hull,
-                new RangeOfMotion(0.3f, -0.6f, 0.5f, -0.5f, 0.5f, -0.5f));
         super.link("head", hull,
                 new RangeOfMotion(0.3f, -0.6f, 0.5f, -0.5f, 0.5f, -0.5f));
         super.link("eye.L", hull,
@@ -167,23 +165,53 @@ public class JaimeControl
     // Binocular methods
 
     /**
-     * Access the BoneLink that manages the model's left eye.
+     * Copy the center-of-vision direction for the model's left eye.
      *
-     * @return the pre-existing instance (not null)
+     * @param storeResult storage for the result (modified if not null)
+     * @return a direction vector (unit vector in the physics link's local
+     * coordinates, either storeResult or a new vector)
+     * @see com.jme3.animation.DynamicAnimControl#findManagerForVertex()
      */
     @Override
-    public BoneLink getLeftEye() {
-        return findBoneLink("eye.R");
+    public Vector3f leftEyeLookDirection(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        result.set(0f, 1f, 0f);
+        return result;
     }
 
     /**
-     * Access the BoneLink that manages the model's right eye.
+     * Read the vertex spec for the model's left pupil.
      *
-     * @return the pre-existing instance (not null)
+     * @return the vertex specification (not null, not empty)
      */
     @Override
-    public BoneLink getRightEye() {
-        return findBoneLink("eye.L");
+    public String leftPupilSpec() {
+        return "2949/JaimeGeom-geom-1";
+    }
+
+    /**
+     * Copy the center-of-vision direction for the model's right eye.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a direction vector (unit vector in the physics link's local
+     * coordinates, either storeResult or a new vector)
+     * @see com.jme3.animation.DynamicAnimControl#findManagerForVertex()
+     */
+    @Override
+    public Vector3f rightEyeLookDirection(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        result.set(0f, 1f, 0f);
+        return result;
+    }
+
+    /**
+     * Read the vertex spec for the model's right pupil.
+     *
+     * @return the vertex specification (not null, not empty)
+     */
+    @Override
+    public String rightPupilSpec() {
+        return "3046/JaimeGeom-geom-1";
     }
     // *************************************************************************
     // Biped methods
