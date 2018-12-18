@@ -134,6 +134,9 @@ public class MultiSphereDemo
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(4f);
         cam.setLocation(new Vector3f(0f, 1.2f, 5f));
+        CameraOrbitAppState orbitState
+                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
+        stateManager.attach(orbitState);
 
         ColorRGBA gemColors[] = new ColorRGBA[gemMaterials.length];
         gemColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
@@ -172,6 +175,8 @@ public class MultiSphereDemo
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
+        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_INSERT);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
     }
@@ -181,7 +186,7 @@ public class MultiSphereDemo
      *
      * @param actionString textual description of the action (not null)
      * @param ongoing true if the action is ongoing, otherwise false
-     * @param tpf time interval between render passes (in seconds, &ge;0)
+     * @param tpf time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void onAction(String actionString, boolean ongoing, float tpf) {
@@ -202,9 +207,9 @@ public class MultiSphereDemo
     }
 
     /**
-     * Callback invoked once per render pass.
+     * Callback invoked once per frame.
      *
-     * @param tpf time interval between render passes (in seconds, &ge;0)
+     * @param tpf time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float tpf) {
