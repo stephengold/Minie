@@ -181,8 +181,8 @@ public class UprightController extends IKController {
          * Return early if the error angle is 0.
          * Magnify the error if the angle exceeds 90 degrees.
          */
-        float sinErrorAngle = error.length();
-        if (sinErrorAngle == 0f) {
+        float absSinErrorAngle = error.length();
+        if (absSinErrorAngle == 0f) {
             if (error.y >= 0.0) { // No error at all!
                 previousError.set(error);
                 return;
@@ -191,13 +191,15 @@ public class UprightController extends IKController {
             Vector3f ortho = new Vector3f();
             MyVector3f.generateBasis(unitY, ortho, new Vector3f());
             error = actual.cross(ortho);
-            sinErrorAngle = error.length();
+            absSinErrorAngle = error.length();
         }
-        Vector3f errorAxis = error.divide(sinErrorAngle);
-        float errorMagnitude = (error.y >= 0.0) ? sinErrorAngle : 1f;
+        Vector3f errorAxis = error.divide(absSinErrorAngle);
+        float errorMagnitude = (error.y >= 0.0) ? absSinErrorAngle : 1f;
         errorAxis.mult(errorMagnitude, error);
-
-        Vector3f deltaError = error.subtract(previousError, null);
+        /*
+         * Calculate delta: the change in the error vector.
+         */
+        Vector3f delta = error.subtract(previousError, null);
         previousError.set(error);
         PhysicsRigidBody rigidBody = link.getRigidBody();
         float mass = rigidBody.getMass();
@@ -207,7 +209,7 @@ public class UprightController extends IKController {
         Vector3f sum = new Vector3f(0f, 0f, 0f);
         // delta term
         float deltaGain = deltaGainFactor * mass;
-        MyVector3f.accumulateScaled(sum, deltaError, deltaGain);
+        MyVector3f.accumulateScaled(sum, delta, deltaGain);
         // proportional term
         float errorGain = errorGainFactor * mass;
         MyVector3f.accumulateScaled(sum, error, errorGain);
