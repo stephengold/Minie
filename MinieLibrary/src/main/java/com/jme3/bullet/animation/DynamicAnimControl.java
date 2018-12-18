@@ -286,12 +286,17 @@ public class DynamicAnimControl
      *
      * @param vertexSpecifier a String of the form "index/geometry" or
      * "index/geometry/bone" (not null, not empty)
-     * @param storeWorldLocation (modified if not null)
+     * @param storeWorldLocation storage for location in physics-space
+     * coordinates (modified if not null)
+     * @param storeLocalLocation storage for location in the local coordinates
+     * of the link's body (modified if not null)
      * @return the pre-existing link (not null)
      */
     public PhysicsLink findManagerForVertex(String vertexSpecifier,
-            Vector3f storeWorldLocation) {
+            Vector3f storeWorldLocation, Vector3f storeLocalLocation) {
         Validate.nonEmpty(vertexSpecifier, "vertex specifier");
+        Vector3f worldLocation = (storeWorldLocation == null)
+                ? new Vector3f() : storeWorldLocation;
         /*
          * Parse the vertex index and geometry name from the specifier.
          */
@@ -339,10 +344,7 @@ public class DynamicAnimControl
             if (manager == null) {
                 throw new IllegalArgumentException(vertexSpecifier);
             }
-
-            if (storeWorldLocation != null) {
-                geometry.localToWorld(pos, storeWorldLocation);
-            }
+            geometry.localToWorld(pos, worldLocation);
 
         } else { // The vertex is in the controlled model.
             assert MyMesh.isAnimated(mesh);
@@ -355,11 +357,15 @@ public class DynamicAnimControl
                 manager = findBoneLink(managerName);
             }
             assert manager != null;
+            Transform meshToWorld = meshTransform(null);
+            meshToWorld.transformVector(pos, worldLocation);
+        }
 
-            if (storeWorldLocation != null) {
-                Transform meshToWorld = meshTransform(null);
-                meshToWorld.transformVector(pos, storeWorldLocation);
-            }
+        if (storeLocalLocation != null) {
+            Transform localToWorld = manager.physicsTransform(null);
+            localToWorld.setScale(1f);
+            localToWorld.transformInverseVector(worldLocation,
+                    storeLocalLocation);
         }
 
         return manager;
