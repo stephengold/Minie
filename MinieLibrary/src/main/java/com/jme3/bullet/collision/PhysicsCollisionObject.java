@@ -293,7 +293,7 @@ abstract public class PhysicsCollisionObject
      *
      * @return true if responsive, otherwise false
      */
-    public boolean isContactResponse() {
+    final public boolean isContactResponse() {
         int flags = getCollisionFlags(objectId);
         boolean result = (flags & CollisionFlag.NO_CONTACT_RESPONSE) == 0x0;
         return result;
@@ -304,7 +304,7 @@ abstract public class PhysicsCollisionObject
      *
      * @return true if static, otherwise false
      */
-    public boolean isStatic() {
+    final public boolean isStatic() {
         int flags = getCollisionFlags(objectId);
         boolean result = (flags & CollisionFlag.STATIC_OBJECT) != 0x0;
         return result;
@@ -358,7 +358,7 @@ abstract public class PhysicsCollisionObject
 
     /**
      * Apply the specified CollisionShape to this object. Note that the object
-     * should not be in any physics space while changing shape; the object gets
+     * should not be in any PhysicsSpace while changing shape; the object gets
      * rebuilt on the physics side.
      *
      * @param collisionShape the shape to apply (not null, alias created)
@@ -493,7 +493,7 @@ abstract public class PhysicsCollisionObject
 
     /**
      * Create a shallow clone for the JME cloner. Note that the cloned object
-     * won't be added to a physics space, even if the original was.
+     * won't be added to any PhysicsSpace, even if the original was.
      *
      * @return a new instance
      */
