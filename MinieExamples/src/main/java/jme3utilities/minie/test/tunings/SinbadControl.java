@@ -115,7 +115,9 @@ public class SinbadControl
      * @param storeResult storage for the result (modified if not null)
      * @return a direction vector (unit vector in the physics link's local
      * coordinates, either storeResult or a new vector)
-     * @see com.jme3.animation.DynamicAnimControl#findManagerForVertex()
+     * @see
+     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
+     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     @Override
     public Vector3f leftEyeLookDirection(Vector3f storeResult) {
@@ -140,7 +142,9 @@ public class SinbadControl
      * @param storeResult storage for the result (modified if not null)
      * @return a direction vector (unit vector in the physics link's local
      * coordinates, either storeResult or a new vector)
-     * @see com.jme3.animation.DynamicAnimControl#findManagerForVertex()
+     * @see
+     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
+     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     @Override
     public Vector3f rightEyeLookDirection(Vector3f storeResult) {
