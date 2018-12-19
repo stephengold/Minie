@@ -455,7 +455,7 @@ public class DacLinks extends DacConfiguration {
     // DacConfiguration methods
 
     /**
-     * Add all managed physics objects to the physics space.
+     * Add all managed physics objects to the PhysicsSpace.
      */
     @Override
     protected void addPhysics() {
@@ -706,7 +706,7 @@ public class DacLinks extends DacConfiguration {
     }
 
     /**
-     * Remove all managed physics objects from the physics space.
+     * Remove all managed physics objects from the PhysicsSpace.
      */
     @Override
     protected void removePhysics() {
@@ -1063,7 +1063,7 @@ public class DacLinks extends DacConfiguration {
         assert centerHeuristic != CenterHeuristic.Joint;
         Vector3f center = centerHeuristic.center(vertexLocations, null);
         /*
-         * Create the collision shape.
+         * Create the CollisionShape.
          */
         CollisionShape shape = linkConfig.createShape(transformIdentity,
                 center, vertexLocations);
@@ -1090,7 +1090,7 @@ public class DacLinks extends DacConfiguration {
             throw new IllegalArgumentException(msg);
         }
         /*
-         * Create the collision shape.
+         * Create the CollisionShape.
          */
         Bone bone = findBone(boneName);
         Transform boneToMesh = MySkeleton.copyMeshTransform(bone, null);
@@ -1121,7 +1121,7 @@ public class DacLinks extends DacConfiguration {
      *
      * @param linkConfig the link configuration (not null)
      * @param collisionShape the desired shape (not null, alias created)
-     * @return a new instance, not in any physics space
+     * @return a new instance, not in any PhysicsSpace
      */
     private PhysicsRigidBody createRigidBody(LinkConfig linkConfig,
             CollisionShape collisionShape) {
@@ -1151,7 +1151,7 @@ public class DacLinks extends DacConfiguration {
                     + " Make sure the root bone is not linked.");
         }
         /*
-         * Create the collision shape.
+         * Create the CollisionShape.
          */
         Bone bone = RagUtils.findMainBone(skeleton, meshes);
         assert bone.getParent() == null;

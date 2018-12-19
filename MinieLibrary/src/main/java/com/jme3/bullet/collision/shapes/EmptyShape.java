@@ -38,7 +38,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * An empty collision shape based on Bullet's btEmptyShape.
+ * An empty CollisionShape based on Bullet's btEmptyShape.
  *
  * @author Stephen Gold sgold@sonic.net
  */

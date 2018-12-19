@@ -109,7 +109,7 @@ public class ConeJoint extends PhysicsJoint {
      * Instantiate a single-ended ConeJoint with its pivot at the physics-space
      * origin.
      * <p>
-     * To be effective, the joint must be added to the physics space of the body
+     * To be effective, the joint must be added to the PhysicsSpace of the body
      * and the body must be dynamic.
      *
      * @param nodeA the body to constrain (not null, alias created)
@@ -129,7 +129,7 @@ public class ConeJoint extends PhysicsJoint {
     /**
      * Instantiate a double-ended ConeJoint.
      * <p>
-     * To be effective, the joint must be added to the physics space of the 2
+     * To be effective, the joint must be added to the PhysicsSpace of both
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *
@@ -151,7 +151,7 @@ public class ConeJoint extends PhysicsJoint {
     /**
      * Instantiate a double-ended ConeJoint.
      * <p>
-     * To be effective, the joint must be added to the physics space of the 2
+     * To be effective, the joint must be added to the PhysicsSpace of both
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *

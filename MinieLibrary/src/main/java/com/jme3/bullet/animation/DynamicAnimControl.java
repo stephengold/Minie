@@ -674,7 +674,7 @@ public class DynamicAnimControl
     // DacPhysicsLinks methods
 
     /**
-     * Add all managed physics objects to the physics space.
+     * Add all managed physics objects to the PhysicsSpace.
      */
     @Override
     protected void addPhysics() {
@@ -745,7 +745,7 @@ public class DynamicAnimControl
     }
 
     /**
-     * Remove all managed physics objects from the physics space.
+     * Remove all managed physics objects from the PhysicsSpace.
      */
     @Override
     protected void removePhysics() {

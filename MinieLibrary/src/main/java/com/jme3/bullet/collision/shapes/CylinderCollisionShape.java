@@ -45,7 +45,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A cylindrical collision shape based on Bullet's btCylinderShapeX, new
+ * A cylindrical CollisionShape based on Bullet's btCylinderShapeX, new
  * btCylinderShape, or btCylinderShapeZ.
  *
  * @author normenhansen

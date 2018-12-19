@@ -561,7 +561,7 @@ public class MyShape {
     }
 
     /**
-     * Compute the volume of a closed collision shape.
+     * Compute the volume of a closed CollisionShape.
      *
      * @param shape (not null, unaffected)
      * @return the volume (in physics-space units cubed, &ge;0)

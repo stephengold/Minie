@@ -43,7 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A planar collision shape based on Bullet's btStaticPlaneShape.
+ * A planar CollisionShape based on Bullet's btStaticPlaneShape.
  *
  * @author normenhansen
  */

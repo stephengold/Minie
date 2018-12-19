@@ -49,7 +49,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * An app state to manage a single Bullet physics space.
+ * An app state to manage a single PhysicsSpace.
  *
  * @author normenhansen
  */
@@ -102,8 +102,8 @@ public class BulletAppState
      */
     private boolean isRunning = false;
     /**
-     * broadphase collision-detection algorithm for the physics space to use
-     * (not null)
+     * broadphase collision-detection algorithm for the PhysicsSpace to use (not
+     * null)
      */
     private BroadphaseType broadphaseType = BroadphaseType.DBVT;
     /**
@@ -141,7 +141,7 @@ public class BulletAppState
      */
     private Future physicsFuture;
     /**
-     * physics space managed by this state, or null if no simulation running
+     * PhysicsSpace managed by this state, or null if no simulation running
      */
     private PhysicsSpace pSpace;
     /**
@@ -154,12 +154,12 @@ public class BulletAppState
      */
     private ThreadingType threadingType = ThreadingType.SEQUENTIAL;
     /**
-     * maximum coordinate values for the physics space when using AXIS_SWEEP
+     * maximum coordinate values for the PhysicsSpace when using AXIS_SWEEP
      * broadphase algorithms (not null)
      */
     final private Vector3f worldMax = new Vector3f(10000f, 10000f, 10000f);
     /**
-     * minimum coordinate values for the physics space when using AXIS_SWEEP
+     * minimum coordinate values for the PhysicsSpace when using AXIS_SWEEP
      * broadphase algorithms (not null)
      */
     final private Vector3f worldMin = new Vector3f(-10000f, -10000f, -10000f);
@@ -234,8 +234,8 @@ public class BulletAppState
     // new methods exposed
 
     /**
-     * Read which broadphase collision-detection algorithm the physics space
-     * will use.
+     * Read which broadphase collision-detection algorithm the PhysicsSpace will
+     * use.
      *
      * @return enum value (not null)
      */
@@ -281,7 +281,7 @@ public class BulletAppState
     }
 
     /**
-     * Alter the broadphase type the physics space will use. Not allowed after
+     * Alter the broadphase type the PhysicsSpace will use. Not allowed after
      * attaching the app state.
      *
      * @param broadphaseType an enum value (not null, default=DBVT)
@@ -390,9 +390,9 @@ public class BulletAppState
     }
 
     /**
-     * Allocate a physics space and start physics.
+     * Allocate a PhysicsSpace and start simulating physics.
      * <p>
-     * Physics starts automatically after the state is attached. To start it
+     * Simulation starts automatically after the state is attached. To start it
      * sooner, invoke this method.
      */
     public void startPhysics() {
@@ -424,7 +424,7 @@ public class BulletAppState
     /**
      * Create the configured debug app state.
      *
-     * @param space the physics space (not null, alias created)
+     * @param space the PhysicsSpace (not null, alias created)
      * @param viewPorts the view ports in which to render (not null)
      * @param filter the display filter, or null for none
      * @param listener the init listener, or null for none
@@ -438,7 +438,7 @@ public class BulletAppState
     }
 
     /**
-     * Create the configured physics space.
+     * Create the configured PhysicsSpace.
      *
      * @param min the minimum coordinate values (not null, unaffected)
      * @param max the maximum coordinate values (not null, unaffected)
@@ -627,7 +627,8 @@ public class BulletAppState
     // private methods
 
     /**
-     * Allocate the physics space and start physics for ThreadingType.PARALLEL.
+     * Allocate the PhysicsSpace and start simulating physics using
+     * ThreadingType.PARALLEL.
      *
      * @return true if successful, otherwise false
      */

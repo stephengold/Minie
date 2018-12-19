@@ -66,7 +66,7 @@ public class PhysicsDescriber extends Describer {
     // new methods exposed
 
     /**
-     * Generate a textual description of a collision shape.
+     * Generate a textual description for a CollisionShape.
      *
      * @param shape (not null, unaffected)
      * @return description (not null)

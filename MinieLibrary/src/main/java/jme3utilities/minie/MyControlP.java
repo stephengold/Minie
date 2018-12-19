@@ -191,7 +191,7 @@ public class MyControlP {
     /**
      * Disable all physics controls added to the specified subtree of the scene
      * graph. Disabling these controls removes any collision objects they may
-     * have added to physics space. Note: recursive!
+     * have added to physics spaces. Note: recursive!
      *
      * @param subtree (not null)
      */
@@ -217,7 +217,7 @@ public class MyControlP {
      * graph and configure their physics spaces. Note: recursive!
      *
      * @param subtree (not null)
-     * @param space the physics space to add controls, or null for none
+     * @param space the PhysicsSpace to add to, or null for none
      */
     public static void enablePhysicsControls(Spatial subtree,
             PhysicsSpace space) {

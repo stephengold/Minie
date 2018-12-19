@@ -94,7 +94,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     protected ArrayList<VehicleWheel> wheels = new ArrayList<>(6);
     /**
-     * physics space where this vehicle is added, or null if none
+     * space where this vehicle is added, or null if none
      */
     private PhysicsSpace physicsSpace;
     // *************************************************************************
@@ -108,7 +108,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Instantiate a vehicle with the specified collision shape and mass=1.
+     * Instantiate a responsive vehicle with the specified CollisionShape and
+     * mass=1.
      *
      * @param shape the desired shape (not null, alias created)
      */
@@ -117,7 +118,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Instantiate a vehicle with the specified collision shape and mass.
+     * Instantiate a responsive vehicle with the specified CollisionShape and
+     * mass.
      *
      * @param shape the desired shape (not null, alias created)
      * @param mass (&gt;0)
@@ -160,9 +162,9 @@ public class PhysicsVehicle extends PhysicsRigidBody {
 
     /**
      * Used internally, creates the btRaycastVehicle when vehicle is added to a
-     * physics space.
+     * PhysicsSpace.
      *
-     * @param space which physics space
+     * @param space which PhysicsSpace
      */
     public void createVehicle(PhysicsSpace space) {
         physicsSpace = space;
@@ -708,7 +710,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         wheels = capsule.readSavableArrayList(
                 "wheelsList", new ArrayList<VehicleWheel>(6));
         motionState.setVehicle(this);
-        
+
         super.read(im);
     }
 
@@ -730,7 +732,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         capsule.write(tuning.suspensionDamping, "suspensionDamping", 0.88f);
         capsule.write(tuning.suspensionStiffness, "suspensionStiffness", 5.88f);
         capsule.writeSavableArrayList(wheels, "wheelsList", null);
-        
+
         super.write(ex);
     }
     // *************************************************************************

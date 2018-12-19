@@ -79,7 +79,7 @@ abstract public class AbstractPhysicsControl
      */
     private boolean applyLocal = false;
     /**
-     * true&rarr;body is added to the physics space, false&rarr;not added
+     * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
      */
     protected boolean added = false;
     /**
@@ -135,7 +135,7 @@ abstract public class AbstractPhysicsControl
     // new protected methods
 
     /**
-     * Add all managed physics objects to the physics space.
+     * Add all managed physics objects to the PhysicsSpace.
      */
     protected abstract void addPhysics();
 
@@ -231,7 +231,7 @@ abstract public class AbstractPhysicsControl
     protected abstract void setPhysicsRotation(Quaternion quat);
 
     /**
-     * Remove all managed physics objects from the physics space.
+     * Remove all managed physics objects from the PhysicsSpace.
      */
     protected abstract void removePhysics();
     // *************************************************************************
@@ -283,7 +283,7 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * Access the physics space to which the object is (or would be) added.
+     * Access the PhysicsSpace to which the object is (or would be) added.
      *
      * @return the pre-existing space, or null for none
      */
@@ -320,9 +320,9 @@ abstract public class AbstractPhysicsControl
     /**
      * Enable or disable this control.
      * <p>
-     * When the control is disabled, the physics object is removed from physics
-     * space. When the control is enabled again, the physics object is moved to
-     * the spatial's location and then added to the physics space.
+     * When the control is disabled, the physics object is removed from
+     * PhysicsSpace. When the control is enabled again, the physics object is
+     * moved to the spatial's location and then added to the PhysicsSpace.
      *
      * @param enabled true&rarr;enable the control, false&rarr;disable it
      */

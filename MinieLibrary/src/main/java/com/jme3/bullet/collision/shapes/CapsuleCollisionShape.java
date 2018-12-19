@@ -45,7 +45,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A capsule collision shape based on Bullet's btCapsuleShapeX, btCapsuleShape,
+ * A capsule CollisionShape based on Bullet's btCapsuleShapeX, btCapsuleShape,
  * or btCapsuleShapeZ. These shapes have no margin and can only be scaled
  * uniformly.
  *

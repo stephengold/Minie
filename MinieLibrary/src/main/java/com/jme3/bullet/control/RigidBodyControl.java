@@ -95,7 +95,7 @@ public class RigidBodyControl
      */
     protected Spatial spatial;
     /**
-     * true &rarr; enable shape scaling (to the extent the collision shape
+     * true &rarr; enable shape scaling (to the extent the CollisionShape
      * supports it), false &rarr; disable shape scaling (default=false)
      */
     private boolean applyScale = false;
@@ -105,7 +105,7 @@ public class RigidBodyControl
      */
     protected boolean enabled = true;
     /**
-     * true&rarr;body is added to the physics space, false&rarr;not added
+     * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
      */
     protected boolean added = false;
     /**
@@ -127,22 +127,21 @@ public class RigidBodyControl
     }
 
     /**
-     * When using this constructor, the CollisionShape for the RigidBody is
-     * generated automatically when the control is added to a spatial.
+     * Instantiate an enabled control with a responsive dynamic or static body
+     * and the specified mass. The CollisionShape is generated automatically
+     * when the control is added to a spatial.
      *
-     * @param mass When not 0, a HullCollisionShape is generated, otherwise a
-     * MeshCollisionShape is used. For geometries with box or sphere meshes the
-     * proper box or sphere collision shape is used.
+     * @param mass the desired mass (&ge;0) if &gt;0, a HullCollisionShape is
+     * generated, otherwise a MeshCollisionShape is used. For geometries with
+     * box or sphere meshes the proper box or sphere CollisionShape is used.
      */
     public RigidBodyControl(float mass) {
         this.mass = mass;
     }
-    // *************************************************************************
-    // constructors
 
     /**
-     * Instantiate an enabled control with mass=1 and the specified collision
-     * shape.
+     * Instantiate an enabled control with a responsive dynamic body, mass=1,
+     * and the specified CollisionShape.
      *
      * @param shape the desired shape (not null, alias created)
      */
@@ -151,8 +150,8 @@ public class RigidBodyControl
     }
 
     /**
-     * Instantiate an enabled control with the specified collision shape and
-     * mass.
+     * Instantiate an enabled control with a responsive dynamic or static body
+     * and the specified CollisionShape and mass.
      *
      * @param shape the desired shape (not null, alias created)
      * @param mass the desired mass (&ge;0)
@@ -161,7 +160,7 @@ public class RigidBodyControl
         super(shape, mass);
     }
     // *************************************************************************
-    // new methods exposed
+    // new methods exposed TODO re-order methods
 
     /**
      * Test whether physics-space coordinates should match the spatial's local
@@ -212,7 +211,7 @@ public class RigidBodyControl
      * compound shapes) scaling can have unintended consequences.
      *
      * @param setting true &rarr; enable shape scaling (to the extent the
-     * collision shape supports it), false &rarr; disable shape scaling
+     * CollisionShape supports it), false &rarr; disable shape scaling
      * (default=false)
      */
     public void setApplyScale(boolean setting) {
@@ -232,7 +231,7 @@ public class RigidBodyControl
     // new protected methods
 
     /**
-     * Set the collision shape based on the controlled spatial and its
+     * Set the body's CollisionShape based on the controlled spatial and its
      * descendants.
      */
     protected void createCollisionShape() {
@@ -276,7 +275,7 @@ public class RigidBodyControl
     }
 
     /**
-     * Access the physics space to which the body is (or would be) added.
+     * Access the PhysicsSpace to which the body is (or would be) added.
      *
      * @return the pre-existing space, or null for none
      */
@@ -310,9 +309,9 @@ public class RigidBodyControl
     /**
      * Enable or disable this control.
      * <p>
-     * When the control is disabled, the body is removed from physics space.
-     * When the control is enabled again, the body is moved to the current
-     * location of the spatial and then added to the physics space.
+     * When the control is disabled, the body is removed from PhysicsSpace. When
+     * the control is enabled again, the body is moved to the current location
+     * of the spatial and then added to the PhysicsSpace.
      *
      * @param enabled true&rarr;enable the control, false&rarr;disable it
      */
@@ -336,9 +335,9 @@ public class RigidBodyControl
     }
 
     /**
-     * If enabled, add this control's body to the specified physics space. In
-     * not enabled, alter where the body would be added. The body is removed
-     * from any other space it's currently in.
+     * If enabled, add this control's body to the specified PhysicsSpace. In not
+     * enabled, alter where the body would be added. The body is removed from
+     * any other space it's currently in.
      *
      * @param newSpace where to add, or null to simply remove
      */

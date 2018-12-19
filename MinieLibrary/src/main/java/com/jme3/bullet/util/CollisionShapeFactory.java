@@ -80,8 +80,8 @@ public class CollisionShapeFactory {
      *
      * @param spatial the spatial on which to base the shape (not null,
      * unaffected)
-     * @return a new box/sphere collision shape (if spatial is a Geometry) or a
-     * CompoundCollisionShape with box/sphere collision shapes as children (if
+     * @return a new box/sphere CollisionShape (if spatial is a Geometry) or a
+     * CompoundCollisionShape with box/sphere CollisionShapes as children (if
      * spatial is a Node)
      */
     public static CollisionShape createBoxShape(Spatial spatial) {
@@ -103,7 +103,7 @@ public class CollisionShapeFactory {
      *
      * @param spatial the spatial on which to base the shape (not null,
      * unaffected)
-     * @return a new hull collision shape (if spatial is a Geometry) or a new
+     * @return a new hull CollisionShape (if spatial is a Geometry) or a new
      * CompoundCollisionShape with hull collision shapes as children (if spatial
      * is a Node)
      */
@@ -124,14 +124,13 @@ public class CollisionShapeFactory {
     /**
      * Create precise mesh shape(s) for the given spatial.
      * <p>
-     * This type of collision shape is mesh-accurate and meant for immovable
-     * "world objects". Examples include terrain, houses, or whole shooter
-     * levels.
+     * Such shapes are meant for immovable "world objects" such as terrain,
+     * houses, or whole shooter levels.
      *
      * @param spatial the spatial on which to base the shape (not null,
      * unaffected)
-     * @return a new mesh collision shape (if spatial is a Geometry) or a new
-     * heightfield collision shape (if spatial is a TerrainQuad or TerrainPatch)
+     * @return a new mesh CollisionShape (if spatial is a Geometry) or a new
+     * HeightfieldCollisionShape (if spatial is a TerrainQuad or TerrainPatch)
      * or a new CompoundCollisionShape with mesh/heighfield collision shapes as
      * children (if spatial is a Node)
      */
@@ -155,8 +154,8 @@ public class CollisionShapeFactory {
     // private methods
 
     /**
-     * This type of collision shape creates a CompoundShape made out of boxes
-     * that are based on the bounds of the Geometries in the tree.
+     * This method creates a CompoundShape made out of boxes that are based on
+     * the bounds of the Geometries in the tree.
      *
      * @param modelRoot the node on which to base the shape (not null)
      * @return a new shape (not null)
@@ -225,9 +224,8 @@ public class CollisionShapeFactory {
     }
 
     /**
-     * This type of collision shape is mesh-accurate and meant for immovable
-     * "world objects". Examples include terrain, houses or whole shooter
-     * levels.
+     * Create a mesh-accurate CollisionShape for immovable "world objects" such
+     * as terrain, houses, or whole shooter levels.
      *
      * @param rootNode the node on which to base the shape (not null)
      * @return a new shape (not null)
@@ -241,7 +239,7 @@ public class CollisionShapeFactory {
 
     /**
      * Use the bounding volume of the supplied spatial to create a non-compound
-     * collision shape.
+     * CollisionShape.
      *
      * @param spatial the spatial on which to base the shape (not null,
      * unaffected)
@@ -256,7 +254,7 @@ public class CollisionShapeFactory {
     }
 
     /**
-     * Create a hull collision shape for the specified geometry.
+     * Create a HullCollisionShape for the specified geometry.
      *
      * @param geom the geometry on which to base the shape (not null)
      * @param modelRoot
@@ -276,9 +274,8 @@ public class CollisionShapeFactory {
     }
 
     /**
-     * This type of collision shape is mesh-accurate and meant for immovable
-     * "world objects". Examples include terrain, houses or whole shooter
-     * levels.
+     * Create a mesh-accurate CollisionShape for immovable "world objects" such
+     * as terrain, houses, or whole shooter levels.
      */
     private static MeshCollisionShape createSingleMeshShape(Geometry geometry,
             Spatial modelRoot) {
@@ -295,8 +292,8 @@ public class CollisionShapeFactory {
     }
 
     /**
-     * Calculate the correct transform for a child collision shape relative to
-     * the ancestor for which the shape is being generated.
+     * Calculate the correct transform for a ChildCollisionShape relative to the
+     * ancestor for which the shape is being generated.
      *
      * @param spatial (not null, unaffected)
      * @param modelRoot the ancestor for which the shape is being generated (not
@@ -310,7 +307,7 @@ public class CollisionShapeFactory {
             result.combineWithParent(currentSpatial.getLocalTransform());
             currentSpatial = currentSpatial.getParent();
         }
-        //include the model root's scale only
+        // Include the model root's scale but not its translation or rotation.
         Transform mrTransform = new Transform();
         mrTransform.setScale(modelRoot.getLocalScale());
         result.combineWithParent(mrTransform);

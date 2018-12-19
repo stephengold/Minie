@@ -56,7 +56,7 @@ import jme3utilities.MyAsset;
 import jme3utilities.Validate;
 
 /**
- * An app state to manage a debug visualization of a physics space.
+ * An AppState to manage debug visualization of a PhysicsSpace.
  *
  * @author normenhansen
  */
@@ -130,7 +130,7 @@ public class BulletDebugAppState extends AbstractAppState {
     final protected Node physicsDebugRootNode
             = new Node("Physics Debug Root Node");
     /**
-     * physics space to visualize (not null)
+     * PhysicsSpace to visualize (not null)
      */
     final protected PhysicsSpace space;
     /**
@@ -145,7 +145,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * specified view ports. This constructor should be invoked only by
      * BulletAppState.
      *
-     * @param space the physics space to visualize (not null, alias created)
+     * @param space the PhysicsSpace to visualize (not null, alias created)
      * @param viewPorts the view ports in which to render (not null, unaffected)
      * @param filter the filter to limit which objects are visualized, or null
      * to visualize all objects (may be null, alias created)
@@ -292,8 +292,8 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Synchronize character debug controls with the characters in the physics
-     * space.
+     * Synchronize the character debug controls with the characters in the
+     * PhysicsSpace.
      */
     private void updateCharacters() {
         HashMap<PhysicsCharacter, Node> oldMap = characters;
@@ -322,7 +322,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Synchronize ghost debug controls with the ghosts in the physics space.
+     * Synchronize the ghost debug controls with the ghosts in the PhysicsSpace.
      */
     private void updateGhosts() {
         HashMap<PhysicsGhostObject, Node> oldMap = ghosts;
@@ -350,7 +350,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Synchronize joint debug controls with the joints in the physics space.
+     * Synchronize the joint debug controls with the joints in the PhysicsSpace.
      */
     private void updateJoints() {
         HashMap<PhysicsJoint, Node> oldMap = joints;
@@ -377,8 +377,8 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Synchronize rigid-body debug controls with the rigid bodies in the
-     * physics space.
+     * Synchronize the rigid-body debug controls with the rigid bodies in the
+     * PhysicsSpace.
      */
     private void updateRigidBodies() {
         HashMap<PhysicsRigidBody, Node> oldMap = bodies;
@@ -407,8 +407,8 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Synchronize vehicle debug controls with the vehicles in the physics
-     * space.
+     * Synchronize the vehicle debug controls with the vehicles in the
+     * PhysicsSpace.
      */
     private void updateVehicles() {
         HashMap<PhysicsVehicle, Node> oldMap = vehicles;

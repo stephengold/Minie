@@ -48,7 +48,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A terrain collision shape based on Bullet's btHeightfieldTerrainShape.
+ * A CollisionShape for terrain based on Bullet's btHeightfieldTerrainShape.
  * <p>
  * This is much more efficient than a regular mesh, but it has a couple
  * limitations:

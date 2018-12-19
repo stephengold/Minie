@@ -46,7 +46,7 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
 /**
- * A simple point, line-segment, triangle, or tetrahedron collision shape based
+ * A simple point, line-segment, triangle, or tetrahedron CollisionShape based
  * on Bullet's btBU_Simplex1to4. These shapes cannot be scaled.
  *
  * @author normenhansen
@@ -78,7 +78,7 @@ public class SimplexCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a point collision shape based on the specified points.
+     * Instantiate a point shape based on the specified points.
      *
      * @param point1 the coordinates of 1st point (not null, unaffected)
      */
@@ -88,7 +88,7 @@ public class SimplexCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a line-segment collision shape based on the specified points.
+     * Instantiate a line-segment shape based on the specified points.
      *
      * @param point1 the coordinates of 1st point (not null, unaffected)
      * @param point2 the coordinates of 2nd point (not null, unaffected)
@@ -100,7 +100,7 @@ public class SimplexCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a triangular collision shape based on the specified points.
+     * Instantiate a triangular shape based on the specified points.
      *
      * @param point1 the coordinates of 1st point (not null, unaffected)
      * @param point2 the coordinates of 2nd point (not null, unaffected)
@@ -115,7 +115,7 @@ public class SimplexCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a tetrahedral collision shape based on the specified points.
+     * Instantiate a tetrahedral shape based on the specified points.
      *
      * @param point1 the coordinates of 1st point (not null, unaffected)
      * @param point2 the coordinates of 2nd point (not null, unaffected)

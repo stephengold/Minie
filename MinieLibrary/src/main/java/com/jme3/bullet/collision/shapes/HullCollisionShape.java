@@ -54,7 +54,7 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 
 /**
- * A convex-hull collision shape based on Bullet's btConvexHullShape.
+ * A convex-hull CollisionShape based on Bullet's btConvexHullShape.
  */
 public class HullCollisionShape extends CollisionShape {
     // *************************************************************************
@@ -90,9 +90,9 @@ public class HullCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a collision shape based on the specified collection of
-     * locations. For best performance and stability, the collection should have
-     * no more than 100 locations.
+     * Instantiate a shape based on the specified collection of locations. For
+     * best performance and stability, the collection should have no more than
+     * 100 locations.
      *
      * @param locations a collection of location vectors on which to base the
      * shape (not null, not empty, unaffected)
@@ -114,9 +114,9 @@ public class HullCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a collision shape based on the specified array of
-     * coordinates. For best performance and stability, the array should have no
-     * more than 300 coordinates.
+     * Instantiate a shape based on the specified array of coordinates. For best
+     * performance and stability, the array should have no more than 300
+     * coordinates.
      *
      * @param points an array of coordinates on which to base the shape (not
      * null, not empty, length a multiple of 3, unaffected)
@@ -131,9 +131,8 @@ public class HullCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a collision shape based on the specified JME mesh. For best
-     * performance and stability, the mesh should have no more than 100
-     * vertices.
+     * Instantiate a shape based on the specified JME mesh. For best performance
+     * and stability, the mesh should have no more than 100 vertices.
      *
      * @param mesh the mesh on which to base the shape (not null, at least one
      * vertex, unaffected)
@@ -147,8 +146,7 @@ public class HullCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate an 8-vertex collision shape to match the specified
-     * rectangular solid.
+     * Instantiate an 8-vertex shape to match the specified rectangular solid.
      *
      * @param rectangularSolid the solid on which to base the shape (not null)
      */

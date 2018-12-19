@@ -49,9 +49,9 @@ import jme3utilities.math.MyVector3f;
  * The abstract base class for collision shapes based on Bullet's
  * btCollisionShape.
  * <p>
- * Collision shapes include BoxCollisionShape and CapsuleCollisionShape. As
- * suggested in the Bullet manual, a single collision shape can be shared among
- * multiple collision objects.
+ * Subclasses include BoxCollisionShape and CapsuleCollisionShape. As suggested
+ * in the Bullet manual, a single CollisionShape can be shared among multiple
+ * collision objects.
  *
  * @author normenhansen
  */

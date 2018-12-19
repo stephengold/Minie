@@ -48,7 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A mesh collision shape based on Bullet's btBvhTriangleMeshShape. TODO add
+ * A mesh CollisionShape based on Bullet's btBvhTriangleMeshShape. TODO add
  * shape based on btScaledBvhTriangleMeshShape
  *
  * @author normenhansen
@@ -120,8 +120,8 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a collision shape based on the specified JME mesh, optimized
-     * for memory usage.
+     * Instantiate a shape based on the specified JME mesh, optimized for memory
+     * usage.
      *
      * @param mesh the mesh on which to base the shape (not null)
      */
@@ -130,7 +130,7 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a collision shape based on the specified JME mesh.
+     * Instantiate a shape based on the specified JME mesh.
      * <p>
      * <code>memoryOptimized</code> determines if optimized instead of quantized
      * BVH will be used. Internally, <code>memoryOptimized</code> BVH is slower

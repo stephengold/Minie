@@ -293,9 +293,9 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Dump the specified physics space.
+     * Dump the specified PhysicsSpace.
      *
-     * @param space the physics space to dump (not null, unaffected)
+     * @param space the PhysicsSpace to dump (not null, unaffected)
      */
     public void dump(PhysicsSpace space) {
         Collection<PhysicsCharacter> characters = space.getCharacterList();

@@ -42,8 +42,8 @@ public interface OverlapListener {
      *
      * @param overlappingBody rigid body (not null)
      * @param overlappingSpatial spatial of the rigid body (not null)
-     * @param localPoint location of the overlap in the collision shape (rotated
-     * and translated to the this control's spatial, but at world scale, not
+     * @param localPoint location of the overlap in the CollisionShape (rotated
+     * and translated to the this control's Spatial, but at world scale, not
      * null)
      */
     void onOverlap(PhysicsRigidBody overlappingBody, Spatial overlappingSpatial,

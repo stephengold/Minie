@@ -177,8 +177,8 @@ public class PhysicsSpace {
     final private List<PhysicsTickListener> tickListeners
             = new SafeArrayList<>(PhysicsTickListener.class);
     /**
-     * Bullet identifier of the physics space. The constructor sets this to a
-     * non-zero value.
+     * Bullet identifier of the space. The constructor sets this to a non-zero
+     * value.
      */
     protected long physicsSpaceId = 0L;
     /**
@@ -187,27 +187,27 @@ public class PhysicsSpace {
     final private Map<Integer, PhysicsCollisionGroupListener> collisionGroupListeners
             = new ConcurrentHashMap<>(20);
     /**
-     * map character ids to objects
+     * map character IDs to objects
      */
     final private Map<Long, PhysicsCharacter> physicsCharacters
             = new ConcurrentHashMap<>(64);
     /**
-     * map ghost ids to objects
+     * map ghost IDs to objects
      */
     final private Map<Long, PhysicsGhostObject> physicsGhostObjects
             = new ConcurrentHashMap<>(64);
     /**
-     * map joint ids to objects
+     * map joint IDs to objects
      */
     final private Map<Long, PhysicsJoint> physicsJoints
             = new ConcurrentHashMap<>(64);
     /**
-     * map rigid body ids to objects
+     * map rigid body IDs to objects
      */
     final private Map<Long, PhysicsRigidBody> physicsBodies
             = new ConcurrentHashMap<>(64);
     /**
-     * map vehicle ids to objects
+     * map vehicle IDs to objects
      */
     final private Map<Long, PhysicsVehicle> physicsVehicles
             = new ConcurrentHashMap<>(64);
@@ -217,7 +217,7 @@ public class PhysicsSpace {
     final protected Queue<AppTask<?>> pQueue
             = new ConcurrentLinkedQueue<>();
     /**
-     * physics space for each thread
+     * physics-space reference for each thread
      */
     final protected static ThreadLocal<PhysicsSpace> physicsSpaceTL
             = new ThreadLocal<PhysicsSpace>();
@@ -397,7 +397,7 @@ public class PhysicsSpace {
      * <p>
      * Tick listeners are notified before and after each physics step. A physics
      * step is not necessarily the same as a frame; it is more influenced by the
-     * accuracy of the physics space.
+     * accuracy of the PhysicsSpace.
      *
      * @see #setAccuracy(float)
      *
@@ -411,7 +411,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Count the joints in this physics space.
+     * Count the joints in this space.
      *
      * @return count (&ge;0)
      */
@@ -658,9 +658,9 @@ public class PhysicsSpace {
      * Perform a ray-collision test and return the results as a list of
      * PhysicsRayTestResults sorted by ascending hitFraction.
      *
-     * @param from coordinates of the starting location (in physics space, not
+     * @param from the starting location (in physics-space coordinates, not
      * null, unaffected)
-     * @param to coordinates of the ending location (in physics space, not null,
+     * @param to the ending location (in physics-space coordinates, not null,
      * unaffected)
      * @param results the list to hold results (not null, modified)
      * @return results
@@ -695,9 +695,9 @@ public class PhysicsSpace {
      * Perform a ray-collision test and return the results as a list of
      * PhysicsRayTestResults in arbitrary order.
      *
-     * @param from coordinates of the starting location (in physics space, not
+     * @param from the starting location (in physics-space coordinates, not
      * null, unaffected)
-     * @param to coordinates of the ending location (in physics space, not null,
+     * @param to the ending location (in physics-space coordinates, not null,
      * unaffected)
      * @param results the list to hold results (not null, modified)
      * @return results
@@ -742,8 +742,8 @@ public class PhysicsSpace {
 
     /**
      * Remove all physics controls and joints in the specified subtree of the
-     * scene graph from the physics space (e.g. before saving to disk) Note:
-     * recursive! TODO delete this method?
+     * scene graph from this space (e.g. before saving to disk) Note: recursive!
+     * TODO delete this method?
      *
      * @param spatial the root of the subtree (not null)
      */
@@ -851,7 +851,7 @@ public class PhysicsSpace {
     /**
      * Used internally
      *
-     * @param space which physics space to simulate on this thread
+     * @param space which space to simulate on the current thread
      */
     public static void setLocalThreadPhysicsSpace(PhysicsSpace space) {
         physicsSpaceTL.set(space);
@@ -1012,8 +1012,8 @@ public class PhysicsSpace {
     // Object methods
 
     /**
-     * Finalize this physics space just before it is destroyed. Should be
-     * invoked only by a subclass or by the garbage collector.
+     * Finalize this space just before it is destroyed. Should be invoked only
+     * by a subclass or by the garbage collector.
      *
      * @throws Throwable ignored by the garbage collector
      */
@@ -1085,7 +1085,7 @@ public class PhysicsSpace {
 
     /**
      * NOTE: When a rigid body is added, its gravity gets set to that of the
-     * physics space.
+     * space.
      *
      * @param node the body to add (not null, not already in the space)
      */

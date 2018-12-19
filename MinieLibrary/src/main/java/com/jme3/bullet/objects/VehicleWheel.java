@@ -175,7 +175,7 @@ public class VehicleWheel
     // new methods exposed
 
     /**
-     * Update this wheel's location and orientation in physics space.
+     * Update this wheel's location and orientation.
      */
     public void updatePhysicsState() {
         getWheelLocation(vehicleId, wheelIndex, wheelWorldLocation);

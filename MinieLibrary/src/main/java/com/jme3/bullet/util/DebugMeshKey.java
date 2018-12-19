@@ -59,7 +59,7 @@ class DebugMeshKey {
      */
     final private DebugMeshNormals normals;
     /**
-     * margin of the collision shape
+     * margin of the CollisionShape
      */
     final private float margin;
     /**
@@ -67,11 +67,11 @@ class DebugMeshKey {
      */
     final private int resolution;
     /**
-     * object ID of the collision shape
+     * object ID of the CollisionShape
      */
     final private long shapeId;
     /**
-     * scale factors of the collision shape
+     * scale factors of the CollisionShape
      */
     final private Vector3f scale;
     // *************************************************************************

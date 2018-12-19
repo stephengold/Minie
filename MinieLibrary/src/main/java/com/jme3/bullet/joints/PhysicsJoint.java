@@ -49,10 +49,9 @@ import jme3utilities.Validate;
  * The abstract base class for physics joints based on Bullet's
  * btTypedConstraint. A physics joint can be single-ended or double-ended:
  * <ul>
- * <li>A single-ended joint constrains the motion of a dynamic rigid body in
- * physics space.</li>
- * <li>A double-ended joint connects 2 rigid bodies together in the same physics
- * space. One of the bodies must be dynamic.</li>
+ * <li>A single-ended joint constrains the motion of a dynamic rigid body.</li>
+ * <li>A double-ended joint connects 2 rigid bodies together in the same
+ * PhysicsSpace. One of the bodies must be dynamic.</li>
  * </ul>
  * Subclasses include: ConeJoint, HingeJoint, Point2PointJoint, and SixDofJoint.
  *
@@ -115,8 +114,8 @@ abstract public class PhysicsJoint
      * Instantiate a single-ended PhysicsJoint using the specified body at the
      * specified end.
      * <p>
-     * To be effective, the joint must be added to the physics space with the
-     * body and the body must be dynamic.
+     * To be effective, the joint must be added to the body's PhysicsSpace and
+     * the body must be dynamic.
      *
      * @param body the body to constrain (not null, alias created)
      * @param bodyEnd at which end to attach the body (not null)
@@ -156,8 +155,8 @@ abstract public class PhysicsJoint
      * Instantiate a single-ended PhysicsJoint using the specified body at the
      * specified end.
      * <p>
-     * To be effective, the joint must be added to the physics space with the
-     * body and the body must be dynamic.
+     * To be effective, the joint must be added to the body's PhysicsSpace and
+     * the body must be dynamic.
      *
      * @param body the body to constrain (not null, alias created)
      * @param bodyEnd at which end to attach the body (not null)
@@ -199,7 +198,7 @@ abstract public class PhysicsJoint
     /**
      * Instantiate a double-ended PhysicsJoint.
      * <p>
-     * To be effective, the joint must be added to the physics space of the 2
+     * To be effective, the joint must be added to the PhysicsSpace of both
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *

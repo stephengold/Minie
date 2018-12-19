@@ -48,7 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A mesh collision shape based on Bullet's btGImpactMeshShape.
+ * A mesh CollisionShape based on Bullet's btGImpactMeshShape.
  *
  * @author normenhansen
  */

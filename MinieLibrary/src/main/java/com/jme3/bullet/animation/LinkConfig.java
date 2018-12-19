@@ -183,7 +183,7 @@ public class LinkConfig implements Savable {
     }
 
     /**
-     * Create a collision shape for the specified transform, center, and
+     * Create a CollisionShape for the specified transform, center, and
      * collection of vertex locations.
      *
      * @param vertexToShape the transform from vertex coordinates to de-scaled
@@ -192,7 +192,7 @@ public class LinkConfig implements Savable {
      * (not null, unaffected)
      * @param vertexLocations the collection of vertex locations (not null, not
      * empty, MODIFIED)
-     * @return a new collision shape
+     * @return a new CollisionShape
      */
     public CollisionShape createShape(Transform vertexToShape, Vector3f center,
             Collection<Vector3f> vertexLocations) {
@@ -277,7 +277,7 @@ public class LinkConfig implements Savable {
     /**
      * Calculate a mass for a physics link.
      *
-     * @param shape the link's collision shape (not null, unaffected)
+     * @param shape the link's CollisionShape (not null, unaffected)
      * @return a mass value (&gt;0)
      */
     public float mass(CollisionShape shape) {

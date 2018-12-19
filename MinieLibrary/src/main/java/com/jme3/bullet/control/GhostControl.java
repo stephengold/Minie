@@ -89,7 +89,7 @@ public class GhostControl
      */
     protected Spatial spatial;
     /**
-     * true &rarr; enable shape scaling (to the extent the collision shape
+     * true &rarr; enable shape scaling (to the extent the CollisionShape
      * supports it), false &rarr; disable shape scaling (default=false)
      */
     private boolean applyScale = false;
@@ -98,7 +98,7 @@ public class GhostControl
      */
     protected boolean enabled = true;
     /**
-     * true&rarr;body is added to the physics space, false&rarr;not added
+     * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
      */
     protected boolean added = false;
     /**
@@ -121,7 +121,7 @@ public class GhostControl
     }
 
     /**
-     * Instantiate an enabled control with the specified collision shape.
+     * Instantiate an enabled control with the specified CollisionShape.
      *
      * @param shape the desired shape (not null, alias created)
      */
@@ -170,7 +170,7 @@ public class GhostControl
      * compound shapes) scaling can have unintended consequences.
      *
      * @param setting true &rarr; enable shape scaling (to the extent the
-     * collision shape supports it), false &rarr; disable shape scaling
+     * CollisionShape supports it), false &rarr; disable shape scaling
      * (default=false)
      */
     public void setApplyScale(boolean setting) {
@@ -277,7 +277,7 @@ public class GhostControl
      * <p>
      * When the control is disabled, the ghost object is removed from physics
      * space. When the control is enabled again, the object is moved to the
-     * current location of the spatial and then added to the physics space.
+     * current location of the spatial and then added to the PhysicsSpace.
      *
      * @param enabled true&rarr;enable the control, false&rarr;disable it
      */
@@ -380,8 +380,7 @@ public class GhostControl
     }
 
     /**
-     * Access the physics space to which the ghost object is (or would be)
-     * added.
+     * Access the PhysicsSpace to which the ghost object is (or would be) added.
      *
      * @return the pre-existing space, or null for none
      */

@@ -38,7 +38,7 @@ import jme3utilities.Validate;
  * <p>
  * Implements key methods in order to simplify the development of subclasses.
  * <p>
- * Assumes that the object will live in a single physics space and listen to
+ * Assumes that the object will live in a single PhysicsSpace and listen to
  * physics ticks.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -61,9 +61,8 @@ public class SimpleGhostControl
      * Instantiate a control for an object with a specified shape.
      *
      * @param enabled true for an enabled control, false for a disabled one
-     * @param initialShape initial collision shape for the object
-     * @param physicsSpace physics space which will contain the object (not
-     * null)
+     * @param initialShape initial shape for the object
+     * @param physicsSpace the cpace which will contain the object (not null)
      */
     public SimpleGhostControl(boolean enabled, CollisionShape initialShape,
             PhysicsSpace physicsSpace) {
@@ -78,8 +77,8 @@ public class SimpleGhostControl
     // new methods exposed
 
     /**
-     * Alter the object's collision shape. Assumes that the object has already
-     * been added to a physics space.
+     * Alter the object's CollisionShape. Assumes that the object has already
+     * been added to a PhysicsSpace.
      *
      * @param newShape (not null)
      */
@@ -95,7 +94,7 @@ public class SimpleGhostControl
         PhysicsSpace physicsSpace = space;
         /*
          * In order to resize a physical object, we must
-         * remove the control from physics space and then re-add it.
+         * remove the control from its PhysicsSpace and then re-add it.
          */
         physicsSpace.remove(this);
         super.setCollisionShape(newShape);
@@ -162,7 +161,7 @@ public class SimpleGhostControl
     // new protected methods
 
     /**
-     * Add this control's object to its physics space.
+     * Add this control's object to its PhysicsSpace.
      * <p>
      * Meant to be overridden.
      */
@@ -176,7 +175,7 @@ public class SimpleGhostControl
     }
 
     /**
-     * Remove this control's object from its physics space.
+     * Remove this control's object from its PhysicsSpace.
      * <p>
      * Meant to be overridden.
      */

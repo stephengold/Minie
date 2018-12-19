@@ -59,7 +59,7 @@ import jme3utilities.Validate;
 /**
  * This class is intended to replace the CharacterControl class.
  * <p>
- * A rigid body with cylinder collision shape is used and its velocity is set
+ * A rigid body with cylindrical CollisionShape is used and its velocity is set
  * continuously. A ray test is used to test whether the character is on the
  * ground.
  * <p>
@@ -158,9 +158,8 @@ public class BetterCharacterControl
      * The final height when ducking must be larger than 2x radius. The
      * jumpForce will be set to an upward force of 5x mass.
      *
-     * @param radius the radius of the character's collision shape (&gt;0)
-     * @param height the height of the character's collision shape
-     * (&gt;2*radius)
+     * @param radius the radius of the character's CollisionShape (&gt;0)
+     * @param height the height of the character's CollisionShape (&gt;2*radius)
      * @param mass the character's mass (&ge;0)
      */
     public BetterCharacterControl(float radius, float height, float mass) {
@@ -502,7 +501,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the height of collision shape.
+     * Alter the height of the CollisionShape.
      *
      * @param percent the desired height, as a percentage of the full height
      */
@@ -557,8 +556,8 @@ public class BetterCharacterControl
     }
 
     /**
-     * Create a collision shape based on the scale parameter. The new shape is a
-     * compound shape containing an offset capsule.
+     * Create a CollisionShape based on the scale parameter. The new shape is a
+     * compound shape containing a capsule.
      *
      * @return a new compound shape (not null)
      */
@@ -689,7 +688,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Add all managed physics objects to the physics space.
+     * Add all managed physics objects to the PhysicsSpace.
      */
     @Override
     protected void addPhysics() {
@@ -702,7 +701,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Remove all managed physics objects from the physics space.
+     * Remove all managed physics objects from the PhysicsSpace.
      */
     @Override
     protected void removePhysics() {

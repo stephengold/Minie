@@ -44,7 +44,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A rectangular-solid collision shape based on Bullet's btBoxShape.
+ * A rectangular-solid CollisionShape based on Bullet's btBoxShape.
  *
  * @author normenhansen
  */

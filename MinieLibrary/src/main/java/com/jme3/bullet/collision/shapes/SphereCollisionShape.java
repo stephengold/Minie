@@ -44,8 +44,8 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A spherical collision shape based on Bullet's btSphereShape. These shapes
- * have no margin and can only be scaled uniformly.
+ * A spherical CollisionShape based on Bullet's btSphereShape. These shapes have
+ * no margin and can only be scaled uniformly.
  *
  * @author normenhansen
  * @see MultiSphere

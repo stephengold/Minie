@@ -39,7 +39,7 @@ import jme3utilities.Validate;
  * <p>
  * Implements key methods in order to simplify the development of subclasses.
  * <p>
- * Assumes that the object will live in a single physics space and listen to
+ * Assumes that the object will live in a single PhysicsSpace and listen to
  * physics ticks.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -63,10 +63,11 @@ public class SimpleSolidControl
      * mass.
      *
      * @param enabled true for an enabled object, false for a disabled one
-     * @param initialShape collision shape for the object (not null)
+     * @param initialShape CollisionShape for the object (not null)
      * @param mass object's mass (in kilograms, &gt;0) or zero for a static
      * object
-     * @param physicsSpace physics space that will contain the object (not null)
+     * @param physicsSpace the PhysicsSpace that will contain the object (not
+     * null)
      */
     public SimpleSolidControl(boolean enabled, CollisionShape initialShape,
             float mass, PhysicsSpace physicsSpace) {
@@ -82,8 +83,8 @@ public class SimpleSolidControl
     // new methods exposed
 
     /**
-     * Alter the object's collision shape. Assumes that the object has already
-     * been added to a physics space.
+     * Alter the object's CollisionShape. Assumes that the object has already
+     * been added to a PhysicsSpace.
      *
      * @param newShape (not null)
      */
@@ -99,7 +100,7 @@ public class SimpleSolidControl
         PhysicsSpace physicsSpace = space;
         /*
          * In order to resize a physical object, we must
-         * remove it from physics space and then re-add it.
+         * remove it from the PhysicsSpace and then re-add it.
          */
         physicsSpace.remove(this);
         super.setCollisionShape(newShape);

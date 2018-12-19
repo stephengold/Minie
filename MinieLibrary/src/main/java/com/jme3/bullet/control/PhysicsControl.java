@@ -35,23 +35,24 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.scene.control.Control;
 
 /**
- * An interface for a scene-graph control that links a physics object to a
- * Spatial.
+ * An interface for a scene-graph control that links physics object(s) to a
+ * Spatial. TODO re-order methods
  *
  * @author normenhansen
  */
 public interface PhysicsControl extends Control {
     /**
-     * If enabled, add this control's physics object to the specified physics
-     * space. In not enabled, alter where the object would be added. The object
-     * is removed from any other space it's currently in.
+     * If this control is enabled, add its physics objects to the specified
+     * PhysicsSpace. In not enabled, alter where the objects would be added. The
+     * objects are removed from any other space they're currently in.
      *
      * @param space where to add, or null to simply remove
      */
     void setPhysicsSpace(PhysicsSpace space);
 
     /**
-     * Access the physics space to which the object is (or would be) added.
+     * Access the PhysicsSpace to which the physics objects are (or would be)
+     * added.
      *
      * @return the pre-existing space, or null for none
      */
@@ -60,10 +61,10 @@ public interface PhysicsControl extends Control {
     /**
      * Enable or disable this control.
      * <p>
-     * The physics object is removed from its physics space when the control is
-     * disabled. When the control is enabled again, the physics object is moved
-     * to the current location of the spatial and then added to the physics
-     * space.
+     * The physics objects are removed from its PhysicsSpace when the control is
+     * disabled. When the control is enabled again, the physics objects are
+     * moved to the current location of the spatial and then added to the
+     * PhysicsSpace.
      *
      * @param state true&rarr;enable the control, false&rarr;disable it
      */

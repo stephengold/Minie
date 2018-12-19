@@ -50,7 +50,7 @@ import jme3utilities.math.MyMath;
 import jme3utilities.math.RectangularSolid;
 
 /**
- * A convex collision shape based on Bullet's btMultiSphereShape. Unlike a
+ * A convex CollisionShape based on Bullet's btMultiSphereShape. Unlike a
  * CapsuleCollisionShape or a SphereCollisionShape, these shapes have margins
  * and can be scaled non-uniformly.
  *

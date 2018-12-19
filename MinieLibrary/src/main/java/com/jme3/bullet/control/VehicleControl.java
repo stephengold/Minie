@@ -75,7 +75,7 @@ public class VehicleControl extends PhysicsVehicle
      */
     protected PhysicsSpace space = null;
     /**
-     * true&rarr;vehicle is added to the physics space, false&rarr;not added
+     * true&rarr;vehicle is added to the PhysicsSpace, false&rarr;not added
      */
     protected boolean added = false;
 
@@ -87,8 +87,8 @@ public class VehicleControl extends PhysicsVehicle
     }
 
     /**
-     * Instantiate an enabled control with mass=1 and the specified collision
-     * shape.
+     * Instantiate an enabled control with mass=1 and the specified
+     * CollisionShape.
      *
      * @param shape the desired shape (not null, alias created)
      */
@@ -97,7 +97,7 @@ public class VehicleControl extends PhysicsVehicle
     }
 
     /**
-     * Instantiate an enabled with the specified collision shape and mass.
+     * Instantiate an enabled with the specified CollisionShape and mass.
      *
      * @param shape the desired shape (not null, alias created)
      * @param mass (&gt;0)
@@ -204,9 +204,9 @@ public class VehicleControl extends PhysicsVehicle
     /**
      * Enable or disable this control.
      * <p>
-     * When the control is disabled, the vehicle is removed from physics space.
-     * When the control is enabled again, the physics object is moved to the
-     * spatial's location and then added to the physics space.
+     * When the control is disabled, the vehicle is removed from PhysicsSpace.
+     * When the control is enabled again, the vehicle is moved to the spatial's
+     * location and then added to the PhysicsSpace.
      *
      * @param enabled true&rarr;enable the control, false&rarr;disable it
      */
@@ -296,7 +296,7 @@ public class VehicleControl extends PhysicsVehicle
     }
 
     /**
-     * Access the physics space to which the vehicle is (or would be) added.
+     * Access the PhysicsSpace to which the vehicle is (or would be) added.
      *
      * @return the pre-existing space, or null for none
      */

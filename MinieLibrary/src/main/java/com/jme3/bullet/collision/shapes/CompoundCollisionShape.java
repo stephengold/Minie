@@ -48,7 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A collision shape formed by combining convex child shapes, based on Bullet's
+ * A CollisionShape formed by combining convex child shapes, based on Bullet's
  * btCompoundShape.
  *
  * @author normenhansen

@@ -45,7 +45,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A conical collision shape based on Bullet's btConeShapeX, btConeShape, or
+ * A conical CollisionShape based on Bullet's btConeShapeX, btConeShape, or
  * btConeShapeZ.
  *
  * @author normenhansen

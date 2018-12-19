@@ -134,7 +134,7 @@ public class SixDofJoint extends PhysicsJoint {
     /**
      * Instantiate a single-ended SixDofJoint.
      * <p>
-     * To be effective, the joint must be added to the physics space with the
+     * To be effective, the joint must be added to the PhysicsSpace with the
      * body and the body must be dynamic.
      *
      * @param nodeB the body to constrain (not null, alias created)
@@ -163,7 +163,7 @@ public class SixDofJoint extends PhysicsJoint {
     /**
      * Instantiate a double-ended SixDofJoint.
      * <p>
-     * To be effective, the joint must be added to the physics space of the 2
+     * To be effective, the joint must be added to the PhysicsSpace of both
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *
@@ -194,8 +194,8 @@ public class SixDofJoint extends PhysicsJoint {
     /**
      * Instantiate a double-ended SixDofJoint.
      * <p>
-     * To be effective, the joint must be added to the physics space with the
-     * body and the body must be dynamic.
+     * To be effective, the joint must be added to the body's PhysicsSpace and
+     * the body must be dynamic.
      *
      * @param nodeA the 1st body to constrain (not null, alias created)
      * @param nodeB the 2nd body to constrain (not null, alias created)

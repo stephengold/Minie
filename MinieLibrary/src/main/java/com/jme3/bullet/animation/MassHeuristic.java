@@ -41,7 +41,7 @@ public enum MassHeuristic {
     // values
 
     /**
-     * multiply configured parameter by the scaled volume of the collision shape
+     * multiply configured parameter by the scaled volume of the CollisionShape
      */
     Density,
     /**
