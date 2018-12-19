@@ -40,9 +40,6 @@ public interface Binocular {
      * @param storeResult storage for the result (modified if not null)
      * @return a direction vector (unit vector in the physics link's local
      * coordinates, either storeResult or a new vector)
-     * @see
-     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
-     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     Vector3f leftEyeLookDirection(Vector3f storeResult);
 
@@ -50,6 +47,9 @@ public interface Binocular {
      * Read the vertex spec for the model's left pupil.
      *
      * @return the vertex specification (not null, not empty)
+     * @see
+     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
+     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     String leftPupilSpec();
 
@@ -59,9 +59,6 @@ public interface Binocular {
      * @param storeResult storage for the result (modified if not null)
      * @return a direction vector (unit vector in the physics link's local
      * coordinates, either storeResult or a new vector)
-     * @see
-     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
-     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     Vector3f rightEyeLookDirection(Vector3f storeResult);
 
@@ -69,6 +66,9 @@ public interface Binocular {
      * Read the vertex spec for the model's right pupil.
      *
      * @return the vertex specification (not null, not empty)
+     * @see
+     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
+     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     String rightPupilSpec();
 }
