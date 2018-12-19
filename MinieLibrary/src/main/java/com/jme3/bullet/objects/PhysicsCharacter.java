@@ -85,16 +85,18 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Instantiate a character with the specified collision shape and step
-     * height.
+     * Instantiate a responsive character with the specified CollisionShape and
+     * step height.
      *
      * @param shape the desired shape (not null, alias created)
      * @param stepHeight the quantization size for vertical movement
      */
     public PhysicsCharacter(CollisionShape shape, float stepHeight) {
-        this.collisionShape = shape;
+        collisionShape = shape;
         this.stepHeight = stepHeight;
         buildObject();
+
+        assert isContactResponse();
     }
     // *************************************************************************
     // new methods exposed
@@ -340,7 +342,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
 
     /**
      * Apply the specified CollisionShape to this character. Note that the
-     * character should not be in any physics space while changing shape; the
+     * character should not be in any PhysicsSpace while changing shape; the
      * character gets rebuilt on the physics side.
      *
      * @param collisionShape the shape to apply (not null, alias created)

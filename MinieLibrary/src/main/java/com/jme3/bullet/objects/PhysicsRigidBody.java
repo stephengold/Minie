@@ -109,7 +109,8 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Instantiate a dynamic body with mass=1 and the specified collision shape.
+     * Instantiate a responsive, dynamic body with mass=1 and the specified
+     * CollisionShape. The new body is not added to any PhysicsSpace.
      *
      * @param shape the desired shape (not null, alias created)
      */
@@ -118,10 +119,17 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
         collisionShape = shape;
         rebuildRigidBody();
+
+        assert isContactResponse();
+        assert !isInWorld();
+        assert !isKinematic();
+        assert !isStatic();
+        assert mass == 1f : mass;
     }
 
     /**
-     * Instantiate a body with the specified collision shape and mass.
+     * Instantiate a responsive dynamic or static body with the specified
+     * CollisionShape and mass. The new body is not added to any PhysicsSpace.
      *
      * @param shape the desired shape (not null, alias created)
      * @param mass if 0, a static body is created; otherwise a dynamic body is
@@ -134,6 +142,10 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         collisionShape = shape;
         this.mass = mass;
         rebuildRigidBody();
+
+        assert isContactResponse();
+        assert !isInWorld();
+        assert !isKinematic();
     }
     // *************************************************************************
     // new methods exposed
@@ -387,6 +399,15 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
+     * For compatability with the jme3-bullet library.
+     *
+     * @return a new velocity vector (in physics-space coordinates, not null)
+     */
+    public Vector3f getLinearVelocity() {
+        return getLinearVelocity(null);
+    }
+
+    /**
      * Copy the linear velocity of this body's center of mass.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -519,11 +540,11 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Test whether this body is added to any physics space.
+     * Test whether this body is added to any PhysicsSpace.
      *
      * @return true&rarr;in a space, false&rarr;not in a space
      */
-    public boolean isInWorld() {
+    final public boolean isInWorld() {
         return isInWorld(objectId);
     }
 
@@ -536,7 +557,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      *
      * @return true if in kinematic mode, otherwise false (dynamic/static mode)
      */
-    public boolean isKinematic() {
+    final public boolean isKinematic() {
         return kinematic;
     }
 
@@ -645,7 +666,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     /**
      * Apply the specified CollisionShape to this body, which must not be in any
-     * physics space. The body gets rebuilt on the physics side.
+     * PhysicsSpace. The body gets rebuilt on the physics side.
      *
      * @param collisionShape the shape to apply (not null, alias created)
      */

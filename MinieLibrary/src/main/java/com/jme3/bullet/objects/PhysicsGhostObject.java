@@ -67,6 +67,8 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      */
     final public static Logger logger2
             = Logger.getLogger(PhysicsGhostObject.class.getName());
+    // *************************************************************************
+    // fields
 
     /**
      * TODO reused list
@@ -84,13 +86,16 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     }
 
     /**
-     * Instantiate an object with the specified collision shape.
+     * Instantiate a ghost object with the specified CollisionShape. The new
+     * object is not added to any PhysicsSpace.
      *
      * @param shape the desired shape (not null, alias created)
      */
     public PhysicsGhostObject(CollisionShape shape) {
         collisionShape = shape;
         buildObject();
+
+        assert !isContactResponse();
     }
     // *************************************************************************
     // new methods exposed
@@ -221,7 +226,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
 
     /**
      * Apply the specified CollisionShape to this object. Note that the object
-     * should not be in any physics space while changing shape; the object gets
+     * should not be in any PhysicsSpace while changing shape; the object gets
      * rebuilt on the physics side.
      *
      * @param collisionShape the shape to apply (not null, alias created)
