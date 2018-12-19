@@ -551,12 +551,17 @@ public class DynamicAnimControl
      * Allowed only when the control IS added to a spatial.
      *
      * @param startLink the start of the chain to modify (not null)
+     * @param chainLength the maximum number of links to modify (&ge;0)
      * @param uniformAcceleration the uniform acceleration vector (in
      * physics-space coordinates, not null, unaffected)
      * @param lockAll true to lock all axes of links (except the torso)
      */
-    public void setDynamicChain(PhysicsLink startLink,
+    public void setDynamicChain(PhysicsLink startLink, int chainLength,
             Vector3f uniformAcceleration, boolean lockAll) {
+        if (chainLength == 0) {
+            return;
+        }
+        Validate.positive(chainLength, "chain length");
         Validate.nonNull(startLink, "start link");
         Validate.nonNull(uniformAcceleration, "uniform acceleration");
         if (getSpatial() == null) {
@@ -573,8 +578,9 @@ public class DynamicAnimControl
         }
 
         PhysicsLink parent = startLink.getParent();
-        if (parent != null) {
-            setDynamicChain(parent, uniformAcceleration, lockAll);
+        if (parent != null && chainLength > 1) {
+            setDynamicChain(parent, chainLength - 1, uniformAcceleration,
+                    lockAll);
         }
     }
 

@@ -115,7 +115,7 @@ public class BalanceDemo extends ActionApplication {
     private DynamicAnimControl dac;
     private float rightSupportFraction = 0.5f;
     /**
-     * parameters that determine the vertical acceleration
+     * parameters that determine the torso's vertical acceleration
      */
     private float vaBias = 0f;
     private float vaMagnitude = 0f;
@@ -124,6 +124,8 @@ public class BalanceDemo extends ActionApplication {
      * C-G model on which the control is being tested
      */
     private Node cgModel;
+
+    private PhysicsSpace physicsSpace;
     /**
      * visualizer for the center of mass
      */
@@ -132,7 +134,7 @@ public class BalanceDemo extends ActionApplication {
      * visualizer for the center of support
      */
     private PointVisualizer supportPoint;
-    private PhysicsSpace physicsSpace;
+
     private SkeletonControl sc;
     private SkeletonVisualizer sv;
     private String animationName = null;
@@ -336,11 +338,11 @@ public class BalanceDemo extends ActionApplication {
         Vector3f hes = new Vector3f(halfExtent, halfExtent, halfExtent);
         BoxCollisionShape shape = new BoxCollisionShape(hes);
         float mass = PhysicsRigidBody.massForStatic;
-        RigidBodyControl rbc = new RigidBodyControl(shape, mass);
-        rbc.setApplyScale(true);
-        rbc.setKinematic(true);
-        rbc.setPhysicsSpace(physicsSpace);
-        geometry.addControl(rbc);
+        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
+        geometry.addControl(boxBody);
+        boxBody.setApplyScale(true);
+        boxBody.setKinematic(true);
+        boxBody.setPhysicsSpace(physicsSpace);
     }
 
     /**
@@ -468,13 +470,13 @@ public class BalanceDemo extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
+        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(0.033f); // 33 msec timestep
+        physicsSpace.setAccuracy(1f / 30); // 33.33-msec timestep
         physicsSpace.setSolverNumIterations(15);
     }
 
@@ -511,7 +513,7 @@ public class BalanceDemo extends ActionApplication {
         /*
          * Pin the left foot to the ground.
          */
-        dac.setDynamicChain(leftFoot, Vector3f.ZERO, false);
+        dac.setDynamicChain(leftFoot, 9, Vector3f.ZERO, false);
         Vector3f[] leftSole = leftFoot.footprint();
         for (Vector3f location : leftSole) {
             dac.pinToWorld(leftFoot, location);
@@ -519,7 +521,7 @@ public class BalanceDemo extends ActionApplication {
         /*
          * Pin the right foot to the ground.
          */
-        dac.setDynamicChain(rightFoot, Vector3f.ZERO, false);
+        dac.setDynamicChain(rightFoot, 9, Vector3f.ZERO, false);
         Vector3f[] rightSole = rightFoot.footprint();
         for (Vector3f location : rightSole) {
             dac.pinToWorld(rightFoot, location);
