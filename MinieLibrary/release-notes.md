@@ -1,4 +1,15 @@
-# release notes for the Minie library and related tests
+# release notes for the Minie library and related examples
+
+## Version 0.6.1 released on TBD
+
+ + Added an option to calculate local coordinates
+   in `DynamicAnimControl.findManagerForVertex()`.
+ + Added a `chainLength` argument to `DynamicAnimControl.setDynamicChain()`.
+ + Finalized 4 library methods.
+ + Created a `CameraOrbitAppState` class for use in examples.
+ + Based on version 2.17 of the `jme3-utilities-heart` library
+   and JME 3.2.2-beta1.
+ + Disable scene-graph culling for animated models in examples.
 
 ## Version 0.6.0 released on 15 December 2018
 
