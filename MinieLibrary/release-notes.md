@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.6.1 released on TBD
+## Version 0.6.1 released on 28 December 2018
 
  + Added an option to calculate local coordinates
    in `DynamicAnimControl.findManagerForVertex()`.
