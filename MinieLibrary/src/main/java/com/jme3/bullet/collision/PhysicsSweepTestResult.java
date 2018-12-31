@@ -52,6 +52,14 @@ public class PhysicsSweepTestResult {
     // fields
 
     /**
+     * true&rarr;need to transform normal into world space
+     */
+    private boolean normalInWorldSpace;
+    /**
+     * fraction of the way between the transforms (from=0, to=1, &ge;0, &le;1)
+     */
+    private float hitFraction;
+    /**
      * collision object that was hit
      */
     private PhysicsCollisionObject collisionObject;
@@ -59,14 +67,6 @@ public class PhysicsSweepTestResult {
      * normal vector at the point of contact
      */
     private Vector3f hitNormalLocal;
-    /**
-     * fraction of the way between the transforms (from=0, to=1, &ge;0, &le;1)
-     */
-    private float hitFraction;
-    /**
-     * true&rarr;need to transform normal into world space
-     */
-    private boolean normalInWorldSpace;
     // *************************************************************************
     // constructors
 
@@ -89,6 +89,16 @@ public class PhysicsSweepTestResult {
     }
 
     /**
+     * Read the fraction of the way between the transforms (from=0, to=1, &ge;0,
+     * &le;1)
+     *
+     * @return fraction (from=0, to=1, &ge;0, &le;1)
+     */
+    public float getHitFraction() {
+        return hitFraction;
+    }
+
+    /**
      * Copy the normal vector at the point of contact.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -100,16 +110,6 @@ public class PhysicsSweepTestResult {
         } else {
             return storeResult.set(hitNormalLocal);
         }
-    }
-
-    /**
-     * Read the fraction of fraction of the way between the transforms (from=0,
-     * to=1, &ge;0, &le;1)
-     *
-     * @return fraction (from=0, to=1, &ge;0, &le;1)
-     */
-    public float getHitFraction() {
-        return hitFraction;
     }
 
     /**
