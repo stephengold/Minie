@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -965,11 +965,11 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      * Build/rebuild this body after parameters have changed.
      */
     protected void rebuildRigidBody() {
-        boolean removed = false;
         if (mass != massForStatic) {
             validateDynamicShape(collisionShape);
         }
 
+        boolean removed = false;
         if (objectId != 0L) {
             if (isInWorld(objectId)) {
                 PhysicsSpace.getPhysicsSpace().remove(this);
@@ -979,12 +979,14 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
                     Long.toHexString(objectId));
             finalizeNative(objectId);
         }
+        
         preRebuild();
         objectId = createRigidBody(mass, motionState.getObjectId(),
                 collisionShape.getObjectId());
         logger2.log(Level.FINE, "Created RigidBody {0}",
                 Long.toHexString(objectId));
         postRebuild();
+        
         if (removed) {
             PhysicsSpace.getPhysicsSpace().add(this);
         }
