@@ -43,7 +43,7 @@ public interface PhysicsCollisionListener {
      * render thread.</i>
      * <p>
      * Do not retain the event object, as it will be reused after the
-     * collision() method returns. Copy any data you need during the collide()
+     * collision() method returns. Copy any data you need during the collision()
      * method.
      *
      * @param event the event that occurred (not null, reusable)
