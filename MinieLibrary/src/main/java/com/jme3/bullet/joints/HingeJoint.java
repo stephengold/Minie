@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -305,6 +305,17 @@ public class HingeJoint extends PhysicsJoint {
     }
 
     /**
+     * For compatability with the jme3-bullet library.
+     *
+     * @param low the desired lower limit of the hinge angle (in radians)
+     * @param high the desired upper limit of the hinge angle (in radians)
+     */
+    public void setLimit(float low, float high) {
+        setLimit(objectId, low, high, limitSoftness, biasFactor,
+                relaxationFactor);
+    }
+
+    /**
      * Alter the angular limits for this joint.
      * <p>
      * If you're above the softness, velocities that would shoot through the
@@ -312,7 +323,7 @@ public class HingeJoint extends PhysicsJoint {
      * 0.5.
      *
      * @param low the desired lower limit of the hinge angle (in radians)
-     * @param high the desired upper limit of the joint angle (in radians)
+     * @param high the desired upper limit of the hinge angle (in radians)
      * @param _softness the desired range fraction at which velocity-error
      * correction starts operating. A softness of 0.9 means that the correction
      * starts at 90% of the limit range. (default=0.9)
