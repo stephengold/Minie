@@ -241,6 +241,21 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
+     * Count how many joints are connected to this body.
+     *
+     * @return the count (&ge;0) or 0 if the body isn't added to any
+     * PhysicsSpace
+     */
+    public int countJoints() {
+        int result = 0;
+        if (isInWorld(objectId)) {
+            result = joints.size();
+        }
+
+        return result;
+    }
+
+    /**
      * Read this body's angular damping.
      *
      * @return damping value
@@ -979,14 +994,14 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
                     Long.toHexString(objectId));
             finalizeNative(objectId);
         }
-        
+
         preRebuild();
         objectId = createRigidBody(mass, motionState.getObjectId(),
                 collisionShape.getObjectId());
         logger2.log(Level.FINE, "Created RigidBody {0}",
                 Long.toHexString(objectId));
         postRebuild();
-        
+
         if (removed) {
             PhysicsSpace.getPhysicsSpace().add(this);
         }
