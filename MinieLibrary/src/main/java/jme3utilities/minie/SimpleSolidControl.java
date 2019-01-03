@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2018, Stephen Gold
+ Copyright (c) 2013-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -177,9 +177,11 @@ public class SimpleSolidControl
             setPhysicsRotation(spatial.getWorldRotation());
         }
 
-        for (PhysicsJoint j : listJoints()) {
-            if (!space.getJointList().contains(j)) {
-                space.add(j);
+        if (isInWorld()) {
+            for (PhysicsJoint j : listJoints()) {
+                if (!space.getJointList().contains(j)) {
+                    space.add(j);
+                }
             }
         }
         space.addCollisionObject(this);
