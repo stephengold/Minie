@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -131,7 +131,7 @@ public class SixDofSpringJoint extends SixDofJoint {
                 useLinearReferenceFrameA);
     }
     // *************************************************************************
-    // new methods exposed TODO re-order methods
+    // new methods exposed
 
     /**
      * Enable or disable the spring for the indexed degree of freedom.
@@ -142,17 +142,6 @@ public class SixDofSpringJoint extends SixDofJoint {
     public void enableSpring(int dofIndex, boolean onOff) {
         Validate.inRange(dofIndex, "DOF index", 0, 5);
         enableSpring(objectId, dofIndex, onOff);
-    }
-
-    /**
-     * Alter the spring stiffness for the indexed degree of freedom.
-     *
-     * @param dofIndex which degree of freedom (&ge;0, &lt;6)
-     * @param stiffness the desired stiffness
-     */
-    public void setStiffness(int dofIndex, float stiffness) {
-        Validate.inRange(dofIndex, "DOF index", 0, 5);
-        setStiffness(objectId, dofIndex, stiffness);
     }
 
     /**
@@ -184,6 +173,17 @@ public class SixDofSpringJoint extends SixDofJoint {
     public void setEquilibriumPoint(int dofIndex) {
         Validate.inRange(dofIndex, "DOF index", 0, 5);
         setEquilibriumPoint(objectId, dofIndex);
+    }
+
+    /**
+     * Alter the spring stiffness for the indexed degree of freedom.
+     *
+     * @param dofIndex which degree of freedom (&ge;0, &lt;6)
+     * @param stiffness the desired stiffness
+     */
+    public void setStiffness(int dofIndex, float stiffness) {
+        Validate.inRange(dofIndex, "DOF index", 0, 5);
+        setStiffness(objectId, dofIndex, stiffness);
     }
     // *************************************************************************
     // SixDofJoint methods
