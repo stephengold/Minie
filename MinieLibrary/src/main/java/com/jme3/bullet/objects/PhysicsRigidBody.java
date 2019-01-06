@@ -856,9 +856,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     public void setPhysicsLocation(Vector3f location) {
         Validate.finite(location, "location");
         if (collisionShape instanceof HeightfieldCollisionShape
-                && !MyVector3f.isZero(location)) {
-            throw new IllegalArgumentException(
-                    "No translation of heightfields.");
+                && (location.x != 0f || location.z != 0f)) {
+             throw new IllegalArgumentException(
+                    "No horizontal translation of heightfields.");
         }
 
         setPhysicsLocation(objectId, location);
