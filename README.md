@@ -147,7 +147,7 @@ Section to be written.
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.6.1'
+        compile 'jme3utilities:Minie:0.6.2'
     }
 
 <a name="links"/>

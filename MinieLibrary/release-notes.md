@@ -1,5 +1,13 @@
 # release notes for the Minie library and related examples
 
+## Version 0.6.2 released on TBD
+
+ + Fixed bug where `SimpleSolidControl.onAdd()` threw a `NullPointerException`
+   if the control wasn't added to a `PhysicsSpace`.
+ + Added a `countJoints()` method to `PhysicsRigidBody`.
+ + Added a `setLimit()` method to `HingeJoint`.
+ + Allowed vertical translation of heightfields.
+
 ## Version 0.6.1 released on 28 December 2018
 
  + Added an option to calculate local coordinates
