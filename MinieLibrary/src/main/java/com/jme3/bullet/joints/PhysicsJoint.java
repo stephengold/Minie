@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,8 +68,12 @@ abstract public class PhysicsJoint
     final public static Logger logger
             = Logger.getLogger(PhysicsJoint.class.getName());
     // *************************************************************************
-    // fields TODO re-order
+    // fields
 
+    /**
+     * true IFF bodies A and B are allowed to collide
+     */
+    private boolean collisionBetweenLinkedBodies = true;
     /**
      * Unique identifier of the btTypedConstraint. Subtype constructors are
      * responsible for setting this to a non-zero value. Once set, the
@@ -96,10 +100,6 @@ abstract public class PhysicsJoint
      * null, or else in B's scaled local coordinates
      */
     protected Vector3f pivotB;
-    /**
-     * true IFF bodies A and B are allowed to collide
-     */
-    private boolean collisionBetweenLinkedBodies = true;
     // *************************************************************************
     // constructors
 
