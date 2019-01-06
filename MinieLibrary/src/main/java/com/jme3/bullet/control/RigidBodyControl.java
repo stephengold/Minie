@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -91,9 +91,9 @@ public class RigidBodyControl
     // fields
 
     /**
-     * spatial to which this control is added, or null if none
+     * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
      */
-    protected Spatial spatial;
+    protected boolean added = false;
     /**
      * true &rarr; enable shape scaling (to the extent the CollisionShape
      * supports it), false &rarr; disable shape scaling (default=false)
@@ -105,17 +105,17 @@ public class RigidBodyControl
      */
     protected boolean enabled = true;
     /**
-     * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
+     * true&rarr;body is kinematic, false&rarr;body is static or dynamic
      */
-    protected boolean added = false;
+    protected boolean kinematicSpatial = true;
     /**
      * space to which the body is (or would be) added TODO privatize
      */
     protected PhysicsSpace space = null;
     /**
-     * true&rarr;body is kinematic, false&rarr;body is static or dynamic
+     * spatial to which this control is added, or null if none
      */
-    protected boolean kinematicSpatial = true;
+    protected Spatial spatial;
     // *************************************************************************
     // constructors
 
@@ -160,7 +160,7 @@ public class RigidBodyControl
         super(shape, mass);
     }
     // *************************************************************************
-    // new methods exposed TODO re-order methods
+    // new methods exposed
 
     /**
      * Test whether physics-space coordinates should match the spatial's local
