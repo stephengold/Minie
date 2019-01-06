@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,20 +36,11 @@ import com.jme3.scene.control.Control;
 
 /**
  * An interface for a scene-graph control that links physics object(s) to a
- * Spatial. TODO re-order methods
+ * Spatial.
  *
  * @author normenhansen
  */
 public interface PhysicsControl extends Control {
-    /**
-     * If this control is enabled, add its physics objects to the specified
-     * PhysicsSpace. In not enabled, alter where the objects would be added. The
-     * objects are removed from any other space they're currently in.
-     *
-     * @param space where to add, or null to simply remove
-     */
-    void setPhysicsSpace(PhysicsSpace space);
-
     /**
      * Access the PhysicsSpace to which the physics objects are (or would be)
      * added.
@@ -57,6 +48,13 @@ public interface PhysicsControl extends Control {
      * @return the pre-existing space, or null for none
      */
     PhysicsSpace getPhysicsSpace();
+
+    /**
+     * Test whether this control is enabled.
+     *
+     * @return true if enabled, otherwise false
+     */
+    boolean isEnabled();
 
     /**
      * Enable or disable this control.
@@ -71,9 +69,11 @@ public interface PhysicsControl extends Control {
     void setEnabled(boolean state);
 
     /**
-     * Test whether this control is enabled.
+     * If this control is enabled, add its physics objects to the specified
+     * PhysicsSpace. In not enabled, alter where the objects would be added. The
+     * objects are removed from any other space they're currently in.
      *
-     * @return true if enabled, otherwise false
+     * @param space where to add, or null to simply remove
      */
-    boolean isEnabled();
+    void setPhysicsSpace(PhysicsSpace space);
 }
