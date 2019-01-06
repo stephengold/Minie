@@ -1,12 +1,14 @@
 # release notes for the Minie library and related examples
 
-## Version 0.6.2 released on TBD
+## Version 0.6.2 released on 6 January 2019
 
  + Fixed bug where `SimpleSolidControl.onAdd()` threw a `NullPointerException`
    if the control wasn't added to a `PhysicsSpace`.
  + Added a `countJoints()` method to `PhysicsRigidBody`.
  + Added a `setLimit()` method to `HingeJoint`.
  + Allowed vertical translation of heightfields.
+ + Based on version 2.18 of the `jme3-utilities-heart` library
+   and JME 3.2.2-stable.
 
 ## Version 0.6.1 released on 28 December 2018
 
