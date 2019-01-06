@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,8 +62,14 @@ public class SliderJoint extends PhysicsJoint {
     final public static Logger logger2
             = Logger.getLogger(SliderJoint.class.getName());
     // *************************************************************************
-    // fields TODO re-order
+    // fields
 
+    /**
+     * true&rarr;limits give the allowable range of movement of frameB in frameA
+     * space, false&rarr;limits give the allowable range of movement of frameA
+     * in frameB space
+     */
+    private boolean useLinearReferenceFrameA;
     /**
      * copy of the joint orientation: in physics-space coordinates if nodeA is
      * null, or else in A's local coordinates (rotation matrix)
@@ -73,12 +79,6 @@ public class SliderJoint extends PhysicsJoint {
      * copy of the joint orientation in B's local coordinates (rotation matrix)
      */
     private Matrix3f rotB;
-    /**
-     * true&rarr;limits give the allowable range of movement of frameB in frameA
-     * space, false&rarr;limits give the allowable range of movement of frameA
-     * in frameB space
-     */
-    private boolean useLinearReferenceFrameA;
     // *************************************************************************
     // constructors
 
@@ -170,117 +170,16 @@ public class SliderJoint extends PhysicsJoint {
         createJoint();
     }
     // *************************************************************************
-    // new methods exposed TODO re-order
+    // new methods exposed
 
     /**
-     * Read the joint's lower limit for on-axis translation.
+     * Read the joint's damping for on-axis rotation between the limits.
      *
-     * @return the lower limit
+     * @return the viscous damping ratio (0&rarr;no damping, 1&rarr;critically
+     * damped)
      */
-    public float getLowerLinLimit() {
-        return getLowerLinLimit(objectId);
-    }
-
-    /**
-     * Alter the joint's lower limit for on-axis translation.
-     *
-     * @param lowerLinLimit the desired lower limit (default=-1)
-     */
-    public void setLowerLinLimit(float lowerLinLimit) {
-        setLowerLinLimit(objectId, lowerLinLimit);
-    }
-
-    /**
-     * Read the joint's upper limit for on-axis translation.
-     *
-     * @return the upper limit
-     */
-    public float getUpperLinLimit() {
-        return getUpperLinLimit(objectId);
-    }
-
-    /**
-     * Alter the joint's upper limit for on-axis translation.
-     *
-     * @param upperLinLimit the desired upper limit (default=1)
-     */
-    public void setUpperLinLimit(float upperLinLimit) {
-        setUpperLinLimit(objectId, upperLinLimit);
-    }
-
-    /**
-     * Read the joint's lower limit for on-axis rotation.
-     *
-     * @return the lower limit angle (in radians)
-     */
-    public float getLowerAngLimit() {
-        return getLowerAngLimit(objectId);
-    }
-
-    /**
-     * Alter the joint's lower limit for on-axis rotation.
-     *
-     * @param lowerAngLimit the desired lower limit angle (in radians,
-     * default=0)
-     */
-    public void setLowerAngLimit(float lowerAngLimit) {
-        setLowerAngLimit(objectId, lowerAngLimit);
-    }
-
-    /**
-     * Read the joint's upper limit for on-axis rotation.
-     *
-     * @return the upper limit angle (in radians)
-     */
-    public float getUpperAngLimit() {
-        return getUpperAngLimit(objectId);
-    }
-
-    /**
-     * Alter the joint's upper limit for on-axis rotation.
-     *
-     * @param upperAngLimit the desired upper limit angle (in radians,
-     * default=0)
-     */
-    public void setUpperAngLimit(float upperAngLimit) {
-        setUpperAngLimit(objectId, upperAngLimit);
-    }
-
-    /**
-     * Read the joint's softness for on-axis translation between the limits.
-     *
-     * @return the softness
-     */
-    public float getSoftnessDirLin() {
-        return getSoftnessDirLin(objectId);
-    }
-
-    /**
-     * Alter the joint's softness for on-axis translation between the limits.
-     *
-     * @param softnessDirLin the desired softness (default=1)
-     */
-    public void setSoftnessDirLin(float softnessDirLin) {
-        setSoftnessDirLin(objectId, softnessDirLin);
-    }
-
-    /**
-     * Read the joint's restitution for on-axis translation between the limits.
-     *
-     * @return the restitution (bounce) factor
-     */
-    public float getRestitutionDirLin() {
-        return getRestitutionDirLin(objectId);
-    }
-
-    /**
-     * Alter the joint's restitution for on-axis translation between the limits.
-     *
-     * @param restitutionDirLin the desired restitution (bounce) factor
-     * (default=0.7)
-     */
-    public void setRestitutionDirLin(float restitutionDirLin) {
-        setRestitutionDirLin(objectId, restitutionDirLin);
+    public float getDampingDirAng() {
+        return getDampingDirAng(objectId);
     }
 
     /**
@@ -294,107 +193,13 @@ public class SliderJoint extends PhysicsJoint {
     }
 
     /**
-     * Alter the joint's damping for on-axis translation between the limits.
-     *
-     * @param dampingDirLin the desired viscous damping ratio (0&rarr;no
-     * damping, 1&rarr;critically damped, default=0)
-     */
-    public void setDampingDirLin(float dampingDirLin) {
-        setDampingDirLin(objectId, dampingDirLin);
-    }
-
-    /**
-     * Read the joint's softness for on-axis rotation between the limits.
-     *
-     * @return the softness
-     */
-    public float getSoftnessDirAng() {
-        return getSoftnessDirAng(objectId);
-    }
-
-    /**
-     * Alter the joint's softness for on-axis rotation between the limits.
-     *
-     * @param softnessDirAng the desired softness (default=1)
-     */
-    public void setSoftnessDirAng(float softnessDirAng) {
-        setSoftnessDirAng(objectId, softnessDirAng);
-    }
-
-    /**
-     * Read the joint's restitution for on-axis rotation between the limits.
-     *
-     * @return the restitution (bounce) factor
-     */
-    public float getRestitutionDirAng() {
-        return getRestitutionDirAng(objectId);
-    }
-
-    /**
-     * Alter the joint's restitution for on-axis rotation between the limits.
-     *
-     * @param restitutionDirAng the desired restitution (bounce) factor
-     * (default=0.7)
-     */
-    public void setRestitutionDirAng(float restitutionDirAng) {
-        setRestitutionDirAng(objectId, restitutionDirAng);
-    }
-
-    /**
-     * Read the joint's damping for on-axis rotation between the limits.
+     * Read the joint's damping for on-axis rotation hitting the limits.
      *
      * @return the viscous damping ratio (0&rarr;no damping, 1&rarr;critically
      * damped)
      */
-    public float getDampingDirAng() {
-        return getDampingDirAng(objectId);
-    }
-
-    /**
-     * Alter the joint's damping for on-axis rotation between the limits.
-     *
-     * @param dampingDirAng the desired viscous damping ratio (0&rarr;no
-     * damping, 1&rarr;critically damped, default=0)
-     */
-    public void setDampingDirAng(float dampingDirAng) {
-        setDampingDirAng(objectId, dampingDirAng);
-    }
-
-    /**
-     * Read the joint's softness for on-axis translation hitting the limits.
-     *
-     * @return the softness
-     */
-    public float getSoftnessLimLin() {
-        return getSoftnessLimLin(objectId);
-    }
-
-    /**
-     * Alter the joint's softness for on-axis translation hitting the limits.
-     *
-     * @param softnessLimLin the desired softness (default=1)
-     */
-    public void setSoftnessLimLin(float softnessLimLin) {
-        setSoftnessLimLin(objectId, softnessLimLin);
-    }
-
-    /**
-     * Read the joint's restitution for on-axis translation hitting the limits.
-     *
-     * @return the restitution (bounce) factor
-     */
-    public float getRestitutionLimLin() {
-        return getRestitutionLimLin(objectId);
-    }
-
-    /**
-     * Alter the joint's restitution for on-axis translation hitting the limits.
-     *
-     * @param restitutionLimLin the desired restitution (bounce) factor
-     * (default=0.7)
-     */
-    public void setRestitutionLimLin(float restitutionLimLin) {
-        setRestitutionLimLin(objectId, restitutionLimLin);
+    public float getDampingLimAng() {
+        return getDampingLimAng(objectId);
     }
 
     /**
@@ -408,107 +213,13 @@ public class SliderJoint extends PhysicsJoint {
     }
 
     /**
-     * Alter the joint's damping for on-axis translation hitting the limits.
-     *
-     * @param dampingLimLin the desired viscous damping ratio (0&rarr;no
-     * damping, 1&rarr;critically damped, default=1)
-     */
-    public void setDampingLimLin(float dampingLimLin) {
-        setDampingLimLin(objectId, dampingLimLin);
-    }
-
-    /**
-     * Read the joint's softness for on-axis rotation hitting the limits.
-     *
-     * @return the softness
-     */
-    public float getSoftnessLimAng() {
-        return getSoftnessLimAng(objectId);
-    }
-
-    /**
-     * Alter the joint's softness for on-axis rotation hitting the limits.
-     *
-     * @param softnessLimAng the desired softness (default=1)
-     */
-    public void setSoftnessLimAng(float softnessLimAng) {
-        setSoftnessLimAng(objectId, softnessLimAng);
-    }
-
-    /**
-     * Read the joint's restitution for on-axis rotation hitting the limits.
-     *
-     * @return the restitution (bounce) factor
-     */
-    public float getRestitutionLimAng() {
-        return getRestitutionLimAng(objectId);
-    }
-
-    /**
-     * Alter the joint's restitution for on-axis rotation hitting the limits.
-     *
-     * @param restitutionLimAng the desired restitution (bounce) factor
-     * (default=0.7)
-     */
-    public void setRestitutionLimAng(float restitutionLimAng) {
-        setRestitutionLimAng(objectId, restitutionLimAng);
-    }
-
-    /**
-     * Read the joint's damping for on-axis rotation hitting the limits.
+     * Read the joint's damping for off-axis rotation.
      *
      * @return the viscous damping ratio (0&rarr;no damping, 1&rarr;critically
      * damped)
      */
-    public float getDampingLimAng() {
-        return getDampingLimAng(objectId);
-    }
-
-    /**
-     * Alter the joint's damping for on-axis rotation hitting the limits.
-     *
-     * @param dampingLimAng the desired viscous damping ratio (0&rarr;no
-     * damping, 1&rarr;critically damped, default=1)
-     */
-    public void setDampingLimAng(float dampingLimAng) {
-        setDampingLimAng(objectId, dampingLimAng);
-    }
-
-    /**
-     * Read the joint's softness for off-axis translation.
-     *
-     * @return the softness
-     */
-    public float getSoftnessOrthoLin() {
-        return getSoftnessOrthoLin(objectId);
-    }
-
-    /**
-     * Alter the joint's softness for off-axis translation.
-     *
-     * @param softnessOrthoLin the desired softness (default=1)
-     */
-    public void setSoftnessOrthoLin(float softnessOrthoLin) {
-        setSoftnessOrthoLin(objectId, softnessOrthoLin);
-    }
-
-    /**
-     * Read the joint's restitution for off-axis translation.
-     *
-     * @return the restitution (bounce) factor
-     */
-    public float getRestitutionOrthoLin() {
-        return getRestitutionOrthoLin(objectId);
-    }
-
-    /**
-     * Alter the joint's restitution for off-axis translation.
-     *
-     * @param restitutionOrthoLin the desired restitution (bounce) factor
-     * (default=0.7)
-     */
-    public void setRestitutionOrthoLin(float restitutionOrthoLin) {
-        setRestitutionOrthoLin(objectId, restitutionOrthoLin);
+    public float getDampingOrthoAng() {
+        return getDampingOrthoAng(objectId);
     }
 
     /**
@@ -522,31 +233,75 @@ public class SliderJoint extends PhysicsJoint {
     }
 
     /**
-     * Alter the joint's damping for off-axis translation.
+     * Read the joint's lower limit for on-axis rotation.
      *
-     * @param dampingOrthoLin the desired viscous damping ratio (0&rarr;no
-     * damping, 1&rarr;critically damped, default=1)
+     * @return the lower limit angle (in radians)
      */
-    public void setDampingOrthoLin(float dampingOrthoLin) {
-        setDampingOrthoLin(objectId, dampingOrthoLin);
+    public float getLowerAngLimit() {
+        return getLowerAngLimit(objectId);
     }
 
     /**
-     * Read the joint's softness for off-axis rotation.
+     * Read the joint's lower limit for on-axis translation.
      *
-     * @return the softness
+     * @return the lower limit
      */
-    public float getSoftnessOrthoAng() {
-        return getSoftnessOrthoAng(objectId);
+    public float getLowerLinLimit() {
+        return getLowerLinLimit(objectId);
     }
 
     /**
-     * Alter the joint's softness for off-axis rotation.
+     * Read the maximum force of the rotation motor.
      *
-     * @param softnessOrthoAng the desired softness (default=1)
+     * @return the maximum force
      */
-    public void setSoftnessOrthoAng(float softnessOrthoAng) {
-        setSoftnessOrthoAng(objectId, softnessOrthoAng);
+    public float getMaxAngMotorForce() {
+        return getMaxAngMotorForce(objectId);
+    }
+
+    /**
+     * Read the maximum force of the translation motor.
+     *
+     * @return the maximum force
+     */
+    public float getMaxLinMotorForce() {
+        return getMaxLinMotorForce(objectId);
+    }
+
+    /**
+     * Read the joint's restitution for on-axis rotation between the limits.
+     *
+     * @return the restitution (bounce) factor
+     */
+    public float getRestitutionDirAng() {
+        return getRestitutionDirAng(objectId);
+    }
+
+    /**
+     * Read the joint's restitution for on-axis translation between the limits.
+     *
+     * @return the restitution (bounce) factor
+     */
+    public float getRestitutionDirLin() {
+        return getRestitutionDirLin(objectId);
+    }
+
+    /**
+     * Read the joint's restitution for on-axis rotation hitting the limits.
+     *
+     * @return the restitution (bounce) factor
+     */
+    public float getRestitutionLimAng() {
+        return getRestitutionLimAng(objectId);
+    }
+
+    /**
+     * Read the joint's restitution for on-axis translation hitting the limits.
+     *
+     * @return the restitution (bounce) factor
+     */
+    public float getRestitutionLimLin() {
+        return getRestitutionLimLin(objectId);
     }
 
     /**
@@ -559,23 +314,160 @@ public class SliderJoint extends PhysicsJoint {
     }
 
     /**
-     * Alter the joint's restitution for off-axis rotation.
+     * Read the joint's restitution for off-axis translation.
      *
-     * @param restitutionOrthoAng the desired restitution (bounce) factor
-     * (default=0.7)
+     * @return the restitution (bounce) factor
      */
-    public void setRestitutionOrthoAng(float restitutionOrthoAng) {
-        setRestitutionOrthoAng(objectId, restitutionOrthoAng);
+    public float getRestitutionOrthoLin() {
+        return getRestitutionOrthoLin(objectId);
     }
 
     /**
-     * Read the joint's damping for off-axis rotation.
+     * Read the joint's softness for on-axis rotation between the limits.
      *
-     * @return the viscous damping ratio (0&rarr;no damping, 1&rarr;critically
-     * damped)
+     * @return the softness
      */
-    public float getDampingOrthoAng() {
-        return getDampingOrthoAng(objectId);
+    public float getSoftnessDirAng() {
+        return getSoftnessDirAng(objectId);
+    }
+
+    /**
+     * Read the joint's softness for on-axis translation between the limits.
+     *
+     * @return the softness
+     */
+    public float getSoftnessDirLin() {
+        return getSoftnessDirLin(objectId);
+    }
+
+    /**
+     * Read the joint's softness for on-axis rotation hitting the limits.
+     *
+     * @return the softness
+     */
+    public float getSoftnessLimAng() {
+        return getSoftnessLimAng(objectId);
+    }
+
+    /**
+     * Read the joint's softness for on-axis translation hitting the limits.
+     *
+     * @return the softness
+     */
+    public float getSoftnessLimLin() {
+        return getSoftnessLimLin(objectId);
+    }
+
+    /**
+     * Read the joint's softness for off-axis rotation.
+     *
+     * @return the softness
+     */
+    public float getSoftnessOrthoAng() {
+        return getSoftnessOrthoAng(objectId);
+    }
+
+    /**
+     * Read the joint's softness for off-axis translation.
+     *
+     * @return the softness
+     */
+    public float getSoftnessOrthoLin() {
+        return getSoftnessOrthoLin(objectId);
+    }
+
+    /**
+     * Read the velocity target of the rotation motor.
+     *
+     * @return the velocity target (in radians per second)
+     */
+    public float getTargetAngMotorVelocity() {
+        return getTargetAngMotorVelocity(objectId);
+    }
+
+    /**
+     * Read the velocity target of the translation motor.
+     *
+     * @return the velocity target
+     */
+    public float getTargetLinMotorVelocity() {
+        return getTargetLinMotorVelocity(objectId);
+    }
+
+    /**
+     * Read the joint's upper limit for on-axis rotation.
+     *
+     * @return the upper limit angle (in radians)
+     */
+    public float getUpperAngLimit() {
+        return getUpperAngLimit(objectId);
+    }
+
+    /**
+     * Read the joint's upper limit for on-axis translation.
+     *
+     * @return the upper limit
+     */
+    public float getUpperLinLimit() {
+        return getUpperLinLimit(objectId);
+    }
+
+    /**
+     * Test whether the rotation motor is powered.
+     *
+     * @return true if powered, otherwise false
+     */
+    public boolean isPoweredAngMotor() {
+        return isPoweredAngMotor(objectId);
+    }
+
+    /**
+     * Test whether the translation motor is powered.
+     *
+     * @return true if powered, otherwise false
+     */
+    public boolean isPoweredLinMotor() {
+        return isPoweredLinMotor(objectId);
+    }
+
+    /**
+     * Alter the joint's damping for on-axis rotation between the limits.
+     *
+     * @param dampingDirAng the desired viscous damping ratio (0&rarr;no
+     * damping, 1&rarr;critically damped, default=0)
+     */
+    public void setDampingDirAng(float dampingDirAng) {
+        setDampingDirAng(objectId, dampingDirAng);
+    }
+
+    /**
+     * Alter the joint's damping for on-axis translation between the limits.
+     *
+     * @param dampingDirLin the desired viscous damping ratio (0&rarr;no
+     * damping, 1&rarr;critically damped, default=0)
+     */
+    public void setDampingDirLin(float dampingDirLin) {
+        setDampingDirLin(objectId, dampingDirLin);
+    }
+
+    /**
+     * Alter the joint's damping for on-axis rotation hitting the limits.
+     *
+     * @param dampingLimAng the desired viscous damping ratio (0&rarr;no
+     * damping, 1&rarr;critically damped, default=1)
+     */
+    public void setDampingLimAng(float dampingLimAng) {
+        setDampingLimAng(objectId, dampingLimAng);
+    }
+
+    /**
+     * Alter the joint's damping for on-axis translation hitting the limits.
+     *
+     * @param dampingLimLin the desired viscous damping ratio (0&rarr;no
+     * damping, 1&rarr;critically damped, default=1)
+     */
+    public void setDampingLimLin(float dampingLimLin) {
+        setDampingLimLin(objectId, dampingLimLin);
     }
 
     /**
@@ -589,49 +481,41 @@ public class SliderJoint extends PhysicsJoint {
     }
 
     /**
-     * Test whether the translation motor is powered.
+     * Alter the joint's damping for off-axis translation.
      *
-     * @return true if powered, otherwise false
+     * @param dampingOrthoLin the desired viscous damping ratio (0&rarr;no
+     * damping, 1&rarr;critically damped, default=1)
      */
-    public boolean isPoweredLinMotor() {
-        return isPoweredLinMotor(objectId);
+    public void setDampingOrthoLin(float dampingOrthoLin) {
+        setDampingOrthoLin(objectId, dampingOrthoLin);
     }
 
     /**
-     * Alter whether the translation motor is powered.
+     * Alter the joint's lower limit for on-axis rotation.
      *
-     * @param poweredLinMotor true to power the motor, false to de-power it
-     * (default=false)
+     * @param lowerAngLimit the desired lower limit angle (in radians,
+     * default=0)
      */
-    public void setPoweredLinMotor(boolean poweredLinMotor) {
-        setPoweredLinMotor(objectId, poweredLinMotor);
+    public void setLowerAngLimit(float lowerAngLimit) {
+        setLowerAngLimit(objectId, lowerAngLimit);
     }
 
     /**
-     * Read the velocity target of the translation motor.
+     * Alter the joint's lower limit for on-axis translation.
      *
-     * @return the velocity target
+     * @param lowerLinLimit the desired lower limit (default=-1)
      */
-    public float getTargetLinMotorVelocity() {
-        return getTargetLinMotorVelocity(objectId);
+    public void setLowerLinLimit(float lowerLinLimit) {
+        setLowerLinLimit(objectId, lowerLinLimit);
     }
 
     /**
-     * Alter the velocity target of the translation motor.
+     * Alter the maximum force of the rotation motor.
      *
-     * @param targetLinMotorVelocity the desired velocity target (default=0)
+     * @param maxAngMotorForce the desired maximum force (default=0)
      */
-    public void setTargetLinMotorVelocity(float targetLinMotorVelocity) {
-        setTargetLinMotorVelocity(objectId, targetLinMotorVelocity);
-    }
-
-    /**
-     * Read the maximum force of the translation motor.
-     *
-     * @return the maximum force
-     */
-    public float getMaxLinMotorForce() {
-        return getMaxLinMotorForce(objectId);
+    public void setMaxAngMotorForce(float maxAngMotorForce) {
+        setMaxAngMotorForce(objectId, maxAngMotorForce);
     }
 
     /**
@@ -641,15 +525,6 @@ public class SliderJoint extends PhysicsJoint {
      */
     public void setMaxLinMotorForce(float maxLinMotorForce) {
         setMaxLinMotorForce(objectId, maxLinMotorForce);
-    }
-
-    /**
-     * Test whether the rotation motor is powered.
-     *
-     * @return true if powered, otherwise false
-     */
-    public boolean isPoweredAngMotor() {
-        return isPoweredAngMotor(objectId);
     }
 
     /**
@@ -663,12 +538,127 @@ public class SliderJoint extends PhysicsJoint {
     }
 
     /**
-     * Read the velocity target of the rotation motor.
+     * Alter whether the translation motor is powered.
      *
-     * @return the velocity target (in radians per second)
+     * @param poweredLinMotor true to power the motor, false to de-power it
+     * (default=false)
      */
-    public float getTargetAngMotorVelocity() {
-        return getTargetAngMotorVelocity(objectId);
+    public void setPoweredLinMotor(boolean poweredLinMotor) {
+        setPoweredLinMotor(objectId, poweredLinMotor);
+    }
+
+    /**
+     * Alter the joint's restitution for on-axis rotation between the limits.
+     *
+     * @param restitutionDirAng the desired restitution (bounce) factor
+     * (default=0.7)
+     */
+    public void setRestitutionDirAng(float restitutionDirAng) {
+        setRestitutionDirAng(objectId, restitutionDirAng);
+    }
+
+    /**
+     * Alter the joint's restitution for on-axis translation between the limits.
+     *
+     * @param restitutionDirLin the desired restitution (bounce) factor
+     * (default=0.7)
+     */
+    public void setRestitutionDirLin(float restitutionDirLin) {
+        setRestitutionDirLin(objectId, restitutionDirLin);
+    }
+
+    /**
+     * Alter the joint's restitution for on-axis rotation hitting the limits.
+     *
+     * @param restitutionLimAng the desired restitution (bounce) factor
+     * (default=0.7)
+     */
+    public void setRestitutionLimAng(float restitutionLimAng) {
+        setRestitutionLimAng(objectId, restitutionLimAng);
+    }
+
+    /**
+     * Alter the joint's restitution for on-axis translation hitting the limits.
+     *
+     * @param restitutionLimLin the desired restitution (bounce) factor
+     * (default=0.7)
+     */
+    public void setRestitutionLimLin(float restitutionLimLin) {
+        setRestitutionLimLin(objectId, restitutionLimLin);
+    }
+
+    /**
+     * Alter the joint's restitution for off-axis rotation.
+     *
+     * @param restitutionOrthoAng the desired restitution (bounce) factor
+     * (default=0.7)
+     */
+    public void setRestitutionOrthoAng(float restitutionOrthoAng) {
+        setRestitutionOrthoAng(objectId, restitutionOrthoAng);
+    }
+
+    /**
+     * Alter the joint's restitution for off-axis translation.
+     *
+     * @param restitutionOrthoLin the desired restitution (bounce) factor
+     * (default=0.7)
+     */
+    public void setRestitutionOrthoLin(float restitutionOrthoLin) {
+        setRestitutionOrthoLin(objectId, restitutionOrthoLin);
+    }
+
+    /**
+     * Alter the joint's softness for on-axis rotation between the limits.
+     *
+     * @param softnessDirAng the desired softness (default=1)
+     */
+    public void setSoftnessDirAng(float softnessDirAng) {
+        setSoftnessDirAng(objectId, softnessDirAng);
+    }
+
+    /**
+     * Alter the joint's softness for on-axis translation between the limits.
+     *
+     * @param softnessDirLin the desired softness (default=1)
+     */
+    public void setSoftnessDirLin(float softnessDirLin) {
+        setSoftnessDirLin(objectId, softnessDirLin);
+    }
+
+    /**
+     * Alter the joint's softness for on-axis rotation hitting the limits.
+     *
+     * @param softnessLimAng the desired softness (default=1)
+     */
+    public void setSoftnessLimAng(float softnessLimAng) {
+        setSoftnessLimAng(objectId, softnessLimAng);
+    }
+
+    /**
+     * Alter the joint's softness for on-axis translation hitting the limits.
+     *
+     * @param softnessLimLin the desired softness (default=1)
+     */
+    public void setSoftnessLimLin(float softnessLimLin) {
+        setSoftnessLimLin(objectId, softnessLimLin);
+    }
+
+    /**
+     * Alter the joint's softness for off-axis rotation.
+     *
+     * @param softnessOrthoAng the desired softness (default=1)
+     */
+    public void setSoftnessOrthoAng(float softnessOrthoAng) {
+        setSoftnessOrthoAng(objectId, softnessOrthoAng);
+    }
+
+    /**
+     * Alter the joint's softness for off-axis translation.
+     *
+     * @param softnessOrthoLin the desired softness (default=1)
+     */
+    public void setSoftnessOrthoLin(float softnessOrthoLin) {
+        setSoftnessOrthoLin(objectId, softnessOrthoLin);
     }
 
     /**
@@ -682,21 +672,31 @@ public class SliderJoint extends PhysicsJoint {
     }
 
     /**
-     * Read the maximum force of the rotation motor.
+     * Alter the velocity target of the translation motor.
      *
-     * @return the maximum force
+     * @param targetLinMotorVelocity the desired velocity target (default=0)
      */
-    public float getMaxAngMotorForce() {
-        return getMaxAngMotorForce(objectId);
+    public void setTargetLinMotorVelocity(float targetLinMotorVelocity) {
+        setTargetLinMotorVelocity(objectId, targetLinMotorVelocity);
     }
 
     /**
-     * Alter the maximum force of the rotation motor.
+     * Alter the joint's upper limit for on-axis rotation.
      *
-     * @param maxAngMotorForce the desired maximum force (default=0)
+     * @param upperAngLimit the desired upper limit angle (in radians,
+     * default=0)
      */
-    public void setMaxAngMotorForce(float maxAngMotorForce) {
-        setMaxAngMotorForce(objectId, maxAngMotorForce);
+    public void setUpperAngLimit(float upperAngLimit) {
+        setUpperAngLimit(objectId, upperAngLimit);
+    }
+
+    /**
+     * Alter the joint's upper limit for on-axis translation.
+     *
+     * @param upperLinLimit the desired upper limit (default=1)
+     */
+    public void setUpperLinLimit(float upperLinLimit) {
+        setUpperLinLimit(objectId, upperLinLimit);
     }
     // *************************************************************************
     // PhysicsJoint methods
