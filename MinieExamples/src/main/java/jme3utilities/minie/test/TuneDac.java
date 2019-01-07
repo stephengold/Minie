@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -58,6 +58,7 @@ import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.tunings.CesiumManControl;
 import jme3utilities.minie.test.tunings.ElephantControl;
 import jme3utilities.minie.test.tunings.JaimeControl;
 import jme3utilities.minie.test.tunings.MhGameControl;
@@ -300,10 +301,11 @@ public class TuneDac extends ActionApplication {
      * Add an animated model to the scene.
      */
     private void addModel() {
+        loadCesiumMan();
         //loadElephant();
         //loadJaime();
         //loadMhGame();
-        loadNinja();
+        //loadNinja();
         //loadOto();
         //loadPuppet();
         //loadSinbad();
@@ -337,6 +339,16 @@ public class TuneDac extends ActionApplication {
         Vector3f location = model.getWorldTranslation();
         location.subtractLocal(offset);
         MySpatial.setWorldLocation(model, location);
+    }
+
+    /**
+     * Load the CesiumMan model.
+     */
+    private void loadCesiumMan() {
+        model = (Node) assetManager.loadModel(
+                "Models/CesiumMan/glTF-Binary/CesiumMan.glb");
+        model.rotate(0f, -1.6f, 0f);
+        dac = new CesiumManControl();
     }
 
     /**

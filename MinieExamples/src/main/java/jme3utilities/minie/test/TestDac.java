@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -85,6 +85,7 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.tunings.Biped;
+import jme3utilities.minie.test.tunings.CesiumManControl;
 import jme3utilities.minie.test.tunings.ElephantControl;
 import jme3utilities.minie.test.tunings.JaimeControl;
 import jme3utilities.minie.test.tunings.MhGameControl;
@@ -238,6 +239,7 @@ public class TestDac extends ActionApplication {
         dim.bind("limp left arm", KeyInput.KEY_LBRACKET);
         dim.bind("limp right arm", KeyInput.KEY_RBRACKET);
         dim.bind("load", KeyInput.KEY_L);
+        dim.bind("load CesiumMan", KeyInput.KEY_F12);
         dim.bind("load Elephant", KeyInput.KEY_F3);
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);
@@ -519,6 +521,9 @@ public class TestDac extends ActionApplication {
         }
 
         switch (modelName) {
+            case "CesiumMan":
+                loadCesiumMan();
+                break;
             case "Elephant":
                 loadElephant();
                 break;
@@ -687,6 +692,21 @@ public class TestDac extends ActionApplication {
         });
 
         save(loadedScene, saveAssetPath2);
+    }
+
+    /**
+     * Load the CesiumMan model.
+     */
+    private void loadCesiumMan() {
+        cgModel = (Node) assetManager.loadModel(
+                "Models/CesiumMan/glTF-Binary/CesiumMan.glb");
+        cgModel.rotate(0f, -1.6f, 0f);
+        dac = new CesiumManControl();
+        animationName = "anim_0";
+        leftClavicleName = "Bone_16";
+        leftUlnaName = "Bone_17";
+        rightClavicleName = "Bone_13";
+        upperBodyName = "Bone_11";
     }
 
     /**
