@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,8 @@ import com.jme3.texture.Texture;
 
 /**
  * Test heightfield collision shapes.
+ * 
+ * @author Stephen Gold sgold@sonic.net
  */
 public class TestHeightfield extends SimpleApplication {
     // *************************************************************************

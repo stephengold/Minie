@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -39,9 +39,11 @@ import com.jme3.math.Vector3f;
 
 /**
  * Test case for JME issue #889: disabled physics control gets added to a
- * physics space.
+ * PhysicsSpace.
  * <p>
  * If successful, no debug meshes will be visible.
+ * 
+ * @author Stephen Gold sgold@sonic.net
  */
 public class TestIssue889 extends SimpleApplication {
     // *************************************************************************

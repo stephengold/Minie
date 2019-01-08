@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,8 @@ import com.jme3.bullet.PhysicsSpace;
  * Test case for JME issue #883: extra physicsTicks in ThreadingType.PARALLEL.
  * <p>
  * If successful, physics time and frame time will advance at the same rate.
+ *
+ * @author Stephen Gold sgold@sonic.net
  */
 public class TestIssue883 extends SimpleApplication {
     // *************************************************************************

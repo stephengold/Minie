@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,8 @@ import com.jme3.math.Vector3f;
 
 /**
  * Test case for visualizing a shape with a changing scale.
+ * 
+ * @author Stephen Gold sgold@sonic.net
  */
 public class TestScaleChange extends SimpleApplication {
     // *************************************************************************

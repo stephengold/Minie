@@ -72,6 +72,8 @@ import jme3utilities.ui.Signals;
 
 /**
  * Interim tuning tool for DynamicAnimControl.
+ *
+ * @author Stephen Gold sgold@sonic.net
  */
 public class TuneDac extends ActionApplication {
     // *************************************************************************
