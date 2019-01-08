@@ -247,8 +247,16 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
 #### Create, configure, and attach a BulletAppState
 
-If the application doesn't already do this ...
-Section to be written.
+Strictly speaking, a `BulletAppState` isn't required for `Minie`, but
+it does provide a convenient interface for configuring, accessing, and
+debugging a `PhysicsSpace`.
+
+If your application already has a `BulletAppState`, the code will probably
+work fine with `Minie`.  If not, here is a snippet to guide you:
+
+        BulletAppState bulletAppState = new BulletAppState();
+        bulletAppState.setDebugEnabled(true); // default=false
+        stateManager.attach(bulletAppState);
 
 #### Configure the PhysicsSpace
 
