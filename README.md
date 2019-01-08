@@ -90,7 +90,7 @@ The evolution of Minie is chronicled in
 
 ### jMonkeyEngine3 (jME3) Software Development Kit (SDK)
 
-Minie currently targets Version 3.2.1 of jMonkeyEngine.
+Minie currently targets Version 3.2.2 of jMonkeyEngine.
 You are welcome to use the Engine without also using the SDK, but I use the SDK,
 and the following installation instructions assume you will too.
 
@@ -140,7 +140,64 @@ Clone the repository using Git:
 
 ## How to add Minie to an existing project
 
-Section to be written.
+Adding Minie to an existing JME3 project should be a simple 6-step process:
+
+ 1. Remove any existing physics libraries which might interfere with Minie.
+ 2. Add libraries to the classpath.
+ 3. Create, configure, and attach a `BulletAppState`,
+    if the application doesn't already do so.
+ 4. Configure the `PhysicsSpace`,
+    if the application doesn't already do so.
+ 5. Create physics controls, collision objects, and joints
+    and add them to the `PhysicsSpace`,
+    if the application doesn't already do so.
+ 6. Test and tune as necessary.
+
+### Remove any existing physics libraries
+
+Minie replaces (and is therefore incompatible with) the following
+jMonkeyEngine libraries:
+
+ + `jme3-bullet`
+ + `jme3-bullet-native`
+ + `jme3-jbullet`
+
+Before adding Minie, you should remove these libraries from your project so
+they won't interfere with Minie.
+
+#### For Gradle projects
+
+Look for artifacts with these names in the `dependencies` section
+of your project's `gradle.build` file and remove them.
+
+#### For Ant projects
+
+Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
+
+ 1. Right-click on the project (not its assets) in the "Projects" window.
+ 2. Select "Properties to open the "Project Properties" dialog.
+ 3. Under "Categories:" select "Libraries".
+ 4. Click on the "Compile" tab.
+ 5. Look for libraries with these names in the "Compile-time Libraries"
+    listbox.  Select them and click on the "Remove" button.
+ 6. Click on the "OK" button to exit the "Project Properties" dialog.
+
+### Add libraries to the classpath
+
+Minie comes pre-built as a single library that includes both Java classes
+and native libraries.  The Minie library depends on 2 Jme3-utilities libraries
+(jme3-utilities-heart and jme3-utilities-debug) which in turn depend on
+3 of the standard jMonkeyEngine libraries
+(jme3-core, jme3-effects, and jme3-terrain).
+
+#### For Gradle projects
+
+For projects built using Maven or Gradle, it is sufficient to specify the
+dependency on the Minie library.  The build tools should automatically
+resolve the remaining dependences automatically.
+
+Because Minie is not on JCenter yet, you have to explicitly specify the
+repository location:
 
     repositories {
         maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
@@ -149,6 +206,61 @@ Section to be written.
     dependencies {
         compile 'jme3utilities:Minie:0.6.2'
     }
+
+#### For Ant projects
+
+For project built using Ant, download the 3 non-standard
+libraries from GitHub:
+
+   + https://github.com/stephengold/Minie/releases/tag/0.6.2
+   + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.18.0
+   + https://github.com/stephengold/jme3-utilities/releases/tag/debug-0.9.9
+
+You'll want all 3 class JARs
+and probably the `-sources` and `-javadoc` JARs as well.
+
+Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
+
+ 1. Right-click on the project (not its assets) in the "Projects" window.
+ 2. Select "Properties to open the "Project Properties" dialog.
+ 3. Under "Categories:" select "Libraries".
+ 4. Click on the "Compile" tab.
+ 5. Add the `jme3-utilities-heart` class JAR:
+    + Click on the "Add JAR/Folder" button.
+    + Navigate to the "jme3-utilities" project folder.
+    + Open the "heart" sub-project folder.
+    + Navigate to the "build/libs" folder.
+    + Select the "jme3-utilities-heart-2.18.0.jar" file.
+    + Click on the "Open" button.
+ 6. (optional) Add JARs for javadoc and sources:
+    + Click on the "Edit" button.
+    + Click on the "Browse..." button to the right of "Javadoc:"
+    + Select the "jme3-utilities-heart-2.18.0-javadoc.jar" file.
+    + Click on the "Open" button.
+    + Click on the "Browse..." button to the right of "Sources:"
+    + Select the "jme3-utilities-heart-2.18.0-sources.jar" file.
+    + Click on the "Open" button again.
+    + Click on the "OK" button to close the "Edit Jar Reference" dialog.
+ 7. Similarly, add the `jme3-utilities-debug` JAR(s).
+ 8. Similarly, add the `Minie` JAR(s).
+ 9. Click on the "OK" button to exit the "Project Properties" dialog.
+
+#### Create, configure, and attach a BulletAppState
+
+If the application doesn't already do this ...
+Section to be written.
+
+#### Configure the PhysicsSpace
+
+Section to be written.
+
+#### Create physics controls, collision objects, and joints
+
+Section to be written.
+
+#### Test and tune
+
+Section to be written.
 
 <a name="links"/>
 
