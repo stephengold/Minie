@@ -35,6 +35,10 @@ Summary of features:
  + demo apps provided
  + Java source code provided under FreeBSD license
 
+Features of jme3-bullet that are omitted:
+ + `CharacterControl` - use `BetterCharacterControl` instead
+ + `KinematicRagdollControl` - use `DynamicAnimControl` instead
+
 ## Contents of this document
 
  + [Downloads](#downloads)
@@ -42,6 +46,7 @@ Summary of features:
  + [History](#history)
  + [How to install the SDK and the Minie Project](#install)
  + [How to add Minie to an existing project](#add)
+ + [An introduction to DynamicAnimControl](#dac)
  + [External links](#links)
  + [Acknowledgments](#acks)
 
@@ -269,6 +274,45 @@ Section to be written.
 #### Test and tune
 
 Section to be written.
+
+<a name="dac"/>
+
+## An Introduction to DynamicAnimControl
+
+The centerpiece of Minie is `DynamicAnimControl`, a new `PhysicsControl`.
+Adding a `DynamicAnimControl` to an animated model provides ragdoll physics and
+inverse kinematics.
+
+A model's ragdoll is composed of rigid bodies joined by 6-DOF joints.
+Within the `Control`, each `PhysicsRigidBody` is represented by
+a `PhysicsLink`, and the links are organized into a tree hierarchy.
+
+Configuration of `DynamicAnimControl` mostly takes place before the `Control`
+is added to a model `Spatial`.  Adding the `Control` to a `Spatial`
+automatically creates the ragdoll, including physics links, rigid bodies,
+and joints.  No ragdoll exists before the `Control` is added to a `Spatial`,
+and removing a `Control` from its controlled `Spatial` destroys the ragdoll.
+
+The controlled `Spatial` must include the model's `SkeletonControl`.
+Usually this is the model's root `Spatial`, but not always.
+
+`PhysicsLink` has 3 subclasses:
+
+ + `BoneLink`: manages one or more bones in the model’s `Skeleton`.
+   Each `BoneLink` has a parent, to which it is jointed.
+   The parent may be another `BoneLink` or it may be a `TorsoLink`.
+ + `TorsoLink`: is always the root of a link hierarchy,
+   so it has no parent.
+   It manages all root bones in the model's `Skeleton`.  It also manages all
+   `Skeleton` bones that are not managed by a `BoneLink`.
+ + `AttachmentLink`: manages a non-animated model attached to the main model
+   by means of an attachment node.
+
+The default constructor for `DynamicAnimControl` is configured to create a
+ragdoll with no bone links, only a `TorsoLink`.
+Before adding the `Control` to a `Spatial`, specify which `Skeleton` bones
+should have their own bone links by invoking the `setConfig()` method
+for each `Bone`.
 
 <a name="links"/>
 
