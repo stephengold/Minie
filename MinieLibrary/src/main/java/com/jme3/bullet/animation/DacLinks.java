@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,7 @@ import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -1084,34 +1085,32 @@ public class DacLinks extends DacConfiguration {
      */
     private void createBoneLink(String boneName,
             Collection<Vector3f> vertexLocations) {
-        if (vertexLocations == null || vertexLocations.isEmpty()) {
-            String msg = String.format("No mesh vertices for linked bone %s.",
-                    MyString.quote(boneName));
-            throw new IllegalArgumentException(msg);
-        }
-        /*
-         * Create the CollisionShape.
-         */
         Bone bone = findBone(boneName);
         Transform boneToMesh = MySkeleton.copyMeshTransform(bone, null);
         Transform meshToBone = boneToMesh.invert();
         LinkConfig linkConfig = config(boneName);
-        CenterHeuristic centerHeuristic = linkConfig.centerHeuristic();
+        /*
+         * Create the CollisionShape and locate the center.
+         */
+        CollisionShape shape;
         Vector3f center;
-        if (centerHeuristic == CenterHeuristic.Joint) {
+        if (vertexLocations == null || vertexLocations.isEmpty()) {
             center = translateIdentity;
+            shape = new EmptyShape(true);
         } else {
-            center = centerHeuristic.center(vertexLocations, null);
-            center.subtractLocal(bone.getModelSpacePosition());
+            CenterHeuristic centerHeuristic = linkConfig.centerHeuristic();
+            if (centerHeuristic == CenterHeuristic.Joint) {
+                center = translateIdentity;
+            } else {
+                center = centerHeuristic.center(vertexLocations, null);
+                center.subtractLocal(bone.getModelSpacePosition());
+            }
+            shape = linkConfig.createShape(meshToBone, center, vertexLocations);
         }
-        CollisionShape shape = linkConfig.createShape(meshToBone, center,
-                vertexLocations);
 
         PhysicsRigidBody rigidBody = createRigidBody(linkConfig, shape);
-
         meshToBone.getTranslation().zero();
         Vector3f offset = meshToBone.transformVector(center, null);
-
         BoneLink link = new BoneLink(this, bone, rigidBody, offset);
         boneLinks.put(boneName, link);
     }
