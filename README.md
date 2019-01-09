@@ -314,6 +314,19 @@ Before adding the `Control` to a `Spatial`, specify which `Skeleton` bones
 should have their own bone links by invoking the `setConfig()` method
 for each `Bone`.
 
+I recommend starting with a default `LinkConfig` and a generous range of motion
+for each linked bone:
+
+    dynamicAnimControl.link("head", new LinkConfig(), new RangeOfMotion(1f, 1f, 1f));
+
+You probably don't want to link every `Bone`.
+For instance, if the model has articulated fingers, you probably want to link
+the hand bones but not the individual finger bones.
+Unlinked bones will be managed by the nearest linked ancestor `Bone`.
+The `TorsoLink` will manage any bones for which no ancestor `Bone` is linked.
+If you link too many bones, the ragdoll may become inflexible or jittery
+due to collisions between rigid bodies that don't share a `PhysicsJoint`.
+
 <a name="links"/>
 
 ## External links
