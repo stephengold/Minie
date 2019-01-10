@@ -97,26 +97,6 @@ public class JaimeControl
                 new RangeOfMotion(0f, -2f, 1f, -1f, 0f, 0f));
         super.link("hand.R", hull,
                 new RangeOfMotion(0.3f, -0.8f, 0f, 0f, 0.2f, -0.2f));
-        super.link("thumb.01.R", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 1f, -1f));
-        super.link("finger_index.01.R", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0.1f, -0.3f));
-        super.link("finger_middle.01.R", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0.2f, -0.2f));
-        super.link("finger_ring.01.R", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0.2f, -0.2f));
-        super.link("finger_pinky.01.R", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0.3f, -0.1f));
-        super.link("thumb.02.R", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0f, 0f));
-        super.link("finger_index.02.R", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0f, 0f));
-        super.link("finger_middle.02.R", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0f, 0f));
-        super.link("finger_ring.02.R", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0f, 0f));
-        super.link("finger_pinky.02.R", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0f, 0f));
 
         super.link("shoulder.L", hull,
                 new RangeOfMotion(1.6f, -0.8f, 0f, 0f, 0.6f, -0.3f));
@@ -126,26 +106,6 @@ public class JaimeControl
                 new RangeOfMotion(0f, -2f, 1f, -1f, 0f, 0f));
         super.link("hand.L", hull,
                 new RangeOfMotion(0.8f, -0.3f, 0f, 0f, 0.2f, -0.2f));
-        super.link("thumb.01.L", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 1f, -1f));
-        super.link("finger_index.01.L", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0.3f, -0.1f));
-        super.link("finger_middle.01.L", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0.2f, -0.2f));
-        super.link("finger_ring.01.L", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0.2f, -0.2f));
-        super.link("finger_pinky.01.L", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0.1f, -0.3f));
-        super.link("thumb.02.L", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0f, 0f));
-        super.link("finger_index.02.L", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0f, 0f));
-        super.link("finger_middle.02.L", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0f, 0f));
-        super.link("finger_ring.02.L", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0f, 0f));
-        super.link("finger_pinky.02.L", hull,
-                new RangeOfMotion(0.5f, -0.2f, 0f, 0f, 0f, 0f));
 
         super.link("thigh.R", hull,
                 new RangeOfMotion(1f, -0.4f, 0.4f, -0.4f, 0.5f, -0.5f));
@@ -170,7 +130,6 @@ public class JaimeControl
      * @param storeResult storage for the result (modified if not null)
      * @return a direction vector (unit vector in the physics link's local
      * coordinates, either storeResult or a new vector)
-     * @see com.jme3.animation.DynamicAnimControl#findManagerForVertex()
      */
     @Override
     public Vector3f leftEyeLookDirection(Vector3f storeResult) {
@@ -183,6 +142,9 @@ public class JaimeControl
      * Read the vertex spec for the model's left pupil.
      *
      * @return the vertex specification (not null, not empty)
+     * @see
+     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
+     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     @Override
     public String leftPupilSpec() {
@@ -195,7 +157,6 @@ public class JaimeControl
      * @param storeResult storage for the result (modified if not null)
      * @return a direction vector (unit vector in the physics link's local
      * coordinates, either storeResult or a new vector)
-     * @see com.jme3.animation.DynamicAnimControl#findManagerForVertex()
      */
     @Override
     public Vector3f rightEyeLookDirection(Vector3f storeResult) {
@@ -208,6 +169,9 @@ public class JaimeControl
      * Read the vertex spec for the model's right pupil.
      *
      * @return the vertex specification (not null, not empty)
+     * @see
+     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
+     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     @Override
     public String rightPupilSpec() {
