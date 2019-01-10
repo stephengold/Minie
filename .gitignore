@@ -3,7 +3,6 @@
 /MinieExamples/*.dll
 /MinieExamples/*.so
 /MinieExamples/build/
-/MinieExamples/src/main/java/jme3test/
 /MinieExamples/Written Assets/
 /MinieLibrary/*.dll
 /MinieLibrary/*.so
