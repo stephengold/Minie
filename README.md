@@ -109,8 +109,13 @@ The hardware and software requirements of the SDK are documented on
     + an integrated development environment (IDE) based on NetBeans,
     + various plugins, and
     + the Blender 3D application.
- 3. To open the project in the SDK (or NetBeans), you will need the `Gradle
-    Support` plugin.  Download and install it before proceeding.
+ 3. To open the Minie project in the IDE (or NetBeans), you will need the
+    `Gradle Support` plugin.  Download and install it before proceeding.
+    If this plugin isn't shown in the IDE's "Plugins" tool,
+    you can download it from
+    [GitHub](https://github.com/kelemen/netbeans-gradle-project/releases).
+    You don't need this plugin if you merely want to use a pre-build Minie
+    release in an Ant project.
 
 ### Source files
 
@@ -283,41 +288,46 @@ The centerpiece of Minie is `DynamicAnimControl`, a new `PhysicsControl`.
 Adding a `DynamicAnimControl` to an animated model provides ragdoll physics and
 inverse kinematics.
 
-A model's ragdoll is composed of rigid bodies joined by 6-DOF joints.
-Within the `Control`, each `PhysicsRigidBody` is represented by
-a `PhysicsLink`, and the links are organized into a tree hierarchy.
-
 Configuration of `DynamicAnimControl` mostly takes place before the `Control`
 is added to a model `Spatial`.  Adding the `Control` to a `Spatial`
-automatically creates the ragdoll, including physics links, rigid bodies,
-and joints.  No ragdoll exists before the `Control` is added to a `Spatial`,
+automatically creates the ragdoll, including rigid bodies and joints.
+No ragdoll exists before the `Control` is added to a `Spatial`,
 and removing a `Control` from its controlled `Spatial` destroys the ragdoll.
 
 The controlled `Spatial` must include the model's `SkeletonControl`.
 Usually this is the model's root `Spatial`, but not always.
+For a very simple example, see
+[HelloDac.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/HelloDac.java).
+
+A model's ragdoll is composed of rigid bodies joined by 6-DOF joints.
+Within the `Control`, each `PhysicsRigidBody` is represented by
+a `PhysicsLink`, and the links are organized into a tree hierarchy.
 
 `PhysicsLink` has 3 subclasses:
 
  + `BoneLink`: manages one or more bones in the model’s `Skeleton`.
-   Each `BoneLink` has a parent, to which it is jointed.
-   The parent may be another `BoneLink` or it may be a `TorsoLink`.
+   Each `BoneLink` has a parent link, to which it is jointed.
+   Its parent may be another `BoneLink` or it may be a `TorsoLink`.
  + `TorsoLink`: is always the root of a link hierarchy,
-   so it has no parent.
-   It manages all root bones in the model's `Skeleton`.  It also manages all
-   `Skeleton` bones that are not managed by a `BoneLink`.
- + `AttachmentLink`: manages a non-animated model attached to the main model
-   by means of an attachment node.
+   so it has no parent link.
+   It manages all root bones in the model's `Skeleton`.  It also manages any
+   `Skeleton` bones that aren't managed by a `BoneLink`.
+ + `AttachmentLink`: manages a non-animated model that's
+   attached to the main model by means of an attachment `Node`.
+   An `AttachmentLink` cannot be the parent of a link.
 
 The default constructor for `DynamicAnimControl` is configured to create a
 ragdoll with no bone links, only a `TorsoLink`.
 Before adding the `Control` to a `Spatial`, specify which `Skeleton` bones
-should have their own bone links by invoking the `setConfig()` method
-for each `Bone`.
+should be linked, by invoking the `link()` method for each of those bones.
 
 I recommend starting with a default `LinkConfig` and a generous range of motion
 for each linked bone:
 
-    dynamicAnimControl.link("head", new LinkConfig(), new RangeOfMotion(1f, 1f, 1f));
+    dynamicAnimControl.link(boneName, new LinkConfig(), new RangeOfMotion(1f, 1f, 1f));
+
+For a simple example, see
+[HelloBoneLink.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/HelloBoneLink.java).
 
 You probably don't want to link every `Bone`.
 For instance, if the model has articulated fingers, you probably want to link
