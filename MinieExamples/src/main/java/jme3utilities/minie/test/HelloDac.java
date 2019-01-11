@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.animation.SkeletonControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -67,12 +68,19 @@ public class HelloDac extends SimpleApplication {
         ninjaModel.rotate(0f, 3f, 0f);
         ninjaModel.scale(0.02f);
 
+        // The DynamicAnimControl must be added to the Spatial with
+        // the model's SkeletonControl.
+        // In the the Ninja model, that Spatial is the model's root Node.
+        assert ninjaModel.getControl(SkeletonControl.class) != null;
+
         // Add a DynamicAnimControl to the model.
         DynamicAnimControl dac = new DynamicAnimControl();
         ninjaModel.addControl(dac);
+
         dac.setPhysicsSpace(physicsSpace);
 
-        // Because no linked bones are specified, the model behaves more like a
-        // rigid body than a ragdoll.
+        // Because no bone links are configured, the model would behave more
+        // like a rigid body than a ragdoll.  See HelloBoneLink for an
+        // example of configuring bone links.
     }
 }
