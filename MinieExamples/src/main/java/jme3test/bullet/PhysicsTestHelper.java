@@ -60,9 +60,9 @@ public class PhysicsTestHelper {
 
     /**
      * creates a simple physics test world with a floor, an obstacle and some test boxes
-     * @param rootNode
-     * @param assetManager
-     * @param space
+     * @param rootNode where lights and geometries should be added
+     * @param assetManager for loading assets
+     * @param space where collision objects should be added
      */
     public static void createPhysicsTestWorld(Node rootNode, AssetManager assetManager, PhysicsSpace space) {
         AmbientLight light = new AmbientLight();
@@ -161,8 +161,8 @@ public class PhysicsTestHelper {
 
     /**
      * creates a box geometry with a RigidBodyControl
-     * @param assetManager
-     * @return
+     * @param assetManager for loading assets
+     * @return a new Geometry
      */
     public static Geometry createPhysicsTestBox(AssetManager assetManager) {
         Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
@@ -177,8 +177,8 @@ public class PhysicsTestHelper {
 
     /**
      * creates a sphere geometry with a RigidBodyControl
-     * @param assetManager
-     * @return
+     * @param assetManager for loading assets
+     * @return a new Geometry
      */
     public static Geometry createPhysicsTestSphere(AssetManager assetManager) {
         Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
@@ -193,10 +193,10 @@ public class PhysicsTestHelper {
 
     /**
      * creates an empty node with a RigidBodyControl
-     * @param manager
-     * @param shape
-     * @param mass
-     * @return
+     * @param manager for loading assets
+     * @param shape a shape for the collision object
+     * @param mass a mass for rigid body
+     * @return a new Node
      */
     public static Node createPhysicsTestNode(AssetManager manager, CollisionShape shape, float mass) {
         Node node = new Node("PhysicsNode");
@@ -207,9 +207,9 @@ public class PhysicsTestHelper {
 
     /**
      * creates the necessary inputlistener and action to shoot balls from the camera
-     * @param app
-     * @param rootNode
-     * @param space
+     * @param app the application that's running
+     * @param rootNode where ball geometries should be added
+     * @param space where collision objects should be added
      */
     public static void createBallShooter(final Application app, final Node rootNode, final PhysicsSpace space) {
         ActionListener actionListener = new ActionListener() {
