@@ -48,10 +48,9 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import java.util.logging.Logger;
-import jme3utilities.MyAsset;
 
 /**
- * A simple example using DynamicAnimControl with 3 bone links.
+ * A simple example of a DynamicAnimControl with 3 bone links.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -152,7 +151,10 @@ public class HelloBoneLink extends SimpleApplication {
 
         geometry.move(0f, -halfExtent, 0f);
         ColorRGBA color = new ColorRGBA(0.1f, 0.4f, 0.1f, 1f);
-        Material material = MyAsset.createShadedMaterial(assetManager, color);
+        Material material
+                = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+        material.setBoolean("UseMaterialColors", true);
+        material.setColor("Diffuse", color);
         geometry.setMaterial(material);
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
 
