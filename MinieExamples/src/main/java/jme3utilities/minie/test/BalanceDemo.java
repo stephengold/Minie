@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -340,7 +340,7 @@ public class BalanceDemo extends ActionApplication {
         float mass = PhysicsRigidBody.massForStatic;
         RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
         geometry.addControl(boxBody);
-        boxBody.setKinematic(true);
+        boxBody.setApplyScale(true);
         boxBody.setPhysicsSpace(physicsSpace);
     }
 
