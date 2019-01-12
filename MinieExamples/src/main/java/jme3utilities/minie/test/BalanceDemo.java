@@ -340,7 +340,6 @@ public class BalanceDemo extends ActionApplication {
         float mass = PhysicsRigidBody.massForStatic;
         RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
         geometry.addControl(boxBody);
-        boxBody.setApplyScale(true);
         boxBody.setKinematic(true);
         boxBody.setPhysicsSpace(physicsSpace);
     }
