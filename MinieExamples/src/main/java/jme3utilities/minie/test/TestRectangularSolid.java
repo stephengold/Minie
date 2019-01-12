@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -153,6 +153,10 @@ public class TestRectangularSolid extends ActionApplication {
         bulletAppState.setSpeed(0f);
         stateManager.attach(bulletAppState);
 
+        CameraOrbitAppState orbitState
+                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
+        stateManager.attach(orbitState);
+
         trial(true);
     }
 
@@ -165,6 +169,8 @@ public class TestRectangularSolid extends ActionApplication {
 
         dim.bind("next trial rounded", KeyInput.KEY_F1);
         dim.bind("next trial square", KeyInput.KEY_F2);
+        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
+        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
     }
 
     /**
