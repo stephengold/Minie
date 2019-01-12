@@ -55,7 +55,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyQuaternion;
-import jme3utilities.math.MyVector3f;
 
 /**
  * A collision object for a rigid body, based on Bullet's btRigidBody.
@@ -776,6 +775,10 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      * dynamic/static mode (default=false)
      */
     public void setKinematic(boolean kinematic) {
+        if (mass == massForStatic) {
+            throw new IllegalStateException(
+                    "Cannot set/clear kinematic mode on a static body!");
+        }
         this.kinematic = kinematic;
         setKinematic(objectId, kinematic);
     }
@@ -857,7 +860,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         Validate.finite(location, "location");
         if (collisionShape instanceof HeightfieldCollisionShape
                 && (location.x != 0f || location.z != 0f)) {
-             throw new IllegalArgumentException(
+            throw new IllegalArgumentException(
                     "No horizontal translation of heightfields.");
         }
 
