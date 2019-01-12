@@ -1,19 +1,25 @@
+/*
+ * settings.gradle: global settings shared by all subprojects
+ */
+
 rootProject.name = 'Minie'
 
-// Find the directories containing a "build.gradle" file in the root directory
-// of the project. That is, every directory containing a "build.gradle" will
-// be automatically the subproject of this project.
+/*
+ * Enumerate subdirectories in the project's root directory that contain a
+ * "build.gradle" file. Any subdirectory with a "build.gradle" file is
+ * automatically a subproject of this project.
+ */
 def subDirs = rootDir.listFiles(new FileFilter() {
-    public boolean accept(File file) {
-        if (!file.isDirectory()) {
-            return false
+        public boolean accept(File file) {
+            if (!file.isDirectory()) {
+                return false
+            }
+            if (file.name == 'buildSrc') {
+                return false
+            }
+            return new File(file, 'build.gradle').isFile()
         }
-        if (file.name == 'buildSrc') {
-            return false
-        }
-        return new File(file, 'build.gradle').isFile()
-    }
-});
+    });
 
 subDirs.each { File dir ->
     include dir.name
