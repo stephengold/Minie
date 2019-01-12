@@ -483,7 +483,6 @@ public class TestDac extends ActionApplication {
         float mass = PhysicsRigidBody.massForStatic;
         RigidBodyControl rbc = new RigidBodyControl(shape, mass);
         rbc.setApplyScale(true);
-        rbc.setKinematic(true);
         rbc.setPhysicsSpace(physicsSpace);
         geometry.addControl(rbc);
     }

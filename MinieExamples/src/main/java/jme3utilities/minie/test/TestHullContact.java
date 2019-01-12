@@ -300,7 +300,6 @@ public class TestHullContact
         float mass = PhysicsRigidBody.massForStatic;
         boxBody = new RigidBodyControl(shape, mass);
         boxBody.setApplyScale(true);
-        boxBody.setKinematic(true);
         boxBody.setPhysicsSpace(physicsSpace);
 
         geometry.addControl(boxBody);

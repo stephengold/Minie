@@ -106,7 +106,6 @@ public class TestHeightfield extends SimpleApplication {
         CollisionShape shape = CollisionShapeFactory.createMeshShape(quad);
         float massForStatic = 0f;
         RigidBodyControl rbc = new RigidBodyControl(shape, massForStatic);
-        rbc.setKinematic(true);
         rbc.setPhysicsSpace(space);
         rootNode.addControl(rbc);
     }
