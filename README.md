@@ -390,6 +390,7 @@ artists and software developers:
   `KinematicRagdollControl` (on which `DynamicAnimControl` is based)
   and also for many helpful insights
 + Paul Speed, for helpful insights
++ "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down.
 + [Nathan Vegdahl][vegdahl], for creating the Puppet model (used by `TestDac`)
 + the creators of (and contributors to) the following software:
     + the [Blender][] 3-D animation suite
