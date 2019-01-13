@@ -32,12 +32,24 @@ Summary of features:
  + access the linear factor of a rigid body
  + improved Javadoc and inline documentation
  + decoupled from the jMonkeyEngine release cycle
- + demo apps provided
+ + tutorial, demo, and test apps provided
  + Java source code provided under FreeBSD license
 
-Features of jme3-bullet that are omitted:
- + `CharacterControl` - use `BetterCharacterControl` instead
- + `KinematicRagdollControl` - use `DynamicAnimControl` instead
+Features of `jme3-bullet` that Minie omits:
+
+ + `CharacterControl`: use `BetterCharacterControl` instead
+ + `KinematicRagdollControl`, `HumanoidRagdollPreset`, and `RagdollPreset`:
+   use `DynamicAnimControl` instead
+ + `RagdollUtils`: use `RagUtils` instead
+
+Other important differences:
+
+ + The default collision margin increased from 0 to 0.04 .
+ + `RagdollCollisionListener` interface changed and moved
+   from the `com.jme3.bullet.collision` package
+   to the `com.jme3.bullet.animation` package.
+ + `BulletAppState.stopPhysics()` is not longer public:
+   detach the `AppState` instead
 
 ## Contents of this document
 
