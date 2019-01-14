@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -130,6 +130,15 @@ public class GhostControl
     }
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Access the controlled spatial.
+     *
+     * @return the spatial, or null if none
+     */
+    public Spatial getSpatial() {
+        return spatial;
+    }
 
     /**
      * Test whether physics-space coordinates should match the spatial's local
