@@ -38,7 +38,6 @@ repositories {
     maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
     maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for testdata
     jcenter()
-    maven { url 'http://nifty-gui.sourceforge.net/nifty-maven-repo' }
 }
 
 task sourcesJar(type: Jar, dependsOn: classes, description: 'Create a jar of source files.') {
