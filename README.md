@@ -64,10 +64,10 @@ Other important differences:
 
 <a name="downloads"/>
 
-### Downloads
+## Downloads
 
 Newer releases (since v0.5.0) can be downloaded from
-[GitHub](https://github.com/stephengold/jme3-utilities/releases).
+[GitHub](https://github.com/stephengold/Minie/releases).
 
 Older releases (v0.1.1 through v0.4.5) can be downloaded from
 [the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
@@ -77,7 +77,7 @@ Maven artifacts are available from
 
 <a name="conventions"/>
 
-### Conventions
+## Conventions
 
 Package names begin with
 `jme3utilities.minie` (if Stephen Gold holds the copyright) or
@@ -87,7 +87,7 @@ The source code is compatible with JDK 7.
 
 <a name="history"/>
 
-### History
+## History
 
 Since November 2018, the Minie Project has been an independent project at
 [GitHub][minie].
