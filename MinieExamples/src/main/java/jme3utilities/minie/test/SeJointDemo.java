@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -100,7 +100,8 @@ public class SeJointDemo extends ActionApplication {
     /**
      * application name for its window's title bar
      */
-    final private static String applicationName = "SeJointDemo";
+    final private static String applicationName
+            = SeJointDemo.class.getSimpleName();
     /**
      * joint axes in physics-space coordinates (unit vector)
      */
@@ -550,6 +551,7 @@ public class SeJointDemo extends ActionApplication {
         PhysicsDumper dumper = new PhysicsDumper();
         //dumper.setDumpBucket(true);
         //dumper.setDumpCull(true);
+        //dumper.setDumpMatParam(true);
         //dumper.setDumpOverride(true);
         //dumper.setDumpShadow(true);
         dumper.setDumpTransform(true);

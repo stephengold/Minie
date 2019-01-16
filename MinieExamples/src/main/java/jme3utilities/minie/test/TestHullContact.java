@@ -365,6 +365,7 @@ public class TestHullContact
         PhysicsDumper dumper = new PhysicsDumper();
         //dumper.setDumpBucket(true);
         //dumper.setDumpCull(true);
+        //dumper.setDumpMatParam(true);
         //dumper.setDumpOverride(true);
         //dumper.setDumpShadow(true);
         dumper.setDumpTransform(true);

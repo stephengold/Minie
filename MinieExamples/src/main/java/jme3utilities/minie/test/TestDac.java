@@ -126,7 +126,8 @@ public class TestDac extends ActionApplication {
     /**
      * application name for its window's title bar
      */
-    final private static String applicationName = "TestDac";
+    final private static String applicationName
+            = TestDac.class.getSimpleName();
     // *************************************************************************
     // fields
 
@@ -660,6 +661,7 @@ public class TestDac extends ActionApplication {
         PhysicsDumper dumper = new PhysicsDumper();
         //dumper.setDumpBucket(true);
         //dumper.setDumpCull(true);
+        //dumper.setDumpMatParam(true);
         //dumper.setDumpOverride(true);
         //dumper.setDumpShadow(true);
         dumper.setDumpTransform(true);

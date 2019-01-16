@@ -101,7 +101,8 @@ public class BalanceDemo extends ActionApplication {
     /**
      * application name for its window's title bar
      */
-    final private static String applicationName = "BalanceDemo";
+    final private static String applicationName
+            = BalanceDemo.class.getSimpleName();
     // *************************************************************************
     // fields
 
@@ -494,6 +495,7 @@ public class BalanceDemo extends ActionApplication {
         PhysicsDumper dumper = new PhysicsDumper();
         //dumper.setDumpBucket(true);
         //dumper.setDumpCull(true);
+        //dumper.setDumpMatParam(true);
         //dumper.setDumpOverride(true);
         //dumper.setDumpShadow(true);
         dumper.setDumpTransform(true);

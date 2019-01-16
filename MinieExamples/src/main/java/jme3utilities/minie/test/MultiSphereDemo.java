@@ -86,7 +86,8 @@ public class MultiSphereDemo
     /**
      * application name for the window's title bar
      */
-    final private static String applicationName = "MultiSphereDemo";
+    final private static String applicationName
+            = MultiSphereDemo.class.getSimpleName();
     // *************************************************************************
     // fields
 
@@ -369,6 +370,7 @@ public class MultiSphereDemo
         PhysicsDumper dumper = new PhysicsDumper();
         //dumper.setDumpBucket(true);
         //dumper.setDumpCull(true);
+        //dumper.setDumpMatParam(true);
         //dumper.setDumpOverride(true);
         //dumper.setDumpShadow(true);
         dumper.setDumpTransform(true);
