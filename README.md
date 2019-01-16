@@ -126,7 +126,7 @@ The hardware and software requirements of the SDK are documented on
     If this plugin isn't shown in the IDE's "Plugins" tool,
     you can download it from
     [GitHub](https://github.com/kelemen/netbeans-gradle-project/releases).
-    You don't need this plugin if you merely want to use a pre-build Minie
+    You don't need this plugin if you merely want to use a pre-built Minie
     release in an Ant project.
 
 ### Source files
@@ -216,7 +216,7 @@ and native libraries.  The Minie library depends on 2 Jme3-utilities libraries
 
 For projects built using Maven or Gradle, it is sufficient to specify the
 dependency on the Minie library.  The build tools should automatically
-resolve the remaining dependences automatically.
+resolve the remaining dependencies automatically.
 
 Because Minie is not on JCenter yet, you have to explicitly specify the
 repository location:
