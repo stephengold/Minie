@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.6.3 released on TBD
+## Version 0.6.3 released on 17 January 2019
 
 Important changes to the library:
 
