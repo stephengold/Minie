@@ -4,4 +4,6 @@
 /MinieExamples/*.so
 /MinieExamples/build/
 /MinieExamples/Written Assets/
+/MinieLibrary/*.dll
+/MinieLibrary/*.so
 /MinieLibrary/build/
