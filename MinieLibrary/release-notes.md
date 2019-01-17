@@ -1,5 +1,23 @@
 # release notes for the Minie library and related examples
 
+## Version 0.6.3 released on TBD
+
+Important changes to the library:
+
+ + Prohibited `PhysicsRigidBody.setKinematic()` on static bodies.
+ + Use `EmptyShape` to permit linking a bone without
+   vertices in a `DynamicAnimControl`.
+ + Added `getSpatial()` methods to `GhostControl` and `RigidBodyControl`.
+ + Updated the native libraries to version 1.0.24 of `jme3-bullet-native`.
+
+Important changes to the examples:
+
+ + Added new apps: `HelloDac`, `HelloBoneLink`, `TestHullContact`.
+ + Added apps from the jme3-examples (sub)project: `TestSimplePhysics`,
+   `TestRagdollCharacter`, and `TestBoneRagdoll`.
+ + Added example tuning for CesiumMan model. (model not provided)
+ + Simplified the example tuning for the Jaime model.
+
 ## Version 0.6.2 released on 6 January 2019
 
  + Fixed bug where `SimpleSolidControl.onAdd()` threw a `NullPointerException`
