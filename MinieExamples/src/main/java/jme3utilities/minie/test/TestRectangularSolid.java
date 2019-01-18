@@ -34,6 +34,8 @@ import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.DebugShapeFactory;
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -44,7 +46,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
@@ -57,8 +59,8 @@ import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
 
 /**
- * Test collision-shape fitting to random ellipsoids using the RectangularSolid
- * class.
+ * Test collision-shape fitting to pseudo-random ellipsoids using the
+ * RectangularSolid class.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -72,13 +74,21 @@ public class TestRectangularSolid extends ActionApplication {
     final public static Logger logger
             = Logger.getLogger(TestRectangularSolid.class.getName());
     /**
+     * color for visualizing corners
+     */
+    final private static ColorRGBA cornerColor = new ColorRGBA(1f, 0f, 0f, 1f);
+    /**
      * color for visualizing sample points
      */
-    final private static ColorRGBA pointColor = new ColorRGBA(1f, 1f, 1f, 1f);
+    final private static ColorRGBA sampleColor = new ColorRGBA(1f, 1f, 1f, 1f);
+    /**
+     * size for visualizing corners (in pixels)
+     */
+    final private static float cornerSize = 6f;
     /**
      * size for visualizing sample points (in pixels)
      */
-    final private static float pointSize = 2f;
+    final private static float samplePointSize = 2f;
     /**
      * number of sample points per trial
      */
@@ -86,22 +96,35 @@ public class TestRectangularSolid extends ActionApplication {
     /**
      * application name for its window's title bar
      */
-    final private static String applicationName = "TestRectangularSolid";
+    final private static String applicationName
+            = TestRectangularSolid.class.getSimpleName();
     // *************************************************************************
     // fields
 
+    /**
+     * scene-graph node for displaying user-interface text
+     */
+    private BitmapText uiText;
     /**
      * Bullet app state
      */
     private static BulletAppState bulletAppState;
     /**
-     * enhanced random-number generator
+     * enhanced pseudo-random generator
      */
     final private static Generator generator = new Generator();
+    /*
+     * pseudo-random seed for the current/next trial
+     */
+    private long trialSeed = 1L;
+    /**
+     * material for visualizing corners
+     */
+    private static Material cornerMaterial;
     /**
      * material for visualizing sample points
      */
-    private static Material pointMaterial;
+    private static Material samplePointMaterial;
     /**
      * scene-graph node for the current trial
      */
@@ -143,9 +166,19 @@ public class TestRectangularSolid extends ActionApplication {
     public void actionInitializeApplication() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(10f);
+        /*
+         * Add a BitmapText in the upper-left corner of the display.
+         */
+        BitmapFont font = assetManager.loadFont("Interface/Fonts/Default.fnt");
+        uiText = new BitmapText(font);
+        guiNode.attachChild(uiText);
+        float displayHeight = cam.getHeight();
+        uiText.move(0f, displayHeight, 0f);
 
-        pointMaterial = MyAsset.createWireframeMaterial(assetManager,
-                pointColor, pointSize);
+        cornerMaterial = MyAsset.createWireframeMaterial(assetManager,
+                cornerColor, cornerSize);
+        samplePointMaterial = MyAsset.createWireframeMaterial(assetManager,
+                sampleColor, samplePointSize);
 
         CollisionShape.setDefaultMargin(0.0001f);
         bulletAppState = new BulletAppState();
@@ -198,6 +231,39 @@ public class TestRectangularSolid extends ActionApplication {
     // private methods
 
     /**
+     * Enumerate the corner locations of the specified RectangularSolid.
+     *
+     * @param rectangularSolid (not null)
+     * @return a new collection of new vectors
+     */
+    private Collection<Vector3f> listCorners(RectangularSolid rectangularSolid) {
+        Vector3f maxima = rectangularSolid.maxima(null);
+        Vector3f minima = rectangularSolid.minima(null);
+        /*
+         * Enumerate the local coordinates of the 8 corners of the box.
+         */
+        Collection<Vector3f> cornerLocations = new ArrayList<>(8);
+        cornerLocations.add(new Vector3f(maxima.x, maxima.y, maxima.z));
+        cornerLocations.add(new Vector3f(maxima.x, maxima.y, minima.z));
+        cornerLocations.add(new Vector3f(maxima.x, minima.y, maxima.z));
+        cornerLocations.add(new Vector3f(maxima.x, minima.y, minima.z));
+        cornerLocations.add(new Vector3f(minima.x, maxima.y, maxima.z));
+        cornerLocations.add(new Vector3f(minima.x, maxima.y, minima.z));
+        cornerLocations.add(new Vector3f(minima.x, minima.y, maxima.z));
+        cornerLocations.add(new Vector3f(minima.x, minima.y, minima.z));
+        /*
+         * Transform corner locations to world coordinates.
+         */
+        Vector3f tempVector = new Vector3f();
+        for (Vector3f location : cornerLocations) {
+            rectangularSolid.localToWorld(location, tempVector);
+            location.set(tempVector);
+        }
+
+        return cornerLocations;
+    }
+
+    /**
      * Perform a new trial after cleaning up from the previous one.
      *
      * @param roundCorners type of collision shape to generate: true &rarr;
@@ -224,6 +290,10 @@ public class TestRectangularSolid extends ActionApplication {
     private void trial(boolean roundCorners) {
         trialNode = new Node("trialNode");
         rootNode.attachChild(trialNode);
+
+        String msg = String.format("trialSeed=%d", trialSeed);
+        uiText.setText(msg);
+        generator.setSeed(trialSeed);
         /*
          * Generate a new transform.
          */
@@ -240,7 +310,7 @@ public class TestRectangularSolid extends ActionApplication {
          * Generate sample points on the surface of a transformed unit sphere
          * (which is an ellipsoid).
          */
-        List<Vector3f> sampleLocations = new ArrayList<>(samplesPerTrial);
+        Collection<Vector3f> sampleLocations = new ArrayList<>(samplesPerTrial);
         for (int sampleIndex = 0; sampleIndex < samplesPerTrial; sampleIndex++) {
             Vector3f sampleLocation = generator.nextUnitVector3f();
             transform.transformVector(sampleLocation, sampleLocation);
@@ -252,15 +322,26 @@ public class TestRectangularSolid extends ActionApplication {
         for (Vector3f location : sampleLocations) {
             PointMesh pointMesh = new PointMesh();
             pointMesh.setLocation(location);
-            Geometry pointGeometry = new Geometry("point", pointMesh);
-            pointGeometry.setMaterial(pointMaterial);
-            trialNode.attachChild(pointGeometry);
+            Geometry sampleGeometry = new Geometry("sample", pointMesh);
+            sampleGeometry.setMaterial(samplePointMaterial);
+            trialNode.attachChild(sampleGeometry);
         }
         /*
          * Generate a rectangular solid that contains all the samples.
          */
         RectangularSolid solid = new RectangularSolid(sampleLocations);
         logger.log(Level.INFO, solid.toString());
+        /*
+         * Visualize the corners of the rectangular solid.
+         */
+        Collection<Vector3f> cornerLocations = listCorners(solid);
+        for (Vector3f location : cornerLocations) {
+            PointMesh pointMesh = new PointMesh();
+            pointMesh.setLocation(location);
+            Geometry cornerGeometry = new Geometry("corner", pointMesh);
+            cornerGeometry.setMaterial(cornerMaterial);
+            trialNode.attachChild(cornerGeometry);
+        }
         /*
          * Generate a collision shape to match the rectangular solid.
          */
@@ -278,5 +359,7 @@ public class TestRectangularSolid extends ActionApplication {
         PhysicsSpace space = bulletAppState.getPhysicsSpace();
         rbc.setPhysicsSpace(space);
         trialNode.addControl(rbc);
+
+        ++trialSeed;
     }
 }
