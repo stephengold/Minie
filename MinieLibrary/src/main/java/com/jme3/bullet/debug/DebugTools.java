@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -234,7 +234,7 @@ public class DebugTools {
     }
 
     /**
-     * Alter the location and extent of the yellow arrow.
+     * Alter the location and extent of the yellow arrow. TODO re-order methods
      *
      * @param location the coordinates of the tail (not null, unaffected)
      * @param extent the offset of the tip from the tail (not null, unaffected)
@@ -254,6 +254,13 @@ public class DebugTools {
         arrowPinkGeom.setLocalTranslation(location);
         arrowPink.setArrowExtent(extent);
     }
+
+    /**
+     * Alter whether the native library will print a startup message.
+     *
+     * @param printFlag true &rarr; print a message, false &rarr; no message
+     */
+    native public static void setStartupMessageEnabled(boolean printFlag);
 
     /**
      * Attach all the debug geometries to the debug node.
