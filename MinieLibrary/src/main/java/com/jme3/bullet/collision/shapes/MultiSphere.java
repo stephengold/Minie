@@ -284,6 +284,23 @@ public class MultiSphere extends CollisionShape {
     // new methods exposed
 
     /**
+     * Copy the offset of the center of the indexed sphere.
+     *
+     * @param sphereIndex which sphere to read (&ge;0)
+     * @param storeResult storage for the result (modified if not null)
+     * @return the center offset (either storeResult or a new instance, not
+     * null)
+     */
+    public Vector3f copyCenter(int sphereIndex, Vector3f storeResult) {
+        Validate.inRange(sphereIndex, "sphere index", 0, radii.length - 1);
+        Vector3f result = storeResult == null ? new Vector3f() : storeResult;
+
+        result.set(centers[sphereIndex]);
+
+        return result;
+    }
+
+    /**
      * Count the spheres in this shape.
      *
      * @return the count (&gt;0)
@@ -392,13 +409,13 @@ public class MultiSphere extends CollisionShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
-        assert objectId == 0L;
+        assert objectId == 0L : objectId;
 
         int numSpheres = radii.length;
         assert centers.length == numSpheres : numSpheres;
         objectId = createShape(centers, radii, numSpheres);
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Shape {0}",
+        logger2.log(Level.FINE, "Created MultiSphere {0}",
                 Long.toHexString(objectId));
 
         setScale(scale);
