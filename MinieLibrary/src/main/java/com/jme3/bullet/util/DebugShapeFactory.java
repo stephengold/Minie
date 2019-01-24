@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -143,7 +143,7 @@ public class DebugShapeFactory {
     /**
      * Estimate the footprint of the specified convex shape. The shape's current
      * scale and margin are taken into account, but not its debug-mesh
-     * resolution.
+     * resolution. TODO re-order methods
      *
      * @param shape (not null, unaffected, must be convex)
      * @param shapeToWorld the world transform of the collision object (not
@@ -162,6 +162,19 @@ public class DebugShapeFactory {
         Vector3f[] cornerLocations = callback.footprint(shapeToWorld);
 
         return cornerLocations;
+    }
+
+    /**
+     * Remove the identified shape from the cache.
+     *
+     * @param shapeId the ID of the shape to remove
+     */
+    public static void removeShapeFromCache(long shapeId) {
+        for (DebugMeshKey key : cache.keySet()) {
+            if (key.shapeId() == shapeId) {
+                cache.remove(key);
+            }
+        }
     }
 
     /**
