@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -287,7 +287,7 @@ public class HullCollisionShape extends CollisionShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        // bbuf not cloned
+        bbuf = null; // bbuf not cloned
         points = cloner.clone(points);
         createShape();
     }
@@ -348,11 +348,16 @@ public class HullCollisionShape extends CollisionShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
-        assert points.length != 0;
-        assert objectId == 0L;
+        assert objectId == 0L : objectId;
+        assert bbuf == null : bbuf;
 
-        bbuf = BufferUtils.createByteBuffer(points.length * 4);
-        for (int i = 0; i < points.length; ++i) {
+        int numFloats = points.length;
+        assert numFloats != 0;
+        assert (numFloats % 3 == 0) : numFloats;
+        int numVertices = numFloats / 3;
+
+        bbuf = BufferUtils.createByteBuffer(numFloats * 4);
+        for (int i = 0; i < numFloats; ++i) {
             float f = points[i];
             if (!Float.isFinite(f)) {
                 String msg = "illegal coordinate: " + Float.toString(f);
@@ -360,18 +365,17 @@ public class HullCollisionShape extends CollisionShape {
             }
             bbuf.putFloat(f);
         }
-        bbuf.rewind();
 
-        objectId = createShape(bbuf);
+        objectId = createShapeB(bbuf, numVertices);
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Shape {0}",
+        logger2.log(Level.FINE, "Created HullCollisionShape {0}",
                 Long.toHexString(objectId));
 
         setScale(scale);
         setMargin(margin);
     }
 
-    native private long createShape(ByteBuffer points);
+    native private long createShapeB(ByteBuffer vertices, int numVertices);
 
     /**
      * Copy the vertex positions from a JME mesh.
