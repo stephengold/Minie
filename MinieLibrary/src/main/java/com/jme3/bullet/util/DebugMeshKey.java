@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -96,6 +96,17 @@ class DebugMeshKey {
         scale = shape.getScale(null);
     }
     // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Read the shape ID of this key.
+     *
+     * @return the ID value
+     */
+    long shapeId() {
+        return shapeId;
+    }
+    // *************************************************************************
     // Object methods
 
     /**
@@ -140,5 +151,18 @@ class DebugMeshKey {
         hash = 7 * hash + normals.ordinal();
 
         return hash;
+    }
+
+    /**
+     * Represent this key as a text string.
+     *
+     * @return descriptive string of text (not null, not empty)
+     */
+    @Override
+    public String toString() {
+        String desc = String.format(
+                "shape=%x scale=%s margin=%f res=%d normals=%s",
+                shapeId, scale, margin, resolution, normals);
+        return desc;
     }
 }
