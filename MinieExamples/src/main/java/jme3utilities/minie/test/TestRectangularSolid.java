@@ -69,22 +69,9 @@ public class TestRectangularSolid extends ActionApplication {
     // constants and loggers
 
     /**
-     * message logger for this class
-     */
-    final public static Logger logger
-            = Logger.getLogger(TestRectangularSolid.class.getName());
-    /**
-     * color for visualizing corners
-     */
-    final private static ColorRGBA cornerColor = new ColorRGBA(1f, 0f, 0f, 1f);
-    /**
-     * color for visualizing sample points
+     * color for visualizing sample points (white)
      */
     final private static ColorRGBA sampleColor = new ColorRGBA(1f, 1f, 1f, 1f);
-    /**
-     * size for visualizing corners (in pixels)
-     */
-    final private static float cornerSize = 6f;
     /**
      * size for visualizing sample points (in pixels)
      */
@@ -93,6 +80,11 @@ public class TestRectangularSolid extends ActionApplication {
      * number of sample points per trial
      */
     final private static int samplesPerTrial = 100;
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestRectangularSolid.class.getName());
     /**
      * application name for its window's title bar
      */
@@ -117,10 +109,6 @@ public class TestRectangularSolid extends ActionApplication {
      * pseudo-random seed for the current/next trial
      */
     private long trialSeed = 1L;
-    /**
-     * material for visualizing corners
-     */
-    private static Material cornerMaterial;
     /**
      * material for visualizing sample points
      */
@@ -175,8 +163,6 @@ public class TestRectangularSolid extends ActionApplication {
         float displayHeight = cam.getHeight();
         uiText.move(0f, displayHeight, 0f);
 
-        cornerMaterial = MyAsset.createWireframeMaterial(assetManager,
-                cornerColor, cornerSize);
         samplePointMaterial = MyAsset.createWireframeMaterial(assetManager,
                 sampleColor, samplePointSize);
 
@@ -292,6 +278,7 @@ public class TestRectangularSolid extends ActionApplication {
         rootNode.attachChild(trialNode);
 
         String msg = String.format("trialSeed=%d", trialSeed);
+        System.out.println(msg);
         uiText.setText(msg);
         generator.setSeed(trialSeed);
         /*
@@ -331,17 +318,6 @@ public class TestRectangularSolid extends ActionApplication {
          */
         RectangularSolid solid = new RectangularSolid(sampleLocations);
         logger.log(Level.INFO, solid.toString());
-        /*
-         * Visualize the corners of the rectangular solid.
-         */
-        Collection<Vector3f> cornerLocations = listCorners(solid);
-        for (Vector3f location : cornerLocations) {
-            PointMesh pointMesh = new PointMesh();
-            pointMesh.setLocation(location);
-            Geometry cornerGeometry = new Geometry("corner", pointMesh);
-            cornerGeometry.setMaterial(cornerMaterial);
-            trialNode.attachChild(cornerGeometry);
-        }
         /*
          * Generate a collision shape to match the rectangular solid.
          */
