@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,12 +50,16 @@ import java.io.IOException;
  * @author normenhansen
  */
 public abstract class AbstractPhysicsDebugControl extends AbstractControl {
+    // *************************************************************************
+    // fields
 
     final private Quaternion tmp_inverseWorldRotation = new Quaternion();
     /**
-     * the app state that this control serves
+     * app state that this control serves
      */
     protected final BulletDebugAppState debugAppState;
+    // *************************************************************************
+    // constructors
 
     /**
      * Instantiate an enabled control to serve the specified debug app state.
@@ -65,6 +69,8 @@ public abstract class AbstractPhysicsDebugControl extends AbstractControl {
     public AbstractPhysicsDebugControl(BulletDebugAppState debugAppState) {
         this.debugAppState = debugAppState;
     }
+    // *************************************************************************
+    // new protected methods
 
     /**
      * Apply the specified location and orientation to the controlled spatial.
@@ -78,6 +84,72 @@ public abstract class AbstractPhysicsDebugControl extends AbstractControl {
             Quaternion worldRotation) {
         applyPhysicsTransform(worldLocation, worldRotation, spatial);
     }
+    // *************************************************************************
+    // AbstractControl methods
+
+    /**
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned control into a deep-cloned one, using the specified cloner
+     * and original to resolve copied fields.
+     *
+     * @param cloner the cloner that's cloning this control (unused)
+     * @param original the control from which this control was shallow-cloned
+     * (unused)
+     */
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Render this control. Invoked once per view port per frame, provided the
+     * control is enabled and added to a scene. Should be invoked only by a
+     * subclass or by AbstractControl.
+     *
+     * @param rm the render manager (not null)
+     * @param vp the view port to render (not null)
+     */
+    @Override
+    protected void controlRender(RenderManager rm, ViewPort vp) {
+    }
+
+    /**
+     * Create a shallow clone for the JME cloner.
+     *
+     * @return never
+     * @throws UnsupportedOperationException always
+     */
+    @Override
+    public Object jmeClone() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * De-serialize this control from the specified importer, for example when
+     * loading from a J3O file.
+     *
+     * @param im importer (unused)
+     * @throws java.io.IOException never
+     * @throws UnsupportedOperationException always
+     */
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Serialize this object, for example when saving to a J3O file.
+     *
+     * @param ex exporter (unused)
+     * @throws IOException never
+     * @throws UnsupportedOperationException always
+     */
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        throw new UnsupportedOperationException();
+    }
+    // *************************************************************************
+    // private methods
 
     /**
      * Apply the specified location and orientation to the specified spatial.
@@ -112,67 +184,5 @@ public abstract class AbstractPhysicsDebugControl extends AbstractControl {
                 spatial.setLocalRotation(worldRotation);
             }
         }
-    }
-
-    /**
-     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified cloner
-     * and original to resolve copied fields.
-     *
-     * @param cloner the cloner that's cloning this control (unused)
-     * @param original the control from which this control was shallow-cloned
-     * (unused)
-     */
-    @Override
-    public void cloneFields(Cloner cloner, Object original) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return never
-     * @throws UnsupportedOperationException always
-     */
-    @Override
-    public Object jmeClone() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * De-serialize this control from the specified importer, for example when
-     * loading from a J3O file.
-     *
-     * @param im importer (unused)
-     * @throws java.io.IOException never
-     * @throws UnsupportedOperationException always
-     */
-    @Override
-    public void read(JmeImporter im) throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Render this control. Invoked once per view port per frame, provided the
-     * control is enabled and added to a scene. Should be invoked only by a
-     * subclass or by AbstractControl.
-     *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
-     */
-    @Override
-    protected void controlRender(RenderManager rm, ViewPort vp) {
-    }
-
-    /**
-     * Serialize this object, for example when saving to a J3O file.
-     *
-     * @param ex exporter (unused)
-     * @throws IOException never
-     * @throws UnsupportedOperationException always
-     */
-    @Override
-    public void write(JmeExporter ex) throws IOException {
-        throw new UnsupportedOperationException();
     }
 }
