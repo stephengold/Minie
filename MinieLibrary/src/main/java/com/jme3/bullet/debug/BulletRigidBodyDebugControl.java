@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,6 +61,10 @@ public class BulletRigidBodyDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
+     * shape for which geom was generated (not null)
+     */
+    private CollisionShape myShape;
+    /**
      * debug-mesh normals option for which geom was generated
      */
     private DebugMeshNormals oldNormals;
@@ -77,21 +81,17 @@ public class BulletRigidBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     final private PhysicsRigidBody body;
     /**
-     * temporary storage for physics location
-     */
-    final private Vector3f location = new Vector3f();
-    /**
      * temporary storage for physics rotation
      */
     final private Quaternion rotation = new Quaternion();
     /**
-     * shape for which geom was generated (not null)
-     */
-    private CollisionShape myShape;
-    /**
      * geometry to visualize myShape (not null)
      */
     private Spatial geom;
+    /**
+     * temporary storage for physics location
+     */
+    final private Vector3f location = new Vector3f();
     /**
      * physics scale for which geom was generated
      */
