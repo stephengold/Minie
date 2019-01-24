@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,8 @@ class DebugMeshCallback {
     // fields
 
     /**
-     * list of vertex locations (typically includes many duplicates)
+     * list of vertex locations (typically includes many duplicates) TODO use a
+     * float[] for efficiency
      */
     final private ArrayList<Vector3f> list = new ArrayList<>(250);
     // *************************************************************************
@@ -89,6 +90,67 @@ class DebugMeshCallback {
         int result = distinct.size();
         assert result >= 0 : result;
         return result;
+    }
+
+    /**
+     * Estimate the footprint of the vertex locations in world coordinates.
+     *
+     * @param meshToWorld the transform from mesh coordinates to world
+     * coordinates (not null, unaffected)
+     * @return a new array containing the corner locations of a rectangle (in
+     * world coordinates)
+     */
+    Vector3f[] footprint(Transform meshToWorld) {
+        assert meshToWorld != null;
+        /*
+         * Copy the location list, removing all duplicates in the process.
+         */
+        Set<Vector3f> distinct = new HashSet<>(list.size());
+        for (Vector3f vector : list) {
+            if (!distinct.contains(vector)) {
+                Vector3f clone = vector.clone();
+                distinct.add(clone);
+            }
+        }
+        /*
+         * Transform vertex locations to world coordinates and set all the
+         * Y coordinates to the minimum coordinate value.
+         */
+        float minY = Float.POSITIVE_INFINITY;
+        for (Vector3f vector : distinct) {
+            meshToWorld.transformVector(vector, vector);
+            if (vector.y < minY) {
+                minY = vector.y;
+            }
+        }
+        for (Vector3f vector : distinct) {
+            vector.y = minY;
+        }
+        /*
+         * Fit a rotated rectangular solid to the vertex locations.
+         */
+        RectangularSolid solid = new RectangularSolid(distinct);
+        Vector3f maxima = solid.maxima(null);
+        Vector3f minima = solid.minima(null);
+        /*
+         * Enumerate the local coordinates (within the solid) of the 4 corners.
+         * Assume that the local X axis corresponds to the world Y axis, since
+         * those are the axes with the least variance.
+         */
+        float midX = (minima.x + maxima.x) / 2f;
+        Vector3f[] cornerLocations = new Vector3f[4];
+        cornerLocations[0] = new Vector3f(midX, maxima.y, maxima.z);
+        cornerLocations[1] = new Vector3f(midX, minima.y, maxima.z);
+        cornerLocations[2] = new Vector3f(midX, maxima.y, minima.z);
+        cornerLocations[3] = new Vector3f(midX, minima.y, minima.z);
+        /*
+         * Transform corner locations into the world coordinate system.
+         */
+        for (Vector3f location : cornerLocations) {
+            solid.localToWorld(location, location);
+        }
+
+        return cornerLocations;
     }
 
     /**
@@ -195,67 +257,6 @@ class DebugMeshCallback {
         }
 
         return buffer;
-    }
-
-    /**
-     * Estimate the footprint of the vertex locations in world coordinates.
-     *
-     * @param meshToWorld the transform from mesh coordinates to world
-     * coordinates (not null, unaffected)
-     * @return a new array containing the corner locations of a rectangle (in
-     * world coordinates)
-     */
-    Vector3f[] footprint(Transform meshToWorld) {
-        assert meshToWorld != null;
-        /*
-         * Copy the location list, removing all duplicates in the process.
-         */
-        Set<Vector3f> distinct = new HashSet<>(list.size());
-        for (Vector3f vector : list) {
-            if (!distinct.contains(vector)) {
-                Vector3f clone = vector.clone();
-                distinct.add(clone);
-            }
-        }
-        /*
-         * Transform vertex locations to world coordinates and set all the
-         * Y coordinates to the minimum coordinate value.
-         */
-        float minY = Float.POSITIVE_INFINITY;
-        for (Vector3f vector : distinct) {
-            meshToWorld.transformVector(vector, vector);
-            if (vector.y < minY) {
-                minY = vector.y;
-            }
-        }
-        for (Vector3f vector : distinct) {
-            vector.y = minY;
-        }
-        /*
-         * Fit a rotated rectangular solid to the vertex locations.
-         */
-        RectangularSolid solid = new RectangularSolid(distinct);
-        Vector3f maxima = solid.maxima(null);
-        Vector3f minima = solid.minima(null);
-        /*
-         * Enumerate the local coordinates (within the solid) of the 4 corners.
-         * Assume that the local X axis corresponds to the world Y axis, since
-         * those are the axes with the least variance.
-         */
-        float midX = (minima.x + maxima.x) / 2f;
-        Vector3f[] cornerLocations = new Vector3f[4];
-        cornerLocations[0] = new Vector3f(midX, maxima.y, maxima.z);
-        cornerLocations[1] = new Vector3f(midX, minima.y, maxima.z);
-        cornerLocations[2] = new Vector3f(midX, maxima.y, minima.z);
-        cornerLocations[3] = new Vector3f(midX, minima.y, minima.z);
-        /*
-         * Transform corner locations into the world coordinate system.
-         */
-        for (Vector3f location : cornerLocations) {
-            solid.localToWorld(location, location);
-        }
-
-        return cornerLocations;
     }
 
     /**
