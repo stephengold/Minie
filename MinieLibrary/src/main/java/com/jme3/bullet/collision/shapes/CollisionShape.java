@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.collision.shapes;
 
+import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -299,6 +300,7 @@ abstract public class CollisionShape
         super.finalize();
         logger.log(Level.FINE, "Finalizing Shape {0}",
                 Long.toHexString(objectId));
+        DebugShapeFactory.removeShapeFromCache(objectId);
         finalizeNative(objectId);
     }
     // *************************************************************************
