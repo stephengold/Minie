@@ -166,30 +166,6 @@ public class DebugTools {
     }
 
     /**
-     * Render all the debug geometries to the specified view port.
-     *
-     * @param rm the render manager (not null)
-     * @param vp the view port (not null)
-     */
-    public void show(RenderManager rm, ViewPort vp) {
-        if (!Vector3f.UNIT_X.equals(UNIT_X_CHECK)
-                || !Vector3f.UNIT_Y.equals(UNIT_Y_CHECK)
-                || !Vector3f.UNIT_Z.equals(UNIT_Z_CHECK)
-                || !Vector3f.UNIT_XYZ.equals(UNIT_XYZ_CHECK)
-                || !Vector3f.ZERO.equals(ZERO_CHECK)) {
-            throw new IllegalStateException("Unit vectors compromised!"
-                    + "\nX: " + Vector3f.UNIT_X
-                    + "\nY: " + Vector3f.UNIT_Y
-                    + "\nZ: " + Vector3f.UNIT_Z
-                    + "\nXYZ: " + Vector3f.UNIT_XYZ
-                    + "\nZERO: " + Vector3f.ZERO);
-        }
-        debugNode.updateLogicalState(0f);
-        debugNode.updateGeometricState();
-        rm.renderScene(debugNode, vp);
-    }
-
-    /**
      * Alter the location and extent of the blue arrow.
      *
      * @param location the coordinates of the tail (not null, unaffected)
@@ -212,17 +188,6 @@ public class DebugTools {
     }
 
     /**
-     * Alter the location and extent of the red arrow.
-     *
-     * @param location the coordinates of the tail (not null, unaffected)
-     * @param extent the offset of the tip from the tail (not null, unaffected)
-     */
-    public void setRedArrow(Vector3f location, Vector3f extent) {
-        arrowRedGeom.setLocalTranslation(location);
-        arrowRed.setArrowExtent(extent);
-    }
-
-    /**
      * Alter the location and extent of the magenta arrow.
      *
      * @param location the coordinates of the tail (not null, unaffected)
@@ -231,17 +196,6 @@ public class DebugTools {
     public void setMagentaArrow(Vector3f location, Vector3f extent) {
         arrowMagentaGeom.setLocalTranslation(location);
         arrowMagenta.setArrowExtent(extent);
-    }
-
-    /**
-     * Alter the location and extent of the yellow arrow. TODO re-order methods
-     *
-     * @param location the coordinates of the tail (not null, unaffected)
-     * @param extent the offset of the tip from the tail (not null, unaffected)
-     */
-    public void setYellowArrow(Vector3f location, Vector3f extent) {
-        arrowYellowGeom.setLocalTranslation(location);
-        arrowYellow.setArrowExtent(extent);
     }
 
     /**
@@ -256,11 +210,57 @@ public class DebugTools {
     }
 
     /**
+     * Alter the location and extent of the red arrow.
+     *
+     * @param location the coordinates of the tail (not null, unaffected)
+     * @param extent the offset of the tip from the tail (not null, unaffected)
+     */
+    public void setRedArrow(Vector3f location, Vector3f extent) {
+        arrowRedGeom.setLocalTranslation(location);
+        arrowRed.setArrowExtent(extent);
+    }
+
+    /**
      * Alter whether the native library will print a startup message.
      *
      * @param printFlag true &rarr; print a message, false &rarr; no message
      */
     native public static void setStartupMessageEnabled(boolean printFlag);
+
+    /**
+     * Alter the location and extent of the yellow arrow.
+     *
+     * @param location the coordinates of the tail (not null, unaffected)
+     * @param extent the offset of the tip from the tail (not null, unaffected)
+     */
+    public void setYellowArrow(Vector3f location, Vector3f extent) {
+        arrowYellowGeom.setLocalTranslation(location);
+        arrowYellow.setArrowExtent(extent);
+    }
+
+    /**
+     * Render all the debug geometries to the specified view port.
+     *
+     * @param rm the render manager (not null)
+     * @param vp the view port (not null)
+     */
+    public void show(RenderManager rm, ViewPort vp) {
+        if (!Vector3f.UNIT_X.equals(UNIT_X_CHECK)
+                || !Vector3f.UNIT_Y.equals(UNIT_Y_CHECK)
+                || !Vector3f.UNIT_Z.equals(UNIT_Z_CHECK)
+                || !Vector3f.UNIT_XYZ.equals(UNIT_XYZ_CHECK)
+                || !Vector3f.ZERO.equals(ZERO_CHECK)) {
+            throw new IllegalStateException("Unit vectors compromised!"
+                    + "\nX: " + Vector3f.UNIT_X
+                    + "\nY: " + Vector3f.UNIT_Y
+                    + "\nZ: " + Vector3f.UNIT_Z
+                    + "\nXYZ: " + Vector3f.UNIT_XYZ
+                    + "\nZERO: " + Vector3f.ZERO);
+        }
+        debugNode.updateLogicalState(0f);
+        debugNode.updateGeometricState();
+        rm.renderScene(debugNode, vp);
+    }
 
     /**
      * Attach all the debug geometries to the debug node.
