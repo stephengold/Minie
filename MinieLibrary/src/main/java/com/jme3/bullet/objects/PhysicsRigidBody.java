@@ -563,6 +563,15 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
+     * Test whether this body is in dynamic mode.
+     *
+     * @return true if in dynamic mode, otherwise false (static/kinematic mode)
+     */
+    public boolean isDynamic() {
+        return mass > massForStatic && !kinematic;
+    }
+
+    /**
      * Test whether this body is in kinematic mode.
      * <p>
      * In kinematic mode, the body is not influenced by physics but can affect
@@ -575,7 +584,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         return kinematic;
     }
 
-    // TODO add isDynamic() and isStatic()
     /**
      * Enumerate the joints connected to this body.
      *
