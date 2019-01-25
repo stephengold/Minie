@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -129,6 +129,16 @@ public class BulletAppState
      */
     private DebugInitListener debugInitListener = null;
     /**
+     * length of each debug axis arrow (in world units, &gt;0) or 0 for no axis
+     * arrows
+     */
+    private float debugAxisLength = 0f;
+    /**
+     * line width for wireframe debug axis arrows (in pixels, &ge;1) or 0 for
+     * solid axis arrows
+     */
+    private float debugAxisLineWidth = 1f;
+    /**
      * simulation speed multiplier (default=1, paused=0)
      */
     private float speed = 1f;
@@ -234,6 +244,26 @@ public class BulletAppState
     // new methods exposed
 
     /**
+     * Read the length of the debug axis arrows.
+     *
+     * @return length (in world units, &ge;0)
+     */
+    public float debugAxisLength() {
+        assert debugAxisLength >= 0f : debugAxisLength;
+        return debugAxisLength;
+    }
+
+    /**
+     * Read the line width of the debug axis arrows.
+     *
+     * @return width (in pixels, &ge;1) or 0 for solid arrows
+     */
+    public float debugAxisLineWidth() {
+        assert debugAxisLineWidth >= 0f : debugAxisLineWidth;
+        return debugAxisLineWidth;
+    }
+
+    /**
      * Read which broadphase collision-detection algorithm the PhysicsSpace will
      * use.
      *
@@ -291,6 +321,34 @@ public class BulletAppState
         assert !isRunning;
 
         this.broadphaseType = broadphaseType;
+    }
+
+    /**
+     * Alter the length of the debug axis arrows.
+     *
+     * @param length (in world units, &ge;0)
+     */
+    public void setDebugAxisLength(float length) {
+        Validate.nonNegative(length, "length");
+
+        if (debugAppState != null) {
+            debugAppState.setAxisLength(length);
+        }
+        debugAxisLength = length;
+    }
+
+    /**
+     * Alter the line width for debug axis arrows.
+     *
+     * @param width (in pixels, &ge;1) or 0 for solid arrows
+     */
+    public void setDebugAxisLineWidth(float width) {
+        Validate.inRange(width, "width", 0f, Float.MAX_VALUE);
+
+        if (debugAppState != null) {
+            debugAppState.setAxisLineWidth(width);
+        }
+        debugAxisLineWidth = width;
     }
 
     /**
@@ -590,6 +648,8 @@ public class BulletAppState
             assert debugViewPorts != null;
             debugAppState = createDebugAppState(pSpace, debugViewPorts, filter,
                     debugInitListener);
+            debugAppState.setAxisLength(debugAxisLength);
+            debugAppState.setAxisLineWidth(debugAxisLineWidth);
             stateManager.attach(debugAppState);
 
         } else if (!debugEnabled && debugAppState != null) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,6 +54,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyAsset;
 import jme3utilities.Validate;
+import jme3utilities.debug.AxesVisualizer;
 
 /**
  * An AppState to manage debug visualization of a PhysicsSpace.
@@ -73,6 +74,10 @@ public class BulletDebugAppState extends AbstractAppState {
     // fields
 
     /**
+     * application's asset manager: set by initialize()
+     */
+    private AssetManager assetManager;
+    /**
      * limit which objects are visualized, or null to visualize all objects
      */
     protected DebugAppStateFilter filter;
@@ -80,6 +85,15 @@ public class BulletDebugAppState extends AbstractAppState {
      * registered init listener, or null if none
      */
     final private DebugInitListener initListener;
+    /**
+     * length of each axis arrow (in world units, &gt;0) or 0 for no axis arrows
+     */
+    private float axisLength = 0f;
+    /**
+     * line width for wireframe axis arrows (in pixels, &ge;1) or 0 for solid
+     * axis arrows
+     */
+    private float axisLineWidth = 1f;
     /**
      * map physics characters to visualization nodes
      */
@@ -170,6 +184,46 @@ public class BulletDebugAppState extends AbstractAppState {
     // new methods exposed
 
     /**
+     * Read the length of the axis arrows.
+     *
+     * @return length (in world units, &ge;0)
+     */
+    public float axisLength() {
+        assert axisLength >= 0f : axisLength;
+        return axisLength;
+    }
+
+    /**
+     * Read the line width of the axis arrows.
+     *
+     * @return width (in pixels, &ge;1) or 0 for solid arrows
+     */
+    public float axisLineWidth() {
+        assert axisLineWidth >= 0f : axisLineWidth;
+        return axisLineWidth;
+    }
+
+    /**
+     * Alter the length of the axis arrows.
+     *
+     * @param length (in world units, &ge;0, default=0)
+     */
+    public void setAxisLength(float length) {
+        Validate.nonNegative(length, "length");
+        axisLength = length;
+    }
+
+    /**
+     * Alter the line width for axis arrows.
+     *
+     * @param width (in pixels, &ge;1) or 0 for solid arrows (default=1)
+     */
+    public void setAxisLineWidth(float width) {
+        Validate.inRange(width, "width", 0f, Float.MAX_VALUE);
+        axisLineWidth = width;
+    }
+
+    /**
      * Alter which objects are visualized.
      *
      * @param filter the desired filter, or null to visualize all objects
@@ -216,7 +270,8 @@ public class BulletDebugAppState extends AbstractAppState {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
 
-        setupMaterials(app);
+        assetManager = app.getAssetManager();
+        setupMaterials(assetManager);
 
         if (initListener != null) {
             initListener.bulletDebugInit(physicsDebugRootNode);
@@ -272,10 +327,10 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * Initialize the materials.
      *
-     * @param app the application which owns this state (not null)
+     * @param am the application's AssetManager (not null)
      */
-    private void setupMaterials(Application app) {
-        AssetManager am = app.getAssetManager();
+    private void setupMaterials(AssetManager am) {
+        assert am != null;
 
         DEBUG_BLUE = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
         DEBUG_BLUE.setName("DEBUG_BLUE");
@@ -292,6 +347,28 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
+     * Update the axes visualizer for the specified node.
+     *
+     * @param node which node to update (not null)
+     */
+    private void updateAxes(Node node) {
+        AxesVisualizer axes = node.getControl(AxesVisualizer.class);
+        if (axes != null) {
+            if (axisLength > 0f) {
+                axes.setAxisLength(axisLength);
+                axes.setLineWidth(axisLineWidth);
+            } else {
+                node.removeControl(axes);
+            }
+        } else if (axisLength > 0f) {
+            axes = new AxesVisualizer(assetManager, axisLength,
+                    axisLineWidth);
+            node.addControl(axes);
+            axes.setEnabled(true);
+        }
+    }
+
+    /**
      * Synchronize the character debug controls with the characters in the
      * PhysicsSpace.
      */
@@ -304,15 +381,17 @@ public class BulletDebugAppState extends AbstractAppState {
             if (filter == null || filter.displayObject(character)) {
                 Node node = oldMap.remove(character);
                 if (node == null) {
+                    node = new Node(character.toString());
+                    physicsDebugRootNode.attachChild(node);
+
                     logger.log(Level.FINE,
-                            "Create new character debug control");
+                            "Create new BulletCharacterDebugControl");
                     Control control
                             = new BulletCharacterDebugControl(this, character);
-                    node = new Node(character.toString());
                     node.addControl(control);
-                    physicsDebugRootNode.attachChild(node);
                 }
                 characters.put(character, node);
+                updateAxes(node);
             }
         }
         //remove any leftover nodes
@@ -333,14 +412,17 @@ public class BulletDebugAppState extends AbstractAppState {
             if (filter == null || filter.displayObject(ghost)) {
                 Node node = oldMap.remove(ghost);
                 if (node == null) {
-                    logger.log(Level.FINE, "Create new ghost debug control");
+                    node = new Node(ghost.toString());
+                    physicsDebugRootNode.attachChild(node);
+
+                    logger.log(Level.FINE,
+                            "Create new BulletGhostObjectDebugControl");
                     Control control
                             = new BulletGhostObjectDebugControl(this, ghost);
-                    node = new Node(ghost.toString());
                     node.addControl(control);
-                    physicsDebugRootNode.attachChild(node);
                 }
                 ghosts.put(ghost, node);
+                updateAxes(node);
             }
         }
         //remove any leftover nodes
@@ -361,11 +443,13 @@ public class BulletDebugAppState extends AbstractAppState {
             if (filter == null || filter.displayObject(joint)) {
                 Node node = oldMap.remove(joint);
                 if (node == null) {
-                    logger.log(Level.FINE, "Create new joint debug control");
-                    Control control = new BulletJointDebugControl(this, joint);
                     node = new Node(joint.toString());
-                    node.addControl(control);
                     physicsDebugRootNode.attachChild(node);
+
+                    logger.log(Level.FINE,
+                            "Create new BulletJointDebugControl");
+                    Control control = new BulletJointDebugControl(this, joint);
+                    node.addControl(control);
                 }
                 joints.put(joint, node);
             }
@@ -389,15 +473,17 @@ public class BulletDebugAppState extends AbstractAppState {
             if (filter == null || filter.displayObject(body)) {
                 Node node = oldMap.remove(body);
                 if (node == null) {
+                    node = new Node(body.toString());
+                    physicsDebugRootNode.attachChild(node);
+
                     logger.log(Level.FINE,
-                            "Create new rigid-body debug control");
+                            "Create new BulletRigidBodyDebugControl");
                     Control control
                             = new BulletRigidBodyDebugControl(this, body);
-                    node = new Node(body.toString());
                     node.addControl(control);
-                    physicsDebugRootNode.attachChild(node);
                 }
                 bodies.put(body, node);
+                updateAxes(node);
             }
         }
         //remove any leftover nodes
@@ -419,12 +505,14 @@ public class BulletDebugAppState extends AbstractAppState {
             if (filter == null || filter.displayObject(vehicle)) {
                 Node node = oldMap.remove(vehicle);
                 if (node == null) {
-                    logger.log(Level.FINE, "Create new vehicle debug control");
+                    node = new Node(vehicle.toString());
+                    physicsDebugRootNode.attachChild(node);
+
+                    logger.log(Level.FINE,
+                            "Create new BulletVehicleDebugControl");
                     Control control
                             = new BulletVehicleDebugControl(this, vehicle);
-                    node = new Node(vehicle.toString());
                     node.addControl(control);
-                    physicsDebugRootNode.attachChild(node);
                 }
                 vehicles.put(vehicle, node);
             }
@@ -439,6 +527,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * Interface to restrict which physics objects are visualized.
      */
     public static interface DebugAppStateFilter {
+
         /**
          * Test whether the specified physics object should be displayed.
          *
