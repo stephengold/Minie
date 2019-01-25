@@ -44,6 +44,8 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A collision object for simplified character simulation, based on Bullet's
@@ -149,8 +151,9 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * Copy this character's gravitational acceleration.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return an acceleration vector (either storeResult or a new vector, not
-     * null)
+     * @return an acceleration vector (in physics-space units per second
+     * squared, in the direction opposite the "up" vector, either storeResult or
+     * a new vector, not null)
      */
     public Vector3f getGravity(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -238,6 +241,20 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     public float getStepHeight() {
         return getStepHeight(characterId);
+    }
+
+    /**
+     * Copy this character's "up" direction.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a unit vector (in physics-space coordinates, in the direction
+     * opposite the gravity vector, either storeResult or a new vector, not
+     * null)
+     */
+    public Vector3f getUpDirection(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        getUpDirection(characterId, result);
+        return result;
     }
 
     /**
@@ -350,9 +367,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter this character's gravitational acceleration.
+     * Alter this character's gravitational acceleration. This may also alter
+     * its "up" vector.
      *
-     * @param gravity the desired acceleration vector (not null, unaffected)
+     * @param gravity the desired acceleration vector (in physics-space units
+     * per second squared, not null, unaffected, default=(0,0,-29.4))
      */
     public void setGravity(Vector3f gravity) {
         setGravity(characterId, gravity);
@@ -436,11 +455,14 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter this character's "up" direction.
+     * Alter this character's "up" direction. This may also alter its gravity
+     * vector.
      *
-     * @param direction the desired direction (not null, not zero, unaffected)
+     * @param direction the desired direction (not null, not zero, unaffected,
+     * default=(0,0,1))
      */
     public void setUp(Vector3f direction) {
+        Validate.nonZero(direction, "direction");
         setUp(characterId, direction);
     }
 
@@ -539,15 +561,19 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setContactResponse(capsule.readBoolean("contactResponse", true));
         setFallSpeed(capsule.readFloat("fallSpeed", 55f));
         setSweepTest(capsule.readBoolean("ghostSweepTest", true));
-        Vector3f tmp = (Vector3f) capsule.readSavable("gravityVector",
+        Vector3f g = (Vector3f) capsule.readSavable("gravityVector",
                 new Vector3f(0f, -9.81f, 0f));
-        setGravity(tmp);
+        setGravity(g);
         setJumpSpeed(capsule.readFloat("jumpSpeed", 10f));
         setMaxSlope(capsule.readFloat("maxSlope", 1f));
         setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
         setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
         setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
                 new Vector3f()));
+        if (MyVector3f.isZero(g)) {
+            setUp((Vector3f) capsule.readSavable("upDirection",
+                    new Vector3f(0f, 1f, 0f)));
+        }
     }
 
     /**
@@ -565,13 +591,18 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         capsule.write(getFallSpeed(), "fallSpeed", 55f);
         capsule.write(isUsingGhostSweepTest(), "ghostSweepTest", true);
         capsule.write(stepHeight, "stepHeight", 1f);
-        capsule.write(getGravity(null), "gravityVector", new Vector3f(0f, -9.81f, 0f));
+        Vector3f g = getGravity(null);
+        capsule.write(g, "gravityVector", new Vector3f(0f, -9.81f, 0f));
         capsule.write(getJumpSpeed(), "jumpSpeed", 10f);
         capsule.write(getMaxSlope(), "maxSlope", 1f);
         capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
         capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
         capsule.write(getPhysicsLocation(new Vector3f()), "physicsLocation",
                 new Vector3f());
+        if (MyVector3f.isZero(g)) {
+            capsule.write(getUpDirection(null), "upDirection",
+                    new Vector3f(0f, 1f, 0f));
+        }
     }
     // *************************************************************************
     // Object methods
@@ -646,6 +677,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     native private void getPhysicsLocation(long objectId, Vector3f vec);
 
     native private float getStepHeight(long characterId);
+
+    native private void getUpDirection(long characterId, Vector3f storeVector);
 
     native private void jump(long characterId, Vector3f v);
 
