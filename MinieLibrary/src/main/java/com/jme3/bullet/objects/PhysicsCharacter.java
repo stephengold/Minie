@@ -39,6 +39,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -208,7 +209,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Read this character's maximum slope angle.
      *
-     * @return the angle (in radians)
+     * @return the angle relative to the horizontal (in radians)
      */
     public float getMaxSlope() {
         return getMaxSlope(characterId);
@@ -397,7 +398,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * Alter this character's linear damping.
      *
      * @param damping the desired viscous damping ratio (0&rarr;no damping,
-     * 1&rarr;critically damped)
+     * 1&rarr;critically damped, default=0)
      */
     public void setLinearDamping(float damping) {
         setLinearDamping(characterId, damping);
@@ -415,7 +416,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Alter this character's maximum penetration depth.
      *
-     * @param depth the desired depth (in physics-space units)
+     * @param depth the desired depth (in physics-space units, default=0.2)
      */
     public void setMaxPenetrationDepth(float depth) {
         setMaxPenetrationDepth(characterId, depth);
@@ -424,7 +425,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Alter this character's maximum slope angle.
      *
-     * @param slopeRadians the desired angle (in radians)
+     * @param slopeRadians the desired angle relative to the horizontal (in
+     * radians, default=Pi/4)
      */
     public void setMaxSlope(float slopeRadians) {
         setMaxSlope(characterId, slopeRadians);
@@ -576,7 +578,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
                 new Vector3f(0f, -9.81f, 0f));
         setGravity(g);
         setJumpSpeed(capsule.readFloat("jumpSpeed", 10f));
-        setMaxSlope(capsule.readFloat("maxSlope", 1f));
+        setMaxSlope(capsule.readFloat("maxSlope", FastMath.QUARTER_PI));
         setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
                 new Vector3f()));
         if (MyVector3f.isZero(g)) {
@@ -606,7 +608,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         Vector3f g = getGravity(null);
         capsule.write(g, "gravityVector", new Vector3f(0f, -9.81f, 0f));
         capsule.write(getJumpSpeed(), "jumpSpeed", 10f);
-        capsule.write(getMaxSlope(), "maxSlope", 1f);
+        capsule.write(getMaxSlope(), "maxSlope", FastMath.QUARTER_PI);
         capsule.write(getPhysicsLocation(new Vector3f()), "physicsLocation",
                 new Vector3f());
         if (MyVector3f.isZero(g)) {
