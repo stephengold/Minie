@@ -76,7 +76,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * gets rebuilt.
      */
     private long characterId = 0L;
-
+    /**
+     * copy of the maximum amount of normal vertical movement (in physics-space
+     * units)
+     */
     private float stepHeight;
     private Vector3f walkOffset = new Vector3f();
     // *************************************************************************
@@ -94,7 +97,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * step height.
      *
      * @param shape the desired shape (not null, alias created)
-     * @param stepHeight the quantization size for vertical movement
+     * @param stepHeight the maximum amount of normal vertical movement (in
+     * physics-space units)
      */
     public PhysicsCharacter(CollisionShape shape, float stepHeight) {
         collisionShape = shape;
@@ -237,10 +241,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Read this character's step height.
      *
-     * @return the height (in physics-space units)
+     * @return the maximum amount of normal vertical movement (in physics-space
+     * units)
      */
     public float getStepHeight() {
-        return getStepHeight(characterId);
+        return stepHeight;
     }
 
     /**
@@ -437,9 +442,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Alter this character's step height.
      *
-     * @param height the desired height (in physics-space units)
+     * @param height the desired maximum amount of normal vertical movement (in
+     * physics-space units, default=1)
      */
     public void setStepHeight(float height) {
+        this.stepHeight = height;
         setStepHeight(characterId, height);
     }
 
@@ -588,10 +595,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
 
+        capsule.write(stepHeight, "stepHeight", 1f);
         capsule.write(isContactResponse(), "contactResponse", true);
         capsule.write(getFallSpeed(), "fallSpeed", 55f);
         capsule.write(isUsingGhostSweepTest(), "ghostSweepTest", true);
-        capsule.write(stepHeight, "stepHeight", 1f);
         Vector3f g = getGravity(null);
         capsule.write(g, "gravityVector", new Vector3f(0f, -9.81f, 0f));
         capsule.write(getJumpSpeed(), "jumpSpeed", 10f);
@@ -676,8 +683,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     native private float getMaxSlope(long characterId);
 
     native private void getPhysicsLocation(long objectId, Vector3f vec);
-
-    native private float getStepHeight(long characterId);
 
     native private void getUpDirection(long characterId, Vector3f storeVector);
 
