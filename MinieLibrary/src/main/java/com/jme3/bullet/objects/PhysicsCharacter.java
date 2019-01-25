@@ -264,12 +264,17 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy the character's walk offset. TODO standardize
+     * Copy the character's walk offset.
      *
-     * @return a new offset vector (not null)
+     * @param storeResult storage for the result (modified if not null)
+     * @return an offset vector (either storeResult or a new vector, not null)
      */
-    public Vector3f getWalkDirection() {
-        return walkOffset.clone();
+    public Vector3f getWalkDirection(Vector3f storeResult) {
+        if (storeResult == null) {
+            return walkOffset.clone();
+        } else {
+            return storeResult.set(walkOffset);
+        }
     }
 
     /**
@@ -528,7 +533,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         /*
          * Walk direction affects linear velocity, so set it first!
          */
-        setWalkDirection(old.getWalkDirection());
+        setWalkDirection(old.getWalkDirection(null));
         setLinearVelocity(old.getLinearVelocity(null));
 
         setMaxPenetrationDepth(old.getMaxPenetrationDepth());
@@ -625,7 +630,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         capsule.write(getJumpSpeed(), "jumpSpeed", 10f);
         capsule.write(getLinearDamping(), "linearDamping", 0f);
 
-        capsule.write(getWalkDirection(), "walkDirection", null);
+        capsule.write(getWalkDirection(null), "walkDirection", null);
         capsule.write(getLinearVelocity(null), "linearVelocity", null);
 
         capsule.write(getMaxPenetrationDepth(), "maxPenetrationDepth", 0.2f);

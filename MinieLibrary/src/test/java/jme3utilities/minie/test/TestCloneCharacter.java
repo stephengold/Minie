@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -192,7 +192,7 @@ public class TestCloneCharacter {
 
         assert ch.getStepHeight() == b + 0.29f;
 
-        Vector3f d = ch.getWalkDirection();
+        Vector3f d = ch.getWalkDirection(null);
         assert d.x == b + 0.291f : d;
         assert d.y == b + 0.292f : d;
         assert d.z == b + 0.293f : d;
