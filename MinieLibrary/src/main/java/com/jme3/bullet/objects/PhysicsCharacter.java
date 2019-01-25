@@ -72,8 +72,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
 
     private float stepHeight;
     private Vector3f walkOffset = new Vector3f();
-    private float fallSpeed = 55f;
-    private float jumpSpeed = 10f;
     // *************************************************************************
     // constructors
 
@@ -136,10 +134,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Read this character's fall speed.
      *
-     * @return speed
+     * @return the speed (in physics-space units per second)
      */
     public float getFallSpeed() {
-        return fallSpeed;
+        return getFallSpeed(characterId);
     }
 
     /**
@@ -158,10 +156,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Read this character's jump speed.
      *
-     * @return speed
+     * @return the speed (in physics-space units per second)
      */
     public float getJumpSpeed() {
-        return jumpSpeed;
+        return getJumpSpeed(characterId);
     }
 
     /**
@@ -320,10 +318,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Alter this character's fall speed.
      *
-     * @param fallSpeed the desired speed (default=55)
+     * @param fallSpeed the desired speed (in physics-space units per second,
+     * default=55)
      */
     public void setFallSpeed(float fallSpeed) {
-        this.fallSpeed = fallSpeed;
         setFallSpeed(characterId, fallSpeed);
     }
 
@@ -339,10 +337,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Alter this character's jump speed.
      *
-     * @param jumpSpeed the desired speed (default=10)
+     * @param jumpSpeed the desired speed (in physics-space units per second,
+     * default=10)
      */
     public void setJumpSpeed(float jumpSpeed) {
-        this.jumpSpeed = jumpSpeed;
         setJumpSpeed(characterId, jumpSpeed);
     }
 
@@ -503,12 +501,12 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         buildObject();
 
         setContactResponse(capsule.readBoolean("contactResponse", true));
+        setFallSpeed(capsule.readFloat("fallSpeed", 55f));
         Vector3f tmp = (Vector3f) capsule.readSavable("gravityVector",
                 new Vector3f(0f, -9.81f, 0f));
         setGravity(tmp);
-        setMaxSlope(capsule.readFloat("maxSlope", 1f));
-        setFallSpeed(capsule.readFloat("fallSpeed", 55f));
         setJumpSpeed(capsule.readFloat("jumpSpeed", 10f));
+        setMaxSlope(capsule.readFloat("maxSlope", 1f));
         setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
         setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
         setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
@@ -527,11 +525,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         OutputCapsule capsule = ex.getCapsule(this);
 
         capsule.write(isContactResponse(), "contactResponse", true);
+        capsule.write(getFallSpeed(), "fallSpeed", 55f);
         capsule.write(stepHeight, "stepHeight", 1f);
         capsule.write(getGravity(null), "gravityVector", new Vector3f(0f, -9.81f, 0f));
+        capsule.write(getJumpSpeed(), "jumpSpeed", 10f);
         capsule.write(getMaxSlope(), "maxSlope", 1f);
-        capsule.write(fallSpeed, "fallSpeed", 55f);
-        capsule.write(jumpSpeed, "jumpSpeed", 10f);
         capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
         capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
         capsule.write(getPhysicsLocation(new Vector3f()), "physicsLocation",
@@ -592,7 +590,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     native private void getAngularVelocity(long characterId,
             Vector3f storeResult);
 
+    native private float getFallSpeed(long characterId);
+
     native private void getGravity(long characterId, Vector3f storeResult);
+
+    native private float getJumpSpeed(long characterId);
 
     native private float getLinearDamping(long characterId);
 
