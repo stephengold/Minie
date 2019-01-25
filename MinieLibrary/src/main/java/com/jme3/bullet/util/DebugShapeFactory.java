@@ -91,6 +91,30 @@ public class DebugShapeFactory {
     // new methods exposed
 
     /**
+     * Estimate the footprint of the specified convex shape. The shape's current
+     * scale and margin are taken into account, but not its debug-mesh
+     * resolution.
+     *
+     * @param shape (not null, unaffected, must be convex)
+     * @param shapeToWorld the world transform of the collision object (not
+     * null, unaffected)
+     * @param meshResolution (0=low, 1=high)
+     * @return a new array of corner locations (in world coordinates)
+     */
+    public static Vector3f[] footprint(CollisionShape shape,
+            Transform shapeToWorld, int meshResolution) {
+        assert !shape.isConcave();
+        Validate.inRange(meshResolution, "mesh resolution", 0, 1);
+
+        long id = shape.getObjectId();
+        DebugMeshCallback callback = new DebugMeshCallback();
+        getVertices2(id, meshResolution, callback);
+        Vector3f[] cornerLocations = callback.footprint(shapeToWorld);
+
+        return cornerLocations;
+    }
+
+    /**
      * Create a spatial for visualizing the specified collision object.
      * <p>
      * This is mostly used internally. To enable physics debug visualization,
@@ -138,30 +162,6 @@ public class DebugShapeFactory {
         result.updateGeometricState();
 
         return result;
-    }
-
-    /**
-     * Estimate the footprint of the specified convex shape. The shape's current
-     * scale and margin are taken into account, but not its debug-mesh
-     * resolution. TODO re-order methods
-     *
-     * @param shape (not null, unaffected, must be convex)
-     * @param shapeToWorld the world transform of the collision object (not
-     * null, unaffected)
-     * @param meshResolution (0=low, 1=high)
-     * @return a new array of corner locations (in world coordinates)
-     */
-    public static Vector3f[] footprint(CollisionShape shape,
-            Transform shapeToWorld, int meshResolution) {
-        assert !shape.isConcave();
-        Validate.inRange(meshResolution, "mesh resolution", 0, 1);
-
-        long id = shape.getObjectId();
-        DebugMeshCallback callback = new DebugMeshCallback();
-        getVertices2(id, meshResolution, callback);
-        Vector3f[] cornerLocations = callback.footprint(shapeToWorld);
-
-        return cornerLocations;
     }
 
     /**
