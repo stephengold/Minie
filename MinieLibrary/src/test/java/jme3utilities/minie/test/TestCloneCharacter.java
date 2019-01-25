@@ -26,16 +26,22 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetManager;
+import com.jme3.asset.AssetNotFoundException;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsCharacter;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.binary.BinaryLoader;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
+import java.io.File;
+import java.io.IOException;
 import jme3utilities.Misc;
 import org.junit.Test;
 
@@ -47,6 +53,7 @@ import org.junit.Test;
 public class TestCloneCharacter {
 
     private AssetManager assetManager;
+    private int fileIndex = 0;
     // *************************************************************************
     // new methods exposed
 
@@ -82,6 +89,42 @@ public class TestCloneCharacter {
         setParameters(chClone, 0.6f);
         verifyParameters(ch, 0.3f);
         verifyParameters(chClone, 0.6f);
+
+        PhysicsCharacter chCopy = saveThenLoad(ch);
+        verifyParameters(chCopy, 0.3f);
+
+        PhysicsCharacter chCloneCopy = saveThenLoad(chClone);
+        verifyParameters(chCloneCopy, 0.6f);
+    }
+
+    /**
+     * Clone a PhysicsCharacter by saving and then loading it.
+     *
+     * @param pc the character to copy (not null, unaffected)
+     * @return a new character
+     */
+    private PhysicsCharacter saveThenLoad(PhysicsCharacter pc) {
+        String fileName = String.format("tmp%d.j3o", ++fileIndex);
+        File file = new File(fileName);
+
+        JmeExporter exporter = BinaryExporter.getInstance();
+        try {
+            exporter.save(pc, file);
+        } catch (IOException exception) {
+            assert false;
+        }
+
+        AssetKey<PhysicsCharacter> key
+                = new AssetKey<PhysicsCharacter>(fileName);
+        PhysicsCharacter loadedPc = null;
+        try {
+            loadedPc = (PhysicsCharacter) assetManager.loadAsset(key);
+        } catch (AssetNotFoundException e) {
+            assert false;
+        }
+        file.delete();
+
+        return loadedPc;
     }
 
     private void setParameters(PhysicsCharacter ch, float b) {

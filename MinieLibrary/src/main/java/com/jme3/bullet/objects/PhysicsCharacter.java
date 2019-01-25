@@ -569,6 +569,9 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         stepHeight = capsule.readFloat("stepHeight", 1f);
         buildObject();
 
+        setAngularDamping(capsule.readFloat("angularDamping", 0f));
+        setAngularVelocity((Vector3f) capsule.readSavable("angularVelocity",
+                new Vector3f()));
         setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
         setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
         setContactResponse(capsule.readBoolean("contactResponse", true));
@@ -578,6 +581,16 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
                 new Vector3f(0f, -9.81f, 0f));
         setGravity(g);
         setJumpSpeed(capsule.readFloat("jumpSpeed", 10f));
+        setLinearDamping(capsule.readFloat("linearDamping", 0f));
+        /*
+         * Walk direction affects linear velocity, so set it first!
+         */
+        setWalkDirection((Vector3f) capsule.readSavable("walkDirection",
+                new Vector3f()));
+        setLinearVelocity((Vector3f) capsule.readSavable("linearVelocity",
+                new Vector3f()));
+
+        setMaxPenetrationDepth(capsule.readFloat("maxPenetrationDepth", 0.2f));
         setMaxSlope(capsule.readFloat("maxSlope", FastMath.QUARTER_PI));
         setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
                 new Vector3f()));
@@ -600,6 +613,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
 
         capsule.write(stepHeight, "stepHeight", 1f);
 
+        capsule.write(getAngularDamping(), "angularDamping", 0f);
+        capsule.write(getAngularVelocity(null), "angularVelocity", null);
         capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
         capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
         capsule.write(isContactResponse(), "contactResponse", true);
@@ -608,9 +623,15 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         Vector3f g = getGravity(null);
         capsule.write(g, "gravityVector", new Vector3f(0f, -9.81f, 0f));
         capsule.write(getJumpSpeed(), "jumpSpeed", 10f);
+        capsule.write(getLinearDamping(), "linearDamping", 0f);
+
+        capsule.write(getWalkDirection(), "walkDirection", null);
+        capsule.write(getLinearVelocity(null), "linearVelocity", null);
+
+        capsule.write(getMaxPenetrationDepth(), "maxPenetrationDepth", 0.2f);
         capsule.write(getMaxSlope(), "maxSlope", FastMath.QUARTER_PI);
         capsule.write(getPhysicsLocation(new Vector3f()), "physicsLocation",
-                new Vector3f());
+                null);
         if (MyVector3f.isZero(g)) {
             capsule.write(getUpDirection(null), "upDirection",
                     new Vector3f(0f, 1f, 0f));
