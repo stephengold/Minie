@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.objects;
 
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.CollisionFlag;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -273,6 +274,16 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     public boolean onGround() {
         return onGround(characterId);
+    }
+
+    /**
+     * Reset this character, including its velocity.
+     *
+     * @param space (not null)
+     */
+    public void reset(PhysicsSpace space) {
+        long spaceId = space.getSpaceId();
+        reset(characterId, spaceId);
     }
 
     /**
@@ -639,6 +650,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     native private void jump(long characterId, Vector3f v);
 
     native private boolean onGround(long characterId);
+
+    native private void reset(long characterId, long spaceId);
 
     native private void setAngularDamping(long characterId, float damping);
 
