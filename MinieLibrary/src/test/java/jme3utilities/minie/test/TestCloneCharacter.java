@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -87,6 +87,7 @@ public class TestCloneCharacter {
     private void setParameters(PhysicsCharacter ch, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         ch.setContactResponse(flag);
+        ch.setSweepTest(!flag);
 
         ch.setAngularDamping(b + 0.01f);
         ch.setAngularVelocity(new Vector3f(b + 0.04f, b + 0.05f, b + 0.06f));
@@ -111,6 +112,7 @@ public class TestCloneCharacter {
     private void verifyParameters(PhysicsCharacter ch, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert ch.isContactResponse() == flag;
+        assert ch.isUsingGhostSweepTest() == !flag;
 
         assert ch.getAngularDamping() == b + 0.01f;
 

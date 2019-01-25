@@ -63,6 +63,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     // fields
 
     /**
+     * which convexSweepTest to use
+     */
+    private boolean isUsingGhostSweepTest = true;
+    /**
      * Unique identifier of btKinematicCharacterController (as opposed to its
      * collision object, which is a ghost). Constructors are responsible for
      * setting this to a non-zero value. The ID might change if the character
@@ -245,6 +249,15 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
+     * Test whether the ghost's convexSweepTest is in use.
+     *
+     * @return true if using the ghost's test, otherwise false
+     */
+    public boolean isUsingGhostSweepTest() {
+        return isUsingGhostSweepTest;
+    }
+
+    /**
      * Jump in the specified direction.
      *
      * @param dir desired jump direction (not null, unaffected)
@@ -401,6 +414,17 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
+     * Alter which convexSweepTest is used.
+     *
+     * @param useGhostSweepTest true to use the ghost's test, false to use the
+     * world's test (default=true)
+     */
+    public void setSweepTest(boolean useGhostSweepTest) {
+        this.isUsingGhostSweepTest = useGhostSweepTest;
+        setUseGhostSweepTest(characterId, useGhostSweepTest);
+    }
+
+    /**
      * Alter this character's "up" direction.
      *
      * @param direction the desired direction (not null, not zero, unaffected)
@@ -468,6 +492,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setMaxSlope(old.getMaxSlope());
         setPhysicsLocation(old.getPhysicsLocation(null));
         setStepHeight(old.getStepHeight());
+        setSweepTest(old.isUsingGhostSweepTest());
     }
 
     /**
@@ -502,6 +527,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
 
         setContactResponse(capsule.readBoolean("contactResponse", true));
         setFallSpeed(capsule.readFloat("fallSpeed", 55f));
+        setSweepTest(capsule.readBoolean("ghostSweepTest", true));
         Vector3f tmp = (Vector3f) capsule.readSavable("gravityVector",
                 new Vector3f(0f, -9.81f, 0f));
         setGravity(tmp);
@@ -526,6 +552,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
 
         capsule.write(isContactResponse(), "contactResponse", true);
         capsule.write(getFallSpeed(), "fallSpeed", 55f);
+        capsule.write(isUsingGhostSweepTest(), "ghostSweepTest", true);
         capsule.write(stepHeight, "stepHeight", 1f);
         capsule.write(getGravity(null), "gravityVector", new Vector3f(0f, -9.81f, 0f));
         capsule.write(getJumpSpeed(), "jumpSpeed", 10f);
@@ -637,6 +664,9 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     native private void setStepHeight(long characterId, float height);
 
     native private void setUp(long characterId, Vector3f direction);
+
+    native private void setUseGhostSweepTest(long characterId,
+            boolean useGhostSweepTest);
 
     native private void setWalkDirection(long characterId, Vector3f direction);
 
