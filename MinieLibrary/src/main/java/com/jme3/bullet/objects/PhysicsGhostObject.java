@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -225,19 +225,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     }
 
     /**
-     * Apply the specified CollisionShape to this object. Note that the object
-     * should not be in any PhysicsSpace while changing shape; the object gets
-     * rebuilt on the physics side.
-     *
-     * @param collisionShape the shape to apply (not null, alias created)
-     */
-    @Override
-    public void setCollisionShape(CollisionShape collisionShape) {
-        super.setCollisionShape(collisionShape);
-        buildObject();
-    }
-
-    /**
      * Directly alter the location of this object's center.
      *
      * @param location the desired location (in physics-space coordinates, not
@@ -307,21 +294,16 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     }
 
     /**
-     * Serialize this object, for example when saving to a J3O file.
+     * Apply the specified CollisionShape to this object. Note that the object
+     * should not be in any PhysicsSpace while changing shape; the object gets
+     * rebuilt on the physics side.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param collisionShape the shape to apply (not null, alias created)
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(getPhysicsLocation(new Vector3f()),
-                "physicsLocation", new Vector3f());
-        capsule.write(getPhysicsRotationMatrix(new Matrix3f()),
-                "physicsRotation", new Matrix3f());
-        capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
-        capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
+    public void setCollisionShape(CollisionShape collisionShape) {
+        super.setCollisionShape(collisionShape);
+        buildObject();
     }
 
     /**
@@ -342,6 +324,24 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
                 new Matrix3f())));
         setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
         setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
+    }
+
+    /**
+     * Serialize this object, for example when saving to a J3O file.
+     *
+     * @param ex exporter (not null)
+     * @throws IOException from exporter
+     */
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(getPhysicsLocation(new Vector3f()),
+                "physicsLocation", new Vector3f());
+        capsule.write(getPhysicsRotationMatrix(new Matrix3f()),
+                "physicsRotation", new Matrix3f());
+        capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
+        capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
     }
     // *************************************************************************
     // private methods
