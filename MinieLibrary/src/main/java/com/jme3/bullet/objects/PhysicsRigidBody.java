@@ -317,36 +317,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Calculate this body's continuous collision detection (CCD) motion
-     * threshold.
-     *
-     * @return the threshold velocity (in physics-space units per second, &ge;0)
-     */
-    public float getCcdMotionThreshold() {
-        return getCcdMotionThreshold(objectId);
-    }
-
-    /**
-     * Calculate the square of this body's continuous collision detection (CCD)
-     * motion threshold.
-     *
-     * @return the threshold velocity squared (&ge;0)
-     */
-    public float getCcdSquareMotionThreshold() {
-        return getCcdSquareMotionThreshold(objectId);
-    }
-
-    /**
-     * Read the radius of the swept sphere used for continuous collision
-     * detection (CCD).
-     *
-     * @return radius (in physics-space units, &ge;0)
-     */
-    public float getCcdSweptSphereRadius() {
-        return getCcdSweptSphereRadius(objectId);
-    }
-
-    /**
      * Read this body's friction.
      *
      * @return friction value
@@ -659,31 +629,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     public void setAngularVelocity(Vector3f vec) {
         setAngularVelocity(objectId, vec);
         activate();
-    }
-
-    /**
-     * Alter the amount of motion required to activate continuous collision
-     * detection (CCD).
-     * <p>
-     * This addresses the issue of fast objects passing through other objects
-     * with no collision detected.
-     *
-     * @param threshold the desired threshold velocity (in physics-space units
-     * per second, &gt;0) or zero to disable CCD (default=0)
-     */
-    public void setCcdMotionThreshold(float threshold) {
-        setCcdMotionThreshold(objectId, threshold);
-    }
-
-    /**
-     * Alter the radius of the swept sphere used for continuous collision
-     * detection (CCD).
-     *
-     * @param radius the desired radius (in physics-space units, &ge;0,
-     * default=0)
-     */
-    public void setCcdSweptSphereRadius(float radius) {
-        setCcdSweptSphereRadius(objectId, radius);
     }
 
     /**
@@ -1182,12 +1127,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     native private void getAngularVelocity(long objectId, Vector3f storeResult);
 
-    native private float getCcdMotionThreshold(long objectId);
-
-    native private float getCcdSquareMotionThreshold(long objectId);
-
-    native private float getCcdSweptSphereRadius(long objectId);
-
     native private float getFriction(long objectId);
 
     native private void getGravity(long objectId, Vector3f storeResult);
@@ -1220,10 +1159,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     native private void setAngularFactor(long objectId, Vector3f factor);
 
     native private void setAngularVelocity(long objectId, Vector3f vec);
-
-    native private void setCcdMotionThreshold(long objectId, float threshold);
-
-    native private void setCcdSweptSphereRadius(long objectId, float radius);
 
     native private void setCollisionShape(long objectId, long collisionShapeId);
 

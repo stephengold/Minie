@@ -101,35 +101,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     // new methods exposed
 
     /**
-     * Read the continuous collision detection (CCD) motion threshold for this
-     * object.
-     *
-     * @return threshold value (in physics-space units per second, &ge;0)
-     */
-    public float getCcdMotionThreshold() {
-        return getCcdMotionThreshold(objectId);
-    }
-
-    /**
-     * Read the CCD square motion threshold for this object.
-     *
-     * @return threshold value (squared velocity, &ge;0)
-     */
-    public float getCcdSquareMotionThreshold() {
-        return getCcdSquareMotionThreshold(objectId);
-    }
-
-    /**
-     * Read the radius of the sphere used for continuous collision detection
-     * (CCD).
-     *
-     * @return radius (in physics-space units, &ge;0)
-     */
-    public float getCcdSweptSphereRadius() {
-        return getCcdSweptSphereRadius(objectId);
-    }
-
-    /**
      * Access an overlapping collision object by its position in the list.
      *
      * @param index which list position (&ge;0, &lt;count)
@@ -198,30 +169,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
         getPhysicsRotationMatrix(objectId, result);
         return result;
-    }
-
-    /**
-     * Alter the amount of motion required to trigger continuous collision
-     * detection (CCD).
-     * <p>
-     * This addresses the issue of fast objects passing through other objects
-     * with no collision detected.
-     *
-     * @param threshold the desired threshold value (in physics-space units per
-     * second, &gt;0) or zero to disable CCD (default=0)
-     */
-    public void setCcdMotionThreshold(float threshold) {
-        setCcdMotionThreshold(objectId, threshold);
-    }
-
-    /**
-     * Alter the continuous collision detection (CCD) swept sphere radius for
-     * this object.
-     *
-     * @param radius (in physics-space units, &ge;0)
-     */
-    public void setCcdSweptSphereRadius(float radius) {
-        setCcdSweptSphereRadius(objectId, radius);
     }
 
     /**
@@ -371,12 +318,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
 
     native private long createGhostObject();
 
-    native private float getCcdMotionThreshold(long objectId);
-
-    native private float getCcdSquareMotionThreshold(long objectId);
-
-    native private float getCcdSweptSphereRadius(long objectId);
-
     native private int getOverlappingCount(long objectId);
 
     native private void getOverlappingObjects(long objectId);
@@ -388,10 +329,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
 
     native private void getPhysicsRotationMatrix(long objectId,
             Matrix3f storeResult);
-
-    native private void setCcdMotionThreshold(long objectId, float threshold);
-
-    native private void setCcdSweptSphereRadius(long objectId, float radius);
 
     native private void setGhostFlags(long objectId);
 

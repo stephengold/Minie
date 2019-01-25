@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -222,6 +222,43 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Read the continuous collision detection (CCD) motion threshold for this
+     * object.
+     *
+     * @return the minimum distance per timestep to trigger CCD (in
+     * physics-space units, &ge;0)
+     */
+    public float getCcdMotionThreshold() {
+        float distance = getCcdMotionThreshold(objectId);
+        assert distance >= 0f : distance;
+        return distance;
+    }
+
+    /**
+     * Read the squared motion threshold for this object.
+     *
+     * @return the minimum distance squared (in physics-space units, &ge;0)
+     */
+    public float getCcdSquareMotionThreshold() {
+        float distance = getCcdMotionThreshold();
+        float dSquared = distance * distance;
+
+        return dSquared;
+    }
+
+    /**
+     * Read the radius of the sphere used for continuous collision detection
+     * (CCD).
+     *
+     * @return the radius (in physics-space units, &ge;0)
+     */
+    public float getCcdSweptSphereRadius() {
+        float radius = getCcdSweptSphereRadius(objectId);
+        assert radius >= 0f : radius;
+        return radius;
+    }
+
+    /**
      * Read the set of collision groups with which this object can collide.
      *
      * @return bit mask
@@ -320,6 +357,30 @@ abstract public class PhysicsCollisionObject
         if (objectId != 0L) {
             setCollideWithGroups(collideWithGroups);
         }
+    }
+
+    /**
+     * Alter the amount of motion required to trigger continuous collision
+     * detection (CCD).
+     * <p>
+     * This addresses the issue of fast objects passing through other objects
+     * with no collision detected.
+     *
+     * @param threshold the desired minimum distance per timestep to trigger CCD
+     * (in physics-space units, &gt;0) or zero to disable CCD (default=0)
+     */
+    public void setCcdMotionThreshold(float threshold) {
+        setCcdMotionThreshold(objectId, threshold);
+    }
+
+    /**
+     * Alter the continuous collision detection (CCD) swept-sphere radius for
+     * this object.
+     *
+     * @param radius (in physics-space units, &ge;0, default=0)
+     */
+    public void setCcdSweptSphereRadius(float radius) {
+        setCcdSweptSphereRadius(objectId, radius);
     }
 
     /**
@@ -606,9 +667,17 @@ abstract public class PhysicsCollisionObject
 
     native private void activate(long objectId, boolean forceFlag);
 
+    native private float getCcdMotionThreshold(long objectId);
+
+    native private float getCcdSweptSphereRadius(long objectId);
+
     native private void initUserPointer(long objectId, int group, int groups);
 
     native private boolean isActive(long objectId);
+
+    native private void setCcdMotionThreshold(long objectId, float threshold);
+
+    native private void setCcdSweptSphereRadius(long objectId, float radius);
 
     native private void setCollideWithGroups(long objectId,
             int collisionGroups);

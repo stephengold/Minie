@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -122,36 +122,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         getAngularVelocity(characterId, result);
         return result;
-    }
-
-    /**
-     * Calculate this character's continuous collision detection (CCD) motion
-     * threshold.
-     *
-     * @return the threshold velocity (&ge;0)
-     */
-    public float getCcdMotionThreshold() {
-        return getCcdMotionThreshold(objectId);
-    }
-
-    /**
-     * Calculate the square of this character's continuous collision detection
-     * (CCD) motion threshold.
-     *
-     * @return the threshold velocity squared (&ge;0)
-     */
-    public float getCcdSquareMotionThreshold() {
-        return getCcdSquareMotionThreshold(objectId);
-    }
-
-    /**
-     * Read the radius of the sphere used for continuous collision detection
-     * (CCD).
-     *
-     * @return radius (&ge;0)
-     */
-    public float getCcdSweptSphereRadius() {
-        return getCcdSweptSphereRadius(objectId);
     }
 
     /**
@@ -312,32 +282,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     public void setAngularVelocity(Vector3f angularVelocity) {
         setAngularVelocity(characterId, angularVelocity);
-    }
-
-    /**
-     * Alter the amount of motion required to activate continuous collision
-     * detection (CCD).
-     * <p>
-     * This addresses the issue of fast objects passing through other objects
-     * with no collision detected.
-     *
-     * @param threshold the desired threshold velocity (&gt;0) or zero to
-     * disable CCD (default=0)
-     */
-    public void setCcdMotionThreshold(float threshold) {
-        assert objectId != 0L;
-        setCcdMotionThreshold(objectId, threshold);
-    }
-
-    /**
-     * Alter this character's continuous collision detection (CCD) swept sphere
-     * radius.
-     *
-     * @param radius (&ge;0, default=0)
-     */
-    public void setCcdSweptSphereRadius(float radius) {
-        assert objectId != 0L;
-        setCcdSweptSphereRadius(objectId, radius);
     }
 
     /**
@@ -648,12 +592,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     native private void getAngularVelocity(long characterId,
             Vector3f storeResult);
 
-    native private float getCcdMotionThreshold(long objectId);
-
-    native private float getCcdSquareMotionThreshold(long objectId);
-
-    native private float getCcdSweptSphereRadius(long objectId);
-
     native private void getGravity(long characterId, Vector3f storeResult);
 
     native private float getLinearDamping(long characterId);
@@ -677,10 +615,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
 
     native private void setAngularVelocity(long characterId,
             Vector3f angularVelocity);
-
-    native private void setCcdMotionThreshold(long objectId, float threshold);
-
-    native private void setCcdSweptSphereRadius(long objectId, float radius);
 
     native private void setCharacterFlags(long objectId);
 
