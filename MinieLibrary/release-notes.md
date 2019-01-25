@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.6.4 released on TBD
+## Version 0.6.4 released on 25 January 2019
 
 Important changes to the library:
 
@@ -17,6 +17,7 @@ Important changes to the library:
    `PhysicsCharacter` class.
  + Added the capability to configure the `PhysicsCharacter` sweep test.
  + Reduced `CollisionShape` validation in the `PhysicsRigidBody` class.
+ + Updated the native libraries to version 1.0.29 of `Libbulletjme`.
 
 Important changes to the examples:
 
