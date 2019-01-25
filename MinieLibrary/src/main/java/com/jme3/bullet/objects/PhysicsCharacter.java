@@ -525,6 +525,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setMaxSlope(old.getMaxSlope());
         setPhysicsLocation(old.getPhysicsLocation(null));
         setStepHeight(old.getStepHeight());
+        setUp(old.getUpDirection(null));
         setSweepTest(old.isUsingGhostSweepTest());
     }
 
