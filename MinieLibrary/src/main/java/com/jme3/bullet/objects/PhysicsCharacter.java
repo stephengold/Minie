@@ -70,10 +70,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     private boolean isUsingGhostSweepTest = true;
     /**
-     * Unique identifier of btKinematicCharacterController (as opposed to its
-     * collision object, which is a ghost). Constructors are responsible for
-     * setting this to a non-zero value. The ID might change if the character
-     * gets rebuilt.
+     * Unique identifier of the btKinematicCharacterController (as opposed to
+     * the collision object, which is a btPairCachingGhostObject). Constructors
+     * are responsible for setting this to a non-zero value. The ID might change
+     * if the character gets rebuilt.
      */
     private long characterId = 0L;
     /**
@@ -134,9 +134,9 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * used internally
+     * Read the ID of the btKinematicCharacterController. Used internally.
      *
-     * @return the Bullet ID
+     * @return the unique identifier (not zero)
      */
     public long getControllerId() {
         return characterId;
@@ -283,7 +283,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Jump in the specified direction.
      *
-     * @param dir desired jump direction (not null, unaffected)
+     * @param dir desired jump direction (not null, unaffected) or (0,0,0) to
+     * use the "up" direction
      */
     public void jump(Vector3f dir) {
         jump(characterId, dir);
@@ -532,8 +533,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setMaxSlope(old.getMaxSlope());
         setPhysicsLocation(old.getPhysicsLocation(null));
         setStepHeight(old.getStepHeight());
-        setUp(old.getUpDirection(null));
         setSweepTest(old.isUsingGhostSweepTest());
+        setUp(old.getUpDirection(null));
     }
 
     /**
@@ -566,6 +567,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         stepHeight = capsule.readFloat("stepHeight", 1f);
         buildObject();
 
+        setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
+        setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
         setContactResponse(capsule.readBoolean("contactResponse", true));
         setFallSpeed(capsule.readFloat("fallSpeed", 55f));
         setSweepTest(capsule.readBoolean("ghostSweepTest", true));
@@ -574,8 +577,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setGravity(g);
         setJumpSpeed(capsule.readFloat("jumpSpeed", 10f));
         setMaxSlope(capsule.readFloat("maxSlope", 1f));
-        setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
-        setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
         setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
                 new Vector3f()));
         if (MyVector3f.isZero(g)) {
@@ -596,6 +597,9 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         OutputCapsule capsule = ex.getCapsule(this);
 
         capsule.write(stepHeight, "stepHeight", 1f);
+
+        capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
+        capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
         capsule.write(isContactResponse(), "contactResponse", true);
         capsule.write(getFallSpeed(), "fallSpeed", 55f);
         capsule.write(isUsingGhostSweepTest(), "ghostSweepTest", true);
@@ -603,8 +607,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         capsule.write(g, "gravityVector", new Vector3f(0f, -9.81f, 0f));
         capsule.write(getJumpSpeed(), "jumpSpeed", 10f);
         capsule.write(getMaxSlope(), "maxSlope", 1f);
-        capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
-        capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
         capsule.write(getPhysicsLocation(new Vector3f()), "physicsLocation",
                 new Vector3f());
         if (MyVector3f.isZero(g)) {
@@ -655,7 +657,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
                 Long.toHexString(characterId));
     }
 
-    native private long createCharacterObject(long objectId, long shapeId,
+    native private long createCharacterObject(long ghostId, long shapeId,
             float stepHeight);
 
     native private long createGhostObject();
@@ -665,28 +667,28 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     native private float getAngularDamping(long characterId);
 
     native private void getAngularVelocity(long characterId,
-            Vector3f storeResult);
+            Vector3f storeVector);
 
     native private float getFallSpeed(long characterId);
 
-    native private void getGravity(long characterId, Vector3f storeResult);
+    native private void getGravity(long characterId, Vector3f storeVector);
 
     native private float getJumpSpeed(long characterId);
 
     native private float getLinearDamping(long characterId);
 
     native private void getLinearVelocity(long characterId,
-            Vector3f storeResult);
+            Vector3f storeVector);
 
     native private float getMaxPenetrationDepth(long characterId);
 
     native private float getMaxSlope(long characterId);
 
-    native private void getPhysicsLocation(long objectId, Vector3f vec);
+    native private void getPhysicsLocation(long ghostId, Vector3f storeVector);
 
     native private void getUpDirection(long characterId, Vector3f storeVector);
 
-    native private void jump(long characterId, Vector3f v);
+    native private void jump(long characterId, Vector3f direction);
 
     native private boolean onGround(long characterId);
 
@@ -697,7 +699,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     native private void setAngularVelocity(long characterId,
             Vector3f angularVelocity);
 
-    native private void setCharacterFlags(long objectId);
+    native private void setCharacterFlags(long ghostId);
 
     native private void setFallSpeed(long characterId, float fallSpeed);
 
