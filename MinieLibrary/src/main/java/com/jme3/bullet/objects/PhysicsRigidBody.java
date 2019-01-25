@@ -524,21 +524,21 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Test whether this body is added to any PhysicsSpace.
-     *
-     * @return true&rarr;in a space, false&rarr;not in a space
-     */
-    final public boolean isInWorld() {
-        return isInWorld(objectId);
-    }
-
-    /**
      * Test whether this body is in dynamic mode.
      *
      * @return true if in dynamic mode, otherwise false (static/kinematic mode)
      */
     public boolean isDynamic() {
         return mass > massForStatic && !kinematic;
+    }
+
+    /**
+     * Test whether this body is added to any PhysicsSpace.
+     *
+     * @return true&rarr;in a space, false&rarr;not in a space
+     */
+    final public boolean isInWorld() {
+        return isInWorld(objectId);
     }
 
     /**
@@ -644,7 +644,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         //    throw new IllegalStateException(
         //            "Cannot reshape body while in physics space!");
         // } TODO
-        if (mass != massForStatic) {
+        if (isDynamic()) {
             validateDynamicShape(collisionShape);
         }
 
@@ -936,10 +936,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      * Build/rebuild this body after parameters have changed.
      */
     protected void rebuildRigidBody() {
-        if (mass != massForStatic) {
-            validateDynamicShape(collisionShape);
-        }
-
         boolean removed = false;
         if (objectId != 0L) {
             if (isInWorld(objectId)) {
