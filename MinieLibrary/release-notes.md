@@ -1,11 +1,34 @@
 # release notes for the Minie library and related examples
 
+## Version 0.6.4 released on TBD
+
+Important changes to the library:
+
+ + Standardized the `PhysicsCharacter.getWalkDirection()` method. (API change)
+ + Fixed a bug where debug shapes were re-used incorrectly.
+ + Fixed a bug where 6 `PhysicsCharacter` parameters were neither loaded
+   nor saved.
+ + Added an `isDynamic()` method to the `PhysicsRigidBody` class.
+ + Added optional axes to debug visualizations.
+ + Moved the CCD accessors to the `PhysicsCollisionObject` class.
+ + Added a `copyCenter()` method to the `MultiSphere` class.
+ + Added the capability to disable the startup message.
+ + Added `getUpDirection()` and `reset()` methods to the
+   `PhysicsCharacter` class.
+ + Added the capability to configure the `PhysicsCharacter` sweep test.
+ + Reduced `CollisionShape` validation in the `PhysicsRigidBody` class.
+
+Important changes to the examples:
+
+ + Port the `TestQ3` app from `jme3-examples`.
+ + In `TestRectagularSolid`, set the seed for each trial and add UI text.
+
 ## Version 0.6.3 released on 17 January 2019
 
 Important changes to the library:
 
  + Prohibited `PhysicsRigidBody.setKinematic()` on static bodies.
- + Use `EmptyShape` to permit linking a bone without
+ + Used `EmptyShape` to permit linking a bone without
    vertices in a `DynamicAnimControl`.
  + Added `getSpatial()` methods to `GhostControl` and `RigidBodyControl`.
  + Updated the native libraries to version 1.0.24 of `jme3-bullet-native`.
