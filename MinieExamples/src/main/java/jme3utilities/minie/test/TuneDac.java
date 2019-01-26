@@ -129,6 +129,7 @@ public class TuneDac extends ActionApplication {
 
         bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugAxisLength(0.1f);
         stateManager.attach(bulletAppState);
         magenta = MyAsset.createWireframeMaterial(assetManager,
                 ColorRGBA.Magenta);
@@ -303,9 +304,9 @@ public class TuneDac extends ActionApplication {
      * Add an animated model to the scene.
      */
     private void addModel() {
-        loadCesiumMan();
+        //loadCesiumMan();
         //loadElephant();
-        //loadJaime();
+        loadJaime();
         //loadMhGame();
         //loadNinja();
         //loadOto();
