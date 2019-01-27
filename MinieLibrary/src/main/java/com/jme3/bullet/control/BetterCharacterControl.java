@@ -751,7 +751,7 @@ public class BetterCharacterControl
         localLeft = cloner.clone(localLeft);
         localUp = cloner.clone(localUp);
         location = cloner.clone(location);
-        //rigidBody not cloned
+        rigidBody = cloner.clone(rigidBody);
         rotatedViewDirection = cloner.clone(rotatedViewDirection);
         rotation = cloner.clone(rotation);
         scale = cloner.clone(scale);
