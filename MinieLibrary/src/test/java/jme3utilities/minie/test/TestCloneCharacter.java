@@ -51,8 +51,16 @@ import org.junit.Test;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestCloneCharacter {
+    // *************************************************************************
+    // fields
 
+    /**
+     * asset manager to load the saved control from a temporary file
+     */
     private AssetManager assetManager;
+    /**
+     * number of temporary files created
+     */
     private int fileIndex = 0;
     // *************************************************************************
     // new methods exposed
@@ -111,22 +119,27 @@ public class TestCloneCharacter {
         try {
             exporter.save(pc, file);
         } catch (IOException exception) {
-            assert false;
+            throw new RuntimeException(exception);
         }
 
-        AssetKey<PhysicsCharacter> key
-                = new AssetKey<PhysicsCharacter>(fileName);
+        AssetKey<PhysicsCharacter> key = new AssetKey<>(fileName);
         PhysicsCharacter loadedPc = null;
         try {
-            loadedPc = (PhysicsCharacter) assetManager.loadAsset(key);
-        } catch (AssetNotFoundException e) {
-            assert false;
+            loadedPc = assetManager.loadAsset(key);
+        } catch (AssetNotFoundException exception) {
+            throw new RuntimeException(exception);
         }
         file.delete();
 
         return loadedPc;
     }
 
+    /**
+     * Modify PhysicsCharacter parameters based on the specified key value.
+     *
+     * @param ch the character to modify (not null)
+     * @param b the key value
+     */
     private void setParameters(PhysicsCharacter ch, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         ch.setContactResponse(flag);
@@ -152,6 +165,13 @@ public class TestCloneCharacter {
         ch.setStepHeight(b + 0.29f);
     }
 
+    /**
+     * Verify that all PhysicsCharacter parameters have their expected values
+     * for the specified key value.
+     *
+     * @param ch the character to verify (not null, unaffected)
+     * @param b the key value
+     */
     private void verifyParameters(PhysicsCharacter ch, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert ch.isContactResponse() == flag;

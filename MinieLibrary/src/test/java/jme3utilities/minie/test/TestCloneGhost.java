@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -56,8 +56,16 @@ import org.junit.Test;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestCloneGhost {
+    // *************************************************************************
+    // fields
 
+    /**
+     * asset manager to load the saved control from a temporary file
+     */
     private AssetManager assetManager;
+    /**
+     * number of temporary files created
+     */
     private int fileIndex = 0;
     // *************************************************************************
     // new methods exposed
@@ -79,7 +87,7 @@ public class TestCloneGhost {
         PhysicsGhostObject pgoClone = (PhysicsGhostObject) Misc.deepCopy(pgo);
         cloneTest(pgo, pgoClone);
         /*
-         * GhostControl
+         * GhostControl (a subclass of PhysicsGhostObject)
          */
         GhostControl gc = new GhostControl(shape);
         setParameters(gc, 0f);
@@ -138,15 +146,15 @@ public class TestCloneGhost {
         try {
             exporter.save(savedNode, file);
         } catch (IOException exception) {
-            assert false;
+            throw new RuntimeException(exception);
         }
 
         ModelKey key = new ModelKey(fileName);
         Spatial loadedNode = new Node();
         try {
             loadedNode = assetManager.loadAsset(key);
-        } catch (AssetNotFoundException e) {
-            assert false;
+        } catch (AssetNotFoundException exception) {
+            throw new RuntimeException(exception);
         }
         file.delete();
         Control loadedSgc = loadedNode.getControl(0);
@@ -154,6 +162,12 @@ public class TestCloneGhost {
         return (GhostControl) loadedSgc;
     }
 
+    /**
+     * Modify PhysicsGhostObject parameters based on the specified key value.
+     *
+     * @param ch the ghost object to modify (not null)
+     * @param b the key value
+     */
     private void setParameters(PhysicsGhostObject pgo, float b) {
         pgo.setCcdMotionThreshold(b + 0.07f);
         pgo.setCcdSweptSphereRadius(b + 0.08f);
@@ -166,6 +180,13 @@ public class TestCloneGhost {
         pgo.setPhysicsRotation(matrix);
     }
 
+    /**
+     * Verify that all PhysicsGhostObject parameters have their expected values
+     * for the specified key value.
+     *
+     * @param pgo the ghost object to verify (not null, unaffected)
+     * @param b the key value
+     */
     private void verifyParameters(PhysicsGhostObject pgo, float b) {
         assert pgo.getCcdMotionThreshold() == b + 0.07f;
         assert pgo.getCcdSweptSphereRadius() == b + 0.08f;
