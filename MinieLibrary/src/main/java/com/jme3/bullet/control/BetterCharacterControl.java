@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -175,7 +175,7 @@ public class BetterCharacterControl
         rigidBody.setAngularFactor(0f);
     }
     // *************************************************************************
-    // AbstractPhysicsControl exposed
+    // AbstractPhysicsControl methods - TODO organize methods
 
     /**
      * Update this control. Invoked once per frame during the logical-state
@@ -786,11 +786,16 @@ public class BetterCharacterControl
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule oc = ex.getCapsule(this);
+
         oc.write(radius, "radius", 1f);
-        oc.write(height, "height", 1f);
-        oc.write(mass, "mass", 1f);
-        oc.write(jumpForce, "jumpForce", new Vector3f(0, mass * 5, 0));
+        oc.write(height, "height", 2f);
+        oc.write(mass, "mass", 80f);
+        oc.write(jumpForce, "jumpForce", null);
         oc.write(physicsDamping, "physicsDamping", 0.9f);
+        oc.write(duckedFactor, "duckedFactor", 0.6f);
+        oc.write(viewDirection, "viewDirection", null);
+        oc.write(walkDirection, "walkDirection", null);
+        oc.write(rigidBody, "body", null);
     }
 
     /**
@@ -803,14 +808,18 @@ public class BetterCharacterControl
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule in = im.getCapsule(this);
-        this.radius = in.readFloat("radius", 1f);
-        this.height = in.readFloat("height", 2f);
-        this.mass = in.readFloat("mass", 80f);
-        this.physicsDamping = in.readFloat("physicsDamping", 0.9f);
-        this.jumpForce.set((Vector3f) in.readSavable("jumpForce",
-                new Vector3f(0f, mass * 5f, 0f)));
-        rigidBody = new PhysicsRigidBody(getShape(), mass);
-        jumpForce.set(new Vector3f(0f, mass * 5f, 0f)); // TODO?
-        rigidBody.setAngularFactor(0f);
+
+        radius = in.readFloat("radius", 1f);
+        height = in.readFloat("height", 2f);
+        mass = in.readFloat("mass", 80f);
+        jumpForce = (Vector3f) in.readSavable("jumpForce",
+                new Vector3f(0f, mass * 5f, 0f));
+        physicsDamping = in.readFloat("physicsDamping", 0.9f);
+        duckedFactor = in.readFloat("duckedFactor", 0.6f);
+        viewDirection = (Vector3f) in.readSavable("viewDirection",
+                new Vector3f(0f, 0f, 1f));
+        walkDirection = (Vector3f) in.readSavable("walkDirection",
+                new Vector3f(0f, 0f, 1f));
+        rigidBody = (PhysicsRigidBody) in.readSavable("body", null);
     }
 }
