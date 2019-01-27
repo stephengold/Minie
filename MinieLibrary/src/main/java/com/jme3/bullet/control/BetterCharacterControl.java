@@ -525,13 +525,13 @@ public class BetterCharacterControl
      */
     protected void checkOnGround() {
         TempVars vars = TempVars.get();
-        Vector3f location = vars.vect1;
+        Vector3f loc = vars.vect1;
         Vector3f rayVector = vars.vect2;
         float height = getFinalHeight();
-        location.set(localUp).multLocal(height).addLocal(this.location);
-        rayVector.set(localUp).multLocal(-height - 0.1f).addLocal(location);
+        loc.set(localUp).multLocal(height).addLocal(this.location);
+        rayVector.set(localUp).multLocal(-height - 0.1f).addLocal(loc);
         List<PhysicsRayTestResult> results
-                = getPhysicsSpace().rayTest(location, rayVector);
+                = getPhysicsSpace().rayTest(loc, rayVector);
         vars.release();
         for (PhysicsRayTestResult physicsRayTestResult : results) {
             if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
@@ -550,12 +550,12 @@ public class BetterCharacterControl
      */
     protected boolean checkCanUnDuck() {
         TempVars vars = TempVars.get();
-        Vector3f location = vars.vect1;
+        Vector3f loc = vars.vect1;
         Vector3f rayVector = vars.vect2;
-        location.set(localUp).multLocal(FastMath.ZERO_TOLERANCE).addLocal(this.location);
-        rayVector.set(localUp).multLocal(height + FastMath.ZERO_TOLERANCE).addLocal(location);
+        loc.set(localUp).multLocal(FastMath.ZERO_TOLERANCE).addLocal(this.location);
+        rayVector.set(localUp).multLocal(height + FastMath.ZERO_TOLERANCE).addLocal(loc);
         List<PhysicsRayTestResult> results
-                = getPhysicsSpace().rayTest(location, rayVector);
+                = getPhysicsSpace().rayTest(loc, rayVector);
         vars.release();
         for (PhysicsRayTestResult physicsRayTestResult : results) {
             if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
