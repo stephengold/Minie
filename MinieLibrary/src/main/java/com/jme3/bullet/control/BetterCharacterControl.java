@@ -377,7 +377,17 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the character's the walk direction. This parameter is framerate
+     * Access the rigid body managed by this control.
+     *
+     * @return the pre-existing rigid body (not null)
+     */
+    public PhysicsRigidBody getRigidBody() {
+        assert rigidBody != null;
+        return rigidBody;
+    }
+
+    /**
+     * Alter the character's the walk direction. This parameter is frame-rate
      * independent and the character will move continuously in the direction
      * given by the vector with the speed given by the vector length in m/s.
      *
