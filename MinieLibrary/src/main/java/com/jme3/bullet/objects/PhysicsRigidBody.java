@@ -286,9 +286,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Read this body's angular sleeping threshold.
+     * Read this body's angular-motion sleep threshold.
      *
-     * @return the angular sleeping threshold (&ge;0)
+     * @return the angular-motion sleep threshold (&ge;0)
      */
     public float getAngularSleepingThreshold() {
         return getAngularSleepingThreshold(objectId);
@@ -374,9 +374,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Read this body's linear sleeping threshold.
+     * Read this body's linear-motion sleep threshold.
      *
-     * @return the linear sleeping threshold (&ge;0)
+     * @return the linear-motion sleep threshold (&ge;0)
      */
     public float getLinearSleepingThreshold() {
         return getLinearSleepingThreshold(objectId);
@@ -612,12 +612,12 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter this body's angular sleeping threshold.
+     * Alter this body's angular-motion sleep threshold.
      *
      * @param angularSleepingThreshold the desired threshold (&ge;0, default=1)
      */
     public void setAngularSleepingThreshold(float angularSleepingThreshold) {
-        float lst = getLinearSleepingThreshold(); // work around JME issue #911
+        float lst = getLinearSleepingThreshold(); // work around JME issue #911 TODO
         setSleepingThresholds(objectId, lst, angularSleepingThreshold);
     }
 
@@ -756,12 +756,12 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter this body's linear sleeping threshold.
+     * Alter this body's linear-motion sleep threshold.
      *
      * @param linearSleepingThreshold the desired threshold (&ge;0, default=0.8)
      */
     public void setLinearSleepingThreshold(float linearSleepingThreshold) {
-        float ast = getAngularSleepingThreshold(); // work around JME issue #911
+        float ast = getAngularSleepingThreshold(); // work around JME issue #911 TODO
         setSleepingThresholds(objectId, linearSleepingThreshold, ast);
     }
 
