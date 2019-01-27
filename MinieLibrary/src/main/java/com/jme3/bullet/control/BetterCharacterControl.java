@@ -187,32 +187,29 @@ public class BetterCharacterControl
     }
 
     /**
-     * Copy the character's gravity vector. TODO remove
-     *
-     * @return a new acceleration vector (not null)
-     */
-    public Vector3f getGravity() {
-        return rigidBody.getGravity(null);
-    }
-
-    /**
      * Copy the character's gravity vector.
      *
-     * @param store storage for the result (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return an acceleration vector (either the provided storage or a new
      * vector, not null)
      */
-    public Vector3f getGravity(Vector3f store) {
-        return rigidBody.getGravity(store);
+    public Vector3f getGravity(Vector3f storeResult) {
+        return rigidBody.getGravity(storeResult);
     }
 
     /**
-     * Access the jump force.
+     * Copy the character's jump force.
      *
-     * @return the pre-existing vector (not null) TODO
+     * @param storeResult storage for the result (modified if not null)
+     * @return a force vector (either the provided storage or a new vector, not
+     * null)
      */
-    public Vector3f getJumpForce() {
-        return jumpForce;
+    public Vector3f getJumpForce(Vector3f storeResult) {
+        if (storeResult == null) {
+            return jumpForce.clone();
+        } else {
+            return storeResult.set(jumpForce);
+        }
     }
 
     /**
@@ -235,31 +232,50 @@ public class BetterCharacterControl
     }
 
     /**
-     * Access the character's linear velocity.
+     * Copy the character's linear velocity.
      *
-     * @return the pre-existing vector (not null) TODO
+     * @param storeResult storage for the result (modified if not null)
+     * @return a velocity vector (either the provided storage or a new vector,
+     * not null)
      */
-    public Vector3f getVelocity() {
-        return velocity;
+    public Vector3f getVelocity(Vector3f storeResult) {
+        if (storeResult == null) {
+            return velocity.clone();
+        } else {
+            return storeResult.set(velocity);
+        }
     }
 
     /**
-     * Access the character's view direction. This need not agree with the
+     * Copy the character's view direction. This need not agree with the
      * spatial's forward direction.
      *
-     * @return the pre-existing vector (not null) TODO
+     * @param storeResult storage for the result (modified if not null)
+     * @return a direction vector (in physics-space coordinates, either the
+     * provided storage or a new vector, not null)
      */
-    public Vector3f getViewDirection() {
-        return viewDirection;
+    public Vector3f getViewDirection(Vector3f storeResult) {
+        if (storeResult == null) {
+            return viewDirection.clone();
+        } else {
+            return storeResult.set(viewDirection);
+        }
     }
 
     /**
-     * Read the walk velocity. The length of the vector defines the speed.
+     * Copy the character's walk velocity. The length of the vector defines the
+     * speed.
      *
-     * @return the pre-existing vector (not null) TODO
+     * @param storeResult storage for the result (modified if not null)
+     * @return a velocity vector (in physics-space units per second, either the
+     * provided storage or a new vector, not null)
      */
-    public Vector3f getWalkDirection() {
-        return walkDirection;
+    public Vector3f getWalkDirection(Vector3f storeResult) {
+        if (storeResult == null) {
+            return walkDirection.clone();
+        } else {
+            return storeResult.set(walkDirection);
+        }
     }
 
     /**

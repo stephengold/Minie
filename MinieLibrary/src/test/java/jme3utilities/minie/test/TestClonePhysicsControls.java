@@ -173,17 +173,17 @@ public class TestClonePhysicsControls {
         assert g.y == b + 0.03f : g;
         assert g.z == b + 0.04f : g;
 
-        Vector3f f = bcc.getJumpForce();
+        Vector3f f = bcc.getJumpForce(null);
         assert f.x == b + 0.05f : f;
         assert f.y == b + 0.06f : f;
         assert f.z == b + 0.07f : f;
 
-        Vector3f v = bcc.getViewDirection();
+        Vector3f v = bcc.getViewDirection(null);
         assert v.x == b + 0.10f : v;
         assert v.y == b + 0.11f : v;
         assert v.z == b + 0.12f : v;
 
-        Vector3f w = bcc.getWalkDirection();
+        Vector3f w = bcc.getWalkDirection(null);
         assert w.x == b + 0.13f : w;
         assert w.y == b + 0.14f : w;
         assert w.z == b + 0.15f : w;
