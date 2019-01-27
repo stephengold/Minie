@@ -175,7 +175,401 @@ public class BetterCharacterControl
         rigidBody.setAngularFactor(0f);
     }
     // *************************************************************************
-    // AbstractPhysicsControl methods - TODO organize methods
+    // new methods exposed
+
+    /**
+     * Read the height multiplier for ducking.
+     *
+     * @return the factor (&ge;0, &le;1)
+     */
+    public float getDuckedFactor() {
+        return duckedFactor;
+    }
+
+    /**
+     * Copy the character's gravity vector. TODO remove
+     *
+     * @return a new acceleration vector (not null)
+     */
+    public Vector3f getGravity() {
+        return rigidBody.getGravity(null);
+    }
+
+    /**
+     * Copy the character's gravity vector.
+     *
+     * @param store storage for the result (modified if not null)
+     * @return an acceleration vector (either the provided storage or a new
+     * vector, not null)
+     */
+    public Vector3f getGravity(Vector3f store) {
+        return rigidBody.getGravity(store);
+    }
+
+    /**
+     * Access the jump force.
+     *
+     * @return the pre-existing vector (not null) TODO
+     */
+    public Vector3f getJumpForce() {
+        return jumpForce;
+    }
+
+    /**
+     * Access the rigid body managed by this control.
+     *
+     * @return the pre-existing rigid body (not null)
+     */
+    public PhysicsRigidBody getRigidBody() {
+        assert rigidBody != null;
+        return rigidBody;
+    }
+
+    /**
+     * Read how much motion in the local X-Z plane is damped.
+     *
+     * @return the damping factor (0&rarr;no damping, 1=no external forces)
+     */
+    public float getPhysicsDamping() {
+        return physicsDamping;
+    }
+
+    /**
+     * Access the character's linear velocity.
+     *
+     * @return the pre-existing vector (not null) TODO
+     */
+    public Vector3f getVelocity() {
+        return velocity;
+    }
+
+    /**
+     * Access the character's view direction. This need not agree with the
+     * spatial's forward direction.
+     *
+     * @return the pre-existing vector (not null) TODO
+     */
+    public Vector3f getViewDirection() {
+        return viewDirection;
+    }
+
+    /**
+     * Read the walk velocity. The length of the vector defines the speed.
+     *
+     * @return the pre-existing vector (not null) TODO
+     */
+    public Vector3f getWalkDirection() {
+        return walkDirection;
+    }
+
+    /**
+     * Check if the character is ducking, either due to user input or due to
+     * unducking being impossible at the moment (obstacle above).
+     *
+     * @return true if ducking, otherwise false
+     */
+    public boolean isDucked() {
+        return ducked;
+    }
+
+    /**
+     * Test whether the character is supported. Uses a ray test from the center
+     * of the character and might return false even if the character is not
+     * falling yet.
+     *
+     * @return true if supported, otherwise false
+     */
+    public boolean isOnGround() {
+        return onGround;
+    }
+
+    /**
+     * Makes the character jump with the set jump force.
+     */
+    public void jump() {
+        //TODO: debounce over some frames
+        if (!onGround) {
+            return;
+        }
+        jump = true;
+    }
+
+    /**
+     * Realign the local forward vector to given direction vector, if null is
+     * supplied Vector3f.UNIT_Z is used. The input vector must be perpendicular
+     * to gravity vector. This normally only needs to be invoked when the
+     * gravity direction changed continuously and the local forward vector is
+     * off due to drift. E.g. after walking around on a sphere "planet" for a
+     * while and then going back to a Y-up coordinate system the local Z-forward
+     * might not be 100% aligned with the Z axis.
+     *
+     * @param vec the desired forward vector (perpendicular to the gravity
+     * vector, may be null, default=0,0,1)
+     */
+    public void resetForward(Vector3f vec) {
+        if (vec == null) {
+            localForward.set(Vector3f.UNIT_Z);
+        } else {
+            localForward.set(vec);
+        }
+        updateLocalCoordinateSystem();
+    }
+
+    /**
+     * Alter the character's ducking state. When ducked the characters capsule
+     * collision shape height will be multiplied by duckedFactor to make the
+     * capsule smaller. When unducking, the character will check with a ray test
+     * if it can in fact unduck and only do so when its possible. You can test
+     * the state using isDucked().
+     *
+     * @param enabled true&rarr;duck, false&rarr;unduck
+     */
+    public void setDucked(boolean enabled) {
+        if (enabled) {
+            setHeightPercent(duckedFactor);
+            ducked = true;
+            wantToUnDuck = false;
+        } else {
+            if (checkCanUnDuck()) {
+                setHeightPercent(1);
+                ducked = false;
+            } else {
+                wantToUnDuck = true;
+            }
+        }
+    }
+
+    /**
+     * Alter the height multiplier for ducking.
+     *
+     * @param factor the factor by which the height should be multiplied when
+     * ducking (&ge;0, &le;1)
+     */
+    public void setDuckedFactor(float factor) {
+        duckedFactor = factor;
+    }
+
+    /**
+     * Alter the gravity acting on this character. Note that this also realigns
+     * the local coordinate system of the character so that continuous changes
+     * in gravity direction are possible while maintaining a sensible control
+     * over the character.
+     *
+     * @param gravity an acceleration vector (not null, unaffected)
+     */
+    public void setGravity(Vector3f gravity) {
+        rigidBody.setGravity(gravity);
+        localUp.set(gravity).normalizeLocal().negateLocal();
+        updateLocalCoordinateSystem();
+    }
+
+    /**
+     * Alter the jump force. The jump force is local to the character's
+     * coordinate system, which normally is always z-forward (in world
+     * coordinates, parent coordinates when set to applyLocalPhysics)
+     *
+     * @param jumpForce the desired jump force (not null, unaffected,
+     * default=5*mass in +Y direction)
+     */
+    public void setJumpForce(Vector3f jumpForce) {
+        this.jumpForce.set(jumpForce);
+    }
+
+    /**
+     * Alter how much motion in the local X-Z plane is damped.
+     *
+     * @param physicsDamping the desired damping factor (0&rarr;no damping, 1=no
+     * external forces, default=0.9)
+     */
+    public void setPhysicsDamping(float physicsDamping) {
+        this.physicsDamping = physicsDamping;
+    }
+
+    /**
+     * Alter the character's view direction. Note this only defines the
+     * orientation in the local X-Z plane.
+     *
+     * @param vec a direction vector (not null, unaffected)
+     */
+    public void setViewDirection(Vector3f vec) {
+        viewDirection.set(vec);
+        updateLocalViewDirection();
+    }
+
+    /**
+     * Alter the character's the walk direction. This parameter is frame-rate
+     * independent and the character will move continuously in the direction
+     * given by the vector with the speed given by the vector length in m/s.
+     *
+     * @param vec The movement direction and speed in m/s
+     */
+    public void setWalkDirection(Vector3f vec) {
+        walkDirection.set(vec);
+    }
+
+    /**
+     * Move the character somewhere. Note the character also warps to the
+     * location of the spatial when the control is added.
+     *
+     * @param vec the desired character location (not null)
+     */
+    public void warp(Vector3f vec) {
+        setPhysicsLocation(vec);
+    }
+    // *************************************************************************
+    // AbstractPhysicsControl methods
+
+    /**
+     * Add all managed physics objects to the PhysicsSpace.
+     */
+    @Override
+    protected void addPhysics() {
+        PhysicsSpace space = getPhysicsSpace();
+        space.getGravity(localUp).normalizeLocal().negateLocal();
+        updateLocalCoordinateSystem();
+
+        space.addCollisionObject(rigidBody);
+        space.addTickListener(this);
+    }
+
+    /**
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned control into a deep-cloned one, using the specified cloner
+     * and original to resolve copied fields.
+     *
+     * @param cloner the cloner that's cloning this control (not null)
+     * @param original the control from which this control was shallow-cloned
+     * (unused)
+     */
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        super.cloneFields(cloner, original);
+
+        jumpForce = cloner.clone(jumpForce);
+        localForward = cloner.clone(localForward);
+        localForwardRotation = cloner.clone(localForwardRotation);
+        localLeft = cloner.clone(localLeft);
+        localUp = cloner.clone(localUp);
+        location = cloner.clone(location);
+        rigidBody = cloner.clone(rigidBody);
+        rotatedViewDirection = cloner.clone(rotatedViewDirection);
+        rotation = cloner.clone(rotation);
+        scale = cloner.clone(scale);
+        velocity = cloner.clone(velocity);
+        viewDirection = cloner.clone(viewDirection);
+        walkDirection = cloner.clone(walkDirection);
+    }
+
+    /**
+     * Create spatial-dependent data. Invoked when this control is added to a
+     * spatial.
+     *
+     * @param spat the controlled spatial (not null, alias created)
+     */
+    @Override
+    protected void createSpatialData(Spatial spat) {
+        rigidBody.setUserObject(spat);
+    }
+
+    /**
+     * Create a shallow clone for the JME cloner.
+     *
+     * @return a new instance
+     */
+    @Override
+    public BetterCharacterControl jmeClone() {
+        try {
+            BetterCharacterControl clone
+                    = (BetterCharacterControl) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    /**
+     * De-serialize this control, for example when loading from a J3O file.
+     *
+     * @param im importer (not null)
+     * @throws IOException from importer
+     */
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+        InputCapsule in = im.getCapsule(this);
+
+        radius = in.readFloat("radius", 1f);
+        height = in.readFloat("height", 2f);
+        mass = in.readFloat("mass", 80f);
+        jumpForce = (Vector3f) in.readSavable("jumpForce",
+                new Vector3f(0f, mass * 5f, 0f));
+        physicsDamping = in.readFloat("physicsDamping", 0.9f);
+        duckedFactor = in.readFloat("duckedFactor", 0.6f);
+        viewDirection = (Vector3f) in.readSavable("viewDirection",
+                new Vector3f(0f, 0f, 1f));
+        walkDirection = (Vector3f) in.readSavable("walkDirection",
+                new Vector3f(0f, 0f, 1f));
+        rigidBody = (PhysicsRigidBody) in.readSavable("body", null);
+    }
+
+    /**
+     * Remove all managed physics objects from the PhysicsSpace.
+     */
+    @Override
+    protected void removePhysics() {
+        PhysicsSpace space = getPhysicsSpace();
+        space.removeCollisionObject(rigidBody);
+        space.removeTickListener(this);
+    }
+
+    /**
+     * Destroy spatial-dependent data. Invoked when this control is removed from
+     * a spatial.
+     *
+     * @param spat the previously controlled spatial (not null)
+     */
+    @Override
+    protected void removeSpatialData(Spatial spat) {
+        rigidBody.setUserObject(null);
+    }
+
+    /**
+     * Render this control. Invoked once per view port per frame, provided the
+     * control is added to a scene. Should be invoked only by a subclass or by
+     * the RenderManager.
+     *
+     * @param rm the render manager (not null)
+     * @param vp the view port to render (not null)
+     */
+    @Override
+    public void render(RenderManager rm, ViewPort vp) {
+    }
+
+    /**
+     * Translate the character to the specified location.
+     *
+     * @param vec desired location (not null, unaffected)
+     */
+    @Override
+    protected void setPhysicsLocation(Vector3f vec) {
+        rigidBody.setPhysicsLocation(vec);
+        location.set(vec);
+    }
+
+    /**
+     * Rotate the physics object to the specified orientation.
+     * <p>
+     * We don't set the actual physics rotation but the view rotation here. It
+     * might actually be altered by the calculateNewForward method.
+     *
+     * @param quat desired orientation (not null, unaffected)
+     */
+    @Override
+    protected void setPhysicsRotation(Quaternion quat) {
+        rotation.set(quat);
+        rotation.multLocal(rotatedViewDirection.set(viewDirection));
+        updateLocalViewDirection();
+    }
 
     /**
      * Update this control. Invoked once per frame during the logical-state
@@ -192,15 +586,38 @@ public class BetterCharacterControl
     }
 
     /**
-     * Render this control. Invoked once per view port per frame, provided the
-     * control is added to a scene. Should be invoked only by a subclass or by
-     * the RenderManager.
+     * Serialize this control, for example when saving to a J3O file.
      *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
+     * @param ex exporter (not null)
+     * @throws IOException from exporter
      */
     @Override
-    public void render(RenderManager rm, ViewPort vp) {
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+        OutputCapsule oc = ex.getCapsule(this);
+
+        oc.write(radius, "radius", 1f);
+        oc.write(height, "height", 2f);
+        oc.write(mass, "mass", 80f);
+        oc.write(jumpForce, "jumpForce", null);
+        oc.write(physicsDamping, "physicsDamping", 0.9f);
+        oc.write(duckedFactor, "duckedFactor", 0.6f);
+        oc.write(viewDirection, "viewDirection", null);
+        oc.write(walkDirection, "walkDirection", null);
+        oc.write(rigidBody, "body", null);
+    }
+    // *************************************************************************
+    // PhysicsTickListener methods
+
+    /**
+     * Callback from Bullet, invoked just after the physics has been stepped.
+     *
+     * @param space the space that was just stepped (not null)
+     * @param tpf the time per physics step (in seconds, &ge;0)
+     */
+    @Override
+    public void physicsTick(PhysicsSpace space, float tpf) {
+        rigidBody.getLinearVelocity(velocity);
     }
 
     /**
@@ -258,373 +675,8 @@ public class BetterCharacterControl
         }
         vars.release();
     }
-
-    /**
-     * Callback from Bullet, invoked just after the physics has been stepped.
-     *
-     * @param space the space that was just stepped (not null)
-     * @param tpf the time per physics step (in seconds, &ge;0)
-     */
-    @Override
-    public void physicsTick(PhysicsSpace space, float tpf) {
-        rigidBody.getLinearVelocity(velocity);
-    }
-
-    /**
-     * Move the character somewhere. Note the character also warps to the
-     * location of the spatial when the control is added.
-     *
-     * @param vec the desired character location (not null)
-     */
-    public void warp(Vector3f vec) {
-        setPhysicsLocation(vec);
-    }
-
-    /**
-     * Makes the character jump with the set jump force.
-     */
-    public void jump() {
-        //TODO: debounce over some frames
-        if (!onGround) {
-            return;
-        }
-        jump = true;
-    }
-
-    /**
-     * Alter the jump force. The jump force is local to the character's
-     * coordinate system, which normally is always z-forward (in world
-     * coordinates, parent coordinates when set to applyLocalPhysics)
-     *
-     * @param jumpForce the desired jump force (not null, unaffected,
-     * default=5*mass in +Y direction)
-     */
-    public void setJumpForce(Vector3f jumpForce) {
-        this.jumpForce.set(jumpForce);
-    }
-
-    /**
-     * Access the jump force.
-     *
-     * @return the pre-existing vector (not null) TODO
-     */
-    public Vector3f getJumpForce() {
-        return jumpForce;
-    }
-
-    /**
-     * Test whether the character is supported. Uses a ray test from the center
-     * of the character and might return false even if the character is not
-     * falling yet.
-     *
-     * @return true if supported, otherwise false
-     */
-    public boolean isOnGround() {
-        return onGround;
-    }
-
-    /**
-     * Toggle character ducking. When ducked the characters capsule collision
-     * shape height will be multiplied by duckedFactor to make the capsule
-     * smaller. When unducking, the character will check with a ray test if it
-     * can in fact unduck and only do so when its possible. You can test the
-     * state using isDucked().
-     *
-     * @param enabled true&rarr;duck, false&rarr;unduck
-     */
-    public void setDucked(boolean enabled) {
-        if (enabled) {
-            setHeightPercent(duckedFactor);
-            ducked = true;
-            wantToUnDuck = false;
-        } else {
-            if (checkCanUnDuck()) {
-                setHeightPercent(1);
-                ducked = false;
-            } else {
-                wantToUnDuck = true;
-            }
-        }
-    }
-
-    /**
-     * Check if the character is ducking, either due to user input or due to
-     * unducking being impossible at the moment (obstacle above).
-     *
-     * @return true if ducking, otherwise false
-     */
-    public boolean isDucked() {
-        return ducked;
-    }
-
-    /**
-     * Alter the height multiplier for ducking.
-     *
-     * @param factor the factor by which the height should be multiplied when
-     * ducking (&ge;0, &le;1)
-     */
-    public void setDuckedFactor(float factor) {
-        duckedFactor = factor;
-    }
-
-    /**
-     * Read the height multiplier for ducking.
-     *
-     * @return the factor (&ge;0, &le;1)
-     */
-    public float getDuckedFactor() {
-        return duckedFactor;
-    }
-
-    /**
-     * Access the rigid body managed by this control.
-     *
-     * @return the pre-existing rigid body (not null)
-     */
-    public PhysicsRigidBody getRigidBody() {
-        assert rigidBody != null;
-        return rigidBody;
-    }
-
-    /**
-     * Alter the character's the walk direction. This parameter is frame-rate
-     * independent and the character will move continuously in the direction
-     * given by the vector with the speed given by the vector length in m/s.
-     *
-     * @param vec The movement direction and speed in m/s
-     */
-    public void setWalkDirection(Vector3f vec) {
-        walkDirection.set(vec);
-    }
-
-    /**
-     * Read the walk velocity. The length of the vector defines the speed.
-     *
-     * @return the pre-existing vector (not null) TODO
-     */
-    public Vector3f getWalkDirection() {
-        return walkDirection;
-    }
-
-    /**
-     * Alter the character's view direction. Note this only defines the
-     * orientation in the local X-Z plane.
-     *
-     * @param vec a direction vector (not null, unaffected)
-     */
-    public void setViewDirection(Vector3f vec) {
-        viewDirection.set(vec);
-        updateLocalViewDirection();
-    }
-
-    /**
-     * Access the view direction. This need not agree with the spatial's forward
-     * direction.
-     *
-     * @return the pre-existing vector (not null) TODO
-     */
-    public Vector3f getViewDirection() {
-        return viewDirection;
-    }
-
-    /**
-     * Realign the local forward vector to given direction vector, if null is
-     * supplied Vector3f.UNIT_Z is used. The input vector must be perpendicular
-     * to gravity vector. This normally only needs to be invoked when the
-     * gravity direction changed continuously and the local forward vector is
-     * off due to drift. E.g. after walking around on a sphere "planet" for a
-     * while and then going back to a Y-up coordinate system the local Z-forward
-     * might not be 100% aligned with the Z axis.
-     *
-     * @param vec the desired forward vector (perpendicular to the gravity
-     * vector, may be null, default=0,0,1)
-     */
-    public void resetForward(Vector3f vec) {
-        if (vec == null) {
-            localForward.set(Vector3f.UNIT_Z);
-        } else {
-            localForward.set(vec);
-        }
-        updateLocalCoordinateSystem();
-    }
-
-    /**
-     * Access the character's linear velocity.
-     *
-     * @return the pre-existing vector (not null) TODO
-     */
-    public Vector3f getVelocity() {
-        return velocity;
-    }
-
-    /**
-     * Alter the gravity acting on this character. Note that this also realigns
-     * the local coordinate system of the character so that continuous changes
-     * in gravity direction are possible while maintaining a sensible control
-     * over the character.
-     *
-     * @param gravity an acceleration vector (not null, unaffected)
-     */
-    public void setGravity(Vector3f gravity) {
-        rigidBody.setGravity(gravity);
-        localUp.set(gravity).normalizeLocal().negateLocal();
-        updateLocalCoordinateSystem();
-    }
-
-    /**
-     * Copy the character's gravity vector. TODO remove
-     *
-     * @return a new acceleration vector (not null)
-     */
-    public Vector3f getGravity() {
-        return rigidBody.getGravity(null);
-    }
-
-    /**
-     * Copy the character's gravity vector.
-     *
-     * @param store storage for the result (modified if not null)
-     * @return an acceleration vector (either the provided storage or a new
-     * vector, not null)
-     */
-    public Vector3f getGravity(Vector3f store) {
-        return rigidBody.getGravity(store);
-    }
-
-    /**
-     * Alter how much motion in the local X-Z plane is damped.
-     *
-     * @param physicsDamping the desired damping factor (0&rarr;no damping, 1=no
-     * external forces, default=0.9)
-     */
-    public void setPhysicsDamping(float physicsDamping) {
-        this.physicsDamping = physicsDamping;
-    }
-
-    /**
-     * Read how much motion in the local X-Z plane is damped.
-     *
-     * @return the damping factor (0&rarr;no damping, 1=no external forces)
-     */
-    public float getPhysicsDamping() {
-        return physicsDamping;
-    }
-
-    /**
-     * Alter the height of the CollisionShape.
-     *
-     * @param percent the desired height, as a percentage of the full height
-     */
-    protected void setHeightPercent(float percent) {
-        scale.setY(percent);
-        rigidBody.setCollisionShape(getShape());
-    }
-
-    /**
-     * Test whether the character is on the ground, by means of a ray test.
-     */
-    protected void checkOnGround() {
-        TempVars vars = TempVars.get();
-        Vector3f loc = vars.vect1;
-        Vector3f rayVector = vars.vect2;
-        float height = getFinalHeight();
-        loc.set(localUp).multLocal(height).addLocal(this.location);
-        rayVector.set(localUp).multLocal(-height - 0.1f).addLocal(loc);
-        List<PhysicsRayTestResult> results
-                = getPhysicsSpace().rayTest(loc, rayVector);
-        vars.release();
-        for (PhysicsRayTestResult physicsRayTestResult : results) {
-            if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
-                onGround = true;
-                return;
-            }
-        }
-        onGround = false;
-    }
-
-    /**
-     * This checks if the character can go from ducked to unducked state by
-     * doing a ray test.
-     *
-     * @return true if able to unduck, otherwise false
-     */
-    protected boolean checkCanUnDuck() {
-        TempVars vars = TempVars.get();
-        Vector3f loc = vars.vect1;
-        Vector3f rayVector = vars.vect2;
-        loc.set(localUp).multLocal(FastMath.ZERO_TOLERANCE).addLocal(this.location);
-        rayVector.set(localUp).multLocal(height + FastMath.ZERO_TOLERANCE).addLocal(loc);
-        List<PhysicsRayTestResult> results
-                = getPhysicsSpace().rayTest(loc, rayVector);
-        vars.release();
-        for (PhysicsRayTestResult physicsRayTestResult : results) {
-            if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Create a CollisionShape based on the scale parameter. The new shape is a
-     * compound shape containing a capsule.
-     *
-     * @return a new compound shape (not null)
-     */
-    protected CollisionShape getShape() {
-        //TODO: cleanup size mess..
-        CapsuleCollisionShape capsuleCollisionShape
-                = new CapsuleCollisionShape(getFinalRadius(),
-                        (getFinalHeight() - (2f * getFinalRadius())));
-        CompoundCollisionShape compoundCollisionShape
-                = new CompoundCollisionShape();
-        Vector3f addLocation = new Vector3f(0f, (getFinalHeight() / 2f), 0f);
-        compoundCollisionShape.addChildShape(
-                capsuleCollisionShape, addLocation);
-
-        return compoundCollisionShape;
-    }
-
-    /**
-     * Calculate the character's scaled height.
-     *
-     * @return the height
-     */
-    protected float getFinalHeight() {
-        return height * scale.getY();
-    }
-
-    /**
-     * Calculate the character's scaled radius.
-     *
-     * @return the radius
-     */
-    protected float getFinalRadius() {
-        return radius * scale.getZ();
-    }
-
-    /**
-     * Updates the local coordinate system from the localForward and localUp
-     * vectors, adapts localForward, sets localForwardRotation quaternion to
-     * local Z-forward rotation.
-     */
-    protected void updateLocalCoordinateSystem() {
-        //gravity vector has possibly changed, calculate new world forward (UNIT_Z)
-        calculateNewForward(localForwardRotation, localForward, localUp);
-        localLeft.set(localUp).crossLocal(localForward);
-        rigidBody.setPhysicsRotation(localForwardRotation);
-        updateLocalViewDirection();
-    }
-
-    /**
-     * Updates the local X-Z view direction and the corresponding rotation
-     * quaternion for the spatial.
-     */
-    protected void updateLocalViewDirection() {
-        //update local rotation quaternion to use for view rotation
-        localForwardRotation.multLocal(rotatedViewDirection.set(viewDirection));
-        calculateNewForward(rotation, rotatedViewDirection, localUp);
-    }
+    // *************************************************************************
+    // new protected methods
 
     /**
      * This method works similar to Camera.lookAt but where lookAt sets the
@@ -672,164 +724,119 @@ public class BetterCharacterControl
     }
 
     /**
-     * Translate the character to the specified location.
+     * This checks if the character can go from ducked to unducked state by
+     * doing a ray test.
      *
-     * @param vec desired location (not null, unaffected)
+     * @return true if able to unduck, otherwise false
      */
-    @Override
-    protected void setPhysicsLocation(Vector3f vec) {
-        rigidBody.setPhysicsLocation(vec);
-        location.set(vec);
+    protected boolean checkCanUnDuck() {
+        TempVars vars = TempVars.get();
+        Vector3f loc = vars.vect1;
+        Vector3f rayVector = vars.vect2;
+        loc.set(localUp).multLocal(FastMath.ZERO_TOLERANCE).addLocal(this.location);
+        rayVector.set(localUp).multLocal(height + FastMath.ZERO_TOLERANCE).addLocal(loc);
+        List<PhysicsRayTestResult> results
+                = getPhysicsSpace().rayTest(loc, rayVector);
+        vars.release();
+        for (PhysicsRayTestResult physicsRayTestResult : results) {
+            if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
-     * Rotate the physics object to the specified orientation.
-     * <p>
-     * We don't set the actual physics rotation but the view rotation here. It
-     * might actually be altered by the calculateNewForward method.
-     *
-     * @param quat desired orientation (not null, unaffected)
+     * Test whether the character is on the ground, by means of a ray test.
      */
-    @Override
-    protected void setPhysicsRotation(Quaternion quat) {
-        rotation.set(quat);
-        rotation.multLocal(rotatedViewDirection.set(viewDirection));
+    protected void checkOnGround() {
+        TempVars vars = TempVars.get();
+        Vector3f loc = vars.vect1;
+        Vector3f rayVector = vars.vect2;
+        float height = getFinalHeight();
+        loc.set(localUp).multLocal(height).addLocal(this.location);
+        rayVector.set(localUp).multLocal(-height - 0.1f).addLocal(loc);
+        List<PhysicsRayTestResult> results
+                = getPhysicsSpace().rayTest(loc, rayVector);
+        vars.release();
+        for (PhysicsRayTestResult physicsRayTestResult : results) {
+            if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
+                onGround = true;
+                return;
+            }
+        }
+        onGround = false;
+    }
+
+    /**
+     * Calculate the character's scaled height.
+     *
+     * @return the height
+     */
+    protected float getFinalHeight() {
+        return height * scale.getY();
+    }
+
+    /**
+     * Calculate the character's scaled radius.
+     *
+     * @return the radius
+     */
+    protected float getFinalRadius() {
+        return radius * scale.getZ();
+    }
+
+    /**
+     * Create a CollisionShape based on the scale parameter. The new shape is a
+     * compound shape containing a capsule.
+     *
+     * @return a new compound shape (not null)
+     */
+    protected CollisionShape getShape() {
+        //TODO: cleanup size mess..
+        CapsuleCollisionShape capsuleCollisionShape
+                = new CapsuleCollisionShape(getFinalRadius(),
+                        (getFinalHeight() - (2f * getFinalRadius())));
+        CompoundCollisionShape compoundCollisionShape
+                = new CompoundCollisionShape();
+        Vector3f addLocation = new Vector3f(0f, (getFinalHeight() / 2f), 0f);
+        compoundCollisionShape.addChildShape(
+                capsuleCollisionShape, addLocation);
+
+        return compoundCollisionShape;
+    }
+
+    /**
+     * Alter the height of the CollisionShape.
+     *
+     * @param percent the desired height, as a percentage of the full height
+     */
+    protected void setHeightPercent(float percent) {
+        scale.setY(percent);
+        rigidBody.setCollisionShape(getShape());
+    }
+
+    /**
+     * Updates the local coordinate system from the localForward and localUp
+     * vectors, adapts localForward, sets localForwardRotation quaternion to
+     * local Z-forward rotation.
+     */
+    protected void updateLocalCoordinateSystem() {
+        //gravity vector has possibly changed, calculate new world forward (UNIT_Z)
+        calculateNewForward(localForwardRotation, localForward, localUp);
+        localLeft.set(localUp).crossLocal(localForward);
+        rigidBody.setPhysicsRotation(localForwardRotation);
         updateLocalViewDirection();
     }
 
     /**
-     * Add all managed physics objects to the PhysicsSpace.
+     * Updates the local X-Z view direction and the corresponding rotation
+     * quaternion for the spatial.
      */
-    @Override
-    protected void addPhysics() {
-        PhysicsSpace space = getPhysicsSpace();
-        space.getGravity(localUp).normalizeLocal().negateLocal();
-        updateLocalCoordinateSystem();
-
-        space.addCollisionObject(rigidBody);
-        space.addTickListener(this);
+    protected void updateLocalViewDirection() {
+        //update local rotation quaternion to use for view rotation
+        localForwardRotation.multLocal(rotatedViewDirection.set(viewDirection));
+        calculateNewForward(rotation, rotatedViewDirection, localUp);
     }
 
-    /**
-     * Remove all managed physics objects from the PhysicsSpace.
-     */
-    @Override
-    protected void removePhysics() {
-        PhysicsSpace space = getPhysicsSpace();
-        space.removeCollisionObject(rigidBody);
-        space.removeTickListener(this);
-    }
-
-    /**
-     * Create spatial-dependent data. Invoked when this control is added to a
-     * spatial.
-     *
-     * @param spat the controlled spatial (not null, alias created)
-     */
-    @Override
-    protected void createSpatialData(Spatial spat) {
-        rigidBody.setUserObject(spat);
-    }
-
-    /**
-     * Destroy spatial-dependent data. Invoked when this control is removed from
-     * a spatial.
-     *
-     * @param spat the previously controlled spatial (not null)
-     */
-    @Override
-    protected void removeSpatialData(Spatial spat) {
-        rigidBody.setUserObject(null);
-    }
-
-    /**
-     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified cloner
-     * and original to resolve copied fields.
-     *
-     * @param cloner the cloner that's cloning this control (not null)
-     * @param original the control from which this control was shallow-cloned
-     * (unused)
-     */
-    @Override
-    public void cloneFields(Cloner cloner, Object original) {
-        super.cloneFields(cloner, original);
-
-        jumpForce = cloner.clone(jumpForce);
-        localForward = cloner.clone(localForward);
-        localForwardRotation = cloner.clone(localForwardRotation);
-        localLeft = cloner.clone(localLeft);
-        localUp = cloner.clone(localUp);
-        location = cloner.clone(location);
-        rigidBody = cloner.clone(rigidBody);
-        rotatedViewDirection = cloner.clone(rotatedViewDirection);
-        rotation = cloner.clone(rotation);
-        scale = cloner.clone(scale);
-        velocity = cloner.clone(velocity);
-        viewDirection = cloner.clone(viewDirection);
-        walkDirection = cloner.clone(walkDirection);
-    }
-
-    /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public BetterCharacterControl jmeClone() {
-        try {
-            BetterCharacterControl clone
-                    = (BetterCharacterControl) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
-     * Serialize this control, for example when saving to a J3O file.
-     *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
-     */
-    @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule oc = ex.getCapsule(this);
-
-        oc.write(radius, "radius", 1f);
-        oc.write(height, "height", 2f);
-        oc.write(mass, "mass", 80f);
-        oc.write(jumpForce, "jumpForce", null);
-        oc.write(physicsDamping, "physicsDamping", 0.9f);
-        oc.write(duckedFactor, "duckedFactor", 0.6f);
-        oc.write(viewDirection, "viewDirection", null);
-        oc.write(walkDirection, "walkDirection", null);
-        oc.write(rigidBody, "body", null);
-    }
-
-    /**
-     * De-serialize this control, for example when loading from a J3O file.
-     *
-     * @param im importer (not null)
-     * @throws IOException from importer
-     */
-    @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule in = im.getCapsule(this);
-
-        radius = in.readFloat("radius", 1f);
-        height = in.readFloat("height", 2f);
-        mass = in.readFloat("mass", 80f);
-        jumpForce = (Vector3f) in.readSavable("jumpForce",
-                new Vector3f(0f, mass * 5f, 0f));
-        physicsDamping = in.readFloat("physicsDamping", 0.9f);
-        duckedFactor = in.readFloat("duckedFactor", 0.6f);
-        viewDirection = (Vector3f) in.readSavable("viewDirection",
-                new Vector3f(0f, 0f, 1f));
-        walkDirection = (Vector3f) in.readSavable("walkDirection",
-                new Vector3f(0f, 0f, 1f));
-        rigidBody = (PhysicsRigidBody) in.readSavable("body", null);
-    }
 }
