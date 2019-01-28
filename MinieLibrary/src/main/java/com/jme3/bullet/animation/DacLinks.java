@@ -305,7 +305,7 @@ public class DacLinks extends DacConfiguration {
     /**
      * Enumerate all the rigid bodies managed by this control.
      *
-     * @return a new array of rigid bodies (not null, not empty)
+     * @return a new array of pre-existing rigid bodies (not null, not empty)
      */
     public PhysicsRigidBody[] listRigidBodies() {
         int numLinks = countLinks();

@@ -170,7 +170,8 @@ abstract public class PhysicsCollisionObject
      */
     private Material debugMaterial = null;
     /**
-     * associated user object
+     * scene object that uses this collision object, typically a PhysicsControl,
+     * PhysicsLink, or Spatial
      */
     private Object userObject;
     // *************************************************************************
@@ -307,7 +308,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Access the user object associated with this collision object.
+     * Access the scene object that uses this collision object.
      *
      * @return the pre-existing instance, or null if none
      */
@@ -461,10 +462,9 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Associate a user object (such as a Spatial) with this collision object.
+     * Alter which scene object uses this collision object.
      *
-     * @param userObject the object to associate with this collision object
-     * (alias created, may be null)
+     * @param userObject the desired scene object (alias created, may be null)
      */
     public void setUserObject(Object userObject) {
         this.userObject = userObject;
