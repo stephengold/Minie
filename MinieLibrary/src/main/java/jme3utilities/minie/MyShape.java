@@ -73,49 +73,6 @@ public class MyShape {
     // new methods exposed
 
     /**
-     * Determine the main axis of the specified shape, provided it's a capsule,
-     * cone, or cylinder. TODO re-order methods
-     *
-     * @param shape (may be null, unaffected)
-     * @return 0&rarr;X, 1&rarr;Y, 2&rarr;Z, -1&rarr;doesn't have a main axis
-     */
-    public static int mainAxisIndex(CollisionShape shape) {
-        int result = -1;
-        if (shape instanceof CapsuleCollisionShape) {
-            CapsuleCollisionShape capsule = (CapsuleCollisionShape) shape;
-            result = capsule.getAxis();
-
-        } else if (shape instanceof ConeCollisionShape) {
-            ConeCollisionShape cone = (ConeCollisionShape) shape;
-            result = cone.getAxis();
-
-        } else if (shape instanceof CylinderCollisionShape) {
-            CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
-            result = cylinder.getAxis();
-        }
-
-        return result;
-    }
-
-    /**
-     * Generate the name for a shape, consisting of its type and ID, separated
-     * by a colon.
-     *
-     * @param shape the shape to name (not null, unaffected)
-     * @return the name (not null, not empty)
-     */
-    public static String name(CollisionShape shape) {
-        Validate.nonNull(shape, "shape");
-
-        String type = describeType(shape);
-        type = type.toLowerCase(Locale.ROOT);
-        long id = shape.getObjectId();
-        String result = String.format("%s:%x", type, id);
-
-        return result;
-    }
-
-    /**
      * Describe the type of a shape.
      *
      * @param shape the shape to describe (not null, unaffected)
@@ -274,6 +231,49 @@ public class MyShape {
         }
 
         assert Float.isNaN(result) || result >= 0f : result;
+        return result;
+    }
+
+    /**
+     * Determine the main axis of the specified shape, provided it's a capsule,
+     * cone, or cylinder.
+     *
+     * @param shape (may be null, unaffected)
+     * @return 0&rarr;X, 1&rarr;Y, 2&rarr;Z, -1&rarr;doesn't have a main axis
+     */
+    public static int mainAxisIndex(CollisionShape shape) {
+        int result = -1;
+        if (shape instanceof CapsuleCollisionShape) {
+            CapsuleCollisionShape capsule = (CapsuleCollisionShape) shape;
+            result = capsule.getAxis();
+
+        } else if (shape instanceof ConeCollisionShape) {
+            ConeCollisionShape cone = (ConeCollisionShape) shape;
+            result = cone.getAxis();
+
+        } else if (shape instanceof CylinderCollisionShape) {
+            CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
+            result = cylinder.getAxis();
+        }
+
+        return result;
+    }
+
+    /**
+     * Generate the name for a shape, consisting of its type and ID, separated
+     * by a colon.
+     *
+     * @param shape the shape to name (not null, unaffected)
+     * @return the name (not null, not empty)
+     */
+    public static String name(CollisionShape shape) {
+        Validate.nonNull(shape, "shape");
+
+        String type = describeType(shape);
+        type = type.toLowerCase(Locale.ROOT);
+        long id = shape.getObjectId();
+        String result = String.format("%s:%x", type, id);
+
         return result;
     }
 
