@@ -33,6 +33,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
@@ -83,13 +84,15 @@ public class MyShape {
         if (description.endsWith("CollisionShape")) {
             description = MyString.removeSuffix(description, "CollisionShape");
         }
+        if (description.endsWith("Shape")) {
+            description = MyString.removeSuffix(description, "Shape");
+        }
 
         return description;
     }
 
     /**
-     * Calculate the un-scaled half extents of the specified shape, which must
-     * be a box, capsule, cone, cylinder, or sphere.
+     * Calculate the un-scaled half extents of the specified shape.
      *
      * @param shape (not null, unaffected)
      * @param storeResult (modified if not null)
@@ -605,6 +608,9 @@ public class MyShape {
             CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
             Vector3f halfExtents = cylinder.getHalfExtents(null);
             volume *= MyVolume.cylinderVolume(halfExtents);
+
+        } else if (shape instanceof EmptyShape) {
+            volume = 0f;
 
         } else if (shape instanceof HullCollisionShape) {
             HullCollisionShape hull = (HullCollisionShape) shape;
