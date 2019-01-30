@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017-2018, Stephen Gold
+ Copyright (c) 2017-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -121,7 +121,7 @@ public class MyObject {
     }
 
     /**
-     * Generate a name for the specified physics object.
+     * Generate a name for the specified collision object.
      *
      * @param pco object to name (not null, unaffected)
      * @return the name (not null, not empty)
@@ -146,5 +146,25 @@ public class MyObject {
         }
 
         return name;
+    }
+
+    /**
+     * Parse the ID of a collision object from its name.
+     *
+     * @param name the input text (not null, length&gt;5)
+     * @return the object's ID
+     *
+     * @see #objectName(com.jme3.bullet.collision.PhysicsCollisionObject)
+     */
+    public static long parseId(String name) {
+        Validate.nonEmpty(name, "name");
+
+        if (name.length() <= 5) {
+            throw new IllegalArgumentException("name=" + MyString.quote(name));
+        }
+        String decimal = name.substring(5);
+        long result = Long.parseLong(decimal);
+
+        return result;
     }
 }
