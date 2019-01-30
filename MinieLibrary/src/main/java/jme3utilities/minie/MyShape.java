@@ -280,16 +280,18 @@ public class MyShape {
     /**
      * Parse the ID of a shape from its name.
      *
-     * @param name the input text (not null, not empty)
+     * @param name the input text (not null, not empty, exactly one colon)
      * @return the shape's ID
      *
      * @see #name(com.jme3.bullet.collision.shapes.CollisionShape)
      */
-    public static long parseShapeId(String name) {
+    public static long parseId(String name) {
         Validate.nonEmpty(name, "name");
 
         String[] parts = name.split(":");
-        assert parts.length == 2 : parts.length;
+        if (parts.length != 2) {
+            throw new IllegalArgumentException(MyString.quote(name));
+        }
         String hexadecimal = parts[1];
         long result = Long.parseLong(hexadecimal, 16);
 
