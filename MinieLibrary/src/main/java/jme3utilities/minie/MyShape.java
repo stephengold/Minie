@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2018, Stephen Gold
+ Copyright (c) 2014-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -74,12 +74,12 @@ public class MyShape {
 
     /**
      * Determine the main axis of the specified shape, provided it's a capsule,
-     * cone, or cylinder.
+     * cone, or cylinder. TODO re-order methods
      *
      * @param shape (may be null, unaffected)
-     * @return 0&rarr;X, 1&rarr;Y, 2&rarr;Z, -1&rarr;doesn't have an axis
+     * @return 0&rarr;X, 1&rarr;Y, 2&rarr;Z, -1&rarr;doesn't have a main axis
      */
-    public static int axisIndex(CollisionShape shape) {
+    public static int mainAxisIndex(CollisionShape shape) {
         int result = -1;
         if (shape instanceof CapsuleCollisionShape) {
             CapsuleCollisionShape capsule = (CapsuleCollisionShape) shape;
@@ -98,8 +98,8 @@ public class MyShape {
     }
 
     /**
-     * Generate a brief textual description of a shape, consisting of its type
-     * and ID.
+     * Generate a brief name for a shape, consisting of its type and ID,
+     * separated by a colon. TODO rename name()
      *
      * @param shape instance to describe (not null, unaffected)
      * @return description (not null, not empty)
@@ -153,7 +153,7 @@ public class MyShape {
             float height = capsule.getHeight();
             float radius = capsule.getRadius();
             float axisHalfExtent = height / 2f + radius;
-            int axisIndex = axisIndex(shape);
+            int axisIndex = mainAxisIndex(shape);
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
                     result.set(axisHalfExtent, radius, radius);
@@ -174,7 +174,7 @@ public class MyShape {
             float height = cone.getHeight();
             float radius = cone.getRadius();
             float axisHalfExtent = height / 2f;
-            int axisIndex = axisIndex(shape);
+            int axisIndex = mainAxisIndex(shape);
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
                     result.set(axisHalfExtent, radius, radius);
@@ -246,7 +246,7 @@ public class MyShape {
 
         } else if (shape instanceof CylinderCollisionShape) {
             Vector3f halfExtents = halfExtents(shape, null);
-            int axisIndex = axisIndex(shape);
+            int axisIndex = mainAxisIndex(shape);
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
                     result = halfExtents.x;
@@ -317,7 +317,7 @@ public class MyShape {
 
         } else if (shape instanceof CylinderCollisionShape) {
             Vector3f halfExtents = halfExtents(shape, null);
-            int axisIndex = axisIndex(shape);
+            int axisIndex = mainAxisIndex(shape);
             float r1, r2;
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
@@ -373,7 +373,7 @@ public class MyShape {
 
         } else if (oldShape instanceof CapsuleCollisionShape
                 || oldShape instanceof ConeCollisionShape) {
-            int axisIndex = axisIndex(oldShape);
+            int axisIndex = mainAxisIndex(oldShape);
             float axisHalfExtent, radius1, radius2;
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
@@ -407,7 +407,7 @@ public class MyShape {
             }
 
         } else if (oldShape instanceof CylinderCollisionShape) {
-            int axisIndex = axisIndex(oldShape);
+            int axisIndex = mainAxisIndex(oldShape);
             result = new CylinderCollisionShape(newHalfExtents, axisIndex);
 
         } else if (oldShape instanceof SphereCollisionShape) {
@@ -449,17 +449,17 @@ public class MyShape {
 
         } else if (oldShape instanceof CapsuleCollisionShape) {
             float radius = radius(oldShape);
-            int axisIndex = axisIndex(oldShape);
+            int axisIndex = mainAxisIndex(oldShape);
             result = new CapsuleCollisionShape(radius, newHeight, axisIndex);
 
         } else if (oldShape instanceof ConeCollisionShape) {
             float radius = radius(oldShape);
-            int axisIndex = axisIndex(oldShape);
+            int axisIndex = mainAxisIndex(oldShape);
             result = new ConeCollisionShape(radius, newHeight, axisIndex);
 
         } else if (oldShape instanceof CylinderCollisionShape) {
             Vector3f halfExtents = halfExtents(oldShape, null);
-            int axisIndex = axisIndex(oldShape);
+            int axisIndex = mainAxisIndex(oldShape);
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
                     halfExtents.x = newHeight;
@@ -512,18 +512,18 @@ public class MyShape {
             result = new BoxCollisionShape(halfExtents);
 
         } else if (oldShape instanceof CapsuleCollisionShape) {
-            int axisIndex = axisIndex(oldShape);
+            int axisIndex = mainAxisIndex(oldShape);
             float height = height(oldShape);
             result = new CapsuleCollisionShape(newRadius, height, axisIndex);
 
         } else if (oldShape instanceof ConeCollisionShape) {
-            int axisIndex = axisIndex(oldShape);
+            int axisIndex = mainAxisIndex(oldShape);
             float height = height(oldShape);
             result = new ConeCollisionShape(newRadius, height, axisIndex);
 
         } else if (oldShape instanceof CylinderCollisionShape) {
             Vector3f halfExtents = halfExtents(oldShape, null);
-            int axisIndex = axisIndex(oldShape);
+            int axisIndex = mainAxisIndex(oldShape);
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
                     halfExtents.y = newRadius;
