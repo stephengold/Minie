@@ -257,10 +257,14 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Read this body's angular damping.
      *
-     * @return damping value
+     * @return the damping fraction (&ge;0, &le;1)
      */
     public float getAngularDamping() {
-        return getAngularDamping(objectId);
+        float result = getAngularDamping(objectId);
+
+        assert result >= 0f : result;
+        assert result <= 1f : result;
+        return result;
     }
 
     /**
@@ -354,10 +358,14 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Read this body's linear damping.
      *
-     * @return damping value
+     * @return the damping fraction (&ge;0, &le;1)
      */
     public float getLinearDamping() {
-        return getLinearDamping(objectId);
+        float result = getLinearDamping(objectId);
+
+        assert result >= 0f : result;
+        assert result <= 1f : result;
+        return result;
     }
 
     /**
@@ -585,9 +593,11 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Alter this body's angular damping.
      *
-     * @param angularDamping the desired angular damping value (default=0)
+     * @param angularDamping the desired angular damping fraction (&ge;0, &le;1,
+     * default=0)
      */
     public void setAngularDamping(float angularDamping) {
+        Validate.fraction(angularDamping, "angular damping");
         setAngularDamping(objectId, angularDamping);
     }
 
@@ -677,10 +687,14 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Alter this body's damping.
      *
-     * @param linearDamping the desired linear damping value (default=0)
-     * @param angularDamping the desired angular damping value (default=0)
+     * @param linearDamping the desired linear damping fraction (&ge;0, &le;1,
+     * default=0)
+     * @param angularDamping the desired angular damping fraction (&ge;0, &le;1,
+     * default=0)
      */
     public void setDamping(float linearDamping, float angularDamping) {
+        Validate.fraction(linearDamping, "linear damping");
+        Validate.fraction(angularDamping, "angular damping");
         setDamping(objectId, linearDamping, angularDamping);
     }
 
@@ -739,10 +753,13 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Alter this body's linear damping.
      *
-     * @param linearDamping the desired linear damping value (default=0)
+     * @param linearDamping the desired linear damping fraction (&ge;0, &le;1,
+     * default=0)
      */
     public void setLinearDamping(float linearDamping) {
-        setDamping(objectId, linearDamping, getAngularDamping());
+        Validate.fraction(linearDamping, "linear damping");
+        float angularDamping = getAngularDamping();
+        setDamping(objectId, linearDamping, angularDamping);
     }
 
     /**
@@ -1150,7 +1167,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     native private boolean isInWorld(long objectId);
 
-    native private void setAngularDamping(long objectId, float factor);
+    native private void setAngularDamping(long objectId, float dampingFraction);
 
     native private void setAngularFactor(long objectId, Vector3f factor);
 
@@ -1158,8 +1175,8 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     native private void setCollisionShape(long objectId, long collisionShapeId);
 
-    native private void setDamping(long objectId, float linearDamping,
-            float angularDamping);
+    native private void setDamping(long objectId, float linear,
+            float angular);
 
     native private void setFriction(long objectId, float friction);
 
