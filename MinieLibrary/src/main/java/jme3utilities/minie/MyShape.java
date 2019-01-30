@@ -98,13 +98,13 @@ public class MyShape {
     }
 
     /**
-     * Generate a brief name for a shape, consisting of its type and ID,
-     * separated by a colon. TODO rename name()
+     * Generate the name for a shape, consisting of its type and ID, separated
+     * by a colon.
      *
-     * @param shape instance to describe (not null, unaffected)
-     * @return description (not null, not empty)
+     * @param shape the shape to name (not null, unaffected)
+     * @return the name (not null, not empty)
      */
-    public static String describe(CollisionShape shape) {
+    public static String name(CollisionShape shape) {
         Validate.nonNull(shape, "shape");
 
         String type = describeType(shape);
@@ -118,8 +118,8 @@ public class MyShape {
     /**
      * Describe the type of a shape.
      *
-     * @param shape instance to describe (not null, unaffected)
-     * @return description (not null)
+     * @param shape the shape to describe (not null, unaffected)
+     * @return the type description (not null)
      */
     public static String describeType(CollisionShape shape) {
         String description = shape.getClass().getSimpleName();
@@ -278,17 +278,17 @@ public class MyShape {
     }
 
     /**
-     * Parse the ID of a shape from its description.
+     * Parse the ID of a shape from its name.
      *
-     * @param description input text (not null, not empty)
+     * @param name the input text (not null, not empty)
      * @return the shape's ID
      *
-     * @see #describe(com.jme3.bullet.collision.shapes.CollisionShape)
+     * @see #name(com.jme3.bullet.collision.shapes.CollisionShape)
      */
-    public static long parseShapeId(String description) {
-        Validate.nonEmpty(description, "description");
+    public static long parseShapeId(String name) {
+        Validate.nonEmpty(name, "name");
 
-        String[] parts = description.split(":");
+        String[] parts = name.split(":");
         assert parts.length == 2 : parts.length;
         String hexadecimal = parts[1];
         long result = Long.parseLong(hexadecimal, 16);
