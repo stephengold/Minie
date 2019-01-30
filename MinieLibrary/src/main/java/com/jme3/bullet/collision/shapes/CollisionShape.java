@@ -57,7 +57,7 @@ import jme3utilities.math.MyVector3f;
  * @author normenhansen
  */
 abstract public class CollisionShape
-        implements JmeCloneable, Savable {
+        implements Comparable<CollisionShape>, JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -221,6 +221,23 @@ abstract public class CollisionShape
         setLocalScaling(objectId, scale);
         logger.log(Level.FINE, "Scaling Shape {0}", Long.toHexString(objectId));
         this.scale.set(scale);
+    }
+    // *************************************************************************
+    // Comparable methods
+
+    /**
+     * Compare (by ID) with another collision shape.
+     *
+     * @param other (not null, unaffected)
+     * @return 0 if the shapes have the same ID; negative if this comes before
+     * other; positive if this comes after other
+     */
+    @Override
+    public int compareTo(CollisionShape other) {
+        long otherId = other.getObjectId();
+        int result = Long.compare(objectId, otherId);
+
+        return result;
     }
     // *************************************************************************
     // JmeCloneable methods
