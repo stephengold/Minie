@@ -321,15 +321,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Read this body's friction.
-     *
-     * @return friction value
-     */
-    public float getFriction() {
-        return getFriction(objectId);
-    }
-
-    /**
      * Copy this body's gravitational acceleration.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -696,15 +687,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         Validate.fraction(linearDamping, "linear damping");
         Validate.fraction(angularDamping, "angular damping");
         setDamping(objectId, linearDamping, angularDamping);
-    }
-
-    /**
-     * Alter this body's friction.
-     *
-     * @param friction the desired friction value (default=0.5)
-     */
-    public void setFriction(float friction) {
-        setFriction(objectId, friction);
     }
 
     /**

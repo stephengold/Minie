@@ -40,6 +40,8 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.material.Material;
+import com.jme3.math.Matrix3f;
+import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
@@ -298,6 +300,15 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Read this object's friction.
+     *
+     * @return friction value
+     */
+    public float getFriction() {
+        return getFriction(objectId);
+    }
+
+    /**
      * Read the ID of the btCollisionObject.
      *
      * @return the unique identifier (not zero)
@@ -459,6 +470,15 @@ abstract public class PhysicsCollisionObject
     public void setDebugMeshResolution(int newSetting) {
         Validate.inRange(newSetting, "new setting", 0, 1);
         debugMeshResolution = newSetting;
+    }
+
+    /**
+     * Alter this body's friction.
+     *
+     * @param friction the desired friction value (default=0.5)
+     */
+    public void setFriction(float friction) {
+        setFriction(objectId, friction);
     }
 
     /**
@@ -667,13 +687,41 @@ abstract public class PhysicsCollisionObject
 
     native private void activate(long objectId, boolean forceFlag);
 
+    native private void getAnisotropicFriction(long objectId,
+            Vector3f storeResult);
+
+    native private void getBasis(long objectId, Matrix3f storeResult);
+
     native private float getCcdMotionThreshold(long objectId);
 
     native private float getCcdSweptSphereRadius(long objectId);
 
+    native private float getContactDamping(long objectId);
+
+    native private float getContactProcessingThreshold(long objectId);
+
+    native private float getContactStiffness(long objectId);
+
+    native private float getDeactivationTime(long objectId);
+
+    native private float getFriction(long objectId);
+
+    native private void getLocation(long objectId, Vector3f storeResult);
+
+    native private float getRestitution(long objectId);
+
+    native private float getRollingFriction(long objectId);
+
+    native private float getSpinningFriction(long objectId);
+
+    native private boolean hasAnisotropicFriction(long objectId, int mode);
+
     native private void initUserPointer(long objectId, int group, int groups);
 
     native private boolean isActive(long objectId);
+
+    native private void setAnisotropicFriction(long objectId,
+            Vector3f components, int mode);
 
     native private void setCcdMotionThreshold(long objectId, float threshold);
 
@@ -683,4 +731,23 @@ abstract public class PhysicsCollisionObject
             int collisionGroups);
 
     native private void setCollisionGroup(long objectId, int collisionGroup);
+
+    native private void setContactProcessingThreshold(long objectId,
+            float thresholdDistance);
+
+    native private void setContactStiffnessAndDamping(long objectId,
+            float stiffness, float damping);
+
+    native private void setDeactivationTime(long objectId, float time);
+
+    native private void setFriction(long objectId, float friction);
+
+    native private void setLocationAndBasis(long objectId, Vector3f location,
+            Matrix3f basis);
+
+    native private void setRestitution(long objectId, float restitution);
+
+    native private void setRollingFriction(long objectId, float friction);
+
+    native private void setSpinningFriction(long objectId, float friction);
 }

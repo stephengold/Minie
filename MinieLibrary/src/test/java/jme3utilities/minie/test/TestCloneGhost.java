@@ -171,6 +171,7 @@ public class TestCloneGhost {
     private void setParameters(PhysicsGhostObject pgo, float b) {
         pgo.setCcdMotionThreshold(b + 0.07f);
         pgo.setCcdSweptSphereRadius(b + 0.08f);
+        pgo.setFriction(b + 0.09f);
         pgo.setPhysicsLocation(new Vector3f(b + 0.18f, b + 0.19f, b + 0.20f));
 
         Quaternion orient
@@ -190,6 +191,7 @@ public class TestCloneGhost {
     private void verifyParameters(PhysicsGhostObject pgo, float b) {
         assert pgo.getCcdMotionThreshold() == b + 0.07f;
         assert pgo.getCcdSweptSphereRadius() == b + 0.08f;
+        assert pgo.getFriction() == b + 0.09f;
 
         Vector3f x = pgo.getPhysicsLocation(null);
         assert x.x == b + 0.18f : x;

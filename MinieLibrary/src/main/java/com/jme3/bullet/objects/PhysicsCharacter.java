@@ -527,6 +527,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
         setContactResponse(old.isContactResponse());
         setFallSpeed(old.getFallSpeed());
+        setFriction(old.getFriction());
         setGravity(old.getGravity(null));
         setJumpSpeed(old.getJumpSpeed());
         setLinearDamping(old.getLinearDamping());
@@ -581,6 +582,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
         setContactResponse(capsule.readBoolean("contactResponse", true));
         setFallSpeed(capsule.readFloat("fallSpeed", 55f));
+        setFriction(capsule.readFloat("friction", 0.5f));
         setSweepTest(capsule.readBoolean("ghostSweepTest", true));
         Vector3f g = (Vector3f) capsule.readSavable("gravityVector",
                 new Vector3f(0f, -9.81f, 0f));
@@ -624,6 +626,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
         capsule.write(isContactResponse(), "contactResponse", true);
         capsule.write(getFallSpeed(), "fallSpeed", 55f);
+        capsule.write(getFriction(), "friction", 0.5f);
         capsule.write(isUsingGhostSweepTest(), "ghostSweepTest", true);
         Vector3f g = getGravity(null);
         capsule.write(g, "gravityVector", new Vector3f(0f, -9.81f, 0f));

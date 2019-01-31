@@ -235,6 +235,7 @@ public class RigidBodyControl
      */
     public void setKinematicSpatial(boolean kinematicSpatial) {
         this.kinematicSpatial = kinematicSpatial;
+        // TODO: why not setKinematic() on the PRB as well?
     }
     // *************************************************************************
     // new protected methods
