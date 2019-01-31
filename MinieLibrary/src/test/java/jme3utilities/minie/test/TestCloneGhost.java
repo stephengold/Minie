@@ -169,6 +169,10 @@ public class TestCloneGhost {
      * @param b the key value
      */
     private void setParameters(PhysicsGhostObject pgo, float b) {
+        int index = (int) Math.round(b / 0.3f);
+        pgo.setAnisotropicFriction(
+                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), index);
+
         pgo.setCcdMotionThreshold(b + 0.07f);
         pgo.setCcdSweptSphereRadius(b + 0.08f);
         pgo.setContactDamping(b + 0.084f);
@@ -195,6 +199,17 @@ public class TestCloneGhost {
      * @param b the key value
      */
     private void verifyParameters(PhysicsGhostObject pgo, float b) {
+        int index = (int) Math.round(b / 0.3f);
+        if (index == 0) {
+            assert !pgo.hasAnisotropicFriction(3);
+        } else {
+            assert pgo.hasAnisotropicFriction(index);
+            Vector3f c = pgo.getAnisotropicFriction(null);
+            assert c.x == b + 0.004f : c;
+            assert c.y == b + 0.005f : c;
+            assert c.z == b + 0.006f : c;
+        }
+
         assert pgo.getCcdMotionThreshold() == b + 0.07f;
         assert pgo.getCcdSweptSphereRadius() == b + 0.08f;
         assert pgo.getContactDamping() == b + 0.084f;

@@ -177,6 +177,10 @@ public class TestCloneBody {
         body.setContactResponse(flag);
         body.setKinematic(!flag);
 
+        int index = (int) Math.round(b / 0.3f);
+        body.setAnisotropicFriction(
+                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), index);
+
         body.setAngularDamping(b + 0.01f);
         body.setAngularFactor(b + 0.02f);
         body.setSleepingThresholds(b + 0.17f, b + 0.03f);
@@ -208,6 +212,17 @@ public class TestCloneBody {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert body.isContactResponse() == flag;
         assert body.isKinematic() == !flag;
+
+        int index = (int) Math.round(b / 0.3f);
+        if (index == 0) {
+            assert !body.hasAnisotropicFriction(3);
+        } else {
+            assert body.hasAnisotropicFriction(index);
+            Vector3f c = body.getAnisotropicFriction(null);
+            assert c.x == b + 0.004f : c;
+            assert c.y == b + 0.005f : c;
+            assert c.z == b + 0.006f : c;
+        }
 
         assert body.getAngularDamping() == b + 0.01f;
         assert body.getAngularFactor() == b + 0.02f;

@@ -225,6 +225,19 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Copy this object's anisotropic friction.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the components of the friction (either storeResult or a new
+     * vector, not null)
+     */
+    public Vector3f getAnisotropicFriction(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        getAnisotropicFriction(objectId, result);
+        return result;
+    }
+
+    /**
      * Read the continuous collision detection (CCD) motion threshold for this
      * object.
      *
@@ -375,6 +388,19 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Test whether this object has anisotropic friction.
+     *
+     * @param mode the mode(s) to test for: 1=basic anisotropic friction,
+     * 2=anisotropic rolling friction, 3=either one
+     * @return true if (one of) the specified mode(s) is active, otherwise false
+     */
+    public boolean hasAnisotropicFriction(int mode) {
+        Validate.inRange(mode, "mode", 1, 3);
+        boolean result = hasAnisotropicFriction(objectId, mode);
+        return result;
+    }
+
+    /**
      * Test whether this object has been deactivated due to lack of motion.
      *
      * @return true if object still active, false if deactivated
@@ -416,6 +442,21 @@ abstract public class PhysicsCollisionObject
         if (objectId != 0L) {
             setCollideWithGroups(collideWithGroups);
         }
+    }
+
+    /**
+     * Alter this object's anisotropic friction.
+     *
+     * @param components the desired friction components (not null, unaffected,
+     * default=1,1,1)
+     * @param mode the desired friction mode: 0=isotropic, 1=basic anisotropic
+     * friction, 2=anisotropic rolling friction (default=0)
+     */
+    public void setAnisotropicFriction(Vector3f components, int mode) {
+        Validate.nonNull(components, "components");
+        Validate.inRange(mode, "mode", 0, 2);
+
+        setAnisotropicFriction(objectId, components, mode);
     }
 
     /**
@@ -614,6 +655,12 @@ abstract public class PhysicsCollisionObject
         setRestitution(old.getRestitution());
         setRollingFriction(old.getRollingFriction());
         setSpinningFriction(old.getSpinningFriction());
+
+        if (old.hasAnisotropicFriction(1)) {
+            setAnisotropicFriction(old.getAnisotropicFriction(null), 1);
+        } else if (old.hasAnisotropicFriction(2)) {
+            setAnisotropicFriction(old.getAnisotropicFriction(null), 2);
+        }
     }
 
     /**
@@ -657,6 +704,13 @@ abstract public class PhysicsCollisionObject
         setRestitution(capsule.readFloat("restitution", 0f));
         setRollingFriction(capsule.readFloat("rollingFriction", 0f));
         setSpinningFriction(capsule.readFloat("spinningFriction", 0f));
+
+        int mode = capsule.readInt("anisotropicFrictionMode", 0);
+        if (mode != 0) {
+            Vector3f components = (Vector3f) capsule.readSavable(
+                    "anisotropicFrictionComponents", new Vector3f(1f, 1f, 1f));
+            setAnisotropicFriction(components, mode);
+        }
     }
 
     /**
@@ -701,7 +755,11 @@ abstract public class PhysicsCollisionObject
         userObject = cloner.clone(userObject);
         collisionShape = cloner.clone(collisionShape);
         debugMaterial = cloner.clone(debugMaterial);
-        objectId = 0L; // subclass must create the btCollisionObject
+        objectId = 0L;
+        /*
+         * The subclass should create the btCollisionObject and then
+         * invoke copyPcoProperties() .
+         */
     }
 
     /**
@@ -743,7 +801,10 @@ abstract public class PhysicsCollisionObject
 
         Savable shape = capsule.readSavable("collisionShape", null);
         collisionShape = (CollisionShape) shape;
-        // subclass must create the btCollisionObject
+        /*
+         * The subclass should create the btCollisionObject and then
+         * invoke readPcoProperties() .
+         */
     }
 
     /**
@@ -774,6 +835,18 @@ abstract public class PhysicsCollisionObject
         capsule.write(getRestitution(), "restitution", 0f);
         capsule.write(getRollingFriction(), "rollingFriction", 0f);
         capsule.write(getSpinningFriction(), "spinningFriction", 0f);
+
+        int mode = 0;
+        if (hasAnisotropicFriction(1)) {
+            mode = 1;
+        } else if (hasAnisotropicFriction(2)) {
+            mode = 2;
+        }
+        capsule.write(mode, "anisotropicFrictionMode", 0);
+        if (mode != 0) {
+            Vector3f components = getAnisotropicFriction(null);
+            capsule.write(components, "anisotropicFrictionComponents", null);
+        }
     }
     // *************************************************************************
     // Object methods

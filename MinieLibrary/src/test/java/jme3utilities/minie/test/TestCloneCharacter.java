@@ -145,6 +145,10 @@ public class TestCloneCharacter {
         ch.setContactResponse(flag);
         ch.setSweepTest(!flag);
 
+        int index = (int) Math.round(b / 0.3f);
+        ch.setAnisotropicFriction(
+                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), index);
+
         ch.setAngularDamping(b + 0.01f);
         ch.setAngularVelocity(new Vector3f(b + 0.04f, b + 0.05f, b + 0.06f));
         ch.setCcdMotionThreshold(b + 0.07f);
@@ -182,6 +186,17 @@ public class TestCloneCharacter {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert ch.isContactResponse() == flag;
         assert ch.isUsingGhostSweepTest() == !flag;
+
+        int index = (int) Math.round(b / 0.3f);
+        if (index == 0) {
+            assert !ch.hasAnisotropicFriction(3);
+        } else {
+            assert ch.hasAnisotropicFriction(index);
+            Vector3f c = ch.getAnisotropicFriction(null);
+            assert c.x == b + 0.004f : c;
+            assert c.y == b + 0.005f : c;
+            assert c.z == b + 0.006f : c;
+        }
 
         assert ch.getAngularDamping() == b + 0.01f;
 
