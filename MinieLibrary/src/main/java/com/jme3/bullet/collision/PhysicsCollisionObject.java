@@ -291,6 +291,26 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Read the contact damping.
+     *
+     * @return the damping
+     */
+    public float getContactDamping() {
+        float damping = getContactDamping(objectId);
+        return damping;
+    }
+
+    /**
+     * Read the contact stiffness.
+     *
+     * @return the stiffness
+     */
+    public float getContactStiffness() {
+        float stiffness = getContactStiffness(objectId);
+        return stiffness;
+    }
+
+    /**
      * Access the custom debug material, if specified.
      *
      * @return the pre-existing instance, or null if default/unspecified
@@ -469,6 +489,26 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Alter the contact damping.
+     *
+     * @param damping the desired damping (default=0.1)
+     */
+    public void setContactDamping(float damping) {
+        float stiffness = getContactStiffness(objectId);
+        setContactStiffnessAndDamping(objectId, stiffness, damping);
+    }
+
+    /**
+     * Alter the contact stiffness.
+     *
+     * @param stiffness the desired stiffness (default=1e30)
+     */
+    public void setContactStiffness(float stiffness) {
+        float damping = getContactDamping(objectId);
+        setContactStiffnessAndDamping(objectId, stiffness, damping);
+    }
+
+    /**
      * Alter or remove the custom debug material.
      *
      * @param material the desired material, or null for default/unspecified
@@ -565,9 +605,11 @@ abstract public class PhysicsCollisionObject
      *
      * @param old (not null, unaffected)
      */
-    protected void copyPcoProperties(PhysicsCollisionObject old) {
+    final protected void copyPcoProperties(PhysicsCollisionObject old) {
         setCcdMotionThreshold(old.getCcdMotionThreshold());
         setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
+        setContactDamping(old.getContactDamping());
+        setContactStiffness(old.getContactStiffness());
         setFriction(old.getFriction());
         setRestitution(old.getRestitution());
         setRollingFriction(old.getRollingFriction());
@@ -602,12 +644,15 @@ abstract public class PhysicsCollisionObject
     /**
      * Read common properties from a capsule.
      *
-     * @param capsule (not null, modified)
+     * @param capsule the input capsule (not null, modified)
      * @throws IOException from importer
      */
-    protected void readPcoProperties(InputCapsule capsule) throws IOException {
+    final protected void readPcoProperties(InputCapsule capsule)
+            throws IOException {
         setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
         setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
+        setContactDamping(capsule.readFloat("contactDamping", 0.1f));
+        setContactStiffness(capsule.readFloat("contactStiffness", 1e30f));
         setFriction(capsule.readFloat("friction", 0.5f));
         setRestitution(capsule.readFloat("restitution", 0f));
         setRollingFriction(capsule.readFloat("rollingFriction", 0f));
@@ -723,6 +768,8 @@ abstract public class PhysicsCollisionObject
         // common properties
         capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
         capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
+        capsule.write(getContactDamping(), "contactDamping", 0.1f);
+        capsule.write(getContactStiffness(), "contactStiffness", 1e30f);
         capsule.write(getFriction(), "friction", 0.5f);
         capsule.write(getRestitution(), "restitution", 0f);
         capsule.write(getRollingFriction(), "rollingFriction", 0f);

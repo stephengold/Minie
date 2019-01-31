@@ -171,6 +171,8 @@ public class TestCloneGhost {
     private void setParameters(PhysicsGhostObject pgo, float b) {
         pgo.setCcdMotionThreshold(b + 0.07f);
         pgo.setCcdSweptSphereRadius(b + 0.08f);
+        pgo.setContactDamping(b + 0.084f);
+        pgo.setContactStiffness(b + 0.085f);
         pgo.setFriction(b + 0.09f);
         pgo.setPhysicsLocation(new Vector3f(b + 0.18f, b + 0.19f, b + 0.20f));
         pgo.setRestitution(b + 0.205f);
@@ -195,6 +197,8 @@ public class TestCloneGhost {
     private void verifyParameters(PhysicsGhostObject pgo, float b) {
         assert pgo.getCcdMotionThreshold() == b + 0.07f;
         assert pgo.getCcdSweptSphereRadius() == b + 0.08f;
+        assert pgo.getContactDamping() == b + 0.084f;
+        assert pgo.getContactStiffness() == b + 0.085f;
         assert pgo.getFriction() == b + 0.09f;
 
         Vector3f x = pgo.getPhysicsLocation(null);

@@ -149,6 +149,8 @@ public class TestCloneCharacter {
         ch.setAngularVelocity(new Vector3f(b + 0.04f, b + 0.05f, b + 0.06f));
         ch.setCcdMotionThreshold(b + 0.07f);
         ch.setCcdSweptSphereRadius(b + 0.08f);
+        ch.setContactDamping(b + 0.084f);
+        ch.setContactStiffness(b + 0.085f);
         ch.setFallSpeed(b + 0.09f);
         ch.setFriction(b + 0.095f);
         ch.setGravity(new Vector3f(b + 0.10f, b + 0.11f, b + 0.12f));
@@ -190,7 +192,8 @@ public class TestCloneCharacter {
 
         assert ch.getCcdMotionThreshold() == b + 0.07f;
         assert ch.getCcdSweptSphereRadius() == b + 0.08f;
-
+        assert ch.getContactDamping() == b + 0.084f;
+        assert ch.getContactStiffness() == b + 0.085f;
         assert ch.getFallSpeed() == b + 0.09f;
         assert ch.getFriction() == b + 0.095f;
 
