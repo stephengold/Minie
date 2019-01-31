@@ -319,6 +319,15 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Read this object's restitution (bounciness).
+     *
+     * @return restitution value
+     */
+    public float getRestitution() {
+        return getRestitution(objectId);
+    }
+
+    /**
      * Access the scene object that uses this collision object.
      *
      * @return the pre-existing instance, or null if none
@@ -473,12 +482,22 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter this body's friction.
+     * Alter this object's friction.
      *
      * @param friction the desired friction value (default=0.5)
      */
     public void setFriction(float friction) {
         setFriction(objectId, friction);
+    }
+
+    /**
+     * Alter this object's restitution (bounciness). For best performance, keep
+     * restitution=0.
+     *
+     * @param restitution the desired value (default=0)
+     */
+    public void setRestitution(float restitution) {
+        setRestitution(objectId, restitution);
     }
 
     /**

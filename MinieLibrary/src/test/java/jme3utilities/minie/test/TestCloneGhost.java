@@ -173,6 +173,7 @@ public class TestCloneGhost {
         pgo.setCcdSweptSphereRadius(b + 0.08f);
         pgo.setFriction(b + 0.09f);
         pgo.setPhysicsLocation(new Vector3f(b + 0.18f, b + 0.19f, b + 0.20f));
+        pgo.setRestitution(b + 0.205f);
 
         Quaternion orient
                 = new Quaternion(b + 0.21f, b + 0.22f, b + 0.23f, b + 0.24f);
@@ -197,6 +198,7 @@ public class TestCloneGhost {
         assert x.x == b + 0.18f : x;
         assert x.y == b + 0.19f : x;
         assert x.z == b + 0.20f : x;
+        assert pgo.getRestitution() == b + 0.205f;
 
         Quaternion orient
                 = new Quaternion(b + 0.21f, b + 0.22f, b + 0.23f, b + 0.24f);

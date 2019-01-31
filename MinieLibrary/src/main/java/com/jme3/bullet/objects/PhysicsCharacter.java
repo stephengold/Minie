@@ -540,6 +540,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setMaxPenetrationDepth(old.getMaxPenetrationDepth());
         setMaxSlope(old.getMaxSlope());
         setPhysicsLocation(old.getPhysicsLocation(null));
+        setRestitution(old.getRestitution());
         setStepHeight(old.getStepHeight());
         setSweepTest(old.isUsingGhostSweepTest());
         setUp(old.getUpDirection(null));
@@ -601,6 +602,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setMaxSlope(capsule.readFloat("maxSlope", FastMath.QUARTER_PI));
         setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
                 new Vector3f()));
+        setRestitution(capsule.readFloat("restitution", 0f));
         if (MyVector3f.isZero(g)) {
             setUp((Vector3f) capsule.readSavable("upDirection",
                     new Vector3f(0f, 1f, 0f)));
@@ -640,6 +642,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         capsule.write(getMaxSlope(), "maxSlope", FastMath.QUARTER_PI);
         capsule.write(getPhysicsLocation(new Vector3f()), "physicsLocation",
                 null);
+        capsule.write(getRestitution(), "restitution", 0f);
         if (MyVector3f.isZero(g)) {
             capsule.write(getUpDirection(null), "upDirection",
                     new Vector3f(0f, 1f, 0f));

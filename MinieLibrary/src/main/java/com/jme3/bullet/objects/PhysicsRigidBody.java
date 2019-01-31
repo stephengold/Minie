@@ -514,15 +514,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Read this body's restitution (bounciness).
-     *
-     * @return restitution value
-     */
-    public float getRestitution() {
-        return getRestitution(objectId);
-    }
-
-    /**
      * Test whether this body is in dynamic mode.
      *
      * @return true if in dynamic mode, otherwise false (static/kinematic mode)
@@ -886,16 +877,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter this body's restitution (bounciness). For best performance, set
-     * restitution=0.
-     *
-     * @param restitution the desired value (default=0)
-     */
-    public void setRestitution(float restitution) {
-        setRestitution(objectId, restitution);
-    }
-
-    /**
      * Alter this body's sleeping thresholds.
      * <p>
      * These thresholds determine when the body can be deactivated to save
@@ -1122,8 +1103,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     native private void getAngularVelocity(long objectId, Vector3f storeResult);
 
-    native private float getFriction(long objectId);
-
     native private void getGravity(long objectId, Vector3f storeResult);
 
     native private void getInverseInertiaLocal(long objectId,
@@ -1145,8 +1124,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     native private void getPhysicsRotationMatrix(long objectId,
             Matrix3f storeResult);
 
-    native private float getRestitution(long objectId);
-
     native private boolean isInWorld(long objectId);
 
     native private void setAngularDamping(long objectId, float dampingFraction);
@@ -1159,8 +1136,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     native private void setDamping(long objectId, float linear,
             float angular);
-
-    native private void setFriction(long objectId, float friction);
 
     native private void setGravity(long objectId, Vector3f gravity);
 
@@ -1178,8 +1153,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     native private void setPhysicsRotation(long objectId, Matrix3f rotation);
 
     native private void setPhysicsRotation(long objectId, Quaternion rotation);
-
-    native private void setRestitution(long objectId, float factor);
 
     native private void setSleepingThresholds(long objectId, float linear,
             float angular);

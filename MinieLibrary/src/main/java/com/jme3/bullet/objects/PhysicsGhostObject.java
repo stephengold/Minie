@@ -224,6 +224,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         setFriction(old.getFriction());
         setPhysicsLocation(old.getPhysicsLocation(null));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
+        setRestitution(old.getRestitution());
     }
 
     /**
@@ -274,6 +275,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
         setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
         setFriction(capsule.readFloat("friction", 0.5f));
+        setRestitution(capsule.readFloat("restitution", 0f));
     }
 
     /**
@@ -294,6 +296,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
         capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
         capsule.write(getFriction(), "friction", 0.5f);
+        capsule.write(getRestitution(), "restitution", 0f);
     }
     // *************************************************************************
     // private methods
