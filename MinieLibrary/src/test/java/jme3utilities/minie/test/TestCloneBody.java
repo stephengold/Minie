@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -196,6 +196,9 @@ public class TestCloneBody {
         body.setPhysicsRotation(matrix);
 
         body.setRestitution(b + 0.25f);
+        body.setRollingFriction(b + 0.254f);
+        body.setSpinningFriction(b + 0.255f);
+
         body.setLinearVelocity(new Vector3f(b + 0.26f, b + 0.27f, b + 0.28f));
     }
 
@@ -244,6 +247,8 @@ public class TestCloneBody {
         assert m.equals(matrix);
 
         assert body.getRestitution() == b + 0.25f;
+        assert body.getRollingFriction() == b + 0.254f;
+        assert body.getSpinningFriction() == b + 0.255f;
 
         Vector3f v = body.getLinearVelocity(null);
         assert v.x == b + 0.26f : v;

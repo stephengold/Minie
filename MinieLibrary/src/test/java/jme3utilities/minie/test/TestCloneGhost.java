@@ -180,6 +180,9 @@ public class TestCloneGhost {
         orient.normalizeLocal();
         Matrix3f matrix = orient.toRotationMatrix();
         pgo.setPhysicsRotation(matrix);
+
+        pgo.setRollingFriction(b + 0.25f);
+        pgo.setSpinningFriction(b + 0.26f);
     }
 
     /**
@@ -206,5 +209,8 @@ public class TestCloneGhost {
         Matrix3f matrix = orient.toRotationMatrix();
         Matrix3f m = pgo.getPhysicsRotationMatrix(null);
         assert m.equals(matrix);
+
+        assert pgo.getRollingFriction() == b + 0.25f;
+        assert pgo.getSpinningFriction() == b + 0.26f;
     }
 }

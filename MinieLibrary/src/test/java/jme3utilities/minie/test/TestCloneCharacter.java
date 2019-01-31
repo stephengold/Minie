@@ -164,6 +164,8 @@ public class TestCloneCharacter {
         ch.setMaxSlope(b + 0.282f);
         ch.setPhysicsLocation(new Vector3f(b + 0.18f, b + 0.19f, b + 0.20f));
         ch.setRestitution(b + 0.25f);
+        ch.setRollingFriction(b + 0.26f);
+        ch.setSpinningFriction(b + 0.27f);
         ch.setStepHeight(b + 0.29f);
     }
 
@@ -214,6 +216,8 @@ public class TestCloneCharacter {
         assert x.z == b + 0.20f : x;
 
         assert ch.getRestitution() == b + 0.25f;
+        assert ch.getRollingFriction() == b + 0.26f;
+        assert ch.getSpinningFriction() == b + 0.27f;
         assert ch.getStepHeight() == b + 0.29f;
 
         Vector3f d = ch.getWalkDirection(null);

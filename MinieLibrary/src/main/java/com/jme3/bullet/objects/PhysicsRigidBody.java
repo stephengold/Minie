@@ -959,14 +959,13 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         motionState = cloner.clone(motionState);
 
         PhysicsRigidBody old = (PhysicsRigidBody) original;
+        copyPcoProperties(old);
+
         setAngularDamping(old.getAngularDamping());
         setAngularFactor(old.getAngularFactor());
         setAngularSleepingThreshold(old.getAngularSleepingThreshold());
         setAngularVelocity(old.getAngularVelocity(null));
-        setCcdMotionThreshold(old.getCcdMotionThreshold());
-        setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
         setContactResponse(old.isContactResponse());
-        setFriction(old.getFriction());
         setGravity(old.getGravity(null));
         setLinearDamping(old.getLinearDamping());
         setLinearFactor(old.getLinearFactor(null));
@@ -974,7 +973,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         setLinearVelocity(old.getLinearVelocity(null));
         setPhysicsLocation(old.getPhysicsLocation(null));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
-        setRestitution(old.getRestitution());
     }
 
     /**
@@ -1006,14 +1004,13 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         InputCapsule capsule = im.getCapsule(this);
         mass = capsule.readFloat("mass", 1f);
         rebuildRigidBody();
+        readPcoProperties(capsule);
 
         setContactResponse(capsule.readBoolean("contactResponse", true));
         setGravity((Vector3f) capsule.readSavable("gravity",
                 Vector3f.ZERO.clone()));
-        setFriction(capsule.readFloat("friction", 0.5f));
         setKinematic(capsule.readBoolean("kinematic", false));
 
-        setRestitution(capsule.readFloat("restitution", 0f));
         setAngularFactor((Vector3f) capsule.readSavable("angularFactor",
                 Vector3f.UNIT_XYZ.clone()));
         setLinearFactor((Vector3f) capsule.readSavable("linearFactor",
@@ -1023,8 +1020,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         setSleepingThresholds(
                 capsule.readFloat("linearSleepingThreshold", 0.8f),
                 capsule.readFloat("angularSleepingThreshold", 1f));
-        setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
-        setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
 
         setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
                 Vector3f.ZERO.clone()));
@@ -1052,8 +1047,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         capsule.write(getMass(), "mass", 1f);
         capsule.write(isContactResponse(), "contactResponse", true);
         capsule.write(getGravity(null), "gravity", null);
-        capsule.write(getFriction(), "friction", 0.5f);
-        capsule.write(getRestitution(), "restitution", 0f);
         capsule.write(getAngularFactor(null), "angularFactor", null);
         capsule.write(getLinearFactor(null), "linearFactor", null);
         capsule.write(kinematic, "kinematic", false);
@@ -1064,9 +1057,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
                 0.8f);
         capsule.write(getAngularSleepingThreshold(), "angularSleepingThreshold",
                 1f);
-
-        capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
-        capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
 
         capsule.write(getPhysicsLocation(null), "physicsLocation", null);
         capsule.write(getPhysicsRotationMatrix(null), "physicsRotation", null);

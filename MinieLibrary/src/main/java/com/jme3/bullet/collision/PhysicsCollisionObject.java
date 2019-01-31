@@ -328,6 +328,24 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Read this object's rolling friction.
+     *
+     * @return friction value
+     */
+    public float getRollingFriction() {
+        return getRollingFriction(objectId);
+    }
+
+    /**
+     * Read this object's spinning friction.
+     *
+     * @return friction value
+     */
+    public float getSpinningFriction() {
+        return getSpinningFriction(objectId);
+    }
+
+    /**
      * Access the scene object that uses this collision object.
      *
      * @return the pre-existing instance, or null if none
@@ -501,6 +519,26 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Alter this object's rolling friction: torsional friction orthogonal to
+     * the contact normal. Use to stop objects from rolling.
+     *
+     * @param friction the desired friction value (default=0)
+     */
+    public void setRollingFriction(float friction) {
+        setRollingFriction(objectId, friction);
+    }
+
+    /**
+     * Alter this object's spinning friction: torsional friction around the
+     * contact normal. Use for grasping.
+     *
+     * @param friction the desired friction value (default=0)
+     */
+    public void setSpinningFriction(float friction) {
+        setSpinningFriction(objectId, friction);
+    }
+
+    /**
      * Alter which scene object uses this collision object.
      *
      * @param userObject the desired scene object (alias created, may be null)
@@ -520,6 +558,21 @@ abstract public class PhysicsCollisionObject
      */
     native protected void attachCollisionShape(long objectId,
             long collisionShapeId);
+
+    /**
+     * Copy common properties from another PhysicsCollisionObject. Used during
+     * cloning.
+     *
+     * @param old (not null, unaffected)
+     */
+    protected void copyPcoProperties(PhysicsCollisionObject old) {
+        setCcdMotionThreshold(old.getCcdMotionThreshold());
+        setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
+        setFriction(old.getFriction());
+        setRestitution(old.getRestitution());
+        setRollingFriction(old.getRollingFriction());
+        setSpinningFriction(old.getSpinningFriction());
+    }
 
     /**
      * Finalize the identified btCollisionObject. Native method.
@@ -544,6 +597,21 @@ abstract public class PhysicsCollisionObject
         logger.log(Level.FINE, "initUserPointer() objectId = {0}",
                 Long.toHexString(objectId));
         initUserPointer(objectId, collisionGroup, collideWithGroups);
+    }
+
+    /**
+     * Read common properties from a capsule.
+     *
+     * @param capsule (not null, modified)
+     * @throws IOException from importer
+     */
+    protected void readPcoProperties(InputCapsule capsule) throws IOException {
+        setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
+        setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
+        setFriction(capsule.readFloat("friction", 0.5f));
+        setRestitution(capsule.readFloat("restitution", 0f));
+        setRollingFriction(capsule.readFloat("rollingFriction", 0f));
+        setSpinningFriction(capsule.readFloat("spinningFriction", 0f));
     }
 
     /**
@@ -651,6 +719,14 @@ abstract public class PhysicsCollisionObject
         capsule.write(debugMeshResolution, "debugMeshResolution", 0);
         capsule.write(debugMaterial, "debugMaterial", null);
         capsule.write(collisionShape, "collisionShape", null);
+
+        // common properties
+        capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
+        capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
+        capsule.write(getFriction(), "friction", 0.5f);
+        capsule.write(getRestitution(), "restitution", 0f);
+        capsule.write(getRollingFriction(), "rollingFriction", 0f);
+        capsule.write(getSpinningFriction(), "spinningFriction", 0f);
     }
     // *************************************************************************
     // Object methods

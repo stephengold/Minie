@@ -219,12 +219,10 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         buildObject();
 
         PhysicsGhostObject old = (PhysicsGhostObject) original;
-        setCcdMotionThreshold(old.getCcdMotionThreshold());
-        setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
-        setFriction(old.getFriction());
+        copyPcoProperties(old);
+
         setPhysicsLocation(old.getPhysicsLocation(null));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
-        setRestitution(old.getRestitution());
     }
 
     /**
@@ -267,15 +265,12 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         super.read(im);
         InputCapsule capsule = im.getCapsule(this);
         buildObject();
+        readPcoProperties(capsule);
+
         setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
                 new Vector3f()));
         setPhysicsRotation(((Matrix3f) capsule.readSavable("physicsRotation",
                 new Matrix3f())));
-
-        setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
-        setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
-        setFriction(capsule.readFloat("friction", 0.5f));
-        setRestitution(capsule.readFloat("restitution", 0f));
     }
 
     /**
@@ -288,15 +283,11 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
+
         capsule.write(getPhysicsLocation(new Vector3f()),
                 "physicsLocation", new Vector3f());
         capsule.write(getPhysicsRotationMatrix(new Matrix3f()),
                 "physicsRotation", new Matrix3f());
-
-        capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
-        capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
-        capsule.write(getFriction(), "friction", 0.5f);
-        capsule.write(getRestitution(), "restitution", 0f);
     }
     // *************************************************************************
     // private methods
