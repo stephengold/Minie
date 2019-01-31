@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -164,7 +164,7 @@ public class SphereCollisionShape extends CollisionShape {
      */
     @Override
     public void setMargin(float margin) {
-        logger2.log(Level.SEVERE,
+        logger2.log(Level.WARNING,
                 "Cannot alter the margin of a SphereCollisionShape.");
     }
 
