@@ -314,6 +314,16 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Read the contact processing threshold.
+     *
+     * @return the threshold distance (in physics-space units)
+     */
+    public float getContactProcessingThreshold() {
+        float distance = getContactProcessingThreshold(objectId);
+        return distance;
+    }
+
+    /**
      * Read the contact stiffness.
      *
      * @return the stiffness
@@ -321,6 +331,16 @@ abstract public class PhysicsCollisionObject
     public float getContactStiffness() {
         float stiffness = getContactStiffness(objectId);
         return stiffness;
+    }
+
+    /**
+     * Read the deactivation time.
+     *
+     * @return the time (in seconds)
+     */
+    public float getDeactivationTime() {
+        float time = getDeactivationTime(objectId);
+        return time;
     }
 
     /**
@@ -540,6 +560,16 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Alter the contact processing threshold.
+     *
+     * @param distance the desired threshold distance (in physics-space units,
+     * default=0)
+     */
+    public void setContactProcessingThreshold(float distance) {
+        setContactProcessingThreshold(objectId, distance);
+    }
+
+    /**
      * Alter the contact stiffness.
      *
      * @param stiffness the desired stiffness (default=1e30)
@@ -547,6 +577,15 @@ abstract public class PhysicsCollisionObject
     public void setContactStiffness(float stiffness) {
         float damping = getContactDamping(objectId);
         setContactStiffnessAndDamping(objectId, stiffness, damping);
+    }
+
+    /**
+     * Alter the deactivation time.
+     *
+     * @param time the desired time (in seconds)
+     */
+    public void setDeactivationTime(float time) {
+        setDeactivationTime(objectId, time);
     }
 
     /**
@@ -650,6 +689,7 @@ abstract public class PhysicsCollisionObject
         setCcdMotionThreshold(old.getCcdMotionThreshold());
         setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
         setContactDamping(old.getContactDamping());
+        setContactProcessingThreshold(old.getContactProcessingThreshold());
         setContactStiffness(old.getContactStiffness());
         setFriction(old.getFriction());
         setRestitution(old.getRestitution());
@@ -699,6 +739,8 @@ abstract public class PhysicsCollisionObject
         setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
         setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
         setContactDamping(capsule.readFloat("contactDamping", 0.1f));
+        setContactProcessingThreshold(
+                capsule.readFloat("contactProcessingThreshold", 0f));
         setContactStiffness(capsule.readFloat("contactStiffness", 1e30f));
         setFriction(capsule.readFloat("friction", 0.5f));
         setRestitution(capsule.readFloat("restitution", 0f));
@@ -830,6 +872,8 @@ abstract public class PhysicsCollisionObject
         capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
         capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
         capsule.write(getContactDamping(), "contactDamping", 0.1f);
+        capsule.write(getContactProcessingThreshold(),
+                "contactProcessingThreshold", 0f);
         capsule.write(getContactStiffness(), "contactStiffness", 1e30f);
         capsule.write(getFriction(), "friction", 0.5f);
         capsule.write(getRestitution(), "restitution", 0f);

@@ -223,6 +223,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
 
         setPhysicsLocation(old.getPhysicsLocation(null));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
+        setDeactivationTime(old.getDeactivationTime());
     }
 
     /**
@@ -271,6 +272,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
                 new Vector3f()));
         setPhysicsRotation(((Matrix3f) capsule.readSavable("physicsRotation",
                 new Matrix3f())));
+        setDeactivationTime(capsule.readFloat("deactivationTime", 0f));
     }
 
     /**
@@ -288,6 +290,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
                 "physicsLocation", new Vector3f());
         capsule.write(getPhysicsRotationMatrix(new Matrix3f()),
                 "physicsRotation", new Matrix3f());
+        capsule.write(getDeactivationTime(), "deactivationTime", 0f);
     }
     // *************************************************************************
     // private methods

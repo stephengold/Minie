@@ -188,6 +188,7 @@ public class TestCloneBody {
         body.setCcdMotionThreshold(b + 0.07f);
         body.setCcdSweptSphereRadius(b + 0.08f);
         body.setContactDamping(b + 0.084f);
+        body.setContactProcessingThreshold(b + 0.0845f);
         body.setContactStiffness(b + 0.085f);
         body.setFriction(b + 0.09f);
         body.setGravity(new Vector3f(b + 0.10f, b + 0.11f, b + 0.12f));
@@ -204,8 +205,11 @@ public class TestCloneBody {
         body.setRestitution(b + 0.25f);
         body.setRollingFriction(b + 0.254f);
         body.setSpinningFriction(b + 0.255f);
-
+        /*
+         * Linear velocity affects deactivation time, so set it first!
+         */
         body.setLinearVelocity(new Vector3f(b + 0.26f, b + 0.27f, b + 0.28f));
+        body.setDeactivationTime(b + 0.087f);
     }
 
     private void verifyParameters(PhysicsRigidBody body, float b) {
@@ -236,7 +240,9 @@ public class TestCloneBody {
         assert body.getCcdMotionThreshold() == b + 0.07f;
         assert body.getCcdSweptSphereRadius() == b + 0.08f;
         assert body.getContactDamping() == b + 0.084f;
+        assert body.getContactProcessingThreshold() == b + 0.0845f;
         assert body.getContactStiffness() == b + 0.085f;
+        assert body.getDeactivationTime() == b + 0.087f;
         assert body.getFriction() == b + 0.09f;
 
         Vector3f g = body.getGravity(null);

@@ -973,6 +973,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         setLinearVelocity(old.getLinearVelocity(null));
         setPhysicsLocation(old.getPhysicsLocation(null));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
+        setDeactivationTime(old.getDeactivationTime());
     }
 
     /**
@@ -1029,6 +1030,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
                 Vector3f.ZERO.clone()));
         setAngularVelocity((Vector3f) capsule.readSavable("angularVelocity",
                 Vector3f.ZERO.clone()));
+        setDeactivationTime(capsule.readFloat("deactivationTime", 0f));
 
         joints = capsule.readSavableArrayList("joints", null);
     }
@@ -1062,6 +1064,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         capsule.write(getPhysicsRotationMatrix(null), "physicsRotation", null);
         capsule.write(getLinearVelocity(null), "linearVelocity", null);
         capsule.write(getAngularVelocity(null), "angularVelocity", null);
+        capsule.write(getDeactivationTime(), "deactivationTime", 0f);
 
         capsule.writeSavableArrayList(joints, "joints", null);
     }
