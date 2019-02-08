@@ -1,5 +1,26 @@
 # release notes for the Minie library and related examples
 
+## Version 0.6.5 released on TBD
+
+Important changes to the library:
+ + Fixed various read/write bugs in `BetterCharacterControl`.
+ + Cloned the rigid body in `BetterCharacterControl.cloneFields()`.
+ + Standardized `BetterCharacterControl` getters to use
+   caller-provided storage. (API changes)
+ + Renamed the `describe()`, `getAxis()`, and `parseShapeId()` methods in the
+   `MyShape` class. (API changes)
+ + Added a `getRigidBody()` method to the `BetterCharacterControl` class.
+ + Added accessors for 7 parameters (anisotropic friction, rolling friction,
+   spinning friction, contact damping, contact stiffness, deactivation time,
+   and contact processing threshold) to the `PhysicsCollisionObject` class.
+   These should affect only rigid bodies and vehicles.
+ + Added a `parseId()` method to the `MyObject` class.
+ + Implemented the `Comparable` interface for the `CollisionShape` class.
+ + Added a `setLocationAndBasis()` method to the `PhysicsCollisionObject` class.
+ + Added accessors for friction and restitution to the `PhysicsGhostObject`
+   and `PhysicsCharacter` classes.  These should have no effect.
+ + Updated the native libraries to version 1.0.30 of `Libbulletjme`.
+
 ## Version 0.6.4 released on 25 January 2019
 
 Important changes to the library:

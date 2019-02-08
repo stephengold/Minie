@@ -30,7 +30,7 @@ gradle.projectsEvaluated {
 ext {
     // current versions of the libraries
     jmonkeyengineVersion = '3.2.2-stable'
-    minieVersion = '0.6.4'
+    minieVersion = '0.6.5'
 }
 
 repositories {
