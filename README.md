@@ -59,6 +59,7 @@ Other important differences:
  + [History](#history)
  + [How to install the SDK and the Minie Project](#install)
  + [How to add Minie to an existing project](#add)
+ + [Choosing a collision shape](#shape)
  + [An introduction to DynamicAnimControl](#dac)
  + [External links](#links)
  + [Acknowledgments](#acks)
@@ -293,6 +294,61 @@ Section to be written.
 
 Section to be written.
 
+<a name="shape"/>
+
+## Choosing a collision shape
+
+Minie provides more than a dozen `CollisionShape` subclasses.
+Because jMonkeyEngine models are composed of triangular meshes,
+beginners are often tempted to use mesh-based shapes
+(such as `GImpactCollisionShape`) for everything.
+However, since mesh-based collision detection is CPU-intensive, primitive
+convex shapes (such as boxes and spheres) are usually a better choice, even
+if they don't match the model's shape exactly.
+In particular, `CapsuleCollisionShape` is often used with humanoid models.
+
+    if (the object isn't involved in collisions) {
+        use an EmptyShape
+    } else if (its shape can be approximated by an infinite plane) {
+        use a PlaneCollisionShape
+    } else if (its shape can be approximated by a triangle or a tetrahedron) {
+        use a SimplexCollisionShape
+    } else if (its shape can be approximated by a centered sphere) {
+        use a SphereCollisionShape
+    } else if (its shape can be approximated by a centered rectangular solid) {
+        use a BoxCollisionShape
+    } else if (its shape can be approximated by a centered capsule) {
+        use a CapsuleCollisionShape
+    } else if (its shape can be approximated by a centered elliptic cylinder) {
+        use a CylinderCollisionShape
+    } else if (its shape can be approximated by a centered cone) {
+        use a ConeCollisionShape
+    } else if (its shape can be approximated by an ellipsoid
+                or an eccentric sphere
+                or an eccentric capsule
+                or the convex hull of multiple spheres) {
+        use a MultiSphere
+    } else if (its shape can be approximated by an eccentric rectangular solid
+                or an eccentric cylinder
+                or an eccentric cone
+                or a combination of convex primitives) {
+            use a CompoundCollisionShape
+    } else if (the object does not move) {
+        if (it is a 2-D heightfield) {
+            use a HeightfieldCollisionShape
+        } else {
+            use a MeshCollisionShape
+        }
+    } else { // if the object moves
+        if (its shape can be approximated by the convex hull of a mesh) {
+            use a HullCollisionShape
+        } else {
+            use a GImpactCollisionShape
+        }
+    }
+
+(Pseudocode adapted from the flowchart on page 13 of the [Bullet User Manual][manual].)
+
 <a name="dac"/>
 
 ## An Introduction to DynamicAnimControl
@@ -381,6 +437,7 @@ YouTube videos about Minie:
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: http://jmonkeyengine.org  "jMonkeyEngine Project"
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
+[manual]: https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf "Bullet User Manual"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
 [minie]: https://github.com/stephengold/Minie "Minie Project"
 [netbeans]: https://netbeans.org "NetBeans Project"
