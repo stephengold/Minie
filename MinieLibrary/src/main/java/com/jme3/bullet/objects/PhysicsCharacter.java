@@ -225,21 +225,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy the location of this character's center.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a location vector (in physics-space coordinates, either
-     * storeResult or a new vector, not null)
-     */
-    public Vector3f getPhysicsLocation(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getPhysicsLocation(objectId, result);
-
-        assert Vector3f.isValidVector(result);
-        return result;
-    }
-
-    /**
      * Read this character's step height.
      *
      * @return the maximum amount of normal vertical movement (in physics-space
@@ -711,8 +696,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     native private float getMaxPenetrationDepth(long characterId);
 
     native private float getMaxSlope(long characterId);
-
-    native private void getPhysicsLocation(long ghostId, Vector3f storeVector);
 
     native private void getUpDirection(long characterId, Vector3f storeVector);
 

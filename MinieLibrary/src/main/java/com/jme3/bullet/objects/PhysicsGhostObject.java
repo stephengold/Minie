@@ -132,19 +132,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy the location of this object's center.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a location vector (in physics-space coordinates, either
-     * storeResult or a new vector, not null)
-     */
-    public Vector3f getPhysicsLocation(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getPhysicsLocation(objectId, result);
-        return result;
-    }
-
-    /**
      * Copy this object's orientation to a quaternion.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -159,15 +146,15 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy this object's orientation to a matrix.
+     * Copy this object's orientation (the basis of its local coordinate system)
+     * to a 3x3 matrix.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return an orientation (in physics-space coordinates, either storeResult
-     * or a new matrix, not null)
+     * @return a rotation matrix (in physics-space coordinates, either
+     * storeResult or a new matrix, not null)
      */
     public Matrix3f getPhysicsRotationMatrix(Matrix3f storeResult) {
-        Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
-        getPhysicsRotationMatrix(objectId, result);
+        Matrix3f result = getBasis(storeResult);
         return result;
     }
 
@@ -324,13 +311,8 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
 
     native private void getOverlappingObjects(long objectId);
 
-    native private void getPhysicsLocation(long objectId, Vector3f storeResult);
-
     native private void getPhysicsRotation(long objectId,
             Quaternion storeResult);
-
-    native private void getPhysicsRotationMatrix(long objectId,
-            Matrix3f storeResult);
 
     native private void setGhostFlags(long objectId);
 

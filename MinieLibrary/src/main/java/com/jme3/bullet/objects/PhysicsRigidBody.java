@@ -424,30 +424,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * For compatability with the jme3-bullet library.
      *
-     * @return a new location vector (in physics-space coordinates, not null)
-     */
-    public Vector3f getPhysicsLocation() {
-        return getPhysicsLocation(null);
-    }
-
-    /**
-     * Copy the location of this body's center of mass.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a location vector (in physics-space coordinates, either
-     * storeResult or a new vector, not null)
-     */
-    public Vector3f getPhysicsLocation(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getPhysicsLocation(objectId, result);
-
-        assert Vector3f.isValidVector(result);
-        return result;
-    }
-
-    /**
-     * For compatability with the jme3-bullet library.
-     *
      * @return a new quaternion (in physics-space coordinates, not null)
      */
     public Quaternion getPhysicsRotation() {
@@ -469,15 +445,15 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy this body's orientation to a matrix.
+     * Copy this body's orientation (the basis of its local coordinate system)
+     * to a 3x3 matrix.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the orientation (in physics-space coordinates, either storeResult
-     * or a new matrix, not null)
+     * @return a rotation matrix (in physics-space coordinates, either
+     * storeResult or a new matrix, not null)
      */
     public Matrix3f getPhysicsRotationMatrix(Matrix3f storeResult) {
-        Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
-        getPhysicsRotationMatrix(objectId, result);
+        Matrix3f result = getBasis(storeResult);
         return result;
     }
 
@@ -1109,13 +1085,8 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     native private void getLinearVelocity(long objectId, Vector3f storeResult);
 
-    native private void getPhysicsLocation(long objectId, Vector3f storeResult);
-
     native private void getPhysicsRotation(long objectId,
             Quaternion storeResult);
-
-    native private void getPhysicsRotationMatrix(long objectId,
-            Matrix3f storeResult);
 
     native private boolean isInWorld(long objectId);
 

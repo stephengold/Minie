@@ -238,6 +238,20 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Copy this object's orientation (the basis of its local coordinate system)
+     * to a 3x3 matrix.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a rotation matrix (in physics-space coordinates, either
+     * storeResult or a new matrix, not null)
+     */
+    public Matrix3f getBasis(Matrix3f storeResult) {
+        Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
+        getBasis(objectId, result);
+        return result;
+    }
+
+    /**
      * Read the continuous collision detection (CCD) motion threshold for this
      * object.
      *
@@ -369,6 +383,29 @@ abstract public class PhysicsCollisionObject
     public long getObjectId() {
         assert objectId != 0L;
         return objectId;
+    }
+
+    /**
+     * For compatability with the jme3-bullet library.
+     *
+     * @return a new location vector (in physics-space coordinates, not null)
+     */
+    public Vector3f getPhysicsLocation() {
+        return getPhysicsLocation(null);
+    }
+
+    /**
+     * Copy the location of this object's center.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a location vector (in physics-space coordinates, either
+     * storeResult or a new vector, not null)
+     */
+    public Vector3f getPhysicsLocation(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        getLocation(objectId, result);
+        assert Vector3f.isValidVector(result);
+        return result;
     }
 
     /**
