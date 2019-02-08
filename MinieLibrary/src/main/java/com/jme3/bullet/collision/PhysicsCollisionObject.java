@@ -800,6 +800,22 @@ abstract public class PhysicsCollisionObject
      * @param desiredFlags the desired collision flags (bit mask)
      */
     native protected void setCollisionFlags(long objectId, int desiredFlags);
+
+    /**
+     * Directly alter this object's location and basis.
+     *
+     * @param centerLocation the desired location for this object's center (in
+     * physics-space coordinates, not null, unaffected)
+     * @param orientation the desired orientation for this object (rotation
+     * matrix in physics-space coordinates, not null, unaffected)
+     */
+    protected void setLocationAndBasis(Vector3f centerLocation,
+            Matrix3f orientation) {
+        Validate.nonNull(centerLocation, "center location");
+        Validate.nonNull(orientation, "orientation");
+
+        setLocationAndBasis(objectId, centerLocation, orientation);
+    }
     // *************************************************************************
     // Comparable methods
 
