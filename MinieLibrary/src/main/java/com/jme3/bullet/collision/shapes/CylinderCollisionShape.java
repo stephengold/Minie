@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A cylindrical CollisionShape based on Bullet's btCylinderShapeX, new
+ * A cylindrical CollisionShape based on Bullet's btCylinderShapeX,
  * btCylinderShape, or btCylinderShapeZ.
  *
  * @author normenhansen
@@ -63,14 +63,14 @@ public class CylinderCollisionShape extends CollisionShape {
     // fields
 
     /**
+     * copy of main (height) axis (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
+     */
+    private int axis;
+    /**
      * copy of unscaled half extent for each local axis (not null, no negative
      * component)
      */
     private Vector3f halfExtents = new Vector3f(0.5f, 0.5f, 0.5f);
-    /**
-     * copy of main (height) axis (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
-     */
-    private int axis;
     // *************************************************************************
     // constructors
 
@@ -139,6 +139,18 @@ public class CylinderCollisionShape extends CollisionShape {
     // new methods exposed
 
     /**
+     * Determine the main (height) axis of the cylinder.
+     *
+     * @return the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     */
+    public int getAxis() {
+        assert axis == PhysicsSpace.AXIS_X
+                || axis == PhysicsSpace.AXIS_Y
+                || axis == PhysicsSpace.AXIS_Z : axis;
+        return axis;
+    }
+
+    /**
      * Copy the half extents of the cylinder.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -152,18 +164,6 @@ public class CylinderCollisionShape extends CollisionShape {
         } else {
             return storeResult.set(halfExtents);
         }
-    }
-
-    /**
-     * Determine the main (height) axis of the cylinder.
-     *
-     * @return the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
-     */
-    public int getAxis() {
-        assert axis == PhysicsSpace.AXIS_X
-                || axis == PhysicsSpace.AXIS_Y
-                || axis == PhysicsSpace.AXIS_Z : axis;
-        return axis;
     }
     // *************************************************************************
     // CollisionShape methods
@@ -201,21 +201,6 @@ public class CylinderCollisionShape extends CollisionShape {
     }
 
     /**
-     * Serialize this shape, for example when saving to a J3O file.
-     *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
-     */
-    @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(halfExtents, "halfExtents",
-                new Vector3f(0.5f, 0.5f, 0.5f));
-        capsule.write(axis, "axis", PhysicsSpace.AXIS_Y);
-    }
-
-    /**
      * De-serialize this shape, for example when loading from a J3O file.
      *
      * @param im importer (not null)
@@ -230,6 +215,21 @@ public class CylinderCollisionShape extends CollisionShape {
         halfExtents.set(he);
         axis = capsule.readInt("axis", PhysicsSpace.AXIS_Y);
         createShape();
+    }
+
+    /**
+     * Serialize this shape, for example when saving to a J3O file.
+     *
+     * @param ex exporter (not null)
+     * @throws IOException from exporter
+     */
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(halfExtents, "halfExtents",
+                new Vector3f(0.5f, 0.5f, 0.5f));
+        capsule.write(axis, "axis", PhysicsSpace.AXIS_Y);
     }
     // *************************************************************************
     // private methods
