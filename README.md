@@ -319,7 +319,7 @@ In particular, `CapsuleCollisionShape` is often used with humanoid models.
         use a BoxCollisionShape
     } else if (its shape can be approximated by a centered capsule) {
         use a CapsuleCollisionShape
-    } else if (its shape can be approximated by a centered elliptic cylinder) {
+    } else if (its shape can be approximated by a centered cylinder) {
         use a CylinderCollisionShape
     } else if (its shape can be approximated by a centered cone) {
         use a ConeCollisionShape
