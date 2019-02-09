@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.6.5 released on TBD
+## Version 0.6.5 released on 8 February 2019
 
 Important changes to the library:
  + Fixed various read/write bugs in `BetterCharacterControl`.
