@@ -14,26 +14,37 @@ Summary of features:
  + `DynamicAnimControl` for ragdoll simulation:
     + set dynamic/kinematic mode per bone
     + deals with attachments
-    + highly configurable, with multiple options for bone mass, center, and shape
+    + highly configurable, with many options for bone mass, center, and shape
     + apply inverse-kinematic controllers and joints
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `EmptyShape` collision shapes based on `btEmptyShape`
- + enhanced debug visualization:
+ + debugging aids:
+    + dump the contents of a physics space
     + customize debug material per collision object
-    + dump contents of physics space
+    + visualize the local axes of each collision object
     + visualize in multiple viewports
-    + hi-res debug meshes for convex shapes
+    + hi-resolution debug meshes for convex shapes
     + options to generate debug meshes that include normals
- + all joints, shapes, and collision objects implement `JmeCloneable`
+ + all joints, shapes, and collision objects implement the `JmeCloneable`
+   and `Comparable` interfaces
  + enable/disable a joint
  + create single-ended joints
  + settable global default for collision margin
  + fixes for many `jme3-bullet` bugs (including 740, 877, 896, 923, and 938)
- + access the linear factor of a rigid body
- + improved Javadoc and inline documentation
+ + access more parameters of rigid bodies:
+    + anisotropic friction
+    + contact damping
+    + contact stiffness
+    + contact-processing threshold
+    + deactivation time
+    + linear factor
+    + rolling friction
+    + spinning friction
+ + option to apply the scale of a kinematic `RigidBodyControl`
+ + improved Javadoc and inline documentation, better encapsulation
  + decoupled from the jMonkeyEngine release cycle
- + tutorial, demo, and test apps provided
- + Java source code provided under FreeBSD license
+ + tutorial, demo, and test applications provided
+ + Java source code provided under a FreeBSD license
 
 Features of `jme3-bullet` that Minie omits:
 
