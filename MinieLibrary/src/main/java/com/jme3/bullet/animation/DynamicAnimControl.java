@@ -156,10 +156,7 @@ public class DynamicAnimControl
     public void amputateSubtree(BoneLink rootLink, float blendInterval) {
         Validate.nonNull(rootLink, "root link");
         Validate.nonNegative(blendInterval, "blend interval");
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot change modes unless added to a spatial.");
-        }
+        verifyAddedToSpatial("change modes");
 
         blendDescendants(rootLink, KinematicSubmode.Amputated, blendInterval);
         rootLink.blendToKinematicMode(KinematicSubmode.Amputated,
@@ -177,10 +174,7 @@ public class DynamicAnimControl
     public void animateSubtree(PhysicsLink rootLink, float blendInterval) {
         Validate.nonNull(rootLink, "root link");
         Validate.nonNegative(blendInterval, "blend interval");
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot change modes unless added to a spatial.");
-        }
+        verifyAddedToSpatial("change modes");
 
         blendSubtree(rootLink, KinematicSubmode.Animated, blendInterval);
     }
@@ -195,10 +189,7 @@ public class DynamicAnimControl
     public void bindSubtree(PhysicsLink rootLink, float blendInterval) {
         Validate.nonNull(rootLink, "root link");
         Validate.nonNegative(blendInterval, "blend interval");
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot change modes unless added to a spatial.");
-        }
+        verifyAddedToSpatial("change modes");
 
         blendSubtree(rootLink, KinematicSubmode.Bound, blendInterval);
     }
@@ -218,10 +209,7 @@ public class DynamicAnimControl
     public void blendToKinematicMode(float blendInterval,
             Transform endModelTransform) {
         Validate.nonNegative(blendInterval, "blend interval");
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot change modes unless added to a spatial.");
-        }
+        verifyAddedToSpatial("change modes");
 
         getTorsoLink().blendToKinematicMode(KinematicSubmode.Animated, blendInterval,
                 endModelTransform);
@@ -249,13 +237,7 @@ public class DynamicAnimControl
      * @return the total mass (&gt;0)
      */
     public float centerOfMass(Vector3f storeLocation, Vector3f storeVelocity) {
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Control is not added to a spatial.");
-        }
-        if (!isReady) {
-            throw new IllegalStateException("Control is not ready.");
-        }
+        verifyReadyForDynamicMode("calculate the center of mass");
 
         recalculateCenter();
         if (storeLocation != null) {
@@ -405,10 +387,7 @@ public class DynamicAnimControl
      */
     public void freezeSubtree(PhysicsLink rootLink, boolean forceKinematic) {
         Validate.nonNull(rootLink, "root link");
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot change modes unless added to a spatial.");
-        }
+        verifyAddedToSpatial("change modes");
 
         rootLink.freeze(forceKinematic);
 
@@ -528,10 +507,7 @@ public class DynamicAnimControl
     public void setContactResponseSubtree(PhysicsLink rootLink,
             boolean desiredResponse) {
         Validate.nonNull(rootLink, "root link");
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot change modes unless added to a spatial.");
-        }
+        verifyAddedToSpatial("change modes");
 
         if (!rootLink.isReleased()) {
             PhysicsRigidBody rigidBody = rootLink.getRigidBody();
@@ -564,10 +540,7 @@ public class DynamicAnimControl
         Validate.positive(chainLength, "chain length");
         Validate.nonNull(startLink, "start link");
         Validate.nonNull(uniformAcceleration, "uniform acceleration");
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot change modes unless added to a spatial.");
-        }
+        verifyAddedToSpatial("change modes");
 
         if (startLink instanceof BoneLink) {
             BoneLink boneLink = (BoneLink) startLink;
@@ -599,10 +572,7 @@ public class DynamicAnimControl
             Vector3f uniformAcceleration, boolean lockAll) {
         Validate.nonNull(rootLink, "root link");
         Validate.nonNull(uniformAcceleration, "uniform acceleration");
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot change modes unless added to a spatial.");
-        }
+        verifyAddedToSpatial("change modes");
 
         if (rootLink == getTorsoLink()) {
             getTorsoLink().setDynamic(uniformAcceleration);
@@ -628,10 +598,7 @@ public class DynamicAnimControl
      * Allowed only when the control IS added to a spatial.
      */
     public void setKinematicMode() {
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot change modes unless added to a spatial.");
-        }
+        verifyAddedToSpatial("set kinematic mode");
 
         Transform localTransform = getSpatial().getLocalTransform();
         blendToKinematicMode(0f, localTransform);
@@ -645,13 +612,7 @@ public class DynamicAnimControl
      * "ready".
      */
     public void setRagdollMode() {
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot change modes unless added to a spatial.");
-        }
-        if (!isReady) {
-            throw new IllegalStateException("Control is not ready.");
-        }
+        verifyReadyForDynamicMode("set ragdoll mode");
 
         Vector3f ragdollGravity = gravity(null);
 
@@ -861,9 +822,7 @@ public class DynamicAnimControl
             link.postTick();
         }
 
-        if (!isReady) {
-            isReady = true;
-        }
+        isReady = true;
     }
 
     /**
@@ -981,5 +940,23 @@ public class DynamicAnimControl
         locationSum.mult(invMass, centerLocation);
         velocitySum.mult(invMass, centerVelocity);
         ragdollMass = (float) massSum;
+    }
+
+    /**
+     * Verify that all links are ready for dynamic mode, which also implies that
+     * this Control is added to a Spatial.
+     *
+     * @param desiredAction (not null, not empty)
+     */
+    private void verifyReadyForDynamicMode(String desiredAction) {
+        assert desiredAction != null;
+
+        verifyAddedToSpatial(desiredAction);
+
+        if (!isReady) {
+            String message = "Cannot " + desiredAction
+                    + " until the physics has been stepped.";
+            throw new IllegalStateException(message);
+        }
     }
 }
