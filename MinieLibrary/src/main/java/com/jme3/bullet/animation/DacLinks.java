@@ -230,9 +230,39 @@ public class DacLinks extends DacConfiguration {
     }
 
     /**
+     * Enumerate all physics links of the specified type managed by this
+     * control.
+     *
+     * @param <T> subclass of PhysicsLink
+     * @param linkType the subclass of PhysicsLink to search for (not null)
+     * @return a new array of links (not null, not empty)
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends PhysicsLink> List<T> listLinks(Class<T> linkType) {
+        int numLinks = countLinks();
+        List<T> result = new ArrayList<>(numLinks);
+
+        if (linkType.isAssignableFrom(torsoLink.getClass())) {
+            result.add((T) torsoLink);
+        }
+        for (BoneLink link : boneLinkList) {
+            if (linkType.isAssignableFrom(link.getClass())) {
+                result.add((T) link);
+            }
+        }
+        for (AttachmentLink link : attachmentLinks.values()) {
+            if (linkType.isAssignableFrom(link.getClass())) {
+                result.add((T) link);
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Enumerate all managed bones of the named link, in a pre-order,
      * depth-first traversal of the skeleton, such that child bones never
-     * precede their ancestors. TODO re-order methods
+     * precede their ancestors.
      *
      * @param managerName the name of the managing link (not null)
      * @return a new array of managed bones, including the manager if it is not
@@ -266,36 +296,6 @@ public class DacLinks extends DacConfiguration {
         list.toArray(array);
 
         return array;
-    }
-
-    /**
-     * Enumerate all physics links of the specified type managed by this
-     * control.
-     *
-     * @param <T> subclass of PhysicsLink
-     * @param linkType the subclass of PhysicsLink to search for (not null)
-     * @return a new array of links (not null, not empty)
-     */
-    @SuppressWarnings("unchecked")
-    public <T extends PhysicsLink> List<T> listLinks(Class<T> linkType) {
-        int numLinks = countLinks();
-        List<T> result = new ArrayList<>(numLinks);
-
-        if (linkType.isAssignableFrom(torsoLink.getClass())) {
-            result.add((T) torsoLink);
-        }
-        for (BoneLink link : boneLinkList) {
-            if (linkType.isAssignableFrom(link.getClass())) {
-                result.add((T) link);
-            }
-        }
-        for (AttachmentLink link : attachmentLinks.values()) {
-            if (linkType.isAssignableFrom(link.getClass())) {
-                result.add((T) link);
-            }
-        }
-
-        return result;
     }
 
     /**
@@ -779,24 +779,6 @@ public class DacLinks extends DacConfiguration {
     }
 
     /**
-     * Alter the mass of the attachment associated with the named bone.
-     *
-     * @param boneName the name of the associated bone (not null, not empty)
-     * @param mass the desired mass (&gt;0)
-     */
-    @Override
-    public void setAttachmentMass(String boneName, float mass) {
-        Validate.positive(mass, "mass");
-
-        super.setAttachmentMass(boneName, mass);
-
-        AttachmentLink link = attachmentLinks.get(boneName);
-        if (link != null) {
-            link.getRigidBody().setMass(mass);
-        }
-    }
-
-    /**
      * Alter the configuration of the attachment associated with the named bone.
      *
      * @param boneName the name of the associated bone (not null, not empty)
@@ -815,6 +797,24 @@ public class DacLinks extends DacConfiguration {
                     = spatial.getControl(SkeletonControl.class);
             String[] managerMap = managerMap(skeleton);
             createAttachmentLink(boneName, skeletonControl, managerMap);
+        }
+    }
+
+    /**
+     * Alter the mass of the attachment associated with the named bone.
+     *
+     * @param boneName the name of the associated bone (not null, not empty)
+     * @param mass the desired mass (&gt;0)
+     */
+    @Override
+    public void setAttachmentMass(String boneName, float mass) {
+        Validate.positive(mass, "mass");
+
+        super.setAttachmentMass(boneName, mass);
+
+        AttachmentLink link = attachmentLinks.get(boneName);
+        if (link != null) {
+            link.getRigidBody().setMass(mass);
         }
     }
 
