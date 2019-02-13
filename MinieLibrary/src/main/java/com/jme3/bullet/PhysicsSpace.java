@@ -411,6 +411,32 @@ public class PhysicsSpace {
     }
 
     /**
+     * Test whether the specified collision object is added to this space.
+     *
+     * @param pco the object to test (not null)
+     * @return true if currently added, otherwise false
+     */
+    public boolean contains(PhysicsCollisionObject pco) {
+        boolean result;
+        if (pco instanceof PhysicsRigidBody) {
+            long id = ((PhysicsRigidBody) pco).getObjectId();
+            result = physicsBodies.containsKey(id);
+        } else if (pco instanceof PhysicsGhostObject) {
+            long id = ((PhysicsGhostObject) pco).getObjectId();
+            result = physicsGhostObjects.containsKey(id);
+        } else if (pco instanceof PhysicsCharacter) {
+            long id = ((PhysicsCharacter) pco).getObjectId();
+            result = physicsCharacters.containsKey(id);
+        } else {
+            String typeName = pco.getClass().getCanonicalName();
+            String msg = "Unknown type of collision object: " + typeName;
+            throw new IllegalArgumentException(msg);
+        }
+
+        return result;
+    }
+
+    /**
      * Count the joints in this space.
      *
      * @return count (&ge;0)
@@ -1028,7 +1054,7 @@ public class PhysicsSpace {
 
     private void addCharacter(PhysicsCharacter character) {
         long objectId = character.getObjectId();
-        if (physicsCharacters.containsKey(objectId)) {
+        if (contains(character)) {
             logger.log(Level.WARNING,
                     "Character {0} already exists in PhysicsSpace.",
                     Long.toHexString(objectId));
@@ -1055,7 +1081,7 @@ public class PhysicsSpace {
 
     private void addGhostObject(PhysicsGhostObject ghost) {
         long objectId = ghost.getObjectId();
-        if (physicsGhostObjects.containsKey(objectId)) {
+        if (contains(ghost)) {
             logger.log(Level.WARNING,
                     "Ghost {0} already exists in PhysicsSpace.",
                     Long.toHexString(objectId));
@@ -1090,7 +1116,7 @@ public class PhysicsSpace {
      */
     private void addRigidBody(PhysicsRigidBody body) {
         long objectId = body.getObjectId();
-        if (physicsBodies.containsKey(objectId)) {
+        if (contains(body)) {
             logger.log(Level.WARNING,
                     "Rigid body {0} already exists in PhysicsSpace.",
                     Long.toHexString(objectId));
