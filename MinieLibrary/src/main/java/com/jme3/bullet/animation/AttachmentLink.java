@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -460,7 +460,7 @@ public class AttachmentLink extends PhysicsLink {
         /*
          * Start with the rigid body's transform in physics/world coordinates.
          */
-        physicsTransform(result);
+        getRigidBody().getPhysicsTransform(result);
         /*
          * Convert to mesh coordinates.
          */
