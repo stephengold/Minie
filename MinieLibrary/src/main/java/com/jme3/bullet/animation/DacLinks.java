@@ -157,11 +157,7 @@ public class DacLinks extends DacConfiguration {
      * @return the pre-existing instance, or null if not found
      */
     public Bone findBone(String boneName) {
-        if (getSpatial() == null) {
-            throw new IllegalStateException(
-                    "Cannot access bones unless added to a spatial.");
-        }
-
+        verifyAddedToSpatial("access a bone");
         Bone result = skeleton.getBone(boneName);
         return result;
     }
@@ -236,7 +232,7 @@ public class DacLinks extends DacConfiguration {
     /**
      * Enumerate all managed bones of the named link, in a pre-order,
      * depth-first traversal of the skeleton, such that child bones never
-     * precede their ancestors.
+     * precede their ancestors. TODO re-order methods
      *
      * @param managerName the name of the managing link (not null)
      * @return a new array of managed bones, including the manager if it is not
@@ -303,11 +299,15 @@ public class DacLinks extends DacConfiguration {
     }
 
     /**
-     * Enumerate all the rigid bodies managed by this control.
+     * Enumerate all rigid bodies managed by this control.
+     * <p>
+     * Allowed only when the control IS added to a spatial.
      *
      * @return a new array of pre-existing rigid bodies (not null, not empty)
      */
     public PhysicsRigidBody[] listRigidBodies() {
+        verifyAddedToSpatial("enumerate rigid bodies");
+
         int numLinks = countLinks();
         PhysicsRigidBody[] result = new PhysicsRigidBody[numLinks];
 
@@ -379,16 +379,13 @@ public class DacLinks extends DacConfiguration {
      * Allowed only when the control IS added to a spatial.
      */
     public void rebuild() {
-        Spatial controlledSpatial = getSpatial();
-        if (controlledSpatial == null) {
-            throw new IllegalStateException(
-                    "Cannot rebuild unless added to a spatial.");
-        }
+        verifyAddedToSpatial("rebuild the ragdoll");
 
         Map<String, AttachmentLink> saveAttach = new HashMap<>(attachmentLinks);
         Map<String, BoneLink> saveBones = new HashMap<>(boneLinks);
         TorsoLink saveTorso = torsoLink;
 
+        Spatial controlledSpatial = getSpatial();
         removeSpatialData(controlledSpatial);
         createSpatialData(controlledSpatial);
 
@@ -451,6 +448,22 @@ public class DacLinks extends DacConfiguration {
     protected Collection<AttachmentLink> listAttachmentLinks() {
         Collection<AttachmentLink> result = attachmentLinks.values();
         return result;
+    }
+
+    /**
+     * Verify that this control is added to a Spatial.
+     *
+     * @param desiredAction (not null, not empty)
+     */
+    protected void verifyAddedToSpatial(String desiredAction) {
+        assert desiredAction != null;
+
+        Spatial controlledSpatial = getSpatial();
+        if (controlledSpatial == null) {
+            String message = "Cannot " + desiredAction
+                    + " unless the Control is added to a Spatial.";
+            throw new IllegalStateException(message);
+        }
     }
     // *************************************************************************
     // DacConfiguration methods
@@ -922,7 +935,7 @@ public class DacLinks extends DacConfiguration {
      */
     @Override
     public void update(float tpf) {
-        assert getSpatial() != null;
+        verifyAddedToSpatial("update the control");
         if (!isEnabled()) {
             return;
         }
