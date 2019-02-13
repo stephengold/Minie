@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -136,11 +136,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         Validate.positive(mass, "mass");
         RagUtils.validate(model);
         assert MySpatial.isOrphan(model);
-        if (getSpatial() != null) {
-            throw new IllegalStateException(
-                    "Cannot attach a model while control is added to a spatial."
-            );
-        }
+        verifyNotAddedToSpatial("add an attachment");
         if (hasAttachmentLink(boneName)) {
             logger2.log(Level.WARNING, "Bone {0} already had an attachment.",
                     MyString.quote(boneName));
@@ -167,11 +163,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         }
         RagUtils.validate(model);
         assert MySpatial.isOrphan(model);
-        if (getSpatial() != null) {
-            throw new IllegalStateException(
-                    "Cannot attach a model while control is added to a spatial."
-            );
-        }
+        verifyNotAddedToSpatial("add an attachment");
         if (hasAttachmentLink(boneName)) {
             logger2.log(Level.WARNING, "Bone {0} already had an attachment.",
                     MyString.quote(boneName));
@@ -281,26 +273,21 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Cancel the attachment associated with the named bone.
+     * Unlink the AttachmentLink associated with the named bone.
      * <p>
      * Allowed only when the control is NOT added to a spatial.
      *
-     * @param boneName the name of the bone (not null, not empty)
+     * @param boneName the name of the associated bone (not null, not empty)
      */
     public void detach(String boneName) {
-        if (!hasBoneLink(boneName)) {
-            String msg = "No attachment associated with "
-                    + MyString.quote(boneName);
+        if (!hasAttachmentLink(boneName)) {
+            String msg = "No attachment bone named " + MyString.quote(boneName);
             throw new IllegalArgumentException(msg);
         }
-        if (getSpatial() != null) {
-            throw new IllegalStateException(
-                    "Cannot cancel an attachment "
-                    + "while control is added to a spatial.");
-        }
+        verifyNotAddedToSpatial("unlink an attachment");
 
-        jointMap.remove(boneName);
-        blConfigMap.remove(boneName);
+        alConfigMap.remove(boneName);
+        attachModelMap.remove(boneName);
     }
 
     /**
@@ -414,10 +401,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         Validate.nonEmpty(boneName, "bone name");
         Validate.positive(mass, "mass");
         Validate.nonNull(rom, "range of motion");
-        if (getSpatial() != null) {
-            throw new IllegalStateException(
-                    "Cannot link a bone while control is added to a spatial.");
-        }
+        verifyNotAddedToSpatial("link a bone");
         if (hasBoneLink(boneName)) {
             logger2.log(Level.WARNING, "Bone {0} is already linked.",
                     MyString.quote(boneName));
@@ -444,10 +428,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         Validate.nonEmpty(boneName, "bone name");
         Validate.nonNull(config, "configuration");
         Validate.nonNull(rom, "range of motion");
-        if (getSpatial() != null) {
-            throw new IllegalStateException(
-                    "Cannot link a bone while control is added to a spatial.");
-        }
+        verifyNotAddedToSpatial("link a bone");
         if (hasBoneLink(boneName)) {
             logger2.log(Level.WARNING, "Bone {0} is already linked.",
                     MyString.quote(boneName));
@@ -644,28 +625,6 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Unlink the AttachmentLink of the named bone.
-     * <p>
-     * Allowed only when the control is NOT added to a spatial.
-     *
-     * @param boneName the name of the associated bone (not null, not empty)
-     */
-    public void unlinkAttachment(String boneName) {
-        if (!hasAttachmentLink(boneName)) {
-            String msg = "No attachment bone named " + MyString.quote(boneName);
-            throw new IllegalArgumentException(msg);
-        }
-        if (getSpatial() != null) {
-            throw new IllegalStateException(
-                    "Cannot unlink an attachment "
-                    + "while control is added to a spatial.");
-        }
-
-        alConfigMap.remove(boneName);
-        attachModelMap.remove(boneName);
-    }
-
-    /**
      * Unlink the BoneLink of the named bone.
      * <p>
      * Allowed only when the control is NOT added to a spatial.
@@ -677,11 +636,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             String msg = "No linked bone named " + MyString.quote(boneName);
             throw new IllegalArgumentException(msg);
         }
-        if (getSpatial() != null) {
-            throw new IllegalStateException(
-                    "Cannot unlink a bone while control is added to a spatial."
-            );
-        }
+        verifyNotAddedToSpatial("unlink a bone");
 
         jointMap.remove(boneName);
         blConfigMap.remove(boneName);
@@ -922,5 +877,23 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
 
         oc.write(torsoConfig, "torsoConfig", null);
         oc.write(gravityVector, "gravity", null);
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Verify that this control is NOT added to a Spatial.
+     *
+     * @param desiredAction (not null, not empty)
+     */
+    private void verifyNotAddedToSpatial(String desiredAction) {
+        assert desiredAction != null;
+
+        Spatial controlledSpatial = getSpatial();
+        if (controlledSpatial != null) {
+            String message = "Cannot " + desiredAction
+                    + " while the Control is added to a Spatial.";
+            throw new IllegalStateException(message);
+        }
     }
 }
