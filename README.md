@@ -423,6 +423,7 @@ due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 ## External links
 
   + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
+  + [The Physics section of the JME Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
 
 YouTube videos about Minie:
 
