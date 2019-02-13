@@ -106,7 +106,7 @@ Since November 2018, the Minie Project has been an independent project at
 [GitHub][minie].
 
 From January 2018 to November 2018, Minie was a sub-project of
-[the Jme3-Utilities Project][utilities].
+[the Jme3-utilities Project][utilities].
 
 Most of Minie was originally forked from `jme3-bullet`,
 a library in the [jMonkeyEngine Game Engine][jme].
@@ -144,22 +144,23 @@ The hardware and software requirements of the SDK are documented on
 
 ### Source files
 
-Clone the repository using Git:
+Clone the Minie repository using Git:
 
- 1. Open the Clone wizard in the IDE:
+ 1. Open the "Clone Repository" wizard in the IDE:
+     + Menu bar -> "Team" -> "Git" -> "Clone..." or
      + Menu bar -> "Team" -> "Remote" -> "Clone..."
  2. For "Repository URL:" specify
     `https://github.com/stephengold/Minie.git`
  3. Clear the "User:" and "Password:" text boxes.
  4. For "Clone into:" specify a writable folder (on a local filesystem)
-    which doesn't already contain "Minie".
+    that doesn't already contain "Minie".
  5. Click on the "Next >" button.
  6. Make sure the "master" remote branch is checked.
  7. Click on the "Next >" button again.
  8. Make sure the Checkout Branch is set to "master".
  9. Make sure the "Scan for NetBeans Projects after Clone" box is checked.
 10. Click on the "Finish" button.
-11. When the "Clone Complete" dialog appears, click on the "Open Project..."
+11. When the "Clone Completed" dialog appears, click on the "Open Project..."
     button.
 12. Expand the root project node to reveal the sub-projects.
 13. Select both sub-projects using control-click, then click on the
@@ -167,8 +168,8 @@ Clone the repository using Git:
 
 ### Build the project
 
- 1. In the "Projects" window, right-click on the "MinieExamples" sub-project to
-    select it.
+ 1. In the "Projects" window of the IDE,
+    right-click on the "MinieExamples" sub-project to select it.
  2. Select "Build".
 
 <a name="add"/>
@@ -453,7 +454,7 @@ YouTube videos about Minie:
 [minie]: https://github.com/stephengold/Minie "Minie Project"
 [netbeans]: https://netbeans.org "NetBeans Project"
 [obs]: https://obsproject.com "Open Broadcaster Software Project"
-[utilities]: https://github.com/stephengold/jme3-utilities "Jme3-Utilities Project"
+[utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [vegdahl]: http://www.cessen.com "Nathan Vegdahl"
 [winmerge]: http://winmerge.org "WinMerge Project"
 
@@ -473,7 +474,7 @@ artists and software developers:
 + Paul Speed, for helpful insights
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down.
 + [Nathan Vegdahl][vegdahl], for creating the Puppet model (used by `TestDac`)
-+ the creators of (and contributors to) the following software:
++ plus the creators of (and contributors to) the following software:
     + the [Blender][] 3-D animation suite
     + the [Bullet][] real-time physics library
     + the [FindBugs][] source-code analyzer
