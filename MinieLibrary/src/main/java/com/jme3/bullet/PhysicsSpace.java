@@ -202,7 +202,7 @@ public class PhysicsSpace {
     final private Map<Long, PhysicsJoint> physicsJoints
             = new ConcurrentHashMap<>(64);
     /**
-     * map rigid body IDs to objects
+     * map rigid-body IDs to objects (including vehicles)
      */
     final private Map<Long, PhysicsRigidBody> physicsBodies
             = new ConcurrentHashMap<>(64);
@@ -418,14 +418,12 @@ public class PhysicsSpace {
      */
     public boolean contains(PhysicsCollisionObject pco) {
         boolean result;
+        long id = pco.getObjectId();
         if (pco instanceof PhysicsRigidBody) {
-            long id = ((PhysicsRigidBody) pco).getObjectId();
             result = physicsBodies.containsKey(id);
         } else if (pco instanceof PhysicsGhostObject) {
-            long id = ((PhysicsGhostObject) pco).getObjectId();
             result = physicsGhostObjects.containsKey(id);
         } else if (pco instanceof PhysicsCharacter) {
-            long id = ((PhysicsCharacter) pco).getObjectId();
             result = physicsCharacters.containsKey(id);
         } else {
             String typeName = pco.getClass().getCanonicalName();
