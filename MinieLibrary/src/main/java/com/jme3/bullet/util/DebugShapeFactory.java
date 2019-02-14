@@ -45,7 +45,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer.Type;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -137,7 +136,7 @@ public class DebugShapeFactory {
 
             Node node = new Node("Bullet debug");
 
-            List<ChildCollisionShape> children = parent.getChildren();
+            ChildCollisionShape[] children = parent.listChildren();
             for (ChildCollisionShape child : children) {
                 CollisionShape simpleShape = child.getShape();
                 Geometry geometry

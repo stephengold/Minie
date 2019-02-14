@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -135,12 +134,46 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
-     * Access the list of children.
+     * Count the child shapes.
      *
-     * @return the pre-existing list (not null) TODO
+     * @return the count (&ge;0)
      */
-    public List<ChildCollisionShape> getChildren() {
-        return children;
+    public int countChildren() {
+        int numChildren = children.size();
+        return numChildren;
+    }
+
+    /**
+     * Find the first child with the specified shape.
+     *
+     * @param childShape the shape to search for
+     * @return the index of the child if found, otherwise -1
+     */
+    public int findIndex(CollisionShape childShape) {
+        int result = -1;
+        for (int index = 0; index < children.size(); ++index) {
+            ChildCollisionShape ccs = children.get(index);
+            CollisionShape shape = ccs.getShape();
+            if (shape == childShape) {
+                result = index;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Enumerate the child shapes.
+     *
+     * @return a new array of pre-existing child shapes (not null)
+     */
+    public ChildCollisionShape[] listChildren() {
+        int numChildren = children.size();
+        ChildCollisionShape[] result = new ChildCollisionShape[numChildren];
+        children.toArray(result);
+
+        return result;
     }
 
     /**

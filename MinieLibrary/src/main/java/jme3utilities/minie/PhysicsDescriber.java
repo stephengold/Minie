@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2018, Stephen Gold
+ Copyright (c) 2013-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -155,7 +155,7 @@ public class PhysicsDescriber extends Describer {
     public String describeChildShapes(CompoundCollisionShape compound) {
         StringBuilder result = new StringBuilder(20);
         boolean addSeparators = false;
-        List<ChildCollisionShape> children = compound.getChildren();
+        ChildCollisionShape[] children = compound.listChildren();
         for (ChildCollisionShape child : children) {
             if (addSeparators) {
                 result.append("  ");
