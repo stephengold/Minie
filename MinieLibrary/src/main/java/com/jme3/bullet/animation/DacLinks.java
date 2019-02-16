@@ -1182,10 +1182,15 @@ public class DacLinks extends DacConfiguration {
 
         PhysicsRigidBody rigidBody = createRigidBody(linkConfig, shape);
 
-        Node modelNode = (Node) getSpatial();
-        Transform modelToMesh
-                = RagUtils.relativeTransform(transformer, modelNode, null);
-        Transform meshToModel = modelToMesh.invert();
+        Transform meshToModel;
+        Spatial cgm = getSpatial();
+        if (cgm instanceof Node) {
+            Transform modelToMesh
+                    = RagUtils.relativeTransform(transformer, (Node) cgm, null);
+            meshToModel = modelToMesh.invert();
+        } else {
+            meshToModel = transformIdentity;
+        }
 
         torsoLink = new TorsoLink(this, bone, rigidBody, meshToModel, offset);
     }
