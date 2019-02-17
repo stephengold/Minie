@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -134,7 +134,7 @@ public class TestSetMargin {
         assert gimpact.getMargin() == 0.16f;
 
         Texture heightTexture = MyAsset.loadTexture(assetManager,
-                "Textures/terrain/height/basin.png");
+                "Textures/BumpMapTest/Simple_height.png");
         Image heightImage = heightTexture.getImage();
         float heightScale = 1f;
         AbstractHeightMap heightMap

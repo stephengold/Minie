@@ -190,7 +190,7 @@ public class TestCloneShapes {
          * Heightfield
          */
         Texture heightTexture = MyAsset.loadTexture(assetManager,
-                "Textures/terrain/height/basin.png");
+                "Textures/BumpMapTest/Simple_height.png");
         Image heightImage = heightTexture.getImage();
         float heightScale = 1f;
         AbstractHeightMap heightMap

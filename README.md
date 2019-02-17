@@ -22,8 +22,8 @@ Summary of features:
     + dump the contents of a physics space
     + customize debug material per collision object
     + visualize the local axes of each collision object
-    + visualize in multiple viewports
-    + hi-resolution debug meshes for convex shapes
+    + visualize physics in multiple viewports
+    + option for high-resolution debug meshes for convex shapes
     + options to generate debug meshes that include normals
  + all joints, shapes, and collision objects implement the `JmeCloneable`
    and `Comparable` interfaces
@@ -223,8 +223,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 Minie comes pre-built as a single library that includes both Java classes
 and native libraries.  The Minie library depends on 2 Jme3-utilities libraries
 (jme3-utilities-heart and jme3-utilities-debug) which in turn depend on
-3 of the standard jMonkeyEngine libraries
-(jme3-core, jme3-effects, and jme3-terrain).
+2 of the standard jMonkeyEngine libraries (jme3-core and jme3-terrain).
 
 #### For Gradle projects
 
@@ -249,8 +248,8 @@ For project built using Ant, download the 3 non-standard
 libraries from GitHub:
 
    + https://github.com/stephengold/Minie/releases/tag/0.6.5
-   + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.18.0
-   + https://github.com/stephengold/jme3-utilities/releases/tag/debug-0.9.9
+   + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.19.0
+   + https://github.com/stephengold/jme3-utilities/releases/tag/debug-0.9.10
 
 You'll want all 3 class JARs
 and probably the `-sources` and `-javadoc` JARs as well.
@@ -266,15 +265,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Navigate to the "jme3-utilities" project folder.
     + Open the "heart" sub-project folder.
     + Navigate to the "build/libs" folder.
-    + Select the "jme3-utilities-heart-2.18.0.jar" file.
+    + Select the "jme3-utilities-heart-2.19.0.jar" file.
     + Click on the "Open" button.
  6. (optional) Add JARs for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "jme3-utilities-heart-2.18.0-javadoc.jar" file.
+    + Select the "jme3-utilities-heart-2.19.0-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "jme3-utilities-heart-2.18.0-sources.jar" file.
+    + Select the "jme3-utilities-heart-2.19.0-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the `jme3-utilities-debug` JAR(s).

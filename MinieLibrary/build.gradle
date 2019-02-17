@@ -14,8 +14,10 @@ javadocJar { baseName project.ext.baseName }
 sourcesJar { baseName project.ext.baseName }
 
 dependencies {
-    compile "jme3utilities:jme3-utilities-heart:2.18.0"
-    compile "jme3utilities:jme3-utilities-debug:0.9.9"
+    compile 'jme3utilities:jme3-utilities-heart:2.19.0'
+    compile 'jme3utilities:jme3-utilities-debug:0.9.10'
+    compile "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
+
     testCompile 'junit:junit:4.12'
     testCompile "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     testRuntime 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
