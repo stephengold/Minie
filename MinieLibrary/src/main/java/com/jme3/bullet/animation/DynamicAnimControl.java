@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -470,6 +470,9 @@ public class DynamicAnimControl
     /**
      * Add an IK joint that will restrict the specified link to pivoting around
      * a fixed pivot.
+     * <p>
+     * Allowed only when the control IS added to a spatial and all links are
+     * "ready".
      *
      * @param link which link to pin (not null)
      * @param pivotInWorld the pivot location (in physics-space coordinates, not
@@ -478,6 +481,7 @@ public class DynamicAnimControl
      */
     public PhysicsJoint pinToWorld(PhysicsLink link, Vector3f pivotInWorld) {
         Validate.nonNull(pivotInWorld, "pivot location");
+        verifyReadyForDynamicMode("add an IK joint");
 
         PhysicsRigidBody linkBody = link.getRigidBody();
         Transform localToWorld = link.physicsTransform(null);
@@ -606,7 +610,7 @@ public class DynamicAnimControl
 
     /**
      * Immediately put all links into dynamic mode with full gravity and disable
-     * all IK controllers/joints.
+     * all IK controllers and IK joints.
      * <p>
      * Allowed only when the control IS added to a spatial and all links are
      * "ready".
