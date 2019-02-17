@@ -470,8 +470,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * Alter the walk offset. The offset will continue to be applied until
      * altered again.
      *
-     * @param offset the desired position increment for each physics tick (not
-     * null, unaffected)
+     * @param offset the desired position increment for each physics tick (in
+     * physics-space coordinates, not null, unaffected)
      */
     public void setWalkDirection(Vector3f offset) {
         walkOffset.set(offset);
