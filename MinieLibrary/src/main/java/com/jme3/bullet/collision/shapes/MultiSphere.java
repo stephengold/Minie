@@ -38,6 +38,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.export.Savable;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -382,8 +383,13 @@ public class MultiSphere extends CollisionShape {
         super.read(im);
         InputCapsule capsule = im.getCapsule(this);
 
-        centers = (Vector3f[]) capsule.readSavableArray("centers",
-                new Vector3f[0]);
+        Savable[] savCenters
+                = capsule.readSavableArray("centers", new Vector3f[0]);
+        int numSpheres = savCenters.length;
+        centers = new Vector3f[numSpheres];
+        for (int sphereIndex = 0; sphereIndex < numSpheres; ++sphereIndex) {
+            centers[sphereIndex] = (Vector3f) savCenters[sphereIndex];
+        }
         radii = capsule.readFloatArray("radii", new float[0]);
         createShape();
     }
