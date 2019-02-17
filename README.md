@@ -48,8 +48,8 @@ Summary of features:
 
 Features of `jme3-bullet` that Minie omits:
 
- + `CharacterControl`: use `BetterCharacterControl` instead, or else
-   use `PhysicsCharacter` directly
+ + `CharacterControl`: use `MinieCharacterControl` or `BetterCharacterControl`
+   instead, or else use `PhysicsCharacter` directly
  + `KinematicRagdollControl`, `HumanoidRagdollPreset`, and `RagdollPreset`:
    use `DynamicAnimControl` instead
  + `RagdollUtils`: use `RagUtils` instead
