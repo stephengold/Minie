@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -144,6 +144,22 @@ public class RangeOfMotion implements Savable {
         this.minY = -maxY;
         this.maxZ = maxZ;
         this.minZ = -maxZ;
+    }
+
+    /**
+     * Instantiate a preset with the specified symmetric range of motion.
+     *
+     * @param maxAngle the maximum rotation around each axis (in radians, &ge;0)
+     */
+    public RangeOfMotion(float maxAngle) {
+        Validate.inRange(maxX, "max rotation", 0f, FastMath.PI);
+
+        maxX = maxAngle;
+        minX = -maxAngle;
+        maxY = maxAngle;
+        minY = -maxAngle;
+        maxZ = maxAngle;
+        minZ = -maxAngle;
     }
 
     /**
