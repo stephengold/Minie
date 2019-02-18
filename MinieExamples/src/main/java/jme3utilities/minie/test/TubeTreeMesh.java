@@ -85,7 +85,7 @@ public class TubeTreeMesh extends Mesh {
     // fields
 
     /**
-     * radius of each mesh ring (in mesh units, default=1)
+     * radius of each mesh loop (in mesh units, default=1)
      */
     private float radius = 1f;
     /**
@@ -109,14 +109,14 @@ public class TubeTreeMesh extends Mesh {
      */
     private int numVertices;
     /**
-     * number of mesh rings in each tube segment connecting 2 bone heads
+     * number of mesh loops in each tube segment connecting 2 bone heads
      * (default=8)
      */
-    private int ringsPerSegment = 8;
+    private int loopsPerSegment = 8;
     /**
-     * number of sample points per mesh ring (default=12)
+     * number of sample points per mesh loop (default=12)
      */
-    private int samplesPerRing = 12;
+    private int samplesPerLoop = 12;
     /**
      * bone-index buffer
      */
@@ -150,7 +150,7 @@ public class TubeTreeMesh extends Mesh {
      * Instantiate a tube-tree mesh based on the specified skeleton and radius.
      *
      * @param skeleton (not null, in bind pose, unaffected)
-     * @param radius the radius of each mesh ring (in mesh units, &gt;0)
+     * @param radius the radius of each mesh loop (in mesh units, &gt;0)
      */
     public TubeTreeMesh(Skeleton skeleton, float radius) {
         this(skeleton, radius, 8, 12);
@@ -161,22 +161,23 @@ public class TubeTreeMesh extends Mesh {
      * parameters.
      *
      * @param skeleton (not null, in bind pose, unaffected)
-     * @param radius the radius of each mesh ring (in mesh units, &gt;0)
-     * @param ringsPerSegment the number of mesh rings in each tube segment
+     * @param radius the radius of each mesh loop (in mesh units, &gt;0)
+     * @param loopsPerSegment the number of mesh loops in each tube segment
      * (&ge;1)
-     * @param samplesPerRing the number of samples in each mesh ring (&ge;3)
+     * @param samplesPerLoop the number of samples in each mesh loop (&ge;3)
      */
-    public TubeTreeMesh(Skeleton skeleton, float radius, int ringsPerSegment,
-            int samplesPerRing) {
+    public TubeTreeMesh(Skeleton skeleton, float radius, int loopsPerSegment,
+            int samplesPerLoop) {
         Validate.nonNull(skeleton, "skeleton");
         Validate.positive(radius, "radius");
-        Validate.positive(ringsPerSegment, "rings per segment");
-        Validate.inRange(samplesPerRing, "samples per ring", 3, Integer.MAX_VALUE);
+        Validate.positive(loopsPerSegment, "loops per segment");
+        Validate.inRange(samplesPerLoop, "samples per loop", 3,
+                Integer.MAX_VALUE);
 
         this.skeleton = (Skeleton) Misc.deepCopy(skeleton);
         this.radius = radius;
-        this.ringsPerSegment = ringsPerSegment;
-        this.samplesPerRing = samplesPerRing;
+        this.loopsPerSegment = loopsPerSegment;
+        this.samplesPerLoop = samplesPerLoop;
 
         setMaxNumWeights(2);
         updateAll();
@@ -198,9 +199,9 @@ public class TubeTreeMesh extends Mesh {
         }
 
         int numBones = skeleton.getBoneCount();
-        int trianglesPerCap = samplesPerRing - 2;
-        int trianglesPerRing = 2 * samplesPerRing;
-        int trianglesPerSegment = trianglesPerRing * ringsPerSegment;
+        int trianglesPerCap = samplesPerLoop - 2;
+        int trianglesPerLoop = 2 * samplesPerLoop;
+        int trianglesPerSegment = trianglesPerLoop * loopsPerSegment;
 
         BitSet result = new BitSet(numVertices);
         int triCount = 0;
@@ -239,7 +240,7 @@ public class TubeTreeMesh extends Mesh {
      * @return count (&ge;3)
      */
     public int verticesPerCap() {
-        int trianglesPerCap = samplesPerRing - 2;
+        int trianglesPerCap = samplesPerLoop - 2;
         int result = vpt * trianglesPerCap;
 
         return result;
@@ -259,8 +260,8 @@ public class TubeTreeMesh extends Mesh {
         InputCapsule capsule = importer.getCapsule(this);
 
         radius = capsule.readFloat("radius", 1f);
-        ringsPerSegment = capsule.readInt("ringsPerSegment", 8);
-        samplesPerRing = capsule.readInt("samplesPerRing", 12);
+        loopsPerSegment = capsule.readInt("loopsPerSegment", 8);
+        samplesPerLoop = capsule.readInt("samplesPerLoop", 12);
         skeleton = (Skeleton) capsule.readSavable("skeleton", null);
         /*
          * Recalculate the derived properties.
@@ -280,8 +281,8 @@ public class TubeTreeMesh extends Mesh {
         OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(radius, "radius", 1f);
-        capsule.write(ringsPerSegment, "ringsPerTube", 8);
-        capsule.write(samplesPerRing, "samplesPerRing", 12);
+        capsule.write(loopsPerSegment, "loopsPerTube", 8);
+        capsule.write(samplesPerLoop, "samplesPerLoop", 12);
         capsule.write(skeleton, "skeleton", null);
     }
     // *************************************************************************
@@ -314,9 +315,9 @@ public class TubeTreeMesh extends Mesh {
      * centered at the origin.
      */
     private void initCircleSamples() {
-        circleSamples = new Vector3f[samplesPerRing + 1];
-        for (int sampleI = 0; sampleI <= samplesPerRing; ++sampleI) {
-            float theta = (2f * FastMath.PI / samplesPerRing) * sampleI;
+        circleSamples = new Vector3f[samplesPerLoop + 1];
+        for (int sampleI = 0; sampleI <= samplesPerLoop; ++sampleI) {
+            float theta = (2f * FastMath.PI / samplesPerLoop) * sampleI;
             float cos = FastMath.cos(theta);
             float sin = FastMath.sin(theta);
             circleSamples[sampleI] = new Vector3f(cos, sin, 0f);
@@ -400,7 +401,7 @@ public class TubeTreeMesh extends Mesh {
         /*
          * Put a triangle for each sample point except the 1st and last.
          */
-        for (int triIndex = 1; triIndex < samplesPerRing - 1; ++triIndex) {
+        for (int triIndex = 1; triIndex < samplesPerLoop - 1; ++triIndex) {
             Vector3f pos1 = circleSamples[0];
             Vector3f pos2, pos3;
             if (normalZ > 0f) {
@@ -426,7 +427,7 @@ public class TubeTreeMesh extends Mesh {
             putAnimationForTriangle(boneIndex);
         }
         int numFloats = positionBuffer.position() - startOffset;
-        int numCapTriangles = samplesPerRing - 2;
+        int numCapTriangles = samplesPerLoop - 2;
         assert numFloats == numAxes * vpt * numCapTriangles;
     }
 
@@ -480,15 +481,15 @@ public class TubeTreeMesh extends Mesh {
         Vector3f norm21 = reusable[6];
         Vector3f norm22 = reusable[7];
 
-        float fractionStep = 1f / ringsPerSegment;
-        for (int ringIndex = 0; ringIndex < ringsPerSegment; ++ringIndex) {
-            float fraction1 = fractionStep * ringIndex;
-            float fraction2 = fractionStep * (ringIndex + 1);
+        float fractionStep = 1f / loopsPerSegment;
+        for (int loopIndex = 0; loopIndex < loopsPerSegment; ++loopIndex) {
+            float fraction1 = fractionStep * loopIndex;
+            float fraction2 = fractionStep * (loopIndex + 1);
             float z1 = fraction1 * length;
             float z2 = fraction2 * length;
 
             // a rectangular patch for each sample point
-            for (int rectIndex = 0; rectIndex < samplesPerRing; ++rectIndex) {
+            for (int rectIndex = 0; rectIndex < samplesPerLoop; ++rectIndex) {
                 float x1 = circleSamples[rectIndex].x * radius;
                 float y1 = circleSamples[rectIndex].y * radius;
                 float x2 = circleSamples[rectIndex + 1].x * radius;
@@ -610,9 +611,9 @@ public class TubeTreeMesh extends Mesh {
             }
         }
 
-        int trianglesPerCap = samplesPerRing - 2;
-        int trianglesPerRing = 2 * samplesPerRing;
-        int trianglesPerSegment = trianglesPerRing * ringsPerSegment;
+        int trianglesPerCap = samplesPerLoop - 2;
+        int trianglesPerLoop = 2 * samplesPerLoop;
+        int trianglesPerSegment = trianglesPerLoop * loopsPerSegment;
         numTriangles
                 = trianglesPerCap * numCaps + trianglesPerSegment * numSegments;
         logger.log(Level.INFO, "{0} triangles", numTriangles);
