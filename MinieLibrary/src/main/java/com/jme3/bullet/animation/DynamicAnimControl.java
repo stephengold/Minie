@@ -468,6 +468,40 @@ public class DynamicAnimControl
     }
 
     /**
+     * Add an IK joint that will restrict the specified links to pivoting around
+     * each other.
+     * <p>
+     * Allowed only when the control IS added to a spatial and all links are
+     * "ready".
+     *
+     * @param linkA the 1st link to pin (not null)
+     * @param linkB the 2nd link to pin (not null)
+     * @param pivotInA the pivot location in the A's scaled local coordinates
+     * (not null, unaffected)
+     * @param pivotInB the pivot location in the B's scaled local coordinates
+     * (not null, unaffected)
+     * @return a new joint with A's body at the A end (not null)
+     */
+    public PhysicsJoint pinToSelf(PhysicsLink linkA, PhysicsLink linkB,
+            Vector3f pivotInA, Vector3f pivotInB) {
+        verifyReadyForDynamicMode("add an IK joint");
+
+        PhysicsRigidBody bodyA = linkA.getRigidBody();
+        PhysicsRigidBody bodyB = linkB.getRigidBody();
+        Point2PointJoint newJoint
+                = new Point2PointJoint(bodyA, bodyB, pivotInA, pivotInB);
+
+        bodyA.addJoint(newJoint);
+        bodyB.addJoint(newJoint);
+        ikJoints.add(newJoint);
+        getPhysicsSpace().add(newJoint);
+
+        assert newJoint.getBodyA() == bodyA;
+        assert newJoint.getBodyB() == bodyB;
+        return newJoint;
+    }
+
+    /**
      * Add an IK joint that will restrict the specified link to pivoting around
      * a fixed pivot.
      * <p>
