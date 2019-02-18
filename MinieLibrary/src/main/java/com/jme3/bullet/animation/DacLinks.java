@@ -205,7 +205,7 @@ public class DacLinks extends DacConfiguration {
      *
      * @return the pre-existing skeleton, or null
      */
-    Skeleton getSkeleton() {
+    public Skeleton getSkeleton() {
         return skeleton;
     }
 
