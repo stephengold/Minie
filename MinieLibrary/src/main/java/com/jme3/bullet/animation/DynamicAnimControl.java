@@ -407,6 +407,19 @@ public class DynamicAnimControl
     }
 
     /**
+     * Enumerate all IK joints managed by this control.
+     *
+     * @return a new array of pre-existing joints (not null, not empty)
+     */
+    public PhysicsJoint[] listIKJoints() {
+        int numJoints = ikJoints.size();
+        PhysicsJoint[] result = new PhysicsJoint[numJoints];
+        ikJoints.toArray(result);
+
+        return result;
+    }
+
+    /**
      * Add an IK joint that will cause the specified link to move until its
      * pivot location coincides with that of the specified goal body.
      *
