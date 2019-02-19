@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.7.0 released on TODO
+## Version 0.7.0 released on 19 February 2019
 
 Important changes to the library:
 
