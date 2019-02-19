@@ -1,8 +1,31 @@
 # release notes for the Minie library and related examples
 
+## Version 0.7.0 released on TODO
+
+Important changes to the library:
+
+ + Changed the semantics of `DacConfiguration.detach()`: from unlinking
+   a `Bone` to detaching an attachment. (API change)
+ + Removed the `unlinkAttachment()` method
+   from the `DacConfiguration` class. (API change)
+ + Replaced `CompoundCollisionShape.getChildren()` with a new `listChildren()`
+   method. (API change)
+ + Fixed a bug where adding a `DynamicAnimControl`
+   to a `Geometry` caused a crash.
+ + Fixed a bug where an attached model didn't follow the rigid body when
+   its `AttachmentLink` was in dynamic mode.
+ + Fixed a bug where `MultiSphere.read()` threw a `ClassCastException`.
+ + Created a `MinieCharacterControl` class as a replacement
+   for JME's `CharacterControl`.
+ + Added a `pinToSelf()` method to the `DynamicAnimControl` class.
+ + Added a `contains()` method to the `PhysicsSpace` class.
+ + Added `findIndex()` and `listChildren()` methods to the
+   `CompoundCollisionShape` class
+
 ## Version 0.6.5 released on 8 February 2019
 
 Important changes to the library:
+
  + Fixed various read/write bugs in `BetterCharacterControl`.
  + Cloned the rigid body in `BetterCharacterControl.cloneFields()`.
  + Standardized `BetterCharacterControl` getters to use

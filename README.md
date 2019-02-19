@@ -239,7 +239,7 @@ repository location:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.6.5'
+        compile 'jme3utilities:Minie:0.7.0'
     }
 
 #### For Ant projects
@@ -247,9 +247,9 @@ repository location:
 For project built using Ant, download the 3 non-standard
 libraries from GitHub:
 
-   + https://github.com/stephengold/Minie/releases/tag/0.6.5
-   + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.19.0
-   + https://github.com/stephengold/jme3-utilities/releases/tag/debug-0.9.10
+ + https://github.com/stephengold/Minie/releases/tag/0.7.0
+ + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.20.0
+ + https://github.com/stephengold/jme3-utilities/releases/tag/debug-0.9.11
 
 You'll want all 3 class JARs
 and probably the `-sources` and `-javadoc` JARs as well.
@@ -265,15 +265,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Navigate to the "jme3-utilities" project folder.
     + Open the "heart" sub-project folder.
     + Navigate to the "build/libs" folder.
-    + Select the "jme3-utilities-heart-2.19.0.jar" file.
+    + Select the "jme3-utilities-heart-2.20.0.jar" file.
     + Click on the "Open" button.
  6. (optional) Add JARs for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "jme3-utilities-heart-2.19.0-javadoc.jar" file.
+    + Select the "jme3-utilities-heart-2.20.0-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "jme3-utilities-heart-2.19.0-sources.jar" file.
+    + Select the "jme3-utilities-heart-2.20.0-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the `jme3-utilities-debug` JAR(s).
