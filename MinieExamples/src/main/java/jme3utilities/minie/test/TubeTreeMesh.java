@@ -481,7 +481,7 @@ public class TubeTreeMesh extends Mesh {
         Vector3f b = reusable[1];
         Vector3f c = reusable[2];
 
-        int startOffset = positionBuffer.position();
+        int startBufferOffset = positionBuffer.position();
         /*
          * Put a triangle for each sample point except the 1st and last.
          */
@@ -494,6 +494,11 @@ public class TubeTreeMesh extends Mesh {
             } else {
                 pos2 = circleSamples[triIndex + 1];
                 pos3 = circleSamples[triIndex];
+
+                //int i = (positionBuffer.position() - startBufferOffset) / numAxes;
+                //System.out.printf("+%d: %d%n", i, 0);
+                //System.out.printf("+%d: %d%n", i + 1, triIndex + 1);
+                //System.out.printf("+%d: %d%n", i + 2, triIndex);
             }
 
             a.set(radius * pos1.x, radius * pos1.y, posZ);
@@ -510,9 +515,8 @@ public class TubeTreeMesh extends Mesh {
 
             putAnimationForTriangle(boneIndex);
         }
-        int numFloats = positionBuffer.position() - startOffset;
-        int numCapTriangles = samplesPerLoop - 2;
-        assert numFloats == numAxes * vpt * numCapTriangles;
+        int numFloats = positionBuffer.position() - startBufferOffset;
+        assert numFloats == numAxes * verticesPerCap();
     }
 
     /**
