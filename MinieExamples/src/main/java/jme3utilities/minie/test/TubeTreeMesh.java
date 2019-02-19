@@ -48,6 +48,7 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -85,6 +86,10 @@ public class TubeTreeMesh extends Mesh {
     // *************************************************************************
     // fields
 
+    /**
+     * overshoot distance for leaf bones (in mesh units, default=0)
+     */
+    private float leafOvershoot;
     /**
      * radius of each mesh loop (in mesh units)
      */
@@ -153,7 +158,7 @@ public class TubeTreeMesh extends Mesh {
      * @param radius the radius of each mesh loop (in mesh units, &gt;0)
      */
     public TubeTreeMesh(Skeleton skeleton, float radius) {
-        this(skeleton, radius, 8, 12);
+        this(skeleton, radius, 0f, 8, 12);
     }
 
     /**
@@ -162,12 +167,14 @@ public class TubeTreeMesh extends Mesh {
      *
      * @param skeleton (not null, in bind pose, unaffected)
      * @param radius the radius of each mesh loop (in mesh units, &gt;0)
+     * @param leafOvershoot the overshoot distance for leaf bones (in mesh
+     * units)
      * @param loopsPerSegment the number of mesh loops in each tube segment
      * (&ge;1)
      * @param samplesPerLoop the number of samples in each mesh loop (&ge;3)
      */
-    public TubeTreeMesh(Skeleton skeleton, float radius, int loopsPerSegment,
-            int samplesPerLoop) {
+    public TubeTreeMesh(Skeleton skeleton, float radius, float leafOvershoot,
+            int loopsPerSegment, int samplesPerLoop) {
         Validate.nonNull(skeleton, "skeleton");
         Validate.positive(radius, "radius");
         Validate.positive(loopsPerSegment, "loops per segment");
@@ -176,6 +183,7 @@ public class TubeTreeMesh extends Mesh {
 
         this.skeleton = (Skeleton) Misc.deepCopy(skeleton);
         this.radius = radius;
+        this.leafOvershoot = leafOvershoot;
         this.loopsPerSegment = loopsPerSegment;
         this.samplesPerLoop = samplesPerLoop;
 
@@ -206,8 +214,8 @@ public class TubeTreeMesh extends Mesh {
         BitSet result = new BitSet(numVertices);
         int triCount = 0;
 
-        for (int i = 0; i < numBones; ++i) {
-            Bone child = skeleton.getBone(i);
+        for (int childIndex = 0; childIndex < numBones; ++childIndex) {
+            Bone child = skeleton.getBone(childIndex);
             Bone parent = child.getParent();
             if (parent != null) {
                 triCount += trianglesPerSegment;
@@ -281,6 +289,7 @@ public class TubeTreeMesh extends Mesh {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
+        leafOvershoot = capsule.readFloat("leafOvershoot", 0f);
         radius = capsule.readFloat("radius", 1f);
         loopsPerSegment = capsule.readInt("loopsPerSegment", 8);
         samplesPerLoop = capsule.readInt("samplesPerLoop", 12);
@@ -302,6 +311,7 @@ public class TubeTreeMesh extends Mesh {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
+        capsule.write(leafOvershoot, "leafOvershoot", 0f);
         capsule.write(radius, "radius", 1f);
         capsule.write(loopsPerSegment, "loopsPerTube", 8);
         capsule.write(samplesPerLoop, "samplesPerLoop", 12);
@@ -347,6 +357,17 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
+     * Test whether the specified bone is a leaf.
+     *
+     * @param bone the bone to test (not null, unaffected)
+     * @return
+     */
+    private static boolean isLeaf(Bone bone) {
+        boolean result = bone.getChildren().isEmpty();
+        return result;
+    }
+
+    /**
      * Write bone indices and weights for a triangle animated entirely by a
      * single bone.
      *
@@ -372,7 +393,7 @@ public class TubeTreeMesh extends Mesh {
      *
      * @param boneIndex1 the index of the 1st bone (&ge;0)
      * @param boneIndex2 the index of the 2nd bone (&ge;0)
-     * @param weight1 the weight for the 1st bone (&ge;0, &le;1)
+     * @param weight1 the weight for the 1st bone
      */
     private void putAnimationForVertex(int boneIndex1, int boneIndex2,
             float weight1) {
@@ -381,8 +402,8 @@ public class TubeTreeMesh extends Mesh {
         assert boneIndex2 >= 0 : boneIndex2;
         assert boneIndex2 <= Short.MAX_VALUE : boneIndex2;
         assert boneIndex1 != boneIndex2 : boneIndex1;
-        assert weight1 >= 0f : weight1;
-        assert weight1 <= 1f : weight1;
+
+        weight1 = FastMath.clamp(weight1, 0f, 1f);
 
         int weightIndex;
         if (weight1 != 0f) {
@@ -484,17 +505,19 @@ public class TubeTreeMesh extends Mesh {
     /**
      * Write an uncapped, cylindrical tube segment to the buffers.
      *
-     * @param startCenter the position of the center of the tube's start (in
+     * @param origin the origin of the segment's local coordinate system (in
      * mesh coordinates, not null, unaffected)
      * @param orientation the orientation of the segment's local coordinate
      * system (in mesh coordinates, the local +Z axis being the length axis, not
      * null, unaffected)
-     * @param length the length of the segment (in mesh units)
+     * @param startZ the Z component of the start position (in local
+     * coordinates)
+     * @param endZ the Z component of the end position (in local coordinates)
      * @param startBoneIndex (&ge;0)
      * @param endBoneIndex (&ge;0)
      */
-    private void putTube(Vector3f startCenter, Quaternion orientation,
-            float length, int startBoneIndex, int endBoneIndex) {
+    private void putTube(Vector3f origin, Quaternion orientation, float startZ,
+            float endZ, int startBoneIndex, int endBoneIndex) {
         assert startBoneIndex != endBoneIndex;
 
         Vector3f pos11 = reusable[0];
@@ -510,8 +533,8 @@ public class TubeTreeMesh extends Mesh {
         for (int loopIndex = 0; loopIndex < loopsPerSegment; ++loopIndex) {
             float fraction1 = fractionStep * loopIndex;
             float fraction2 = fractionStep * (loopIndex + 1);
-            float z1 = fraction1 * length;
-            float z2 = fraction2 * length;
+            float z1 = MyMath.lerp(fraction1, startZ, endZ);
+            float z2 = MyMath.lerp(fraction2, startZ, endZ);
 
             // a rectangular patch for each sample point
             for (int rectIndex = 0; rectIndex < samplesPerLoop; ++rectIndex) {
@@ -527,7 +550,7 @@ public class TubeTreeMesh extends Mesh {
                 pos11.set(x1, y1, z1);
                 pos21.set(x2, y2, z1);
                 pos22.set(x2, y2, z2);
-                putTransformedTriangle(positionBuffer, startCenter,
+                putTransformedTriangle(positionBuffer, origin,
                         orientation, pos11, pos21, pos22);
 
                 norm11.set(normal1.x, normal1.y, 0f);
@@ -545,7 +568,7 @@ public class TubeTreeMesh extends Mesh {
                 pos11.set(x1, y1, z1);
                 pos12.set(x1, y1, z2);
                 pos22.set(x2, y2, z2);
-                putTransformedTriangle(positionBuffer, startCenter,
+                putTransformedTriangle(positionBuffer, origin,
                         orientation, pos11, pos22, pos12);
 
                 norm11.set(normal1.x, normal1.y, 0f);
@@ -583,30 +606,32 @@ public class TubeTreeMesh extends Mesh {
             Bone parent = child.getParent();
             if (parent != null) { // child is not a root bone
                 int parentIndex = skeleton.getBoneIndex(parent);
-                Vector3f tubeStart = child.getModelSpacePosition();
-                Vector3f tubeEnd = parent.getModelSpacePosition();
-                Vector3f tubeOffset = tubeEnd.subtract(tubeStart);
-                float tubeLength = tubeOffset.length();
+                Vector3f childPosition = child.getModelSpacePosition();
+                Vector3f parentPosition = parent.getModelSpacePosition();
+                Vector3f offset = parentPosition.subtract(childPosition);
+                float endZ = offset.length();
 
-                Vector3f direction = tubeOffset.clone();
+                Vector3f direction = offset.clone();
                 Vector3f axis1 = new Vector3f();
                 Vector3f axis2 = new Vector3f();
                 MyVector3f.generateBasis(direction, axis1, axis2);
                 Quaternion orientation = new Quaternion();
                 orientation.fromAxes(axis1, axis2, direction);
 
-                putTube(tubeStart, orientation, tubeLength, childIndex,
+                float startZ = isLeaf(child) ? -leafOvershoot : 0f;
+
+                putTube(childPosition, orientation, startZ, endZ, childIndex,
                         parentIndex);
 
                 if (child.getChildren().size() != 1) {
-                    // Cap the child's end of the tube.
-                    putCap(tubeStart, orientation, 0f, -1f, childIndex);
+                    // Cap the child's end: the "start" of the current segment.
+                    putCap(childPosition, orientation, startZ, -1f, childIndex);
                 }
 
                 Bone grandparent = parent.getParent();
                 if (grandparent == null || parent.getChildren().size() > 1) {
-                    // Cap the parent's end of the tube.
-                    putCap(tubeStart, orientation, tubeLength, 1f, parentIndex);
+                    // Cap the parent's end: the "end" of the current segment.
+                    putCap(childPosition, orientation, endZ, 1f, parentIndex);
                 }
             }
         }
