@@ -93,7 +93,7 @@ public class TubeTreeMesh extends Mesh {
     /**
      * radius of each mesh loop (in mesh units)
      */
-    private float radius = 1f;
+    private float radius;
     /**
      * bone-weight buffer
      */
@@ -115,13 +115,13 @@ public class TubeTreeMesh extends Mesh {
      */
     private int numVertices;
     /**
-     * number of mesh loops in each tube segment (default=8)
+     * number of mesh loops in each tube segment (default=3)
      */
-    private int loopsPerSegment = 8;
+    private int loopsPerSegment;
     /**
      * number of sample points per mesh loop (default=12)
      */
-    private int samplesPerLoop = 12;
+    private int samplesPerLoop;
     /**
      * bone-index buffer
      */
@@ -158,7 +158,7 @@ public class TubeTreeMesh extends Mesh {
      * @param radius the radius of each mesh loop (in mesh units, &gt;0)
      */
     public TubeTreeMesh(Skeleton skeleton, float radius) {
-        this(skeleton, radius, 0f, 8, 12);
+        this(skeleton, radius, 0f, 3, 12);
     }
 
     /**
@@ -291,7 +291,7 @@ public class TubeTreeMesh extends Mesh {
 
         leafOvershoot = capsule.readFloat("leafOvershoot", 0f);
         radius = capsule.readFloat("radius", 1f);
-        loopsPerSegment = capsule.readInt("loopsPerSegment", 8);
+        loopsPerSegment = capsule.readInt("loopsPerSegment", 3);
         samplesPerLoop = capsule.readInt("samplesPerLoop", 12);
         skeleton = (Skeleton) capsule.readSavable("skeleton", null);
         /*
@@ -313,7 +313,7 @@ public class TubeTreeMesh extends Mesh {
 
         capsule.write(leafOvershoot, "leafOvershoot", 0f);
         capsule.write(radius, "radius", 1f);
-        capsule.write(loopsPerSegment, "loopsPerTube", 8);
+        capsule.write(loopsPerSegment, "loopsPerSegment", 3);
         capsule.write(samplesPerLoop, "samplesPerLoop", 12);
         capsule.write(skeleton, "skeleton", null);
     }
