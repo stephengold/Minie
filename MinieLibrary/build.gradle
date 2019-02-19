@@ -15,7 +15,7 @@ sourcesJar { baseName project.ext.baseName }
 
 dependencies {
     compile 'jme3utilities:jme3-utilities-heart:2.20.0'
-    compile 'jme3utilities:jme3-utilities-debug:0.9.10'
+    compile 'jme3utilities:jme3-utilities-debug:0.9.11'
     compile "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
 
     testCompile 'junit:junit:4.12'
