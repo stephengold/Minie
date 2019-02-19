@@ -220,7 +220,7 @@ public class TubeTreeMesh extends Mesh {
             if (parent != null) {
                 triCount += trianglesPerSegment;
 
-                if (child.getChildren().size() != 1) {
+                if (capChild(child)) {
                     if (child == bone) {
                         int fromIndex = vpt * triCount;
                         int toIndex = vpt * (triCount + trianglesPerCap);
@@ -228,8 +228,8 @@ public class TubeTreeMesh extends Mesh {
                     }
                     triCount += trianglesPerCap;
                 }
-                Bone grandparent = parent.getParent();
-                if (grandparent == null || parent.getChildren().size() > 1) {
+
+                if (capParent(parent)) {
                     if (parent == bone) {
                         int fromIndex = vpt * triCount;
                         int toIndex = vpt * (triCount + trianglesPerCap);
@@ -340,6 +340,45 @@ public class TubeTreeMesh extends Mesh {
         setBuffer(VertexBuffer.Type.Position, numAxes, pb);
         FloatBuffer nb = BufferUtils.createVector3Buffer(numVertices);
         setBuffer(VertexBuffer.Type.Normal, numAxes, nb);
+    }
+
+    /**
+     * Test whether segments having the specified bone as the child should be
+     * capped at the child's end.
+     *
+     * @param child the bone to test (not null, unaffected)
+     * @return true if capped, otherwise false
+     */
+    private static boolean capChild(Bone child) {
+        int numChildren = child.getChildren().size();
+        if (numChildren == 1) {
+            return false;
+        } else {
+            return true; // child is a leaf or fork: cap it
+        }
+    }
+
+    /**
+     * Test whether segments having the specified bone as the parent should be
+     * capped at the parent's end.
+     *
+     * @param parent the bone to test (not null, unaffected)
+     * @return true if capped, otherwise false
+     */
+    private static boolean capParent(Bone parent) {
+        Bone grandparent = parent.getParent();
+        boolean isCapped;
+        if (grandparent == null) {
+            isCapped = true; // parent is a root: cap it
+        } else {
+            int numChildren = parent.getChildren().size();
+            if (numChildren > 1) {
+                isCapped = true; // parent is a fork: cap it
+            } else {
+                isCapped = false;
+            }
+        }
+        return isCapped;
     }
 
     /**
@@ -623,13 +662,12 @@ public class TubeTreeMesh extends Mesh {
                 putTube(childPosition, orientation, startZ, endZ, childIndex,
                         parentIndex);
 
-                if (child.getChildren().size() != 1) {
+                if (capChild(child)) {
                     // Cap the child's end: the "start" of the current segment.
                     putCap(childPosition, orientation, startZ, -1f, childIndex);
                 }
 
-                Bone grandparent = parent.getParent();
-                if (grandparent == null || parent.getChildren().size() > 1) {
+                if (capParent(parent)) {
                     // Cap the parent's end: the "end" of the current segment.
                     putCap(childPosition, orientation, endZ, 1f, parentIndex);
                 }
@@ -651,11 +689,10 @@ public class TubeTreeMesh extends Mesh {
             Bone parent = child.getParent();
             if (parent != null) {
                 ++numSegments;
-                if (child.getChildren().size() != 1) {
+                if (capChild(child)) {
                     ++numCaps;
                 }
-                Bone grandparent = parent.getParent();
-                if (grandparent == null || parent.getChildren().size() > 1) {
+                if (capParent(parent)) {
                     ++numCaps;
                 }
             }
