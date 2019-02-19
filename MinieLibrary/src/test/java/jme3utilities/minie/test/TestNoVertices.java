@@ -61,7 +61,7 @@ public class TestNoVertices {
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
         Node model = (Node) assetManager.loadModel(key);
         DynamicAnimControl dac = new DynamicAnimControl();
-        dac.link("IKeyeTarget.R", 1f, new RangeOfMotion(1f, 1f, 1f));
+        dac.link("IKeyeTarget.R", 1f, new RangeOfMotion(1f));
         model.addControl(dac);
     }
 }

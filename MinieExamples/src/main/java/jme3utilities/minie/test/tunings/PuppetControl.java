@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,7 @@ public class PuppetControl
         super.link("neck", hull,
                 new RangeOfMotion(0.2f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f));
         super.link("head", hull,
-                new RangeOfMotion(0.5f, 0.5f, 0.5f));
+                new RangeOfMotion(0.5f));
 
         super.link("shoulder.R", hull,
                 new RangeOfMotion(0.1f, 0.2f, 0f));

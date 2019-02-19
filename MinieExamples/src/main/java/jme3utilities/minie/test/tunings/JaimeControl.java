@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ public class JaimeControl
         super.setConfig(torsoName, hull);
 
         super.link("spine", hull,
-                new RangeOfMotion(1f, 1f, 1f));
+                new RangeOfMotion(1f));
         super.link("ribs", hull,
                 new RangeOfMotion(0.6f, 0.4f, 0.4f));
         super.link("head", hull,

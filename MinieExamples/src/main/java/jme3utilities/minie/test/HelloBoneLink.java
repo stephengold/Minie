@@ -115,7 +115,7 @@ public class HelloBoneLink extends SimpleApplication {
 
         // Configure a DynamicAnimControl.
         LinkConfig defaultConfig = new LinkConfig();
-        RangeOfMotion defaultRom = new RangeOfMotion(1f, 1f, 1f);
+        RangeOfMotion defaultRom = new RangeOfMotion(1f);
         final DynamicAnimControl dac = new DynamicAnimControl();
         dac.link("Joint9", defaultConfig, defaultRom); // right shoulder
         dac.link("Joint11", defaultConfig, defaultRom); // right elbow
