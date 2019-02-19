@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -115,7 +115,7 @@ public class LinkConfig implements Savable {
      * on the unweighted average of the vertex locations, shaped to the convex
      * hull of the vertices.
      *
-     * @param mass (&gt;0)
+     * @param mass the desired mass (&gt;0)
      */
     public LinkConfig(float mass) {
         Validate.positive(mass, "mass");
@@ -131,7 +131,7 @@ public class LinkConfig implements Savable {
      * Instantiate a configuration for a link with the specified mass, but with
      * the centering and shaping of the specified configuration.
      *
-     * @param mass (&gt;0)
+     * @param mass the desired mass (&gt;0)
      * @param oldConfig (not null)
      */
     public LinkConfig(float mass, LinkConfig oldConfig) {
@@ -210,10 +210,16 @@ public class LinkConfig implements Savable {
              * Transform vertex coordinates to de-scaled shape coordinates.
              */
             vertexToShape.transformVector(location, location);
-            /*
-             * Adjust the size of the shape.
-             */
-            location.multLocal(shapeScale);
+            switch (shapeHeuristic) {
+                case AABB:
+                case Sphere:
+                case VertexHull:
+                    /*
+                     * Adjust the size of the shape by scaling the coordinates.
+                     */
+                    location.multLocal(shapeScale);
+                    break;
+            }
         }
 
         CollisionShape result;
@@ -234,11 +240,13 @@ public class LinkConfig implements Savable {
 
             case FourSphere:
                 solid = new RectangularSolid(vertexLocations);
+                solid = new RectangularSolid(solid, shapeScale);
                 result = new MultiSphere(solid);
                 break;
 
             case MinBox:
                 solid = new RectangularSolid(vertexLocations);
+                solid = new RectangularSolid(solid, shapeScale);
                 result = new HullCollisionShape(solid);
                 break;
 
