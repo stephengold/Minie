@@ -38,6 +38,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
+import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -51,7 +52,7 @@ import jme3utilities.math.MyVector3f;
 
 /**
  * An animated triangle-mode mesh for a branching 3-D shape that conforms to a
- * Skeleton. Can be used to visualize ropes, hoses, snakes, and such. TODO
+ * Skeleton. Can be used to visualize ropes, hoses, snakes, and such. TODO add
  * texture coordinates
  *
  * @author Stephen Gold sgold@sonic.net
@@ -85,7 +86,7 @@ public class TubeTreeMesh extends Mesh {
     // fields
 
     /**
-     * radius of each mesh loop (in mesh units, default=1)
+     * radius of each mesh loop (in mesh units)
      */
     private float radius = 1f;
     /**
@@ -109,8 +110,7 @@ public class TubeTreeMesh extends Mesh {
      */
     private int numVertices;
     /**
-     * number of mesh loops in each tube segment connecting 2 bone heads
-     * (default=8)
+     * number of mesh loops in each tube segment (default=8)
      */
     private int loopsPerSegment = 8;
     /**
@@ -128,11 +128,11 @@ public class TubeTreeMesh extends Mesh {
     /**
      * cached sample positions for a unit circle in the X-Y plane
      */
-    private Vector3f[] circleSamples;
+    private Vector3f[] circleSamples = null;
     /**
      * reusable samples to transform
      */
-    final private static Vector3f[] reusable = new Vector3f[]{
+    private Vector3f[] reusable = {
         new Vector3f(), new Vector3f(), new Vector3f(), new Vector3f(),
         new Vector3f(), new Vector3f(), new Vector3f(), new Vector3f()
     };
@@ -211,6 +211,7 @@ public class TubeTreeMesh extends Mesh {
             Bone parent = child.getParent();
             if (parent != null) {
                 triCount += trianglesPerSegment;
+
                 if (child.getChildren().size() != 1) {
                     if (child == bone) {
                         int fromIndex = vpt * triCount;
@@ -247,6 +248,27 @@ public class TubeTreeMesh extends Mesh {
     }
     // *************************************************************************
     // Mesh methods
+
+    /**
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned mesh into a deep-cloned one, using the specified Cloner
+     * and original to resolve copied fields.
+     *
+     * @param cloner the Cloner that's cloning this mesh (not null)
+     * @param original the mesh from which this mesh was shallow-cloned (unused)
+     */
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        super.cloneFields(cloner, original);
+
+        boneWeightBuffer = cloner.clone(boneWeightBuffer);
+        normalBuffer = cloner.clone(normalBuffer);
+        positionBuffer = cloner.clone(positionBuffer);
+        boneIndexBuffer = cloner.clone(boneIndexBuffer);
+        // skeleton not cloned (read-only)
+        assert circleSamples == null : circleSamples;
+        reusable = cloner.clone(reusable);
+    }
 
     /**
      * De-serialize this mesh, for example when loading from a J3O file.
@@ -382,14 +404,15 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Write a circular cap to the buffers. TODO more cap-shape options
+     * Write a flat, circular cap to the buffers. TODO more cap-shape options
      *
      * @param centerPos the position of the center of the cap (in mesh
      * coordinates, not null, unaffected)
      * @param orientation the orientation of the cap (cap lies in the X-Y plane)
      * (in mesh coordinates, not null, unaffected)
-     * @param posZ the local Z-component of the position vector (+1 or -1)
-     * @param normalZ the local Z-component of the normal direction (+1 or -1)
+     * @param posZ the Z component of the cap position (in local coordinates)
+     * @param normalZ the Z component of the normal direction (in local
+     * coordinates, +1 or -1)
      * @param boneIndex (&ge;0)
      */
     private void putCap(Vector3f centerPos, Quaternion orientation, float posZ,
@@ -397,6 +420,7 @@ public class TubeTreeMesh extends Mesh {
         Vector3f a = reusable[0];
         Vector3f b = reusable[1];
         Vector3f c = reusable[2];
+
         int startOffset = positionBuffer.position();
         /*
          * Put a triangle for each sample point except the 1st and last.
@@ -462,8 +486,9 @@ public class TubeTreeMesh extends Mesh {
      *
      * @param startCenter the position of the center of the tube's start (in
      * mesh coordinates, not null, unaffected)
-     * @param orientation the orientation of the segment (in mesh space, the
-     * local +Z axis being the length axis, not null, unaffected)
+     * @param orientation the orientation of the segment's local coordinate
+     * system (in mesh coordinates, the local +Z axis being the length axis, not
+     * null, unaffected)
      * @param length the length of the segment (in mesh units)
      * @param startBoneIndex (&ge;0)
      * @param endBoneIndex (&ge;0)
@@ -596,8 +621,8 @@ public class TubeTreeMesh extends Mesh {
         int numSegments = 0;
         int numCaps = 0;
         int numBones = skeleton.getBoneCount();
-        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
-            Bone child = skeleton.getBone(boneIndex);
+        for (int childIndex = 0; childIndex < numBones; ++childIndex) {
+            Bone child = skeleton.getBone(childIndex);
             Bone parent = child.getParent();
             if (parent != null) {
                 ++numSegments;
