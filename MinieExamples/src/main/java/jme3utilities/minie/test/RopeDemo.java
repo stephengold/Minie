@@ -46,7 +46,6 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
-import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -132,7 +131,7 @@ public class RopeDemo extends ActionApplication {
     /**
      * mass of each link (in physics mass units)
      */
-    final private static float linkMass = 0.01f;
+    final private static float linkMass = 1e-4f;
     /**
      * length of each rope segment (in mesh units)
      */
@@ -157,7 +156,7 @@ public class RopeDemo extends ActionApplication {
      */
     final private static LinkConfig ropeConfig = new LinkConfig(linkMass,
             MassHeuristic.Mass, ShapeHeuristic.FourSphere,
-            new Vector3f(1f, 1f, 2.2f), CenterHeuristic.Mean);
+            new Vector3f(1f, 1f, 2.5f), CenterHeuristic.Mean);
     /**
      * message logger for this class
      */
@@ -474,6 +473,13 @@ public class RopeDemo extends ActionApplication {
         Geometry geometry = new Geometry(geometryName, ropeMesh);
 
         addRopeSpatial(skeleton, geometry);
+        /*
+         * Curl all branches clockwise to introduce some slack.
+         */
+        curlBranch(skeleton, 0, Vector3f.UNIT_Y, 0.2f);
+        curlBranch(skeleton, 1, Vector3f.UNIT_Y, 0.2f);
+        curlBranch(skeleton, 2, Vector3f.UNIT_Y, 0.2f);
+        curlBranch(skeleton, 3, Vector3f.UNIT_Y, 0.2f);
     }
 
     /**
@@ -581,10 +587,10 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
+     * Code for adding a rope that's shared by all shapes.
      *
-     * @param skeleton
-     * @param spatial
-     * @return
+     * @param skeleton (not null)
+     * @param spatial (not null)
      */
     private void addRopeSpatial(Skeleton skeleton, Spatial spatial) {
         /*
@@ -625,7 +631,7 @@ public class RopeDemo extends ActionApplication {
         ropesNode.attachChild(spatial);
 
         for (PhysicsRigidBody body : dac.listRigidBodies()) {
-            body.setDebugMeshResolution(DebugShapeFactory.highResolution);
+            //body.setDebugMeshResolution(DebugShapeFactory.highResolution);
             body.setFriction(9e9f);
         }
 
@@ -640,7 +646,8 @@ public class RopeDemo extends ActionApplication {
         sv = new SkeletonVisualizer(assetManager, null);
         rootNode.addControl(sv);
         sv.setLineColor(ColorRGBA.Red);
-        sv.setHeadSize(6);
+        sv.setHeadColor(0, ColorRGBA.Green);
+        sv.setHeadSize(8);
     }
 
     /**
@@ -869,7 +876,7 @@ public class RopeDemo extends ActionApplication {
 
     /**
      * Initialization of the latest DynamicAnimControl that takes place once all
-     * its links are ready for dynamic mode.
+     * its links are ready for dynamic mode: add pinning joints and splices.
      */
     private void initWhenReady() {
         assert dacs.peekLast().isReady();
@@ -877,6 +884,10 @@ public class RopeDemo extends ActionApplication {
         RopeShape latestShape = shapes.peekLast();
         switch (latestShape) {
             case Cross:
+                pinEnd(0);
+                pinEnd(1);
+                pinEnd(2);
+                pinEnd(3);
                 break;
 
             case Noose:
