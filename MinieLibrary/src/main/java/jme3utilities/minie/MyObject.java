@@ -26,13 +26,11 @@
  */
 package jme3utilities.minie;
 
-import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
-import com.jme3.scene.Spatial;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
@@ -88,36 +86,6 @@ public class MyObject {
         }
 
         return result;
-    }
-
-    /**
-     * Describe the user of a collision object. TODO move to PhysicsDescriber
-     *
-     * @param pco the collision object to describe (not null, unaffected)
-     * @return a descriptive string (not null)
-     */
-    public static String describeUser(PhysicsCollisionObject pco) {
-        Validate.nonNull(pco, "collision object");
-
-        StringBuilder builder = new StringBuilder(32);
-        Object user = pco.getUserObject();
-        if (user != null) {
-            builder.append(" user=");
-            builder.append(user.getClass().getSimpleName());
-            if (user instanceof Spatial) {
-                Spatial spatial = (Spatial) user;
-                String name = spatial.getName();
-                String text = MyString.quote(name);
-                builder.append(text);
-            } else if (user instanceof PhysicsLink) {
-                PhysicsLink link = (PhysicsLink) user;
-                String name = link.boneName();
-                String text = MyString.quote(name);
-                builder.append(text);
-            }
-        }
-
-        return builder.toString();
     }
 
     /**

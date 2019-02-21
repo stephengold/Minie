@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2018, Stephen Gold
+ Copyright (c) 2013-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -123,7 +123,7 @@ public class PhysicsDumper extends Dumper {
         long objectId = character.getObjectId();
         stream.printf("  Character #%s", Long.toHexString(objectId));
 
-        String desc = MyObject.describeUser(character);
+        String desc = getDescriber().describeUser(character);
         stream.print(desc);
 
         Vector3f location = character.getPhysicsLocation();
@@ -143,7 +143,7 @@ public class PhysicsDumper extends Dumper {
         long objectId = ghost.getObjectId();
         stream.printf("  Ghost #%s", Long.toHexString(objectId));
 
-        String desc = MyObject.describeUser(ghost);
+        String desc = getDescriber().describeUser(ghost);
         stream.print(desc);
 
         Vector3f location = ghost.getPhysicsLocation(null);
@@ -221,7 +221,7 @@ public class PhysicsDumper extends Dumper {
         String desc = MyObject.describe(body);
         stream.print(desc);
 
-        desc = MyObject.describeUser(body);
+        desc = getDescriber().describeUser(body);
         stream.print(desc);
 
         Vector3f location = body.getPhysicsLocation(null);
@@ -369,7 +369,7 @@ public class PhysicsDumper extends Dumper {
         stream.printf("  Vehicle #%s mass=%f", Long.toHexString(objectId),
                 mass);
 
-        String desc = MyObject.describeUser(vehicle);
+        String desc = getDescriber().describeUser(vehicle);
         stream.print(desc);
 
         Vector3f location = vehicle.getPhysicsLocation(null);
