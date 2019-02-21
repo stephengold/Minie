@@ -58,7 +58,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
-import jme3utilities.MyString;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
@@ -84,7 +83,7 @@ public class MultiSphereDemo
     final public static Logger logger
             = Logger.getLogger(MultiSphereDemo.class.getName());
     /**
-     * application name for the window's title bar
+     * application name (for the title bar of the app's window)
      */
     final private static String applicationName
             = MultiSphereDemo.class.getSimpleName();
@@ -92,9 +91,15 @@ public class MultiSphereDemo
     // fields
 
     private BulletAppState bulletAppState;
+    /**
+     * generate pseudo-random numbers
+     */
     final private Generator random = new Generator();
     private int numGems = 0;
     final private Material gemMaterials[] = new Material[4];
+    /**
+     * space for physics simulation
+     */
     private PhysicsSpace physicsSpace;
     private RigidBodyControl boxBody;
     // *************************************************************************
@@ -118,9 +123,9 @@ public class MultiSphereDemo
          * Customize the window's title bar.
          */
         AppSettings settings = new AppSettings(true);
-        String title = applicationName + " " + MyString.join(arguments);
-        settings.setTitle(title);
+        settings.setTitle(applicationName);
 
+        settings.setGammaCorrection(false);
         settings.setVSync(true);
         application.setSettings(settings);
         application.start();
@@ -183,9 +188,11 @@ public class MultiSphereDemo
                 case "dump physicsSpace":
                     dumpPhysicsSpace();
                     return;
+
                 case "dump scenes":
                     dumpScenes();
                     return;
+
                 case "toggle pause":
                     togglePause();
                     return;
@@ -197,7 +204,7 @@ public class MultiSphereDemo
     /**
      * Callback invoked once per frame.
      *
-     * @param tpf time interval between frames (in seconds, &ge;0)
+     * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float tpf) {
@@ -286,7 +293,7 @@ public class MultiSphereDemo
     }
 
     /**
-     * Add a large static box to serve as a platform.
+     * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox() {
         float halfExtent = 50f; // mesh units
@@ -351,7 +358,7 @@ public class MultiSphereDemo
         bulletAppState.setDebugInitListener(this);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(1f / 60); // 16.67 msec timestep
+        physicsSpace.setAccuracy(1f / 60f); // 16.67-msec timestep
         physicsSpace.setSolverNumIterations(30);
     }
 

@@ -68,7 +68,6 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MySpatial;
-import jme3utilities.MyString;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyArray;
@@ -99,7 +98,7 @@ public class BalanceDemo extends ActionApplication {
     final public static Logger logger
             = Logger.getLogger(BalanceDemo.class.getName());
     /**
-     * application name for its window's title bar
+     * application name (for the title bar of the app's window)
      */
     final private static String applicationName
             = BalanceDemo.class.getSimpleName();
@@ -125,7 +124,9 @@ public class BalanceDemo extends ActionApplication {
      * C-G model on which the control is being tested
      */
     private Node cgModel;
-
+    /**
+     * space for physics simulation
+     */
     private PhysicsSpace physicsSpace;
     /**
      * visualizer for the center of mass
@@ -137,6 +138,9 @@ public class BalanceDemo extends ActionApplication {
     private PointVisualizer supportPoint;
 
     private SkeletonControl sc;
+    /**
+     * visualizer for the skeleton of the C-G model
+     */
     private SkeletonVisualizer sv;
     private String animationName = null;
     private TorsoLink torso;
@@ -166,8 +170,7 @@ public class BalanceDemo extends ActionApplication {
          * Customize the window's title bar.
          */
         AppSettings settings = new AppSettings(true);
-        String title = applicationName + " " + MyString.join(arguments);
-        settings.setTitle(title);
+        settings.setTitle(applicationName);
 
         settings.setGammaCorrection(true);
         settings.setVSync(true);
@@ -187,10 +190,10 @@ public class BalanceDemo extends ActionApplication {
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
         addLighting();
-
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        comPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Cyan, "ring");
+        comPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Cyan,
+                "ring");
         rootNode.attachChild(comPoint);
 
         supportPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Yellow,
@@ -211,6 +214,7 @@ public class BalanceDemo extends ActionApplication {
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("go limp", KeyInput.KEY_SPACE);
+
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);
         dim.bind("load Ninja", KeyInput.KEY_F7);
@@ -219,6 +223,7 @@ public class BalanceDemo extends ActionApplication {
         dim.bind("load Sinbad", KeyInput.KEY_F1);
         dim.bind("load SinbadWith1Sword", KeyInput.KEY_F10);
         dim.bind("load SinbadWithSwords", KeyInput.KEY_F4);
+
         dim.bind("posture squat center", KeyInput.KEY_NUMPAD2);
         dim.bind("posture squat left", KeyInput.KEY_NUMPAD3);
         dim.bind("posture squat right", KeyInput.KEY_NUMPAD1);
@@ -227,6 +232,7 @@ public class BalanceDemo extends ActionApplication {
         dim.bind("posture tall right", KeyInput.KEY_NUMPAD7);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
@@ -247,23 +253,29 @@ public class BalanceDemo extends ActionApplication {
                 case "dump physicsSpace":
                     dumpPhysicsSpace();
                     return;
+
                 case "dump scenes":
                     dumpScenes();
                     return;
+
                 case "go limp":
                     if (dac.isReady()) {
                         dac.setRagdollMode();
                     }
                     return;
+
                 case "toggle meshes":
                     toggleMeshes();
                     return;
+
                 case "toggle pause":
                     togglePause();
                     return;
+
                 case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
+
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
@@ -277,15 +289,15 @@ public class BalanceDemo extends ActionApplication {
                 setPosture(words[1], words[2]);
                 return;
             }
-        }
 
+        }
         super.onAction(actionString, ongoing, tpf);
     }
 
     /**
      * Callback invoked once per frame.
      *
-     * @param tpf time interval between frames (in seconds, &ge;0)
+     * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float tpf) {
@@ -322,7 +334,7 @@ public class BalanceDemo extends ActionApplication {
     // private methods
 
     /**
-     * Add a large static box to serve as a platform.
+     * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox() {
         float halfExtent = 50f; // mesh units
@@ -476,7 +488,7 @@ public class BalanceDemo extends ActionApplication {
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(1f / 30); // 33.33-msec timestep
+        physicsSpace.setAccuracy(1f / 30f); // 33.33-msec timestep
         physicsSpace.setSolverNumIterations(15);
     }
 
