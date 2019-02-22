@@ -81,6 +81,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     private boolean isUsingGhostSweepTest = true;
     /**
+     * copy of the maximum amount of vertical movement without jumping or
+     * falling (in physics-space units)
+     */
+    private float stepHeight;
+    /**
      * Unique identifier of the btKinematicCharacterController (as opposed to
      * the collision object, which is a btPairCachingGhostObject). Constructors
      * are responsible for setting this to a non-zero value. The ID might change
@@ -88,12 +93,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     private long characterId = 0L;
     /**
-     * copy of the maximum amount of normal vertical movement (in physics-space
-     * units)
-     */
-    private float stepHeight;
-    /**
-     * temporary storage for a vector
+     * temporary storage for a vector TODO not thread-safe
      */
     final private static Vector3f tmpVector = new Vector3f();
 
@@ -113,8 +113,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * step height.
      *
      * @param shape the desired shape (not null, alias created)
-     * @param stepHeight the maximum amount of normal vertical movement (in
-     * physics-space units)
+     * @param stepHeight the maximum amount of vertical movement without jumping
+     * or falling (in physics-space units)
      */
     public PhysicsCharacter(CollisionShape shape, float stepHeight) {
         collisionShape = shape;
@@ -239,8 +239,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Read this character's step height.
      *
-     * @return the maximum amount of normal vertical movement (in physics-space
-     * units)
+     * @return the maximum amount of vertical movement without jumping or
+     * falling (in physics-space units)
      */
     public float getStepHeight() {
         return stepHeight;
@@ -470,8 +470,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Alter this character's step height.
      *
-     * @param height the desired maximum amount of normal vertical movement (in
-     * physics-space units, default=1)
+     * @param height the desired maximum amount of vertical movement without
+     * jumping or falling (in physics-space units, default=1)
      */
     public void setStepHeight(float height) {
         this.stepHeight = height;

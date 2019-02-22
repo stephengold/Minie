@@ -72,13 +72,13 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     private PhysicsCharacter character = null;
     /**
-     * temporary storage for a Quaternion
+     * temporary storage for a Quaternion TODO not thread-safe
      */
-    private static Quaternion tmpQuaternion = new Quaternion();
+    final private static Quaternion tmpQuaternion = new Quaternion();
     /**
-     * temporary storage for a vector
+     * temporary storage for a vector TODO not thread-safe
      */
-    private static Vector3f tmpVector = new Vector3f();
+    final private static Vector3f tmpVector = new Vector3f();
     /**
      * view direction
      */
