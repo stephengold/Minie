@@ -162,10 +162,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * default=29.4)
      */
     public void setGravity(float downwardAcceleration) {
-        Vector3f gVector = tmpVector;
-        character.getUpDirection(gVector);
-        gVector.multLocal(-downwardAcceleration);
-        character.setGravity(gVector);
+        character.setGravity(downwardAcceleration);
     }
 
     /**

@@ -108,7 +108,7 @@ public class TestQ3 extends SimpleApplication implements ActionListener {
         player = new PhysicsCharacter(new SphereCollisionShape(5), .01f);
         player.setJumpSpeed(20);
         player.setFallSpeed(30);
-        player.setGravity(new Vector3f(0f, -30f, 0f));
+        player.setGravity(30);
 
         player.setPhysicsLocation(new Vector3f(60, 10, -60));
 

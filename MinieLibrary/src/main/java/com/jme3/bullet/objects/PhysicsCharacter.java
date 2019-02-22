@@ -92,6 +92,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * units)
      */
     private float stepHeight;
+    /**
+     * temporary storage for a vector
+     */
+    final private static Vector3f tmpVector = new Vector3f();
+
     private Vector3f walkOffset = new Vector3f();
     // *************************************************************************
     // constructors
@@ -376,6 +381,21 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     public void setFallSpeed(float fallSpeed) {
         setFallSpeed(characterId, fallSpeed);
+    }
+
+    /**
+     * Alter the character's gravitational acceleration. For compatability with
+     * the jme3-bullet library.
+     *
+     * @param downwardAcceleration the desired downward acceleration (in
+     * physics-space units per second squared, not null, unaffected,
+     * default=29.4)
+     */
+    public void setGravity(float downwardAcceleration) {
+        Vector3f gVector = tmpVector;
+        getUpDirection(gVector);
+        gVector.multLocal(-downwardAcceleration);
+        setGravity(gVector);
     }
 
     /**
