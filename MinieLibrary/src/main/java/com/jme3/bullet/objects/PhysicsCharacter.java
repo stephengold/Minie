@@ -63,6 +63,12 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     final public static Logger logger2
             = Logger.getLogger(PhysicsCharacter.class.getName());
+    /**
+     * default gravity vector -- differs from that of
+     * btKinematicCharacterController!
+     */
+    final private static Vector3f defaultGravity
+            = new Vector3f(0f, -29.4f, 0f);
     // *************************************************************************
     // fields
 
@@ -105,6 +111,12 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         collisionShape = shape;
         this.stepHeight = stepHeight;
         buildObject();
+        /*
+         * The default gravity for a Bullet btKinematicCharacterController
+         * is (0,0,-29.4), which makes no sense for JME.
+         * So override the default.
+         */
+        setGravity(defaultGravity);
 
         assert isContactResponse();
     }
@@ -359,7 +371,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * its "up" vector.
      *
      * @param gravity the desired acceleration vector (in physics-space units
-     * per second squared, not null, unaffected, default=(0,0,-29.4))
+     * per second squared, not null, unaffected, default=(0,-29.4,0))
      */
     public void setGravity(Vector3f gravity) {
         setGravity(characterId, gravity);

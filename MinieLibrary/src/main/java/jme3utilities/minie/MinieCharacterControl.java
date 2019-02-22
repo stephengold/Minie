@@ -69,7 +69,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     /**
-     * default "up" direction -- differs from that of PhysicsCharacter!
+     * default "up" direction
      */
     final private static Vector3f defaultUpDirection = new Vector3f(0f, 1f, 0f);
     // *************************************************************************
@@ -107,7 +107,6 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     public MinieCharacterControl(CollisionShape shape, float stepHeight) {
         character = new PhysicsCharacter(shape, stepHeight);
-        character.setUp(defaultUpDirection);
     }
     // *************************************************************************
     // new methods exposed
