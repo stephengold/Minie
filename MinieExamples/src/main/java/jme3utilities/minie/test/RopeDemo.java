@@ -880,6 +880,14 @@ public class RopeDemo extends ActionApplication {
      */
     private void initWhenReady() {
         assert dacs.peekLast().isReady();
+        /*
+         * Force a software skin update
+         * before invoking DacLinks.findManagerForVertex().
+         */
+        Spatial spatial = dacs.peekLast().getSpatial();
+        SkeletonControl skeletonControl
+                = spatial.getControl(SkeletonControl.class);
+        skeletonControl.render(renderManager, viewPort);
 
         RopeShape latestShape = shapes.peekLast();
         switch (latestShape) {
