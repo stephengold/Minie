@@ -76,10 +76,6 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     private PhysicsCharacter character = null;
     /**
-     * copy of the PhysicsCharacter location
-     */
-    final private Vector3f location = new Vector3f();
-    /**
      * view direction
      */
     private Vector3f viewDirection = new Vector3f(Vector3f.UNIT_Z);
@@ -313,7 +309,6 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     @Override
     public void setPhysicsLocation(Vector3f vec) {
         character.setPhysicsLocation(vec);
-        location.set(vec);
     }
 
     /**
@@ -335,10 +330,10 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     @Override
     public void update(float tpf) {
-        character.getPhysicsLocation(location);
         Vector3f up = character.getUpDirection(null);
         Quaternion orientation = new Quaternion();
         orientation.lookAt(viewDirection, up);
+        Vector3f location = character.getPhysicsLocation(null);
         applyPhysicsTransform(location, orientation);
     }
 
