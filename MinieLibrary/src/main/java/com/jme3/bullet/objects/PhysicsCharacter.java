@@ -216,15 +216,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * For compatability with the jme3-bullet library.
-     *
-     * @return a new location vector (in physics-space coordinates, not null)
-     */
-    public Vector3f getPhysicsLocation() {
-        return getPhysicsLocation(null);
-    }
-
-    /**
      * Read this character's step height.
      *
      * @return the maximum amount of normal vertical movement (in physics-space
