@@ -63,6 +63,10 @@ public class RangeOfMotion implements Savable {
      */
     final public static Logger logger
             = Logger.getLogger(RangeOfMotion.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -301,8 +305,13 @@ public class RangeOfMotion implements Savable {
             rot.setMaxLimitForce(1e9f);
         }
 
+        joint.setLinearLowerLimit(translateIdentity);
+        joint.setLinearUpperLimit(translateIdentity);
+
         TranslationalLimitMotor tra = joint.getTranslationalLimitMotor();
+        tra.setLowerLimit(translateIdentity);
         tra.setMaxMotorForce(new Vector3f(1e8f, 1e8f, 1e8f));
+        tra.setUpperLimit(translateIdentity);
     }
     // *************************************************************************
     // Savable methods
