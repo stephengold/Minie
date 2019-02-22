@@ -68,10 +68,6 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
-    /**
-     * default "up" direction
-     */
-    final private static Vector3f defaultUpDirection = new Vector3f(0f, 1f, 0f);
     // *************************************************************************
     // fields
 
@@ -163,10 +159,11 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      *
      * @param downwardAcceleration the desired downward acceleration (in
      * physics-space units per second squared, not null, unaffected,
-     * default=-29.4)
+     * default=29.4)
      */
     public void setGravity(float downwardAcceleration) {
-        Vector3f gVector = defaultUpDirection.multLocal(-downwardAcceleration);
+        Vector3f gVector = character.getUpDirection(null);
+        gVector.multLocal(-downwardAcceleration);
         character.setGravity(gVector);
     }
 
@@ -230,6 +227,8 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
         super.cloneFields(cloner, original);
 
         character = cloner.clone(character);
+        // tmpQuaternion not cloned
+        // tmpVector not cloned
         viewDirection = cloner.clone(viewDirection);
     }
 
@@ -337,9 +336,10 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     @Override
     public void update(float tpf) {
         character.getPhysicsLocation(location);
-        Quaternion orient = new Quaternion();
-        orient.lookAt(viewDirection, defaultUpDirection);
-        applyPhysicsTransform(location, orient);
+        Vector3f up = character.getUpDirection(null);
+        Quaternion orientation = new Quaternion();
+        orientation.lookAt(viewDirection, up);
+        applyPhysicsTransform(location, orientation);
     }
 
     /**
