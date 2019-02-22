@@ -64,10 +64,6 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     final public static Logger logger2
             = Logger.getLogger(MinieCharacterControl.class.getName());
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#ZERO}
-     */
-    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -135,7 +131,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * Jump in the "up" direction.
      */
     public void jump() {
-        character.jump(translateIdentity);
+        character.jump();
     }
 
     /**

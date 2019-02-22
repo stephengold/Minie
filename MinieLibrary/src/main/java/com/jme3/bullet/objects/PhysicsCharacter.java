@@ -69,6 +69,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     final private static Vector3f defaultGravity
             = new Vector3f(0f, -29.4f, 0f);
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -275,10 +279,18 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
+     * Jump in the "up" direction. For compatability with the jme3-bullet
+     * library.
+     */
+    public void jump() {
+        jump(translateIdentity);
+    }
+
+    /**
      * Jump in the specified direction.
      *
      * @param dir desired jump direction (not null, unaffected) or (0,0,0) to
-     * use the "up" direction
+     * jump in the "up" direction
      */
     public void jump(Vector3f dir) {
         jump(characterId, dir);

@@ -175,7 +175,7 @@ public class TestQ3 extends SimpleApplication implements ActionListener {
             else
                 down=false;
         } else if (binding.equals("Space")) {
-            player.jump(new Vector3f(0f, 0f, 0f));
+            player.jump();
         }
     }
 }
