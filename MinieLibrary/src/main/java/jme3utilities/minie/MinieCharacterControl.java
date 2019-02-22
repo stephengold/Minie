@@ -76,6 +76,14 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     private PhysicsCharacter character = null;
     /**
+     * temporary storage for a Quaternion
+     */
+    private static Quaternion tmpQuaternion = new Quaternion();
+    /**
+     * temporary storage for a vector
+     */
+    private static Vector3f tmpVector = new Vector3f();
+    /**
      * view direction
      */
     private Vector3f viewDirection = new Vector3f(Vector3f.UNIT_Z);
@@ -158,7 +166,8 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * default=29.4)
      */
     public void setGravity(float downwardAcceleration) {
-        Vector3f gVector = character.getUpDirection(null);
+        Vector3f gVector = tmpVector;
+        character.getUpDirection(gVector);
         gVector.multLocal(-downwardAcceleration);
         character.setGravity(gVector);
     }
@@ -330,10 +339,13 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     @Override
     public void update(float tpf) {
-        Vector3f up = character.getUpDirection(null);
-        Quaternion orientation = new Quaternion();
+        Vector3f up = tmpVector;
+        character.getUpDirection(up);
+        Quaternion orientation = tmpQuaternion;
         orientation.lookAt(viewDirection, up);
-        Vector3f location = character.getPhysicsLocation(null);
+
+        Vector3f location = tmpVector;
+        character.getPhysicsLocation(location);
         applyPhysicsTransform(location, orientation);
     }
 
