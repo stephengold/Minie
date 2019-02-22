@@ -265,7 +265,10 @@ public class DynamicAnimControl
 
     /**
      * Find the link that manages the specified vertex and optionally calculate
-     * the location of the vertex.
+     * the location of that vertex.
+     * <p>
+     * A software skin update must preceed any request for vertex locations.
+     * TODO use the Wes library to avoid this limitation?
      *
      * @param vertexSpecifier a String of the form "index/geometry" or
      * "index/geometry/bone" (not null, not empty)
