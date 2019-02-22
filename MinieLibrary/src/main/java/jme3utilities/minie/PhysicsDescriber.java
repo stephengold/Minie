@@ -77,76 +77,80 @@ public class PhysicsDescriber extends Describer {
     public String describe(CollisionShape shape) {
         Validate.nonNull(shape, "shape");
 
+        StringBuilder result = new StringBuilder(40);
         String name = shape.getClass().getSimpleName();
         if (name.endsWith("CollisionShape")) {
             name = MyString.removeSuffix(name, "CollisionShape");
         }
+        result.append(name);
 
-        String result = name;
         if (shape instanceof BoxCollisionShape) {
             BoxCollisionShape box = (BoxCollisionShape) shape;
             Vector3f he = box.getHalfExtents(null);
-            String xText = MyString.describe(he.x);
-            String yText = MyString.describe(he.y);
-            String zText = MyString.describe(he.z);
-            result += String.format("[hx=%s,hy=%s,hz=%s]", xText, yText, zText);
+            String desc = describeHalfExtents(he);
+            result.append(desc);
 
         } else if (shape instanceof CapsuleCollisionShape) {
             CapsuleCollisionShape capsule = (CapsuleCollisionShape) shape;
             int axis = capsule.getAxis();
-            result += describeAxis(axis);
+            String desc = describeAxis(axis);
+            result.append(desc);
+
             float height = capsule.getHeight();
-            String hText = MyString.describe(height);
             float radius = capsule.getRadius();
-            String rText = MyString.describe(radius);
-            result += String.format("[h=%s,r=%s]", hText, rText);
+            desc = describeHeightAndRadius(height, radius);
+            result.append(desc);
 
         } else if (shape instanceof ConeCollisionShape) {
             ConeCollisionShape cone = (ConeCollisionShape) shape;
             int axis = cone.getAxis();
-            result += describeAxis(axis);
+            String desc = describeAxis(axis);
+            result.append(desc);
+
             float height = cone.getHeight();
-            String hText = MyString.describe(height);
             float radius = cone.getRadius();
-            String rText = MyString.describe(radius);
-            result += String.format("[h=%s,r=%s]", hText, rText);
+            desc = describeHeightAndRadius(height, radius);
+            result.append(desc);
 
         } else if (shape instanceof CompoundCollisionShape) {
             CompoundCollisionShape compound = (CompoundCollisionShape) shape;
             String desc = describeChildShapes(compound);
-            result += String.format("[%s]", desc);
+            String desc2 = String.format("[%s]", desc);
+            result.append(desc2);
 
         } else if (shape instanceof CylinderCollisionShape) {
             CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
             int axis = cylinder.getAxis();
-            result += describeAxis(axis);
+            String desc = describeAxis(axis);
+            result.append(desc);
+
             Vector3f he = cylinder.getHalfExtents(null);
-            String xText = MyString.describe(he.x);
-            String yText = MyString.describe(he.y);
-            String zText = MyString.describe(he.z);
-            result += String.format("[hx=%s,hy=%s,hz=%s]", xText, yText, zText);
+            desc = describeHalfExtents(he);
+            result.append(desc);
 
         } else if (shape instanceof MultiSphere) {
             MultiSphere multiSphere = (MultiSphere) shape;
             int numSpheres = multiSphere.countSpheres();
-            result += "[r=";
+            result.append("[r=");
             for (int sphereIndex = 0; sphereIndex < numSpheres; ++sphereIndex) {
                 float radius = multiSphere.getRadius(sphereIndex);
                 if (sphereIndex > 0) {
-                    result += ",";
+                    result.append(',');
                 }
-                result += MyString.describe(radius);
+                String desc = MyString.describe(radius);
+                result.append(desc);
             }
-            result += "]";
+            result.append(']');
 
         } else if (shape instanceof SphereCollisionShape) {
             SphereCollisionShape sphere = (SphereCollisionShape) shape;
             float radius = sphere.getRadius();
             String rText = MyString.describe(radius);
-            result += String.format("[r=%s]", rText);
+            String desc = String.format("[r=%s]", rText);
+            result.append(desc);
         }
 
-        return result;
+        return result.toString();
     }
 
     /**
@@ -282,6 +286,39 @@ public class PhysicsDescriber extends Describer {
 
         boolean result = !MyControlP.canDisable(control)
                 || MyControlP.isEnabled(control);
+
+        return result;
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Describe the specified half extents.
+     *
+     * @param he the half extent for each local axis (not null, unaffected)
+     * @return a bracketed description (not null, not empty)
+     */
+    private String describeHalfExtents(Vector3f he) {
+        String xText = MyString.describe(he.x);
+        String yText = MyString.describe(he.y);
+        String zText = MyString.describe(he.z);
+        String result
+                = String.format("[hx=%s,hy=%s,hz=%s]", xText, yText, zText);
+
+        return result;
+    }
+
+    /**
+     * Describe the specified height and radius.
+     *
+     * @param height the height of the shape
+     * @param radius the radius of the shape
+     * @return a bracketed description (not null, not empty)
+     */
+    private String describeHeightAndRadius(float height, float radius) {
+        String hText = MyString.describe(height);
+        String rText = MyString.describe(radius);
+        String result = String.format("[h=%s,r=%s]", hText, rText);
 
         return result;
     }
