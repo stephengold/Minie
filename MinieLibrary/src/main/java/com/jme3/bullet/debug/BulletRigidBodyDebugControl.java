@@ -132,7 +132,7 @@ public class BulletRigidBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     public void setSpatial(Spatial spatial) {
-        if (spatial != null && spatial instanceof Node) {
+        if (spatial instanceof Node) {
             Node node = (Node) spatial;
             node.attachChild(geom);
         } else if (spatial == null && this.spatial != null) {
