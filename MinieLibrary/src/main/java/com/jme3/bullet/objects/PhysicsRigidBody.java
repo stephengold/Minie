@@ -986,7 +986,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         setContactResponse(capsule.readBoolean("contactResponse", true));
         setGravity((Vector3f) capsule.readSavable("gravity",
                 Vector3f.ZERO.clone()));
-        setKinematic(capsule.readBoolean("kinematic", false));
+        if (mass != massForStatic) {
+            setKinematic(capsule.readBoolean("kinematic", false));
+        }
 
         setAngularFactor((Vector3f) capsule.readSavable("angularFactor",
                 Vector3f.UNIT_XYZ.clone()));

@@ -73,7 +73,15 @@ public class TestCloneBody {
 
         CollisionShape shape = new SphereCollisionShape(1f);
         /*
-         * PhysicsRigidBody
+         * PhysicsRigidBody with mass=0
+         */
+        PhysicsRigidBody body0 = new PhysicsRigidBody(shape, 0f);
+        setParameters(body0, 0f);
+        verifyParameters(body0, 0f);
+        PhysicsRigidBody body0Clone = (PhysicsRigidBody) Misc.deepCopy(body0);
+        cloneTest(body0, body0Clone);
+        /*
+         * PhysicsRigidBody with mass=1
          */
         PhysicsRigidBody body = new PhysicsRigidBody(shape, 1f);
         setParameters(body, 0f);
@@ -175,7 +183,9 @@ public class TestCloneBody {
     private void setParameters(PhysicsRigidBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         body.setContactResponse(flag);
-        body.setKinematic(!flag);
+        if (body.getMass() != PhysicsRigidBody.massForStatic) {
+            body.setKinematic(!flag);
+        }
 
         int index = (int) Math.round(b / 0.3f);
         body.setAnisotropicFriction(
@@ -215,7 +225,9 @@ public class TestCloneBody {
     private void verifyParameters(PhysicsRigidBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert body.isContactResponse() == flag;
-        assert body.isKinematic() == !flag;
+        if (body.getMass() != PhysicsRigidBody.massForStatic) {
+            assert body.isKinematic() == !flag;
+        }
 
         int index = (int) Math.round(b / 0.3f);
         if (index == 0) {
