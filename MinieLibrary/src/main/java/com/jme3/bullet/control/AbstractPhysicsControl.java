@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -345,9 +345,9 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * If enabled, add this control's physics object to the specified physics
-     * space. If not enabled, alter where the object would be added. The object
-     * is removed from any other space it's in.
+     * If enabled, add this control's physics objects to the specified physics
+     * space. If not enabled, alter where the objects would be added. The
+     * objects are removed from any other space they're in.
      *
      * @param newSpace where to add, or null to simply remove
      */

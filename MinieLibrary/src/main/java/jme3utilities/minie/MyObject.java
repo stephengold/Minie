@@ -36,7 +36,7 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 
 /**
- * Utility methods that operate on physics collision objects.
+ * Utility methods that operate on physics collision objects. TODO rename myPco?
  *
  * @author Stephen Gold sgold@sonic.net
  */
