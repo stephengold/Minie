@@ -26,9 +26,11 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import java.util.logging.Logger;
 
 /**
  * Test case for JME issue #883: extra physicsTicks in ThreadingType.PARALLEL.
@@ -39,6 +41,14 @@ import com.jme3.bullet.PhysicsSpace;
  */
 public class TestIssue883 extends SimpleApplication {
     // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestIssue883.class.getName());
+    // *************************************************************************
     // fields
 
     private boolean firstPrint = true;
@@ -48,13 +58,21 @@ public class TestIssue883 extends SimpleApplication {
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] args) {
-        TestIssue883 app = new TestIssue883();
-        app.start();
+    /**
+     * Main entry point for the application.
+     *
+     * @param arguments array of command-line arguments (not null)
+     */
+    public static void main(String[] arguments) {
+        Application application = new TestIssue883();
+        application.start();
     }
     // *************************************************************************
     // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
 
@@ -68,8 +86,15 @@ public class TestIssue883 extends SimpleApplication {
         stateManager.attach(bulletAppState);
     }
 
+    /**
+     * Callback invoked once per frame.
+     *
+     * @param tpf time interval between frame (in seconds, &ge;0)
+     */
     @Override
     public void simpleUpdate(float tpf) {
+        super.simpleUpdate(tpf);
+
         frameTime += tpf;
 
         if (timeToNextPrint > 0f) {
