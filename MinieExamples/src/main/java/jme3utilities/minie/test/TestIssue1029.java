@@ -39,7 +39,9 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import java.util.logging.Logger;
 
 /**
- * Test sphere-sphere collision reporting via a listener.
+ * Test case for JME issue #1029: sphere-sphere collisions not reported.
+ * <p>
+ * If successful, the app will terminate normally, without a RuntimeException.
  *
  * @author Stephen Gold sgold@sonic.net
  */
