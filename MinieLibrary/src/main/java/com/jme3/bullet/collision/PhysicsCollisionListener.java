@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,8 +39,12 @@ package com.jme3.bullet.collision;
  */
 public interface PhysicsCollisionListener {
     /**
-     * Invoked when a collision happened in the PhysicsSpace. <i>Invoked on the
-     * render thread.</i>
+     * Typically invoked 2x for each collision that happens in the PhysicsSpace.
+     * However, collisions will be reported only if the user pointers of both
+     * objects are set. Also, the collision-group mask of one object must
+     * intersect with the collide-with group mask of the other.
+     * <p>
+     * Invoked on the render thread, not the physics thread.
      * <p>
      * Do not retain the event object, as it will be reused after the
      * collision() method returns. Copy any data you need during the collision()
