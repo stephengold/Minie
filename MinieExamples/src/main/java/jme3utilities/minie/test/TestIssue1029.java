@@ -43,7 +43,7 @@ import java.util.logging.Logger;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSphereSphereCollision
+public class TestIssue1029
         extends SimpleApplication
         implements PhysicsCollisionListener {
     // *************************************************************************
@@ -53,7 +53,7 @@ public class TestSphereSphereCollision
      * message logger for this class
      */
     final public static Logger logger
-            = Logger.getLogger(TestSphereSphereCollision.class.getName());
+            = Logger.getLogger(TestIssue1029.class.getName());
     // *************************************************************************
     // fields
 
@@ -70,7 +70,7 @@ public class TestSphereSphereCollision
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        Application application = new TestSphereSphereCollision();
+        Application application = new TestIssue1029();
         application.start();
     }
     // *************************************************************************
