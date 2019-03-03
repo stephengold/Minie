@@ -39,16 +39,17 @@ package com.jme3.bullet.collision;
  */
 public interface PhysicsCollisionListener {
     /**
-     * Typically invoked 2x for each collision that happens in the PhysicsSpace.
-     * However, collisions will be reported only if the user pointers of both
-     * objects are set. Also, the collision-group mask of one object must
-     * intersect with the collide-with group mask of the other.
+     * Callback to report collisions in a PhysicsSpace. Invoked on the render
+     * thread (not the physics thread) during the BulletAppState update.
      * <p>
-     * Invoked on the render thread, not the physics thread.
+     * Typically invoked 2x for each cached contact point, so expect many
+     * invocations per collision -- up to 8 per contact manifold.
      * <p>
-     * Do not retain the event object, as it will be reused after the
-     * collision() method returns. Copy any data you need during the collision()
-     * method.
+     * Collisions will be reported only if the collision-group mask of the 1st
+     * collision object intersects with the collide-with group mask of the 2nd.
+     * <p>
+     * Do not retain the event object, as it may be reused after the collision()
+     * method returns. Copy any data you need during the collision() method.
      *
      * @param event the event that occurred (not null, reusable)
      */
