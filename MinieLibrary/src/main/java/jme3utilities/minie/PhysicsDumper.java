@@ -233,17 +233,17 @@ public class PhysicsDumper extends Dumper {
             String orient = MyQuaternion.describe(orientation);
             stream.printf(" orient=[%s]", orient);
         }
-        
+
         Vector3f velocity = body.getLinearVelocity(null);
         String velString = MyVector3f.describe(velocity);
         stream.printf(" vel=[%s]", velString);
-        
+
         Vector3f gravity = body.getGravity(null);
         String graString = MyVector3f.describe(gravity);
         stream.printf(" gra=[%s]", graString);
 
         float linST = body.getLinearSleepingThreshold();
-        stream.print(" linST=" + MyString.describe(linST));                
+        stream.print(" linST=" + MyString.describe(linST));
         /*
          * 2nd line has the shape and the number of joints.
          */
@@ -256,7 +256,7 @@ public class PhysicsDumper extends Dumper {
         stream.printf(" group=0x%x", group);
         int groupMask = body.getCollideWithGroups();
         stream.printf(" mask=0x%x", groupMask);
-        
+
         Vector3f scale = shape.getScale(null);
         desc = describer.describeScale(scale);
         if (!desc.isEmpty()) {
@@ -295,7 +295,10 @@ public class PhysicsDumper extends Dumper {
                 pivot = joint.getPivotA(null);
             } else {
                 assert joint.getBodyB() == body;
-                otherId = joint.getBodyA().getObjectId();
+                PhysicsRigidBody bodyA = joint.getBodyA();
+                if (bodyA != null) {
+                    otherId = joint.getBodyA().getObjectId();
+                }
                 pivot = joint.getPivotB(null);
             }
             if (otherId == 0L) {
