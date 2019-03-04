@@ -1054,10 +1054,14 @@ public class PhysicsSpace {
         long objectId = character.getObjectId();
         if (contains(character)) {
             logger.log(Level.WARNING,
-                    "Character {0} already exists in PhysicsSpace.",
-                    Long.toHexString(objectId));
+                    "Character {0} is already added to PhysicsSpace {1}.",
+                    new Object[]{
+                        Long.toHexString(objectId),
+                        Long.toHexString(physicsSpaceId)
+                    });
             return;
         }
+
         physicsCharacters.put(objectId, character);
         logger.log(Level.FINE, "Adding character {0} to physics space.",
                 Long.toHexString(objectId));
@@ -1081,10 +1085,15 @@ public class PhysicsSpace {
         long objectId = ghost.getObjectId();
         if (contains(ghost)) {
             logger.log(Level.WARNING,
-                    "Ghost {0} already exists in PhysicsSpace.",
-                    Long.toHexString(objectId));
+                    "Ghost {0} is already added to PhysicsSpace {1}.",
+                    new Object[]{
+                        Long.toHexString(objectId),
+                        Long.toHexString(physicsSpaceId)
+                    });
+
             return;
         }
+
         physicsGhostObjects.put(objectId, ghost);
         logger.log(Level.FINE, "Adding ghost {0} to physics space.",
                 Long.toHexString(objectId));
@@ -1095,10 +1104,14 @@ public class PhysicsSpace {
         long jointId = joint.getObjectId();
         if (physicsJoints.containsKey(jointId)) {
             logger.log(Level.WARNING,
-                    "Joint {0} already exists in PhysicsSpace.",
-                    Long.toHexString(jointId));
+                    "Joint {0} is already added to PhysicsSpace {1}.",
+                    new Object[]{
+                        Long.toHexString(jointId),
+                        Long.toHexString(physicsSpaceId)
+                    });
             return;
         }
+
         logger.log(Level.FINE, "Adding Joint {0} to physics space.",
                 Long.toHexString(jointId));
         physicsJoints.put(jointId, joint);
@@ -1116,10 +1129,14 @@ public class PhysicsSpace {
         long objectId = body.getObjectId();
         if (contains(body)) {
             logger.log(Level.WARNING,
-                    "Rigid body {0} already exists in PhysicsSpace.",
-                    Long.toHexString(objectId));
+                    "RigidBody {0} is already added to PhysicsSpace {1}.",
+                    new Object[]{
+                        Long.toHexString(objectId),
+                        Long.toHexString(physicsSpaceId)
+                    });
             return;
         }
+
         physicsBodies.put(objectId, body);
 
         //Workaround
