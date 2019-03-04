@@ -431,33 +431,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy this body's orientation to a quaternion.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return the orientation (in physics-space coordinates, either storeResult
-     * or a new quaternion, not null)
-     */
-    public Quaternion getPhysicsRotation(Quaternion storeResult) {
-        Quaternion result
-                = (storeResult == null) ? new Quaternion() : storeResult;
-        getPhysicsRotation(objectId, result);
-        return result;
-    }
-
-    /**
-     * Copy this body's orientation (the basis of its local coordinate system)
-     * to a 3x3 matrix.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a rotation matrix (in physics-space coordinates, either
-     * storeResult or a new matrix, not null)
-     */
-    public Matrix3f getPhysicsRotationMatrix(Matrix3f storeResult) {
-        Matrix3f result = getBasis(storeResult);
-        return result;
-    }
-
-    /**
      * Copy the scale of the body's shape.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -1086,9 +1059,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     native private float getLinearSleepingThreshold(long objectId);
 
     native private void getLinearVelocity(long objectId, Vector3f storeResult);
-
-    native private void getPhysicsRotation(long objectId,
-            Quaternion storeResult);
 
     native private boolean isInWorld(long objectId);
 

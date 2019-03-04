@@ -41,6 +41,7 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.material.Material;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
@@ -238,20 +239,6 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy this object's orientation (the basis of its local coordinate system)
-     * to a 3x3 matrix.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a rotation matrix (in physics-space coordinates, either
-     * storeResult or a new matrix, not null)
-     */
-    public Matrix3f getBasis(Matrix3f storeResult) {
-        Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
-        getBasis(objectId, result);
-        return result;
-    }
-
-    /**
      * Read the continuous collision detection (CCD) motion threshold for this
      * object.
      *
@@ -405,6 +392,34 @@ abstract public class PhysicsCollisionObject
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         getLocation(objectId, result);
         assert Vector3f.isValidVector(result);
+        return result;
+    }
+
+    /**
+     * Copy the orientation (rotation) of this object to a quaternion.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a rotation quaternion (in physics-space coordinates, either
+     * storeResult or a new instance, not null)
+     */
+    public Quaternion getPhysicsRotation(Quaternion storeResult) {
+        Quaternion result
+                = (storeResult == null) ? new Quaternion() : storeResult;
+        getOrientation(objectId, result);
+        return result;
+    }
+
+    /**
+     * Copy the orientation of this object (the basis of its local coordinate
+     * system) to a 3x3 matrix.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a rotation matrix (in physics-space coordinates, either
+     * storeResult or a new matrix, not null)
+     */
+    public Matrix3f getPhysicsRotationMatrix(Matrix3f storeResult) {
+        Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
+        getBasis(objectId, result);
         return result;
     }
 
@@ -1019,6 +1034,8 @@ abstract public class PhysicsCollisionObject
     native private float getFriction(long objectId);
 
     native private void getLocation(long objectId, Vector3f storeResult);
+
+    native private void getOrientation(long objectId, Quaternion storeResult);
 
     native private float getRestitution(long objectId);
 

@@ -137,33 +137,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy this object's orientation to a quaternion.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return an orientation (in physics-space coordinates, either storeResult
-     * or a new quaternion, not null)
-     */
-    public Quaternion getPhysicsRotation(Quaternion storeResult) {
-        Quaternion result
-                = (storeResult == null) ? new Quaternion() : storeResult;
-        getPhysicsRotation(objectId, result);
-        return result;
-    }
-
-    /**
-     * Copy this object's orientation (the basis of its local coordinate system)
-     * to a 3x3 matrix.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a rotation matrix (in physics-space coordinates, either
-     * storeResult or a new matrix, not null)
-     */
-    public Matrix3f getPhysicsRotationMatrix(Matrix3f storeResult) {
-        Matrix3f result = getBasis(storeResult);
-        return result;
-    }
-
-    /**
      * Directly alter the location of this object's center.
      *
      * @param location the desired location (in physics-space coordinates, not
@@ -315,9 +288,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     native private int getOverlappingCount(long objectId);
 
     native private void getOverlappingObjects(long objectId);
-
-    native private void getPhysicsRotation(long objectId,
-            Quaternion storeResult);
 
     native private void setGhostFlags(long objectId);
 
