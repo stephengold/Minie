@@ -512,9 +512,7 @@ public class MyShape {
 
         CollisionShape result;
         if (oldShape instanceof BoxCollisionShape) {
-            Vector3f halfExtents
-                    = new Vector3f(newRadius, newRadius, newRadius);
-            result = new BoxCollisionShape(halfExtents);
+            result = new BoxCollisionShape(newRadius);
 
         } else if (oldShape instanceof CapsuleCollisionShape) {
             int axisIndex = mainAxisIndex(oldShape);

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ public class TestCloneJoints {
     public void testCloneJoints() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
-        CollisionShape box = new BoxCollisionShape(new Vector3f(1f, 1f, 1f));
+        CollisionShape box = new BoxCollisionShape(1f);
         PhysicsRigidBody bodyA = new PhysicsRigidBody(box, 1f);
         PhysicsRigidBody bodyB = new PhysicsRigidBody(box, 1f);
         /*

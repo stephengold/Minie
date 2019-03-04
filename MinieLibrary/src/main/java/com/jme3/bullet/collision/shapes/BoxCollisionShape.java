@@ -76,6 +76,19 @@ public class BoxCollisionShape extends CollisionShape {
     }
 
     /**
+     * Instantiate a cube-shaped box with the specified half extent.
+     *
+     * @param halfExtent the desired unscaled half extent on each local axis
+     * (not negative)
+     */
+    public BoxCollisionShape(float halfExtent) {
+        Validate.nonNegative(halfExtent, "half extent");
+
+        halfExtents.set(halfExtent, halfExtent, halfExtent);
+        createShape();
+    }
+
+    /**
      * Instantiate a box shape with the specified half extents.
      *
      * @param xHalfExtent the desired unscaled half extent on the local X axis

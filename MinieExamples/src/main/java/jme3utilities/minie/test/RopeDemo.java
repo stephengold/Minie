@@ -380,8 +380,7 @@ public class RopeDemo extends ActionApplication {
         geometry.setMaterial(boxMaterial);
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
 
-        Vector3f hes = new Vector3f(halfExtent, halfExtent, halfExtent);
-        BoxCollisionShape shape = new BoxCollisionShape(hes);
+        BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
         float mass = PhysicsRigidBody.massForStatic;
         RigidBodyControl rbc = new RigidBodyControl(shape, mass);
         rbc.setApplyScale(true);

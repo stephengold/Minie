@@ -158,8 +158,7 @@ public class HelloBoneLink extends SimpleApplication {
         geometry.setMaterial(material);
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
 
-        Vector3f hes = new Vector3f(halfExtent, halfExtent, halfExtent);
-        BoxCollisionShape shape = new BoxCollisionShape(hes);
+        BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
         float mass = PhysicsRigidBody.massForStatic;
         RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
         geometry.addControl(boxBody);

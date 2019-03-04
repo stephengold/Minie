@@ -64,7 +64,7 @@ public class TestScaleChange extends SimpleApplication {
         stateManager.attach(bulletAppState);
         pSpace = bulletAppState.getPhysicsSpace();
 
-        box = new BoxCollisionShape(new Vector3f(1f, 1f, 1f));
+        box = new BoxCollisionShape(1f);
         box.setScale(new Vector3f(scale, scale, scale));
         gc = new GhostControl(box);
         gc.setPhysicsSpace(pSpace);

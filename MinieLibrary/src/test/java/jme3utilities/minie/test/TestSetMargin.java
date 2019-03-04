@@ -82,7 +82,7 @@ public class TestSetMargin {
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
         assetManager.registerLocator(null, ClasspathLocator.class);
 
-        CollisionShape box = new BoxCollisionShape(new Vector3f(1f, 1f, 1f));
+        CollisionShape box = new BoxCollisionShape(1f);
         assert box.getMargin() == 0.04f;
         box.setMargin(0.11f);
         assert box.getMargin() == 0.11f;

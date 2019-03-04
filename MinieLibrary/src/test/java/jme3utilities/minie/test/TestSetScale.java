@@ -84,7 +84,7 @@ public class TestSetScale {
         Vector3f non = new Vector3f(9f, 9f, 1f);
         Vector3f non2 = new Vector3f(1f, 2f, 3f);
 
-        CollisionShape box = new BoxCollisionShape(new Vector3f(2f, 2f, 2f));
+        CollisionShape box = new BoxCollisionShape(2f);
         assert box.getScale(null).equals(ident);
         box.setScale(uni);
         assert box.getScale(null).equals(uni);

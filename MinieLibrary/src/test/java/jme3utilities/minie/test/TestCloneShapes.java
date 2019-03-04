@@ -105,7 +105,7 @@ public class TestCloneShapes {
         /*
          * Box
          */
-        CollisionShape box = new BoxCollisionShape(new Vector3f(1f, 1f, 1f));
+        CollisionShape box = new BoxCollisionShape(1f);
         setParameters(box, 0f);
         verifyParameters(box, 0f);
         CollisionShape boxClone = (CollisionShape) Misc.deepCopy(box);

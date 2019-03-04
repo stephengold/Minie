@@ -68,7 +68,7 @@ public class TestIssue889 extends SimpleApplication {
 
         float radius = 1f;
         CollisionShape sphere = new SphereCollisionShape(radius);
-        CollisionShape box = new BoxCollisionShape(Vector3f.UNIT_XYZ);
+        CollisionShape box = new BoxCollisionShape(1f);
 
         RigidBodyControl rbc = new RigidBodyControl(box);
         rbc.setEnabled(false);
