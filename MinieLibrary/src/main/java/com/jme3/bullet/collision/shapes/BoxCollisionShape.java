@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,6 +73,26 @@ public class BoxCollisionShape extends CollisionShape {
      * directly!
      */
     public BoxCollisionShape() {
+    }
+
+    /**
+     * Instantiate a box shape with the specified half extents.
+     *
+     * @param xHalfExtent the desired unscaled half extent on the local X axis
+     * (not negative)
+     * @param yHalfExtent the desired unscaled half extent on the local Y axis
+     * (not negative)
+     * @param zHalfExtent the desired unscaled half extent on the local Z axis
+     * (not negative)
+     */
+    public BoxCollisionShape(float xHalfExtent, float yHalfExtent,
+            float zHalfExtent) {
+        Validate.nonNegative(xHalfExtent, "half extent on X");
+        Validate.nonNegative(yHalfExtent, "half extent on Y");
+        Validate.nonNegative(zHalfExtent, "half extent on Z");
+
+        halfExtents.set(xHalfExtent, yHalfExtent, zHalfExtent);
+        createShape();
     }
 
     /**
@@ -180,7 +200,8 @@ public class BoxCollisionShape extends CollisionShape {
 
         objectId = createShape(halfExtents);
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Shape {0}", Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created Shape {0}",
+                Long.toHexString(objectId));
 
         setScale(scale);
         setMargin(margin);
