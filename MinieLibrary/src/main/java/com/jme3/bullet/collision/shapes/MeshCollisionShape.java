@@ -70,6 +70,7 @@ public class MeshCollisionShape extends CollisionShape {
     private static final String NUM_TRIANGLES = "numTriangles";
     private static final String NUM_VERTICES = "numVertices";
     private static final String NATIVE_BVH = "nativeBvh";
+    private static final String USE_COMPRESSION = "useCompression";
     // *************************************************************************
     // fields
 
@@ -175,14 +176,21 @@ public class MeshCollisionShape extends CollisionShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        //triangleIndexBase not cloned
-        //vertexBase not cloned
 
-        boolean buildBvh = (nativeBVHBuffer != 0L);
-        objectId = createShape(memoryOptimized, buildBvh, meshId);
+        triangleIndexBase.position(0);
+        byte[] copyIndices = new byte[triangleIndexBase.limit()];
+        triangleIndexBase.get(copyIndices);
+        triangleIndexBase = BufferUtils.createByteBuffer(copyIndices);
 
-        setScale(scale);
-        setMargin(margin);
+        vertexBase.position(0);
+        byte[] copyVertices = new byte[vertexBase.limit()];
+        vertexBase.get(copyVertices);
+        vertexBase = BufferUtils.createByteBuffer(copyVertices);
+
+        meshId = 0L;
+        nativeBVHBuffer = 0L;
+
+        createShape(null);
     }
 
     /**
@@ -227,8 +235,9 @@ public class MeshCollisionShape extends CollisionShape {
         InputCapsule capsule = im.getCapsule(this);
         numVertices = capsule.readInt(NUM_VERTICES, 0);
         numTriangles = capsule.readInt(NUM_TRIANGLES, 0);
-        vertexStride = capsule.readInt(VERTEX_STRIDE, 0);
-        triangleIndexStride = capsule.readInt(TRIANGLE_INDEX_STRIDE, 0);
+        vertexStride = capsule.readInt(VERTEX_STRIDE, 12);
+        triangleIndexStride = capsule.readInt(TRIANGLE_INDEX_STRIDE, 12);
+        memoryOptimized = capsule.readBoolean(USE_COMPRESSION, true);
 
         triangleIndexBase = BufferUtils.createByteBuffer(
                 capsule.readByteArray(TRIANGLE_INDEX_BASE, null));
@@ -236,7 +245,6 @@ public class MeshCollisionShape extends CollisionShape {
                 capsule.readByteArray(VERTEX_BASE, null));
 
         byte[] nativeBvh = capsule.readByteArray(NATIVE_BVH, null);
-        memoryOptimized = nativeBvh != null;
         createShape(nativeBvh);
     }
 
@@ -252,8 +260,9 @@ public class MeshCollisionShape extends CollisionShape {
         OutputCapsule capsule = ex.getCapsule(this);
         capsule.write(numVertices, NUM_VERTICES, 0);
         capsule.write(numTriangles, NUM_TRIANGLES, 0);
-        capsule.write(vertexStride, VERTEX_STRIDE, 0);
-        capsule.write(triangleIndexStride, TRIANGLE_INDEX_STRIDE, 0);
+        capsule.write(vertexStride, VERTEX_STRIDE, 12);
+        capsule.write(triangleIndexStride, TRIANGLE_INDEX_STRIDE, 12);
+        capsule.write(memoryOptimized, USE_COMPRESSION, true);
 
         triangleIndexBase.position(0);
         byte[] triangleIndexBasearray = new byte[triangleIndexBase.limit()];
@@ -265,10 +274,8 @@ public class MeshCollisionShape extends CollisionShape {
         vertexBase.get(vertexBaseArray);
         capsule.write(vertexBaseArray, VERTEX_BASE, null);
 
-        if (memoryOptimized) {
-            byte[] data = saveBVH(objectId);
-            capsule.write(data, NATIVE_BVH, null);
-        }
+        byte[] data = saveBVH(objectId);
+        capsule.write(data, NATIVE_BVH, null);
     }
     // *************************************************************************
     // private methods

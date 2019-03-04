@@ -315,8 +315,7 @@ public class TestCloneShapes {
         verifyParameters(shape, 0.3f);
         verifyParameters(shapeClone, 0.6f);
 
-        if (shape instanceof GImpactCollisionShape
-                || shape instanceof MeshCollisionShape) { // TODO
+        if (shape instanceof GImpactCollisionShape) { // TODO
             return;
         }
 
