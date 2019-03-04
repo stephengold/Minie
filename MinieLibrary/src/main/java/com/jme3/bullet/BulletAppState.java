@@ -476,6 +476,23 @@ public class BulletAppState
 
         isRunning = true;
     }
+    
+    /**
+     * Stop physics after this state is detached.
+     */
+    public void stopPhysics() {
+        if (!isRunning) {
+            return;
+        }
+
+        if (executor != null) {
+            executor.shutdown();
+            executor = null;
+        }
+        pSpace.removeTickListener(this);
+        pSpace = null;
+        isRunning = false;
+    }
     // *************************************************************************
     // new protected methods
 
@@ -712,22 +729,5 @@ public class BulletAppState
             logger.log(Level.SEVERE, null, ex);
             return false;
         }
-    }
-
-    /**
-     * Stop physics after this state is detached.
-     */
-    private void stopPhysics() {
-        if (!isRunning) {
-            return;
-        }
-
-        if (executor != null) {
-            executor.shutdown();
-            executor = null;
-        }
-        pSpace.removeTickListener(this);
-        pSpace = null;
-        isRunning = false;
     }
 }
