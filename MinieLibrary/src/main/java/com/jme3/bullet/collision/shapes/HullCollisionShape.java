@@ -357,8 +357,7 @@ public class HullCollisionShape extends CollisionShape {
         int numVertices = numFloats / 3;
 
         bbuf = BufferUtils.createByteBuffer(numFloats * 4);
-        for (int i = 0; i < numFloats; ++i) { // TODO for-each
-            float f = points[i];
+        for (float f : points) {
             if (!Float.isFinite(f)) {
                 String msg = "illegal coordinate: " + Float.toString(f);
                 throw new IllegalArgumentException(msg);

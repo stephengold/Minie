@@ -241,12 +241,12 @@ public class HeightfieldCollisionShape extends CollisionShape {
         float min = heightfieldData[0];
         float max = heightfieldData[0];
         // calculate min and max height
-        for (int i = 0; i < heightfieldData.length; ++i) { // TODO for-each
-            if (heightfieldData[i] < min) {
-                min = heightfieldData[i];
+        for (float height : heightfieldData) {
+            if (height < min) {
+                min = height;
             }
-            if (heightfieldData[i] > max) {
-                max = heightfieldData[i];
+            if (height > max) {
+                max = height;
             }
         }
         // we need to center the terrain collision box at 0,0,0 for BulletPhysics. And to do that we need to set the
@@ -279,9 +279,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
         assert objectId == 0L;
 
         bbuf = BufferUtils.createByteBuffer(heightfieldData.length * 4);
-        for (int i = 0; i < heightfieldData.length; ++i) { // TODO for-each
-            float f = heightfieldData[i];
-            bbuf.putFloat(f);
+        for (float height : heightfieldData) {
+            bbuf.putFloat(height);
         }
 
         objectId = createShape(heightStickWidth, heightStickLength, bbuf,

@@ -147,8 +147,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     public void applyWheelTransforms() {
         if (wheels != null) {
-            for (int i = 0; i < wheels.size(); ++i) { // TODO for-each
-                wheels.get(i).applyWheelTransform();
+            for (VehicleWheel wheel : wheels) {
+                wheel.applyWheelTransform();
             }
         }
     }
