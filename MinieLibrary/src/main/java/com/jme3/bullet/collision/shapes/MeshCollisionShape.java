@@ -62,31 +62,38 @@ public class MeshCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(MeshCollisionShape.class.getName());
-
-    private static final String VERTEX_BASE = "vertexBase";
-    private static final String TRIANGLE_INDEX_BASE = "triangleIndexBase";
-    private static final String TRIANGLE_INDEX_STRIDE = "triangleIndexStride";
-    private static final String VERTEX_STRIDE = "vertexStride";
+    /**
+     * field names for serialization
+     */
+    private static final String NATIVE_BVH = "nativeBvh";
     private static final String NUM_TRIANGLES = "numTriangles";
     private static final String NUM_VERTICES = "numVertices";
-    private static final String NATIVE_BVH = "nativeBvh";
+    private static final String TRIANGLE_INDEX_BASE = "triangleIndexBase";
+    private static final String TRIANGLE_INDEX_STRIDE = "triangleIndexStride";
     private static final String USE_COMPRESSION = "useCompression";
+    private static final String VERTEX_BASE = "vertexBase";
+    private static final String VERTEX_STRIDE = "vertexStride";
     // *************************************************************************
     // fields
+
+    /**
+     * if true, use quantized AABB compression (default=true)
+     */
+    private boolean useCompression;
+
+    private ByteBuffer triangleIndexBase;
+    private ByteBuffer vertexBase;
 
     private int numTriangles;
     private int numVertices;
     private int triangleIndexStride;
     private int vertexStride;
-    private ByteBuffer triangleIndexBase;
-    private ByteBuffer vertexBase;
     /**
      * Unique identifier of the Bullet mesh. The constructor sets this to a
      * non-zero value.
      */
     private long meshId = 0L;
     private long nativeBVHBuffer = 0L;
-    private boolean memoryOptimized;
     // *************************************************************************
     // constructors
 
@@ -98,31 +105,34 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
-     * An advanced constructor. Passing false values can lead to a crash.
+     * An advanced constructor. Passing incorrect values can lead to a crash.
      * Usually you don't want to use this. Use at own risk.
      * <p>
      * This constructor bypasses all copy logic normally used, this allows for
-     * faster Bullet shape generation when using procedurally generated Meshes.
+     * faster collision shape generation when using procedurally generated
+     * meshes.
      *
      * @param indices the raw index buffer
      * @param vertices the raw vertex buffer
-     * @param memoryOptimized use quantized BVH, uses less memory, but slower
+     * @param useCompression use quantized AABB compression: less memory but
+     * slower
      */
     public MeshCollisionShape(ByteBuffer indices, ByteBuffer vertices,
-            boolean memoryOptimized) {
+            boolean useCompression) {
         triangleIndexBase = indices;
         vertexBase = vertices;
         numVertices = vertices.limit() / 4 / 3;
         numTriangles = triangleIndexBase.limit() / 4 / 3;
         vertexStride = 12;
         triangleIndexStride = 12;
-        this.memoryOptimized = memoryOptimized;
+        this.useCompression = useCompression;
+
         createShape(null);
     }
 
     /**
-     * Instantiate a shape based on the specified JME mesh, optimized for memory
-     * usage.
+     * Instantiate a shape based on the specified JME mesh, using quantized AABB
+     * compression.
      *
      * @param mesh the mesh on which to base the shape (not null)
      */
@@ -132,21 +142,12 @@ public class MeshCollisionShape extends CollisionShape {
 
     /**
      * Instantiate a shape based on the specified JME mesh.
-     * <p>
-     * <code>memoryOptimized</code> determines if optimized instead of quantized
-     * BVH will be used. Internally, <code>memoryOptimized</code> BVH is slower
-     * to calculate (~4x) but also smaller (~0.5x). It is preferable to use the
-     * memory optimized version and then serialize the resulting
-     * MeshCollisionshape as this will also save the generated BVH. An exception
-     * can be procedurally / generated collision shapes, where the generation
-     * time is more of a concern.
      *
      * @param mesh the mesh on which to base the shape (not null)
-     * @param memoryOptimized true to generate a memory-optimized BVH, false to
-     * generate quantized BVH
+     * @param useCompression true to use quantized AABB compression
      */
-    public MeshCollisionShape(Mesh mesh, boolean memoryOptimized) {
-        this.memoryOptimized = memoryOptimized;
+    public MeshCollisionShape(Mesh mesh, boolean useCompression) {
+        this.useCompression = useCompression;
         createCollisionMesh(mesh);
     }
     // *************************************************************************
@@ -233,11 +234,12 @@ public class MeshCollisionShape extends CollisionShape {
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule capsule = im.getCapsule(this);
+
         numVertices = capsule.readInt(NUM_VERTICES, 0);
         numTriangles = capsule.readInt(NUM_TRIANGLES, 0);
         vertexStride = capsule.readInt(VERTEX_STRIDE, 12);
         triangleIndexStride = capsule.readInt(TRIANGLE_INDEX_STRIDE, 12);
-        memoryOptimized = capsule.readBoolean(USE_COMPRESSION, true);
+        useCompression = capsule.readBoolean(USE_COMPRESSION, true);
 
         triangleIndexBase = BufferUtils.createByteBuffer(
                 capsule.readByteArray(TRIANGLE_INDEX_BASE, null));
@@ -258,21 +260,22 @@ public class MeshCollisionShape extends CollisionShape {
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
+
         capsule.write(numVertices, NUM_VERTICES, 0);
         capsule.write(numTriangles, NUM_TRIANGLES, 0);
         capsule.write(vertexStride, VERTEX_STRIDE, 12);
         capsule.write(triangleIndexStride, TRIANGLE_INDEX_STRIDE, 12);
-        capsule.write(memoryOptimized, USE_COMPRESSION, true);
+        capsule.write(useCompression, USE_COMPRESSION, true);
 
         triangleIndexBase.position(0);
-        byte[] triangleIndexBasearray = new byte[triangleIndexBase.limit()];
-        triangleIndexBase.get(triangleIndexBasearray);
-        capsule.write(triangleIndexBasearray, TRIANGLE_INDEX_BASE, null);
+        byte[] copyIndices = new byte[triangleIndexBase.limit()];
+        triangleIndexBase.get(copyIndices);
+        capsule.write(copyIndices, TRIANGLE_INDEX_BASE, null);
 
         vertexBase.position(0);
-        byte[] vertexBaseArray = new byte[vertexBase.limit()];
-        vertexBase.get(vertexBaseArray);
-        capsule.write(vertexBaseArray, VERTEX_BASE, null);
+        byte[] copyVertices = new byte[vertexBase.limit()];
+        vertexBase.get(copyVertices);
+        capsule.write(copyVertices, VERTEX_BASE, null);
 
         byte[] data = saveBVH(objectId);
         capsule.write(data, NATIVE_BVH, null);
@@ -295,13 +298,13 @@ public class MeshCollisionShape extends CollisionShape {
         vertices.rewind();
 
         int verticesLength = mesh.getVertexCount() * 3;
-        for (int i = 0; i < verticesLength; ++i) { // TODO for each
+        for (int i = 0; i < verticesLength; ++i) {
             float tempFloat = vertices.get();
             vertexBase.putFloat(tempFloat);
         }
 
         int indicesLength = mesh.getTriangleCount() * 3;
-        for (int i = 0; i < indicesLength; ++i) { // TODO for-each
+        for (int i = 0; i < indicesLength; ++i) {
             triangleIndexBase.putInt(indices.get(i));
         }
         vertices.rewind();
@@ -312,6 +315,8 @@ public class MeshCollisionShape extends CollisionShape {
 
     /**
      * Instantiate the configured shape in Bullet.
+     *
+     * @param bvh built BVH data, or null if the BVH has not yet been built
      */
     private void createShape(byte bvh[]) {
         assert meshId == 0L;
@@ -324,8 +329,9 @@ public class MeshCollisionShape extends CollisionShape {
         logger2.log(Level.FINE, "Created Mesh {0}", Long.toHexString(meshId));
 
         boolean buildBvh = (bvh == null || bvh.length == 0);
-        objectId = createShape(memoryOptimized, buildBvh, meshId);
-        logger2.log(Level.FINE, "Created Shape {0}", Long.toHexString(objectId));
+        objectId = createShape(useCompression, buildBvh, meshId);
+        logger2.log(Level.FINE, "Created Shape {0}",
+                Long.toHexString(objectId));
         if (!buildBvh) {
             nativeBVHBuffer = setBVH(bvh, objectId);
             assert nativeBVHBuffer != 0L;
@@ -335,7 +341,7 @@ public class MeshCollisionShape extends CollisionShape {
         setMargin(margin);
     }
 
-    native private long createShape(boolean memoryOptimized, boolean buildBvt,
+    native private long createShape(boolean useCompression, boolean buildBvh,
             long meshId);
 
     native private void finalizeNative(long objectId, long nativeBVHBuffer);
