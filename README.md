@@ -239,7 +239,7 @@ repository location:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.7.0'
+        compile 'jme3utilities:Minie:0.7.1'
     }
 
 #### For Ant projects
@@ -247,7 +247,7 @@ repository location:
 For project built using Ant, download the 3 non-standard
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/0.7.0
+ + https://github.com/stephengold/Minie/releases/tag/0.7.1
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.20.0
  + https://github.com/stephengold/jme3-utilities/releases/tag/debug-0.9.11
 

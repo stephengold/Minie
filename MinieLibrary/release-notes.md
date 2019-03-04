@@ -1,5 +1,25 @@
 # release notes for the Minie library and related examples
 
+## Version 0.7.1 released on 4 March 2019
+
+Important changes to the library:
+
+ + Fixed read/write/clone bugs in `MeshCollisionShape`.
+ + Fixed JME issue #1029 using riccardobl's approach.
+ + Fixed a crash that occurred while loading a rigid body with mass=0.
+ + Fixed a `NullPointerException` that occurred while dumping
+   single-ended joints.
+ + Add `jump(void)` and `setGravity(float)` methods to `PhysicsCharacter`.
+ + Changed the default gravity direction for a `PhysicsCharacter` from -Z to -Y.
+ + Moved the `MyObject.describeUser()` method to the `PhysicsDescriber` class.
+ + Publicized the `BulletAppState.stopPhysics()` method for better compatibility
+   with `jme3-bullet`.
+ + Added 2 new constructors for `BoxCollisionShape`.
+ + Dump additional information on rigid bodies in `PhysicsDumper`.
+ + Ensure that translation axes are locked in `RangeOfMotion`.
+ + Reorganized the location/orientation getters for collision objects.
+ + Updated the native libraries to version 1.0.34 of `Libbulletjme`.
+
 ## Version 0.7.0 released on 19 February 2019
 
 Important changes to the library:
