@@ -135,7 +135,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     public void updateWheels() {
         if (vehicleId != 0L) {
-            for (int i = 0; i < wheels.size(); i++) {
+            for (int i = 0; i < wheels.size(); ++i) {
                 updateWheelTransform(vehicleId, i, true);
                 wheels.get(i).updatePhysicsState();
             }
@@ -147,7 +147,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     public void applyWheelTransforms() {
         if (wheels != null) {
-            for (int i = 0; i < wheels.size(); i++) {
+            for (int i = 0; i < wheels.size(); ++i) { // TODO for-each
                 wheels.get(i).applyWheelTransform();
             }
         }
@@ -559,7 +559,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param force the desired amount of force
      */
     public void accelerate(float force) {
-        for (int i = 0; i < wheels.size(); i++) {
+        for (int i = 0; i < wheels.size(); ++i) {
             accelerate(i, force);
         }
     }
@@ -580,7 +580,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param value the desired steering angle (in radians, 0=straight)
      */
     public void steer(float value) {
-        for (int i = 0; i < wheels.size(); i++) {
+        for (int i = 0; i < wheels.size(); ++i) {
             if (getWheel(i).isFrontWheel()) {
                 steer(i, value);
             }
@@ -603,7 +603,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param force the desired amount of force
      */
     public void brake(float force) {
-        for (int i = 0; i < wheels.size(); i++) {
+        for (int i = 0; i < wheels.size(); ++i) {
             brake(i, force);
         }
     }

@@ -111,7 +111,7 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
 
     private void createVehicle() {
         suspensionNode.detachAllChildren();
-        for (int i = 0; i < vehicle.getNumWheels(); i++) {
+        for (int i = 0; i < vehicle.getNumWheels(); ++i) {
             VehicleWheel physicsVehicleWheel = vehicle.getWheel(i);
             Vector3f wLocation = physicsVehicleWheel.getLocation(null);
             Vector3f wDirection = physicsVehicleWheel.getDirection(null);
@@ -160,7 +160,7 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     protected void controlUpdate(float tpf) {
-        for (int i = 0; i < vehicle.getNumWheels(); i++) {
+        for (int i = 0; i < vehicle.getNumWheels(); ++i) {
             VehicleWheel physicsVehicleWheel = vehicle.getWheel(i);
             Vector3f wLocation = physicsVehicleWheel.getLocation(null);
             Vector3f wDirection = physicsVehicleWheel.getDirection(null);

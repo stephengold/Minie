@@ -241,7 +241,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
         float min = heightfieldData[0];
         float max = heightfieldData[0];
         // calculate min and max height
-        for (int i = 0; i < heightfieldData.length; i++) {
+        for (int i = 0; i < heightfieldData.length; ++i) { // TODO for-each
             if (heightfieldData[i] < min) {
                 min = heightfieldData[i];
             }
@@ -279,7 +279,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
         assert objectId == 0L;
 
         bbuf = BufferUtils.createByteBuffer(heightfieldData.length * 4);
-        for (int i = 0; i < heightfieldData.length; i++) {
+        for (int i = 0; i < heightfieldData.length; ++i) { // TODO for-each
             float f = heightfieldData[i];
             bbuf.putFloat(f);
         }

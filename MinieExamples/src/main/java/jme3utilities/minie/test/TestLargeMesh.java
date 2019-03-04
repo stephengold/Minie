@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,7 @@ public class TestLargeMesh extends SimpleApplication {
         int numVertices = 3 * numTriangles;
         int numFloats = 3 * numVertices;
         FloatBuffer buffer = BufferUtils.createFloatBuffer(numFloats);
-        for (int floatIndex = 0; floatIndex < numFloats; floatIndex++) {
+        for (int floatIndex = 0; floatIndex < numFloats; ++floatIndex) {
             float coordinate = generator.nextFloat();
             buffer.put(coordinate);
         }

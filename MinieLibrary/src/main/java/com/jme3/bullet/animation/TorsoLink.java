@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -135,7 +135,7 @@ public class TorsoLink extends PhysicsLink {
 
         int numManagedBones = managedBones.length;
         startBoneTransforms = new Transform[numManagedBones];
-        for (int i = 0; i < numManagedBones; i++) {
+        for (int i = 0; i < numManagedBones; ++i) {
             startBoneTransforms[i] = new Transform();
         }
     }
@@ -169,7 +169,7 @@ public class TorsoLink extends PhysicsLink {
             startModelTransform.set(current);
         }
         int numManagedBones = managedBones.length;
-        for (int mbIndex = 0; mbIndex < numManagedBones; mbIndex++) {
+        for (int mbIndex = 0; mbIndex < numManagedBones; ++mbIndex) {
             Transform transform;
             if (prevBoneTransforms == null) { // this link not updated yet
                 Bone managedBone = managedBones[mbIndex];
@@ -303,7 +303,7 @@ public class TorsoLink extends PhysicsLink {
             getControl().getSpatial().setLocalTransform(transform);
         }
 
-        for (int mbIndex = 0; mbIndex < managedBones.length; mbIndex++) {
+        for (int mbIndex = 0; mbIndex < managedBones.length; ++mbIndex) {
             Bone managedBone = managedBones[mbIndex];
             switch (submode) {
                 case Amputated:
@@ -382,11 +382,11 @@ public class TorsoLink extends PhysicsLink {
 
         if (prevBoneTransforms == null) {
             prevBoneTransforms = new Transform[numManagedBones];
-            for (int i = 0; i < numManagedBones; i++) {
+            for (int i = 0; i < numManagedBones; ++i) {
                 prevBoneTransforms[i] = new Transform();
             }
         }
-        for (int i = 0; i < numManagedBones; i++) {
+        for (int i = 0; i < numManagedBones; ++i) {
             prevBoneTransforms[i].set(oldLink.prevBoneTransforms[i]);
             startBoneTransforms[i].set(oldLink.startBoneTransforms[i]);
         }
@@ -408,7 +408,7 @@ public class TorsoLink extends PhysicsLink {
             managedBones = null;
         } else {
             managedBones = new Bone[tmp.length];
-            for (int i = 0; i < tmp.length; i++) {
+            for (int i = 0; i < tmp.length; ++i) {
                 managedBones[i] = (Bone) tmp[i];
             }
         }
@@ -462,7 +462,7 @@ public class TorsoLink extends PhysicsLink {
              */
             int numManagedBones = managedBones.length;
             prevBoneTransforms = new Transform[numManagedBones];
-            for (int mbIndex = 0; mbIndex < numManagedBones; mbIndex++) {
+            for (int mbIndex = 0; mbIndex < numManagedBones; ++mbIndex) {
                 Bone managedBone = managedBones[mbIndex];
                 Transform boneTransform
                         = MySkeleton.copyLocalTransform(managedBone, null);
@@ -474,7 +474,7 @@ public class TorsoLink extends PhysicsLink {
         /*
          * Save copies of the latest bone transforms.
          */
-        for (int mbIndex = 0; mbIndex < managedBones.length; mbIndex++) {
+        for (int mbIndex = 0; mbIndex < managedBones.length; ++mbIndex) {
             Transform lastTransform = prevBoneTransforms[mbIndex];
             Bone managedBone = managedBones[mbIndex];
             MySkeleton.copyLocalTransform(managedBone, lastTransform);

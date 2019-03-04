@@ -287,7 +287,7 @@ public class PhysicsSpace {
             ((PhysicsControl) obj).setPhysicsSpace(this);
         } else if (obj instanceof Spatial) {
             Spatial node = (Spatial) obj;
-            for (int i = 0; i < node.getNumControls(); i++) {
+            for (int i = 0; i < node.getNumControls(); ++i) {
                 if (node.getControl(i) instanceof PhysicsControl) {
                     add(node.getControl(i));
                 }
@@ -316,7 +316,7 @@ public class PhysicsSpace {
          * Add the joints.
          */
         int numControls = spatial.getNumControls();
-        for (int controlIndex = 0; controlIndex < numControls; controlIndex++) {
+        for (int controlIndex = 0; controlIndex < numControls; ++controlIndex) {
             Control sgc = spatial.getControl(controlIndex);
             if (sgc instanceof RigidBodyControl) {
                 RigidBodyControl rbc = (RigidBodyControl) sgc;
@@ -746,7 +746,7 @@ public class PhysicsSpace {
             ((PhysicsControl) obj).setPhysicsSpace(null);
         } else if (obj instanceof Spatial) {
             Spatial node = (Spatial) obj;
-            for (int i = 0; i < node.getNumControls(); i++) {
+            for (int i = 0; i < node.getNumControls(); ++i) {
                 if (node.getControl(i) instanceof PhysicsControl) {
                     remove((node.getControl(i)));
                 }

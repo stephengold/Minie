@@ -298,7 +298,9 @@ public class TestRectangularSolid extends ActionApplication {
          * (which is an ellipsoid).
          */
         Collection<Vector3f> sampleLocations = new ArrayList<>(samplesPerTrial);
-        for (int sampleIndex = 0; sampleIndex < samplesPerTrial; sampleIndex++) {
+        for (int sampleIndex = 0;
+                sampleIndex < samplesPerTrial;
+                ++sampleIndex) {
             Vector3f sampleLocation = generator.nextUnitVector3f();
             transform.transformVector(sampleLocation, sampleLocation);
             sampleLocations.add(sampleLocation);

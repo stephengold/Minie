@@ -570,7 +570,7 @@ public class DacLinks extends DacConfiguration {
         MySkeleton.setUserControl(skeleton, true);
         Transform[] savedTransforms = new Transform[numBones];
         Vector3f userScale = new Vector3f();
-        for (int boneIndex = 0; boneIndex < numBones; boneIndex++) {
+        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             Bone bone = skeleton.getBone(boneIndex);
             savedTransforms[boneIndex]
                     = MySkeleton.copyLocalTransform(bone, null);
@@ -631,7 +631,7 @@ public class DacLinks extends DacConfiguration {
         /*
          * Restore the skeleton's pose.
          */
-        for (int boneIndex = 0; boneIndex < numBones; boneIndex++) {
+        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             Bone bone = skeleton.getBone(boneIndex);
             MySkeleton.setLocalTransform(bone, savedTransforms[boneIndex]);
         }

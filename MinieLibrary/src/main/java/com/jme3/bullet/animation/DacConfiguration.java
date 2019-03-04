@@ -701,7 +701,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     protected String[] managerMap(Skeleton skeleton) {
         int numBones = skeleton.getBoneCount();
         String[] managerMap = new String[numBones];
-        for (int boneIndex = 0; boneIndex < numBones; boneIndex++) {
+        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             Bone bone = skeleton.getBone(boneIndex);
             managerMap[boneIndex] = findManager(bone);
         }
@@ -779,7 +779,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         Savable[] linkedBoneJoints
                 = ic.readSavableArray("linkedBoneJoints", null);
         Savable[] blConfigs = ic.readSavableArray("blConfigs", null);
-        for (int i = 0; i < linkedBoneNames.length; i++) {
+        for (int i = 0; i < linkedBoneNames.length; ++i) {
             String boneName = linkedBoneNames[i];
             RangeOfMotion rom = (RangeOfMotion) linkedBoneJoints[i];
             jointMap.put(boneName, rom);
@@ -792,7 +792,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         Savable[] attachModels
                 = ic.readSavableArray("attachModels", null);
         Savable[] alConfigs = ic.readSavableArray("alConfigs", null);
-        for (int i = 0; i < attachBoneNames.length; i++) {
+        for (int i = 0; i < attachBoneNames.length; ++i) {
             String boneName = attachBoneNames[i];
             Spatial model = (Spatial) attachModels[i];
             attachModelMap.put(boneName, model);

@@ -253,7 +253,7 @@ public class MultiSphere extends CollisionShape {
          */
         centers = new Vector3f[4];
         radii = new float[4];
-        for (int sphereI = 0; sphereI < 4; sphereI++) {
+        for (int sphereI = 0; sphereI < 4; ++sphereI) {
             Vector3f localCenter = centerLocations.get(sphereI);
             centers[sphereI] = rectangularSolid.localToWorld(localCenter, null);
             radii[sphereI] = radius;

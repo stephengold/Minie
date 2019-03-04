@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -108,7 +108,7 @@ public class RagUtils {
         Map<String, Collection<Vector3f>> coordsMap = new HashMap<>(32);
         for (Mesh mesh : meshes) {
             int numVertices = mesh.getVertexCount();
-            for (int vertexI = 0; vertexI < numVertices; vertexI++) {
+            for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
                 String managerName = findManager(mesh, vertexI, iArray, wArray,
                         managerMap);
                 /*
@@ -263,7 +263,7 @@ public class RagUtils {
             result = null;
         } else {
             result = new Transform[tmp.length];
-            for (int i = 0; i < tmp.length; i++) {
+            for (int i = 0; i < tmp.length; ++i) {
                 result[i] = (Transform) tmp[i];
             }
         }
@@ -313,7 +313,7 @@ public class RagUtils {
         }
 
         Set<String> nameSet = new TreeSet<>();
-        for (int boneIndex = 0; boneIndex < numBones; boneIndex++) {
+        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             Bone bone = skeleton.getBone(boneIndex);
             if (bone == null) {
                 String msg = String.format("Bone %d in skeleton is null!",
@@ -429,8 +429,8 @@ public class RagUtils {
         int numWeights = weightBuffer.remaining();
         assert numWeights == numVertices * 4 : numWeights;
 
-        for (int vIndex = 0; vIndex < numVertices; vIndex++) {
-            for (int wIndex = 0; wIndex < 4; wIndex++) {
+        for (int vIndex = 0; vIndex < numVertices; ++vIndex) {
+            for (int wIndex = 0; wIndex < 4; ++wIndex) {
                 float weight = weightBuffer.get();
                 int boneIndex = MyMesh.readIndex(boneIndexBuffer);
                 if (wIndex < maxWeightsPerVert) {
@@ -487,7 +487,7 @@ public class RagUtils {
         assert bwArray.length == 4;
 
         Map<String, Float> weightMap = new HashMap<>(4);
-        for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < 4; ++j) {
             int boneIndex = biArray[j];
             if (boneIndex != -1) {
                 String managerName = managerMap[boneIndex];

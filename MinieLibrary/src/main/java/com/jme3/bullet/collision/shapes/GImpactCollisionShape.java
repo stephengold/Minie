@@ -208,13 +208,13 @@ public class GImpactCollisionShape extends CollisionShape {
         vertices.rewind();
 
         int verticesLength = mesh.getVertexCount() * 3;
-        for (int i = 0; i < verticesLength; i++) {
+        for (int i = 0; i < verticesLength; ++i) {
             float tempFloat = vertices.get();
             vertexBase.putFloat(tempFloat);
         }
 
         int indicesLength = mesh.getTriangleCount() * 3;
-        for (int i = 0; i < indicesLength; i++) {
+        for (int i = 0; i < indicesLength; ++i) { // TODO for-each
             triangleIndexBase.putInt(indices.get(i));
         }
         vertices.rewind();

@@ -175,7 +175,7 @@ class DebugMeshCallback {
             triangle.set(pos1, pos2, pos3);
             triangle.setNormal(null); // work around JME issue #957
             Vector3f normal = triangle.getNormal();
-            for (int j = 0; j < vpt; j++) {
+            for (int j = 0; j < vpt; ++j) {
                 buffer.put(normal.x);
                 buffer.put(normal.y);
                 buffer.put(normal.z);
@@ -208,7 +208,7 @@ class DebugMeshCallback {
          */
         int[] numFaces = new int[numDistinct];
         Vector3f[] totals = new Vector3f[numDistinct];
-        for (int i = 0; i < numDistinct; i++) {
+        for (int i = 0; i < numDistinct; ++i) {
             numFaces[i] = 0;
             totals[i] = new Vector3f(0f, 0f, 0f);
         }
@@ -238,7 +238,7 @@ class DebugMeshCallback {
         /*
          * Average and re-normalize the face normals for each distinct vertex.
          */
-        for (int i = 0; i < totals.length; i++) {
+        for (int i = 0; i < totals.length; ++i) {
             assert numFaces[i] > 0 : numFaces[i];
             float factor = 1f / numFaces[i];
             totals[i].multLocal(factor);

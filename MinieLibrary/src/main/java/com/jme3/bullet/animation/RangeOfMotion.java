@@ -299,7 +299,7 @@ public class RangeOfMotion implements Savable {
         joint.setAngularLowerLimit(lower);
         joint.setAngularUpperLimit(upper);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; ++i) {
             RotationalLimitMotor rot = joint.getRotationalLimitMotor(i);
             rot.setMaxMotorForce(1e8f);
             rot.setMaxLimitForce(1e9f);

@@ -435,7 +435,7 @@ public class SixDofJoint extends PhysicsJoint {
         tlm.setTargetVelocity(oldTlm.getTargetVelocity(null));
         tlm.setUpperLimit(oldTlm.getUpperLimit(null));
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; ++i) {
             RotationalLimitMotor rlm = getRotationalLimitMotor(i);
             RotationalLimitMotor oldRlm = old.getRotationalLimitMotor(i);
 
@@ -499,7 +499,7 @@ public class SixDofJoint extends PhysicsJoint {
         setLinearUpperLimit((Vector3f) capsule.readSavable("linearUpperLimit", new Vector3f()));
         setLinearLowerLimit((Vector3f) capsule.readSavable("linearLowerLimit", new Vector3f()));
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; ++i) {
             RotationalLimitMotor rotationalLimitMotor = getRotationalLimitMotor(i);
             rotationalLimitMotor.setRestitution(capsule.readFloat("rotMotor" + i + "_Bounce", 0.0f));
             rotationalLimitMotor.setDamping(capsule.readFloat("rotMotor" + i + "_Damping", 1.0f));
@@ -553,7 +553,7 @@ public class SixDofJoint extends PhysicsJoint {
             capsule.write(rotationalLimitMotor.getMaxMotorForce(), "rotMotor" + i + "_MaxMotorForce", 0.1f);
             capsule.write(rotationalLimitMotor.getTargetVelocity(), "rotMotor" + i + "_TargetVelocity", 0);
             capsule.write(rotationalLimitMotor.isEnableMotor(), "rotMotor" + i + "_EnableMotor", false);
-            i++;
+            ++i;
         }
         capsule.write(getTranslationalLimitMotor().getAccumulatedImpulse(), "transMotor_AccumulatedImpulse", Vector3f.ZERO);
         capsule.write(getTranslationalLimitMotor().getDamping(), "transMotor_Damping", 1.0f);
@@ -623,7 +623,7 @@ public class SixDofJoint extends PhysicsJoint {
         assert translationalMotor == null;
 
         rotationalMotors = new RotationalLimitMotor[3];
-        for (int axisIndex = 0; axisIndex < 3; axisIndex++) {
+        for (int axisIndex = 0; axisIndex < 3; ++axisIndex) {
             long motorId = getRotationalLimitMotor(objectId, axisIndex);
             rotationalMotors[axisIndex] = new RotationalLimitMotor(motorId);
         }

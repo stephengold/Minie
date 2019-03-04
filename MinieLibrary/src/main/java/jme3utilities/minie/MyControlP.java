@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2018, Stephen Gold
+ Copyright (c) 2013-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -197,7 +197,7 @@ public class MyControlP {
      */
     public static void disablePhysicsControls(Spatial subtree) {
         int numControls = subtree.getNumControls();
-        for (int controlI = 0; controlI < numControls; controlI++) {
+        for (int controlI = 0; controlI < numControls; ++controlI) {
             Control control = subtree.getControl(controlI);
             if (control instanceof PhysicsControl) {
                 setEnabled(control, false);
@@ -222,7 +222,7 @@ public class MyControlP {
     public static void enablePhysicsControls(Spatial subtree,
             PhysicsSpace space) {
         int numControls = subtree.getNumControls();
-        for (int controlI = 0; controlI < numControls; controlI++) {
+        for (int controlI = 0; controlI < numControls; ++controlI) {
             Control control = subtree.getControl(controlI);
             if (control instanceof PhysicsControl) {
                 PhysicsControl pc = (PhysicsControl) control;
@@ -248,7 +248,7 @@ public class MyControlP {
     public static RigidBodyControl findEnabledRbc(Spatial spatial) {
         RigidBodyControl result = null;
         int numControls = spatial.getNumControls();
-        for (int controlI = 0; controlI < numControls; controlI++) {
+        for (int controlI = 0; controlI < numControls; ++controlI) {
             Control control = spatial.getControl(controlI);
             if (control instanceof RigidBodyControl) {
                 RigidBodyControl rbc = (RigidBodyControl) control;
