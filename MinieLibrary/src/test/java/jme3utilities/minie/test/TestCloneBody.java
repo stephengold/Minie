@@ -192,7 +192,7 @@ public class TestCloneBody {
                 new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), index);
 
         body.setAngularDamping(b + 0.01f);
-        body.setAngularFactor(b + 0.02f);
+        body.setAngularFactor(new Vector3f(b + 0.02f, b + 0.021f, b + 0.022f));
         body.setSleepingThresholds(b + 0.17f, b + 0.03f);
         body.setAngularVelocity(new Vector3f(b + 0.04f, b + 0.05f, b + 0.06f));
         body.setCcdMotionThreshold(b + 0.07f);
@@ -243,7 +243,12 @@ public class TestCloneBody {
         }
 
         assert body.getAngularDamping() == b + 0.01f;
-        assert body.getAngularFactor() == b + 0.02f;
+
+        Vector3f af = body.getAngularFactor(null);
+        assert af.x == b + 0.02f : af;
+        assert af.y == b + 0.021f : af;
+        assert af.z == b + 0.022f : af;
+
         assert body.getAngularSleepingThreshold() == b + 0.03f;
 
         Vector3f w = body.getAngularVelocity(null);

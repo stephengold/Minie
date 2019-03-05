@@ -543,7 +543,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter this body's angular factors.
+     * Alter this body's angular factors, used to scale applied torques.
      *
      * @param factor the desired angular factor for each axis (not null,
      * unaffected, default=(1,1,1))
@@ -912,7 +912,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
         Vector3f tmpVector = new Vector3f();
         setAngularDamping(old.getAngularDamping());
-        setAngularFactor(old.getAngularFactor());
+        setAngularFactor(old.getAngularFactor(tmpVector));
         setAngularSleepingThreshold(old.getAngularSleepingThreshold());
         setAngularVelocity(old.getAngularVelocity(tmpVector));
         setContactResponse(old.isContactResponse());
