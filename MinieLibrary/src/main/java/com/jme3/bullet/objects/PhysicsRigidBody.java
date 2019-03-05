@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -910,17 +910,18 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         PhysicsRigidBody old = (PhysicsRigidBody) original;
         copyPcoProperties(old);
 
+        Vector3f tmpVector = new Vector3f();
         setAngularDamping(old.getAngularDamping());
         setAngularFactor(old.getAngularFactor());
         setAngularSleepingThreshold(old.getAngularSleepingThreshold());
-        setAngularVelocity(old.getAngularVelocity(null));
+        setAngularVelocity(old.getAngularVelocity(tmpVector));
         setContactResponse(old.isContactResponse());
-        setGravity(old.getGravity(null));
+        setGravity(old.getGravity(tmpVector));
         setLinearDamping(old.getLinearDamping());
-        setLinearFactor(old.getLinearFactor(null));
+        setLinearFactor(old.getLinearFactor(tmpVector));
         setLinearSleepingThreshold(old.getLinearSleepingThreshold());
-        setLinearVelocity(old.getLinearVelocity(null));
-        setPhysicsLocation(old.getPhysicsLocation(null));
+        setLinearVelocity(old.getLinearVelocity(tmpVector));
+        setPhysicsLocation(old.getPhysicsLocation(tmpVector));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
         setDeactivationTime(old.getDeactivationTime());
     }
