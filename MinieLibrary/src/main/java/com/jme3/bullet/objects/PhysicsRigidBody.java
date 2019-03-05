@@ -917,6 +917,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         setAngularVelocity(old.getAngularVelocity(tmpVector));
         setContactResponse(old.isContactResponse());
         setGravity(old.getGravity(tmpVector));
+        setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
         setLinearDamping(old.getLinearDamping());
         setLinearFactor(old.getLinearFactor(tmpVector));
         setLinearSleepingThreshold(old.getLinearSleepingThreshold());
@@ -964,6 +965,8 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
             setKinematic(capsule.readBoolean("kinematic", false));
         }
 
+        setInverseInertiaLocal((Vector3f) capsule.readSavable("inverseInertia",
+                Vector3f.UNIT_XYZ.clone()));
         setAngularFactor((Vector3f) capsule.readSavable("angularFactor",
                 Vector3f.UNIT_XYZ.clone()));
         setLinearFactor((Vector3f) capsule.readSavable("linearFactor",
@@ -1005,6 +1008,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         capsule.write(getLinearFactor(null), "linearFactor", null);
         capsule.write(kinematic, "kinematic", false);
 
+        capsule.write(getInverseInertiaLocal(null), "inverseInertia", null);
         capsule.write(getLinearDamping(), "linearDamping", 0f);
         capsule.write(getAngularDamping(), "angularDamping", 0f);
         capsule.write(getLinearSleepingThreshold(), "linearSleepingThreshold",

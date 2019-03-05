@@ -202,6 +202,8 @@ public class TestCloneBody {
         body.setContactStiffness(b + 0.085f);
         body.setFriction(b + 0.09f);
         body.setGravity(new Vector3f(b + 0.10f, b + 0.11f, b + 0.12f));
+        body.setInverseInertiaLocal(
+                new Vector3f(b + 0.122f, b + 0.123f, b + 0.124f));
         body.setLinearDamping(b + 0.13f);
         body.setLinearFactor(new Vector3f(b + 0.14f, b + 0.15f, b + 0.16f));
         body.setPhysicsLocation(new Vector3f(b + 0.18f, b + 0.19f, b + 0.20f));
@@ -261,6 +263,11 @@ public class TestCloneBody {
         assert g.x == b + 0.10f : g;
         assert g.y == b + 0.11f : g;
         assert g.z == b + 0.12f : g;
+
+        Vector3f i = body.getInverseInertiaLocal(null);
+        assert i.x == b + 0.122f : i;
+        assert i.y == b + 0.123f : i;
+        assert i.z == b + 0.124f : i;
 
         assert body.getLinearDamping() == b + 0.13f;
 
