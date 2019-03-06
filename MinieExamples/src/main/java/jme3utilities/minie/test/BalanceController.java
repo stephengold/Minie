@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -57,10 +57,6 @@ public class BalanceController extends IKController {
      */
     final public static Logger logger
             = Logger.getLogger(BalanceController.class.getName());
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#ZERO}
-     */
-    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -216,7 +212,7 @@ public class BalanceController extends IKController {
          * Apply the impulse to the center of the controlled link's rigid body.
          */
         PhysicsRigidBody rigidBody = link.getRigidBody();
-        rigidBody.applyImpulse(sum, translateIdentity);
+        rigidBody.applyCentralImpulse(sum);
     }
 
     /**

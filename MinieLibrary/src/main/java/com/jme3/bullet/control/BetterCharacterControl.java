@@ -684,9 +684,8 @@ public class BetterCharacterControl
             //TODO: precalculate jump force
             Vector3f rotatedJumpForce = vars.vect1;
             rotatedJumpForce.set(jumpForce);
-            rigidBody.applyImpulse(
-                    localForwardRotation.multLocal(rotatedJumpForce),
-                    Vector3f.ZERO);
+            rigidBody.applyCentralImpulse(
+                    localForwardRotation.multLocal(rotatedJumpForce));
             jump = false;
         }
         vars.release();

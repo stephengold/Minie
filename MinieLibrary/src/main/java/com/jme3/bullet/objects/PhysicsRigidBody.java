@@ -169,13 +169,13 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Apply a force to the PhysicsRigidBody. Effective only if the next physics
+     * Apply a central force to the body. Effective only if the next physics
      * update steps the physics.
      * <p>
      * To apply an impulse, use
-     * {@link #applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)}.
+     * {@link #applyCentralImpulse(com.jme3.math.Vector3f)}.
      *
-     * @param force the force (not null, unaffected)
+     * @param force the force vector (not null, unaffected)
      */
     public void applyCentralForce(Vector3f force) {
         applyCentralForce(objectId, force);
@@ -183,13 +183,23 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Apply a force to the PhysicsRigidBody. Effective only if the next physics
-     * update steps the physics.
-     * <p>
-     * To apply an impulse, use applyImpulse, use applyContinuousForce to apply
-     * continuous force.
+     * Apply a central impulse to the body.
      *
-     * @param force the force (not null, unaffected)
+     * @param impulse the force vector (not null, unaffected)
+     */
+    public void applyCentralImpulse(Vector3f impulse) {
+        applyCentralImpulse(objectId, impulse);
+        activate();
+    }
+
+    /**
+     * Apply a force to the body. Effective only if the next physics update
+     * steps the physics.
+     * <p>
+     * To apply an impulse, use
+     * {@link #applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)}.
+     *
+     * @param force the force vector (not null, unaffected)
      * @param location the location of the force
      */
     public void applyForce(Vector3f force, Vector3f location) {
@@ -200,7 +210,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Apply an impulse to the body on the next physics update.
      *
-     * @param impulse applied impulse (not null, unaffected)
+     * @param impulse the impulse vector (not null, unaffected)
      * @param rel_pos the location (in local coordinates, not null, unaffected)
      */
     public void applyImpulse(Vector3f impulse, Vector3f rel_pos) {
@@ -209,13 +219,13 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Apply a torque to the PhysicsRigidBody. Effective only if the next
-     * physics update steps the physics.
+     * Apply a torque to the body. Effective only if the next physics update
+     * steps the physics.
      * <p>
-     * To apply an impulse, use
-     * {@link #applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)}.
+     * To apply a torque impulse, use
+     * {@link #applyTorqueImpulse(com.jme3.math.Vector3f)}.
      *
-     * @param torque the torque (not null, unaffected)
+     * @param torque the torque vector (not null, unaffected)
      */
     public void applyTorque(Vector3f torque) {
         applyTorque(objectId, torque);
@@ -225,7 +235,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Apply a torque impulse to the body in the next physics update.
      *
-     * @param vec the torque to apply (not null, unaffected)
+     * @param vec the torque impulse vector (not null, unaffected)
      */
     public void applyTorqueImpulse(Vector3f vec) {
         applyTorqueImpulse(objectId, vec);
@@ -1029,15 +1039,18 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     native private void applyCentralForce(long objectId, Vector3f force);
 
+    native private void applyCentralImpulse(long objectId, Vector3f impulse);
+
     native private void applyForce(long objectId, Vector3f force,
-            Vector3f location);
+            Vector3f localOffset);
 
     native private void applyImpulse(long objectId, Vector3f impulse,
-            Vector3f rel_pos);
+            Vector3f localOffset);
 
-    native private void applyTorque(long objectId, Vector3f vec);
+    native private void applyTorque(long objectId, Vector3f torque);
 
-    native private void applyTorqueImpulse(long objectId, Vector3f vec);
+    native private void applyTorqueImpulse(long objectId,
+            Vector3f torqueImpulse);
 
     native private void clearForces(long objectId);
 
