@@ -39,6 +39,8 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.scene.mesh.IndexBuffer;
+import com.jme3.system.JmeSystem;
+import com.jme3.system.Platform;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -66,6 +68,7 @@ public class MeshCollisionShape extends CollisionShape {
      * field names for serialization
      */
     private static final String NATIVE_BVH = "nativeBvh";
+    private static final String NATIVE_PLATFORM = "nativePlatform";
     private static final String NUM_TRIANGLES = "numTriangles";
     private static final String NUM_VERTICES = "numVertices";
     private static final String TRIANGLE_INDEX_BASE = "triangleIndexBase";
@@ -247,6 +250,11 @@ public class MeshCollisionShape extends CollisionShape {
                 capsule.readByteArray(VERTEX_BASE, null));
 
         byte[] nativeBvh = capsule.readByteArray(NATIVE_BVH, null);
+        Platform writePlatform
+                = capsule.readEnum(NATIVE_PLATFORM, Platform.class, null);
+        if (writePlatform == null || writePlatform != JmeSystem.getPlatform()) {
+            nativeBvh = null; // will re-create the BVH for the new platform
+        }
         createShape(nativeBvh);
     }
 
@@ -279,6 +287,8 @@ public class MeshCollisionShape extends CollisionShape {
 
         byte[] data = saveBVH(objectId);
         capsule.write(data, NATIVE_BVH, null);
+        Platform nativePlatform = JmeSystem.getPlatform();
+        capsule.write(nativePlatform, NATIVE_PLATFORM, null);
     }
     // *************************************************************************
     // private methods
@@ -316,7 +326,7 @@ public class MeshCollisionShape extends CollisionShape {
     /**
      * Instantiate the configured shape in Bullet.
      *
-     * @param bvh built BVH data, or null if the BVH has not yet been built
+     * @param bvh built BVH data, or null if the BVH needs to be built
      */
     private void createShape(byte bvh[]) {
         assert meshId == 0L;
