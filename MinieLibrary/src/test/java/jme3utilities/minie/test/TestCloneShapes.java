@@ -214,10 +214,10 @@ public class TestCloneShapes {
         CollisionShape hullClone = (CollisionShape) Misc.deepCopy(hull);
         cloneTest(hull, hullClone);
         assert hullClone.getMargin() == 0.04f;
-        hull.setMargin(0.17f);
+        hull.setMargin(0.18f);
         assert hullClone.getMargin() == 0.04f;
         /*
-         * Mesh, memory-optimized BVH
+         * Mesh, quantized AABB compression
          */
         CollisionShape mcs = new MeshCollisionShape(mesh, true);
         setParameters(mcs, 0f);
@@ -228,7 +228,7 @@ public class TestCloneShapes {
         mcs.setMargin(0.19f);
         assert mcsClone.getMargin() == 0.04f;
         /*
-         * Mesh, quantized BVH
+         * Mesh, without compression
          */
         CollisionShape mcsq = new MeshCollisionShape(mesh, false);
         setParameters(mcsq, 0f);
@@ -236,7 +236,7 @@ public class TestCloneShapes {
         CollisionShape mcsqClone = (CollisionShape) Misc.deepCopy(mcsq);
         cloneTest(mcsq, mcsqClone);
         assert mcsqClone.getMargin() == 0.04f;
-        mcsq.setMargin(0.19f);
+        mcsq.setMargin(0.191f);
         assert mcsqClone.getMargin() == 0.04f;
         /*
          * Multisphere
