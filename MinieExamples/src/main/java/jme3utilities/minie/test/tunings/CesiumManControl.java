@@ -55,6 +55,9 @@ public class CesiumManControl
     // *************************************************************************
     // constructors
 
+    /**
+     * Instantiate a new control tuned for the CesiumMan model.
+     */
     public CesiumManControl() {
         super();
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,

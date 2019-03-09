@@ -356,7 +356,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Read this object's friction.
      *
-     * @return friction value
+     * @return friction coefficient
      */
     public float getFriction() {
         return getFriction(objectId);
@@ -674,7 +674,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter this object's friction.
      *
-     * @param friction the desired friction value (default=0.5)
+     * @param friction the desired friction coefficient (default=0.5)
      */
     public void setFriction(float friction) {
         setFriction(objectId, friction);

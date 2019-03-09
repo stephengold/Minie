@@ -102,7 +102,7 @@ public class RotationalLimitMotor {
     /**
      * Read this motor's error-reduction parameter at the limits (m_stopERP).
      *
-     * @return the the error-reduction parameter (&ge;0)
+     * @return the error-reduction parameter (&ge;0)
      */
     public float getERP() {
         return getERP(motorId);

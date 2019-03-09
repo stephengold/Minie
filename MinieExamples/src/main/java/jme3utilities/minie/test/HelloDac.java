@@ -70,7 +70,7 @@ public class HelloDac extends SimpleApplication {
 
         // The DynamicAnimControl must be added to the Spatial with
         // the model's SkeletonControl.
-        // In the the Ninja model, that Spatial is the model's root Node.
+        // In the Ninja model, that Spatial is the model's root Node.
         assert ninjaModel.getControl(SkeletonControl.class) != null;
 
         // Add a DynamicAnimControl to the model.

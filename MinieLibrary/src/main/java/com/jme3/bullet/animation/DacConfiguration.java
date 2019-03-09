@@ -549,7 +549,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Alter the the event-dispatch impulse threshold of this control.
+     * Alter the event-dispatch impulse threshold of this control.
      *
      * @param threshold the desired threshold (&ge;0)
      */

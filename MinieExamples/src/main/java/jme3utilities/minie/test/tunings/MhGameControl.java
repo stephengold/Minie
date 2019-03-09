@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -55,6 +55,9 @@ public class MhGameControl
     // *************************************************************************
     // constructors
 
+    /**
+     * Instantiate a new control tuned for the MhGame model.
+     */
     public MhGameControl() {
         super();
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,

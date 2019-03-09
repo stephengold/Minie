@@ -55,6 +55,9 @@ public class PuppetControl
     // *************************************************************************
     // constructors
 
+    /**
+     * Instantiate a new control tuned for the Puppet model.
+     */
     public PuppetControl() {
         super();
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,

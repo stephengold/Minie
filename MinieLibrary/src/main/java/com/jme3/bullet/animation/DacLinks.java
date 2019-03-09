@@ -1038,7 +1038,7 @@ public class DacLinks extends DacConfiguration {
      * @param skeletonControl (not null)
      * @param managerMap a map from bone indices to managing link names (not
      * null, unaffected)
-     * @return a attachment link with a joint, added to the boneLinks map
+     * @return an attachment link with a joint, added to the boneLinks map
      */
     private void createAttachmentLink(String boneName,
             SkeletonControl skeletonControl, String[] managerMap) {

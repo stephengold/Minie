@@ -214,7 +214,7 @@ public class GImpactCollisionShape extends CollisionShape {
         }
 
         int indicesLength = mesh.getTriangleCount() * 3;
-        for (int i = 0; i < indicesLength; ++i) { // TODO for-each
+        for (int i = 0; i < indicesLength; ++i) {
             triangleIndexBase.putInt(indices.get(i));
         }
         vertices.rewind();

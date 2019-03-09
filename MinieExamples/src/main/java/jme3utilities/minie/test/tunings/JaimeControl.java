@@ -55,6 +55,9 @@ public class JaimeControl
     // *************************************************************************
     // constructors
 
+    /**
+     * Instantiate a new control tuned for the Jaime model.
+     */
     public JaimeControl() {
         super();
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,

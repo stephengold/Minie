@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,8 @@ import jme3utilities.math.VectorXZ;
 import jme3utilities.ui.ActionAppState;
 
 /**
- * An AppState to cause a camera to orbit a vertical axis.
+ * An AppState to cause a camera to orbit a vertical axis. TODO use ui library
+ * instead
  *
  * @author Stephen Gold sgold@sonic.net
  */
