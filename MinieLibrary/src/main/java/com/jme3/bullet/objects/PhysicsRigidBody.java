@@ -185,7 +185,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Apply a central impulse to the body.
      *
-     * @param impulse the force vector (not null, unaffected)
+     * @param impulse the impulse vector (not null, unaffected)
      */
     public void applyCentralImpulse(Vector3f impulse) {
         applyCentralImpulse(objectId, impulse);
@@ -200,7 +200,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      * {@link #applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)}.
      *
      * @param force the force vector (not null, unaffected)
-     * @param location the location of the force
+     * @param location the location to apply the force (not null, unaffected)
      */
     public void applyForce(Vector3f force, Vector3f location) {
         applyForce(objectId, force, location);
@@ -208,10 +208,11 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Apply an impulse to the body on the next physics update.
+     * Apply an impulse to the body.
      *
      * @param impulse the impulse vector (not null, unaffected)
-     * @param rel_pos the location (in local coordinates, not null, unaffected)
+     * @param rel_pos the location to apply the impulse (in local coordinates,
+     * not null, unaffected)
      */
     public void applyImpulse(Vector3f impulse, Vector3f rel_pos) {
         applyImpulse(objectId, impulse, rel_pos);
@@ -233,17 +234,17 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Apply a torque impulse to the body in the next physics update.
+     * Apply a torque impulse to the body.
      *
-     * @param vec the torque impulse vector (not null, unaffected)
+     * @param torqueImpulse the torque impulse vector (not null, unaffected)
      */
-    public void applyTorqueImpulse(Vector3f vec) {
-        applyTorqueImpulse(objectId, vec);
+    public void applyTorqueImpulse(Vector3f torqueImpulse) {
+        applyTorqueImpulse(objectId, torqueImpulse);
         activate();
     }
 
     /**
-     * Clear all forces acting on this body.
+     * Clear all forces and torques acting on this body.
      */
     public void clearForces() {
         clearForces(objectId);
@@ -344,8 +345,8 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy the principal components of the local inverse inertia tensor. TODO
-     * provide access to the whole tensor
+     * Copy the diagonal elements of the inverse inertia tensor in the body's
+     * local coordinates.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a vector (either storeResult or a new vector, not null)
@@ -353,6 +354,18 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     public Vector3f getInverseInertiaLocal(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         getInverseInertiaLocal(objectId, result);
+        return result;
+    }
+
+    /**
+     * Compute the inverse inertia tensor in physics-space coordinates.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a matrix (either storeResult or a new matrix, not null)
+     */
+    public Matrix3f getInverseInertiaWorld(Matrix3f storeResult) {
+        Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
+        getInverseInertiaWorld(objectId, result);
         return result;
     }
 
@@ -1069,6 +1082,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     native private void getInverseInertiaLocal(long objectId,
             Vector3f storeResult);
+
+    native private void getInverseInertiaWorld(long objectId,
+            Matrix3f storeResult);
 
     native private float getLinearDamping(long objectId);
 
