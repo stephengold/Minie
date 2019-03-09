@@ -255,6 +255,12 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describe(shape);
         stream.printf("%n   %s", desc);
 
+        Vector3f scale = shape.getScale(null);
+        desc = describer.describeScale(scale);
+        if (!desc.isEmpty()) {
+            stream.print(" " + desc);
+        }
+
         int group = body.getCollisionGroup();
         if (group != PhysicsCollisionObject.COLLISION_GROUP_01) {
             stream.printf(" group=0x%x", group);
@@ -262,12 +268,6 @@ public class PhysicsDumper extends Dumper {
         int groupMask = body.getCollideWithGroups();
         if (groupMask != PhysicsCollisionObject.COLLISION_GROUP_01) {
             stream.printf(" mask=0x%x", groupMask);
-        }
-
-        Vector3f scale = shape.getScale(null);
-        desc = describer.describeScale(scale);
-        if (!desc.isEmpty()) {
-            stream.print(" " + desc);
         }
         /*
          * Each joint has its own line in the dump.
