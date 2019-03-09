@@ -28,6 +28,7 @@ package jme3utilities.minie;
 
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsCharacter;
@@ -234,16 +235,18 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" orient=[%s]", orient);
         }
 
-        Vector3f velocity = body.getLinearVelocity(null);
-        String velString = MyVector3f.describe(velocity);
-        stream.printf(" vel=[%s]", velString);
+        if (body.isDynamic()) {
+            Vector3f velocity = body.getLinearVelocity(null);
+            String velString = MyVector3f.describe(velocity);
+            stream.printf(" vel=[%s]", velString);
 
-        Vector3f gravity = body.getGravity(null);
-        String graString = MyVector3f.describe(gravity);
-        stream.printf(" gra=[%s]", graString);
+            Vector3f gravity = body.getGravity(null);
+            String graString = MyVector3f.describe(gravity);
+            stream.printf(" gra=[%s]", graString);
 
-        float linST = body.getLinearSleepingThreshold();
-        stream.print(" linST=" + MyString.describe(linST));
+            float linST = body.getLinearSleepingThreshold();
+            stream.print(" linST=" + MyString.describe(linST));
+        }
         /*
          * 2nd line has the shape and the number of joints.
          */
@@ -253,9 +256,13 @@ public class PhysicsDumper extends Dumper {
         stream.printf("%n   %s", desc);
 
         int group = body.getCollisionGroup();
-        stream.printf(" group=0x%x", group);
+        if (group != PhysicsCollisionObject.COLLISION_GROUP_01) {
+            stream.printf(" group=0x%x", group);
+        }
         int groupMask = body.getCollideWithGroups();
-        stream.printf(" mask=0x%x", groupMask);
+        if (groupMask != PhysicsCollisionObject.COLLISION_GROUP_01) {
+            stream.printf(" mask=0x%x", groupMask);
+        }
 
         Vector3f scale = shape.getScale(null);
         desc = describer.describeScale(scale);
@@ -329,7 +336,7 @@ public class PhysicsDumper extends Dumper {
         int numBodies = rigidBodies.size();
         int numVehicles = vehicles.size();
 
-        stream.printf("%nSpace #%s with %d character%s, %d ghost%s, ",
+        stream.printf("%nSpace #%s contains %d character%s, %d ghost%s, ",
                 Long.toHexString(spaceId),
                 numCharacters, (numCharacters == 1) ? "" : "s",
                 numGhosts, (numGhosts == 1) ? "" : "s");
