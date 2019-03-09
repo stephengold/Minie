@@ -60,6 +60,22 @@ public class MeshCollisionShape extends CollisionShape {
     // constants and loggers
 
     /**
+     * number of bytes in a float
+     */
+    final private static int floatSize = 4;
+    /**
+     * number of bytes in an int
+     */
+    final private static int intSize = 4;
+    /**
+     * number of axes in a vector
+     */
+    final private static int numAxes = 3;
+    /**
+     * number of vertices per triangle
+     */
+    final private static int vpt = 3;
+    /**
      * message logger for this class
      */
     final public static Logger logger2
@@ -124,10 +140,10 @@ public class MeshCollisionShape extends CollisionShape {
             boolean useCompression) {
         triangleIndexBase = indices;
         vertexBase = vertices;
-        numVertices = vertices.limit() / 4 / 3;
-        numTriangles = triangleIndexBase.limit() / 4 / 3;
-        vertexStride = 12;
-        triangleIndexStride = 12;
+        vertexStride = floatSize * numAxes;
+        numVertices = vertices.limit() / vertexStride;
+        triangleIndexStride = intSize * vpt;
+        numTriangles = triangleIndexBase.limit() / triangleIndexStride;
         this.useCompression = useCompression;
 
         createShape(null);
@@ -240,8 +256,9 @@ public class MeshCollisionShape extends CollisionShape {
 
         numVertices = capsule.readInt(NUM_VERTICES, 0);
         numTriangles = capsule.readInt(NUM_TRIANGLES, 0);
-        vertexStride = capsule.readInt(VERTEX_STRIDE, 12);
-        triangleIndexStride = capsule.readInt(TRIANGLE_INDEX_STRIDE, 12);
+        vertexStride = capsule.readInt(VERTEX_STRIDE, numAxes * floatSize);
+        triangleIndexStride
+                = capsule.readInt(TRIANGLE_INDEX_STRIDE, vpt * intSize);
         useCompression = capsule.readBoolean(USE_COMPRESSION, true);
 
         triangleIndexBase = BufferUtils.createByteBuffer(
@@ -271,8 +288,9 @@ public class MeshCollisionShape extends CollisionShape {
 
         capsule.write(numVertices, NUM_VERTICES, 0);
         capsule.write(numTriangles, NUM_TRIANGLES, 0);
-        capsule.write(vertexStride, VERTEX_STRIDE, 12);
-        capsule.write(triangleIndexStride, TRIANGLE_INDEX_STRIDE, 12);
+        capsule.write(vertexStride, VERTEX_STRIDE, numAxes * floatSize);
+        capsule.write(triangleIndexStride, TRIANGLE_INDEX_STRIDE,
+                vpt * intSize);
         capsule.write(useCompression, USE_COMPRESSION, true);
 
         triangleIndexBase.position(0);
@@ -296,24 +314,26 @@ public class MeshCollisionShape extends CollisionShape {
     private void createCollisionMesh(Mesh mesh) {
         assert mesh.getMode() == Mesh.Mode.Triangles; // TODO other modes
 
-        triangleIndexBase = BufferUtils.createByteBuffer(mesh.getTriangleCount() * 3 * 4);
-        vertexBase = BufferUtils.createByteBuffer(mesh.getVertexCount() * 3 * 4);
-        numVertices = mesh.getVertexCount();
-        vertexStride = 12; // 3 verts * 4 bytes per.
         numTriangles = mesh.getTriangleCount();
-        triangleIndexStride = 12; // 3 index entries * 4 bytes each.
+        numVertices = mesh.getVertexCount();
+        triangleIndexStride = vpt * intSize;
+        int tibBytes = mesh.getTriangleCount() * triangleIndexStride;
+        triangleIndexBase = BufferUtils.createByteBuffer(tibBytes);
+        vertexStride = numAxes * floatSize;
+        int vbBytes = mesh.getVertexCount() * vertexStride;
+        vertexBase = BufferUtils.createByteBuffer(vbBytes);
 
         IndexBuffer indices = mesh.getIndicesAsList();
         FloatBuffer vertices = mesh.getFloatBuffer(Type.Position);
         vertices.rewind();
 
-        int verticesLength = mesh.getVertexCount() * 3;
+        int verticesLength = mesh.getVertexCount() * numAxes;
         for (int i = 0; i < verticesLength; ++i) {
             float tempFloat = vertices.get();
             vertexBase.putFloat(tempFloat);
         }
 
-        int indicesLength = mesh.getTriangleCount() * 3;
+        int indicesLength = mesh.getTriangleCount() * vpt;
         for (int i = 0; i < indicesLength; ++i) {
             triangleIndexBase.putInt(indices.get(i));
         }
