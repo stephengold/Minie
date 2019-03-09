@@ -1,5 +1,20 @@
 # release notes for the Minie library and related examples
 
+## Version 0.7.2 released on TBD
+
+Important changes to the library:
+
+ + Fixed a bug where the angular factors of `PhysicsRigidBody` were not
+   cloned correctly.
+ + Fixed a bug where the inverse inertia of `PhysicsRigidBody` wasn't
+   read/written/cloned.
+ + Write the platform type during `MeshCollisionShape` save and compare
+   during load, since saved BVH may be incompatible between platforms.
+ + Added a `getInverseInertiaWorld()` method to the `PhysicsRigidBody` class.
+ + Added a `copyHullVertices()` method to the `HullCollisionShape` class.
+ + Simplified `PhysicsDumper` output.
+ + Updated the native libraries to version 1.0.37 of `Libbulletjme`.
+
 ## Version 0.7.1 released on 4 March 2019
 
 Important changes to the library:
@@ -9,7 +24,7 @@ Important changes to the library:
  + Fixed a crash that occurred while loading a rigid body with mass=0.
  + Fixed a `NullPointerException` that occurred while dumping
    single-ended joints.
- + Add `jump(void)` and `setGravity(float)` methods to `PhysicsCharacter`.
+ + Added `jump(void)` and `setGravity(float)` methods to `PhysicsCharacter`.
  + Changed the default gravity direction for a `PhysicsCharacter` from -Z to -Y.
  + Moved the `MyObject.describeUser()` method to the `PhysicsDescriber` class.
  + Publicized the `BulletAppState.stopPhysics()` method for better compatibility
