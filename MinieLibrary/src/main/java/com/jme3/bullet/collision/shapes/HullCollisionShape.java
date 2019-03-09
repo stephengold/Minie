@@ -237,9 +237,10 @@ public class HullCollisionShape extends CollisionShape {
         getHullVertices(objectId, buffer);
 
         float[] result = new float[numHullVertices * numAxes];
-        for (int i = 0; i < numHullVertices; ++i) {
-            result[i] = buffer.getFloat();
+        for (int floatI = 0; floatI < numHullVertices * numAxes; ++floatI) {
+            result[floatI] = buffer.getFloat();
         }
+
         return result;
     }
 
