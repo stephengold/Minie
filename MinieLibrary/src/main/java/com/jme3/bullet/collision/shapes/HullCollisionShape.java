@@ -61,6 +61,14 @@ public class HullCollisionShape extends CollisionShape {
     // constants and loggers
 
     /**
+     * number of bytes in a float
+     */
+    final private static int floatSize = 4;
+    /**
+     * number of axes in a vector
+     */
+    final private static int numAxes = 3;
+    /**
      * message logger for this class
      */
     final public static Logger logger2
@@ -91,8 +99,8 @@ public class HullCollisionShape extends CollisionShape {
 
     /**
      * Instantiate a shape based on the specified collection of locations. For
-     * best performance and stability, the collection should have no more than
-     * 100 locations.
+     * best performance and stability, the convex hull should have no more than
+     * 100 vertices.
      *
      * @param locations a collection of location vectors on which to base the
      * shape (not null, not empty, unaffected)
@@ -101,13 +109,13 @@ public class HullCollisionShape extends CollisionShape {
         Validate.nonEmpty(locations, "locations");
 
         int numLocations = locations.size();
-        points = new float[3 * numLocations];
+        points = new float[numAxes * numLocations];
         int j = 0;
         for (Vector3f location : locations) {
             points[j] = location.x;
             points[j + 1] = location.y;
             points[j + 2] = location.z;
-            j += 3;
+            j += numAxes;
         }
 
         createShape();
@@ -115,8 +123,8 @@ public class HullCollisionShape extends CollisionShape {
 
     /**
      * Instantiate a shape based on the specified array of coordinates. For best
-     * performance and stability, the array should have no more than 300
-     * coordinates.
+     * performance and stability, the convex hull should have no more than 100
+     * vertices.
      *
      * @param points an array of coordinates on which to base the shape (not
      * null, not empty, length a multiple of 3, unaffected)
@@ -124,7 +132,7 @@ public class HullCollisionShape extends CollisionShape {
     public HullCollisionShape(float[] points) {
         Validate.nonEmpty(points, "points");
         int length = points.length;
-        assert (length % 3 == 0) : length;
+        assert (length % numAxes == 0) : length;
 
         this.points = points.clone();
         createShape();
@@ -132,7 +140,7 @@ public class HullCollisionShape extends CollisionShape {
 
     /**
      * Instantiate a shape based on the specified JME mesh. For best performance
-     * and stability, the mesh should have no more than 100 vertices.
+     * and stability, the convex hull should have no more than 100 vertices.
      *
      * @param mesh the mesh on which to base the shape (not null, at least one
      * vertex, unaffected)
@@ -168,7 +176,7 @@ public class HullCollisionShape extends CollisionShape {
         /*
          * Transform corner locations to shape coordinates.
          */
-        int numFloats = 3 * cornerLocations.size();
+        int numFloats = numAxes * cornerLocations.size();
         points = new float[numFloats];
         int floatIndex = 0;
         Vector3f tempVector = new Vector3f();
@@ -177,7 +185,7 @@ public class HullCollisionShape extends CollisionShape {
             points[floatIndex] = tempVector.x;
             points[floatIndex + 1] = tempVector.y;
             points[floatIndex + 2] = tempVector.z;
-            floatIndex += 3;
+            floatIndex += numAxes;
         }
 
         createShape();
@@ -198,10 +206,10 @@ public class HullCollisionShape extends CollisionShape {
                 Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
 
         Vector3f location = new Vector3f();
-        for (int floatIndex = 0; floatIndex < points.length; floatIndex += 3) {
-            float x = points[floatIndex];
-            float y = points[floatIndex + 1];
-            float z = points[floatIndex + 2];
+        for (int floatI = 0; floatI < points.length; floatI += numAxes) {
+            float x = points[floatI];
+            float y = points[floatI + 1];
+            float z = points[floatI + 2];
             location.set(x, y, z);
             MyVector3f.accumulateMinima(minima, location);
             MyVector3f.accumulateMaxima(maxima, location);
@@ -218,14 +226,32 @@ public class HullCollisionShape extends CollisionShape {
     }
 
     /**
+     * Copy the unscaled vertex locations of the optimized convex hull.
+     *
+     * @return a new array (not null)
+     */
+    public float[] copyHullVertices() {
+        int numHullVertices = countHullVertices(objectId);
+        ByteBuffer buffer = BufferUtils.createByteBuffer(
+                numHullVertices * numAxes * floatSize);
+        getHullVertices(objectId, buffer);
+
+        float[] result = new float[numHullVertices * numAxes];
+        for (int i = 0; i < numHullVertices; ++i) {
+            result[i] = buffer.getFloat();
+        }
+        return result;
+    }
+
+    /**
      * Count the vertices used to generate the hull.
      *
      * @return the count (&gt;0)
      */
     public int countMeshVertices() {
         int length = points.length;
-        assert (length % 3 == 0) : length;
-        int result = length / 3;
+        assert (length % numAxes == 0) : length;
+        int result = length / numAxes;
 
         assert result > 0 : result;
         return result;
@@ -242,7 +268,7 @@ public class HullCollisionShape extends CollisionShape {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         result.zero();
-        for (int i = 0; i < points.length; i += 3) {
+        for (int i = 0; i < points.length; i += numAxes) {
             float x = FastMath.abs(points[i]);
             if (x > result.x) {
                 result.x = x;
@@ -337,12 +363,15 @@ public class HullCollisionShape extends CollisionShape {
     @Override
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
-
         OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(points, "points", new float[0]);
+
+        float[] vertices = copyHullVertices();
+        capsule.write(vertices, "points", new float[0]);
     }
     // *************************************************************************
     // private methods
+
+    native private int countHullVertices(long shapeId);
 
     /**
      * Instantiate the configured shape in Bullet.
@@ -353,10 +382,10 @@ public class HullCollisionShape extends CollisionShape {
 
         int numFloats = points.length;
         assert numFloats != 0;
-        assert (numFloats % 3 == 0) : numFloats;
-        int numVertices = numFloats / 3;
+        assert (numFloats % numAxes == 0) : numFloats;
+        int numVertices = numFloats / numAxes;
 
-        bbuf = BufferUtils.createByteBuffer(numFloats * 4);
+        bbuf = BufferUtils.createByteBuffer(numFloats * floatSize);
         for (float f : points) {
             if (!Float.isFinite(f)) {
                 String msg = "illegal coordinate: " + Float.toString(f);
@@ -376,6 +405,8 @@ public class HullCollisionShape extends CollisionShape {
 
     native private long createShapeB(ByteBuffer vertices, int numVertices);
 
+    native private void getHullVertices(long shapeId, ByteBuffer vertices);
+
     /**
      * Copy the vertex positions from a JME mesh.
      *
@@ -385,9 +416,9 @@ public class HullCollisionShape extends CollisionShape {
     private float[] getPoints(Mesh mesh) {
         FloatBuffer vertices = mesh.getFloatBuffer(Type.Position);
         vertices.rewind();
-        int components = mesh.getVertexCount() * 3;
+        int components = mesh.getVertexCount() * numAxes;
         float[] pointsArray = new float[components];
-        for (int i = 0; i < components; i += 3) {
+        for (int i = 0; i < components; i += numAxes) {
             pointsArray[i] = vertices.get();
             pointsArray[i + 1] = vertices.get();
             pointsArray[i + 2] = vertices.get();
