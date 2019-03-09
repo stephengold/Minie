@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.7.3 released on TBD
+## Version 0.7.3 released on 9 March 2019
 
 Fixed a bug where `HullCollisionShape.copyHullVertices()` didn't fill the
 `result` array.
