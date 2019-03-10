@@ -118,8 +118,7 @@ public class TestHullContact
          * Customize the window's title bar.
          */
         AppSettings settings = new AppSettings(true);
-        String title = applicationName + " " + MyString.join(arguments);
-        settings.setTitle(title);
+        settings.setTitle(applicationName);
 
         settings.setVSync(true);
         application.setSettings(settings);

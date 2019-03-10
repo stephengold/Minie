@@ -138,6 +138,9 @@ public class TestDac extends ActionApplication {
     private BoneLink rightClavicle;
     private BoneLink rightFemur;
     private BoneLink upperBody;
+    /**
+     * app state to manage the physics space
+     */
     private BulletAppState bulletAppState;
     private CollisionShape ballShape;
     /**
@@ -175,7 +178,7 @@ public class TestDac extends ActionApplication {
      */
     public static void main(String[] arguments) {
         /*
-         * Mute the chatty loggers found in some imported packages.
+         * Mute the chatty loggers found in some packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
         Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
@@ -188,8 +191,7 @@ public class TestDac extends ActionApplication {
          * Customize the window's title bar.
          */
         AppSettings settings = new AppSettings(true);
-        String title = applicationName + " " + MyString.join(arguments);
-        settings.setTitle(title);
+        settings.setTitle(applicationName);
 
         settings.setVSync(true);
         application.setSettings(settings);

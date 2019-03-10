@@ -138,8 +138,7 @@ public class TestRectangularSolid extends ActionApplication {
          * Customize the window's title bar.
          */
         AppSettings settings = new AppSettings(true);
-        String title = applicationName + " " + MyString.join(arguments);
-        settings.setTitle(title);
+        settings.setTitle(applicationName);
         application.setSettings(settings);
 
         application.start();

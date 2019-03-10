@@ -183,8 +183,7 @@ public class TrackDemo extends ActionApplication {
          * Customize the window's title bar.
          */
         AppSettings settings = new AppSettings(true);
-        String title = applicationName + " " + MyString.join(arguments);
-        settings.setTitle(title);
+        settings.setTitle(applicationName);
 
         settings.setGammaCorrection(true);
         settings.setVSync(true);
