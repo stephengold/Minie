@@ -139,9 +139,9 @@ public class TestDac extends ActionApplication {
     private BoneLink rightFemur;
     private BoneLink upperBody;
     /**
-     * app state to manage the physics space
+     * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    final private BulletAppState bulletAppState = new BulletAppState();
     private CollisionShape ballShape;
     /**
      * control being tested
@@ -149,13 +149,16 @@ public class TestDac extends ActionApplication {
     private DynamicAnimControl dac;
     final private float ballRadius = 0.2f; // mesh units
     /**
-     * random number generator for this application
+     * enhanced pseudo-random generator
      */
-    final private Generator rng = new Generator();
+    final private Generator random = new Generator();
     private Material ballMaterial;
     final private Mesh ballMesh = new Sphere(16, 32, ballRadius);
     final private NameGenerator nameGenerator = new NameGenerator();
     private Node cgModel;
+    /**
+     * space for physics simulation
+     */
     private PhysicsSpace physicsSpace;
     private SkeletonControl sc;
     private SkeletonVisualizer sv;
@@ -174,11 +177,11 @@ public class TestDac extends ActionApplication {
     /**
      * Main entry point for the application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         /*
-         * Mute the chatty loggers found in some packages.
+         * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
         Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
@@ -264,6 +267,7 @@ public class TestDac extends ActionApplication {
         dim.bind("set height 3", KeyInput.KEY_3);
         dim.bind("signal rotateLeft", KeyInput.KEY_LEFT);
         dim.bind("signal rotateRight", KeyInput.KEY_RIGHT);
+        dim.bind("signal shower", KeyInput.KEY_I);
         dim.bind("signal shower", KeyInput.KEY_INSERT);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
@@ -447,7 +451,7 @@ public class TestDac extends ActionApplication {
 
         geometry.setMaterial(ballMaterial);
         geometry.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-        Vector3f location = rng.nextVector3f();
+        Vector3f location = random.nextVector3f();
         location.multLocal(0.5f, 1f, 0.5f);
         location.y += 4f;
         geometry.move(location);
@@ -615,7 +619,7 @@ public class TestDac extends ActionApplication {
      */
     private void center(Spatial model) {
         Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1]);
+        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
         Vector3f offset = new Vector3f(center.x, minMax[0].y, center.z);
 
         Vector3f location = model.getWorldTranslation();
@@ -637,9 +641,7 @@ public class TestDac extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
-
-        bulletAppState = new BulletAppState();
+        CollisionShape.setDefaultMargin(0.005f); // 5 mm margin        
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();

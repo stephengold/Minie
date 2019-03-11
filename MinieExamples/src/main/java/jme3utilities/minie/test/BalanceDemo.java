@@ -105,14 +105,29 @@ public class BalanceDemo extends ActionApplication {
     // *************************************************************************
     // fields
 
+    /**
+     * channel for playing canned animations
+     */
     private AnimChannel animChannel = null;
+    /**
+     * keeps the model's center of mass directly above its center of support
+     */
     private BalanceController balance = null;
+    /**
+     * true once {@link #initWhenReady()} has been invoked for the latest model
+     */
     private boolean dacReadyInitDone = false;
-    private BulletAppState bulletAppState;
+    /**
+     * AppState to manage the PhysicsSpace
+     */
+    final private BulletAppState bulletAppState = new BulletAppState();
     /**
      * control being tested
      */
     private DynamicAnimControl dac;
+    /**
+     * fraction of the model's weight that's on its right foot
+     */
     private float rightSupportFraction = 0.5f;
     /**
      * parameters that determine the torso's vertical acceleration
@@ -136,13 +151,21 @@ public class BalanceDemo extends ActionApplication {
      * visualizer for the center of support
      */
     private PointVisualizer supportPoint;
-
+    /**
+     * SkeletonControl of the model
+     */
     private SkeletonControl sc;
     /**
      * visualizer for the skeleton of the C-G model
      */
     private SkeletonVisualizer sv;
+    /**
+     * name of the animation to play on the model
+     */
     private String animationName = null;
+    /**
+     * TorsoLink of the model
+     */
     private TorsoLink torso;
     private Vector3f leftSupportLocation;
     private Vector3f rightSupportLocation;
@@ -151,13 +174,13 @@ public class BalanceDemo extends ActionApplication {
     // new methods exposed
 
     /**
-     * Main entry point for the application.
+     * Main entry point for the BalanceDemo application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         /*
-         * Mute the chatty loggers found in some imported packages.
+         * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
         Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
@@ -173,8 +196,10 @@ public class BalanceDemo extends ActionApplication {
         settings.setTitle(applicationName);
 
         settings.setGammaCorrection(true);
+        settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
+
         application.start();
     }
     // *************************************************************************
@@ -191,6 +216,7 @@ public class BalanceDemo extends ActionApplication {
         viewPort.setBackgroundColor(bgColor);
         addLighting();
         stateManager.getState(StatsAppState.class).toggleStats();
+        addBox();
 
         comPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Cyan,
                 "ring");
@@ -200,7 +226,6 @@ public class BalanceDemo extends ActionApplication {
                 "square");
         rootNode.attachChild(supportPoint);
 
-        addBox();
         addModel("Sinbad");
     }
 
@@ -454,7 +479,7 @@ public class BalanceDemo extends ActionApplication {
      */
     private void center(Spatial model) {
         Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1]);
+        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
         Vector3f offset = new Vector3f(center.x, minMax[0].y, center.z);
 
         Vector3f location = model.getWorldTranslation();
@@ -482,8 +507,6 @@ public class BalanceDemo extends ActionApplication {
      */
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
-
-        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();

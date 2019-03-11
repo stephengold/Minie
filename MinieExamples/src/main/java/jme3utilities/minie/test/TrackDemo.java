@@ -71,7 +71,6 @@ import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
-import jme3utilities.MyString;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
@@ -110,7 +109,10 @@ public class TrackDemo extends ActionApplication {
     // fields
 
     private boolean dacReadyInitDone = false;
-    private BulletAppState bulletAppState;
+    /**
+     * AppState to manage the PhysicsSpace
+     */
+    final private BulletAppState bulletAppState = new BulletAppState();
     private DynamicAnimControl dac;
     /*
      * model height in world units
@@ -129,6 +131,9 @@ public class TrackDemo extends ActionApplication {
     private PhysicsJoint tipJoint = null;
     private PhysicsLink tipLink;
     private PhysicsRigidBody targetBody;
+    /**
+     * space for physics simulation
+     */
     private PhysicsSpace physicsSpace;
     private SkeletonControl sc;
     private SkeletonVisualizer sv;
@@ -166,11 +171,11 @@ public class TrackDemo extends ActionApplication {
     /**
      * Main entry point for the application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         /*
-         * Mute the chatty loggers found in some imported packages.
+         * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
         Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
@@ -228,7 +233,7 @@ public class TrackDemo extends ActionApplication {
         physicsSpace.add(targetBody);
 
         Vector3f targetStartLocation
-                = MyVector3f.midpoint(gridTopLeft, gridBottomRight);
+                = MyVector3f.midpoint(gridTopLeft, gridBottomRight, null);
         targetBody.setPhysicsLocation(targetStartLocation);
     }
 
@@ -487,7 +492,7 @@ public class TrackDemo extends ActionApplication {
      */
     private void center(Spatial model) {
         Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1]);
+        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
         Vector3f offset = new Vector3f(center.x, minMax[0].y, center.z);
 
         Vector3f location = model.getWorldTranslation();
@@ -515,8 +520,6 @@ public class TrackDemo extends ActionApplication {
      */
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
-
-        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();

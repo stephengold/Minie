@@ -95,7 +95,13 @@ public class TuneDac extends ActionApplication {
     // *************************************************************************
     // fields
 
-    private BulletAppState bulletAppState;
+    /**
+     * AppState to manage the PhysicsSpace
+     */
+    final private BulletAppState bulletAppState = new BulletAppState();
+    /**
+     * Control being tuned
+     */
     private DynamicAnimControl dac;
     private int motorVelocitySign = 0;
     private int wiggleAxis = -1;
@@ -109,7 +115,7 @@ public class TuneDac extends ActionApplication {
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] args) {
+    public static void main(String[] ignored) {
         TuneDac app = new TuneDac();
         app.start();
     }
@@ -127,7 +133,6 @@ public class TuneDac extends ActionApplication {
         viewPort.setBackgroundColor(ColorRGBA.Gray);
         addLighting();
 
-        bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugAxisLength(0.1f);
         stateManager.attach(bulletAppState);
@@ -336,7 +341,7 @@ public class TuneDac extends ActionApplication {
      */
     private void center(Spatial model) {
         Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1]);
+        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
         Vector3f offset = new Vector3f(center.x, minMax[0].y, center.z);
 
         Vector3f location = model.getWorldTranslation();
