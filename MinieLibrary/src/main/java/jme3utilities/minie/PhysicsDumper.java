@@ -100,41 +100,6 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Dump the specified BulletAppState. TODO re-order methods
-     *
-     * @param appState the app state to dump (not null, unaffected)
-     * @param indent (not null)
-     */
-    public void dumpBas(BulletAppState appState, String indent) {
-        Validate.nonNull(indent, "indent");
-
-        String className = appState.getClass().getSimpleName();
-        stream.print(className);
-
-        if (appState.isEnabled()) {
-            stream.print(" enabled ");
-
-            if (!appState.isDebugEnabled()) {
-                stream.print("NO");
-            }
-            stream.print("debug ");
-
-            float speed = appState.getSpeed();
-            String speedString = MyString.describe(speed);
-            stream.printf("speed=%s", speedString);
-
-            PhysicsSpace.BroadphaseType broadphaseType
-                    = appState.getBroadphaseType();
-            stream.printf(" bphase=%s", broadphaseType);
-
-            PhysicsSpace space = appState.getPhysicsSpace();
-            dump(space, indent);
-        } else {
-            stream.printf(" disabled");
-        }
-    }
-
-    /**
      * Dump the specified PhysicsCharacter.
      *
      * @param character the character to dump (not null, unaffected)
@@ -440,6 +405,41 @@ public class PhysicsDumper extends Dumper {
         Vector3f location = vehicle.getPhysicsLocation(null);
         String locString = MyVector3f.describe(location);
         stream.printf(" loc=[%s]", locString);
+    }
+
+    /**
+     * Dump the specified BulletAppState.
+     *
+     * @param appState the app state to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    public void dumpBas(BulletAppState appState, String indent) {
+        Validate.nonNull(indent, "indent");
+
+        String className = appState.getClass().getSimpleName();
+        stream.print(className);
+
+        if (appState.isEnabled()) {
+            stream.print(" enabled ");
+
+            if (!appState.isDebugEnabled()) {
+                stream.print("NO");
+            }
+            stream.print("debug ");
+
+            float speed = appState.getSpeed();
+            String speedString = MyString.describe(speed);
+            stream.printf("speed=%s", speedString);
+
+            PhysicsSpace.BroadphaseType broadphaseType
+                    = appState.getBroadphaseType();
+            stream.printf(" bphase=%s", broadphaseType);
+
+            PhysicsSpace space = appState.getPhysicsSpace();
+            dump(space, indent);
+        } else {
+            stream.printf(" disabled");
+        }
     }
     // *************************************************************************
     // Dumper methods
