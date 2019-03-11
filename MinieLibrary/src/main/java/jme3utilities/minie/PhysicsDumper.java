@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie;
 
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -41,15 +42,15 @@ import java.io.PrintStream;
 import java.util.Collection;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
+import jme3utilities.Validate;
 import jme3utilities.debug.Describer;
 import jme3utilities.debug.Dumper;
 import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
- * Dump portions of a jME3 scene graph for debugging.
+ * Dump Minie data structures for debugging purposes.
  * <p>
- * {@link #dump(com.jme3.scene.Spatial)} is the usual interface to this class.
  * The level of detail can be configured dynamically.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -89,40 +90,61 @@ public class PhysicsDumper extends Dumper {
     // new methods exposed
 
     /**
-     * Dump the specified Bullet app state.
+     * Dump the specified BulletAppState.
      *
      * @param appState the app state to dump (not null, unaffected)
      */
     public void dump(BulletAppState appState) {
-        stream.printf("%nBulletAppState ");
+        Validate.nonNull(appState, "app state");
+        dumpBas(appState, "");
+    }
+
+    /**
+     * Dump the specified BulletAppState. TODO re-order methods
+     *
+     * @param appState the app state to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    public void dumpBas(BulletAppState appState, String indent) {
+        Validate.nonNull(indent, "indent");
+
+        String className = appState.getClass().getSimpleName();
+        stream.print(className);
+
         if (appState.isEnabled()) {
-            stream.print("enabled ");
+            stream.print(" enabled ");
+
             if (!appState.isDebugEnabled()) {
                 stream.print("NO");
             }
             stream.print("debug ");
+
             float speed = appState.getSpeed();
-            stream.printf("speed=%f", speed);
+            String speedString = MyString.describe(speed);
+            stream.printf("speed=%s", speedString);
 
             PhysicsSpace.BroadphaseType broadphaseType
                     = appState.getBroadphaseType();
             stream.printf(" bphase=%s", broadphaseType);
 
             PhysicsSpace space = appState.getPhysicsSpace();
-            dump(space);
+            dump(space, indent);
         } else {
-            stream.printf("disabled");
+            stream.printf(" disabled");
         }
     }
 
     /**
-     * Dump the specified physics character.
+     * Dump the specified PhysicsCharacter.
      *
      * @param character the character to dump (not null, unaffected)
+     * @param indent (not null)
      */
-    public void dump(PhysicsCharacter character) {
+    public void dump(PhysicsCharacter character, String indent) {
+        Validate.nonNull(indent, "indent");
+
         long objectId = character.getObjectId();
-        stream.printf("  Character #%s", Long.toHexString(objectId));
+        stream.printf("%n%sCharacter #%s", indent, Long.toHexString(objectId));
 
         String desc = getDescriber().describeUser(character);
         stream.print(desc);
@@ -130,19 +152,19 @@ public class PhysicsDumper extends Dumper {
         Vector3f location = character.getPhysicsLocation();
         String locString = MyVector3f.describe(location);
         stream.printf(" loc=[%s]", locString);
-
-        stream.println();
-
     }
 
     /**
-     * Dump the specified ghost object.
+     * Dump the specified PhysicsGhostObject.
      *
      * @param ghost the ghost object to dump (not null, unaffected)
+     * @param indent (not null)
      */
-    public void dump(PhysicsGhostObject ghost) {
+    public void dump(PhysicsGhostObject ghost, String indent) {
+        Validate.nonNull(indent, "indent");
+
         long objectId = ghost.getObjectId();
-        stream.printf("  Ghost #%s", Long.toHexString(objectId));
+        stream.printf("%n%sGhost #%s", indent, Long.toHexString(objectId));
 
         String desc = getDescriber().describeUser(ghost);
         stream.print(desc);
@@ -150,27 +172,23 @@ public class PhysicsDumper extends Dumper {
         Vector3f location = ghost.getPhysicsLocation(null);
         String locString = MyVector3f.describe(location);
         stream.printf(" loc=[%s]", locString);
-
-        stream.println();
     }
 
     /**
-     * Dump the specified joint. TODO move guts to PhysicsDescriber
+     * Dump the specified PhysicsJoint. TODO move guts to PhysicsDescriber
      *
      * @param joint the joint to dump (not null, unaffected)
+     * @param indent (not null)
      */
-    public void dump(PhysicsJoint joint) {
+    public void dump(PhysicsJoint joint, String indent) {
+        Validate.nonNull(indent, "indent");
+
         String type = joint.getClass().getSimpleName();
         if (type.endsWith("Joint")) {
             type = MyString.removeSuffix(type, "Joint");
         }
-
         long objectId = joint.getObjectId();
-        stream.printf("  %s #%s", type, Long.toHexString(objectId));
-
-        if (!joint.isEnabled()) {
-            stream.print(" DISABLED");
-        }
+        stream.printf("%n%s%s #%s", indent, type, Long.toHexString(objectId));
 
         int numDyn = 0;
 
@@ -179,9 +197,9 @@ public class PhysicsDumper extends Dumper {
             long aId = joint.getBodyA().getObjectId();
             stream.printf(" a=%s", Long.toHexString(aId));
             if (!bodyA.isInWorld()) {
-                stream.print("(NOT IN WORLD)");
+                stream.print("_NOT_IN_WORLD");
             }
-            if (!bodyA.isStatic() && !bodyA.isKinematic()) {
+            if (bodyA.isDynamic()) {
                 ++numDyn;
             }
         }
@@ -191,33 +209,37 @@ public class PhysicsDumper extends Dumper {
             long bId = bodyB.getObjectId();
             stream.printf(" b=%s", Long.toHexString(bId));
             if (!bodyB.isInWorld()) {
-                stream.print("_NOT_IN_WORLD)");
+                stream.print("_NOT_IN_WORLD");
             }
-            if (!bodyB.isStatic() && !bodyB.isKinematic()) {
+            if (bodyB.isDynamic()) {
                 ++numDyn;
             }
         }
 
+        if (!joint.isEnabled()) {
+            stream.print("   DISABLED");
+        }
         if (numDyn == 0) {
-            stream.printf(" NO_DYNAMIC_BODY");
+            stream.printf("   NO_DYNAMIC_END");
         }
 
         float bit = joint.getBreakingImpulseThreshold();
         if (bit != Float.MAX_VALUE) {
             stream.printf(" bit=%s", Float.toString(bit));
         }
-
-        stream.println();
     }
 
     /**
-     * Dump the specified rigid body.
+     * Dump the specified PhysicsRigidBody.
      *
      * @param body the rigid body to dump (not null, unaffected)
+     * @param indent (not null)
      */
-    public void dump(PhysicsRigidBody body) {
+    public void dump(PhysicsRigidBody body, String indent) {
+        Validate.nonNull(indent, "indent");
+
         long objectId = body.getObjectId();
-        stream.printf("  Body #%s ", Long.toHexString(objectId));
+        stream.printf("%n%sBody #%s ", indent, Long.toHexString(objectId));
 
         String desc = MyObject.describe(body);
         stream.print(desc);
@@ -248,12 +270,12 @@ public class PhysicsDumper extends Dumper {
             stream.print(" linST=" + MyString.describe(linST));
         }
         /*
-         * 2nd line has the shape and the number of joints.
+         * 2nd line has the shape, group info, and the number of joints.
          */
         CollisionShape shape = body.getCollisionShape();
         PhysicsDescriber describer = getDescriber();
         desc = describer.describe(shape);
-        stream.printf("%n   %s", desc);
+        stream.printf("%n%s %s", indent, desc);
 
         Vector3f scale = shape.getScale(null);
         desc = describer.describeScale(scale);
@@ -269,24 +291,23 @@ public class PhysicsDumper extends Dumper {
         if (groupMask != PhysicsCollisionObject.COLLISION_GROUP_01) {
             stream.printf(" mask=0x%x", groupMask);
         }
-        /*
-         * Each joint has its own line in the dump.
-         */
+
         PhysicsJoint[] joints = body.listJoints();
         stream.printf(" joints=%d", joints.length);
         if (joints.length > 0) {
             stream.print(":");
         }
-        stream.println();
-
+        /*
+         * Each joint has its own line in the dump.
+         */
         for (PhysicsJoint joint : joints) {
             String type = joint.getClass().getSimpleName();
             if (type.endsWith("Joint")) {
                 type = MyString.removeSuffix(type, "Joint");
             }
-
             long jointId = joint.getObjectId();
-            stream.printf("    %s #%s ", type, Long.toHexString(jointId));
+            stream.printf("%n%s  %s #%s ", indent, type,
+                    Long.toHexString(jointId));
 
             if (!joint.isEnabled()) {
                 stream.print("DISABLED ");
@@ -313,7 +334,7 @@ public class PhysicsDumper extends Dumper {
             } else {
                 stream.printf("to=#%s", Long.toHexString(otherId));
             }
-            stream.printf(" piv=[%s]%n", MyVector3f.describe(pivot));
+            stream.printf(" piv=[%s]", MyVector3f.describe(pivot));
         }
     }
 
@@ -323,76 +344,95 @@ public class PhysicsDumper extends Dumper {
      * @param space the PhysicsSpace to dump (not null, unaffected)
      */
     public void dump(PhysicsSpace space) {
-        Collection<PhysicsCharacter> characters = space.getCharacterList();
-        Collection<PhysicsGhostObject> ghosts = space.getGhostObjectList();
-        Collection<PhysicsJoint> joints = space.getJointList();
-        Collection<PhysicsRigidBody> rigidBodies = space.getRigidBodyList();
-        Collection<PhysicsVehicle> vehicles = space.getVehicleList();
+        dump(space, "");
+    }
 
+    /**
+     * Dump the specified PhysicsSpace. TODO joint list should be optional
+     *
+     * @param space the PhysicsSpace to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    public void dump(PhysicsSpace space, String indent) {
+        Validate.nonNull(indent, "indent");
+
+        String type = space.getClass().getSimpleName();
         long spaceId = space.getSpaceId();
+        Collection<PhysicsCharacter> characters = space.getCharacterList();
         int numCharacters = characters.size();
+        Collection<PhysicsGhostObject> ghosts = space.getGhostObjectList();
         int numGhosts = ghosts.size();
-        int numJoints = joints.size();
-        int numBodies = rigidBodies.size();
-        int numVehicles = vehicles.size();
-
-        stream.printf("%nSpace #%s contains %d character%s, %d ghost%s, ",
-                Long.toHexString(spaceId),
+        stream.printf("%n%s%s #%s contains %d character%s, %d ghost%s, ",
+                indent, type, Long.toHexString(spaceId),
                 numCharacters, (numCharacters == 1) ? "" : "s",
                 numGhosts, (numGhosts == 1) ? "" : "s");
-        stream.printf("%d joint%s, %d rigid bod%s, and %d vehicle%s%n",
+
+        Collection<PhysicsJoint> joints = space.getJointList();
+        int numJoints = joints.size();
+        Collection<PhysicsRigidBody> rigidBodies = space.getRigidBodyList();
+        int numBodies = rigidBodies.size();
+        Collection<PhysicsVehicle> vehicles = space.getVehicleList();
+        int numVehicles = vehicles.size();
+        stream.printf("%d joint%s, %d rigid bod%s, and %d vehicle%s",
                 numJoints, (numJoints == 1) ? "" : "s",
                 numBodies, (numBodies == 1) ? "y" : "ies",
                 numVehicles, (numVehicles == 1) ? "" : "s");
-
+        /*
+         * 2nd line
+         */
         float accuracy = space.getAccuracy();
+        String accuString = MyString.describe(accuracy);
         PhysicsSpace.BroadphaseType broadphaseType = space.getBroadphaseType();
         Vector3f gravity = space.getGravity(null);
-        int maxSubSteps = space.maxSubSteps();
-
-        String accuString = MyString.describe(accuracy);
         String gravString = MyVector3f.describe(gravity);
-        stream.printf(" accu=%s, bphase=%s, grav=[%s], maxStep=%d%n",
-                accuString, broadphaseType, gravString, maxSubSteps);
-
+        int maxSubSteps = space.maxSubSteps();
+        stream.printf("%n%s accu=%s, bphase=%s, grav=[%s], maxStep=%d",
+                indent, accuString, broadphaseType, gravString, maxSubSteps);
+        /*
+         * 3rd line
+         */
         int numIterations = space.getSolverNumIterations();
         int rayTestFlags = space.getRayTestFlags();
         PhysicsDescriber describer = getDescriber();
         String rtText = describer.describeRayTestFlags(rayTestFlags);
-        Vector3f worldMax = space.getWorldMax(null);
-        String maxString = MyVector3f.describe(worldMax);
         Vector3f worldMin = space.getWorldMin(null);
         String minString = MyVector3f.describe(worldMin);
-        stream.printf(" iters=%d, rayTest=(%s), wMin=[%s], wMax=[%s]%n",
-                numIterations, rtText, minString, maxString);
+        Vector3f worldMax = space.getWorldMax(null);
+        String maxString = MyVector3f.describe(worldMax);
+        stream.printf("%n%s iters=%d, rayTest=(%s), wMin=[%s], wMax=[%s]",
+                indent, numIterations, rtText, minString, maxString);
 
+        String moreIndent = indent + indentIncrement();
         for (PhysicsCharacter character : characters) {
-            dump(character);
+            dump(character, moreIndent);
         }
         for (PhysicsGhostObject ghost : ghosts) {
-            dump(ghost);
+            dump(ghost, moreIndent);
         }
         for (PhysicsJoint joint : joints) {
-            dump(joint);
+            dump(joint, moreIndent);
         }
         for (PhysicsRigidBody rigid : rigidBodies) {
-            dump(rigid);
+            dump(rigid, moreIndent);
         }
         for (PhysicsVehicle vehicle : vehicles) {
-            dump(vehicle);
+            dump(vehicle, moreIndent);
         }
     }
 
     /**
-     * Dump the specified vehicle.
+     * Dump the specified PhysicsVehicle.
      *
      * @param vehicle the vehicle to dump (not null, unaffected)
+     * @param indent (not null)
      */
-    public void dump(PhysicsVehicle vehicle) {
+    public void dump(PhysicsVehicle vehicle, String indent) {
+        Validate.nonNull(indent, "indent");
+
         long objectId = vehicle.getObjectId();
         float mass = vehicle.getMass();
-        stream.printf("  Vehicle #%s mass=%f", Long.toHexString(objectId),
-                mass);
+        stream.printf("%sVehicle #%s mass=%f", indent,
+                Long.toHexString(objectId), mass);
 
         String desc = getDescriber().describeUser(vehicle);
         stream.print(desc);
@@ -400,14 +440,12 @@ public class PhysicsDumper extends Dumper {
         Vector3f location = vehicle.getPhysicsLocation(null);
         String locString = MyVector3f.describe(location);
         stream.printf(" loc=[%s]", locString);
-
-        stream.println();
     }
     // *************************************************************************
     // Dumper methods
 
     /**
-     * Create a deep copy of this PhysicsDumper.
+     * Create a deep copy of this dumper.
      *
      * @return a new instance, equivalent to this one, with its own Describer
      * @throws CloneNotSupportedException if the superclass isn't cloneable
@@ -416,6 +454,24 @@ public class PhysicsDumper extends Dumper {
     public PhysicsDumper clone() throws CloneNotSupportedException {
         PhysicsDumper clone = (PhysicsDumper) super.clone();
         return clone;
+    }
+
+    /**
+     * Dump the specified AppState.
+     *
+     * @param appState the app state to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    @Override
+    public void dump(AppState appState, String indent) {
+        Validate.nonNull(appState, "app state");
+        Validate.nonNull(indent, "indent");
+
+        if (appState instanceof BulletAppState) {
+            dumpBas((BulletAppState) appState, indent);
+        } else {
+            super.dump(appState, indent);
+        }
     }
 
     /**
