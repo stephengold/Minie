@@ -55,7 +55,7 @@ public class BalanceController extends IKController {
     /**
      * message logger for this class
      */
-    final public static Logger logger
+    final public static Logger logger2
             = Logger.getLogger(BalanceController.class.getName());
     // *************************************************************************
     // fields
