@@ -44,24 +44,50 @@ import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
+import java.util.logging.Logger;
 
 /**
  * Test heightfield collision shapes.
- * 
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestHeightfield extends SimpleApplication {
     // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestScaleChange.class.getName());
+    // *************************************************************************
     // fields
 
-    private TerrainQuad quad;
-    final private BulletAppState bulletAppState = new BulletAppState();
-    private float elapsedTime = 0f;
+    /**
+     * true IFF debug physics visualization is enabled
+     */
     private boolean debugFlag = false;
+    /**
+     * AppState to manage the PhysicsSpace
+     */
+    final private BulletAppState bulletAppState = new BulletAppState();
+    /**
+     * seconds since the application started
+     */
+    private float elapsedTime = 0f;
+    /**
+     * terrain on which the shape is based
+     */
+    private TerrainQuad quad;
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] args) {
+    /**
+     * Main entry point for the TestHeightField application.
+     *
+     * @param ignored array of command-line arguments (not null)
+     */
+    public static void main(String[] ignored) {
         TestHeightfield app = new TestHeightfield();
         app.start();
     }
@@ -110,6 +136,11 @@ public class TestHeightfield extends SimpleApplication {
         rootNode.addControl(rbc);
     }
 
+    /**
+     * Callback invoked once per frame.
+     *
+     * @param tpf the time interval between frames (in seconds, &ge;0)
+     */
     @Override
     public void simpleUpdate(float tpf) {
         elapsedTime += tpf;

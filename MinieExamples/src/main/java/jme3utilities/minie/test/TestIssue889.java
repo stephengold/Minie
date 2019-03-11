@@ -35,21 +35,20 @@ import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.math.Vector3f;
 
 /**
  * Test case for JME issue #889: disabled physics control gets added to a
  * PhysicsSpace.
  * <p>
  * If successful, no debug meshes will be visible.
- * 
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestIssue889 extends SimpleApplication {
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] args) {
+    public static void main(String[] ignored) {
         TestIssue889 app = new TestIssue889();
         app.start();
     }

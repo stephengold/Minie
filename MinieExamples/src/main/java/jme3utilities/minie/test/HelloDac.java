@@ -42,7 +42,7 @@ import com.jme3.scene.Spatial;
  */
 public class HelloDac extends SimpleApplication {
 
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         HelloDac application = new HelloDac();
         application.start();
     }

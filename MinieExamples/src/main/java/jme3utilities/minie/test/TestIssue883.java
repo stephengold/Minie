@@ -61,9 +61,9 @@ public class TestIssue883 extends SimpleApplication {
     /**
      * Main entry point for the application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         Application application = new TestIssue883();
         application.start();
     }

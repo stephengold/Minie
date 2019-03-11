@@ -69,9 +69,9 @@ public class TestIssue1029
     /**
      * Main entry point for the application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         Application application = new TestIssue1029();
         application.start();
     }

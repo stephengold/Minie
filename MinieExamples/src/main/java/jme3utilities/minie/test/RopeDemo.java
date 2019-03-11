@@ -170,14 +170,24 @@ public class RopeDemo extends ActionApplication {
     // *************************************************************************
     // fields
 
-    private boolean dacReadyInitDone = true;
-    private BulletAppState bulletAppState;
+    /**
+     * true once {@link #initWhenReady()} has been invoked for the latest rope
+     */
+    private boolean dacReadyInitDone = false;
+    /**
+     * AppState to manage the PhysicsSpace
+     */
+    final private BulletAppState bulletAppState = new BulletAppState();
     /**
      * physics controls for the ropes, in order of creation
      */
     final private Deque<DynamicAnimControl> dacs = new ArrayDeque<>();
     /**
-     * generate pseudo-random numbers
+     * shapes of the ropes, in order of creation
+     */
+    final private Deque<RopeShape> shapes = new ArrayDeque<>();
+    /**
+     * enhanced pseudo-random generator
      */
     final private Generator random = new Generator();
     /**
@@ -201,10 +211,6 @@ public class RopeDemo extends ActionApplication {
      */
     private PhysicsSpace physicsSpace;
     /**
-     * shapes of the ropes, in order of creation
-     */
-    final private Deque<RopeShape> shapes = new ArrayDeque<>();
-    /**
      * visualizer for the skeleton of the most recently added rope
      */
     private SkeletonVisualizer sv;
@@ -212,13 +218,13 @@ public class RopeDemo extends ActionApplication {
     // new methods exposed
 
     /**
-     * Main entry point for the application.
+     * Main entry point for the RopeDemo application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         /*
-         * Mute the chatty loggers found in some imported packages.
+         * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
         Logger.getLogger(ALAudioRenderer.class.getName())
@@ -235,6 +241,7 @@ public class RopeDemo extends ActionApplication {
         settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
+
         application.start();
     }
     // *************************************************************************
@@ -382,10 +389,10 @@ public class RopeDemo extends ActionApplication {
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
         float mass = PhysicsRigidBody.massForStatic;
-        RigidBodyControl rbc = new RigidBodyControl(shape, mass);
-        rbc.setApplyScale(true);
-        rbc.setPhysicsSpace(physicsSpace);
-        geometry.addControl(rbc);
+        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
+        boxBody.setApplyScale(true);
+        boxBody.setPhysicsSpace(physicsSpace);
+        geometry.addControl(boxBody);
     }
 
     /**
@@ -410,7 +417,7 @@ public class RopeDemo extends ActionApplication {
     /**
      * Add a kinematic rope (with the named shape) to the scene.
      *
-     * @param shapeName (not null)
+     * @param shapeName the name of the shape to add (not null, not empty)
      */
     private void addRope(String shapeName) {
         DynamicAnimControl latestDac = dacs.peekLast();
@@ -755,12 +762,10 @@ public class RopeDemo extends ActionApplication {
      */
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(ropeRadius / 10f);
-
-        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(1f / 60f); // 16.67-msec timestep
+        physicsSpace.setAccuracy(1f / 60); // 16.67-msec timestep
         physicsSpace.setSolverNumIterations(8);
     }
 

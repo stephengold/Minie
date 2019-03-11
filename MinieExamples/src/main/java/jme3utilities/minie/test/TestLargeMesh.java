@@ -59,7 +59,12 @@ public class TestLargeMesh extends SimpleApplication {
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] args) {
+    /**
+     * Main entry point for the TestLargeMesh application.
+     *
+     * @param ignored array of command-line arguments (not null)
+     */
+    public static void main(String[] ignored) {
         TestLargeMesh app = new TestLargeMesh();
         app.start();
     }

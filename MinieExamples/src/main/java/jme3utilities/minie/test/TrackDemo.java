@@ -102,9 +102,10 @@ public class TrackDemo extends ActionApplication {
     final public static Logger logger
             = Logger.getLogger(TrackDemo.class.getName());
     /**
-     * application name for its window's title bar
+     * application name (for the title bar of the app's window)
      */
-    final private static String applicationName = "TrackDemo";
+    final private static String applicationName
+            = TrackDemo.class.getSimpleName();
     // *************************************************************************
     // fields
 
@@ -193,6 +194,7 @@ public class TrackDemo extends ActionApplication {
         settings.setGammaCorrection(true);
         settings.setVSync(true);
         application.setSettings(settings);
+        
         application.start();
     }
     // *************************************************************************
@@ -523,7 +525,7 @@ public class TrackDemo extends ActionApplication {
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(0.033f); // 33 msec timestep
+        physicsSpace.setAccuracy(1f / 30); // 33.33-msec timestep
         physicsSpace.setSolverNumIterations(15);
     }
 

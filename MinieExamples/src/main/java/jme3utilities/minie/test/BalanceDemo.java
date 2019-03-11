@@ -510,7 +510,7 @@ public class BalanceDemo extends ActionApplication {
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(1f / 30f); // 33.33-msec timestep
+        physicsSpace.setAccuracy(1f / 30); // 33.33-msec timestep
         physicsSpace.setSolverNumIterations(15);
     }
 

@@ -76,9 +76,9 @@ public class HelloBoneLink extends SimpleApplication {
     /**
      * Main entry point for the application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         HelloBoneLink application = new HelloBoneLink();
         application.start();
     }

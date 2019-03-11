@@ -124,7 +124,7 @@ public class TestDac extends ActionApplication {
      */
     final private static String saveAssetPath2 = "TestDac_2.xml";
     /**
-     * application name for its window's title bar
+     * application name (for the title bar of the app's window)
      */
     final private static String applicationName
             = TestDac.class.getSimpleName();
@@ -198,6 +198,7 @@ public class TestDac extends ActionApplication {
 
         settings.setVSync(true);
         application.setSettings(settings);
+        
         application.start();
     }
     // *************************************************************************
@@ -646,7 +647,7 @@ public class TestDac extends ActionApplication {
 
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setSolverNumIterations(15);
-        physicsSpace.setAccuracy(0.01f); // 10 msec timestep
+        physicsSpace.setAccuracy(0.01f); // 10-msec timestep
     }
 
     /**

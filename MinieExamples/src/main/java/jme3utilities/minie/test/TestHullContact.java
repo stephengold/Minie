@@ -58,7 +58,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
-import jme3utilities.MyString;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
@@ -67,6 +66,8 @@ import jme3utilities.ui.Signals;
 
 /**
  * Test contact forces for hull collision shapes.
+ * 
+ * @author Stephen Gold sgold@sonic.net
  */
 public class TestHullContact
         extends ActionApplication
@@ -84,30 +85,39 @@ public class TestHullContact
     final public static Logger logger
             = Logger.getLogger(TestHullContact.class.getName());
     /**
-     * application name for the window's title bar
+     * application name (for the title bar of the app's window)
      */
     final private static String applicationName
             = TestHullContact.class.getSimpleName();
     // *************************************************************************
     // fields
 
-    private BulletAppState bulletAppState;
+    /**
+     * AppState to manage the PhysicsSpace
+     */
+    final private BulletAppState bulletAppState = new BulletAppState();
+    /**
+     * enhanced pseudo-random generator
+     */
     final private Generator random = new Generator();
     private int numGems = 0;
     final private Material gemMaterials[] = new Material[4];
+    /**
+     * space for physics simulation
+     */
     private PhysicsSpace physicsSpace;
     private RigidBodyControl boxBody;
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Main entry point for the application.
+     * Main entry point for the TestHullContact application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         /*
-         * Mute the chatty loggers found in some imported packages.
+         * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
         Logger.getLogger(ALAudioRenderer.class.getName())
@@ -122,6 +132,7 @@ public class TestHullContact
 
         settings.setVSync(true);
         application.setSettings(settings);
+
         application.start();
     }
     // *************************************************************************
@@ -183,9 +194,11 @@ public class TestHullContact
                 case "dump physicsSpace":
                     dumpPhysicsSpace();
                     return;
+
                 case "dump scenes":
                     dumpScenes();
                     return;
+
                 case "toggle pause":
                     togglePause();
                     return;
@@ -197,7 +210,7 @@ public class TestHullContact
     /**
      * Callback invoked once per frame.
      *
-     * @param tpf time interval between frames (in seconds, &ge;0)
+     * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float tpf) {
@@ -280,7 +293,7 @@ public class TestHullContact
     }
 
     /**
-     * Add a large static box to serve as a platform.
+     * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox() {
         float halfExtent = 50f; // mesh units
@@ -335,8 +348,6 @@ public class TestHullContact
      */
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
-
-        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         bulletAppState.setDebugEnabled(true);
@@ -344,7 +355,7 @@ public class TestHullContact
         bulletAppState.setDebugInitListener(this);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(1f / 60); // 16.67 msec timestep
+        physicsSpace.setAccuracy(1f / 60); // 16.67-msec timestep
         physicsSpace.setSolverNumIterations(30);
     }
 

@@ -62,7 +62,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
-import jme3utilities.MyString;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.noise.Generator;
@@ -98,7 +97,7 @@ public class SeJointDemo extends ActionApplication {
     final public static Logger logger
             = Logger.getLogger(SeJointDemo.class.getName());
     /**
-     * application name for its window's title bar
+     * application name (for the title bar of the app's window)
      */
     final private static String applicationName
             = SeJointDemo.class.getSimpleName();
@@ -109,12 +108,15 @@ public class SeJointDemo extends ActionApplication {
     // *************************************************************************
     // fields
 
+    /**
+     * AppState to manage the PhysicsSpace
+     */
     private BulletAppState bulletAppState;
     private CollisionShape seedShape;
     /**
-     * random number generator for this application
+     * enhanced pseudo-random generator
      */
-    final private Generator rng = new Generator();
+    final private Generator random = new Generator();
     /**
      * material for each type of seed
      */
@@ -130,6 +132,9 @@ public class SeJointDemo extends ActionApplication {
      * mesh for visualizing seeds
      */
     final private Node seedNode = new Node("seed node");
+    /**
+     * space for physics simulation
+     */
     private PhysicsSpace physicsSpace;
     /**
      * name of the test that's currently running
@@ -159,13 +164,13 @@ public class SeJointDemo extends ActionApplication {
     // new methods exposed
 
     /**
-     * Main entry point for the application.
+     * Main entry point for the SeJointDemo application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         /*
-         * Mute the chatty loggers found in some imported packages.
+         * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
         Logger.getLogger(ALAudioRenderer.class.getName())
@@ -177,6 +182,8 @@ public class SeJointDemo extends ActionApplication {
          */
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
+
+        settings.setVSync(true);
         application.setSettings(settings);
 
         application.start();
@@ -361,14 +368,14 @@ public class SeJointDemo extends ActionApplication {
         /*
          * Randomize which group the new seed is in.
          */
-        int groupIndex = MyMath.modulo(rng.nextInt(), numGroups);
+        int groupIndex = MyMath.modulo(random.nextInt(), numGroups);
         Material material = materials[groupIndex];
         Vector3f pivotInWorld = pivotLocations[groupIndex];
         /*
          * Randomize the new seed's initial location and velocity.
          */
-        Vector3f velocity = rng.nextVector3f();
-        Vector3f location = rng.nextVector3f();
+        Vector3f velocity = random.nextVector3f();
+        Vector3f location = random.nextVector3f();
         location.multLocal(0.5f, 1f, 0.5f);
         location.addLocal(0f, 4f, 0f);
 
@@ -531,7 +538,7 @@ public class SeJointDemo extends ActionApplication {
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(0.1f); // 10 Hz
+        physicsSpace.setAccuracy(0.1f); // 100-msec timestep
         physicsSpace.setSolverNumIterations(15);
     }
 

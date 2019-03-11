@@ -51,7 +51,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
-import jme3utilities.MyString;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.PointMesh;
@@ -86,7 +85,7 @@ public class TestRectangularSolid extends ActionApplication {
     final public static Logger logger
             = Logger.getLogger(TestRectangularSolid.class.getName());
     /**
-     * application name for its window's title bar
+     * application name (for the title bar of the app's window)
      */
     final private static String applicationName
             = TestRectangularSolid.class.getSimpleName();
@@ -98,13 +97,13 @@ public class TestRectangularSolid extends ActionApplication {
      */
     private BitmapText uiText;
     /**
-     * Bullet app state
+     * AppState to manage the PhysicsSpace
      */
-    private static BulletAppState bulletAppState;
+    final private BulletAppState bulletAppState = new BulletAppState();
     /**
      * enhanced pseudo-random generator
      */
-    final private static Generator generator = new Generator();
+    final private Generator random = new Generator();
     /*
      * pseudo-random seed for the current/next trial
      */
@@ -112,22 +111,22 @@ public class TestRectangularSolid extends ActionApplication {
     /**
      * material for visualizing sample points
      */
-    private static Material samplePointMaterial;
+    private Material samplePointMaterial;
     /**
      * scene-graph node for the current trial
      */
-    private static Node trialNode = null;
+    private Node trialNode = null;
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Main entry point.
+     * Main entry point for the TestRectangularSolid application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         /*
-         * Mute the chatty loggers found in some imported packages.
+         * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
         Logger.getLogger(ALAudioRenderer.class.getName())
@@ -166,7 +165,6 @@ public class TestRectangularSolid extends ActionApplication {
                 sampleColor, samplePointSize);
 
         CollisionShape.setDefaultMargin(0.0001f);
-        bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setSpeed(0f);
         stateManager.attach(bulletAppState);
@@ -205,6 +203,7 @@ public class TestRectangularSolid extends ActionApplication {
                 case "next trial rounded":
                     nextTrial(true);
                     return;
+
                 case "next trial square":
                     nextTrial(false);
                     return;
@@ -279,18 +278,18 @@ public class TestRectangularSolid extends ActionApplication {
         String msg = String.format("trialSeed=%d", trialSeed);
         System.out.println(msg);
         uiText.setText(msg);
-        generator.setSeed(trialSeed);
+        random.setSeed(trialSeed);
         /*
          * Generate a new transform.
          */
         Transform transform = new Transform();
-        Quaternion rotation = generator.nextQuaternion();
+        Quaternion rotation = random.nextQuaternion();
         transform.setRotation(rotation);
-        Vector3f scale = generator.nextVector3f();
+        Vector3f scale = random.nextVector3f();
         scale.addLocal(1.2f, 1.2f, 1.2f);
         scale.multLocal(2f);
         transform.setScale(scale);
-        Vector3f translation = generator.nextVector3f();
+        Vector3f translation = random.nextVector3f();
         transform.setTranslation(translation);
         /*
          * Generate sample points on the surface of a transformed unit sphere
@@ -300,7 +299,7 @@ public class TestRectangularSolid extends ActionApplication {
         for (int sampleIndex = 0;
                 sampleIndex < samplesPerTrial;
                 ++sampleIndex) {
-            Vector3f sampleLocation = generator.nextUnitVector3f();
+            Vector3f sampleLocation = random.nextUnitVector3f();
             transform.transformVector(sampleLocation, sampleLocation);
             sampleLocations.add(sampleLocation);
         }

@@ -33,24 +33,50 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.GhostControl;
 import com.jme3.math.Vector3f;
+import java.util.logging.Logger;
 
 /**
- * Test case for visualizing a shape with a changing scale.
- * 
+ * Test visualizing a shape with a changing scale.
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestScaleChange extends SimpleApplication {
     // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestScaleChange.class.getName());
+    // *************************************************************************
     // fields
 
-    private float scale = 1f;
-    private GhostControl gc;
-    private PhysicsSpace pSpace;
+    /**
+     * shape being tested
+     */
     private CollisionShape box;
+    /**
+     * copy of the scale factors
+     */
+    private float scale = 1f;
+    /**
+     * control being tested
+     */
+    private GhostControl gc;
+    /**
+     * space for physics simulation
+     */
+    private PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] args) {
+    /**
+     * Main entry point for the TestScaleChange application.
+     *
+     * @param ignored array of command-line arguments (not null)
+     */
+    public static void main(String[] ignored) {
         TestScaleChange app = new TestScaleChange();
         app.start();
     }
@@ -62,14 +88,19 @@ public class TestScaleChange extends SimpleApplication {
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
-        pSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace = bulletAppState.getPhysicsSpace();
 
         box = new BoxCollisionShape(1f);
         box.setScale(new Vector3f(scale, scale, scale));
         gc = new GhostControl(box);
-        gc.setPhysicsSpace(pSpace);
+        gc.setPhysicsSpace(physicsSpace);
     }
 
+    /**
+     * Callback invoked once per frame.
+     *
+     * @param tpf the time interval between frames (in seconds, &ge;0)
+     */
     @Override
     public void simpleUpdate(float tpf) {
         scale += tpf;
@@ -79,6 +110,6 @@ public class TestScaleChange extends SimpleApplication {
 
         gc.setPhysicsSpace(null);
         box.setScale(new Vector3f(scale, scale, scale));
-        gc.setPhysicsSpace(pSpace);
+        gc.setPhysicsSpace(physicsSpace);
     }
 }

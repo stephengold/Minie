@@ -66,6 +66,8 @@ import jme3utilities.ui.Signals;
 
 /**
  * Demo for multi-sphere collision shapes.
+ *
+ * @author Stephen Gold sgold@sonic.net
  */
 public class MultiSphereDemo
         extends ActionApplication
@@ -90,9 +92,12 @@ public class MultiSphereDemo
     // *************************************************************************
     // fields
 
-    private BulletAppState bulletAppState;
     /**
-     * generate pseudo-random numbers
+     * AppState to manage the PhysicsSpace
+     */
+    final private BulletAppState bulletAppState = new BulletAppState();
+    /**
+     * enhanced pseudo-random generator
      */
     final private Generator random = new Generator();
     private int numGems = 0;
@@ -106,13 +111,13 @@ public class MultiSphereDemo
     // new methods exposed
 
     /**
-     * Main entry point for the application.
+     * Main entry point for the MultiSphereDemo application.
      *
-     * @param arguments array of command-line arguments (not null)
+     * @param ignored array of command-line arguments (not null)
      */
-    public static void main(String[] arguments) {
+    public static void main(String[] ignored) {
         /*
-         * Mute the chatty loggers found in some imported packages.
+         * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
         Logger.getLogger(ALAudioRenderer.class.getName())
@@ -128,6 +133,7 @@ public class MultiSphereDemo
         settings.setGammaCorrection(false);
         settings.setVSync(true);
         application.setSettings(settings);
+
         application.start();
     }
     // *************************************************************************
@@ -170,6 +176,7 @@ public class MultiSphereDemo
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bind("signal shower", KeyInput.KEY_I);
         dim.bind("signal shower", KeyInput.KEY_INSERT);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
     }
@@ -246,7 +253,7 @@ public class MultiSphereDemo
     // private methods
 
     /**
-     * Add a dynamic object to the scene.
+     * Add a dynamic rigid body to the scene.
      */
     private void addAGem() {
         if (numGems >= maxNumGems) {
@@ -348,8 +355,6 @@ public class MultiSphereDemo
      */
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
-
-        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         bulletAppState.setDebugEnabled(true);
@@ -357,7 +362,7 @@ public class MultiSphereDemo
         bulletAppState.setDebugInitListener(this);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(1f / 60f); // 16.67-msec timestep
+        physicsSpace.setAccuracy(1f / 60); // 16.67-msec timestep
         physicsSpace.setSolverNumIterations(30);
     }
 
