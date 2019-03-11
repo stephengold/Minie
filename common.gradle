@@ -22,13 +22,15 @@ gradle.projectsEvaluated {
         classpath sourceSets.main.runtimeClasspath
         //doFirst { println commandLine }
         enableAssertions true
+        //jvmArgs '-verbosegc'
+        jvmArgs '-Xms512m', '-Xmx512m'
         jvmArgs '-XX:+UseConcMarkSweepGC'
         //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
     }
 }
 
 ext {
-    // current versions of libraries
+    // current versions of the libraries
     jmonkeyengineVersion = '3.2.2-stable'
     minieVersion = '0.7.3'
 }
