@@ -103,18 +103,18 @@ public class TestCloneDumper {
      * @param b the key value
      */
     private void verifyParameters(PhysicsDumper du, float b) {
-        //boolean flag = (b > 0.15f && b < 0.45f);
-        //assert du.isDumpBucket() == flag : du.isDumpBucket();
-        //assert du.isDumpCull() == flag : du.isDumpCull();
-        //assert du.isDumpMatParam()== !flag : du.isDumpMatParam();
-        //assert du.isDumpOverride() == !flag : du.isDumpOverride();
-        //assert du.isDumpShadow() == flag : du.isDumpShadow();
-        //assert du.isDumpTransform() == !flag : du.isDumpTransform();
-        //assert du.isDumpUser() == flag :du.isDumpUser();
+        boolean flag = (b > 0.15f && b < 0.45f);
+        assert du.isDumpBucket() == flag : du.isDumpBucket();
+        assert du.isDumpCull() == flag : du.isDumpCull();
+        assert du.isDumpMatParam() == !flag : du.isDumpMatParam();
+        assert du.isDumpOverride() == !flag : du.isDumpOverride();
+        assert du.isDumpShadow() == flag : du.isDumpShadow();
+        assert du.isDumpTransform() == !flag : du.isDumpTransform();
+        assert du.isDumpUser() == flag : du.isDumpUser();
 
-        //int count = (int) Math.round(b / 0.3f);
-        //assert du.maxChildren() == count : du.maxChildren();
-        //assert du.indentIncrement().equals(Float.toString(b));
+        int count = (int) Math.round(b / 0.3f);
+        assert du.maxChildren() == count : du.maxChildren();
+        assert du.indentIncrement().equals(Float.toString(b));
         assert du.getDescriber().listSeparator().equals(Float.toHexString(b));
     }
 }
