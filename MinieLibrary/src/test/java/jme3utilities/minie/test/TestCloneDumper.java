@@ -1,0 +1,120 @@
+/*
+ Copyright (c) 2019, Stephen Gold
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the copyright holder nor the names of its contributors
+ may be used to endorse or promote products derived from this software without
+ specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package jme3utilities.minie.test;
+
+import jme3utilities.minie.PhysicsDumper;
+import org.junit.Test;
+
+/**
+ * Test cloning a PhysicsDumper.
+ *
+ * @author Stephen Gold sgold@sonic.net
+ */
+public class TestCloneDumper {
+    // *************************************************************************
+    // new methods exposed
+
+    @Test
+    public void testCloneCharacter() {
+        PhysicsDumper dumper = new PhysicsDumper();
+        setParameters(dumper, 0f);
+        verifyParameters(dumper, 0f);
+
+        PhysicsDumper dumperClone;
+        try {
+            dumperClone = dumper.clone();
+        } catch (CloneNotSupportedException exception) {
+            throw new RuntimeException(exception);
+        }
+
+        cloneTest(dumper, dumperClone);
+    }
+    // *************************************************************************
+    // private methods
+
+    private void cloneTest(PhysicsDumper du, PhysicsDumper duClone) {
+        assert duClone != du;
+        assert duClone.getDescriber() != du.getDescriber();
+
+        verifyParameters(du, 0f);
+        verifyParameters(duClone, 0f);
+
+        setParameters(du, 0.3f);
+        verifyParameters(du, 0.3f);
+        verifyParameters(duClone, 0f);
+
+        setParameters(duClone, 0.6f);
+        verifyParameters(du, 0.3f);
+        verifyParameters(duClone, 0.6f);
+    }
+
+    /**
+     * Modify PhysicsCharacter parameters based on the specified key value.
+     *
+     * @param du the dumper to modify (not null)
+     * @param b the key value
+     */
+    private void setParameters(PhysicsDumper du, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        du.setDumpBucket(flag);
+        du.setDumpCull(flag);
+        du.setDumpMatParam(!flag);
+        du.setDumpOverride(!flag);
+        du.setDumpShadow(flag);
+        du.setDumpTransform(!flag);
+        du.setDumpUser(flag);
+
+        int count = (int) Math.round(b / 0.3f);
+        du.setMaxChildren(count);
+
+        du.setIndentIncrement(Float.toString(b));
+        du.getDescriber().setListSeparator(Float.toHexString(b));
+    }
+
+    /**
+     * Verify that all PhysicsDumper parameters have their expected values for
+     * the specified key value.
+     *
+     * @param du the dumper to verify (not null, unaffected)
+     * @param b the key value
+     */
+    private void verifyParameters(PhysicsDumper du, float b) {
+        //boolean flag = (b > 0.15f && b < 0.45f);
+        //assert du.isDumpBucket() == flag : du.isDumpBucket();
+        //assert du.isDumpCull() == flag : du.isDumpCull();
+        //assert du.isDumpMatParam()== !flag : du.isDumpMatParam();
+        //assert du.isDumpOverride() == !flag : du.isDumpOverride();
+        //assert du.isDumpShadow() == flag : du.isDumpShadow();
+        //assert du.isDumpTransform() == !flag : du.isDumpTransform();
+        //assert du.isDumpUser() == flag :du.isDumpUser();
+
+        //int count = (int) Math.round(b / 0.3f);
+        //assert du.maxChildren() == count : du.maxChildren();
+        //assert du.indentIncrement().equals(Float.toString(b));
+        assert du.getDescriber().listSeparator().equals(Float.toHexString(b));
+    }
+}

@@ -67,7 +67,7 @@ public class PhysicsDumper extends Dumper {
     // constructors
 
     /**
-     * Instantiate a dumper that will use System.out for output.
+     * Instantiate a PhysicsDumper that uses System.out for output.
      */
     public PhysicsDumper() {
         super();
@@ -76,7 +76,7 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Instantiate a dumper that will use the specified output stream.
+     * Instantiate a PhysicsDumper that uses the specified output stream.
      *
      * @param printStream output stream (not null)
      */
@@ -405,6 +405,18 @@ public class PhysicsDumper extends Dumper {
     }
     // *************************************************************************
     // Dumper methods
+
+    /**
+     * Create a deep copy of this PhysicsDumper.
+     *
+     * @return a new instance, equivalent to this one, with its own Describer
+     * @throws CloneNotSupportedException if the superclass isn't cloneable
+     */
+    @Override
+    public PhysicsDumper clone() throws CloneNotSupportedException {
+        PhysicsDumper clone = (PhysicsDumper) super.clone();
+        return clone;
+    }
 
     /**
      * Access the describer used by this dumper.

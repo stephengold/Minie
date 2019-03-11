@@ -262,6 +262,18 @@ public class PhysicsDescriber extends Describer {
     // Describer methods
 
     /**
+     * Create a copy of this PhysicsDescriber.
+     *
+     * @return a new instance, equivalent to this one
+     * @throws CloneNotSupportedException if the superclass isn't cloneable
+     */
+    @Override
+    public PhysicsDescriber clone() throws CloneNotSupportedException {
+        PhysicsDescriber clone = (PhysicsDescriber) super.clone();
+        return clone;
+    }
+
+    /**
      * Generate a textual description of a scene-graph control.
      *
      * @param control (not null)
