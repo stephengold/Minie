@@ -82,6 +82,9 @@ import jme3utilities.ui.InputMode;
 
 /**
  * Simulate ropes using DynamicAnimControl.
+ * <p>
+ * As seen in the February 2019 demo video:
+ * https://www.youtube.com/watch?v=7PYDAyB5RCE
  *
  * @author Stephen Gold sgold@sonic.net
  */

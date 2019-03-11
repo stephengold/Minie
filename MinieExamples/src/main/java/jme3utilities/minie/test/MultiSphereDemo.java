@@ -66,7 +66,10 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Demo for multi-sphere collision shapes.
+ * Demonstrate MultiSphere collision shapes.
+* <p>
+ * As seen in the November 2018 demo video:
+ * https://www.youtube.com/watch?v=OS2zjB01c6E
  *
  * @author Stephen Gold sgold@sonic.net
  */

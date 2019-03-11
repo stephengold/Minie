@@ -86,6 +86,9 @@ import jme3utilities.ui.InputMode;
 
 /**
  * Demo/testbed for BalanceController inverse kinematics.
+ * <p>
+ * As seen in the December 2018 demo video:
+ * https://www.youtube.com/watch?v=ZGqN9ZCCu-8
  *
  * @author Stephen Gold sgold@sonic.net
  */

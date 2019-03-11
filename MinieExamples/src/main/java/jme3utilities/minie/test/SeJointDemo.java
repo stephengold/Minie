@@ -72,7 +72,10 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Demonstrate single-ended hinge joints.
+ * Demonstrate single-ended joints.
+ * <p>
+ * As seen in the November 2018 demo video:
+ * https://www.youtube.com/watch?v=Mh9k5AfWzbg
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -348,20 +351,25 @@ public class SeJointDemo extends ActionApplication {
             case "6dofSpring":
                 seedScale.set(3f, 1f, 1f);
                 break;
+
             case "cone":
                 numGroups = 1;
                 seedScale.set(3f, 1f, 1f);
                 break;
+
             case "hinge":
                 seedScale.set(1f, 2f, 1.5f);
                 break;
+
             case "p2p":
                 seedScale.set(1f, 1f, 1f);
                 break;
+
             case "slider":
                 numGroups = 3;
                 seedScale.set(1f, 2f, 2f);
                 break;
+
             default:
                 throw new IllegalStateException("testName = " + testName);
         }

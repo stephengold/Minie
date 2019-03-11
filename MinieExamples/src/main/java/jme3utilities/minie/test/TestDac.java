@@ -99,6 +99,9 @@ import jme3utilities.ui.Signals;
 
 /**
  * Test scaling and load/save on a DynamicAnimControl.
+ * <p>
+ * As seen in the October 2018 demo video:
+ * https://www.youtube.com/watch?v=A1Rii99nb3Q
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -198,7 +201,7 @@ public class TestDac extends ActionApplication {
 
         settings.setVSync(true);
         application.setSettings(settings);
-        
+
         application.start();
     }
     // *************************************************************************
@@ -642,7 +645,7 @@ public class TestDac extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5 mm margin        
+        CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
