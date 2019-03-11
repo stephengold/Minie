@@ -84,6 +84,7 @@ import jme3utilities.minie.test.tunings.OtoControl;
 import jme3utilities.minie.test.tunings.PuppetControl;
 import jme3utilities.minie.test.tunings.SinbadControl;
 import jme3utilities.ui.ActionApplication;
+import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
@@ -194,7 +195,7 @@ public class TrackDemo extends ActionApplication {
         settings.setGammaCorrection(true);
         settings.setVSync(true);
         application.setSettings(settings);
-        
+
         application.start();
     }
     // *************************************************************************

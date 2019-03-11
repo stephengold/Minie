@@ -77,6 +77,7 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
+import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**

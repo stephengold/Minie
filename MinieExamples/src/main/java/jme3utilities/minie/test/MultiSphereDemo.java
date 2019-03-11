@@ -61,6 +61,7 @@ import jme3utilities.MyAsset;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
+import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 

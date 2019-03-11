@@ -55,6 +55,7 @@ import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.PointMesh;
 import jme3utilities.ui.ActionApplication;
+import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
