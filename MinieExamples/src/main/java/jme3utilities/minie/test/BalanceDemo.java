@@ -187,8 +187,6 @@ public class BalanceDemo extends ActionApplication {
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
-        Logger.getLogger(MeshLoader.class.getName()).setLevel(Level.SEVERE);
         Logger.getLogger(ALAudioRenderer.class.getName())
                 .setLevel(Level.SEVERE);
 
@@ -214,6 +212,9 @@ public class BalanceDemo extends ActionApplication {
      */
     @Override
     public void actionInitializeApplication() {
+        Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
+        Logger.getLogger(MeshLoader.class.getName()).setLevel(Level.SEVERE);
+        
         configureCamera();
         configurePhysics();
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
