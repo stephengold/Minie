@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
@@ -71,6 +72,10 @@ public class UprightController extends IKController {
      * factor used to calculate the error gain
      */
     private float errorGainFactor = 0.1f;
+    /**
+     * reusable matrix for calculating rotational inertia
+     */
+    private Matrix3f tmpInertia = new Matrix3f();
     /**
      * desired up direction (unit vector in the link body's local coordinates)
      */
@@ -166,6 +171,7 @@ public class UprightController extends IKController {
         if (!isEnabled()) {
             return;
         }
+
         PhysicsLink link = getLink();
         assert !link.isKinematic();
         /*
@@ -183,7 +189,7 @@ public class UprightController extends IKController {
          */
         float absSinErrorAngle = error.length();
         if (absSinErrorAngle == 0f) {
-            if (error.y >= 0.0) { // No error at all!
+            if (error.y >= 0f) { // No error at all!
                 previousError.set(error);
                 return;
             }
@@ -194,25 +200,26 @@ public class UprightController extends IKController {
             absSinErrorAngle = error.length();
         }
         Vector3f errorAxis = error.divide(absSinErrorAngle);
-        float errorMagnitude = (error.y >= 0.0) ? absSinErrorAngle : 1f;
+        float errorMagnitude = (error.y >= 0f) ? absSinErrorAngle : 1f;
         errorAxis.mult(errorMagnitude, error);
         /*
          * Calculate delta: the change in the error vector.
          */
         Vector3f delta = error.subtract(previousError, null);
         previousError.set(error);
-        PhysicsRigidBody rigidBody = link.getRigidBody();
-        float mass = rigidBody.getMass();
         /*
          * Calculate a torque impulse.
          */
         Vector3f sum = new Vector3f(0f, 0f, 0f);
         // delta term
-        float deltaGain = deltaGainFactor * mass;
-        MyVector3f.accumulateScaled(sum, delta, deltaGain);
+        MyVector3f.accumulateScaled(sum, delta, deltaGainFactor);
         // proportional term
-        float errorGain = errorGainFactor * mass;
-        MyVector3f.accumulateScaled(sum, error, errorGain);
+        MyVector3f.accumulateScaled(sum, error, errorGainFactor);
+        // scale by rotational inertia
+        PhysicsRigidBody rigidBody = link.getRigidBody();
+        rigidBody.getInverseInertiaWorld(tmpInertia);
+        tmpInertia.invertLocal();
+        tmpInertia.mult(sum, sum);
         /*
          * Apply the torque impulse to the controlled link's rigid body.
          */
