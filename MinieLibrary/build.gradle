@@ -27,9 +27,12 @@ compileJava.options.headerOutputDirectory = new File('build/cpp')
 test { forkEvery 1 } // don't run tests in parallel
 
 // cleanup tasks
-clean { dependsOn 'cleanDLLs', 'cleanSOs' }
+clean { dependsOn 'cleanDLLs', 'cleanLogs', 'cleanSOs' }
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
+}
+task cleanLogs(type: Delete) {
+    delete fileTree(dir: '.', include: 'hs_err_pid*.log')
 }
 task cleanSOs(type: Delete) {
     delete fileTree(dir: '.', include: '*.so')
