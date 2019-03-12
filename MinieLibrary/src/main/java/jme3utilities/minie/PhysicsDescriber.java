@@ -56,8 +56,8 @@ import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
- * Generate compact textual descriptions of jME3 objects. TODO add describe
- * method for BulletAppState
+ * Generate compact textual descriptions of Minie data structures for debugging
+ * purposes.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -177,6 +177,32 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
+     * Generate a brief textual description for a PhysicsJoint.
+     *
+     * @param joint (not null, unaffected)
+     * @return description (not null, not empty)
+     */
+    public String describe(PhysicsJoint joint) {
+        StringBuilder result = new StringBuilder(40);
+
+        String type = joint.getClass().getSimpleName();
+        if (type.endsWith("Joint")) {
+            type = MyString.removeSuffix(type, "Joint");
+        }
+        result.append(type);
+
+        result.append(" #");
+        long jointId = joint.getObjectId();
+        result.append(Long.toHexString(jointId));
+
+        if (!joint.isEnabled()) {
+            result.append(" DISABLED");
+        }
+
+        return result.toString();
+    }
+
+    /**
      * Generate a textual description of a compound shape's children.
      *
      * @param compound shape being described (not null)
@@ -217,26 +243,16 @@ public class PhysicsDescriber extends Describer {
      * Describe the specified PhysicsJoint in the context of the specified rigid
      * body.
      *
-     * @param joint the joint to describe
+     * @param joint the joint to describe (not null, unaffected)
      * @param body one end of the joint
      * @return descriptive text (not null, not empty)
      */
-    public String describeJointInBody(PhysicsJoint joint, PhysicsRigidBody body) {
-        StringBuilder result = new StringBuilder(40);
+    public String describeJointInBody(PhysicsJoint joint,
+            PhysicsRigidBody body) {
+        StringBuilder result = new StringBuilder(80);
 
-        String type = joint.getClass().getSimpleName();
-        if (type.endsWith("Joint")) {
-            type = MyString.removeSuffix(type, "Joint");
-        }
-        result.append(type);
-
-        result.append(" #");
-        long jointId = joint.getObjectId();
-        result.append(Long.toHexString(jointId));
-
-        if (!joint.isEnabled()) {
-            result.append(" DISABLED");
-        }
+        String desc = describe(joint);
+        result.append(desc);
 
         long otherBodyId = 0L;
         Vector3f pivot;
@@ -264,6 +280,59 @@ public class PhysicsDescriber extends Describer {
         result.append(" piv=[");
         result.append(MyVector3f.describe(pivot));
         result.append("]");
+
+        return result.toString();
+    }
+
+    /**
+     * Describe the specified PhysicsJoint in the context of a PhysicsSpace.
+     *
+     * @param joint the joint to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeJointInSpace(PhysicsJoint joint) {
+        StringBuilder result = new StringBuilder(80);
+
+        String desc = describe(joint);
+        result.append(desc);
+
+        float bit = joint.getBreakingImpulseThreshold();
+        if (bit != Float.MAX_VALUE) {
+            result.append(" bit=");
+            desc = MyString.describe(bit);
+            result.append(desc);
+        }
+
+        int numDyn = 0;
+        PhysicsRigidBody bodyA = joint.getBodyA();
+        if (bodyA != null) {
+            result.append(" a=");
+            long aId = joint.getBodyA().getObjectId();
+            result.append(Long.toHexString(aId));
+            if (!bodyA.isInWorld()) {
+                result.append("_NOT_IN_WORLD");
+            }
+            if (bodyA.isDynamic()) {
+                ++numDyn;
+            }
+        }
+
+        PhysicsRigidBody bodyB = joint.getBodyB();
+        if (bodyB != null) {
+            result.append(" b=");
+            long bId = bodyB.getObjectId();
+            result.append(Long.toHexString(bId));
+            if (!bodyB.isInWorld()) {
+                result.append("_NOT_IN_WORLD");
+            }
+            if (bodyB.isDynamic()) {
+                ++numDyn;
+            }
+        }
+
+        if (numDyn == 0) {
+            result.append("   NO_DYNAMIC_END");
+        }
 
         return result.toString();
     }

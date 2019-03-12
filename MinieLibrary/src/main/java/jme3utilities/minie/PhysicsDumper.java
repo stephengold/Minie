@@ -70,11 +70,11 @@ public class PhysicsDumper extends Dumper {
     /**
      * enable dumping of joints (for rigid bodies)
      */
-    private boolean dumpJointsBody = false;
+    private boolean dumpJointsInBody = false;
     /**
      * enable dumping of joints (for physics spaces)
      */
-    private boolean dumpJointsSpace = false;
+    private boolean dumpJointsInSpace = false;
     // *************************************************************************
     // constructors
 
@@ -151,61 +151,6 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Dump the specified PhysicsJoint. TODO move guts to PhysicsDescriber
-     *
-     * @param joint the joint to dump (not null, unaffected)
-     * @param indent (not null)
-     */
-    public void dump(PhysicsJoint joint, String indent) {
-        Validate.nonNull(indent, "indent");
-
-        String type = joint.getClass().getSimpleName();
-        if (type.endsWith("Joint")) {
-            type = MyString.removeSuffix(type, "Joint");
-        }
-        long objectId = joint.getObjectId();
-        stream.printf("%n%s%s #%s", indent, type, Long.toHexString(objectId));
-
-        int numDyn = 0;
-
-        PhysicsRigidBody bodyA = joint.getBodyA();
-        if (bodyA != null) {
-            long aId = joint.getBodyA().getObjectId();
-            stream.printf(" a=%s", Long.toHexString(aId));
-            if (!bodyA.isInWorld()) {
-                stream.print("_NOT_IN_WORLD");
-            }
-            if (bodyA.isDynamic()) {
-                ++numDyn;
-            }
-        }
-
-        PhysicsRigidBody bodyB = joint.getBodyB();
-        if (bodyB != null) {
-            long bId = bodyB.getObjectId();
-            stream.printf(" b=%s", Long.toHexString(bId));
-            if (!bodyB.isInWorld()) {
-                stream.print("_NOT_IN_WORLD");
-            }
-            if (bodyB.isDynamic()) {
-                ++numDyn;
-            }
-        }
-
-        if (!joint.isEnabled()) {
-            stream.print("   DISABLED");
-        }
-        if (numDyn == 0) {
-            stream.printf("   NO_DYNAMIC_END");
-        }
-
-        float bit = joint.getBreakingImpulseThreshold();
-        if (bit != Float.MAX_VALUE) {
-            stream.printf(" bit=%s", Float.toString(bit));
-        }
-    }
-
-    /**
      * Dump the specified PhysicsRigidBody.
      *
      * @param body the rigid body to dump (not null, unaffected)
@@ -270,7 +215,7 @@ public class PhysicsDumper extends Dumper {
 
         PhysicsJoint[] joints = body.listJoints();
         stream.printf(" joints=%d", joints.length);
-        if (dumpJointsBody) {
+        if (dumpJointsInBody) {
             if (joints.length > 0) {
                 stream.print(":");
             }
@@ -362,9 +307,10 @@ public class PhysicsDumper extends Dumper {
             dump(vehicle, moreIndent);
         }
 
-        if (dumpJointsSpace) {
+        if (dumpJointsInSpace) {
             for (PhysicsJoint joint : joints) {
-                dump(joint, moreIndent);
+                String desc = getDescriber().describeJointInSpace(joint);
+                stream.printf("%n%s%s", moreIndent, desc);
             }
         }
     }
@@ -431,8 +377,8 @@ public class PhysicsDumper extends Dumper {
      *
      * @return true if they'll be dumped, otherwise false
      */
-    public boolean isDumpJointsBody() {
-        return dumpJointsBody;
+    public boolean isDumpJointsInBody() {
+        return dumpJointsInBody;
     }
 
     /**
@@ -440,8 +386,8 @@ public class PhysicsDumper extends Dumper {
      *
      * @return true if they'll be dumped, otherwise false
      */
-    public boolean isDumpJointsSpace() {
-        return dumpJointsSpace;
+    public boolean isDumpJointsInSpace() {
+        return dumpJointsInSpace;
     }
 
     /**
@@ -450,8 +396,8 @@ public class PhysicsDumper extends Dumper {
      * @param newValue true to enable, false to disable (default=false)
      * @return this instance for chaining
      */
-    public PhysicsDumper setDumpJointsBody(boolean newValue) {
-        dumpJointsBody = newValue;
+    public PhysicsDumper setDumpJointsInBody(boolean newValue) {
+        dumpJointsInBody = newValue;
         return this;
     }
 
@@ -461,8 +407,8 @@ public class PhysicsDumper extends Dumper {
      * @param newValue true to enable, false to disable (default=false)
      * @return this instance for chaining
      */
-    public PhysicsDumper setDumpJointsSpace(boolean newValue) {
-        dumpJointsSpace = newValue;
+    public PhysicsDumper setDumpJointsInSpace(boolean newValue) {
+        dumpJointsInSpace = newValue;
         return this;
     }
     // *************************************************************************

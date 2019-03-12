@@ -556,8 +556,8 @@ public class SeJointDemo extends ActionApplication {
      */
     private void dumpPhysicsSpace() {
         PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setDumpJointsBody(true);
-        dumper.setDumpJointsSpace(true);
+        dumper.setDumpJointsInBody(true);
+        dumper.setDumpJointsInSpace(true);
         dumper.dump(physicsSpace);
     }
 
