@@ -65,6 +65,17 @@ public class PhysicsDumper extends Dumper {
     final public static Logger logger
             = Logger.getLogger(PhysicsDumper.class.getName());
     // *************************************************************************
+    // fields
+
+    /**
+     * enable dumping of joints (for rigid bodies)
+     */
+    private boolean dumpJointsBody = false;
+    /**
+     * enable dumping of joints (for physics spaces)
+     */
+    private boolean dumpJointsSpace = false;
+    // *************************************************************************
     // constructors
 
     /**
@@ -259,47 +270,17 @@ public class PhysicsDumper extends Dumper {
 
         PhysicsJoint[] joints = body.listJoints();
         stream.printf(" joints=%d", joints.length);
-        if (joints.length > 0) {
-            stream.print(":");
-        }
-        /*
-         * Each joint has its own line in the dump.
-         */
-        for (PhysicsJoint joint : joints) {
-            String type = joint.getClass().getSimpleName();
-            if (type.endsWith("Joint")) {
-                type = MyString.removeSuffix(type, "Joint");
+        if (dumpJointsBody) {
+            if (joints.length > 0) {
+                stream.print(":");
             }
-            long jointId = joint.getObjectId();
-            stream.printf("%n%s  %s #%s ", indent, type,
-                    Long.toHexString(jointId));
-
-            if (!joint.isEnabled()) {
-                stream.print("DISABLED ");
+            /*
+             * Each joint gets its own line in the dump.
+             */
+            for (PhysicsJoint joint : joints) {
+                desc = describer.describeJointInBody(joint, body);
+                stream.printf("%n%s  %s", indent, desc);
             }
-
-            long otherId = 0L;
-            Vector3f pivot;
-            if (joint.getBodyA() == body) {
-                PhysicsRigidBody bodyB = joint.getBodyB();
-                if (bodyB != null) {
-                    otherId = bodyB.getObjectId();
-                }
-                pivot = joint.getPivotA(null);
-            } else {
-                assert joint.getBodyB() == body;
-                PhysicsRigidBody bodyA = joint.getBodyA();
-                if (bodyA != null) {
-                    otherId = joint.getBodyA().getObjectId();
-                }
-                pivot = joint.getPivotB(null);
-            }
-            if (otherId == 0L) {
-                stream.print("single-ended");
-            } else {
-                stream.printf("to=#%s", Long.toHexString(otherId));
-            }
-            stream.printf(" piv=[%s]", MyVector3f.describe(pivot));
         }
     }
 
@@ -313,7 +294,7 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Dump the specified PhysicsSpace. TODO joint list should be optional
+     * Dump the specified PhysicsSpace.
      *
      * @param space the PhysicsSpace to dump (not null, unaffected)
      * @param indent (not null)
@@ -374,14 +355,17 @@ public class PhysicsDumper extends Dumper {
         for (PhysicsGhostObject ghost : ghosts) {
             dump(ghost, moreIndent);
         }
-        for (PhysicsJoint joint : joints) {
-            dump(joint, moreIndent);
-        }
         for (PhysicsRigidBody rigid : rigidBodies) {
             dump(rigid, moreIndent);
         }
         for (PhysicsVehicle vehicle : vehicles) {
             dump(vehicle, moreIndent);
+        }
+
+        if (dumpJointsSpace) {
+            for (PhysicsJoint joint : joints) {
+                dump(joint, moreIndent);
+            }
         }
     }
 
@@ -440,6 +424,46 @@ public class PhysicsDumper extends Dumper {
         } else {
             stream.printf(" disabled");
         }
+    }
+
+    /**
+     * Test whether joints will be dumped for rigid bodies.
+     *
+     * @return true if they'll be dumped, otherwise false
+     */
+    public boolean isDumpJointsBody() {
+        return dumpJointsBody;
+    }
+
+    /**
+     * Test whether joints will be dumped for physics spaces.
+     *
+     * @return true if they'll be dumped, otherwise false
+     */
+    public boolean isDumpJointsSpace() {
+        return dumpJointsSpace;
+    }
+
+    /**
+     * Configure dumping of joints for rigid bodies.
+     *
+     * @param newValue true to enable, false to disable (default=false)
+     * @return this instance for chaining
+     */
+    public PhysicsDumper setDumpJointsBody(boolean newValue) {
+        dumpJointsBody = newValue;
+        return this;
+    }
+
+    /**
+     * Configure dumping of joints for physics spaces.
+     *
+     * @param newValue true to enable, false to disable (default=false)
+     * @return this instance for chaining
+     */
+    public PhysicsDumper setDumpJointsSpace(boolean newValue) {
+        dumpJointsSpace = newValue;
+        return this;
     }
     // *************************************************************************
     // Dumper methods

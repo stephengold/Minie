@@ -40,6 +40,8 @@ import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
+import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -207,6 +209,61 @@ public class PhysicsDescriber extends Describer {
                 result.append("]");
             }
         }
+
+        return result.toString();
+    }
+
+    /**
+     * Describe the specified PhysicsJoint in the context of the specified rigid
+     * body.
+     *
+     * @param joint the joint to describe
+     * @param body one end of the joint
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeJointInBody(PhysicsJoint joint, PhysicsRigidBody body) {
+        StringBuilder result = new StringBuilder(40);
+
+        String type = joint.getClass().getSimpleName();
+        if (type.endsWith("Joint")) {
+            type = MyString.removeSuffix(type, "Joint");
+        }
+        result.append(type);
+
+        result.append(" #");
+        long jointId = joint.getObjectId();
+        result.append(Long.toHexString(jointId));
+
+        if (!joint.isEnabled()) {
+            result.append(" DISABLED");
+        }
+
+        long otherBodyId = 0L;
+        Vector3f pivot;
+        if (joint.getBodyA() == body) {
+            PhysicsRigidBody bodyB = joint.getBodyB();
+            if (bodyB != null) {
+                otherBodyId = bodyB.getObjectId();
+            }
+            pivot = joint.getPivotA(null);
+        } else {
+            assert joint.getBodyB() == body;
+            PhysicsRigidBody bodyA = joint.getBodyA();
+            if (bodyA != null) {
+                otherBodyId = joint.getBodyA().getObjectId();
+            }
+            pivot = joint.getPivotB(null);
+        }
+
+        if (otherBodyId == 0L) {
+            result.append(" single-ended");
+        } else {
+            result.append(" to=#");
+            result.append(Long.toHexString(otherBodyId));
+        }
+        result.append(" piv=[");
+        result.append(MyVector3f.describe(pivot));
+        result.append("]");
 
         return result.toString();
     }

@@ -82,6 +82,8 @@ public class TestCloneDumper {
         boolean flag = (b > 0.15f && b < 0.45f);
         du.setDumpBucket(flag);
         du.setDumpCull(flag);
+        du.setDumpJointsBody(!flag);
+        du.setDumpJointsSpace(flag);
         du.setDumpMatParam(!flag);
         du.setDumpOverride(!flag);
         du.setDumpShadow(flag);
@@ -106,6 +108,8 @@ public class TestCloneDumper {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert du.isDumpBucket() == flag : du.isDumpBucket();
         assert du.isDumpCull() == flag : du.isDumpCull();
+        assert du.isDumpJointsBody() == !flag : du.isDumpJointsBody();
+        assert du.isDumpJointsSpace() == flag : du.isDumpJointsSpace();
         assert du.isDumpMatParam() == !flag : du.isDumpMatParam();
         assert du.isDumpOverride() == !flag : du.isDumpOverride();
         assert du.isDumpShadow() == flag : du.isDumpShadow();
