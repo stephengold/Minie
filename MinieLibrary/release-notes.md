@@ -1,5 +1,16 @@
 # release notes for the Minie library and related examples
 
+## Version 0.7.4 released on TBD
+
+ + Fixed bugs that caused crashes in `GImpactCollisionShape.read()` and
+   `GImpactCollisionShape.write()`.
+ + Made `PhysicsDescriber` and `PhysicsDumper` both cloneable.
+ + Added a `countHullVertices()` method to the `HullCollisionShape` class.
+ + Added 2 configuration flags to `PhysicsDumper`.
+ + Reorganized the `PhysicsDumper` code related to joints.
+ + Updated the native libraries to version 1.0.37 of `Libbulletjme`.
+ + Based on version 2.22 of the `jme3-utilities-heart` library.
+
 ## Version 0.7.3 released on 9 March 2019
 
 Fixed a bug where `HullCollisionShape.copyHullVertices()` didn't fill the
@@ -9,7 +20,7 @@ Fixed a bug where `HullCollisionShape.copyHullVertices()` didn't fill the
 
 Important changes to the library:
 
- + Fixed a bug where the angular factors of `PhysicsRigidBody` were not
+ + Fixed a bug where the angular factors of `PhysicsRigidBody` weren't
    cloned correctly.
  + Fixed a bug where the inverse inertia of `PhysicsRigidBody` wasn't
    read/written/cloned.

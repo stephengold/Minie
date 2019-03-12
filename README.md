@@ -13,24 +13,24 @@ Summary of features:
 
  + `DynamicAnimControl` for ragdoll simulation:
     + set dynamic/kinematic mode per bone
-    + deals with attachments
+    + understands attachments
     + highly configurable, with many options for bone mass, center, and shape
     + apply inverse-kinematic controllers and joints
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `EmptyShape` collision shapes based on `btEmptyShape`
  + debugging aids:
-    + dump the contents of a physics space
+    + dump the contents of a `BulletAppState` or `PhysicsSpace`
     + customize debug material per collision object
     + visualize the local axes of each collision object
     + visualize physics in multiple viewports
-    + option for high-resolution debug meshes for convex shapes
+    + optional high-resolution debug meshes for convex shapes
     + options to generate debug meshes that include normals
  + all joints, shapes, and collision objects implement the `JmeCloneable`
    and `Comparable` interfaces
  + enable/disable a joint
  + create single-ended joints
  + settable global default for collision margin
- + fixes for many `jme3-bullet` bugs (including 740, 877, 896, 923, and 938)
+ + fixes for many `jme3-bullet` bugs (including 740, 877, 896, 923, 938, and 1029)
  + access more parameters of rigid bodies:
     + anisotropic friction
     + contact damping
@@ -221,9 +221,9 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 ### Add libraries to the classpath
 
 Minie comes pre-built as a single library that includes both Java classes
-and native libraries.  The Minie library depends on 2 Jme3-utilities libraries
-(jme3-utilities-heart and jme3-utilities-debug) which in turn depend on
-2 of the standard jMonkeyEngine libraries (jme3-core and jme3-terrain).
+and native libraries.  The Minie library depends on the
+jme3-utilities-heart library, which in turn depends on
+the standard jme3-core library from jMonkeyEngine.
 
 #### For Gradle projects
 
@@ -231,7 +231,7 @@ For projects built using Maven or Gradle, it is sufficient to specify the
 dependency on the Minie library.  The build tools should automatically
 resolve the remaining dependencies automatically.
 
-Because Minie is not on JCenter yet, you have to explicitly specify the
+Because Minie is not on JCenter yet, you must explicitly specify the
 repository location:
 
     repositories {
@@ -239,19 +239,18 @@ repository location:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.7.3'
+        compile 'jme3utilities:Minie:0.7.4'
     }
 
 #### For Ant projects
 
-For projects built using Ant, download the 3 non-standard
+For projects built using Ant, download the 2 non-standard
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/0.7.3
- + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.20.0
- + https://github.com/stephengold/jme3-utilities/releases/tag/debug-0.9.11
+ + https://github.com/stephengold/Minie/releases/tag/0.7.4
+ + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.22.0
 
-You'll want all 3 class JARs
+You'll want both class JARs
 and probably the `-sources` and `-javadoc` JARs as well.
 
 Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
@@ -265,20 +264,19 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Navigate to the "jme3-utilities" project folder.
     + Open the "heart" sub-project folder.
     + Navigate to the "build/libs" folder.
-    + Select the "jme3-utilities-heart-2.20.0.jar" file.
+    + Select the "jme3-utilities-heart-2.22.0.jar" file.
     + Click on the "Open" button.
  6. (optional) Add JARs for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "jme3-utilities-heart-2.20.0-javadoc.jar" file.
+    + Select the "jme3-utilities-heart-2.22.0-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "jme3-utilities-heart-2.20.0-sources.jar" file.
+    + Select the "jme3-utilities-heart-2.22.0-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
- 7. Similarly, add the `jme3-utilities-debug` JAR(s).
- 8. Similarly, add the `Minie` JAR(s).
- 9. Click on the "OK" button to exit the "Project Properties" dialog.
+ 7. Similarly, add the `Minie` JAR(s).
+ 8. Click on the "OK" button to exit the "Project Properties" dialog.
 
 #### Create, configure, and attach a BulletAppState
 
