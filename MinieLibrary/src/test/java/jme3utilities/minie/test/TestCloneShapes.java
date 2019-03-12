@@ -315,10 +315,6 @@ public class TestCloneShapes {
         verifyParameters(shape, 0.3f);
         verifyParameters(shapeClone, 0.6f);
 
-        if (shape instanceof GImpactCollisionShape) { // TODO
-            return;
-        }
-
         CollisionShape shapeCopy = saveThenLoad(shape);
         verifyParameters(shapeCopy, 0.3f);
 

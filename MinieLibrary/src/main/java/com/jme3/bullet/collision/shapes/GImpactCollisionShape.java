@@ -164,13 +164,27 @@ public class GImpactCollisionShape extends CollisionShape {
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule capsule = im.getCapsule(this);
+
         numVertices = capsule.readInt("numVertices", 0);
         numTriangles = capsule.readInt("numTriangles", 0);
         vertexStride = capsule.readInt("vertexStride", 0);
         triangleIndexStride = capsule.readInt("triangleIndexStride", 0);
 
-        triangleIndexBase = ByteBuffer.wrap(capsule.readByteArray("triangleIndexBase", new byte[0]));
-        vertexBase = ByteBuffer.wrap(capsule.readByteArray("vertexBase", new byte[0]));
+        byte[] indexBytes
+                = capsule.readByteArray("triangleIndexBase", new byte[0]);
+        int numIndexBytes = indexBytes.length;
+        triangleIndexBase = BufferUtils.createByteBuffer(numIndexBytes);
+        for (int byteI = 0; byteI < numIndexBytes; ++byteI) {
+            triangleIndexBase.put(indexBytes[byteI]);
+        }
+
+        byte[] vertexBytes = capsule.readByteArray("vertexBase", new byte[0]);
+        int numVertexBytes = vertexBytes.length;
+        vertexBase = BufferUtils.createByteBuffer(numVertexBytes);
+        for (int byteI = 0; byteI < numVertexBytes; ++byteI) {
+            vertexBase.put(vertexBytes[byteI]);
+        }
+
         createShape();
     }
 
@@ -184,13 +198,27 @@ public class GImpactCollisionShape extends CollisionShape {
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
+
         capsule.write(numVertices, "numVertices", 0);
         capsule.write(numTriangles, "numTriangles", 0);
         capsule.write(vertexStride, "vertexStride", 0);
         capsule.write(triangleIndexStride, "triangleIndexStride", 0);
 
-        capsule.write(triangleIndexBase.array(), "triangleIndexBase", new byte[0]);
-        capsule.write(vertexBase.array(), "vertexBase", new byte[0]);
+        triangleIndexBase.rewind();
+        int numIndexBytes = triangleIndexBase.limit();
+        byte[] indexBytes = new byte[numIndexBytes];
+        for (int byteI = 0; byteI < numIndexBytes; ++byteI) {
+            indexBytes[byteI] = triangleIndexBase.get();
+        }
+        capsule.write(indexBytes, "triangleIndexBase", null);
+
+        vertexBase.rewind();
+        int numVertexBytes = vertexBase.limit();
+        byte[] vertexBytes = new byte[numVertexBytes];
+        for (int byteI = 0; byteI < numVertexBytes; ++byteI) {
+            vertexBytes[byteI] = vertexBase.get();
+        }
+        capsule.write(vertexBytes, "vertexBase", null);
     }
     // *************************************************************************
     // private methods
