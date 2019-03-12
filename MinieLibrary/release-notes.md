@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.7.4 released on TBD
+## Version 0.7.4 released on 12 March 2019
 
  + Fixed bugs that caused crashes in `GImpactCollisionShape.read()` and
    `GImpactCollisionShape.write()`.
