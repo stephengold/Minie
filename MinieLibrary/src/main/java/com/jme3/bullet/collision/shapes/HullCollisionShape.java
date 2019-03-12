@@ -231,7 +231,7 @@ public class HullCollisionShape extends CollisionShape {
      * @return a new array (not null)
      */
     public float[] copyHullVertices() {
-        int numHullVertices = countHullVertices(objectId);
+        int numHullVertices = countHullVertices();
         ByteBuffer buffer = BufferUtils.createByteBuffer(
                 numHullVertices * numAxes * floatSize);
         getHullVertices(objectId, buffer);
@@ -241,6 +241,16 @@ public class HullCollisionShape extends CollisionShape {
             result[floatI] = buffer.getFloat();
         }
 
+        return result;
+    }
+
+    /**
+     * Copy the vertices in the optimized convex hull.
+     *
+     * @return count (&ge;0)
+     */
+    public int countHullVertices() {
+        int result = countHullVertices(objectId);
         return result;
     }
 
