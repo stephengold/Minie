@@ -34,6 +34,9 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
+import com.jme3.bullet.collision.shapes.HullCollisionShape;
+import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
@@ -126,6 +129,24 @@ public class PhysicsDescriber extends Describer {
 
             Vector3f he = cylinder.getHalfExtents(null);
             desc = describeHalfExtents(he);
+            result.append(desc);
+
+        } else if (shape instanceof GImpactCollisionShape) {
+            GImpactCollisionShape gimpact = (GImpactCollisionShape) shape;
+            int numV = gimpact.countMeshVertices();
+            String desc = String.format("[%d]", numV);
+            result.append(desc);
+
+        } else if (shape instanceof HullCollisionShape) {
+            HullCollisionShape hull = (HullCollisionShape) shape;
+            int numV = hull.countHullVertices();
+            String desc = String.format("[%d]", numV);
+            result.append(desc);
+
+        } else if (shape instanceof MeshCollisionShape) {
+            MeshCollisionShape mesh = (MeshCollisionShape) shape;
+            int numV = mesh.countMeshVertices();
+            String desc = String.format("[%d]", numV);
             result.append(desc);
 
         } else if (shape instanceof MultiSphere) {
