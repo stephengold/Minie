@@ -60,6 +60,10 @@ public enum DumpFlags {
      */
     Overrides,
     /**
+     * collision objects in physics spaces
+     */
+    Pcos,
+    /**
      * shadow modes in spatials
      */
     ShadowModes,

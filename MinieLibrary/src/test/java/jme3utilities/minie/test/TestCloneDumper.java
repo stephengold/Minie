@@ -87,6 +87,7 @@ public class TestCloneDumper {
         du.setEnabled(DumpFlags.JointsInSpaces, flag);
         du.setEnabled(DumpFlags.MatParams, !flag);
         du.setEnabled(DumpFlags.Overrides, !flag);
+        du.setEnabled(DumpFlags.Pcos, flag);
         du.setEnabled(DumpFlags.ShadowModes, flag);
         du.setEnabled(DumpFlags.Transforms, !flag);
         du.setEnabled(DumpFlags.UserData, flag);
@@ -113,6 +114,7 @@ public class TestCloneDumper {
         assert du.isEnabled(DumpFlags.JointsInSpaces) == flag : flag;
         assert du.isEnabled(DumpFlags.MatParams) == !flag : flag;
         assert du.isEnabled(DumpFlags.Overrides) == !flag : flag;
+        assert du.isEnabled(DumpFlags.Pcos) == flag : flag;
         assert du.isEnabled(DumpFlags.ShadowModes) == flag : flag;
         assert du.isEnabled(DumpFlags.Transforms) == !flag : flag;
         assert du.isEnabled(DumpFlags.UserData) == flag : flag;

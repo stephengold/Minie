@@ -75,6 +75,10 @@ public class PhysicsDumper extends Dumper {
      * enable dumping of joints in physics spaces
      */
     private boolean dumpJointsInSpaces = false;
+    /**
+     * enable dumping of collision objects in physics spaces
+     */
+    private boolean dumpPcos = true;
     // *************************************************************************
     // constructors
 
@@ -293,21 +297,24 @@ public class PhysicsDumper extends Dumper {
         stream.printf("%n%s iters=%d, rayTest=(%s), wMin=[%s], wMax=[%s]",
                 indent, numIterations, rtText, minString, maxString);
 
-        String moreIndent = indent + indentIncrement();
-        for (PhysicsCharacter character : characters) {
-            dump(character, moreIndent);
-        }
-        for (PhysicsGhostObject ghost : ghosts) {
-            dump(ghost, moreIndent);
-        }
-        for (PhysicsRigidBody rigid : rigidBodies) {
-            dump(rigid, moreIndent);
-        }
-        for (PhysicsVehicle vehicle : vehicles) {
-            dump(vehicle, moreIndent);
+        if (dumpPcos) {
+            String moreIndent = indent + indentIncrement();
+            for (PhysicsCharacter character : characters) {
+                dump(character, moreIndent);
+            }
+            for (PhysicsGhostObject ghost : ghosts) {
+                dump(ghost, moreIndent);
+            }
+            for (PhysicsRigidBody rigid : rigidBodies) {
+                dump(rigid, moreIndent);
+            }
+            for (PhysicsVehicle vehicle : vehicles) {
+                dump(vehicle, moreIndent);
+            }
         }
 
         if (dumpJointsInSpaces) {
+            String moreIndent = indent + indentIncrement();
             for (PhysicsJoint joint : joints) {
                 String desc = getDescriber().describeJointInSpace(joint);
                 stream.printf("%n%s%s", moreIndent, desc);
@@ -406,6 +413,10 @@ public class PhysicsDumper extends Dumper {
                 result = isDumpOverride();
                 break;
 
+            case Pcos:
+                result = dumpPcos;
+                break;
+
             case ShadowModes:
                 result = isDumpShadow();
                 break;
@@ -456,6 +467,10 @@ public class PhysicsDumper extends Dumper {
 
             case Overrides:
                 setDumpOverride(newValue);
+                break;
+
+            case Pcos:
+                dumpPcos = newValue;
                 break;
 
             case ShadowModes:
