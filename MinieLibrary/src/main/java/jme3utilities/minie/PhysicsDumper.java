@@ -131,7 +131,7 @@ public class PhysicsDumper extends Dumper {
 
         Vector3f location = character.getPhysicsLocation();
         String locString = MyVector3f.describe(location);
-        stream.printf(" loc=[%s]", locString);
+        stream.printf(" loc[%s]", locString);
     }
 
     /**
@@ -151,7 +151,7 @@ public class PhysicsDumper extends Dumper {
 
         Vector3f location = ghost.getPhysicsLocation(null);
         String locString = MyVector3f.describe(location);
-        stream.printf(" loc=[%s]", locString);
+        stream.printf(" loc[%s]", locString);
     }
 
     /**
@@ -174,22 +174,22 @@ public class PhysicsDumper extends Dumper {
 
         Vector3f location = body.getPhysicsLocation(null);
         String locString = MyVector3f.describe(location);
-        stream.printf(" loc=[%s]", locString);
+        stream.printf(" loc[%s]", locString);
 
         Quaternion orientation = body.getPhysicsRotation(null);
         if (!MyQuaternion.isRotationIdentity(orientation)) {
-            String orient = MyQuaternion.describe(orientation);
-            stream.printf(" orient=[%s]", orient);
+            String orientText = MyQuaternion.describe(orientation);
+            stream.printf(" orient[%s]", orientText);
         }
 
         if (body.isDynamic()) {
             Vector3f velocity = body.getLinearVelocity(null);
             String velString = MyVector3f.describe(velocity);
-            stream.printf(" vel=[%s]", velString);
+            stream.printf(" v[%s]", velString);
 
             Vector3f gravity = body.getGravity(null);
             String graString = MyVector3f.describe(gravity);
-            stream.printf(" gra=[%s]", graString);
+            stream.printf(" grav[%s]", graString);
 
             float linST = body.getLinearSleepingThreshold();
             stream.print(" linST=" + MyString.describe(linST));
@@ -281,7 +281,7 @@ public class PhysicsDumper extends Dumper {
         Vector3f gravity = space.getGravity(null);
         String gravString = MyVector3f.describe(gravity);
         int maxSubSteps = space.maxSubSteps();
-        stream.printf("%n%s accu=%s, bphase=%s, grav=[%s], maxStep=%d",
+        stream.printf("%n%s accu=%s, bphase=%s, grav[%s], maxStep=%d",
                 indent, accuString, broadphaseType, gravString, maxSubSteps);
         /*
          * 3rd line
@@ -294,7 +294,7 @@ public class PhysicsDumper extends Dumper {
         String minString = MyVector3f.describe(worldMin);
         Vector3f worldMax = space.getWorldMax(null);
         String maxString = MyVector3f.describe(worldMax);
-        stream.printf("%n%s iters=%d, rayTest=(%s), wMin=[%s], wMax=[%s]",
+        stream.printf("%n%s iters=%d, rayTest(%s), worldMin[%s], worldMax[%s]",
                 indent, numIterations, rtText, minString, maxString);
 
         if (dumpPcos) {
@@ -341,7 +341,7 @@ public class PhysicsDumper extends Dumper {
 
         Vector3f location = vehicle.getPhysicsLocation(null);
         String locString = MyVector3f.describe(location);
-        stream.printf(" loc=[%s]", locString);
+        stream.printf(" loc[%s]", locString);
     }
 
     /**
