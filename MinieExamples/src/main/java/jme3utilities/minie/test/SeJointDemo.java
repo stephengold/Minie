@@ -65,6 +65,7 @@ import jme3utilities.MyAsset;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -556,8 +557,8 @@ public class SeJointDemo extends ActionApplication {
      */
     private void dumpPhysicsSpace() {
         PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setDumpJointsInBody(true);
-        dumper.setDumpJointsInSpace(true);
+        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
         dumper.dump(physicsSpace);
     }
 
@@ -566,13 +567,7 @@ public class SeJointDemo extends ActionApplication {
      */
     private void dumpScene() {
         PhysicsDumper dumper = new PhysicsDumper();
-        //dumper.setDumpBucket(true);
-        //dumper.setDumpCull(true);
-        //dumper.setDumpMatParam(true);
-        //dumper.setDumpOverride(true);
-        //dumper.setDumpShadow(true);
-        dumper.setDumpTransform(true);
-        //dumper.setDumpUser(true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
         dumper.dump(rootNode);
     }
 

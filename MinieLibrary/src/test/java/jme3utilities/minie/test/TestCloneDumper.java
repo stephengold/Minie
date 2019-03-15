@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import org.junit.Test;
 
@@ -80,15 +81,15 @@ public class TestCloneDumper {
      */
     private void setParameters(PhysicsDumper du, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        du.setDumpBucket(flag);
-        du.setDumpCull(flag);
-        du.setDumpJointsInBody(!flag);
-        du.setDumpJointsInSpace(flag);
-        du.setDumpMatParam(!flag);
-        du.setDumpOverride(!flag);
-        du.setDumpShadow(flag);
-        du.setDumpTransform(!flag);
-        du.setDumpUser(flag);
+        du.setEnabled(DumpFlags.Buckets, flag);
+        du.setEnabled(DumpFlags.CullHints, flag);
+        du.setEnabled(DumpFlags.JointsInBodies, !flag);
+        du.setEnabled(DumpFlags.JointsInSpaces, flag);
+        du.setEnabled(DumpFlags.MatParams, !flag);
+        du.setEnabled(DumpFlags.Overrides, !flag);
+        du.setEnabled(DumpFlags.ShadowModes, flag);
+        du.setEnabled(DumpFlags.Transforms, !flag);
+        du.setEnabled(DumpFlags.UserData, flag);
 
         int count = (int) Math.round(b / 0.3f);
         du.setMaxChildren(count);
@@ -106,15 +107,15 @@ public class TestCloneDumper {
      */
     private void verifyParameters(PhysicsDumper du, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        assert du.isDumpBucket() == flag : du.isDumpBucket();
-        assert du.isDumpCull() == flag : du.isDumpCull();
-        assert du.isDumpJointsInBody() == !flag : du.isDumpJointsInBody();
-        assert du.isDumpJointsInSpace() == flag : du.isDumpJointsInSpace();
-        assert du.isDumpMatParam() == !flag : du.isDumpMatParam();
-        assert du.isDumpOverride() == !flag : du.isDumpOverride();
-        assert du.isDumpShadow() == flag : du.isDumpShadow();
-        assert du.isDumpTransform() == !flag : du.isDumpTransform();
-        assert du.isDumpUser() == flag : du.isDumpUser();
+        assert du.isEnabled(DumpFlags.Buckets) == flag : flag;
+        assert du.isEnabled(DumpFlags.CullHints) == flag : flag;
+        assert du.isEnabled(DumpFlags.JointsInBodies) == !flag : flag;
+        assert du.isEnabled(DumpFlags.JointsInSpaces) == flag : flag;
+        assert du.isEnabled(DumpFlags.MatParams) == !flag : flag;
+        assert du.isEnabled(DumpFlags.Overrides) == !flag : flag;
+        assert du.isEnabled(DumpFlags.ShadowModes) == flag : flag;
+        assert du.isEnabled(DumpFlags.Transforms) == !flag : flag;
+        assert du.isEnabled(DumpFlags.UserData) == flag : flag;
 
         int count = (int) Math.round(b / 0.3f);
         assert du.maxChildren() == count : du.maxChildren();

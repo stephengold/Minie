@@ -68,13 +68,13 @@ public class PhysicsDumper extends Dumper {
     // fields
 
     /**
-     * enable dumping of joints (for rigid bodies)
+     * enable dumping of joints in rigid bodies
      */
-    private boolean dumpJointsInBody = false;
+    private boolean dumpJointsInBodies = false;
     /**
-     * enable dumping of joints (for physics spaces)
+     * enable dumping of joints in physics spaces
      */
-    private boolean dumpJointsInSpace = false;
+    private boolean dumpJointsInSpaces = false;
     // *************************************************************************
     // constructors
 
@@ -215,7 +215,7 @@ public class PhysicsDumper extends Dumper {
 
         PhysicsJoint[] joints = body.listJoints();
         stream.printf(" joints=%d", joints.length);
-        if (dumpJointsInBody) {
+        if (dumpJointsInBodies) {
             if (joints.length > 0) {
                 stream.print(":");
             }
@@ -307,7 +307,7 @@ public class PhysicsDumper extends Dumper {
             dump(vehicle, moreIndent);
         }
 
-        if (dumpJointsInSpace) {
+        if (dumpJointsInSpaces) {
             for (PhysicsJoint joint : joints) {
                 String desc = getDescriber().describeJointInSpace(joint);
                 stream.printf("%n%s%s", moreIndent, desc);
@@ -373,42 +373,107 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Test whether joints will be dumped for rigid bodies.
+     * Test whether the specified dump flag is set.
      *
-     * @return true if they'll be dumped, otherwise false
+     * @param dumpFlag which flag to test (not null)
+     * @return true if output is enabled, otherwise false
      */
-    public boolean isDumpJointsInBody() {
-        return dumpJointsInBody;
+    public boolean isEnabled(DumpFlags dumpFlag) {
+        boolean result;
+
+        switch (dumpFlag) {
+            case Buckets:
+                result = isDumpBucket();
+                break;
+
+            case CullHints:
+                result = isDumpCull();
+                break;
+
+            case JointsInBodies:
+                result = dumpJointsInBodies;
+                break;
+
+            case JointsInSpaces:
+                result = dumpJointsInSpaces;
+                break;
+
+            case MatParams:
+                result = isDumpMatParam();
+                break;
+
+            case Overrides:
+                result = isDumpOverride();
+                break;
+
+            case ShadowModes:
+                result = isDumpShadow();
+                break;
+
+            case Transforms:
+                result = isDumpTransform();
+                break;
+
+            case UserData:
+                result = isDumpUser();
+                break;
+
+            default:
+                throw new IllegalArgumentException(dumpFlag.toString());
+        }
+
+        return result;
     }
 
     /**
-     * Test whether joints will be dumped for physics spaces.
+     * Configure the specified dump flag.
      *
-     * @return true if they'll be dumped, otherwise false
-     */
-    public boolean isDumpJointsInSpace() {
-        return dumpJointsInSpace;
-    }
-
-    /**
-     * Configure dumping of joints for rigid bodies.
-     *
-     * @param newValue true to enable, false to disable (default=false)
+     * @param dumpFlag which flag to set (not null)
+     * @param newValue true to enable output, false to disable it
      * @return this instance for chaining
      */
-    public PhysicsDumper setDumpJointsInBody(boolean newValue) {
-        dumpJointsInBody = newValue;
-        return this;
-    }
+    public PhysicsDumper setEnabled(DumpFlags dumpFlag, boolean newValue) {
+        switch (dumpFlag) {
+            case Buckets:
+                setDumpBucket(newValue);
+                break;
 
-    /**
-     * Configure dumping of joints for physics spaces.
-     *
-     * @param newValue true to enable, false to disable (default=false)
-     * @return this instance for chaining
-     */
-    public PhysicsDumper setDumpJointsInSpace(boolean newValue) {
-        dumpJointsInSpace = newValue;
+            case CullHints:
+                setDumpCull(newValue);
+                break;
+
+            case JointsInBodies:
+                dumpJointsInBodies = newValue;
+                break;
+
+            case JointsInSpaces:
+                dumpJointsInSpaces = newValue;
+                break;
+
+            case MatParams:
+                setDumpMatParam(newValue);
+                break;
+
+            case Overrides:
+                setDumpOverride(newValue);
+                break;
+
+            case ShadowModes:
+                setDumpShadow(newValue);
+                break;
+
+            case Transforms:
+                setDumpTransform(newValue);
+                break;
+
+            case UserData:
+                setDumpUser(newValue);
+                break;
+
+            default:
+                throw new IllegalArgumentException(dumpFlag.toString());
+        }
+
         return this;
     }
     // *************************************************************************
