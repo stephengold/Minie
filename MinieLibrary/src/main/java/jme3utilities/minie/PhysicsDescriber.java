@@ -98,7 +98,7 @@ public class PhysicsDescriber extends Describer {
         } else if (shape instanceof CapsuleCollisionShape) {
             CapsuleCollisionShape capsule = (CapsuleCollisionShape) shape;
             int axis = capsule.getAxis();
-            String desc = describeAxis(axis);
+            String desc = MyString.axisName(axis);
             result.append(desc);
 
             float height = capsule.getHeight();
@@ -109,7 +109,7 @@ public class PhysicsDescriber extends Describer {
         } else if (shape instanceof ConeCollisionShape) {
             ConeCollisionShape cone = (ConeCollisionShape) shape;
             int axis = cone.getAxis();
-            String desc = describeAxis(axis);
+            String desc = MyString.axisName(axis);
             result.append(desc);
 
             float height = cone.getHeight();
@@ -126,7 +126,7 @@ public class PhysicsDescriber extends Describer {
         } else if (shape instanceof CylinderCollisionShape) {
             CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
             int axis = cylinder.getAxis();
-            String desc = describeAxis(axis);
+            String desc = MyString.axisName(axis);
             result.append(desc);
 
             Vector3f he = cylinder.getHalfExtents(null);
