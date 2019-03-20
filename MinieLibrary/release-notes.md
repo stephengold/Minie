@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.7.5 released on TBD
+## Version 0.7.5 released on 19 March 2019
 
  + Added a `DumpFlags` enum and used it to simplify the API 
    of `PhysicsDumper`. (API change)
