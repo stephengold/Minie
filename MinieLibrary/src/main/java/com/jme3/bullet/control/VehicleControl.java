@@ -107,6 +107,15 @@ public class VehicleControl extends PhysicsVehicle
     }
 
     /**
+     * Access the controlled spatial.
+     *
+     * @return the spatial, or null if none
+     */
+    public Spatial getSpatial() {
+        return spatial;
+    }
+
+    /**
      * Test whether physics-space coordinates should match the spatial's local
      * coordinates.
      *
