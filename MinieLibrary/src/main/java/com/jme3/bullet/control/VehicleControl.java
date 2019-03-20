@@ -54,30 +54,39 @@ import java.util.logging.Logger;
  *
  * @author normenhansen
  */
-public class VehicleControl extends PhysicsVehicle
+public class VehicleControl
+        extends PhysicsVehicle
         implements PhysicsControl {
+    // *************************************************************************
+    // constants and loggers
 
     /**
      * message logger for this class
      */
     final public static Logger logger4
             = Logger.getLogger(VehicleControl.class.getName());
-    /**
-     * spatial to which this control is added, or null if none
-     */
-    protected Spatial spatial;
-    /**
-     * true&rarr;control is enabled, false&rarr;control is disabled
-     */
-    protected boolean enabled = true;
-    /**
-     * space to which the vehicle is (or would be) added
-     */
-    protected PhysicsSpace space = null;
+    // *************************************************************************
+    // fields
+
     /**
      * true&rarr;vehicle is added to the PhysicsSpace, false&rarr;not added
      */
     protected boolean added = false;
+    /**
+     * true&rarr;control is enabled, false&rarr;control is disabled TODO
+     * privatize
+     */
+    protected boolean enabled = true;
+    /**
+     * space to which the vehicle is (or would be) added TODO privatize
+     */
+    protected PhysicsSpace space = null;
+    /**
+     * spatial to which this control is added, or null if none
+     */
+    protected Spatial spatial;
+    // *************************************************************************
+    // constructors
 
     /**
      * No-argument constructor needed by SavableClassUtil. Do not invoke
@@ -105,6 +114,8 @@ public class VehicleControl extends PhysicsVehicle
     public VehicleControl(CollisionShape shape, float mass) {
         super(shape, mass);
     }
+    // *************************************************************************
+    // new methods exposed
 
     /**
      * Access the controlled spatial.
@@ -139,20 +150,8 @@ public class VehicleControl extends PhysicsVehicle
             vehicleWheel.setApplyLocal(applyPhysicsLocal);
         }
     }
-
-    private Vector3f getSpatialTranslation() {
-        if (motionState.isApplyPhysicsLocal()) {
-            return spatial.getLocalTranslation();
-        }
-        return spatial.getWorldTranslation();
-    }
-
-    private Quaternion getSpatialRotation() {
-        if (motionState.isApplyPhysicsLocal()) {
-            return spatial.getLocalRotation();
-        }
-        return spatial.getWorldRotation();
-    }
+    // *************************************************************************
+    // PhysicsControl methods
 
     /**
      * Clone this control for a different spatial. No longer used as of JME 3.1.
@@ -166,48 +165,35 @@ public class VehicleControl extends PhysicsVehicle
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
+     * Access the PhysicsSpace to which the vehicle is (or would be) added.
      *
-     * @return a new control (not null)
+     * @return the pre-existing space, or null for none
      */
     @Override
-    public VehicleControl jmeClone() {
-        try {
-            VehicleControl clone = (VehicleControl) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
+    public PhysicsSpace getPhysicsSpace() {
+        return space;
     }
 
     /**
-     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified cloner
-     * and original to resolve copied fields.
+     * Test whether this control is enabled.
      *
-     * @param cloner the cloner that's cloning this control (not null)
-     * @param original the control from which this control was shallow-cloned
-     * (unused)
+     * @return true if enabled, otherwise false
      */
     @Override
-    public void cloneFields(Cloner cloner, Object original) {
-        super.cloneFields(cloner, original);
-        spatial = cloner.clone(spatial);
+    public boolean isEnabled() {
+        return enabled;
     }
 
     /**
-     * Alter which spatial is controlled.
+     * Render this control. Invoked once per view port per frame, provided the
+     * control is added to a scene. Should be invoked only by a subclass or by
+     * the RenderManager.
      *
-     * @param spatial spatial to control (or null)
+     * @param rm the render manager (not null)
+     * @param vp the view port to render (not null)
      */
     @Override
-    public void setSpatial(Spatial spatial) {
-        this.spatial = spatial;
-        setUserObject(spatial);
-        if (spatial != null) {
-            setPhysicsLocation(getSpatialTranslation());
-            setPhysicsRotation(getSpatialRotation());
-        }
+    public void render(RenderManager rm, ViewPort vp) {
     }
 
     /**
@@ -238,46 +224,6 @@ public class VehicleControl extends PhysicsVehicle
     }
 
     /**
-     * Test whether this control is enabled.
-     *
-     * @return true if enabled, otherwise false
-     */
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    /**
-     * Update this control. Invoked once per frame, during the logical-state
-     * update, provided the control is added to a scene.
-     *
-     * @param tpf the time interval between frames (in seconds, &ge;0)
-     */
-    @Override
-    public void update(float tpf) {
-        if (enabled && spatial != null) {
-            if (getMotionState().applyTransform(spatial)) {
-                spatial.getWorldTransform();
-                applyWheelTransforms();
-            }
-        } else if (enabled) {
-            applyWheelTransforms();
-        }
-    }
-
-    /**
-     * Render this control. Invoked once per view port per frame, provided the
-     * control is added to a scene. Should be invoked only by a subclass or by
-     * the RenderManager.
-     *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
-     */
-    @Override
-    public void render(RenderManager rm, ViewPort vp) {
-    }
-
-    /**
      * If enabled, add this control's physics object to the specified physics
      * space. In not enabled, alter where the object would be added. The object
      * is removed from any other space it's currently in.
@@ -305,28 +251,70 @@ public class VehicleControl extends PhysicsVehicle
     }
 
     /**
-     * Access the PhysicsSpace to which the vehicle is (or would be) added.
+     * Alter which spatial is controlled. Invoked when the control is added to
+     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Spatial. Do not invoke directly from user code.
      *
-     * @return the pre-existing space, or null for none
+     * @param spatial the spatial to control (or null)
      */
     @Override
-    public PhysicsSpace getPhysicsSpace() {
-        return space;
+    public void setSpatial(Spatial spatial) {
+        this.spatial = spatial;
+        setUserObject(spatial);
+        if (spatial != null) {
+            setPhysicsLocation(getSpatialTranslation());
+            setPhysicsRotation(getSpatialRotation());
+        }
     }
 
     /**
-     * Serialize this control, for example when saving to a J3O file.
+     * Update this control. Invoked once per frame, during the logical-state
+     * update, provided the control is added to a scene.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule oc = ex.getCapsule(this);
-        oc.write(enabled, "enabled", true);
-        oc.write(motionState.isApplyPhysicsLocal(), "applyLocalPhysics", false);
-        oc.write(spatial, "spatial", null);
+    public void update(float tpf) {
+        if (enabled && spatial != null) {
+            if (getMotionState().applyTransform(spatial)) {
+                spatial.getWorldTransform();
+                applyWheelTransforms();
+            }
+        } else if (enabled) {
+            applyWheelTransforms();
+        }
+    }
+    // *************************************************************************
+    // PhysicsVehicle methods
+
+    /**
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned control into a deep-cloned one, using the specified cloner
+     * and original to resolve copied fields.
+     *
+     * @param cloner the cloner that's cloning this control (not null)
+     * @param original the control from which this control was shallow-cloned
+     * (unused)
+     */
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        super.cloneFields(cloner, original);
+        spatial = cloner.clone(spatial);
+    }
+
+    /**
+     * Create a shallow clone for the JME cloner.
+     *
+     * @return a new control (not null)
+     */
+    @Override
+    public VehicleControl jmeClone() {
+        try {
+            VehicleControl clone = (VehicleControl) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     /**
@@ -343,5 +331,46 @@ public class VehicleControl extends PhysicsVehicle
         spatial = (Spatial) ic.readSavable("spatial", null);
         motionState.setApplyPhysicsLocal(ic.readBoolean("applyLocalPhysics", false));
         setUserObject(spatial);
+    }
+
+    /**
+     * Serialize this control, for example when saving to a J3O file.
+     *
+     * @param ex exporter (not null)
+     * @throws IOException from exporter
+     */
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+        OutputCapsule oc = ex.getCapsule(this);
+        oc.write(enabled, "enabled", true);
+        oc.write(motionState.isApplyPhysicsLocal(), "applyLocalPhysics", false);
+        oc.write(spatial, "spatial", null);
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Access whichever spatial translation corresponds to the physics location.
+     *
+     * @return the pre-existing vector (not null)
+     */
+    private Vector3f getSpatialTranslation() {
+        if (motionState.isApplyPhysicsLocal()) {
+            return spatial.getLocalTranslation();
+        }
+        return spatial.getWorldTranslation();
+    }
+
+    /**
+     * Access whichever spatial rotation corresponds to the physics rotation.
+     *
+     * @return the pre-existing quaternion (not null)
+     */
+    private Quaternion getSpatialRotation() {
+        if (motionState.isApplyPhysicsLocal()) {
+            return spatial.getLocalRotation();
+        }
+        return spatial.getWorldRotation();
     }
 }
