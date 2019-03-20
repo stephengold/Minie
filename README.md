@@ -120,7 +120,7 @@ The evolution of Minie is chronicled in
 
 ### jMonkeyEngine3 (jME3) Software Development Kit (SDK)
 
-Minie currently targets Version 3.2.2 of jMonkeyEngine.
+Minie currently targets Version 3.2.3 of jMonkeyEngine.
 You are welcome to use the Engine without also using the SDK, but I use the SDK,
 and the following installation instructions assume you will too.
 
@@ -239,7 +239,7 @@ repository location:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.7.4'
+        compile 'jme3utilities:Minie:0.7.5'
     }
 
 #### For Ant projects
@@ -247,8 +247,8 @@ repository location:
 For projects built using Ant, download the 2 non-standard
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/0.7.4
- + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.22.0
+ + https://github.com/stephengold/Minie/releases/tag/0.7.5
+ + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.23.0
 
 You'll want both class JARs
 and probably the `-sources` and `-javadoc` JARs as well.
@@ -264,15 +264,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Navigate to the "jme3-utilities" project folder.
     + Open the "heart" sub-project folder.
     + Navigate to the "build/libs" folder.
-    + Select the "jme3-utilities-heart-2.22.0.jar" file.
+    + Select the "jme3-utilities-heart-2.23.0.jar" file.
     + Click on the "Open" button.
  6. (optional) Add JARs for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "jme3-utilities-heart-2.22.0-javadoc.jar" file.
+    + Select the "jme3-utilities-heart-2.23.0-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "jme3-utilities-heart-2.22.0-sources.jar" file.
+    + Select the "jme3-utilities-heart-2.23.0-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the `Minie` JAR(s).

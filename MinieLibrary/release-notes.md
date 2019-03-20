@@ -1,5 +1,14 @@
 # release notes for the Minie library and related examples
 
+## Version 0.7.5 released on TBD
+
+ + Added a `DumpFlags` enum and used it to simplify the API 
+   of `PhysicsDumper`. (API change)
+ + Added a `DumpFlag` to disable dumping collision objects in physics spaces.
+ + Added a `getSpatial()` method to the `VehicleControl` class.
+ + Based on version 2.23 of the `jme3-utilities-heart` library
+   and JME 3.2.3-stable.
+
 ## Version 0.7.4 released on 12 March 2019
 
  + Fixed bugs that caused crashes in `GImpactCollisionShape.read()` and
