@@ -242,7 +242,8 @@ public class DacLinks extends DacConfiguration {
         int numLinks = countLinks();
         List<T> result = new ArrayList<>(numLinks);
 
-        if (linkType.isAssignableFrom(torsoLink.getClass())) {
+        if (torsoLink != null
+                && linkType.isAssignableFrom(torsoLink.getClass())) {
             result.add((T) torsoLink);
         }
         for (BoneLink link : boneLinkList) {
@@ -311,8 +312,11 @@ public class DacLinks extends DacConfiguration {
         int numLinks = countLinks();
         PhysicsRigidBody[] result = new PhysicsRigidBody[numLinks];
 
-        result[0] = torsoLink.getRigidBody();
-        int linkIndex = 1;
+        int linkIndex = 0;
+        if (torsoLink != null) {
+            result[0] = torsoLink.getRigidBody();
+            ++linkIndex;
+        }
         for (BoneLink boneLink : boneLinkList) {
             result[linkIndex] = boneLink.getRigidBody();
             ++linkIndex;
@@ -402,7 +406,9 @@ public class DacLinks extends DacConfiguration {
             BoneLink oldLink = saveBones.get(name);
             newLink.postRebuild(oldLink);
         }
-        torsoLink.postRebuild(saveTorso);
+        if (torsoLink != null) {
+            torsoLink.postRebuild(saveTorso);
+        }
     }
 
     /**
@@ -476,9 +482,12 @@ public class DacLinks extends DacConfiguration {
         PhysicsSpace space = getPhysicsSpace();
         Vector3f gravity = gravity(null);
 
-        PhysicsRigidBody rigidBody = torsoLink.getRigidBody();
-        space.add(rigidBody);
-        rigidBody.setGravity(gravity);
+        PhysicsRigidBody rigidBody;
+        if (torsoLink != null) {
+            rigidBody = torsoLink.getRigidBody();
+            space.add(rigidBody);
+            rigidBody.setGravity(gravity);
+        }
 
         for (BoneLink boneLink : boneLinkList) {
             rigidBody = boneLink.getRigidBody();
@@ -727,8 +736,11 @@ public class DacLinks extends DacConfiguration {
         assert added;
         PhysicsSpace space = getPhysicsSpace();
 
-        PhysicsRigidBody rigidBody = torsoLink.getRigidBody();
-        space.remove(rigidBody);
+        PhysicsRigidBody rigidBody;
+        if (torsoLink != null) {
+            rigidBody = torsoLink.getRigidBody();
+            space.remove(rigidBody);
+        }
 
         for (BoneLink boneLink : boneLinks.values()) {
             rigidBody = boneLink.getRigidBody();
@@ -940,7 +952,9 @@ public class DacLinks extends DacConfiguration {
             return;
         }
 
-        torsoLink.update(tpf);
+        if (torsoLink != null) {
+            torsoLink.update(tpf);
+        }
         for (BoneLink boneLink : boneLinkList) {
             boneLink.update(tpf);
         }
