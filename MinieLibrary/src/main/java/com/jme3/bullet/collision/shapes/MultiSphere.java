@@ -48,6 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 
 /**
@@ -212,7 +213,7 @@ public class MultiSphere extends CollisionShape {
     }
 
     /**
-     * Instantiate a 4-sphere shape to fill the specified rectangular solid. The
+     * Instantiate a 4-sphere shape to fill the specified RectangularSolid. The
      * spheres will be of equal size, arranged in a rectangle.
      *
      * @param rectangularSolid the solid on which to base the shape (not null)
@@ -254,6 +255,56 @@ public class MultiSphere extends CollisionShape {
         centers = new Vector3f[4];
         radii = new float[4];
         for (int sphereI = 0; sphereI < 4; ++sphereI) {
+            Vector3f localCenter = centerLocations.get(sphereI);
+            centers[sphereI] = rectangularSolid.localToWorld(localCenter, null);
+            radii[sphereI] = radius;
+        }
+
+        createShape();
+    }
+
+    /**
+     * Instantiate a 2-sphere shape to approximate the specified
+     * RectangularSolid. The spheres will be of equal size, as in a capsule.
+     *
+     * @param rectangularSolid the solid on which to base the shape (not null)
+     * @param fraction used to determine sphere radii (0&rarr;shortest axis,
+     * 1&rarr;medium axis)
+     */
+    public MultiSphere(RectangularSolid rectangularSolid, float fraction) {
+        Vector3f halfExtents = rectangularSolid.halfExtents(null);
+        float shortest
+                = MyMath.min(halfExtents.x, halfExtents.y, halfExtents.z);
+        float medium
+                = mid(halfExtents.x, halfExtents.y, halfExtents.z);
+        float radius = MyMath.lerp(fraction, shortest, medium); // interpolate
+        float longest
+                = MyMath.max(halfExtents.x, halfExtents.y, halfExtents.z);
+        assert longest >= radius;
+        /*
+         * Calculate the local coordinates of the centers of both spheres.
+         */
+        Vector3f max = rectangularSolid.maxima(null);
+        Vector3f min = rectangularSolid.minima(null);
+        Vector3f mid = MyVector3f.midpoint(max, min, null);
+        List<Vector3f> centerLocations = new ArrayList<>(2);
+        if (longest == halfExtents.z) {
+            centerLocations.add(new Vector3f(mid.x, mid.y, min.z + radius));
+            centerLocations.add(new Vector3f(mid.x, mid.y, max.z - radius));
+        } else if (longest == halfExtents.y) {
+            centerLocations.add(new Vector3f(mid.x, min.y + radius, mid.z));
+            centerLocations.add(new Vector3f(mid.x, max.y - radius, mid.z));
+        } else {
+            assert longest == halfExtents.x;
+            centerLocations.add(new Vector3f(min.x + radius, mid.y, mid.z));
+            centerLocations.add(new Vector3f(max.x - radius, mid.y, mid.z));
+        }
+        /*
+         * Transform centers to shape coordinates.
+         */
+        centers = new Vector3f[2];
+        radii = new float[2];
+        for (int sphereI = 0; sphereI < 2; ++sphereI) {
             Vector3f localCenter = centerLocations.get(sphereI);
             centers[sphereI] = rectangularSolid.localToWorld(localCenter, null);
             radii[sphereI] = radius;
@@ -430,4 +481,30 @@ public class MultiSphere extends CollisionShape {
 
     native private long createShape(Vector3f[] centers, float[] radii,
             int numSpheres);
+
+    /**
+     * Find the median of 3 single-precision values. TODO use MyMath
+     *
+     * @param a the 1st input value
+     * @param b the 2nd input value
+     * @param c the 3rd input value
+     * @return the median of the 3 values
+     */
+    private static float mid(float a, float b, float c) {
+        if (a >= b) {
+            if (b >= c) {
+                return b; // a >= b >= c
+            } else if (a >= c) {
+                return c; // a >= c > b
+            } else {
+                return a; // c > a >= b
+            }
+        } else if (a >= c) {
+            return a; // b > a >= c
+        } else if (b >= c) {
+            return c; // b >= c > a
+        } else {
+            return b; // c > b > a
+        }
+    }
 }
