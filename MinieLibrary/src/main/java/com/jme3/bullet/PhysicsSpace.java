@@ -445,6 +445,16 @@ public class PhysicsSpace {
     }
 
     /**
+     * Count the rigid bodies in this space.
+     *
+     * @return count (&ge;0)
+     */
+    public int countRigidBodies() {
+        int count = physicsBodies.size();
+        return count;
+    }
+
+    /**
      * Distribute each collision event to all listeners.
      */
     void distributeEvents() {
