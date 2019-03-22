@@ -111,6 +111,27 @@ abstract public class CollisionShape
     }
 
     /**
+     * Read the default margin for new shapes that are neither capsules nor
+     * spheres.
+     *
+     * @return the margin distance (in physics-space units, &gt;0)
+     */
+    public static float getDefaultMargin() {
+        assert defaultMargin > 0f : defaultMargin;
+        return defaultMargin;
+    }
+
+    /**
+     * Read the collision margin for this shape.
+     *
+     * @return the margin distance (in physics-space units, &ge;0)
+     */
+    public float getMargin() {
+        assert margin > 0f : margin;
+        return margin;
+    }
+
+    /**
      * Read the ID of the btCollisionShape.
      *
      * @return the unique identifier (not zero)
@@ -131,27 +152,6 @@ abstract public class CollisionShape
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         result.set(scale);
         return result;
-    }
-
-    /**
-     * Read the default margin for new shapes that are neither capsules nor
-     * spheres.
-     *
-     * @return the margin distance (in physics-space units, &gt;0)
-     */
-    public static float getDefaultMargin() {
-        assert defaultMargin > 0f : defaultMargin;
-        return defaultMargin;
-    }
-
-    /**
-     * Read the collision margin for this shape.
-     *
-     * @return the margin distance (in physics-space units, &ge;0)
-     */
-    public float getMargin() {
-        assert margin > 0f : margin;
-        return margin;
     }
 
     /**
