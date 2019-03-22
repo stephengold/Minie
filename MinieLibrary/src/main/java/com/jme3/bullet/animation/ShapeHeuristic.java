@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,17 +45,22 @@ public enum ShapeHeuristic {
      */
     AABB,
     /**
-     * minimal bounding box
+     * minimal bounding box (not axis-aligned)
      */
     MinBox,
     /**
-     * 4-sphere hull to fill minimal bounding box (good for many bone links)
+     * 4-sphere hull to fill the minimal bounding box (good for many bone links)
      */
     FourSphere,
     /**
      * centered bounding sphere
      */
     Sphere,
+    /**
+     * 2-sphere hull to approximate the minimal bounding box (good for many bone
+     * links)
+     */
+    TwoSphere,
     /**
      * convex hull of mesh vertices (precise but relatively slow)
      */

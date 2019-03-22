@@ -184,7 +184,7 @@ public class LinkConfig implements Savable {
 
     /**
      * Create a CollisionShape for the specified transform, center, and
-     * collection of vertex locations.
+     * collection of vertex locations. TODO use float array not collection
      *
      * @param vertexToShape the transform from vertex coordinates to de-scaled
      * shape coordinates (not null, unaffected)
@@ -253,6 +253,12 @@ public class LinkConfig implements Savable {
             case Sphere:
                 float radius = RagUtils.maxDistance(vertexLocations);
                 result = new MultiSphere(radius);
+                break;
+
+            case TwoSphere:
+                solid = new RectangularSolid(vertexLocations);
+                solid = new RectangularSolid(solid, shapeScale);
+                result = new MultiSphere(solid, 0.5f);
                 break;
 
             case VertexHull:
