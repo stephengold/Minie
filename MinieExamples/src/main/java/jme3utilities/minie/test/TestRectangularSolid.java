@@ -174,7 +174,7 @@ public class TestRectangularSolid extends ActionApplication {
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
 
-        trial(true);
+        trial(true, 4);
     }
 
     /**
@@ -184,6 +184,7 @@ public class TestRectangularSolid extends ActionApplication {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
+        dim.bind("next trial capsule", KeyInput.KEY_F3);
         dim.bind("next trial rounded", KeyInput.KEY_F1);
         dim.bind("next trial square", KeyInput.KEY_F2);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
@@ -201,12 +202,16 @@ public class TestRectangularSolid extends ActionApplication {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
+                case "next trial capsule":
+                    nextTrial(true, 2);
+                    return;
+
                 case "next trial rounded":
-                    nextTrial(true);
+                    nextTrial(true, 4);
                     return;
 
                 case "next trial square":
-                    nextTrial(false);
+                    nextTrial(false, 0);
                     return;
             }
         }
@@ -216,53 +221,20 @@ public class TestRectangularSolid extends ActionApplication {
     // private methods
 
     /**
-     * Enumerate the corner locations of the specified RectangularSolid.
-     *
-     * @param rectangularSolid (not null)
-     * @return a new collection of new vectors
-     */
-    private Collection<Vector3f> listCorners(RectangularSolid rectangularSolid) {
-        Vector3f maxima = rectangularSolid.maxima(null);
-        Vector3f minima = rectangularSolid.minima(null);
-        /*
-         * Enumerate the local coordinates of the 8 corners of the box.
-         */
-        Collection<Vector3f> cornerLocations = new ArrayList<>(8);
-        cornerLocations.add(new Vector3f(maxima.x, maxima.y, maxima.z));
-        cornerLocations.add(new Vector3f(maxima.x, maxima.y, minima.z));
-        cornerLocations.add(new Vector3f(maxima.x, minima.y, maxima.z));
-        cornerLocations.add(new Vector3f(maxima.x, minima.y, minima.z));
-        cornerLocations.add(new Vector3f(minima.x, maxima.y, maxima.z));
-        cornerLocations.add(new Vector3f(minima.x, maxima.y, minima.z));
-        cornerLocations.add(new Vector3f(minima.x, minima.y, maxima.z));
-        cornerLocations.add(new Vector3f(minima.x, minima.y, minima.z));
-        /*
-         * Transform corner locations to world coordinates.
-         */
-        Vector3f tempVector = new Vector3f();
-        for (Vector3f location : cornerLocations) {
-            rectangularSolid.localToWorld(location, tempVector);
-            location.set(tempVector);
-        }
-
-        return cornerLocations;
-    }
-
-    /**
      * Perform a new trial after cleaning up from the previous one.
      *
      * @param roundCorners type of collision shape to generate: true &rarr;
      * MultiSphere with round corners, false &rarr; HullCollisionShape with
      * square corners
      */
-    private void nextTrial(boolean roundCorners) {
+    private void nextTrial(boolean roundCorners, int numSpheres) {
         if (trialNode != null) {
             PhysicsSpace space = bulletAppState.getPhysicsSpace();
             space.removeAll(trialNode);
             trialNode.removeFromParent();
             trialNode = null;
         }
-        trial(roundCorners);
+        trial(roundCorners, numSpheres);
     }
 
     /**
@@ -271,8 +243,10 @@ public class TestRectangularSolid extends ActionApplication {
      * @param roundCorners type of collision shape to generate: true &rarr;
      * MultiSphere with round corners, false &rarr; HullCollisionShape with
      * square corners
+     * @param numSpheres the number of spheres to use for MultiSphere (either 2
+     * or 4)
      */
-    private void trial(boolean roundCorners) {
+    private void trial(boolean roundCorners, int numSpheres) {
         trialNode = new Node("trialNode");
         rootNode.attachChild(trialNode);
 
@@ -320,11 +294,15 @@ public class TestRectangularSolid extends ActionApplication {
         RectangularSolid solid = new RectangularSolid(sampleLocations);
         logger.log(Level.INFO, solid.toString());
         /*
-         * Generate a collision shape to match the rectangular solid.
+         * Generate a collision shape based on the rectangular solid.
          */
-        CollisionShape collisionShape;
+        CollisionShape collisionShape = null;
         if (roundCorners) {
-            collisionShape = new MultiSphere(solid);
+            if (numSpheres == 2) {
+                collisionShape = new MultiSphere(solid, 0.5f);
+            } else if (numSpheres == 4) {
+                collisionShape = new MultiSphere(solid);
+            }
         } else {
             collisionShape = new HullCollisionShape(solid);
         }
