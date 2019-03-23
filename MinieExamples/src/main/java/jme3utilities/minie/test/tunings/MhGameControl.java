@@ -63,6 +63,9 @@ public class MhGameControl
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean);
+        LinkConfig head = new LinkConfig(1f, MassHeuristic.Density,
+                ShapeHeuristic.FourSphere, new Vector3f(1f, 1f, 1f),
+                CenterHeuristic.Mean);
 
         super.setConfig(torsoName, hull);
 
@@ -74,7 +77,7 @@ public class MhGameControl
                 new RangeOfMotion(0.4f, 0.2f, 0f));
         super.link("neck_01", hull,
                 new RangeOfMotion(0.5f, 0.5f, 0.3f));
-        super.link("head", hull,
+        super.link("head", head, // the "head" bone has too many vertices!
                 new RangeOfMotion(0.4f, 0.6f, 0.2f));
 
         super.link("clavicle_r", hull,
