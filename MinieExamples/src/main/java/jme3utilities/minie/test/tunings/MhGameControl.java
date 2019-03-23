@@ -63,7 +63,7 @@ public class MhGameControl
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean);
-        LinkConfig head = new LinkConfig(1f, MassHeuristic.Density,
+        LinkConfig simplified = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.FourSphere, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean);
 
@@ -73,11 +73,11 @@ public class MhGameControl
                 new RangeOfMotion(0.5f, 0.3f, 0.5f));
         super.link("spine_02", hull,
                 new RangeOfMotion(0.5f, 0.3f, 0.5f));
-        super.link("spine_03", hull,
+        super.link("spine_03", simplified,
                 new RangeOfMotion(0.4f, 0.2f, 0f));
         super.link("neck_01", hull,
                 new RangeOfMotion(0.5f, 0.5f, 0.3f));
-        super.link("head", head, // the "head" bone has too many vertices!
+        super.link("head", simplified, // the "head" bone has too many vertices!
                 new RangeOfMotion(0.4f, 0.6f, 0.2f));
 
         super.link("clavicle_r", hull,
@@ -86,7 +86,7 @@ public class MhGameControl
                 new RangeOfMotion(0.2f, -1f, 0.8f, -0.8f, 1f, -1f));
         super.link("lowerarm_r", hull,
                 new RangeOfMotion(0f, -2f, 0f, 0f, 0f, 0f));
-        super.link("hand_r", hull,
+        super.link("hand_r", simplified,
                 new RangeOfMotion(0.7f, 0f, 0.2f));
 
         super.link("clavicle_l", hull,
@@ -95,21 +95,21 @@ public class MhGameControl
                 new RangeOfMotion(0.2f, -1f, 0.8f, -0.8f, 1f, -1f));
         super.link("lowerarm_l", hull,
                 new RangeOfMotion(0f, -2f, 0f, 0f, 0f, 0f));
-        super.link("hand_l", hull,
+        super.link("hand_l", simplified,
                 new RangeOfMotion(0.7f, 0f, 0.2f));
 
         super.link("thigh_r", hull,
                 new RangeOfMotion(2.2f, -0.2f, 0.2f, -0.2f, 0.2f, -0.5f));
         super.link("calf_r", hull,
                 new RangeOfMotion(0f, -2.2f, 0f, 0f, 0f, 0f));
-        super.link("foot_r", hull,
+        super.link("foot_r", simplified,
                 new RangeOfMotion(1f, 0.3f, 0.5f));
 
         super.link("thigh_l", hull,
                 new RangeOfMotion(2.2f, -0.2f, 0.2f, -0.2f, 0.5f, -0.2f));
         super.link("calf_l", hull,
                 new RangeOfMotion(0f, -2.2f, 0f, 0f, 0f, 0f));
-        super.link("foot_l", hull,
+        super.link("foot_l", simplified,
                 new RangeOfMotion(1f, 0.3f, 0.5f));
     }
     // *************************************************************************
