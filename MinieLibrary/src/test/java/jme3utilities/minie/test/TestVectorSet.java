@@ -26,7 +26,7 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.bullet.animation.VectorSet;
+import com.jme3.bullet.animation.VectorSet2;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import java.nio.FloatBuffer;
@@ -58,7 +58,7 @@ public class TestVectorSet {
         Vector3f mean = new Vector3f();
         Vector3f min = new Vector3f();
 
-        VectorSet vs = new VectorSet(1);
+        VectorSet2 vs = new VectorSet2(1);
         for (Vector3f v : testData) {
             assert !vs.contains(v);
         }
