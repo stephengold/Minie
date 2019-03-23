@@ -136,7 +136,7 @@ public class RopeDemo extends ActionApplication {
     /**
      * mass of each link (in physics mass units)
      */
-    final private static float linkMass = 1e-4f;
+    final private static float linkMass = 1e-6f;
     /**
      * length of each rope segment (in mesh units)
      */
@@ -156,11 +156,10 @@ public class RopeDemo extends ActionApplication {
             MassHeuristic.Mass, ShapeHeuristic.VertexHull,
             new Vector3f(0.84f, 0.84f, 0.84f), CenterHeuristic.Mean);
     /**
-     * link configuration for non-leaf bones (stretched rounded rectangular
-     * solid) TODO try a capsule shape
+     * link configuration for non-leaf bones (stretched capsule shape)
      */
     final private static LinkConfig ropeConfig = new LinkConfig(linkMass,
-            MassHeuristic.Mass, ShapeHeuristic.FourSphere,
+            MassHeuristic.Mass, ShapeHeuristic.TwoSphere,
             new Vector3f(1f, 1f, 2.5f), CenterHeuristic.Mean);
     /**
      * message logger for this class
