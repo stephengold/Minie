@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,10 +33,7 @@ package com.jme3.bullet.animation;
 
 import com.jme3.bounding.BoundingSphere;
 import com.jme3.math.Vector3f;
-import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
-import java.util.Collection;
-import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -68,46 +65,35 @@ public enum CenterHeuristic {
     // new methods exposed
 
     /**
-     * Calculate a center for the specified collection of location vectors. No
+     * Calculate a center for the specified set of location vectors. No
      * implementation for {@link #Joint}.
      *
-     * @param locations the collection of location vectors (not null, not empty,
+     * @param locations the set of location vectors (not null, not empty,
      * unaffected)
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (either storeResult or a new vector, not null)
      */
-    public Vector3f center(Collection<Vector3f> locations, Vector3f storeResult) {
-        Validate.nonEmpty(locations, "locations");
+    public Vector3f center(VectorSet locations, Vector3f storeResult) {
+        int numVectors = locations.numVectors();
+        assert numVectors > 0 : numVectors;
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         switch (this) {
             case AABB:
-                Vector3f maxima = new Vector3f(Float.NEGATIVE_INFINITY,
-                        Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
-                Vector3f minima = new Vector3f(Float.POSITIVE_INFINITY,
-                        Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
-                for (Vector3f location : locations) {
-                    MyVector3f.accumulateMaxima(maxima, location);
-                    MyVector3f.accumulateMinima(minima, location);
-                }
-                maxima.add(minima, result);
-                result.divideLocal(2f);
+                Vector3f maxima = new Vector3f();
+                Vector3f minima = new Vector3f();
+                locations.maxMin(maxima, minima);
+                MyVector3f.midpoint(maxima, minima, result);
                 break;
 
             case Mean:
-                MyVector3f.mean(locations, result);
+                locations.mean(result);
                 break;
 
             case Sphere:
-                int numFloats = 3 * locations.size();
-                FloatBuffer buf = BufferUtils.createFloatBuffer(numFloats);
-                for (Vector3f location : locations) {
-                    buf.put(location.x);
-                    buf.put(location.y);
-                    buf.put(location.z);
-                }
                 BoundingSphere boundingSphere = new BoundingSphere();
-                boundingSphere.computeFromPoints(buf);
+                FloatBuffer buffer = locations.toBuffer();
+                boundingSphere.computeFromPoints(buffer);
                 boundingSphere.getCenter(result);
                 break;
 

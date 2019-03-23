@@ -43,10 +43,9 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import java.io.IOException;
-import java.util.Collection;
+import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
-import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.minie.MyShape;
 
@@ -183,33 +182,41 @@ public class LinkConfig implements Savable {
     }
 
     /**
-     * Create a CollisionShape for the specified transform, center, and
-     * collection of vertex locations. TODO use float array not collection
+     * Create a CollisionShape for the specified transform, center, and vertex
+     * locations.
      *
      * @param vertexToShape the transform from vertex coordinates to de-scaled
      * shape coordinates (not null, unaffected)
      * @param center the location of the shape's center, in vertex coordinates
      * (not null, unaffected)
-     * @param vertexLocations the collection of vertex locations (not null, not
-     * empty, MODIFIED)
+     * @param vertexLocations the set of vertex locations (not null, not empty,
+     * TRASHED)
      * @return a new CollisionShape
      */
-    public CollisionShape createShape(Transform vertexToShape, Vector3f center,
-            Collection<Vector3f> vertexLocations) {
+    CollisionShape createShape(Transform vertexToShape, Vector3f center,
+            VectorSet vertexLocations) {
         Validate.nonNull(vertexToShape, "transform");
         Validate.finite(center, "center");
-        Validate.nonEmpty(vertexLocations, "vertex locations");
+        int numVectors = vertexLocations.numVectors();
+        assert numVectors > 0 : numVectors;
 
-        for (Vector3f location : vertexLocations) {
+        Vector3f tempLocation = new Vector3f();
+        FloatBuffer buffer = vertexLocations.toBuffer();
+        buffer.rewind();
+        while (buffer.hasRemaining()) {
+            buffer.mark();
+            tempLocation.x = buffer.get();
+            tempLocation.y = buffer.get();
+            tempLocation.z = buffer.get();
             /*
              * Translate so that vertex coordinates are relative to
              * the shape's center.
              */
-            location.subtractLocal(center);
+            tempLocation.subtractLocal(center);
             /*
              * Transform vertex coordinates to de-scaled shape coordinates.
              */
-            vertexToShape.transformVector(location, location);
+            vertexToShape.transformVector(tempLocation, tempLocation);
             switch (shapeHeuristic) {
                 case AABB:
                 case Sphere:
@@ -217,52 +224,51 @@ public class LinkConfig implements Savable {
                     /*
                      * Adjust the size of the shape by scaling the coordinates.
                      */
-                    location.multLocal(shapeScale);
+                    tempLocation.multLocal(shapeScale);
                     break;
             }
+            buffer.reset();
+            buffer.put(tempLocation.x);
+            buffer.put(tempLocation.y);
+            buffer.put(tempLocation.z);
         }
 
         CollisionShape result;
         switch (shapeHeuristic) {
             case AABB:
-                Vector3f maxima = new Vector3f(Float.NEGATIVE_INFINITY,
-                        Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
-                Vector3f minima = new Vector3f(Float.POSITIVE_INFINITY,
-                        Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
-                for (Vector3f location : vertexLocations) {
-                    MyVector3f.accumulateMinima(minima, location);
-                    MyVector3f.accumulateMaxima(maxima, location);
-                }
+                Vector3f maxima = new Vector3f();
+                Vector3f minima = new Vector3f();
+                vertexLocations.maxMin(maxima, minima);
                 RectangularSolid solid
                         = new RectangularSolid(minima, maxima, rotateIdentity);
                 result = new HullCollisionShape(solid);
                 break;
 
             case FourSphere:
-                solid = new RectangularSolid(vertexLocations);
-                solid = new RectangularSolid(solid, shapeScale);
+                solid = RagUtils.makeRectangularSolid(vertexLocations,
+                        shapeScale);
                 result = new MultiSphere(solid);
                 break;
 
             case MinBox:
-                solid = new RectangularSolid(vertexLocations);
-                solid = new RectangularSolid(solid, shapeScale);
+                solid = RagUtils.makeRectangularSolid(vertexLocations,
+                        shapeScale);
                 result = new HullCollisionShape(solid);
                 break;
 
             case Sphere:
-                float radius = RagUtils.maxDistance(vertexLocations);
+                float radius = vertexLocations.maxLength();
                 result = new MultiSphere(radius);
                 break;
 
             case TwoSphere:
-                solid = new RectangularSolid(vertexLocations);
-                solid = new RectangularSolid(solid, shapeScale);
+                solid = RagUtils.makeRectangularSolid(vertexLocations,
+                        shapeScale);
                 result = new MultiSphere(solid, 0.5f);
                 break;
 
             case VertexHull:
-                result = new HullCollisionShape(vertexLocations);
+                result = new HullCollisionShape(buffer);
                 break;
 
             default:
@@ -303,9 +309,11 @@ public class LinkConfig implements Savable {
                 float scaledVolume = MyShape.volume(shape);
                 mass = massParameter * scaledVolume;
                 break;
+
             case Mass:
                 mass = massParameter;
                 break;
+
             default:
                 String message = "heuristic = " + massHeuristic.toString();
                 throw new IllegalArgumentException(message);

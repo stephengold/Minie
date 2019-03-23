@@ -606,12 +606,12 @@ public class DacLinks extends DacConfiguration {
         /*
          * Enumerate mesh-vertex coordinates and assign them to managers.
          */
-        Map<String, Collection<Vector3f>> coordsMap
+        Map<String, VectorSet> coordsMap
                 = RagUtils.coordsMap(targets, tempManagerMap);
         /*
          * Create the torso link.
          */
-        Collection<Vector3f> vertexLocations = coordsMap.get(torsoName);
+        VectorSet vertexLocations = coordsMap.get(torsoName);
         createTorsoLink(vertexLocations, targets);
         /*
          * Create bone links without joints.
@@ -1064,7 +1064,7 @@ public class DacLinks extends DacConfiguration {
          */
         Spatial attachModel = getAttachmentModel(boneName);
         attachModel = (Spatial) Misc.deepCopy(attachModel);
-        Collection<Vector3f> vertexLocations
+        VectorSet vertexLocations
                 = RagUtils.vertexLocations(attachModel, null);
         /*
          * Attach the model to the attachments node.
@@ -1107,21 +1107,19 @@ public class DacLinks extends DacConfiguration {
      * boneLinks map.
      *
      * @param boneName the name of the bone to be linked (not null)
-     * @param vertexLocations the collection of vertex locations (not null, not
-     * empty)
+     * @param vertexLocations the set of vertex locations (not null, not empty)
      */
-    private void createBoneLink(String boneName,
-            Collection<Vector3f> vertexLocations) {
+    private void createBoneLink(String boneName, VectorSet vertexLocations) {
         Bone bone = findBone(boneName);
         Transform boneToMesh = MySkeleton.copyMeshTransform(bone, null);
         Transform meshToBone = boneToMesh.invert();
         LinkConfig linkConfig = config(boneName);
         /*
-         * Create the CollisionShape and locate the center.
+         * Create the CollisionShape and locate the center of mass.
          */
         CollisionShape shape;
         Vector3f center;
-        if (vertexLocations == null || vertexLocations.isEmpty()) {
+        if (vertexLocations == null || vertexLocations.numVectors() == 0) {
             center = translateIdentity;
             shape = new EmptyShape(true);
         } else {
@@ -1165,13 +1163,11 @@ public class DacLinks extends DacConfiguration {
     /**
      * Create the TorsoLink.
      *
-     * @param vertexLocations the collection of vertex locations (not null, not
-     * empty)
+     * @param vertexLocations the set of vertex locations (not null, not empty)
      * @param meshes array of animated meshes to use (not null, unaffected)
      */
-    private void createTorsoLink(Collection<Vector3f> vertexLocations,
-            Mesh[] meshes) {
-        if (vertexLocations == null) {
+    private void createTorsoLink(VectorSet vertexLocations, Mesh[] meshes) {
+        if (vertexLocations == null || vertexLocations.numVectors() == 0) {
             throw new IllegalArgumentException(
                     "No mesh vertices for the torso."
                     + " Make sure the root bone is not linked.");

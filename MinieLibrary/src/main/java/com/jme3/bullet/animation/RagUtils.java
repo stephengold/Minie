@@ -35,7 +35,9 @@ import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.Savable;
+import com.jme3.math.Eigen3f;
 import com.jme3.math.FastMath;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -47,10 +49,8 @@ import com.jme3.scene.VertexBuffer;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,6 +62,7 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.RectangularSolid;
 
 /**
  * Utility methods used by DynamicAnimControl and associated classes.
@@ -97,34 +98,29 @@ public class RagUtils {
      * @param meshes array of animated meshes to use (not null, unaffected)
      * @param managerMap a map from bone indices to managing link names (not
      * null, unaffected)
-     * @return a new map from bone/torso names to lists of coordinates
+     * @return a new map from bone/torso names to sets of vertex coordinates
      */
-    public static Map<String, Collection<Vector3f>> coordsMap(Mesh[] meshes,
+    static Map<String, VectorSet> coordsMap(Mesh[] meshes,
             String[] managerMap) {
         Validate.nonNull(managerMap, "manager map");
 
         float[] wArray = new float[4];
         int[] iArray = new int[4];
-        Map<String, Collection<Vector3f>> coordsMap = new HashMap<>(32);
+        Vector3f bindPosition = new Vector3f();
+        Map<String, VectorSet> coordsMap = new HashMap<>(32);
         for (Mesh mesh : meshes) {
             int numVertices = mesh.getVertexCount();
             for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
                 String managerName = findManager(mesh, vertexI, iArray, wArray,
                         managerMap);
-                /*
-                 * Add the bind-pose coordinates of the vertex
-                 * to the manager's list.
-                 */
-                Collection<Vector3f> coordList;
-                if (coordsMap.containsKey(managerName)) {
-                    coordList = coordsMap.get(managerName);
-                } else {
-                    coordList = new HashSet<>(256);
-                    coordsMap.put(managerName, coordList);
+                VectorSet set = coordsMap.get(managerName);
+                if (set == null) {
+                    set = new VectorSet2(1);
+                    coordsMap.put(managerName, set);
                 }
-                Vector3f bindPosition = MyMesh.vertexVector3f(mesh,
-                        VertexBuffer.Type.BindPosePosition, vertexI, null);
-                coordList.add(bindPosition);
+                MyMesh.vertexVector3f(mesh, VertexBuffer.Type.BindPosePosition,
+                        vertexI, bindPosition);
+                set.add(bindPosition);
             }
         }
 
@@ -201,24 +197,62 @@ public class RagUtils {
     }
 
     /**
-     * Calculate the distance of the location furthest from the origin.
+     * Instantiate a compact RectangularSolid that bounds the sample locations
+     * contained in a VectorSet.
      *
-     * @param locations the collection of location vectors (not null, all
-     * elements non-null, unaffected)
-     * @return the distance (&ge;0)
+     * @param vectorSet the set of sample locations (not null, numVectors&gt;1,
+     * contents unaffected)
+     * @param scaleFactors to apply to local coordinates (not null, unaffected)
+     * @return a new RectangularSolid
      */
-    public static float maxDistance(Iterable<Vector3f> locations) {
-        double maxRSquared = 0.0;
-        for (Vector3f location : locations) {
-            double rSquared = MyVector3f.lengthSquared(location);
-            if (rSquared > maxRSquared) {
-                maxRSquared = rSquared;
-            }
+    static RectangularSolid makeRectangularSolid(VectorSet vectorSet,
+            Vector3f scaleFactors) {
+        int numVectors = vectorSet.numVectors();
+        assert numVectors > 1 : numVectors;
+        /*
+         * Orient local axes based on the eigenvectors of the covariance matrix.
+         */
+        Matrix3f covariance = vectorSet.covariance(null);
+        Eigen3f eigen = new Eigen3f(covariance);
+        Vector3f[] basis = eigen.getEigenVectors();
+        Quaternion localToWorld = new Quaternion();
+        localToWorld.fromAxes(basis);
+        Quaternion worldToLocal = localToWorld.inverse();
+        /*
+         * Calculate the min and max for each local axis.
+         */
+        Vector3f maxima = new Vector3f(Float.NEGATIVE_INFINITY,
+                Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
+        Vector3f minima = new Vector3f(Float.POSITIVE_INFINITY,
+                Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
+        Vector3f tempVector = new Vector3f();
+        FloatBuffer buffer = vectorSet.toBuffer();
+        buffer.rewind();
+        while (buffer.hasRemaining()) {
+            tempVector.x = buffer.get();
+            tempVector.y = buffer.get();
+            tempVector.z = buffer.get();
+            worldToLocal.mult(tempVector, tempVector);
+            MyVector3f.accumulateMaxima(maxima, tempVector);
+            MyVector3f.accumulateMinima(minima, tempVector);
         }
-        float distance = (float) Math.sqrt(maxRSquared);
+        /*
+         * Apply scale factors to local coordinates of extrema.
+         */
+        Vector3f center = MyVector3f.midpoint(minima, maxima, null);
 
-        assert distance > 0f : distance;
-        return distance;
+        maxima.subtractLocal(center);
+        maxima.multLocal(scaleFactors);
+        maxima.addLocal(center);
+
+        minima.subtractLocal(center);
+        minima.multLocal(scaleFactors);
+        minima.addLocal(center);
+
+        RectangularSolid result
+                = new RectangularSolid(minima, maxima, localToWorld);
+
+        return result;
     }
 
     /**
@@ -362,28 +396,26 @@ public class RagUtils {
 
     /**
      * Enumerate the world locations of all vertices in the specified subtree of
-     * the scene graph. Note: recursive!
+     * a scene graph. Note: recursive!
      *
      * @param subtree (may be null)
      * @param storeResult (added to if not null)
-     * @return an expanded list (either storeResult or a new instance)
+     * @return the resulting set (either storeResult or a new instance)
      */
-    public static Collection<Vector3f> vertexLocations(Spatial subtree,
-            Collection<Vector3f> storeResult) {
-        Collection<Vector3f> result = (storeResult == null)
-                ? new HashSet<Vector3f>(256) : storeResult;
+    static VectorSet vertexLocations(Spatial subtree, VectorSet storeResult) {
+        VectorSet result
+                = (storeResult == null) ? new VectorSet2(64) : storeResult;
 
         if (subtree instanceof Geometry) {
             Geometry geometry = (Geometry) subtree;
             Mesh mesh = geometry.getMesh();
             int numVertices = mesh.getVertexCount();
-            Vector3f meshLocation = new Vector3f();
+            Vector3f tempLocation = new Vector3f();
             for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
                 MyMesh.vertexVector3f(mesh, VertexBuffer.Type.Position, vertexI,
-                        meshLocation);
-                Vector3f worldLocation
-                        = geometry.localToWorld(meshLocation, null);
-                result.add(worldLocation);
+                        tempLocation);
+                geometry.localToWorld(tempLocation, tempLocation);
+                result.add(tempLocation);
             }
 
         } else if (subtree instanceof Node) {
