@@ -122,7 +122,7 @@ public class HullCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a shape based on the specified array of coordinates. For best
+     * Instantiate a shape based on an array containing coordinates. For best
      * performance and stability, the convex hull should have no more than 100
      * vertices.
      *
@@ -131,10 +131,33 @@ public class HullCollisionShape extends CollisionShape {
      */
     public HullCollisionShape(float[] points) {
         Validate.nonEmpty(points, "points");
-        int length = points.length;
-        assert (length % numAxes == 0) : length;
+        int numFloats = points.length;
+        assert (numFloats % numAxes == 0) : numFloats;
 
         this.points = points.clone();
+        createShape();
+    }
+
+    /**
+     * Instantiate a shape based on a flipped buffer containing coordinates. For
+     * best performance and stability, the convex hull should have no more than
+     * 100 vertices.
+     *
+     * @param flippedBuffer the coordinates on which to base the shape (not
+     * null, not empty, length a multiple of 3)
+     */
+    public HullCollisionShape(FloatBuffer flippedBuffer) {
+        Validate.nonNull(flippedBuffer, "flipped buffer");
+        int numFloats = flippedBuffer.limit();
+        assert numFloats > 0 : numFloats;
+        assert numFloats % numAxes == 0 : numFloats;
+
+        points = new float[numFloats];
+        flippedBuffer.rewind();
+        for (int i = 0; i < numFloats; ++i) {
+            points[i] = flippedBuffer.get();
+        }
+
         createShape();
     }
 
@@ -425,14 +448,14 @@ public class HullCollisionShape extends CollisionShape {
      * @return a new array (not null, length a multiple of 3)
      */
     private float[] getPoints(Mesh mesh) {
-        FloatBuffer vertices = mesh.getFloatBuffer(Type.Position);
-        vertices.rewind();
-        int components = mesh.getVertexCount() * numAxes;
-        float[] pointsArray = new float[components];
-        for (int i = 0; i < components; i += numAxes) {
-            pointsArray[i] = vertices.get();
-            pointsArray[i + 1] = vertices.get();
-            pointsArray[i + 2] = vertices.get();
+        FloatBuffer buffer = mesh.getFloatBuffer(Type.Position);
+        buffer.rewind();
+        int numFloats = mesh.getVertexCount() * numAxes;
+        float[] pointsArray = new float[numFloats];
+        for (int i = 0; i < numFloats; i += numAxes) {
+            pointsArray[i] = buffer.get();
+            pointsArray[i + 1] = buffer.get();
+            pointsArray[i + 2] = buffer.get();
         }
 
         return pointsArray;
