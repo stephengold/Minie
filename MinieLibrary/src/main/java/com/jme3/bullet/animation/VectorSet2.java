@@ -118,12 +118,16 @@ public class VectorSet2 implements VectorSet {
 
     /**
      * Print the hashing statistics.
+     *
+     * @param tag (not null)
      */
-    public static void dumpStats() {
+    public static void dumpStats(String tag) {
         long msec = System.currentTimeMillis() - resetMillis;
         String msg = String.format(
-                "  %d enlargement(s), %d search(es), and %d read(s) in %d msec",
-                numEnlargements, numSearches, numReads, msec);
+                "%s %d enlargement%s, %d search%s, and %d read%s in %d msec",
+                tag, numEnlargements, (numEnlargements == 1) ? "" : "s",
+                numSearches, (numSearches == 1) ? "" : "es",
+                numReads, (numReads == 1) ? "" : "s", msec);
         System.out.println(msg);
     }
     // *************************************************************************
