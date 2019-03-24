@@ -111,6 +111,11 @@ public class BulletAppState
      */
     private BulletDebugAppState debugAppState;
     /**
+     * filter to limit which bounding boxes are visualized in the debug
+     * visualization, or null to visualize no bounding boxes
+     */
+    private BulletDebugAppState.DebugAppStateFilter boundingBoxFilter = null;
+    /**
      * filter to limit which objects are visualized in the debug visualization,
      * or null to visualize all objects
      */
@@ -352,6 +357,19 @@ public class BulletAppState
     }
 
     /**
+     * Alter which bounding boxes are included in the debug visualization.
+     *
+     * @param filter the desired filter, or null to visualize no bounding boxes
+     */
+    public void setDebugBoundingBoxFilter(
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        if (debugAppState != null) {
+            debugAppState.setBoundingBoxFilter(filter);
+        }
+        this.boundingBoxFilter = filter;
+    }
+
+    /**
      * Alter whether debug visualization is enabled. Changes take effect on the
      * next update.
      *
@@ -476,7 +494,7 @@ public class BulletAppState
 
         isRunning = true;
     }
-    
+
     /**
      * Stop physics after this state is detached.
      */
@@ -667,6 +685,7 @@ public class BulletAppState
                     debugInitListener);
             debugAppState.setAxisLength(debugAxisLength);
             debugAppState.setAxisLineWidth(debugAxisLineWidth);
+            debugAppState.setBoundingBoxFilter(boundingBoxFilter);
             stateManager.attach(debugAppState);
 
         } else if (!debugEnabled && debugAppState != null) {

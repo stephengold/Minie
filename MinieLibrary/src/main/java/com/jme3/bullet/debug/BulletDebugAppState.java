@@ -36,6 +36,7 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
@@ -78,6 +79,11 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     private AssetManager assetManager;
     /**
+     * limit which bounding boxes are visualized, or null to visualize no
+     * bounding boxes
+     */
+    protected DebugAppStateFilter boundingBoxFilter;
+    /**
      * limit which objects are visualized, or null to visualize all objects
      */
     protected DebugAppStateFilter filter;
@@ -107,6 +113,10 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     private HashMap<PhysicsJoint, Node> joints = new HashMap<>(64);
     /**
+     * map collision objects to bounding-box visualization nodes
+     */
+    private HashMap<PhysicsCollisionObject, Node> pcos = new HashMap<>(64);
+    /**
      * map rigid bodies to visualization nodes
      */
     private HashMap<PhysicsRigidBody, Node> bodies = new HashMap<>(64);
@@ -115,7 +125,7 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     private HashMap<PhysicsVehicle, Node> vehicles = new HashMap<>(64);
     /**
-     * material for inactive rigid bodies
+     * material for rigid bodies that are kinematic or inactive
      */
     Material DEBUG_BLUE;
     /**
@@ -135,7 +145,11 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     Material DEBUG_RED;
     /**
-     * material for ghosts
+     * material for bounding boxes
+     */
+    Material DEBUG_WHITE;
+    /**
+     * material for ghosts and non-responsive rigid bodies
      */
     Material DEBUG_YELLOW;
     /**
@@ -221,6 +235,15 @@ public class BulletDebugAppState extends AbstractAppState {
     public void setAxisLineWidth(float width) {
         Validate.inRange(width, "width", 0f, Float.MAX_VALUE);
         axisLineWidth = width;
+    }
+
+    /**
+     * Alter which bounding boxes are visualized.
+     *
+     * @param filter the desired filter, or null to visualize no bounding boxes
+     */
+    public void setBoundingBoxFilter(DebugAppStateFilter filter) {
+        this.boundingBoxFilter = filter;
     }
 
     /**
@@ -316,6 +339,9 @@ public class BulletDebugAppState extends AbstractAppState {
         updateCharacters();
         updateJoints();
         updateVehicles();
+        if (boundingBoxFilter != null) {
+            updateBoundingBoxes();
+        }
 
         // Update the debug root node.
         physicsDebugRootNode.updateLogicalState(tpf);
@@ -342,6 +368,8 @@ public class BulletDebugAppState extends AbstractAppState {
         DEBUG_PINK.setName("DEBUG_PINK");
         DEBUG_RED = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
         DEBUG_RED.setName("DEBUG_RED");
+        DEBUG_WHITE = MyAsset.createWireframeMaterial(am, ColorRGBA.White);
+        DEBUG_WHITE.setName("DEBUG_GRAY");
         DEBUG_YELLOW = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
         DEBUG_YELLOW.setName("DEBUG_YELLOW");
     }
@@ -365,6 +393,38 @@ public class BulletDebugAppState extends AbstractAppState {
                     axisLineWidth);
             node.addControl(axes);
             axes.setEnabled(true);
+        }
+    }
+
+    /**
+     * Synchronize the bounding-box debug controls with the collision objects in
+     * the PhysicsSpace.
+     */
+    private void updateBoundingBoxes() {
+        assert boundingBoxFilter != null;
+
+        HashMap<PhysicsCollisionObject, Node> oldMap = pcos;
+        //create new map
+        pcos = new HashMap<>(oldMap.size());
+        Collection<PhysicsCollisionObject> list = space.getPcoList();
+        for (PhysicsCollisionObject pco : list) {
+            if (boundingBoxFilter.displayObject(pco)) {
+                Node node = oldMap.remove(pco);
+                if (node == null) {
+                    node = new Node(pco.toString());
+                    physicsDebugRootNode.attachChild(node);
+
+                    logger.log(Level.FINE,
+                            "Create new BoundingBoxDebugControl");
+                    Control control = new BoundingBoxDebugControl(this, pco);
+                    node.addControl(control);
+                }
+                pcos.put(pco, node);
+            }
+        }
+        //remove any leftover nodes
+        for (Node node : oldMap.values()) {
+            node.removeFromParent();
         }
     }
 
@@ -527,7 +587,6 @@ public class BulletDebugAppState extends AbstractAppState {
      * Interface to restrict which physics objects are visualized.
      */
     public static interface DebugAppStateFilter {
-
         /**
          * Test whether the specified physics object should be displayed.
          *
