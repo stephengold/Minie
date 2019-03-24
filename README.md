@@ -424,6 +424,8 @@ due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 
 YouTube videos about Minie:
 
+  + March 2019 teaser (simulating buoyancy)
+    https://www.youtube.com/watch?v=eq09m7pbk5A (0:10)
   + February 2019 demo (simulating rope)
     https://www.youtube.com/watch?v=7PYDAyB5RCE (4:47)
   + December 2018 demo (inverse kinematics)
