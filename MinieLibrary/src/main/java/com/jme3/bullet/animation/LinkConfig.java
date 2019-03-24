@@ -47,7 +47,6 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.RectangularSolid;
-import jme3utilities.minie.MyShape;
 
 /**
  * Configuration data for a PhysicsLink, not including the bone name, attached
@@ -282,7 +281,7 @@ public class LinkConfig implements Savable {
     /**
      * Calculate the mass, if it can be determined from the configuration alone.
      *
-     * @return the mass (&gt;0) or NaN if undetermined
+     * @return the mass (in physics units, &gt;0) or NaN if undetermined
      */
     public float mass() {
         float result = Float.NaN;
@@ -295,19 +294,23 @@ public class LinkConfig implements Savable {
     }
 
     /**
-     * Calculate a mass for a physics link.
+     * Calculate the mass for a PhysicsLink.
      *
-     * @param shape the link's CollisionShape (not null, unaffected)
-     * @return a mass value (&gt;0)
+     * @param volume the scaled volume of the CollisionShape (in cubic
+     * physics-space units, &ge;0)
+     * @return a mass value (in physics mass units, &gt;0)
      */
-    public float mass(CollisionShape shape) {
-        Validate.nonNull(shape, "shape");
+    float mass(float volume) {
+        Validate.nonNegative(volume, "volume");
 
         float mass;
         switch (massHeuristic) {
             case Density:
-                float scaledVolume = MyShape.volume(shape);
-                mass = massParameter * scaledVolume;
+                if (volume == 0f) {
+                    mass = 1e-6f;
+                } else {
+                    mass = massParameter * volume;
+                }
                 break;
 
             case Mass:

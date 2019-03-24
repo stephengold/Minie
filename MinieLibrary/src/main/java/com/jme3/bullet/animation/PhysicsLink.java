@@ -50,6 +50,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.minie.MyShape;
 
 /**
  * The abstract base class used by DynamicAnimControl to link pieces of a JME
@@ -160,7 +161,7 @@ abstract public class PhysicsLink
         this.control = control;
         this.bone = bone;
         rigidBody = createRigidBody(linkConfig, collisionShape);
-        
+
         logger.log(Level.FINE, "Creating link for bone {0} with mass={1}",
                 new Object[]{
                     MyString.quote(bone.getName()), rigidBody.getMass()
@@ -671,7 +672,8 @@ abstract public class PhysicsLink
             CollisionShape collisionShape) {
         assert collisionShape != null;
 
-        float mass = linkConfig.mass(collisionShape);
+        float volume = MyShape.volume(collisionShape);
+        float mass = linkConfig.mass(volume);
         PhysicsRigidBody rigidBody = new PhysicsRigidBody(collisionShape, mass);
 
         float viscousDamping = control.damping();
