@@ -49,6 +49,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.MyVolume;
 import jme3utilities.math.RectangularSolid;
 
 /**
@@ -378,13 +379,29 @@ public class MultiSphere extends CollisionShape {
     }
 
     /**
-     * Estimate the scaled volume of this shape, based on its debug mesh.
+     * Estimate the scaled volume of this shape.
      *
      * @return the volume (in physics-space units cubed, &ge;0)
      */
     public float scaledVolume() {
-        int meshResolution = DebugShapeFactory.lowResolution;
-        float volume = DebugShapeFactory.volumeConvex(this, meshResolution);
+        float volume;
+        int numSpheres = radii.length;
+        if (numSpheres == 1) {
+            float radius = radii[0];
+            float unscaledVolume = MyVolume.sphereVolume(radius);
+            volume = unscaledVolume * scale.x * scale.y * scale.z;
+
+        } else if (numSpheres == 2 && radii[0] == radii[1]) { // capsule
+            float radius = radii[0];
+            float height = centers[0].distance(centers[1]);
+            float unscaledVolume = MyVolume.capsuleVolume(radius, height);
+            volume = unscaledVolume * scale.x * scale.y * scale.z;
+
+        } else { // use the debug mesh
+            int meshResolution = DebugShapeFactory.lowResolution;
+            volume = DebugShapeFactory.volumeConvex(this, meshResolution);
+        }
+
         assert volume >= 0f : volume;
         return volume;
     }
