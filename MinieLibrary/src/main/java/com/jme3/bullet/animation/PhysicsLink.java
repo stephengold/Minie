@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -420,11 +420,7 @@ abstract public class PhysicsLink
      */
     public void setDynamic(Vector3f uniformAcceleration) {
         Validate.nonNull(uniformAcceleration, "uniform acceleration");
-        boolean controlReady = ((DynamicAnimControl) control).isReady();
-        if (!controlReady) {
-            throw new IllegalStateException(
-                    "The control is not ready for dynamic mode.");
-        }
+        control.verifyReadyForDynamicMode("put link into dynamic mode");
 
         setKinematicWeight(0f);
         rigidBody.setGravity(uniformAcceleration);

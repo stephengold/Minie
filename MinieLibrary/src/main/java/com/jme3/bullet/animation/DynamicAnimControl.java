@@ -34,7 +34,6 @@ package com.jme3.bullet.animation;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.bullet.PhysicsSpace;
-import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -85,7 +84,7 @@ import jme3utilities.Validate;
  */
 public class DynamicAnimControl
         extends DacLinks
-        implements PhysicsCollisionListener, PhysicsTickListener {
+        implements PhysicsCollisionListener {
     // *************************************************************************
     // constants and loggers
 
@@ -101,11 +100,6 @@ public class DynamicAnimControl
      * list of IK joints
      */
     private ArrayList<PhysicsJoint> ikJoints = new ArrayList<>(20);
-    /**
-     * false until the 1st physics tick, true thereafter, indicating that all
-     * links are ready for dynamic mode
-     */
-    private boolean isReady = false;
     /**
      * calculated total mass, not including released attachments
      */
@@ -398,15 +392,6 @@ public class DynamicAnimControl
         for (PhysicsLink child : children) {
             freezeSubtree(child, forceKinematic);
         }
-    }
-
-    /**
-     * Test whether all links are ready for dynamic mode.
-     *
-     * @return true if ready, otherwise false
-     */
-    public boolean isReady() {
-        return isReady;
     }
 
     /**
@@ -854,53 +839,6 @@ public class DynamicAnimControl
         }
     }
     // *************************************************************************
-    // PhysicsTickListener methods
-
-    /**
-     * Callback from Bullet, invoked just after the physics has been stepped.
-     * Used to re-activate any deactivated rigid bodies.
-     *
-     * @param space the space that was just stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
-     */
-    @Override
-    public void physicsTick(PhysicsSpace space, float timeStep) {
-        assert space == getPhysicsSpace();
-        Validate.nonNegative(timeStep, "time step");
-
-        getTorsoLink().postTick();
-        for (BoneLink boneLink : getBoneLinks()) {
-            boneLink.postTick();
-        }
-        for (AttachmentLink link : listAttachmentLinks()) {
-            link.postTick();
-        }
-
-        isReady = true;
-    }
-
-    /**
-     * Callback from Bullet, invoked just before the physics is stepped. A good
-     * time to clear/apply forces.
-     *
-     * @param space the space that is about to be stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
-     */
-    @Override
-    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        assert space == getPhysicsSpace();
-        Validate.nonNegative(timeStep, "time step");
-
-        TorsoLink torsoLink = getTorsoLink();
-        torsoLink.preTick(timeStep);
-        for (BoneLink boneLink : getBoneLinks()) {
-            boneLink.preTick(timeStep);
-        }
-        for (AttachmentLink link : listAttachmentLinks()) {
-            link.preTick(timeStep);
-        }
-    }
-    // *************************************************************************
     // private methods
 
     /**
@@ -994,23 +932,5 @@ public class DynamicAnimControl
         locationSum.mult(invMass, centerLocation);
         velocitySum.mult(invMass, centerVelocity);
         ragdollMass = (float) massSum;
-    }
-
-    /**
-     * Verify that all links are ready for dynamic mode, which also implies that
-     * this Control is added to a Spatial.
-     *
-     * @param desiredAction (not null, not empty)
-     */
-    private void verifyReadyForDynamicMode(String desiredAction) {
-        assert desiredAction != null;
-
-        verifyAddedToSpatial(desiredAction);
-
-        if (!isReady) {
-            String message = "Cannot " + desiredAction
-                    + " until the physics has been stepped.";
-            throw new IllegalStateException(message);
-        }
     }
 }

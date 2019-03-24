@@ -35,6 +35,7 @@ import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.joints.PhysicsJoint;
@@ -74,7 +75,9 @@ import jme3utilities.Validate;
  *
  * Based on KinematicRagdollControl by Normen Hansen and Rémy Bouquet (Nehon).
  */
-public class DacLinks extends DacConfiguration {
+public class DacLinks
+        extends DacConfiguration
+        implements PhysicsTickListener {
     // *************************************************************************
     // constants and loggers
 
@@ -98,6 +101,11 @@ public class DacLinks extends DacConfiguration {
     // *************************************************************************
     // fields
 
+    /**
+     * false until the 1st physics tick, true thereafter, indicating that all
+     * links are ready for dynamic mode
+     */
+    private boolean isReady = false;
     /**
      * bone links in a pre-order, depth-first traversal of the link hierarchy
      */
@@ -227,6 +235,15 @@ public class DacLinks extends DacConfiguration {
      */
     Spatial getTransformer() {
         return transformer;
+    }
+
+    /**
+     * Test whether this control is ready for dynamic mode.
+     *
+     * @return true if ready, otherwise false
+     */
+    public boolean isReady() {
+        return isReady;
     }
 
     /**
@@ -430,6 +447,24 @@ public class DacLinks extends DacConfiguration {
             assert link instanceof AttachmentLink;
             String boneName = link.boneName();
             setAttachmentMass(boneName, mass);
+        }
+    }
+
+    /**
+     * Verify that this control is ready for dynamic mode, which implies that it
+     * is added to a Spatial.
+     *
+     * @param desiredAction (not null, not empty)
+     */
+    public void verifyReadyForDynamicMode(String desiredAction) {
+        assert desiredAction != null;
+
+        verifyAddedToSpatial(desiredAction);
+
+        if (!isReady) {
+            String message = "Cannot " + desiredAction
+                    + " until the physics has been stepped.";
+            throw new IllegalStateException(message);
         }
     }
     // *************************************************************************
@@ -987,6 +1022,52 @@ public class DacLinks extends DacConfiguration {
         oc.write(skeleton, "skeleton", null);
         oc.write(transformer, "transformer", null);
         oc.write(torsoLink, "torsoLink", null);
+    }
+    // *************************************************************************
+    // PhysicsTickListener methods
+
+    /**
+     * Callback from Bullet, invoked just after the physics has been stepped.
+     * Used to re-activate any deactivated rigid bodies.
+     *
+     * @param space the space that was just stepped (not null)
+     * @param timeStep the time per physics step (in seconds, &ge;0)
+     */
+    @Override
+    public void physicsTick(PhysicsSpace space, float timeStep) {
+        assert space == getPhysicsSpace();
+        Validate.nonNegative(timeStep, "time step");
+
+        torsoLink.postTick();
+        for (BoneLink boneLink : boneLinkList) {
+            boneLink.postTick();
+        }
+        for (AttachmentLink link : attachmentLinks.values()) {
+            link.postTick();
+        }
+
+        isReady = true;
+    }
+
+    /**
+     * Callback from Bullet, invoked just before the physics is stepped. A good
+     * time to clear/apply forces.
+     *
+     * @param space the space that is about to be stepped (not null)
+     * @param timeStep the time per physics step (in seconds, &ge;0)
+     */
+    @Override
+    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+        assert space == getPhysicsSpace();
+        Validate.nonNegative(timeStep, "time step");
+
+        torsoLink.preTick(timeStep);
+        for (BoneLink boneLink : boneLinkList) {
+            boneLink.preTick(timeStep);
+        }
+        for (AttachmentLink link : attachmentLinks.values()) {
+            link.preTick(timeStep);
+        }
     }
     // *************************************************************************
     // private methods
