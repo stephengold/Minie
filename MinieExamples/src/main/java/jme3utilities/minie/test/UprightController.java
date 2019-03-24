@@ -253,6 +253,7 @@ public class UprightController extends IKController {
      */
     @Override
     public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
         OutputCapsule oc = exporter.getCapsule(this);
 
         oc.write(deltaGainFactor, "deltaGainFactor", 0.1f);

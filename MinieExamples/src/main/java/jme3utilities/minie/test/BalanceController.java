@@ -240,6 +240,7 @@ public class BalanceController extends IKController {
      */
     @Override
     public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
         OutputCapsule oc = exporter.getCapsule(this);
 
         oc.write(locationGainFactor, "locationGainFactor", 0.02f);
