@@ -96,6 +96,10 @@ abstract public class PhysicsLink
      */
     private float blendInterval = 1f;
     /**
+     * average density of the rigid body (in pmu/psu^3, &gt;0)
+     */
+    private float density;
+    /**
      * weighting of kinematic movement (&ge;0, &le;1, 0=purely dynamic, 1=purely
      * kinematic, default=1, progresses from 0 to 1 during the blend interval)
      */
@@ -206,6 +210,14 @@ abstract public class PhysicsLink
     public int countChildren() {
         int numChildren = children.size();
         return numChildren;
+    }
+
+    /**
+     * Read the average density of the rigid body.
+     */
+    public float density() {
+        assert density > 0f : density;
+        return density;
     }
 
     /**
@@ -674,6 +686,7 @@ abstract public class PhysicsLink
 
         float volume = MyShape.volume(collisionShape);
         float mass = linkConfig.mass(volume);
+        density = mass / volume;
         PhysicsRigidBody rigidBody = new PhysicsRigidBody(collisionShape, mass);
 
         float viscousDamping = control.damping();
