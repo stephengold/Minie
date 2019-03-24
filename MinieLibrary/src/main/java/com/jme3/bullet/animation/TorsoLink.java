@@ -446,6 +446,19 @@ public class TorsoLink extends PhysicsLink {
     }
 
     /**
+     * Immediately put this link into ragdoll mode. The control must be ready
+     * for dynamic mode.
+     */
+    @Override
+    public void setRagdollMode() {
+        getControl().verifyReadyForDynamicMode("put link into ragdoll mode");
+
+        Vector3f gravity = getControl().gravity(null);
+        setDynamic(gravity);
+        super.setRagdollMode();
+    }
+
+    /**
      * Internal callback, invoked once per frame during the logical-state
      * update, provided the control is added to a scene.
      *

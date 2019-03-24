@@ -644,8 +644,7 @@ public class DynamicAnimControl
     }
 
     /**
-     * Immediately put all links into dynamic mode with full gravity and disable
-     * all IK controllers and IK joints.
+     * Immediately put all links into ragdoll mode and disable all IK joints.
      * <p>
      * Allowed only when the control IS added to a spatial and all links are
      * "ready".
@@ -653,19 +652,15 @@ public class DynamicAnimControl
     public void setRagdollMode() {
         verifyReadyForDynamicMode("set ragdoll mode");
 
-        Vector3f ragdollGravity = gravity(null);
-
         TorsoLink torsoLink = getTorsoLink();
-        torsoLink.setDynamic(ragdollGravity);
-        torsoLink.disableAllIKControllers();
+        torsoLink.setRagdollMode();
         for (BoneLink boneLink : getBoneLinks()) {
-            boneLink.setDynamic(ragdollGravity, false, false, false);
-            boneLink.disableAllIKControllers();
+            boneLink.setRagdollMode();
         }
         for (AttachmentLink link : listAttachmentLinks()) {
-            link.setDynamic(ragdollGravity);
-            link.disableAllIKControllers();
+            link.setRagdollMode();
         }
+
         for (PhysicsJoint joint : ikJoints) {
             joint.setEnabled(false);
         }

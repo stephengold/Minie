@@ -266,6 +266,19 @@ public class BoneLink extends PhysicsLink {
             managedBone.setUserControl(true);
         }
     }
+
+    /**
+     * Immediately put this link into ragdoll mode. The control must be "ready"
+     * for dynamic mode.
+     */
+    @Override
+    public void setRagdollMode() {
+        getControl().verifyReadyForDynamicMode("put link into ragdoll mode");
+
+        Vector3f gravity = getControl().gravity(null);
+        setDynamic(gravity, false, false, false);
+        super.setRagdollMode();
+    }
     // *************************************************************************
     // PhysicsLink methods
 

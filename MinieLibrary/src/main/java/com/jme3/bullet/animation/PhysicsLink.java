@@ -427,6 +427,16 @@ abstract public class PhysicsLink
     }
 
     /**
+     * Immediately put this link into ragdoll mode.
+     */
+    public void setRagdollMode() {
+        IKController[] controllers = listIKControllers();
+        for (IKController controller : controllers) {
+            controller.setEnabled(false);
+        }
+    }
+
+    /**
      * Internal callback, invoked once per frame during the logical-state
      * update, provided the control is added to a scene.
      *

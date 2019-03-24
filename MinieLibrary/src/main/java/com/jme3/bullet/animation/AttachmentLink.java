@@ -426,6 +426,19 @@ public class AttachmentLink extends PhysicsLink {
     }
 
     /**
+     * Immediately put this link into ragdoll mode. The control must be ready
+     * for dynamic mode.
+     */
+    @Override
+    public void setRagdollMode() {
+        getControl().verifyReadyForDynamicMode("put link into ragdoll mode");
+
+        Vector3f gravity = getControl().gravity(null);
+        setDynamic(gravity);
+        super.setRagdollMode();
+    }
+
+    /**
      * Serialize this link, for example when saving to a J3O file.
      *
      * @param ex exporter (not null)
