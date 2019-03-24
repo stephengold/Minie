@@ -557,6 +557,22 @@ public class PhysicsSpace {
     }
 
     /**
+     * Copy the set of collision objects that have been added to this space and
+     * not yet removed.
+     *
+     * @return a new set (not null, may be empty
+     */
+    @SuppressWarnings("unchecked")
+    public Collection<PhysicsCollisionObject> getPcoList() {
+        TreeSet result = new TreeSet<>();
+        result.addAll(physicsBodies.values());
+        result.addAll(physicsCharacters.values());
+        result.addAll(physicsGhostObjects.values());
+
+        return result;
+    }
+
+    /**
      * Access the PhysicsSpace <b>running on this thread</b>. For parallel
      * physics, this can be invoked from the OpenGL thread.
      *
