@@ -130,6 +130,14 @@ abstract public class IKController
     public void setEnabled(boolean desiredSetting) {
         isEnabled = desiredSetting;
     }
+
+    /**
+     * Immediately put this controller into ragdoll mode. Unless overridden,
+     * this method simply disables the controller.
+     */
+    public void setRagdollMode() {
+        isEnabled = false;
+    }
     // *************************************************************************
     // JmeCloneable methods
 

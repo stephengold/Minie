@@ -427,12 +427,12 @@ abstract public class PhysicsLink
     }
 
     /**
-     * Immediately put this link into ragdoll mode.
+     * Immediately put this link (and all its controllers) into ragdoll mode.
      */
     public void setRagdollMode() {
         IKController[] controllers = listIKControllers();
         for (IKController controller : controllers) {
-            controller.setEnabled(false);
+            controller.setRagdollMode();
         }
     }
 

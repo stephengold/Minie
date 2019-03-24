@@ -154,6 +154,14 @@ public class BuoyController extends IKController {
     }
 
     /**
+     * Immediately put this controller into ragdoll mode.
+     */
+    @Override
+    public void setRagdollMode() {
+        // Ragdoll mode has no effect on a BuoyController.
+    }
+
+    /**
      * Serialize this controller, for example when saving to a J3O file.
      *
      * @param exporter the exporter (not null)

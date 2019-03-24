@@ -410,6 +410,14 @@ public class BuoyDemo extends ActionApplication {
 
         controlledSpatial.addControl(dac);
         dac.setPhysicsSpace(physicsSpace);
+        /*
+         * Add buoyancy to each BoneLink.
+         */
+        List<PhysicsLink> links = dac.listLinks(PhysicsLink.class);
+        for (PhysicsLink link : links) {
+            BuoyController buoy = new BuoyController(link, surfaceElevation);
+            link.addIKController(buoy);
+        }
 
         AnimControl animControl
                 = controlledSpatial.getControl(AnimControl.class);
@@ -512,13 +520,6 @@ public class BuoyDemo extends ActionApplication {
     private void goFloating() {
         if (dac.isReady()) {
             dac.setRagdollMode();
-            List<PhysicsLink> links = dac.listLinks(PhysicsLink.class
-            );
-            for (PhysicsLink link : links) {
-                BuoyController buoy
-                        = new BuoyController(link, surfaceElevation);
-                link.addIKController(buoy);
-            }
         }
     }
 
