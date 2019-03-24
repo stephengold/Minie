@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.collision;
 
+import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.util.DebugShapeFactory;
@@ -202,6 +203,23 @@ abstract public class PhysicsCollisionObject
         if (objectId != 0L) {
             setCollideWithGroups(objectId, collideWithGroups);
         }
+    }
+
+    /**
+     * Calculate an axis-aligned bounding box for this object.
+     *
+     * @param storeResult (modified if not null)
+     * @return a bounding box (either storeResult or a new instance, not null)
+     */
+    public BoundingBox boundingBox(BoundingBox storeResult) {
+        BoundingBox result
+                = (storeResult == null) ? new BoundingBox() : storeResult;
+
+        Vector3f translation = getPhysicsLocation(null);
+        Matrix3f rotation = getPhysicsRotationMatrix(null);
+        collisionShape.boundingBox(translation, rotation, result);
+
+        return result;
     }
 
     /**
