@@ -544,6 +544,31 @@ public class DacLinks
     }
 
     /**
+     * Read the mass of the attachment associated with the named bone.
+     *
+     * @param boneName the name of the associated bone (not null, not empty)
+     * @return the mass (in physics units, &gt;0) or NaN if undetermined
+     */
+    @Override
+    public float attachmentMass(String boneName) {
+        Validate.nonNull(boneName, "bone name");
+
+        float mass;
+        if (getSpatial() == null) {
+            mass = super.attachmentMass(boneName);
+        } else if (attachmentLinks.containsKey(boneName)) {
+            AttachmentLink link = attachmentLinks.get(boneName);
+            PhysicsRigidBody rigidBody = link.getRigidBody();
+            mass = rigidBody.getMass();
+        } else {
+            String msg = "No attachment for " + MyString.quote(boneName);
+            throw new IllegalArgumentException(msg);
+        }
+
+        return mass;
+    }
+
+    /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
      * shallow-cloned control into a deep-cloned one, using the specified cloner
      * and original to resolve copied fields.
