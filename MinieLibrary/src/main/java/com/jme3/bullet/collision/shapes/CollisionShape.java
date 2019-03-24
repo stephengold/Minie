@@ -31,12 +31,15 @@
  */
 package com.jme3.bullet.collision.shapes;
 
+import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
+import com.jme3.math.Matrix3f;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
@@ -91,6 +94,56 @@ abstract public class CollisionShape
     protected Vector3f scale = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Calculate an axis-aligned bounding box for this shape with the specified
+     * translation and rotation applied to it. Rotation is applied first.
+     *
+     * @param translation the translation to apply (not null, unaffected)
+     * @param rotation the rotation to apply (not null, unaffected)
+     * @param storeResult (modified if not null)
+     * @return a bounding box (either storeResult or a new instance, not null)
+     */
+    public BoundingBox boundingBox(Vector3f translation, Matrix3f rotation,
+            BoundingBox storeResult) {
+        Validate.nonNull(translation, "translation");
+        Validate.nonNull(rotation, "rotation");
+        BoundingBox result
+                = (storeResult == null) ? new BoundingBox() : storeResult;
+
+        Vector3f maxima = new Vector3f();
+        Vector3f minima = new Vector3f();
+        getAabb(objectId, translation, rotation, minima, maxima);
+        result.setMinMax(minima, maxima);
+
+        return result;
+    }
+
+    /**
+     * Calculate an axis-aligned bounding box for this shape with the specified
+     * translation and rotation applied to it. Rotation is applied first.
+     *
+     * @param translation the translation to apply (not null, unaffected)
+     * @param rotation the rotation to apply (not null, unaffected)
+     * @param storeResult (modified if not null)
+     * @return a bounding box (either storeResult or a new instance, not null)
+     */
+    public BoundingBox boundingBox(Vector3f translation, Quaternion rotation,
+            BoundingBox storeResult) {
+        Validate.nonNull(translation, "translation");
+        Validate.nonNull(rotation, "rotation");
+        BoundingBox result
+                = (storeResult == null) ? new BoundingBox() : storeResult;
+
+        Matrix3f basisMatrix = new Matrix3f();
+        basisMatrix.set(rotation);
+        Vector3f maxima = new Vector3f();
+        Vector3f minima = new Vector3f();
+        getAabb(objectId, translation, basisMatrix, minima, maxima);
+        result.setMinMax(minima, maxima);
+
+        return result;
+    }
 
     /**
      * Test whether the specified scaling factors can be applied to this shape.
@@ -324,6 +377,9 @@ abstract public class CollisionShape
     // private methods
 
     native private void finalizeNative(long objectId);
+
+    native private void getAabb(long objectId, Vector3f location,
+            Matrix3f basisMatrix, Vector3f storeMinima, Vector3f storeMaxima);
 
     native private boolean isConcave(long objectId);
 
