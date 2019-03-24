@@ -59,6 +59,10 @@ public class BuoyController extends IKController {
     // fields
 
     /**
+     * density of the medium below the surface (in pmu/psu^3)
+     */
+    private float densityOfMedium;
+    /**
      * Y coordinate of the surface (in physics-space coordinates)
      */
     private float surfaceY;
@@ -68,16 +72,30 @@ public class BuoyController extends IKController {
     /**
      * Instantiate an enabled controller.
      *
+     * @param density the density of the medium (in pmu/psu^3, &gt;0)
      * @param controlledLink the link to be controlled (not null)
      * @param surfaceY the Y coordinate of the surface (in physics-space
      * coordinates)
      */
-    public BuoyController(PhysicsLink controlledLink, float surfaceY) {
+    public BuoyController(PhysicsLink controlledLink, float densityOfMedium,
+            float surfaceY) {
         super(controlledLink);
+        Validate.positive(densityOfMedium, "density of medium");
+
+        this.densityOfMedium = densityOfMedium;
         this.surfaceY = surfaceY;
     }
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Read the density of the medium below the surface.
+     *
+     * @return the density (in pmu/psu^3)
+     */
+    float densityOfMedium() {
+        return densityOfMedium;
+    }
 
     /**
      * Read the Y coordinate of the surface.
@@ -86,6 +104,15 @@ public class BuoyController extends IKController {
      */
     float surfaceY() {
         return surfaceY;
+    }
+
+    /**
+     * Alter the density of the medium below the surface.
+     *
+     * @param density the desired density (in pmu/psu^3)
+     */
+    void setDensityOfMedium(float density) {
+        densityOfMedium = density;
     }
 
     /**
@@ -120,7 +147,7 @@ public class BuoyController extends IKController {
             return;
         }
         /*
-         * The bounding box is at least partially submerged.
+         * The bounding box is at least partly submerged.
          */
         float topY = boundingBox.getMax(null).y;
         assert topY > bottomY : topY;
@@ -128,12 +155,11 @@ public class BuoyController extends IKController {
         float fractionSubmerged = (surfaceY - bottomY) / height;
         fractionSubmerged = FastMath.clamp(fractionSubmerged, 0f, 1f);
         Vector3f gravity = rigidBody.getGravity(null);
-        /*
-         * Buoyancy will cancel gravity when the bounding box is 50% submerged.
-         */
-        Vector3f buoyantForce = gravity.mult(-2f * fractionSubmerged);
+        float densityOfBody = link.density();
+        float densityRatio = densityOfMedium / densityOfBody;
+        Vector3f acceleration = gravity.mult(-densityRatio * fractionSubmerged);
         float mass = rigidBody.getMass();
-        Vector3f impulse = buoyantForce.mult(mass * timeStep);
+        Vector3f impulse = acceleration.mult(mass * timeStep);
         /*
          * Apply the (upward) impulse to the rigid body.
          */

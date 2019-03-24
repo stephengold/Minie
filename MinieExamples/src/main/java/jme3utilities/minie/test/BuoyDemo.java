@@ -414,8 +414,10 @@ public class BuoyDemo extends ActionApplication {
          * Add buoyancy to each BoneLink.
          */
         List<PhysicsLink> links = dac.listLinks(PhysicsLink.class);
+        float density = 1.5f;
         for (PhysicsLink link : links) {
-            BuoyController buoy = new BuoyController(link, surfaceElevation);
+            BuoyController buoy
+                    = new BuoyController(link, density, surfaceElevation);
             link.addIKController(buoy);
         }
 
