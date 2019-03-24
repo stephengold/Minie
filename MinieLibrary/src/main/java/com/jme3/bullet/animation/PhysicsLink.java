@@ -32,6 +32,7 @@
 package com.jme3.bullet.animation;
 
 import com.jme3.animation.Bone;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.export.InputCapsule;
@@ -143,29 +144,29 @@ abstract public class PhysicsLink
      * @param control the control that will manage this link (not null, alias
      * created)
      * @param bone the corresponding bone (not null, alias created)
-     * @param rigidBody the rigid body to link (not null, alias created)
+     * @param collisionShape the desired shape (not null, alias created)
+     * @param linkConfig the link configuration (not null)
      * @param localOffset the location of the body's center (in the bone's local
      * coordinates, not null, unaffected)
      */
-    PhysicsLink(DacLinks control, Bone bone, PhysicsRigidBody rigidBody,
-            Vector3f localOffset) {
+    PhysicsLink(DacLinks control, Bone bone, CollisionShape collisionShape,
+            LinkConfig linkConfig, Vector3f localOffset) {
         assert control != null;
         assert bone != null;
-        assert rigidBody != null;
+        assert collisionShape != null;
+        assert linkConfig != null;
         assert localOffset != null;
 
+        this.control = control;
+        this.bone = bone;
+        rigidBody = createRigidBody(linkConfig, collisionShape);
+        
         logger.log(Level.FINE, "Creating link for bone {0} with mass={1}",
                 new Object[]{
                     MyString.quote(bone.getName()), rigidBody.getMass()
                 });
 
-        this.control = control;
-        this.bone = bone;
-        this.rigidBody = rigidBody;
         this.localOffset = localOffset.clone();
-
-        rigidBody.setKinematic(true);
-        rigidBody.setUserObject(this);
         updateKPTransform();
     }
     // *************************************************************************
@@ -658,6 +659,29 @@ abstract public class PhysicsLink
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Create and configure a rigid body for this link.
+     *
+     * @param linkConfig the link configuration (not null)
+     * @param collisionShape the desired shape (not null, alias created)
+     * @return a new instance, not in any PhysicsSpace
+     */
+    private PhysicsRigidBody createRigidBody(LinkConfig linkConfig,
+            CollisionShape collisionShape) {
+        assert collisionShape != null;
+
+        float mass = linkConfig.mass(collisionShape);
+        PhysicsRigidBody rigidBody = new PhysicsRigidBody(collisionShape, mass);
+
+        float viscousDamping = control.damping();
+        rigidBody.setDamping(viscousDamping, viscousDamping);
+
+        rigidBody.setKinematic(true);
+        rigidBody.setUserObject(this);
+
+        return rigidBody;
+    }
 
     /**
      * Alter the kinematic weight and copy the physics transform and velocity

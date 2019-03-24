@@ -33,6 +33,7 @@ package com.jme3.bullet.animation;
 
 import com.jme3.animation.Bone;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -119,14 +120,15 @@ public class AttachmentLink extends PhysicsLink {
      * @param manager the bone/torso link that manages the associated bone (not
      * null, alias created)
      * @param attachModel the attached model to link (not null, alias created)
-     * @param rigidBody the rigid body to link (not null, alias created)
+     * @param collisionShape the desired shape (not null, alias created)
+     * @param linkConfig the link configuration (not null)
      * @param localOffset the location of the body's center (in the attached
      * model's local coordinates, not null, unaffected)
      */
-    AttachmentLink(DacLinks control, Bone associatedBone,
-            PhysicsLink manager, Spatial attachModel,
-            PhysicsRigidBody rigidBody, Vector3f localOffset) {
-        super(control, associatedBone, rigidBody, localOffset);
+    AttachmentLink(DacLinks control, Bone associatedBone, PhysicsLink manager,
+            Spatial attachModel, CollisionShape collisionShape,
+            LinkConfig linkConfig, Vector3f localOffset) {
+        super(control, associatedBone, collisionShape, linkConfig, localOffset);
         assert manager != null;
         assert attachModel != null;
 
@@ -153,7 +155,7 @@ public class AttachmentLink extends PhysicsLink {
         Matrix3f rotManager = attachToManager.getRotation().toRotationMatrix();
         Matrix3f rot = matrixIdentity;
 
-        SixDofJoint joint = new SixDofJoint(managerBody, rigidBody,
+        SixDofJoint joint = new SixDofJoint(managerBody, getRigidBody(),
                 pivotManager, pivot, rotManager, rot, true);
         setJoint(joint);
 

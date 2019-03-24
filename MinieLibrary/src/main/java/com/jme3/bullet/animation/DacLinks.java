@@ -1201,10 +1201,9 @@ public class DacLinks
          */
         CollisionShape shape = linkConfig.createShape(transformIdentity,
                 center, vertexLocations);
-        PhysicsRigidBody rigidBody = createRigidBody(linkConfig, shape);
 
         AttachmentLink link = new AttachmentLink(this, bone, manager,
-                attachModel, rigidBody, center);
+                attachModel, shape, linkConfig, center);
         attachmentLinks.put(boneName, link);
     }
 
@@ -1239,31 +1238,10 @@ public class DacLinks
             shape = linkConfig.createShape(meshToBone, center, vertexLocations);
         }
 
-        PhysicsRigidBody rigidBody = createRigidBody(linkConfig, shape);
         meshToBone.getTranslation().zero();
         Vector3f offset = meshToBone.transformVector(center, null);
-        BoneLink link = new BoneLink(this, bone, rigidBody, offset);
+        BoneLink link = new BoneLink(this, bone, shape, linkConfig, offset);
         boneLinks.put(boneName, link);
-    }
-
-    /**
-     * Create and configure a rigid body for a link.
-     *
-     * @param linkConfig the link configuration (not null)
-     * @param collisionShape the desired shape (not null, alias created)
-     * @return a new instance, not in any PhysicsSpace
-     */
-    private PhysicsRigidBody createRigidBody(LinkConfig linkConfig,
-            CollisionShape collisionShape) {
-        Validate.nonNull(collisionShape, "collision shape");
-
-        float mass = linkConfig.mass(collisionShape);
-        PhysicsRigidBody rigidBody = new PhysicsRigidBody(collisionShape, mass);
-
-        float viscousDamping = damping();
-        rigidBody.setDamping(viscousDamping, viscousDamping);
-
-        return rigidBody;
     }
 
     /**
@@ -1296,8 +1274,6 @@ public class DacLinks
         meshToBone.getTranslation().zero();
         Vector3f offset = meshToBone.transformVector(center, null);
 
-        PhysicsRigidBody rigidBody = createRigidBody(linkConfig, shape);
-
         Transform meshToModel;
         Spatial cgm = getSpatial();
         if (cgm instanceof Node) {
@@ -1308,7 +1284,8 @@ public class DacLinks
             meshToModel = transformIdentity;
         }
 
-        torsoLink = new TorsoLink(this, bone, rigidBody, meshToModel, offset);
+        torsoLink = new TorsoLink(this, bone, shape, linkConfig, meshToModel,
+                offset);
     }
 
     /**

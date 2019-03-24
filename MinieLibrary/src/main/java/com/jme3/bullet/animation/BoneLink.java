@@ -115,13 +115,14 @@ public class BoneLink extends PhysicsLink {
      * @param control the control that will manage this link (not null, alias
      * created)
      * @param bone the linked bone (not null, alias created)
-     * @param rigidBody the rigid body to link (not null, alias created)
+     * @param collisionShape the desired shape (not null, alias created)
+     * @param linkConfig the link configuration (not null)
      * @param localOffset the location of the body's center (in the bone's local
      * coordinates, not null, unaffected)
      */
-    BoneLink(DacLinks control, Bone bone, PhysicsRigidBody rigidBody,
-            Vector3f localOffset) {
-        super(control, bone, rigidBody, localOffset);
+    BoneLink(DacLinks control, Bone bone, CollisionShape collisionShape,
+            LinkConfig linkConfig, Vector3f localOffset) {
+        super(control, bone, collisionShape, linkConfig, localOffset);
     }
     // *************************************************************************
     // new methods exposed

@@ -32,7 +32,7 @@
 package com.jme3.bullet.animation;
 
 import com.jme3.animation.Bone;
-import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -120,16 +120,17 @@ public class TorsoLink extends PhysicsLink {
      * created)
      * @param mainRootBone the root bone with the most animation weight (not
      * null, alias created)
-     * @param rigidBody the rigid body to link (not null, alias created)
+     * @param collisionShape the desired shape (not null, alias created)
+     * @param linkConfig the link configuration (not null)
      * @param meshToModel the transform from mesh coordinates to model
      * coordinates (not null, unaffected)
      * @param localOffset the location of the body's center (in the bone's local
      * coordinates, not null, unaffected)
      */
     TorsoLink(DacLinks control, Bone mainRootBone,
-            PhysicsRigidBody rigidBody, Transform meshToModel,
-            Vector3f localOffset) {
-        super(control, mainRootBone, rigidBody, localOffset);
+            CollisionShape collisionShape, LinkConfig linkConfig,
+            Transform meshToModel, Vector3f localOffset) {
+        super(control, mainRootBone, collisionShape, linkConfig, localOffset);
         this.meshToModel = meshToModel.clone();
         managedBones = control.listManagedBones(DynamicAnimControl.torsoName);
 
