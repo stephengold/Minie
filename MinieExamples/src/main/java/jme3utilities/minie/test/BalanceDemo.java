@@ -399,6 +399,7 @@ public class BalanceDemo extends ActionApplication {
         geometry.addControl(boxBody);
         boxBody.setApplyScale(true);
         boxBody.setPhysicsSpace(physicsSpace);
+        boxBody.setFriction(0.1f);
     }
 
     /**

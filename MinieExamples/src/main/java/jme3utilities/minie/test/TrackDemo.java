@@ -365,10 +365,11 @@ public class TrackDemo extends ActionApplication {
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
         float mass = PhysicsRigidBody.massForStatic;
-        RigidBodyControl rbc = new RigidBodyControl(shape, mass);
-        rbc.setApplyScale(true);
-        rbc.setPhysicsSpace(physicsSpace);
-        geometry.addControl(rbc);
+        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
+        geometry.addControl(boxBody);
+        boxBody.setApplyScale(true);
+        boxBody.setPhysicsSpace(physicsSpace);
+        boxBody.setFriction(0.1f);
     }
 
     /**
