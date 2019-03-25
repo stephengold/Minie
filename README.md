@@ -134,14 +134,14 @@ The source code is compatible with JDK 7.
 
 ## History
 
-Since November 2018, the Minie Project has been an independent project at
-[GitHub][minie].
+Most of Minie was originally forked from `jme3-bullet`,
+a library in the [jMonkeyEngine Game Engine][jme].
 
 From January 2018 to November 2018, Minie was a sub-project of
 [the Jme3-utilities Project][utilities].
 
-Most of Minie was originally forked from `jme3-bullet`,
-a library in the [jMonkeyEngine Game Engine][jme].
+Since November 2018, the Minie Project has been an independent project at
+[GitHub][minie].
 
 The evolution of Minie is chronicled in
 [its release notes](https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md).
