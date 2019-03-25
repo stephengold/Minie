@@ -69,12 +69,8 @@ public class MhGameControl
 
         super.setConfig(torsoName, hull);
 
-        super.link("spine_01", hull,
-                new RangeOfMotion(0.5f, 0.3f, 0.5f));
-        super.link("spine_02", hull,
-                new RangeOfMotion(0.5f, 0.3f, 0.5f));
         super.link("spine_03", simplified,
-                new RangeOfMotion(0.4f, 0.2f, 0f));
+                new RangeOfMotion(0.8f, 0.5f, 0.5f));
         super.link("neck_01", hull,
                 new RangeOfMotion(0.5f, 0.5f, 0.3f));
         super.link("head", simplified, // the "head" bone has too many vertices!
@@ -85,7 +81,7 @@ public class MhGameControl
         super.link("upperarm_r", hull,
                 new RangeOfMotion(0.2f, -1f, 0.8f, -0.8f, 1f, -1f));
         super.link("lowerarm_r", hull,
-                new RangeOfMotion(0f, -2f, 0f, 0f, 0f, 0f));
+                new RangeOfMotion(0.8f, -1.3f, 0f, 0f, 0f, 0f));
         super.link("hand_r", simplified,
                 new RangeOfMotion(0.7f, 0f, 0.2f));
 
@@ -94,19 +90,19 @@ public class MhGameControl
         super.link("upperarm_l", hull,
                 new RangeOfMotion(0.2f, -1f, 0.8f, -0.8f, 1f, -1f));
         super.link("lowerarm_l", hull,
-                new RangeOfMotion(0f, -2f, 0f, 0f, 0f, 0f));
+                new RangeOfMotion(0.8f, -1.3f, 0f, 0f, 0f, 0f));
         super.link("hand_l", simplified,
                 new RangeOfMotion(0.7f, 0f, 0.2f));
 
         super.link("thigh_r", hull,
-                new RangeOfMotion(2.2f, -0.2f, 0.2f, -0.2f, 0.2f, -0.5f));
+                new RangeOfMotion(1f, -0.2f, 0.1f, -0.2f, 0.1f, -0.4f));
         super.link("calf_r", hull,
                 new RangeOfMotion(0f, -2.2f, 0f, 0f, 0f, 0f));
         super.link("foot_r", simplified,
                 new RangeOfMotion(1f, 0.3f, 0.5f));
 
         super.link("thigh_l", hull,
-                new RangeOfMotion(2.2f, -0.2f, 0.2f, -0.2f, 0.5f, -0.2f));
+                new RangeOfMotion(1f, -0.2f, 0.2f, -0.1f, 0.4f, -0.1f));
         super.link("calf_l", hull,
                 new RangeOfMotion(0f, -2.2f, 0f, 0f, 0f, 0f));
         super.link("foot_l", simplified,
