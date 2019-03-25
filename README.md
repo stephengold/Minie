@@ -126,7 +126,7 @@ Maven artifacts are available from
 
 Package names begin with
 `jme3utilities.minie` (if Stephen Gold holds the copyright) or
-`com.jme3.bullet` (if the jMonkeyEngine Project holds the copyright).
+`com.jme3` (if the jMonkeyEngine Project holds the copyright).
 
 The source code is compatible with JDK 7.
 

@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.7.6 released on TBD
+## Version 0.7.6 released on 24 March 2019
 
  + Fixed a bug where `attachmentMass()` could return an outdated value.
  + Improved the performance of volume calculations for hull and multi-sphere
