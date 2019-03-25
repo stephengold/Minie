@@ -271,7 +271,7 @@ repository location:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.7.5'
+        compile 'jme3utilities:Minie:0.7.6'
     }
 
 #### For Ant projects
@@ -279,7 +279,7 @@ repository location:
 For projects built using Ant, download the 2 non-standard
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/0.7.5
+ + https://github.com/stephengold/Minie/releases/tag/0.7.6
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.23.0
 
 You'll want both class JARs

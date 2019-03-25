@@ -1,8 +1,25 @@
 # release notes for the Minie library and related examples
 
+## Version 0.7.6 released on TBD
+
+ + Fixed a bug where `attachmentMass()` could return an outdated value.
+ + Improved the performance of volume calculations for hull and multi-sphere
+   shapes.
+ + Various API changes in `RagUtils`.
+ + Added a `MultiSphere` constructor for a 2-sphere shape, based
+   on a `RectangularSolid`.
+ + Added `boundingBox()` methods for collision shapes and collision objects.
+ + Added `countRigidBodies()` and `getPcoLists()` methods to the
+   `PhysicsSpace` class.
+ + Added a `density()` method to the `PhysicsLink` class.
+ + Added a `HullCollisionShape` constructor based on a `FloatBuffer`.
+ + Added a `TwoSphere` heuristic for generating `PhysicsLink` shapes.
+ + Added a `VectorSet` abstract class with 2 implementations.
+ + Updated the native libraries to version 1.0.40 of `Libbulletjme`.
+
 ## Version 0.7.5 released on 19 March 2019
 
- + Added a `DumpFlags` enum and used it to simplify the API 
+ + Added a `DumpFlags` enum and used it to simplify the API
    of `PhysicsDumper`. (API change)
  + Added a `DumpFlag` to disable dumping collision objects in physics spaces.
  + Added a `getSpatial()` method to the `VehicleControl` class.
