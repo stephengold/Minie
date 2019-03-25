@@ -84,7 +84,7 @@ public class PhysicsHoverControl extends PhysicsVehicle implements PhysicsContro
 
     /**
      * Creates a new PhysicsNode with the supplied collision shape
-     * @param shape
+     * @param shape shape
      */
     public PhysicsHoverControl(CollisionShape shape) {
         super(shape);

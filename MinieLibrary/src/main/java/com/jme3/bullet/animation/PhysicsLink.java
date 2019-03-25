@@ -214,6 +214,8 @@ abstract public class PhysicsLink
 
     /**
      * Read the average density of the rigid body.
+     * 
+     * @return the density (&gt;0)
      */
     public float density() {
         assert density > 0f : density;
