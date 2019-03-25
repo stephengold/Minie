@@ -151,8 +151,8 @@ public class HelloBoneLink extends SimpleApplication {
 
         geometry.move(0f, -halfExtent, 0f);
         ColorRGBA color = new ColorRGBA(0.1f, 0.4f, 0.1f, 1f);
-        Material material
-                = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+        Material material = new Material(assetManager, 
+                        "Common/MatDefs/Light/Lighting.j3md");
         material.setBoolean("UseMaterialColors", true);
         material.setColor("Diffuse", color);
         geometry.setMaterial(material);

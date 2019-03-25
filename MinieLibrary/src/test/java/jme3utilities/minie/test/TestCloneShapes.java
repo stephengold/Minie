@@ -239,7 +239,7 @@ public class TestCloneShapes {
         mcsq.setMargin(0.191f);
         assert mcsqClone.getMargin() == 0.04f;
         /*
-         * Multisphere
+         * MultiSphere
          */
         List<Float> radii = new ArrayList<>(3);
         List<Vector3f> centers = new ArrayList<>(3);

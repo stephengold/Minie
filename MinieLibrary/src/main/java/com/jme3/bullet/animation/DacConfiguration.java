@@ -195,7 +195,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * Read the mass of the attachment associated with the named bone.
      *
      * @param boneName the name of the associated bone (not null, not empty)
-     * @return the mass (&gt;0) or NaN if undetermined
+     * @return the mass (in physics units, &gt;0) or NaN if undetermined
      */
     public float attachmentMass(String boneName) {
         LinkConfig config = attachmentConfig(boneName);
@@ -470,7 +470,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * Read the mass of the named bone/torso.
      *
      * @param boneName the name of the bone/torso (not null)
-     * @return the mass (&gt;0) or NaN if undetermined
+     * @return the mass (in physics units, &gt;0) or NaN if undetermined
      */
     public float mass(String boneName) {
         LinkConfig config = config(boneName);

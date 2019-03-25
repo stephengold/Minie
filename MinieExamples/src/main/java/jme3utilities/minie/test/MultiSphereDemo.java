@@ -321,10 +321,9 @@ public class MultiSphereDemo
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
         float mass = PhysicsRigidBody.massForStatic;
         boxBody = new RigidBodyControl(shape, mass);
+        geometry.addControl(boxBody);
         boxBody.setApplyScale(true);
         boxBody.setPhysicsSpace(physicsSpace);
-
-        geometry.addControl(boxBody);
     }
 
     /**

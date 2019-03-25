@@ -68,7 +68,7 @@ class DebugMeshCallback {
 
     /**
      * list of vertex locations (typically includes many duplicates) TODO use a
-     * float[] for efficiency
+     * FloatBuffer for efficiency
      */
     final private ArrayList<Vector3f> list = new ArrayList<>(250);
     // *************************************************************************
