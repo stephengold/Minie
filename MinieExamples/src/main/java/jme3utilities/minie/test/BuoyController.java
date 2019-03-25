@@ -109,9 +109,10 @@ public class BuoyController extends IKController {
     /**
      * Alter the density of the medium below the surface.
      *
-     * @param density the desired density (in pmu/psu^3)
+     * @param density the desired density (in pmu/psu^3, &gt;0)
      */
     public void setDensityOfMedium(float density) {
+        Validate.positive(density, "density");
         densityOfMedium = density;
     }
 
