@@ -9,7 +9,25 @@ It contains 2 sub-projects:
  1. MinieLibrary: the Minie runtime library (in Java)
  2. MinieExamples: demos, examples, and test software (in Java)
 
-Summary of features:
+Java source code is provided under
+[a FreeBSD license](https://github.com/stephengold/Minie/blob/master/LICENSE).
+
+jMonkeyEngine comes with 2 Bullet integration libraries.
+Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
+
+ + Minie has many more features. (See the feature list below.)
+ + Minie fixes many bugs found in the jMonkeyEngine libraries.
+   (See the fix list below.)
+ + Due to its shorter release cycle, future features and bug fixes
+   will probably appear first in Minie.
+ + Minie has automated tests that reduce the risk of regressions and new bugs.
+ + Minie's classes are better encapsulated, with fewer public/protected fields
+   and less aliasing of small objects like vectors.  This reduces the risk
+   of accidentally corrupting its internal data structures.
+ + Minie's source code is more readable than that of `jme3-bullet`.
+ + Minie's source code is easy to find than that of `jme3-jbullet`.
+
+Summary of added features:
 
  + `DynamicAnimControl` for ragdoll simulation:
     + set dynamic/kinematic mode per bone
@@ -21,16 +39,15 @@ Summary of features:
  + debugging aids:
     + dump the contents of a `BulletAppState` or `PhysicsSpace`
     + customize debug material per collision object
-    + visualize the local axes of each collision object
+    + visualize the local axes and/or bounding box of each collision object
     + visualize physics in multiple viewports
     + optional high-resolution debug meshes for convex shapes
     + options to generate debug meshes that include normals
  + all joints, shapes, and collision objects implement the `JmeCloneable`
    and `Comparable` interfaces
  + enable/disable a joint
- + create single-ended joints
+ + single-ended joints
  + settable global default for collision margin
- + fixes for many `jme3-bullet` bugs (including 740, 877, 896, 923, 938, and 1029)
  + access more parameters of rigid bodies:
     + anisotropic friction
     + contact damping
@@ -40,13 +57,27 @@ Summary of features:
     + linear factor
     + rolling friction
     + spinning friction
- + option to apply the scale of a kinematic `RigidBodyControl`
- + improved Javadoc and inline documentation, better encapsulation
- + decoupled from the jMonkeyEngine release cycle
- + tutorial, demo, and test applications provided
- + Java source code provided under a FreeBSD license
+ + option to apply scaling with a `RigidBodyControl`
 
-Features of `jme3-bullet` that Minie omits:
+Some JME bugs that have been fixed in Minie:
+
+ + 772 scale of a physics shape is applied 2x
+ + 877 physics joints don't work unless both bodies are dynamic
+ + 883 extra `physicsTick()` callbacks
+ + 887 debug mesh ignores scaling of `CollisionShape`
+ + 889 disabled physics control gets added to a physics space
+ + 894 `setRestitutionOrthoLin()` sets wrong joint parameter
+ + 901 collision margin initialized to 0
+ + 911 sleeping-threshold setters have unexpected side effects
+ + 913 missing implementation of `PhysicsJoint.finalizeNative()`
+ + 917 `HingeJoint.read()` fails
+ + 918 `getImpulseClamp()` returns the wrong value
+ + 919 `UnsatisfiedLinkError` in `getLimitSoftness()`
+ + 928 crash caused by too many parallel threads
+ + 969 linear factors not cloned
+ + 1029 sphere-sphere collisions not reported
+
+Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
  + `CharacterControl`: use `MinieCharacterControl` or `BetterCharacterControl`
    instead, or else use `PhysicsCharacter` directly
@@ -60,8 +91,6 @@ Other important differences:
  + `RagdollCollisionListener` interface changed and moved
    from the `com.jme3.bullet.collision` package
    to the `com.jme3.bullet.animation` package.
- + `BulletAppState.stopPhysics()` is not longer public:
-   detach the `AppState` instead
 
 ## Contents of this document
 
