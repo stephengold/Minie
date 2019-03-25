@@ -24,7 +24,10 @@ Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
  + Minie's classes are better encapsulated, with fewer public/protected fields
    and less aliasing of small objects like vectors.  This reduces the risk
    of accidentally corrupting its internal data structures.
- + Minie's source code is more readable than that of `jme3-bullet`.
+ + Minie validates method arguments.  This helps detect usage errors that
+   can lead to subtle bugs.
+ + Minie's source code is more readable and better documented
+   than that of `jme3-bullet`.
  + Minie's source code is easy to find than that of `jme3-jbullet`.
 
 Summary of added features:
