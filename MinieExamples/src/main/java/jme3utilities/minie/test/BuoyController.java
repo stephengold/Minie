@@ -72,7 +72,7 @@ public class BuoyController extends IKController {
     /**
      * Instantiate an enabled controller.
      *
-     * @param density the density of the medium (in pmu/psu^3, &gt;0)
+     * @param densityOfMedium the density of the medium (in pmu/psu^3, &gt;0)
      * @param controlledLink the link to be controlled (not null)
      * @param surfaceY the Y coordinate of the surface (in physics-space
      * coordinates)
@@ -93,7 +93,7 @@ public class BuoyController extends IKController {
      *
      * @return the density (in pmu/psu^3)
      */
-    float densityOfMedium() {
+    public float densityOfMedium() {
         return densityOfMedium;
     }
 
@@ -102,7 +102,7 @@ public class BuoyController extends IKController {
      *
      * @return the surface elevation (in physics-space coordinates)
      */
-    float surfaceY() {
+    public float surfaceY() {
         return surfaceY;
     }
 
@@ -111,7 +111,7 @@ public class BuoyController extends IKController {
      *
      * @param density the desired density (in pmu/psu^3)
      */
-    void setDensityOfMedium(float density) {
+    public void setDensityOfMedium(float density) {
         densityOfMedium = density;
     }
 
@@ -120,14 +120,15 @@ public class BuoyController extends IKController {
      *
      * @param y the desired surface elevation (in physics-space coordinates)
      */
-    void setSurfaceY(float y) {
+    public void setSurfaceY(float y) {
         surfaceY = y;
     }
     // *************************************************************************
     // IKController methods
 
     /**
-     * Apply an impulse to the controlled rigid body to simulate buoyancy.
+     * Apply an impulse to the controlled rigid body to simulate buoyancy. Meant
+     * to be invoked by the controlled link before each physics tick.
      *
      * @param timeStep the physics timestep (in seconds, &ge;0)
      */
@@ -176,6 +177,8 @@ public class BuoyController extends IKController {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule ic = importer.getCapsule(this);
+
+        densityOfMedium = ic.readFloat("densityOfMedium", 1f);
         surfaceY = ic.readFloat("surfaceY", 0f);
     }
 
@@ -197,6 +200,8 @@ public class BuoyController extends IKController {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule oc = exporter.getCapsule(this);
+
+        oc.write(densityOfMedium, "densityOfMedium", 1f);
         oc.write(surfaceY, "surfaceY", 0f);
     }
 }
