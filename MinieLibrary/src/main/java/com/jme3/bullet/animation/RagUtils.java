@@ -402,7 +402,8 @@ public class RagUtils {
      * @param storeResult (added to if not null)
      * @return the resulting set (either storeResult or a new instance)
      */
-    static VectorSet vertexLocations(Spatial subtree, VectorSet storeResult) {
+    public static VectorSet vertexLocations(Spatial subtree, 
+            VectorSet storeResult) {
         VectorSet result
                 = (storeResult == null) ? new VectorSet2(64) : storeResult;
 
