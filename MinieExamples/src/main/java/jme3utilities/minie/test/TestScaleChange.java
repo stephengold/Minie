@@ -83,6 +83,9 @@ public class TestScaleChange extends SimpleApplication {
     // *************************************************************************
     // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         BulletAppState bulletAppState = new BulletAppState();

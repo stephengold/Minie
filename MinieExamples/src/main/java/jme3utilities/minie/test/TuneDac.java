@@ -115,6 +115,11 @@ public class TuneDac extends ActionApplication {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Main entry point for the TuneDac application.
+     *
+     * @param ignored array of command-line arguments (not null)
+     */
     public static void main(String[] ignored) {
         TuneDac app = new TuneDac();
         app.start();
@@ -181,6 +186,13 @@ public class TuneDac extends ActionApplication {
         dim.bind("wiggle bone z", KeyInput.KEY_Z);
     }
 
+    /**
+     * Process an action that wasn't handled by the active input mode.
+     *
+     * @param actionString textual description of the action (not null)
+     * @param ongoing true if the action is ongoing, otherwise false
+     * @param tpf time interval between frames (in seconds, &ge;0)
+     */
     @Override
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {

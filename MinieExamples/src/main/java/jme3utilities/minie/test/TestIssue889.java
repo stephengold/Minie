@@ -48,6 +48,11 @@ public class TestIssue889 extends SimpleApplication {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Main entry point for the TestIssue889 application.
+     *
+     * @param ignored array of command-line arguments (not null)
+     */
     public static void main(String[] ignored) {
         TestIssue889 app = new TestIssue889();
         app.start();
@@ -55,6 +60,9 @@ public class TestIssue889 extends SimpleApplication {
     // *************************************************************************
     // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         flyCam.setEnabled(false);

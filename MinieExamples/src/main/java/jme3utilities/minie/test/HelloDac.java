@@ -41,12 +41,24 @@ import com.jme3.scene.Spatial;
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloDac extends SimpleApplication {
+    // *************************************************************************
+    // new methods exposed
 
+    /**
+     * Main entry point for the HelloDac application.
+     *
+     * @param ignored array of command-line arguments (not null)
+     */
     public static void main(String[] ignored) {
         HelloDac application = new HelloDac();
         application.start();
     }
+    // *************************************************************************
+    // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         // Set up Bullet physics (with debug enabled).

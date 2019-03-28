@@ -94,6 +94,9 @@ public class TestHeightfield extends SimpleApplication {
     // *************************************************************************
     // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         Vector3f cameraLocation = new Vector3f(8f, 7f, 3f);

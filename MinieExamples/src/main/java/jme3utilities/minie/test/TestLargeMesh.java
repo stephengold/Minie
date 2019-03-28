@@ -71,6 +71,9 @@ public class TestLargeMesh extends SimpleApplication {
     // *************************************************************************
     // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         Generator generator = new Generator();
