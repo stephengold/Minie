@@ -75,7 +75,7 @@ public class UprightController extends IKController {
     /**
      * reusable matrix for calculating rotational inertia
      */
-    private Matrix3f tmpInertia = new Matrix3f();
+    final private Matrix3f tmpInertia = new Matrix3f();
     /**
      * desired up direction (unit vector in the link body's local coordinates)
      */
