@@ -140,7 +140,6 @@ public class TuneDac extends ActionApplication {
         addLighting();
 
         bulletAppState.setDebugEnabled(true);
-        bulletAppState.setDebugAxisLength(0.1f);
         stateManager.attach(bulletAppState);
         red = MyAsset.createWireframeMaterial(assetManager, ColorRGBA.Red);
 
@@ -345,7 +344,7 @@ public class TuneDac extends ActionApplication {
 
         Spatial controlledSpatial = sc.getSpatial();
         controlledSpatial.addControl(dac);
-        
+
         PhysicsRigidBody[] bodies = dac.listRigidBodies();
         for (PhysicsRigidBody body : bodies) {
             body.setContactResponse(false);
