@@ -62,10 +62,12 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
+import jme3utilities.MyMesh;
 import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.math.VectorSet;
 
 /**
  * Access a DynamicAnimControl at the PhysicsLink level once it's been added to
@@ -1171,7 +1173,7 @@ public class DacLinks
         Spatial attachModel = getAttachmentModel(boneName);
         attachModel = (Spatial) Misc.deepCopy(attachModel);
         VectorSet vertexLocations
-                = RagUtils.vertexLocations(attachModel, null);
+                = MyMesh.listVertexLocations(attachModel, null);
         /*
          * Attach the model to the attachments node.
          */

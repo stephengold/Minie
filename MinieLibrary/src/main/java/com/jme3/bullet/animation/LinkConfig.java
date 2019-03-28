@@ -47,6 +47,7 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.RectangularSolid;
+import jme3utilities.math.VectorSet;
 
 /**
  * Configuration data for a PhysicsLink, not including the bone name, attached

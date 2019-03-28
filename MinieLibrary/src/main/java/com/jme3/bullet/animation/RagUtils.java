@@ -63,6 +63,8 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
+import jme3utilities.math.VectorSet;
+import jme3utilities.math.VectorSetUsingBuffer;
 
 /**
  * Utility methods used by DynamicAnimControl and associated classes.
@@ -115,7 +117,7 @@ public class RagUtils {
                         managerMap);
                 VectorSet set = coordsMap.get(managerName);
                 if (set == null) {
-                    set = new VectorSet2(1);
+                    set = new VectorSetUsingBuffer(1);
                     coordsMap.put(managerName, set);
                 }
                 MyMesh.vertexVector3f(mesh, VertexBuffer.Type.BindPosePosition,
@@ -392,42 +394,6 @@ public class RagUtils {
                         "A model geometry ignores transforms.");
             }
         }
-    }
-
-    /**
-     * Enumerate the world locations of all vertices in the specified subtree of
-     * a scene graph. Note: recursive!
-     *
-     * @param subtree (may be null)
-     * @param storeResult (added to if not null)
-     * @return the resulting set (either storeResult or a new instance)
-     */
-    public static VectorSet vertexLocations(Spatial subtree, 
-            VectorSet storeResult) {
-        VectorSet result
-                = (storeResult == null) ? new VectorSet2(64) : storeResult;
-
-        if (subtree instanceof Geometry) {
-            Geometry geometry = (Geometry) subtree;
-            Mesh mesh = geometry.getMesh();
-            int numVertices = mesh.getVertexCount();
-            Vector3f tempLocation = new Vector3f();
-            for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
-                MyMesh.vertexVector3f(mesh, VertexBuffer.Type.Position, vertexI,
-                        tempLocation);
-                geometry.localToWorld(tempLocation, tempLocation);
-                result.add(tempLocation);
-            }
-
-        } else if (subtree instanceof Node) {
-            Node node = (Node) subtree;
-            List<Spatial> children = node.getChildren();
-            for (Spatial child : children) {
-                vertexLocations(child, result);
-            }
-        }
-
-        return result;
     }
     // *************************************************************************
     // private methods

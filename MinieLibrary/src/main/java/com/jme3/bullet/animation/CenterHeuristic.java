@@ -35,6 +35,7 @@ import com.jme3.bounding.BoundingSphere;
 import com.jme3.math.Vector3f;
 import java.nio.FloatBuffer;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.VectorSet;
 
 /**
  * Enumerate algorithms to locate the center of mass for a PhysicsLink.
