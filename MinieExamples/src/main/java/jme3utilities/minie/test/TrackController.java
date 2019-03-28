@@ -33,6 +33,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
@@ -68,6 +69,10 @@ public class TrackController extends IKController {
      * factor used to calculate the error gain
      */
     private float errorGainFactor = 0.1f;
+    /**
+     * reusable matrix for calculating rotational inertia
+     */
+    final private Matrix3f tmpInertia = new Matrix3f();
     /**
      * body being tracked (not null)
      */
@@ -249,8 +254,9 @@ public class TrackController extends IKController {
          * Scale by the link body's rotational inertia.
          */
         PhysicsRigidBody rigidBody = link.getRigidBody();
-        Vector3f invInertia = rigidBody.getInverseInertiaLocal(null);
-        sum.divideLocal(invInertia);
+        rigidBody.getInverseInertiaWorld(tmpInertia);
+        tmpInertia.invertLocal();
+        tmpInertia.mult(sum, sum);
         /*
          * Apply the torque impulse to the controlled link's rigid body.
          */
