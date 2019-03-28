@@ -38,6 +38,7 @@ import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
+import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -344,6 +345,11 @@ public class TuneDac extends ActionApplication {
 
         Spatial controlledSpatial = sc.getSpatial();
         controlledSpatial.addControl(dac);
+        
+        PhysicsRigidBody[] bodies = dac.listRigidBodies();
+        for (PhysicsRigidBody body : bodies) {
+            body.setContactResponse(false);
+        }
     }
 
     /**
