@@ -105,7 +105,7 @@ public class TuneDac extends ActionApplication {
     private DynamicAnimControl dac;
     private int motorVelocitySign = 0;
     private int wiggleAxis = -1;
-    private Material magenta;
+    private Material red;
     private Node model;
     private PhysicsLink wiggleLink;
     private RotationalLimitMotor motor = null;
@@ -141,8 +141,7 @@ public class TuneDac extends ActionApplication {
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugAxisLength(0.1f);
         stateManager.attach(bulletAppState);
-        magenta = MyAsset.createWireframeMaterial(assetManager,
-                ColorRGBA.Magenta);
+        red = MyAsset.createWireframeMaterial(assetManager, ColorRGBA.Red);
 
         CollisionShape.setDefaultMargin(0.005f); // 5 mm
         PhysicsSpace ps = bulletAppState.getPhysicsSpace();
@@ -163,7 +162,7 @@ public class TuneDac extends ActionApplication {
     }
 
     /**
-     * Add new hotkey bindings and override existing ones.
+     * Add application-specific hotkey bindings and override existing ones.
      */
     @Override
     public void moreDefaultBindings() {
@@ -209,11 +208,11 @@ public class TuneDac extends ActionApplication {
                 case "toggle meshes":
                     toggleMeshes();
                     return;
-                case "toggle skeleton":
-                    toggleSkeleton();
-                    return;
                 case "toggle physics debug":
                     togglePhysicsDebug();
+                    return;
+                case "toggle skeleton":
+                    toggleSkeleton();
                     return;
 
                 case "wiggle bone first child":
@@ -480,17 +479,18 @@ public class TuneDac extends ActionApplication {
             String name = link.boneName();
             logger.log(Level.SEVERE, "change link to {0}",
                     MyString.quote(name));
+            if (wiggleLink != null) {
+                wiggleLink.getRigidBody().setDebugMaterial(null);
+            }
             wiggleLink = link;
             wiggleAxis = -1;
             motor = null;
             motorVelocitySign = 0;
+            wiggleLink.getRigidBody().setDebugMaterial(red);
 
             TorsoLink torsoLink = dac.getTorsoLink();
             dac.bindSubtree(torsoLink, 0.5f);
-            if (wiggleLink == torsoLink) {
-                torsoLink.getRigidBody().setDebugMaterial(magenta);
-            } else {
-                torsoLink.getRigidBody().setDebugMaterial(null);
+            if (wiggleLink != torsoLink) {
                 BoneLink boneLink = (BoneLink) wiggleLink;
                 boneLink.setDynamic(Vector3f.ZERO, false, false, false);
             }
