@@ -71,6 +71,7 @@ import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.controllers.BuoyController;
 import jme3utilities.minie.test.tunings.CesiumManControl;
 import jme3utilities.minie.test.tunings.ElephantControl;
 import jme3utilities.minie.test.tunings.JaimeControl;

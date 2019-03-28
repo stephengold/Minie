@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2018-2019, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,7 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.minie.test;
+package jme3utilities.minie.test.controllers;
 
 import com.jme3.bullet.animation.IKController;
 import com.jme3.bullet.animation.PhysicsLink;
@@ -43,13 +43,12 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A IK controller to track a target body (keep the controlled link
- * aimed/looking/pointed at it). If the model oscillates, try reducing the gain
- * factors.
+ * A IK controller to keep the controlled link upright. If the model oscillates,
+ * try reducing the gain factors.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TrackController extends IKController {
+public class UprightController extends IKController {
     // *************************************************************************
     // constants and loggers
 
@@ -57,7 +56,11 @@ public class TrackController extends IKController {
      * message logger for this class
      */
     final public static Logger logger2
-            = Logger.getLogger(TrackController.class.getName());
+            = Logger.getLogger(UprightController.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_Y}
+     */
+    final private static Vector3f unitY = new Vector3f(0f, 1f, 0f);
     // *************************************************************************
     // fields
 
@@ -74,18 +77,9 @@ public class TrackController extends IKController {
      */
     final private Matrix3f tmpInertia = new Matrix3f();
     /**
-     * body being tracked (not null)
-     */
-    private PhysicsRigidBody targetBody;
-    /**
-     * desired aim/look/point direction (unit vector in the link body's local
-     * coordinates)
+     * desired up direction (unit vector in the link body's local coordinates)
      */
     private Vector3f directionInLinkBody;
-    /**
-     * aim/look/point reference location (in the link body's local coordinates)
-     */
-    private Vector3f pivotInLinkBody;
     /**
      * error from the previous timestep
      */
@@ -97,22 +91,14 @@ public class TrackController extends IKController {
      * Instantiate an enabled controller.
      *
      * @param controlledLink the link to be controlled (not null)
-     * @param pivotInLinkBody the reference location (in the link body's local
-     * coordinates, not null, unaffected)
-     * @param directionInLinkBody the aim/look/point direction (in the link
-     * body's local coordinates, not null, not zero, unaffected)
-     * @param targetBody (not null, alias created)
+     * @param directionInLinkBody the up direction (in the link body's local
+     * coordinates, not null, not zero, unaffected)
      */
-    public TrackController(PhysicsLink controlledLink, Vector3f pivotInLinkBody,
-            Vector3f directionInLinkBody, PhysicsRigidBody targetBody) {
+    public UprightController(PhysicsLink controlledLink,
+            Vector3f directionInLinkBody) {
         super(controlledLink);
-        Validate.nonNull(pivotInLinkBody, "pivot in link body");
         Validate.nonZero(directionInLinkBody, "direction in link body");
-        Validate.nonNull(targetBody, "target");
-
-        this.pivotInLinkBody = pivotInLinkBody.clone();
         this.directionInLinkBody = directionInLinkBody.normalize();
-        this.targetBody = targetBody;
     }
     // *************************************************************************
     // new methods exposed
@@ -168,16 +154,14 @@ public class TrackController extends IKController {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        targetBody = cloner.clone(targetBody);
         directionInLinkBody = cloner.clone(directionInLinkBody);
-        pivotInLinkBody = cloner.clone(pivotInLinkBody);
         previousError = cloner.clone(previousError);
     }
 
     /**
      * Apply an impulse to the controlled rigid body to keep the controlled link
-     * aimed/looking/pointed at the target body. Meant to be invoked by the
-     * controlled link before each physics tick.
+     * upright. Meant to be invoked by the controlled link before each physics
+     * tick.
      *
      * @param timeStep the physics timestep (in seconds, &ge;0)
      */
@@ -187,55 +171,36 @@ public class TrackController extends IKController {
         if (!isEnabled()) {
             return;
         }
+
         PhysicsLink link = getLink();
         assert !link.isKinematic();
-
+        /*
+         * Convert the body's "up" direction to physics-space coordinates.
+         */
         Transform localToWorld = link.physicsTransform(null);
-        localToWorld.setScale(1f);
-        /*
-         * Calculate the actual direction in physics-space coordinates.
-         */
-        Vector3f actual
-                = localToWorld.getRotation().mult(directionInLinkBody, null);
-        assert actual.isUnitVector();
-        /*
-         * Calculate the desired direction in physics-space coordinates.
-         */
-        Vector3f desired = targetBody.getPhysicsLocation(null);
-        Vector3f pivotInWorld
-                = localToWorld.transformVector(pivotInLinkBody, null);
-        desired.subtractLocal(pivotInWorld);
-        desired.normalizeLocal();
-
-        if (link.boneName().equals("Eye.L")) {//
-            TrackDemo.watchActual.set(pivotInWorld).addLocal(actual);
-            TrackDemo.watchDesired.set(pivotInWorld).addLocal(desired);
-            //return;
-        }
+        Vector3f actual = localToWorld.getRotation().mult(directionInLinkBody);
         /*
          * error = actual X desired
          */
-        Vector3f error = actual.cross(desired);
+        Vector3f error = actual.cross(unitY);
         /*
          * Return early if the error angle is 0.
          * Magnify the error if the angle exceeds 90 degrees.
          */
-        double cosErrorAngle = MyVector3f.dot(actual, desired);
         float absSinErrorAngle = error.length();
         if (absSinErrorAngle == 0f) {
-            if (cosErrorAngle >= 0.0) { // No error at all!
+            if (error.y >= 0f) { // No error at all!
                 previousError.set(error);
                 return;
             }
             // Error angle is 180 degrees!
             Vector3f ortho = new Vector3f();
-            MyVector3f.generateBasis(desired, ortho, new Vector3f());
+            MyVector3f.generateBasis(unitY, ortho, new Vector3f());
             error = actual.cross(ortho);
-            cosErrorAngle = MyVector3f.dot(actual, ortho);
             absSinErrorAngle = error.length();
         }
         Vector3f errorAxis = error.divide(absSinErrorAngle);
-        float errorMagnitude = (cosErrorAngle >= 0.0) ? absSinErrorAngle : 1f;
+        float errorMagnitude = (error.y >= 0f) ? absSinErrorAngle : 1f;
         errorAxis.mult(errorMagnitude, error);
         /*
          * Calculate delta: the change in the error vector.
@@ -250,9 +215,7 @@ public class TrackController extends IKController {
         MyVector3f.accumulateScaled(sum, delta, deltaGainFactor);
         // proportional term
         MyVector3f.accumulateScaled(sum, error, errorGainFactor);
-        /*
-         * Scale by the link body's rotational inertia.
-         */
+        // scale by rotational inertia
         PhysicsRigidBody rigidBody = link.getRigidBody();
         rigidBody.getInverseInertiaWorld(tmpInertia);
         tmpInertia.invertLocal();
@@ -276,11 +239,8 @@ public class TrackController extends IKController {
 
         deltaGainFactor = ic.readFloat("deltaGainFactor", 0.1f);
         errorGainFactor = ic.readFloat("errorGainFactor", 0.1f);
-        targetBody = (PhysicsRigidBody) ic.readSavable("targetBody", null);
         directionInLinkBody = (Vector3f) ic.readSavable("directionInLinkBody",
                 new Vector3f(1f, 0f, 0f));
-        pivotInLinkBody = (Vector3f) ic.readSavable("directionInLinkBody",
-                new Vector3f());
         previousError = (Vector3f) ic.readSavable("previousError",
                 new Vector3f());
     }
@@ -298,9 +258,7 @@ public class TrackController extends IKController {
 
         oc.write(deltaGainFactor, "deltaGainFactor", 0.1f);
         oc.write(errorGainFactor, "errorGainFactor", 0.1f);
-        oc.write(targetBody, "targetBody", null);
         oc.write(directionInLinkBody, "directionInLinkBody", null);
-        oc.write(pivotInLinkBody, "pivotInLinkBody", null);
         oc.write(previousError, "previousError", null);
     }
 }

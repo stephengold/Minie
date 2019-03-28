@@ -74,6 +74,8 @@ import jme3utilities.math.MyArray;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.controllers.BalanceController;
+import jme3utilities.minie.test.controllers.UprightController;
 import jme3utilities.minie.test.tunings.Biped;
 import jme3utilities.minie.test.tunings.JaimeControl;
 import jme3utilities.minie.test.tunings.MhGameControl;
