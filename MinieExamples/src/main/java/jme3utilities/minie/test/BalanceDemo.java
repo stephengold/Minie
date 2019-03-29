@@ -237,8 +237,8 @@ public class BalanceDemo extends ActionApplication {
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
         addLighting();
+
         stateManager.getState(StatsAppState.class).toggleStats();
-        addBox();
 
         comPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Cyan,
                 "ring");
@@ -248,6 +248,7 @@ public class BalanceDemo extends ActionApplication {
                 "square");
         rootNode.attachChild(supportPoint);
 
+        addBox();
         addModel("Sinbad");
     }
 
@@ -473,7 +474,8 @@ public class BalanceDemo extends ActionApplication {
         cgModel.setCullHint(Spatial.CullHint.Never);
 
         rootNode.attachChild(cgModel);
-        setHeight(cgModel, 2f);
+        float height = 2f;
+        setHeight(cgModel, height);
         center(cgModel);
 
         List<SkeletonControl> scList

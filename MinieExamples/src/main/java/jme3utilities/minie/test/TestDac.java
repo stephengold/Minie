@@ -135,6 +135,9 @@ public class TestDac extends ActionApplication {
     // *************************************************************************
     // fields
 
+    /**
+     * channel for playing canned animations
+     */
     private AnimChannel animChannel = null;
     private BoneLink leftClavicle;
     private BoneLink leftFemur;
@@ -159,13 +162,25 @@ public class TestDac extends ActionApplication {
     private Material ballMaterial;
     final private Mesh ballMesh = new Sphere(16, 32, ballRadius);
     final private NameGenerator nameGenerator = new NameGenerator();
+    /**
+     * C-G model on which the control is being tested
+     */
     private Node cgModel;
     /**
      * space for physics simulation
      */
     private PhysicsSpace physicsSpace;
+    /**
+     * SkeletonControl of the model
+     */
     private SkeletonControl sc;
+    /**
+     * visualizer for the skeleton of the C-G model
+     */
     private SkeletonVisualizer sv;
+    /**
+     * name of the animation to play on the model
+     */
     private String animationName = null;
     /**
      * name some important linked bones
@@ -179,7 +194,7 @@ public class TestDac extends ActionApplication {
     // new methods exposed
 
     /**
-     * Main entry point for the application.
+     * Main entry point for the TestDac application.
      *
      * @param ignored array of command-line arguments (not null)
      */
@@ -251,6 +266,7 @@ public class TestDac extends ActionApplication {
         dim.bind("limp left arm", KeyInput.KEY_LBRACKET);
         dim.bind("limp right arm", KeyInput.KEY_RBRACKET);
         dim.bind("load", KeyInput.KEY_L);
+
         dim.bind("load CesiumMan", KeyInput.KEY_F12);
         dim.bind("load Elephant", KeyInput.KEY_F3);
         dim.bind("load Jaime", KeyInput.KEY_F2);
@@ -261,6 +277,7 @@ public class TestDac extends ActionApplication {
         dim.bind("load Sinbad", KeyInput.KEY_F1);
         dim.bind("load SinbadWith1Sword", KeyInput.KEY_F10);
         dim.bind("load SinbadWithSwords", KeyInput.KEY_F4);
+
         dim.bind("pin leftFemur", KeyInput.KEY_9);
         dim.bind("raise leftFoot", KeyInput.KEY_LCONTROL);
         dim.bind("raise leftHand", KeyInput.KEY_LSHIFT);
@@ -275,6 +292,7 @@ public class TestDac extends ActionApplication {
         dim.bind("signal rotateRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
         dim.bind("signal shower", KeyInput.KEY_INSERT);
+
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
@@ -301,12 +319,15 @@ public class TestDac extends ActionApplication {
                 case "drop attachments":
                     dac.dropAttachments();
                     return;
+
                 case "dump physicsSpace":
                     dumpPhysicsSpace();
                     return;
+
                 case "dump scenes":
                     dumpScenes();
                     return;
+
                 case "freeze all":
                     dac.freezeSubtree(dac.getTorsoLink(), false);
                     return;
@@ -392,19 +413,24 @@ public class TestDac extends ActionApplication {
                 case "set height 3":
                     setHeight(3f);
                     return;
+
                 case "toggle meshes":
                     toggleMeshes();
                     return;
+
                 case "toggle pause":
                     togglePause();
                     return;
+
                 case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
+
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
             }
+
             String[] words = actionString.split(" ");
             if (words.length >= 2 && "load".equals(words[0])) {
                 addModel(words[1]);
@@ -417,7 +443,7 @@ public class TestDac extends ActionApplication {
     /**
      * Callback invoked once per frame.
      *
-     * @param tpf time interval between frames (in seconds, &ge;0)
+     * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float tpf) {
@@ -477,7 +503,7 @@ public class TestDac extends ActionApplication {
     }
 
     /**
-     * Add a large static box to serve as a platform.
+     * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox() {
         float halfExtent = 50f; // mesh units
@@ -575,7 +601,8 @@ public class TestDac extends ActionApplication {
         cgModel.setCullHint(Spatial.CullHint.Never);
 
         rootNode.attachChild(cgModel);
-        setHeight(cgModel, 2f);
+        float height = 2f;
+        setHeight(cgModel, height);
         center(cgModel);
         resetTransform = cgModel.getLocalTransform().clone();
 
@@ -652,8 +679,8 @@ public class TestDac extends ActionApplication {
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setSolverNumIterations(15);
         physicsSpace.setAccuracy(0.01f); // 10-msec timestep
+        physicsSpace.setSolverNumIterations(15);
     }
 
     /**
