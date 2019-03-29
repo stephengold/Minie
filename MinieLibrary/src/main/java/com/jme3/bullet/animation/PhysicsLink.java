@@ -214,7 +214,7 @@ abstract public class PhysicsLink
 
     /**
      * Read the average density of the rigid body.
-     * 
+     *
      * @return the density (&gt;0)
      */
     public float density() {
@@ -689,15 +689,15 @@ abstract public class PhysicsLink
         float volume = MyShape.volume(collisionShape);
         float mass = linkConfig.mass(volume);
         density = mass / volume;
-        PhysicsRigidBody rigidBody = new PhysicsRigidBody(collisionShape, mass);
+        PhysicsRigidBody body = new PhysicsRigidBody(collisionShape, mass);
 
         float viscousDamping = control.damping();
-        rigidBody.setDamping(viscousDamping, viscousDamping);
+        body.setDamping(viscousDamping, viscousDamping);
 
-        rigidBody.setKinematic(true);
-        rigidBody.setUserObject(this);
+        body.setKinematic(true);
+        body.setUserObject(this);
 
-        return rigidBody;
+        return body;
     }
 
     /**
