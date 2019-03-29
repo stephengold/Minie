@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.7.7 released on TBD
+## Version 0.7.7 released on 28 March 2019
 
  + Moved `RagUtils.vertexLocations()` and `VectorSet` to
    the `jme3-utilities-heart` library.
