@@ -40,7 +40,9 @@ import java.util.logging.Logger;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class ElephantControl extends DynamicAnimControl {
+public class ElephantControl 
+        extends DynamicAnimControl
+        implements Face {
     // *************************************************************************
     // constants and loggers
 
@@ -137,5 +139,37 @@ public class ElephantControl extends DynamicAnimControl {
                 new RangeOfMotion(0.2f, -0.2f, 0.2f, -0.2f, 0f, -0.5f));
         super.link("Foot_B_L", hull,
                 new RangeOfMotion(0f, 0.2f, 0.2f));
+    }
+    // *************************************************************************
+    // Face methods
+
+    /**
+     * Read the vertex spec for the center of the model's face. Typically this
+     * is on the bridge of the nose, halfway between the pupils.
+     *
+     * @return the vertex specification (not null, not empty)
+     * @see
+     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
+     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
+     */
+    @Override
+    public String faceCenterSpec() {
+        return "1524/Elephant-geom-1";
+    }
+
+    /**
+     * Copy the direction the model's head is facing.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a direction vector (unit vector in the physics link's local
+     * coordinates, either storeResult or a new vector)
+     */
+    @Override
+    public Vector3f faceDirection(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        result.set(1f, 1f, 0f);
+        result.normalizeLocal();
+        
+        return result;
     }
 }

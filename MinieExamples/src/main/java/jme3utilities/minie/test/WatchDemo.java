@@ -78,6 +78,7 @@ import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.controllers.TrackController;
 import jme3utilities.minie.test.tunings.Binocular;
+import jme3utilities.minie.test.tunings.Face;
 import jme3utilities.minie.test.tunings.JaimeControl;
 import jme3utilities.minie.test.tunings.MhGameControl;
 import jme3utilities.minie.test.tunings.NinjaControl;
@@ -147,18 +148,10 @@ public class WatchDemo extends ActionApplication {
      * visualizer for the skeleton of the C-G model
      */
     private SkeletonVisualizer sv;
-    /**
-     * vertex specifier for bridge of the nose
-     */
-    private String noseSpec;
 
     private TrackController leftWatch = null;
     private TrackController rightWatch = null;
     private TrackController watch = null;
-    /**
-     * face direction in the coordinates of the head
-     */
-    private Vector3f faceDirection;
     /**
      * locations of grid corners in world coordinates
      */
@@ -562,6 +555,9 @@ public class WatchDemo extends ActionApplication {
         /*
          * The face and neck track the target.
          */
+        Face face = (Face) dac;
+        Vector3f faceDirection = face.faceDirection(null);
+        String noseSpec = face.faceCenterSpec();
         PhysicsLink noseLink = dac.findManagerForVertex(noseSpec, null, pivot);
         int chainLength = 2;
         dac.setDynamicChain(noseLink, chainLength, Vector3f.ZERO, false);
@@ -616,8 +612,6 @@ public class WatchDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new JaimeControl();
-        faceDirection = Vector3f.UNIT_Z;
-        noseSpec = "122/JaimeGeom-geom-1"; // bridge of nose
 
         gridBottomLeft.set(-1.2f, 1.1f, -0.5f);
         gridBottomRight.set(-1.2f, 1.1f, 0.5f);
@@ -632,8 +626,6 @@ public class WatchDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new MhGameControl();
-        faceDirection = Vector3f.UNIT_Z;
-        noseSpec = "9313/male_generic"; // bridge of nose
 
         gridBottomLeft.set(-0.5f, 1.3f, -0.5f);
         gridBottomRight.set(-0.5f, 1.3f, 0.5f);
@@ -647,8 +639,6 @@ public class WatchDemo extends ActionApplication {
         cgModel.rotate(0f, 1.6f, 0f);
 
         dac = new NinjaControl();
-        faceDirection = new Vector3f(0f, 0f, -1f);
-        noseSpec = "277/Ninja-geom-1"; // bridge of nose
 
         gridBottomLeft.set(-0.2f, 1.3f, -0.5f);
         gridBottomRight.set(-0.2f, 1.3f, 0.5f);
@@ -662,8 +652,6 @@ public class WatchDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new OtoControl();
-        faceDirection = new Vector3f(-1f, 0f, 0f);
-        noseSpec = "161/Oto-geom-1"; // bridge of nose
 
         gridBottomLeft.set(-0.5f, 1.3f, -0.5f);
         gridBottomRight.set(-0.5f, 1.3f, 0.5f);
@@ -677,8 +665,6 @@ public class WatchDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new PuppetControl();
-        faceDirection = Vector3f.UNIT_Y;
-        noseSpec = "140/Mesh.011_0"; // bridge of nose
 
         gridBottomLeft.set(-0.5f, 1.3f, -0.5f);
         gridBottomRight.set(-0.5f, 1.3f, 0.5f);
@@ -693,8 +679,6 @@ public class WatchDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new SinbadControl();
-        faceDirection = new Vector3f(0f, 1f, -3f).normalizeLocal();
-        noseSpec = "1844/Sinbad-geom-2"; // bridge of nose
 
         gridBottomLeft.set(-0.8f, 1.3f, -0.5f);
         gridBottomRight.set(-0.8f, 1.3f, 0.5f);
@@ -722,9 +706,6 @@ public class WatchDemo extends ActionApplication {
         dac = new SinbadControl();
         dac.attach("Handle.R", swordConfig, sword);
 
-        faceDirection = new Vector3f(0f, 1f, -3f).normalizeLocal();
-        noseSpec = "1844/Sinbad-geom-2"; // bridge of nose
-
         gridBottomLeft.set(-0.8f, 1.3f, -0.5f);
         gridBottomRight.set(-0.8f, 1.3f, 0.5f);
     }
@@ -751,9 +732,6 @@ public class WatchDemo extends ActionApplication {
         dac = new SinbadControl();
         dac.attach("Handle.L", swordConfig, sword);
         dac.attach("Handle.R", swordConfig, sword);
-
-        faceDirection = new Vector3f(0f, 1f, -3f).normalizeLocal();
-        noseSpec = "1844/Sinbad-geom-2"; // bridge of nose
 
         gridBottomLeft.set(-0.8f, 1.3f, -0.5f);
         gridBottomRight.set(-0.8f, 1.3f, 0.5f);

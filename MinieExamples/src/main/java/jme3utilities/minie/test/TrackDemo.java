@@ -72,13 +72,13 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
 import jme3utilities.debug.AxesVisualizer;
-import jme3utilities.debug.PointVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.controllers.TrackController;
 import jme3utilities.minie.test.tunings.Binocular;
+import jme3utilities.minie.test.tunings.Face;
 import jme3utilities.minie.test.tunings.JaimeControl;
 import jme3utilities.minie.test.tunings.MhGameControl;
 import jme3utilities.minie.test.tunings.NinjaControl;
@@ -143,10 +143,6 @@ public class TrackDemo extends ActionApplication {
     private SkeletonControl sc;
     private SkeletonVisualizer sv;
     /**
-     * vertex specifier for bridge of the nose
-     */
-    private String noseSpec;
-    /**
      * vertex specifier for finger/sword tip
      */
     private String tipSpec;
@@ -155,10 +151,6 @@ public class TrackDemo extends ActionApplication {
     private TrackController rightWatch = null;
     private TrackController watch = null;
     /**
-     * face direction in the coordinates of the head
-     */
-    private Vector3f faceDirection;
-    /*
      * locations of grid corners in world coordinates
      */
     private Vector3f gridTopLeft;
@@ -211,6 +203,7 @@ public class TrackDemo extends ActionApplication {
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
         addLighting();
+
         stateManager.getState(StatsAppState.class).toggleStats();
         addAxes();
         addBox();
@@ -251,6 +244,7 @@ public class TrackDemo extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal track", "RMB");
+
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
@@ -561,17 +555,20 @@ public class TrackDemo extends ActionApplication {
         tipJoint = dac.moveToBody(tipLink, pivot, targetBody, Vector3f.ZERO);
         tipJoint.setEnabled(false);
         /*
-         * The face tracks the target.
+         * The face and neck track the target.
          */
+        Face face = (Face) dac;
+        Vector3f faceDirection = face.faceDirection(null);
+        String noseSpec = face.faceCenterSpec();
         PhysicsLink noseLink = dac.findManagerForVertex(noseSpec, null, pivot);
         noseLink.setDynamic(Vector3f.ZERO);
         watch = new TrackController(noseLink, pivot, faceDirection, targetBody);
         noseLink.addIKController(watch);
-        watch.setDeltaGainFactor(0.2f);
+        watch.setDeltaGainFactor(1.2f);
         watch.setEnabled(false);
-        watch.setErrorGainFactor(0.1f);
+        watch.setErrorGainFactor(0.3f);
         /*
-         * If the model's eyes are animated, each eye tracks the target.
+         * If the model's eyes are animated, each eye also tracks the target.
          */
         if (dac instanceof Binocular) {
             Binocular binocular = (Binocular) dac;
@@ -585,9 +582,9 @@ public class TrackDemo extends ActionApplication {
             leftWatch = new TrackController(link, pivot, lookDirection,
                     targetBody);
             link.addIKController(leftWatch);
-            leftWatch.setDeltaGainFactor(5f);
+            leftWatch.setDeltaGainFactor(4f);
             leftWatch.setEnabled(false);
-            leftWatch.setErrorGainFactor(0.1f);
+            leftWatch.setErrorGainFactor(1f);
             /*
              * right eye
              */
@@ -598,9 +595,9 @@ public class TrackDemo extends ActionApplication {
             rightWatch = new TrackController(link, pivot, lookDirection,
                     targetBody);
             link.addIKController(rightWatch);
-            rightWatch.setDeltaGainFactor(5f);
+            rightWatch.setDeltaGainFactor(4f);
             rightWatch.setEnabled(false);
-            rightWatch.setErrorGainFactor(0.1f);
+            rightWatch.setErrorGainFactor(1f);
         }
     }
 
@@ -615,8 +612,7 @@ public class TrackDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new JaimeControl();
-        faceDirection = Vector3f.UNIT_Z;
-        noseSpec = "122/JaimeGeom-geom-1"; // bridge of nose
+
         tipSpec = "2704/JaimeGeom-geom-1"; // tip of right index finger
     }
 
@@ -629,8 +625,7 @@ public class TrackDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new MhGameControl();
-        faceDirection = Vector3f.UNIT_Z;
-        noseSpec = "9313/male_generic"; // bridge of nose
+
         tipSpec = "5239/male_generic"; // tip of right index finger
     }
 
@@ -642,8 +637,7 @@ public class TrackDemo extends ActionApplication {
         cgModel.rotate(0f, 1.6f, 0f);
 
         dac = new NinjaControl();
-        faceDirection = new Vector3f(0f, 0f, -1f);
-        noseSpec = "277/Ninja-geom-1"; // bridge of nose
+
         tipSpec = "55/Ninja-geom-2"; // tip of katana blade
     }
 
@@ -655,8 +649,7 @@ public class TrackDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new OtoControl();
-        faceDirection = new Vector3f(-1f, 0f, 0f);
-        noseSpec = "161/Oto-geom-1"; // bridge of nose
+
         tipSpec = "3236/Oto-geom-1"; // right knuckle
     }
 
@@ -668,8 +661,7 @@ public class TrackDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new PuppetControl();
-        faceDirection = Vector3f.UNIT_Y;
-        noseSpec = "140/Mesh.011_0"; // bridge of nose
+
         tipSpec = "3185/Mesh.009_0"; // tip of right index finger
     }
 
@@ -682,8 +674,7 @@ public class TrackDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new SinbadControl();
-        faceDirection = new Vector3f(0f, 1f, -3f).normalizeLocal();
-        noseSpec = "1844/Sinbad-geom-2"; // bridge of nose
+
         tipSpec = "223/Sinbad-geom-2"; // tip of right index finger
 
         gridBottomLeft.set(-1f, 0.5f, -1f);
@@ -712,8 +703,6 @@ public class TrackDemo extends ActionApplication {
         dac = new SinbadControl();
         dac.attach("Handle.R", swordConfig, sword);
 
-        faceDirection = new Vector3f(0f, 1f, -3f).normalizeLocal();
-        noseSpec = "1844/Sinbad-geom-2"; // bridge of nose
         tipSpec = "4/Sword-geom-3/Handle.R"; // tip of sword blade
         gridBottomLeft = new Vector3f(-1f, 0.5f, -1f);
         gridBottomRight = new Vector3f(-1f, 0.5f, 1f);
@@ -742,8 +731,6 @@ public class TrackDemo extends ActionApplication {
         dac.attach("Handle.L", swordConfig, sword);
         dac.attach("Handle.R", swordConfig, sword);
 
-        faceDirection = new Vector3f(0f, 1f, -3f).normalizeLocal();
-        noseSpec = "1844/Sinbad-geom-2"; // bridge of nose
         tipSpec = "4/Sword-geom-3/Handle.R"; // tip of right-hand sword blade
     }
 

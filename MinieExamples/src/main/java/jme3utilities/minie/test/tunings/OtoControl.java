@@ -43,7 +43,7 @@ import java.util.logging.Logger;
  */
 public class OtoControl
         extends DynamicAnimControl
-        implements Biped {
+        implements Biped, Face {
     // *************************************************************************
     // constants and loggers
 
@@ -120,5 +120,35 @@ public class OtoControl
     @Override
     public BoneLink getRightFoot() {
         return findBoneLink("foot.right");
+    }
+    // *************************************************************************
+    // Face methods
+
+    /**
+     * Read the vertex spec for the center of the model's face. Typically this
+     * is on the bridge of the nose, halfway between the pupils.
+     *
+     * @return the vertex specification (not null, not empty)
+     * @see
+     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
+     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
+     */
+    @Override
+    public String faceCenterSpec() {
+        return "161/Oto-geom-1";
+    }
+
+    /**
+     * Copy the direction the model's head is facing.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a direction vector (unit vector in the physics link's local
+     * coordinates, either storeResult or a new vector)
+     */
+    @Override
+    public Vector3f faceDirection(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        result.set(-1f, 0f, 0f);
+        return result;
     }
 }
