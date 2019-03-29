@@ -1,5 +1,15 @@
 # release notes for the Minie library and related examples
 
+## Version 0.7.7 released on TBD
+
+ + Moved `RagUtils.vertexLocations()` and `VectorSet` to
+   the `jme3-utilities-heart` library.
+ + Lots of work on apps:
+   + Added `WatchDemo` app.
+   + Disabled contact response in `TuneDac`.
+   + Moved IK controllers to their own package.
+   + Used `getInverseInertiaWorld()` in `TrackController`.
+
 ## Version 0.7.6 released on 24 March 2019
 
  + Fixed a bug where `attachmentMass()` could return an outdated value.
@@ -9,7 +19,7 @@
  + Added a `MultiSphere` constructor for a 2-sphere shape, based
    on a `RectangularSolid`.
  + Added `boundingBox()` methods for collision shapes and collision objects.
- + Added `countRigidBodies()` and `getPcoLists()` methods to the
+ + Added `countRigidBodies()` and `getPcoList()` methods to the
    `PhysicsSpace` class.
  + Added a `density()` method to the `PhysicsLink` class.
  + Added a `HullCollisionShape` constructor based on a `FloatBuffer`.
