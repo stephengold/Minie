@@ -28,7 +28,7 @@ Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
    can lead to subtle bugs.
  + Minie's source code is more readable and better documented
    than that of `jme3-bullet`.
- + Minie's source code is easy to find than that of `jme3-jbullet`.
+ + Minie's source code is easier to find than that of `jme3-jbullet`.
 
 Summary of added features:
 
@@ -456,6 +456,8 @@ due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 
 YouTube videos about Minie:
 
+  + March 2019 short demo (IK for head/eye directions)
+    https://www.youtube.com/watch?v=8zquudx3A1A (1:25)
   + March 2019 teaser (simulating buoyancy)
     https://www.youtube.com/watch?v=eq09m7pbk5A (0:10)
   + February 2019 demo (simulating rope)
