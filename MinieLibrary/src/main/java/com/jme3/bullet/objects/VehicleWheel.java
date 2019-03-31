@@ -271,7 +271,7 @@ public class VehicleWheel
      * @return the coefficient of friction
      */
     public float getFrictionSlip() {
-        return tuning.frictionSlip;
+        return tuning.getFrictionSlip();
     }
 
     /**
@@ -295,7 +295,7 @@ public class VehicleWheel
      * @return the maximum force
      */
     public float getMaxSuspensionForce() {
-        return tuning.maxSuspensionForce;
+        return tuning.getMaxSuspensionForce();
     }
 
     /**
@@ -304,7 +304,7 @@ public class VehicleWheel
      * @return the maximum travel distance (in centimeters)
      */
     public float getMaxSuspensionTravelCm() {
-        return tuning.maxSuspensionTravelCm;
+        return tuning.getMaxSuspensionTravelCm();
     }
 
     /**
@@ -346,12 +346,12 @@ public class VehicleWheel
     }
 
     /**
-     * Read the stiffness constant for this wheel's suspension.
+     * Read the stiffness for this wheel's suspension.
      *
      * @return the stiffness constant
      */
     public float getSuspensionStiffness() {
-        return tuning.suspensionStiffness;
+        return tuning.getSuspensionStiffness();
     }
 
     /**
@@ -360,7 +360,7 @@ public class VehicleWheel
      * @return the damping
      */
     public float getWheelsDampingCompression() {
-        return tuning.suspensionCompression;
+        return tuning.getSuspensionCompression();
     }
 
     /**
@@ -369,7 +369,7 @@ public class VehicleWheel
      * @return the damping
      */
     public float getWheelsDampingRelaxation() {
-        return tuning.suspensionDamping;
+        return tuning.getSuspensionDamping();
     }
 
     /**
@@ -448,10 +448,10 @@ public class VehicleWheel
      * Should be about 0.8 for realistic cars, but can increased for better
      * handling. Set large (10000.0) for kart racers.
      *
-     * @param frictionSlip the desired coefficient of friction (default=10.5)
+     * @param coeff the desired coefficient of friction (default=10.5)
      */
-    public void setFrictionSlip(float frictionSlip) {
-        tuning.frictionSlip = frictionSlip;
+    public void setFrictionSlip(float coeff) {
+        tuning.setFrictionSlip(coeff);
         applyInfo();
     }
 
@@ -471,21 +471,21 @@ public class VehicleWheel
      * Increase this if your suspension cannot handle the weight of your
      * vehicle.
      *
-     * @param maxSuspensionForce the desired maximum force (default=6000)
+     * @param maxForce the desired maximum force (default=6000)
      */
-    public void setMaxSuspensionForce(float maxSuspensionForce) {
-        tuning.maxSuspensionForce = maxSuspensionForce;
+    public void setMaxSuspensionForce(float maxForce) {
+        tuning.setMaxSuspensionForce(maxForce);
         applyInfo();
     }
 
     /**
      * Alter the travel distance for this wheel's suspension.
      *
-     * @param maxSuspensionTravelCm the desired maximum travel distance (in
-     * centimetres, default=500)
+     * @param travelCm the desired maximum travel distance (in centimetres,
+     * default=500)
      */
-    public void setMaxSuspensionTravelCm(float maxSuspensionTravelCm) {
-        tuning.maxSuspensionTravelCm = maxSuspensionTravelCm;
+    public void setMaxSuspensionTravelCm(float travelCm) {
+        tuning.setMaxSuspensionTravelCm(travelCm);
         applyInfo();
     }
 
@@ -530,14 +530,13 @@ public class VehicleWheel
     }
 
     /**
-     * Alter the stiffness constant for this wheel's suspension.
+     * Alter the stiffness of this wheel's suspension.
      *
-     * @param suspensionStiffness the desired stiffness constant
-     * (10&rarr;off-road buggy, 50&rarr;sports car, 200&rarr;Formula-1 race car,
-     * default=5.88)
+     * @param stiffness the desired stiffness constant (10&rarr;off-road buggy,
+     * 50&rarr;sports car, 200&rarr;Formula-1 race car, default=5.88)
      */
-    public void setSuspensionStiffness(float suspensionStiffness) {
-        tuning.suspensionStiffness = suspensionStiffness;
+    public void setSuspensionStiffness(float stiffness) {
+        tuning.setSuspensionStiffness(stiffness);
         applyInfo();
     }
 
@@ -565,10 +564,10 @@ public class VehicleWheel
      * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
      * 0.3 are good values
      *
-     * @param wheelsDampingCompression the desired damping (default=0.83)
+     * @param damping the desired damping (0&rarr;no damping, default=0.83)
      */
-    public void setWheelsDampingCompression(float wheelsDampingCompression) {
-        tuning.suspensionCompression = wheelsDampingCompression;
+    public void setWheelsDampingCompression(float damping) {
+        tuning.setSuspensionCompression(damping);
         applyInfo();
     }
 
@@ -584,7 +583,7 @@ public class VehicleWheel
      * @param wheelsDampingRelaxation the desired damping (default=0.88)
      */
     public void setWheelsDampingRelaxation(float wheelsDampingRelaxation) {
-        tuning.suspensionDamping = wheelsDampingRelaxation;
+        tuning.setSuspensionDamping(wheelsDampingRelaxation);
         applyInfo();
     }
 
@@ -610,10 +609,10 @@ public class VehicleWheel
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned body into a deep-cloned one, using the specified cloner
+     * shallow-cloned wheel into a deep-cloned one, using the specified cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this body (not null)
+     * @param cloner the cloner that's cloning this wheel (not null)
      * @param original the instance from which this instance was shallow-cloned
      * (unused)
      */

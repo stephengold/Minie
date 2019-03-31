@@ -244,12 +244,12 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         VehicleWheel wheel = new VehicleWheel(spat, connectionPoint, direction,
                 axle, suspensionRestLength, wheelRadius, isFrontWheel);
 
-        wheel.setFrictionSlip(tuning.frictionSlip);
-        wheel.setMaxSuspensionTravelCm(tuning.maxSuspensionTravelCm);
-        wheel.setSuspensionStiffness(tuning.suspensionStiffness);
-        wheel.setWheelsDampingCompression(tuning.suspensionCompression);
-        wheel.setWheelsDampingRelaxation(tuning.suspensionDamping);
-        wheel.setMaxSuspensionForce(tuning.maxSuspensionForce);
+        wheel.setFrictionSlip(tuning.getFrictionSlip());
+        wheel.setMaxSuspensionTravelCm(tuning.getMaxSuspensionTravelCm());
+        wheel.setSuspensionStiffness(tuning.getSuspensionStiffness());
+        wheel.setWheelsDampingCompression(tuning.getSuspensionCompression());
+        wheel.setWheelsDampingRelaxation(tuning.getSuspensionDamping());
+        wheel.setMaxSuspensionForce(tuning.getMaxSuspensionForce());
         wheels.add(wheel);
 
         if (vehicleId != 0L) {
@@ -301,7 +301,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * (0.8&rarr;realistic car, 10000&rarr;kart racer)
      */
     public float getFrictionSlip() {
-        return tuning.frictionSlip;
+        return tuning.getFrictionSlip();
     }
 
     /**
@@ -314,7 +314,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * ground (0.8&rarr;realistic car, 10000&rarr;kart racer, default=10.5)
      */
     public void setFrictionSlip(float frictionSlip) {
-        tuning.frictionSlip = frictionSlip;
+        tuning.setFrictionSlip(frictionSlip);
     }
 
     /**
@@ -356,7 +356,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * centimeters)
      */
     public float getMaxSuspensionTravelCm() {
-        return tuning.maxSuspensionTravelCm;
+        return tuning.getMaxSuspensionTravelCm();
     }
 
     /**
@@ -368,7 +368,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * can be compressed (in centimeters, default=500)
      */
     public void setMaxSuspensionTravelCm(float maxSuspensionTravelCm) {
-        tuning.maxSuspensionTravelCm = maxSuspensionTravelCm;
+        tuning.setMaxSuspensionTravelCm(maxSuspensionTravelCm);
     }
 
     /**
@@ -389,7 +389,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @return the maximum force per wheel
      */
     public float getMaxSuspensionForce() {
-        return tuning.maxSuspensionForce;
+        return tuning.getMaxSuspensionForce();
     }
 
     /**
@@ -404,7 +404,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * (default=6000)
      */
     public void setMaxSuspensionForce(float maxSuspensionForce) {
-        tuning.maxSuspensionForce = maxSuspensionForce;
+        tuning.setMaxSuspensionForce(maxSuspensionForce);
     }
 
     /**
@@ -428,7 +428,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @return the damping coefficient
      */
     public float getSuspensionCompression() {
-        return tuning.suspensionCompression;
+        return tuning.getSuspensionCompression();
     }
 
     /**
@@ -446,7 +446,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * (default=0.83)
      */
     public void setSuspensionCompression(float suspensionCompression) {
-        tuning.suspensionCompression = suspensionCompression;
+        tuning.setSuspensionCompression(suspensionCompression);
     }
 
     /**
@@ -474,7 +474,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @return the damping coefficient
      */
     public float getSuspensionDamping() {
-        return tuning.suspensionDamping;
+        return tuning.getSuspensionDamping();
     }
 
     /**
@@ -491,7 +491,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param suspensionDamping the desired damping coefficient (default=0.88)
      */
     public void setSuspensionDamping(float suspensionDamping) {
-        tuning.suspensionDamping = suspensionDamping;
+        tuning.setSuspensionDamping(suspensionDamping);
     }
 
     /**
@@ -518,7 +518,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * car, 200&rarr;Formula-1 race car)
      */
     public float getSuspensionStiffness() {
-        return tuning.suspensionStiffness;
+        return tuning.getSuspensionStiffness();
     }
 
     /**
@@ -531,7 +531,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * default=5.88)
      */
     public void setSuspensionStiffness(float suspensionStiffness) {
-        tuning.suspensionStiffness = suspensionStiffness;
+        tuning.setSuspensionStiffness(suspensionStiffness);
     }
 
     /**
@@ -695,18 +695,25 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     public void read(JmeImporter im) throws IOException {
         InputCapsule capsule = im.getCapsule(this);
         tuning = new VehicleTuning();
-        tuning.frictionSlip = capsule.readFloat(
-                "frictionSlip", 10.5f);
-        tuning.maxSuspensionTravelCm = capsule.readFloat(
-                "maxSuspensionTravelCm", 500f);
-        tuning.maxSuspensionForce = capsule.readFloat(
-                "maxSuspensionForce", 6000f);
-        tuning.suspensionCompression = capsule.readFloat(
-                "suspensionCompression", 0.83f);
-        tuning.suspensionDamping = capsule.readFloat(
-                "suspensionDamping", 0.88f);
-        tuning.suspensionStiffness = capsule.readFloat(
-                "suspensionStiffness", 5.88f);
+
+        float readFloat = capsule.readFloat("frictionSlip", 10.5f);
+        tuning.setFrictionSlip(readFloat);
+
+        readFloat = capsule.readFloat("maxSuspensionTravelCm", 500f);
+        tuning.setMaxSuspensionTravelCm(readFloat);
+
+        readFloat = capsule.readFloat("maxSuspensionForce", 6000f);
+        tuning.setMaxSuspensionForce(readFloat);
+
+        readFloat = capsule.readFloat("suspensionCompression", 0.83f);
+        tuning.setSuspensionCompression(readFloat);
+
+        readFloat = capsule.readFloat("suspensionDamping", 0.88f);
+        tuning.setSuspensionDamping(readFloat);
+
+        readFloat = capsule.readFloat("suspensionStiffness", 5.88f);
+        tuning.setSuspensionStiffness(readFloat);
+
         wheels = capsule.readSavableArrayList(
                 "wheelsList", new ArrayList<VehicleWheel>(6));
         motionState.setVehicle(this);
@@ -723,14 +730,19 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     @Override
     public void write(JmeExporter ex) throws IOException {
         OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(tuning.frictionSlip, "frictionSlip", 10.5f);
-        capsule.write(tuning.maxSuspensionTravelCm,
+
+        capsule.write(tuning.getFrictionSlip(),
+                "frictionSlip", 10.5f);
+        capsule.write(tuning.getMaxSuspensionTravelCm(),
                 "maxSuspensionTravelCm", 500f);
-        capsule.write(tuning.maxSuspensionForce, "maxSuspensionForce", 6000f);
-        capsule.write(tuning.suspensionCompression,
+        capsule.write(tuning.getMaxSuspensionForce(),
+                "maxSuspensionForce", 6000f);
+        capsule.write(tuning.getSuspensionCompression(),
                 "suspensionCompression", 0.83f);
-        capsule.write(tuning.suspensionDamping, "suspensionDamping", 0.88f);
-        capsule.write(tuning.suspensionStiffness, "suspensionStiffness", 5.88f);
+        capsule.write(tuning.getSuspensionDamping(),
+                "suspensionDamping", 0.88f);
+        capsule.write(tuning.getSuspensionStiffness(),
+                "suspensionStiffness", 5.88f);
         capsule.writeSavableArrayList(wheels, "wheelsList", null);
 
         super.write(ex);
