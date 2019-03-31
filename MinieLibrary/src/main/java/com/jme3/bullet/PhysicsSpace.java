@@ -112,11 +112,6 @@ public class PhysicsSpace {
     // constants and loggers
 
     /**
-     * message logger for this class
-     */
-    final public static Logger logger
-            = Logger.getLogger(PhysicsSpace.class.getName());
-    /**
      * index of the X axis
      */
     public static final int AXIS_X = 0;
@@ -128,6 +123,11 @@ public class PhysicsSpace {
      * index of the Z axis
      */
     public static final int AXIS_Z = 2;
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(PhysicsSpace.class.getName());
     // *************************************************************************
     // fields
 
@@ -180,7 +180,7 @@ public class PhysicsSpace {
      * Bullet identifier of the space. The constructor sets this to a non-zero
      * value.
      */
-    protected long physicsSpaceId = 0L;
+    private long physicsSpaceId = 0L;
     /**
      * map from collision groups to registered group listeners
      */
