@@ -51,7 +51,8 @@ import jme3utilities.Validate;
 
 /**
  * A physics control to link a PhysicsCharacter to a Spatial. Compare with
- * BetterCharacterControl and JME's CharacterControl.
+ * {@link com.jme3.bullet.control.BetterCharacterControl} and JME's
+ * CharacterControl.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -72,13 +73,15 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     private PhysicsCharacter character = null;
     /**
-     * temporary storage for a Quaternion TODO not thread-safe
+     * per-thread temporary storage for a Quaternion
      */
-    final private static Quaternion tmpQuaternion = new Quaternion();
+    final private static ThreadLocal<Quaternion> tmpQuaternionTL
+            = new ThreadLocal<Quaternion>();
     /**
-     * temporary storage for a vector TODO not thread-safe
+     * per-thread temporary storage for a Vector3f
      */
-    final private static Vector3f tmpVector = new Vector3f();
+    final private static ThreadLocal<Vector3f> tmpVectorTL
+            = new ThreadLocal<Vector3f>();
     /**
      * view direction
      */
@@ -332,12 +335,22 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     @Override
     public void update(float tpf) {
-        Vector3f up = tmpVector;
+        Quaternion orientation = tmpQuaternionTL.get();
+        if (orientation == null) {
+            orientation = new Quaternion();
+            tmpQuaternionTL.set(orientation);
+        }
+        Vector3f up = tmpVectorTL.get();
+        if (up == null) {
+            up = new Vector3f();
+            tmpVectorTL.set(up);
+        }
+
         character.getUpDirection(up);
-        Quaternion orientation = tmpQuaternion;
         orientation.lookAt(viewDirection, up);
 
-        Vector3f location = tmpVector;
+        Vector3f location = tmpVectorTL.get();
+        assert location != null;
         character.getPhysicsLocation(location);
         applyPhysicsTransform(location, orientation);
     }
