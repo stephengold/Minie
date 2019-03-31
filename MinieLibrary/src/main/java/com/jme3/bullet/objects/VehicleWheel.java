@@ -63,7 +63,7 @@ public class VehicleWheel
     final public static Logger logger
             = Logger.getLogger(VehicleWheel.class.getName());
     // *************************************************************************
-    // fields
+    // fields TODO re-order
 
     /**
      * unique identifier of the btRaycastVehicle
@@ -175,15 +175,6 @@ public class VehicleWheel
     // new methods exposed
 
     /**
-     * Update this wheel's location and orientation.
-     */
-    public void updatePhysicsState() {
-        getWheelLocation(vehicleId, wheelIndex, wheelWorldLocation);
-        getWheelRotation(vehicleId, wheelIndex, tmp_Matrix);
-        wheelWorldRotation.fromRotationMatrix(tmp_Matrix);
-    }
-
-    /**
      * Apply this wheel's physics location and orientation to its associated
      * spatial, if any.
      */
@@ -210,70 +201,6 @@ public class VehicleWheel
     }
 
     /**
-     * Assign this wheel to a vehicle.
-     *
-     * @param vehicleId the ID of the btRaycastVehicle (not zero)
-     * @param wheelIndex index among the vehicle's wheels (&ge;0)
-     */
-    public void setVehicleId(long vehicleId, int wheelIndex) {
-        Validate.nonZero(vehicleId, "vehicle ID");
-        Validate.nonNegative(wheelIndex, "wheel index");
-
-        this.vehicleId = vehicleId;
-        this.wheelIndex = wheelIndex;
-        applyInfo();
-    }
-
-    /**
-     * Test whether this wheel is a front wheel.
-     *
-     * @return true if front wheel, otherwise false
-     */
-    public boolean isFrontWheel() {
-        return isFront;
-    }
-
-    /**
-     * Alter whether this wheel is a front (steering) wheel.
-     *
-     * @param frontWheel true&rarr;front wheel, false&rarr;non-front wheel
-     */
-    public void setFrontWheel(boolean frontWheel) {
-        this.isFront = frontWheel;
-        applyInfo();
-    }
-
-    /**
-     * Copy the location where the suspension connects to the chassis.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a new location vector (in chassis coordinates, either storeResult
-     * or a new instance)
-     */
-    public Vector3f getLocation(Vector3f storeResult) {
-        if (storeResult == null) {
-            return location.clone();
-        } else {
-            return storeResult.set(location);
-        }
-    }
-
-    /**
-     * Copy this wheel's suspension direction.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a new direction vector (in chassis coordinates, either
-     * storeResult or a new instance)
-     */
-    public Vector3f getDirection(Vector3f storeResult) {
-        if (storeResult == null) {
-            return suspensionDirection.clone();
-        } else {
-            return storeResult.set(suspensionDirection);
-        }
-    }
-
-    /**
      * Copy this wheel's axis direction.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -286,224 +213,6 @@ public class VehicleWheel
         } else {
             return storeResult.set(axisDirection);
         }
-    }
-
-    /**
-     * Read the stiffness constant for this wheel's suspension.
-     *
-     * @return the stiffness constant
-     */
-    public float getSuspensionStiffness() {
-        return tuning.suspensionStiffness;
-    }
-
-    /**
-     * Alter the stiffness constant for this wheel's suspension.
-     *
-     * @param suspensionStiffness the desired stiffness constant
-     * (10&rarr;off-road buggy, 50&rarr;sports car, 200&rarr;Formula-1 race car,
-     * default=5.88)
-     */
-    public void setSuspensionStiffness(float suspensionStiffness) {
-        tuning.suspensionStiffness = suspensionStiffness;
-        applyInfo();
-    }
-
-    /**
-     * Read this wheel's damping when the suspension is expanded.
-     *
-     * @return the damping
-     */
-    public float getWheelsDampingRelaxation() {
-        return tuning.suspensionDamping;
-    }
-
-    /**
-     * Alter this wheel's damping when the suspension is expanded.
-     * <p>
-     * Set to k * 2 * FastMath.sqrt(m_suspensionStiffness) where k is the
-     * damping ratio:
-     * <p>
-     * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
-     * 0.3 are good values
-     *
-     * @param wheelsDampingRelaxation the desired damping (default=0.88)
-     */
-    public void setWheelsDampingRelaxation(float wheelsDampingRelaxation) {
-        tuning.suspensionDamping = wheelsDampingRelaxation;
-        applyInfo();
-    }
-
-    /**
-     * Read this wheel's damping when the suspension is compressed.
-     *
-     * @return the damping
-     */
-    public float getWheelsDampingCompression() {
-        return tuning.suspensionCompression;
-    }
-
-    /**
-     * Alter this wheel's damping when the suspension is compressed.
-     * <p>
-     * Set to k * 2 * FastMath.sqrt(m_suspensionStiffness) where k is the
-     * damping ratio:
-     * <p>
-     * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
-     * 0.3 are good values
-     *
-     * @param wheelsDampingCompression the desired damping (default=0.83)
-     */
-    public void setWheelsDampingCompression(float wheelsDampingCompression) {
-        tuning.suspensionCompression = wheelsDampingCompression;
-        applyInfo();
-    }
-
-    /**
-     * Read the friction between this wheel's tire and the ground.
-     *
-     * @return the coefficient of friction
-     */
-    public float getFrictionSlip() {
-        return tuning.frictionSlip;
-    }
-
-    /**
-     * Alter the friction between this wheel's tire and the ground.
-     * <p>
-     * Should be about 0.8 for realistic cars, but can increased for better
-     * handling. Set large (10000.0) for kart racers.
-     *
-     * @param frictionSlip the desired coefficient of friction (default=10.5)
-     */
-    public void setFrictionSlip(float frictionSlip) {
-        tuning.frictionSlip = frictionSlip;
-        applyInfo();
-    }
-
-    /**
-     * Read this wheel's roll influence.
-     *
-     * @return the roll-influence factor
-     */
-    public float getRollInfluence() {
-        return rollInfluence;
-    }
-
-    /**
-     * Alter this wheel's roll influence.
-     * <p>
-     * The roll-influence factor reduces (or magnifies) the torque contributed
-     * by this wheel that tends to cause the vehicle to roll over. This is a bit
-     * of a hack, but it's quite effective.
-     * <p>
-     * If the friction between the tires and the ground is too high, you may
-     * reduce this factor to prevent the vehicle from rolling over. You should
-     * also try lowering the vehicle's center of mass.
-     *
-     * @param rollInfluence the desired roll-influence factor (0&rarr;no roll
-     * torque, 1&rarr;realistic behavior, default=1)
-     */
-    public void setRollInfluence(float rollInfluence) {
-        this.rollInfluence = rollInfluence;
-        applyInfo();
-    }
-
-    /**
-     * Read the travel distance for this wheel's suspension.
-     *
-     * @return the maximum travel distance (in centimeters)
-     */
-    public float getMaxSuspensionTravelCm() {
-        return tuning.maxSuspensionTravelCm;
-    }
-
-    /**
-     * Alter the travel distance for this wheel's suspension.
-     *
-     * @param maxSuspensionTravelCm the desired maximum travel distance (in
-     * centimetres, default=500)
-     */
-    public void setMaxSuspensionTravelCm(float maxSuspensionTravelCm) {
-        tuning.maxSuspensionTravelCm = maxSuspensionTravelCm;
-        applyInfo();
-    }
-
-    /**
-     * Read the maximum force exerted by this wheel's suspension.
-     *
-     * @return the maximum force
-     */
-    public float getMaxSuspensionForce() {
-        return tuning.maxSuspensionForce;
-    }
-
-    /**
-     * Alter the maximum force exerted by this wheel's suspension.
-     * <p>
-     * Increase this if your suspension cannot handle the weight of your
-     * vehicle.
-     *
-     * @param maxSuspensionForce the desired maximum force (default=6000)
-     */
-    public void setMaxSuspensionForce(float maxSuspensionForce) {
-        tuning.maxSuspensionForce = maxSuspensionForce;
-        applyInfo();
-    }
-
-    private void applyInfo() {
-        if (vehicleId != 0L) {
-            applyInfo(vehicleId, wheelIndex,
-                    getSuspensionStiffness(),
-                    getWheelsDampingRelaxation(),
-                    getWheelsDampingCompression(),
-                    getFrictionSlip(),
-                    rollInfluence,
-                    getMaxSuspensionTravelCm(),
-                    getMaxSuspensionForce(),
-                    radius,
-                    isFront,
-                    restLength);
-        }
-    }
-
-    /**
-     * Read the radius of this wheel.
-     *
-     * @return the radius (in physics-space units, &ge;0)
-     */
-    public float getRadius() {
-        return radius;
-    }
-
-    /**
-     * Alter the radius of this wheel.
-     *
-     * @param radius the desired radius (in physics-space units, &ge;0,
-     * default=0.5)
-     */
-    public void setRadius(float radius) {
-        this.radius = radius;
-        applyInfo();
-    }
-
-    /**
-     * Read the rest length of this wheel.
-     *
-     * @return the length
-     */
-    public float getRestLength() {
-        return restLength;
-    }
-
-    /**
-     * Alter the rest length of the suspension of this wheel.
-     *
-     * @param restLength the desired length (default=1)
-     */
-    public void setRestLength(float restLength) {
-        this.restLength = restLength;
-        applyInfo();
     }
 
     /**
@@ -533,6 +242,99 @@ public class VehicleWheel
     }
 
     /**
+     * Calculate how much this wheel has turned since the last physics step.
+     *
+     * @return the rotation angle (in radians)
+     */
+    public float getDeltaRotation() {
+        return getDeltaRotation(vehicleId, wheelIndex);
+    }
+
+    /**
+     * Copy this wheel's suspension direction.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a new direction vector (in chassis coordinates, either
+     * storeResult or a new instance)
+     */
+    public Vector3f getDirection(Vector3f storeResult) {
+        if (storeResult == null) {
+            return suspensionDirection.clone();
+        } else {
+            return storeResult.set(suspensionDirection);
+        }
+    }
+
+    /**
+     * Read the friction between this wheel's tire and the ground.
+     *
+     * @return the coefficient of friction
+     */
+    public float getFrictionSlip() {
+        return tuning.frictionSlip;
+    }
+
+    /**
+     * Copy the location where the suspension connects to the chassis.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a new location vector (in chassis coordinates, either storeResult
+     * or a new instance)
+     */
+    public Vector3f getLocation(Vector3f storeResult) {
+        if (storeResult == null) {
+            return location.clone();
+        } else {
+            return storeResult.set(location);
+        }
+    }
+
+    /**
+     * Read the maximum force exerted by this wheel's suspension.
+     *
+     * @return the maximum force
+     */
+    public float getMaxSuspensionForce() {
+        return tuning.maxSuspensionForce;
+    }
+
+    /**
+     * Read the travel distance for this wheel's suspension.
+     *
+     * @return the maximum travel distance (in centimeters)
+     */
+    public float getMaxSuspensionTravelCm() {
+        return tuning.maxSuspensionTravelCm;
+    }
+
+    /**
+     * Read the radius of this wheel.
+     *
+     * @return the radius (in physics-space units, &ge;0)
+     */
+    public float getRadius() {
+        return radius;
+    }
+
+    /**
+     * Read the rest length of this wheel.
+     *
+     * @return the length
+     */
+    public float getRestLength() {
+        return restLength;
+    }
+
+    /**
+     * Read this wheel's roll influence.
+     *
+     * @return the roll-influence factor
+     */
+    public float getRollInfluence() {
+        return rollInfluence;
+    }
+
+    /**
      * Calculate to what extent the wheel is skidding (for skid sounds/smoke
      * etc.)
      *
@@ -544,12 +346,264 @@ public class VehicleWheel
     }
 
     /**
-     * Calculate how much this wheel has turned since the last physics step.
+     * Read the stiffness constant for this wheel's suspension.
      *
-     * @return the rotation angle (in radians)
+     * @return the stiffness constant
      */
-    public float getDeltaRotation() {
-        return getDeltaRotation(vehicleId, wheelIndex);
+    public float getSuspensionStiffness() {
+        return tuning.suspensionStiffness;
+    }
+
+    /**
+     * Read this wheel's damping when the suspension is compressed.
+     *
+     * @return the damping
+     */
+    public float getWheelsDampingCompression() {
+        return tuning.suspensionCompression;
+    }
+
+    /**
+     * Read this wheel's damping when the suspension is expanded.
+     *
+     * @return the damping
+     */
+    public float getWheelsDampingRelaxation() {
+        return tuning.suspensionDamping;
+    }
+
+    /**
+     * Access the spatial associated with this wheel.
+     *
+     * @return the pre-existing instance, or null
+     */
+    public Spatial getWheelSpatial() {
+        return wheelSpatial;
+    }
+
+    /**
+     * Copy this wheel's location to the specified vector.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a location vector (in physics-space coordinates, either
+     * storeResult or a new instance)
+     */
+    public Vector3f getWheelWorldLocation(Vector3f storeResult) {
+        if (storeResult == null) {
+            return wheelWorldLocation.clone();
+        } else {
+            return storeResult.set(wheelWorldLocation);
+        }
+    }
+
+    /**
+     * Copy this wheel's orientation to the specified quaternion.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a quaternion (in physics-space coordinates, either storeResult or
+     * a new instance)
+     */
+    public Quaternion getWheelWorldRotation(Quaternion storeResult) {
+        if (storeResult == null) {
+            return wheelWorldRotation.clone();
+        } else {
+            return storeResult.set(wheelWorldRotation);
+        }
+    }
+
+    /**
+     * Test whether physics coordinates should match the local transform of the
+     * Spatial.
+     *
+     * @return true if matching local transform, false if matching world
+     * transform
+     */
+    public boolean isApplyLocal() {
+        return applyLocal;
+    }
+
+    /**
+     * Test whether this wheel is a front wheel.
+     *
+     * @return true if front wheel, otherwise false
+     */
+    public boolean isFrontWheel() {
+        return isFront;
+    }
+
+    /**
+     * Alter whether physics coordinates should match the local transform of the
+     * Spatial.
+     *
+     * @param applyLocal true&rarr;match local transform, false&rarr;match world
+     * transform (default=false)
+     */
+    public void setApplyLocal(boolean applyLocal) {
+        this.applyLocal = applyLocal;
+    }
+
+    /**
+     * Alter the friction between this wheel's tire and the ground.
+     * <p>
+     * Should be about 0.8 for realistic cars, but can increased for better
+     * handling. Set large (10000.0) for kart racers.
+     *
+     * @param frictionSlip the desired coefficient of friction (default=10.5)
+     */
+    public void setFrictionSlip(float frictionSlip) {
+        tuning.frictionSlip = frictionSlip;
+        applyInfo();
+    }
+
+    /**
+     * Alter whether this wheel is a front (steering) wheel.
+     *
+     * @param frontWheel true&rarr;front wheel, false&rarr;non-front wheel
+     */
+    public void setFrontWheel(boolean frontWheel) {
+        this.isFront = frontWheel;
+        applyInfo();
+    }
+
+    /**
+     * Alter the maximum force exerted by this wheel's suspension.
+     * <p>
+     * Increase this if your suspension cannot handle the weight of your
+     * vehicle.
+     *
+     * @param maxSuspensionForce the desired maximum force (default=6000)
+     */
+    public void setMaxSuspensionForce(float maxSuspensionForce) {
+        tuning.maxSuspensionForce = maxSuspensionForce;
+        applyInfo();
+    }
+
+    /**
+     * Alter the travel distance for this wheel's suspension.
+     *
+     * @param maxSuspensionTravelCm the desired maximum travel distance (in
+     * centimetres, default=500)
+     */
+    public void setMaxSuspensionTravelCm(float maxSuspensionTravelCm) {
+        tuning.maxSuspensionTravelCm = maxSuspensionTravelCm;
+        applyInfo();
+    }
+
+    /**
+     * Alter the radius of this wheel.
+     *
+     * @param radius the desired radius (in physics-space units, &ge;0,
+     * default=0.5)
+     */
+    public void setRadius(float radius) {
+        this.radius = radius;
+        applyInfo();
+    }
+
+    /**
+     * Alter the rest length of the suspension of this wheel.
+     *
+     * @param restLength the desired length (default=1)
+     */
+    public void setRestLength(float restLength) {
+        this.restLength = restLength;
+        applyInfo();
+    }
+
+    /**
+     * Alter this wheel's roll influence.
+     * <p>
+     * The roll-influence factor reduces (or magnifies) the torque contributed
+     * by this wheel that tends to cause the vehicle to roll over. This is a bit
+     * of a hack, but it's quite effective.
+     * <p>
+     * If the friction between the tires and the ground is too high, you may
+     * reduce this factor to prevent the vehicle from rolling over. You should
+     * also try lowering the vehicle's center of mass.
+     *
+     * @param rollInfluence the desired roll-influence factor (0&rarr;no roll
+     * torque, 1&rarr;realistic behavior, default=1)
+     */
+    public void setRollInfluence(float rollInfluence) {
+        this.rollInfluence = rollInfluence;
+        applyInfo();
+    }
+
+    /**
+     * Alter the stiffness constant for this wheel's suspension.
+     *
+     * @param suspensionStiffness the desired stiffness constant
+     * (10&rarr;off-road buggy, 50&rarr;sports car, 200&rarr;Formula-1 race car,
+     * default=5.88)
+     */
+    public void setSuspensionStiffness(float suspensionStiffness) {
+        tuning.suspensionStiffness = suspensionStiffness;
+        applyInfo();
+    }
+
+    /**
+     * Assign this wheel to a vehicle.
+     *
+     * @param vehicleId the ID of the btRaycastVehicle (not zero)
+     * @param wheelIndex index among the vehicle's wheels (&ge;0)
+     */
+    public void setVehicleId(long vehicleId, int wheelIndex) {
+        Validate.nonZero(vehicleId, "vehicle ID");
+        Validate.nonNegative(wheelIndex, "wheel index");
+
+        this.vehicleId = vehicleId;
+        this.wheelIndex = wheelIndex;
+        applyInfo();
+    }
+
+    /**
+     * Alter this wheel's damping when the suspension is compressed.
+     * <p>
+     * Set to k * 2 * FastMath.sqrt(m_suspensionStiffness) where k is the
+     * damping ratio:
+     * <p>
+     * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
+     * 0.3 are good values
+     *
+     * @param wheelsDampingCompression the desired damping (default=0.83)
+     */
+    public void setWheelsDampingCompression(float wheelsDampingCompression) {
+        tuning.suspensionCompression = wheelsDampingCompression;
+        applyInfo();
+    }
+
+    /**
+     * Alter this wheel's damping when the suspension is expanded.
+     * <p>
+     * Set to k * 2 * FastMath.sqrt(m_suspensionStiffness) where k is the
+     * damping ratio:
+     * <p>
+     * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
+     * 0.3 are good values
+     *
+     * @param wheelsDampingRelaxation the desired damping (default=0.88)
+     */
+    public void setWheelsDampingRelaxation(float wheelsDampingRelaxation) {
+        tuning.suspensionDamping = wheelsDampingRelaxation;
+        applyInfo();
+    }
+
+    /**
+     * Alter which spatial is associated with this wheel.
+     *
+     * @param wheelSpatial the desired spatial, or null for none
+     */
+    public void setWheelSpatial(Spatial wheelSpatial) {
+        this.wheelSpatial = wheelSpatial;
+    }
+
+    /**
+     * Update this wheel's location and orientation.
+     */
+    public void updatePhysicsState() {
+        getWheelLocation(vehicleId, wheelIndex, wheelWorldLocation);
+        getWheelRotation(vehicleId, wheelIndex, tmp_Matrix);
+        wheelWorldRotation.fromRotationMatrix(tmp_Matrix);
     }
     // *************************************************************************
     // JmeCloneable methods
@@ -637,78 +691,23 @@ public class VehicleWheel
         capsule.write(restLength, "restLength", 1f);
     }
     // *************************************************************************
-
-    /**
-     * Access the spatial associated with this wheel.
-     *
-     * @return the pre-existing instance, or null
-     */
-    public Spatial getWheelSpatial() {
-        return wheelSpatial;
-    }
-
-    /**
-     * Alter which spatial is associated with this wheel.
-     *
-     * @param wheelSpatial the desired spatial, or null for none
-     */
-    public void setWheelSpatial(Spatial wheelSpatial) {
-        this.wheelSpatial = wheelSpatial;
-    }
-
-    /**
-     * Test whether physics coordinates should match the local transform of the
-     * Spatial.
-     *
-     * @return true if matching local transform, false if matching world
-     * transform
-     */
-    public boolean isApplyLocal() {
-        return applyLocal;
-    }
-
-    /**
-     * Alter whether physics coordinates should match the local transform of the
-     * Spatial.
-     *
-     * @param applyLocal true&rarr;match local transform, false&rarr;match world
-     * transform (default=false)
-     */
-    public void setApplyLocal(boolean applyLocal) {
-        this.applyLocal = applyLocal;
-    }
-
-    /**
-     * Copy this wheel's orientation to the specified quaternion.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a quaternion (in physics-space coordinates, either storeResult or
-     * a new instance)
-     */
-    public Quaternion getWheelWorldRotation(Quaternion storeResult) {
-        if (storeResult == null) {
-            return wheelWorldRotation.clone();
-        } else {
-            return storeResult.set(wheelWorldRotation);
-        }
-    }
-
-    /**
-     * Copy this wheel's location to the specified vector.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a location vector (in physics-space coordinates, either
-     * storeResult or a new instance)
-     */
-    public Vector3f getWheelWorldLocation(Vector3f storeResult) {
-        if (storeResult == null) {
-            return wheelWorldLocation.clone();
-        } else {
-            return storeResult.set(wheelWorldLocation);
-        }
-    }
-    // *************************************************************************
     // private methods
+
+    private void applyInfo() {
+        if (vehicleId != 0L) {
+            applyInfo(vehicleId, wheelIndex,
+                    getSuspensionStiffness(),
+                    getWheelsDampingRelaxation(),
+                    getWheelsDampingCompression(),
+                    getFrictionSlip(),
+                    rollInfluence,
+                    getMaxSuspensionTravelCm(),
+                    getMaxSuspensionForce(),
+                    radius,
+                    isFront,
+                    restLength);
+        }
+    }
 
     native private void applyInfo(long wheelId, int wheelIndex,
             float suspensionStiffness,
