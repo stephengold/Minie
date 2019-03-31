@@ -26,9 +26,7 @@ Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
    of accidentally corrupting its internal data structures.
  + Minie validates method arguments.  This helps detect usage errors that
    can lead to subtle bugs.
- + Minie's source code is more readable and better documented
-   than that of `jme3-bullet`.
- + Minie's source code is easier to find than that of `jme3-jbullet`.
+ + Minie's source code is more readable and better documented.
 
 Summary of added features:
 
