@@ -23,6 +23,7 @@ gradle.projectsEvaluated {
         //doFirst { println commandLine }
         enableAssertions true
         //jvmArgs '-verbosegc'
+        //jvmArgs '-Xcheck:jni'
         jvmArgs '-Xms512m', '-Xmx512m'
         jvmArgs '-XX:+UseConcMarkSweepGC'
         //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
