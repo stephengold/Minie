@@ -647,7 +647,7 @@ public class DacLinks
                     = MySkeleton.copyLocalTransform(bone, null);
 
             userScale.set(bone.getLocalScale());
-            userScale.divideLocal(bone.getBindScale());
+            userScale.divideLocal(bone.getBindScale()); // multiply?
             bone.setUserTransforms(translateIdentity, rotateIdentity,
                     userScale);
         }
