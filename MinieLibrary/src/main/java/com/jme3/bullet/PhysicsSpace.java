@@ -1189,7 +1189,7 @@ public class PhysicsSpace {
             logger.log(Level.FINE, "Adding vehicle {0} to physics space.",
                     Long.toHexString(vehicleId));
             physicsVehicles.put(vehicleId, vehicle);
-            addVehicle(physicsSpaceId, vehicleId);
+            addAction(physicsSpaceId, vehicleId);
         }
     }
 
@@ -1310,7 +1310,7 @@ public class PhysicsSpace {
             logger.log(Level.FINE, "Removing vehicle {0} from physics space.",
                     Long.toHexString(vehicleId));
             physicsVehicles.remove(vehicleId);
-            removeVehicle(physicsSpaceId, vehicleId);
+            removeAction(physicsSpaceId, vehicleId);
         }
         logger.log(Level.FINE, "Removing rigid body {0} from physics space.",
                 Long.toHexString(objectId));
@@ -1345,8 +1345,6 @@ public class PhysicsSpace {
 
     native private void addRigidBody(long space, long id);
 
-    native private void addVehicle(long space, long id);
-
     native private long createPhysicsSpace(float minX, float minY, float minZ,
             float maxX, float maxY, float maxZ, int broadphaseType,
             boolean threading);
@@ -1365,8 +1363,6 @@ public class PhysicsSpace {
     native private void removeConstraint(long space, long id);
 
     native private void removeRigidBody(long space, long id);
-
-    native private void removeVehicle(long space, long id);
 
     native private void setGravity(long spaceId, Vector3f gravity);
 
