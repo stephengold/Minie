@@ -98,7 +98,7 @@ public class PhysicsSpace {
         AXIS_SWEEP_3,
         /**
          * bt32BitAxisSweep3: uses incremental 3-D sweep and prune, requires
-         * world bounds, limited to 65_536 objects
+         * world bounds, limited to 1_500_000 objects
          */
         AXIS_SWEEP_3_32,
         /**
@@ -440,7 +440,8 @@ public class PhysicsSpace {
      * @return count (&ge;0)
      */
     public int countJoints() {
-        int count = physicsJoints.size();
+        //int count = physicsJoints.size();
+        int count = getNumConstraints(physicsSpaceId);
         return count;
     }
 
@@ -1350,6 +1351,8 @@ public class PhysicsSpace {
             boolean threading);
 
     native private void finalizeNative(long objectId);
+
+    native private int getNumConstraints(long objectId);
 
     native private void rayTest_native(Vector3f from, Vector3f to,
             long physicsSpaceId, List<PhysicsRayTestResult> results, int flags);
