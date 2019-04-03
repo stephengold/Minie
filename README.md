@@ -77,6 +77,9 @@ Some JME bugs that have been fixed in Minie:
  + 928 crash caused by too many parallel threads
  + 969 linear factors not cloned
  + 1029 sphere-sphere collisions not reported
+ + 1037 performance issue with `HullCollisionShape`
+ + 1058 crash while removing body from BroadphaseType.SIMPLE PhysicsSpace
+ + 1060 doesn't implement `bt32BitAxisSweep3`
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
