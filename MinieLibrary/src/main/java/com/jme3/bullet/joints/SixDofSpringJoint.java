@@ -53,7 +53,7 @@ import jme3utilities.Validate;
  * For each axis:<ul>
  * <li>Lowerlimit = Upperlimit &rarr; axis is locked</li>
  * <li>Lowerlimit &gt; Upperlimit &rarr; axis is free</li>
- * <li>Lowerlimit &lt; Upperlimit &rarr; axis it limited in that range</li>
+ * <li>Lowerlimit &lt; Upperlimit &rarr; axis is limited in that range</li>
  * </ul>
  * <p>
  * TODO try btGeneric6DofSpring2Constraint
@@ -90,10 +90,10 @@ public class SixDofSpringJoint extends SixDofJoint {
      * null, unaffected)
      * @param pivotInWorld the pivot location in physics-space coordinates (not
      * null, unaffected)
-     * @param rotInB the orientation of the joint in B's local coordinates (not
-     * null, unaffected)
+     * @param rotInB the orientation of the joint in B's local coordinates
+     * (rotation matrix, not null, unaffected)
      * @param rotInWorld the orientation of the joint in physics-space
-     * coordinates (not null, unaffected)
+     * coordinates (rotation matrix, not null, unaffected)
      * @param linearReferenceFrame which end to use as the linear reference
      * frame (not null)
      */

@@ -65,7 +65,7 @@ import jme3utilities.Validate;
  * For each axis:<ul>
  * <li>Lowerlimit = Upperlimit &rarr; axis is locked</li>
  * <li>Lowerlimit &gt; Upperlimit &rarr; axis is free</li>
- * <li>Lowerlimit &lt; Upperlimit &rarr; axis it limited in that range</li>
+ * <li>Lowerlimit &lt; Upperlimit &rarr; axis is limited in that range</li>
  * </ul>
  *
  * @author normenhansen
@@ -134,8 +134,8 @@ public class SixDofJoint extends PhysicsJoint {
     /**
      * Instantiate a single-ended SixDofJoint.
      * <p>
-     * To be effective, the joint must be added to the PhysicsSpace with the
-     * body and the body must be dynamic.
+     * To be effective, the joint must be added to the body's PhysicsSpace and
+     * the body must be dynamic.
      *
      * @param nodeB the body to constrain (not null, alias created)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
@@ -143,9 +143,9 @@ public class SixDofJoint extends PhysicsJoint {
      * @param pivotInWorld the pivot location in physics-space coordinates (not
      * null, unaffected)
      * @param rotInB the orientation of the joint in B's local coordinates
-     * (rotation matrix, unaffected)
+     * (rotation matrix, not null, unaffected)
      * @param rotInWorld the orientation of the joint in physics-space
-     * coordinates (rotation matrix, unaffected)
+     * coordinates (rotation matrix, not null, unaffected)
      * @param linearReferenceFrame which end to use as the linear reference
      * frame (not null)
      */
