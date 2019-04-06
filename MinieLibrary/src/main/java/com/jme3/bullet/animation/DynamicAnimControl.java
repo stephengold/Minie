@@ -431,8 +431,6 @@ public class DynamicAnimControl
         Point2PointJoint newJoint = new Point2PointJoint(linkBody, goalBody,
                 pivotInLinkBody, pivotInGoalBody);
 
-        linkBody.addJoint(newJoint);
-        goalBody.addJoint(newJoint);
         ikJoints.add(newJoint);
         getPhysicsSpace().add(newJoint);
 
@@ -460,7 +458,6 @@ public class DynamicAnimControl
         Point2PointJoint newJoint
                 = new Point2PointJoint(linkBody, pivotInLinkBody, goalInWorld);
 
-        linkBody.addJoint(newJoint);
         ikJoints.add(newJoint);
         getPhysicsSpace().add(newJoint);
 
@@ -492,8 +489,6 @@ public class DynamicAnimControl
         Point2PointJoint newJoint
                 = new Point2PointJoint(bodyA, bodyB, pivotInA, pivotInB);
 
-        bodyA.addJoint(newJoint);
-        bodyB.addJoint(newJoint);
         ikJoints.add(newJoint);
         getPhysicsSpace().add(newJoint);
 
@@ -525,7 +520,6 @@ public class DynamicAnimControl
                 = localToWorld.transformInverseVector(pivotInWorld, null);
         Point2PointJoint newJoint = new Point2PointJoint(linkBody, pivotInBody);
 
-        linkBody.addJoint(newJoint);
         ikJoints.add(newJoint);
         getPhysicsSpace().add(newJoint);
 
