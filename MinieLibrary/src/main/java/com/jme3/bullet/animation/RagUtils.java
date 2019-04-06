@@ -102,7 +102,7 @@ public class RagUtils {
      * null, unaffected)
      * @return a new map from bone/torso names to sets of vertex coordinates
      */
-    static Map<String, VectorSet> coordsMap(Mesh[] meshes,
+    public static Map<String, VectorSet> coordsMap(Mesh[] meshes,
             String[] managerMap) {
         Validate.nonNull(managerMap, "manager map");
 
