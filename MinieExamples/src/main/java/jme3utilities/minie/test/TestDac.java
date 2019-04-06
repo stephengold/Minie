@@ -910,7 +910,6 @@ public class TestDac extends ActionApplication {
         Vector3f currentWorld = body.getPhysicsLocation(null);
         Point2PointJoint sep2p
                 = new Point2PointJoint(body, Vector3f.ZERO, currentWorld);
-        body.addJoint(sep2p);
         physicsSpace.add(sep2p);
     }
 

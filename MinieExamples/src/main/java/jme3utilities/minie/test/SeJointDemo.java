@@ -134,7 +134,7 @@ public class SeJointDemo extends ActionApplication {
      */
     private Mesh seedMesh;
     /**
-     * mesh for visualizing seeds
+     * scene-graph node for visualizing seeds
      */
     final private Node seedNode = new Node("seed node");
     /**
@@ -471,7 +471,6 @@ public class SeJointDemo extends ActionApplication {
                 throw new IllegalStateException("testName = " + testName);
         }
 
-        rbc.addJoint(joint);
         physicsSpace.add(joint);
 
         rbc.setPhysicsSpace(physicsSpace);
