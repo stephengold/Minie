@@ -44,7 +44,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A 2 degree-of-freedom joint based on Bullet's btSliderConstraint.
+ * A 2 degree-of-freedom joint based on Bullet's btSliderConstraint. The axis of
+ * the joint always parallels the physics-space X axis.
  * <p>
  * <i>From the Bullet manual:</i><br>
  * The slider constraint allows the body to rotate around one axis and translate
