@@ -99,7 +99,7 @@ public class DynamicAnimControl
     /**
      * list of IK joints
      */
-    private ArrayList<PhysicsJoint> ikJoints = new ArrayList<>(20);
+    private ArrayList<IKJoint> ikJoints = new ArrayList<>(20);
     /**
      * calculated total mass, not including released attachments
      */
@@ -399,9 +399,9 @@ public class DynamicAnimControl
      *
      * @return a new array of pre-existing joints (not null, not empty)
      */
-    public PhysicsJoint[] listIKJoints() {
+    public IKJoint[] listIKJoints() {
         int numJoints = ikJoints.size();
-        PhysicsJoint[] result = new PhysicsJoint[numJoints];
+        IKJoint[] result = new IKJoint[numJoints];
         ikJoints.toArray(result);
 
         return result;
@@ -419,9 +419,9 @@ public class DynamicAnimControl
      * @param pivotInGoalBody the pivot location (in the goal's local
      * coordinates, not null, unaffected)
      * @return a new joint with the link body at the A end and the goal at the B
-     * end (not null)
+     * end, which will be disabled by ragdoll mode (not null)
      */
-    public PhysicsJoint moveToBody(PhysicsLink link, Vector3f pivotInLinkBody,
+    public IKJoint moveToBody(PhysicsLink link, Vector3f pivotInLinkBody,
             PhysicsRigidBody goalBody, Vector3f pivotInGoalBody) {
         Validate.nonNull(pivotInLinkBody, "pivot in link body");
         Validate.nonNull(goalBody, "goal body");
@@ -430,12 +430,13 @@ public class DynamicAnimControl
         PhysicsRigidBody linkBody = link.getRigidBody();
         Point2PointJoint newJoint = new Point2PointJoint(linkBody, goalBody,
                 pivotInLinkBody, pivotInGoalBody);
+        IKJoint ikJoint = new IKJoint(newJoint, true);
 
-        ikJoints.add(newJoint);
+        ikJoints.add(ikJoint);
         getPhysicsSpace().add(newJoint);
 
         assert newJoint.getBodyA() == linkBody;
-        return newJoint;
+        return ikJoint;
     }
 
     /**
@@ -447,9 +448,10 @@ public class DynamicAnimControl
      * coordinates, not null, unaffected)
      * @param goalInWorld the goal location (in physics-space coordinates, not
      * null, unaffected)
-     * @return a new joint with the link body at the A end (not null)
+     * @return a new joint with the link body at the A end, which will be
+     * disabled by ragdoll mode (not null)
      */
-    public PhysicsJoint moveToWorld(PhysicsLink link, Vector3f pivotInLinkBody,
+    public IKJoint moveToWorld(PhysicsLink link, Vector3f pivotInLinkBody,
             Vector3f goalInWorld) {
         Validate.nonNull(pivotInLinkBody, "pivot in link body");
         Validate.nonNull(goalInWorld, "goal location");
@@ -457,12 +459,12 @@ public class DynamicAnimControl
         PhysicsRigidBody linkBody = link.getRigidBody();
         Point2PointJoint newJoint
                 = new Point2PointJoint(linkBody, pivotInLinkBody, goalInWorld);
-
-        ikJoints.add(newJoint);
+        IKJoint ikJoint = new IKJoint(newJoint, true);
+        ikJoints.add(ikJoint);
         getPhysicsSpace().add(newJoint);
 
         assert newJoint.getBodyA() == linkBody;
-        return newJoint;
+        return ikJoint;
     }
 
     /**
@@ -478,9 +480,10 @@ public class DynamicAnimControl
      * (not null, unaffected)
      * @param pivotInB the pivot location in the B's scaled local coordinates
      * (not null, unaffected)
-     * @return a new joint with A's body at the A end (not null)
+     * @return a new joint with A's body at the A end, which will be disabled by
+     * ragdoll mode (not null)
      */
-    public PhysicsJoint pinToSelf(PhysicsLink linkA, PhysicsLink linkB,
+    public IKJoint pinToSelf(PhysicsLink linkA, PhysicsLink linkB,
             Vector3f pivotInA, Vector3f pivotInB) {
         verifyReadyForDynamicMode("add an IK joint");
 
@@ -488,13 +491,13 @@ public class DynamicAnimControl
         PhysicsRigidBody bodyB = linkB.getRigidBody();
         Point2PointJoint newJoint
                 = new Point2PointJoint(bodyA, bodyB, pivotInA, pivotInB);
-
-        ikJoints.add(newJoint);
+        IKJoint ikJoint = new IKJoint(newJoint, true);
+        ikJoints.add(ikJoint);
         getPhysicsSpace().add(newJoint);
 
         assert newJoint.getBodyA() == bodyA;
         assert newJoint.getBodyB() == bodyB;
-        return newJoint;
+        return ikJoint;
     }
 
     /**
@@ -507,9 +510,10 @@ public class DynamicAnimControl
      * @param link which link to pin (not null)
      * @param pivotInWorld the pivot location (in physics-space coordinates, not
      * null, unaffected)
-     * @return a new joint with the link body at the A end (not null)
+     * @return a new joint with the link body at the A end, which will be
+     * disabled by ragdoll mode (not null)
      */
-    public PhysicsJoint pinToWorld(PhysicsLink link, Vector3f pivotInWorld) {
+    public IKJoint pinToWorld(PhysicsLink link, Vector3f pivotInWorld) {
         Validate.nonNull(pivotInWorld, "pivot location");
         verifyReadyForDynamicMode("add an IK joint");
 
@@ -519,12 +523,12 @@ public class DynamicAnimControl
         Vector3f pivotInBody
                 = localToWorld.transformInverseVector(pivotInWorld, null);
         Point2PointJoint newJoint = new Point2PointJoint(linkBody, pivotInBody);
-
-        ikJoints.add(newJoint);
+        IKJoint ikJoint = new IKJoint(newJoint, true);
+        ikJoints.add(ikJoint);
         getPhysicsSpace().add(newJoint);
 
         assert newJoint.getBodyA() == linkBody;
-        return newJoint;
+        return ikJoint;
     }
 
     /**
@@ -638,7 +642,7 @@ public class DynamicAnimControl
     }
 
     /**
-     * Immediately put all links into ragdoll mode and disable all IK joints.
+     * Immediately put all links and IK joints into ragdoll mode.
      * <p>
      * Allowed only when the control IS added to a spatial and all links are
      * "ready".
@@ -654,9 +658,8 @@ public class DynamicAnimControl
         for (AttachmentLink link : listAttachmentLinks()) {
             link.setRagdollMode();
         }
-
-        for (PhysicsJoint joint : ikJoints) {
-            joint.setEnabled(false);
+        for (IKJoint joint : ikJoints) {
+            joint.setRagdollMode();
         }
     }
     // *************************************************************************
@@ -673,7 +676,8 @@ public class DynamicAnimControl
         space.addCollisionListener(this);
         space.addTickListener(this);
 
-        for (PhysicsJoint joint : ikJoints) {
+        for (IKJoint ikJoint : ikJoints) {
+            PhysicsJoint joint = ikJoint.getPhysicsJoint();
             space.add(joint);
         }
     }
@@ -744,7 +748,8 @@ public class DynamicAnimControl
         space.removeCollisionListener(this);
         space.removeTickListener(this);
 
-        for (PhysicsJoint joint : ikJoints) {
+        for (IKJoint ikJoint : ikJoints) {
+            PhysicsJoint joint = ikJoint.getPhysicsJoint();
             space.remove(joint);
         }
     }

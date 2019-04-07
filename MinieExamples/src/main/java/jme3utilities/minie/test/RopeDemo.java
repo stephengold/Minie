@@ -36,6 +36,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.IKJoint;
 import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.MassHeuristic;
 import com.jme3.bullet.animation.PhysicsLink;
@@ -1000,8 +1001,9 @@ public class RopeDemo extends ActionApplication {
     private void pullAPin() {
         DynamicAnimControl latestDac = dacs.peekLast();
         if (latestDac != null) {
-            PhysicsJoint[] joints = latestDac.listIKJoints();
-            for (PhysicsJoint joint : joints) {
+            IKJoint[] ikJoints = latestDac.listIKJoints();
+            for (IKJoint ikJoint : ikJoints) {
+                PhysicsJoint joint = ikJoint.getPhysicsJoint();
                 if (joint.isEnabled() && joint.countEnds() == 1) {
                     joint.setEnabled(false);
                     break;

@@ -33,6 +33,7 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.IKJoint;
 import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.MassHeuristic;
 import com.jme3.bullet.animation.PhysicsLink;
@@ -552,7 +553,9 @@ public class TrackDemo extends ActionApplication {
         tipLink = dac.findManagerForVertex(tipSpec, null, pivot);
         dac.setMass(tipLink, 100f);
         dac.setDynamicChain(tipLink, chainLength, Vector3f.ZERO, false);
-        tipJoint = dac.moveToBody(tipLink, pivot, targetBody, Vector3f.ZERO);
+        IKJoint ikJoint
+                = dac.moveToBody(tipLink, pivot, targetBody, Vector3f.ZERO);
+        tipJoint = ikJoint.getPhysicsJoint();
         tipJoint.setEnabled(false);
         /*
          * The face and neck track the target.
