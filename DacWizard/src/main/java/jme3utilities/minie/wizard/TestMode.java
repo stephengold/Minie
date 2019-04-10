@@ -208,15 +208,23 @@ class TestMode extends InputMode {
     private void save() {
         DacWizard wizard = DacWizard.getApplication();
         DynamicAnimControl dac = wizard.findRagdoll();
+        TestScreen screen = DacWizard.findAppState(TestScreen.class);
+
         String path = DacWizard.filePath("configure.java");
         File file = new File(path);
-        try {
-            PrintStream stream = new PrintStream(file);
+        try (PrintStream stream = new PrintStream(file)) {
             write(dac, stream);
         } catch (FileNotFoundException exception) {
-            TestScreen screen = DacWizard.findAppState(TestScreen.class);
             screen.showInfoDialog("Exception", exception.toString());
+            return;
         }
+        /*
+         * Display a confirmation dialog.
+         */
+        String message = String.format(
+                "The configuration has been written to%n%s.",
+                MyString.quote(path));
+        screen.showInfoDialog("Success", message);
     }
 
     /**
