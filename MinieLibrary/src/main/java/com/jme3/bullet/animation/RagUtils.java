@@ -33,6 +33,7 @@ package com.jme3.bullet.animation;
 
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
+import com.jme3.animation.SkeletonControl;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Eigen3f;
@@ -196,6 +197,26 @@ public class RagUtils {
         }
 
         return bestName;
+    }
+
+    /**
+     * Access the SkeletonControl in the specified subtree, assuming it doesn't
+     * contain more than one.
+     *
+     * @param subtree a subtree of a scene graph (may be null, unaffected)
+     * @return the pre-existing instance, or null if none or multiple
+     */
+    public static SkeletonControl findSkeletonControl(Spatial subtree) {
+        SkeletonControl result = null;
+        if (subtree != null) {
+            List<SkeletonControl> controls = MySpatial.listControls(subtree,
+                    SkeletonControl.class, null);
+            if (controls.size() == 1) {
+                result = controls.get(0);
+            }
+        }
+
+        return result;
     }
 
     /**

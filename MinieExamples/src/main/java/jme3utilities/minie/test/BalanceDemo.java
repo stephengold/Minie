@@ -38,6 +38,7 @@ import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.MassHeuristic;
+import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
@@ -478,10 +479,7 @@ public class BalanceDemo extends ActionApplication {
         setHeight(cgModel, height);
         center(cgModel);
 
-        List<SkeletonControl> scList
-                = MySpatial.listControls(cgModel, SkeletonControl.class, null);
-        assert scList.size() == 1;
-        sc = scList.get(0);
+        sc = RagUtils.findSkeletonControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);

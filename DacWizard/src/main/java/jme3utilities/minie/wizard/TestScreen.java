@@ -32,16 +32,15 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
-import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
-import jme3utilities.MySpatial;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
 
@@ -158,10 +157,7 @@ class TestScreen extends GuiScreenController {
                 Spatial cgModel = (Spatial) Misc.deepCopy(nextSpatial);
                 wizard.makeScene(cgModel);
 
-                List<SkeletonControl> controls = MySpatial.listControls(
-                        cgModel, SkeletonControl.class, null);
-                assert controls.size() == 1;
-                SkeletonControl control = controls.get(0);
+                SkeletonControl control = RagUtils.findSkeletonControl(cgModel);
                 Spatial controlledSpatial = control.getSpatial();
 
                 dac = model.copyRagdoll();

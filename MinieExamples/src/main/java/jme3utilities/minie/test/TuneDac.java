@@ -33,6 +33,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.PhysicsLink;
+import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -49,7 +50,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyAsset;
@@ -148,9 +148,7 @@ public class TuneDac extends ActionApplication {
         ps.setSolverNumIterations(30);
         addModel();
 
-        List<SkeletonControl> scList
-                = MySpatial.listControls(model, SkeletonControl.class, null);
-        SkeletonControl sc = scList.get(0);
+        SkeletonControl sc = RagUtils.findSkeletonControl(model);
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         rootNode.addControl(sv);
@@ -336,10 +334,7 @@ public class TuneDac extends ActionApplication {
         center(model);
         resetTransform = model.getLocalTransform().clone();
 
-        List<SkeletonControl> scList
-                = MySpatial.listControls(model, SkeletonControl.class, null);
-        assert scList.size() == 1;
-        SkeletonControl sc = scList.get(0);
+        SkeletonControl sc = RagUtils.findSkeletonControl(model);
         skeleton = sc.getSkeleton();
 
         Spatial controlledSpatial = sc.getSpatial();
