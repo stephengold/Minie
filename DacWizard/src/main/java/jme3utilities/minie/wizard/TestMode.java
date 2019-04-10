@@ -42,20 +42,14 @@ import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
-import com.jme3.system.JmeVersion;
-import de.lessvoid.nifty.Nifty;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
-import jme3utilities.minie.MinieVersion;
-import jme3utilities.nifty.LibraryVersion;
 import jme3utilities.ui.InputMode;
-import jme3utilities.ui.UiVersion;
 
 /**
  * Input mode for the "test" screen of DacWizard.
@@ -209,7 +203,7 @@ class TestMode extends InputMode {
     }
 
     /**
-     * Save the control configuration to a file.
+     * Write the control configuration to a file.
      */
     private void save() {
         DacWizard wizard = DacWizard.getApplication();
@@ -253,7 +247,6 @@ class TestMode extends InputMode {
      * Write the control configuration to a stream.
      */
     private void write(DynamicAnimControl dac, PrintStream stream) {
-
         String torsoName = DacConfiguration.torsoName;
         LinkConfig config = dac.config(torsoName);
         String newConfig = format(config);
@@ -289,7 +282,7 @@ class TestMode extends InputMode {
                     maxYString, minYString,
                     maxZString, minZString);
 
-            code = String.format("        setConfig(%s, %s, %s);%n",
+            code = String.format("        link(%s, %s, %s);%n",
                     MyString.quote(lbName), newConfig, newRange);
             stream.print(code);
         }
