@@ -74,7 +74,7 @@ class LoadScreen extends GuiScreenController {
     // GuiScreenController methods
 
     /**
-     * Initialize this (disabled) mode prior to its 1st update.
+     * Initialize this (disabled) screen prior to its 1st update.
      *
      * @param stateManager (not null)
      * @param application (not null)
