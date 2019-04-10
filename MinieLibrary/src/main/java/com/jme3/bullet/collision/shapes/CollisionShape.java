@@ -181,6 +181,7 @@ abstract public class CollisionShape
      */
     public float getMargin() {
         assert margin > 0f : margin;
+        assert margin == getMargin(objectId);
         return margin;
     }
 
@@ -203,6 +204,7 @@ abstract public class CollisionShape
      */
     public Vector3f getScale(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        assert checkScale(result);
         result.set(scale);
         return result;
     }
@@ -376,10 +378,29 @@ abstract public class CollisionShape
     // *************************************************************************
     // private methods
 
+    /**
+     * Compare Bullet's scaling factors to the local copy.
+     *
+     * @param storeVector caller-allocated temporary storage (not null)
+     * @return true if scaling factors are exactly equal, otherwise false
+     */
+    private boolean checkScale(Vector3f storeVector) {
+        assert storeVector != null;
+
+        getLocalScaling(objectId, storeVector);
+        boolean result = scale.equals(storeVector);
+
+        return result;
+    }
+
     native private void finalizeNative(long objectId);
 
     native private void getAabb(long objectId, Vector3f location,
             Matrix3f basisMatrix, Vector3f storeMinima, Vector3f storeMaxima);
+
+    native private float getMargin(long objectId);
+
+    native private void getLocalScaling(long objectId, Vector3f storeVector);
 
     native private boolean isConcave(long objectId);
 
