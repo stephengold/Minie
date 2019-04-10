@@ -258,7 +258,7 @@ class LinksScreen extends GuiScreenController {
     // GuiScreenController methods
 
     /**
-     * Initialize this (disabled) mode prior to its 1st update.
+     * Initialize this (disabled) screen prior to its 1st update.
      *
      * @param stateManager (not null)
      * @param application (not null)
@@ -295,10 +295,6 @@ class LinksScreen extends GuiScreenController {
 
         TreeItem<LinkValue> rootItem = new TreeItem<>();
         rootItem.setExpanded(true);
-        Model model = DacWizard.getModel();
-        model.makeRagdoll();
-        int[] linkedBoneIndices = model.listLinkedBones();
-        int numLinkedBones = linkedBoneIndices.length;
         /*
          * Create an item for the torso.
          */
@@ -308,6 +304,9 @@ class LinksScreen extends GuiScreenController {
         /*
          * Create an item for each linked bone in the hierarchy.
          */
+        Model model = DacWizard.getModel();
+        int[] linkedBoneIndices = model.listLinkedBones();
+        int numLinkedBones = linkedBoneIndices.length;
         TreeItem<LinkValue>[] lbItems = new TreeItem[numLinkedBones];
         for (int lbIndex = 0; lbIndex < numLinkedBones; ++lbIndex) {
             int boneIndex = linkedBoneIndices[lbIndex];
@@ -327,23 +326,23 @@ class LinksScreen extends GuiScreenController {
             if (parentName.equals(DacConfiguration.torsoName)) {
                 torsoItem.addTreeItem(childItem);
             } else {
-                TreeItem<LinkValue> parentItem = null;
-                for (int parentLbi = 0; parentLbi < numLinkedBones; ++parentLbi) {
-                    parentItem = lbItems[parentLbi];
-                    LinkValue parentValue = parentItem.getValue();
-                    if (parentName.equals(parentValue.boneName())) {
-                        break;
-                    }
-                }
+                TreeItem<LinkValue> parentItem
+                        = findLinkedBoneItem(parentName, lbItems);
                 parentItem.addTreeItem(childItem);
             }
         }
         rootItem.addTreeItem(torsoItem);
         treeBox.setTree(rootItem);
         /*
-         * Pre-select the torso.
+         * Initialize the selection.
          */
-        treeBox.selectItem(torsoItem);
+        String selected = model.selectedLink();
+        if (selected.equals(DacConfiguration.torsoName)) {
+            treeBox.selectItem(torsoItem);
+        } else {
+            TreeItem<LinkValue> item = findLinkedBoneItem(selected, lbItems);
+            treeBox.selectItem(item);
+        }
     }
 
     /**
@@ -357,7 +356,12 @@ class LinksScreen extends GuiScreenController {
         super.update(tpf);
 
         List<TreeItem<LinkValue>> selectedLinks = treeBox.getSelection();
-        boolean isSelected = !selectedLinks.isEmpty();
+        assert selectedLinks.size() == 1;
+        Model model = DacWizard.getModel();
+        TreeItem<LinkValue> selectedItem = selectedLinks.get(0);
+        LinkValue value = selectedItem.getValue();
+        String boneName = value.boneName();
+        model.selectLink(boneName);
 
         String centerHeuristicButton = "";
         String massHeuristicButton = "";
@@ -365,22 +369,14 @@ class LinksScreen extends GuiScreenController {
         String shapeHeuristicButton = "";
         String shapeScaleButton = "";
 
-        if (isSelected) {
-            assert selectedLinks.size() == 1;
-            TreeItem<LinkValue> selectedItem = selectedLinks.get(0);
-            LinkValue value = selectedItem.getValue();
-            String boneName = value.boneName();
-
-            Model model = DacWizard.getModel();
-            LinkConfig config = model.config(boneName);
-            centerHeuristicButton = config.centerHeuristic().toString();
-            massHeuristicButton = config.massHeuristic().toString();
-            float massParameter = config.massParameter();
-            massParameterButton = MyString.describe(massParameter);
-            shapeHeuristicButton = config.shapeHeuristic().toString();
-            Vector3f shapeScale = config.shapeScale(null);
-            shapeScaleButton = MyVector3f.describe(shapeScale);
-        }
+        LinkConfig config = model.config(boneName);
+        centerHeuristicButton = config.centerHeuristic().toString();
+        massHeuristicButton = config.massHeuristic().toString();
+        float massParameter = config.massParameter();
+        massParameterButton = MyString.describe(massParameter);
+        shapeHeuristicButton = config.shapeHeuristic().toString();
+        Vector3f shapeScale = config.shapeScale(null);
+        shapeScaleButton = MyVector3f.describe(shapeScale);
 
         setButtonText("centerHeuristic", centerHeuristicButton);
         setButtonText("massHeuristic", massHeuristicButton);
@@ -410,6 +406,32 @@ class LinksScreen extends GuiScreenController {
         LinkConfig result = model.config(boneName);
 
         return result;
+    }
+
+    /**
+     * Find the item for the named BoneLink.
+     *
+     * @param boneName the bone name of the link (not null, not empty)
+     * @param linkedBoneItems the array of items (not null, not empty,
+     * unaffected)
+     * @return the pre-existing item, or null if not found
+     */
+    private static TreeItem<LinkValue> findLinkedBoneItem(String boneName,
+            TreeItem<LinkValue>[] linkedBoneItems) {
+        assert boneName != null;
+        assert !boneName.isEmpty();
+
+        TreeItem<LinkValue> result;
+        int numLinkedBones = linkedBoneItems.length;
+        for (int parentLbi = 0; parentLbi < numLinkedBones; ++parentLbi) {
+            result = linkedBoneItems[parentLbi];
+            LinkValue value = result.getValue();
+            if (boneName.equals(value.boneName())) {
+                return result;
+            }
+        }
+
+        return null;
     }
 
     /**

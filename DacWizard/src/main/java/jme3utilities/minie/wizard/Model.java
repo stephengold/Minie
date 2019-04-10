@@ -102,6 +102,10 @@ class Model {
      */
     private Spatial rootSpatial;
     /**
+     * bone/torso name of the selected PhysicsLink
+     */
+    private String selectedLink;
+    /**
      * components of the file-system path to the C-G model (not null)
      */
     private String[] filePathComponents = new String[0];
@@ -159,7 +163,7 @@ class Model {
     }
 
     /**
-     * Access the configuration of the named bone/torso.
+     * Access the configuration of the named bone/torso link.
      *
      * @param boneName the name of the bone/torso (not null)
      * @return the pre-existing configuration (not null)
@@ -167,6 +171,16 @@ class Model {
     LinkConfig config(String boneName) {
         LinkConfig result = ragdoll.config(boneName);
         return result;
+    }
+
+    /**
+     * Copy the configured control.
+     *
+     * @return a new control, or null if no model loaded
+     */
+    DynamicAnimControl copyRagdoll() {
+        DynamicAnimControl clone = (DynamicAnimControl) Misc.deepCopy(ragdoll);
+        return clone;
     }
 
     /**
@@ -288,16 +302,6 @@ class Model {
         String result = String.join("/", filePathComponents);
         assert result != null;
         return result;
-    }
-
-    /**
-     * Copy the configured control.
-     *
-     * @return a new control, or null if no model loaded
-     */
-    DynamicAnimControl copyRagdoll() {
-        DynamicAnimControl clone = (DynamicAnimControl) Misc.deepCopy(ragdoll);
-        return clone;
     }
 
     /**
@@ -425,10 +429,12 @@ class Model {
             if (linkedBones.get(boneIndex)) {
                 String boneName = boneName(boneIndex);
                 float mass = 1f;
-                RangeOfMotion rom = new RangeOfMotion(1f);
+                RangeOfMotion rom = new RangeOfMotion(1f); // TODO
                 ragdoll.link(boneName, mass, rom);
             }
         }
+
+        selectLink(DacConfiguration.torsoName);
     }
 
     /**
@@ -468,6 +474,25 @@ class Model {
         }
 
         return result;
+    }
+
+    /**
+     * Determine which physics link is selected.
+     *
+     * @return the bone/torso name of the link, or null if no selection
+     */
+    String selectedLink() {
+        return selectedLink;
+    }
+
+    /**
+     * Select the named physics link.
+     *
+     * @param boneName the bone/torso name of the desired link (not null)
+     */
+    void selectLink(String boneName) {
+        assert boneName != null;
+        selectedLink = boneName;
     }
 
     /**

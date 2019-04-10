@@ -139,6 +139,9 @@ class BonesMode extends InputMode {
      * Advance to the next screen.
      */
     private void nextScreen() {
+        Model model = DacWizard.getModel();
+        model.makeRagdoll();
+
         setEnabled(false);
         InputMode test = InputMode.findMode("links");
         test.setEnabled(true);
