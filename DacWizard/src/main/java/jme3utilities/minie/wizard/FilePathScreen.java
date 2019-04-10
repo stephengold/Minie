@@ -146,9 +146,6 @@ class FilePathScreen extends GuiScreenController {
             if (isDirectory) {
                 fileMap = directoryMap(absPathPrefix, "");
                 actionPrefix = "set pathPrefix " + absPathPrefix;
-                if (!actionPrefix.endsWith("/")) {
-                    actionPrefix += "/";
-                }
 
             } else { // an incomplete path
                 File parent = file.getParentFile();
@@ -158,6 +155,9 @@ class FilePathScreen extends GuiScreenController {
                 String name = file.getName();
                 fileMap = directoryMap(parentPath, name);
                 actionPrefix = "set pathPrefix " + parentPath;
+            }
+            if (!actionPrefix.endsWith("/")) {
+                actionPrefix += "/";
             }
             /*
              * Build and show a popup menu.
