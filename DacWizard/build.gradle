@@ -1,0 +1,38 @@
+// Note: "common.gradle" in the root project contains additional initialization
+//   for this project. This initialization is applied in the "build.gradle"
+//   of the root project.
+
+description = 'application to configure a DynamicAnimControl'
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'jme3utilities.minie.wizard.DacWizard'
+}
+
+dependencies {
+    runtime 'com.github.nifty-gui:nifty-style-black:1.4.2'
+    compile 'jme3utilities:jme3-utilities-heart:2.24.0'
+    compile 'jme3utilities:jme3-utilities-ui:0.7.2'
+    compile 'jme3utilities:jme3-utilities-nifty:0.9.3'
+    compile "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    runtime "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
+    runtime "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"
+    compile "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+
+    //compile "jme3utilities:Minie:$minieVersion"
+    compile project(':MinieLibrary')
+}
+
+// cleanup tasks
+clean { dependsOn 'cleanDLLs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets' }
+task cleanDLLs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.dll')
+}
+task cleanLogs(type: Delete) {
+    delete fileTree(dir: '.', include: 'hs_err_pid*.log')
+}
+task cleanSOs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.so')
+}
+task cleanWrittenAssets(type: Delete) {
+    delete 'Written Assets'
+}

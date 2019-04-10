@@ -1,0 +1,21 @@
+Licensing history for assets in src/main/resources/Textures/icons
+
+Stephen Gold authored "ellipsis.png", "folder.png", and "jme.png".
+He makes them available under the Creative Commons
+Attribution-Share Alike 3.0 Unported license -- see
+https://creativecommons.org/licenses/by-sa/3.0/ for details.
+
+When sharing or reusing these files, please attribute them to "Stephen Gold's
+Minie Project at https://github.com/stephengold/Minie"
+
+It is easier to ask permission than forgiveness.  To request a custom license
+granting rights not included in the CC-BY-SA terms, send an e-mail to
+sgold@sonic.net with "custom license request" in the subject.  Please
+clearly indicate:
+ (1) your legal name
+ (2) which assets you want to license
+ (3) name and brief description of your project, if applicable
+ (4) the licensee (person or organization that will hold the custom license)
+ (5) what rights you are requesting (i.e. "non-exclusive and non-transferable
+     perpetual license to incorporate into proprietary software with worldwide
+     distribution")
