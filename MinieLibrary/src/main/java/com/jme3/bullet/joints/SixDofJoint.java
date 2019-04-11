@@ -220,6 +220,19 @@ public class SixDofJoint extends PhysicsJoint {
     // new methods exposed
 
     /**
+     * Copy the joint's rotation angles.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the rotation angle for each local axis (in radians, either
+     * storeResult or a new vector, not null)
+     */
+    public Vector3f getAngles(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        getAngles(objectId, result);
+        return result;
+    }
+
+    /**
      * Copy the joint's lower limits for rotation on all 3 axes.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -247,6 +260,19 @@ public class SixDofJoint extends PhysicsJoint {
         } else {
             return storeResult.set(angularUpperLimit);
         }
+    }
+
+    /**
+     * Copy the joint's pivot offset.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the relative pivot position on each local axis (in physics-space
+     * units, either storeResult or a new vector, not null)
+     */
+    public Vector3f getPivotOffset(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        getPivotOffset(objectId, result);
+        return result;
     }
 
     /**
@@ -632,9 +658,13 @@ public class SixDofJoint extends PhysicsJoint {
         translationalMotor = new TranslationalLimitMotor(motorId);
     }
 
+    native private void getAngles(long jointId, Vector3f storeVector);
+
     native private void getFrameOffsetA(long jointId, Transform frameInA);
 
     native private void getFrameOffsetB(long jointId, Transform frameInB);
+
+    native private void getPivotOffset(long jointId, Vector3f storeVector);
 
     native private long getRotationalLimitMotor(long jointId, int index);
 
