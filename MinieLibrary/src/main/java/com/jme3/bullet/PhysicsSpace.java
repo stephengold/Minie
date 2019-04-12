@@ -440,8 +440,8 @@ public class PhysicsSpace {
      * @return count (&ge;0)
      */
     public int countJoints() {
-        //int count = physicsJoints.size();
         int count = getNumConstraints(physicsSpaceId);
+        assert count == physicsJoints.size() : count;
         return count;
     }
 
