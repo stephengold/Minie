@@ -61,9 +61,9 @@ class TestScreen extends GuiScreenController {
     // fields
 
     /**
-     * true&rarr;plane added to physics space, false&rarr;not added
+     * horizontal plane added to physics space, or null if not added
      */
-    private boolean planeAdded = false;
+    private PhysicsRigidBody groundPlane = null;
     /**
      * root spatial of the C-G model being previewed
      */
@@ -99,6 +99,15 @@ class TestScreen extends GuiScreenController {
     }
 
     /**
+     * A callback from Nifty, invoked each time this screen shuts down.
+     */
+    @Override
+    public void onEndScreen() {
+        super.onEndScreen();
+        removeGroundPlane();
+    }
+
+    /**
      * A callback from Nifty, invoked each time this screen starts up.
      */
     @Override
@@ -112,16 +121,6 @@ class TestScreen extends GuiScreenController {
         BulletAppState bulletAppState
                 = DacWizard.findAppState(BulletAppState.class);
         bulletAppState.setDebugEnabled(true);
-
-        if (!planeAdded) {
-            PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
-            Plane plane = new Plane(Vector3f.UNIT_Y, 0f);
-            PlaneCollisionShape shape = new PlaneCollisionShape(plane);
-            float mass = PhysicsRigidBody.massForStatic;
-            PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-            physicsSpace.add(body);
-            planeAdded = true;
-        }
     }
 
     /**
@@ -150,6 +149,7 @@ class TestScreen extends GuiScreenController {
         DynamicAnimControl dac = wizard.findRagdoll();
         Spatial nextSpatial = model.getRootSpatial();
         if (nextSpatial != viewedSpatial) {
+            removeGroundPlane();
             wizard.clearScene();
             dac = null;
             viewedSpatial = nextSpatial;
@@ -164,6 +164,14 @@ class TestScreen extends GuiScreenController {
                 controlledSpatial.addControl(dac);
                 PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
                 physicsSpace.add(dac);
+
+                if (groundPlane == null) {
+                    Plane plane = new Plane(Vector3f.UNIT_Y, 0f); // X-Z plane
+                    PlaneCollisionShape shape = new PlaneCollisionShape(plane);
+                    float mass = PhysicsRigidBody.massForStatic;
+                    groundPlane = new PhysicsRigidBody(shape, mass);
+                    physicsSpace.add(groundPlane);
+                }
             }
         }
 
@@ -177,5 +185,20 @@ class TestScreen extends GuiScreenController {
             }
         }
         setButtonText("ragdoll", ragdollButton);
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Remove the ground plane from the physics space.
+     */
+    private void removeGroundPlane() {
+        if (groundPlane != null) {
+            BulletAppState bulletAppState
+                    = DacWizard.findAppState(BulletAppState.class);
+            PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
+            physicsSpace.remove(groundPlane);
+            groundPlane = null;
+        }
     }
 }
