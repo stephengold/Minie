@@ -110,6 +110,7 @@ public class DacWizard extends GuiApplication {
         if (ragdoll != null) {
             physicsSpace.remove(ragdoll);
         }
+        assert physicsSpace.isEmpty();
 
         List<Spatial> children = rootNode.getChildren();
         for (Spatial child : children) {
