@@ -44,12 +44,15 @@ import java.util.BitSet;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAnimation;
 import jme3utilities.MySpatial;
 import jme3utilities.math.VectorSet;
+import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Locators;
 
 /**
@@ -90,6 +93,10 @@ class Model {
      */
     private Exception loadException;
     /**
+     * task for computing ranges of motion
+     */
+    private FutureTask<RangeOfMotion[]> romTask;
+    /**
      * number of components in the file-system path to the asset root
      */
     private int numComponentsInRoot;
@@ -113,15 +120,19 @@ class Model {
     // new methods exposed
 
     /**
-     * Determine the asset path to the J3O binary.
+     * Determine the asset path to the J3O binary. The file-system path must be
+     * set.
      *
      * @return the path (not null, not empty)
      */
     String assetPath() {
-        int endIndex = filePathComponents.length;
-        assert numComponentsInRoot < endIndex : endIndex;
+        int numComponents = filePathComponents.length;
+        if (numComponents == 0) {
+            throw new RuntimeException("File-system path not set.");
+        }
+        assert numComponentsInRoot < numComponents : numComponents;
         String[] resultComponents = Arrays.copyOfRange(filePathComponents,
-                numComponentsInRoot, endIndex);
+                numComponentsInRoot, numComponents);
         String result = String.join("/", resultComponents);
         result = "/" + result;
 
@@ -131,12 +142,16 @@ class Model {
     }
 
     /**
-     * Determine the file-system path to the asset root.
+     * Determine the file-system path to the asset root. The file-system path
+     * must be set.
      *
      * @return the path (not null, not empty)
      */
     String assetRoot() {
         int numCompoments = filePathComponents.length;
+        if (numCompoments == 0) {
+            throw new RuntimeException("File-system path not set.");
+        }
         assert numComponentsInRoot < numCompoments : numCompoments;
         String[] resultComponents = Arrays.copyOfRange(filePathComponents, 0,
                 numComponentsInRoot);
@@ -149,12 +164,16 @@ class Model {
     }
 
     /**
-     * Read the name of the indexed bone.
+     * Read the name of the indexed bone. A C-G model must be loaded.
      *
      * @param boneIndex which bone (&ge;0)
      * @return the name (may be null)
      */
     String boneName(int boneIndex) {
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
+
         Skeleton skeleton = findSkeleton();
         Bone bone = skeleton.getBone(boneIndex);
         String result = bone.getName();
@@ -174,7 +193,7 @@ class Model {
     }
 
     /**
-     * Copy the configured control.
+     * Copy the configured DynamicAnimControl.
      *
      * @return a new control, or null if no model loaded
      */
@@ -184,11 +203,15 @@ class Model {
     }
 
     /**
-     * Count how many bones are in the skeleton.
+     * Count how many bones are in the skeleton. A C-G model must be loaded.
      *
      * @return the count (&ge;0)
      */
     int countBones() {
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
+
         int count = 0;
         Skeleton skeleton = findSkeleton();
         if (skeleton != null) {
@@ -200,12 +223,17 @@ class Model {
     }
 
     /**
-     * Count how many bones are managed by the specified bone/torso link.
+     * Count how many bones are managed by the specified bone/torso link. A C-G
+     * model must be loaded.
      *
      * @param managerName the bone/torso name of the manager (not null)
      * @return the count (&ge;0)
      */
     int countManagedBones(String managerName) {
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
+
         int count = 0;
         Skeleton skeleton = findSkeleton();
         int numBones = skeleton.getBoneCount();
@@ -224,7 +252,7 @@ class Model {
     /**
      * Count how many skeleton controls are in the model.
      *
-     * @return the count (&ge;0)
+     * @return the count (&ge;0) or 0 if no model loaded
      */
     int countSkeletonControls() {
         int count = MySpatial.countControls(rootSpatial, SkeletonControl.class);
@@ -233,12 +261,17 @@ class Model {
     }
 
     /**
-     * Count how many tracks in the C-G model use the indexed bone.
+     * Count how many tracks in the C-G model use the indexed bone. A C-G model
+     * must be loaded.
      *
      * @param boneIndex which bone (&ge;0)
      * @return the count (&ge;0)
      */
     int countTracks(int boneIndex) {
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
+
         int count = 0;
 
         List<AnimControl> animControls
@@ -325,7 +358,8 @@ class Model {
     }
 
     /**
-     * Determine the parent (in the link hierarchy) of the named linked bone.
+     * Determine the parent (in the link hierarchy) of the named linked bone. A
+     * C-G model must be loaded.
      *
      * @param childName the bone name of the child (not null, not empty)
      * @return the bone/torso name of the parent
@@ -333,6 +367,9 @@ class Model {
     String linkedBoneParentName(String childName) {
         assert childName != null;
         assert !childName.isEmpty();
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
 
         Skeleton skeleton = findSkeleton();
         Bone child = skeleton.getBone(childName);
@@ -349,11 +386,16 @@ class Model {
     }
 
     /**
-     * Enumerate the indices of all bones that will be linked.
+     * Enumerate the indices of all bones that will be linked. A C-G model must
+     * be loaded.
      *
      * @return a new array of indices (not null)
      */
     int[] listLinkedBones() {
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
+
         int numBones = countBones();
         int numLinkedBones = linkedBones.cardinality();
         int[] result = new int[numLinkedBones];
@@ -369,10 +411,16 @@ class Model {
     }
 
     /**
-     * Attempt to load a C-G model. If successful, rootSpatial is set.
-     * Otherwise, loadException is set.
+     * Attempt to load a C-G model. The file-system path must have been
+     * previously set. If successful, rootSpatial is set. Otherwise,
+     * loadException is set.
      */
     void load() {
+        int numComponents = filePathComponents.length;
+        if (numComponents == 0) {
+            throw new RuntimeException("File-system path not set.");
+        }
+
         unload();
         String assetRoot = assetRoot();
         String assetPath = assetPath();
@@ -404,7 +452,7 @@ class Model {
     }
 
     /**
-     * Read the exception that occurred during the most recent load.
+     * Read the exception that occurred during the most recent load attempt.
      *
      * @return the exception message, or "" if none
      */
@@ -415,26 +463,6 @@ class Model {
         }
 
         return result;
-    }
-
-    /**
-     * Create a new ragdoll.
-     */
-    void makeRagdoll() {
-        logger.log(Level.INFO, "");
-        ragdoll = new DynamicAnimControl();
-
-        int numBones = countBones();
-        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
-            if (linkedBones.get(boneIndex)) {
-                String boneName = boneName(boneIndex);
-                float mass = 1f;
-                RangeOfMotion rom = new RangeOfMotion(1f); // TODO
-                ragdoll.link(boneName, mass, rom);
-            }
-        }
-
-        selectLink(DacConfiguration.torsoName);
     }
 
     /**
@@ -462,6 +490,10 @@ class Model {
      * @return the index of the parent (&ge;0) or -1 for a root bone
      */
     int parentIndex(int boneIndex) {
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
+
         Skeleton skeleton = findSkeleton();
         Bone bone = skeleton.getBone(boneIndex);
         Bone parent = bone.getParent();
@@ -474,6 +506,40 @@ class Model {
         }
 
         return result;
+    }
+
+    /**
+     * If the range-of-motion task is done, instantiate the DynamicAnimControl
+     * and proceed to LinksScreen.
+     */
+    void pollForTaskCompletion() {
+        if (romTask == null || !romTask.isDone()) {
+            return;
+        }
+        logger.log(Level.SEVERE, "The range-of-motion task is done.");
+
+        RangeOfMotion[] roms;
+        try {
+            roms = romTask.get();
+        } catch (ExecutionException | InterruptedException exception) {
+            System.out.print(exception);
+            return;
+        }
+        romTask = null;
+
+        ragdoll = new DynamicAnimControl();
+        int numBones = countBones();
+        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+            if (linkedBones.get(boneIndex)) {
+                String boneName = boneName(boneIndex);
+                float mass = 1f;
+                ragdoll.link(boneName, mass, roms[boneIndex]);
+            }
+        }
+
+        selectLink(DacConfiguration.torsoName);
+        InputMode test = InputMode.findMode("links");
+        test.setEnabled(true);
     }
 
     /**
@@ -523,6 +589,7 @@ class Model {
          * in the file-system path to the asset root.
          */
         int numComponents = filePathComponents.length;
+        assert numComponents > 0 : numComponents;
         for (int componentI = 0; componentI < numComponents; ++componentI) {
             String component = filePathComponents[componentI];
             switch (component) {
@@ -543,12 +610,15 @@ class Model {
     }
 
     /**
-     * Alter which bones will be linked.
+     * Alter which bones will be linked. A C-G model must be loaded.
      *
      * @param linkedBones the desired set of linked bones
      */
     void setLinkedBones(BitSet linkedBones) {
         assert linkedBones != null;
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
 
         if (!linkedBones.equals(this.linkedBones)) {
             this.linkedBones = linkedBones;
@@ -574,7 +644,18 @@ class Model {
     }
 
     /**
-     * Unload the C-G model
+     * Start a thread to estimate the range of motion for each linked bone.
+     */
+    void startRomTask() {
+        RomCallable callable = new RomCallable(this);
+        assert romTask == null;
+        romTask = new FutureTask<>(callable);
+        Thread romThread = new Thread(romTask);
+        romThread.start();
+    }
+
+    /**
+     * Unload the loaded C-G model, if any.
      */
     void unload() {
         rootSpatial = null;
@@ -613,19 +694,22 @@ class Model {
     }
 
     /**
-     * Access the model's skeleton.
+     * Access the model's skeleton, assuming it doesn't have more than one
+     * SkeletonControl. A C-G model must be loaded.
      *
-     * @return the pre-existing instance, or null if none
+     * @return the pre-existing instance, or null if none or multiple
      */
     private Skeleton findSkeleton() {
-        Skeleton result = null;
-        if (rootSpatial != null) {
-            List<SkeletonControl> controls = MySpatial.listControls(rootSpatial,
-                    SkeletonControl.class, null);
-            if (controls.size() == 1) {
-                result = controls.get(0).getSkeleton();
-            }
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
         }
+
+        SkeletonControl control = RagUtils.findSkeletonControl(rootSpatial);
+        Skeleton result = null;
+        if (control != null) {
+            result = control.getSkeleton();
+        }
+
         return result;
     }
 }

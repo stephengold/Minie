@@ -136,19 +136,16 @@ class BonesMode extends InputMode {
     // private methods
 
     /**
-     * Advance to the next screen.
+     * Start the range-of-motion calculation in order to advance to the LinksScreen.
      */
     private void nextScreen() {
-        Model model = DacWizard.getModel();
-        model.makeRagdoll();
-
         setEnabled(false);
-        InputMode test = InputMode.findMode("links");
-        test.setEnabled(true);
+        Model model = DacWizard.getModel();
+        model.startRomTask();
     }
 
     /**
-     * Go back to the previous screen.
+     * Go back to the LoadScreen.
      */
     private void previousScreen() {
         setEnabled(false);
