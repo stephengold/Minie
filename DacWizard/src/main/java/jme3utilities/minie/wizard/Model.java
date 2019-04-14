@@ -93,7 +93,7 @@ class Model {
      */
     private Exception loadException;
     /**
-     * task for computing ranges of motion
+     * task for estimating ranges of motion
      */
     private FutureTask<RangeOfMotion[]> romTask;
     /**
@@ -104,6 +104,10 @@ class Model {
      * map manager name to a set of vertices
      */
     private Map<String, VectorSet> coordsMap;
+    /**
+     * callable for estimating ranges of motion
+     */
+    private RomCallable romCallable;
     /**
      * root spatial of the C-G model
      */
@@ -525,6 +529,7 @@ class Model {
             System.out.print(exception);
             return;
         }
+        romCallable.cleanup();
         romTask = null;
 
         ragdoll = new DynamicAnimControl();
@@ -647,9 +652,9 @@ class Model {
      * Start a thread to estimate the range of motion for each linked bone.
      */
     void startRomTask() {
-        RomCallable callable = new RomCallable(this);
+        romCallable = new RomCallable(this);
         assert romTask == null;
-        romTask = new FutureTask<>(callable);
+        romTask = new FutureTask<>(romCallable);
         Thread romThread = new Thread(romTask);
         romThread.start();
     }
