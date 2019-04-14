@@ -4,10 +4,11 @@ The [Minie Project][minie] is about improving the integration of
 [Bullet Real-Time Physics][bullet] into the
 [jMonkeyEngine Game Engine][jme].
 
-It contains 2 sub-projects:
+It contains 3 sub-projects:
 
  1. MinieLibrary: the Minie runtime library (in Java)
  2. MinieExamples: demos, examples, and test software (in Java)
+ 3. DacWizard: a GUI application to configure a ragdoll (in Java)
 
 Java source code is provided under
 [a FreeBSD license](https://github.com/stephengold/Minie/blob/master/LICENSE).
@@ -489,7 +490,9 @@ YouTube videos about Minie:
 [manual]: https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf "Bullet User Manual"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
 [minie]: https://github.com/stephengold/Minie "Minie Project"
+[mint]: https://linuxmint.com "Linux Mint Project"
 [netbeans]: https://netbeans.org "NetBeans Project"
+[nifty]: http://nifty-gui.github.io/nifty-gui "Nifty GUI Project"
 [obs]: https://obsproject.com "Open Broadcaster Software Project"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [vegdahl]: http://www.cessen.com "Nathan Vegdahl"
@@ -520,11 +523,13 @@ artists and software developers:
     + the [Gradle][] build tool
     + the Java compiler, standard doclet, and runtime environment
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
+    + the [Linux Mint][mint] operating system
     + LWJGL, the Lightweight Java Game Library
     + the [MakeHuman][] Community
     + the [Markdown][] document conversion tool
     + Microsoft Windows
     + the [NetBeans][] integrated development environment
+    + the [Nifty][] graphical user interface library
     + [Open Broadcaster Software Studio][obs]
     + the PMD source-code analyzer
     + the [WinMerge][] differencing and merging tool
