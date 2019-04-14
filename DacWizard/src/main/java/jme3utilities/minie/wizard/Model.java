@@ -520,7 +520,7 @@ class Model {
         if (romTask == null || !romTask.isDone()) {
             return;
         }
-        logger.log(Level.SEVERE, "The range-of-motion task is done.");
+        logger.log(Level.INFO, "The range-of-motion task is done.");
 
         RangeOfMotion[] roms;
         try {
