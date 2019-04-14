@@ -136,7 +136,7 @@ class BonesMode extends InputMode {
     // private methods
 
     /**
-     * Start the range-of-motion calculation in order to advance to the LinksScreen.
+     * Initiate range-of-motion estimation before advancing to the LinksScreen.
      */
     private void nextScreen() {
         setEnabled(false);

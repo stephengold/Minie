@@ -169,7 +169,7 @@ class LinksMode extends InputMode {
     // private methods
 
     /**
-     * Advance to the next screen.
+     * Advance to the TestScreen.
      */
     private void nextScreen() {
         setEnabled(false);
@@ -178,7 +178,7 @@ class LinksMode extends InputMode {
     }
 
     /**
-     * Go back to the previous screen.
+     * Go back to the BonesScreen.
      */
     private void previousScreen() {
         setEnabled(false);

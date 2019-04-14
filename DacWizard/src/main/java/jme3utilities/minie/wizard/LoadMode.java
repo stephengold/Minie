@@ -164,7 +164,7 @@ class LoadMode extends InputMode {
     // private methods
 
     /**
-     * Advance to the next screen.
+     * Advance to the BonesScreen.
      */
     private void nextScreen() {
         setEnabled(false);
@@ -173,7 +173,7 @@ class LoadMode extends InputMode {
     }
 
     /**
-     * Go back to the previous screen.
+     * Go back to the FilePathScreen.
      */
     private void previousScreen() {
         setEnabled(false);

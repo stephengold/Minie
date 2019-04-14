@@ -146,7 +146,7 @@ class FilePathMode extends InputMode {
     // private methods
 
     /**
-     * Advance to the next screen.
+     * Advance to the LoadScreen.
      */
     private void nextScreen() {
         setEnabled(false);
