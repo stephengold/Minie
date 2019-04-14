@@ -178,7 +178,9 @@ class BonesScreen extends GuiScreenController {
         model.setLinkedBones(linkedBones);
 
         String feedback = "";
-        if (model.countVertices(DacConfiguration.torsoName) == 0) {
+        if (model.listLinkedBones().length == 0) {
+            feedback = "No bones are linked.";
+        } else if (model.countVertices(DacConfiguration.torsoName) == 0) {
             feedback = "No mesh vertices for the torso.";
         }
 
