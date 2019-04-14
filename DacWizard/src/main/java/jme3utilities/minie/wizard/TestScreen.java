@@ -146,7 +146,7 @@ class TestScreen extends GuiScreenController {
         setButtonText("debug", debugButton);
 
         DacWizard wizard = DacWizard.getApplication();
-        DynamicAnimControl dac = wizard.findRagdoll();
+        DynamicAnimControl dac = wizard.findDac();
         Spatial nextSpatial = model.getRootSpatial();
         if (nextSpatial != viewedSpatial) {
             removeGroundPlane();

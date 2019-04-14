@@ -207,7 +207,7 @@ class TestMode extends InputMode {
      */
     private void save() {
         DacWizard wizard = DacWizard.getApplication();
-        DynamicAnimControl dac = wizard.findRagdoll();
+        DynamicAnimControl dac = wizard.findDac();
         TestScreen screen = DacWizard.findAppState(TestScreen.class);
 
         String path = DacWizard.filePath("configure.java");
@@ -242,7 +242,7 @@ class TestMode extends InputMode {
      */
     private void toggleRagdoll() {
         DacWizard wizard = DacWizard.getApplication();
-        DynamicAnimControl dac = wizard.findRagdoll();
+        DynamicAnimControl dac = wizard.findDac();
         TorsoLink torso = dac.getTorsoLink();
         if (torso.isKinematic()) {
             dac.setRagdollMode();

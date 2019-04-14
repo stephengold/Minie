@@ -106,7 +106,7 @@ public class DacWizard extends GuiApplication {
         BulletAppState bulletAppState
                 = DacWizard.findAppState(BulletAppState.class);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
-        DynamicAnimControl ragdoll = findRagdoll();
+        DynamicAnimControl ragdoll = findDac();
         if (ragdoll != null) {
             physicsSpace.remove(ragdoll);
         }
@@ -134,11 +134,11 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
-     * Find the DynamicAnimControl in the scene. TODO rename findDac()
+     * Find the DynamicAnimControl in the scene.
      *
      * @return the pre-existing control, or null if none/multiple
      */
-    DynamicAnimControl findRagdoll() {
+    DynamicAnimControl findDac() {
         DynamicAnimControl result = null;
         if (rootNode != null) {
             List<DynamicAnimControl> controls = MySpatial.listControls(
