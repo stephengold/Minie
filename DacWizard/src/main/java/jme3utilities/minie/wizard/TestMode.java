@@ -172,6 +172,22 @@ class TestMode extends InputMode {
     // private methods
 
     /**
+     * Generate a textual description of a single-precision floating-point value
+     * using at most 2 decimal places.
+     *
+     * @param fValue the value to describe
+     * @return a description (not null, not empty)
+     */
+    private static String describeAngle(float fValue) {
+        String raw = String.format("%.2f", fValue);
+        String result = MyString.trimFloat(raw);
+
+        assert result != null;
+        assert !result.isEmpty();
+        return result;
+    }
+
+    /**
      * Format a LinkConfig as Java source code.
      *
      * @param config (not null, unaffected)
@@ -310,19 +326,19 @@ class TestMode extends InputMode {
             RangeOfMotion range = dac.getJointLimits(lbName);
 
             float maxX = range.getMaxRotation(PhysicsSpace.AXIS_X);
-            String maxXString = MyString.describe(maxX);
+            String maxXString = describeAngle(maxX);
             float minX = range.getMinRotation(PhysicsSpace.AXIS_X);
-            String minXString = MyString.describe(minX);
+            String minXString = describeAngle(minX);
 
             float maxY = range.getMaxRotation(PhysicsSpace.AXIS_Y);
-            String maxYString = MyString.describe(maxY);
+            String maxYString = describeAngle(maxY);
             float minY = range.getMinRotation(PhysicsSpace.AXIS_Y);
-            String minYString = MyString.describe(minY);
+            String minYString = describeAngle(minY);
 
             float maxZ = range.getMaxRotation(PhysicsSpace.AXIS_Z);
-            String maxZString = MyString.describe(maxZ);
+            String maxZString = describeAngle(maxZ);
             float minZ = range.getMinRotation(PhysicsSpace.AXIS_Z);
-            String minZString = MyString.describe(minZ);
+            String minZString = describeAngle(minZ);
 
             String newRange = String.format("new RangeOfMotion("
                     + "%sf, %sf, %sf, %sf, %sf, %sf)",
