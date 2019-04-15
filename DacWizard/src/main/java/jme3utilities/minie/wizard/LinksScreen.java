@@ -94,6 +94,24 @@ public class LinksScreen extends GuiScreenController {
     // new methods exposed
 
     /**
+     * Callback handler that Nifty invokes after a slider changes.
+     *
+     * @param sliderId Nifty element ID of the slider (not null)
+     * @param event details of the event (not null, ignored)
+     */
+    @NiftyEventSubscriber(pattern = ".*Slider")
+    public void linksScreenSliderChanged(final String sliderId,
+            final SliderChangedEvent event) {
+        Validate.nonNull(sliderId, "slider ID");
+        assert sliderId.endsWith("Slider") : sliderId;
+        Validate.nonNull(event, "event");
+
+        if (!isIgnoreGuiChanges() && hasStarted()) {
+            readSliders();
+        }
+    }
+
+    /**
      * Handle a "next massHeuristic" action.
      */
     void nextMassHeuristic() {
@@ -260,24 +278,6 @@ public class LinksScreen extends GuiScreenController {
         config = new LinkConfig(massParameter, massHeuristic, shapeHeuristic,
                 scaleFactors, centerHeuristic);
         setConfig(config);
-    }
-
-    /**
-     * Callback handler that Nifty invokes after a slider changes.
-     *
-     * @param sliderId Nifty element ID of the slider (not null)
-     * @param event details of the event (not null, ignored)
-     */
-    @NiftyEventSubscriber(pattern = ".*Slider")
-    public void linksScreenSliderChanged(final String sliderId,
-            final SliderChangedEvent event) {
-        Validate.nonNull(sliderId, "slider ID");
-        assert sliderId.endsWith("Slider") : sliderId;
-        Validate.nonNull(event, "event");
-
-        if (!isIgnoreGuiChanges() && hasStarted()) {
-            readSliders();
-        }
     }
     // *************************************************************************
     // GuiScreenController methods
