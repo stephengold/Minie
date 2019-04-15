@@ -380,13 +380,18 @@ public class LinksScreen extends GuiScreenController {
     public void update(float tpf) {
         super.update(tpf);
 
-        List<TreeItem<LinkValue>> selectedLinks = treeBox.getSelection();
-        assert selectedLinks.size() == 1;
         Model model = DacWizard.getModel();
-        TreeItem<LinkValue> selectedItem = selectedLinks.get(0);
-        LinkValue value = selectedItem.getValue();
-        String boneName = value.boneName();
-        model.selectLink(boneName);
+        List<TreeItem<LinkValue>> selectedLinks = treeBox.getSelection();
+        String boneName;
+        if (selectedLinks.isEmpty()) {
+            boneName = model.selectedLink();
+        } else {
+            assert selectedLinks.size() == 1 : selectedLinks.size();
+            TreeItem<LinkValue> selectedItem = selectedLinks.get(0);
+            LinkValue value = selectedItem.getValue();
+            boneName = value.boneName();
+            model.selectLink(boneName);
+        }
 
         String xRangeStatus = "";
         String yRangeStatus = "";
