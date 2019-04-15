@@ -75,6 +75,7 @@ class FilePathScreen extends GuiScreenController {
      */
     FilePathScreen() {
         super("filePath", "Interface/Nifty/screens/wizard/filePath.xml", false);
+        setSubmenuWarp(0.5f, 0.5f);
     }
     // *************************************************************************
     // new methods exposed
