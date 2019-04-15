@@ -202,13 +202,15 @@ class TestMode extends InputMode {
         String massPString = MyString.describe(massP);
 
         String code = String.format(
-                "new LinkConfig(%sf, MassHeuristic.%s, "
-                + "ShapeHeuristic.%s, new Vector3f(%sf, %sf, %sf), "
-                + "CenterHeuristic.%s)",
+                "new LinkConfig(%sf, MassHeuristic.%s,%n"
+                + "                ShapeHeuristic.%s, "
+                + "new Vector3f(%sf, %sf, %sf),%n"
+                + "                CenterHeuristic.%s)",
                 massPString, config.massHeuristic(),
                 config.shapeHeuristic(),
                 scaleXString, scaleYString, scaleZString,
                 config.centerHeuristic());
+
         return code;
     }
 
@@ -284,7 +286,17 @@ class TestMode extends InputMode {
      * @param stream the output stream (not null)
      */
     private void write(DynamicAnimControl dac, PrintStream stream) {
-        assert stream != null;
+        stream.printf("import com.jme3.bullet.animation.CenterHeuristic;%n"
+                + "import com.jme3.bullet.animation.DynamicAnimControl;%n"
+                + "import com.jme3.bullet.animation.LinkConfig;%n"
+                + "import com.jme3.bullet.animation.MassHeuristic;%n"
+                + "import com.jme3.bullet.animation.RangeOfMotion;%n"
+                + "import com.jme3.bullet.animation.ShapeHeuristic;%n"
+                + "import com.jme3.math.Vector3f;%n%n");
+        stream.printf("public class WControl extends DynamicAnimControl {%n%n"
+                + "    public WControl() {%n"
+                + "        super();%n");
+
         String[] lbNames = dac.listLinkedBoneNames();
         String torsoName = DacConfiguration.torsoName;
         /*
@@ -313,7 +325,7 @@ class TestMode extends InputMode {
          */
         config = dac.config(torsoName);
         int configIndex = configs.get(config);
-        String code = String.format("        setConfig(%s, config%d);%n",
+        String code = String.format("        super.setConfig(%s, config%d);%n",
                 MyString.quote(torsoName), configIndex);
         stream.print(code);
         /*
@@ -346,10 +358,13 @@ class TestMode extends InputMode {
                     maxYString, minYString,
                     maxZString, minZString);
 
-            code = String.format("        link(%s, config%d, %s);%n",
+            code = String.format("        super.link(%s, config%d,%n"
+                    + "                %s);%n",
                     MyString.quote(lbName), configIndex, newRange);
             stream.print(code);
         }
+
+        stream.printf("    }%n}%n");
     }
 
     /**
