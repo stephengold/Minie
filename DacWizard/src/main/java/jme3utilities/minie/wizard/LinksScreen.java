@@ -28,22 +28,29 @@ package jme3utilities.minie.wizard;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.MassHeuristic;
+import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.math.Vector3f;
+import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.Button;
+import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.controls.TreeBox;
 import de.lessvoid.nifty.controls.TreeItem;
 import de.lessvoid.nifty.elements.Element;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
+import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.nifty.PopupMenuBuilder;
+import jme3utilities.nifty.SliderTransform;
 import jme3utilities.nifty.dialog.DialogController;
 import jme3utilities.nifty.dialog.FloatDialog;
 import jme3utilities.nifty.dialog.VectorDialog;
@@ -54,7 +61,7 @@ import jme3utilities.ui.InputMode;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-class LinksScreen extends GuiScreenController {
+public class LinksScreen extends GuiScreenController {
     // *************************************************************************
     // constants and loggers
 
@@ -254,6 +261,24 @@ class LinksScreen extends GuiScreenController {
                 scaleFactors, centerHeuristic);
         setConfig(config);
     }
+
+    /**
+     * Callback handler that Nifty invokes after a slider changes.
+     *
+     * @param sliderId Nifty element ID of the slider (not null)
+     * @param event details of the event (not null, ignored)
+     */
+    @NiftyEventSubscriber(pattern = ".*Slider")
+    public void linksScreenSliderChanged(final String sliderId,
+            final SliderChangedEvent event) {
+        Validate.nonNull(sliderId, "slider ID");
+        assert sliderId.endsWith("Slider") : sliderId;
+        Validate.nonNull(event, "event");
+
+        if (!isIgnoreGuiChanges() && hasStarted()) {
+            readSliders();
+        }
+    }
     // *************************************************************************
     // GuiScreenController methods
 
@@ -363,25 +388,45 @@ class LinksScreen extends GuiScreenController {
         String boneName = value.boneName();
         model.selectLink(boneName);
 
-        String centerHeuristicButton = "";
-        String massHeuristicButton = "";
-        String massParameterButton = "";
-        String shapeHeuristicButton = "";
-        String shapeScaleButton = "";
+        String xRangeStatus = "";
+        String yRangeStatus = "";
+        String zRangeStatus = "";
+        if (boneName.equals(DacConfiguration.torsoName)) {
+            setSliderEnabled("minX", false);
+            setSliderEnabled("maxX", false);
+            setSliderEnabled("minY", false);
+            setSliderEnabled("maxY", false);
+            setSliderEnabled("minZ", false);
+            setSliderEnabled("maxZ", false);
+        } else {
+            RangeOfMotion rom = model.rom(boneName);
+            xRangeStatus = describe(rom, PhysicsSpace.AXIS_X);
+            yRangeStatus = describe(rom, PhysicsSpace.AXIS_Y);
+            zRangeStatus = describe(rom, PhysicsSpace.AXIS_Z);
+            setAxisSliders("minX", "maxX", rom, PhysicsSpace.AXIS_X);
+            setAxisSliders("minY", "maxY", rom, PhysicsSpace.AXIS_Y);
+            setAxisSliders("minZ", "maxZ", rom, PhysicsSpace.AXIS_Z);
+        }
+        setStatusText("xRangeStatus", xRangeStatus);
+        setStatusText("yRangeStatus", yRangeStatus);
+        setStatusText("zRangeStatus", zRangeStatus);
 
         LinkConfig config = model.config(boneName);
-        centerHeuristicButton = config.centerHeuristic().toString();
-        massHeuristicButton = config.massHeuristic().toString();
-        float massParameter = config.massParameter();
-        massParameterButton = MyString.describe(massParameter);
-        shapeHeuristicButton = config.shapeHeuristic().toString();
-        Vector3f shapeScale = config.shapeScale(null);
-        shapeScaleButton = MyVector3f.describe(shapeScale);
-
+        String centerHeuristicButton = config.centerHeuristic().toString();
         setButtonText("centerHeuristic", centerHeuristicButton);
+
+        String massHeuristicButton = config.massHeuristic().toString();
         setButtonText("massHeuristic", massHeuristicButton);
+
+        float massParameter = config.massParameter();
+        String massParameterButton = MyString.describe(massParameter);
         setButtonText("massParameter", massParameterButton);
+
+        String shapeHeuristicButton = config.shapeHeuristic().toString();
         setButtonText("shapeHeuristic", shapeHeuristicButton);
+
+        Vector3f shapeScale = config.shapeScale(null);
+        String shapeScaleButton = MyVector3f.describe(shapeScale);
         setButtonText("shapeScale", shapeScaleButton);
 
         String feedback = "";
@@ -409,6 +454,27 @@ class LinksScreen extends GuiScreenController {
     }
 
     /**
+     * Describe one axis of a joint's range of motion.
+     *
+     * @param rom (not null)
+     * @param axisIndex axisIndex which axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @return descriptive text (not null, not empty)
+     */
+    private static String describe(RangeOfMotion rom, int axisIndex) {
+        float maxRadians = rom.getMaxRotation(axisIndex);
+        float maxDegrees = MyMath.toDegrees(maxRadians);
+        int max = Math.round(maxDegrees);
+
+        float minRadians = rom.getMinRotation(axisIndex);
+        float minDegrees = MyMath.toDegrees(minRadians);
+        int min = Math.round(minDegrees);
+
+        String text = String.format("%+d to %+d degrees", min, max);
+
+        return text;
+    }
+
+    /**
      * Find the item for the named BoneLink.
      *
      * @param boneName the bone name of the link (not null, not empty)
@@ -432,6 +498,61 @@ class LinksScreen extends GuiScreenController {
         }
 
         return null;
+    }
+
+    /**
+     * Update the RangeOfMotion of the selected BoneLink based on slider
+     * positions.
+     */
+    private void readSliders() {
+        float maxX = readSlider("maxX", SliderTransform.None);
+        maxX = MyMath.toRadians(maxX);
+
+        float minX = readSlider("minX", SliderTransform.None);
+        minX = MyMath.toRadians(minX);
+
+        float maxY = readSlider("maxY", SliderTransform.None);
+        maxY = MyMath.toRadians(maxY);
+
+        float minY = readSlider("minY", SliderTransform.None);
+        minY = MyMath.toRadians(minY);
+
+        float maxZ = readSlider("maxZ", SliderTransform.None);
+        maxZ = MyMath.toRadians(maxZ);
+
+        float minZ = readSlider("minZ", SliderTransform.None);
+        minZ = MyMath.toRadians(minZ);
+
+        RangeOfMotion rom = new RangeOfMotion(maxX, minX, maxY, minY, maxZ,
+                minZ);
+
+        Model model = DacWizard.getModel();
+        String boneName = model.selectedLink();
+        model.setRom(boneName, rom);
+    }
+
+    /**
+     * Reposition and enable the named sliders to reflect the indexed axis of
+     * the specified RangeOfMotion.
+     *
+     * @param minSliderName the name of the slider for the minimum rotation (not
+     * null, not empty)
+     * @param maxSliderName the name of the slider for the maximum rotation (not
+     * null, not empty)
+     * @param rom (not null)
+     * @param axisIndex which axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     */
+    private void setAxisSliders(String minSliderName, String maxSliderName,
+            RangeOfMotion rom, int axisIndex) {
+        float maxRadians = rom.getMaxRotation(axisIndex);
+        float maxDegrees = MyMath.toDegrees(maxRadians);
+        setSliderEnabled(maxSliderName, true);
+        setSlider(maxSliderName, SliderTransform.None, maxDegrees);
+
+        float minRadians = rom.getMinRotation(axisIndex);
+        float minDegrees = MyMath.toDegrees(minRadians);
+        setSliderEnabled(minSliderName, true);
+        setSlider(minSliderName, SliderTransform.None, minDegrees);
     }
 
     /**

@@ -186,7 +186,7 @@ class Model {
     }
 
     /**
-     * Access the configuration of the named bone/torso link.
+     * Read the configuration of the named bone/torso link.
      *
      * @param boneName the name of the bone/torso (not null)
      * @return the pre-existing configuration (not null)
@@ -344,7 +344,7 @@ class Model {
     /**
      * Access the root spatial of the loaded C-G model.
      *
-     * @return the spatial, or null if no model loaded
+     * @return the pre-existing spatial, or null if no model loaded
      */
     Spatial getRootSpatial() {
         return rootSpatial;
@@ -548,6 +548,20 @@ class Model {
     }
 
     /**
+     * Read the joint limits of the named BoneLink.
+     *
+     * @param boneName the name of the bone (not null, not empty)
+     * @return the pre-existing limits (not null)
+     */
+    RangeOfMotion rom(String boneName) {
+        assert boneName != null;
+        assert !boneName.isEmpty();
+
+        RangeOfMotion result = ragdoll.getJointLimits(boneName);
+        return result;
+    }
+
+    /**
      * Determine which physics link is selected.
      *
      * @return the bone/torso name of the link, or null if no selection
@@ -567,12 +581,15 @@ class Model {
     }
 
     /**
-     * Alter the configuration of the named bone/torso.
+     * Replace the configuration of the named bone/torso.
      *
      * @param boneName the name of the bone, or torsoName (not null)
-     * @param config the desired configuration (not null)
+     * @param config the desired LinkConfig (not null)
      */
     void setConfig(String boneName, LinkConfig config) {
+        assert boneName != null;
+        assert config != null;
+
         ragdoll.setConfig(boneName, config);
     }
 
@@ -646,6 +663,20 @@ class Model {
              */
             coordsMap = RagUtils.coordsMap(targets, managerMap);
         }
+    }
+
+    /**
+     * Replace the RangeOfMotion of the named BoneLink.
+     *
+     * @param boneName the name of the bone (not null, not empty)
+     * @param rom the desired RangeOfMotion (not null)
+     */
+    void setRom(String boneName, RangeOfMotion rom) {
+        assert boneName != null;
+        assert !boneName.isEmpty();
+        assert rom != null;
+
+        ragdoll.setJointLimits(boneName, rom);
     }
 
     /**

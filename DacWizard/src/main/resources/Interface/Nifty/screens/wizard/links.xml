@@ -40,7 +40,7 @@ Nifty XML to lay out the GUI for the "links" screen of DacWizard.
                 <panel/>
             </panel>
             <control name="treeBox" id="hierarchy"
-                     displayItems="15"/>
+                     displayItems="12"/>
             <panel/>
             <panel childLayout="horizontal" height="28px">
                 <control name="label" text="  "/>
@@ -71,6 +71,51 @@ Nifty XML to lay out the GUI for the "links" screen of DacWizard.
                          width="70px">
                     <interact onRelease="perform(select centerHeuristic)"/>
                 </control>
+                <control name="label" text="  "/>
+            </panel>
+            <panel childLayout="horizontal" height="28px">
+                <control name="label" text="  X rotation: "
+                         color="#000f"/>
+                <control name="horizontalSlider" id="minXSlider"
+                         buttonStepSize="1"
+                         max="0" min="-180" stepSize="1"/>
+                <control name="label" id="xRangeStatus"
+                         backgroundColor="#ffff"
+                         color="#000f"
+                         width="140px"/>
+                <control name="horizontalSlider" id="maxXSlider"
+                         buttonStepSize="1"
+                         max="180" min="0" stepSize="15"/>
+                <control name="label" text="  "/>
+            </panel>
+            <panel childLayout="horizontal" height="28px">
+                <control name="label" text="  Y rotation: "
+                         color="#000f"/>
+                <control name="horizontalSlider" id="minYSlider"
+                         buttonStepSize="1"
+                         max="0" min="-180" stepSize="1"/>
+                <control name="label" id="yRangeStatus"
+                         backgroundColor="#ffff"
+                         color="#000f"
+                         width="140px"/>
+                <control name="horizontalSlider" id="maxYSlider"
+                         buttonStepSize="1"
+                         max="180" min="0" stepSize="15"/>
+                <control name="label" text="  "/>
+            </panel>
+            <panel childLayout="horizontal" height="28px">
+                <control name="label" text="  Z rotation: "
+                         color="#000f"/>
+                <control name="horizontalSlider" id="minZSlider"
+                         buttonStepSize="1"
+                         max="0" min="-180" stepSize="1"/>
+                <control name="label" id="zRangeStatus"
+                         backgroundColor="#ffff"
+                         color="#000f"
+                         width="140px"/>
+                <control name="horizontalSlider" id="maxZSlider"
+                         buttonStepSize="1"
+                         max="180" min="0" stepSize="15"/>
                 <control name="label" text="  "/>
             </panel>
             <panel childLayout="horizontal" height="28px">
