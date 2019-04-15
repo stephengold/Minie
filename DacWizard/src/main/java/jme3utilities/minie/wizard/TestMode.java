@@ -45,6 +45,8 @@ import com.jme3.math.Vector3f;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
@@ -252,20 +254,50 @@ class TestMode extends InputMode {
     }
 
     /**
-     * Write the control configuration to a stream.
+     * Write the control configuration to a stream, as Java source code.
+     *
+     * @param dac a configured control to use as a model (not null, unaffected)
+     * @param stream the output stream (not null)
      */
     private void write(DynamicAnimControl dac, PrintStream stream) {
-        String torsoName = DacConfiguration.torsoName;
-        LinkConfig config = dac.config(torsoName);
-        String newConfig = format(config);
-        String code = String.format("        setConfig(%s, %s);%n",
-                MyString.quote(torsoName), newConfig);
-        stream.print(code);
-
+        assert stream != null;
         String[] lbNames = dac.listLinkedBoneNames();
+        String torsoName = DacConfiguration.torsoName;
+        /*
+         * Write each unique LinkConfig.
+         */
+        int nextConfigIndex = 1;
+        Map<LinkConfig, Integer> configs = new TreeMap<>();
+
+        LinkConfig config = dac.config(torsoName);
+        if (!configs.containsKey(config)) {
+            configs.put(config, nextConfigIndex);
+            writeConfig(config, nextConfigIndex, stream);
+            ++nextConfigIndex;
+        }
+
         for (String lbName : lbNames) {
             config = dac.config(lbName);
-            newConfig = format(config);
+            if (!configs.containsKey(config)) {
+                configs.put(config, nextConfigIndex);
+                writeConfig(config, nextConfigIndex, stream);
+                ++nextConfigIndex;
+            }
+        }
+        /*
+         * Configure the torso of the ragdoll.
+         */
+        config = dac.config(torsoName);
+        int configIndex = configs.get(config);
+        String code = String.format("        setConfig(%s, config%d);%n",
+                MyString.quote(torsoName), configIndex);
+        stream.print(code);
+        /*
+         * Configure each linked bone in the ragdoll.
+         */
+        for (String lbName : lbNames) {
+            config = dac.config(lbName);
+            configIndex = configs.get(config);
 
             RangeOfMotion range = dac.getJointLimits(lbName);
 
@@ -290,9 +322,26 @@ class TestMode extends InputMode {
                     maxYString, minYString,
                     maxZString, minZString);
 
-            code = String.format("        link(%s, %s, %s);%n",
-                    MyString.quote(lbName), newConfig, newRange);
+            code = String.format("        link(%s, config%d, %s);%n",
+                    MyString.quote(lbName), configIndex, newRange);
             stream.print(code);
         }
+    }
+
+    /**
+     * Write a LinkConfig definition to a stream, as Java source code.
+     *
+     * @param config a LinkConfig to use as a model (not null)
+     * @param configIndex the index into unique link configurations (&gt;0)
+     * @param stream the output stream (not null)
+     */
+    private void writeConfig(LinkConfig config, int configIndex,
+            PrintStream stream) {
+        assert config != null;
+        assert configIndex > 0 : configIndex;
+
+        String newValue = format(config);
+        stream.printf("        LinkConfig config%d = %s;%n",
+                configIndex, newValue);
     }
 }
