@@ -45,6 +45,7 @@ import com.jme3.math.Vector3f;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -208,11 +209,18 @@ class TestMode extends InputMode {
      * Write the control configuration to a file.
      */
     private void save() {
+        Calendar rightNow = Calendar.getInstance();
+        int hours = rightNow.get(Calendar.HOUR_OF_DAY);
+        int minutes = rightNow.get(Calendar.MINUTE);
+        int seconds = rightNow.get(Calendar.SECOND);
+        String hhmmss = String.format("%02d%02d%02d", hours, minutes, seconds);
+        String fileName = String.format("configure%s.java", hhmmss);
+
         DacWizard wizard = DacWizard.getApplication();
         DynamicAnimControl dac = wizard.findDac();
         TestScreen screen = DacWizard.findAppState(TestScreen.class);
 
-        String path = DacWizard.filePath("configure.java");
+        String path = DacWizard.filePath(fileName);
         File file = new File(path);
         try (PrintStream stream = new PrintStream(file)) {
             write(dac, stream);
