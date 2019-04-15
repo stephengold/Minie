@@ -102,7 +102,7 @@ public class TestCloneBody {
         PhysicsVehicle vehicle = new PhysicsVehicle(shape, 1f);
         setParameters(vehicle, 0f);
         verifyParameters(vehicle, 0f);
-        PhysicsRigidBody vehicleClone = (PhysicsRigidBody) Misc.deepCopy(vehicle);
+        PhysicsVehicle vehicleClone = (PhysicsVehicle) Misc.deepCopy(vehicle);
         cloneTest(vehicle, vehicleClone);
         /*
          * VehicleControl
