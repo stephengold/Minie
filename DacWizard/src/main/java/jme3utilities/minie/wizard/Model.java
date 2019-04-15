@@ -32,11 +32,15 @@ import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.LinkConfig;
+import com.jme3.bullet.animation.MassHeuristic;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.RangeOfMotion;
+import com.jme3.bullet.animation.ShapeHeuristic;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
 import java.util.Arrays;
@@ -533,12 +537,19 @@ class Model {
         romTask = null;
 
         ragdoll = new DynamicAnimControl();
+        float massParameter = 1f;
+        LinkConfig linkConfig = new LinkConfig(
+                massParameter, MassHeuristic.Density,
+                ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
+                CenterHeuristic.Mean);
+
+        ragdoll.setConfig(DacConfiguration.torsoName, linkConfig);
+
         int numBones = countBones();
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             if (linkedBones.get(boneIndex)) {
                 String boneName = boneName(boneIndex);
-                float mass = 1f;
-                ragdoll.link(boneName, mass, roms[boneIndex]);
+                ragdoll.link(boneName, linkConfig, roms[boneIndex]);
             }
         }
 
