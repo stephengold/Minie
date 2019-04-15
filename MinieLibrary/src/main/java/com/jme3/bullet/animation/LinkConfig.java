@@ -44,6 +44,7 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.util.Objects;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.RectangularSolid;
@@ -56,7 +57,7 @@ import jme3utilities.math.VectorSet;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class LinkConfig implements Savable {
+public class LinkConfig implements Comparable<LinkConfig>, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -370,6 +371,46 @@ public class LinkConfig implements Savable {
         return result;
     }
     // *************************************************************************
+    // Comparable methods
+
+    /**
+     * Compare with another LinkConfig object.
+     *
+     * @param other (not null, unaffected)
+     * @return 0 if the objects are equivalent; negative if this comes before
+     * other; positive if this comes after other
+     */
+    @Override
+    public int compareTo(LinkConfig other) {
+        int result = centerHeuristic.compareTo(other.centerHeuristic);
+        if (result != 0) {
+            return result;
+        }
+        result = Float.compare(massParameter, other.massParameter);
+        if (result != 0) {
+            return result;
+        }
+        result = massHeuristic.compareTo(other.massHeuristic);
+        if (result != 0) {
+            return result;
+        }
+        result = shapeHeuristic.compareTo(other.shapeHeuristic);
+        if (result != 0) {
+            return result;
+        }
+        result = Float.compare(shapeScale.x, other.shapeScale.x);
+        if (result != 0) {
+            return result;
+        }
+        result = Float.compare(shapeScale.y, other.shapeScale.y);
+        if (result != 0) {
+            return result;
+        }
+        result = Float.compare(shapeScale.z, other.shapeScale.z);
+
+        return result;
+    }
+    // *************************************************************************
     // Savable methods
 
     /**
@@ -408,5 +449,43 @@ public class LinkConfig implements Savable {
         oc.write(massHeuristic, "massHeuristic", MassHeuristic.Mass);
         oc.write(shapeHeuristic, "shapeHeuristic", ShapeHeuristic.VertexHull);
         oc.write(shapeScale, "shapeScale", null);
+    }
+    // *************************************************************************
+    // Object methods
+
+    /**
+     * Test whether this LinkConfig is equivalent to another.
+     *
+     * @param otherObject the object to compare to (may be null)
+     */
+    @Override
+    public boolean equals(Object otherObject) {
+        boolean result = false;
+        if (otherObject instanceof LinkConfig) {
+            LinkConfig other = (LinkConfig) otherObject;
+            result = centerHeuristic == other.centerHeuristic
+                    && Float.compare(massParameter, other.massParameter) == 0
+                    && massHeuristic == other.massHeuristic
+                    && shapeHeuristic == other.shapeHeuristic
+                    && shapeScale.equals(other.shapeScale);
+        }
+
+        return result;
+    }
+
+    /**
+     * Generate the hash code for this LinkConfig.
+     *
+     * @return value for use in hashing
+     */
+    @Override
+    public int hashCode() {
+        int hash = 17 + Objects.hashCode(centerHeuristic);
+        hash = 11 * hash + Float.floatToIntBits(massParameter);
+        hash = 11 * hash + Objects.hashCode(massHeuristic);
+        hash = 11 * hash + Objects.hashCode(shapeHeuristic);
+        hash = 11 * hash + Objects.hashCode(shapeScale);
+
+        return hash;
     }
 }
