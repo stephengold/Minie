@@ -62,6 +62,9 @@ import jme3utilities.ui.InputMode;
 /**
  * A GuiApplication to configure a DynamicAnimControl for a new C-G model. The
  * application's main entry point is in this class.
+ * <p>
+ * As seen in the April 2019 walkthru video:
+ * https://www.youtube.com/watch?v=iWyrzZe45jA
  *
  * @author Stephen Gold sgold@sonic.net
  */

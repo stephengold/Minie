@@ -457,7 +457,9 @@ due to collisions between rigid bodies that don't share a `PhysicsJoint`.
   + [The Physics section of the JME Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
 
 YouTube videos about Minie:
-
+ 
+  + April 2019 walkthru of the DacWizard application
+    https:/www.youtube.com/watch?v=iWyrzZe45jA (8:12)
   + March 2019 short demo (IK for head/eye directions)
     https://www.youtube.com/watch?v=8zquudx3A1A (1:25)
   + March 2019 teaser (simulating buoyancy)
