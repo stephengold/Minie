@@ -42,7 +42,6 @@ import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.FastMath;
-import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -51,7 +50,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
-import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
@@ -290,25 +288,6 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
     // private methods
 
     /**
-     * Apply the specified Pose to the specified Skeleton. TODO move to Wes lib
-     *
-     * @param pose (not null)
-     */
-    private static void apply(Pose pose, Skeleton skeleton) {
-        int numBones = pose.countBones();
-        assert skeleton.getBoneCount() == numBones : numBones;
-        /*
-         * Copy local transforms from pose to skeleton.
-         */
-        Transform tempTransform = new Transform();
-        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
-            pose.localTransform(boneIndex, tempTransform);
-            Bone bone = skeleton.getBone(boneIndex);
-            MySkeleton.setLocalTransform(bone, tempTransform);
-        }
-    }
-
-    /**
      * Apply a pseudo-random pose to the skeleton of the temporary C-G model.
      */
     private void applyRandomPose() {
@@ -342,6 +321,6 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
         Skeleton skeleton = tempDac.getSkeleton();
         Pose pose = new Pose(skeleton);
         pose.setToAnimation(animation, animationTime, techniques);
-        apply(pose, skeleton);
+        pose.apply(skeleton);
     }
 }
