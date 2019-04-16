@@ -1,6 +1,6 @@
 # release notes for the Minie library and related examples
 
-## Version 0.8.0 released on TBD
+## Version 0.8.0 released on 15 April 2019
 
  + Made IK joints aware of ragdoll mode. (API changes)
  + Privatized the `PhysicsSpace.physicsSpaceId` field. (API change)

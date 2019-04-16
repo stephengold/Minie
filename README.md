@@ -273,7 +273,7 @@ repository location:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.7.7'
+        compile 'jme3utilities:Minie:0.8.0'
     }
 
 #### For Ant projects
@@ -281,8 +281,8 @@ repository location:
 For projects built using Ant, download the 2 non-standard
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/0.7.7
- + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.24.0
+ + https://github.com/stephengold/Minie/releases/tag/0.8.0
+ + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.25.0
 
 You'll want both class JARs
 and probably the `-sources` and `-javadoc` JARs as well.
@@ -298,15 +298,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Navigate to the "jme3-utilities" project folder.
     + Open the "heart" sub-project folder.
     + Navigate to the "build/libs" folder.
-    + Select the "jme3-utilities-heart-2.24.0.jar" file.
+    + Select the "jme3-utilities-heart-2.25.0.jar" file.
     + Click on the "Open" button.
  6. (optional) Add JARs for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "jme3-utilities-heart-2.24.0-javadoc.jar" file.
+    + Select the "jme3-utilities-heart-2.25.0-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "jme3-utilities-heart-2.24.0-sources.jar" file.
+    + Select the "jme3-utilities-heart-2.25.0-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the `Minie` JAR(s).
@@ -457,7 +457,7 @@ due to collisions between rigid bodies that don't share a `PhysicsJoint`.
   + [The Physics section of the JME Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
 
 YouTube videos about Minie:
- 
+
   + April 2019 walkthru of the DacWizard application
     https:/www.youtube.com/watch?v=iWyrzZe45jA (8:12)
   + March 2019 short demo (IK for head/eye directions)
