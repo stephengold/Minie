@@ -10,10 +10,10 @@ if (!hasProperty('mainClass')) {
 
 dependencies {
     runtime 'com.github.nifty-gui:nifty-style-black:1.4.2'
-    compile 'jme3utilities:jme3-utilities-heart:2.24.0'
+    compile 'jme3utilities:jme3-utilities-heart:2.25.0'
     compile 'jme3utilities:jme3-utilities-ui:0.7.2'
     compile 'jme3utilities:jme3-utilities-nifty:0.9.3'
-    compile 'jme3utilities:Wes:0.3.11'
+    compile 'jme3utilities:Wes:0.3.12'
     compile "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     runtime "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
     runtime "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"
