@@ -57,34 +57,34 @@ public class VehicleTuning
     final public static Logger logger
             = Logger.getLogger(VehicleTuning.class.getName());
     // *************************************************************************
-    // fields TODO re-order
+    // fields
 
-    /**
-     * suspension stiffness constant (10&rarr;off-road buggy, 50&rarr;sports
-     * car, 200&rarr;Formula-1 race car, default=5.88)
-     */
-    private float suspensionStiffness = 5.88f;
-    /**
-     * suspension damping when compressed (0&rarr;no damping, default=0.83)
-     */
-    private float suspensionCompression = 0.83f;
-    /**
-     * suspension damping when expanded (0&rarr;no damping, default=0.88)
-     */
-    private float suspensionDamping = 0.88f;
-    /**
-     * maximum suspension travel distance (in centimeters, default=500)
-     */
-    private float maxSuspensionTravelCm = 500f;
-    /**
-     * maximum force exerted by each wheel's suspension (default=6000)
-     */
-    private float maxSuspensionForce = 6000f;
     /**
      * coefficient of friction between tires and ground (0.8&rarr;realistic car,
      * 10000&rarr;kart racer, default=10.5)
      */
     private float frictionSlip = 10.5f;
+    /**
+     * maximum force exerted by each wheel's suspension (default=6000)
+     */
+    private float maxSuspensionForce = 6000f;
+    /**
+     * maximum suspension travel distance (in centimeters, default=500)
+     */
+    private float maxSuspensionTravelCm = 500f;
+    /**
+     * suspension damping when expanded (0&rarr;no damping, default=0.88)
+     */
+    private float suspensionDamping = 0.88f;
+    /**
+     * suspension damping when compressed (0&rarr;no damping, default=0.83)
+     */
+    private float suspensionCompression = 0.83f;
+    /**
+     * suspension stiffness constant (10&rarr;off-road buggy, 50&rarr;sports
+     * car, 200&rarr;Formula-1 race car, default=5.88)
+     */
+    private float suspensionStiffness = 5.88f;
     // *************************************************************************
     // new methods exposed
 

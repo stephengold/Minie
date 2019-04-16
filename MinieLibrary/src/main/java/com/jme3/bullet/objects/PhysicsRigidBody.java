@@ -66,17 +66,22 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     // constants and loggers
 
     /**
+     * magic mass value used to specify a static body
+     */
+    final public static float massForStatic = 0f;
+    /**
      * message logger for this class
      */
     final public static Logger logger2
             = Logger.getLogger(PhysicsRigidBody.class.getName());
-    /**
-     * magic mass value used to specify a static body
-     */
-    final public static float massForStatic = 0f;
     // *************************************************************************
-    // fields TODO re-order
+    // fields
 
+    /**
+     * list of joints that connect to this body: The list isn't filled until the
+     * body is added to a PhysicsSpace.
+     */
+    private ArrayList<PhysicsJoint> joints = new ArrayList<>(4);
     /**
      * copy of kinematic flag: true&rarr;set kinematic mode (spatial controls
      * body), false&rarr;dynamic/static mode (body controls spatial)
@@ -92,11 +97,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      * motion state
      */
     protected RigidBodyMotionState motionState = new RigidBodyMotionState();
-    /**
-     * list of joints that connect to this body: The list isn't filled until the
-     * body is added to a PhysicsSpace.
-     */
-    private ArrayList<PhysicsJoint> joints = new ArrayList<>(4);
     // *************************************************************************
     // constructors
 

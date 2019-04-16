@@ -63,21 +63,59 @@ public class VehicleWheel
     final public static Logger logger
             = Logger.getLogger(VehicleWheel.class.getName());
     // *************************************************************************
-    // fields TODO re-order
+    // fields
 
     /**
-     * unique identifier of the btRaycastVehicle
+     * true &rarr; physics coordinates match local transform, false &rarr;
+     * physics coordinates match world transform
      */
-    private long vehicleId = 0L;
-    /**
-     * 0-origin index among the vehicle's wheels (&ge;0)
-     */
-    private int wheelIndex = 0;
+    private boolean applyLocal = false;
     /**
      * copy of wheel type: true&rarr;front (steering) wheel,
      * false&rarr;non-front wheel
      */
     private boolean isFront;
+    /**
+     * copy of wheel radius (in physics-space units, &gt;0)
+     */
+    private float radius = 0.5f;
+    /**
+     * copy of rest length of the suspension (in physics-space units)
+     */
+    private float restLength = 1f;
+    /**
+     * copy of roll-influence factor (0&rarr;no roll torque, 1&rarr;realistic
+     * behavior, default=1)
+     */
+    private float rollInfluence = 1f;
+    /**
+     * 0-origin index among the vehicle's wheels (&ge;0)
+     */
+    private int wheelIndex = 0;
+    /**
+     * unique identifier of the btRaycastVehicle
+     */
+    private long vehicleId = 0L;
+    /**
+     * reusable rotation matrix
+     */
+    private Matrix3f tmp_Matrix = new Matrix3f();
+    /**
+     * temporary storage during calculations
+     */
+    private Quaternion tmp_inverseWorldRotation = new Quaternion();
+    /**
+     * wheel orientation in physics-space coordinates
+     */
+    private Quaternion wheelWorldRotation = new Quaternion();
+    /**
+     * associated spatial, or null if none
+     */
+    private Spatial wheelSpatial;
+    /**
+     * axis direction (in chassis coordinates, typically to the right/-1,0,0)
+     */
+    private Vector3f axisDirection = new Vector3f();
     /**
      * location where the suspension connects to the chassis (in chassis
      * coordinates)
@@ -88,51 +126,13 @@ public class VehicleWheel
      */
     private Vector3f suspensionDirection = new Vector3f();
     /**
-     * axis direction (in chassis coordinates, typically to the right/-1,0,0)
-     */
-    private Vector3f axisDirection = new Vector3f();
-    /**
-     * copy of tuning parameters
-     */
-    private VehicleTuning tuning = new VehicleTuning();
-    /**
-     * copy of roll-influence factor (0&rarr;no roll torque, 1&rarr;realistic
-     * behavior, default=1)
-     */
-    private float rollInfluence = 1f;
-    /**
-     * copy of wheel radius (in physics-space units, &gt;0)
-     */
-    private float radius = 0.5f;
-    /**
-     * copy of rest length of the suspension (in physics-space units)
-     */
-    private float restLength = 1f;
-    /**
      * wheel location in physics-space coordinates
      */
     private Vector3f wheelWorldLocation = new Vector3f();
     /**
-     * wheel orientation in physics-space coordinates
+     * copy of tuning parameters
      */
-    private Quaternion wheelWorldRotation = new Quaternion();
-    /**
-     * associated spatial, or null if none
-     */
-    private Spatial wheelSpatial;
-    /**
-     * reusable rotation matrix
-     */
-    private Matrix3f tmp_Matrix = new Matrix3f();
-    /**
-     * temporary storage during calculations
-     */
-    private Quaternion tmp_inverseWorldRotation = new Quaternion();
-    /**
-     * true &rarr; physics coordinates match local transform, false &rarr;
-     * physics coordinates match world transform
-     */
-    private boolean applyLocal = false;
+    private VehicleTuning tuning = new VehicleTuning();
     // *************************************************************************
     // constructors
 
