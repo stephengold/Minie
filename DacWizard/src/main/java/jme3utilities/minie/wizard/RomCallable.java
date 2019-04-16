@@ -243,17 +243,6 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
     // PhysicsTickListener methods
 
     /**
-     * Callback from Bullet, invoked just before the physics is stepped.
-     *
-     * @param space the space that is about to be stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
-     */
-    @Override
-    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // do nothing
-    }
-
-    /**
      * Callback from Bullet, invoked just after the physics has been stepped.
      *
      * @param space the space that was just stepped (not null)
@@ -283,6 +272,17 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
                 MyVector3f.accumulateMinima(minima[boneIndex], angles);
             }
         }
+    }
+
+    /**
+     * Callback from Bullet, invoked just before the physics is stepped.
+     *
+     * @param space the space that is about to be stepped (not null)
+     * @param timeStep the time per physics step (in seconds, &ge;0)
+     */
+    @Override
+    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+        // do nothing
     }
     // *************************************************************************
     // private methods
