@@ -1,10 +1,26 @@
 # release notes for the Minie library and related examples
 
+## Version 0.8.0 released on TBD
+
+ + Made IK joints aware of ragdoll mode. (API changes)
+ + Privatized the `PhysicsSpace.physicsSpaceId` field. (API change)
+ + Privatized all fields in `VehicleTuning`. (API change)
+ + Added `getAngles()` and `getPivotOffset()` to the `SixDofJoint` class.
+ + Publicized `RagUtils.coordsMap()` and added `RagUtils.findSkeletonControl()`.
+ + Implemented `Comparable`, `equals()`, and `hashcode()`
+   in the `LinkConfig` class.
+ + Updated the native libraries to version 1.0.49 of `Libbulletjme`.
+ + Avoided invoking `PhysicsRigidBody.addJoint()` directly.
+ + Based on version 2.25 of the `jme3-utilities-heart` library.
+ + Made progress on applications:
+   + Added `DacWizard` and `TestIssue1058` applications.
+   + Added a `Face` interface to each model tuning.
+
 ## Version 0.7.7 released on 28 March 2019
 
  + Moved `RagUtils.vertexLocations()` and `VectorSet` to
    the `jme3-utilities-heart` library.
- + Lots of work on apps:
+ + Made progress on applications:
    + Added `WatchDemo` app.
    + Disabled contact response in `TuneDac`.
    + Moved IK controllers to their own package.
