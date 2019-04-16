@@ -188,16 +188,36 @@ public class DacWizard extends GuiApplication {
         Logger.getLogger(ALAudioRenderer.class.getName())
                 .setLevel(Level.SEVERE);
 
+        String renderer = AppSettings.LWJGL_OPENGL2;
         boolean forceDialog = false;
         /*
          * Process any command-line arguments.
          */
         for (String arg : arguments) {
-            logger.log(Level.WARNING, "Unknown command-line argument {0}",
-                    MyString.quote(arg));
+            switch (arg) {
+                case "-3":
+                case "--openGL3":
+                    renderer = AppSettings.LWJGL_OPENGL3;
+                    break;
+
+                case "-f":
+                case "--forceDialog":
+                    forceDialog = true;
+                    break;
+
+                case "-v":
+                case "--verbose":
+                    Misc.setLoggingLevels(Level.INFO);
+                    break;
+
+                default:
+                    logger.log(Level.WARNING,
+                            "Unknown command-line argument {0}",
+                            MyString.quote(arg));
+            }
         }
 
-        mainStartup(forceDialog);
+        mainStartup(forceDialog, renderer);
     }
 
     /**
@@ -392,8 +412,10 @@ public class DacWizard extends GuiApplication {
      * @param forceDialog true&rarr;force startup to show the JME settings
      * dialog, false&rarr; show the dialog only if persistent settings are
      * missing
+     * @param renderer the value passed to
+     * {@link com.jme3.system.AppSettings#setRenderer(java.lang.String)}
      */
-    private static void mainStartup(boolean forceDialog) {
+    private static void mainStartup(boolean forceDialog, final String renderer) {
         /*
          * Instantiate the application.
          */
@@ -413,6 +435,7 @@ public class DacWizard extends GuiApplication {
                 super.applyOverrides(settings);
 
                 setForceDialog(forceDialog);
+                settings.setRenderer(renderer);
                 settings.setSamples(4);
                 settings.setVSync(true);
             }
