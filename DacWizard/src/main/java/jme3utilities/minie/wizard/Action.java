@@ -68,6 +68,7 @@ class Action {
     final static String selectShapeHeuristic = "select shapeHeuristic";
     final static String setMassParameter = "set massParameter";
     final static String setShapeScale = "set shapeScale";
+    final static String toggleMesh = "toggle mesh";
     final static String togglePhysicsDebug = "toggle physicsDebug";
     final static String toggleRagdoll = "toggle ragdoll";
     // *************************************************************************
@@ -147,6 +148,7 @@ class Action {
     private static void dumpRenderer() {
         DacWizard app = DacWizard.getApplication();
         RenderManager renderManager = app.getRenderManager();
+        DacWizard.dumper.setDumpCull(true);
         DacWizard.dumper.dump(renderManager);
     }
 

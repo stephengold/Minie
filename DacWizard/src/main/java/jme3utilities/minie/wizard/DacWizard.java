@@ -112,6 +112,7 @@ public class DacWizard extends GuiApplication {
         }
         assert physicsSpace.isEmpty();
 
+        rootNode.setCullHint(Spatial.CullHint.Never);
         List<Spatial> children = rootNode.getChildren();
         for (Spatial child : children) {
             child.removeFromParent();

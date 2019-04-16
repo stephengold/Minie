@@ -153,6 +153,13 @@ class TestMode extends InputMode {
                     handled = true;
                     break;
 
+                case Action.toggleMesh:
+                    TestScreen screen
+                            = DacWizard.findAppState(TestScreen.class);
+                    screen.toggleMesh();
+                    handled = true;
+                    break;
+
                 case Action.togglePhysicsDebug:
                     togglePhysicsDebug();
                     handled = true;

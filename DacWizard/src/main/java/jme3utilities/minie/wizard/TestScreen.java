@@ -79,6 +79,20 @@ class TestScreen extends GuiScreenController {
         super("test", "Interface/Nifty/screens/wizard/test.xml", false);
     }
     // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Toggle mesh rendering.
+     */
+    void toggleMesh() {
+        Spatial.CullHint cull = rootNode.getLocalCullHint();
+        if (cull == Spatial.CullHint.Always) {
+            rootNode.setCullHint(Spatial.CullHint.Never);
+        } else {
+            rootNode.setCullHint(Spatial.CullHint.Always);
+        }
+    }
+    // *************************************************************************
     // GuiScreenController methods
 
     /**
@@ -144,6 +158,15 @@ class TestScreen extends GuiScreenController {
             debugButton = "Debug on";
         }
         setButtonText("debug", debugButton);
+
+        Spatial.CullHint cull = rootNode.getCullHint();
+        String meshButton;
+        if (cull == Spatial.CullHint.Always) {
+            meshButton = "Render meshes";
+        } else {
+            meshButton = "Hide meshes";
+        }
+        setButtonText("mesh", meshButton);
 
         DacWizard wizard = DacWizard.getApplication();
         DynamicAnimControl dac = wizard.findDac();
