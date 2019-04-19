@@ -749,20 +749,22 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         if (mass != massForStatic) {
             validateDynamicShape(collisionShape);
         }
+        assert objectId != 0L;
+        assert collisionShape != null;
 
-        this.mass = mass;
-        if (objectId != 0L) { // TODO necessary?
-            if (collisionShape != null) {
-                updateMassProps(objectId, collisionShape.getObjectId(), mass);
-            }
-            int flags = getCollisionFlags(objectId);
-            if (mass == massForStatic) {
-                flags |= CollisionFlag.STATIC_OBJECT;
-            } else {
-                flags &= ~CollisionFlag.STATIC_OBJECT;
-            }
-            setCollisionFlags(objectId, flags);
+        if (mass == this.mass) {
+            return;
         }
+        this.mass = mass;
+        updateMassProps(objectId, collisionShape.getObjectId(), mass);
+
+        int flags = getCollisionFlags(objectId);
+        if (mass == massForStatic) {
+            flags |= CollisionFlag.STATIC_OBJECT;
+        } else {
+            flags &= ~CollisionFlag.STATIC_OBJECT;
+        }
+        setCollisionFlags(objectId, flags);
     }
 
     /**
