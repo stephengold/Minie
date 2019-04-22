@@ -8,7 +8,7 @@ It contains 3 sub-projects:
 
  1. MinieLibrary: the Minie runtime library (in Java)
  2. MinieExamples: demos, examples, and test software (in Java)
- 3. DacWizard: a GUI application to configure a ragdoll (in Java)
+ 3. [DacWizard][]: a GUI application to configure a ragdoll (in Java)
 
 Java source code is provided under
 [a FreeBSD license](https://github.com/stephengold/Minie/blob/master/LICENSE).
@@ -41,10 +41,11 @@ Summary of added features:
  + debugging aids:
     + dump the contents of a `BulletAppState` or `PhysicsSpace`
     + customize debug material per collision object
-    + visualize the local axes and/or bounding box of each collision object
+    + visualize the local axes, bounding box, and/or CCD swept sphere
+      of collision objects
     + visualize physics in multiple viewports
     + optional high-resolution debug meshes for convex shapes
-    + options to generate debug meshes that include normals
+    + options to generate debug meshes that include normals (for shading)
  + all joints, shapes, and collision objects implement the `JmeCloneable`
    and `Comparable` interfaces
  + enable/disable a joint
@@ -88,7 +89,7 @@ Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
    instead, or else use `PhysicsCharacter` directly
  + `KinematicRagdollControl`, `HumanoidRagdollPreset`, and `RagdollPreset`:
    use `DynamicAnimControl` instead
- + `RagdollUtils`: use `RagUtils` instead
+ + `RagdollUtils`: not needed
 
 Other important differences:
 
@@ -127,8 +128,8 @@ Maven artifacts are available from
 ## Conventions
 
 Package names begin with
-`jme3utilities.minie` (if Stephen Gold holds the copyright) or
-`com.jme3` (if the jMonkeyEngine Project holds the copyright).
+`jme3utilities.minie.` (if Stephen Gold holds the copyright) or
+`com.jme3.` (if the jMonkeyEngine Project holds the copyright).
 
 The source code is compatible with JDK 7.
 
@@ -441,7 +442,11 @@ for each linked bone:
 For a simple example, see
 [HelloBoneLink.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/HelloBoneLink.java).
 
-You probably don't want to link every `Bone`.
+Alternatively, you can generate configuration code for a specific model using
+the [DacWizard application][dacwizard], which uses animation data to estimate
+the range of motion for each linked bone.
+
+You probably don't want to link every `Bone` in the model's `Skeleton`.
 For instance, if the model has articulated fingers, you probably want to link
 the hand bones but not the individual finger bones.
 Unlinked bones will be managed by the nearest linked ancestor `Bone`.
@@ -481,6 +486,7 @@ YouTube videos about Minie:
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
 [bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
 [chrome]: https://www.google.com/chrome "Chrome"
+[dacwizard]: https://github.com/stephengold/Minie/tree/master/DacWizard "DacWizard Application"
 [elements]: http://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
 [findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
 [git]: https://git-scm.com "Git"
@@ -515,7 +521,8 @@ artists and software developers:
   and also for many helpful insights
 + Paul Speed, for helpful insights
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down.
-+ [Nathan Vegdahl][vegdahl], for creating the Puppet model (used by `TestDac`)
++ [Nathan Vegdahl][vegdahl], for creating the Puppet model (used in
+  the TestDac walkthru video)
 + plus the creators of (and contributors to) the following software:
     + the [Blender][] 3-D animation suite
     + the [Bullet][] real-time physics library
