@@ -13,6 +13,23 @@ It contains 3 sub-projects:
 Java source code is provided under
 [a FreeBSD license](https://github.com/stephengold/Minie/blob/master/LICENSE).
 
+## Contents of this document
+
+ + [Why use Minie?](#why)
+ + [Downloads](#downloads)
+ + [Conventions](#conventions)
+ + [History](#history)
+ + [How to install the SDK and the Minie Project](#install)
+ + [How to add Minie to an existing project](#add)
+ + [Choosing a collision shape](#shape)
+ + [An introduction to DynamicAnimControl](#dac)
+ + [External links](#links)
+ + [Acknowledgments](#acks)
+
+<a name="why"/>
+
+## Why use Minie?
+
 jMonkeyEngine comes with 2 Bullet integration libraries.
 Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
 
@@ -97,18 +114,6 @@ Other important differences:
  + `RagdollCollisionListener` interface changed and moved
    from the `com.jme3.bullet.collision` package
    to the `com.jme3.bullet.animation` package.
-
-## Contents of this document
-
- + [Downloads](#downloads)
- + [Conventions](#conventions)
- + [History](#history)
- + [How to install the SDK and the Minie Project](#install)
- + [How to add Minie to an existing project](#add)
- + [Choosing a collision shape](#shape)
- + [An introduction to DynamicAnimControl](#dac)
- + [External links](#links)
- + [Acknowledgments](#acks)
 
 <a name="downloads"/>
 
