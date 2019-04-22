@@ -10,15 +10,13 @@ group = 'jme3utilities'
 sourceCompatibility = '1.8'
 
 gradle.projectsEvaluated {
-    tasks.withType(JavaCompile) {
-        // compile-time options:
+    tasks.withType(JavaCompile) { // compile-time options:
         options.compilerArgs << '-Xdiags:verbose'
         options.compilerArgs << '-Xlint:unchecked'
         options.deprecation = true
         options.encoding = 'UTF-8'
     }
-    tasks.withType(JavaExec) {
-        // runtime options:
+    tasks.withType(JavaExec) { // runtime options:
         classpath sourceSets.main.runtimeClasspath
         //doFirst { println commandLine }
         enableAssertions true
@@ -32,6 +30,7 @@ gradle.projectsEvaluated {
 
 ext {
     // current versions of the libraries
+    heartVersion = '2.26.0'
     jmonkeyengineVersion = '3.2.3-stable'
     minieVersion = '0.8.0'
 }
