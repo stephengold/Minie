@@ -120,6 +120,11 @@ public class BulletAppState
      * or null to visualize all objects
      */
     private BulletDebugAppState.DebugAppStateFilter filter = null;
+    /**
+     * filter to limit which swept spheres are visualized in the debug
+     * visualization, or null to visualize no swept spheres
+     */
+    private BulletDebugAppState.DebugAppStateFilter sweptSphereFilter = null;
 
     final private Callable<Boolean> parallelPhysicsUpdate
             = new Callable<Boolean>() {
@@ -398,6 +403,19 @@ public class BulletAppState
      */
     public void setDebugInitListener(DebugInitListener listener) {
         debugInitListener = listener;
+    }
+
+    /**
+     * Alter which swept spheres are included in the debug visualization.
+     *
+     * @param filter the desired filter, or null to visualize no swept spheres
+     */
+    public void setDebugSweptSphereFilter(
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        if (debugAppState != null) {
+            debugAppState.setSweptSphereFilter(filter);
+        }
+        this.sweptSphereFilter = filter;
     }
 
     /**
@@ -686,6 +704,7 @@ public class BulletAppState
             debugAppState.setAxisLength(debugAxisLength);
             debugAppState.setAxisLineWidth(debugAxisLineWidth);
             debugAppState.setBoundingBoxFilter(boundingBoxFilter);
+            debugAppState.setSweptSphereFilter(sweptSphereFilter);
             stateManager.attach(debugAppState);
 
         } else if (!debugEnabled && debugAppState != null) {

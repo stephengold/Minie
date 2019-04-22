@@ -84,9 +84,15 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     protected DebugAppStateFilter boundingBoxFilter;
     /**
-     * limit which objects are visualized, or null to visualize all objects
+     * limit which object shapes are visualized, or null to visualize all object
+     * shapes
      */
     protected DebugAppStateFilter filter;
+    /**
+     * limit which swept spheres are visualized, or null to visualize no swept
+     * spheres
+     */
+    private DebugAppStateFilter sweptSphereFilter;
     /**
      * registered init listener, or null if none
      */
@@ -243,7 +249,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * @param filter the desired filter, or null to visualize no bounding boxes
      */
     public void setBoundingBoxFilter(DebugAppStateFilter filter) {
-        this.boundingBoxFilter = filter;
+        boundingBoxFilter = filter;
     }
 
     /**
@@ -253,6 +259,15 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     public void setFilter(DebugAppStateFilter filter) {
         this.filter = filter;
+    }
+
+    /**
+     * Alter which swept spheres are visualized.
+     *
+     * @param filter the desired filter, or null to visualize no swept spheres
+     */
+    public void setSweptSphereFilter(DebugAppStateFilter filter) {
+        sweptSphereFilter = filter;
     }
 
     /**
@@ -342,6 +357,9 @@ public class BulletDebugAppState extends AbstractAppState {
         if (boundingBoxFilter != null) {
             updateBoundingBoxes();
         }
+        if (sweptSphereFilter != null) {
+            updateSweptSpheres();
+        }
 
         // Update the debug root node.
         physicsDebugRootNode.updateLogicalState(tpf);
@@ -422,7 +440,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 pcos.put(pco, node);
             }
         }
-        //remove any leftover nodes
+        // Detach any leftover nodes.
         for (Node node : oldMap.values()) {
             node.removeFromParent();
         }
@@ -454,7 +472,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 updateAxes(node);
             }
         }
-        //remove any leftover nodes
+        // Detach any leftover nodes.
         for (Node node : oldMap.values()) {
             node.removeFromParent();
         }
@@ -485,7 +503,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 updateAxes(node);
             }
         }
-        //remove any leftover nodes
+        // Detach any leftover nodes.
         for (Node node : oldMap.values()) {
             node.removeFromParent();
         }
@@ -514,7 +532,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 joints.put(joint, node);
             }
         }
-        //remove any leftover nodes
+        // Detach any leftover nodes.
         for (Node node : oldMap.values()) {
             node.removeFromParent();
         }
@@ -546,7 +564,41 @@ public class BulletDebugAppState extends AbstractAppState {
                 updateAxes(node);
             }
         }
-        //remove any leftover nodes
+        // Detach any leftover nodes.
+        for (Node node : oldMap.values()) {
+            node.removeFromParent();
+        }
+    }
+
+    /**
+     * Synchronize the swept-sphere debug controls with the collision objects in
+     * the PhysicsSpace.
+     */
+    private void updateSweptSpheres() {
+        assert sweptSphereFilter != null;
+
+        HashMap<PhysicsCollisionObject, Node> oldMap = pcos;
+        //create new map
+        pcos = new HashMap<>(oldMap.size());
+        Collection<PhysicsCollisionObject> list = space.getPcoList();
+        for (PhysicsCollisionObject pco : list) {
+            if (sweptSphereFilter.displayObject(pco)
+                    && pco.getCcdMotionThreshold() > 0f
+                    && pco.getCcdSweptSphereRadius() > 0f) {
+                Node node = oldMap.remove(pco);
+                if (node == null) {
+                    node = new Node(pco.toString());
+                    physicsDebugRootNode.attachChild(node);
+
+                    logger.log(Level.FINE,
+                            "Create new SweptSphereDebugControl");
+                    Control control = new SweptSphereDebugControl(this, pco);
+                    node.addControl(control);
+                }
+                pcos.put(pco, node);
+            }
+        }
+        // Detach any leftover nodes.
         for (Node node : oldMap.values()) {
             node.removeFromParent();
         }
@@ -577,7 +629,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 vehicles.put(vehicle, node);
             }
         }
-        //remove any leftover nodes
+        // Detach any leftover nodes.
         for (Node node : oldMap.values()) {
             node.removeFromParent();
         }
