@@ -46,7 +46,7 @@ import java.util.logging.Logger;
  * A physics-debug control used to visualize the bounding box of a collision
  * object.
  *
- * @author normenhansen
+ * @author Stephen Gold sgold@sonic.net
  */
 public class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
@@ -74,19 +74,19 @@ public class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
     final private PhysicsCollisionObject pco;
     /**
      * physics-space coordinates of the box's center
-     */    
+     */
     final private Vector3f center;
     // *************************************************************************
     // constructors
 
     /**
      * Instantiate an enabled control to visualize the axis-aligned bounding box
-     * of the specified body.
+     * of the specified collision object.
      *
      * @param debugAppState which app state (not null, alias created)
      * @param pco which collision object to visualize (not null, alias created)
      */
-    public BoundingBoxDebugControl(BulletDebugAppState debugAppState,
+    BoundingBoxDebugControl(BulletDebugAppState debugAppState,
             PhysicsCollisionObject pco) {
         super(debugAppState);
         this.pco = pco;
