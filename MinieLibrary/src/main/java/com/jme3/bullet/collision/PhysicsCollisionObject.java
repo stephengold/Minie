@@ -608,9 +608,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Apply the specified CollisionShape to this object. Note that the object
-     * should not be in any PhysicsSpace while changing shape; the object gets
-     * rebuilt on the physics side.
+     * Apply the specified CollisionShape to this object.
      *
      * @param collisionShape the shape to apply (not null, alias created)
      */

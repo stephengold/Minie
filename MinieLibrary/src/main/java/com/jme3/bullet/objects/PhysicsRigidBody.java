@@ -345,8 +345,8 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy the diagonal elements of the inverse inertia tensor in the body's
-     * local coordinates.
+     * Copy the principal (diagonal) elements of the inverse inertia tensor in
+     * the body's local coordinates.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a vector (either storeResult or a new vector, not null)
@@ -595,18 +595,14 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Apply the specified CollisionShape to this body, which must not be in any
-     * PhysicsSpace. The body gets rebuilt on the physics side.
+     * Apply the specified CollisionShape to this body. The body gets rebuilt on
+     * the physics side.
      *
      * @param collisionShape the shape to apply (not null, alias created)
      */
     @Override
     public void setCollisionShape(CollisionShape collisionShape) {
         Validate.nonNull(collisionShape, "collision shape");
-        //if (isInWorld()) {
-        //    throw new IllegalStateException(
-        //            "Cannot reshape body while in physics space!");
-        // } TODO
         if (isDynamic()) {
             validateDynamicShape(collisionShape);
         }
@@ -665,10 +661,10 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter the principal components of the local inertia tensor. TODO provide
-     * access to the whole tensor
+     * Alter the principal (diagonal) components of the local inertia tensor in
+     * the body's local coordinates.
      *
-     * @param inverseInertia (not null, unaffected)
+     * @param inverseInertia the desired component values (not null, unaffected)
      */
     public void setInverseInertiaLocal(Vector3f inverseInertia) {
         Validate.nonNull(inverseInertia, "inverse inertia");
