@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 /**
  * Represent the results of a Bullet ray test.
  *
- * @author Empire-Phoenix,normenhansen
+ * @author Empire-Phoenix, normenhansen
  */
 public class PhysicsRayTestResult {
     // *************************************************************************
@@ -52,6 +52,14 @@ public class PhysicsRayTestResult {
     // fields
 
     /**
+     * true&rarr;need to transform normal into world space
+     */
+    final private boolean normalInWorldSpace = true;
+    /**
+     * fraction of the ray's total length (from=0, to=1, &ge;0, &le;1)
+     */
+    private float hitFraction;
+    /**
      * collision object that was hit
      */
     private PhysicsCollisionObject collisionObject;
@@ -59,14 +67,6 @@ public class PhysicsRayTestResult {
      * normal vector at the point of contact
      */
     private Vector3f hitNormalLocal;
-    /**
-     * fraction of the ray's total length (from=0, to=1, &ge;0, &le;1)
-     */
-    private float hitFraction;
-    /**
-     * true&rarr;need to transform normal into world space
-     */
-    final private boolean normalInWorldSpace = true;
     // *************************************************************************
     // constructors
 
@@ -89,6 +89,15 @@ public class PhysicsRayTestResult {
     }
 
     /**
+     * Read the fraction of the ray's total length.
+     *
+     * @return fraction (from=0, to=1, &ge;0, &le;1)
+     */
+    public float getHitFraction() {
+        return hitFraction;
+    }
+
+    /**
      * Copy the normal vector at the point of contact.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -100,15 +109,6 @@ public class PhysicsRayTestResult {
         } else {
             return storeResult.set(hitNormalLocal);
         }
-    }
-
-    /**
-     * Read the fraction of the ray's total length.
-     *
-     * @return fraction (from=0, to=1, &ge;0, &le;1)
-     */
-    public float getHitFraction() {
-        return hitFraction;
     }
 
     /**
