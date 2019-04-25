@@ -51,25 +51,31 @@ import jme3utilities.math.MyVector3f;
  * @author normenhansen
  */
 public class ConeCollisionShape extends CollisionShape {
+    // *************************************************************************
+    // constants and loggers
 
     /**
      * message logger for this class
      */
     final public static Logger logger2
             = Logger.getLogger(ConeCollisionShape.class.getName());
+    // *************************************************************************
+    // fields
 
-    /**
-     * copy of radius (in unscaled units, &ge;0)
-     */
-    private float radius;
     /**
      * copy of height (in unscaled units, &ge;0)
      */
     private float height;
     /**
+     * copy of radius (in unscaled units, &ge;0)
+     */
+    private float radius;
+    /**
      * copy of main (height) axis (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
      */
     private int axis;
+    // *************************************************************************
+    // constructors
 
     /**
      * No-argument constructor needed by SavableClassUtil. Do not invoke
@@ -112,6 +118,7 @@ public class ConeCollisionShape extends CollisionShape {
         createShape();
     }
     // *************************************************************************
+    // new methods exposed
 
     /**
      * Determine the main (height) axis of the cone.
@@ -126,16 +133,6 @@ public class ConeCollisionShape extends CollisionShape {
     }
 
     /**
-     * Read the radius of the cone.
-     *
-     * @return radius (&ge;0)
-     */
-    public float getRadius() {
-        assert radius >= 0f : radius;
-        return radius;
-    }
-
-    /**
      * Read the height of the cone.
      *
      * @return height (&ge;0)
@@ -143,6 +140,16 @@ public class ConeCollisionShape extends CollisionShape {
     public float getHeight() {
         assert height >= 0f : height;
         return height;
+    }
+
+    /**
+     * Read the radius of the cone.
+     *
+     * @return radius (&ge;0)
+     */
+    public float getRadius() {
+        assert radius >= 0f : radius;
+        return radius;
     }
     // *************************************************************************
     // CollisionShape methods
@@ -193,21 +200,6 @@ public class ConeCollisionShape extends CollisionShape {
     }
 
     /**
-     * Serialize this shape, for example when saving to a J3O file.
-     *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
-     */
-    @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(radius, "radius", 0.5f);
-        capsule.write(height, "height", 0.5f);
-        capsule.write(axis, "axis", PhysicsSpace.AXIS_Y);
-    }
-
-    /**
      * De-serialize this shape, for example when loading from a J3O file.
      *
      * @param im importer (not null)
@@ -221,6 +213,21 @@ public class ConeCollisionShape extends CollisionShape {
         height = capsule.readFloat("height", 0.5f);
         axis = capsule.readInt("axis", PhysicsSpace.AXIS_Y);
         createShape();
+    }
+
+    /**
+     * Serialize this shape, for example when saving to a J3O file.
+     *
+     * @param ex exporter (not null)
+     * @throws IOException from exporter
+     */
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(radius, "radius", 0.5f);
+        capsule.write(height, "height", 0.5f);
+        capsule.write(axis, "axis", PhysicsSpace.AXIS_Y);
     }
     // *************************************************************************
     // private methods
