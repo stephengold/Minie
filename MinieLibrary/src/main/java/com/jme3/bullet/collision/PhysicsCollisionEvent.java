@@ -55,6 +55,10 @@ public class PhysicsCollisionEvent extends EventObject {
     // fields
 
     /**
+     * Bullet identifier of the btManifoldPoint
+     */
+    private long manifoldPointObjectId = 0L;
+    /**
      * 1st involved object
      */
     final private PhysicsCollisionObject nodeA;
@@ -62,10 +66,6 @@ public class PhysicsCollisionEvent extends EventObject {
      * 2nd involved object
      */
     final private PhysicsCollisionObject nodeB;
-    /**
-     * Bullet identifier of the btManifoldPoint
-     */
-    private long manifoldPointObjectId = 0L;
     // *************************************************************************
     // constructors
 
