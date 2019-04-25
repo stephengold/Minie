@@ -578,11 +578,10 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Alter this body's angular-motion sleep threshold.
      *
-     * @param angularSleepingThreshold the desired threshold (&ge;0, default=1)
+     * @param threshold the desired threshold (&ge;0, default=1)
      */
-    public void setAngularSleepingThreshold(float angularSleepingThreshold) {
-        float lst = getLinearSleepingThreshold(); // work around JME issue #911 TODO
-        setSleepingThresholds(objectId, lst, angularSleepingThreshold);
+    public void setAngularSleepingThreshold(float threshold) {
+        setAngularSleepingThreshold(objectId, threshold);
     }
 
     /**
@@ -720,11 +719,10 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Alter this body's linear-motion sleep threshold.
      *
-     * @param linearSleepingThreshold the desired threshold (&ge;0, default=0.8)
+     * @param threshold the desired threshold (&ge;0, default=0.8)
      */
-    public void setLinearSleepingThreshold(float linearSleepingThreshold) {
-        float ast = getAngularSleepingThreshold(); // work around JME issue #911 TODO
-        setSleepingThresholds(objectId, linearSleepingThreshold, ast);
+    public void setLinearSleepingThreshold(float threshold) {
+        setLinearSleepingThreshold(objectId, threshold);
     }
 
     /**
@@ -1102,6 +1100,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
     native private void setAngularFactor(long objectId, Vector3f factor);
 
+    native private void setAngularSleepingThreshold(long objectId,
+            float threshold);
+
     native private void setAngularVelocity(long objectId, Vector3f vec);
 
     native private void setCollisionShape(long objectId, long collisionShapeId);
@@ -1117,6 +1118,9 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     native private void setKinematic(long objectId, boolean kinematic);
 
     native private void setLinearFactor(long objectId, Vector3f factor);
+
+    native private void setLinearSleepingThreshold(long objectId,
+            float threshold);
 
     native private void setLinearVelocity(long objectId, Vector3f vec);
 
