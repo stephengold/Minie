@@ -263,6 +263,32 @@ public class SixDofJoint extends PhysicsJoint {
     }
 
     /**
+     * Copy the joint's frame transform relative to body A.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the transform of the constraint space relative to body A
+     */
+    public Transform getFrameTransformA(Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+        getFrameOffsetA(objectId, result);
+        return result;
+    }
+
+    /**
+     * Copy the joint's frame transform relative to body B.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the transform of the constraint space relative to body B
+     */
+    public Transform getFrameTransformB(Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+        getFrameOffsetB(objectId, result);
+        return result;
+    }
+
+    /**
      * Copy the joint's pivot offset.
      *
      * @param storeResult storage for the result (modified if not null)

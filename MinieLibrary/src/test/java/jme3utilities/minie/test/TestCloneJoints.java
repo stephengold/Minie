@@ -42,6 +42,8 @@ import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Misc;
@@ -53,6 +55,11 @@ import org.junit.Test;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestCloneJoints {
+    // *************************************************************************
+    // constants and loggers
+
+    final private static Quaternion qa = new Quaternion(1f, 0f, 0f, 0f);
+    final private static Quaternion qb = new Quaternion(0.5f, 0.5f, 0.5f, 0.5f);
     // *************************************************************************
     // new methods exposed
 
@@ -115,15 +122,17 @@ public class TestCloneJoints {
         /*
          * SixDofJoint: single- and double-ended
          */
-        SixDofJoint six = new SixDofJoint(bodyA, bodyB, new Vector3f(),
-                new Vector3f(), new Matrix3f(), new Matrix3f(), false);
+        SixDofJoint six = new SixDofJoint(bodyA, bodyB,
+                new Vector3f(-1f, -2f, -3f), new Vector3f(-4f, -5f, -6f),
+                qa.toRotationMatrix(), qb.toRotationMatrix(), false);
         setParameters(six, 0f);
         verifyParameters(six, 0f);
         SixDofJoint sixClone = (SixDofJoint) Misc.deepCopy(six);
         cloneTest(six, sixClone);
 
-        SixDofJoint seSix = new SixDofJoint(bodyA, new Vector3f(),
-                new Vector3f(), new Matrix3f(), new Matrix3f(), JointEnd.A);
+        SixDofJoint seSix = new SixDofJoint(bodyA,
+                new Vector3f(-4f, -5f, -6f), new Vector3f(-1f, -2f, -3f),
+                qb.toRotationMatrix(), qa.toRotationMatrix(), JointEnd.A);
         setParameters(seSix, 0f);
         verifyParameters(seSix, 0f);
         SixDofJoint seSixClone = (SixDofJoint) Misc.deepCopy(seSix);
@@ -132,17 +141,17 @@ public class TestCloneJoints {
          * SixDofSpringJoint: single- and double-ended
          */
         SixDofSpringJoint spring = new SixDofSpringJoint(bodyA, bodyB,
-                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
-                false);
+                new Vector3f(-1f, -2f, -3f), new Vector3f(-4f, -5f, -6f),
+                qa.toRotationMatrix(), qb.toRotationMatrix(), false);
         setParameters(spring, 0f);
         verifyParameters(spring, 0f);
         SixDofSpringJoint springClone
                 = (SixDofSpringJoint) Misc.deepCopy(spring);
         cloneTest(spring, springClone);
 
-        SixDofSpringJoint seSpring = new SixDofSpringJoint(bodyA, bodyB,
-                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
-                false);
+        SixDofSpringJoint seSpring = new SixDofSpringJoint(bodyA,
+                new Vector3f(-4f, -5f, -6f), new Vector3f(-1f, -2f, -3f),
+                qb.toRotationMatrix(), qa.toRotationMatrix(), JointEnd.A);
         setParameters(seSpring, 0f);
         verifyParameters(seSpring, 0f);
         SixDofSpringJoint seSpringClone
@@ -382,6 +391,24 @@ public class TestCloneJoints {
     }
 
     private static void verifySix(SixDofJoint six, float b) {
+        Transform ta = six.getFrameTransformA(null);
+        assert ta.getTranslation().x == -1f : ta;
+        assert ta.getTranslation().y == -2f : ta;
+        assert ta.getTranslation().z == -3f : ta;
+        assert ta.getRotation().getX() == qa.getX() : ta;
+        assert ta.getRotation().getY() == qa.getY() : ta;
+        assert ta.getRotation().getZ() == qa.getZ() : ta;
+        assert ta.getRotation().getW() == qa.getW() : ta;
+
+        Transform tb = six.getFrameTransformB(null);
+        assert tb.getTranslation().x == -4f : tb;
+        assert tb.getTranslation().y == -5f : tb;
+        assert tb.getTranslation().z == -6f : tb;
+        assert tb.getRotation().getX() == qb.getX() : tb;
+        assert tb.getRotation().getY() == qb.getY() : tb;
+        assert tb.getRotation().getZ() == qb.getZ() : tb;
+        assert tb.getRotation().getW() == qb.getW() : tb;
+
         boolean flag = (b > 0.15f && b < 0.45f);
         assert six.isCollisionBetweenLinkedBodies() == flag;
 
