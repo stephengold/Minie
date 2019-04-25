@@ -277,7 +277,7 @@ public class MultiSphere extends CollisionShape {
         float shortest
                 = MyMath.min(halfExtents.x, halfExtents.y, halfExtents.z);
         float medium
-                = mid(halfExtents.x, halfExtents.y, halfExtents.z);
+                = MyMath.mid(halfExtents.x, halfExtents.y, halfExtents.z);
         float radius = MyMath.lerp(fraction, shortest, medium); // interpolate
         float longest
                 = MyMath.max(halfExtents.x, halfExtents.y, halfExtents.z);
@@ -498,30 +498,4 @@ public class MultiSphere extends CollisionShape {
 
     native private long createShape(Vector3f[] centers, float[] radii,
             int numSpheres);
-
-    /**
-     * Find the median of 3 single-precision values. TODO use MyMath
-     *
-     * @param a the 1st input value
-     * @param b the 2nd input value
-     * @param c the 3rd input value
-     * @return the median of the 3 values
-     */
-    private static float mid(float a, float b, float c) {
-        if (a >= b) {
-            if (b >= c) {
-                return b; // a >= b >= c
-            } else if (a >= c) {
-                return c; // a >= c > b
-            } else {
-                return a; // c > a >= b
-            }
-        } else if (a >= c) {
-            return a; // b > a >= c
-        } else if (b >= c) {
-            return c; // b >= c > a
-        } else {
-            return b; // c > b > a
-        }
-    }
 }
