@@ -64,7 +64,7 @@ public class SimplexCollisionShape extends CollisionShape {
     // fields
 
     /**
-     * vertex positions (may be null)
+     * vertex locations (may be null)
      */
     private Vector3f vector1, vector2, vector3, vector4;
     // *************************************************************************
@@ -78,9 +78,9 @@ public class SimplexCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a point shape based on the specified points.
+     * Instantiate a point shape based on the specified point.
      *
-     * @param point1 the coordinates of 1st point (not null, unaffected)
+     * @param point1 the coordinates of the point (not null, unaffected)
      */
     public SimplexCollisionShape(Vector3f point1) {
         vector1 = point1.clone();
@@ -283,6 +283,7 @@ public class SimplexCollisionShape extends CollisionShape {
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule capsule = im.getCapsule(this);
+
         vector1 = (Vector3f) capsule.readSavable("simplexPoint1", null);
         vector2 = (Vector3f) capsule.readSavable("simplexPoint2", null);
         vector3 = (Vector3f) capsule.readSavable("simplexPoint3", null);
@@ -300,6 +301,7 @@ public class SimplexCollisionShape extends CollisionShape {
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
+
         capsule.write(vector1, "simplexPoint1", null);
         capsule.write(vector2, "simplexPoint2", null);
         capsule.write(vector3, "simplexPoint3", null);
