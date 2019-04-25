@@ -174,19 +174,6 @@ public class BoxCollisionShape extends CollisionShape {
     }
 
     /**
-     * Serialize this shape, for example when saving to a J3O file.
-     *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
-     */
-    @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(halfExtents, "halfExtents", new Vector3f(1f, 1f, 1f));
-    }
-
-    /**
      * De-serialize this shape, for example when loading from a J3O file.
      *
      * @param im importer (not null)
@@ -200,6 +187,19 @@ public class BoxCollisionShape extends CollisionShape {
                 new Vector3f(1f, 1f, 1f));
         halfExtents.set(he);
         createShape();
+    }
+
+    /**
+     * Serialize this shape, for example when saving to a J3O file.
+     *
+     * @param ex exporter (not null)
+     * @throws IOException from exporter
+     */
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(halfExtents, "halfExtents", new Vector3f(1f, 1f, 1f));
     }
     // *************************************************************************
     // private methods
