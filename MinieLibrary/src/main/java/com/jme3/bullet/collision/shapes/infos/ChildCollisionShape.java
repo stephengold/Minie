@@ -67,17 +67,17 @@ public class ChildCollisionShape
     // fields
 
     /**
-     * translation relative to parent shape (not null)
+     * base shape (not null, not a compound shape)
      */
-    private Vector3f location;
+    private CollisionShape shape;
     /**
      * rotation relative to parent shape (not null)
      */
     private Matrix3f rotation;
     /**
-     * base shape (not null, not a compound shape)
+     * translation relative to parent shape (not null)
      */
-    private CollisionShape shape;
+    private Vector3f location;
     // *************************************************************************
     // constructors
 
@@ -186,20 +186,6 @@ public class ChildCollisionShape
     // Savable methods
 
     /**
-     * Serialize this shape, for example when saving to a J3O file.
-     *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
-     */
-    @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(location, "location", new Vector3f()); // TODO nulls
-        capsule.write(rotation, "rotation", new Matrix3f());
-        capsule.write(shape, "shape", new BoxCollisionShape(1f));
-    }
-
-    /**
      * De-serialize this shape, for example when loading from a J3O file.
      *
      * @param im importer (not null)
@@ -212,5 +198,19 @@ public class ChildCollisionShape
         rotation = (Matrix3f) capsule.readSavable("rotation", new Matrix3f());
         shape = (CollisionShape) capsule.readSavable("shape",
                 new BoxCollisionShape(1f));
+    }
+
+    /**
+     * Serialize this shape, for example when saving to a J3O file.
+     *
+     * @param ex exporter (not null)
+     * @throws IOException from exporter
+     */
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(location, "location", new Vector3f()); // TODO nulls
+        capsule.write(rotation, "rotation", new Matrix3f());
+        capsule.write(shape, "shape", new BoxCollisionShape(1f));
     }
 }
