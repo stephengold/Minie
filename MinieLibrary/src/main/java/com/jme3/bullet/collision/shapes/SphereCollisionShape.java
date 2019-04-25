@@ -157,6 +157,20 @@ public class SphereCollisionShape extends CollisionShape {
     }
 
     /**
+     * De-serialize this shape, for example when loading from a J3O file.
+     *
+     * @param im importer (not null)
+     * @throws IOException from importer
+     */
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+        InputCapsule capsule = im.getCapsule(this);
+        radius = capsule.readFloat("radius", 0.5f);
+        createShape();
+    }
+
+    /**
      * Alter the collision margin of this shape. This feature is disabled for
      * sphere shapes.
      *
@@ -179,20 +193,6 @@ public class SphereCollisionShape extends CollisionShape {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
         capsule.write(radius, "radius", 0.5f);
-    }
-
-    /**
-     * De-serialize this shape, for example when loading from a J3O file.
-     *
-     * @param im importer (not null)
-     * @throws IOException from importer
-     */
-    @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule capsule = im.getCapsule(this);
-        radius = capsule.readFloat("radius", 0.5f);
-        createShape();
     }
     // *************************************************************************
     // private methods
