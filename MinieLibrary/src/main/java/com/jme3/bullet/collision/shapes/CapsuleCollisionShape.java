@@ -139,6 +139,28 @@ public class CapsuleCollisionShape extends CollisionShape {
     }
 
     /**
+     * Determine the main (height) axis of the capsule.
+     *
+     * @return the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     */
+    public int getAxis() {
+        assert axis == PhysicsSpace.AXIS_X
+                || axis == PhysicsSpace.AXIS_Y
+                || axis == PhysicsSpace.AXIS_Z : axis;
+        return axis;
+    }
+
+    /**
+     * Read the height (of the cylindrical portion) of the capsule.
+     *
+     * @return height (&ge;0)
+     */
+    public float getHeight() {
+        assert height >= 0f : height;
+        return height;
+    }
+
+    /**
      * Read the collision margin for this shape.
      *
      * @return the margin distance (in physics-space units, &ge;0)
@@ -156,28 +178,6 @@ public class CapsuleCollisionShape extends CollisionShape {
     public float getRadius() {
         assert radius >= 0f : radius;
         return radius;
-    }
-
-    /**
-     * Read the height (of the cylindrical portion) of the capsule.
-     *
-     * @return height (&ge;0)
-     */
-    public float getHeight() {
-        assert height >= 0f : height;
-        return height;
-    }
-
-    /**
-     * Determine the main (height) axis of the capsule.
-     *
-     * @return the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
-     */
-    public int getAxis() {
-        assert axis == PhysicsSpace.AXIS_X
-                || axis == PhysicsSpace.AXIS_Y
-                || axis == PhysicsSpace.AXIS_Z : axis;
-        return axis;
     }
     // *************************************************************************
     // CollisionShape methods
@@ -213,6 +213,22 @@ public class CapsuleCollisionShape extends CollisionShape {
     }
 
     /**
+     * De-serialize this shape, for example when loading from a J3O file.
+     *
+     * @param im importer (not null)
+     * @throws IOException from importer
+     */
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+        InputCapsule capsule = im.getCapsule(this);
+        radius = capsule.readFloat("radius", 0.5f);
+        height = capsule.readFloat("height", 1f);
+        axis = capsule.readInt("axis", PhysicsSpace.AXIS_Y);
+        createShape();
+    }
+
+    /**
      * Alter the collision margin of this shape. This feature is disabled for
      * capsule shapes.
      *
@@ -237,22 +253,6 @@ public class CapsuleCollisionShape extends CollisionShape {
         capsule.write(radius, "radius", 0.5f);
         capsule.write(height, "height", 1f);
         capsule.write(axis, "axis", PhysicsSpace.AXIS_Y);
-    }
-
-    /**
-     * De-serialize this shape, for example when loading from a J3O file.
-     *
-     * @param im importer (not null)
-     * @throws IOException from importer
-     */
-    @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule capsule = im.getCapsule(this);
-        radius = capsule.readFloat("radius", 0.5f);
-        height = capsule.readFloat("height", 1f);
-        axis = capsule.readInt("axis", PhysicsSpace.AXIS_Y);
-        createShape();
     }
     // *************************************************************************
     // private methods
