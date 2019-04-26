@@ -395,6 +395,58 @@ public class DynamicAnimControl
     }
 
     /**
+     * Calculate the ragdoll's total kinetic energy, excluding released
+     * attachments.
+     *
+     * @return the total kinetic energy, or NaN if any link isn't in dynamic
+     * mode
+     */
+    public double kineticEnergy() {
+        double result = 0.0;
+        List<PhysicsLink> links = listLinks(PhysicsLink.class);
+        for (PhysicsLink link : links) {
+            if (!link.isReleased()) {
+                PhysicsRigidBody rigidBody = link.getRigidBody();
+                if (rigidBody.isDynamic()) {
+                    double energy = rigidBody.kineticEnergy();
+                    result += energy;
+                } else {
+                    result = Float.NaN;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Calculate the ragdoll's total mechanical energy, excluding released
+     * attachments.
+     *
+     * @return the total mechanical energy, or NaN if any link isn't in dynamic
+     * mode
+     */
+    public double mechanicalEnergy() {
+        double result = 0.0;
+        List<PhysicsLink> links = listLinks(PhysicsLink.class);
+        for (PhysicsLink link : links) {
+            if (!link.isReleased()) {
+                PhysicsRigidBody rigidBody = link.getRigidBody();
+                if (rigidBody.isDynamic()) {
+                    double energy = rigidBody.mechanicalEnergy();
+                    result += energy;
+                } else {
+                    result = Float.NaN;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Enumerate all IK joints managed by this control.
      *
      * @return a new array of pre-existing joints (not null, not empty)
