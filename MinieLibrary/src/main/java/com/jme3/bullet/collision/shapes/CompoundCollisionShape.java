@@ -257,6 +257,7 @@ public class CompoundCollisionShape extends CollisionShape {
     // *************************************************************************
     // private methods
 
+    // TODO should return void
     native private long addChildShape(long objectId, long childId,
             Vector3f location, Matrix3f rotation);
 
