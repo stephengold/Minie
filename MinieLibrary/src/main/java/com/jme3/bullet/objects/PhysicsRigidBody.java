@@ -55,6 +55,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyQuaternion;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A collision object for a rigid body, based on Bullet's btRigidBody.
@@ -335,6 +336,26 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
+     * Calculate this body's angular velocity in its local coordinates. The body
+     * must be in dynamic mode.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a velocity vector (in local coordinates, either storeResult or a
+     * new vector, not null))
+     */
+    public Vector3f getAngularVelocityLocal(Vector3f storeResult) {
+        assert isDynamic();
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        getAngularVelocity(objectId, result);
+        Quaternion localToWorld = getPhysicsRotation(null);
+        Quaternion worldToLocal = localToWorld.inverse();
+        worldToLocal.mult(result, result);
+
+        return result;
+    }
+
+    /**
      * Copy this body's gravitational acceleration.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -524,6 +545,31 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
+     * Calculate this body's kinetic energy (linear + angular). The body must be
+     * in dynamic mode.
+     *
+     * @return the total kinetic energy (&ge;0)
+     */
+    public double kineticEnergy() {
+        assert isDynamic();
+
+        Vector3f vec = getLinearVelocity(null);
+        double mv2 = mass * MyVector3f.lengthSquared(vec);
+
+        getAngularVelocityLocal(vec);
+        double xx = vec.x;
+        double yy = vec.y;
+        double zz = vec.z;
+        Vector3f invI = getInverseInertiaLocal(null);
+        double iw2 = xx * xx / invI.x + yy * yy / invI.y + zz * zz / invI.z;
+
+        double result = (mv2 + iw2) / 2.0;
+
+        assert result >= 0.0 : result;
+        return result;
+    }
+
+    /**
      * Enumerate the joints connected to this body.
      *
      * @return a new array of pre-existing objects, or null if this body is not
@@ -538,6 +584,23 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         } else {
             result = null;
         }
+
+        return result;
+    }
+
+    /**
+     * Calculate the mechanical energy of this body (kinetic + potential)
+     * assuming a uniform gravitational field. The body must be in dynamic mode.
+     *
+     * @return the total mechanical energy
+     */
+    public double mechanicalEnergy() {
+        assert isDynamic();
+
+        Vector3f gravity = getGravity(null);
+        Vector3f location = getPhysicsLocation(null);
+        double potentialEnergy = -mass * MyVector3f.dot(gravity, location);
+        double result = potentialEnergy + kineticEnergy();
 
         return result;
     }
