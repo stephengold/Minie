@@ -37,6 +37,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -176,6 +177,32 @@ public class ConeJoint extends PhysicsJoint {
     }
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Copy the joint's frame transform relative to the specified end.
+     *
+     * @param end which end (not null)
+     * @param storeResult storage for the result (modified if not null)
+     * @return the transform of the constraint space relative to the end
+     */
+    public Transform getFrameTransform(JointEnd end, Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+
+        switch (end) {
+            case A:
+                getFrameOffsetA(objectId, result);
+                break;
+            case B:
+                getFrameOffsetB(objectId, result);
+                break;
+            default:
+                String message = "end = " + end.toString();
+                throw new IllegalArgumentException(message);
+        }
+
+        return result;
+    }
 
     /**
      * Read the span of the 1st swing axis.
@@ -371,6 +398,10 @@ public class ConeJoint extends PhysicsJoint {
 
     native private long createJoint1(long bodyIdA, Vector3f pivotInA,
             Matrix3f rotInA);
+
+    native private void getFrameOffsetA(long jointId, Transform frameInA);
+
+    native private void getFrameOffsetB(long jointId, Transform frameInB);
 
     native private void setAngularOnly(long jointId, boolean angularOnly);
 

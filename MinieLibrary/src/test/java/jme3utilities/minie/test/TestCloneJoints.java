@@ -41,7 +41,6 @@ import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.FastMath;
-import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -60,6 +59,8 @@ public class TestCloneJoints {
 
     final private static Quaternion qa = new Quaternion(1f, 0f, 0f, 0f);
     final private static Quaternion qb = new Quaternion(0.5f, 0.5f, 0.5f, 0.5f);
+    final private static Vector3f va = new Vector3f(-1f, -2f, -3f);
+    final private static Vector3f vb = new Vector3f(-4f, -5f, -6f);
     // *************************************************************************
     // new methods exposed
 
@@ -74,13 +75,14 @@ public class TestCloneJoints {
          * ConeJoint: single- and double-ended
          */
         ConeJoint cone
-                = new ConeJoint(bodyA, bodyB, new Vector3f(), new Vector3f());
+                = new ConeJoint(bodyA, bodyB, va, vb, qa.toRotationMatrix(),
+                        qb.toRotationMatrix());
         setParameters(cone, 0f);
         verifyParameters(cone, 0f);
         ConeJoint coneClone = (ConeJoint) Misc.deepCopy(cone);
         cloneTest(cone, coneClone);
 
-        ConeJoint seCone = new ConeJoint(bodyA, new Vector3f(), new Matrix3f());
+        ConeJoint seCone = new ConeJoint(bodyA, va, qa.toRotationMatrix());
         setParameters(seCone, 0f);
         verifyParameters(seCone, 0f);
         ConeJoint seConeClone = (ConeJoint) Misc.deepCopy(seCone);
@@ -88,17 +90,15 @@ public class TestCloneJoints {
         /*
          * HingeJoint: single- and double-ended
          */
-        HingeJoint hinge = new HingeJoint(bodyA, bodyB, new Vector3f(),
-                new Vector3f(), new Vector3f(1f, 0f, 0f),
-                new Vector3f(1f, 0f, 0f));
+        HingeJoint hinge = new HingeJoint(bodyA, bodyB, va, vb,
+                new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f));
         setParameters(hinge, 0f);
         verifyParameters(hinge, 0f);
         HingeJoint hingeClone = (HingeJoint) Misc.deepCopy(hinge);
         cloneTest(hinge, hingeClone);
 
-        HingeJoint seHinge = new HingeJoint(bodyA, new Vector3f(),
-                new Vector3f(), new Vector3f(1f, 0f, 0f),
-                new Vector3f(1f, 0f, 0f), JointEnd.A);
+        HingeJoint seHinge = new HingeJoint(bodyA, va, vb,
+                new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f), JointEnd.A);
         setParameters(seHinge, 0f);
         verifyParameters(seHinge, 0f);
         HingeJoint seHingeClone = (HingeJoint) Misc.deepCopy(seHinge);
@@ -106,15 +106,14 @@ public class TestCloneJoints {
         /*
          * Point2PointJoint: single- and double-ended
          */
-        Point2PointJoint p2p = new Point2PointJoint(bodyA, bodyB,
-                new Vector3f(), new Vector3f());
+        Point2PointJoint p2p = new Point2PointJoint(bodyA, bodyB, va, vb);
         setParameters(p2p, 0f);
         verifyParameters(p2p, 0f);
         Point2PointJoint p2pClone = (Point2PointJoint) Misc.deepCopy(p2p);
         cloneTest(p2p, p2pClone);
 
         Point2PointJoint sep2p
-                = new Point2PointJoint(bodyA, new Vector3f(), new Vector3f());
+                = new Point2PointJoint(bodyA, va, vb);
         setParameters(sep2p, 0f);
         verifyParameters(sep2p, 0f);
         Point2PointJoint sep2pClone = (Point2PointJoint) Misc.deepCopy(sep2p);
@@ -122,16 +121,14 @@ public class TestCloneJoints {
         /*
          * SixDofJoint: single- and double-ended
          */
-        SixDofJoint six = new SixDofJoint(bodyA, bodyB,
-                new Vector3f(-1f, -2f, -3f), new Vector3f(-4f, -5f, -6f),
+        SixDofJoint six = new SixDofJoint(bodyA, bodyB, va, vb,
                 qa.toRotationMatrix(), qb.toRotationMatrix(), false);
         setParameters(six, 0f);
         verifyParameters(six, 0f);
         SixDofJoint sixClone = (SixDofJoint) Misc.deepCopy(six);
         cloneTest(six, sixClone);
 
-        SixDofJoint seSix = new SixDofJoint(bodyA,
-                new Vector3f(-4f, -5f, -6f), new Vector3f(-1f, -2f, -3f),
+        SixDofJoint seSix = new SixDofJoint(bodyA, vb, va,
                 qb.toRotationMatrix(), qa.toRotationMatrix(), JointEnd.A);
         setParameters(seSix, 0f);
         verifyParameters(seSix, 0f);
@@ -140,8 +137,7 @@ public class TestCloneJoints {
         /*
          * SixDofSpringJoint: single- and double-ended
          */
-        SixDofSpringJoint spring = new SixDofSpringJoint(bodyA, bodyB,
-                new Vector3f(-1f, -2f, -3f), new Vector3f(-4f, -5f, -6f),
+        SixDofSpringJoint spring = new SixDofSpringJoint(bodyA, bodyB, va, vb,
                 qa.toRotationMatrix(), qb.toRotationMatrix(), false);
         setParameters(spring, 0f);
         verifyParameters(spring, 0f);
@@ -149,8 +145,7 @@ public class TestCloneJoints {
                 = (SixDofSpringJoint) Misc.deepCopy(spring);
         cloneTest(spring, springClone);
 
-        SixDofSpringJoint seSpring = new SixDofSpringJoint(bodyA,
-                new Vector3f(-4f, -5f, -6f), new Vector3f(-1f, -2f, -3f),
+        SixDofSpringJoint seSpring = new SixDofSpringJoint(bodyA, vb, va,
                 qb.toRotationMatrix(), qa.toRotationMatrix(), JointEnd.A);
         setParameters(seSpring, 0f);
         verifyParameters(seSpring, 0f);
@@ -160,15 +155,14 @@ public class TestCloneJoints {
         /*
          * SliderJoint: single- and double-ended
          */
-        SliderJoint slide = new SliderJoint(bodyA, bodyB, new Vector3f(),
-                new Vector3f(), new Matrix3f(), new Matrix3f(), false);
+        SliderJoint slide = new SliderJoint(bodyA, bodyB, va, vb,
+                qa.toRotationMatrix(), qb.toRotationMatrix(), false);
         setParameters(slide, 0f);
         verifyParameters(slide, 0f);
         SliderJoint slideClone = (SliderJoint) Misc.deepCopy(slide);
         cloneTest(slide, slideClone);
 
-        SliderJoint seSlide = new SliderJoint(bodyB, new Vector3f(),
-                new Vector3f(), JointEnd.B);
+        SliderJoint seSlide = new SliderJoint(bodyB, vb, va, JointEnd.B);
         setParameters(seSlide, 0f);
         verifyParameters(seSlide, 0f);
         SliderJoint seSlideClone = (SliderJoint) Misc.deepCopy(seSlide);
@@ -350,6 +344,26 @@ public class TestCloneJoints {
     }
 
     private static void verifyCone(ConeJoint cone, float b) {
+        Transform ta = cone.getFrameTransform(JointEnd.A, null);
+        assert ta.getTranslation().x == va.x : ta;
+        assert ta.getTranslation().y == va.y : ta;
+        assert ta.getTranslation().z == va.z : ta;
+        assert ta.getRotation().getX() == qa.getX() : ta;
+        assert ta.getRotation().getY() == qa.getY() : ta;
+        assert ta.getRotation().getZ() == qa.getZ() : ta;
+        assert ta.getRotation().getW() == qa.getW() : ta;
+
+        if (cone.countEnds() == 2) {
+            Transform tb = cone.getFrameTransform(JointEnd.B, null);
+            assert tb.getTranslation().x == vb.x : tb;
+            assert tb.getTranslation().y == vb.y : tb;
+            assert tb.getTranslation().z == vb.z : tb;
+            assert tb.getRotation().getX() == qb.getX() : tb;
+            assert tb.getRotation().getY() == qb.getY() : tb;
+            assert tb.getRotation().getZ() == qb.getZ() : tb;
+            assert tb.getRotation().getW() == qb.getW() : tb;
+        }
+
         boolean flag = (b > 0.15f && b < 0.45f);
         assert cone.isCollisionBetweenLinkedBodies() == flag;
         assert cone.isAngularOnly() == !flag;
@@ -360,6 +374,16 @@ public class TestCloneJoints {
     }
 
     private static void verifyHinge(HingeJoint hinge, float b) {
+        Transform ta = hinge.getFrameTransform(JointEnd.A, null);
+        assert ta.getTranslation().x == va.x : ta;
+        assert ta.getTranslation().y == va.y : ta;
+        assert ta.getTranslation().z == va.z : ta;
+
+        Transform tb = hinge.getFrameTransform(JointEnd.B, null);
+        assert tb.getTranslation().x == vb.x : tb;
+        assert tb.getTranslation().y == vb.y : tb;
+        assert tb.getTranslation().z == vb.z : tb;
+
         boolean flag = (b > 0.15f && b < 0.45f);
         assert hinge.isCollisionBetweenLinkedBodies() == flag;
         assert hinge.isAngularOnly() == !flag;
@@ -392,18 +416,18 @@ public class TestCloneJoints {
 
     private static void verifySix(SixDofJoint six, float b) {
         Transform ta = six.getFrameTransform(JointEnd.A, null);
-        assert ta.getTranslation().x == -1f : ta;
-        assert ta.getTranslation().y == -2f : ta;
-        assert ta.getTranslation().z == -3f : ta;
+        assert ta.getTranslation().x == va.x : ta;
+        assert ta.getTranslation().y == va.y : ta;
+        assert ta.getTranslation().z == va.z : ta;
         assert ta.getRotation().getX() == qa.getX() : ta;
         assert ta.getRotation().getY() == qa.getY() : ta;
         assert ta.getRotation().getZ() == qa.getZ() : ta;
         assert ta.getRotation().getW() == qa.getW() : ta;
 
         Transform tb = six.getFrameTransform(JointEnd.B, null);
-        assert tb.getTranslation().x == -4f : tb;
-        assert tb.getTranslation().y == -5f : tb;
-        assert tb.getTranslation().z == -6f : tb;
+        assert tb.getTranslation().x == vb.x : tb;
+        assert tb.getTranslation().y == vb.y : tb;
+        assert tb.getTranslation().z == vb.z : tb;
         assert tb.getRotation().getX() == qb.getX() : tb;
         assert tb.getRotation().getY() == qb.getY() : tb;
         assert tb.getRotation().getZ() == qb.getZ() : tb;
@@ -445,6 +469,16 @@ public class TestCloneJoints {
     }
 
     private static void verifySlide(SliderJoint slide, float b) {
+        Transform ta = slide.getFrameTransform(JointEnd.A, null);
+        assert ta.getTranslation().x == va.x : ta;
+        assert ta.getTranslation().y == va.y : ta;
+        assert ta.getTranslation().z == va.z : ta;
+
+        Transform tb = slide.getFrameTransform(JointEnd.B, null);
+        assert tb.getTranslation().x == vb.x : tb;
+        assert tb.getTranslation().y == vb.y : tb;
+        assert tb.getTranslation().z == vb.z : tb;
+
         boolean flag = (b > 0.15f && b < 0.45f);
         assert slide.isCollisionBetweenLinkedBodies() == flag;
 

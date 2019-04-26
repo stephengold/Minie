@@ -38,6 +38,7 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -219,6 +220,32 @@ public class HingeJoint extends PhysicsJoint {
      */
     public boolean getEnableMotor() {
         return getEnableAngularMotor(objectId);
+    }
+
+    /**
+     * Copy the joint's frame transform relative to the specified end.
+     *
+     * @param end which end (not null)
+     * @param storeResult storage for the result (modified if not null)
+     * @return the transform of the constraint space relative to the end
+     */
+    public Transform getFrameTransform(JointEnd end, Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+
+        switch (end) {
+            case A:
+                getFrameOffsetA(objectId, result);
+                break;
+            case B:
+                getFrameOffsetB(objectId, result);
+                break;
+            default:
+                String message = "end = " + end.toString();
+                throw new IllegalArgumentException(message);
+        }
+
+        return result;
     }
 
     /**
@@ -529,6 +556,10 @@ public class HingeJoint extends PhysicsJoint {
             float targetVelocity, float maxMotorImpulse);
 
     native private boolean getEnableAngularMotor(long jointId);
+
+    native private void getFrameOffsetA(long jointId, Transform frameInA);
+
+    native private void getFrameOffsetB(long jointId, Transform frameInB);
 
     native private float getHingeAngle(long jointId);
 
