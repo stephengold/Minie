@@ -315,18 +315,21 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      * @return a new velocity vector (in physics-space coordinates, not null)
      */
     public Vector3f getAngularVelocity() {
+        assert isDynamic();
         return getAngularVelocity(null);
     }
 
     /**
-     * Copy this body's angular velocity.
+     * Copy this body's angular velocity. The body must be in dynamic mode.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a velocity vector (in physics-space coordinates, either
      * storeResult or a new vector, not null))
      */
     public Vector3f getAngularVelocity(Vector3f storeResult) {
+        assert isDynamic();
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
         getAngularVelocity(objectId, result);
         return result;
     }
@@ -410,18 +413,22 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      * @return a new velocity vector (in physics-space coordinates, not null)
      */
     public Vector3f getLinearVelocity() {
+        assert isDynamic();
         return getLinearVelocity(null);
     }
 
     /**
-     * Copy the linear velocity of this body's center of mass.
+     * Copy the linear velocity of this body's center of mass. The body must be
+     * in dynamic mode.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a velocity vector (in physics-space coordinates, either
      * storeResult or a new vector, not null)
      */
     public Vector3f getLinearVelocity(Vector3f storeResult) {
+        assert isDynamic();
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
         getLinearVelocity(objectId, result);
         return result;
     }
@@ -933,14 +940,16 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         setAngularDamping(old.getAngularDamping());
         setAngularFactor(old.getAngularFactor(tmpVector));
         setAngularSleepingThreshold(old.getAngularSleepingThreshold());
-        setAngularVelocity(old.getAngularVelocity(tmpVector));
         setContactResponse(old.isContactResponse());
         setGravity(old.getGravity(tmpVector));
         setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
         setLinearDamping(old.getLinearDamping());
         setLinearFactor(old.getLinearFactor(tmpVector));
         setLinearSleepingThreshold(old.getLinearSleepingThreshold());
-        setLinearVelocity(old.getLinearVelocity(tmpVector));
+        if (old.isDynamic()) {
+            setAngularVelocity(old.getAngularVelocity(tmpVector));
+            setLinearVelocity(old.getLinearVelocity(tmpVector));
+        }
         setPhysicsLocation(old.getPhysicsLocation(tmpVector));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
         setDeactivationTime(old.getDeactivationTime());
@@ -1037,8 +1046,10 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
 
         capsule.write(getPhysicsLocation(null), "physicsLocation", null);
         capsule.write(getPhysicsRotationMatrix(null), "physicsRotation", null);
-        capsule.write(getLinearVelocity(null), "linearVelocity", null);
-        capsule.write(getAngularVelocity(null), "angularVelocity", null);
+        if (isDynamic()) {
+            capsule.write(getLinearVelocity(null), "linearVelocity", null);
+            capsule.write(getAngularVelocity(null), "angularVelocity", null);
+        }
         capsule.write(getDeactivationTime(), "deactivationTime", 0f);
 
         capsule.writeSavableArrayList(joints, "joints", null);

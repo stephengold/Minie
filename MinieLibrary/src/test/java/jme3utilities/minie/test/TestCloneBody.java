@@ -251,11 +251,6 @@ public class TestCloneBody {
 
         assert body.getAngularSleepingThreshold() == b + 0.03f;
 
-        Vector3f w = body.getAngularVelocity(null);
-        assert w.x == b + 0.04f : w;
-        assert w.y == b + 0.05f : w;
-        assert w.z == b + 0.06f : w;
-
         assert body.getCcdMotionThreshold() == b + 0.07f;
         assert body.getCcdSweptSphereRadius() == b + 0.08f;
         assert body.getContactDamping() == b + 0.084f;
@@ -299,9 +294,16 @@ public class TestCloneBody {
         assert body.getRollingFriction() == b + 0.254f;
         assert body.getSpinningFriction() == b + 0.255f;
 
-        Vector3f v = body.getLinearVelocity(null);
-        assert v.x == b + 0.26f : v;
-        assert v.y == b + 0.27f : v;
-        assert v.z == b + 0.28f : v;
+        if (body.isDynamic()) {
+            Vector3f w = body.getAngularVelocity(null);
+            assert w.x == b + 0.04f : w;
+            assert w.y == b + 0.05f : w;
+            assert w.z == b + 0.06f : w;
+
+            Vector3f v = body.getLinearVelocity(null);
+            assert v.x == b + 0.26f : v;
+            assert v.y == b + 0.27f : v;
+            assert v.z == b + 0.28f : v;
+        }
     }
 }
