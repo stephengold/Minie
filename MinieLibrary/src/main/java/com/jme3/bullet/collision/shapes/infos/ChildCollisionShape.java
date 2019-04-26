@@ -209,8 +209,8 @@ public class ChildCollisionShape
     @Override
     public void write(JmeExporter ex) throws IOException {
         OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(location, "location", new Vector3f()); // TODO nulls
-        capsule.write(rotation, "rotation", new Matrix3f());
-        capsule.write(shape, "shape", new BoxCollisionShape(1f));
+        capsule.write(location, "location", null);
+        capsule.write(rotation, "rotation", null);
+        capsule.write(shape, "shape", null);
     }
 }
