@@ -51,6 +51,7 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.xml.XMLExporter;
+import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -140,6 +141,10 @@ public class TestDac extends ActionApplication {
      * channel for playing canned animations
      */
     private AnimChannel animChannel = null;
+    /**
+     * text displayed in the GUI node
+     */
+    private BitmapText text;
     private BoneLink leftClavicle;
     private BoneLink leftFemur;
     private BoneLink leftUlna;
@@ -244,6 +249,12 @@ public class TestDac extends ActionApplication {
 
         addBox();
         addModel("Sinbad");
+        /*
+         * Initialize the GUI node.
+         */
+        text = new BitmapText(guiFont, false);
+        text.setLocalTranslation(0f, cam.getHeight(), 0f);
+        guiNode.attachChild(text);
     }
 
     /**
@@ -470,6 +481,7 @@ public class TestDac extends ActionApplication {
             rotate.mult(orientation, orientation);
             MySpatial.setWorldOrientation(cgModel, orientation);
         }
+        updateGuiNode();
     }
     // *************************************************************************
     // private methods
@@ -1021,5 +1033,14 @@ public class TestDac extends ActionApplication {
     private void toggleSkeleton() {
         boolean enabled = sv.isEnabled();
         sv.setEnabled(!enabled);
+    }
+
+    /**
+     * Update the GUI node.
+     */
+    private void updateGuiNode() {
+        double energy = dac.kineticEnergy();
+        String message = String.format("KE=%f", energy);
+        text.setText(message);
     }
 }
