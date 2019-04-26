@@ -391,7 +391,7 @@ public class TestCloneJoints {
     }
 
     private static void verifySix(SixDofJoint six, float b) {
-        Transform ta = six.getFrameTransformA(null);
+        Transform ta = six.getFrameTransform(JointEnd.A, null);
         assert ta.getTranslation().x == -1f : ta;
         assert ta.getTranslation().y == -2f : ta;
         assert ta.getTranslation().z == -3f : ta;
@@ -400,7 +400,7 @@ public class TestCloneJoints {
         assert ta.getRotation().getZ() == qa.getZ() : ta;
         assert ta.getRotation().getW() == qa.getW() : ta;
 
-        Transform tb = six.getFrameTransformB(null);
+        Transform tb = six.getFrameTransform(JointEnd.B, null);
         assert tb.getTranslation().x == -4f : tb;
         assert tb.getTranslation().y == -5f : tb;
         assert tb.getTranslation().z == -6f : tb;
