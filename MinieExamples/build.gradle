@@ -6,7 +6,7 @@ description = 'demos, examples, and tests that do not generate reports'
 
 dependencies {
     compile "jme3utilities:jme3-utilities-heart:$heartVersion"
-    compile 'jme3utilities:jme3-utilities-ui:0.7.2'
+    compile "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
     compile "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     compile "org.jmonkeyengine:jme3-effects:$jmonkeyengineVersion"
     runtime "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
