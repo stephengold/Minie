@@ -14,10 +14,11 @@ dependencies {
     compile "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
     compile 'jme3utilities:jme3-utilities-nifty:0.9.3'
     compile 'jme3utilities:Wes:0.4.0'
-    compile "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    runtime "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
+    runtime "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     runtime "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
     runtime "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"
-    compile "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+    runtime "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
 
     //compile "jme3utilities:Minie:$minieVersion"
     compile project(':MinieLibrary')
