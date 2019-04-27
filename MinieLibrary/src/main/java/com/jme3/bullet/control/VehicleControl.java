@@ -71,20 +71,19 @@ public class VehicleControl
     /**
      * true&rarr;vehicle is added to the PhysicsSpace, false&rarr;not added
      */
-    protected boolean added = false;
+    private boolean added = false;
     /**
-     * true&rarr;control is enabled, false&rarr;control is disabled TODO
-     * privatize
+     * true&rarr;control is enabled, false&rarr;control is disabled
      */
-    protected boolean enabled = true;
+    private boolean enabled = true;
     /**
-     * space to which the vehicle is (or would be) added TODO privatize
+     * space to which the vehicle is (or would be) added
      */
-    protected PhysicsSpace space = null;
+    private PhysicsSpace space = null;
     /**
      * spatial to which this control is added, or null if none
      */
-    protected Spatial spatial;
+    private Spatial spatial;
     // *************************************************************************
     // constructors
 
