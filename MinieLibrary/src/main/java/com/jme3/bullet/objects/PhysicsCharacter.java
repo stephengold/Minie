@@ -93,10 +93,14 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     private long characterId = 0L;
     /**
-     * temporary storage for a vector TODO not thread-safe
+     * temporary storage for one vector per thread
      */
-    final private static Vector3f tmpVector = new Vector3f();
-
+    final private static ThreadLocal<Vector3f> threadTmpVector
+            = new ThreadLocal<Vector3f>();
+    /**
+     * location change for each physics tick (in physics-space coordinates,
+     * default=(0,0,0))
+     */
     private Vector3f walkOffset = new Vector3f();
     // *************************************************************************
     // constructors
@@ -392,7 +396,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * default=29.4)
      */
     public void setGravity(float downwardAcceleration) {
-        Vector3f gVector = tmpVector;
+        Vector3f gVector = threadTmpVector.get();
         getUpDirection(gVector);
         gVector.multLocal(-downwardAcceleration);
         setGravity(gVector);
@@ -505,8 +509,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * Alter the walk offset. The offset will continue to be applied until
      * altered again.
      *
-     * @param offset the desired position increment for each physics tick (in
-     * physics-space coordinates, not null, unaffected)
+     * @param offset the desired location increment for each physics tick (in
+     * physics-space coordinates, not null, unaffected, default=(0,0,0))
      */
     public void setWalkDirection(Vector3f offset) {
         walkOffset.set(offset);
