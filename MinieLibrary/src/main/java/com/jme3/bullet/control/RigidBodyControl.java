@@ -93,7 +93,7 @@ public class RigidBodyControl
     /**
      * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
      */
-    protected boolean added = false;
+    private boolean added = false;
     /**
      * true &rarr; enable shape scaling (to the extent the CollisionShape
      * supports it), false &rarr; disable shape scaling (default=false)
@@ -103,19 +103,19 @@ public class RigidBodyControl
      * true&rarr;control is enabled, false&rarr;control is disabled TODO
      * privatize
      */
-    protected boolean enabled = true;
+    private boolean enabled = true;
     /**
      * true&rarr;body is kinematic, false&rarr;body is static or dynamic
      */
-    protected boolean kinematicSpatial = true;
+    private boolean kinematicSpatial = true;
     /**
-     * space to which the body is (or would be) added TODO privatize
+     * space to which the body is (or would be) added
      */
-    protected PhysicsSpace space = null;
+    private PhysicsSpace space = null;
     /**
      * spatial to which this control is added, or null if none
      */
-    protected Spatial spatial;
+    private Spatial spatial;
     // *************************************************************************
     // constructors
 
@@ -235,7 +235,6 @@ public class RigidBodyControl
      */
     public void setKinematicSpatial(boolean kinematicSpatial) {
         this.kinematicSpatial = kinematicSpatial;
-        // TODO: why not setKinematic() on the PRB as well?
     }
     // *************************************************************************
     // new protected methods
