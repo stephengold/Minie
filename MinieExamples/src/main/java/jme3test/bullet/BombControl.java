@@ -50,6 +50,7 @@ import com.jme3.export.JmeImporter;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -117,21 +118,23 @@ public class BombControl extends RigidBodyControl implements PhysicsCollisionLis
     }
 
     public void collision(PhysicsCollisionEvent event) {
-        if (space == null) {
+        PhysicsSpace pSpace = getPhysicsSpace();
+        if (pSpace == null) {
             return;
         }
         if (event.getObjectA() == this || event.getObjectB() == this) {
-            space.add(ghostObject);
+            pSpace.add(ghostObject);
             ghostObject.setPhysicsLocation(getPhysicsLocation(vector));
-            space.addTickListener(this);
-            if (effect != null && spatial.getParent() != null) {
+            pSpace.addTickListener(this);
+            Spatial controlledSpatial = getSpatial();
+            if (effect != null && controlledSpatial.getParent() != null) {
                 curTime = 0;
-                effect.setLocalTranslation(spatial.getLocalTranslation());
-                spatial.getParent().attachChild(effect);
+                effect.setLocalTranslation(controlledSpatial.getLocalTranslation());
+                controlledSpatial.getParent().attachChild(effect);
                 effect.emitAllParticles();
             }
-            space.remove(this);
-            spatial.removeFromParent();
+            pSpace.remove(this);
+            controlledSpatial.removeFromParent();
         }
     }
     
@@ -162,17 +165,20 @@ public class BombControl extends RigidBodyControl implements PhysicsCollisionLis
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        if(enabled){
+        boolean isEnabled = isEnabled();
+        if(isEnabled){
             timer+=tpf;
             if(timer>maxTime){
-                if(spatial.getParent()!=null){
-                    space.removeCollisionListener(this);
-                    space.remove(this);
-                    spatial.removeFromParent();
+                Spatial controlledSpatial = getSpatial();
+                if(controlledSpatial.getParent()!=null){
+                    PhysicsSpace pSpace = getPhysicsSpace();
+                    pSpace.removeCollisionListener(this);
+                    pSpace.remove(this);
+                    controlledSpatial.removeFromParent();
                 }
             }
         }
-        if (enabled && curTime >= 0) {
+        if (isEnabled && curTime >= 0) {
             curTime += tpf;
             if (curTime > fxTime) {
                 curTime = -1;
