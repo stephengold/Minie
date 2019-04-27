@@ -119,7 +119,7 @@ public class MyControlP {
             RigidBodyControl rigidBodyControl = (RigidBodyControl) sgc;
             builder.append('[');
 
-            String desc = MyObject.describe(rigidBodyControl);
+            String desc = MyPco.describe(rigidBodyControl);
             builder.append(desc);
 
             builder.append(' ');

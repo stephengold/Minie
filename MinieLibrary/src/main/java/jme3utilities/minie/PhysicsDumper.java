@@ -166,7 +166,7 @@ public class PhysicsDumper extends Dumper {
         long objectId = body.getObjectId();
         stream.printf("%n%sBody #%s ", indent, Long.toHexString(objectId));
 
-        String desc = MyObject.describe(body);
+        String desc = MyPco.describe(body);
         stream.print(desc);
 
         desc = getDescriber().describeUser(body);
