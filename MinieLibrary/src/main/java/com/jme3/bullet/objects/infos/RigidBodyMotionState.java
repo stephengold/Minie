@@ -60,18 +60,23 @@ public class RigidBodyMotionState implements JmeCloneable {
     // fields
 
     /**
+     * true &rarr; physics transform matches the spatial's local transform,
+     * false &rarr; physics transform matches the spatial's world transform
+     */
+    private boolean applyPhysicsLocal = false;
+    /**
      * Unique identifier of the native object. Constructors are responsible for
      * setting this to a non-zero value. After that, the ID never changes.
      */
     private long motionStateId;
-
-    private Quaternion tmp_inverseWorldRotation = new Quaternion();
+    /**
+     * vehicle reference, or null if the rigid body is a vehicle
+     */
     private PhysicsVehicle vehicle = null;
     /**
-     * true &rarr; physics coordinates match local transform, false &rarr;
-     * physics coordinates match world transform
+     * temporary storage for a Quaternion
      */
-    private boolean applyPhysicsLocal = false;
+    private Quaternion tmp_inverseWorldRotation = new Quaternion();
     // *************************************************************************
     // constructors
 
