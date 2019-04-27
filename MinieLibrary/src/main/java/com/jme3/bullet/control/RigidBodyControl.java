@@ -100,8 +100,7 @@ public class RigidBodyControl
      */
     private boolean applyScale = false;
     /**
-     * true&rarr;control is enabled, false&rarr;control is disabled TODO
-     * privatize
+     * true&rarr;control is enabled, false&rarr;control is disabled
      */
     private boolean enabled = true;
     /**

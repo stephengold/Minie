@@ -38,7 +38,10 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * Describe a collision in the physics world.
+ * Describe a collision in physics space.
+ * <p>
+ * Even though this class inherits the java.io.Serializable interface, it isn't
+ * serializable.
  *
  * @author normenhansen
  */
