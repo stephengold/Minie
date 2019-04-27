@@ -394,36 +394,6 @@ public class SixDofJoint extends PhysicsJoint {
         linearUpperLimit.set(vector);
         setLinearUpperLimit(objectId, vector);
     }
-
-    /**
-     * Alter one of this joint's connection-point locations. TODO why doesn't
-     * this work?
-     *
-     * @param end which end of the joint to alter (not null)
-     * @param newPivot the desired location (in the object's local coordinates,
-     * not null, unaffected)
-     */
-    public void setPivot(JointEnd end, Vector3f newPivot) {
-        Validate.nonNull(end, "end");
-
-        Transform frameA = new Transform();
-        getFrameOffsetA(objectId, frameA);
-        Transform frameB = new Transform();
-        getFrameOffsetB(objectId, frameB);
-
-        switch (end) {
-            case A:
-                frameA.setTranslation(newPivot);
-                break;
-            case B:
-                frameB.setTranslation(newPivot);
-                break;
-            default:
-                throw new IllegalArgumentException(end.toString());
-        }
-
-        setFrames(objectId, frameA, frameB);
-    }
     // *************************************************************************
     // new protected methods
 
@@ -699,9 +669,6 @@ public class SixDofJoint extends PhysicsJoint {
     native private void setAngularLowerLimit(long jointId, Vector3f limits);
 
     native private void setAngularUpperLimit(long jointId, Vector3f limits);
-
-    native private void setFrames(long jointId, Transform frameInA,
-            Transform frameInB);
 
     native private void setLinearLowerLimit(long jointId, Vector3f limits);
 
