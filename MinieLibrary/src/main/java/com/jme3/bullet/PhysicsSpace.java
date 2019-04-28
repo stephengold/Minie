@@ -40,7 +40,6 @@ import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.PhysicsSweepTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
@@ -50,7 +49,6 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.Control;
 import com.jme3.util.SafeArrayList;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -304,32 +302,17 @@ public class PhysicsSpace {
     }
 
     /**
-     * Add all collision objects and joints in the specified subtree of the
-     * scene graph to this space (e.g. after loading from disk). Note:
-     * recursive!
+     * Add all collision objects in the specified subtree of the scene graph to
+     * this space (e.g. after loading from disk).
+     * <p>
+     * Does not add any joints.
+     * <p>
+     * Note: recursive!
      *
      * @param spatial the root of the subtree (not null)
      */
     public void addAll(Spatial spatial) {
         add(spatial);
-        /*
-         * Add the joints.
-         */
-        int numControls = spatial.getNumControls();
-        for (int controlIndex = 0; controlIndex < numControls; ++controlIndex) {
-            Control sgc = spatial.getControl(controlIndex);
-            if (sgc instanceof RigidBodyControl) {
-                RigidBodyControl rbc = (RigidBodyControl) sgc;
-                // To avoid duplication, add only the joints that have the
-                // control as BodyA.
-                PhysicsJoint[] joints = rbc.listJoints();
-                for (PhysicsJoint physicsJoint : joints) {
-                    if (rbc == physicsJoint.getBodyA()) {
-                        add(physicsJoint);
-                    }
-                }
-            }
-        }
         //recursion
         if (spatial instanceof Node) {
             List<Spatial> children = ((Node) spatial).getChildren();
@@ -792,25 +775,16 @@ public class PhysicsSpace {
     }
 
     /**
-     * Remove all physics controls and joints in the specified subtree of the
-     * scene graph from this space (e.g. before saving to disk) Note: recursive!
+     * Remove all physics controls in the specified subtree of the scene graph
+     * from this space (e.g. before saving to disk).
+     * <p>
+     * Does not remove any joints.
+     * <p>
+     * Note: recursive!
      *
      * @param spatial the root of the subtree (not null)
      */
     public void removeAll(Spatial spatial) {
-        RigidBodyControl control
-                = spatial.getControl(RigidBodyControl.class);
-        if (control != null) {
-            // Remove only the joints with the RigidBodyControl as BodyA.
-            PhysicsJoint[] joints = control.listJoints();
-            for (PhysicsJoint physicsJoint : joints) {
-                if (control == physicsJoint.getBodyA()) {
-                    removeJoint(physicsJoint);
-                }
-            }
-            // TODO multiple controls per spatial?
-        }
-
         remove(spatial);
         //recursion
         if (spatial instanceof Node) {
