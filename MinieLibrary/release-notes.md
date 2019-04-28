@@ -1,4 +1,31 @@
-# release notes for the Minie library and related examples
+# release notes for the Minie library, DacWizard, and MinieExamples
+
+## Version 0.8.1 released on TBD
+
+ + API changes:
+   + Privatized 2 protected fields in the `BulletDebugAppState` class.
+   + Privatized 7 protected fields in the `RigidBodyControl` class.
+   + Privatized 4 protected fields in the `VehicleControl` class.
+   + Renamed the `MyObject` class to `MyPco`.
+   + Removed the `BubbleControl`, `SimpleGhostControl`,
+     and `SimpleSolidControl` classes.
+   + De-publicized the `BoundingBoxDebugControl` constructor.
+   + Removed the `setPivot()` method from the `SixDofJoint` class.
+ + Changed the semantics of the `addAll()` and `removeAll()` methods in the
+   `PhysicsSpace` class; they no longer attempt to add/remove physics joints.
+ + Added a swept-sphere visualization feature.
+ + Added assertions to catch attempts to read the angular/linear velocities
+   of non-dynamic rigid bodies.
+ + Added methods to calculate the kinetic/mechanical energy of rigid body
+   or a ragdoll.
+ + Improved thread safety.
+ + Added command-line options to DacWizard: --openGL3, --forceDialog, --verbose
+ + Added a `getAngularVelocityLocal()` method to `PhysicsRigidBody`.
+ + Moved the `FilterAll` class from MinieExamples into the library.
+ + Added `getFrameTransform()` methods for cone, hinge, 6dof, and slider joints.
+ + Updated the native libraries to version 1.0.50 of `Libbulletjme`.
+ + Upgraded to Gradle v5.3.1 .
+ + Based on version 2.26 of the `jme3-utilities-heart` library.
 
 ## Version 0.8.0 released on 15 April 2019
 

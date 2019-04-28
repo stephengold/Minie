@@ -20,7 +20,7 @@ gradle.projectsEvaluated {
         classpath sourceSets.main.runtimeClasspath
         //doFirst { println commandLine }
         enableAssertions true
-        //jvmArgs '-verbosegc'
+        //jvmArgs '-verbose:gc'
         //jvmArgs '-Xcheck:jni'
         jvmArgs '-Xms512m', '-Xmx512m'
         jvmArgs '-XX:+UseConcMarkSweepGC'
@@ -33,7 +33,7 @@ ext {
     heartVersion = '2.26.0'
     jme3utilitiesuiVersion = '0.7.2'
     jmonkeyengineVersion = '3.2.3-stable'
-    minieVersion = '0.8.0'
+    minieVersion = '0.8.1'
 }
 
 repositories {
