@@ -577,7 +577,7 @@ public class PhysicsSpace {
      * Access the PhysicsSpace <b>running on this thread</b>. For parallel
      * physics, this can be invoked from the OpenGL thread.
      *
-     * @return the PhysicsSpace running on this thread
+     * @return the pre-existing PhysicsSpace running on this thread
      */
     public static PhysicsSpace getPhysicsSpace() {
         return physicsSpaceTL.get();
@@ -763,7 +763,8 @@ public class PhysicsSpace {
     /**
      * Remove the specified object from this space.
      *
-     * @param obj the PhysicsCollisionObject to add, or null (modified)
+     * @param obj the PhysicsControl, Spatial-with-PhysicsControl,
+     * PhysicsCollisionObject, or PhysicsJoint to remove (modified if not null)
      */
     public void remove(Object obj) {
         if (obj == null) {
@@ -793,7 +794,6 @@ public class PhysicsSpace {
     /**
      * Remove all physics controls and joints in the specified subtree of the
      * scene graph from this space (e.g. before saving to disk) Note: recursive!
-     * TODO delete this method?
      *
      * @param spatial the root of the subtree (not null)
      */
@@ -1048,13 +1048,23 @@ public class PhysicsSpace {
      * Must be invoked on the designated physics thread.
      */
     protected void create() {
-        physicsSpaceId = createPhysicsSpace(worldMin.x, worldMin.y, worldMin.z,
+        long spaceId = createPhysicsSpace(worldMin.x, worldMin.y, worldMin.z,
                 worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal(),
                 false);
-        assert physicsSpaceId != 0L;
-        logger.log(Level.FINE, "Created Space {0}",
-                Long.toHexString(physicsSpaceId));
+        logger.log(Level.FINE, "Created Space {0}", Long.toHexString(spaceId));
+        initThread(spaceId);
+    }
 
+    /**
+     * Must be invoked on the designated physics thread.
+     *
+     * @param spaceId the Bullet identifier for this space (non-zero)
+     */
+    protected void initThread(long spaceId) {
+        assert spaceId != 0L;
+        assert physicsSpaceId == 0L : physicsSpaceId;
+
+        physicsSpaceId = spaceId;
         pQueueTL.set(pQueue);
         physicsSpaceTL.set(this);
     }
@@ -1139,7 +1149,7 @@ public class PhysicsSpace {
             return;
         }
 
-        logger.log(Level.FINE, "Adding Joint {0} to physics space.",
+        logger.log(Level.FINE, "Adding joint {0} to physics space.",
                 Long.toHexString(jointId));
         physicsJoints.put(jointId, joint);
         addConstraintC(physicsSpaceId, jointId,
@@ -1153,18 +1163,18 @@ public class PhysicsSpace {
      * @param body the body to add (not null, not already in the space)
      */
     private void addRigidBody(PhysicsRigidBody body) {
-        long objectId = body.getObjectId();
+        long bodyId = body.getObjectId();
         if (contains(body)) {
             logger.log(Level.WARNING,
-                    "RigidBody {0} is already added to PhysicsSpace {1}.",
+                    "Rigid body {0} is already added to PhysicsSpace {1}.",
                     new Object[]{
-                        Long.toHexString(objectId),
+                        Long.toHexString(bodyId),
                         Long.toHexString(physicsSpaceId)
                     });
             return;
         }
 
-        physicsBodies.put(objectId, body);
+        physicsBodies.put(bodyId, body);
 
         //Workaround
         //It seems that adding a Kinematic RigidBody to the dynamicWorld
@@ -1175,12 +1185,12 @@ public class PhysicsSpace {
             kinematic = true;
             body.setKinematic(false);
         }
-        addRigidBody(physicsSpaceId, objectId);
+        addRigidBody(physicsSpaceId, bodyId);
         if (kinematic) {
             body.setKinematic(true);
         }
         logger.log(Level.FINE, "Adding rigid body {0} to physics space.",
-                Long.toHexString(objectId));
+                Long.toHexString(bodyId));
 
         if (body instanceof PhysicsVehicle) {
             PhysicsVehicle vehicle = (PhysicsVehicle) body;
@@ -1298,11 +1308,11 @@ public class PhysicsSpace {
     }
 
     private void removeRigidBody(PhysicsRigidBody body) {
-        long objectId = body.getObjectId();
-        if (!physicsBodies.containsKey(objectId)) {
+        long bodyId = body.getObjectId();
+        if (!physicsBodies.containsKey(bodyId)) {
             logger.log(Level.WARNING,
                     "Rigid body {0} does not exist in PhysicsSpace.",
-                    Long.toHexString(objectId));
+                    Long.toHexString(bodyId));
             return;
         }
         if (body instanceof PhysicsVehicle) {
@@ -1314,9 +1324,9 @@ public class PhysicsSpace {
             removeAction(physicsSpaceId, vehicleId);
         }
         logger.log(Level.FINE, "Removing rigid body {0} from physics space.",
-                Long.toHexString(objectId));
-        physicsBodies.remove(objectId);
-        removeRigidBody(physicsSpaceId, objectId);
+                Long.toHexString(bodyId));
+        physicsBodies.remove(bodyId);
+        removeRigidBody(physicsSpaceId, bodyId);
     }
 
     /**
