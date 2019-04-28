@@ -48,6 +48,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import java.util.Collection;
 import java.util.HashMap;
@@ -161,12 +162,12 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * scene-graph node to parent the geometries
      */
-    final protected Node physicsDebugRootNode
+    final private Node physicsDebugRootNode
             = new Node("Physics Debug Root Node");
     /**
      * PhysicsSpace to visualize (not null)
      */
-    final protected PhysicsSpace space;
+    final private PhysicsSpace space;
     /**
      * view ports in which to render (not null)
      */
@@ -279,6 +280,28 @@ public class BulletDebugAppState extends AbstractAppState {
         int length = viewPorts.length;
         this.viewPorts = new ViewPort[length];
         System.arraycopy(viewPorts, 0, this.viewPorts, 0, length);
+    }
+    // *************************************************************************
+    // new protected methods
+
+    /**
+     * Attach the specified Spatial to the debug root node.
+     *
+     * @param spatial the Spatial to attach (not null)
+     */
+    protected void attachChild(Spatial spatial) {
+        assert spatial != null;
+        physicsDebugRootNode.attachChild(spatial);
+    }
+
+    /**
+     * Access the PhysicsSpace that's being visualized.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    protected PhysicsSpace getPhysicsSpace() {
+        assert space != null;
+        return space;
     }
     // *************************************************************************
     // AbstractAppState methods
@@ -430,7 +453,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 Node node = oldMap.remove(pco);
                 if (node == null) {
                     node = new Node(pco.toString());
-                    physicsDebugRootNode.attachChild(node);
+                    attachChild(node);
 
                     logger.log(Level.FINE,
                             "Create new BoundingBoxDebugControl");
@@ -460,7 +483,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 Node node = oldMap.remove(character);
                 if (node == null) {
                     node = new Node(character.toString());
-                    physicsDebugRootNode.attachChild(node);
+                    attachChild(node);
 
                     logger.log(Level.FINE,
                             "Create new BulletCharacterDebugControl");
@@ -491,7 +514,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 Node node = oldMap.remove(ghost);
                 if (node == null) {
                     node = new Node(ghost.toString());
-                    physicsDebugRootNode.attachChild(node);
+                    attachChild(node);
 
                     logger.log(Level.FINE,
                             "Create new BulletGhostObjectDebugControl");
@@ -522,7 +545,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 Node node = oldMap.remove(joint);
                 if (node == null) {
                     node = new Node(joint.toString());
-                    physicsDebugRootNode.attachChild(node);
+                    attachChild(node);
 
                     logger.log(Level.FINE,
                             "Create new BulletJointDebugControl");
@@ -552,7 +575,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 Node node = oldMap.remove(body);
                 if (node == null) {
                     node = new Node(body.toString());
-                    physicsDebugRootNode.attachChild(node);
+                    attachChild(node);
 
                     logger.log(Level.FINE,
                             "Create new BulletRigidBodyDebugControl");
@@ -588,7 +611,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 Node node = oldMap.remove(pco);
                 if (node == null) {
                     node = new Node(pco.toString());
-                    physicsDebugRootNode.attachChild(node);
+                    attachChild(node);
 
                     logger.log(Level.FINE,
                             "Create new SweptSphereDebugControl");
@@ -618,7 +641,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 Node node = oldMap.remove(vehicle);
                 if (node == null) {
                     node = new Node(vehicle.toString());
-                    physicsDebugRootNode.attachChild(node);
+                    attachChild(node);
 
                     logger.log(Level.FINE,
                             "Create new BulletVehicleDebugControl");
