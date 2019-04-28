@@ -49,7 +49,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * An app state to manage a single PhysicsSpace.
+ * An AppState to manage a single PhysicsSpace.
  *
  * @author normenhansen
  */
@@ -510,7 +510,7 @@ public class BulletAppState
                 throw new IllegalStateException(threadingType.toString());
         }
 
-        isRunning = true;
+        setRunning(true);
     }
 
     /**
@@ -526,8 +526,8 @@ public class BulletAppState
             executor = null;
         }
         pSpace.removeTickListener(this);
-        pSpace = null;
-        isRunning = false;
+        setPhysicsSpace(null);
+        setRunning(false);
     }
     // *************************************************************************
     // new protected methods
@@ -559,6 +559,73 @@ public class BulletAppState
     protected PhysicsSpace createPhysicsSpace(Vector3f min, Vector3f max,
             BroadphaseType type) {
         return new PhysicsSpace(min, max, type);
+    }
+
+    /**
+     * Alter which PhysicsSpace is managed by this state.
+     *
+     * @param newSpace the space to be managed (may be null)
+     */
+    protected void setPhysicsSpace(PhysicsSpace newSpace) {
+        pSpace = newSpace;
+    }
+
+    /**
+     * Alter whether the physics simulation is running (started but not yet
+     * stopped).
+     *
+     * @param desiredSetting true&rarr;running, false&rarr;not running
+     */
+    protected void setRunning(boolean desiredSetting) {
+        isRunning = desiredSetting;
+    }
+
+    /**
+     * Allocate the PhysicsSpace and start simulating physics using
+     * ThreadingType.PARALLEL.
+     *
+     * @return true if successful, otherwise false
+     */
+    protected boolean startPhysicsOnExecutor() {
+        if (executor != null) {
+            executor.shutdown();
+        }
+        executor = new ScheduledThreadPoolExecutor(1);
+        final BulletAppState appState = this;
+        Callable<Boolean> call = new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                pSpace = createPhysicsSpace(worldMin, worldMax, broadphaseType);
+                pSpace.addTickListener(appState);
+                return true;
+            }
+        };
+        try {
+            return executor.submit(call).get();
+        } catch (InterruptedException | ExecutionException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    /**
+     * Copy the maximum coordinate values for AXIS_SWEEP.
+     *
+     * @return a new location vector (in physics-space coordinates, not null)
+     */
+    protected Vector3f worldMax() {
+        Vector3f result = worldMax.clone();
+        return result;
+    }
+
+    /**
+     * Copy the minimum coordinate values for AXIS_SWEEP.
+     *
+     * @return a new location vector (in physics-space coordinates, not null)
+     */
+    protected Vector3f worldMin() {
+        Vector3f result = worldMin.clone();
+        return result;
     }
     // *************************************************************************
     // AppState methods
@@ -719,53 +786,25 @@ public class BulletAppState
 
     /**
      * Callback from Bullet, invoked just after the physics is stepped. A good
-     * time to clear/apply forces.
+     * time to clear/apply forces. Meant to be overridden.
      *
      * @param space the space that is about to be stepped (not null)
      * @param timeStep the time per physics step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
+        // do nothing
     }
 
     /**
      * Callback from Bullet, invoked just before the physics is stepped. A good
-     * time to clear/apply forces.
+     * time to clear/apply forces. Meant to be overridden.
      *
      * @param space the space that is about to be stepped (not null)
      * @param timeStep the time per physics step (in seconds, &ge;0)
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-    }
-    // *************************************************************************
-    // private methods
-
-    /**
-     * Allocate the PhysicsSpace and start simulating physics using
-     * ThreadingType.PARALLEL.
-     *
-     * @return true if successful, otherwise false
-     */
-    private boolean startPhysicsOnExecutor() {
-        if (executor != null) {
-            executor.shutdown();
-        }
-        executor = new ScheduledThreadPoolExecutor(1);
-        final BulletAppState appState = this;
-        Callable<Boolean> call = new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                pSpace = createPhysicsSpace(worldMin, worldMax, broadphaseType);
-                pSpace.addTickListener(appState);
-                return true;
-            }
-        };
-        try {
-            return executor.submit(call).get();
-        } catch (InterruptedException | ExecutionException ex) {
-            logger.log(Level.SEVERE, null, ex);
-            return false;
-        }
+        // do nothing
     }
 }
