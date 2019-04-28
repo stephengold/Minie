@@ -76,7 +76,12 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * per-thread temporary storage for a Quaternion
      */
     final private static ThreadLocal<Quaternion> tmpQuaternionTL
-            = new ThreadLocal<Quaternion>();
+            = new ThreadLocal<Quaternion>() {
+        @Override
+        protected Quaternion initialValue() {
+            return new Quaternion();
+        }
+    };
     /**
      * per-thread temporary storage for a Vector3f
      */

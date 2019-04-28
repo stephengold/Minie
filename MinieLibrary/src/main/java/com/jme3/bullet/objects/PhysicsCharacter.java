@@ -96,7 +96,12 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * temporary storage for one vector per thread
      */
     final private static ThreadLocal<Vector3f> threadTmpVector
-            = new ThreadLocal<Vector3f>();
+            = new ThreadLocal<Vector3f>() {
+        @Override
+        protected Vector3f initialValue() {
+            return new Vector3f();
+        }
+    };
     /**
      * location change for each physics tick (in physics-space coordinates,
      * default=(0,0,0))
