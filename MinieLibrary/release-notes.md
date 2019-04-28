@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.8.1 released on TBD
+## Version 0.8.1 released on 28 April 2019
 
  + API changes:
    + Privatized 2 protected fields in the `BulletDebugAppState` class.
