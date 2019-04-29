@@ -152,7 +152,7 @@ public class TestSetScale {
         assert gimpact.getScale(null).equals(non2);
 
         Texture heightTexture = MyAsset.loadTexture(assetManager,
-                "Textures/BumpMapTest/Simple_height.png");
+                "Textures/BumpMapTest/Simple_height.png", false);
         Image heightImage = heightTexture.getImage();
         float heightScale = 1f;
         AbstractHeightMap heightMap

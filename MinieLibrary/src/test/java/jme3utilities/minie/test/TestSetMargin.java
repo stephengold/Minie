@@ -134,7 +134,7 @@ public class TestSetMargin {
         assert gimpact.getMargin() == 0.16f;
 
         Texture heightTexture = MyAsset.loadTexture(assetManager,
-                "Textures/BumpMapTest/Simple_height.png");
+                "Textures/BumpMapTest/Simple_height.png", false);
         Image heightImage = heightTexture.getImage();
         float heightScale = 1f;
         AbstractHeightMap heightMap
