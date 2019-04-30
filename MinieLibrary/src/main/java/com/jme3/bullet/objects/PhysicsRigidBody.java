@@ -259,7 +259,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      */
     public int countJoints() {
         int result = 0;
-        if (isInWorld(objectId)) {
+        if (isInWorld()) {
             result = joints.size();
         }
 
@@ -523,15 +523,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Test whether this body is added to any PhysicsSpace.
-     *
-     * @return true&rarr;in a space, false&rarr;not in a space
-     */
-    final public boolean isInWorld() {
-        return isInWorld(objectId);
-    }
-
-    /**
      * Test whether this body is in kinematic mode.
      * <p>
      * In kinematic mode, the body is not influenced by physics but can affect
@@ -572,12 +563,12 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     /**
      * Enumerate the joints connected to this body.
      *
-     * @return a new array of pre-existing objects, or null if this body is not
+     * @return a new array of pre-existing joints, or null if this body is not
      * added to any space
      */
     public PhysicsJoint[] listJoints() {
         PhysicsJoint[] result;
-        if (isInWorld(objectId)) {
+        if (isInWorld()) {
             int numJoints = joints.size();
             result = new PhysicsJoint[numJoints];
             joints.toArray(result);
@@ -956,7 +947,7 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     protected void rebuildRigidBody() {
         boolean removed = false;
         if (objectId != 0L) {
-            if (isInWorld(objectId)) {
+            if (isInWorld()) {
                 PhysicsSpace.getPhysicsSpace().remove(this);
                 removed = true;
             }
@@ -1163,8 +1154,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     native private float getLinearSleepingThreshold(long objectId);
 
     native private void getLinearVelocity(long objectId, Vector3f storeResult);
-
-    native private boolean isInWorld(long objectId);
 
     native private void setAngularDamping(long objectId, float dampingFraction);
 

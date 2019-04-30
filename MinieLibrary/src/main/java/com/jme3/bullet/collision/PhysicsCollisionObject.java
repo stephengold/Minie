@@ -142,7 +142,7 @@ abstract public class PhysicsCollisionObject
     // fields
 
     /**
-     * shape of this object (not null)
+     * shape of this object (not null) TODO privatize
      */
     protected CollisionShape collisionShape;
     /**
@@ -166,7 +166,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Unique identifier of the btCollisionObject. Constructors are responsible
      * for setting this to a non-zero value. The ID might change if the object
-     * gets rebuilt.
+     * gets rebuilt. TODO privatize
      */
     protected long objectId = 0L;
     /**
@@ -314,11 +314,9 @@ abstract public class PhysicsCollisionObject
     /**
      * Access the shape of this object.
      *
-     * @return the pre-existing instance, which can then be applied to other
-     * physics objects (sharing improves performance)
+     * @return the pre-existing instance, or null if none
      */
     public CollisionShape getCollisionShape() {
-        assert collisionShape != null;
         return collisionShape;
     }
 
@@ -409,12 +407,13 @@ abstract public class PhysicsCollisionObject
     public Vector3f getPhysicsLocation(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         getLocation(objectId, result);
+
         assert Vector3f.isValidVector(result);
         return result;
     }
 
     /**
-     * Copy the orientation (rotation) of this object to a quaternion.
+     * Copy the orientation (rotation) of this object to a Quaternion.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a rotation quaternion (in physics-space coordinates, either
@@ -509,6 +508,15 @@ abstract public class PhysicsCollisionObject
         int flags = getCollisionFlags(objectId);
         boolean result = (flags & CollisionFlag.NO_CONTACT_RESPONSE) == 0x0;
         return result;
+    }
+
+    /**
+     * Test whether this object is added to a PhysicsSpace.
+     *
+     * @return true&rarr;in a space, false&rarr;not in a space
+     */
+    final public boolean isInWorld() {
+        return isInWorld(objectId);
     }
 
     /**
@@ -1064,6 +1072,8 @@ abstract public class PhysicsCollisionObject
     native private void initUserPointer(long objectId, int group, int groups);
 
     native private boolean isActive(long objectId);
+
+    native private boolean isInWorld(long objectId);
 
     native private void setAnisotropicFriction(long objectId,
             Vector3f components, int mode);
