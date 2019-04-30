@@ -60,13 +60,13 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
-    // fields
+    // fields TODO documentation
 
-    final private PhysicsJoint joint;
-    final private Geometry geomA;
     final private Arrow arrowA;
-    final private Geometry geomB;
     final private Arrow arrowB;
+    final private Geometry geomA;
+    final private Geometry geomB;
+    final private PhysicsJoint joint;
     final private Transform a = new Transform();
     final private Transform b = new Transform();
     // *************************************************************************
@@ -95,27 +95,6 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
-
-    /**
-     * Alter which spatial is controlled. Invoked when the control is added to
-     * or removed from a spatial. Should be invoked only by a subclass or from
-     * Spatial. Do not invoke directly from user code.
-     *
-     * @param spatial the spatial to control (or null)
-     */
-    @Override
-    public void setSpatial(Spatial spatial) {
-        if (spatial instanceof Node) {
-            Node node = (Node) spatial;
-            node.attachChild(geomA);
-            node.attachChild(geomB);
-        } else if (spatial == null && this.spatial != null) {
-            Node node = (Node) this.spatial;
-            node.detachChild(geomA);
-            node.detachChild(geomB);
-        }
-        super.setSpatial(spatial);
-    }
 
     /**
      * Update this control. Invoked once per frame during the logical-state
@@ -153,5 +132,26 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
             geomA.setCullHint(Spatial.CullHint.Always);
             geomB.setCullHint(Spatial.CullHint.Always);
         }
+    }
+
+    /**
+     * Alter which spatial is controlled. Invoked when the control is added to
+     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Spatial. Do not invoke directly from user code.
+     *
+     * @param spatial the spatial to control (or null)
+     */
+    @Override
+    public void setSpatial(Spatial spatial) {
+        if (spatial instanceof Node) {
+            Node node = (Node) spatial;
+            node.attachChild(geomA);
+            node.attachChild(geomB);
+        } else if (spatial == null && this.spatial != null) {
+            Node node = (Node) this.spatial;
+            node.detachChild(geomA);
+            node.detachChild(geomB);
+        }
+        super.setSpatial(spatial);
     }
 }

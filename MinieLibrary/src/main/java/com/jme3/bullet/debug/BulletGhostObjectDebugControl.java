@@ -61,6 +61,10 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
+     * shape for which geom was generated (not null)
+     */
+    private CollisionShape myShape;
+    /**
      * debug-mesh normals option for which geom was generated
      */
     private DebugMeshNormals oldNormals;
@@ -77,21 +81,17 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
      */
     final private PhysicsGhostObject ghost;
     /**
-     * temporary storage for physics location
-     */
-    final private Vector3f location = new Vector3f();
-    /**
      * temporary storage for physics rotation
      */
     final private Quaternion rotation = new Quaternion();
     /**
-     * shape for which geom was generated (not null)
-     */
-    private CollisionShape myShape;
-    /**
      * geometry to visualize myShape (not null)
      */
     private Spatial geom;
+    /**
+     * temporary storage for physics location
+     */
+    final private Vector3f location = new Vector3f();
     /**
      * physics scale for which geom was generated
      */
@@ -122,25 +122,6 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
-
-    /**
-     * Alter which spatial is controlled. Invoked when the control is added to
-     * or removed from a spatial. Should be invoked only by a subclass or from
-     * Spatial. Do not invoke directly from user code.
-     *
-     * @param spatial the spatial to control (or null)
-     */
-    @Override
-    public void setSpatial(Spatial spatial) {
-        if (spatial instanceof Node) {
-            Node node = (Node) spatial;
-            node.attachChild(geom);
-        } else if (spatial == null && this.spatial != null) {
-            Node node = (Node) this.spatial;
-            node.detachChild(geom);
-        }
-        super.setSpatial(spatial);
-    }
 
     /**
      * Update this control. Invoked once per frame during the logical-state
@@ -194,6 +175,25 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
         ghost.getPhysicsLocation(location);
         ghost.getPhysicsRotation(rotation);
         applyPhysicsTransform(location, rotation);
+    }
+
+    /**
+     * Alter which spatial is controlled. Invoked when the control is added to
+     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Spatial. Do not invoke directly from user code.
+     *
+     * @param spatial the spatial to control (or null)
+     */
+    @Override
+    public void setSpatial(Spatial spatial) {
+        if (spatial instanceof Node) {
+            Node node = (Node) spatial;
+            node.attachChild(geom);
+        } else if (spatial == null && this.spatial != null) {
+            Node node = (Node) this.spatial;
+            node.detachChild(geom);
+        }
+        super.setSpatial(spatial);
     }
     // *************************************************************************
     // private methods

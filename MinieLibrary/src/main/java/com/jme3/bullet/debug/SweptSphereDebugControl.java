@@ -102,6 +102,22 @@ public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
     // AbstractPhysicsDebugControl methods
 
     /**
+     * Update this control. Invoked once per frame during the logical-state
+     * update, provided the control is enabled and added to a scene. Should be
+     * invoked only by a subclass or by AbstractControl.
+     *
+     * @param tpf the time interval between frames (in seconds, &ge;0)
+     */
+    @Override
+    protected void controlUpdate(float tpf) {
+        float radius = pco.getCcdSweptSphereRadius();
+        geom.setLocalScale(radius);
+
+        pco.getPhysicsLocation(center);
+        geom.setLocalTranslation(center);
+    }
+
+    /**
      * Alter which spatial is controlled. Invoked when the control is added to
      * or removed from a spatial. Should be invoked only by a subclass or from
      * Spatial. Do not invoke directly from user code.
@@ -118,21 +134,5 @@ public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
             node.detachChild(geom);
         }
         super.setSpatial(spatial);
-    }
-
-    /**
-     * Update this control. Invoked once per frame during the logical-state
-     * update, provided the control is enabled and added to a scene. Should be
-     * invoked only by a subclass or by AbstractControl.
-     *
-     * @param tpf the time interval between frames (in seconds, &ge;0)
-     */
-    @Override
-    protected void controlUpdate(float tpf) {
-        float radius = pco.getCcdSweptSphereRadius();
-        geom.setLocalScale(radius);
-
-        pco.getPhysicsLocation(center);
-        geom.setLocalTranslation(center);
     }
 }

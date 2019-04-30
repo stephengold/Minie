@@ -58,19 +58,19 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // fields
 
+    final private Node suspensionNode;
     /**
      * vehicle to visualize (not null)
      */
     final private PhysicsVehicle vehicle;
-    final private Node suspensionNode;
-    /**
-     * temporary storage for physics location
-     */
-    final private Vector3f location = new Vector3f();
     /**
      * temporary storage for physics rotation
      */
     final private Quaternion rotation = new Quaternion();
+    /**
+     * temporary storage for physics location
+     */
+    final private Vector3f location = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -89,67 +89,6 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
-
-    /**
-     * Alter which spatial is controlled. Invoked when the control is added to
-     * or removed from a spatial. Should be invoked only by a subclass or from
-     * Spatial. Do not invoke directly from user code.
-     *
-     * @param spatial the spatial to control (or null)
-     */
-    @Override
-    public void setSpatial(Spatial spatial) {
-        if (spatial instanceof Node) {
-            Node node = (Node) spatial;
-            node.attachChild(suspensionNode);
-        } else if (spatial == null && this.spatial != null) {
-            Node node = (Node) this.spatial;
-            node.detachChild(suspensionNode);
-        }
-        super.setSpatial(spatial);
-    }
-
-    private void createVehicle() {
-        suspensionNode.detachAllChildren();
-        for (int i = 0; i < vehicle.getNumWheels(); ++i) {
-            VehicleWheel physicsVehicleWheel = vehicle.getWheel(i);
-            Vector3f wLocation = physicsVehicleWheel.getLocation(null);
-            Vector3f wDirection = physicsVehicleWheel.getDirection(null);
-            Vector3f axle = physicsVehicleWheel.getAxle(null);
-            float restLength = physicsVehicleWheel.getRestLength();
-            float radius = physicsVehicleWheel.getRadius();
-
-            Arrow locArrow = new Arrow(wLocation);
-            Arrow axleArrow = new Arrow(axle.normalizeLocal().multLocal(0.3f));
-            Arrow wheelArrow = new Arrow(
-                    wDirection.normalizeLocal().multLocal(radius));
-            Arrow dirArrow = new Arrow(
-                    wDirection.normalizeLocal().multLocal(restLength));
-
-            Geometry locGeom = new Geometry("WheelLocationDebugShape" + i,
-                    locArrow);
-            Geometry dirGeom = new Geometry("WheelDirectionDebugShape" + i,
-                    dirArrow);
-            Geometry axleGeom = new Geometry("WheelAxleDebugShape" + i,
-                    axleArrow);
-            Geometry wheelGeom = new Geometry("WheelRadiusDebugShape" + i,
-                    wheelArrow);
-
-            dirGeom.setLocalTranslation(wLocation);
-            axleGeom.setLocalTranslation(wLocation.add(wDirection));
-            wheelGeom.setLocalTranslation(wLocation.add(wDirection));
-
-            locGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
-            dirGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
-            axleGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
-            wheelGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
-
-            suspensionNode.attachChild(locGeom);
-            suspensionNode.attachChild(dirGeom);
-            suspensionNode.attachChild(axleGeom);
-            suspensionNode.attachChild(wheelGeom);
-        }
-    }
 
     /**
      * Update this control. Invoked once per frame during the logical-state
@@ -195,5 +134,68 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
         }
         applyPhysicsTransform(vehicle.getPhysicsLocation(location),
                 vehicle.getPhysicsRotation(rotation));
+    }
+
+    /**
+     * Alter which spatial is controlled. Invoked when the control is added to
+     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Spatial. Do not invoke directly from user code.
+     *
+     * @param spatial the spatial to control (or null)
+     */
+    @Override
+    public void setSpatial(Spatial spatial) {
+        if (spatial instanceof Node) {
+            Node node = (Node) spatial;
+            node.attachChild(suspensionNode);
+        } else if (spatial == null && this.spatial != null) {
+            Node node = (Node) this.spatial;
+            node.detachChild(suspensionNode);
+        }
+        super.setSpatial(spatial);
+    }
+    // *************************************************************************
+    // private methods
+
+    private void createVehicle() {
+        suspensionNode.detachAllChildren();
+        for (int i = 0; i < vehicle.getNumWheels(); ++i) {
+            VehicleWheel physicsVehicleWheel = vehicle.getWheel(i);
+            Vector3f wLocation = physicsVehicleWheel.getLocation(null);
+            Vector3f wDirection = physicsVehicleWheel.getDirection(null);
+            Vector3f axle = physicsVehicleWheel.getAxle(null);
+            float restLength = physicsVehicleWheel.getRestLength();
+            float radius = physicsVehicleWheel.getRadius();
+
+            Arrow locArrow = new Arrow(wLocation);
+            Arrow axleArrow = new Arrow(axle.normalizeLocal().multLocal(0.3f));
+            Arrow wheelArrow = new Arrow(
+                    wDirection.normalizeLocal().multLocal(radius));
+            Arrow dirArrow = new Arrow(
+                    wDirection.normalizeLocal().multLocal(restLength));
+
+            Geometry locGeom = new Geometry("WheelLocationDebugShape" + i,
+                    locArrow);
+            Geometry dirGeom = new Geometry("WheelDirectionDebugShape" + i,
+                    dirArrow);
+            Geometry axleGeom = new Geometry("WheelAxleDebugShape" + i,
+                    axleArrow);
+            Geometry wheelGeom = new Geometry("WheelRadiusDebugShape" + i,
+                    wheelArrow);
+
+            dirGeom.setLocalTranslation(wLocation);
+            axleGeom.setLocalTranslation(wLocation.add(wDirection));
+            wheelGeom.setLocalTranslation(wLocation.add(wDirection));
+
+            locGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
+            dirGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
+            axleGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
+            wheelGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
+
+            suspensionNode.attachChild(locGeom);
+            suspensionNode.attachChild(dirGeom);
+            suspensionNode.attachChild(axleGeom);
+            suspensionNode.attachChild(wheelGeom);
+        }
     }
 }
