@@ -108,25 +108,6 @@ public class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
     // AbstractPhysicsDebugControl methods
 
     /**
-     * Alter which spatial is controlled. Invoked when the control is added to
-     * or removed from a spatial. Should be invoked only by a subclass or from
-     * Spatial. Do not invoke directly from user code.
-     *
-     * @param spatial the spatial to control (or null)
-     */
-    @Override
-    public void setSpatial(Spatial spatial) {
-        if (spatial instanceof Node) {
-            Node node = (Node) spatial;
-            node.attachChild(geom);
-        } else if (spatial == null && this.spatial != null) {
-            Node node = (Node) this.spatial;
-            node.detachChild(geom);
-        }
-        super.setSpatial(spatial);
-    }
-
-    /**
      * Update this control. Invoked once per frame during the logical-state
      * update, provided the control is enabled and added to a scene. Should be
      * invoked only by a subclass or by AbstractControl.
@@ -146,5 +127,24 @@ public class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
 
         bbox.getCenter(center);
         geom.setLocalTranslation(center);
+    }
+
+    /**
+     * Alter which spatial is controlled. Invoked when the control is added to
+     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Spatial. Do not invoke directly from user code.
+     *
+     * @param spatial the spatial to control (or null)
+     */
+    @Override
+    public void setSpatial(Spatial spatial) {
+        if (spatial instanceof Node) {
+            Node node = (Node) spatial;
+            node.attachChild(geom);
+        } else if (spatial == null && this.spatial != null) {
+            Node node = (Node) this.spatial;
+            node.detachChild(geom);
+        }
+        super.setSpatial(spatial);
     }
 }
