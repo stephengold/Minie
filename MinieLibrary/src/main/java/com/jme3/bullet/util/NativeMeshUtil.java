@@ -40,21 +40,27 @@ import java.util.logging.Logger;
  * @author normenhansen
  */
 public class NativeMeshUtil {
+    // *************************************************************************
+    // constants and loggers
 
     /**
      * message logger for this class
      */
     final public static Logger logger
             = Logger.getLogger(NativeMeshUtil.class.getName());
+    // *************************************************************************
+    // constructors
 
     /**
      * A private constructor to inhibit instantiation of this class.
      */
     private NativeMeshUtil() {
     }
+    // *************************************************************************
+    // new methods exposed
 
     /**
-     * Instantiate a btTriangleIndexVertexArray. Native method.
+     * Instantiate a btTriangleIndexVertexArray.
      *
      * @param triangleIndexBase index buffer (not null)
      * @param vertexBase vertex buffer (not null)
@@ -65,7 +71,7 @@ public class NativeMeshUtil {
      * @return the unique identifier of the resulting btTriangleIndexVertexArray
      * (not 0)
      */
-    public static native long createTriangleIndexVertexArray(
+    native public static long createTriangleIndexVertexArray(
             ByteBuffer triangleIndexBase, ByteBuffer vertexBase,
             int numTriangles, int numVertices, int vertexStride,
             int triangleIndexStride);

@@ -104,9 +104,10 @@ class MeshEdge {
     // Object methods
 
     /**
-     * Test whether this MeshEdge is equivalent to another.
+     * Test for exact equivalence with another Object.
      *
      * @param otherObject the object to compare to (may be null)
+     * @return true if the objects are equivalent, otherwise false
      */
     @Override
     public boolean equals(Object otherObject) {

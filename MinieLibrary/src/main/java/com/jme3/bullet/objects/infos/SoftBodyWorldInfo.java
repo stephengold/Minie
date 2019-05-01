@@ -79,11 +79,11 @@ public class SoftBodyWorldInfo {
      * Instantiate an info that refers to the identified native object. Used
      * internally.
      *
-     * @param worldId which native object to reference (not zero)
+     * @param sbwInfo which pre-existing native object to reference (not zero)
      */
-    public SoftBodyWorldInfo(long worldId) {
-        Validate.nonZero(worldId, "id");
-        nativeId = worldId;
+    public SoftBodyWorldInfo(long sbwInfo) {
+        Validate.nonZero(sbwInfo, "native ID");
+        nativeId = sbwInfo;
     }
     // *************************************************************************
     // new methods exposed
@@ -110,7 +110,7 @@ public class SoftBodyWorldInfo {
      * Copy the gravitational acceleration.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return an acceleration vector (in physics-space coordinates, either
+     * @return an acceleration vector in physics-space coordinates (either
      * storeResult or a new vector, not null)
      */
     public Vector3f copyGravity(Vector3f storeResult) {
@@ -163,8 +163,8 @@ public class SoftBodyWorldInfo {
     /**
      * Alter the gravitational acceleration.
      *
-     * @param acceleration the desired acceleration vector (not null,
-     * unaffected, default=0,-10,0)
+     * @param acceleration the desired acceleration vector (in physics-space
+     * coordinates, not null, unaffected, default=(0,-10,0))
      */
     public void setGravity(Vector3f acceleration) {
         setGravity(nativeId, acceleration);
@@ -192,7 +192,7 @@ public class SoftBodyWorldInfo {
      * Alter the water normal.
      *
      * @param normalDirection the desired normal direction (not null,
-     * unaffected, default=0,0,0)
+     * unaffected, default=(0,0,0))
      */
     public void setWaterNormal(Vector3f normalDirection) {
         setWaterNormal(nativeId, normalDirection);
