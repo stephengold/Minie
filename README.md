@@ -469,23 +469,31 @@ due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 YouTube videos about Minie:
 
   + April 2019 walkthru of the DacWizard application
-    https:/www.youtube.com/watch?v=iWyrzZe45jA (8:12)
+    https://www.youtube.com/watch?v=iWyrzZe45jA (8:12)
+    [source code](https://github.com/stephengold/Minie/blob/master/DacWizard/src/main/java/jme3utilities/minie/wizard/DacWizard.java)
   + March 2019 short demo (IK for head/eye directions)
     https://www.youtube.com/watch?v=8zquudx3A1A (1:25)
+    [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/WatchDemo.java)
   + March 2019 teaser (simulating buoyancy)
     https://www.youtube.com/watch?v=eq09m7pbk5A (0:10)
+    [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/BuoyDemo.java)
   + February 2019 demo (simulating rope)
     https://www.youtube.com/watch?v=7PYDAyB5RCE (4:47)
+    [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/RopeDemo.java)
   + December 2018 demo (inverse kinematics)
     https://www.youtube.com/watch?v=ZGqN9ZCCu-8 (6:27)
+    [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/BalanceDemo.java)
   + December 2018 teaser (inverse kinematics)
     https://www.youtube.com/watch?v=fTWQ9m47GIA (0:51)
   + November 2018 demo (single-ended joints):
     https://www.youtube.com/watch?v=Mh9k5AfWzbg (5:50)
+    [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/SeJointDemo.java)
   + November 2018 demo (`MultiSphere`):
     https://www.youtube.com/watch?v=OS2zjB01c6E (0:13)
+    [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/MultiSphereDemo.java)
   + October 2018 demo (`DynamicAnimControl`):
     https://www.youtube.com/watch?v=A1Rii99nb3Q (2:49)
+    [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestDac.java)
 
 [blender]: https://docs.blender.org "Blender Project"
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
