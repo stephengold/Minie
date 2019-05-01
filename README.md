@@ -524,6 +524,8 @@ artists and software developers:
 + Rémy Bouquet (aka "nehon") for co-creating
   `KinematicRagdollControl` (on which `DynamicAnimControl` is based)
   and also for many helpful insights
++ Jules (aka "dokthar") for creating the soft-body fork of jMonkeyEngine
+  from which Minie's soft-body support is derived
 + Paul Speed, for helpful insights
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down.
 + [Nathan Vegdahl][vegdahl], for creating the Puppet model (used in
