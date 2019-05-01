@@ -42,6 +42,7 @@ import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.infos.SoftBodyWorldInfo;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -198,6 +199,52 @@ public class PhysicsDescriber extends Describer {
         if (!joint.isEnabled()) {
             result.append(" DISABLED");
         }
+
+        return result.toString();
+    }
+
+    /**
+     * Generate a brief textual description for the specified SoftBodyWorldInfo.
+     *
+     * @param info the info to describe (not null, unaffected)
+     * @return description (not null, not empty)
+     */
+    public String describe(SoftBodyWorldInfo info) {
+        StringBuilder result = new StringBuilder(40);
+
+        result.append("SbwInfo grav[");
+        Vector3f gravity = info.copyGravity(null);
+        String description = MyVector3f.describe(gravity);
+        result.append(description);
+
+        result.append("] offset=");
+        float waterOffset = info.waterOffset();
+        description = MyString.describe(waterOffset);
+        result.append(description);
+
+        result.append(" norm[");
+        Vector3f waterNormal = info.copyWaterNormal(null);
+        description = MyVector3f.describe(waterNormal);
+        result.append(description);
+
+        result.append("] water=");
+        float waterDensity = info.waterDensity();
+        description = MyString.describe(waterDensity);
+        result.append(description);
+
+        result.append(" air=");
+        float airDensity = info.airDensity();
+        description = MyString.describe(airDensity);
+        result.append(description);
+
+        result.append(" maxDisp=");
+        float maxDisplacement = info.maxDisplacement();
+        description = MyString.describe(maxDisplacement);
+        result.append(description);
+
+        result.append(" #");
+        long nativeId = info.nativeId();
+        result.append(Long.toHexString(nativeId));
 
         return result.toString();
     }
@@ -380,7 +427,7 @@ public class PhysicsDescriber extends Describer {
      * Describe the user of a collision object.
      *
      * @param pco the collision object to describe (not null, unaffected)
-     * @return a descriptive string (not null)
+     * @return a descriptive string (not null, may be empty)
      */
     public String describeUser(PhysicsCollisionObject pco) {
         Validate.nonNull(pco, "collision object");
