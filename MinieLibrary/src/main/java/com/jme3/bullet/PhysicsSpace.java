@@ -185,27 +185,27 @@ public class PhysicsSpace {
     final private Map<Integer, PhysicsCollisionGroupListener> collisionGroupListeners
             = new ConcurrentHashMap<>(20);
     /**
-     * map character IDs to objects
+     * map character IDs to added objects
      */
     final private Map<Long, PhysicsCharacter> physicsCharacters
             = new ConcurrentHashMap<>(64);
     /**
-     * map ghost IDs to objects
+     * map ghost IDs to added objects
      */
     final private Map<Long, PhysicsGhostObject> physicsGhostObjects
             = new ConcurrentHashMap<>(64);
     /**
-     * map joint IDs to objects
+     * map joint IDs to added objects
      */
     final private Map<Long, PhysicsJoint> physicsJoints
             = new ConcurrentHashMap<>(64);
     /**
-     * map rigid-body IDs to objects (including vehicles)
+     * map rigid-body IDs to added objects (including vehicles)
      */
     final private Map<Long, PhysicsRigidBody> physicsBodies
             = new ConcurrentHashMap<>(64);
     /**
-     * map vehicle IDs to objects
+     * map vehicle IDs to added objects
      */
     final private Map<Long, PhysicsVehicle> physicsVehicles
             = new ConcurrentHashMap<>(64);
@@ -362,6 +362,8 @@ public class PhysicsSpace {
      * @param obj the PhysicsCollisionObject to add (not null, modified)
      */
     public void addCollisionObject(PhysicsCollisionObject obj) {
+        Validate.nonNull(obj, "object");
+
         if (obj instanceof PhysicsGhostObject) {
             addGhostObject((PhysicsGhostObject) obj);
         } else if (obj instanceof PhysicsRigidBody) {
@@ -429,7 +431,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Count the rigid bodies in this space.
+     * Count the rigid bodies in this space, including vehicles.
      *
      * @return count (&ge;0)
      */
@@ -498,20 +500,20 @@ public class PhysicsSpace {
     }
 
     /**
-     * Copy the set of physics characters that have been added to this space and
-     * not yet removed.
+     * Enumerate physics characters that have been added to this space and not
+     * yet removed.
      *
-     * @return a new set (not null)
+     * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsCharacter> getCharacterList() {
         return new TreeSet<>(physicsCharacters.values());
     }
 
     /**
-     * Copy the set of ghost objects that have been added to this space and not
-     * yet removed.
+     * Enumerate ghost objects that have been added to this space and not yet
+     * removed.
      *
-     * @return a new set (not null)
+     * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsGhostObject> getGhostObjectList() {
         return new TreeSet<>(physicsGhostObjects.values());
@@ -521,30 +523,30 @@ public class PhysicsSpace {
      * Copy the gravitational acceleration for newly-added bodies.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the acceleration vector (either storeResult or a new instance)
+     * @return the acceleration vector (in physics-space coordinates, either
+     * storeResult or a new instance, not null)
      */
     public Vector3f getGravity(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         result.set(gravity);
-
         return result;
     }
 
     /**
-     * Copy the set of physics joints that have been added to this space and not
-     * yet removed.
+     * Enumerate physics joints that have been added to this space and not yet
+     * removed.
      *
-     * @return a new set (not null)
+     * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsJoint> getJointList() {
         return new TreeSet<>(physicsJoints.values());
     }
 
     /**
-     * Copy the set of collision objects that have been added to this space and
-     * not yet removed.
+     * Enumerate collision objects that have been added to this space and not
+     * yet removed.
      *
-     * @return a new set (not null, may be empty
+     * @return a new collection of pre-existing instances (not null)
      */
     @SuppressWarnings("unchecked")
     public Collection<PhysicsCollisionObject> getPcoList() {
@@ -578,10 +580,10 @@ public class PhysicsSpace {
     }
 
     /**
-     * Copy the set of rigid bodies that have been added to this space and not
-     * yet removed.
+     * Enumerate rigid bodies (including vehicles) that have been added to this
+     * space and not yet removed.
      *
-     * @return a new set (not null)
+     * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsRigidBody> getRigidBodyList() {
         return new TreeSet<>(physicsBodies.values());
@@ -597,19 +599,19 @@ public class PhysicsSpace {
     }
 
     /**
-     * Used internally.
+     * Read the unique identifier of the native object.
      *
-     * @return the dynamicsWorld
+     * @return the ID (not zero)
      */
     public long getSpaceId() {
         return physicsSpaceId;
     }
 
     /**
-     * Copy the set of physics vehicles that have been added to this space and
-     * not yet removed.
+     * Enumerate physics vehicles that have been added to this space and not yet
+     * removed.
      *
-     * @return a new set (not null)
+     * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsVehicle> getVehicleList() {
         return new TreeSet<>(physicsVehicles.values());
@@ -910,7 +912,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Alter the accuracy (time step) of the physics simulation.
+     * Alter the accuracy (time step) of the physics simulation. TODO re-order
      * <p>
      * In general, the smaller the time step, the more accurate (and
      * compute-intensive) the simulation will be. Bullet works best with a time
@@ -1318,7 +1320,7 @@ public class PhysicsSpace {
         stepSimulation(physicsSpaceId, time, maxSteps, accuracy);
     }
     // *************************************************************************
-    // native private methods
+    // native private methods TODO rename args
 
     native private void addAction(long space, long id);
 
