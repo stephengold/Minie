@@ -62,7 +62,9 @@ import jme3utilities.math.MyVector3f;
  *
  * @author normenhansen
  */
-public class PhysicsRigidBody extends PhysicsCollisionObject {
+public class PhysicsRigidBody
+        extends PhysicsCollisionObject
+        implements PhysicsBody {
     // *************************************************************************
     // constants and loggers
 
@@ -159,17 +161,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Do not invoke directly! Joints are added automatically when created.
-     *
-     * @param joint the joint to add (not null)
-     */
-    public void addJoint(PhysicsJoint joint) {
-        if (!joints.contains(joint)) {
-            joints.add(joint);
-        }
-    }
-
-    /**
      * Apply a central force to the body. Effective only if the next physics
      * update steps the physics.
      * <p>
@@ -249,21 +240,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
      */
     public void clearForces() {
         clearForces(objectId);
-    }
-
-    /**
-     * Count how many joints are connected to this body.
-     *
-     * @return the count (&ge;0) or 0 if the body isn't added to any
-     * PhysicsSpace
-     */
-    public int countJoints() {
-        int result = 0;
-        if (isInWorld()) {
-            result = joints.size();
-        }
-
-        return result;
     }
 
     /**
@@ -356,19 +332,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Copy this body's gravitational acceleration.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return an acceleration vector (in physics-space units per second
-     * squared, either storeResult or a new vector, not null)
-     */
-    public Vector3f getGravity(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getGravity(objectId, result);
-        return result;
-    }
-
-    /**
      * Copy the principal (diagonal) elements of the inverse inertia tensor in
      * the body's local coordinates.
      *
@@ -455,15 +418,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Read this body's mass.
-     *
-     * @return the mass (&gt;0) or zero for a static body
-     */
-    public float getMass() {
-        return mass;
-    }
-
-    /**
      * Access this body's motion state.
      *
      * @return the pre-existing instance
@@ -492,24 +446,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         Vector3f result = collisionShape.getScale(storeResult);
 
         assert Vector3f.isValidVector(result);
-        return result;
-    }
-
-    /**
-     * Copy the transform of this body, including the scale of its shape.
-     *
-     * @param storeResult (modified if not null)
-     * @return the transform (in physics-space coordinates, either storeResult
-     * of a new object, not null)
-     */
-    public Transform getPhysicsTransform(Transform storeResult) {
-        Transform result
-                = (storeResult == null) ? new Transform() : storeResult;
-
-        motionState.getLocation(result.getTranslation());
-        motionState.getOrientation(result.getRotation());
-        getPhysicsScale(result.getScale());
-
         return result;
     }
 
@@ -561,25 +497,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Enumerate the joints connected to this body.
-     *
-     * @return a new array of pre-existing joints, or null if this body is not
-     * added to any space
-     */
-    public PhysicsJoint[] listJoints() {
-        PhysicsJoint[] result;
-        if (isInWorld()) {
-            int numJoints = joints.size();
-            result = new PhysicsJoint[numJoints];
-            joints.toArray(result);
-        } else {
-            result = null;
-        }
-
-        return result;
-    }
-
-    /**
      * Calculate the mechanical energy of this body (kinetic + potential)
      * assuming a uniform gravitational field. The body must be in dynamic mode.
      *
@@ -594,15 +511,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         double result = potentialEnergy + kineticEnergy();
 
         return result;
-    }
-
-    /**
-     * Do not invoke directly! Joints are removed automatically when destroyed.
-     *
-     * @param joint the joint to remove (not null)
-     */
-    public void removeJoint(PhysicsJoint joint) {
-        joints.remove(joint);
     }
 
     /**
@@ -709,19 +617,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter this body's gravitational acceleration.
-     * <p>
-     * Invoke this method <em>after</em> adding the body to a PhysicsSpace.
-     * Adding a body to a PhysicsSpace alters its gravity.
-     *
-     * @param gravity the desired acceleration vector (in physics-space units
-     * per second squared, not null, unaffected)
-     */
-    public void setGravity(Vector3f gravity) {
-        setGravity(objectId, gravity);
-    }
-
-    /**
      * Alter the principal (diagonal) components of the local inertia tensor in
      * the body's local coordinates.
      *
@@ -794,52 +689,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter this body's mass. Bodies with mass=0 are static. For dynamic
-     * bodies, it is best to keep the mass on the order of 1.
-     *
-     * @param mass the desired mass (&gt;0) or 0 for a static body (default=1)
-     */
-    public void setMass(float mass) {
-        Validate.nonNegative(mass, "mass");
-        if (mass != massForStatic) {
-            validateDynamicShape(collisionShape);
-        }
-        assert objectId != 0L;
-        assert collisionShape != null;
-
-        if (mass == this.mass) {
-            return;
-        }
-        this.mass = mass;
-        updateMassProps(objectId, collisionShape.getObjectId(), mass);
-
-        int flags = getCollisionFlags(objectId);
-        if (mass == massForStatic) {
-            flags |= CollisionFlag.STATIC_OBJECT;
-        } else {
-            flags &= ~CollisionFlag.STATIC_OBJECT;
-        }
-        setCollisionFlags(objectId, flags);
-    }
-
-    /**
-     * Directly alter the location of this body's center of mass.
-     *
-     * @param location the desired location (in physics-space coordinates, not
-     * null, unaffected)
-     */
-    public void setPhysicsLocation(Vector3f location) {
-        Validate.finite(location, "location");
-        if (collisionShape instanceof HeightfieldCollisionShape
-                && (location.x != 0f || location.z != 0f)) {
-            throw new IllegalArgumentException(
-                    "No horizontal translation of heightfields.");
-        }
-
-        setPhysicsLocation(objectId, location);
-    }
-
-    /**
      * Directly alter this body's orientation.
      *
      * @param rotation the desired orientation (rotation matrix in physics-space
@@ -849,22 +698,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         Validate.nonNull(rotation, "rotation");
         if (collisionShape instanceof HeightfieldCollisionShape
                 && !rotation.isIdentity()) {
-            throw new IllegalArgumentException("No rotation of heightfields.");
-        }
-
-        setPhysicsRotation(objectId, rotation);
-    }
-
-    /**
-     * Directly alter this body's orientation.
-     *
-     * @param rotation the desired orientation (unit quaternion in physics-space
-     * coordinates, not null, unaffected)
-     */
-    public void setPhysicsRotation(Quaternion rotation) {
-        Validate.nonNull(rotation, "rotation");
-        if (collisionShape instanceof HeightfieldCollisionShape
-                && !MyQuaternion.isRotationIdentity(rotation)) {
             throw new IllegalArgumentException("No rotation of heightfields.");
         }
 
@@ -889,20 +722,6 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
             shape.setScale(newScale);
             setCollisionShape(shape);
         }
-    }
-
-    /**
-     * Alter this body's transform, including the scale of its shape. Note that
-     * if it has joints, their pivot points will not be adjusted for scale
-     * changes.
-     *
-     * @param newTransform the desired transform (in physics-space coordinates,
-     * not null, unaffected)
-     */
-    public void setPhysicsTransform(Transform newTransform) {
-        setPhysicsLocation(newTransform.getTranslation());
-        setPhysicsRotation(newTransform.getRotation());
-        setPhysicsScale(newTransform.getScale());
     }
 
     /**
@@ -966,6 +785,203 @@ public class PhysicsRigidBody extends PhysicsCollisionObject {
         if (removed) {
             PhysicsSpace.getPhysicsSpace().add(this);
         }
+    }
+    // *************************************************************************
+    // PhysicsBody methods
+
+    /**
+     * Do not invoke directly! Joints are added automatically when created.
+     *
+     * @param joint the joint to add (not null)
+     */
+    @Override
+    public void addJoint(PhysicsJoint joint) {
+        if (!joints.contains(joint)) {
+            joints.add(joint);
+        }
+    }
+
+    /**
+     * Count how many joints connect to this body.
+     *
+     * @return the count (&ge;0) or 0 if the body isn't added to any
+     * PhysicsSpace
+     */
+    @Override
+    public int countJoints() {
+        int result = 0;
+        if (isInWorld()) {
+            result = joints.size();
+        }
+
+        return result;
+    }
+
+    /**
+     * Copy this body's gravitational acceleration.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return an acceleration vector in physics-space coordinates (either
+     * storeResult or a new vector, not null)
+     */
+    @Override
+    public Vector3f getGravity(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        getGravity(objectId, result);
+        return result;
+    }
+
+    /**
+     * Read this body's mass.
+     *
+     * @return the mass (&gt;0) or zero for a static body
+     */
+    @Override
+    public float getMass() {
+        return mass;
+    }
+
+    /**
+     * Copy the transform of this body, including the scale of its shape.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the transform (relative to physics-space coordinates, either
+     * storeResult of a new object, not null)
+     */
+    @Override
+    public Transform getPhysicsTransform(Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+
+        motionState.getLocation(result.getTranslation());
+        motionState.getOrientation(result.getRotation());
+        getPhysicsScale(result.getScale());
+
+        return result;
+    }
+
+    /**
+     * Enumerate the joints connected to this body.
+     *
+     * @return a new array of pre-existing joints, or null if this body is not
+     * added to any space
+     */
+    @Override
+    public PhysicsJoint[] listJoints() {
+        PhysicsJoint[] result;
+        if (isInWorld()) {
+            int numJoints = joints.size();
+            result = new PhysicsJoint[numJoints];
+            joints.toArray(result);
+        } else {
+            result = null;
+        }
+
+        return result;
+    }
+
+    /**
+     * Do not invoke directly! Joints are removed automatically when destroyed.
+     *
+     * @param joint the joint to remove (not null)
+     */
+    @Override
+    public void removeJoint(PhysicsJoint joint) {
+        joints.remove(joint);
+    }
+
+    /**
+     * Alter this body's gravitational acceleration.
+     * <p>
+     * Invoke this method <em>after</em> adding the body to a PhysicsSpace.
+     * Adding a body to a PhysicsSpace alters its gravity.
+     *
+     * @param gravity the desired acceleration vector (in physics-space
+     * coordinates, not null, unaffected)
+     */
+    @Override
+    public void setGravity(Vector3f gravity) {
+        setGravity(objectId, gravity);
+    }
+
+    /**
+     * Alter this body's mass. Bodies with mass=0 are static. For dynamic
+     * bodies, it is best to keep the mass on the order of 1.
+     *
+     * @param mass the desired mass (&gt;0) or 0 for a static body (default=1)
+     */
+    @Override
+    public void setMass(float mass) {
+        Validate.nonNegative(mass, "mass");
+        if (mass != massForStatic) {
+            validateDynamicShape(collisionShape);
+        }
+        assert objectId != 0L;
+        assert collisionShape != null;
+
+        if (mass == this.mass) {
+            return;
+        }
+        this.mass = mass;
+        updateMassProps(objectId, collisionShape.getObjectId(), mass);
+
+        int flags = getCollisionFlags(objectId);
+        if (mass == massForStatic) {
+            flags |= CollisionFlag.STATIC_OBJECT;
+        } else {
+            flags &= ~CollisionFlag.STATIC_OBJECT;
+        }
+        setCollisionFlags(objectId, flags);
+    }
+
+    /**
+     * Directly relocate this body's center of mass.
+     *
+     * @param location the desired location (in physics-space coordinates, not
+     * null, unaffected)
+     */
+    @Override
+    public void setPhysicsLocation(Vector3f location) {
+        Validate.finite(location, "location");
+        if (collisionShape instanceof HeightfieldCollisionShape
+                && (location.x != 0f || location.z != 0f)) {
+            throw new IllegalArgumentException(
+                    "No horizontal translation of heightfields.");
+        }
+
+        setPhysicsLocation(objectId, location);
+    }
+
+    /**
+     * Directly reorient this body.
+     *
+     * @param rotation the desired orientation (unit quaternion in physics-space
+     * coordinates, not null, unaffected)
+     */
+    @Override
+    public void setPhysicsRotation(Quaternion rotation) {
+        Validate.nonNull(rotation, "rotation");
+        if (collisionShape instanceof HeightfieldCollisionShape
+                && !MyQuaternion.isRotationIdentity(rotation)) {
+            throw new IllegalArgumentException("No rotation of heightfields.");
+        }
+
+        setPhysicsRotation(objectId, rotation);
+    }
+
+    /**
+     * Alter this body's transform, including the scale of its shape. If the
+     * body has joints, their pivot points will not be adjusted for scale
+     * changes.
+     *
+     * @param newTransform the desired transform (in physics-space coordinates,
+     * not null, unaffected)
+     */
+    @Override
+    public void setPhysicsTransform(Transform newTransform) {
+        setPhysicsLocation(newTransform.getTranslation());
+        setPhysicsRotation(newTransform.getRotation());
+        setPhysicsScale(newTransform.getScale());
     }
     // *************************************************************************
     // PhysicsCollisionObject methods
