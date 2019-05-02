@@ -31,10 +31,13 @@
  */
 package com.jme3.bullet.objects.infos;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Named collision flags for use with a PhysicsSoftBody.Config
+ * Named collision flags for use with a PhysicsSoftBody.Config TODO rename
+ * ConfigFlag
  *
  * @author Stephen Gold sgold@sonic.net
  * @see com.jme3.bullet.objects.PhysicsSoftBody.Config#getCollisionsFlags(long)
@@ -75,5 +78,45 @@ public class ConfigFlags {
      * A private constructor to inhibit instantiation of this class.
      */
     private ConfigFlags() {
+    }
+    // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Generate a textual description of the specified flags.
+     *
+     * @param flags the config flags to describe
+     * @return description (not null, may be empty)
+     */
+    public static String describe(int flags) {
+        List<String> flagList = new ArrayList<>(5);
+        if ((flags & SDF_RS) != 0) {
+            flagList.add("SDF_RS");
+        }
+        if ((flags & CL_RS) != 0) {
+            flagList.add("CL_RS");
+        }
+        if ((flags & VF_SS) != 0) {
+            flagList.add("VF_SS");
+        }
+        if ((flags & CL_SS) != 0) {
+            flagList.add("CL_SS");
+        }
+        if ((flags & CL_SELF) != 0) {
+            flagList.add("CL_SELF");
+        }
+
+        StringBuilder result = new StringBuilder(40);
+        boolean addSeparators = false;
+        for (String flagName : flagList) {
+            if (addSeparators) {
+                result.append(',');
+            } else {
+                addSeparators = true;
+            }
+            result.append(flagName);
+        }
+
+        return result.toString();
     }
 }
