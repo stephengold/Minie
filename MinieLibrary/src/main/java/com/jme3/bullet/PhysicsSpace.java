@@ -859,6 +859,20 @@ public class PhysicsSpace {
     }
 
     /**
+     * Alter the accuracy (time step) of the physics simulation.
+     * <p>
+     * In general, the smaller the time step, the more accurate (and
+     * compute-intensive) the simulation will be. Bullet works best with a time
+     * step of no more than 1/60 second.
+     *
+     * @param accuracy the desired time step (in seconds, &gt;0, default=1/60)
+     */
+    public void setAccuracy(float accuracy) {
+        Validate.positive(accuracy, "accuracy");
+        this.accuracy = accuracy;
+    }
+
+    /**
      * Alter the gravitational acceleration acting on newly-added bodies.
      * <p>
      * Whenever a rigid body is added to a space, the body's gravity gets set to
@@ -907,20 +921,6 @@ public class PhysicsSpace {
      */
     public void setRayTestFlags(int flags) {
         rayTestFlags = flags;
-    }
-
-    /**
-     * Alter the accuracy (time step) of the physics simulation. TODO re-order
-     * <p>
-     * In general, the smaller the time step, the more accurate (and
-     * compute-intensive) the simulation will be. Bullet works best with a time
-     * step of no more than 1/60 second.
-     *
-     * @param accuracy the desired time step (in seconds, &gt;0, default=1/60)
-     */
-    public void setAccuracy(float accuracy) {
-        Validate.positive(accuracy, "accuracy");
-        this.accuracy = accuracy;
     }
 
     /**
