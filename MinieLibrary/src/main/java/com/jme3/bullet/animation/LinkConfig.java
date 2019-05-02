@@ -454,14 +454,17 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     // Object methods
 
     /**
-     * Test whether this LinkConfig is equivalent to another.
+     * Test for exact equivalence with another Object.
      *
      * @param otherObject the object to compare to (may be null)
+     * @return true if the objects are equivalent, otherwise false
      */
     @Override
     public boolean equals(Object otherObject) {
         boolean result = false;
-        if (otherObject instanceof LinkConfig) {
+        if (otherObject == this) {
+            result = true;
+        } else if (otherObject instanceof LinkConfig) {
             LinkConfig other = (LinkConfig) otherObject;
             result = centerHeuristic == other.centerHeuristic
                     && Float.compare(massParameter, other.massParameter) == 0
