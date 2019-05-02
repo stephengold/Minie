@@ -31,6 +31,8 @@
  */
 package com.jme3.bullet;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -73,5 +75,42 @@ public class RayTestFlag {
      * A private constructor to inhibit instantiation of this class.
      */
     private RayTestFlag() {
+    }
+    // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Generate a textual description of the specified flags.
+     *
+     * @param flags the ray-test flags to describe
+     * @return description (not null, may be empty)
+     */
+    public static String describe(int flags) {
+        List<String> flagList = new ArrayList<>(4);
+        if ((flags & FilterBackfaces) != 0) {
+            flagList.add("FilterBackfaces");
+        }
+        if ((flags & KeepUnflippedNormal) != 0) {
+            flagList.add("KeepUnflippedNormal");
+        }
+        if ((flags & SubSimplexRaytest) != 0) {
+            flagList.add("SubSimplex");
+        }
+        if ((flags & GjkRaytest) != 0) {
+            flagList.add("Gjk");
+        }
+
+        StringBuilder result = new StringBuilder(40);
+        boolean addSeparators = false;
+        for (String flagName : flagList) {
+            if (addSeparators) {
+                result.append(',');
+            } else {
+                addSeparators = true;
+            }
+            result.append(flagName);
+        }
+
+        return result.toString();
     }
 }

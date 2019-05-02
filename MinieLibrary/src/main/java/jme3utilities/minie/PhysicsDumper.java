@@ -29,6 +29,7 @@ package jme3utilities.minie;
 import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
@@ -164,7 +165,7 @@ public class PhysicsDumper extends Dumper {
         Validate.nonNull(indent, "indent");
 
         long objectId = body.getObjectId();
-        stream.printf("%n%sBody #%s ", indent, Long.toHexString(objectId));
+        stream.printf("%n%sRigid #%s ", indent, Long.toHexString(objectId));
 
         String desc = MyPco.describe(body);
         stream.print(desc);
@@ -257,20 +258,21 @@ public class PhysicsDumper extends Dumper {
         int numCharacters = characters.size();
         Collection<PhysicsGhostObject> ghosts = space.getGhostObjectList();
         int numGhosts = ghosts.size();
-        stream.printf("%n%s%s #%s contains %d character%s, %d ghost%s, ",
+        stream.printf("%n%s%s #%s with %d char%s, %d ghost%s, ",
                 indent, type, Long.toHexString(spaceId),
                 numCharacters, (numCharacters == 1) ? "" : "s",
                 numGhosts, (numGhosts == 1) ? "" : "s");
 
         Collection<PhysicsJoint> joints = space.getJointList();
         int numJoints = joints.size();
+        stream.printf("%d joint%s, ", numJoints, (numJoints == 1) ? "" : "s");
+
         Collection<PhysicsRigidBody> rigidBodies = space.getRigidBodyList();
-        int numBodies = rigidBodies.size();
+        int numRigids = rigidBodies.size();
         Collection<PhysicsVehicle> vehicles = space.getVehicleList();
         int numVehicles = vehicles.size();
-        stream.printf("%d joint%s, %d rigid bod%s, and %d vehicle%s",
-                numJoints, (numJoints == 1) ? "" : "s",
-                numBodies, (numBodies == 1) ? "y" : "ies",
+        stream.printf("%d rigid%s, %d vehicle%s",
+                numRigids, (numRigids == 1) ? "" : "s",
                 numVehicles, (numVehicles == 1) ? "" : "s");
         /*
          * 2nd line
@@ -281,7 +283,7 @@ public class PhysicsDumper extends Dumper {
         Vector3f gravity = space.getGravity(null);
         String gravString = MyVector3f.describe(gravity);
         int maxSubSteps = space.maxSubSteps();
-        stream.printf("%n%s accu=%s, bphase=%s, grav[%s], maxStep=%d",
+        stream.printf("%n%s accu=%s bphase=%s grav[%s] maxStep=%d",
                 indent, accuString, broadphaseType, gravString, maxSubSteps);
         /*
          * 3rd line
@@ -289,12 +291,12 @@ public class PhysicsDumper extends Dumper {
         int numIterations = space.getSolverNumIterations();
         int rayTestFlags = space.getRayTestFlags();
         PhysicsDescriber describer = getDescriber();
-        String rtText = describer.describeRayTestFlags(rayTestFlags);
+        String rtText = RayTestFlag.describe(rayTestFlags);
         Vector3f worldMin = space.getWorldMin(null);
         String minString = MyVector3f.describe(worldMin);
         Vector3f worldMax = space.getWorldMax(null);
         String maxString = MyVector3f.describe(worldMax);
-        stream.printf("%n%s iters=%d, rayTest(%s), worldMin[%s], worldMax[%s]",
+        stream.printf("%n%s iters=%d rayTest[%s] worldMin[%s] worldMax[%s]",
                 indent, numIterations, rtText, minString, maxString);
 
         if (dumpPcos) {
@@ -316,7 +318,7 @@ public class PhysicsDumper extends Dumper {
         if (dumpJointsInSpaces) {
             String moreIndent = indent + indentIncrement();
             for (PhysicsJoint joint : joints) {
-                String desc = getDescriber().describeJointInSpace(joint);
+                String desc = describer.describeJointInSpace(joint);
                 stream.printf("%n%s%s", moreIndent, desc);
             }
         }
