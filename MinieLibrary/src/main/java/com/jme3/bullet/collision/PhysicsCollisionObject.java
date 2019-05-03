@@ -142,7 +142,7 @@ abstract public class PhysicsCollisionObject
     // fields
 
     /**
-     * shape of this object (not null) TODO privatize
+     * shape of this object, or null if none TODO privatize
      */
     protected CollisionShape collisionShape;
     /**
@@ -166,7 +166,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Unique identifier of the btCollisionObject. Constructors are responsible
      * for setting this to a non-zero value. The ID might change if the object
-     * gets rebuilt. TODO privatize
+     * gets rebuilt. TODO privatize and rename nativeId
      */
     protected long objectId = 0L;
     /**
@@ -206,12 +206,17 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Calculate an axis-aligned bounding box for this object.
+     * Calculate an axis-aligned bounding box for this object, based on its
+     * collision shape.
      *
      * @param storeResult (modified if not null)
-     * @return a bounding box (either storeResult or a new instance, not null)
+     * @return a bounding box (either storeResult or a new instance) or null if
+     * the object has no collision shape
      */
     public BoundingBox boundingBox(BoundingBox storeResult) {
+        if (collisionShape == null) {
+            return null;
+        }
         BoundingBox result
                 = (storeResult == null) ? new BoundingBox() : storeResult;
 
@@ -312,7 +317,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Access the shape of this object.
+     * Access the collision shape of this object.
      *
      * @return the pre-existing instance, or null if none
      */
