@@ -58,7 +58,7 @@ import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A collision object for a rigid body, based on Bullet's btRigidBody.
+ * A collision object to simulate a rigid body, based on Bullet's btRigidBody.
  *
  * @author normenhansen
  */
@@ -691,17 +691,17 @@ public class PhysicsRigidBody
     /**
      * Directly alter this body's orientation.
      *
-     * @param rotation the desired orientation (rotation matrix in physics-space
-     * coordinates, not null, unaffected)
+     * @param orientation the desired orientation (rotation matrix in
+     * physics-space coordinates, not null, unaffected)
      */
-    public void setPhysicsRotation(Matrix3f rotation) {
-        Validate.nonNull(rotation, "rotation");
+    public void setPhysicsRotation(Matrix3f orientation) {
+        Validate.nonNull(orientation, "rotation");
         if (collisionShape instanceof HeightfieldCollisionShape
-                && !rotation.isIdentity()) {
+                && !orientation.isIdentity()) {
             throw new IllegalArgumentException("No rotation of heightfields.");
         }
 
-        setPhysicsRotation(objectId, rotation);
+        setPhysicsRotation(objectId, orientation);
     }
 
     /**
@@ -796,6 +796,8 @@ public class PhysicsRigidBody
      */
     @Override
     public void addJoint(PhysicsJoint joint) {
+        Validate.nonNull(joint, "joint");
+
         if (!joints.contains(joint)) {
             joints.add(joint);
         }
@@ -804,7 +806,7 @@ public class PhysicsRigidBody
     /**
      * Count how many joints connect to this body.
      *
-     * @return the count (&ge;0) or 0 if the body isn't added to any
+     * @return the count (&ge;0) or 0 if this body isn't added to any
      * PhysicsSpace
      */
     @Override
@@ -845,8 +847,8 @@ public class PhysicsRigidBody
      * Copy the transform of this body, including the scale of its shape.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the transform (relative to physics-space coordinates, either
-     * storeResult of a new object, not null)
+     * @return a transform (relative to physics-space coordinates, either
+     * storeResult or a new instance)
      */
     @Override
     public Transform getPhysicsTransform(Transform storeResult) {
@@ -864,7 +866,7 @@ public class PhysicsRigidBody
      * Enumerate the joints connected to this body.
      *
      * @return a new array of pre-existing joints, or null if this body is not
-     * added to any space
+     * added to any PhysicsSpace
      */
     @Override
     public PhysicsJoint[] listJoints() {
@@ -887,21 +889,23 @@ public class PhysicsRigidBody
      */
     @Override
     public void removeJoint(PhysicsJoint joint) {
+        Validate.nonNull(joint, "joint");
         joints.remove(joint);
     }
 
     /**
      * Alter this body's gravitational acceleration.
      * <p>
-     * Invoke this method <em>after</em> adding the body to a PhysicsSpace.
+     * Invoke this method <em>after</em> adding this body to a PhysicsSpace.
      * Adding a body to a PhysicsSpace alters its gravity.
      *
-     * @param gravity the desired acceleration vector (in physics-space
+     * @param acceleration the desired acceleration vector (in physics-space
      * coordinates, not null, unaffected)
      */
     @Override
-    public void setGravity(Vector3f gravity) {
-        setGravity(objectId, gravity);
+    public void setGravity(Vector3f acceleration) {
+        Validate.nonNull(acceleration, "acceleration");
+        setGravity(objectId, acceleration);
     }
 
     /**
@@ -955,33 +959,33 @@ public class PhysicsRigidBody
     /**
      * Directly reorient this body.
      *
-     * @param rotation the desired orientation (unit quaternion in physics-space
+     * @param orientation the desired orientation (relative to physics-space
      * coordinates, not null, unaffected)
      */
     @Override
-    public void setPhysicsRotation(Quaternion rotation) {
-        Validate.nonNull(rotation, "rotation");
+    public void setPhysicsRotation(Quaternion orientation) {
+        Validate.nonNull(orientation, "orientation");
         if (collisionShape instanceof HeightfieldCollisionShape
-                && !MyQuaternion.isRotationIdentity(rotation)) {
+                && !MyQuaternion.isRotationIdentity(orientation)) {
             throw new IllegalArgumentException("No rotation of heightfields.");
         }
 
-        setPhysicsRotation(objectId, rotation);
+        setPhysicsRotation(objectId, orientation);
     }
 
     /**
-     * Alter this body's transform, including the scale of its shape. If the
-     * body has joints, their pivot points will not be adjusted for scale
+     * Directly alter this body's transform, including the scale of its shape.
+     * If the body has joints, their pivot points will not be adjusted for scale
      * changes.
      *
-     * @param newTransform the desired transform (in physics-space coordinates,
-     * not null, unaffected)
+     * @param transform the desired transform (relative to physics-space
+     * coordinates, not null, unaffected)
      */
     @Override
-    public void setPhysicsTransform(Transform newTransform) {
-        setPhysicsLocation(newTransform.getTranslation());
-        setPhysicsRotation(newTransform.getRotation());
-        setPhysicsScale(newTransform.getScale());
+    public void setPhysicsTransform(Transform transform) {
+        setPhysicsLocation(transform.getTranslation());
+        setPhysicsRotation(transform.getRotation());
+        setPhysicsScale(transform.getScale());
     }
     // *************************************************************************
     // PhysicsCollisionObject methods
@@ -1044,7 +1048,7 @@ public class PhysicsRigidBody
      * De-serialize this body, for example when loading from a J3O file.
      *
      * @param im the importer (not null)
-     * @throws IOException from importer
+     * @throws IOException from the importer
      */
     @Override
     @SuppressWarnings("unchecked")

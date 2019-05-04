@@ -79,11 +79,12 @@ public class SoftBodyWorldInfo {
      * Instantiate an info that refers to the identified native object. Used
      * internally.
      *
-     * @param sbwInfo which pre-existing native object to reference (not zero)
+     * @param nativeId the pre-existing btSoftBodyWorldInfo to refer to (not
+     * zero)
      */
-    public SoftBodyWorldInfo(long sbwInfo) {
-        Validate.nonZero(sbwInfo, "native ID");
-        nativeId = sbwInfo;
+    public SoftBodyWorldInfo(long nativeId) {
+        Validate.nonZero(nativeId, "native ID");
+        this.nativeId = nativeId;
     }
     // *************************************************************************
     // new methods exposed
@@ -98,12 +99,13 @@ public class SoftBodyWorldInfo {
     }
 
     /**
-     * Copy all parameters of from the specified info.
+     * Copy all parameter values from the specified info.
      *
-     * @param worldInfo the info to copy from (not null)
+     * @param source the info to copy from (not null, unaffected)
      */
-    public void copyAll(SoftBodyWorldInfo worldInfo) {
-        setSoftBodyWorldInfo(nativeId, worldInfo.nativeId());
+    public void copyAll(SoftBodyWorldInfo source) {
+        long sourceId = source.nativeId();
+        setSoftBodyWorldInfo(nativeId, sourceId);
     }
 
     /**
