@@ -68,71 +68,71 @@ abstract public class PhysicsCollisionObject
     /**
      * collideWithGroups bitmask that represents "no groups"
      */
-    public static final int COLLISION_GROUP_NONE = 0x0;
+    final public static int COLLISION_GROUP_NONE = 0x0;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #1
      */
-    public static final int COLLISION_GROUP_01 = 0x0001;
+    final public static int COLLISION_GROUP_01 = 0x0001;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #2
      */
-    public static final int COLLISION_GROUP_02 = 0x0002;
+    final public static int COLLISION_GROUP_02 = 0x0002;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #3
      */
-    public static final int COLLISION_GROUP_03 = 0x0004;
+    final public static int COLLISION_GROUP_03 = 0x0004;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #4
      */
-    public static final int COLLISION_GROUP_04 = 0x0008;
+    final public static int COLLISION_GROUP_04 = 0x0008;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #5
      */
-    public static final int COLLISION_GROUP_05 = 0x0010;
+    final public static int COLLISION_GROUP_05 = 0x0010;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #6
      */
-    public static final int COLLISION_GROUP_06 = 0x0020;
+    final public static int COLLISION_GROUP_06 = 0x0020;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #7
      */
-    public static final int COLLISION_GROUP_07 = 0x0040;
+    final public static int COLLISION_GROUP_07 = 0x0040;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #8
      */
-    public static final int COLLISION_GROUP_08 = 0x0080;
+    final public static int COLLISION_GROUP_08 = 0x0080;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #9
      */
-    public static final int COLLISION_GROUP_09 = 0x0100;
+    final public static int COLLISION_GROUP_09 = 0x0100;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #10
      */
-    public static final int COLLISION_GROUP_10 = 0x0200;
+    final public static int COLLISION_GROUP_10 = 0x0200;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #11
      */
-    public static final int COLLISION_GROUP_11 = 0x0400;
+    final public static int COLLISION_GROUP_11 = 0x0400;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #12
      */
-    public static final int COLLISION_GROUP_12 = 0x0800;
+    final public static int COLLISION_GROUP_12 = 0x0800;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #13
      */
-    public static final int COLLISION_GROUP_13 = 0x1000;
+    final public static int COLLISION_GROUP_13 = 0x1000;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #14
      */
-    public static final int COLLISION_GROUP_14 = 0x2000;
+    final public static int COLLISION_GROUP_14 = 0x2000;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #15
      */
-    public static final int COLLISION_GROUP_15 = 0x4000;
+    final public static int COLLISION_GROUP_15 = 0x4000;
     /**
      * collisionGroup/collideWithGroups bitmask that represents group #16
      */
-    public static final int COLLISION_GROUP_16 = 0x8000;
+    final public static int COLLISION_GROUP_16 = 0x8000;
     /**
      * message logger for this class
      */
@@ -793,10 +793,11 @@ abstract public class PhysicsCollisionObject
 
     /**
      * Read the collision flags of this object. Subclasses are responsible for
-     * cloning/loading/saving these flags.
+     * cloning/loading/saving these flags. Flags are defined in
+     * {@link com.jme3.bullet.collision.CollisionFlag}.
      *
      * @param objectId the ID of the btCollisionObject (not zero)
-     * @return the collision flags (bit mask)
+     * @return the flags that are set, ORed together
      */
     native protected int getCollisionFlags(long objectId);
 
@@ -838,10 +839,11 @@ abstract public class PhysicsCollisionObject
 
     /**
      * Alter the collision flags of this object. Subclasses are responsible for
-     * cloning/loading/saving these flags.
+     * cloning/loading/saving these flags. Flags are defined in
+     * {@link com.jme3.bullet.collision.CollisionFlag}.
      *
      * @param objectId the ID of the btCollisionObject (not zero)
-     * @param desiredFlags the desired collision flags (bit mask)
+     * @param desiredFlags the desired collision flags, ORed together
      */
     native protected void setCollisionFlags(long objectId, int desiredFlags);
 

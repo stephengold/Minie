@@ -112,15 +112,15 @@ public class PhysicsSpace {
     /**
      * index of the X axis
      */
-    public static final int AXIS_X = 0;
+    final public static int AXIS_X = 0;
     /**
      * index of the Y axis
      */
-    public static final int AXIS_Y = 1;
+    final public static int AXIS_Y = 1;
     /**
      * index of the Z axis
      */
-    public static final int AXIS_Z = 2;
+    final public static int AXIS_Z = 2;
     /**
      * message logger for this class
      */

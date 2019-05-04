@@ -49,23 +49,23 @@ public class ConfigFlags {
     /**
      * enable the SDF-based handler for rigid-versus-soft collisions
      */
-    public final static int SDF_RS = 0x1;
+    final public static int SDF_RS = 0x1;
     /**
      * enable the Cluster-versus-Convex handler for rigid-versus-soft collisions
      */
-    public final static int CL_RS = 0x2;
+    final public static int CL_RS = 0x2;
     /**
      * enable the Vertex-versus-Face handler for soft-versus-soft collisions
      */
-    public final static int VF_SS = 0x10;
+    final public static int VF_SS = 0x10;
     /**
      * enable the Cluster-versus-Cluster handler for soft-versus-soft collisions
      */
-    public final static int CL_SS = 0x20;
+    final public static int CL_SS = 0x20;
     /**
      * enable self collisions for clusters
      */
-    public final static int CL_SELF = 0x40;
+    final public static int CL_SELF = 0x40;
     /**
      * message logger for this class
      */
