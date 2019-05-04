@@ -49,15 +49,18 @@ import java.io.IOException;
  *
  * @author normenhansen
  */
-public abstract class AbstractPhysicsDebugControl extends AbstractControl {
+abstract public class AbstractPhysicsDebugControl extends AbstractControl {
     // *************************************************************************
     // fields
 
-    final private Quaternion tmp_inverseWorldRotation = new Quaternion();
     /**
      * app state that this control serves
      */
-    protected final BulletDebugAppState debugAppState;
+    final protected BulletDebugAppState debugAppState;
+    /**
+     * temporary storage
+     */
+    final private Quaternion tmp_inverseWorldRotation = new Quaternion();
     // *************************************************************************
     // constructors
 
