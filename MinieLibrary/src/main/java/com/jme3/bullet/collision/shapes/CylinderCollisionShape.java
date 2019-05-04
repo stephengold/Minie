@@ -157,7 +157,7 @@ public class CylinderCollisionShape extends CollisionShape {
      * @return the unscaled half extent for each local axis (either storeResult
      * or a new vector, not null, no negative component)
      */
-    public final Vector3f getHalfExtents(Vector3f storeResult) {
+    public Vector3f getHalfExtents(Vector3f storeResult) {
         assert MyVector3f.isAllNonNegative(halfExtents) : halfExtents;
         if (storeResult == null) {
             return halfExtents.clone();

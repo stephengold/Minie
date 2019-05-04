@@ -298,7 +298,7 @@ public class HullCollisionShape extends CollisionShape {
      * @return the unscaled half extent for each local axis (either storeResult
      * or a new vector, not null, no negative component)
      */
-    public final Vector3f getHalfExtents(Vector3f storeResult) {
+    public Vector3f getHalfExtents(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         result.zero();

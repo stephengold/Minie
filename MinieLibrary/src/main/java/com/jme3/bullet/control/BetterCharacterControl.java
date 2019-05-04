@@ -706,7 +706,7 @@ public class BetterCharacterControl
      * @param worldUpVector The up vector to use, the result direction will be
      * perpendicular to this
      */
-    protected final void calculateNewForward(Quaternion rotation,
+    protected void calculateNewForward(Quaternion rotation,
             Vector3f direction, Vector3f worldUpVector) {
         if (direction == null) {
             return;
