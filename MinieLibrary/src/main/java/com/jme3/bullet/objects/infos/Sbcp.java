@@ -35,6 +35,8 @@ package com.jme3.bullet.objects.infos;
  * Enumerate the float-valued parameters in a PhysicsSoftBody.Config
  *
  * @author Stephen Gold sgold@sonic.net
+ * @see
+ * com.jme3.bullet.objects.PhysicsSoftBody.Config#get(com.jme3.bullet.objects.infos.Sbcp)
  */
 public enum Sbcp {
     // *************************************************************************

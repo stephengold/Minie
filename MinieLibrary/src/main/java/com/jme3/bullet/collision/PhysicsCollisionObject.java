@@ -553,7 +553,7 @@ abstract public class PhysicsCollisionObject
      * @param components the desired friction components (not null, unaffected,
      * default=1,1,1)
      * @param mode the desired friction mode: 0=isotropic, 1=basic anisotropic
-     * friction, 2=anisotropic rolling friction (default=0)
+     * friction, 2=anisotropic rolling friction (default=0) TODO named constants
      */
     public void setAnisotropicFriction(Vector3f components, int mode) {
         Validate.nonNull(components, "components");
