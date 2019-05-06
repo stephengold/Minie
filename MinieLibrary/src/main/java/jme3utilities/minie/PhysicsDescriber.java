@@ -42,6 +42,9 @@ import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.objects.infos.ConfigFlags;
+import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyWorldInfo;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -176,6 +179,22 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
+     * Generate a brief textual description for the specified
+     * PhysicsSoftBody.Material
+     *
+     * @param material the Material to describe (not null, unaffected)
+     * @return description (not null, not empty)
+     */
+    public String describe(PhysicsSoftBody.Material material) {
+        String result = String.format(
+                "Material stiffness[ang=%s lin=%s vol=%s]",
+                MyString.describe(material.getAngularStiffness()),
+                MyString.describe(material.getLinearStiffness()),
+                MyString.describe(material.getVolumeStiffness()));
+        return result;
+    }
+
+    /**
      * Generate a brief textual description for a PhysicsJoint.
      *
      * @param joint (not null, unaffected)
@@ -248,6 +267,78 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
+     * Generate the 1st line of a textual description for the specified
+     * PhysicsSoftBody.Config
+     *
+     * @param config the Config to describe (not null, unaffected)
+     * @return description (not null, not empty)
+     */
+    public String describe1(PhysicsSoftBody.Config config) {
+        StringBuilder result = new StringBuilder(120);
+
+        result.append("Config flags=");
+        int collisionFlags = config.collisionFlags();
+        String description = ConfigFlags.describe(collisionFlags);
+        result.append(description);
+
+        description = String.format(" maxVolRatio=%s timeScale=%s velCorr=%s",
+                MyString.describe(config.get(Sbcp.MaxVolumeRatio)),
+                MyString.describe(config.get(Sbcp.TimeScale)),
+                MyString.describe(config.get(Sbcp.VelocityCorrection)));
+        result.append(description);
+
+        description = String.format(
+                "  coef[damp=%s drag=%s fric=%s lift=%s pose=%s pres=%s volCons=%s]",
+                MyString.describe(config.get(Sbcp.Damping)),
+                MyString.describe(config.get(Sbcp.Drag)),
+                MyString.describe(config.get(Sbcp.DynamicFriction)),
+                MyString.describe(config.get(Sbcp.Lift)),
+                MyString.describe(config.get(Sbcp.PoseMatching)),
+                MyString.describe(config.get(Sbcp.Pressure)),
+                MyString.describe(config.get(Sbcp.VolumeConservation)));
+        result.append(description);
+
+        return result.toString();
+    }
+
+    /**
+     * Generate the 2nd line of a brief textual description for the specified
+     * PhysicsSoftBody.Config
+     *
+     * @param config the Config to describe (not null, unaffected)
+     * @return description (not null, not empty)
+     */
+    public String describe2(PhysicsSoftBody.Config config) {
+        StringBuilder result = new StringBuilder(120);
+
+        String description = String.format(
+                " hardness[a=%s clk=%s clr=%s cls=%s k=%s r=%s s=%s]",
+                MyString.describe(config.get(Sbcp.AnchorHardness)),
+                MyString.describe(config.get(Sbcp.ClusterKineticHardness)),
+                MyString.describe(config.get(Sbcp.ClusterRigidHardness)),
+                MyString.describe(config.get(Sbcp.ClusterSoftHardness)),
+                MyString.describe(config.get(Sbcp.KineticHardness)),
+                MyString.describe(config.get(Sbcp.RigidHardness)),
+                MyString.describe(config.get(Sbcp.SoftHardness)));
+        result.append(description);
+
+        description = String.format("  impSplit[clk=%s clr=%s cls=%s]",
+                MyString.describe(config.get(Sbcp.ClusterKineticSplit)),
+                MyString.describe(config.get(Sbcp.ClusterRigidSplit)),
+                MyString.describe(config.get(Sbcp.ClusterSoftSplit)));
+        result.append(description);
+
+        description = String.format(" nIter[cl=%d drift=%d pos=%d vel=%d]",
+                config.clusterIterations(),
+                config.driftIterations(),
+                config.positionIterations(),
+                config.velocityIterations());
+        result.append(description);
+
+        return result.toString();
+    }
+
+    /**
      * Generate a textual description of a compound shape's children.
      *
      * @param compound shape being described (not null)
@@ -279,6 +370,31 @@ public class PhysicsDescriber extends Describer {
                 result.append(desc);
                 result.append("]");
             }
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Briefly describe the collision group and collide-with groups of the
+     * specified collision object.
+     *
+     * @param pco the object to describe (not null, unaffected)
+     * @return descriptive text (not null, may be empty)
+     */
+    public String describeGroups(PhysicsCollisionObject pco) {
+        StringBuilder result = new StringBuilder(40);
+
+        int group = pco.getCollisionGroup();
+        if (group != PhysicsCollisionObject.COLLISION_GROUP_01) {
+            result.append(" group=0x");
+            result.append(Integer.toString(group, 16));
+        }
+
+        int groupMask = pco.getCollideWithGroups();
+        if (groupMask != PhysicsCollisionObject.COLLISION_GROUP_01) {
+            result.append(" gMask=0x");
+            result.append(Integer.toString(groupMask, 16));
         }
 
         return result.toString();
