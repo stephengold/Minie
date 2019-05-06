@@ -363,6 +363,27 @@ public class PhysicsSoftBody
     }
 
     /**
+     * Copy the center locations of all clusters in this body.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a buffer containing 3 floats per node (either storeResult or a
+     * new buffer)
+     */
+    public FloatBuffer copyClusterCenters(FloatBuffer storeResult) {
+        int numClusters = countClusters();
+        FloatBuffer result;
+        if (storeResult == null) {
+            result = BufferUtils.createFloatBuffer(3 * numClusters);
+        } else {
+            assert storeResult.capacity() == 3 * numClusters;
+            result = storeResult;
+        }
+        getClustersPositions(objectId, result);
+
+        return result;
+    }
+
+    /**
      * Copy the node indices of all faces in this body.
      *
      * @param storeResult (modified if not null)
@@ -447,6 +468,27 @@ public class PhysicsSoftBody
     }
 
     /**
+     * Copy the normal vectors of all nodes in this body.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a buffer containing 3 floats per node (either storeResult or a
+     * new buffer)
+     */
+    public FloatBuffer copyNormals(FloatBuffer storeResult) {
+        int numNodes = countNodes();
+        FloatBuffer result;
+        if (storeResult == null) {
+            result = BufferUtils.createFloatBuffer(3 * numNodes);
+        } else {
+            assert storeResult.capacity() == 3 * numNodes;
+            result = storeResult;
+        }
+        getNodesNormals(objectId, result);
+
+        return result;
+    }
+
+    /**
      * Copy the node indices of all tetrahedra in this body.
      *
      * @param storeResult (modified if not null)
@@ -463,6 +505,27 @@ public class PhysicsSoftBody
             result = storeResult;
         }
         getTetrasIndexes(objectId, result);
+
+        return result;
+    }
+
+    /**
+     * Copy the velocities of all nodes in this body.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a buffer containing 3 floats per node (either storeResult or a
+     * new buffer)
+     */
+    public FloatBuffer copyVelocities(FloatBuffer storeResult) {
+        int numNodes = countNodes();
+        FloatBuffer result;
+        if (storeResult == null) {
+            result = BufferUtils.createFloatBuffer(3 * numNodes);
+        } else {
+            assert storeResult.capacity() == 3 * numNodes;
+            result = storeResult;
+        }
+        getNodesVelocities(objectId, result);
 
         return result;
     }
@@ -587,6 +650,25 @@ public class PhysicsSoftBody
     }
 
     /**
+     * Copy the location of a the indexed node. TODO add clusterLocation()
+     * method
+     *
+     * @param nodeIndex which node (&ge;0)
+     * @param storeResult storage for the result (modified if not null)
+     * @return a location vector (in physics-space coordinates, either
+     * storeResult or a new vector)
+     */
+    public Vector3f nodeLocation(int nodeIndex, Vector3f storeResult) {
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        getNodeLocation(objectId, nodeIndex, result);
+
+        return result;
+    }
+
+    /**
      * Read the mass of a the indexed node.
      *
      * @param nodeIndex which node to read (&ge;0)
@@ -595,6 +677,42 @@ public class PhysicsSoftBody
     public float nodeMass(int nodeIndex) {
         Validate.nonNegative(nodeIndex, "node index");
         return getMass(objectId, nodeIndex);
+    }
+
+    /**
+     * Copy the normal vector of a the indexed node.
+     *
+     * @param nodeIndex which node (&ge;0)
+     * @param storeResult storage for the result (modified if not null)
+     * @return a normal vector (in physics-space coordinates, either storeResult
+     * or a new vector)
+     */
+    public Vector3f nodeNormal(int nodeIndex, Vector3f storeResult) {
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        getNodeNormal(objectId, nodeIndex, result);
+
+        return result;
+    }
+
+    /**
+     * Copy the velocity of a the indexed node.
+     *
+     * @param nodeIndex which node (&ge;0)
+     * @param storeResult storage for the result (modified if not null)
+     * @return a velocity vector (in physics-space coordinates, either
+     * storeResult or a new vector)
+     */
+    public Vector3f nodeVelocity(int nodeIndex, Vector3f storeResult) {
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        getNodeVelocity(objectId, nodeIndex, result);
+
+        return result;
     }
 
     /**
@@ -729,7 +847,8 @@ public class PhysicsSoftBody
     }
 
     /**
-     * Alter the velocities of all nodes to make them identical.
+     * Alter the velocities of all nodes to make them identical. TODO setVelcity
+     * of an indexed node
      *
      * @param velocity the desired velocity vector (in world coordinates, not
      * null, unaffected)
@@ -872,8 +991,8 @@ public class PhysicsSoftBody
      * box isn't updated on every frame.
      *
      * @param storeResult (modified if not null)
-     * @return a transform (relative to physics-space coordinates, not null, either
-     * storeResult or a new instance)
+     * @return a transform (relative to physics-space coordinates, not null,
+     * either storeResult or a new instance)
      */
     @Override
     public Transform getPhysicsTransform(Transform storeResult) {
@@ -1156,6 +1275,9 @@ public class PhysicsSoftBody
 
     native private int getClusterCount(long bodyId);
 
+    native private void getClustersPositions(long bodyId,
+            FloatBuffer storeBuffer);
+
     native private void getFacesIndexes(long bodyId, IntBuffer storeBuffer);
 
     native private void getLinksIndexes(long bodyId, IntBuffer storeBuffer);
@@ -1172,7 +1294,21 @@ public class PhysicsSoftBody
 
     native private int getNbTetras(long bodyId);
 
+    native private void getNodeLocation(long bodyId, int nodeIndex,
+            Vector3f storeVector);
+
+    native private void getNodeNormal(long bodyId, int nodeIndex,
+            Vector3f storeVector);
+
+    native private void getNodesNormals(long bodyId, FloatBuffer storeBuffer);
+
     native private void getNodesPositions(long bodyId, FloatBuffer storeBuffer);
+
+    native private void getNodesVelocities(long bodyId,
+            FloatBuffer storeBuffer);
+
+    native private void getNodeVelocity(long bodyId, int nodeIndex,
+            Vector3f storeVector);
 
     native private void getPhysicsLocation(long bodyId, Vector3f storeVector);
 
