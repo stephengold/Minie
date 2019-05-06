@@ -43,6 +43,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import java.io.PrintStream;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -326,33 +327,21 @@ public class PhysicsDumper extends Dumper {
                         comString);
             }
         }
+        
         if (dumpNodesInSofts) {
             FloatBuffer locations = body.copyLocations(null);
             FloatBuffer masses = body.copyMasses(null);
-            FloatBuffer normals = body.copyNormals(null);
             FloatBuffer velocities = body.copyVelocities(null);
+            IntBuffer linkIndices = body.copyLinks(null);
             for (int nodeIndex = 0; nodeIndex < numNodes; ++nodeIndex) {
+                int degree = frequency(linkIndices, 2 * numLinks, nodeIndex);
                 float nodeMass = masses.get(nodeIndex);
-
-                int floatIndex = 3 * nodeIndex;
-                float x = locations.get(floatIndex);
-                float y = locations.get(floatIndex + 1);
-                float z = locations.get(floatIndex + 2);
-                String locString = MyVector3f.describe(new Vector3f(x, y, z));
-
-                x = normals.get(floatIndex);
-                y = normals.get(floatIndex + 1);
-                z = normals.get(floatIndex + 2);
-                String normString = MyVector3f.describe(new Vector3f(x, y, z));
-
-                x = velocities.get(floatIndex);
-                y = velocities.get(floatIndex + 1);
-                z = velocities.get(floatIndex + 2);
-                String vString = MyVector3f.describe(new Vector3f(x, y, z));
-
-                stream.printf("%n%s  node%d %s kg  loc[%s] norm[%s] v[%s]",
-                        indent, nodeIndex, MyString.describe(nodeMass),
-                        locString, normString, vString);
+                String locString = describeVector(locations, nodeIndex);
+                String vString = describeVector(velocities, nodeIndex);
+                stream.printf(
+                        "%n%s  node%d deg=%d mass=%s loc[%s] v[%s]",
+                        indent, nodeIndex, degree, MyString.describe(nodeMass),
+                        locString, vString);
             }
         }
     }
@@ -691,6 +680,47 @@ public class PhysicsDumper extends Dumper {
     public PhysicsDescriber getDescriber() {
         Describer describer = super.getDescriber();
         PhysicsDescriber result = (PhysicsDescriber) describer;
+
+        return result;
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Generate a textual description of the indexed vector in the specified buffer.
+     * @param buffer the buffer to read (not null, unaffected)
+     * @param vectorIndex the index of the vector in the buffer (&ge;0)
+     * @return descriptive text (not null, not empty)
+     */
+    private static String describeVector(FloatBuffer buffer, int vectorIndex) {
+        int floatIndex = 3 * vectorIndex;
+        float x = buffer.get(floatIndex);
+        float y = buffer.get(floatIndex + 1);
+        float z = buffer.get(floatIndex + 2);
+        Vector3f vector = new Vector3f(x, y, z);
+        String locString = MyVector3f.describe(vector);
+        
+        return locString;
+    }
+
+    /**
+     * Count the number of times the specified integer value occurs in the
+     * specified buffer.
+     *
+     * @param buffer the buffer to read (not null, unaffected)
+     * @param bufferLength the number of integers in the buffer (&ge;0)
+     * @param intValue the value to search for
+     * @return the number of occurrences found (&ge;0)
+     */
+    private static int frequency(IntBuffer buffer, int bufferLength,
+            int intValue) {
+        int result = 0;
+        for (int offset = 0; offset < bufferLength; ++offset) {
+            int bufferValue = buffer.get(offset);
+            if (bufferValue == intValue) {
+                ++result;
+            }
+        }
 
         return result;
     }

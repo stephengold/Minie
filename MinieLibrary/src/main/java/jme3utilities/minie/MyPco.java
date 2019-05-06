@@ -74,10 +74,9 @@ public class MyPco {
             result = "Kin";
         } else {
             float mass = body.getMass();
-            String massText = String.format("%f", mass);
-            massText = MyString.trimFloat(massText);
+            String massText = MyString.describe(mass);
             String activeText = body.isActive() ? "" : "/inactive";
-            result = String.format("Dyn(%s kg)%s", massText, activeText);
+            result = String.format("Dyn(mass=%s)%s", massText, activeText);
         }
 
         if (!body.isContactResponse()) {

@@ -328,7 +328,7 @@ public class PhysicsDescriber extends Describer {
                 MyString.describe(config.get(Sbcp.ClusterSoftSplit)));
         result.append(description);
 
-        description = String.format(" nIter[cl=%d drift=%d pos=%d vel=%d]",
+        description = String.format("  nIter[cl=%d drift=%d pos=%d vel=%d]",
                 config.clusterIterations(),
                 config.driftIterations(),
                 config.positionIterations(),
