@@ -28,6 +28,7 @@ package jme3utilities.minie;
 
 import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -42,6 +43,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import java.io.PrintStream;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
@@ -390,10 +392,16 @@ public class PhysicsDumper extends Dumper {
 
         Collection<PhysicsRigidBody> rigidBodies = space.getRigidBodyList();
         int numRigids = rigidBodies.size();
+        Collection<PhysicsSoftBody> softBodies = new ArrayList<>(0);
+        if (space instanceof PhysicsSoftSpace) {
+            softBodies = ((PhysicsSoftSpace) space).getSoftBodyList();
+        }
+        int numSofts = softBodies.size();
         Collection<PhysicsVehicle> vehicles = space.getVehicleList();
         int numVehicles = vehicles.size();
-        stream.printf("%d rigid%s, %d vehicle%s",
+        stream.printf("%d rigid%s, %d soft%s, %d vehicle%s",
                 numRigids, (numRigids == 1) ? "" : "s",
+                numSofts, (numSofts == 1) ? "" : "s",
                 numVehicles, (numVehicles == 1) ? "" : "s");
         /*
          * 2nd line
@@ -419,6 +427,14 @@ public class PhysicsDumper extends Dumper {
         String maxString = MyVector3f.describe(worldMax);
         stream.printf("%n%s iters=%d rayTest=%s worldMin[%s] worldMax[%s]",
                 indent, numIterations, rtText, minString, maxString);
+        /*
+         * For soft spaces, 4th line has the world info.
+         */
+        if (space instanceof PhysicsSoftSpace) {
+            SoftBodyWorldInfo info = ((PhysicsSoftSpace) space).getWorldInfo();
+            String infoDesc = describer.describe(info);
+            stream.printf("%n%s %s", indent, infoDesc);
+        }
 
         if (dumpPcos) {
             String moreIndent = indent + indentIncrement();
@@ -430,6 +446,9 @@ public class PhysicsDumper extends Dumper {
             }
             for (PhysicsRigidBody rigid : rigidBodies) {
                 dump(rigid, moreIndent);
+            }
+            for (PhysicsSoftBody soft : softBodies) {
+                dump(soft, moreIndent);
             }
             for (PhysicsVehicle vehicle : vehicles) {
                 dump(vehicle, moreIndent);
