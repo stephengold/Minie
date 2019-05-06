@@ -148,7 +148,7 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     Material DEBUG_PINK;
     /**
-     * material for joints (the B ends)
+     * material for joints (the B ends) and soft-body links
      */
     Material DEBUG_RED;
     /**
@@ -303,6 +303,30 @@ public class BulletDebugAppState extends AbstractAppState {
         assert space != null;
         return space;
     }
+
+    /**
+     * Initialize the materials.
+     *
+     * @param am the application's AssetManager (not null)
+     */
+    protected void setupMaterials(AssetManager am) {
+        assert am != null;
+
+        DEBUG_BLUE = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
+        DEBUG_BLUE.setName("DEBUG_BLUE");
+        DEBUG_GREEN = MyAsset.createWireframeMaterial(am, ColorRGBA.Green);
+        DEBUG_GREEN.setName("DEBUG_GREEN");
+        DEBUG_MAGENTA = MyAsset.createWireframeMaterial(am, ColorRGBA.Magenta);
+        DEBUG_MAGENTA.setName("DEBUG_MAGENTA");
+        DEBUG_PINK = MyAsset.createWireframeMaterial(am, ColorRGBA.Pink);
+        DEBUG_PINK.setName("DEBUG_PINK");
+        DEBUG_RED = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
+        DEBUG_RED.setName("DEBUG_RED");
+        DEBUG_WHITE = MyAsset.createWireframeMaterial(am, ColorRGBA.White);
+        DEBUG_WHITE.setName("DEBUG_GRAY");
+        DEBUG_YELLOW = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
+        DEBUG_YELLOW.setName("DEBUG_YELLOW");
+    }
     // *************************************************************************
     // AbstractAppState methods
 
@@ -390,30 +414,6 @@ public class BulletDebugAppState extends AbstractAppState {
     }
     // *************************************************************************
     // private methods
-
-    /**
-     * Initialize the materials.
-     *
-     * @param am the application's AssetManager (not null)
-     */
-    private void setupMaterials(AssetManager am) {
-        assert am != null;
-
-        DEBUG_BLUE = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
-        DEBUG_BLUE.setName("DEBUG_BLUE");
-        DEBUG_GREEN = MyAsset.createWireframeMaterial(am, ColorRGBA.Green);
-        DEBUG_GREEN.setName("DEBUG_GREEN");
-        DEBUG_MAGENTA = MyAsset.createWireframeMaterial(am, ColorRGBA.Magenta);
-        DEBUG_MAGENTA.setName("DEBUG_MAGENTA");
-        DEBUG_PINK = MyAsset.createWireframeMaterial(am, ColorRGBA.Pink);
-        DEBUG_PINK.setName("DEBUG_PINK");
-        DEBUG_RED = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
-        DEBUG_RED.setName("DEBUG_RED");
-        DEBUG_WHITE = MyAsset.createWireframeMaterial(am, ColorRGBA.White);
-        DEBUG_WHITE.setName("DEBUG_GRAY");
-        DEBUG_YELLOW = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
-        DEBUG_YELLOW.setName("DEBUG_YELLOW");
-    }
 
     /**
      * Update the axes visualizer for the specified node.
