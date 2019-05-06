@@ -1025,6 +1025,7 @@ public class PhysicsSpace {
         long spaceId = createPhysicsSpace(worldMin.x, worldMin.y, worldMin.z,
                 worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal(),
                 false);
+        assert spaceId != 0L;
         logger.log(Level.FINE, "Created Space {0}", Long.toHexString(spaceId));
         initThread(spaceId);
     }

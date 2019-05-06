@@ -169,6 +169,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     protected void create() {
         long nativeId = createPhysicsSoftSpace(getWorldMin(null),
                 getWorldMax(null), getBroadphaseType().ordinal(), false);
+        assert nativeId != 0L;
         logger2.log(Level.FINE, "Created SoftSpace {0}",
                 Long.toHexString(nativeId));
         initThread(nativeId);
