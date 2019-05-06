@@ -40,6 +40,10 @@ public enum DumpFlags {
      */
     Buckets,
     /**
+     * clusters in soft bodies
+     */
+    ClustersInSofts,
+    /**
      * cull hints in spatials
      */
     CullHints,
@@ -55,6 +59,10 @@ public enum DumpFlags {
      * parameters in materials
      */
     MatParams,
+    /**
+     * nodes in soft bodies
+     */
+    NodesInSofts,
     /**
      * material-parameter overrides in spatials
      */

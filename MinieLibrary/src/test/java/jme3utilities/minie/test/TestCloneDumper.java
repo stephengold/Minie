@@ -82,10 +82,12 @@ public class TestCloneDumper {
     private void setParameters(PhysicsDumper du, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         du.setEnabled(DumpFlags.Buckets, flag);
+        du.setEnabled(DumpFlags.ClustersInSofts, !flag);
         du.setEnabled(DumpFlags.CullHints, flag);
         du.setEnabled(DumpFlags.JointsInBodies, !flag);
         du.setEnabled(DumpFlags.JointsInSpaces, flag);
         du.setEnabled(DumpFlags.MatParams, !flag);
+        du.setEnabled(DumpFlags.NodesInSofts, flag);
         du.setEnabled(DumpFlags.Overrides, !flag);
         du.setEnabled(DumpFlags.Pcos, flag);
         du.setEnabled(DumpFlags.ShadowModes, flag);
@@ -109,10 +111,12 @@ public class TestCloneDumper {
     private void verifyParameters(PhysicsDumper du, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert du.isEnabled(DumpFlags.Buckets) == flag : flag;
+        assert du.isEnabled(DumpFlags.ClustersInSofts) == !flag : flag;
         assert du.isEnabled(DumpFlags.CullHints) == flag : flag;
         assert du.isEnabled(DumpFlags.JointsInBodies) == !flag : flag;
         assert du.isEnabled(DumpFlags.JointsInSpaces) == flag : flag;
         assert du.isEnabled(DumpFlags.MatParams) == !flag : flag;
+        assert du.isEnabled(DumpFlags.NodesInSofts) == flag : flag;
         assert du.isEnabled(DumpFlags.Overrides) == !flag : flag;
         assert du.isEnabled(DumpFlags.Pcos) == flag : flag;
         assert du.isEnabled(DumpFlags.ShadowModes) == flag : flag;

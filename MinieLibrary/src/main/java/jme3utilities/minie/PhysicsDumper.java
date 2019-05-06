@@ -30,16 +30,18 @@ import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
+import com.jme3.bullet.objects.infos.SoftBodyWorldInfo;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import java.io.PrintStream;
+import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
@@ -69,6 +71,10 @@ public class PhysicsDumper extends Dumper {
     // fields
 
     /**
+     * enable dumping of clusters in soft bodies
+     */
+    private boolean dumpClustersInSofts = false;
+    /**
      * enable dumping of joints in rigid bodies
      */
     private boolean dumpJointsInBodies = false;
@@ -76,6 +82,10 @@ public class PhysicsDumper extends Dumper {
      * enable dumping of joints in physics spaces
      */
     private boolean dumpJointsInSpaces = false;
+    /**
+     * enable dumping of nodes in soft bodies
+     */
+    private boolean dumpNodesInSofts = false;
     /**
      * enable dumping of collision objects in physics spaces
      */
@@ -170,7 +180,8 @@ public class PhysicsDumper extends Dumper {
         String desc = MyPco.describe(body);
         stream.print(desc);
 
-        desc = getDescriber().describeUser(body);
+        PhysicsDescriber describer = getDescriber();
+        desc = describer.describeUser(body);
         stream.print(desc);
 
         Vector3f location = body.getPhysicsLocation(null);
@@ -199,7 +210,6 @@ public class PhysicsDumper extends Dumper {
          * 2nd line has the shape, group info, and the number of joints.
          */
         CollisionShape shape = body.getCollisionShape();
-        PhysicsDescriber describer = getDescriber();
         desc = describer.describe(shape);
         stream.printf("%n%s %s", indent, desc);
 
@@ -209,14 +219,8 @@ public class PhysicsDumper extends Dumper {
             stream.print(" " + desc);
         }
 
-        int group = body.getCollisionGroup();
-        if (group != PhysicsCollisionObject.COLLISION_GROUP_01) {
-            stream.printf(" group=0x%x", group);
-        }
-        int groupMask = body.getCollideWithGroups();
-        if (groupMask != PhysicsCollisionObject.COLLISION_GROUP_01) {
-            stream.printf(" mask=0x%x", groupMask);
-        }
+        desc = describer.describeGroups(body);
+        stream.print(desc);
 
         PhysicsJoint[] joints = body.listJoints();
         stream.printf(" joints=%d", joints.length);
@@ -230,6 +234,123 @@ public class PhysicsDumper extends Dumper {
             for (PhysicsJoint joint : joints) {
                 desc = describer.describeJointInBody(joint, body);
                 stream.printf("%n%s  %s", indent, desc);
+            }
+        }
+    }
+
+    /**
+     * Dump the specified PhysicsSoftBody.
+     *
+     * @param body the soft body to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    public void dump(PhysicsSoftBody body, String indent) {
+        Validate.nonNull(indent, "indent");
+
+        long objectId = body.getObjectId();
+        stream.printf("%n%sSoft #%s", indent, Long.toHexString(objectId));
+
+        float mass = body.getMass();
+        String desc = MyString.describe(mass);
+        stream.print(" mass=" + desc);
+
+        PhysicsDescriber describer = getDescriber();
+        desc = describer.describeUser(body);
+        stream.print(desc);
+
+        int numNodes = body.countNodes();
+        int numLinks = body.countLinks();
+        int numFaces = body.countFaces();
+        int numTetras = body.countTetras();
+        int numClusters = body.countClusters();
+        stream.printf(
+                " %d node%s, %d link%s, %d face%s, %d tetra%s, %d cluster%s",
+                numNodes, (numNodes == 1) ? "" : "s",
+                numLinks, (numLinks == 1) ? "" : "s",
+                numFaces, (numFaces == 1) ? "" : "s",
+                numTetras, (numTetras == 1) ? "" : "s",
+                numClusters, (numClusters == 1) ? "" : "s");
+
+        Vector3f location = body.getPhysicsLocation(null);
+        desc = MyVector3f.describe(location);
+        stream.printf(" loc[%s]", desc);
+
+        Quaternion orientation = body.getPhysicsRotation(null);
+        if (!MyQuaternion.isRotationIdentity(orientation)) {
+            desc = MyQuaternion.describe(orientation);
+            stream.printf(" orient[%s]", desc);
+        }
+        /*
+         * 2nd & 3rd lines have the Config.
+         */
+        PhysicsSoftBody.Config config = body.getSoftConfig();
+        desc = describer.describe1(config);
+        stream.printf("%n%s %s", indent, desc);
+        desc = describer.describe2(config);
+        stream.printf("%n%s %s", indent, desc);
+        /*
+         * 4th line has the Material.
+         */
+        PhysicsSoftBody.Material material = body.getSoftMaterial();
+        desc = describer.describe(material);
+        stream.printf("%n%s %s", indent, desc);
+        /*
+         * 5th line has the world info.
+         */
+        SoftBodyWorldInfo info = body.getWorldInfo();
+        desc = describer.describe(info);
+        stream.printf("%n%s %s", indent, desc);
+        /*
+         * 6th line has the group info and number of joints.
+         */
+        desc = describer.describeGroups(body);
+        stream.printf("%n%s%s", indent, desc);
+        stream.print(desc);
+
+        int numAnchors = body.countAnchors();
+        int numJoints = body.countJoints();
+        stream.printf(" anchors=%d joints=%d", numAnchors, numJoints);
+        // TODO joint/anchor details
+
+        if (dumpClustersInSofts) {
+            FloatBuffer coms = body.copyClusterCenters(null);
+            for (int clusterI = 0; clusterI < numClusters; ++clusterI) {
+                int floatIndex = 3 * clusterI;
+                float x = coms.get(floatIndex);
+                float y = coms.get(floatIndex + 1);
+                float z = coms.get(floatIndex + 2);
+                String comString = MyVector3f.describe(new Vector3f(x, y, z));
+                stream.printf("%n%s  cluster%d  com[%s]", indent, clusterI,
+                        comString);
+            }
+        }
+        if (dumpNodesInSofts) {
+            FloatBuffer locations = body.copyLocations(null);
+            FloatBuffer masses = body.copyMasses(null);
+            FloatBuffer normals = body.copyNormals(null);
+            FloatBuffer velocities = body.copyVelocities(null);
+            for (int nodeIndex = 0; nodeIndex < numNodes; ++nodeIndex) {
+                float nodeMass = masses.get(nodeIndex);
+
+                int floatIndex = 3 * nodeIndex;
+                float x = locations.get(floatIndex);
+                float y = locations.get(floatIndex + 1);
+                float z = locations.get(floatIndex + 2);
+                String locString = MyVector3f.describe(new Vector3f(x, y, z));
+
+                x = normals.get(floatIndex);
+                y = normals.get(floatIndex + 1);
+                z = normals.get(floatIndex + 2);
+                String normString = MyVector3f.describe(new Vector3f(x, y, z));
+
+                x = velocities.get(floatIndex);
+                y = velocities.get(floatIndex + 1);
+                z = velocities.get(floatIndex + 2);
+                String vString = MyVector3f.describe(new Vector3f(x, y, z));
+
+                stream.printf("%n%s  node%d %s kg  loc[%s] norm[%s] v[%s]",
+                        indent, nodeIndex, MyString.describe(nodeMass),
+                        locString, normString, vString);
             }
         }
     }
@@ -296,7 +417,7 @@ public class PhysicsDumper extends Dumper {
         String minString = MyVector3f.describe(worldMin);
         Vector3f worldMax = space.getWorldMax(null);
         String maxString = MyVector3f.describe(worldMax);
-        stream.printf("%n%s iters=%d rayTest[%s] worldMin[%s] worldMax[%s]",
+        stream.printf("%n%s iters=%d rayTest=%s worldMin[%s] worldMax[%s]",
                 indent, numIterations, rtText, minString, maxString);
 
         if (dumpPcos) {
@@ -395,6 +516,10 @@ public class PhysicsDumper extends Dumper {
                 result = isDumpBucket();
                 break;
 
+            case ClustersInSofts:
+                result = dumpClustersInSofts;
+                break;
+
             case CullHints:
                 result = isDumpCull();
                 break;
@@ -409,6 +534,10 @@ public class PhysicsDumper extends Dumper {
 
             case MatParams:
                 result = isDumpMatParam();
+                break;
+
+            case NodesInSofts:
+                result = dumpNodesInSofts;
                 break;
 
             case Overrides:
@@ -451,6 +580,10 @@ public class PhysicsDumper extends Dumper {
                 setDumpBucket(newValue);
                 break;
 
+            case ClustersInSofts:
+                dumpClustersInSofts = newValue;
+                break;
+
             case CullHints:
                 setDumpCull(newValue);
                 break;
@@ -465,6 +598,10 @@ public class PhysicsDumper extends Dumper {
 
             case MatParams:
                 setDumpMatParam(newValue);
+                break;
+
+            case NodesInSofts:
+                dumpNodesInSofts = newValue;
                 break;
 
             case Overrides:
