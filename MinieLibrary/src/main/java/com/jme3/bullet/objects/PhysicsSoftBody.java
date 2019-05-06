@@ -363,6 +363,24 @@ public class PhysicsSoftBody
     }
 
     /**
+     * Copy the center location of the indexed cluster.
+     *
+     * @param clusterIndex which cluster (&ge;0)
+     * @param storeResult storage for the result (modified if not null)
+     * @return a location vector (in physics-space coordinates, either
+     * storeResult or a new vector)
+     */
+    public Vector3f clusterCenter(int clusterIndex, Vector3f storeResult) {
+        int numClusters = countClusters();
+        Validate.inRange(clusterIndex, "cluster index", 0, numClusters - 1);
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        getClusterCenter(objectId, clusterIndex, result);
+
+        return result;
+    }
+
+    /**
      * Copy the center locations of all clusters in this body.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -611,6 +629,7 @@ public class PhysicsSoftBody
         Validate.positive(maxIterations, "maximum number of iterations");
 
         generateClusters(objectId, numClusters - 1, maxIterations);
+        // TODO open an issue for the off-by-one error!
     }
 
     /**
@@ -650,8 +669,7 @@ public class PhysicsSoftBody
     }
 
     /**
-     * Copy the location of a the indexed node. TODO add clusterLocation()
-     * method
+     * Copy the location of a the indexed node.
      *
      * @param nodeIndex which node (&ge;0)
      * @param storeResult storage for the result (modified if not null)
@@ -789,7 +807,21 @@ public class PhysicsSoftBody
         Validate.nonNegative(nodeIndex, "node index");
         Validate.positive(mass, "mass");
 
-        PhysicsSoftBody.this.setMass(objectId, nodeIndex, mass);
+        setMass(objectId, nodeIndex, mass);
+    }
+
+    /**
+     * Alter the velocity of the indexed node.
+     *
+     * @param nodeIndex which node to modify (not null)
+     * @param velocity the desired velocity vector (not null, unaffected)
+     */
+    public void setNodeVelocity(int nodeIndex, Vector3f velocity) {
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
+        Validate.nonNull(velocity, "velocity");
+
+        setNodeVelocity(objectId, nodeIndex, velocity);
     }
 
     /**
@@ -847,8 +879,7 @@ public class PhysicsSoftBody
     }
 
     /**
-     * Alter the velocities of all nodes to make them identical. TODO setVelcity
-     * of an indexed node
+     * Alter the velocities of all nodes to make them identical.
      *
      * @param velocity the desired velocity vector (in world coordinates, not
      * null, unaffected)
@@ -1273,6 +1304,9 @@ public class PhysicsSoftBody
 
     native private int getAnchorCount(long bodyId);
 
+    native private void getClusterCenter(long bodyId, int clusterIndex,
+            Vector3f storeVector);
+
     native private int getClusterCount(long bodyId);
 
     native private void getClustersPositions(long bodyId,
@@ -1343,6 +1377,9 @@ public class PhysicsSoftBody
     native private void setMass(long bodyId, int nodeIndex, float mass);
 
     native private void setMasses(long bodyId, FloatBuffer massBuffer);
+
+    native private void setNodeVelocity(long bodyId, int nodeIndex,
+            Vector3f velocityVector);
 
     native private void setPhysicsLocation(long bodyId,
             Vector3f locationVector);
