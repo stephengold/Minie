@@ -55,17 +55,6 @@ public class Icosphere extends Mesh {
      */
     final public static float phi = (1f + FastMath.sqrt(5f)) / 2f;
     /**
-     * vertex locations in a regular icosahedron with radius=1.9021...
-     */
-    final private static Vector3f[] icoLocations = {
-        new Vector3f(-1f, phi, 0f), new Vector3f(1f, phi, 0f),
-        new Vector3f(-1f, -phi, 0f), new Vector3f(1f, -phi, 0f),
-        new Vector3f(0f, -1f, phi), new Vector3f(0f, 1f, phi),
-        new Vector3f(0f, -1f, -phi), new Vector3f(0f, 1f, -phi),
-        new Vector3f(phi, 0f, -1f), new Vector3f(phi, 0f, 1f),
-        new Vector3f(-phi, 0f, -1f), new Vector3f(-phi, 0f, 1f)
-    };
-    /**
      * vertex indices of the 20 triangular faces in a regular icosahedron
      */
     final private static int[] icoIndices = {
@@ -79,6 +68,17 @@ public class Icosphere extends Mesh {
      */
     final public static Logger logger
             = Logger.getLogger(Icosphere.class.getName());
+    /**
+     * vertex locations in a regular icosahedron with radius=1.9021...
+     */
+    final private static Vector3f[] icoLocations = {
+        new Vector3f(-1f, phi, 0f), new Vector3f(1f, phi, 0f),
+        new Vector3f(-1f, -phi, 0f), new Vector3f(1f, -phi, 0f),
+        new Vector3f(0f, -1f, phi), new Vector3f(0f, 1f, phi),
+        new Vector3f(0f, -1f, -phi), new Vector3f(0f, 1f, -phi),
+        new Vector3f(phi, 0f, -1f), new Vector3f(phi, 0f, 1f),
+        new Vector3f(-phi, 0f, -1f), new Vector3f(-phi, 0f, 1f)
+    };
     // *************************************************************************
     // fields
 
@@ -91,10 +91,6 @@ public class Icosphere extends Mesh {
      */
     private int nextVertexIndex = 0;
     /**
-     * cache to avoid duplicate vertices: map index pairs to midpoint indices
-     */
-    final private Map<Long, Integer> midpointCache = new HashMap<>();
-    /**
      * map vertex indices to location vectors in mesh coordinates, all with
      * length=radius
      */
@@ -103,6 +99,10 @@ public class Icosphere extends Mesh {
      * map vertex indices to normal vectors, all with length=1
      */
     final private List<Vector3f> normals = new ArrayList<>();
+    /**
+     * cache to avoid duplicate vertices: map index pairs to midpoint indices
+     */
+    final private Map<Long, Integer> midpointCache = new HashMap<>();
     // *************************************************************************
     // constructors
 
@@ -226,43 +226,6 @@ public class Icosphere extends Mesh {
     }
 
     /**
-     * Determine the index of the vertex halfway between the indexed vertices.
-     *
-     * @param p1 the index of the 1st input vertex (&ge;0)
-     * @param p2 the index of the 2nd input vertex (&ge;0)
-     * @return the midpoint index (&ge;0)
-     */
-    private int midpointIndex(int p1, int p2) {
-        /*
-         * Check whether the midpoint has already been assigned an index.
-         */
-        boolean firstIsSmaller = p1 < p2;
-        long smallerIndex = firstIsSmaller ? p1 : p2;
-        long greaterIndex = firstIsSmaller ? p2 : p1;
-        long key = (smallerIndex << 32) + greaterIndex;
-        Integer cachedIndex = midpointCache.get(key);
-        if (cachedIndex != null) {
-            return cachedIndex;
-        }
-        /*
-         * The midpoint vertex is not in the cache: calculate its location.
-         */
-        Vector3f loc1 = locations.get(p1);
-        Vector3f loc2 = locations.get(p2);
-        Vector3f middleLocation = MyVector3f.midpoint(loc1, loc2, null);
-        /*
-         * addVertex() adjusts the location to the sphere.
-         */
-        int newIndex = addVertex(middleLocation);
-        /*
-         * Add the new vertex to the midpoint cache.
-         */
-        midpointCache.put(key, newIndex);
-
-        return newIndex;
-    }
-
-    /**
      * Transform 3-D Cartesian coordinates to longitude and latitude.
      *
      * @param input the location to transform (z=distance north of the
@@ -309,5 +272,42 @@ public class Icosphere extends Mesh {
         }
 
         return result;
+    }
+
+    /**
+     * Determine the index of the vertex halfway between the indexed vertices.
+     *
+     * @param p1 the index of the 1st input vertex (&ge;0)
+     * @param p2 the index of the 2nd input vertex (&ge;0)
+     * @return the midpoint index (&ge;0)
+     */
+    private int midpointIndex(int p1, int p2) {
+        /*
+         * Check whether the midpoint has already been assigned an index.
+         */
+        boolean firstIsSmaller = p1 < p2;
+        long smallerIndex = firstIsSmaller ? p1 : p2;
+        long greaterIndex = firstIsSmaller ? p2 : p1;
+        long key = (smallerIndex << 32) + greaterIndex;
+        Integer cachedIndex = midpointCache.get(key);
+        if (cachedIndex != null) {
+            return cachedIndex;
+        }
+        /*
+         * The midpoint vertex is not in the cache: calculate its location.
+         */
+        Vector3f loc1 = locations.get(p1);
+        Vector3f loc2 = locations.get(p2);
+        Vector3f middleLocation = MyVector3f.midpoint(loc1, loc2, null);
+        /*
+         * addVertex() adjusts the location to the sphere.
+         */
+        int newIndex = addVertex(middleLocation);
+        /*
+         * Add the new vertex to the midpoint cache.
+         */
+        midpointCache.put(key, newIndex);
+
+        return newIndex;
     }
 }
