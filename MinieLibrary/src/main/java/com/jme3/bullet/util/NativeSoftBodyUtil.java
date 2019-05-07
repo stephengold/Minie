@@ -32,9 +32,11 @@
 package com.jme3.bullet.util;
 
 import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.mesh.IndexBuffer;
+import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.HashSet;
@@ -109,6 +111,42 @@ public class NativeSoftBodyUtil {
         }
 
         softBody.appendMeshData(positions, links, triangleIndices, null);
+    }
+
+    /**
+     * Append tetrahedra to the specified soft body, one per face, connecting
+     * its faces with the center of its axis-aligned bounding box.
+     *
+     * @param softBody the soft body to append to (not null, modified)
+     */
+    public static void createTetras(PhysicsSoftBody softBody) {
+        Validate.nonNull(softBody, "soft body");
+        /*
+         * Append a new node, located at the center of the AABB.
+         */
+        int centerIndex = softBody.countNodes();
+        Vector3f centerLocation = softBody.getPhysicsLocation(null);
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(centerLocation);
+        softBody.appendNodes(buffer);
+        /*
+         * Append tetrahedra, one per face.
+         */
+        int numNodes = softBody.countNodes();
+        assert numNodes == centerIndex + 1;
+        int numFaces = softBody.countFaces();
+        IndexBuffer newTetras
+                = IndexBuffer.createIndexBuffer(numNodes, 4 * numFaces);
+        IntBuffer faceIndices = softBody.copyFaces(null);
+        for (int faceIndex = 0; faceIndex < numFaces; faceIndex += 3) {
+            int fi0 = faceIndices.get(3 * faceIndex);
+            int fi1 = faceIndices.get(3 * faceIndex + 1);
+            int fi2 = faceIndices.get(3 * faceIndex + 2);
+            newTetras.put(4 * faceIndex, fi0);
+            newTetras.put(4 * faceIndex + 1, fi1);
+            newTetras.put(4 * faceIndex + 2, fi2);
+            newTetras.put(4 * faceIndex + 3, centerIndex);
+        }
+        softBody.appendTetras(newTetras);
     }
 
     /**
