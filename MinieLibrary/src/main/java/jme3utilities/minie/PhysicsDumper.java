@@ -308,7 +308,6 @@ public class PhysicsDumper extends Dumper {
          */
         desc = describer.describeGroups(body);
         stream.printf("%n%s%s", indent, desc);
-        stream.print(desc);
 
         int numAnchors = body.countAnchors();
         int numJoints = body.countJoints();
