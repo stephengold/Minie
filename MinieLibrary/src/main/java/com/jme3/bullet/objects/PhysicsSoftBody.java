@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.objects;
 
+import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.infos.ConfigFlags;
@@ -1139,6 +1140,26 @@ public class PhysicsSoftBody
     // PhysicsCollisionObject methods
 
     /**
+     * Calculate the axis-aligned bounding box for this body.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a bounding box in physics-space coordinates (either storeResult
+     * or a new instance)
+     */
+    @Override
+    public BoundingBox boundingBox(BoundingBox storeResult) {
+        BoundingBox result
+                = (storeResult == null) ? new BoundingBox() : storeResult;
+
+        Vector3f minima = new Vector3f(); // TODO reuse
+        Vector3f maxima = new Vector3f();
+        getBounds(objectId, minima, maxima);
+        result.setMinMax(minima, maxima);
+
+        return result;
+    }
+
+    /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
      * shallow-cloned body into a deep-cloned one, using the specified cloner
      * and original to resolve copied fields.
@@ -1303,6 +1324,9 @@ public class PhysicsSoftBody
     native private void generateClusters(long bodyId, int k, int maxIterations);
 
     native private int getAnchorCount(long bodyId);
+
+    native private void getBounds(long objectId, Vector3f storeMinima,
+            Vector3f storeMaxima);
 
     native private void getClusterCenter(long bodyId, int clusterIndex,
             Vector3f storeVector);

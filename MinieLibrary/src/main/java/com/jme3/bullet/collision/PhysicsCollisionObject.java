@@ -206,17 +206,14 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Calculate an axis-aligned bounding box for this object, based on its
+     * Calculate the axis-aligned bounding box for this object, based on its
      * collision shape.
      *
-     * @param storeResult (modified if not null)
-     * @return a bounding box (either storeResult or a new instance) or null if
-     * the object has no collision shape
+     * @param storeResult storage for the result (modified if not null)
+     * @return a bounding box in physics-space coordinates (either storeResult
+     * or a new instance)
      */
     public BoundingBox boundingBox(BoundingBox storeResult) {
-        if (collisionShape == null) {
-            return null;
-        }
         BoundingBox result
                 = (storeResult == null) ? new BoundingBox() : storeResult;
 
