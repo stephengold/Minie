@@ -412,15 +412,13 @@ public class BulletDebugAppState extends AbstractAppState {
         physicsDebugRootNode.updateLogicalState(tpf);
         physicsDebugRootNode.updateGeometricState();
     }
-    // *************************************************************************
-    // private methods
 
     /**
-     * Update the axes visualizer for the specified node.
+     * Update the AxesVisualizer for the specified Node.
      *
      * @param node which node to update (not null)
      */
-    private void updateAxes(Node node) {
+    protected void updateAxes(Node node) {
         AxesVisualizer axes = node.getControl(AxesVisualizer.class);
         if (axes != null) {
             if (axisLength > 0f) {
@@ -430,12 +428,13 @@ public class BulletDebugAppState extends AbstractAppState {
                 node.removeControl(axes);
             }
         } else if (axisLength > 0f) {
-            axes = new AxesVisualizer(assetManager, axisLength,
-                    axisLineWidth);
+            axes = new AxesVisualizer(assetManager, axisLength, axisLineWidth);
             node.addControl(axes);
             axes.setEnabled(true);
         }
     }
+    // *************************************************************************
+    // private methods
 
     /**
      * Synchronize the bounding-box debug controls with the collision objects in
