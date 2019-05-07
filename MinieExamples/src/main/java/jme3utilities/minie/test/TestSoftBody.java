@@ -62,7 +62,7 @@ public class TestSoftBody
         implements PhysicsTickListener {
 
     final private boolean rigid = false;
-    final private float gravity = 10f;
+    final private float gravity = 0.01f;
     final private float radius = 1f;
     private PhysicsCollisionObject pco;
     private PhysicsSoftSpace physicsSpace;
