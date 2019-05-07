@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * Approximate a spherical mesh by subdividing the triangles of a regular
@@ -68,6 +70,11 @@ public class Icosphere extends Mesh {
         3, 9, 4, 3, 4, 2, 3, 2, 6, 3, 6, 8, 3, 8, 9,
         4, 9, 5, 2, 4, 11, 6, 2, 10, 8, 6, 7, 9, 8, 1
     };
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(Icosphere.class.getName());
     // *************************************************************************
     // fields
 
@@ -114,6 +121,8 @@ public class Icosphere extends Mesh {
      * @param radius the radius (in mesh units, &gt;0)
      */
     public Icosphere(int numRefineSteps, float radius) {
+        Validate.nonNegative(numRefineSteps, "number of refinement steps");
+        Validate.positive(radius, "radius");
 
         this.radius = radius;
         this.nextVertexIndex = 0;
@@ -171,7 +180,6 @@ public class Icosphere extends Mesh {
         posArray = locations.toArray(posArray);
 
         int[] indexArray = new int[faces.size()];
-
         for (int i = 0; i < faces.size(); i++) {
             indexArray[i] = faces.get(i);
         }
@@ -261,7 +269,6 @@ public class Icosphere extends Mesh {
      * radians)
      */
     private Vector2f cartesianToSpherical(Vector3f input) {
-
         Vector2f result = new Vector2f();
         float length = input.length();
 
@@ -290,7 +297,6 @@ public class Icosphere extends Mesh {
      * &ge;0 and &le;1
      */
     private Vector2f[] getUV(Vector3f[] meshLocations) {
-
         int numVertices = meshLocations.length;
         float pi = FastMath.PI;
         Vector2f[] result = new Vector2f[numVertices];
