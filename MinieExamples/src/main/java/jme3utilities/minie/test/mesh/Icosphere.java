@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * Approximate a spherical mesh by subdividing the triangles of a regular
@@ -52,19 +53,22 @@ public class Icosphere extends Mesh {
     /**
      * golden ratio = 1.618...
      */
-    private static final float phi = (1.0f + FastMath.sqrt(5.0f)) / 2.0f;
+    final public static float phi = (1f + FastMath.sqrt(5f)) / 2f;
     /**
      * vertex locations in a regular icosahedron with radius=1.9021...
      */
-    private static final Vector3f[] icoLocations = {
-        new Vector3f(-1, phi, 0), new Vector3f(1, phi, 0), new Vector3f(-1, -phi, 0), new Vector3f(1, -phi, 0),
-        new Vector3f(0, -1, phi), new Vector3f(0, 1, phi), new Vector3f(0, -1, -phi), new Vector3f(0, 1, -phi),
-        new Vector3f(phi, 0, -1), new Vector3f(phi, 0, 1), new Vector3f(-phi, 0, -1), new Vector3f(-phi, 0, 1)
+    final private static Vector3f[] icoLocations = {
+        new Vector3f(-1f, phi, 0f), new Vector3f(1f, phi, 0f),
+        new Vector3f(-1f, -phi, 0f), new Vector3f(1f, -phi, 0f),
+        new Vector3f(0f, -1f, phi), new Vector3f(0f, 1f, phi),
+        new Vector3f(0f, -1f, -phi), new Vector3f(0f, 1f, -phi),
+        new Vector3f(phi, 0f, -1f), new Vector3f(phi, 0f, 1f),
+        new Vector3f(-phi, 0f, -1f), new Vector3f(-phi, 0f, 1f)
     };
     /**
      * vertex indices of the 20 triangular faces in a regular icosahedron
      */
-    private static final int[] icoIndices = {
+    final private static int[] icoIndices = {
         0, 11, 5, 0, 5, 1, 0, 1, 7, 0, 7, 10, 0, 10, 11,
         1, 5, 9, 5, 11, 4, 11, 10, 2, 10, 7, 6, 7, 1, 8,
         3, 9, 4, 3, 4, 2, 3, 2, 6, 3, 6, 8, 3, 8, 9,
@@ -81,24 +85,24 @@ public class Icosphere extends Mesh {
     /**
      * distance of each vertex from the center (&gt;0)
      */
-    private final float radius;
+    final private float radius;
     /**
      * next vertex index to be assigned
      */
-    private int nextVertexIndex;
+    private int nextVertexIndex = 0;
     /**
      * cache to avoid duplicate vertices: map index pairs to midpoint indices
      */
-    private Map<Long, Integer> midpointCache = new HashMap<>();
+    final private Map<Long, Integer> midpointCache = new HashMap<>();
     /**
      * map vertex indices to location vectors in mesh coordinates, all with
      * length=radius
      */
-    private List<Vector3f> locations = new ArrayList<>();
+    final private List<Vector3f> locations = new ArrayList<>();
     /**
      * map vertex indices to normal vectors, all with length=1
      */
-    private List<Vector3f> normals = new ArrayList<>();
+    final private List<Vector3f> normals = new ArrayList<>();
     // *************************************************************************
     // constructors
 
@@ -125,30 +129,28 @@ public class Icosphere extends Mesh {
         Validate.positive(radius, "radius");
 
         this.radius = radius;
-        this.nextVertexIndex = 0;
-
         /*
          *  Add the 12 vertices of a regular icosahedron of radius=1.
          */
-        for (int i = 0; i < icoLocations.length; i++) {
-            addVertex(icoLocations[i]);
+        for (Vector3f icoLocation : icoLocations) {
+            addVertex(icoLocation);
         }
         /*
          *  Add the 20 triangular faces of a regular icosahedron.
          */
         List<Integer> faces = new ArrayList<>();
-        for (int icoIndex = 0; icoIndex < icoIndices.length; icoIndex++) {
-            faces.add(icoIndices[icoIndex]);
+        for (int icoIndex : icoIndices) {
+            faces.add(icoIndex);
         }
 
-        for (int stepIndex = 0; stepIndex < numRefineSteps; stepIndex++) {
+        for (int stepIndex = 0; stepIndex < numRefineSteps; ++stepIndex) {
             List<Integer> newFaces = new ArrayList<>();
             /*
              * A refinement step: for each triangle in faces,
              * add 4 triangles to newFaces.
              */
             for (int j = 0; j < faces.size(); j += 3) {
-                int v1 = faces.get(j + 0);
+                int v1 = faces.get(j);
                 int v2 = faces.get(j + 1);
                 int v3 = faces.get(j + 2);
 
@@ -180,7 +182,7 @@ public class Icosphere extends Mesh {
         posArray = locations.toArray(posArray);
 
         int[] indexArray = new int[faces.size()];
-        for (int i = 0; i < faces.size(); i++) {
+        for (int i = 0; i < faces.size(); ++i) {
             indexArray[i] = faces.get(i);
         }
 
@@ -214,10 +216,13 @@ public class Icosphere extends Mesh {
      * @return the index assigned to the new vertex (&ge;0)
      */
     private int addVertex(Vector3f location) {
-        float length = FastMath.sqrt(location.x * location.x + location.y * location.y + location.z * location.z);
-        locations.add(location.divide(length).mult(radius));
+        float length = location.length();
+        locations.add(location.mult(radius / length));
         normals.add(location.divide(length));
-        return nextVertexIndex++;
+        int result = nextVertexIndex;
+        ++nextVertexIndex;
+
+        return result;
     }
 
     /**
@@ -235,20 +240,16 @@ public class Icosphere extends Mesh {
         long smallerIndex = firstIsSmaller ? p1 : p2;
         long greaterIndex = firstIsSmaller ? p2 : p1;
         long key = (smallerIndex << 32) + greaterIndex;
-
-        Integer cachedIndex = this.midpointCache.get(key);
-
+        Integer cachedIndex = midpointCache.get(key);
         if (cachedIndex != null) {
             return cachedIndex;
         }
         /*
          * The midpoint vertex is not in the cache: calculate its location.
          */
-        Vector3f loc1 = this.locations.get(p1);
-        Vector3f loc2 = this.locations.get(p2);
-
-        Vector3f middleLocation = loc1.add(loc2).divideLocal(2.0f);
-
+        Vector3f loc1 = locations.get(p1);
+        Vector3f loc2 = locations.get(p2);
+        Vector3f middleLocation = MyVector3f.midpoint(loc1, loc2, null);
         /*
          * addVertex() adjusts the location to the sphere.
          */
@@ -256,7 +257,8 @@ public class Icosphere extends Mesh {
         /*
          * Add the new vertex to the midpoint cache.
          */
-        this.midpointCache.put(key, newIndex);
+        midpointCache.put(key, newIndex);
+
         return newIndex;
     }
 
@@ -272,16 +274,16 @@ public class Icosphere extends Mesh {
         Vector2f result = new Vector2f();
         float length = input.length();
 
-        if (input.x != 0.0f || input.y != 0.0f) {
+        if (input.x != 0f || input.y != 0f) {
             result.x = -FastMath.atan2(input.y, input.x);
         } else {
-            result.x = 0.0f;
+            result.x = 0f;
         }
 
-        if (length > 0.0f) {
+        if (length > 0f) {
             result.y = FastMath.asin(input.z / length);
         } else {
-            result.y = 0.0f;
+            result.y = 0f;
         }
 
         return result;
@@ -298,13 +300,12 @@ public class Icosphere extends Mesh {
      */
     private Vector2f[] getUV(Vector3f[] meshLocations) {
         int numVertices = meshLocations.length;
-        float pi = FastMath.PI;
         Vector2f[] result = new Vector2f[numVertices];
 
-        for (int i = 0; i < numVertices; i++) {
+        for (int i = 0; i < numVertices; ++i) {
             result[i] = cartesianToSpherical(meshLocations[i]);
-            result[i].x = (result[i].x + pi) / (2.0f * pi);
-            result[i].y = (result[i].y + pi / 2.0f) / pi;
+            result[i].x = 0.5f + result[i].x / FastMath.TWO_PI;
+            result[i].y = 0.5f + result[i].y / FastMath.PI;
         }
 
         return result;
