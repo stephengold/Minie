@@ -33,6 +33,8 @@ package com.jme3.bullet.debug;
 
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
@@ -57,6 +59,10 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     final public static Logger logger
             = Logger.getLogger(SoftBodyDebugControl.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
+     */
+    final private static Quaternion rotateIdentity = new Quaternion();
     // *************************************************************************
     // fields
 
@@ -72,6 +78,16 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      * rigid body to visualize (not null)
      */
     final private PhysicsSoftBody body;
+    /**
+     * temporary storage for one vector per thread
+     */
+    final private static ThreadLocal<Vector3f> threadTmpVector
+            = new ThreadLocal<Vector3f>() {
+        @Override
+        protected Vector3f initialValue() {
+            return new Vector3f();
+        }
+    };
     // *************************************************************************
     // constructors
 
@@ -101,7 +117,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     protected void controlUpdate(float tpf) {
-        boolean localFlag = false; // use physics-space coordinates
+        boolean localFlag = true; // use local coordinates
         boolean normalsFlag = false; // don't update mesh normals
         IntBuffer noIndexMap = null; // node indices = vertex indices
 
@@ -118,6 +134,10 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
                     normalsFlag);
             facesGeometry.updateModelBound(); // TODO needed?
         }
+
+        Vector3f center = threadTmpVector.get();
+        body.getPhysicsLocation(center);
+        applyPhysicsTransform(center, rotateIdentity);
     }
 
     /**
@@ -161,8 +181,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             mesh.setMode(Mesh.Mode.Triangles);
             mesh.setStreamed();
 
-            mesh.getFloatBuffer(VertexBuffer.Type.Position).clear();
-            mesh.getIndexBuffer().getBuffer().clear();
             mesh.updateCounts();
             mesh.updateBound();
 
@@ -183,8 +201,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             mesh.setMode(Mesh.Mode.Lines);
             mesh.setStreamed();
 
-            mesh.getFloatBuffer(VertexBuffer.Type.Position).clear();
-            mesh.getIndexBuffer().getBuffer().clear();
             mesh.updateCounts();
             mesh.updateBound();
 

@@ -143,13 +143,12 @@ public class SoftDebugAppState extends BulletDebugAppState {
                     node = new Node(softBody.toString());
                     attachChild(node);
 
-                    logger.log(Level.FINE,
-                            "Create new BulletSoftBodyDebugControl");
-                    Control control
-                            = new SoftBodyDebugControl(this, softBody);
+                    logger.log(Level.FINE, "Create new SoftBodyDebugControl");
+                    Control control = new SoftBodyDebugControl(this, softBody);
                     node.addControl(control);
                 }
                 softBodies.put(softBody, node);
+                updateAxes(node);
             }
         }
         // Detach any leftover nodes.
