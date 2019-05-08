@@ -105,6 +105,8 @@ public class PhysicsSoftBody
         super.initUserPointer();
 
         assert !isInWorld();
+        assert countAnchors() == 0;
+        assert countClusters() == 0;
         assert countNodes() == 0;
         assert countLinks() == 0;
         assert countFaces() == 0;
@@ -118,11 +120,12 @@ public class PhysicsSoftBody
      *
      * @param windVelocity the wind velocity from which to calculate the force
      * (in physics-space coordinates, not null, unaffected)
-     * @param nodeIndex which node to add it to (&ge;0)
+     * @param nodeIndex which node to add it to (&ge;0, &lt;numNodes)
      */
     public void addAeroForceToNode(Vector3f windVelocity, int nodeIndex) {
-        Validate.nonNull(windVelocity, "wind velocity");
-        Validate.nonNegative(nodeIndex, "node index");
+        Validate.finite(windVelocity, "wind velocity");
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
 
         addAeroForceToNode(objectId, windVelocity, nodeIndex);
     }
@@ -134,7 +137,7 @@ public class PhysicsSoftBody
      * null, unaffected)
      */
     public void addVelocity(Vector3f velocity) {
-        Validate.nonNull(velocity, "velocity");
+        Validate.finite(velocity, "velocity");
         addVelocity(objectId, velocity);
     }
 
@@ -143,11 +146,12 @@ public class PhysicsSoftBody
      *
      * @param velocity the velocity to add (in physics-space coordinates, not
      * null, unaffected)
-     * @param nodeIndex which node to add it to (&ge;0)
+     * @param nodeIndex which node to add it to (&ge;0, &lt;numNodes)
      */
     public void addVelocity(Vector3f velocity, int nodeIndex) {
-        Validate.nonNull(velocity, "velocity");
-        Validate.nonNegative(nodeIndex, "node index");
+        Validate.finite(velocity, "velocity");
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
 
         addVelocity(objectId, velocity, nodeIndex);
     }
@@ -156,19 +160,20 @@ public class PhysicsSoftBody
      * Add an anchor connecting the indexed node of this body with the specified
      * rigid body.
      *
-     * @param nodeIndex which node of this body to connect (&ge;0)
+     * @param nodeIndex which node of this body to connect (&ge;0, &lt;numNodes)
      * @param rigidBody the rigid body to connect (not null)
      * @param localPivot used for anchor location, or null to use the node
      * location
      * @param collisionBetweenLinkedBodies true&rarr;allow collisions between
-     * this body and the rigid body.
+     * this body and the rigid body, false&rarr;don't allow such collisions
      * @param influence how much influence the anchor has on this body
-     * (0&rarr;no influence, 1&rarr;"strong" influence).
+     * (0&rarr;no influence, 1&rarr;strong influence).
      */
     public void appendAnchor(int nodeIndex, PhysicsRigidBody rigidBody,
             Vector3f localPivot, boolean collisionBetweenLinkedBodies,
             float influence) {
-        Validate.nonNegative(nodeIndex, "node index");
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
 
         long rigidBodyId = rigidBody.getObjectId();
         appendAnchor(objectId, nodeIndex, rigidBodyId, localPivot,
@@ -227,7 +232,7 @@ public class PhysicsSoftBody
     }
 
     /**
-     * Append mesh data to this body.
+     * Append mesh data to this body. TODO move to NativeSoftBodyUtil
      *
      * @param locations the node locations to add (capacity a multiple of 3) or
      * null to make this invocation a no-op
@@ -304,7 +309,7 @@ public class PhysicsSoftBody
      * unaffected)
      */
     public void applyForce(Vector3f force) {
-        Validate.nonNull(force, "force");
+        Validate.finite(force, "force");
         addForce(objectId, force);
     }
 
@@ -313,11 +318,12 @@ public class PhysicsSoftBody
      *
      * @param force the force to add (in physics-space coordinates, not null,
      * unaffected)
-     * @param nodeIndex which node to add it to (&ge;0)
+     * @param nodeIndex which node to add it to (&ge;0, &lt;numNodes)
      */
     public void applyForce(Vector3f force, int nodeIndex) {
-        Validate.nonNull(force, "force");
-        Validate.nonNegative(nodeIndex, "node index");
+        Validate.finite(force, "force");
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
 
         addForce(objectId, force, nodeIndex);
     }
@@ -339,7 +345,7 @@ public class PhysicsSoftBody
      * unaffected)
      */
     public void applyScale(Vector3f factors) {
-        Validate.nonNull(factors, "factors");
+        Validate.finite(factors, "factors");
         applyPhysicsScale(objectId, factors);
     }
 
@@ -359,14 +365,14 @@ public class PhysicsSoftBody
      * @param offset the translation to apply (not null, unaffected)
      */
     public void applyTranslation(Vector3f offset) {
-        Validate.nonNull(offset, "offset");
+        Validate.finite(offset, "offset");
         applyPhysicsTranslate(objectId, offset);
     }
 
     /**
      * Copy the center location of the indexed cluster.
      *
-     * @param clusterIndex which cluster (&ge;0)
+     * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
      * storeResult or a new vector)
@@ -377,7 +383,6 @@ public class PhysicsSoftBody
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         getClusterCenter(objectId, clusterIndex, result);
-
         return result;
     }
 
@@ -397,8 +402,8 @@ public class PhysicsSoftBody
             assert storeResult.capacity() == 3 * numClusters;
             result = storeResult;
         }
-        getClustersPositions(objectId, result);
 
+        getClustersPositions(objectId, result);
         return result;
     }
 
@@ -418,8 +423,8 @@ public class PhysicsSoftBody
             assert storeResult.capacity() == 3 * numFaces;
             result = storeResult;
         }
-        getFacesIndexes(objectId, result);
 
+        getFacesIndexes(objectId, result);
         return result;
     }
 
@@ -439,8 +444,8 @@ public class PhysicsSoftBody
             assert storeResult.capacity() == 2 * numLinks;
             result = storeResult;
         }
-        getLinksIndexes(objectId, result);
 
+        getLinksIndexes(objectId, result);
         return result;
     }
 
@@ -460,8 +465,8 @@ public class PhysicsSoftBody
             assert storeResult.capacity() == 3 * numNodes;
             result = storeResult;
         }
-        getNodesPositions(objectId, result);
 
+        getNodesPositions(objectId, result);
         return result;
     }
 
@@ -481,8 +486,8 @@ public class PhysicsSoftBody
             assert storeResult.capacity() == numNodes;
             result = storeResult;
         }
-        getMasses(objectId, result);
 
+        getMasses(objectId, result);
         return result;
     }
 
@@ -502,8 +507,8 @@ public class PhysicsSoftBody
             assert storeResult.capacity() == 3 * numNodes;
             result = storeResult;
         }
-        getNodesNormals(objectId, result);
 
+        getNodesNormals(objectId, result);
         return result;
     }
 
@@ -523,8 +528,8 @@ public class PhysicsSoftBody
             assert storeResult.capacity() == 4 * numTetras;
             result = storeResult;
         }
-        getTetrasIndexes(objectId, result);
 
+        getTetrasIndexes(objectId, result);
         return result;
     }
 
@@ -544,8 +549,8 @@ public class PhysicsSoftBody
             assert storeResult.capacity() == 3 * numNodes;
             result = storeResult;
         }
-        getNodesVelocities(objectId, result);
 
+        getNodesVelocities(objectId, result);
         return result;
     }
 
@@ -554,7 +559,7 @@ public class PhysicsSoftBody
      *
      * @return the number of anchors (&ge;0)
      */
-    public int countAnchors() {
+    final public int countAnchors() {
         return getAnchorCount(objectId);
     }
 
@@ -563,7 +568,7 @@ public class PhysicsSoftBody
      *
      * @return the number of clusters (&ge;0)
      */
-    public int countClusters() {
+    final public int countClusters() {
         return getClusterCount(objectId);
     }
 
@@ -604,33 +609,39 @@ public class PhysicsSoftBody
     }
 
     /**
-     * Generate bending constraints based on distance in the adjacency graph.
+     * Generate bending constraints based on hops in the adjacency graph.
      *
-     * @param distance (in links, &ge;2)
+     * @param numHops (in links, &ge;2)
      * @param material the material for appending links (not null)
      */
-    public void generateBendingConstraints(int distance, Material material) {
-        Validate.inRange(distance, "distance", 2, Integer.MAX_VALUE);
+    public void generateBendingConstraints(int numHops, Material material) {
+        Validate.inRange(numHops, "number of hops", 2, Integer.MAX_VALUE);
 
         long materialId = material.materialId;
-        generateBendingConstraints(objectId, distance, materialId);
+        generateBendingConstraints(objectId, numHops, materialId);
     }
 
     /**
-     * Generate clusters (K-mean).
+     * Generate one cluster per tetrahedron (or one per face if there are no
+     * tetrahedra). Any pre-existing clusters are released.
+     */
+    public void generateClusters() {
+        generateClusters(objectId, 0, 8192);
+    }
+
+    /**
+     * Generate clusters (K-mean). Any pre-existing clusters are released.
      *
-     * @param numClusters the desired number of clusters (&gt;0, &le;numNodes)
-     * or 0 to create a cluster for each tetrahedron or face
+     * @param k (&ge;1, &lt;numNodes)
      * @param maxIterations the maximum number of iterations (&gt;0,
      * default=8192)
      */
-    public void generateClusters(int numClusters, int maxIterations) {
+    public void generateClusters(int k, int maxIterations) {
         int numNodes = countNodes();
-        Validate.inRange(numClusters, "number of clusters", 1, numNodes);
+        Validate.inRange(k, "k", 1, numNodes);
         Validate.positive(maxIterations, "maximum number of iterations");
 
-        generateClusters(objectId, numClusters - 1, maxIterations);
-        // TODO open an issue for the off-by-one error!
+        generateClusters(objectId, k, maxIterations);
     }
 
     /**
@@ -670,9 +681,9 @@ public class PhysicsSoftBody
     }
 
     /**
-     * Copy the location of a the indexed node.
+     * Copy the location of the indexed node.
      *
-     * @param nodeIndex which node (&ge;0)
+     * @param nodeIndex which node (&ge;0, &lt;numNodes)
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
      * storeResult or a new vector)
@@ -683,25 +694,26 @@ public class PhysicsSoftBody
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         getNodeLocation(objectId, nodeIndex, result);
-
         return result;
     }
 
     /**
-     * Read the mass of a the indexed node.
+     * Read the mass of the indexed node.
      *
-     * @param nodeIndex which node to read (&ge;0)
+     * @param nodeIndex which node to read (&ge;0, &lt;numNodes)
      * @return the mass of the node (&gt;0)
      */
     public float nodeMass(int nodeIndex) {
-        Validate.nonNegative(nodeIndex, "node index");
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
+
         return getMass(objectId, nodeIndex);
     }
 
     /**
-     * Copy the normal vector of a the indexed node.
+     * Copy the normal vector of the indexed node.
      *
-     * @param nodeIndex which node (&ge;0)
+     * @param nodeIndex which node (&ge;0, &lt;numNodes)
      * @param storeResult storage for the result (modified if not null)
      * @return a normal vector (in physics-space coordinates, either storeResult
      * or a new vector)
@@ -712,14 +724,13 @@ public class PhysicsSoftBody
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         getNodeNormal(objectId, nodeIndex, result);
-
         return result;
     }
 
     /**
-     * Copy the velocity of a the indexed node.
+     * Copy the velocity of the indexed node.
      *
-     * @param nodeIndex which node (&ge;0)
+     * @param nodeIndex which node (&ge;0, &lt;numNodes)
      * @param storeResult storage for the result (modified if not null)
      * @return a velocity vector (in physics-space coordinates, either
      * storeResult or a new vector)
@@ -751,10 +762,12 @@ public class PhysicsSoftBody
     /**
      * Release the indexed cluster.
      *
-     * @param clusterIndex which cluster to release (&ge;0)
+     * @param clusterIndex which cluster to release (&ge;0, &lt;numClusters)
      */
     public void releaseCluster(int clusterIndex) {
-        Validate.nonNegative(clusterIndex, "cluster index");
+        int numClusters = countClusters();
+        Validate.inRange(clusterIndex, "cluster index", 0, numClusters - 1);
+
         releaseCluster(objectId, clusterIndex);
     }
 
@@ -762,11 +775,13 @@ public class PhysicsSoftBody
      * Remove the pre-existing anchor connecting the indexed node with the
      * specified rigid body.
      *
-     * @param nodeIndex which node to disconnect (&ge;0)
+     * @param nodeIndex which node to disconnect (&ge;0, &lt;numNodes)
      * @param rigidBody which rigid body to disconnect (not null)
      */
     public void removeAnchor(int nodeIndex, PhysicsRigidBody rigidBody) {
-        Validate.nonNegative(nodeIndex, "node index");
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
+        Validate.nonNull(rigidBody, "rigid body");
 
         long rigidBodyId = rigidBody.getObjectId();
         removeAnchor(objectId, nodeIndex, rigidBodyId);
@@ -791,7 +806,8 @@ public class PhysicsSoftBody
     /**
      * Alter the masses of all nodes.
      *
-     * @param masses a buffer containing the desired masses (not null)
+     * @param masses a buffer containing the desired masses (not null, all
+     * elements &gt;0)
      */
     public void setMasses(FloatBuffer masses) {
         Validate.nonNull(masses, "masses");
@@ -801,11 +817,12 @@ public class PhysicsSoftBody
     /**
      * Alter the mass of the indexed node.
      *
-     * @param nodeIndex which node to modify (not null)
+     * @param nodeIndex which node to modify (&ge;0, &lt;numNodes)
      * @param mass the desired mass (&gt;0)
      */
     public void setNodeMass(int nodeIndex, float mass) {
-        Validate.nonNegative(nodeIndex, "node index");
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
         Validate.positive(mass, "mass");
 
         setMass(objectId, nodeIndex, mass);
@@ -814,13 +831,13 @@ public class PhysicsSoftBody
     /**
      * Alter the velocity of the indexed node.
      *
-     * @param nodeIndex which node to modify (not null)
+     * @param nodeIndex which node to modify (&ge;0, &lt;numNodes)
      * @param velocity the desired velocity vector (not null, unaffected)
      */
     public void setNodeVelocity(int nodeIndex, Vector3f velocity) {
         int numNodes = countNodes();
         Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
-        Validate.nonNull(velocity, "velocity");
+        Validate.finite(velocity, "velocity");
 
         setNodeVelocity(objectId, nodeIndex, velocity);
     }
@@ -886,7 +903,7 @@ public class PhysicsSoftBody
      * null, unaffected)
      */
     public void setVelocity(Vector3f velocity) {
-        Validate.nonNull(velocity, "velocity");
+        Validate.finite(velocity, "velocity");
         setVelocity(objectId, velocity);
     }
 
@@ -1076,7 +1093,7 @@ public class PhysicsSoftBody
      */
     @Override
     public void setGravity(Vector3f acceleration) {
-        Validate.nonNull(acceleration, "acceleration");
+        Validate.finite(acceleration, "acceleration");
 
         SoftBodyWorldInfo oldInfo = getWorldInfo();
 
