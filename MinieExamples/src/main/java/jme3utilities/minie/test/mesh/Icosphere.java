@@ -177,9 +177,11 @@ public class Icosphere extends Mesh {
 
             faces = newFaces;
         }
+        midpointCache.clear();
 
         Vector3f[] posArray = new Vector3f[locations.size()];
         posArray = locations.toArray(posArray);
+        locations.clear();
 
         int[] indexArray = new int[faces.size()];
         for (int i = 0; i < faces.size(); ++i) {
@@ -190,6 +192,7 @@ public class Icosphere extends Mesh {
 
         Vector3f[] normArray = new Vector3f[normals.size()];
         normArray = normals.toArray(normArray);
+        normals.clear();
 
         FloatBuffer posBuffer = BufferUtils.createFloatBuffer(posArray);
         setBuffer(VertexBuffer.Type.Position, 3, posBuffer);
