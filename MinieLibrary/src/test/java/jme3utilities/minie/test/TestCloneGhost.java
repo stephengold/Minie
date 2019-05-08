@@ -27,26 +27,18 @@
 package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.AssetNotFoundException;
 import com.jme3.asset.DesktopAssetManager;
-import com.jme3.asset.ModelKey;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.objects.PhysicsGhostObject;
-import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.binary.BinaryLoader;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.control.Control;
 import com.jme3.system.NativeLibraryLoader;
-import java.io.File;
-import java.io.IOException;
 import jme3utilities.Misc;
 import org.junit.Test;
 
@@ -114,52 +106,14 @@ public class TestCloneGhost {
         verifyParameters(pgoClone, 0.6f);
 
         if (pgo instanceof GhostControl) {
-            GhostControl pgoCopy = saveThenLoad((GhostControl) pgo);
+            GhostControl pgoCopy = BinaryExporter.saveAndLoad(assetManager,
+                    (GhostControl) pgo);
             verifyParameters(pgoCopy, 0.3f);
 
-            GhostControl gcCloneCopy = saveThenLoad((GhostControl) pgoClone);
+            GhostControl gcCloneCopy = BinaryExporter.saveAndLoad(assetManager,
+                    (GhostControl) pgoClone);
             verifyParameters(gcCloneCopy, 0.6f);
         }
-    }
-
-    /**
-     * Clone a GhostControl by saving and then loading it.
-     *
-     * @param gc the control to copy (not null, unaffected)
-     * @return a new control
-     */
-    private GhostControl saveThenLoad(GhostControl gc) {
-        Node savedNode = new Node();
-        /*
-         * Add the Control to the Node without altering its physics transform.
-         */
-        Vector3f pl = gc.getPhysicsLocation(null);
-        Matrix3f pr = gc.getPhysicsRotationMatrix(null);
-        savedNode.addControl(gc);
-        gc.setPhysicsLocation(pl);
-        gc.setPhysicsRotation(pr);
-
-        String fileName = String.format("tmp%d.j3o", ++fileIndex);
-        File file = new File(fileName);
-
-        JmeExporter exporter = BinaryExporter.getInstance();
-        try {
-            exporter.save(savedNode, file);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-
-        ModelKey key = new ModelKey(fileName);
-        Spatial loadedNode = new Node();
-        try {
-            loadedNode = assetManager.loadAsset(key);
-        } catch (AssetNotFoundException exception) {
-            throw new RuntimeException(exception);
-        }
-        file.delete();
-        Control loadedSgc = loadedNode.getControl(0);
-
-        return (GhostControl) loadedSgc;
     }
 
     /**

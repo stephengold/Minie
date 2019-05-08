@@ -26,20 +26,15 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.AssetNotFoundException;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.control.BetterCharacterControl;
-import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.binary.BinaryLoader;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
-import java.io.File;
-import java.io.IOException;
 import jme3utilities.Misc;
 import org.junit.Test;
 
@@ -94,13 +89,15 @@ public class TestClonePhysicsControls {
         verifyParameters(bcc, 0.3f);
         verifyParameters(bccClone, 0.6f);
 
-        BetterCharacterControl bccCopy = saveThenLoad(bcc);
+        BetterCharacterControl bccCopy
+                = BinaryExporter.saveAndLoad(assetManager, bcc);
         verifyParameters(bccCopy, 0.3f);
 
-        BetterCharacterControl bccCloneCopy = saveThenLoad(bccClone);
+        BetterCharacterControl bccCloneCopy
+                = BinaryExporter.saveAndLoad(assetManager, bccClone);
         verifyParameters(bccCloneCopy, 0.6f);
         /*
-         * test DynamicAnimControl
+         * test DynamicAnimControl TODO
          */
         DynamicAnimControl dac = new DynamicAnimControl();
         DynamicAnimControl dacClone
@@ -110,35 +107,6 @@ public class TestClonePhysicsControls {
     }
     // *************************************************************************
     // private methods
-
-    /**
-     * Clone a BetterCharacterControl by saving and then loading it.
-     *
-     * @param bcc the control to copy (not null, unaffected)
-     * @return a new control
-     */
-    private BetterCharacterControl saveThenLoad(BetterCharacterControl bcc) {
-        String fileName = String.format("saveThenLoadBcc%d.j3o", ++fileIndex);
-        File file = new File(fileName);
-
-        JmeExporter exporter = BinaryExporter.getInstance();
-        try {
-            exporter.save(bcc, file);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-
-        AssetKey<BetterCharacterControl> key = new AssetKey<>(fileName);
-        BetterCharacterControl loadedBcc = null;
-        try {
-            loadedBcc = assetManager.loadAsset(key);
-        } catch (AssetNotFoundException exception) {
-            throw new RuntimeException(exception);
-        }
-        file.delete();
-
-        return loadedBcc;
-    }
 
     /**
      * Modify BetterCharacterControl parameters based on the specified key

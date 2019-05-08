@@ -27,28 +27,22 @@
 package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.AssetNotFoundException;
 import com.jme3.asset.DesktopAssetManager;
-import com.jme3.asset.ModelKey;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.control.VehicleControl;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
-import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.binary.BinaryLoader;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import com.jme3.system.NativeLibraryLoader;
-import java.io.File;
-import java.io.IOException;
 import jme3utilities.Misc;
 import org.junit.Test;
 
@@ -112,6 +106,14 @@ public class TestCloneBody {
         verifyParameters(vc, 0f);
         VehicleControl vcClone = (VehicleControl) Misc.deepCopy(vc);
         cloneTest(vc, vcClone);
+        /*
+         * PhysicsSoftBody
+         */
+        PhysicsSoftBody soft = new PhysicsSoftBody();
+        //setParameters(soft, 0f); TODO
+        //verifyParameters(soft, 0f);
+        //PhysicsSoftBody softClone = (PhysicsSoftBody) Misc.deepCopy(soft);
+        //cloneTest(soft, softClone);
     }
     // *************************************************************************
     // private methods
@@ -131,53 +133,14 @@ public class TestCloneBody {
         verifyParameters(bodyClone, 0.6f);
 
         if (body instanceof Control) {
-            PhysicsRigidBody bodyCopy = saveThenLoad(body);
+            PhysicsRigidBody bodyCopy
+                    = BinaryExporter.saveAndLoad(assetManager, body);
             verifyParameters(bodyCopy, 0.3f);
 
-            PhysicsRigidBody bodyCloneCopy = saveThenLoad(bodyClone);
+            PhysicsRigidBody bodyCloneCopy
+                    = BinaryExporter.saveAndLoad(assetManager, bodyClone);
             verifyParameters(bodyCloneCopy, 0.6f);
         }
-    }
-
-    /**
-     * Clone a body that implements Control by saving and then loading it.
-     *
-     * @param sgc the body/control to copy (not null, unaffected)
-     * @return a new body/control
-     */
-    private PhysicsRigidBody saveThenLoad(PhysicsRigidBody body) {
-        Control sgc = (Control) body;
-        Node savedNode = new Node();
-        /*
-         * Add the Control to the Node without altering its physics transform.
-         */
-        Vector3f pl = body.getPhysicsLocation(null);
-        Matrix3f pr = body.getPhysicsRotationMatrix(null);
-        savedNode.addControl(sgc);
-        body.setPhysicsLocation(pl);
-        body.setPhysicsRotation(pr);
-
-        String fileName = String.format("tmp%d.j3o", ++fileIndex);
-        File file = new File(fileName);
-
-        JmeExporter exporter = BinaryExporter.getInstance();
-        try {
-            exporter.save(savedNode, file);
-        } catch (IOException exception) {
-            assert false;
-        }
-
-        ModelKey key = new ModelKey(fileName);
-        Spatial loadedNode = new Node();
-        try {
-            loadedNode = assetManager.loadAsset(key);
-        } catch (AssetNotFoundException e) {
-            assert false;
-        }
-        file.delete();
-        Control loadedSgc = loadedNode.getControl(0);
-
-        return (PhysicsRigidBody) loadedSgc;
     }
 
     private void setParameters(PhysicsRigidBody body, float b) {

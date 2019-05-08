@@ -27,7 +27,6 @@
 package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.AssetNotFoundException;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
 import com.jme3.asset.plugins.ClasspathLocator;
@@ -47,8 +46,6 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.control.GhostControl;
-import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.binary.BinaryLoader;
 import com.jme3.material.plugins.J3MLoader;
@@ -57,15 +54,12 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.system.NativeLibraryLoader;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
 import com.jme3.texture.plugins.AWTLoader;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import jme3utilities.Misc;
@@ -315,46 +309,13 @@ public class TestCloneShapes {
         verifyParameters(shape, 0.3f);
         verifyParameters(shapeClone, 0.6f);
 
-        CollisionShape shapeCopy = saveThenLoad(shape);
+        CollisionShape shapeCopy
+                = BinaryExporter.saveAndLoad(assetManager, shape);
         verifyParameters(shapeCopy, 0.3f);
 
-        CollisionShape shapeCloneCopy = saveThenLoad(shapeClone);
+        CollisionShape shapeCloneCopy
+                = BinaryExporter.saveAndLoad(assetManager, shapeClone);
         verifyParameters(shapeCloneCopy, 0.6f);
-    }
-
-    /**
-     * Clone a CollisionShape by saving and then loading it.
-     *
-     * @param shape the shape to copy (not null, unaffected)
-     * @return a new shape
-     */
-    private CollisionShape saveThenLoad(CollisionShape shape) {
-        Node savedNode = new Node();
-        GhostControl savedControl = new GhostControl(shape);
-        savedNode.addControl(savedControl);
-
-        String fileName = String.format("tmp%d.j3o", ++fileIndex);
-        File file = new File(fileName);
-
-        JmeExporter exporter = BinaryExporter.getInstance();
-        try {
-            exporter.save(savedNode, file);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-
-        ModelKey key = new ModelKey(fileName);
-        Spatial loadedNode = new Node();
-        try {
-            loadedNode = assetManager.loadAsset(key);
-        } catch (AssetNotFoundException exception) {
-            throw new RuntimeException(exception);
-        }
-        file.delete();
-        GhostControl loadedSgc = (GhostControl) loadedNode.getControl(0);
-        CollisionShape loadedShape = loadedSgc.getCollisionShape();
-
-        return loadedShape;
     }
 
     /**
