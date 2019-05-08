@@ -28,7 +28,6 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
-import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -37,7 +36,6 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.export.binary.BinaryExporter;
-import com.jme3.export.binary.BinaryLoader;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -52,19 +50,19 @@ import org.junit.Test;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestCloneBody {
+    // *************************************************************************
+    // fields
 
-    private AssetManager assetManager;
-    private int fileIndex = 0;
+    /**
+     * AssetManager required by the BinaryImporter
+     */
+    final private AssetManager assetManager = new DesktopAssetManager();
     // *************************************************************************
     // new methods exposed
 
     @Test
     public void testCloneBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        assetManager = new DesktopAssetManager();
-        assetManager.registerLoader(BinaryLoader.class, "j3o");
-        assetManager.registerLocator(".", FileLocator.class);
-
         CollisionShape shape = new SphereCollisionShape(1f);
         /*
          * PhysicsRigidBody with mass=0

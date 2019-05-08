@@ -28,12 +28,10 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
-import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.binary.BinaryExporter;
-import com.jme3.export.binary.BinaryLoader;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
@@ -41,7 +39,7 @@ import jme3utilities.Misc;
 import org.junit.Test;
 
 /**
- * Test cloning a PhysicsCharacter.
+ * Test cloning/saving/loading a PhysicsCharacter.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -50,23 +48,15 @@ public class TestCloneCharacter {
     // fields
 
     /**
-     * asset manager to load the saved control from a temporary file
+     * AssetManager required by the BinaryImporter
      */
-    private AssetManager assetManager;
-    /**
-     * number of temporary files created
-     */
-    private int fileIndex = 0;
+    final private AssetManager assetManager = new DesktopAssetManager();
     // *************************************************************************
     // new methods exposed
 
     @Test
     public void testCloneCharacter() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        assetManager = new DesktopAssetManager();
-        assetManager.registerLoader(BinaryLoader.class, "j3o");
-        assetManager.registerLocator(".", FileLocator.class);
-
         CollisionShape shape = new SphereCollisionShape(1f);
         PhysicsCharacter ch = new PhysicsCharacter(shape, 1f);
         setParameters(ch, 0f);

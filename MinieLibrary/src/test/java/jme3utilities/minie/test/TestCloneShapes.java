@@ -76,21 +76,15 @@ public class TestCloneShapes {
     // fields
 
     /**
-     * asset manager to load the saved control from a temporary file
+     * AssetManager to load Jaime, also required by the BinaryImporter
      */
-    private AssetManager assetManager;
-    /**
-     * number of temporary files created
-     */
-    private int fileIndex = 0;
+    final private AssetManager assetManager = new DesktopAssetManager();
     // *************************************************************************
     // new methods exposed
 
     @Test
     public void testCloneShapes() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-
-        assetManager = new DesktopAssetManager();
         assetManager.registerLoader(AWTLoader.class, "jpg", "png");
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");

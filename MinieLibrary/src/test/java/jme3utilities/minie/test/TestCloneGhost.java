@@ -28,13 +28,11 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
-import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.export.binary.BinaryExporter;
-import com.jme3.export.binary.BinaryLoader;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -52,23 +50,15 @@ public class TestCloneGhost {
     // fields
 
     /**
-     * asset manager to load the saved control from a temporary file
+     * AssetManager required by the BinaryImporter
      */
-    private AssetManager assetManager;
-    /**
-     * number of temporary files created
-     */
-    private int fileIndex = 0;
+    final private AssetManager assetManager = new DesktopAssetManager();
     // *************************************************************************
     // new methods exposed
 
     @Test
     public void testCloneGhost() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        assetManager = new DesktopAssetManager();
-        assetManager.registerLoader(BinaryLoader.class, "j3o");
-        assetManager.registerLocator(".", FileLocator.class);
-
         CollisionShape shape = new SphereCollisionShape(1f);
         /*
          * PhysicsGhostObject
