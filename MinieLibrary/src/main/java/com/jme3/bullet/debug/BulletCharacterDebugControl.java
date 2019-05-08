@@ -57,6 +57,10 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
      */
     final public static Logger logger
             = Logger.getLogger(BulletCharacterDebugControl.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
+     */
+    final private static Quaternion rotateIdentity = new Quaternion();
     // *************************************************************************
     // fields
 
@@ -85,9 +89,15 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
      */
     private Spatial geom;
     /**
-     * temporary storage for physics location
+     * temporary storage for one vector per thread
      */
-    final private Vector3f location = new Vector3f();
+    final private static ThreadLocal<Vector3f> threadTmpVector
+            = new ThreadLocal<Vector3f>() {
+        @Override
+        protected Vector3f initialValue() {
+            return new Vector3f();
+        }
+    };
     /**
      * physics scale for which geom was generated
      */
@@ -168,8 +178,10 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
         }
 
         updateMaterial();
+
+        Vector3f location = threadTmpVector.get();
         character.getPhysicsLocation(location);
-        applyPhysicsTransform(location, Quaternion.IDENTITY);
+        applyPhysicsTransform(location, rotateIdentity);
     }
 
     /**
