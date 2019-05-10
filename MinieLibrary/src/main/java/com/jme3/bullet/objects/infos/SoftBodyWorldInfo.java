@@ -32,7 +32,13 @@
 package com.jme3.bullet.objects.infos;
 
 import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
+import com.jme3.export.Savable;
 import com.jme3.math.Vector3f;
+import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -45,7 +51,7 @@ import jme3utilities.Validate;
  *
  * @author dokthar
  */
-public class SoftBodyWorldInfo {
+public class SoftBodyWorldInfo implements Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -226,6 +232,46 @@ public class SoftBodyWorldInfo {
      */
     public float waterOffset() {
         return getWaterOffset(nativeId);
+    }
+    // *************************************************************************
+    // Savable methods
+
+    /**
+     * De-serialize this info, for example when loading from a J3O file.
+     *
+     * @param importer the importer (not null)
+     * @throws IOException from the importer
+     */
+    @Override
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
+
+        setAirDensity(capsule.readFloat("airDensity", 1.2f));
+        setGravity((Vector3f) capsule.readSavable(
+                "gravity", new Vector3f(0f, -10f, 0f)));
+        setMaxDisplacement(capsule.readFloat("maxDisplacement", 1000f));
+        setWaterDensity(capsule.readFloat("waterDensity", 0f));
+        setWaterNormal((Vector3f) capsule.readSavable(
+                "waterNormal", new Vector3f(0f, 0f, 0f)));
+        setWaterOffset(capsule.readFloat("waterOffset", 0f));
+    }
+
+    /**
+     * Serialize this object, for example when saving to a J3O file.
+     *
+     * @param exporter the exporter (not null)
+     * @throws IOException from the exporter
+     */
+    @Override
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
+
+        capsule.write(airDensity(), "airDensity", 1.2f);
+        capsule.write(copyGravity(null), "gravity", null);
+        capsule.write(maxDisplacement(), "maxDisplacement", 1000f);
+        capsule.write(waterDensity(), "waterDensity", 0f);
+        capsule.write(copyWaterNormal(null), "waterNormal", null);
+        capsule.write(waterOffset(), "waterOffset", 0f);
     }
     // *************************************************************************
     // private methods
