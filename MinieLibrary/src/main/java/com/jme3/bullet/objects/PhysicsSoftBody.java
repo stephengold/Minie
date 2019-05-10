@@ -157,6 +157,68 @@ public class PhysicsSoftBody
     }
 
     /**
+     * Read the influence of the indexed anchor.
+     *
+     * @param anchorIndex which anchor (&ge;0, &lt;numAnchors)
+     * @return the amount of influence on this body (0&rarr;no influence,
+     * 1&rarr;strong influence)
+     */
+    public float anchorInfluence(int anchorIndex) {
+        int numAnchors = countAnchors();
+        Validate.inRange(anchorIndex, "anchor index", 0, numAnchors - 1);
+
+        float result = getAnchorInfluence(objectId, anchorIndex);
+        return result;
+    }
+
+    /**
+     * Read the index of the node connected by the indexed anchor.
+     *
+     * @param anchorIndex which anchor (&ge;0, &lt;numAnchors)
+     * @return the index of the node (&ge;0, &lt;numNodes)
+     */
+    public int anchorNodeIndex(int anchorIndex) {
+        int numAnchors = countAnchors();
+        Validate.inRange(anchorIndex, "anchor index", 0, numAnchors - 1);
+
+        int result = getAnchorNodeIndex(objectId, anchorIndex);
+
+        assert result >= 0 : result;
+        assert result < countNodes() : result;
+        return result;
+    }
+
+    /**
+     * Copy the pivot offset of the indexed anchor.
+     *
+     * @param anchorIndex which anchor (&ge;0, &lt;numAnchors)
+     * @param storeResult storage for the result (modified if null)
+     * @return an offset vector (either storeResult or a new vector)
+     */
+    public Vector3f anchorPivot(int anchorIndex, Vector3f storeResult) {
+        int numAnchors = countAnchors();
+        Validate.inRange(anchorIndex, "anchor index", 0, numAnchors - 1);
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        getAnchorPivot(objectId, anchorIndex, result);
+        return result;
+    }
+
+    /**
+     * Read the native ID of the rigid body connected by the indexed anchor.
+     *
+     * @param anchorIndex which anchor (&ge;0, &lt;numAnchors)
+     * @return an offset vector (either storeResult or a new vector)
+     */
+    public long anchorRigidId(int anchorIndex) {
+        int numAnchors = countAnchors();
+        Validate.inRange(anchorIndex, "anchor index", 0, numAnchors - 1);
+
+        long result = getAnchorRigidId(objectId, anchorIndex);
+        return result;
+    }
+
+    /**
      * Add an anchor connecting the indexed node of this body with the specified
      * rigid body.
      *
@@ -609,6 +671,23 @@ public class PhysicsSoftBody
     }
 
     /**
+     * Cut a pre-existing link in this body. TODO clarify the semantics
+     *
+     * @param nodeIndex0 the index of a node in the link (&ge;0,&lt;numNodes)
+     * @param nodeIndex1 the index of the other node in the link
+     * (&ge;0,&lt;numNodes)
+     * @param position where to cut the link
+     * @return true if successful, otherwise false
+     */
+    public boolean cutLink(int nodeIndex0, int nodeIndex1, float position) {
+        int numNodes = countNodes();
+        Validate.inRange(nodeIndex0, "node index 0", 0, numNodes - 1);
+        Validate.inRange(nodeIndex1, "node index 1", 0, numNodes - 1);
+
+        return cutLink(objectId, nodeIndex0, nodeIndex1, position);
+    }
+
+    /**
      * Generate bending constraints based on hops in the adjacency graph.
      *
      * @param numHops (in links, &ge;2)
@@ -626,7 +705,7 @@ public class PhysicsSoftBody
      * tetrahedra). Any pre-existing clusters are released.
      */
     public void generateClusters() {
-        generateClusters(objectId, 0, 8192);
+        generateClusters(objectId, 0, 8_192);
     }
 
     /**
@@ -678,6 +757,19 @@ public class PhysicsSoftBody
         SoftBodyWorldInfo worldInfo = new SoftBodyWorldInfo(worldInfoId);
 
         return worldInfo;
+    }
+
+    /**
+     * Test whether collisions are allowed between this body and the identified
+     * collision object. Disallowed collisions may result from anchors.
+     *
+     * @param pcoId the native ID of the other collision object (not zero)
+     * @return true if allowed, otherwise false
+     */
+    public boolean isCollisionAllowed(long pcoId) {
+        Validate.nonZero(pcoId, "collision object ID");
+        boolean result = isCollisionAllowed(objectId, pcoId);
+        return result;
     }
 
     /**
@@ -843,6 +935,16 @@ public class PhysicsSoftBody
     }
 
     /**
+     * Alter the normal vectors of all nodes.
+     *
+     * @param normals a buffer containing the desired velocities (not null)
+     */
+    public void setNormals(FloatBuffer normals) {
+        Validate.nonNull(normals, "normals");
+        setNormals(objectId, normals);
+    }
+
+    /**
      * Set the "default pose" or "lowest energy state" of this body to its
      * current pose.
      *
@@ -866,7 +968,7 @@ public class PhysicsSoftBody
 
     /**
      * Alter the total mass for this body, distributing it based on the surface
-     * area of each face.
+     * area of each face. TODO reorder methods
      *
      * @param totalMass the desired total mass (&gt;0)
      */
@@ -894,6 +996,16 @@ public class PhysicsSoftBody
     public void setMassFromDensity(float density) {
         Validate.positive(density, "density");
         setTotalDensity(objectId, density);
+    }
+
+    /**
+     * Alter the velocities of all nodes.
+     *
+     * @param velocities a buffer containing the desired velocities (not null)
+     */
+    public void setVelocities(FloatBuffer velocities) {
+        Validate.nonNull(velocities, "velocities");
+        setVelocities(objectId, velocities);
     }
 
     /**
@@ -1335,12 +1447,24 @@ public class PhysicsSoftBody
 
     native private long createEmptySoftBody();
 
+    native private boolean cutLink(long bodyId, int nodeIndex0, int nodeIndex1,
+            float position);
+
     native private void generateBendingConstraints(long bodyId, int distance,
             long materialId);
 
     native private void generateClusters(long bodyId, int k, int maxIterations);
 
     native private int getAnchorCount(long bodyId);
+
+    native private float getAnchorInfluence(long bodyId, int anchorIndex);
+
+    native private int getAnchorNodeIndex(long bodyId, int anchorIndex);
+
+    native private void getAnchorPivot(long bodyId, int anchorIndex,
+            Vector3f storePivot);
+
+    native private long getAnchorRigidId(long bodyId, int anchorIndex);
 
     native private void getBounds(long objectId, Vector3f storeMinima,
             Vector3f storeMaxima);
@@ -1404,6 +1528,8 @@ public class PhysicsSoftBody
 
     native private void initDefault(long bodyId);
 
+    native private boolean isCollisionAllowed(long softBodyId, long pcoId);
+
     native private void randomizeConstraints(long bodyId);
 
     native private void releaseCluster(long bodyId, int index);
@@ -1421,6 +1547,8 @@ public class PhysicsSoftBody
 
     native private void setNodeVelocity(long bodyId, int nodeIndex,
             Vector3f velocityVector);
+
+    native private void setNormals(long bodyId, FloatBuffer normalBuffer);
 
     native private void setPhysicsLocation(long bodyId,
             Vector3f locationVector);
@@ -1442,6 +1570,8 @@ public class PhysicsSoftBody
     native private void setTotalMass(long bodyId, float mass,
             boolean fromFaces);
 
+    native private void setVelocities(long bodyId, FloatBuffer velocityBuffer);
+
     native private void setVelocity(long bodyId, Vector3f vector);
 
     native private void setVolumeDensity(long bodyId, float density);
@@ -1450,7 +1580,7 @@ public class PhysicsSoftBody
 
     /**
      * Provide access to fields of the native Config struct in btSoftBody. Soft
-     * bodies are one-to-one with Config instances.
+     * bodies are one-to-one with Config instances. TODO make it an outer class
      */
     public class Config {
         // *********************************************************************
@@ -1913,10 +2043,11 @@ public class PhysicsSoftBody
                 capsule.write(value, tag, defValue);
             }
         }
-    };
+    }
 
     /**
      * Provide access to 3 fields of the native Material struct in btSoftBody.
+     * TODO make it an outer class
      */
     public class Material {
         // *********************************************************************
@@ -1943,7 +2074,8 @@ public class PhysicsSoftBody
         // new methods exposed
 
         /**
-         * Read the angular stiffness coefficient (native field: m_kAST).
+         * Read the angular stiffness coefficient (native field: m_kAST). TODO
+         * rename
          *
          * @return the coefficient (&ge;0, &le;1)
          */
@@ -1952,7 +2084,8 @@ public class PhysicsSoftBody
         }
 
         /**
-         * Read the linear stiffness coefficient (native field: m_kLST).
+         * Read the linear stiffness coefficient (native field: m_kLST). TODO
+         * rename
          *
          * @return the coefficient (&ge;0, &le;1)
          */
@@ -1961,7 +2094,8 @@ public class PhysicsSoftBody
         }
 
         /**
-         * Read the volume stiffness coefficient (native field: m_kVST).
+         * Read the volume stiffness coefficient (native field: m_kVST). TODO
+         * rename
          *
          * @return the coefficient (&ge;0, &le;1)
          */
