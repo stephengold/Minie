@@ -339,9 +339,9 @@ public class TestCloneBody {
         // TODO verify collision flags and iteration counts
 
         PhysicsSoftBody.Material material = body.getSoftMaterial();
-        assert material.getAngularStiffness() == b + 0.04f;
-        assert material.getLinearStiffness() == b + 0.041f;
-        assert material.getVolumeStiffness() == b + 0.042f;
+        assert material.angularStiffness() == b + 0.04f;
+        assert material.linearStiffness() == b + 0.041f;
+        assert material.volumeStiffness() == b + 0.042f;
 
         SoftBodyWorldInfo sbwi = body.getWorldInfo();
         assert sbwi.airDensity() == b + 0.05f;

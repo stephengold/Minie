@@ -1350,9 +1350,9 @@ public class PhysicsSoftBody
 
         Material oldMaterial = old.getSoftMaterial();
         material = new Material(this);
-        material.setAngularStiffness(oldMaterial.getAngularStiffness());
-        material.setLinearStiffness(oldMaterial.getLinearStiffness());
-        material.setVolumeStiffness(oldMaterial.getVolumeStiffness());
+        material.setAngularStiffness(oldMaterial.angularStiffness());
+        material.setLinearStiffness(oldMaterial.linearStiffness());
+        material.setVolumeStiffness(oldMaterial.volumeStiffness());
 
         SoftBodyWorldInfo oldInfo = old.getWorldInfo();
         SoftBodyWorldInfo newInfo = new SoftBodyWorldInfo();
@@ -2154,32 +2154,30 @@ public class PhysicsSoftBody
         // new methods exposed
 
         /**
-         * Read the angular stiffness coefficient (native field: m_kAST). TODO
-         * rename
+         * Read the angular stiffness coefficient (native field: m_kAST).
          *
          * @return the coefficient (&ge;0, &le;1)
          */
-        public float getAngularStiffness() {
+        public float angularStiffness() {
             return getAngularStiffnessFactor(materialId);
         }
 
         /**
-         * Read the linear stiffness coefficient (native field: m_kLST). TODO
-         * rename
+         * Read the linear stiffness coefficient (native field: m_kLST).
          *
          * @return the coefficient (&ge;0, &le;1)
          */
-        public float getLinearStiffness() {
+        public float linearStiffness() {
             return getLinearStiffnessFactor(materialId);
         }
 
         /**
          * Read the volume stiffness coefficient (native field: m_kVST). TODO
-         * rename
+         * re-order methods
          *
          * @return the coefficient (&ge;0, &le;1)
          */
-        public float getVolumeStiffness() {
+        public float volumeStiffness() {
             return getVolumeStiffnessFactor(materialId);
         }
 
@@ -2285,9 +2283,9 @@ public class PhysicsSoftBody
          * @throws IOException from the exporter
          */
         private void write(OutputCapsule capsule) throws IOException {
-            capsule.write(getAngularStiffness(), "AngularStiffness", 1f);
-            capsule.write(getLinearStiffness(), "LinearStiffness", 1f);
-            capsule.write(getVolumeStiffness(), "VolumeStiffness", 1f);
+            capsule.write(angularStiffness(), "AngularStiffness", 1f);
+            capsule.write(linearStiffness(), "LinearStiffness", 1f);
+            capsule.write(volumeStiffness(), "VolumeStiffness", 1f);
         }
     }
 }

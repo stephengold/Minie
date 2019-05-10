@@ -188,9 +188,9 @@ public class PhysicsDescriber extends Describer {
     public String describe(PhysicsSoftBody.Material material) {
         String result = String.format(
                 "Material stiffness[ang=%s lin=%s vol=%s]",
-                MyString.describe(material.getAngularStiffness()),
-                MyString.describe(material.getLinearStiffness()),
-                MyString.describe(material.getVolumeStiffness()));
+                MyString.describe(material.angularStiffness()),
+                MyString.describe(material.linearStiffness()),
+                MyString.describe(material.volumeStiffness()));
         return result;
     }
 
