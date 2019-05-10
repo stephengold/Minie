@@ -253,30 +253,25 @@ public class PhysicsDumper extends Dumper {
         long objectId = body.getObjectId();
         stream.printf("%n%sSoft #%s", indent, Long.toHexString(objectId));
 
+        Vector3f location = body.getPhysicsLocation(null);
+        String desc = MyVector3f.describe(location);
+        stream.printf(" loc[%s]", desc);
+
         float mass = body.getMass();
-        String desc = MyString.describe(mass);
+        desc = MyString.describe(mass);
         stream.print(" mass=" + desc);
 
         PhysicsDescriber describer = getDescriber();
         desc = describer.describeUser(body);
         stream.print(desc);
 
-        int numNodes = body.countNodes();
         int numLinks = body.countLinks();
         int numFaces = body.countFaces();
         int numTetras = body.countTetras();
-        int numClusters = body.countClusters();
-        stream.printf(
-                " %d node%s, %d link%s, %d face%s, %d tetra%s, %d cluster%s",
-                numNodes, (numNodes == 1) ? "" : "s",
+        stream.printf(" with %d link%s, %d face%s, %d tetra%s",
                 numLinks, (numLinks == 1) ? "" : "s",
                 numFaces, (numFaces == 1) ? "" : "s",
-                numTetras, (numTetras == 1) ? "" : "s",
-                numClusters, (numClusters == 1) ? "" : "s");
-
-        Vector3f location = body.getPhysicsLocation(null);
-        desc = MyVector3f.describe(location);
-        stream.printf(" loc[%s]", desc);
+                numTetras, (numTetras == 1) ? "" : "s");
 
         Quaternion orientation = body.getPhysicsRotation(null);
         if (!MyQuaternion.isRotationIdentity(orientation)) {
@@ -310,38 +305,33 @@ public class PhysicsDumper extends Dumper {
         stream.printf("%n%s%s", indent, desc);
 
         int numAnchors = body.countAnchors();
-        int numJoints = body.countJoints();
-        stream.printf(" anchors=%d joints=%d", numAnchors, numJoints);
-        // TODO joint/anchor details
-
-        if (dumpClustersInSofts) {
-            FloatBuffer coms = body.copyClusterCenters(null);
-            for (int clusterI = 0; clusterI < numClusters; ++clusterI) {
-                int floatIndex = 3 * clusterI;
-                float x = coms.get(floatIndex);
-                float y = coms.get(floatIndex + 1);
-                float z = coms.get(floatIndex + 2);
-                String comString = MyVector3f.describe(new Vector3f(x, y, z));
-                stream.printf("%n%s  cluster%d  com[%s]", indent, clusterI,
-                        comString);
-            }
+        stream.printf(" %d anchor%s%s", numAnchors,
+                (numAnchors == 1) ? "" : "s",
+                (numAnchors == 0) ? "," : ":");
+        for (int anchorI = 0; anchorI < numAnchors; ++anchorI) {
+            dumpAnchor(body, anchorI, indent);
         }
-        
-        if (dumpNodesInSofts) {
-            FloatBuffer locations = body.copyLocations(null);
-            FloatBuffer masses = body.copyMasses(null);
-            FloatBuffer velocities = body.copyVelocities(null);
-            IntBuffer linkIndices = body.copyLinks(null);
-            for (int nodeIndex = 0; nodeIndex < numNodes; ++nodeIndex) {
-                int degree = frequency(linkIndices, 2 * numLinks, nodeIndex);
-                float nodeMass = masses.get(nodeIndex);
-                String locString = describeVector(locations, nodeIndex);
-                String vString = describeVector(velocities, nodeIndex);
-                stream.printf(
-                        "%n%s  node%d deg=%d mass=%s loc[%s] v[%s]",
-                        indent, nodeIndex, degree, MyString.describe(nodeMass),
-                        locString, vString);
-            }
+        if (numAnchors > 0) {
+            stream.printf("%n%s", indent);
+        }
+
+        int numJoints = body.countJoints();
+        stream.printf(" %d joint%s", numJoints, (numJoints == 1) ? "" : "s");
+        // TODO joint details
+
+        int numClusters = body.countClusters();
+        stream.printf(", %d cluster%s", numClusters,
+                (numClusters == 1) ? "" : "s");
+        if (dumpClustersInSofts && numClusters > 0) {
+            dumpClusters(body, indent);
+        } else {
+            stream.print(",");
+        }
+
+        int numNodes = body.countNodes();
+        stream.printf(" %d node%s", numNodes, (numNodes == 1) ? "" : "s");
+        if (dumpNodesInSofts && numNodes > 0) {
+            dumpNodes(body, indent);
         }
     }
 
@@ -686,7 +676,9 @@ public class PhysicsDumper extends Dumper {
     // private methods
 
     /**
-     * Generate a textual description of the indexed vector in the specified buffer.
+     * Generate a textual description of the indexed vector in the specified
+     * buffer.
+     *
      * @param buffer the buffer to read (not null, unaffected)
      * @param vectorIndex the index of the vector in the buffer (&ge;0)
      * @return descriptive text (not null, not empty)
@@ -698,8 +690,78 @@ public class PhysicsDumper extends Dumper {
         float z = buffer.get(floatIndex + 2);
         Vector3f vector = new Vector3f(x, y, z);
         String locString = MyVector3f.describe(vector);
-        
+
         return locString;
+    }
+
+    /**
+     * Dump the indexed anchor of the specified soft body.
+     *
+     * @param softBody which body to read (not null, unaffected)
+     * @param anchorIndex which anchor to dump (&ge;0, &lt;numAnchors)
+     * @param indent (not null)
+     */
+    private void dumpAnchor(PhysicsSoftBody softBody, int anchorIndex,
+            String indent) {
+        int nodeIndex = softBody.anchorNodeIndex(anchorIndex);
+        Vector3f pivotLocal = softBody.anchorPivot(anchorIndex, null);
+        long rigidId = softBody.anchorRigidId(anchorIndex);
+        float influence = softBody.anchorInfluence(anchorIndex);
+        boolean collisionBetweenLinkedBodies
+                = softBody.isCollisionAllowed(rigidId);
+        stream.printf("%n%s  [%d] node%d<->prb#%x piv[%s]",
+                indent, anchorIndex, nodeIndex, rigidId,
+                MyVector3f.describe(pivotLocal));
+        stream.printf(" %scollide influence=%s",
+                collisionBetweenLinkedBodies ? "" : "NO",
+                MyString.describe(influence));
+    }
+
+    /**
+     * Dump all clusters in the specified soft body.
+     *
+     * @param softBody which body to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    private void dumpClusters(PhysicsSoftBody softBody, String indent) {
+        stream.print(":");
+        FloatBuffer coms = softBody.copyClusterCenters(null);
+        int numClusters = softBody.countClusters();
+        for (int clusterI = 0; clusterI < numClusters; ++clusterI) {
+            int floatIndex = 3 * clusterI;
+            float x = coms.get(floatIndex);
+            float y = coms.get(floatIndex + 1);
+            float z = coms.get(floatIndex + 2);
+            String comString = MyVector3f.describe(new Vector3f(x, y, z));
+            stream.printf("%n%s  [%d] com[%s]", indent, clusterI,
+                    comString);
+        }
+        stream.printf("%n%s", indent);
+    }
+
+    /**
+     * Dump all nodes in the specified soft body.
+     *
+     * @param softBody which body to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    private void dumpNodes(PhysicsSoftBody softBody, String indent) {
+        stream.print(":");
+        FloatBuffer locations = softBody.copyLocations(null);
+        FloatBuffer masses = softBody.copyMasses(null);
+        FloatBuffer velocities = softBody.copyVelocities(null);
+        IntBuffer linkIndices = softBody.copyLinks(null);
+        int numNodes = softBody.countNodes();
+        int numLinks = softBody.countLinks();
+        for (int nodeIndex = 0; nodeIndex < numNodes; ++nodeIndex) {
+            int degree = frequency(linkIndices, 2 * numLinks, nodeIndex);
+            float nodeMass = masses.get(nodeIndex);
+            String locString = describeVector(locations, nodeIndex);
+            String vString = describeVector(velocities, nodeIndex);
+            stream.printf("%n%s  [%d] deg=%d mass=%s loc[%s] v[%s]",
+                    indent, nodeIndex, degree, MyString.describe(nodeMass),
+                    locString, vString);
+        }
     }
 
     /**
