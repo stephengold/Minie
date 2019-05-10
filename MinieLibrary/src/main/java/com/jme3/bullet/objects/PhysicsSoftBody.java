@@ -32,6 +32,7 @@
 package com.jme3.bullet.objects;
 
 import com.jme3.bounding.BoundingBox;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.infos.ConfigFlags;
@@ -83,7 +84,7 @@ public class PhysicsSoftBody
     /**
      * configuration properties of this soft body
      */
-    final private Config config = new Config(this);
+    private Config config = new Config(this);
     /**
      * list of joints that connect to this body: The list isn't filled until the
      * body is added to a PhysicsSpace.
@@ -102,6 +103,7 @@ public class PhysicsSoftBody
      */
     public PhysicsSoftBody() {
         objectId = createEmptySoftBody();
+        assert objectId != 0L;
         super.initUserPointer();
 
         assert !isInWorld();
@@ -1087,7 +1089,33 @@ public class PhysicsSoftBody
     protected void newEmptySoftBody() {
         destroySoftBody();
         objectId = createEmptySoftBody();
+        assert objectId != 0L;
         initUserPointer();
+    }
+
+    /**
+     * Build/rebuild this body.
+     */
+    protected void rebuildSoftBody() {
+        boolean removed = false;
+        if (objectId != 0L) {
+            if (isInWorld()) {
+                PhysicsSpace.getPhysicsSpace().remove(this);
+                removed = true;
+            }
+            logger2.log(Level.FINE, "Finalizing SoftBody {0}",
+                    Long.toHexString(objectId));
+            finalizeNative(objectId);
+        }
+
+        objectId = createEmptySoftBody();
+        assert objectId != 0L;
+        logger2.log(Level.FINE, "Created SoftBody {0}",
+                Long.toHexString(objectId));
+
+        if (removed) {
+            PhysicsSpace.getPhysicsSpace().add(this);
+        }
     }
     // *************************************************************************
     // PhysicsBody methods
@@ -1300,15 +1328,58 @@ public class PhysicsSoftBody
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-
-        joints = cloner.clone(joints);
-        // TODO other fields?
+        rebuildSoftBody();
 
         PhysicsSoftBody old = (PhysicsSoftBody) original;
         copyPcoProperties(old);
 
-        Vector3f tmpVector = new Vector3f();
-        setPhysicsLocation(old.getPhysicsLocation(tmpVector));
+        Config oldConfig = old.getSoftConfig();
+        config = new Config(this);
+        config.setCollisionFlags(oldConfig.collisionFlags());
+        for (Sbcp parameter : Sbcp.values()) {
+            float value = oldConfig.get(parameter);
+            config.set(parameter, value);
+        }
+        config.setClusterIterations(oldConfig.clusterIterations());
+        config.setDriftIterations(oldConfig.driftIterations());
+        config.setPositionIterations(oldConfig.positionIterations());
+        config.setVelocityIterations(oldConfig.velocityIterations());
+
+        joints = cloner.clone(joints);
+
+        Material oldMaterial = old.getSoftMaterial();
+        material = new Material(this);
+        material.setAngularStiffness(oldMaterial.getAngularStiffness());
+        material.setLinearStiffness(oldMaterial.getLinearStiffness());
+        material.setVolumeStiffness(oldMaterial.getVolumeStiffness());
+
+        SoftBodyWorldInfo oldInfo = old.getWorldInfo();
+        SoftBodyWorldInfo newInfo = new SoftBodyWorldInfo();
+        setWorldInfo(newInfo);
+        newInfo.copyAll(oldInfo);
+
+        FloatBuffer floats = old.copyLocations(null);
+        appendNodes(floats);
+        old.copyNormals(floats);
+        setNormals(floats);
+        old.copyVelocities(floats);
+        setVelocities(floats);
+
+        FloatBuffer masses = old.copyMasses(null);
+        setMasses(masses);
+
+        IntBuffer faces = old.copyFaces(null);
+        IndexBuffer faceIndices = IndexBuffer.wrapIndexBuffer(faces);
+        appendFaces(faceIndices);
+
+        IntBuffer links = old.copyLinks(null);
+        IndexBuffer linkIndices = IndexBuffer.wrapIndexBuffer(links);
+        appendLinks(linkIndices);
+
+        IntBuffer tetras = old.copyTetras(null);
+        IndexBuffer tetraIndices = IndexBuffer.wrapIndexBuffer(tetras);
+        appendLinks(tetraIndices);
+
         setPhysicsRotation(old.getPhysicsRotation(null));
         setDeactivationTime(old.getDeactivationTime());
     }
