@@ -899,6 +899,28 @@ public class PhysicsSoftBody
     }
 
     /**
+     * Alter the total mass for this body, distributing it based on the surface
+     * area of each face.
+     *
+     * @param totalMass the desired total mass (&gt;0)
+     */
+    public void setMassByArea(float totalMass) {
+        Validate.positive(totalMass, "total mass");
+        setTotalMass(objectId, totalMass, true);
+    }
+
+    /**
+     * Alter the total mass for this body, distributing it based on the current
+     * mass of each node.
+     *
+     * @param totalMass the desired total mass (&gt;0)
+     */
+    public void setMassByCurrent(float totalMass) {
+        Validate.positive(totalMass, "total mass");
+        setTotalMass(objectId, totalMass, false);
+    }
+
+    /**
      * Alter the masses of all nodes.
      *
      * @param masses a buffer containing the desired masses (not null, all
@@ -907,6 +929,16 @@ public class PhysicsSoftBody
     public void setMasses(FloatBuffer masses) {
         Validate.nonNull(masses, "masses");
         setMasses(objectId, masses);
+    }
+
+    /**
+     * Alter the total mass of this body, weighted by volume.
+     *
+     * @param density the desired density (&gt;0)
+     */
+    public void setMassFromDensity(float density) {
+        Validate.positive(density, "density");
+        setTotalDensity(objectId, density);
     }
 
     /**
@@ -967,38 +999,6 @@ public class PhysicsSoftBody
      */
     public void setRestingLengthScale(float scale) {
         setRestLengthScale(objectId, scale);
-    }
-
-    /**
-     * Alter the total mass for this body, distributing it based on the surface
-     * area of each face. TODO reorder methods
-     *
-     * @param totalMass the desired total mass (&gt;0)
-     */
-    public void setMassByArea(float totalMass) {
-        Validate.positive(totalMass, "total mass");
-        setTotalMass(objectId, totalMass, true);
-    }
-
-    /**
-     * Alter the total mass for this body, distributing it based on the current
-     * mass of each node.
-     *
-     * @param totalMass the desired total mass (&gt;0)
-     */
-    public void setMassByCurrent(float totalMass) {
-        Validate.positive(totalMass, "total mass");
-        setTotalMass(objectId, totalMass, false);
-    }
-
-    /**
-     * Alter the total mass of this body, weighted by volume.
-     *
-     * @param density the desired density (&gt;0)
-     */
-    public void setMassFromDensity(float density) {
-        Validate.positive(density, "density");
-        setTotalDensity(objectId, density);
     }
 
     /**
@@ -2172,16 +2172,6 @@ public class PhysicsSoftBody
         }
 
         /**
-         * Read the volume stiffness coefficient (native field: m_kVST). TODO
-         * re-order methods
-         *
-         * @return the coefficient (&ge;0, &le;1)
-         */
-        public float volumeStiffness() {
-            return getVolumeStiffnessFactor(materialId);
-        }
-
-        /**
          * Alter the angular stiffness coefficient (native field: m_kAST).
          *
          * @param coefficient the desired coefficient (&ge;0, &le;1, default=1)
@@ -2209,6 +2199,15 @@ public class PhysicsSoftBody
         public void setVolumeStiffness(float coefficient) {
             Validate.fraction(coefficient, "stiffness coefficient");
             setVolumeStiffnessFactor(materialId, coefficient);
+        }
+
+        /**
+         * Read the volume stiffness coefficient (native field: m_kVST).
+         *
+         * @return the coefficient (&ge;0, &le;1)
+         */
+        public float volumeStiffness() {
+            return getVolumeStiffnessFactor(materialId);
         }
         // *********************************************************************
         // Object methods
