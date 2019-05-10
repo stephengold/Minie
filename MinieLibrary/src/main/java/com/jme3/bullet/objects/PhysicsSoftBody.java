@@ -1440,11 +1440,16 @@ public class PhysicsSoftBody
     @Override
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
+
         InputCapsule capsule = importer.getCapsule(this);
+        rebuildSoftBody();
+        readPcoProperties(capsule);
 
         setRestingLengthScale(capsule.readFloat("RestLengthScale", 0f));
         setPhysicsLocation((Vector3f) capsule.readSavable("PhysicsLocation",
                 Vector3f.ZERO));
+        setWorldInfo((SoftBodyWorldInfo) capsule.readSavable(
+                "WorldInfo", new SoftBodyWorldInfo()));
 
         getSoftConfig().read(capsule);
         getSoftMaterial().read(capsule);
@@ -1462,7 +1467,9 @@ public class PhysicsSoftBody
         OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(restingLengthsScale(), "RestLengthScale", 0f);
-        capsule.write(getPhysicsLocation(), "PhysicsLocation", new Vector3f());
+        capsule.write(getPhysicsLocation(), "PhysicsLocation", null);
+        capsule.write(getWorldInfo(), "WorldInfo", null);
+        // TODO anchors, joints, nodes, links, faces, tetras
 
         getSoftConfig().write(capsule);
         getSoftMaterial().write(capsule);
