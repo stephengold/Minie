@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -35,11 +36,12 @@ import com.jme3.bullet.control.VehicleControl;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
+import com.jme3.bullet.objects.infos.Sbcp;
+import com.jme3.bullet.objects.infos.SoftBodyWorldInfo;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.control.Control;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Misc;
 import org.junit.Test;
@@ -105,19 +107,28 @@ public class TestCloneBody {
         VehicleControl vcClone = (VehicleControl) Misc.deepCopy(vc);
         cloneTest(vc, vcClone);
         /*
-         * PhysicsSoftBody
+         * PhysicsSoftBody (empty)
          */
         PhysicsSoftBody soft = new PhysicsSoftBody();
-        //setParameters(soft, 0f); TODO
-        //verifyParameters(soft, 0f);
-        //PhysicsSoftBody softClone = (PhysicsSoftBody) Misc.deepCopy(soft);
-        //cloneTest(soft, softClone);
+        setParameters(soft, 0f);
+        verifyParameters(soft, 0f);
+        PhysicsSoftBody softClone = (PhysicsSoftBody) Misc.deepCopy(soft);
+        cloneTest(soft, softClone);
+
+        // TODO clone a non-empty PhysicsSoftBody
     }
     // *************************************************************************
     // private methods
 
-    private void cloneTest(PhysicsRigidBody body, PhysicsRigidBody bodyClone) {
+    private void cloneTest(PhysicsCollisionObject body,
+            PhysicsCollisionObject bodyClone) {
         assert bodyClone.getObjectId() != body.getObjectId();
+        if (body instanceof PhysicsSoftBody) {
+            PhysicsSoftBody sBody = (PhysicsSoftBody) body;
+            PhysicsSoftBody sBodyClone = (PhysicsSoftBody) bodyClone;
+            assert sBodyClone.getSoftConfig() != sBody.getSoftConfig();
+            assert sBodyClone.getWorldInfo() != sBody.getWorldInfo();
+        }
 
         verifyParameters(body, 0f);
         verifyParameters(bodyClone, 0f);
@@ -130,18 +141,37 @@ public class TestCloneBody {
         verifyParameters(body, 0.3f);
         verifyParameters(bodyClone, 0.6f);
 
-        if (body instanceof Control) {
-            PhysicsRigidBody bodyCopy
-                    = BinaryExporter.saveAndLoad(assetManager, body);
+        if (body instanceof PhysicsRigidBody) {
+            PhysicsRigidBody bodyCopy = BinaryExporter.saveAndLoad(
+                    assetManager, (PhysicsRigidBody) body);
             verifyParameters(bodyCopy, 0.3f);
 
-            PhysicsRigidBody bodyCloneCopy
-                    = BinaryExporter.saveAndLoad(assetManager, bodyClone);
+            PhysicsRigidBody bodyCloneCopy = BinaryExporter.saveAndLoad(
+                    assetManager, (PhysicsRigidBody) bodyClone);
+            verifyParameters(bodyCloneCopy, 0.6f);
+        }
+        if (body instanceof PhysicsSoftBody) {
+            PhysicsSoftBody bodyCopy = BinaryExporter.saveAndLoad(
+                    assetManager, (PhysicsSoftBody) body);
+            verifyParameters(bodyCopy, 0.3f);
+
+            PhysicsSoftBody bodyCloneCopy = BinaryExporter.saveAndLoad(
+                    assetManager, (PhysicsSoftBody) bodyClone);
             verifyParameters(bodyCloneCopy, 0.6f);
         }
     }
 
-    private void setParameters(PhysicsRigidBody body, float b) {
+    private void setParameters(PhysicsCollisionObject pco, float b) {
+        if (pco instanceof PhysicsRigidBody) {
+            setRigid((PhysicsRigidBody) pco, b);
+        } else if (pco instanceof PhysicsSoftBody) {
+            setSoft((PhysicsSoftBody) pco, b);
+        } else {
+            throw new IllegalArgumentException(pco.getClass().getName());
+        }
+    }
+
+    private void setRigid(PhysicsRigidBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         body.setContactResponse(flag);
         if (body.getMass() != PhysicsRigidBody.massForStatic) {
@@ -185,7 +215,38 @@ public class TestCloneBody {
         body.setDeactivationTime(b + 0.087f);
     }
 
-    private void verifyParameters(PhysicsRigidBody body, float b) {
+    private void setSoft(PhysicsSoftBody body, float b) {
+        PhysicsSoftBody.Config config = body.getSoftConfig();
+        for (Sbcp sbcp : Sbcp.values()) {
+            float value = b + 0.001f * sbcp.ordinal();
+            config.set(sbcp, value);
+        }
+
+        PhysicsSoftBody.Material material = body.getSoftMaterial();
+        material.setAngularStiffness(b + 0.04f);
+        material.setLinearStiffness(b + 0.041f);
+        material.setVolumeStiffness(b + 0.042f);
+
+        SoftBodyWorldInfo sbwi = body.getWorldInfo();
+        sbwi.setAirDensity(b + 0.05f);
+        sbwi.setGravity(new Vector3f(b + 0.051f, b + 0.052f, b + 0.053f));
+        sbwi.setMaxDisplacement(b + 0.054f);
+        sbwi.setWaterDensity(b + 0.055f);
+        sbwi.setWaterNormal(new Vector3f(b + 0.056f, b + 0.057f, b + 0.058f));
+        sbwi.setWaterOffset(b + 0.059f);
+    }
+
+    private void verifyParameters(PhysicsCollisionObject pco, float b) {
+        if (pco instanceof PhysicsRigidBody) {
+            verifyRigid((PhysicsRigidBody) pco, b);
+        } else if (pco instanceof PhysicsSoftBody) {
+            verifySoft((PhysicsSoftBody) pco, b);
+        } else {
+            throw new IllegalArgumentException(pco.getClass().getName());
+        }
+    }
+
+    private void verifyRigid(PhysicsRigidBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert body.isContactResponse() == flag;
         if (body.getMass() != PhysicsRigidBody.massForStatic) {
@@ -266,5 +327,38 @@ public class TestCloneBody {
             assert v.y == b + 0.27f : v;
             assert v.z == b + 0.28f : v;
         }
+    }
+
+    private void verifySoft(PhysicsSoftBody body, float b) {
+        PhysicsSoftBody.Config config = body.getSoftConfig();
+        for (Sbcp sbcp : Sbcp.values()) {
+            float expected = b + 0.001f * sbcp.ordinal();
+            float actual = config.get(sbcp);
+            assert actual == expected : sbcp;
+        }
+        // TODO verify collision flags and iteration counts
+
+        PhysicsSoftBody.Material material = body.getSoftMaterial();
+        assert material.getAngularStiffness() == b + 0.04f;
+        assert material.getLinearStiffness() == b + 0.041f;
+        assert material.getVolumeStiffness() == b + 0.042f;
+
+        SoftBodyWorldInfo sbwi = body.getWorldInfo();
+        assert sbwi.airDensity() == b + 0.05f;
+
+        Vector3f g = sbwi.copyGravity(null);
+        assert g.x == b + 0.051f : g;
+        assert g.y == b + 0.052f : g;
+        assert g.z == b + 0.053f : g;
+
+        assert sbwi.maxDisplacement() == b + 0.054f;
+        assert sbwi.waterDensity() == b + 0.055f;
+
+        Vector3f n = sbwi.copyWaterNormal(null);
+        assert n.x == b + 0.056f : n;
+        assert n.y == b + 0.057f : n;
+        assert n.z == b + 0.058f : n;
+
+        assert sbwi.waterOffset() == b + 0.059f;
     }
 }
