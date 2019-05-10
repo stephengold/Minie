@@ -221,13 +221,13 @@ public class PhysicsSoftBody
     }
 
     /**
-     * Add an anchor connecting the indexed node of this body with the specified
+     * Add an anchor connecting the indexed node of this body to the specified
      * rigid body.
      *
      * @param nodeIndex which node of this body to connect (&ge;0, &lt;numNodes)
      * @param rigidBody the rigid body to connect (not null)
-     * @param localPivot used for anchor location, or null to use the node
-     * location
+     * @param localPivot the anchor location in the soft body's local
+     * coordinates (not null, unaffected)
      * @param collisionBetweenLinkedBodies true&rarr;allow collisions between
      * this body and the rigid body, false&rarr;don't allow such collisions
      * @param influence how much influence the anchor has on this body
@@ -238,6 +238,7 @@ public class PhysicsSoftBody
             float influence) {
         int numNodes = countNodes();
         Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
+        Validate.nonNull(localPivot, "local pivot");
 
         long rigidBodyId = rigidBody.getObjectId();
         appendAnchor(objectId, nodeIndex, rigidBodyId, localPivot,
@@ -1521,7 +1522,8 @@ public class PhysicsSoftBody
 
     native private void applyPhysicsTransform(long bodyId, Transform transform);
 
-    native private void applyPhysicsTranslate(long bodyId, Vector3f vector);
+    native private void applyPhysicsTranslate(long bodyId,
+            Vector3f offsetVector);
 
     native private long createEmptySoftBody();
 
