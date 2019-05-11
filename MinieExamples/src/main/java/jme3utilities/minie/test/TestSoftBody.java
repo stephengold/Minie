@@ -28,18 +28,11 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.PhysicsSoftSpace;
-import com.jme3.bullet.PhysicsSpace;
-import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.SoftPhysicsAppState;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
-import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
-import com.jme3.bullet.objects.infos.ConfigFlags;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.material.Material;
@@ -57,14 +50,10 @@ import jme3utilities.minie.PhysicsDumper;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSoftBody
-        extends SimpleApplication
-        implements PhysicsTickListener {
+public class TestSoftBody extends SimpleApplication {
 
-    final private boolean rigid = false;
-    final private float gravity = 0.01f;
+    final private float gravity = 0.05f;
     final private float radius = 1f;
-    private PhysicsCollisionObject pco;
     private PhysicsSoftSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
@@ -79,27 +68,6 @@ public class TestSoftBody
         app.start();
     }
     // *************************************************************************
-    // PhysicsTickListener methods
-
-    @Override
-    public void physicsTick(PhysicsSpace space, float timeStep) {
-        // do nothing
-    }
-
-    @Override
-    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        //Vector3f location = pco.getPhysicsLocation(null);
-        //System.out.printf("%n%s", location);
-
-        System.out.println();
-        new PhysicsDumper()
-                .setEnabled(DumpFlags.ClustersInSofts, true)
-                .setEnabled(DumpFlags.NodesInSofts, true)
-                .dump(physicsSpace);
-        System.out.println();
-        System.out.flush();
-    }
-    // *************************************************************************
     // SimpleApplication methods
 
     @Override
@@ -108,39 +76,24 @@ public class TestSoftBody
         configurePhysics();
         addBox();
 
-        if (rigid) {
-            CollisionShape shape = new SphereCollisionShape(radius);
-            PhysicsRigidBody rigidBody = new PhysicsRigidBody(shape, 100f);
-            pco = rigidBody;
+        Mesh mesh = new Sphere(6, 6, radius);
+        PhysicsSoftBody softBody = new PhysicsSoftBody();
+        NativeSoftBodyUtil.createFromTriMesh(mesh, softBody);
+        softBody.setMassByArea(1f);
 
-            rigidBody.setPhysicsLocation(new Vector3f(0f, 2f, 0f));
-            rigidBody.setSleepingThresholds(1e-3f, 1e-3f);
+        PhysicsSoftBody.Config config = softBody.getSoftConfig();
+        config.set(Sbcp.VolumeConservation, 0.99f);
 
-        } else {
-            Mesh mesh = new Sphere(6, 6, radius);
-            PhysicsSoftBody softBody = new PhysicsSoftBody();
-            pco = softBody;
-            NativeSoftBodyUtil.createFromTriMesh(mesh, softBody);
-            int numClusters = 8;
-            int maxIterations = 8192;
-            softBody.generateClusters(numClusters, maxIterations);
+        softBody.setPhysicsLocation(new Vector3f(0f, 0.825f, 0f));
+        physicsSpace.add(softBody);
+        softBody.setGravity(new Vector3f(0f, -gravity, 0f));
 
-            PhysicsSoftBody.Config config = softBody.getSoftConfig();
-            config.setCollisionFlags(ConfigFlags.CL_RS);
-            config.set(Sbcp.DynamicFriction, 0.5f);
-            config.set(Sbcp.PoseMatching, 0.2f);
-            config.set(Sbcp.VolumeConservation, 0.3f);
-            config.setDriftIterations(1);
-            config.setVelocityIterations(1);
-
-            softBody.setPose(false, true);
-            softBody.setMassByArea(100f);
-            softBody.randomizeConstraints();
-            softBody.setPhysicsLocation(new Vector3f(0f, 0.825f, 0f));
-        }
-        physicsSpace.add(pco);
-        PhysicsBody body = (PhysicsBody) pco;
-        body.setGravity(new Vector3f(0f, -gravity, 0f));
+        new PhysicsDumper()
+                .setEnabled(DumpFlags.ClustersInSofts, true)
+                .setEnabled(DumpFlags.NodesInSofts, true)
+                .dump(physicsSpace);
+        System.out.println();
+        System.out.flush();
     }
     // *************************************************************************
     // private methods
@@ -164,7 +117,6 @@ public class TestSoftBody
         boxGeometry.addControl(boxBody);
         boxBody.setApplyScale(true);
         boxBody.setPhysicsSpace(physicsSpace);
-        boxBody.setFriction(0.1f);
     }
 
     /**
@@ -181,15 +133,11 @@ public class TestSoftBody
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
-        physicsSpace.addTickListener(this);
-        physicsSpace.setMaxSubSteps(1);
         physicsSpace.setAccuracy(0.01f); // 10-msec timestep
-        physicsSpace.setSolverNumIterations(15);
     }
 }
