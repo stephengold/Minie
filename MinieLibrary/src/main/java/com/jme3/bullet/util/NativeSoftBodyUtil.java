@@ -71,8 +71,26 @@ public class NativeSoftBodyUtil {
     // new methods exposed
 
     /**
+     * Append the edges in the specified line-mode Mesh to the specified soft
+     * body.
+     *
+     * @param mesh the input mesh (not null, Mode.Lines)
+     * @param softBody the soft body to which links will be added (not null,
+     * modified)
+     */
+    public static void appendFromLineMesh(Mesh mesh, PhysicsSoftBody softBody) {
+        Mesh.Mode mode = mesh.getMode();
+        assert mode == Mesh.Mode.Lines : mode;
+        Validate.nonNull(softBody, "soft body");
+
+        FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+        IndexBuffer indices = mesh.getIndexBuffer();
+        softBody.appendMeshData(positions, indices, null, null);
+    }
+
+    /**
      * Add the triangles and unique edges in the specified triangle-mode Mesh to
-     * the specified soft body.
+     * the specified soft body. TODO rename appendFromTriMesh
      *
      * @param mesh the input mesh (not null, Mode.Triangles)
      * @param softBody the soft body to which faces and links will be added (not
@@ -127,7 +145,7 @@ public class NativeSoftBodyUtil {
         int centerIndex = softBody.countNodes();
         Vector3f centerLocation = softBody.getPhysicsLocation(null);
         FloatBuffer buffer = BufferUtils.createFloatBuffer(centerLocation);
-        softBody.appendNodes(buffer);
+        softBody.appendNodes(buffer); // TODO set mass of node
         /*
          * Append tetrahedra, one per face.
          */
