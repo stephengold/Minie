@@ -36,13 +36,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Named collision flags for use with a PhysicsSoftBody.Config TODO rename
- * ConfigFlag
+ * Named collision flags for use with a PhysicsSoftBody.Config .
  *
  * @author Stephen Gold sgold@sonic.net
  * @see com.jme3.bullet.objects.PhysicsSoftBody.Config#getCollisionsFlags(long)
  */
-public class ConfigFlags {
+public class ConfigFlag {
     // *************************************************************************
     // constants and loggers
 
@@ -70,14 +69,14 @@ public class ConfigFlags {
      * message logger for this class
      */
     final public static Logger logger
-            = Logger.getLogger(ConfigFlags.class.getName());
+            = Logger.getLogger(ConfigFlag.class.getName());
     // *************************************************************************
     // constructors
 
     /**
      * A private constructor to inhibit instantiation of this class.
      */
-    private ConfigFlags() {
+    private ConfigFlag() {
     }
     // *************************************************************************
     // new methods exposed

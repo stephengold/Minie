@@ -43,7 +43,7 @@ import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
-import com.jme3.bullet.objects.infos.ConfigFlags;
+import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyWorldInfo;
 import com.jme3.math.Quaternion;
@@ -278,7 +278,7 @@ public class PhysicsDescriber extends Describer {
 
         result.append("Config flags=");
         int collisionFlags = config.collisionFlags();
-        String description = ConfigFlags.describe(collisionFlags);
+        String description = ConfigFlag.describe(collisionFlags);
         result.append(description);
 
         description = String.format(" maxVolRatio=%s timeScale=%s velCorr=%s",
@@ -328,7 +328,7 @@ public class PhysicsDescriber extends Describer {
                 MyString.describe(config.get(Sbcp.ClusterSoftSplit)));
         result.append(description);
 
-        description = String.format("  nIter[cl=%d drift=%d pos=%d vel=%d]",
+        description = String.format("  iters[cl=%d drift=%d pos=%d vel=%d]",
                 config.clusterIterations(),
                 config.driftIterations(),
                 config.positionIterations(),

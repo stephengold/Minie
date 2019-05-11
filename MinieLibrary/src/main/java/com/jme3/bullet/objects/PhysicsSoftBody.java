@@ -35,7 +35,7 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.joints.PhysicsJoint;
-import com.jme3.bullet.objects.infos.ConfigFlags;
+import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyWorldInfo;
 import com.jme3.export.InputCapsule;
@@ -691,7 +691,8 @@ public class PhysicsSoftBody
     }
 
     /**
-     * Generate bending constraints based on hops in the adjacency graph.
+     * Generate bending constraints based on hops in the adjacency graph. This
+     * may increase the number of links.
      *
      * @param numHops (in links, &ge;2)
      * @param material the material for appending links (not null)
@@ -1697,7 +1698,7 @@ public class PhysicsSoftBody
 
         /**
          * Read the collisions flags (native field: collisions). Flags are
-         * defined in {@link com.jme3.bullet.objects.infos.ConfigFlags}.
+         * defined in {@link com.jme3.bullet.objects.infos.ConfigFlag}.
          *
          * @return the flags that are set, ORed together
          */
@@ -1905,7 +1906,7 @@ public class PhysicsSoftBody
 
         /**
          * Alter the collision flags. Flags are defined in the
-         * {@link com.jme3.bullet.objects.infos.ConfigFlags}.
+         * {@link com.jme3.bullet.objects.infos.ConfigFlag}.
          *
          * @param flag the 1st flag to set, or 0x0 to clear all flags
          * @param additionalFlags ... additional flags to set. Flags are ORed
@@ -2025,8 +2026,7 @@ public class PhysicsSoftBody
          */
         private void read(InputCapsule capsule) throws IOException {
             setClusterIterations(capsule.readInt("ClusterIterations", 4));
-            setCollisionFlags(
-                    capsule.readInt("CollisionsFlags", ConfigFlags.CL_RS));
+            setCollisionFlags(capsule.readInt("CollisionsFlags", ConfigFlag.CL_RS));
             setDriftIterations(capsule.readInt("DriftIterations", 0));
             setPositionIterations(capsule.readInt("PositionIterations", 1));
             setVelocityIterations(
@@ -2111,7 +2111,7 @@ public class PhysicsSoftBody
         private void write(OutputCapsule capsule) throws IOException {
             capsule.write(clusterIterations(), "ClusterIterations", 4);
             capsule.write(collisionFlags(),
-                    "CollisionsFlags", ConfigFlags.CL_RS);
+                    "CollisionsFlags", ConfigFlag.CL_RS);
             capsule.write(driftIterations(), "DriftIterations", 0);
             capsule.write(positionIterations(), "PositionIterations", 1);
             capsule.write(velocityIterations(), "VelocitiesIterations", 0);
