@@ -78,7 +78,7 @@ public class TestSoftBody extends SimpleApplication {
 
         Mesh mesh = new Sphere(6, 6, radius);
         PhysicsSoftBody softBody = new PhysicsSoftBody();
-        NativeSoftBodyUtil.createFromTriMesh(mesh, softBody);
+        NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
         softBody.setMassByArea(1f);
 
         PhysicsSoftBody.Config config = softBody.getSoftConfig();

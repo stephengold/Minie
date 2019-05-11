@@ -90,13 +90,13 @@ public class NativeSoftBodyUtil {
 
     /**
      * Add the triangles and unique edges in the specified triangle-mode Mesh to
-     * the specified soft body. TODO rename appendFromTriMesh
+     * the specified soft body.
      *
      * @param mesh the input mesh (not null, Mode.Triangles)
      * @param softBody the soft body to which faces and links will be added (not
      * null, modified)
      */
-    public static void createFromTriMesh(Mesh mesh, PhysicsSoftBody softBody) {
+    public static void appendFromTriMesh(Mesh mesh, PhysicsSoftBody softBody) {
         Mesh.Mode mode = mesh.getMode();
         assert mode == Mesh.Mode.Triangles : mode;
         Validate.nonNull(softBody, "soft body");
@@ -137,7 +137,7 @@ public class NativeSoftBodyUtil {
      *
      * @param softBody the soft body to append to (not null, modified)
      */
-    public static void createTetras(PhysicsSoftBody softBody) {
+    public static void appendTetras(PhysicsSoftBody softBody) {
         Validate.nonNull(softBody, "soft body");
         /*
          * Append a new node, located at the center of the AABB.
