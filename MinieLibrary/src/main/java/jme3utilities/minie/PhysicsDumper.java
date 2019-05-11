@@ -261,6 +261,9 @@ public class PhysicsDumper extends Dumper {
         desc = MyString.describe(mass);
         stream.print(" mass=" + desc);
 
+        float volume = body.volume();
+        stream.print(" volume=" + MyString.describe(volume));
+
         PhysicsDescriber describer = getDescriber();
         desc = describer.describeUser(body);
         stream.print(desc);
