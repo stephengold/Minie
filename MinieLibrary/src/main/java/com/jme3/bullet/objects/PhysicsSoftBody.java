@@ -297,34 +297,6 @@ public class PhysicsSoftBody
     }
 
     /**
-     * Append mesh data to this body. TODO move to NativeSoftBodyUtil
-     *
-     * @param locations the node locations to add (capacity a multiple of 3) or
-     * null to make this invocation a no-op
-     * @param links the node indices of links to add (size a multiple of 2) or
-     * null to add no links
-     * @param faces the node indices of faces to add (size a multiple of 3) or
-     * null to add no faces
-     * @param tetras the node indices of tetrahedra to add (size a multiple of
-     * 4) or null to add no tetrahedra
-     */
-    public void appendMeshData(FloatBuffer locations, IndexBuffer links,
-            IndexBuffer faces, IndexBuffer tetras) {
-        if (locations != null) {
-            appendNodes(locations);
-            if (links != null) {
-                appendLinks(links);
-            }
-            if (faces != null) {
-                appendFaces(faces);
-            }
-            if (tetras != null) {
-                appendTetras(tetras);
-            }
-        }
-    }
-
-    /**
      * Append nodes to this body. Nodes provide the shape of a soft body. Each
      * node has its own location, velocity, mass, etcetera.
      *

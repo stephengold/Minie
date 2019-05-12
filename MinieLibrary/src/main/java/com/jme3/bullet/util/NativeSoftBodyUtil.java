@@ -84,8 +84,10 @@ public class NativeSoftBodyUtil {
         Validate.nonNull(softBody, "soft body");
 
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+        softBody.appendNodes(positions);
+
         IndexBuffer indices = mesh.getIndexBuffer();
-        softBody.appendMeshData(positions, indices, null, null);
+        softBody.appendLinks(indices);
     }
 
     /**
@@ -101,10 +103,14 @@ public class NativeSoftBodyUtil {
         assert mode == Mesh.Mode.Triangles : mode;
         Validate.nonNull(softBody, "soft body");
 
+        FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+        softBody.appendNodes(positions);
+
         IndexBuffer triangleIndices = mesh.getIndexBuffer();
+        softBody.appendFaces(triangleIndices);
+
         int size = triangleIndices.size();
         Set<MeshEdge> uniqueEdges = new HashSet<>(3 * size);
-
         for (int intOffset = 0; intOffset < size; intOffset += 3) {
             int ti0 = triangleIndices.get(intOffset);
             int ti1 = triangleIndices.get(intOffset + 1);
@@ -115,7 +121,6 @@ public class NativeSoftBodyUtil {
             uniqueEdges.add(new MeshEdge(ti0, ti2));
         }
 
-        FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
         int vertexCount = positions.capacity();
         int numUniqueEdges = uniqueEdges.size();
         int indexCount = 2 * numUniqueEdges;
@@ -127,8 +132,7 @@ public class NativeSoftBodyUtil {
             links.put(edgeIndex + 1, edge.index2());
             edgeIndex += 2;
         }
-
-        softBody.appendMeshData(positions, links, triangleIndices, null);
+        softBody.appendLinks(links);
     }
 
     /**
