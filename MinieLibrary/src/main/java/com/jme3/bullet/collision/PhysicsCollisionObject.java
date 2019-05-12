@@ -764,6 +764,8 @@ abstract public class PhysicsCollisionObject
      * @param old (not null, unaffected)
      */
     final protected void copyPcoProperties(PhysicsCollisionObject old) {
+        assert old.objectId != 0L;
+
         setCcdMotionThreshold(old.getCcdMotionThreshold());
         setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
         setContactDamping(old.getContactDamping());
