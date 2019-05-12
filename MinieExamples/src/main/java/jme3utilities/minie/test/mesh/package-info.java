@@ -25,6 +25,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * Meshes used in the MinieExamples subproject.
+ * Classes that generate meshes used in the MinieExamples subproject.
  */
 package jme3utilities.minie.test.mesh;

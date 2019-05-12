@@ -37,7 +37,8 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 
 /**
- * Methods common to both soft bodies and rigid bodies.
+ * Methods common to both soft bodies and rigid bodies. TODO abstract class that
+ * extends PhysicsCollisionObject
  *
  * @author Stephen Gold sgold@sonic.net
  */
