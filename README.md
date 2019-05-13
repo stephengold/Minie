@@ -468,6 +468,9 @@ due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 
 YouTube videos about Minie:
 
+  + May 2019 teaser (squishy ball)
+    [watch](https://www.youtube.com/watch?v=W3x4gdDn-Ko) (0:13)
+    [source code](https://github.com/stephengold/Minie/blob/b1a83f8a6440d8374f09258c6b1d471279833cfa/MinieExamples/src/main/java/jme3utilities/minie/test/TestSoftBody.java)
   + April 2019 walkthru of the DacWizard application
     [watch](https://www.youtube.com/watch?v=iWyrzZe45jA) (8:12)
     [source code](https://github.com/stephengold/Minie/blob/master/DacWizard/src/main/java/jme3utilities/minie/wizard/DacWizard.java)
