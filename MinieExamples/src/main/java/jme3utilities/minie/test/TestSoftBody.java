@@ -26,7 +26,6 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
@@ -35,25 +34,66 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
+import com.jme3.input.KeyInput;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.shape.Box;
-import com.jme3.scene.shape.Sphere;
+import com.jme3.system.AppSettings;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.mesh.Icosphere;
+import jme3utilities.ui.ActionApplication;
+import jme3utilities.ui.CameraOrbitAppState;
+import jme3utilities.ui.InputMode;
 
 /**
  * Test soft-body physics.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSoftBody extends SimpleApplication {
+public class TestSoftBody extends ActionApplication {
+    // *************************************************************************
+    // constants and loggers
 
-    final private float gravity = 0.05f;
-    final private float radius = 1f;
+    /**
+     * magnitude of the gravitational acceleration (&ge;0)
+     */
+    final private float gravity = 1f;
+    /**
+     * mass of the soft body (&gt;0)
+     */
+    final private float mass = 1f;
+    /**
+     * pose-matching coefficient: how strongly the soft body will match its
+     * default pose (&ge;0, &le;1)
+     */
+    final private float poseMatchingCoeff = 0.02f;
+    /**
+     * radius of the soft body (in world units, &gt;0)
+     */
+    final private float radius = 0.5f;
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestSoftBody.class.getName());
+    /**
+     * application name (for the title bar of the app's window)
+     */
+    final private static String applicationName
+            = TestSoftBody.class.getSimpleName();
+    // *************************************************************************
+    // fields
+
+    /**
+     * space for physics simulation
+     */
     private PhysicsSoftSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
@@ -64,36 +104,78 @@ public class TestSoftBody extends SimpleApplication {
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
-        TestSoftBody app = new TestSoftBody();
-        app.start();
+        /*
+         * Mute the chatty loggers in certain packages.
+         */
+        Misc.setLoggingLevels(Level.WARNING);
+
+        TestSoftBody application = new TestSoftBody();
+        /*
+         * Customize the window's title bar.
+         */
+        AppSettings settings = new AppSettings(true);
+        settings.setTitle(applicationName);
+
+        settings.setGammaCorrection(true);
+        settings.setSamples(4); // anti-aliasing
+        settings.setVSync(true);
+        application.setSettings(settings);
+
+        application.start();
     }
     // *************************************************************************
-    // SimpleApplication methods
+    // ActionApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
-    public void simpleInitApp() {
+    public void actionInitializeApplication() {
         configureCamera();
         configurePhysics();
         addBox();
+        addFatBall();
+    }
 
-        Mesh mesh = new Sphere(6, 6, radius);
-        PhysicsSoftBody softBody = new PhysicsSoftBody();
-        NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
-        softBody.setMassByArea(1f);
+    /**
+     * Add application-specific hotkey bindings and override existing ones.
+     */
+    @Override
+    public void moreDefaultBindings() {
+        InputMode dim = getDefaultInputMode();
 
-        PhysicsSoftBody.Config config = softBody.getSoftConfig();
-        config.set(Sbcp.VolumeConservation, 0.99f);
+        dim.bind("dump physicsSpace", KeyInput.KEY_O);
+        dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
+        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+    }
 
-        softBody.setPhysicsLocation(new Vector3f(0f, 0.825f, 0f));
-        physicsSpace.add(softBody);
-        softBody.setGravity(new Vector3f(0f, -gravity, 0f));
+    /**
+     * Process an action that wasn't handled by the active input mode.
+     *
+     * @param actionString textual description of the action (not null)
+     * @param ongoing true if the action is ongoing, otherwise false
+     * @param tpf time interval between frames (in seconds, &ge;0)
+     */
+    @Override
+    public void onAction(String actionString, boolean ongoing, float tpf) {
+        if (ongoing) {
+            switch (actionString) {
+                case "dump physicsSpace":
+                    dumpPhysicsSpace();
+                    return;
 
-        new PhysicsDumper()
-                .setEnabled(DumpFlags.ClustersInSofts, true)
-                .setEnabled(DumpFlags.NodesInSofts, true)
-                .dump(physicsSpace);
-        System.out.println();
-        System.out.flush();
+                case "dump scenes":
+                    dumpScenes();
+                    return;
+
+                case "toggle pause":
+                    togglePause();
+                    return;
+            }
+        }
+        super.onAction(actionString, ongoing, tpf);
     }
     // *************************************************************************
     // private methods
@@ -112,11 +194,33 @@ public class TestSoftBody extends SimpleApplication {
         boxGeometry.setMaterial(material);
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsRigidBody.massForStatic;
-        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
+        float boxMass = PhysicsRigidBody.massForStatic;
+        RigidBodyControl boxBody = new RigidBodyControl(shape, boxMass);
         boxGeometry.addControl(boxBody);
         boxBody.setApplyScale(true);
         boxBody.setPhysicsSpace(physicsSpace);
+    }
+
+    /**
+     * Add a squishy ball to the scene.
+     */
+    private void addFatBall() {
+        int numSteps = 3;
+        Mesh mesh = new Icosphere(numSteps, radius);
+        PhysicsSoftBody softBody = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
+        softBody.setMass(mass);
+
+        PhysicsSoftBody.Config config = softBody.getSoftConfig();
+        config.set(Sbcp.PoseMatching, poseMatchingCoeff);
+
+        boolean setVolumePose = false;
+        boolean setFramePose = true;
+        softBody.setPose(setVolumePose, setFramePose);
+
+        softBody.setPhysicsLocation(new Vector3f(0f, 3f, 0f));
+        physicsSpace.add(softBody);
+        softBody.setGravity(new Vector3f(0f, -gravity, 0f));
     }
 
     /**
@@ -125,8 +229,11 @@ public class TestSoftBody extends SimpleApplication {
     private void configureCamera() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(4f);
-
         cam.setLocation(new Vector3f(0f, 1.2f, 5f));
+
+        CameraOrbitAppState orbitState
+                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
+        stateManager.attach(orbitState);
     }
 
     /**
@@ -136,8 +243,33 @@ public class TestSoftBody extends SimpleApplication {
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
-
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
-        physicsSpace.setAccuracy(0.01f); // 10-msec timestep
+    }
+
+    /**
+     * Process a "dump physicsSpace" action.
+     */
+    private void dumpPhysicsSpace() {
+        PhysicsDumper dumper = new PhysicsDumper();
+        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        dumper.dump(physicsSpace);
+    }
+
+    /**
+     * Process a "dump scenes" action.
+     */
+    private void dumpScenes() {
+        PhysicsDumper dumper = new PhysicsDumper();
+        dumper.setEnabled(DumpFlags.Transforms, true);
+        dumper.dump(renderManager);
+    }
+
+    /**
+     * Toggle the animation and physics simulation: paused/running.
+     */
+    private void togglePause() {
+        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
+        setSpeed(newSpeed);
     }
 }
