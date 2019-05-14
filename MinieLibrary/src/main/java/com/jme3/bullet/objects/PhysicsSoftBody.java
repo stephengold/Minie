@@ -34,6 +34,7 @@ package com.jme3.bullet.objects;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
@@ -104,7 +105,10 @@ public class PhysicsSoftBody
     public PhysicsSoftBody() {
         objectId = createEmptySoftBody();
         assert objectId != 0L;
+
         super.initUserPointer();
+        float defaultMargin = CollisionShape.getDefaultMargin();
+        setMargin(defaultMargin);
 
         assert !isInWorld();
         assert countAnchors() == 0;
@@ -749,6 +753,15 @@ public class PhysicsSoftBody
     }
 
     /**
+     * Read the collision margin of this body.
+     *
+     * @return the margin distance (in physics-space units, &gt;0)
+     */
+    public float margin() {
+        return getMargin(objectId);
+    }
+
+    /**
      * Copy the location of the indexed node.
      *
      * @param nodeIndex which node (&ge;0, &lt;numNodes)
@@ -869,6 +882,16 @@ public class PhysicsSoftBody
      */
     public float restingLengthsScale() {
         return getRestLengthScale(objectId);
+    }
+
+    /**
+     * Alter the collision margin of this body.
+     *
+     * @param margin the desired margin distance (in physics-space units, &gt;0)
+     */
+    public void setMargin(float margin) {
+        Validate.positive(margin, "margin");
+        setMargin(objectId, margin);
     }
 
     /**
@@ -1534,6 +1557,8 @@ public class PhysicsSoftBody
 
     native private void getLinksIndexes(long bodyId, IntBuffer storeBuffer);
 
+    native private float getMargin(long bodyId);
+
     native private float getMass(long bodyId, int nodeIndex);
 
     native private void getMasses(long bodyId, FloatBuffer storeBuffer);
@@ -1593,6 +1618,8 @@ public class PhysicsSoftBody
             long rigidBodyId);
 
     native private void resetLinkRestLengths(long bodyId);
+
+    native private void setMargin(long bodyId, float margin);
 
     native private void setMass(long bodyId, int nodeIndex, float mass);
 
