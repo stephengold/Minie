@@ -33,7 +33,6 @@ package com.jme3.bullet.objects;
 
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.CollisionFlag;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
@@ -62,9 +61,7 @@ import jme3utilities.math.MyVector3f;
  *
  * @author normenhansen
  */
-public class PhysicsRigidBody
-        extends PhysicsCollisionObject
-        implements PhysicsBody {
+public class PhysicsRigidBody extends PhysicsBody {
     // *************************************************************************
     // constants and loggers
 
@@ -987,13 +984,11 @@ public class PhysicsRigidBody
         setPhysicsRotation(transform.getRotation());
         setPhysicsScale(transform.getScale());
     }
-    // *************************************************************************
-    // PhysicsCollisionObject methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
      * shallow-cloned body into a deep-cloned one, using the specified cloner
-     * and original to resolve copied fields.
+     * and original to resolve copied fields. TODO re-order methods
      *
      * @param cloner the cloner that's cloning this body (not null)
      * @param original the instance from which this instance was shallow-cloned

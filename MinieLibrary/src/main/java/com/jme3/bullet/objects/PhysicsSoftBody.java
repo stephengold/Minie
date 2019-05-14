@@ -33,7 +33,6 @@ package com.jme3.bullet.objects;
 
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.PhysicsSpace;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.infos.ConfigFlag;
@@ -68,9 +67,7 @@ import jme3utilities.Validate;
  *
  * @author dokthar
  */
-public class PhysicsSoftBody
-        extends PhysicsCollisionObject
-        implements PhysicsBody {
+public class PhysicsSoftBody extends PhysicsBody {
     // *************************************************************************
     // constants and loggers
 
@@ -1290,11 +1287,10 @@ public class PhysicsSoftBody
         Validate.nonNull(transform, "transform");
         setPhysicsTransform(objectId, transform);
     }
-    // *************************************************************************
-    // PhysicsCollisionObject methods
 
     /**
-     * Calculate the axis-aligned bounding box for this body.
+     * Calculate the axis-aligned bounding box for this body. TODO re-order
+     * methods
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a bounding box in physics-space coordinates (either storeResult

@@ -31,24 +31,24 @@
  */
 package com.jme3.bullet.objects;
 
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 
 /**
- * Methods common to both soft bodies and rigid bodies. TODO abstract class that
- * extends PhysicsCollisionObject
+ * The abstract base class for rigid bodies and soft bodies.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public interface PhysicsBody {
+abstract public class PhysicsBody extends PhysicsCollisionObject {
     /**
      * Do not invoke directly! Joints are added automatically when created.
      *
      * @param joint the joint to add (not null)
      */
-    void addJoint(PhysicsJoint joint);
+    abstract void addJoint(PhysicsJoint joint);
 
     /**
      * Count how many joints connect to this body.
@@ -56,7 +56,7 @@ public interface PhysicsBody {
      * @return the count (&ge;0) or 0 if the body isn't added to any
      * PhysicsSpace
      */
-    int countJoints();
+    abstract int countJoints();
 
     /**
      * Copy this body's gravitational acceleration.
@@ -65,14 +65,14 @@ public interface PhysicsBody {
      * @return an acceleration vector in physics-space coordinates (either
      * storeResult or a new vector, not null)
      */
-    Vector3f getGravity(Vector3f storeResult);
+    abstract Vector3f getGravity(Vector3f storeResult);
 
     /**
      * Determine the total mass of this body.
      *
      * @return the total mass
      */
-    float getMass();
+    abstract float getMass();
 
     /**
      * Copy the transform of this body, including its scale.
@@ -81,7 +81,7 @@ public interface PhysicsBody {
      * @return the transform (relative to physics-space coordinates, either
      * storeResult of a new object, not null)
      */
-    Transform getPhysicsTransform(Transform storeResult);
+    abstract Transform getPhysicsTransform(Transform storeResult);
 
     /**
      * Enumerate the joints connected to this body.
@@ -89,14 +89,14 @@ public interface PhysicsBody {
      * @return a new array of pre-existing joints, or null if this body is not
      * added to any space
      */
-    PhysicsJoint[] listJoints();
+    abstract PhysicsJoint[] listJoints();
 
     /**
      * Do not invoke directly! Joints are removed automatically when destroyed.
      *
      * @param joint the joint to remove (not null)
      */
-    void removeJoint(PhysicsJoint joint);
+    abstract void removeJoint(PhysicsJoint joint);
 
     /**
      * Alter this body's gravitational acceleration.
@@ -107,14 +107,14 @@ public interface PhysicsBody {
      * @param acceleration the desired acceleration vector (in physics-space
      * coordinates, not null, unaffected)
      */
-    void setGravity(Vector3f acceleration);
+    abstract void setGravity(Vector3f acceleration);
 
     /**
      * Alter this body's total mass.
      *
-     * @param mass the desired total mass
+     * @param mass the desired total mass (&ge;0)
      */
-    void setMass(float mass);
+    abstract void setMass(float mass);
 
     /**
      * Directly relocate this body's center.
@@ -122,7 +122,7 @@ public interface PhysicsBody {
      * @param location the desired location (in physics-space coordinates, not
      * null, unaffected)
      */
-    void setPhysicsLocation(Vector3f location);
+    abstract void setPhysicsLocation(Vector3f location);
 
     /**
      * Directly reorient this body.
@@ -130,7 +130,7 @@ public interface PhysicsBody {
      * @param orientation the desired orientation (relative to physics-space
      * coordinates, unit quaternion, not null, unaffected)
      */
-    void setPhysicsRotation(Quaternion orientation);
+    abstract void setPhysicsRotation(Quaternion orientation);
 
     /**
      * Directly alter this body's transform, including its scale factors.
@@ -138,5 +138,5 @@ public interface PhysicsBody {
      * @param transform the desired transform (relative to physics-space
      * coordinates, not null, unaffected)
      */
-    void setPhysicsTransform(Transform transform);
+    abstract void setPhysicsTransform(Transform transform);
 }
