@@ -64,6 +64,10 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      */
     final private Map<Long, PhysicsSoftBody> softBodiesAdded
             = new ConcurrentHashMap<>(64);
+    /**
+     * parameters applied when soft bodies are added to this space
+     */
+    final private SoftBodyWorldInfo worldInfo;
     // *************************************************************************
     // constructors
 
@@ -81,6 +85,16 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     public PhysicsSoftSpace(Vector3f worldMin, Vector3f worldMax,
             BroadphaseType broadphaseType) {
         super(worldMin, worldMax, broadphaseType);
+
+        long spaceId = getSpaceId();
+        long worldInfoId = getWorldInfo(spaceId);
+        worldInfo = new SoftBodyWorldInfo(worldInfoId);
+        /*
+         * Make sure the same gravity is applied to both hard bodies
+         * and soft ones.
+         */
+        Vector3f gravity = super.getGravity(null);
+        worldInfo.setGravity(gravity);
     }
     // *************************************************************************
     // new methods exposed
@@ -116,14 +130,11 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     }
 
     /**
-     * Access the default parameters for this space.
+     * Access the parameters applied when soft bodies are added to this space.
      *
-     * @return a new instance (not null)
+     * @return the pre-existing instance (not null)
      */
     public SoftBodyWorldInfo getWorldInfo() {
-        long worldInfoId = getWorldInfo(getSpaceId());
-        SoftBodyWorldInfo worldInfo = new SoftBodyWorldInfo(worldInfoId);
-
         return worldInfo;
     }
     // *************************************************************************
@@ -215,6 +226,22 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         } else {
             super.removeCollisionObject(obj);
         }
+    }
+
+    /**
+     * Alter the gravitational acceleration acting on newly-added bodies.
+     * <p>
+     * Whenever a body is added to a space, the body's gravity gets set to that
+     * of the space. Thus it makes sense to set the space's gravity before
+     * adding any bodies to the space.
+     *
+     * @param gravity the desired acceleration vector (not null, unaffected,
+     * default=(0,-9.81,0))
+     */
+    @Override
+    public void setGravity(Vector3f gravity) {
+        super.setGravity(gravity);
+        worldInfo.setGravity(gravity);
     }
     // *************************************************************************
     // private methods
