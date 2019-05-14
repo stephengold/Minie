@@ -257,12 +257,20 @@ public class PhysicsDumper extends Dumper {
         String desc = MyVector3f.describe(location);
         stream.printf(" loc[%s]", desc);
 
+        stream.print(" mass=");
         float mass = body.getMass();
         desc = MyString.describe(mass);
-        stream.print(" mass=" + desc);
+        stream.print(desc);
 
+        stream.print(" marg=");
+        float margin = body.margin();
+        desc = MyString.describe(margin);
+        stream.print(desc);
+
+        stream.print(" volume=");
         float volume = body.volume();
-        stream.print(" volume=" + MyString.describe(volume));
+        desc = MyString.describe(volume);
+        stream.print(desc);
 
         PhysicsDescriber describer = getDescriber();
         desc = describer.describeUser(body);

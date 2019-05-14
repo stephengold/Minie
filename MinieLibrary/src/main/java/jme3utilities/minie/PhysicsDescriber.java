@@ -169,11 +169,17 @@ public class PhysicsDescriber extends Describer {
 
         } else if (shape instanceof SphereCollisionShape) {
             SphereCollisionShape sphere = (SphereCollisionShape) shape;
+            result.append("[r=");
             float radius = sphere.getRadius();
             String rText = MyString.describe(radius);
-            String desc = String.format("[r=%s]", rText);
-            result.append(desc);
+            result.append(rText);
+            result.append(']');
         }
+
+        result.append(" marg=");
+        float margin = shape.getMargin();
+        String mText = MyString.describe(margin);
+        result.append(mText);
 
         return result.toString();
     }
