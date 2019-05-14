@@ -1007,11 +1007,13 @@ public class PhysicsSpace {
 
     /**
      * Update this space. Invoked (by the Bullet app state) once per frame while
-     * the app state is attached and enabled.
+     * the app state is attached and enabled. Can also be used to single-step
+     * the physics simulation, if maxSubSteps is set to 1.
      *
+     * @see #setMaxSubSteps(int)
      * @param time time-per-frame multiplied by speed (in seconds, &ge;0)
      */
-    void update(float time) {
+    public void update(float time) {
         assert time >= 0f : time;
         update(time, maxSubSteps);
     }
