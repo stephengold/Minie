@@ -602,7 +602,7 @@ public class PhysicsSpace {
      *
      * @return the ID (not zero)
      */
-    public long getSpaceId() {
+    final public long getSpaceId() {
         return nativeId;
     }
 
