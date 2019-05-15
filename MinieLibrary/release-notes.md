@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.0 released on TBD
+## Version 0.9.0 released on 14 May 2019
 
  + Added a minimal implementation of soft-body physics, based on Dokthar's
    prior work, that included `ConfigFlag`, `Icosphere`, `MeshEdge`,
