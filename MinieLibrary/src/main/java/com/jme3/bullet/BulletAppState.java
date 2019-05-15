@@ -191,8 +191,8 @@ public class BulletAppState
     // constructors
 
     /**
-     * Instantiate an app state to manage a new PhysicsSpace with DBVT collision
-     * detection.
+     * Instantiate an enabled app state to manage a new PhysicsSpace with DBVT
+     * collision detection.
      * <p>
      * Use getStateManager().addState(bulletAppState) to start physics.
      */
@@ -200,7 +200,7 @@ public class BulletAppState
     }
 
     /**
-     * Instantiate an app state to manage a new PhysicsSpace.
+     * Instantiate an enabled app state to manage a new PhysicsSpace.
      * <p>
      * Use getStateManager().addState(bulletAppState) to start physics.
      *
@@ -214,8 +214,8 @@ public class BulletAppState
     }
 
     /**
-     * Instantiate an app state to manage a new PhysicsSpace with AXIS_SWEEP_3
-     * collision detection.
+     * Instantiate an enabled app state to manage a new PhysicsSpace with
+     * AXIS_SWEEP_3 collision detection.
      * <p>
      * Use getStateManager().addState(bulletAppState) to start physics.
      *
@@ -229,7 +229,7 @@ public class BulletAppState
     }
 
     /**
-     * Instantiate an app state to manage a new PhysicsSpace.
+     * Instantiate an enabled app state to manage a new PhysicsSpace.
      * <p>
      * Use getStateManager().addState(bulletAppState) to enable physics.
      *

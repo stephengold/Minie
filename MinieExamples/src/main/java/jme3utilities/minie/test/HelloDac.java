@@ -64,7 +64,6 @@ public class HelloDac extends SimpleApplication {
         // Set up Bullet physics (with debug enabled).
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
-        bulletAppState.setEnabled(true);
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
