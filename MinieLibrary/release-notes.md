@@ -1,5 +1,22 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.0 released on TBD
+
+ + Added a minimal implementation of soft-body physics, based on Dokthar's
+   prior work, that included `ConfigFlag`, `Icosphere`, `MeshEdge`,
+   `NativeSoftBodyUtil`, `NetGrid`, `PhysicsBody`, `PhysicsSoftBody`,
+   `PhysicsSoftSpace`, `RayTestFlag`, `Sbcp`, `SoftBodyWorldInfo`,
+   `SoftPhysicsAppState`, `SoftDebugAppState`, `SoftBodyDebugControl`, and
+   `TestSoftBody`.
+ + Re-publicized the `update()` method and finalized the `getSpaceId()` method
+   of `PhysicsSpace`.
+ + Moved the `isInWorld()` method from `PhysicsRigidBody`
+   to `PhysicsCollisionObject`.
+ + Moved `TubeTreeMesh` class the `jme3utilities.minie.test.mesh` package.
+ + Used `BinaryExporter.saveAndLoad()` to simplify load/save testing.
+ + Updated the native libraries to version 1.0.61 of `Libbulletjme`.
+ + Based on version 2.27 of the `jme3-utilities-heart` library.
+
 ## Version 0.8.1 released on 28 April 2019
 
  + API changes:
