@@ -48,11 +48,12 @@ Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
 
 Summary of added features:
 
- + `DynamicAnimControl` for ragdoll simulation:
+ + `DynamicAnimControl` for ragdoll/rope simulation:
     + set dynamic/kinematic mode per bone
     + understands attachments
     + highly configurable, with many options for bone mass, center, and shape
     + apply inverse-kinematic controllers and joints
+ + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`.
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `EmptyShape` collision shapes based on `btEmptyShape`
  + debugging aids:
@@ -327,9 +328,17 @@ debugging a `PhysicsSpace`.
 If your application already has a `BulletAppState`, the code will probably
 work fine with `Minie`.  If not, here is a snippet to guide you:
 
+        SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
+        bulletAppState.setDebugEnabled(true); // default=false
+        stateManager.attach(bulletAppState);
+        PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
+
+If you don't need soft bodies, you can use `BulletAppState` directly:
+
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true); // default=false
         stateManager.attach(bulletAppState);
+        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
 #### Configure the PhysicsSpace
 
