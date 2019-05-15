@@ -1129,168 +1129,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Count how many joints connect to this body.
-     *
-     * @return the count (&ge;0) or 0 if this body isn't added to any
-     * PhysicsSpace
-     */
-    @Override
-    public int countJoints() {
-        int result = 0;
-        if (isInWorld()) {
-            result = joints.size();
-        }
-
-        return result;
-    }
-
-    /**
-     * Copy this body's gravitational acceleration.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return an acceleration vector in physics-space coordinates (either
-     * storeResult or a new vector, not null)
-     */
-    @Override
-    public Vector3f getGravity(Vector3f storeResult) {
-        SoftBodyWorldInfo info = getWorldInfo();
-        Vector3f result = info.copyGravity(storeResult);
-
-        return result;
-    }
-
-    /**
-     * Determine the total mass of this body.
-     *
-     * @return the total mass (&gt;0)
-     */
-    @Override
-    public float getMass() {
-        return getTotalMass(objectId);
-    }
-
-    /**
-     * Calculate the transform of this body using its bounding box. The bounding
-     * box isn't updated on every frame.
-     *
-     * @param storeResult (modified if not null)
-     * @return a transform (relative to physics-space coordinates, not null,
-     * either storeResult or a new instance)
-     */
-    @Override
-    public Transform getPhysicsTransform(Transform storeResult) {
-        Transform result
-                = (storeResult == null) ? new Transform() : storeResult;
-        getPhysicsTransform(objectId, result);
-        return result;
-    }
-
-    /**
-     * Enumerate the joints connected to this body.
-     *
-     * @return a new array of pre-existing joints, or null if this body is not
-     * added to any PhysicsSpace
-     */
-    @Override
-    public PhysicsJoint[] listJoints() {
-        PhysicsJoint[] result;
-        if (isInWorld()) {
-            int numJoints = joints.size();
-            result = new PhysicsJoint[numJoints];
-            joints.toArray(result);
-        } else {
-            result = null;
-        }
-
-        return result;
-    }
-
-    /**
-     * Do not invoke directly! Joints are removed automatically when destroyed.
-     *
-     * @param joint the joint to remove (not null)
-     */
-    @Override
-    public void removeJoint(PhysicsJoint joint) {
-        Validate.nonNull(joint, "joint");
-        joints.remove(joint);
-    }
-
-    /**
-     * Alter this body's gravitational acceleration.
-     * <p>
-     * Invoke this method <em>after</em> adding this body to a PhysicsSpace.
-     * Adding a body to a PhysicsSpace alters its gravity.
-     *
-     * @param acceleration the desired acceleration vector (in physics-space
-     * coordinates, not null, unaffected)
-     */
-    @Override
-    public void setGravity(Vector3f acceleration) {
-        Validate.finite(acceleration, "acceleration");
-
-        SoftBodyWorldInfo oldInfo = getWorldInfo();
-
-        SoftBodyWorldInfo newInfo = new SoftBodyWorldInfo();
-        newInfo.copyAll(oldInfo);
-        newInfo.setGravity(acceleration);
-
-        setWorldInfo(newInfo);
-    }
-
-    /**
-     * Alter the total mass for this body, distributing it based on the current
-     * mass of each node.
-     *
-     * @param totalMass the desired total mass (&gt;0)
-     */
-    @Override
-    public void setMass(float totalMass) {
-        Validate.positive(totalMass, "total mass");
-        setMassByCurrent(totalMass);
-    }
-
-    /**
-     * Directly relocate the center of this body's bounding box. The bounding
-     * box isn't updated on every frame.
-     *
-     * @param location the desired location (in physics-space coordinates, not
-     * null, unaffected)
-     */
-    @Override
-    public void setPhysicsLocation(Vector3f location) {
-        Validate.finite(location, "location");
-        setPhysicsLocation(objectId, location);
-    }
-
-    /**
-     * Directly reorient this body.
-     *
-     * @param orientation the desired orientation (relative to physics-space
-     * coordinates, not null, unaffected)
-     */
-    @Override
-    public void setPhysicsRotation(Quaternion orientation) {
-        Validate.nonNull(orientation, "orientation");
-        setPhysicsRotation(objectId, orientation);
-    }
-
-    /**
-     * Directly alter this body's transform based on the center of its bounding
-     * box. The bounding box isn't updated on every frame.
-     *
-     * @param transform the desired transform (relative to physics-space
-     * coordinates, not null, unaffected)
-     */
-    @Override
-    public void setPhysicsTransform(Transform transform) {
-        Validate.nonNull(transform, "transform");
-        setPhysicsTransform(objectId, transform);
-    }
-
-    /**
-     * Calculate the axis-aligned bounding box for this body. TODO re-order
-     * methods
+     * Calculate the axis-aligned bounding box for this body.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a bounding box in physics-space coordinates (either storeResult
@@ -1378,6 +1217,47 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Count how many joints connect to this body.
+     *
+     * @return the count (&ge;0) or 0 if this body isn't added to any
+     * PhysicsSpace
+     */
+    @Override
+    public int countJoints() {
+        int result = 0;
+        if (isInWorld()) {
+            result = joints.size();
+        }
+
+        return result;
+    }
+
+    /**
+     * Copy this body's gravitational acceleration.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return an acceleration vector in physics-space coordinates (either
+     * storeResult or a new vector, not null)
+     */
+    @Override
+    public Vector3f getGravity(Vector3f storeResult) {
+        SoftBodyWorldInfo info = getWorldInfo();
+        Vector3f result = info.copyGravity(storeResult);
+
+        return result;
+    }
+
+    /**
+     * Determine the total mass of this body.
+     *
+     * @return the total mass (&gt;0)
+     */
+    @Override
+    public float getMass() {
+        return getTotalMass(objectId);
+    }
+
+    /**
      * Locate the center of this body's bounding box. The bounding box isn't
      * updated on every frame.
      *
@@ -1410,6 +1290,22 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Calculate the transform of this body using its bounding box. The bounding
+     * box isn't updated on every frame.
+     *
+     * @param storeResult (modified if not null)
+     * @return a transform (relative to physics-space coordinates, not null,
+     * either storeResult or a new instance)
+     */
+    @Override
+    public Transform getPhysicsTransform(Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+        getPhysicsTransform(objectId, result);
+        return result;
+    }
+
+    /**
      * Create a shallow clone for the JME cloner.
      *
      * @return a new instance
@@ -1422,6 +1318,26 @@ public class PhysicsSoftBody extends PhysicsBody {
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    /**
+     * Enumerate the joints connected to this body.
+     *
+     * @return a new array of pre-existing joints, or null if this body is not
+     * added to any PhysicsSpace
+     */
+    @Override
+    public PhysicsJoint[] listJoints() {
+        PhysicsJoint[] result;
+        if (isInWorld()) {
+            int numJoints = joints.size();
+            result = new PhysicsJoint[numJoints];
+            joints.toArray(result);
+        } else {
+            result = null;
+        }
+
+        return result;
     }
 
     /**
@@ -1446,6 +1362,89 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         getSoftConfig().read(capsule);
         getSoftMaterial().read(capsule);
+    }
+
+    /**
+     * Do not invoke directly! Joints are removed automatically when destroyed.
+     *
+     * @param joint the joint to remove (not null)
+     */
+    @Override
+    public void removeJoint(PhysicsJoint joint) {
+        Validate.nonNull(joint, "joint");
+        joints.remove(joint);
+    }
+
+    /**
+     * Alter this body's gravitational acceleration.
+     * <p>
+     * Invoke this method <em>after</em> adding this body to a PhysicsSpace.
+     * Adding a body to a PhysicsSpace alters its gravity.
+     *
+     * @param acceleration the desired acceleration vector (in physics-space
+     * coordinates, not null, unaffected)
+     */
+    @Override
+    public void setGravity(Vector3f acceleration) {
+        Validate.finite(acceleration, "acceleration");
+
+        SoftBodyWorldInfo oldInfo = getWorldInfo();
+
+        SoftBodyWorldInfo newInfo = new SoftBodyWorldInfo();
+        newInfo.copyAll(oldInfo);
+        newInfo.setGravity(acceleration);
+
+        setWorldInfo(newInfo);
+    }
+
+    /**
+     * Alter the total mass for this body, distributing it based on the current
+     * mass of each node.
+     *
+     * @param totalMass the desired total mass (&gt;0)
+     */
+    @Override
+    public void setMass(float totalMass) {
+        Validate.positive(totalMass, "total mass");
+        setMassByCurrent(totalMass);
+    }
+
+    /**
+     * Directly relocate the center of this body's bounding box. The bounding
+     * box isn't updated on every frame.
+     *
+     * @param location the desired location (in physics-space coordinates, not
+     * null, unaffected)
+     */
+    @Override
+    public void setPhysicsLocation(Vector3f location) {
+        Validate.finite(location, "location");
+        setPhysicsLocation(objectId, location);
+    }
+
+    /**
+     * Directly reorient this body.
+     *
+     * @param orientation the desired orientation (relative to physics-space
+     * coordinates, not null, unaffected)
+     */
+    @Override
+    public void setPhysicsRotation(Quaternion orientation) {
+        Validate.nonNull(orientation, "orientation");
+        setPhysicsRotation(objectId, orientation);
+    }
+
+    /**
+     * Directly alter this body's transform based on the center of its bounding
+     * box. The bounding box isn't updated on every frame.
+     *
+     * @param transform the desired transform (relative to physics-space
+     * coordinates, not null, unaffected)
+     */
+    @Override
+    public void setPhysicsTransform(Transform transform) {
+        Validate.nonNull(transform, "transform");
+        setPhysicsTransform(objectId, transform);
     }
 
     /**
