@@ -801,6 +801,45 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned body into a deep-cloned one, using the specified cloner
+     * and original to resolve copied fields.
+     *
+     * @param cloner the cloner that's cloning this body (not null)
+     * @param original the instance from which this instance was shallow-cloned
+     * (not null, unaffected)
+     */
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        super.cloneFields(cloner, original);
+        rebuildRigidBody();
+
+        joints = cloner.clone(joints);
+        motionState = cloner.clone(motionState);
+
+        PhysicsRigidBody old = (PhysicsRigidBody) original;
+        copyPcoProperties(old);
+
+        Vector3f tmpVector = new Vector3f();
+        setAngularDamping(old.getAngularDamping());
+        setAngularFactor(old.getAngularFactor(tmpVector));
+        setAngularSleepingThreshold(old.getAngularSleepingThreshold());
+        setContactResponse(old.isContactResponse());
+        setGravity(old.getGravity(tmpVector));
+        setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
+        setLinearDamping(old.getLinearDamping());
+        setLinearFactor(old.getLinearFactor(tmpVector));
+        setLinearSleepingThreshold(old.getLinearSleepingThreshold());
+        if (old.isDynamic()) {
+            setAngularVelocity(old.getAngularVelocity(tmpVector));
+            setLinearVelocity(old.getLinearVelocity(tmpVector));
+        }
+        setPhysicsLocation(old.getPhysicsLocation(tmpVector));
+        setPhysicsRotation(old.getPhysicsRotationMatrix(null));
+        setDeactivationTime(old.getDeactivationTime());
+    }
+
+    /**
      * Count how many joints connect to this body.
      *
      * @return the count (&ge;0) or 0 if this body isn't added to any
@@ -860,6 +899,21 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
+     * Create a shallow clone for the JME cloner.
+     *
+     * @return a new instance
+     */
+    @Override
+    public PhysicsRigidBody jmeClone() {
+        try {
+            PhysicsRigidBody clone = (PhysicsRigidBody) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    /**
      * Enumerate the joints connected to this body.
      *
      * @return a new array of pre-existing joints, or null if this body is not
@@ -877,6 +931,54 @@ public class PhysicsRigidBody extends PhysicsBody {
         }
 
         return result;
+    }
+
+    /**
+     * De-serialize this body, for example when loading from a J3O file.
+     *
+     * @param im the importer (not null)
+     * @throws IOException from the importer
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+
+        InputCapsule capsule = im.getCapsule(this);
+        mass = capsule.readFloat("mass", 1f);
+        rebuildRigidBody();
+        readPcoProperties(capsule);
+
+        setContactResponse(capsule.readBoolean("contactResponse", true));
+        setGravity((Vector3f) capsule.readSavable("gravity",
+                Vector3f.ZERO.clone()));
+        if (mass != massForStatic) {
+            setKinematic(capsule.readBoolean("kinematic", false));
+        }
+
+        setInverseInertiaLocal((Vector3f) capsule.readSavable("inverseInertia",
+                Vector3f.UNIT_XYZ.clone()));
+        setAngularFactor((Vector3f) capsule.readSavable("angularFactor",
+                Vector3f.UNIT_XYZ.clone()));
+        setLinearFactor((Vector3f) capsule.readSavable("linearFactor",
+                Vector3f.UNIT_XYZ.clone()));
+        setDamping(capsule.readFloat("linearDamping", 0f),
+                capsule.readFloat("angularDamping", 0f));
+        setSleepingThresholds(
+                capsule.readFloat("linearSleepingThreshold", 0.8f),
+                capsule.readFloat("angularSleepingThreshold", 1f));
+
+        setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
+                Vector3f.ZERO.clone()));
+        setPhysicsRotation((Matrix3f) capsule.readSavable("physicsRotation",
+                Matrix3f.ZERO.clone()));
+        setLinearVelocity((Vector3f) capsule.readSavable("linearVelocity",
+                Vector3f.ZERO.clone()));
+        setAngularVelocity((Vector3f) capsule.readSavable("angularVelocity",
+                Vector3f.ZERO.clone()));
+        setDeactivationTime(capsule.readFloat("deactivationTime", 0f));
+
+        joints = capsule.readSavableArrayList("joints", null);
     }
 
     /**
@@ -983,108 +1085,6 @@ public class PhysicsRigidBody extends PhysicsBody {
         setPhysicsLocation(transform.getTranslation());
         setPhysicsRotation(transform.getRotation());
         setPhysicsScale(transform.getScale());
-    }
-
-    /**
-     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned body into a deep-cloned one, using the specified cloner
-     * and original to resolve copied fields. TODO re-order methods
-     *
-     * @param cloner the cloner that's cloning this body (not null)
-     * @param original the instance from which this instance was shallow-cloned
-     * (not null, unaffected)
-     */
-    @Override
-    public void cloneFields(Cloner cloner, Object original) {
-        super.cloneFields(cloner, original);
-        rebuildRigidBody();
-
-        joints = cloner.clone(joints);
-        motionState = cloner.clone(motionState);
-
-        PhysicsRigidBody old = (PhysicsRigidBody) original;
-        copyPcoProperties(old);
-
-        Vector3f tmpVector = new Vector3f();
-        setAngularDamping(old.getAngularDamping());
-        setAngularFactor(old.getAngularFactor(tmpVector));
-        setAngularSleepingThreshold(old.getAngularSleepingThreshold());
-        setContactResponse(old.isContactResponse());
-        setGravity(old.getGravity(tmpVector));
-        setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
-        setLinearDamping(old.getLinearDamping());
-        setLinearFactor(old.getLinearFactor(tmpVector));
-        setLinearSleepingThreshold(old.getLinearSleepingThreshold());
-        if (old.isDynamic()) {
-            setAngularVelocity(old.getAngularVelocity(tmpVector));
-            setLinearVelocity(old.getLinearVelocity(tmpVector));
-        }
-        setPhysicsLocation(old.getPhysicsLocation(tmpVector));
-        setPhysicsRotation(old.getPhysicsRotationMatrix(null));
-        setDeactivationTime(old.getDeactivationTime());
-    }
-
-    /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public PhysicsRigidBody jmeClone() {
-        try {
-            PhysicsRigidBody clone = (PhysicsRigidBody) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
-     * De-serialize this body, for example when loading from a J3O file.
-     *
-     * @param im the importer (not null)
-     * @throws IOException from the importer
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-
-        InputCapsule capsule = im.getCapsule(this);
-        mass = capsule.readFloat("mass", 1f);
-        rebuildRigidBody();
-        readPcoProperties(capsule);
-
-        setContactResponse(capsule.readBoolean("contactResponse", true));
-        setGravity((Vector3f) capsule.readSavable("gravity",
-                Vector3f.ZERO.clone()));
-        if (mass != massForStatic) {
-            setKinematic(capsule.readBoolean("kinematic", false));
-        }
-
-        setInverseInertiaLocal((Vector3f) capsule.readSavable("inverseInertia",
-                Vector3f.UNIT_XYZ.clone()));
-        setAngularFactor((Vector3f) capsule.readSavable("angularFactor",
-                Vector3f.UNIT_XYZ.clone()));
-        setLinearFactor((Vector3f) capsule.readSavable("linearFactor",
-                Vector3f.UNIT_XYZ.clone()));
-        setDamping(capsule.readFloat("linearDamping", 0f),
-                capsule.readFloat("angularDamping", 0f));
-        setSleepingThresholds(
-                capsule.readFloat("linearSleepingThreshold", 0.8f),
-                capsule.readFloat("angularSleepingThreshold", 1f));
-
-        setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
-                Vector3f.ZERO.clone()));
-        setPhysicsRotation((Matrix3f) capsule.readSavable("physicsRotation",
-                Matrix3f.ZERO.clone()));
-        setLinearVelocity((Vector3f) capsule.readSavable("linearVelocity",
-                Vector3f.ZERO.clone()));
-        setAngularVelocity((Vector3f) capsule.readSavable("angularVelocity",
-                Vector3f.ZERO.clone()));
-        setDeactivationTime(capsule.readFloat("deactivationTime", 0f));
-
-        joints = capsule.readSavableArrayList("joints", null);
     }
 
     /**
