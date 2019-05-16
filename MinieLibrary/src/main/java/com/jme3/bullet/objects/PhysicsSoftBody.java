@@ -34,6 +34,7 @@ package com.jme3.bullet.objects;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
@@ -1357,6 +1358,24 @@ public class PhysicsSoftBody extends PhysicsBody {
     public void removeJoint(PhysicsJoint joint) {
         Validate.nonNull(joint, "joint");
         joints.remove(joint);
+    }
+
+    /**
+     * Alter which normals to include in new debug meshes.
+     *
+     * @param newSetting an enum value (either None or Smooth)
+     */
+    @Override
+    public void setDebugMeshNormals(DebugMeshNormals newSetting) {
+        Validate.nonNull(newSetting, "new setting");
+        switch (newSetting) {
+            case None:
+            case Smooth:
+                super.setDebugMeshNormals(newSetting);
+                break;
+            default:
+                throw new IllegalArgumentException(newSetting.toString());
+        }
     }
 
     /**

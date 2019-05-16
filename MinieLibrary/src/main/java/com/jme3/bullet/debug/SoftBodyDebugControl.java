@@ -31,8 +31,10 @@
  */
 package com.jme3.bullet.debug;
 
+import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
+import com.jme3.material.Material;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -133,6 +135,12 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             NativeSoftBodyUtil.updateMesh(body, noIndexMap, mesh, localFlag,
                     normalsFlag);
             facesGeometry.updateModelBound(); // TODO needed?
+
+            Material material = body.getDebugMaterial();
+            if (material == null) {
+                material = debugAppState.DEBUG_RED;
+            }
+            facesGeometry.setMaterial(material);
         }
 
         Vector3f center = threadTmpVector.get();
@@ -171,6 +179,11 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // private methods
 
+    /**
+     * Create a Geometry to visualize faces.
+     *
+     * @return a new Geometry, or null if no faces
+     */
     private Geometry createFacesGeometry() {
         Geometry result = null;
         if (body.countFaces() > 0) {
@@ -178,6 +191,11 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             mesh.setBuffer(VertexBuffer.Type.Index, 3, body.copyFaces(null));
             mesh.setBuffer(VertexBuffer.Type.Position, 3,
                     body.copyLocations(null));
+            DebugMeshNormals normals = body.debugMeshNormals();
+            if (normals != DebugMeshNormals.None) {
+                mesh.setBuffer(VertexBuffer.Type.Normal, 3,
+                        body.copyNormals(null));
+            }
             mesh.setMode(Mesh.Mode.Triangles);
             mesh.setStreamed();
 
@@ -185,15 +203,24 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             mesh.updateBound();
 
             result = new Geometry(body.toString() + " faces", mesh);
-            result.setMaterial(debugAppState.DEBUG_RED);
+            Material material = body.getDebugMaterial();
+            if (material == null) {
+                material = debugAppState.DEBUG_RED;
+            }
+            result.setMaterial(material);
         }
 
         return result;
     }
 
+    /**
+     * Create a Geometry to visualize links.
+     *
+     * @return a new Geometry, or null if there are faces or no links
+     */
     private Geometry createLinksGeometry() {
         Geometry result = null;
-        if (body.countLinks() > 0) {
+        if (body.countFaces() == 0 && body.countLinks() > 0) {
             Mesh mesh = new Mesh();
             mesh.setBuffer(VertexBuffer.Type.Index, 2, body.copyLinks(null));
             mesh.setBuffer(VertexBuffer.Type.Position, 3,
