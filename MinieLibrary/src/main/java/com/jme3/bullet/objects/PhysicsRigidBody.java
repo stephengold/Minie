@@ -78,8 +78,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     // fields
 
     /**
-     * list of joints that connect to this body: The list isn't filled until the
-     * body is added to a PhysicsSpace.
+     * list of joints that connect to this body: The list isn't populated until
+     * the body is added to a PhysicsSpace.
      */
     private ArrayList<PhysicsJoint> joints = new ArrayList<>(4);
     /**
@@ -94,9 +94,9 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     protected float mass = 1f;
     /**
-     * motion state
+     * motion state (not null)
      */
-    protected RigidBodyMotionState motionState = new RigidBodyMotionState();
+    private RigidBodyMotionState motionState = new RigidBodyMotionState();
     // *************************************************************************
     // constructors
 
@@ -417,7 +417,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Access this body's motion state.
      *
-     * @return the pre-existing instance
+     * @return the pre-existing instance (not null)
      */
     public RigidBodyMotionState getMotionState() {
         return motionState;
@@ -706,11 +706,11 @@ public class PhysicsRigidBody extends PhysicsBody {
      * not be adjusted.
      *
      * @param newScale the desired scaling factor for each local axis (not null,
-     * no negative component, unaffected, default=1,1,1)
+     * no negative component, unaffected, default=(1,1,1))
      */
     public void setPhysicsScale(Vector3f newScale) {
         CollisionShape shape = getCollisionShape();
-        Vector3f oldScale = shape.getScale(null);
+        Vector3f oldScale = shape.getScale(null); // TODO reuse temp vector
         if (!newScale.equals(oldScale)) {
             //if (isInWorld()) {
             //    throw new IllegalStateException(

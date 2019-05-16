@@ -33,6 +33,7 @@ package com.jme3.bullet.objects;
 
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.objects.infos.RigidBodyMotionState;
 import com.jme3.bullet.objects.infos.VehicleTuning;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -156,7 +157,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     @Override
     protected void postRebuild() {
         super.postRebuild();
-        motionState.setVehicle(this);
+        RigidBodyMotionState ms = getMotionState();
+        ms.setVehicle(this);
         createVehicle(physicsSpace);
     }
 
@@ -662,7 +664,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        motionState.setVehicle(this);
+        RigidBodyMotionState ms = getMotionState();
+        ms.setVehicle(this);
 
         //physicsSpace not cloned
         tuning = cloner.clone(tuning);
@@ -716,7 +719,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
 
         wheels = capsule.readSavableArrayList(
                 "wheelsList", new ArrayList<VehicleWheel>(6));
-        motionState.setVehicle(this);
+        RigidBodyMotionState ms = getMotionState();
+        ms.setVehicle(this);
 
         super.read(im);
     }

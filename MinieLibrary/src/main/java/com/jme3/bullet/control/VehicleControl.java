@@ -35,6 +35,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.VehicleWheel;
+import com.jme3.bullet.objects.infos.RigidBodyMotionState;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -133,7 +134,8 @@ public class VehicleControl
      * coordinates
      */
     public boolean isApplyPhysicsLocal() {
-        return motionState.isApplyPhysicsLocal();
+        RigidBodyMotionState ms = getMotionState();
+        return ms.isApplyPhysicsLocal();
     }
 
     /**
@@ -144,7 +146,8 @@ public class VehicleControl
      * false&rarr;match world coordinates (default=false)
      */
     public void setApplyPhysicsLocal(boolean applyPhysicsLocal) {
-        motionState.setApplyPhysicsLocal(applyPhysicsLocal);
+        RigidBodyMotionState ms = getMotionState();
+        ms.setApplyPhysicsLocal(applyPhysicsLocal);
         for (VehicleWheel vehicleWheel : wheels) {
             vehicleWheel.setApplyLocal(applyPhysicsLocal);
         }
@@ -326,9 +329,11 @@ public class VehicleControl
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule ic = im.getCapsule(this);
+
         enabled = ic.readBoolean("enabled", true);
         spatial = (Spatial) ic.readSavable("spatial", null);
-        motionState.setApplyPhysicsLocal(ic.readBoolean("applyLocalPhysics", false));
+        RigidBodyMotionState ms = getMotionState();
+        ms.setApplyPhysicsLocal(ic.readBoolean("applyLocalPhysics", false));
         setUserObject(spatial);
     }
 
@@ -342,8 +347,10 @@ public class VehicleControl
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule oc = ex.getCapsule(this);
+
         oc.write(enabled, "enabled", true);
-        oc.write(motionState.isApplyPhysicsLocal(), "applyLocalPhysics", false);
+        RigidBodyMotionState ms = getMotionState();
+        oc.write(ms.isApplyPhysicsLocal(), "applyLocalPhysics", false);
         oc.write(spatial, "spatial", null);
     }
     // *************************************************************************
@@ -355,7 +362,8 @@ public class VehicleControl
      * @return the pre-existing vector (not null)
      */
     private Vector3f getSpatialTranslation() {
-        if (motionState.isApplyPhysicsLocal()) {
+        RigidBodyMotionState ms = getMotionState();
+        if (ms.isApplyPhysicsLocal()) {
             return spatial.getLocalTranslation();
         }
         return spatial.getWorldTranslation();
@@ -367,7 +375,8 @@ public class VehicleControl
      * @return the pre-existing quaternion (not null)
      */
     private Quaternion getSpatialRotation() {
-        if (motionState.isApplyPhysicsLocal()) {
+        RigidBodyMotionState ms = getMotionState();
+        if (ms.isApplyPhysicsLocal()) {
             return spatial.getLocalRotation();
         }
         return spatial.getWorldRotation();

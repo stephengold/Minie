@@ -36,6 +36,7 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.infos.RigidBodyMotionState;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -178,7 +179,8 @@ public class RigidBodyControl
      * coordinates
      */
     public boolean isApplyPhysicsLocal() {
-        return motionState.isApplyPhysicsLocal();
+        RigidBodyMotionState ms = getMotionState();
+        return ms.isApplyPhysicsLocal();
     }
 
     /**
@@ -208,7 +210,8 @@ public class RigidBodyControl
      * false&rarr;match world coordinates (default=false)
      */
     public void setApplyPhysicsLocal(boolean applyPhysicsLocal) {
-        motionState.setApplyPhysicsLocal(applyPhysicsLocal);
+        RigidBodyMotionState ms = getMotionState();
+        ms.setApplyPhysicsLocal(applyPhysicsLocal);
     }
 
     /**
@@ -472,10 +475,12 @@ public class RigidBodyControl
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule ic = im.getCapsule(this);
+
         enabled = ic.readBoolean("enabled", true);
         kinematicSpatial = ic.readBoolean("kinematicSpatial", true);
         spatial = (Spatial) ic.readSavable("spatial", null);
-        motionState.setApplyPhysicsLocal(ic.readBoolean("applyLocalPhysics", false));
+        RigidBodyMotionState ms = getMotionState();
+        ms.setApplyPhysicsLocal(ic.readBoolean("applyLocalPhysics", false));
         applyScale = ic.readBoolean("applyScale", false);
     }
 
@@ -489,8 +494,10 @@ public class RigidBodyControl
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule oc = ex.getCapsule(this);
+
         oc.write(enabled, "enabled", true);
-        oc.write(motionState.isApplyPhysicsLocal(), "applyLocalPhysics", false);
+        RigidBodyMotionState ms = getMotionState();
+        oc.write(ms.isApplyPhysicsLocal(), "applyLocalPhysics", false);
         oc.write(kinematicSpatial, "kinematicSpatial", true);
         oc.write(applyScale, "applyScale", false);
         oc.write(spatial, "spatial", null);
@@ -528,7 +535,7 @@ public class RigidBodyControl
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         if (MySpatial.isIgnoringTransforms(spatial)) {
-            result.set(scaleIdentity);
+            result.set(scaleIdentity); // TODO not right
         } else if (isApplyPhysicsLocal()) {
             Vector3f scale = spatial.getLocalScale();
             result.set(scale);
@@ -547,11 +554,14 @@ public class RigidBodyControl
      */
     private Vector3f getSpatialTranslation() {
         if (MySpatial.isIgnoringTransforms(spatial)) {
-            return translateIdentity;
-        } else if (motionState.isApplyPhysicsLocal()) {
-            return spatial.getLocalTranslation();
+            return translateIdentity; // TODO not right
         } else {
-            return spatial.getWorldTranslation();
+            RigidBodyMotionState ms = getMotionState();
+            if (ms.isApplyPhysicsLocal()) {
+                return spatial.getLocalTranslation();
+            } else {
+                return spatial.getWorldTranslation();
+            }
         }
     }
 
@@ -562,11 +572,14 @@ public class RigidBodyControl
      */
     private Quaternion getSpatialRotation() {
         if (MySpatial.isIgnoringTransforms(spatial)) {
-            return rotateIdentity;
-        } else if (motionState.isApplyPhysicsLocal()) {
-            return spatial.getLocalRotation();
+            return rotateIdentity; // TODO not right
         } else {
-            return spatial.getWorldRotation();
+            RigidBodyMotionState ms = getMotionState();
+            if (ms.isApplyPhysicsLocal()) {
+                return spatial.getLocalRotation();
+            } else {
+                return spatial.getWorldRotation();
+            }
         }
     }
 }
