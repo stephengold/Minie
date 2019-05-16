@@ -29,16 +29,22 @@ package jme3utilities.minie.test;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
+import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.input.KeyInput;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
+import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 import java.util.logging.Level;
@@ -57,7 +63,9 @@ import jme3utilities.ui.InputMode;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSoftBody extends ActionApplication {
+public class TestSoftBody
+        extends ActionApplication
+        implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
 
@@ -178,6 +186,26 @@ public class TestSoftBody extends ActionApplication {
         super.onAction(actionString, ongoing, tpf);
     }
     // *************************************************************************
+    // DebugInitListener methods
+
+    /**
+     * Callback from BulletDebugAppState, invoked just before the debug scene is
+     * added to the debug viewports.
+     *
+     * @param physicsDebugRootNode the root node of the debug scene (not null)
+     */
+    @Override
+    public void bulletDebugInit(Node physicsDebugRootNode) {
+        ColorRGBA ambientColor = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);
+        AmbientLight ambient = new AmbientLight(ambientColor);
+        physicsDebugRootNode.addLight(ambient);
+
+        ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
+        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
+        DirectionalLight sun = new DirectionalLight(direction, directColor);
+        physicsDebugRootNode.addLight(sun);
+    }
+    // *************************************************************************
     // private methods
 
     /**
@@ -218,6 +246,13 @@ public class TestSoftBody extends ActionApplication {
         boolean setFramePose = true;
         softBody.setPose(setVolumePose, setFramePose);
 
+        ColorRGBA pink = new ColorRGBA(1.2f, 0.2f, 0.1f, 1f);
+        Material debugMaterial
+                = MyAsset.createShinyMaterial(assetManager, pink);
+        debugMaterial.setFloat("Shininess", 4f);
+        softBody.setDebugMaterial(debugMaterial);
+        softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
+
         softBody.setPhysicsLocation(new Vector3f(0f, 3f, 0f));
         physicsSpace.add(softBody);
         softBody.setGravity(new Vector3f(0f, -gravity, 0f));
@@ -242,6 +277,7 @@ public class TestSoftBody extends ActionApplication {
     private void configurePhysics() {
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
     }
