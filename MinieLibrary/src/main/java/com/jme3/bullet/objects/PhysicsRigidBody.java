@@ -240,6 +240,25 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
+     * Copy the extrapolated transform of this body, including the scale of its
+     * shape.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a transform (relative to physics-space coordinates, either
+     * storeResult or a new instance)
+     */
+    public Transform extrapolatedTransform(Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+
+        motionState.getLocation(result.getTranslation());
+        motionState.getOrientation(result.getRotation());
+        getPhysicsScale(result.getScale());
+
+        return result;
+    }
+
+    /**
      * Read this body's angular damping.
      *
      * @return the damping fraction (&ge;0, &le;1)
@@ -877,25 +896,6 @@ public class PhysicsRigidBody extends PhysicsBody {
     @Override
     public float getMass() {
         return mass;
-    }
-
-    /**
-     * Copy the transform of this body, including the scale of its shape.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a transform (relative to physics-space coordinates, either
-     * storeResult or a new instance)
-     */
-    @Override
-    public Transform getPhysicsTransform(Transform storeResult) {
-        Transform result
-                = (storeResult == null) ? new Transform() : storeResult;
-
-        motionState.getLocation(result.getTranslation());
-        motionState.getOrientation(result.getRotation());
-        getPhysicsScale(result.getScale());
-
-        return result;
     }
 
     /**

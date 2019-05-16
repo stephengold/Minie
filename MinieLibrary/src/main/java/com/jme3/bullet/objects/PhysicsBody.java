@@ -75,15 +75,6 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
     abstract float getMass();
 
     /**
-     * Copy the transform of this body, including its scale.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return the transform (relative to physics-space coordinates, either
-     * storeResult of a new object, not null)
-     */
-    abstract Transform getPhysicsTransform(Transform storeResult);
-
-    /**
      * Enumerate the joints connected to this body.
      *
      * @return a new array of pre-existing joints, or null if this body is not

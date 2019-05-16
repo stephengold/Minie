@@ -367,7 +367,7 @@ abstract public class PhysicsLink
         if (isKinematic()) {
             result.set(kpTransform);
         } else {
-            rigidBody.getPhysicsTransform(result);
+            rigidBody.extrapolatedTransform(result);
         }
 
         return result;
@@ -718,7 +718,7 @@ abstract public class PhysicsLink
             rigidBody.setPhysicsTransform(kpTransform);
             rigidBody.setLinearVelocity(kpVelocity);
         } else if (isKinematic && !wasKinematic) {
-            rigidBody.getPhysicsTransform(kpTransform);
+            rigidBody.extrapolatedTransform(kpTransform);
             rigidBody.getLinearVelocity(kpVelocity);
             rigidBody.setKinematic(true);
         }

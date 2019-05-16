@@ -84,8 +84,8 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     private Config config = new Config(this);
     /**
-     * list of joints that connect to this body: The list isn't filled until the
-     * body is added to a PhysicsSpace.
+     * list of joints that connect to this body: The list isn't populated until
+     * the body is added to a PhysicsSpace.
      */
     private List<PhysicsJoint> joints = new ArrayList<>(4);
     /**
@@ -1286,22 +1286,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         Quaternion result
                 = (storeResult == null) ? new Quaternion() : storeResult;
         getPhysicsRotation(objectId, result);
-        return result;
-    }
-
-    /**
-     * Calculate the transform of this body using its bounding box. The bounding
-     * box isn't updated on every frame.
-     *
-     * @param storeResult (modified if not null)
-     * @return a transform (relative to physics-space coordinates, not null,
-     * either storeResult or a new instance)
-     */
-    @Override
-    public Transform getPhysicsTransform(Transform storeResult) {
-        Transform result
-                = (storeResult == null) ? new Transform() : storeResult;
-        getPhysicsTransform(objectId, result);
         return result;
     }
 
