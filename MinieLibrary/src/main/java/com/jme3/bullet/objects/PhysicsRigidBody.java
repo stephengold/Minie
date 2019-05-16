@@ -240,14 +240,14 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Copy the extrapolated transform of this body, including the scale of its
-     * shape.
+     * Calculate an extrapolated transform of this body, including the scale of
+     * its shape.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a transform (relative to physics-space coordinates, either
      * storeResult or a new instance)
      */
-    public Transform extrapolatedTransform(Transform storeResult) {
+    public Transform extrapolateTransform(Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 

@@ -563,7 +563,7 @@ public class BoneLink extends PhysicsLink {
         /*
          * Start with the rigid body's transform in physics/world coordinates.
          */
-        getRigidBody().extrapolatedTransform(result);
+        getRigidBody().extrapolateTransform(result);
         /*
          * Convert to mesh coordinates.
          */
