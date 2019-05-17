@@ -250,6 +250,7 @@ public class TestSoftBody
         Material debugMaterial
                 = MyAsset.createShinyMaterial(assetManager, pink);
         debugMaterial.setFloat("Shininess", 4f);
+        debugMaterial.setName("pink");
         softBody.setDebugMaterial(debugMaterial);
         softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
 
