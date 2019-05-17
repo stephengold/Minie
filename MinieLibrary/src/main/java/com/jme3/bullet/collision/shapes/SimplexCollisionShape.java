@@ -137,8 +137,8 @@ public class SimplexCollisionShape extends CollisionShape {
      * Copy the indexed vertex.
      *
      * @param index (&ge;0, &lt;4)
-     * @param storeResult (modified if not null)
-     * @return the position of the vertex (either storeResult or a new instance)
+     * @param storeResult storage for the result (modified if not null)
+     * @return the location of the vertex (either storeResult or a new instance)
      */
     public Vector3f copyVertex(int index, Vector3f storeResult) {
         int numVertices = countMeshVertices();

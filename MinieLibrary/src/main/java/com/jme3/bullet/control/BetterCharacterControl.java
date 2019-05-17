@@ -320,7 +320,7 @@ public class BetterCharacterControl
      * might not be 100% aligned with the Z axis.
      *
      * @param vec the desired forward vector (perpendicular to the gravity
-     * vector, may be null, default=0,0,1)
+     * vector, may be null, default=(0,0,1))
      */
     public void resetForward(Vector3f vec) {
         if (vec == null) {

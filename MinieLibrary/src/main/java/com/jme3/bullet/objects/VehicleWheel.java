@@ -52,8 +52,7 @@ import jme3utilities.Validate;
  *
  * @author normenhansen
  */
-public class VehicleWheel
-        implements JmeCloneable, Savable {
+public class VehicleWheel implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 

@@ -509,6 +509,7 @@ abstract public class PhysicsCollisionObject
     final public boolean isContactResponse() {
         int flags = getCollisionFlags(objectId);
         boolean result = (flags & CollisionFlag.NO_CONTACT_RESPONSE) == 0x0;
+
         return result;
     }
 
@@ -522,13 +523,14 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether this object is static.
+     * Test whether this object is static (immobile).
      *
      * @return true if static, otherwise false
      */
     final public boolean isStatic() {
         int flags = getCollisionFlags(objectId);
         boolean result = (flags & CollisionFlag.STATIC_OBJECT) != 0x0;
+
         return result;
     }
 
@@ -548,7 +550,7 @@ abstract public class PhysicsCollisionObject
      * Alter this object's anisotropic friction.
      *
      * @param components the desired friction components (not null, unaffected,
-     * default=1,1,1)
+     * default=(1,1,1))
      * @param mode the desired friction mode: 0=isotropic, 1=basic anisotropic
      * friction, 2=anisotropic rolling friction (default=0) TODO named constants
      */
@@ -596,7 +598,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter the collision group for this object.
+     * Alter which collision group this object belongs to.
      * <p>
      * Groups are represented by integer bit masks with exactly 1 bit set.
      * Pre-made variables are available in PhysicsCollisionObject. By default,
@@ -638,7 +640,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter the contact processing threshold.
+     * Alter the contact-processing threshold.
      *
      * @param distance the desired threshold distance (in physics-space units,
      * default=0)

@@ -94,7 +94,7 @@ public class RigidBodyMotionState implements JmeCloneable {
 
     /**
      * If the motion state has been updated, apply the new transform to the
-     * specified spatial.
+     * specified Spatial.
      *
      * @param spatial where to apply the physics transform (not null, modified)
      * @return true if changed
@@ -140,7 +140,7 @@ public class RigidBodyMotionState implements JmeCloneable {
     /**
      * Copy the location from this motion state.
      *
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return the location vector (in physics-space coordinates, either
      * storeResult or a new vector, not null)
      */
@@ -155,7 +155,7 @@ public class RigidBodyMotionState implements JmeCloneable {
     /**
      * Copy the orientation from this motion state (as a matrix).
      *
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return the rotation matrix (in physics-space coordinates, either
      * storeResult or a new vector, not null)
      */
@@ -168,7 +168,7 @@ public class RigidBodyMotionState implements JmeCloneable {
     /**
      * Copy the orientation from this motion state (as a quaternion).
      *
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return the rotation quaternion (in physics-space coordinates, either
      * storeResult or a new vector, not null)
      */

@@ -53,7 +53,7 @@ import jme3utilities.math.MyVector3f;
  * This is much more efficient than a regular mesh, but it has a couple
  * limitations:
  * <ul>
- * <li>No rotation or translation.</li>
+ * <li>No rotation or horizontal translation.</li>
  * <li>The collision bounding box must be centered on (0,0,0) with the height
  * above and below the X-Z plane being equal on either side. If not, the whole
  * collision box is shifted vertically and objects won't collide properly.</li>
@@ -128,7 +128,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
      *
      * @param heightmap (not null, length&ge;4, length a perfect square,
      * unaffected)
-     * @param scale (not null, no negative component, unaffected, default=1,1,1)
+     * @param scale (not null, no negative component, unaffected,
+     * default=(1,1,1))
      */
     public HeightfieldCollisionShape(float[] heightmap, Vector3f scale) {
         Validate.nonEmpty(heightmap, "heightmap");
@@ -196,6 +197,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule capsule = im.getCapsule(this);
+
         heightStickWidth = capsule.readInt("heightStickWidth", 0);
         heightStickLength = capsule.readInt("heightStickLength", 0);
         heightScale = capsule.readFloat("heightScale", 0f);
@@ -218,6 +220,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
+
         capsule.write(heightStickWidth, "heightStickWidth", 0);
         capsule.write(heightStickLength, "heightStickLength", 0);
         capsule.write(heightScale, "heightScale", 0f);

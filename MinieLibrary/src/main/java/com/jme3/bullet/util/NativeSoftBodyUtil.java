@@ -80,7 +80,7 @@ public class NativeSoftBodyUtil {
      */
     public static void appendFromLineMesh(Mesh mesh, PhysicsSoftBody softBody) {
         Mesh.Mode mode = mesh.getMode();
-        assert mode == Mesh.Mode.Lines : mode;
+        assert mode == Mesh.Mode.Lines : mode; // TODO handle other modes
         Validate.nonNull(softBody, "soft body");
 
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
@@ -100,7 +100,7 @@ public class NativeSoftBodyUtil {
      */
     public static void appendFromTriMesh(Mesh mesh, PhysicsSoftBody softBody) {
         Mesh.Mode mode = mesh.getMode();
-        assert mode == Mesh.Mode.Triangles : mode;
+        assert mode == Mesh.Mode.Triangles : mode; // TODO handle other modes
         Validate.nonNull(softBody, "soft body");
 
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);

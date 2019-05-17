@@ -449,7 +449,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the node indices of all faces in this body.
      *
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return a buffer containing 3 indices per face (either storeResult or a
      * new buffer)
      */
@@ -470,7 +470,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the node indices of all links in this body.
      *
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return a buffer containing 2 indices per link (either storeResult or a
      * new buffer)
      */
@@ -491,7 +491,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the locations of all nodes in this body.
      *
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return a buffer containing 3 floats per node (either storeResult or a
      * new buffer)
      */
@@ -512,7 +512,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the masses of all nodes in this body.
      *
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return a buffer containing a float value per node (either storeResult or
      * a new buffer)
      */
@@ -554,7 +554,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the node indices of all tetrahedra in this body.
      *
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return a buffer containing 4 indices per tetrahedron (either storeResult
      * or a new buffer)
      */

@@ -277,7 +277,7 @@ public class TranslationalLimitMotor {
      * Alter this motor's constraint lower limits (m_lowerLimit).
      *
      * @param lowerLimit the desired limit value for each axis (unaffected, not
-     * null, default=0,0,0)
+     * null, default=(0,0,0))
      */
     public void setLowerLimit(Vector3f lowerLimit) {
         setLowerLimit(motorId, lowerLimit);
@@ -337,7 +337,7 @@ public class TranslationalLimitMotor {
      * Alter this motor's constraint upper limits (m_upperLimit).
      *
      * @param upperLimit the desired limit value for each axis (unaffected, not
-     * null, default=0,0,0)
+     * null, default=(0,0,0))
      */
     public void setUpperLimit(Vector3f upperLimit) {
         setUpperLimit(motorId, upperLimit);

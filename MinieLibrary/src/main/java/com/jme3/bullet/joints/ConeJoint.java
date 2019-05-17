@@ -372,7 +372,7 @@ public class ConeJoint extends PhysicsJoint {
             /*
              * Create a single-ended joint.
              * Bullet assumes single-ended btConeTwistConstraints have
-             * rotInWorld=rotInA and pivotInWorld=0,0,0.
+             * rotInWorld=rotInA and pivotInWorld=(0,0,0).
              */
             objectId = createJoint1(nodeA.getObjectId(), pivotA, rotA);
 

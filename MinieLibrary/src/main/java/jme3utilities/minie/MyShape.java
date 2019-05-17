@@ -95,7 +95,7 @@ public class MyShape {
      * Calculate the un-scaled half extents of the specified shape.
      *
      * @param shape (not null, unaffected)
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return a vector with all components non-negative (either storeResult or
      * a new instance)
      */

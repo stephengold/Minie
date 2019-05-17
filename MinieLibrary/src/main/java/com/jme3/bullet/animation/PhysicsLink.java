@@ -471,7 +471,7 @@ abstract public class PhysicsLink
     /**
      * Copy the body's linear velocity, or an estimate thereof.
      *
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return a new velocity vector (psu/sec in physics-space coordinates)
      */
     Vector3f velocity(Vector3f storeResult) {

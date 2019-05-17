@@ -89,7 +89,7 @@ abstract public class CollisionShape
      */
     protected long objectId = 0L;
     /**
-     * copy of scaling factors: one for each local axis (default=1,1,1)
+     * copy of scaling factors: one for each local axis (default=(1,1,1))
      */
     protected Vector3f scale = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
@@ -101,7 +101,7 @@ abstract public class CollisionShape
      *
      * @param translation the translation to apply (not null, unaffected)
      * @param rotation the rotation to apply (not null, unaffected)
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return a bounding box (either storeResult or a new instance, not null)
      */
     public BoundingBox boundingBox(Vector3f translation, Matrix3f rotation,
@@ -125,7 +125,7 @@ abstract public class CollisionShape
      *
      * @param translation the translation to apply (not null, unaffected)
      * @param rotation the rotation to apply (not null, unaffected)
-     * @param storeResult (modified if not null)
+     * @param storeResult storage for the result (modified if not null)
      * @return a bounding box (either storeResult or a new instance, not null)
      */
     public BoundingBox boundingBox(Vector3f translation, Quaternion rotation,
@@ -261,7 +261,7 @@ abstract public class CollisionShape
      * compound shapes) changes can have unintended consequences.
      *
      * @param scale the desired scaling factor for each local axis (not null, no
-     * negative component, unaffected, default=1,1,1)
+     * negative component, unaffected, default=(1,1,1))
      */
     public void setScale(Vector3f scale) {
         Validate.nonNull(scale, "scale");
@@ -281,9 +281,9 @@ abstract public class CollisionShape
     // Comparable methods
 
     /**
-     * Compare (by ID) with another collision shape.
+     * Compare (by ID) with the specified collision shape.
      *
-     * @param other (not null, unaffected)
+     * @param other the other shape (not null, unaffected)
      * @return 0 if the shapes have the same ID; negative if this comes before
      * other; positive if this comes after other
      */
@@ -303,7 +303,7 @@ abstract public class CollisionShape
      * and original to resolve copied fields.
      *
      * @param cloner the cloner that's cloning this shape (not null)
-     * @param original the instance from which this instance was shallow-cloned
+     * @param original the instance from which this shape was shallow-cloned
      * (unused)
      */
     @Override
