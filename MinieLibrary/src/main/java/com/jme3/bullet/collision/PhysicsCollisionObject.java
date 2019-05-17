@@ -1041,6 +1041,22 @@ abstract public class PhysicsCollisionObject
         int hash = (int) (objectId >> 4);
         return hash;
     }
+
+    /**
+     * Represent this collision object as a String.
+     *
+     * @return a descriptive string of text (not null, not empty)
+     */
+    @Override
+    public String toString() {
+        String result = getClass().getSimpleName();
+        result = result.replace("Control", "C");
+        result = result.replace("Physics", "");
+        result = result.replace("Object", "");
+        result += " #" + Long.toHexString(objectId);
+
+        return result;
+    }
     // *************************************************************************
     // private methods
 
