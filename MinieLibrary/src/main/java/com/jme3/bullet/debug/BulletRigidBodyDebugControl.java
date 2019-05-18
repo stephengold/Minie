@@ -207,7 +207,7 @@ public class BulletRigidBodyDebugControl extends AbstractPhysicsDebugControl {
         if (material == null) {
             if (!body.isContactResponse()) {
                 material = debugAppState.DEBUG_YELLOW;
-            } else if (!body.isKinematic() && body.isActive()) {
+            } else if (body.isDynamic() && body.isActive()) {
                 material = debugAppState.DEBUG_MAGENTA;
             } else {
                 material = debugAppState.DEBUG_BLUE;
