@@ -322,23 +322,109 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 #### Create, configure, and attach a BulletAppState
 
 Strictly speaking, a `BulletAppState` isn't required for `Minie`, but
-it does provide a convenient interface for configuring, accessing, and
-debugging a `PhysicsSpace`.
+it does provide a convenient interface for configuring, accessing, updating,
+and debugging a `PhysicsSpace`.
 
 If your application already has a `BulletAppState`, the code will probably
-work fine with `Minie`.  If not, here is a snippet to guide you:
+work fine with `Minie`.
+If not, here is a snippet to guide you:
 
-        SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
-        bulletAppState.setDebugEnabled(true); // default=false
-        stateManager.attach(bulletAppState);
-        PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
+        SoftPhysicsAppState bas = new SoftPhysicsAppState();
+        stateManager.attach(bas);
+        PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();
 
-If you don't need soft bodies, you can use `BulletAppState` directly:
+If you don't need soft bodies, you can instantiate a `BulletAppState` directly:
 
-        BulletAppState bulletAppState = new BulletAppState();
-        bulletAppState.setDebugEnabled(true); // default=false
-        stateManager.attach(bulletAppState);
-        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
+        BulletAppState bas = new BulletAppState();
+        stateManager.attach(bas);
+        PhysicsSpace physicsSpace = bas.getPhysicsSpace();
+
+By default, the physics simulation executes on the render thread.
+To execute it on a parallel thread, use:
+
+        bas.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+
+By default, simulation advances based on the time per frame (tpf)
+calculated by the renderer.
+To advance the physics simulation at a different rate, use:
+
+        bas.setSpeed(0.5f); // simulate physics at half speed
+
+By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
+collision detection.
+To specify a different data structure, use the 3-argument constructor:
+
+        Vector3f worldMin = new Vector3f(-1000f, -10f, -1000f);
+        Vector3f worldMax = new Vector3f(1000f, 10f, 1000f);
+        SoftPhysicsAppState bas = new SoftPhysicsAppState(worldMin, worldMax,
+                PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+        stateManager.attach(bas);
+        PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();
+
+By default, debug visualization is disabled. To enable it, use:
+
+        bas.setDebugEnabled(true);
+
+By default, debug visualization renders only to the
+application's main `ViewPort`.
+To specify a different `ViewPort` (or an array of viewports) use:
+
+        bas.setDebugViewPorts(viewPortArray);
+
+By default, debug visualization renders the shape of every
+`PhysicsCollisionObject`, but not its bounding box or swept sphere.
+To override these defaults, set filters to identify which objects
+should render each feature:
+
+        BulletDebugAppState.DebugAppStateFilter all = new FilterAll(true);
+        BulletDebugAppState.DebugAppStateFilter none = new FilterAll(false);
+        bas.setDebugBoundingBoxFilter(all); // all bounding boxes
+        bas.setDebugFilter(none);           // no collision shapes
+        bas.setDebugSweptSphereFilter(all); // all swept spheres
+
+By default, debug visualization doesn't render the local axes of
+collision objects.
+To override this default, set the axis lengths to a positive value:
+
+        bas.setAxisLength(1f);
+
+If local axes are rendered, then by default they are drawn using
+lines one pixel wide.
+You can specify wider lines:
+
+        bas.setDebugAxisLineWidth(3f); // axis arrows 3 pixels wide
+
+or you can specify 3-D arrows:
+
+        bas.setDebugAxisLineWidth(0f); // solid axis arrows
+
+By default, Minie visualizes collision shapes using wire materials:
+
+ + yellow for any collision object without contact response,
+   which includes any `PhysicsGhostObject`
+ + magenta for a `PhysicsRigidBody` (with contact response)
+   that's both dynamic and active
+ + blue for a `PhysicsRigidBody` (with contact response) that's either
+   static or kinematic or sleeping
+ + pink for a `PhysicsCharacter` (with contact response)
+ + red for a `PhysicsSoftBody` with faces
+ + orange for a `PhysicsSoftBody` with links but no faces
+
+Wireframe materials don't require lighting.
+However, it's possible to override the default debug materials
+on a per-object basis, and such materials might require lighting.
+`BulletAppState` invokes a callback during initialization that can
+be used to add lighting for debug visualization:
+
+        DebugInitListener callbackObject = new DebugInitListener() {
+            public void bulletDebugInit(Node physicsDebugRootNode) {
+                AmbientLight ambient = new AmbientLight(aColor);
+                physicsDebugRootNode.addLight(ambient);
+                DirectionalLight sun = new DirectionalLight(direction, dColor);
+                physicsDebugRootNode.addLight(sun);
+            }
+        };
+        bas.setDebugInitListener(callbackObject);
 
 #### Configure the PhysicsSpace
 
