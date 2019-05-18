@@ -23,6 +23,7 @@ Java source code is provided under
  + [How to add Minie to an existing project](#add)
  + [Choosing a collision shape](#shape)
  + [An introduction to DynamicAnimControl](#dac)
+ + [Collision Detection](#detect)
  + [External links](#links)
  + [Acknowledgments](#acks)
 
@@ -553,6 +554,24 @@ Unlinked bones will be managed by the nearest linked ancestor `Bone`.
 The `TorsoLink` will manage any bones for which no ancestor `Bone` is linked.
 If you link too many bones, the ragdoll may become inflexible or jittery
 due to collisions between rigid bodies that don't share a `PhysicsJoint`.
+
+<a name="detect"/>
+
+## Collision Detection
+
+Minie offers 4 collision-detection interfaces:
+
+ 1. You can add collision listeners to a `PhysicsSpace` to be notified about
+    up to 4 collision contacts per colliding object, including references to
+    both objects.
+ 2. You can add collision-group listeners to a `PhysicsSpace` to be notified
+    about collisions involving particular groups.
+ 3. You can add ragdoll-collision listeners to any `DynamicAnimControl` to be
+    notified about collision contacts involving its ragdoll where the applied
+    impulse exceeds a certain threshold. (This is built atop interface #1.)
+ 4. You can invoke `getOverlappingObjects()` on any `PhysicsGhostObject` to
+    enumerate all collision objects that overlap with it, based on
+    axis-aligned bounding boxes.
 
 <a name="links"/>
 
