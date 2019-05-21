@@ -36,11 +36,13 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
+import com.jme3.export.Savable;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -56,6 +58,7 @@ import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
@@ -75,7 +78,7 @@ import jme3utilities.ui.InputMode;
  */
 public class TestSoftBody
         extends ActionApplication
-        implements DebugInitListener {
+        implements BulletDebugAppState.DebugAppStateFilter, DebugInitListener {
     // *************************************************************************
     // constants and loggers
 
@@ -100,6 +103,10 @@ public class TestSoftBody
     // *************************************************************************
     // fields
 
+    /**
+     * physics object that shouldn't be visualized
+     */
+    private List<Savable> hiddenObjects = new ArrayList<>(9);
     /**
      * material to visualize soft bodies
      */
@@ -212,6 +219,19 @@ public class TestSoftBody
         super.onAction(actionString, ongoing, tpf);
     }
     // *************************************************************************
+    // BulletDebugAppState.DebugAppStateFilter methods
+
+    /**
+     * Test whether the specified physics object should be displayed.
+     *
+     * @param physicsObject the joint or collision object to test (unaffected)
+     * @return return true if the object should be displayed, false if not
+     */
+    @Override
+    public boolean displayObject(Savable physicsObject) {
+        return !hiddenObjects.contains(physicsObject);
+    }
+    // *************************************************************************
     // DebugInitListener methods
 
     /**
@@ -267,6 +287,7 @@ public class TestSoftBody
         PhysicsRigidBody cylinderBody = new PhysicsRigidBody(shape, cylMass);
         cylinderBody.setPhysicsLocation(new Vector3f(0f, 0.7f, 0f));
         physicsSpace.add(cylinderBody);
+        hiddenObjects.add(cylinderBody);
     }
 
     /**
@@ -331,6 +352,8 @@ public class TestSoftBody
         for (Spatial spatial : copyList) {
             spatial.removeFromParent();
         }
+
+        hiddenObjects.clear();
     }
 
     /**
@@ -353,6 +376,7 @@ public class TestSoftBody
     private void configurePhysics() {
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugFilter(this);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
 
