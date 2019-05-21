@@ -46,9 +46,9 @@ public interface PhysicsCollisionGroupListener {
      * PhysicsCollisionObject. That is the case when <b>one</b> of the parties
      * has the collisionGroup of the other in its collideWithGroups set.
      *
-     * @param nodeA collision object #1
-     * @param nodeB collision object #2
+     * @param pco1 collision object #1
+     * @param pco2 collision object #2
      * @return true if the collision should happen, false otherwise
      */
-    boolean collide(PhysicsCollisionObject nodeA, PhysicsCollisionObject nodeB);
+    boolean collide(PhysicsCollisionObject pco1, PhysicsCollisionObject pco2);
 }
