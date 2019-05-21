@@ -907,7 +907,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Alter the total mass for this body, distributing it based on the current
      * mass of each node.
      *
-     * @param totalMass the desired total mass (&gt;0)
+     * @param totalMass the desired total mass (&gt;0, default=numNodes)
      */
     public void setMassByCurrent(float totalMass) {
         Validate.positive(totalMass, "total mass");
@@ -1404,7 +1404,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Alter the total mass for this body, distributing it based on the current
      * mass of each node.
      *
-     * @param totalMass the desired total mass (&gt;0)
+     * @param totalMass the desired total mass (&gt;0, default=numNodes)
      */
     @Override
     public void setMass(float totalMass) {
