@@ -23,7 +23,7 @@ Java source code is provided under
  + [How to add Minie to an existing project](#add)
  + [Choosing a collision shape](#shape)
  + [An introduction to DynamicAnimControl](#dac)
- + [Collision Detection](#detect)
+ + [Collision detection](#detect)
  + [External links](#links)
  + [Acknowledgments](#acks)
 
@@ -317,17 +317,17 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Select the "jme3-utilities-heart-2.27.0-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
- 7. Similarly, add the `Minie` JAR(s).
+ 7. Similarly, add the Minie JAR(s).
  8. Click on the "OK" button to exit the "Project Properties" dialog.
 
 #### Create, configure, and attach a BulletAppState
 
-Strictly speaking, a `BulletAppState` isn't required for `Minie`, but
+Strictly speaking, a `BulletAppState` isn't required for Minie, but
 it does provide a convenient interface for configuring, accessing, updating,
 and debugging a `PhysicsSpace`.
 
 If your application already has a `BulletAppState`, the code will probably
-work fine with `Minie`.
+work fine with Minie.
 If not, here is a snippet to guide you:
 
         SoftPhysicsAppState bas = new SoftPhysicsAppState();
@@ -557,7 +557,7 @@ due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 
 <a name="detect"/>
 
-## Collision Detection
+## Collision detection
 
 Minie offers 4 collision-detection interfaces:
 
@@ -582,7 +582,10 @@ Minie offers 4 collision-detection interfaces:
 
 YouTube videos about Minie:
 
-  + May 2019 teaser (squishy ball)
+  + May 2019 teaser #2 (squishy ball and tablecloth)
+    [watch](https://www.youtube.com/watch?v=-ECGEe4CpcY) (0:12)
+    [source code](https://github.com/stephengold/Minie/blob/fe55f9baf83158d6347f765b4ff6bbf892056919/MinieExamples/src/main/java/jme3utilities/minie/test/TestSoftBody.java)
+  + May 2019 teaser #1 (squishy ball)
     [watch](https://www.youtube.com/watch?v=W3x4gdDn-Ko) (0:13)
     [source code](https://github.com/stephengold/Minie/blob/b1a83f8a6440d8374f09258c6b1d471279833cfa/MinieExamples/src/main/java/jme3utilities/minie/test/TestSoftBody.java)
   + April 2019 walkthru of the DacWizard application
@@ -591,10 +594,10 @@ YouTube videos about Minie:
   + March 2019 short demo (IK for head/eye directions)
     [watch](https://www.youtube.com/watch?v=8zquudx3A1A) (1:25)
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/WatchDemo.java)
-  + March 2019 teaser (simulating buoyancy)
+  + March 2019 teaser (buoyancy)
     [watch](https://www.youtube.com/watch?v=eq09m7pbk5A) (0:10)
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/BuoyDemo.java)
-  + February 2019 demo (simulating rope)
+  + February 2019 demo (ropes)
     [watch](https://www.youtube.com/watch?v=7PYDAyB5RCE) (4:47)
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/RopeDemo.java)
   + December 2018 demo (inverse kinematics)
@@ -602,13 +605,13 @@ YouTube videos about Minie:
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/BalanceDemo.java)
   + December 2018 teaser (inverse kinematics)
     [watch](https://www.youtube.com/watch?v=fTWQ9m47GIA) (0:51)
-  + November 2018 demo (single-ended joints):
+  + November 2018 demo (single-ended joints)
     [watch](https://www.youtube.com/watch?v=Mh9k5AfWzbg) (5:50)
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/SeJointDemo.java)
-  + November 2018 demo (`MultiSphere` shape):
+  + November 2018 demo (`MultiSphere` shape)
     [watch](https://www.youtube.com/watch?v=OS2zjB01c6E) (0:13)
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/MultiSphereDemo.java)
-  + October 2018 demo (`DynamicAnimControl` ragdolls):
+  + October 2018 demo (`DynamicAnimControl` ragdolls)
     [watch](https://www.youtube.com/watch?v=A1Rii99nb3Q) (2:49)
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestDac.java)
 
@@ -645,7 +648,7 @@ have gone before.  I therefore acknowledge the following
 artists and software developers:
 
 + Normen Hansen (aka "normen") for creating most of the `jme3-bullet` library
- (on which `Minie` is based) and also for helpful insights
+ (on which Minie is based) and also for helpful insights
 + Rémy Bouquet (aka "nehon") for co-creating
   `KinematicRagdollControl` (on which `DynamicAnimControl` is based)
   and also for many helpful insights
