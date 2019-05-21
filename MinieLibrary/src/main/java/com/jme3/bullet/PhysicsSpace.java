@@ -80,7 +80,7 @@ public class PhysicsSpace {
     // enums
 
     /**
-     * Enumerate the available acceleration structures for broadphase collision
+     * Enumerate the available data structures for broadphase collision
      * detection.
      */
     public enum BroadphaseType {

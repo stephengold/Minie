@@ -294,9 +294,9 @@ public class BulletAppState
     }
 
     /**
-     * Read the simulation speed.
+     * Read the physics simulation speed.
      *
-     * @return speed (&ge;0, default=1)
+     * @return the speedup factor (&ge;0, default=1)
      */
     public float getSpeed() {
         return speed;
@@ -350,7 +350,7 @@ public class BulletAppState
     /**
      * Alter the line width for debug axis arrows.
      *
-     * @param width (in pixels, &ge;1) or 0 for solid arrows
+     * @param width (in pixels, &ge;1) or 0 for solid arrows (default=1)
      */
     public void setDebugAxisLineWidth(float width) {
         Validate.inRange(width, "width", 0f, Float.MAX_VALUE);
@@ -435,9 +435,9 @@ public class BulletAppState
     }
 
     /**
-     * Alter the simulation speed.
+     * Alter the physics simulation speed.
      *
-     * @param speed the desired speed (&ge;0, default=1)
+     * @param speed the desired speedup factor (&ge;0, default=1)
      */
     public void setSpeed(float speed) {
         Validate.nonNegative(speed, "speed");
