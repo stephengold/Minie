@@ -111,31 +111,6 @@ public class CylinderCollisionShape extends CollisionShape {
         createShape();
     }
     // *************************************************************************
-
-    /**
-     * Test whether the specified scaling factors can be applied to this shape.
-     * For cylinder shapes, radial scaling must be uniform.
-     *
-     * @param scale the desired scaling factor for each local axis (may be null,
-     * unaffected)
-     * @return true if applicable, otherwise false
-     */
-    @Override
-    public boolean canScale(Vector3f scale) {
-        boolean canScale = super.canScale(scale);
-        if (canScale) {
-            if (axis == PhysicsSpace.AXIS_X && scale.y != scale.z) {
-                canScale = false;
-            } else if (axis == PhysicsSpace.AXIS_Y && scale.x != scale.z) {
-                canScale = false;
-            } else if (axis == PhysicsSpace.AXIS_Z && scale.x != scale.y) {
-                canScale = false;
-            }
-        }
-
-        return canScale;
-    }
-    // *************************************************************************
     // new methods exposed
 
     /**
@@ -167,6 +142,30 @@ public class CylinderCollisionShape extends CollisionShape {
     }
     // *************************************************************************
     // CollisionShape methods
+
+    /**
+     * Test whether the specified scaling factors can be applied to this shape.
+     * For cylinder shapes, radial scaling must be uniform.
+     *
+     * @param scale the desired scaling factor for each local axis (may be null,
+     * unaffected)
+     * @return true if applicable, otherwise false
+     */
+    @Override
+    public boolean canScale(Vector3f scale) {
+        boolean canScale = super.canScale(scale);
+        if (canScale) {
+            if (axis == PhysicsSpace.AXIS_X && scale.y != scale.z) {
+                canScale = false;
+            } else if (axis == PhysicsSpace.AXIS_Y && scale.x != scale.z) {
+                canScale = false;
+            } else if (axis == PhysicsSpace.AXIS_Z && scale.x != scale.y) {
+                canScale = false;
+            }
+        }
+
+        return canScale;
+    }
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
@@ -210,6 +209,7 @@ public class CylinderCollisionShape extends CollisionShape {
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule capsule = im.getCapsule(this);
+
         Vector3f he = (Vector3f) capsule.readSavable("halfExtents",
                 new Vector3f(0.5f, 0.5f, 0.5f));
         halfExtents.set(he);
@@ -227,6 +227,7 @@ public class CylinderCollisionShape extends CollisionShape {
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
         OutputCapsule capsule = ex.getCapsule(this);
+
         capsule.write(halfExtents, "halfExtents",
                 new Vector3f(0.5f, 0.5f, 0.5f));
         capsule.write(axis, "axis", PhysicsSpace.AXIS_Y);
