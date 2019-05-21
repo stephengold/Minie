@@ -293,7 +293,7 @@ public class MyShape {
 
         String[] parts = name.split(":");
         if (parts.length != 2) {
-            throw new IllegalArgumentException(MyString.quote(name));
+            throw new IllegalArgumentException("name=" + MyString.quote(name));
         }
         String hexadecimal = parts[1];
         long result = Long.parseLong(hexadecimal, 16);
