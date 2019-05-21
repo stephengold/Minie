@@ -26,9 +26,14 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.app.Application;
 import com.jme3.bullet.PhysicsSoftSpace;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
+import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.debug.DebugInitListener;
@@ -41,18 +46,23 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.mesh.ClothGrid;
 import jme3utilities.minie.test.mesh.Icosphere;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -78,15 +88,6 @@ public class TestSoftBody
      */
     final private float mass = 1f;
     /**
-     * pose-matching coefficient: how strongly the soft body will match its
-     * default pose (&ge;0, &le;1)
-     */
-    final private float poseMatchingCoeff = 0.02f;
-    /**
-     * radius of the soft body (in world units, &gt;0)
-     */
-    final private float radius = 0.5f;
-    /**
      * message logger for this class
      */
     final public static Logger logger
@@ -99,6 +100,10 @@ public class TestSoftBody
     // *************************************************************************
     // fields
 
+    /**
+     * material to visualize soft bodies
+     */
+    private Material debugMaterial;
     /**
      * space for physics simulation
      */
@@ -117,7 +122,7 @@ public class TestSoftBody
          */
         Misc.setLoggingLevels(Level.WARNING);
 
-        TestSoftBody application = new TestSoftBody();
+        Application application = new TestSoftBody();
         /*
          * Customize the window's title bar.
          */
@@ -141,6 +146,13 @@ public class TestSoftBody
     public void actionInitializeApplication() {
         configureCamera();
         configurePhysics();
+        viewPort.setBackgroundColor(ColorRGBA.Gray);
+
+        ColorRGBA pink = new ColorRGBA(1.2f, 0.2f, 0.1f, 1f);
+        debugMaterial = MyAsset.createShinyMaterial(assetManager, pink);
+        debugMaterial.setFloat("Shininess", 4f);
+        debugMaterial.setName("pink");
+
         addBox();
         addFatBall();
     }
@@ -156,6 +168,8 @@ public class TestSoftBody
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bind("test fatball", KeyInput.KEY_F1);
+        dim.bind("test tablecloth", KeyInput.KEY_F2);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
     }
 
@@ -176,6 +190,18 @@ public class TestSoftBody
 
                 case "dump scenes":
                     dumpScenes();
+                    return;
+
+                case "test fatball":
+                    cleanupAfterTest();
+                    addBox();
+                    addFatBall();
+                    return;
+
+                case "test tablecloth":
+                    cleanupAfterTest();
+                    addCylinder();
+                    addTablecloth();
                     return;
 
                 case "toggle pause":
@@ -230,33 +256,81 @@ public class TestSoftBody
     }
 
     /**
+     * Add a static cylinder to the scene, to serve as an obstacle.
+     */
+    private void addCylinder() {
+        float radius = 1f;
+        Vector3f halfExtents = new Vector3f(radius, 0.2f, radius);
+        CollisionShape shape
+                = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
+        float cylMass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody cylinderBody = new PhysicsRigidBody(shape, cylMass);
+        cylinderBody.setPhysicsLocation(new Vector3f(0f, 0.7f, 0f));
+        physicsSpace.add(cylinderBody);
+    }
+
+    /**
      * Add a squishy ball to the scene.
      */
     private void addFatBall() {
         int numSteps = 3;
+        float radius = 0.5f;
         Mesh mesh = new Icosphere(numSteps, radius);
         PhysicsSoftBody softBody = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
         softBody.setMass(mass);
 
         PhysicsSoftBody.Config config = softBody.getSoftConfig();
-        config.set(Sbcp.PoseMatching, poseMatchingCoeff);
+        config.set(Sbcp.PoseMatching, 0.02f);
 
         boolean setVolumePose = false;
         boolean setFramePose = true;
         softBody.setPose(setVolumePose, setFramePose);
 
-        ColorRGBA pink = new ColorRGBA(1.2f, 0.2f, 0.1f, 1f);
-        Material debugMaterial
-                = MyAsset.createShinyMaterial(assetManager, pink);
-        debugMaterial.setFloat("Shininess", 4f);
-        debugMaterial.setName("pink");
         softBody.setDebugMaterial(debugMaterial);
         softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
-
-        softBody.setPhysicsLocation(new Vector3f(0f, 3f, 0f));
+        softBody.setPhysicsLocation(new Vector3f(0f, 1.5f, 0f));
         physicsSpace.add(softBody);
-        softBody.setGravity(new Vector3f(0f, -gravity, 0f));
+    }
+
+    /**
+     * Add a square tablecloth to the scene.
+     */
+    private void addTablecloth() {
+        int numLines = 40;
+        float separation = 0.08f;
+        Mesh mesh = new ClothGrid(numLines, numLines, separation);
+        PhysicsSoftBody softBody = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
+        softBody.setMass(mass);
+
+        PhysicsSoftBody.Config config = softBody.getSoftConfig();
+        config.set(Sbcp.Damping, 0.02f);
+        config.setPositionIterations(3);
+
+        PhysicsSoftBody.Material material = softBody.getSoftMaterial();
+        material.setAngularStiffness(0f);
+
+        softBody.setDebugMaterial(debugMaterial);
+        softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        softBody.setPhysicsLocation(new Vector3f(0f, 1.5f, 0f));
+        physicsSpace.add(softBody);
+    }
+
+    /**
+     * Clean up after a test.
+     */
+    private void cleanupAfterTest() {
+        Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
+        for (PhysicsCollisionObject pco : pcos) {
+            physicsSpace.remove(pco);
+        }
+
+        Collection<Spatial> spatials = rootNode.getChildren(); // alias
+        Collection<Spatial> copyList = new ArrayList<>(spatials);
+        for (Spatial spatial : copyList) {
+            spatial.removeFromParent();
+        }
     }
 
     /**
@@ -265,7 +339,8 @@ public class TestSoftBody
     private void configureCamera() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(4f);
-        cam.setLocation(new Vector3f(0f, 1.2f, 5f));
+        cam.setLocation(new Vector3f(0f, 2.3f, 5f));
+        cam.setRotation(new Quaternion(0f, 0.98525f, -0.172f, 0f));
 
         CameraOrbitAppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
@@ -280,7 +355,9 @@ public class TestSoftBody
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
+
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
+        physicsSpace.setGravity(new Vector3f(0f, -gravity, 0f));
     }
 
     /**
@@ -299,6 +376,7 @@ public class TestSoftBody
     private void dumpScenes() {
         PhysicsDumper dumper = new PhysicsDumper();
         dumper.setEnabled(DumpFlags.Transforms, true);
+        dumper.setEnabled(DumpFlags.MatParams, true);
         dumper.dump(renderManager);
     }
 
