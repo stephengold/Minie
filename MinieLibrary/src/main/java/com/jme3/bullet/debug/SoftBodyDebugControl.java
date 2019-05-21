@@ -120,7 +120,8 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     @Override
     protected void controlUpdate(float tpf) {
         boolean localFlag = true; // use local coordinates
-        boolean normalsFlag = false; // don't update mesh normals
+        DebugMeshNormals normals = body.debugMeshNormals();
+        boolean normalsFlag = (normals != DebugMeshNormals.None);
         IntBuffer noIndexMap = null; // node indices = vertex indices
 
         if (linksGeometry != null) {
