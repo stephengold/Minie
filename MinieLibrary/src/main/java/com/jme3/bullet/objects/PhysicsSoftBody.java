@@ -429,7 +429,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Copy the center locations of all clusters in this body.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 3 floats per node (either storeResult or a
+     * @return a buffer containing 3 floats per cluster (either storeResult or a
      * new buffer)
      */
     public FloatBuffer copyClusterCenters(FloatBuffer storeResult) {
@@ -443,6 +443,27 @@ public class PhysicsSoftBody extends PhysicsBody {
         }
 
         getClustersPositions(objectId, result);
+        return result;
+    }
+
+    /**
+     * Copy the masses of all clusters in this body.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a buffer containing a float value per cluster (either storeResult
+     * or a new buffer)
+     */
+    public FloatBuffer copyClusterMasses(FloatBuffer storeResult) {
+        int numClusters = countClusters();
+        FloatBuffer result;
+        if (storeResult == null) {
+            result = BufferUtils.createFloatBuffer(numClusters);
+        } else {
+            assert storeResult.capacity() == numClusters;
+            result = storeResult;
+        }
+
+        getClustersMasses(objectId, result);
         return result;
     }
 
@@ -883,7 +904,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Alter the collision margin of this body.
+     * Alter the collision margin of this body. TODO finalize
      *
      * @param margin the desired margin distance (in physics-space units, &gt;0)
      */
@@ -1547,6 +1568,8 @@ public class PhysicsSoftBody extends PhysicsBody {
             Vector3f storeVector);
 
     native private int getClusterCount(long bodyId);
+
+    native private void getClustersMasses(long bodyId, FloatBuffer storeBuffer);
 
     native private void getClustersPositions(long bodyId,
             FloatBuffer storeBuffer);
