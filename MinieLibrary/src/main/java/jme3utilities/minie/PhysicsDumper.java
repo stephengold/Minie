@@ -737,6 +737,7 @@ public class PhysicsDumper extends Dumper {
     private void dumpClusters(PhysicsSoftBody softBody, String indent) {
         stream.print(":");
         FloatBuffer coms = softBody.copyClusterCenters(null);
+        FloatBuffer masses = softBody.copyClusterMasses(null);
         int numClusters = softBody.countClusters();
         for (int clusterI = 0; clusterI < numClusters; ++clusterI) {
             int floatIndex = 3 * clusterI;
@@ -744,8 +745,10 @@ public class PhysicsDumper extends Dumper {
             float y = coms.get(floatIndex + 1);
             float z = coms.get(floatIndex + 2);
             String comString = MyVector3f.describe(new Vector3f(x, y, z));
-            stream.printf("%n%s  [%d] com[%s]", indent, clusterI,
-                    comString);
+            float mass = masses.get(clusterI);
+            String massString = MyString.describe(mass);
+            stream.printf("%n%s  [%d] com[%s] mass=%s", indent, clusterI,
+                    comString, massString);
         }
         stream.printf("%n%s", indent);
     }
