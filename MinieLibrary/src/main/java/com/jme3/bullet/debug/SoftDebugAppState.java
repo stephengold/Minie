@@ -35,10 +35,12 @@ import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.Control;
+import com.jme3.texture.Texture;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -68,9 +70,12 @@ public class SoftDebugAppState extends BulletDebugAppState {
      * map soft bodies to visualization nodes
      */
     private HashMap<PhysicsSoftBody, Node> softBodies = new HashMap<>(64);
-
     /**
-     * material for visualizing soft-body faces
+     * material for visualizing all soft-body clusters
+     */
+    private Material clusterMaterial;
+    /**
+     * material for visualizing all soft-body links TODO privatize and rename
      */
     Material DEBUG_ORANGE;
     // *************************************************************************
@@ -95,6 +100,18 @@ public class SoftDebugAppState extends BulletDebugAppState {
         super(space, viewPorts, filter, initListener);
     }
     // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Access the Material for visualizing soft-body clusters.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getClusterMaterial() {
+        assert clusterMaterial != null;
+        return clusterMaterial;
+    }
+    // *************************************************************************
     // BulletDebugAppState methods
 
     /**
@@ -106,6 +123,21 @@ public class SoftDebugAppState extends BulletDebugAppState {
     protected void setupMaterials(AssetManager am) {
         assert am != null;
         super.setupMaterials(am);
+
+        String matDefPath = "MatDefs/wireframe/multicolor2.j3md";
+        clusterMaterial = new Material(am, matDefPath);
+        ColorRGBA clusterColor = new ColorRGBA(1f, 0f, 0f, 1f); // red
+        clusterMaterial.setColor("Color", clusterColor); // creates an alias
+        float shapeSize = 10f;
+        clusterMaterial.setFloat("PointSize", shapeSize);
+        clusterMaterial.setName("clusterMaterial");
+        String shapePath = "Textures/shapes/lozenge.png";
+        boolean mipmaps = false;
+        Texture shapeTexture = MyAsset.loadTexture(am, shapePath, mipmaps);
+        clusterMaterial.setTexture("PointShape", shapeTexture);
+        RenderState renderState = clusterMaterial.getAdditionalRenderState();
+        renderState.setBlendMode(RenderState.BlendMode.Alpha);
+        renderState.setDepthTest(false);
 
         DEBUG_ORANGE = MyAsset.createWireframeMaterial(am, ColorRGBA.Orange);
         DEBUG_ORANGE.setName("DEBUG_ORANGE");
