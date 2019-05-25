@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.app.Application;
 import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -181,13 +182,14 @@ public class SeJointDemo extends ActionApplication {
         Logger.getLogger(ALAudioRenderer.class.getName())
                 .setLevel(Level.SEVERE);
 
-        SeJointDemo application = new SeJointDemo();
+        Application application = new SeJointDemo();
         /*
          * Customize the window's title bar.
          */
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
+        settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
 
