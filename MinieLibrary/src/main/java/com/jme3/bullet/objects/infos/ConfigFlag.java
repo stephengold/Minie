@@ -89,19 +89,19 @@ public class ConfigFlag {
      */
     public static String describe(int flags) {
         List<String> flagList = new ArrayList<>(5);
-        if ((flags & SDF_RS) != 0) {
+        if ((flags & SDF_RS) != 0x0) {
             flagList.add("SDF_RS");
         }
-        if ((flags & CL_RS) != 0) {
+        if ((flags & CL_RS) != 0x0) {
             flagList.add("CL_RS");
         }
-        if ((flags & VF_SS) != 0) {
+        if ((flags & VF_SS) != 0x0) {
             flagList.add("VF_SS");
         }
-        if ((flags & CL_SS) != 0) {
+        if ((flags & CL_SS) != 0x0) {
             flagList.add("CL_SS");
         }
-        if ((flags & CL_SELF) != 0) {
+        if ((flags & CL_SELF) != 0x0) {
             flagList.add("CL_SELF");
         }
 
