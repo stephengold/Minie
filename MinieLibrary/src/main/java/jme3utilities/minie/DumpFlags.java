@@ -60,6 +60,10 @@ public enum DumpFlags {
      */
     MatParams,
     /**
+     * nodes in clusters
+     */
+    NodesInClusters,
+    /**
      * nodes in soft bodies
      */
     NodesInSofts,
