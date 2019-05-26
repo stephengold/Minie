@@ -44,6 +44,7 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.export.Savable;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
@@ -144,7 +145,7 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     Material DEBUG_MAGENTA;
     /**
-     * material for physics characters
+     * material for physics characters TODO privatize
      */
     Material DEBUG_PINK;
     /**
@@ -305,7 +306,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Initialize the materials.
+     * Initialize the double-sided wire-frame materials.
      *
      * @param am the application's AssetManager (not null)
      */
@@ -314,18 +315,38 @@ public class BulletDebugAppState extends AbstractAppState {
 
         DEBUG_BLUE = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
         DEBUG_BLUE.setName("DEBUG_BLUE");
+        RenderState renderState = DEBUG_BLUE.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
         DEBUG_GREEN = MyAsset.createWireframeMaterial(am, ColorRGBA.Green);
         DEBUG_GREEN.setName("DEBUG_GREEN");
+        renderState = DEBUG_GREEN.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
         DEBUG_MAGENTA = MyAsset.createWireframeMaterial(am, ColorRGBA.Magenta);
         DEBUG_MAGENTA.setName("DEBUG_MAGENTA");
+        renderState = DEBUG_MAGENTA.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
         DEBUG_PINK = MyAsset.createWireframeMaterial(am, ColorRGBA.Pink);
         DEBUG_PINK.setName("DEBUG_PINK");
+        renderState = DEBUG_PINK.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
         DEBUG_RED = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
         DEBUG_RED.setName("DEBUG_RED");
+        renderState = DEBUG_RED.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
         DEBUG_WHITE = MyAsset.createWireframeMaterial(am, ColorRGBA.White);
-        DEBUG_WHITE.setName("DEBUG_GRAY");
+        DEBUG_WHITE.setName("DEBUG_WHITE");
+        renderState = DEBUG_WHITE.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
         DEBUG_YELLOW = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
         DEBUG_YELLOW.setName("DEBUG_YELLOW");
+        renderState = DEBUG_YELLOW.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
     }
     // *************************************************************************
     // AbstractAppState methods
