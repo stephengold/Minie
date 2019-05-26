@@ -70,6 +70,10 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
+     * geometry to visualize clusters
+     */
+    final private Geometry clustersGeometry;
+    /**
      * geometry to visualize faces
      */
     final private Geometry facesGeometry;
@@ -105,6 +109,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         super(debugAppState);
         this.body = body;
 
+        clustersGeometry = createClustersGeometry();
         facesGeometry = createFacesGeometry();
         linksGeometry = createLinksGeometry();
     }
@@ -120,9 +125,14 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     protected void controlUpdate(float tpf) {
-        // TODO check for changes in the number of links/faces
+        // TODO check for changes in the number of links/faces/clusters
 
         boolean localFlag = true; // use local coordinates
+        if (clustersGeometry != null) {
+            Mesh mesh = clustersGeometry.getMesh();
+            NativeSoftBodyUtil.updateClusterMesh(body, mesh, localFlag);
+        }
+
         DebugMeshNormals normals = body.debugMeshNormals();
         boolean normalsFlag = (normals != DebugMeshNormals.None);
         IntBuffer noIndexMap = null; // node indices = vertex indices
@@ -163,6 +173,9 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             assert this.spatial == null;
             spatial.setCullHint(Spatial.CullHint.Never);
             Node node = (Node) spatial;
+            if (clustersGeometry != null) {
+                node.attachChild(clustersGeometry);
+            }
             if (facesGeometry != null) {
                 node.attachChild(facesGeometry);
             }
@@ -171,6 +184,9 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             }
         } else if (spatial == null && this.spatial != null) {
             Node node = (Node) this.spatial;
+            if (clustersGeometry != null) {
+                node.detachChild(clustersGeometry);
+            }
             if (facesGeometry != null) {
                 node.detachChild(facesGeometry);
             }
@@ -182,6 +198,29 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Create a Geometry to visualize the body's clusters.
+     *
+     * @return a new Geometry, or null if no clusters
+     */
+    private Geometry createClustersGeometry() {
+        Geometry result = null;
+        if (body.countClusters() > 0) {
+            Mesh mesh = new Mesh();
+            FloatBuffer centers = body.copyClusterCenters(null);
+            mesh.setBuffer(VertexBuffer.Type.Position, 3, centers);
+            mesh.setMode(Mesh.Mode.Points);
+            mesh.setStreamed();
+
+            result = new Geometry(body.toString() + " clusters", mesh);
+            SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+            Material material = sdas.getClusterMaterial();
+            result.setMaterial(material);
+        }
+
+        return result;
+    }
 
     /**
      * Create a Geometry to visualize the body's faces.
