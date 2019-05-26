@@ -33,7 +33,6 @@ package com.jme3.bullet;
 
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.objects.PhysicsSoftBody;
-import com.jme3.bullet.objects.infos.SoftBodyWorldInfo;
 import com.jme3.math.Vector3f;
 import java.util.Collection;
 import java.util.Map;

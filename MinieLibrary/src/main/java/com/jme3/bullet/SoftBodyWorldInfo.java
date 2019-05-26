@@ -29,7 +29,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.bullet.objects.infos;
+package com.jme3.bullet;
 
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.export.InputCapsule;

@@ -33,12 +33,12 @@ package com.jme3.bullet.objects;
 
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
-import com.jme3.bullet.objects.infos.SoftBodyWorldInfo;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;

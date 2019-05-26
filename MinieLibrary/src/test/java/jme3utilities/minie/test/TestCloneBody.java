@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
+import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
@@ -37,7 +38,6 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.infos.Sbcp;
-import com.jme3.bullet.objects.infos.SoftBodyWorldInfo;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
