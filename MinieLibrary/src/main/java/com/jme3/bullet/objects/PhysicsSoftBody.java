@@ -43,6 +43,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -1273,7 +1274,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         IndexBuffer tetraIndices = IndexBuffer.wrapIndexBuffer(tetras);
         appendLinks(tetraIndices);
 
-        setPhysicsRotation(old.getPhysicsRotation(null));
         setDeactivationTime(old.getDeactivationTime());
     }
 
@@ -1336,7 +1336,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Copy the orientation (rotation) of this object to a Quaternion.
+     * Copy the orientation (rotation) of this body to a Quaternion.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a rotation quaternion (in physics-space coordinates, either
@@ -1346,7 +1346,22 @@ public class PhysicsSoftBody extends PhysicsBody {
     public Quaternion getPhysicsRotation(Quaternion storeResult) {
         Quaternion result
                 = (storeResult == null) ? new Quaternion() : storeResult;
-        getPhysicsRotation(objectId, result);
+        result.loadIdentity();
+        return result;
+    }
+
+    /**
+     * Copy the orientation of this body (the basis of its local coordinate
+     * system) to a 3x3 matrix.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a rotation matrix (in physics-space coordinates, either
+     * storeResult or a new matrix, not null)
+     */
+    @Override
+    public Matrix3f getPhysicsRotationMatrix(Matrix3f storeResult) {
+        Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
+        result.loadIdentity();
         return result;
     }
 
@@ -1483,31 +1498,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     public void setPhysicsLocation(Vector3f location) {
         Validate.finite(location, "location");
         setPhysicsLocation(objectId, location);
-    }
-
-    /**
-     * Directly reorient this body.
-     *
-     * @param orientation the desired orientation (relative to physics-space
-     * coordinates, not null, unaffected)
-     */
-    @Override
-    public void setPhysicsRotation(Quaternion orientation) {
-        Validate.nonNull(orientation, "orientation");
-        setPhysicsRotation(objectId, orientation);
-    }
-
-    /**
-     * Directly alter this body's transform based on the center of its bounding
-     * box. The bounding box isn't updated on every frame.
-     *
-     * @param transform the desired transform (relative to physics-space
-     * coordinates, not null, unaffected)
-     */
-    @Override
-    public void setPhysicsTransform(Transform transform) {
-        Validate.nonNull(transform, "transform");
-        setPhysicsTransform(objectId, transform);
     }
 
     /**
@@ -1651,11 +1641,6 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private void getPhysicsLocation(long bodyId, Vector3f storeVector);
 
-    native private void getPhysicsRotation(long bodyId, Quaternion storeQuat);
-
-    native private void getPhysicsTransform(long bodyId,
-            Transform storeTransform);
-
     native private float getRestLengthScale(long bodyId);
 
     native private long getSoftBodyWorldInfo(long bodyId);
@@ -1697,11 +1682,6 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private void setPhysicsLocation(long bodyId,
             Vector3f locationVector);
-
-    native private void setPhysicsRotation(long bodyId,
-            Quaternion rotationQuaternion);
-
-    native private void setPhysicsTransform(long bodyId, Transform transform);
 
     native private void setPose(long bodyId, boolean setVolumePose,
             boolean setFramePose);

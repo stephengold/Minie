@@ -1056,12 +1056,11 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Directly reorient this body.
+     * Directly reorient this body. TODO re-order methods
      *
      * @param orientation the desired orientation (relative to physics-space
      * coordinates, not null, unaffected)
      */
-    @Override
     public void setPhysicsRotation(Quaternion orientation) {
         Validate.nonNull(orientation, "orientation");
         if (collisionShape instanceof HeightfieldCollisionShape
@@ -1080,7 +1079,6 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param transform the desired transform (relative to physics-space
      * coordinates, not null, unaffected)
      */
-    @Override
     public void setPhysicsTransform(Transform transform) {
         setPhysicsLocation(transform.getTranslation());
         setPhysicsRotation(transform.getRotation());

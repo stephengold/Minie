@@ -33,8 +33,6 @@ package com.jme3.bullet.objects;
 
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.joints.PhysicsJoint;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 
 /**
@@ -62,7 +60,7 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      * Copy this body's gravitational acceleration.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return an acceleration vector in physics-space coordinates (either
+     * @return an acceleration vector (in physics-space coordinates, either
      * storeResult or a new vector, not null)
      */
     abstract Vector3f getGravity(Vector3f storeResult);
@@ -70,7 +68,7 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
     /**
      * Determine the total mass of this body.
      *
-     * @return the total mass
+     * @return the total mass (&ge;0)
      */
     abstract float getMass();
 
@@ -114,20 +112,4 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      * null, unaffected)
      */
     abstract void setPhysicsLocation(Vector3f location);
-
-    /**
-     * Directly reorient this body.
-     *
-     * @param orientation the desired orientation (relative to physics-space
-     * coordinates, unit quaternion, not null, unaffected)
-     */
-    abstract void setPhysicsRotation(Quaternion orientation);
-
-    /**
-     * Directly alter this body's transform, including its scale factors.
-     *
-     * @param transform the desired transform (relative to physics-space
-     * coordinates, not null, unaffected)
-     */
-    abstract void setPhysicsTransform(Transform transform);
 }
