@@ -42,6 +42,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.logging.Logger;
 
@@ -69,15 +70,15 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
-     * geometry to visualize faces (not null)
+     * geometry to visualize faces
      */
     final private Geometry facesGeometry;
     /**
-     * geometry to visualize links (not null)
+     * geometry to visualize links
      */
     final private Geometry linksGeometry;
     /**
-     * rigid body to visualize (not null)
+     * soft body to visualize (not null)
      */
     final private PhysicsSoftBody body;
     /**
@@ -119,6 +120,8 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     protected void controlUpdate(float tpf) {
+        // TODO check for changes in the number of links/faces
+
         boolean localFlag = true; // use local coordinates
         DebugMeshNormals normals = body.debugMeshNormals();
         boolean normalsFlag = (normals != DebugMeshNormals.None);
@@ -128,14 +131,12 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             Mesh mesh = linksGeometry.getMesh();
             NativeSoftBodyUtil.updateMesh(body, noIndexMap, mesh, localFlag,
                     normalsFlag);
-            linksGeometry.updateModelBound(); // TODO needed?
         }
 
         if (facesGeometry != null) {
             Mesh mesh = facesGeometry.getMesh();
             NativeSoftBodyUtil.updateMesh(body, noIndexMap, mesh, localFlag,
                     normalsFlag);
-            facesGeometry.updateModelBound(); // TODO needed?
 
             Material material = body.getDebugMaterial();
             if (material == null) {
@@ -159,20 +160,22 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     @Override
     public void setSpatial(Spatial spatial) {
         if (spatial instanceof Node) {
+            assert this.spatial == null;
+            spatial.setCullHint(Spatial.CullHint.Never);
             Node node = (Node) spatial;
-            if (linksGeometry != null) {
-                node.attachChild(linksGeometry);
-            }
             if (facesGeometry != null) {
                 node.attachChild(facesGeometry);
             }
+            if (linksGeometry != null) {
+                node.attachChild(linksGeometry);
+            }
         } else if (spatial == null && this.spatial != null) {
             Node node = (Node) this.spatial;
-            if (linksGeometry != null) {
-                node.detachChild(linksGeometry);
-            }
             if (facesGeometry != null) {
                 node.detachChild(facesGeometry);
+            }
+            if (linksGeometry != null) {
+                node.detachChild(linksGeometry);
             }
         }
         super.setSpatial(spatial);
@@ -181,7 +184,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // private methods
 
     /**
-     * Create a Geometry to visualize faces.
+     * Create a Geometry to visualize the body's faces.
      *
      * @return a new Geometry, or null if no faces
      */
@@ -190,18 +193,15 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         if (body.countFaces() > 0) {
             Mesh mesh = new Mesh();
             mesh.setBuffer(VertexBuffer.Type.Index, 3, body.copyFaces(null));
-            mesh.setBuffer(VertexBuffer.Type.Position, 3,
-                    body.copyLocations(null));
-            DebugMeshNormals normals = body.debugMeshNormals();
-            if (normals != DebugMeshNormals.None) {
-                mesh.setBuffer(VertexBuffer.Type.Normal, 3,
-                        body.copyNormals(null));
+            FloatBuffer locations = body.copyLocations(null);
+            mesh.setBuffer(VertexBuffer.Type.Position, 3, locations);
+            DebugMeshNormals option = body.debugMeshNormals();
+            if (option != DebugMeshNormals.None) {
+                FloatBuffer normals = body.copyNormals(null);
+                mesh.setBuffer(VertexBuffer.Type.Normal, 3, normals);
             }
             mesh.setMode(Mesh.Mode.Triangles);
             mesh.setStreamed();
-
-            mesh.updateCounts();
-            mesh.updateBound();
 
             result = new Geometry(body.toString() + " faces", mesh);
             Material material = body.getDebugMaterial();
@@ -215,7 +215,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     }
 
     /**
-     * Create a Geometry to visualize links.
+     * Create a Geometry to visualize the body's links.
      *
      * @return a new Geometry, or null if there are faces or no links
      */
@@ -224,13 +224,10 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         if (body.countFaces() == 0 && body.countLinks() > 0) {
             Mesh mesh = new Mesh();
             mesh.setBuffer(VertexBuffer.Type.Index, 2, body.copyLinks(null));
-            mesh.setBuffer(VertexBuffer.Type.Position, 3,
-                    body.copyLocations(null));
+            FloatBuffer locations = body.copyLocations(null);
+            mesh.setBuffer(VertexBuffer.Type.Position, 3, locations);
             mesh.setMode(Mesh.Mode.Lines);
             mesh.setStreamed();
-
-            mesh.updateCounts();
-            mesh.updateBound();
 
             result = new Geometry(body.toString() + " links", mesh);
             SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
