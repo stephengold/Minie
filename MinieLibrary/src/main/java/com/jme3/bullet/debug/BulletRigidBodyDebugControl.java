@@ -206,11 +206,11 @@ public class BulletRigidBodyDebugControl extends AbstractPhysicsDebugControl {
         Material material = body.getDebugMaterial();
         if (material == null) {
             if (!body.isContactResponse()) {
-                material = debugAppState.DEBUG_YELLOW;
+                material = debugAppState.getGhostMaterial();
             } else if (body.isDynamic() && body.isActive()) {
-                material = debugAppState.DEBUG_MAGENTA;
+                material = debugAppState.getActiveMaterial();
             } else {
-                material = debugAppState.DEBUG_BLUE;
+                material = debugAppState.getInactiveMaterial();
             }
         }
         geom.setMaterial(material);

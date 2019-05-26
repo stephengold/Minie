@@ -101,8 +101,8 @@ public class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
         center = bbox.getCenter();
         geom.setLocalTranslation(center);
 
-        Material mat = debugAppState.DEBUG_WHITE;
-        geom.setMaterial(mat);
+        Material material = debugAppState.getBoundingBoxMaterial();
+        geom.setMaterial(material);
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods

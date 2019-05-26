@@ -31,8 +31,10 @@
  */
 package com.jme3.bullet.debug;
 
+import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.material.Material;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -84,14 +86,16 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
         joint = jo;
 
         geomA = new Geometry(jo.toString());
-        arrowA = new Arrow(Vector3f.ZERO);
+        arrowA = new Arrow(translateIdentity);
         geomA.setMesh(arrowA);
-        geomA.setMaterial(debugAppState.DEBUG_GREEN);
+        Material materialA = debugAppState.getJointMaterial(JointEnd.A);
+        geomA.setMaterial(materialA);
 
         geomB = new Geometry(jo.toString());
-        arrowB = new Arrow(Vector3f.ZERO);
+        arrowB = new Arrow(translateIdentity);
         geomB.setMesh(arrowB);
-        geomB.setMaterial(debugAppState.DEBUG_RED);
+        Material materialB = debugAppState.getJointMaterial(JointEnd.B);
+        geomB.setMaterial(materialB);
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
@@ -144,6 +148,7 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
     @Override
     public void setSpatial(Spatial spatial) {
         if (spatial instanceof Node) {
+            assert this.spatial == null;
             Node node = (Node) spatial;
             node.attachChild(geomA);
             node.attachChild(geomB);

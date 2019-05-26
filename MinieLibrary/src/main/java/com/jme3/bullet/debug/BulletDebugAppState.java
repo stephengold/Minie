@@ -37,6 +37,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
@@ -133,33 +134,35 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     private HashMap<PhysicsVehicle, Node> vehicles = new HashMap<>(64);
     /**
-     * material for rigid bodies that are kinematic or inactive
+     * material for rigid bodies (and vehicles) that are responsive and either
+     * static/kinematic/inactive
      */
-    Material DEBUG_BLUE;
+    private Material DEBUG_BLUE;
     /**
      * material for joints (the A ends)
      */
-    Material DEBUG_GREEN;
+    private Material DEBUG_GREEN;
     /**
-     * material for vehicles and active rigid bodies
+     * material for rigid bodies (and vehicles) that are responsive and dynamic
+     * and active
      */
-    Material DEBUG_MAGENTA;
+    private Material DEBUG_MAGENTA;
     /**
-     * material for physics characters TODO privatize
+     * material for responsive physics characters
      */
-    Material DEBUG_PINK;
+    private Material DEBUG_PINK;
     /**
      * material for joints (the B ends) and soft-body links
      */
-    Material DEBUG_RED;
+    protected Material DEBUG_RED;
     /**
-     * material for bounding boxes
+     * material for bounding boxes and swept spheres
      */
-    Material DEBUG_WHITE;
+    private Material DEBUG_WHITE;
     /**
-     * material for ghosts and non-responsive rigid bodies
+     * material for ghosts and other non-responsive objects
      */
-    Material DEBUG_YELLOW;
+    private Material DEBUG_YELLOW;
     /**
      * scene-graph node to parent the geometries
      */
@@ -223,6 +226,89 @@ public class BulletDebugAppState extends AbstractAppState {
     public float axisLineWidth() {
         assert axisLineWidth >= 0f : axisLineWidth;
         return axisLineWidth;
+    }
+
+    /**
+     * Access the Material for visualizing active rigid bodies.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getActiveMaterial() {
+        assert DEBUG_MAGENTA != null;
+        return DEBUG_MAGENTA;
+    }
+
+    /**
+     * Access the Material for visualizing bounding boxes.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getBoundingBoxMaterial() {
+        assert DEBUG_WHITE != null;
+        return DEBUG_WHITE;
+    }
+
+    /**
+     * Access the Material for visualizing responsive characters.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getCharacterMaterial() {
+        assert DEBUG_PINK != null;
+        return DEBUG_PINK;
+    }
+
+    /**
+     * Access the Material for visualizing non-responsive objects.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getGhostMaterial() {
+        assert DEBUG_YELLOW != null;
+        return DEBUG_YELLOW;
+    }
+
+    /**
+     * Access the Material for visualizing inactive objects.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getInactiveMaterial() {
+        assert DEBUG_BLUE != null;
+        return DEBUG_BLUE;
+    }
+
+    /**
+     * Access a Material for visualizing joints.
+     *
+     * @param end which end to visualize (not null)
+     * @return the pre-existing instance (not null)
+     */
+    Material getJointMaterial(JointEnd end) {
+        Material result;
+        switch (end) {
+            case A:
+                result = DEBUG_GREEN;
+                break;
+            case B:
+                result = DEBUG_RED;
+                break;
+            default:
+                throw new IllegalArgumentException(end.toString());
+        }
+
+        assert result != null;
+        return result;
+    }
+
+    /**
+     * Access the Material for visualizing swept spheres.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getSweptSphereMaterial() {
+        assert DEBUG_WHITE != null;
+        return DEBUG_WHITE;
     }
 
     /**

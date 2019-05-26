@@ -213,9 +213,9 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
         Material material = character.getDebugMaterial();
         if (material == null) {
             if (character.isContactResponse()) {
-                material = debugAppState.DEBUG_PINK;
+                material = debugAppState.getCharacterMaterial();
             } else {
-                material = debugAppState.DEBUG_YELLOW;
+                material = debugAppState.getGhostMaterial();
             }
         }
         geom.setMaterial(material);

@@ -245,7 +245,8 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             result = new Geometry(body.toString() + " faces", mesh);
             Material material = body.getDebugMaterial();
             if (material == null) {
-                material = debugAppState.DEBUG_RED;
+                SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+                material = sdas.getFaceMaterial();
             }
             result.setMaterial(material);
         }

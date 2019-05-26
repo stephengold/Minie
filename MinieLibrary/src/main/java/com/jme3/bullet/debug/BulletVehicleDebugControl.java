@@ -33,6 +33,7 @@ package com.jme3.bullet.debug;
 
 import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.VehicleWheel;
+import com.jme3.material.Material;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -187,10 +188,11 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
             axleGeom.setLocalTranslation(wLocation.add(wDirection));
             wheelGeom.setLocalTranslation(wLocation.add(wDirection));
 
-            locGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
-            dirGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
-            axleGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
-            wheelGeom.setMaterial(debugAppState.DEBUG_MAGENTA);
+            Material material = debugAppState.getActiveMaterial();
+            locGeom.setMaterial(material);
+            dirGeom.setMaterial(material);
+            axleGeom.setMaterial(material);
+            wheelGeom.setMaterial(material);
 
             suspensionNode.attachChild(locGeom);
             suspensionNode.attachChild(dirGeom);

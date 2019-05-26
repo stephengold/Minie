@@ -95,8 +95,8 @@ public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
         center = pco.getPhysicsLocation(null);
         geom.setLocalTranslation(center);
 
-        Material mat = debugAppState.DEBUG_WHITE;
-        geom.setMaterial(mat);
+        Material material = debugAppState.getSweptSphereMaterial();
+        geom.setMaterial(material);
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods

@@ -113,6 +113,16 @@ public class SoftDebugAppState extends BulletDebugAppState {
     }
 
     /**
+     * Access the Material for visualizing soft-body faces.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getFaceMaterial() {
+        assert DEBUG_RED != null;
+        return DEBUG_RED;
+    }
+
+    /**
      * Access the Material for visualizing soft-body links.
      *
      * @return the pre-existing instance (not null)
