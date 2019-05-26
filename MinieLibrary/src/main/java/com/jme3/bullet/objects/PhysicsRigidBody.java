@@ -721,6 +721,22 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
+     * Directly reorient this body.
+     *
+     * @param orientation the desired orientation (relative to physics-space
+     * coordinates, not null, unaffected)
+     */
+    public void setPhysicsRotation(Quaternion orientation) {
+        Validate.nonNull(orientation, "orientation");
+        if (collisionShape instanceof HeightfieldCollisionShape
+                && !MyQuaternion.isRotationIdentity(orientation)) {
+            throw new IllegalArgumentException("No rotation of heightfields.");
+        }
+
+        setPhysicsRotation(objectId, orientation);
+    }
+
+    /**
      * Rescale this body. Note that if it has joints, their pivot points will
      * not be adjusted.
      *
@@ -738,6 +754,20 @@ public class PhysicsRigidBody extends PhysicsBody {
             shape.setScale(newScale);
             setCollisionShape(shape);
         }
+    }
+
+    /**
+     * Directly alter this body's transform, including the scale of its shape.
+     * If the body has joints, their pivot points will not be adjusted for scale
+     * changes.
+     *
+     * @param transform the desired transform (relative to physics-space
+     * coordinates, not null, unaffected)
+     */
+    public void setPhysicsTransform(Transform transform) {
+        setPhysicsLocation(transform.getTranslation());
+        setPhysicsRotation(transform.getRotation());
+        setPhysicsScale(transform.getScale());
     }
 
     /**
@@ -1053,36 +1083,6 @@ public class PhysicsRigidBody extends PhysicsBody {
         }
 
         setPhysicsLocation(objectId, location);
-    }
-
-    /**
-     * Directly reorient this body. TODO re-order methods
-     *
-     * @param orientation the desired orientation (relative to physics-space
-     * coordinates, not null, unaffected)
-     */
-    public void setPhysicsRotation(Quaternion orientation) {
-        Validate.nonNull(orientation, "orientation");
-        if (collisionShape instanceof HeightfieldCollisionShape
-                && !MyQuaternion.isRotationIdentity(orientation)) {
-            throw new IllegalArgumentException("No rotation of heightfields.");
-        }
-
-        setPhysicsRotation(objectId, orientation);
-    }
-
-    /**
-     * Directly alter this body's transform, including the scale of its shape.
-     * If the body has joints, their pivot points will not be adjusted for scale
-     * changes.
-     *
-     * @param transform the desired transform (relative to physics-space
-     * coordinates, not null, unaffected)
-     */
-    public void setPhysicsTransform(Transform transform) {
-        setPhysicsLocation(transform.getTranslation());
-        setPhysicsRotation(transform.getRotation());
-        setPhysicsScale(transform.getScale());
     }
 
     /**
