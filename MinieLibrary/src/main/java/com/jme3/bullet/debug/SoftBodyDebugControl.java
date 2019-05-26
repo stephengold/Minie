@@ -270,7 +270,8 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
 
             result = new Geometry(body.toString() + " links", mesh);
             SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-            result.setMaterial(sdas.DEBUG_ORANGE);
+            Material material = sdas.getLinkMaterial();
+            result.setMaterial(material);
         }
 
         return result;

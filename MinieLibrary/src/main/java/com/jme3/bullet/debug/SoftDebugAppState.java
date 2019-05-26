@@ -75,9 +75,9 @@ public class SoftDebugAppState extends BulletDebugAppState {
      */
     private Material clusterMaterial;
     /**
-     * material for visualizing all soft-body links TODO privatize and rename
+     * material for visualizing all soft-body links
      */
-    Material DEBUG_ORANGE;
+    private Material linkMaterial;
     // *************************************************************************
     // constructors
 
@@ -111,6 +111,16 @@ public class SoftDebugAppState extends BulletDebugAppState {
         assert clusterMaterial != null;
         return clusterMaterial;
     }
+
+    /**
+     * Access the Material for visualizing soft-body links.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getLinkMaterial() {
+        assert linkMaterial != null;
+        return linkMaterial;
+    }
     // *************************************************************************
     // BulletDebugAppState methods
 
@@ -139,8 +149,8 @@ public class SoftDebugAppState extends BulletDebugAppState {
         renderState.setBlendMode(RenderState.BlendMode.Alpha);
         renderState.setDepthTest(false);
 
-        DEBUG_ORANGE = MyAsset.createWireframeMaterial(am, ColorRGBA.Orange);
-        DEBUG_ORANGE.setName("DEBUG_ORANGE");
+        linkMaterial = MyAsset.createWireframeMaterial(am, ColorRGBA.Orange);
+        linkMaterial.setName("linkMaterial");
     }
 
     /**
