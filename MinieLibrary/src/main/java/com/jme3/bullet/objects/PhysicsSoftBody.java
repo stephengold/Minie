@@ -240,7 +240,7 @@ public class PhysicsSoftBody extends PhysicsBody {
             float influence) {
         int numNodes = countNodes();
         Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
-        Validate.nonNull(localPivot, "local pivot");
+        Validate.finite(localPivot, "local pivot");
 
         long rigidBodyId = rigidBody.getObjectId();
         appendAnchor(objectId, nodeIndex, rigidBodyId, localPivot,
@@ -426,7 +426,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Copy the center locations of all clusters in this body.
+     * Copy the center-of-mass locations of all clusters in this body.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a buffer containing 3 floats per cluster (either storeResult or a
@@ -660,6 +660,19 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Count the nodes in the indexed cluster.
+     *
+     * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
+     * @return the number of nodes (&ge;0)
+     */
+    public int countNodesInCluster(int clusterIndex) {
+        int numClusters = countClusters();
+        Validate.inRange(clusterIndex, "cluster index", 0, numClusters - 1);
+
+        return countNodesInCluster(objectId, clusterIndex);
+    }
+
+    /**
      * Count the tetrahedra in this body.
      *
      * @return the number of tetrahedra (&ge;0)
@@ -674,15 +687,15 @@ public class PhysicsSoftBody extends PhysicsBody {
      * @param nodeIndex0 the index of a node in the link (&ge;0,&lt;numNodes)
      * @param nodeIndex1 the index of the other node in the link
      * (&ge;0,&lt;numNodes)
-     * @param position where to cut the link
+     * @param cutLocation where to cut the link
      * @return true if successful, otherwise false
      */
-    public boolean cutLink(int nodeIndex0, int nodeIndex1, float position) {
+    public boolean cutLink(int nodeIndex0, int nodeIndex1, float cutLocation) {
         int numNodes = countNodes();
         Validate.inRange(nodeIndex0, "node index 0", 0, numNodes - 1);
         Validate.inRange(nodeIndex1, "node index 1", 0, numNodes - 1);
 
-        return cutLink(objectId, nodeIndex0, nodeIndex1, position);
+        return cutLink(objectId, nodeIndex0, nodeIndex1, cutLocation);
     }
 
     /**
@@ -772,6 +785,31 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * List all nodes in the indexed cluster.
+     *
+     * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
+     * @param storeResult storage for the result (modified if not null)
+     * @return a buffer containing node indices (either storeResult or a new
+     * buffer)
+     */
+    public IntBuffer listNodesInCluster(int clusterIndex,
+            IntBuffer storeResult) {
+        int numClusters = countClusters();
+        Validate.inRange(clusterIndex, "cluster index", 0, numClusters - 1);
+        int numNodes = countNodesInCluster(clusterIndex);
+        IntBuffer resultBuffer;
+        if (storeResult == null) {
+            resultBuffer = BufferUtils.createIntBuffer(numNodes);
+        } else {
+            assert storeResult.capacity() == numNodes;
+            resultBuffer = storeResult;
+        }
+
+        listNodesInCluster(objectId, clusterIndex, resultBuffer);
+        return resultBuffer;
+    }
+
+    /**
      * Read the collision margin of this body.
      *
      * @return the margin distance (in physics-space units, &gt;0)
@@ -841,7 +879,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         getNodeVelocity(objectId, nodeIndex, result);
-
         return result;
     }
 
@@ -908,7 +945,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      *
      * @param margin the desired margin distance (in physics-space units, &gt;0)
      */
-    public void setMargin(float margin) {
+    final public void setMargin(float margin) {
         Validate.positive(margin, "margin");
         setMargin(objectId, margin);
     }
@@ -1362,7 +1399,7 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         setRestingLengthScale(capsule.readFloat("RestLengthScale", 0f));
         setPhysicsLocation((Vector3f) capsule.readSavable("PhysicsLocation",
-                Vector3f.ZERO));
+                new Vector3f()));
         setWorldInfo((SoftBodyWorldInfo) capsule.readSavable(
                 "WorldInfo", new SoftBodyWorldInfo()));
 
@@ -1540,10 +1577,12 @@ public class PhysicsSoftBody extends PhysicsBody {
     native private void applyPhysicsTranslate(long bodyId,
             Vector3f offsetVector);
 
+    native private int countNodesInCluster(long objectId, int clusterIndex);
+
     native private long createEmptySoftBody();
 
     native private boolean cutLink(long bodyId, int nodeIndex0, int nodeIndex1,
-            float position);
+            float cutLocation);
 
     native private void generateBendingConstraints(long bodyId, int distance,
             long materialId);
@@ -1629,6 +1668,9 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private boolean isCollisionAllowed(long softBodyId, long pcoId);
 
+    native private void listNodesInCluster(long bodyId, int clusterIndex,
+            IntBuffer indexBuffer);
+
     native private void randomizeConstraints(long bodyId);
 
     native private void releaseCluster(long bodyId, int index);
@@ -1680,7 +1722,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     native private void setVolumeMass(long bodyId, float mass);
 
     /**
-     * Provide access to fields of the native Config struct in btSoftBody. Soft
+     * Provide access to fields of the native btSoftBody::Config struct. Soft
      * bodies are one-to-one with Config instances. TODO make it an outer class
      */
     public class Config {
@@ -1704,7 +1746,7 @@ public class PhysicsSoftBody extends PhysicsBody {
             this.body = body;
         }
         // *********************************************************************
-        // new methods exposed
+        // new methods exposed TODO access aeromodel
 
         /**
          * Read the number of cluster-solver iterations (native field:
@@ -2146,7 +2188,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Provide access to 3 fields of the native Material struct in btSoftBody.
+     * Provide access to 3 fields of the native btSoftBody::Material struct.
      * TODO make it an outer class
      */
     public class Material {
