@@ -142,7 +142,6 @@ public class NativeSoftBodyUtil {
      * @param softBody the soft body to append to (not null, modified)
      */
     public static void appendTetras(PhysicsSoftBody softBody) {
-        Validate.nonNull(softBody, "soft body");
         /*
          * Append a new node, located at the center of the AABB.
          */
@@ -172,12 +171,34 @@ public class NativeSoftBodyUtil {
     }
 
     /**
-     * Update the vertex/position/normal buffers of a Mesh from the specified
-     * soft body. Mesh-vertex indexes may be mapped to Bullet node indexes.
+     * Update the position buffers of a Mesh from the clusters in the specified
+     * soft body.
+     *
+     * @param body the soft body to provide locations (not null, unaffected)
+     * @param store the Mesh to update (not null, modified)
+     * @param meshInLocalSpace if true, transform the cluster locations into the
+     * body's local coordinates (relative to its bounding-box center), otherwise
+     * use physics-space coordinates
+     */
+    public static void updateClusterMesh(PhysicsSoftBody body, Mesh store,
+            boolean meshInLocalSpace) {
+        long bodyId = body.getObjectId();
+        FloatBuffer positionBuffer
+                = store.getFloatBuffer(VertexBuffer.Type.Position);
+        assert positionBuffer != null;
+
+        updateClusterMesh(bodyId, positionBuffer, meshInLocalSpace);
+        store.getBuffer(VertexBuffer.Type.Position).setUpdateNeeded();
+    }
+
+    /**
+     * Update the position/normal buffers of a Mesh from the nodes in the
+     * specified soft body. Mesh-vertex indices may be mapped to body-node
+     * indices.
      *
      * @param body the soft body to provide locations and normals (not null,
      * unaffected)
-     * @param jmeToBulletMap the index map, or null for a 1:1 map
+     * @param vertexToNodeMap the index map, or null for a 1:1 map
      * @param store the Mesh to update (not null, modified)
      * @param meshInLocalSpace if true, transform the node locations into the
      * body's local coordinates (relative to its bounding-box center), otherwise
@@ -186,7 +207,7 @@ public class NativeSoftBodyUtil {
      * the normal buffer
      */
     public static void updateMesh(PhysicsSoftBody body,
-            IntBuffer jmeToBulletMap, Mesh store, boolean meshInLocalSpace,
+            IntBuffer vertexToNodeMap, Mesh store, boolean meshInLocalSpace,
             boolean updateNormals) {
         long bodyId = body.getObjectId();
         FloatBuffer positionBuffer
@@ -198,12 +219,14 @@ public class NativeSoftBodyUtil {
             assert normalBuffer != null;
         }
 
-        if (jmeToBulletMap != null) {
-            updateMesh(bodyId, jmeToBulletMap, positionBuffer,
-                    normalBuffer, meshInLocalSpace, updateNormals);
+        if (vertexToNodeMap != null) {
+            // map vertex indices to node indices
+            updateMesh(bodyId, vertexToNodeMap, positionBuffer, normalBuffer,
+                    meshInLocalSpace, updateNormals);
         } else {
+            // null map: vertex indices equal node indices
             updateMesh(bodyId, positionBuffer, normalBuffer,
-                    meshInLocalSpace, updateNormals); // TODO index map
+                    meshInLocalSpace, updateNormals);
         }
 
         store.getBuffer(VertexBuffer.Type.Position).setUpdateNeeded();
@@ -214,12 +237,15 @@ public class NativeSoftBodyUtil {
     // *************************************************************************
     // private methods
 
-    private static native void updateMesh(long softBodyId,
+    native private static void updateClusterMesh(long softBodyId,
+            FloatBuffer outPositionBuffer, boolean meshInLocalSpace);
+
+    native private static void updateMesh(long softBodyId,
             IntBuffer inIndexMapping, FloatBuffer outPositionBuffer,
             FloatBuffer outNormalBuffer, boolean meshInLocalSpace,
             boolean updateNormals);
 
-    private static native void updateMesh(long softBodyId,
+    native private static void updateMesh(long softBodyId,
             FloatBuffer outPositionBuffer, FloatBuffer outNormalBuffer,
             boolean meshInLocalSpace, boolean updateNormals);
 }
