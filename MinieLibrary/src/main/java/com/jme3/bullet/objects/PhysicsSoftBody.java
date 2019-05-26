@@ -429,8 +429,8 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Copy the center-of-mass locations of all clusters in this body.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 3 floats per cluster (either storeResult or a
-     * new buffer)
+     * @return a buffer containing 3 floats per cluster (in physics-space
+     * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyClusterCenters(FloatBuffer storeResult) {
         int numClusters = countClusters();
@@ -513,8 +513,8 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Copy the locations of all nodes in this body.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 3 floats per node (either storeResult or a
-     * new buffer)
+     * @return a buffer containing 3 floats per node (in physics-space
+     * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyLocations(FloatBuffer storeResult) {
         int numNodes = countNodes();
@@ -555,8 +555,8 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Copy the normal vectors of all nodes in this body.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 3 floats per node (either storeResult or a
-     * new buffer)
+     * @return a buffer containing 3 floats per node (in physics-space
+     * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyNormals(FloatBuffer storeResult) {
         int numNodes = countNodes();
@@ -597,8 +597,8 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Copy the velocities of all nodes in this body.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 3 floats per node (either storeResult or a
-     * new buffer)
+     * @return a buffer containing 3 floats per node (in physics-space
+     * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyVelocities(FloatBuffer storeResult) {
         int numNodes = countNodes();
@@ -1024,7 +1024,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Alter the normal vectors of all nodes.
      *
-     * @param normals a buffer containing the desired velocities (not null)
+     * @param normals a buffer containing the desired normals (in physics-space
+     * coordinates, not null, unaffected)
      */
     public void setNormals(FloatBuffer normals) {
         Validate.nonNull(normals, "normals");
@@ -1056,7 +1057,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Alter the velocities of all nodes.
      *
-     * @param velocities a buffer containing the desired velocities (not null)
+     * @param velocities a buffer containing the desired velocities (in
+     * physics-space coordinates, not null, unaffected)
      */
     public void setVelocities(FloatBuffer velocities) {
         Validate.nonNull(velocities, "velocities");
@@ -1066,8 +1068,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Alter the velocities of all nodes to make them identical.
      *
-     * @param velocity the desired velocity vector (in world coordinates, not
-     * null, unaffected)
+     * @param velocity the desired velocity vector (in physics-space
+     * coordinates, not null, unaffected)
      */
     public void setVelocity(Vector3f velocity) {
         Validate.finite(velocity, "velocity");
@@ -1191,7 +1193,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Calculate the axis-aligned bounding box for this body.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a bounding box in physics-space coordinates (either storeResult
+     * @return a bounding box (in physics-space coordinates, either storeResult
      * or a new instance)
      */
     @Override
@@ -1295,7 +1297,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Copy this body's gravitational acceleration.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return an acceleration vector in physics-space coordinates (either
+     * @return an acceleration vector (in physics-space coordinates, either
      * storeResult or a new vector, not null)
      */
     @Override
