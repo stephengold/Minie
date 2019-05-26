@@ -942,7 +942,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Alter the collision margin of this body. TODO finalize
+     * Alter the collision margin of this body.
      *
      * @param margin the desired margin distance (in physics-space units, &gt;0)
      */
