@@ -45,6 +45,7 @@ import java.io.PrintStream;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
@@ -85,6 +86,10 @@ public class PhysicsDumper extends Dumper {
      * enable dumping of joints in physics spaces
      */
     private boolean dumpJointsInSpaces = false;
+    /**
+     * enable dumping of nodes in clusters
+     */
+    private boolean dumpNodesInClusters = false;
     /**
      * enable dumping of nodes in soft bodies
      */
@@ -544,6 +549,10 @@ public class PhysicsDumper extends Dumper {
                 result = isDumpMatParam();
                 break;
 
+            case NodesInClusters:
+                result = dumpNodesInClusters;
+                break;
+
             case NodesInSofts:
                 result = dumpNodesInSofts;
                 break;
@@ -606,6 +615,10 @@ public class PhysicsDumper extends Dumper {
 
             case MatParams:
                 setDumpMatParam(newValue);
+                break;
+
+            case NodesInClusters:
+                dumpNodesInClusters = newValue;
                 break;
 
             case NodesInSofts:
@@ -739,16 +752,21 @@ public class PhysicsDumper extends Dumper {
         FloatBuffer coms = softBody.copyClusterCenters(null);
         FloatBuffer masses = softBody.copyClusterMasses(null);
         int numClusters = softBody.countClusters();
-        for (int clusterI = 0; clusterI < numClusters; ++clusterI) {
-            int floatIndex = 3 * clusterI;
+        for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
+            int floatIndex = 3 * clusterIndex;
             float x = coms.get(floatIndex);
             float y = coms.get(floatIndex + 1);
             float z = coms.get(floatIndex + 2);
             String comString = MyVector3f.describe(new Vector3f(x, y, z));
-            float mass = masses.get(clusterI);
+            float mass = masses.get(clusterIndex);
             String massString = MyString.describe(mass);
-            stream.printf("%n%s  [%d] com[%s] mass=%s", indent, clusterI,
-                    comString, massString);
+            int numNodes = softBody.countNodesInCluster(clusterIndex);
+            stream.printf("%n%s  [%d] com[%s] mass=%s  %d node%s", indent,
+                    clusterIndex, comString, massString, numNodes,
+                    (numNodes == 1) ? "" : "s");
+            if (dumpNodesInClusters) {
+                dumpNodesInCluster(softBody, clusterIndex);
+            }
         }
         stream.printf("%n%s", indent);
     }
@@ -776,6 +794,52 @@ public class PhysicsDumper extends Dumper {
                     indent, nodeIndex, degree, MyString.describe(nodeMass),
                     locString, vString);
         }
+    }
+
+    /**
+     * Dump the indices of all nodes in the specified cluster.
+     *
+     * @param softBody which body to dump (not null, unaffected)
+     * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
+     */
+    private void dumpNodesInCluster(PhysicsSoftBody softBody,
+            int clusterIndex) {
+        IntBuffer nodeIndices = softBody.listNodesInCluster(clusterIndex, null);
+        int numIndices = nodeIndices.capacity();
+        int numNodesInBody = softBody.countNodes();
+        if (numIndices == numNodesInBody) {
+            stream.print("(all)");
+            return;
+        }
+        /*
+         * convert the IntBuffer to a BitSet
+         */
+        BitSet bitSet = new BitSet(numNodesInBody);
+        for (int i = 0; i < numIndices; ++i) {
+            int nodeIndex = nodeIndices.get(i);
+            bitSet.set(nodeIndex);
+        }
+
+        stream.print('(');
+        boolean addSeparators = false;
+        for (int nodeIndex = 0; nodeIndex < numNodesInBody; ++nodeIndex) {
+            if (bitSet.get(nodeIndex)) {
+                if (addSeparators) {
+                    stream.print(',');
+                } else {
+                    addSeparators = true;
+                }
+                int runLength = bitSet.nextClearBit(nodeIndex) - nodeIndex;
+                if (runLength < 3) {
+                    stream.printf("%d", nodeIndex);
+                } else {
+                    int endIndex = nodeIndex + runLength - 1;
+                    stream.printf("%d-%d", nodeIndex, endIndex);
+                    nodeIndex = endIndex;
+                }
+            }
+        }
+        stream.print(')');
     }
 
     /**

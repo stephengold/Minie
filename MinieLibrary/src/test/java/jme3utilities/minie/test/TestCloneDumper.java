@@ -87,6 +87,7 @@ public class TestCloneDumper {
         du.setEnabled(DumpFlags.JointsInBodies, !flag);
         du.setEnabled(DumpFlags.JointsInSpaces, flag);
         du.setEnabled(DumpFlags.MatParams, !flag);
+        du.setEnabled(DumpFlags.NodesInClusters, !flag);
         du.setEnabled(DumpFlags.NodesInSofts, flag);
         du.setEnabled(DumpFlags.Overrides, !flag);
         du.setEnabled(DumpFlags.Pcos, flag);
@@ -116,6 +117,7 @@ public class TestCloneDumper {
         assert du.isEnabled(DumpFlags.JointsInBodies) == !flag : flag;
         assert du.isEnabled(DumpFlags.JointsInSpaces) == flag : flag;
         assert du.isEnabled(DumpFlags.MatParams) == !flag : flag;
+        assert du.isEnabled(DumpFlags.NodesInClusters) == !flag : !flag;
         assert du.isEnabled(DumpFlags.NodesInSofts) == flag : flag;
         assert du.isEnabled(DumpFlags.Overrides) == !flag : flag;
         assert du.isEnabled(DumpFlags.Pcos) == flag : flag;
