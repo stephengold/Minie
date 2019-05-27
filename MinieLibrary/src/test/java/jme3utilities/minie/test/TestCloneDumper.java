@@ -95,7 +95,7 @@ public class TestCloneDumper {
         du.setEnabled(DumpFlags.Transforms, !flag);
         du.setEnabled(DumpFlags.UserData, flag);
 
-        int count = (int) Math.round(b / 0.3f);
+        int count = Math.round(b / 0.3f);
         du.setMaxChildren(count);
 
         du.setIndentIncrement(Float.toString(b));
@@ -125,7 +125,7 @@ public class TestCloneDumper {
         assert du.isEnabled(DumpFlags.Transforms) == !flag : flag;
         assert du.isEnabled(DumpFlags.UserData) == flag : flag;
 
-        int count = (int) Math.round(b / 0.3f);
+        int count = Math.round(b / 0.3f);
         assert du.maxChildren() == count : du.maxChildren();
         assert du.indentIncrement().equals(Float.toString(b));
         assert du.getDescriber().listSeparator().equals(Float.toHexString(b));

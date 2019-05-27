@@ -102,7 +102,7 @@ public class TestCloneCharacter {
         ch.setContactResponse(flag);
         ch.setSweepTest(!flag);
 
-        int index = (int) Math.round(b / 0.3f);
+        int index = Math.round(b / 0.3f);
         ch.setAnisotropicFriction(
                 new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), index);
 
@@ -146,7 +146,7 @@ public class TestCloneCharacter {
         assert ch.isContactResponse() == flag;
         assert ch.isUsingGhostSweepTest() == !flag;
 
-        int index = (int) Math.round(b / 0.3f);
+        int index = Math.round(b / 0.3f);
         if (index == 0) {
             assert !ch.hasAnisotropicFriction(3);
         } else {
