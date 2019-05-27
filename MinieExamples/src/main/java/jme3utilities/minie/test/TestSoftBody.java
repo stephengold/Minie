@@ -41,12 +41,14 @@ import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Sbcp;
+import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.export.Savable;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -104,9 +106,9 @@ public class TestSoftBody
     // fields
 
     /**
-     * physics object that shouldn't be visualized
+     * physics objects not visualized
      */
-    private List<Savable> hiddenObjects = new ArrayList<>(9);
+    final private List<Savable> hiddenObjects = new ArrayList<>(9);
     /**
      * material to visualize soft bodies
      */
@@ -159,9 +161,11 @@ public class TestSoftBody
         debugMaterial = MyAsset.createShinyMaterial(assetManager, pink);
         debugMaterial.setFloat("Shininess", 4f);
         debugMaterial.setName("pink");
+        RenderState renderState = debugMaterial.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         addBox();
-        addFatBall();
+        addSquishyBall();
     }
 
     /**
@@ -175,7 +179,7 @@ public class TestSoftBody
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
-        dim.bind("test fatball", KeyInput.KEY_F1);
+        dim.bind("test squishyBall", KeyInput.KEY_F1);
         dim.bind("test tablecloth", KeyInput.KEY_F2);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
     }
@@ -199,10 +203,10 @@ public class TestSoftBody
                     dumpScenes();
                     return;
 
-                case "test fatball":
+                case "test squishyBall":
                     cleanupAfterTest();
                     addBox();
-                    addFatBall();
+                    addSquishyBall();
                     return;
 
                 case "test tablecloth":
@@ -293,7 +297,7 @@ public class TestSoftBody
     /**
      * Add a squishy ball to the scene.
      */
-    private void addFatBall() {
+    private void addSquishyBall() {
         int numSteps = 3;
         float radius = 0.5f;
         Mesh mesh = new Icosphere(numSteps, radius);
@@ -301,7 +305,7 @@ public class TestSoftBody
         NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
         softBody.setMass(mass);
 
-        PhysicsSoftBody.Config config = softBody.getSoftConfig();
+        SoftBodyConfig config = softBody.getSoftConfig();
         config.set(Sbcp.PoseMatching, 0.02f);
 
         boolean setVolumePose = false;
@@ -325,7 +329,7 @@ public class TestSoftBody
         NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
         softBody.setMass(mass);
 
-        PhysicsSoftBody.Config config = softBody.getSoftConfig();
+        SoftBodyConfig config = softBody.getSoftConfig();
         config.set(Sbcp.Damping, 0.02f);
         config.setPositionIterations(3);
 
@@ -389,8 +393,11 @@ public class TestSoftBody
      */
     private void dumpPhysicsSpace() {
         PhysicsDumper dumper = new PhysicsDumper();
+        //dumper.setEnabled(DumpFlags.ClustersInSofts, true);
         dumper.setEnabled(DumpFlags.JointsInBodies, true);
         dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        //dumper.setEnabled(DumpFlags.NodesInClusters, true);
+        //dumper.setEnabled(DumpFlags.NodesInSofts, true);
         dumper.dump(physicsSpace);
     }
 
