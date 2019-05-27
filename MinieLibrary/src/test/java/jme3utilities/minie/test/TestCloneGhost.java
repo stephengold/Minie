@@ -56,6 +56,9 @@ public class TestCloneGhost {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test cloning/saving/loading on PhysicsGhostObject and its subclasses.
+     */
     @Test
     public void testCloneGhost() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);

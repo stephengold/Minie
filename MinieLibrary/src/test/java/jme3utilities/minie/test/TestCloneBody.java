@@ -64,7 +64,7 @@ public class TestCloneBody {
     // new methods exposed
 
     /**
-     * Test cloning/saving/loading on PhysicsBody and its subclasses.
+     * Test cloning/saving/loading on subclasses of PhysicsBody.
      */
     @Test
     public void testCloneBody() {

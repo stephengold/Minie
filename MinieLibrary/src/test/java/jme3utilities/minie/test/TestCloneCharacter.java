@@ -54,6 +54,9 @@ public class TestCloneCharacter {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test cloning/saving/loading on PhysicsCharacter.
+     */
     @Test
     public void testCloneCharacter() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
