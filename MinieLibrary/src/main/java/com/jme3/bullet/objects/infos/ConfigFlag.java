@@ -36,10 +36,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Named collision flags for use with a PhysicsSoftBody.Config .
+ * Named collision flags for use with a SoftBodyConfig.
  *
  * @author Stephen Gold sgold@sonic.net
- * @see com.jme3.bullet.objects.PhysicsSoftBody.Config#getCollisionsFlags(long)
+ * @see SoftBodyConfig#collisionFlags()
  */
 public class ConfigFlag {
     // *************************************************************************

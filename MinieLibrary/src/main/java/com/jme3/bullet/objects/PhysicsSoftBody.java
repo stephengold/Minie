@@ -37,8 +37,7 @@ import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.joints.PhysicsJoint;
-import com.jme3.bullet.objects.infos.ConfigFlag;
-import com.jme3.bullet.objects.infos.Sbcp;
+import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -82,10 +81,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     // fields
 
     /**
-     * configuration properties of this soft body
-     */
-    private Config config = new Config(this);
-    /**
      * list of joints that connect to this body: The list isn't populated until
      * the body is added to a PhysicsSpace.
      */
@@ -94,6 +89,10 @@ public class PhysicsSoftBody extends PhysicsBody {
      * material properties of this soft body, allocated lazily
      */
     private Material material = null;
+    /**
+     * configuration properties of this soft body
+     */
+    private SoftBodyConfig config = new SoftBodyConfig(this);
     // *************************************************************************
     // constructors
 
@@ -105,6 +104,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         objectId = createEmptySoftBody();
         assert objectId != 0L;
 
+        config = new SoftBodyConfig(this);
         super.initUserPointer();
         float defaultMargin = CollisionShape.getDefaultMargin();
         setMargin(defaultMargin);
@@ -737,11 +737,11 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Access the Config of this body.
+     * Access the SoftBodyConfig of this body.
      *
      * @return the pre-existing instance (not null)
      */
-    public Config getSoftConfig() {
+    public SoftBodyConfig getSoftConfig() {
         return config;
     }
 
@@ -1227,18 +1227,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         PhysicsSoftBody old = (PhysicsSoftBody) original;
         copyPcoProperties(old);
 
-        Config oldConfig = old.getSoftConfig();
-        config = new Config(this);
-        config.setCollisionFlags(oldConfig.collisionFlags());
-        for (Sbcp parameter : Sbcp.values()) {
-            float value = oldConfig.get(parameter);
-            config.set(parameter, value);
-        }
-        config.setClusterIterations(oldConfig.clusterIterations());
-        config.setDriftIterations(oldConfig.driftIterations());
-        config.setPositionIterations(oldConfig.positionIterations());
-        config.setVelocityIterations(oldConfig.velocityIterations());
-
+        config = cloner.clone(config);
         joints = cloner.clone(joints);
 
         Material oldMaterial = old.getSoftMaterial();
@@ -1409,10 +1398,12 @@ public class PhysicsSoftBody extends PhysicsBody {
     @Override
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
-
         InputCapsule capsule = importer.getCapsule(this);
+
         rebuildSoftBody();
         readPcoProperties(capsule);
+        config = (SoftBodyConfig) capsule.readSavable("config", null);
+        assert config != null;
 
         setRestingLengthScale(capsule.readFloat("RestLengthScale", 0f));
         setPhysicsLocation((Vector3f) capsule.readSavable("PhysicsLocation",
@@ -1420,7 +1411,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         setWorldInfo((SoftBodyWorldInfo) capsule.readSavable(
                 "WorldInfo", new SoftBodyWorldInfo()));
 
-        getSoftConfig().read(capsule);
         getSoftMaterial().read(capsule);
     }
 
@@ -1516,7 +1506,8 @@ public class PhysicsSoftBody extends PhysicsBody {
         capsule.write(getWorldInfo(), "WorldInfo", null);
         // TODO anchors, joints, nodes, links, faces, tetras
 
-        getSoftConfig().write(capsule);
+        assert config != null;
+        capsule.write(config, "config", null);
         getSoftMaterial().write(capsule);
     }
     // *************************************************************************
@@ -1702,472 +1693,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     native private void setVolumeDensity(long bodyId, float density);
 
     native private void setVolumeMass(long bodyId, float mass);
-
-    /**
-     * Provide access to fields of the native btSoftBody::Config struct. Soft
-     * bodies are one-to-one with Config instances. TODO make it an outer class
-     */
-    public class Config {
-        // *********************************************************************
-        // fields
-
-        /*
-         * reference to the outer class
-         */
-        final private PhysicsSoftBody body;
-        // *********************************************************************
-        // constructors
-
-        /**
-         * Instantiate a Config with default properties.
-         *
-         * @param body the corresponding soft body (not null)
-         */
-        private Config(PhysicsSoftBody body) {
-            assert body != null;
-            this.body = body;
-        }
-        // *********************************************************************
-        // new methods exposed TODO access aeromodel
-
-        /**
-         * Read the number of cluster-solver iterations (native field:
-         * citerations).
-         *
-         * @return the iteration count (&ge;0)
-         */
-        public int clusterIterations() {
-            return getClusterIterations(objectId);
-        }
-
-        /**
-         * Read the collisions flags (native field: collisions). Flags are
-         * defined in {@link com.jme3.bullet.objects.infos.ConfigFlag}.
-         *
-         * @return the flags that are set, ORed together
-         */
-        public int collisionFlags() {
-            return getCollisionsFlags(objectId);
-        }
-
-        /**
-         * Copy all parameter values from the specified Config.
-         *
-         * @param source the Config to copy from (not null, unaffected)
-         */
-        public void copyAll(Config source) {
-            copyValues(objectId, source.body.objectId);
-        }
-
-        /**
-         * Read the number of drift-solver iterations (native field:
-         * diterations).
-         *
-         * @return the iteration count (&ge;0)
-         */
-        public int driftIterations() {
-            return getDriftIterations(objectId);
-        }
-
-        /**
-         * Read the specified Config parameter.
-         *
-         * @param parameter which parameter to read (not null)
-         * @return the parameter value
-         */
-        public float get(Sbcp parameter) {
-            Validate.nonNull(parameter, "parameter");
-
-            float result;
-            switch (parameter) {
-                case AnchorHardness:
-                    result = getAnchorsHardness(objectId);
-                    break;
-                case ClusterKineticHardness:
-                    result = getClusterKineticHardness(objectId);
-                    break;
-                case ClusterKineticSplit:
-                    result = getClusterKineticImpulseSplitCoef(objectId);
-                    break;
-                case ClusterRigidHardness:
-                    result = getClusterRigidHardness(objectId);
-                    break;
-                case ClusterRigidSplit:
-                    result = getClusterRigidImpulseSplitCoef(objectId);
-                    break;
-                case ClusterSoftHardness:
-                    result = getClusterSoftHardness(objectId);
-                    break;
-                case ClusterSoftSplit:
-                    result = getClusterSoftImpulseSplitCoef(objectId);
-                    break;
-                case Damping:
-                    result = getDampingCoef(objectId);
-                    break;
-                case Drag:
-                    result = getDragCoef(objectId);
-                    break;
-                case DynamicFriction:
-                    result = getDynamicFrictionCoef(objectId);
-                    break;
-                case KineticHardness:
-                    result = getKineticContactsHardness(objectId);
-                    break;
-                case Lift:
-                    result = getLiftCoef(objectId);
-                    break;
-                case MaxVolumeRatio:
-                    result = getMaximumVolumeRatio(objectId);
-                    break;
-                case PoseMatching:
-                    result = getPoseMatchingCoef(objectId);
-                    break;
-                case Pressure:
-                    result = getPressureCoef(objectId);
-                    break;
-                case RigidHardness:
-                    result = getRigidContactsHardness(objectId);
-                    break;
-                case SoftHardness:
-                    result = getSoftContactsHardness(objectId);
-                    break;
-                case TimeScale:
-                    result = getTimeScale(objectId);
-                    break;
-                case VelocityCorrection:
-                    result = getVelocitiesCorrectionFactor(objectId);
-                    break;
-                case VolumeConservation:
-                    result = getVolumeConservationCoef(objectId);
-                    break;
-                default:
-                    throw new IllegalArgumentException(toString());
-            }
-
-            assert parameter.canSet(result) : result;
-            return result;
-        }
-
-        /**
-         * Read the number of position-solver iterations (native field:
-         * piterations).
-         *
-         * @return the iteration count (&ge;0)
-         */
-        public int positionIterations() {
-            return getPositionIterations(objectId);
-        }
-
-        /**
-         * Alter the specified Config parameter.
-         *
-         * @param parameter which parameter to set (not null)
-         * @param desiredValue the desired parameter value
-         */
-        public void set(Sbcp parameter, float desiredValue) {
-            if (!parameter.canSet(desiredValue)) {
-                String message = String.format("%s cannot be set to %f",
-                        parameter, desiredValue);
-                throw new IllegalArgumentException(message);
-            }
-
-            switch (parameter) {
-                case AnchorHardness:
-                    setAnchorsHardness(objectId, desiredValue);
-                    break;
-                case ClusterKineticHardness:
-                    setClusterKineticHardness(objectId, desiredValue);
-                    break;
-                case ClusterKineticSplit:
-                    setClusterKineticImpulseSplitCoef(objectId, desiredValue);
-                    break;
-                case ClusterRigidHardness:
-                    setClusterRigidHardness(objectId, desiredValue);
-                    break;
-                case ClusterRigidSplit:
-                    setClusterRigidImpulseSplitCoef(objectId, desiredValue);
-                    break;
-                case ClusterSoftHardness:
-                    setClusterSoftHardness(objectId, desiredValue);
-                    break;
-                case ClusterSoftSplit:
-                    setClusterSoftImpulseSplitCoef(objectId, desiredValue);
-                    break;
-                case Damping:
-                    setDampingCoef(objectId, desiredValue);
-                    break;
-                case Drag:
-                    setDragCoef(objectId, desiredValue);
-                    break;
-                case DynamicFriction:
-                    setDynamicFrictionCoef(objectId, desiredValue);
-                    break;
-                case Lift:
-                    setLiftCoef(objectId, desiredValue);
-                    break;
-                case KineticHardness:
-                    setKineticContactsHardness(objectId, desiredValue);
-                    break;
-                case MaxVolumeRatio:
-                    setMaximumVolumeRatio(objectId, desiredValue);
-                    break;
-                case PoseMatching:
-                    setPoseMatchingCoef(objectId, desiredValue);
-                    break;
-                case Pressure:
-                    setPressureCoef(objectId, desiredValue);
-                    break;
-                case SoftHardness:
-                    setSoftContactsHardness(objectId, desiredValue);
-                    break;
-                case RigidHardness:
-                    setRigidContactsHardness(objectId, desiredValue);
-                    break;
-                case TimeScale:
-                    setTimeScale(objectId, desiredValue);
-                    break;
-                case VelocityCorrection:
-                    setVelocitiesCorrectionFactor(objectId, desiredValue);
-                    break;
-                case VolumeConservation:
-                    setVolumeConservationCoef(objectId, desiredValue);
-                    break;
-                default:
-                    throw new IllegalArgumentException(toString());
-            }
-        }
-
-        /**
-         * Alter the number of cluster-solver iterations (native field:
-         * citerations).
-         *
-         * @param numIterations the desired number of iterations (&ge;0,
-         * default=4)
-         */
-        public void setClusterIterations(int numIterations) {
-            setClusterIterations(objectId, numIterations);
-        }
-
-        /**
-         * Alter the collision flags. Flags are defined in the
-         * {@link com.jme3.bullet.objects.infos.ConfigFlag}.
-         *
-         * @param flag the 1st flag to set, or 0x0 to clear all flags
-         * @param additionalFlags ... additional flags to set. Flags are ORed
-         * together.
-         */
-        public void setCollisionFlags(int flag, int... additionalFlags) {
-            int combinedFlags = flag;
-            for (int additionalFlag : additionalFlags) {
-                combinedFlags |= additionalFlag;
-            }
-            setCollisionsFlags(objectId, combinedFlags);
-        }
-
-        /**
-         * Alter the number of drift-solver iterations (native field:
-         * diterations).
-         *
-         * @param numIterations the desired number of iterations (&ge;0,
-         * default=0)
-         */
-        public void setDriftIterations(int numIterations) {
-            setDriftIterations(objectId, numIterations);
-        }
-
-        /**
-         * Alter the number of position-solver iterations (native field:
-         * piterations).
-         *
-         * @param numIterations the desired number of iterations (&ge;0,
-         * default=1)
-         */
-        public void setPositionIterations(int numIterations) {
-            setPositionIterations(objectId, numIterations);
-        }
-
-        /**
-         * Alter the number of velocity-solver iterations (native field:
-         * viterations).
-         *
-         * @param numIterations the desired number of iterations (&ge;0,
-         * default=0)
-         */
-        public void setVelocityIterations(int numIterations) {
-            setVelocitiesIterations(objectId, numIterations);
-        }
-
-        /**
-         * Read the number of velocity-solver iterations (native field:
-         * viterations).
-         *
-         * @return the iteration count (&ge;0)
-         */
-        public int velocityIterations() {
-            return getVelocitiesIterations(objectId);
-        }
-        // *********************************************************************
-        // private methods
-
-        native private void copyValues(long destId, long sourceId);
-
-        native private float getAnchorsHardness(long bodyId);
-
-        native private int getClusterIterations(long bodyId);
-
-        native private float getClusterKineticHardness(long bodyId);
-
-        native private float getClusterKineticImpulseSplitCoef(long bodyId);
-
-        native private float getClusterRigidHardness(long bodyId);
-
-        native private float getClusterRigidImpulseSplitCoef(long bodyId);
-
-        native private float getClusterSoftHardness(long bodyId);
-
-        native private float getClusterSoftImpulseSplitCoef(long bodyId);
-
-        native private int getCollisionsFlags(long bodyId);
-
-        native private float getDampingCoef(long bodyId);
-
-        native private float getDragCoef(long bodyId);
-
-        native private int getDriftIterations(long bodyId);
-
-        native private float getDynamicFrictionCoef(long bodyId);
-
-        native private float getKineticContactsHardness(long bodyId);
-
-        native private float getLiftCoef(long bodyId);
-
-        native private float getMaximumVolumeRatio(long bodyId);
-
-        native private float getPoseMatchingCoef(long bodyId);
-
-        native private int getPositionIterations(long bodyId);
-
-        native private float getPressureCoef(long bodyId);
-
-        native private float getRigidContactsHardness(long bodyId);
-
-        native private float getSoftContactsHardness(long bodyId);
-
-        native private float getTimeScale(long bodyId);
-
-        native private float getVelocitiesCorrectionFactor(long bodyId);
-
-        native private int getVelocitiesIterations(long objectId);
-
-        native private float getVolumeConservationCoef(long bodyId);
-
-        /**
-         * De-serialize this Config from the specified capsule, for example when
-         * loading from a J3O file.
-         *
-         * @param capsule the capsule to read from (not null)
-         * @throws IOException from the importer
-         */
-        private void read(InputCapsule capsule) throws IOException {
-            setClusterIterations(capsule.readInt("ClusterIterations", 4));
-            setCollisionFlags(capsule.readInt("CollisionsFlags", ConfigFlag.CL_RS));
-            setDriftIterations(capsule.readInt("DriftIterations", 0));
-            setPositionIterations(capsule.readInt("PositionIterations", 1));
-            setVelocityIterations(
-                    capsule.readInt("VelocitiesIterations", 0));
-
-            for (Sbcp sbcp : Sbcp.values()) {
-                String tag = sbcp.toString();
-                float defValue = sbcp.defValue();
-                float readValue = capsule.readFloat(tag, defValue);
-                set(sbcp, readValue);
-            }
-        }
-
-        native private void setAnchorsHardness(long bodyId, float hardness);
-
-        native private void setClusterIterations(long bodyId,
-                int numIterations);
-
-        native private void setClusterKineticHardness(long bodyId,
-                float hardness);
-
-        native private void setClusterKineticImpulseSplitCoef(long bodyId,
-                float coefficient);
-
-        native private void setClusterRigidHardness(long bodyId,
-                float hardness);
-
-        native private void setClusterRigidImpulseSplitCoef(long bodyId,
-                float coefficient);
-
-        native private void setClusterSoftHardness(long bodyId,
-                float hardness);
-
-        native private void setClusterSoftImpulseSplitCoef(long bodyId, float coef);
-
-        native private void setCollisionsFlags(long bodyId, int flags);
-
-        native private void setDampingCoef(long bodyId, float coefficient);
-
-        native private void setDragCoef(long bodyId, float coefficient);
-
-        native private void setDriftIterations(long bodyId, int numIterations);
-
-        native private void setDynamicFrictionCoef(long bodyId,
-                float coefficient);
-
-        native private void setKineticContactsHardness(long bodyId, float hardness);
-
-        native private void setLiftCoef(long bodyId, float coefficient);
-
-        native private void setMaximumVolumeRatio(long bodyId, float ratio);
-
-        native private void setPoseMatchingCoef(long bodyId, float coefficient);
-
-        native private void setPositionIterations(long bodyId,
-                int numIterations);
-
-        native private void setPressureCoef(long bodyId, float coefficient);
-
-        native private void setRigidContactsHardness(long bodyId, float hardness);
-
-        native private void setSoftContactsHardness(long bodyId, float hardness);
-
-        native private void setTimeScale(long bodyId, float scale);
-
-        native private void setVelocitiesCorrectionFactor(long bodyId,
-                float factor);
-
-        native private void setVelocitiesIterations(long bodyId,
-                int numIterations);
-
-        native private void setVolumeConservationCoef(long bodyId,
-                float coefficient);
-
-        /**
-         * Serialize this Config to the specified capsule, for example when
-         * saving to a J3O file.
-         *
-         * @param capsule the capsule to write to (not null)
-         * @throws IOException from the exporter
-         */
-        private void write(OutputCapsule capsule) throws IOException {
-            capsule.write(clusterIterations(), "ClusterIterations", 4);
-            capsule.write(collisionFlags(),
-                    "CollisionsFlags", ConfigFlag.CL_RS);
-            capsule.write(driftIterations(), "DriftIterations", 0);
-            capsule.write(positionIterations(), "PositionIterations", 1);
-            capsule.write(velocityIterations(), "VelocitiesIterations", 0);
-
-            for (Sbcp sbcp : Sbcp.values()) {
-                float value = get(sbcp);
-                String tag = sbcp.toString();
-                float defValue = sbcp.defValue();
-                capsule.write(value, tag, defValue);
-            }
-        }
-    }
 
     /**
      * Provide access to 3 fields of the native btSoftBody::Material struct.

@@ -46,6 +46,7 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
+import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -273,13 +274,13 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
-     * Generate the 1st line of a textual description for the specified
-     * PhysicsSoftBody.Config
+     * Generate the first line of a textual description for the specified
+     * SoftBodyConfig.
      *
-     * @param config the Config to describe (not null, unaffected)
+     * @param config the config to describe (not null, unaffected)
      * @return description (not null, not empty)
      */
-    public String describe1(PhysicsSoftBody.Config config) {
+    public String describe1(SoftBodyConfig config) {
         StringBuilder result = new StringBuilder(120);
 
         result.append("Config flags=");
@@ -309,12 +310,12 @@ public class PhysicsDescriber extends Describer {
 
     /**
      * Generate the 2nd line of a brief textual description for the specified
-     * PhysicsSoftBody.Config
+     * SoftBodyConfig.
      *
-     * @param config the Config to describe (not null, unaffected)
+     * @param config the config to describe (not null, unaffected)
      * @return description (not null, not empty)
      */
-    public String describe2(PhysicsSoftBody.Config config) {
+    public String describe2(SoftBodyConfig config) {
         StringBuilder result = new StringBuilder(120);
 
         String description = String.format(

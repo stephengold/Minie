@@ -38,6 +38,7 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.infos.Sbcp;
+import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
@@ -62,6 +63,9 @@ public class TestCloneBody {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test cloning/saving/loading on PhysicsBody and its subclasses.
+     */
     @Test
     public void testCloneBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
@@ -178,7 +182,7 @@ public class TestCloneBody {
             body.setKinematic(!flag);
         }
 
-        int index = (int) Math.round(b / 0.3f);
+        int index = Math.round(b / 0.3f);
         body.setAnisotropicFriction(
                 new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), index);
 
@@ -216,7 +220,7 @@ public class TestCloneBody {
     }
 
     private void setSoft(PhysicsSoftBody body, float b) {
-        PhysicsSoftBody.Config config = body.getSoftConfig();
+        SoftBodyConfig config = body.getSoftConfig();
         for (Sbcp sbcp : Sbcp.values()) {
             float value = b + 0.001f * sbcp.ordinal();
             config.set(sbcp, value);
@@ -253,7 +257,7 @@ public class TestCloneBody {
             assert body.isKinematic() == !flag;
         }
 
-        int index = (int) Math.round(b / 0.3f);
+        int index = Math.round(b / 0.3f);
         if (index == 0) {
             assert !body.hasAnisotropicFriction(3);
         } else {
@@ -330,7 +334,7 @@ public class TestCloneBody {
     }
 
     private void verifySoft(PhysicsSoftBody body, float b) {
-        PhysicsSoftBody.Config config = body.getSoftConfig();
+        SoftBodyConfig config = body.getSoftConfig();
         for (Sbcp sbcp : Sbcp.values()) {
             float expected = b + 0.001f * sbcp.ordinal();
             float actual = config.get(sbcp);

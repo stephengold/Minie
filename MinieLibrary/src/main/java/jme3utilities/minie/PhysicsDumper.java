@@ -39,6 +39,7 @@ import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
+import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import java.io.PrintStream;
@@ -297,7 +298,7 @@ public class PhysicsDumper extends Dumper {
         /*
          * 2nd & 3rd lines have the Config.
          */
-        PhysicsSoftBody.Config config = body.getSoftConfig();
+        SoftBodyConfig config = body.getSoftConfig();
         desc = describer.describe1(config);
         stream.printf("%n%s %s", indent, desc);
         desc = describer.describe2(config);
