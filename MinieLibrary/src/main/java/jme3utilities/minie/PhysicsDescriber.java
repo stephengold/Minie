@@ -587,11 +587,8 @@ public class PhysicsDescriber extends Describer {
      * @return a bracketed description (not null, not empty)
      */
     private String describeHalfExtents(Vector3f he) {
-        String xText = MyString.describe(he.x);
-        String yText = MyString.describe(he.y);
-        String zText = MyString.describe(he.z);
-        String result
-                = String.format("[hx=%s,hy=%s,hz=%s]", xText, yText, zText);
+        String desc = MyVector3f.describe(he);
+        String result = String.format(" he[%s]", desc);
 
         return result;
     }

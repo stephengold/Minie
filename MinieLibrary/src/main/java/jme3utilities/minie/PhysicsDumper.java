@@ -731,14 +731,12 @@ public class PhysicsDumper extends Dumper {
         int nodeIndex = softBody.anchorNodeIndex(anchorIndex);
         Vector3f pivotLocal = softBody.anchorPivot(anchorIndex, null);
         long rigidId = softBody.anchorRigidId(anchorIndex);
+        stream.printf("%n%s  [%d] node%d/rigid#%x piv[%s]", indent, anchorIndex,
+                nodeIndex, rigidId, MyVector3f.describe(pivotLocal));
+
+        boolean collideFlag = softBody.isCollisionAllowed(rigidId);
         float influence = softBody.anchorInfluence(anchorIndex);
-        boolean collisionBetweenLinkedBodies
-                = softBody.isCollisionAllowed(rigidId);
-        stream.printf("%n%s  [%d] node%d<->prb#%x piv[%s]",
-                indent, anchorIndex, nodeIndex, rigidId,
-                MyVector3f.describe(pivotLocal));
-        stream.printf(" %scollide influence=%s",
-                collisionBetweenLinkedBodies ? "" : "NO",
+        stream.printf(" %scollide infl=%s", collideFlag ? "" : "NO",
                 MyString.describe(influence));
     }
 
