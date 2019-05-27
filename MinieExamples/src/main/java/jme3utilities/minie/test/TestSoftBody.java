@@ -50,13 +50,12 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -179,6 +178,7 @@ public class TestSoftBody
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bind("test poleAndFlag", KeyInput.KEY_F3);
         dim.bind("test squishyBall", KeyInput.KEY_F1);
         dim.bind("test tablecloth", KeyInput.KEY_F2);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
@@ -201,6 +201,11 @@ public class TestSoftBody
 
                 case "dump scenes":
                     dumpScenes();
+                    return;
+
+                case "test poleAndFlag":
+                    cleanupAfterTest();
+                    addPoleAndFlag();
                     return;
 
                 case "test squishyBall":
@@ -246,7 +251,7 @@ public class TestSoftBody
      */
     @Override
     public void bulletDebugInit(Node physicsDebugRootNode) {
-        ColorRGBA ambientColor = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);
+        ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         physicsDebugRootNode.addLight(ambient);
 
@@ -262,36 +267,88 @@ public class TestSoftBody
      * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox() {
-        float halfExtent = 50f; // mesh units
-        Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
-        Geometry boxGeometry = new Geometry("box", mesh);
-        rootNode.attachChild(boxGeometry);
-
-        boxGeometry.move(0f, -halfExtent, 0f);
-        Material material = MyAsset.createDebugMaterial(assetManager);
-        boxGeometry.setMaterial(material);
-
+        float halfExtent = 50f;
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
         float boxMass = PhysicsRigidBody.massForStatic;
-        RigidBodyControl boxBody = new RigidBodyControl(shape, boxMass);
-        boxGeometry.addControl(boxBody);
-        boxBody.setApplyScale(true);
-        boxBody.setPhysicsSpace(physicsSpace);
+        PhysicsRigidBody boxBody = new RigidBodyControl(shape, boxMass);
+
+        Material material = MyAsset.createDebugMaterial(assetManager);
+        boxBody.setDebugMaterial(material);
+        boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
+        boxBody.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
+        physicsSpace.add(boxBody);
     }
 
     /**
      * Add a static cylinder to the scene, to serve as an obstacle.
      */
     private void addCylinder() {
+        float halfHeight = 0.2f;
         float radius = 1f;
-        Vector3f halfExtents = new Vector3f(radius, 0.2f, radius);
+        Vector3f halfExtents = new Vector3f(radius, halfHeight, radius);
         CollisionShape shape
                 = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
         float cylMass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody cylinderBody = new PhysicsRigidBody(shape, cylMass);
+
         cylinderBody.setPhysicsLocation(new Vector3f(0f, 0.7f, 0f));
         physicsSpace.add(cylinderBody);
         hiddenObjects.add(cylinderBody);
+    }
+
+    /**
+     * Add a static pole with a rectangular flag.
+     */
+    private void addPoleAndFlag() {
+        float halfHeight = 2f;
+        float radius = 0.06f;
+        Vector3f halfExtents = new Vector3f(radius, halfHeight, radius);
+        CollisionShape shape
+                = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
+        float poleMass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody poleBody = new PhysicsRigidBody(shape, poleMass);
+
+        ColorRGBA color = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
+        Material material = MyAsset.createShadedMaterial(assetManager, color);
+        poleBody.setDebugMaterial(material);
+        poleBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        physicsSpace.add(poleBody);
+
+        int xLines = 25;
+        int zLines = 40;
+        float separation = 0.05f;
+        Mesh mesh = new ClothGrid(xLines, zLines, separation);
+        PhysicsSoftBody flagBody = new PhysicsSoftBody();
+
+        NativeSoftBodyUtil.appendFromTriMesh(mesh, flagBody);
+        flagBody.setMass(mass);
+        SoftBodyConfig config = flagBody.getSoftConfig();
+        config.set(Sbcp.Damping, 0.02f);
+        config.setPositionIterations(3);
+        PhysicsSoftBody.Material softMaterial = flagBody.getSoftMaterial();
+        softMaterial.setAngularStiffness(0f);
+
+        flagBody.setDebugMaterial(debugMaterial);
+        flagBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
+
+        Quaternion rotation = new Quaternion();
+        rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
+        flagBody.applyRotation(rotation);
+        flagBody.setPhysicsLocation(new Vector3f(1.1f, 1.4f, 0f));
+        physicsSpace.add(flagBody);
+        /*
+         * Add 2 anchors between the flag and the pole.
+         */
+        boolean collideFlag = true;
+        float influence = 1f; // TODO set to 4 causes ACCESS_VIOLATION?
+        int nodeIndex = 0; // upper left corner of flag
+        Vector3f localPivot = flagBody.nodeLocation(nodeIndex, null);
+        flagBody.appendAnchor(nodeIndex, poleBody, localPivot, collideFlag,
+                influence);
+        nodeIndex = xLines - 1; // lower left corner of flag
+        flagBody.nodeLocation(nodeIndex, localPivot);
+        flagBody.appendAnchor(nodeIndex, poleBody, localPivot, collideFlag,
+                influence);
     }
 
     /**
