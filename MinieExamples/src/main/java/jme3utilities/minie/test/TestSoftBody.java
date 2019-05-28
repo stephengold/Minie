@@ -40,6 +40,7 @@ import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
@@ -308,23 +309,28 @@ public class TestSoftBody
         float poleMass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody poleBody = new PhysicsRigidBody(shape, poleMass);
 
-        ColorRGBA color = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
+        ColorRGBA color = new ColorRGBA(0.7f, 0.7f, 1f, 1f);
         Material material = MyAsset.createShadedMaterial(assetManager, color);
         poleBody.setDebugMaterial(material);
         poleBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
         physicsSpace.add(poleBody);
 
-        int xLines = 25;
-        int zLines = 40;
-        float separation = 0.05f;
+        int xLines = 12;
+        int zLines = 24;
+        float separation = 0.08f;
         Mesh mesh = new ClothGrid(xLines, zLines, separation);
         PhysicsSoftBody flagBody = new PhysicsSoftBody();
 
         NativeSoftBodyUtil.appendFromTriMesh(mesh, flagBody);
         flagBody.setMass(mass);
+        Vector3f wind = new Vector3f(3f, 0f, -0.5f);
+        flagBody.setWindVelocity(wind);
         SoftBodyConfig config = flagBody.getSoftConfig();
-        config.set(Sbcp.Damping, 0.02f);
-        config.setPositionIterations(3);
+        config.set(Sbcp.Damping, 0.05f);
+        config.set(Sbcp.Drag, 0.5f);
+        config.set(Sbcp.Lift, 0.5f);
+        config.setAerodynamics(Aero.F_TwoSidedLiftDrag);
+        config.setPositionIterations(6);
         PhysicsSoftBody.Material softMaterial = flagBody.getSoftMaterial();
         softMaterial.setAngularStiffness(0f);
 
@@ -334,13 +340,13 @@ public class TestSoftBody
         Quaternion rotation = new Quaternion();
         rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
         flagBody.applyRotation(rotation);
-        flagBody.setPhysicsLocation(new Vector3f(1.1f, 1.4f, 0f));
+        flagBody.setPhysicsLocation(new Vector3f(1f, 1.5f, 0f));
         physicsSpace.add(flagBody);
         /*
-         * Add 2 anchors between the flag and the pole.
+         * Add 2 anchors connecting the flag to the pole.
          */
         boolean collideFlag = true;
-        float influence = 1f; // TODO set to 4 causes ACCESS_VIOLATION?
+        float influence = 1f; // Bullet issue #2269 when set to 4
         int nodeIndex = 0; // upper left corner of flag
         Vector3f localPivot = flagBody.nodeLocation(nodeIndex, null);
         flagBody.appendAnchor(nodeIndex, poleBody, localPivot, collideFlag,
