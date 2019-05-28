@@ -55,10 +55,11 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
 import com.jme3.util.BufferUtils;
@@ -296,6 +297,15 @@ public class TestSoftBody
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         physicsDebugRootNode.addLight(sun);
+
+        physicsDebugRootNode
+                .setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+
+        DirectionalLightShadowRenderer dlsr
+                = new DirectionalLightShadowRenderer(assetManager, 8_192, 3);
+        dlsr.setLight(sun);
+        dlsr.setShadowIntensity(0.6f);
+        viewPort.addProcessor(dlsr);
     }
     // *************************************************************************
     // private methods
@@ -449,12 +459,6 @@ public class TestSoftBody
         Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
         for (PhysicsCollisionObject pco : pcos) {
             physicsSpace.remove(pco);
-        }
-
-        Collection<Spatial> spatials = rootNode.getChildren(); // alias
-        Collection<Spatial> copyList = new ArrayList<>(spatials);
-        for (Spatial spatial : copyList) {
-            spatial.removeFromParent();
         }
 
         hiddenObjects.clear();
