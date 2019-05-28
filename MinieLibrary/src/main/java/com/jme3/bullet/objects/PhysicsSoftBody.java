@@ -1096,6 +1096,17 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Alter the wind velocity.
+     *
+     * @param velocity the desired velocity vector (in physics-space
+     * coordinates, not null, unaffected)
+     */
+    public void setWindVelocity(Vector3f velocity) {
+        Validate.finite(velocity, "velocity");
+        setWindVelocity(objectId, velocity);
+    }
+
+    /**
      * Alter the world info of this body. Automatically invoked when this body
      * is added to a SoftPhysicsSpace.
      *
@@ -1113,6 +1124,19 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     public float volume() {
         return getVolume(objectId);
+    }
+
+    /**
+     * Copy the wind velocity.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a velocity vector (in physics-space coordinates, either
+     * storeResult or a new vector)
+     */
+    public Vector3f windVelocity(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        getWindVelocity(objectId, result);
+        return result;
     }
     // *************************************************************************
     // new protected methods
@@ -1642,6 +1666,8 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private float getVolume(long bodyId);
 
+    native private void getWindVelocity(long bodyId, Vector3f storeVector);
+
     native private void initDefault(long bodyId);
 
     native private boolean isCollisionAllowed(long softBodyId, long pcoId);
@@ -1688,11 +1714,13 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private void setVelocities(long bodyId, FloatBuffer velocityBuffer);
 
-    native private void setVelocity(long bodyId, Vector3f vector);
+    native private void setVelocity(long bodyId, Vector3f velocityVector);
 
     native private void setVolumeDensity(long bodyId, float density);
 
     native private void setVolumeMass(long bodyId, float mass);
+
+    native private void setWindVelocity(long bodyId, Vector3f velocityVector);
 
     /**
      * Provide access to 3 fields of the native btSoftBody::Material struct.
