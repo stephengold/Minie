@@ -246,6 +246,9 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     // private methods
 
     /**
+     * NOTE: When a soft body is added, its world info gets set to that of the
+     * space.
+     *
      * @param softBody the body to add (not null, not already in the space)
      */
     private void addSoftBody(PhysicsSoftBody softBody) {
@@ -265,9 +268,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         logger2.log(Level.FINE, "Adding soft body {0} to physics space.",
                 Long.toHexString(softBodyId));
 
-        // Avoid setting the SoftBodyWorldInfo in the SoftBody constructor.
         softBody.setWorldInfo(getWorldInfo());
-
         addSoftBody(spaceId, softBodyId);
     }
 

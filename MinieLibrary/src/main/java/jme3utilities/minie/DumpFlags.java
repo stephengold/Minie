@@ -27,7 +27,7 @@
 package jme3utilities.minie;
 
 /**
- * Enumerate the flags supported by PhysicsDumper.
+ * Enumerate the flags used to configure a PhysicsDumper.
  *
  * @author Stephen Gold sgold@sonic.net
  */
