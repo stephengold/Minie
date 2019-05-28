@@ -44,6 +44,7 @@ import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
@@ -283,9 +284,14 @@ public class PhysicsDescriber extends Describer {
     public String describe1(SoftBodyConfig config) {
         StringBuilder result = new StringBuilder(120);
 
-        result.append("Config flags=");
+        result.append("Config aero=");
+        Aero aeroModel = config.aerodynamics();
+        String description = aeroModel.toString();
+        result.append(description);
+
+        result.append(" flags=");
         int collisionFlags = config.collisionFlags();
-        String description = ConfigFlag.describe(collisionFlags);
+        description = ConfigFlag.describe(collisionFlags);
         result.append(description);
 
         description = String.format(" maxVolRatio=%s timeScale=%s velCorr=%s",
