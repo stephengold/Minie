@@ -26,31 +26,27 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.audio.openal.ALAudioRenderer;
+import com.jme3.app.Application;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
-import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
-import com.jme3.export.Savable;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +55,7 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -66,8 +63,8 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Demonstrate MultiSphere collision shapes.
-* <p>
+ * Test/demonstrate MultiSphere collision shapes.
+ * <p>
  * As seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=OS2zjB01c6E
  *
@@ -75,7 +72,7 @@ import jme3utilities.ui.Signals;
  */
 public class MultiSphereDemo
         extends ActionApplication
-        implements BulletDebugAppState.DebugAppStateFilter, DebugInitListener {
+        implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
 
@@ -97,20 +94,25 @@ public class MultiSphereDemo
     // fields
 
     /**
-     * AppState to manage the PhysicsSpace
-     */
-    final private BulletAppState bulletAppState = new BulletAppState();
-    /**
      * enhanced pseudo-random generator
      */
     final private Generator random = new Generator();
+    /**
+     * how many gems have been added
+     */
     private int numGems = 0;
+    /**
+     * materials to visualize gems
+     */
     final private Material gemMaterials[] = new Material[4];
+    /**
+     * dump debugging information to the console
+     */
+    final private PhysicsDumper dumper = new PhysicsDumper();
     /**
      * space for physics simulation
      */
     private PhysicsSpace physicsSpace;
-    private RigidBodyControl boxBody;
     // *************************************************************************
     // new methods exposed
 
@@ -124,17 +126,16 @@ public class MultiSphereDemo
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
-        MultiSphereDemo application = new MultiSphereDemo();
+        Application application = new MultiSphereDemo();
         /*
          * Customize the window's title bar.
          */
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
-        settings.setGammaCorrection(false);
+        settings.setGammaCorrection(false); // TODO
+        settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
 
@@ -149,24 +150,13 @@ public class MultiSphereDemo
     @Override
     public void actionInitializeApplication() {
         configureCamera();
+        configureDumper();
+        configureMaterials();
         configurePhysics();
         viewPort.setBackgroundColor(ColorRGBA.Gray);
-        addLighting(rootNode);
-
-        ColorRGBA gemColors[] = new ColorRGBA[gemMaterials.length];
-        gemColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
-        gemColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
-        gemColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire
-        gemColors[3] = new ColorRGBA(0.2f, 0.1f, 0f, 1f); // topaz
-
-        for (int i = 0; i < gemMaterials.length; ++i) {
-            ColorRGBA color = gemColors[i];
-            gemMaterials[i]
-                    = MyAsset.createShinyMaterial(assetManager, color);
-            gemMaterials[i].setFloat("Shininess", 15f);
-        }
 
         addBox();
+        addAGem();
     }
 
     /**
@@ -197,11 +187,11 @@ public class MultiSphereDemo
         if (ongoing) {
             switch (actionString) {
                 case "dump physicsSpace":
-                    dumpPhysicsSpace();
+                    dumper.dump(physicsSpace);
                     return;
 
                 case "dump scenes":
-                    dumpScenes();
+                    dumper.dump(renderManager);
                     return;
 
                 case "toggle pause":
@@ -227,20 +217,6 @@ public class MultiSphereDemo
         }
     }
     // *************************************************************************
-    // DebugAppStateFilter methods
-
-    /**
-     * Test whether the specified physics object should be displayed in the
-     * debug scene.
-     *
-     * @param object the joint or collision object to test (unaffected)
-     * @return return true if the object should be displayed, false if not
-     */
-    @Override
-    public boolean displayObject(Savable object) {
-        return object != boxBody;
-    }
-    // *************************************************************************
     // DebugInitListener methods
 
     /**
@@ -261,7 +237,7 @@ public class MultiSphereDemo
      */
     private void addAGem() {
         if (numGems >= maxNumGems) {
-            return;
+            return; // too many gems
         }
 
         int numSpheres = 1 + random.nextInt(4);
@@ -307,27 +283,20 @@ public class MultiSphereDemo
      * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox() {
-        float halfExtent = 50f; // mesh units
-        Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
-        Geometry geometry = new Geometry("box", mesh);
-        rootNode.attachChild(geometry);
-
-        geometry.move(0f, -halfExtent, 0f);
-        ColorRGBA color = new ColorRGBA(0.1f, 0.3f, 0.1f, 1f);
-        Material material = MyAsset.createShadedMaterial(assetManager, color);
-        geometry.setMaterial(material);
-        geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
-
+        float halfExtent = 4f;
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsRigidBody.massForStatic;
-        boxBody = new RigidBodyControl(shape, mass);
-        geometry.addControl(boxBody);
-        boxBody.setApplyScale(true);
-        boxBody.setPhysicsSpace(physicsSpace);
+        float boxMass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody boxBody = new PhysicsRigidBody(shape, boxMass);
+
+        Material material = MyAsset.createDebugMaterial(assetManager);
+        boxBody.setDebugMaterial(material);
+        boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
+        boxBody.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
+        physicsSpace.add(boxBody);
     }
 
     /**
-     * Add lighting to the specified scene.
+     * Add lighting and shadows to the specified scene.
      */
     private void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
@@ -337,6 +306,14 @@ public class MultiSphereDemo
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootSpatial.addLight(sun);
+
+        rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+
+        DirectionalLightShadowRenderer dlsr
+                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
+        dlsr.setLight(sun);
+        dlsr.setShadowIntensity(0.6f);
+        viewPort.addProcessor(dlsr);
     }
 
     /**
@@ -345,8 +322,8 @@ public class MultiSphereDemo
     private void configureCamera() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(4f);
-
-        cam.setLocation(new Vector3f(0f, 1.2f, 5f));
+        cam.setLocation(new Vector3f(0f, 2.3f, 5f));
+        cam.setRotation(new Quaternion(0f, 0.98525f, -0.172f, 0f));
 
         CameraOrbitAppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
@@ -354,46 +331,48 @@ public class MultiSphereDemo
     }
 
     /**
+     * Configure the PhysicsDumper during startup.
+     */
+    private void configureDumper() {
+        dumper.setEnabled(DumpFlags.MatParams, true);
+        dumper.setEnabled(DumpFlags.ShadowModes, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
+     * Configure materials during startup.
+     */
+    private void configureMaterials() {
+        ColorRGBA gemColors[] = new ColorRGBA[gemMaterials.length];
+        gemColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
+        gemColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
+        gemColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire
+        gemColors[3] = new ColorRGBA(0.2f, 0.1f, 0f, 1f); // topaz
+
+        for (int i = 0; i < gemMaterials.length; ++i) {
+            ColorRGBA color = gemColors[i];
+            gemMaterials[i]
+                    = MyAsset.createShinyMaterial(assetManager, color);
+            gemMaterials[i].setFloat("Shininess", 15f);
+        }
+    }
+
+    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
+
+        BulletAppState bulletAppState = new BulletAppState();
+        bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
 
-        bulletAppState.setDebugEnabled(true);
-        bulletAppState.setDebugFilter(this);
-        bulletAppState.setDebugInitListener(this);
-
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(1f / 60); // 16.67-msec timestep
-        physicsSpace.setSolverNumIterations(30);
     }
 
     /**
-     * Process a "dump physicsSpace" action.
-     */
-    private void dumpPhysicsSpace() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.dump(physicsSpace);
-    }
-
-    /**
-     * Process a "dump scenes" action.
-     */
-    private void dumpScenes() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        //dumper.setDumpBucket(true);
-        //dumper.setDumpCull(true);
-        //dumper.setDumpMatParam(true);
-        //dumper.setDumpOverride(true);
-        //dumper.setDumpShadow(true);
-        dumper.setDumpTransform(true);
-        //dumper.setDumpUser(true);
-        dumper.dump(renderManager);
-    }
-
-    /**
-     * Toggle the animation and physics simulation: paused/running.
+     * Toggle the physics simulation: paused/running.
      */
     private void togglePause() {
         float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
