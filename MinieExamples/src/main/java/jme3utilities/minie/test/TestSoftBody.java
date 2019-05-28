@@ -185,7 +185,8 @@ public class TestSoftBody
     public void actionInitializeApplication() {
         configureCamera();
         configurePhysics();
-        viewPort.setBackgroundColor(ColorRGBA.Gray);
+        ColorRGBA gray = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        viewPort.setBackgroundColor(gray);
 
         Texture texture = MyAsset.loadTexture(assetManager,
                 "Interface/Logo/Monkey.png", true);
@@ -201,7 +202,7 @@ public class TestSoftBody
         renderState = pinkMaterial.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
-        addBox();
+        addBox(0f);
         addSquishyBall();
     }
 
@@ -243,17 +244,19 @@ public class TestSoftBody
 
                 case "test poleAndFlag":
                     cleanupAfterTest();
+                    addBox(-2f);
                     addPoleAndFlag();
                     return;
 
                 case "test squishyBall":
                     cleanupAfterTest();
-                    addBox();
+                    addBox(0f);
                     addSquishyBall();
                     return;
 
                 case "test tablecloth":
                     cleanupAfterTest();
+                    addBox(-2f);
                     addCylinder();
                     addTablecloth();
                     return;
@@ -313,7 +316,7 @@ public class TestSoftBody
     /**
      * Add a large static box to the scene, to serve as a platform.
      */
-    private void addBox() {
+    private void addBox(float topY) {
         float halfExtent = 50f;
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
         float boxMass = PhysicsRigidBody.massForStatic;
@@ -322,7 +325,7 @@ public class TestSoftBody
         Material material = MyAsset.createDebugMaterial(assetManager);
         boxBody.setDebugMaterial(material);
         boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
-        boxBody.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
+        boxBody.setPhysicsLocation(new Vector3f(0f, topY - halfExtent, 0f));
         physicsSpace.add(boxBody);
     }
 
@@ -408,9 +411,9 @@ public class TestSoftBody
      * Add a squishy ball to the scene.
      */
     private void addSquishyBall() {
-        int numSteps = 3;
+        int numRefinementIterations = 3;
         float radius = 0.5f;
-        Mesh mesh = new Icosphere(numSteps, radius);
+        Mesh mesh = new Icosphere(numRefinementIterations, radius);
         PhysicsSoftBody softBody = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
         softBody.setMass(mass);
