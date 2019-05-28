@@ -35,7 +35,6 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.debug.DebugMeshInitListener;
@@ -58,6 +57,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
@@ -80,7 +80,7 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Test soft-body physics.
+ * Test/demonstrate soft-body physics.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -111,11 +111,7 @@ public class TestSoftBody
         }
     };
     /**
-     * magnitude of the gravitational acceleration (&ge;0)
-     */
-    final private static float gravity = 1f;
-    /**
-     * mass of the soft body (&gt;0)
+     * mass of each soft body (&gt;0)
      */
     final private static float mass = 1f;
     /**
@@ -143,6 +139,10 @@ public class TestSoftBody
      * logo material to visualize flags
      */
     private Material logoMaterial;
+    /**
+     * dump debugging information to the console
+     */
+    final private PhysicsDumper dumper = new PhysicsDumper();
     /**
      * space for physics simulation
      */
@@ -184,23 +184,11 @@ public class TestSoftBody
     @Override
     public void actionInitializeApplication() {
         configureCamera();
+        configureDumper();
+        configureMaterials();
         configurePhysics();
-        ColorRGBA gray = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        ColorRGBA gray = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
         viewPort.setBackgroundColor(gray);
-
-        Texture texture = MyAsset.loadTexture(assetManager,
-                "Interface/Logo/Monkey.png", true);
-        logoMaterial = MyAsset.createShadedMaterial(assetManager, texture);
-        logoMaterial.setName("logo");
-        RenderState renderState = logoMaterial.getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
-
-        ColorRGBA pink = new ColorRGBA(1.2f, 0.2f, 0.1f, 1f);
-        pinkMaterial = MyAsset.createShinyMaterial(assetManager, pink);
-        pinkMaterial.setFloat("Shininess", 4f);
-        pinkMaterial.setName("pink");
-        renderState = pinkMaterial.getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         addBox(0f);
         addSquishyBall();
@@ -235,11 +223,11 @@ public class TestSoftBody
         if (ongoing) {
             switch (actionString) {
                 case "dump physicsSpace":
-                    dumpPhysicsSpace();
+                    dumper.dump(physicsSpace);
                     return;
 
                 case "dump scenes":
-                    dumpScenes();
+                    dumper.dump(renderManager);
                     return;
 
                 case "test poleAndFlag":
@@ -272,7 +260,8 @@ public class TestSoftBody
     // BulletDebugAppState.DebugAppStateFilter methods
 
     /**
-     * Test whether the specified physics object should be displayed.
+     * Test whether the specified physics object should be displayed in the
+     * debug scene.
      *
      * @param physicsObject the joint or collision object to test (unaffected)
      * @return return true if the object should be displayed, false if not
@@ -292,23 +281,7 @@ public class TestSoftBody
      */
     @Override
     public void bulletDebugInit(Node physicsDebugRootNode) {
-        ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
-        AmbientLight ambient = new AmbientLight(ambientColor);
-        physicsDebugRootNode.addLight(ambient);
-
-        ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
-        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
-        DirectionalLight sun = new DirectionalLight(direction, directColor);
-        physicsDebugRootNode.addLight(sun);
-
-        physicsDebugRootNode
-                .setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-
-        DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 8_192, 3);
-        dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.6f);
-        viewPort.addProcessor(dlsr);
+        addLighting(physicsDebugRootNode);
     }
     // *************************************************************************
     // private methods
@@ -317,10 +290,10 @@ public class TestSoftBody
      * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox(float topY) {
-        float halfExtent = 50f;
+        float halfExtent = 4f;
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
         float boxMass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody boxBody = new RigidBodyControl(shape, boxMass);
+        PhysicsRigidBody boxBody = new PhysicsRigidBody(shape, boxMass);
 
         Material material = MyAsset.createDebugMaterial(assetManager);
         boxBody.setDebugMaterial(material);
@@ -344,6 +317,28 @@ public class TestSoftBody
         cylinderBody.setPhysicsLocation(new Vector3f(0f, 0.7f, 0f));
         physicsSpace.add(cylinderBody);
         hiddenObjects.add(cylinderBody);
+    }
+
+    /**
+     * Add lighting and shadows to the specified scene.
+     */
+    private void addLighting(Spatial rootSpatial) {
+        ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
+        AmbientLight ambient = new AmbientLight(ambientColor);
+        rootSpatial.addLight(ambient);
+
+        ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
+        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
+        DirectionalLight sun = new DirectionalLight(direction, directColor);
+        rootSpatial.addLight(sun);
+
+        rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+
+        DirectionalLightShadowRenderer dlsr
+                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
+        dlsr.setLight(sun);
+        dlsr.setShadowIntensity(0.6f);
+        viewPort.addProcessor(dlsr);
     }
 
     /**
@@ -482,6 +477,34 @@ public class TestSoftBody
     }
 
     /**
+     * Configure the PhysicsDumper during startup.
+     */
+    private void configureDumper() {
+        dumper.setEnabled(DumpFlags.MatParams, true);
+        dumper.setEnabled(DumpFlags.ShadowModes, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
+     * Configure materials during startup.
+     */
+    private void configureMaterials() {
+        Texture texture = MyAsset.loadTexture(assetManager,
+                "Interface/Logo/Monkey.png", true);
+        logoMaterial = MyAsset.createShadedMaterial(assetManager, texture);
+        logoMaterial.setName("logo");
+        RenderState renderState = logoMaterial.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
+        ColorRGBA pink = new ColorRGBA(1.2f, 0.2f, 0.1f, 1f);
+        pinkMaterial = MyAsset.createShinyMaterial(assetManager, pink);
+        pinkMaterial.setFloat("Shininess", 4f);
+        pinkMaterial.setName("pink");
+        renderState = pinkMaterial.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+    }
+
+    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
@@ -492,30 +515,7 @@ public class TestSoftBody
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
-        physicsSpace.setGravity(new Vector3f(0f, -gravity, 0f));
-    }
-
-    /**
-     * Process a "dump physicsSpace" action.
-     */
-    private void dumpPhysicsSpace() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        //dumper.setEnabled(DumpFlags.ClustersInSofts, true);
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        //dumper.setEnabled(DumpFlags.NodesInClusters, true);
-        //dumper.setEnabled(DumpFlags.NodesInSofts, true);
-        dumper.dump(physicsSpace);
-    }
-
-    /**
-     * Process a "dump scenes" action.
-     */
-    private void dumpScenes() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.Transforms, true);
-        dumper.setEnabled(DumpFlags.MatParams, true);
-        dumper.dump(renderManager);
+        physicsSpace.setGravity(new Vector3f(0f, -1f, 0f));
     }
 
     /**
