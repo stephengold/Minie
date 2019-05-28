@@ -218,8 +218,8 @@ public class PhysicsSoftBody extends PhysicsBody {
      * coordinates (not null, unaffected)
      * @param collisionBetweenLinkedBodies true&rarr;allow collisions between
      * this body and the rigid body, false&rarr;don't allow such collisions
-     * @param influence how much influence the anchor has on this body
-     * (0&rarr;no influence, 1&rarr;strong influence).
+     * @param influence how much influence the anchor has on this body (&ge;0,
+     * &le;1, 0&rarr;no influence, 1&rarr;strong influence)
      */
     public void appendAnchor(int nodeIndex, PhysicsRigidBody rigidBody,
             Vector3f localPivot, boolean collisionBetweenLinkedBodies,
@@ -227,6 +227,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         int numNodes = countNodes();
         Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
         Validate.finite(localPivot, "local pivot");
+        Validate.fraction(influence, "influence");
 
         long rigidBodyId = rigidBody.getObjectId();
         appendAnchor(objectId, nodeIndex, rigidBodyId, localPivot,
