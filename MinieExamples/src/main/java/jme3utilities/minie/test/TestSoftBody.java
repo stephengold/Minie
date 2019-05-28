@@ -38,6 +38,7 @@ import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
+import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Aero;
@@ -57,7 +58,11 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.VertexBuffer;
 import com.jme3.system.AppSettings;
+import com.jme3.texture.Texture;
+import com.jme3.util.BufferUtils;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -85,13 +90,33 @@ public class TestSoftBody
     // constants and loggers
 
     /**
+     * add UVs to the debug mesh of a flag
+     */
+    final private static DebugMeshInitListener flagDmiListener
+            = new DebugMeshInitListener() {
+        @Override
+        public void debugMeshInit(Mesh debugMesh) {
+            VertexBuffer pos = debugMesh.getBuffer(VertexBuffer.Type.Position);
+            int numVertices = pos.getNumElements();
+            FloatBuffer positions = (FloatBuffer) pos.getDataReadOnly();
+            FloatBuffer uvs = BufferUtils.createFloatBuffer(2 * numVertices);
+            debugMesh.setBuffer(VertexBuffer.Type.TexCoord, 2, uvs);
+            for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
+                float x = positions.get(3 * vertexI);
+                float y = positions.get(3 * vertexI + 1);
+                uvs.put(x - 0.5f).put(2f - y);
+            }
+            uvs.flip();
+        }
+    };
+    /**
      * magnitude of the gravitational acceleration (&ge;0)
      */
-    final private float gravity = 1f;
+    final private static float gravity = 1f;
     /**
      * mass of the soft body (&gt;0)
      */
-    final private float mass = 1f;
+    final private static float mass = 1f;
     /**
      * message logger for this class
      */
@@ -110,9 +135,13 @@ public class TestSoftBody
      */
     final private List<Savable> hiddenObjects = new ArrayList<>(9);
     /**
-     * material to visualize soft bodies
+     * pink material to visualize soft bodies
      */
-    private Material debugMaterial;
+    private Material pinkMaterial;
+    /**
+     * logo material to visualize flags
+     */
+    private Material logoMaterial;
     /**
      * space for physics simulation
      */
@@ -157,11 +186,18 @@ public class TestSoftBody
         configurePhysics();
         viewPort.setBackgroundColor(ColorRGBA.Gray);
 
+        Texture texture = MyAsset.loadTexture(assetManager,
+                "Interface/Logo/Monkey.png", true);
+        logoMaterial = MyAsset.createShadedMaterial(assetManager, texture);
+        logoMaterial.setName("logo");
+        RenderState renderState = logoMaterial.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
         ColorRGBA pink = new ColorRGBA(1.2f, 0.2f, 0.1f, 1f);
-        debugMaterial = MyAsset.createShinyMaterial(assetManager, pink);
-        debugMaterial.setFloat("Shininess", 4f);
-        debugMaterial.setName("pink");
-        RenderState renderState = debugMaterial.getAdditionalRenderState();
+        pinkMaterial = MyAsset.createShinyMaterial(assetManager, pink);
+        pinkMaterial.setFloat("Shininess", 4f);
+        pinkMaterial.setName("pink");
+        renderState = pinkMaterial.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         addBox();
@@ -323,7 +359,7 @@ public class TestSoftBody
 
         NativeSoftBodyUtil.appendFromTriMesh(mesh, flagBody);
         flagBody.setMass(mass);
-        Vector3f wind = new Vector3f(3f, 0f, -0.5f);
+        Vector3f wind = new Vector3f(2.5f, 0f, -0.5f);
         flagBody.setWindVelocity(wind);
         SoftBodyConfig config = flagBody.getSoftConfig();
         config.set(Sbcp.Damping, 0.05f);
@@ -334,7 +370,8 @@ public class TestSoftBody
         PhysicsSoftBody.Material softMaterial = flagBody.getSoftMaterial();
         softMaterial.setAngularStiffness(0f);
 
-        flagBody.setDebugMaterial(debugMaterial);
+        flagBody.setDebugMaterial(logoMaterial);
+        flagBody.setDebugMeshInitListener(flagDmiListener);
         flagBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
 
         Quaternion rotation = new Quaternion();
@@ -375,7 +412,7 @@ public class TestSoftBody
         boolean setFramePose = true;
         softBody.setPose(setVolumePose, setFramePose);
 
-        softBody.setDebugMaterial(debugMaterial);
+        softBody.setDebugMaterial(pinkMaterial);
         softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
         softBody.setPhysicsLocation(new Vector3f(0f, 1.5f, 0f));
         physicsSpace.add(softBody);
@@ -399,7 +436,7 @@ public class TestSoftBody
         PhysicsSoftBody.Material material = softBody.getSoftMaterial();
         material.setAngularStiffness(0f);
 
-        softBody.setDebugMaterial(debugMaterial);
+        softBody.setDebugMaterial(pinkMaterial);
         softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
         softBody.setPhysicsLocation(new Vector3f(0f, 1.5f, 0f));
         physicsSpace.add(softBody);
