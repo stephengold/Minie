@@ -87,7 +87,20 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
         this.body = body;
     }
     // *********************************************************************
-    // new methods exposed TODO access aeromodel
+    // new methods exposed
+
+    /**
+     * Read the aerodynamics model.
+     *
+     * @return an enum value (not null)
+     */
+    public Aero aerodynamics() {
+        long bodyId = body.getObjectId();
+        int ordinal = getAeroModel(bodyId);
+        Aero result = Aero.values()[ordinal];
+
+        return result;
+    }
 
     /**
      * Read the number of cluster-solver iterations (native field: citerations).
@@ -305,6 +318,17 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     }
 
     /**
+     * Alter the aerodynamics model.
+     *
+     * @param model the desired aerodynamics model (not null)
+     */
+    public void setAerodynamics(Aero model) {
+        long bodyId = body.getObjectId();
+        int ordinal = model.ordinal();
+        setAeroModel(bodyId, ordinal);
+    }
+
+    /**
      * Alter the number of cluster-solver iterations (native field:
      * citerations).
      *
@@ -468,6 +492,8 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
 
     native private void copyValues(long destId, long sourceId);
 
+    native private int getAeroModel(long bodyId);
+
     native private float getAnchorsHardness(long bodyId);
 
     native private int getClusterIterations(long bodyId);
@@ -519,6 +545,8 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     native private float getVolumeConservationCoef(long bodyId);
 
     native private void setAnchorsHardness(long bodyId, float hardness);
+
+    native private void setAeroModel(long bodyId, int aeroModel);
 
     native private void setClusterIterations(long bodyId,
             int numIterations);
