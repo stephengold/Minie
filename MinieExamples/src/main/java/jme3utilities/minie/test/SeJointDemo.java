@@ -27,7 +27,6 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -74,7 +73,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Demonstrate single-ended joints.
+ * Test/demonstrate single-ended joints.
  * <p>
  * As seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=Mh9k5AfWzbg
@@ -139,6 +138,10 @@ public class SeJointDemo extends ActionApplication {
      */
     final private Node seedNode = new Node("seed node");
     /**
+     * dump debugging information to the console
+     */
+    final private PhysicsDumper dumper = new PhysicsDumper();
+    /**
      * space for physics simulation
      */
     private PhysicsSpace physicsSpace;
@@ -179,8 +182,6 @@ public class SeJointDemo extends ActionApplication {
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
         Application application = new SeJointDemo();
         /*
@@ -189,6 +190,7 @@ public class SeJointDemo extends ActionApplication {
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
+        settings.setGammaCorrection(false); // TODO
         settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
@@ -204,6 +206,7 @@ public class SeJointDemo extends ActionApplication {
     @Override
     public void actionInitializeApplication() {
         configureCamera();
+        configureDumper();
         configurePhysics();
         configureGroups();
         viewPort.setBackgroundColor(ColorRGBA.Gray);
@@ -252,11 +255,13 @@ public class SeJointDemo extends ActionApplication {
         if (ongoing) {
             switch (actionString) {
                 case "dump physicsSpace":
-                    dumpPhysicsSpace();
+                    dumper.dump(physicsSpace);
                     return;
+
                 case "dump scene":
-                    dumpScene();
+                    dumper.dump(rootNode);
                     return;
+
                 case "test 6dof":
                     cleanupAfterTest();
                     testName = "6dof";
@@ -281,9 +286,11 @@ public class SeJointDemo extends ActionApplication {
                     cleanupAfterTest();
                     testName = "slider";
                     return;
+
                 case "toggle pause":
                     togglePause();
                     return;
+
                 case "toggle view":
                     toggleMeshes();
                     togglePhysicsDebug();
@@ -296,7 +303,7 @@ public class SeJointDemo extends ActionApplication {
     /**
      * Callback invoked once per frame.
      *
-     * @param tpf time interval between frame (in seconds, &ge;0)
+     * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float tpf) {
@@ -336,7 +343,7 @@ public class SeJointDemo extends ActionApplication {
     }
 
     /**
-     * Add a dynamic seed to the scene.
+     * Add a dynamic rigid body to the scene.
      */
     private void addSeed() {
         int numSeeds = seedNode.getChildren().size();
@@ -506,7 +513,6 @@ public class SeJointDemo extends ActionApplication {
     private void configureCamera() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(4f);
-
         cam.setLocation(new Vector3f(2.65f, 2.42f, 9.37f));
         cam.setRotation(new Quaternion(0f, 0.9759f, -0.04f, -0.2136f));
 
@@ -516,8 +522,18 @@ public class SeJointDemo extends ActionApplication {
     }
 
     /**
+     * Configure the PhysicsDumper during startup.
+     */
+    private void configureDumper() {
+        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        dumper.setEnabled(DumpFlags.ShadowModes, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
      * Configure seed groups during startup. Seeds are divided into 4 groups,
-     * each with its own color and pivot location.
+     * each with its own material and pivot location.
      */
     private void configureGroups() {
         ColorRGBA seedColors[] = new ColorRGBA[maxGroups];
@@ -543,33 +559,13 @@ public class SeJointDemo extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.001f); // 1 mm
+        CollisionShape.setDefaultMargin(0.001f); // 1 mm margin
 
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setAccuracy(0.1f); // 100-msec timestep
-        physicsSpace.setSolverNumIterations(15);
-    }
-
-    /**
-     * Process a "dump physicsSpace" action.
-     */
-    private void dumpPhysicsSpace() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.dump(physicsSpace);
-    }
-
-    /**
-     * Process a "dump scene" action.
-     */
-    private void dumpScene() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.Transforms, true);
-        dumper.dump(rootNode);
     }
 
     /**
