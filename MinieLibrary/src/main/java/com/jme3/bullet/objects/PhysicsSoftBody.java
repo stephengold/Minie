@@ -121,21 +121,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     // new methods exposed
 
     /**
-     * Add an aerodynamic force to the indexed node of this body.
-     *
-     * @param windVelocity the wind velocity from which to calculate the force
-     * (in physics-space coordinates, not null, unaffected)
-     * @param nodeIndex which node to add it to (&ge;0, &lt;numNodes)
-     */
-    public void addAeroForceToNode(Vector3f windVelocity, int nodeIndex) {
-        Validate.finite(windVelocity, "wind velocity");
-        int numNodes = countNodes();
-        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
-
-        addAeroForceToNode(objectId, windVelocity, nodeIndex);
-    }
-
-    /**
      * Add velocity to this entire body.
      *
      * @param velocity the velocity to add (in physics-space coordinates, not
