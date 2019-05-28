@@ -34,6 +34,7 @@ package com.jme3.bullet.collision;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
+import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -146,6 +147,10 @@ abstract public class PhysicsCollisionObject
      */
     protected CollisionShape collisionShape;
     /**
+     * listener for new debug meshes, or null for none
+     */
+    private DebugMeshInitListener debugMeshInitListener = null;
+    /**
      * which normals to include in new debug meshes (default=None)
      */
     private DebugMeshNormals debugMeshNormals = DebugMeshNormals.None;
@@ -222,6 +227,15 @@ abstract public class PhysicsCollisionObject
         collisionShape.boundingBox(translation, rotation, result);
 
         return result;
+    }
+
+    /**
+     * Access the listener for new debug meshes.
+     *
+     * @return the pre-existing instance, or null if none
+     */
+    public DebugMeshInitListener debugMeshInitListener() {
+        return debugMeshInitListener;
     }
 
     /**
@@ -676,6 +690,15 @@ abstract public class PhysicsCollisionObject
      */
     public void setDebugMaterial(Material material) {
         debugMaterial = material;
+    }
+
+    /**
+     * Alter the listener for new debug meshes.
+     *
+     * @param listener the desired listener, or null for none
+     */
+    public void setDebugMeshInitListener(DebugMeshInitListener listener) {
+        debugMeshInitListener = listener;
     }
 
     /**

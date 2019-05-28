@@ -36,6 +36,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
+import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -126,6 +127,7 @@ public class DebugShapeFactory {
         Validate.nonNull(pco, "collision object");
 
         CollisionShape collisionShape = pco.getCollisionShape();
+        DebugMeshInitListener listener = pco.debugMeshInitListener();
         DebugMeshNormals normals = pco.debugMeshNormals();
         int resolution = pco.debugMeshResolution();
 
@@ -139,8 +141,8 @@ public class DebugShapeFactory {
             ChildCollisionShape[] children = parent.listChildren();
             for (ChildCollisionShape child : children) {
                 CollisionShape simpleShape = child.getShape();
-                Geometry geometry
-                        = createGeometry(simpleShape, normals, resolution);
+                Geometry geometry = createGeometry(simpleShape, listener,
+                        normals, resolution);
 
                 // apply translation
                 Vector3f translation = child.getLocation(null);
@@ -155,7 +157,8 @@ public class DebugShapeFactory {
             result = node;
 
         } else {  // not a compound shape
-            result = createGeometry(collisionShape, normals, resolution);
+            result = createGeometry(collisionShape, listener, normals,
+                    resolution);
         }
 
         result.updateGeometricState();
@@ -210,17 +213,21 @@ public class DebugShapeFactory {
      * @return a new geometry (not null)
      */
     private static Geometry createGeometry(CollisionShape shape,
-            DebugMeshNormals normals, int resolution) {
+            DebugMeshInitListener listener, DebugMeshNormals normals,
+            int resolution) {
         assert shape != null;
         assert !(shape instanceof CompoundCollisionShape);
         assert normals != null;
-        assert resolution >= 0 : resolution;
-        assert resolution <= 1 : resolution;
+        assert resolution >= lowResolution : resolution;
+        assert resolution <= highResolution : resolution;
 
         DebugMeshKey key = new DebugMeshKey(shape, normals, resolution);
         Mesh mesh = cache.get(key);
         if (mesh == null) {
             mesh = createMesh(shape, normals, resolution);
+            if (listener != null) {
+                listener.debugMeshInit(mesh);
+            }
             cache.put(key, mesh);
         }
 

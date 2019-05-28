@@ -234,11 +234,18 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             mesh.setBuffer(VertexBuffer.Type.Index, 3, body.copyFaces(null));
             FloatBuffer locations = body.copyLocations(null);
             mesh.setBuffer(VertexBuffer.Type.Position, 3, locations);
+
             DebugMeshNormals option = body.debugMeshNormals();
             if (option != DebugMeshNormals.None) {
                 FloatBuffer normals = body.copyNormals(null);
                 mesh.setBuffer(VertexBuffer.Type.Normal, 3, normals);
             }
+
+            DebugMeshInitListener listener = body.debugMeshInitListener();
+            if (listener != null) {
+                listener.debugMeshInit(mesh);
+            }
+
             mesh.setMode(Mesh.Mode.Triangles);
             mesh.setStreamed();
 
