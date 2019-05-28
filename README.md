@@ -320,7 +320,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
  7. Similarly, add the Minie JAR(s).
  8. Click on the "OK" button to exit the "Project Properties" dialog.
 
-#### Create, configure, and attach a BulletAppState
+### Create, configure, and attach a BulletAppState
 
 Strictly speaking, a `BulletAppState` isn't required for Minie, but
 it does provide a convenient interface for configuring, accessing, updating,
@@ -427,15 +427,15 @@ be used to add lighting for debug visualization:
         };
         bas.setDebugInitListener(callbackObject);
 
-#### Configure the PhysicsSpace
+### Configure the PhysicsSpace
 
 Section to be written.
 
-#### Create physics controls, collision objects, and joints
+### Create physics controls, collision objects, and joints
 
 Section to be written.
 
-#### Test and tune
+### Test and tune
 
 Section to be written.
 
@@ -582,6 +582,9 @@ Minie offers 4 collision-detection interfaces:
 
 YouTube videos about Minie:
 
+  + May 2019 teaser #3 (wind-blown flag)
+    [watch](https://www.youtube.com/watch?v=7dcBr0j6sKw) (0:06)
+    [source code](https://github.com/stephengold/Minie/blob/9fb33ce21c5082af36ce2969daa79d63b57c0641/MinieExamples/src/main/java/jme3utilities/minie/test/TestSoftBody.java)
   + May 2019 teaser #2 (squishy ball and tablecloth)
     [watch](https://www.youtube.com/watch?v=-ECGEe4CpcY) (0:12)
     [source code](https://github.com/stephengold/Minie/blob/fe55f9baf83158d6347f765b4ff6bbf892056919/MinieExamples/src/main/java/jme3utilities/minie/test/TestSoftBody.java)
