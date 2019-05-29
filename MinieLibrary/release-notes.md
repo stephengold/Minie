@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.1 released on TBD
+## Version 0.9.1 released on 28 May 2019
 
  + API changes:
    + Privatized the `motionState` field in the `PhysicsRigidBody` class.
