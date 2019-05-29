@@ -4,11 +4,12 @@ The [Minie Project][minie] is about improving the integration of
 [Bullet Real-Time Physics][bullet] into the
 [jMonkeyEngine Game Engine][jme].
 
-It contains 3 sub-projects:
+It contains 4 sub-projects:
 
  1. MinieLibrary: the Minie runtime library (in Java)
  2. MinieExamples: demos, examples, and test software (in Java)
  3. [DacWizard][]: a GUI application to configure a ragdoll (in Java)
+ 4. MinieAssets: generate assets used in MinieExamples (in Java)
 
 Java source code is provided under
 [a FreeBSD license](https://github.com/stephengold/Minie/blob/master/LICENSE).
@@ -54,17 +55,18 @@ Summary of added features:
     + understands attachments
     + highly configurable, with many options for bone mass, center, and shape
     + apply inverse-kinematic controllers and joints
- + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`.
+ + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `EmptyShape` collision shapes based on `btEmptyShape`
  + debugging aids:
     + dump the contents of a `BulletAppState` or `PhysicsSpace`
     + customize debug material per collision object
-    + visualize the local axes, bounding box, and/or CCD swept sphere
+    + visualize the local axes, bounding boxes, and/or CCD swept spheres
       of collision objects
     + visualize physics in multiple viewports
     + optional high-resolution debug meshes for convex shapes
     + options to generate debug meshes that include normals (for shading)
+      and/or texture coordinates (for texturing)
  + all joints, shapes, and collision objects implement the `JmeCloneable`
    and `Comparable` interfaces
  + enable/disable a joint
@@ -211,7 +213,7 @@ Clone the Minie repository using Git:
 ### Build the project
 
  1. In the "Projects" window of the IDE,
-    right-click on the "MinieExamples" sub-project to select it.
+    right-click on the "Minie [root]" project to select it.
  2. Select "Build".
 
 <a name="add"/>
