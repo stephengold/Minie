@@ -111,6 +111,26 @@ public class TestSoftBody
         }
     };
     /**
+     * add UVs to the debug mesh of a tablecloth
+     */
+    final private static DebugMeshInitListener tableclothDmiListener
+            = new DebugMeshInitListener() {
+        @Override
+        public void debugMeshInit(Mesh debugMesh) {
+            VertexBuffer pos = debugMesh.getBuffer(VertexBuffer.Type.Position);
+            int numVertices = pos.getNumElements();
+            FloatBuffer positions = (FloatBuffer) pos.getDataReadOnly();
+            FloatBuffer uvs = BufferUtils.createFloatBuffer(2 * numVertices);
+            debugMesh.setBuffer(VertexBuffer.Type.TexCoord, 2, uvs);
+            for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
+                float x = positions.get(3 * vertexI);
+                float z = positions.get(3 * vertexI + 2);
+                uvs.put(12f * x).put(12f * z);
+            }
+            uvs.flip();
+        }
+    };
+    /**
      * mass of each soft body (&gt;0)
      */
     final private static float mass = 1f;
@@ -132,13 +152,17 @@ public class TestSoftBody
      */
     final private List<Savable> hiddenObjects = new ArrayList<>(9);
     /**
+     * logo material to visualize flags
+     */
+    private Material logoMaterial;
+    /**
      * pink material to visualize soft bodies
      */
     private Material pinkMaterial;
     /**
-     * logo material to visualize flags
+     * plaid material to visualize tablecloths
      */
-    private Material logoMaterial;
+    private Material plaidMaterial;
     /**
      * dump debugging information to the console
      */
@@ -444,7 +468,8 @@ public class TestSoftBody
         PhysicsSoftBody.Material material = softBody.getSoftMaterial();
         material.setAngularStiffness(0f);
 
-        softBody.setDebugMaterial(pinkMaterial);
+        softBody.setDebugMaterial(plaidMaterial);
+        softBody.setDebugMeshInitListener(tableclothDmiListener);
         softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
         softBody.setPhysicsLocation(new Vector3f(0f, 1.5f, 0f));
         physicsSpace.add(softBody);
@@ -489,11 +514,20 @@ public class TestSoftBody
      * Configure materials during startup.
      */
     private void configureMaterials() {
+        Texture plaid
+                = MyAsset.loadTexture(assetManager, "Textures/plaid.png", true);
+        plaid.setAnisotropicFilter(8);
+        plaid.setWrap(Texture.WrapMode.Repeat);
+        plaidMaterial = MyAsset.createShadedMaterial(assetManager, plaid);
+        plaidMaterial.setName("plaid");
+        RenderState renderState = plaidMaterial.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
         Texture texture = MyAsset.loadTexture(assetManager,
                 "Interface/Logo/Monkey.png", true);
         logoMaterial = MyAsset.createShadedMaterial(assetManager, texture);
         logoMaterial.setName("logo");
-        RenderState renderState = logoMaterial.getAdditionalRenderState();
+        renderState = logoMaterial.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         ColorRGBA pink = new ColorRGBA(1.2f, 0.2f, 0.1f, 1f);
