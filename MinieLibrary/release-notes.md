@@ -1,9 +1,44 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.1 released on TBD
+
+ + API changes:
+   + Privatized the `motionState` field in the `PhysicsRigidBody` class.
+   + Removed methods from the `PhysicsSoftBody` class:
+     + `addAeroForceToNode()`
+     + `getPhysicsTransform()`
+     + `setPhysicsRotation()`
+     + `setPhysicsTransform()`
+   + Renamed the `PhysicsRigidBody.getPhysicsTransform()` method
+     to `extrapolateTransform()`.
+   + Moved the `SoftBodyWorldInfo` class to the `com.jme3.bullet` package.
+   + Converted the `PhysicsSoftBody.Config` class to an external class.
+ + Expanded soft-body physics: got aerodynamics and anchors working.
+ + Improved debug visualization of soft bodies:
+   + override default material for shapes if requested
+   + don't visualize links if the body has faces
+   + visualize clusters
+   + generate/update normals if requested
+ + Other changes to debug visualization:
+   + Ensured that static rigid bodies are visualized in blue.
+   + Changed the wireframe debug materials from single-sided to double-sided.
+   + Added a `debugMeshInitListener` option to add texture coordinates.
+ + Added a `MinieAssets` sub-project.
+ + Overrode the default `toString()` method for collision objects.
+ + Added methods to the `PhysicsSoftBody` class:
+   + `copyClusterMasses()`
+   + `countNodesInCluster()`
+   + `listNodesInCluster()`
+   + `setWindVelocity()`
+   + `windVelocity()`
+ + Added `Aero` and `ClothGrid` classes.
+ + Updated the native libraries to version 1.0.70 of `Libbulletjme`.
+ + Based on version 2.28 of the `jme3-utilities-heart` library.
+
 ## Version 0.9.0 released on 14 May 2019
 
- + Added a minimal implementation of soft-body physics, based on Dokthar's
-   prior work, that included `ConfigFlag`, `Icosphere`, `MeshEdge`,
+ + Added a minimal implementation of soft-body physics (based on Dokthar's
+   prior work) that included `ConfigFlag`, `Icosphere`, `MeshEdge`,
    `NativeSoftBodyUtil`, `NetGrid`, `PhysicsBody`, `PhysicsSoftBody`,
    `PhysicsSoftSpace`, `RayTestFlag`, `Sbcp`, `SoftBodyWorldInfo`,
    `SoftPhysicsAppState`, `SoftDebugAppState`, `SoftBodyDebugControl`, and
@@ -12,7 +47,7 @@
    of `PhysicsSpace`.
  + Moved the `isInWorld()` method from `PhysicsRigidBody`
    to `PhysicsCollisionObject`.
- + Moved `TubeTreeMesh` class the `jme3utilities.minie.test.mesh` package.
+ + Moved `TubeTreeMesh` class to the `jme3utilities.minie.test.mesh` package.
  + Used `BinaryExporter.saveAndLoad()` to simplify load/save testing.
  + Updated the native libraries to version 1.0.61 of `Libbulletjme`.
  + Based on version 2.27 of the `jme3-utilities-heart` library.
