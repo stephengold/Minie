@@ -30,7 +30,7 @@ gradle.projectsEvaluated {
 
 ext {
     // current versions of the libraries
-    heartVersion = '2.27.0'
+    heartVersion = '2.28.0'
     jme3utilitiesuiVersion = '0.7.2'
     jmonkeyengineVersion = '3.2.3-stable'
     minieVersion = '0.9.0'
