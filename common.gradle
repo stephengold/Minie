@@ -22,7 +22,7 @@ gradle.projectsEvaluated {
         enableAssertions true
         //jvmArgs '-verbose:gc'
         //jvmArgs '-Xcheck:jni'
-        jvmArgs '-Xms512m', '-Xmx512m'
+        jvmArgs '-Xms1024m', '-Xmx1024m'
         jvmArgs '-XX:+UseConcMarkSweepGC'
         //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
     }
