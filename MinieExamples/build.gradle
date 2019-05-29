@@ -4,6 +4,7 @@
 
 description = 'demos, examples, and tests that do not generate reports'
 
+processResources.dependsOn(':MinieAssets:textures')
 dependencies {
     compile "jme3utilities:jme3-utilities-heart:$heartVersion"
     compile "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
@@ -20,7 +21,13 @@ dependencies {
 }
 
 // cleanup tasks
-clean { dependsOn 'cleanDLLs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets' }
+clean {
+    dependsOn 'cleanDLLs'
+    dependsOn 'cleanLogs'
+    dependsOn 'cleanSOs'
+    dependsOn 'cleanTextures'
+    dependsOn 'cleanWrittenAssets'
+}
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
 }
@@ -29,6 +36,9 @@ task cleanLogs(type: Delete) {
 }
 task cleanSOs(type: Delete) {
     delete fileTree(dir: '.', include: '*.so')
+}
+task cleanTextures(type: Delete) {
+    delete 'src/main/resources/Textures'
 }
 task cleanWrittenAssets(type: Delete) {
     delete 'Written Assets'

@@ -1,0 +1,41 @@
+// Note: "common.gradle" in the root project contains additional initialization
+//   for this project. This initialization is applied in the "build.gradle"
+//   of the root project.
+
+description = 'generate assets used in MinieExamples'
+ext {
+    plaid = '../MinieExamples/src/main/resources/Textures/plaid.png'
+}
+
+dependencies {
+    compile "jme3utilities:jme3-utilities-heart:$heartVersion"
+}
+
+task textures {
+    dependsOn = ['plaid']
+    description 'generate texture assets used in MinieExamples'
+}
+task plaid(type: JavaExec) {
+    main 'jme3utilities.minie.test.textures.MakePlaid'
+    outputs.files(["$plaid"])
+}
+
+// cleanup tasks
+clean {
+    dependsOn 'cleanDLLs'
+    dependsOn 'cleanLogs'
+    dependsOn 'cleanSOs'
+    dependsOn 'cleanTextures'
+}
+task cleanDLLs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.dll')
+}
+task cleanLogs(type: Delete) {
+    delete fileTree(dir: '.', include: 'hs_err_pid*.log')
+}
+task cleanSOs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.so')
+}
+task cleanTextures(type: Delete) {
+    delete "$plaid"
+}

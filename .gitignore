@@ -5,9 +5,13 @@
 /DacWizard/build/
 /DacWizard/private/
 /DacWizard/Written Assets/
+/MinieAssets/*.dll
+/MinieAssets/*.so
+/MinieAssets/build/
 /MinieExamples/*.dll
 /MinieExamples/*.so
 /MinieExamples/build/
+/MinieExamples/src/main/resources/Textures/plaid.png
 /MinieExamples/Written Assets/
 /MinieLibrary/*.dll
 /MinieLibrary/*.so
