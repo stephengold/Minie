@@ -26,10 +26,16 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
+import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.PhysicsLink;
+import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -38,6 +44,7 @@ import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.debug.DebugMeshInitListener;
+import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Aero;
@@ -54,12 +61,10 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
-import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
 import com.jme3.util.BufferUtils;
@@ -71,10 +76,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
+import jme3utilities.MyCamera;
+import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.mesh.ClothGrid;
 import jme3utilities.minie.test.mesh.Icosphere;
+import jme3utilities.minie.test.tunings.PuppetControl;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -234,6 +242,7 @@ public class TestSoftBody
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("test poleAndFlag", KeyInput.KEY_F3);
+        dim.bind("test puppetInSkirt", KeyInput.KEY_F4);
         dim.bind("test squishyBall", KeyInput.KEY_F1);
         dim.bind("test tablecloth", KeyInput.KEY_F2);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
@@ -262,6 +271,12 @@ public class TestSoftBody
                     cleanupAfterTest();
                     addBox(-2f);
                     addPoleAndFlag();
+                    return;
+
+                case "test puppetInSkirt":
+                    cleanupAfterTest();
+                    addAxes();
+                    addPuppetInSkirt();
                     return;
 
                 case "test squishyBall":
@@ -315,6 +330,18 @@ public class TestSoftBody
     // private methods
 
     /**
+     * Add a visualizer for the axes of the world coordinate system.
+     */
+    private void addAxes() {
+        float axisLength = 0.8f;
+        AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
+        axes.setLineWidth(0f);
+
+        rootNode.addControl(axes);
+        axes.setEnabled(true);
+    }
+
+    /**
      * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox(float topY) {
@@ -348,7 +375,7 @@ public class TestSoftBody
     }
 
     /**
-     * Add lighting and shadows to the specified scene.
+     * Add lighting to the specified scene.
      */
     private void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
@@ -359,14 +386,6 @@ public class TestSoftBody
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         rootSpatial.addLight(sun);
-
-        rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-
-        DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
-        dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.6f);
-        viewPort.addProcessor(dlsr);
     }
 
     /**
@@ -431,6 +450,75 @@ public class TestSoftBody
     }
 
     /**
+     * Add a walking Puppet model wearing a wrap-around skirt.
+     */
+    private void addPuppetInSkirt() {
+        Spatial cgModel = assetManager.loadModel("Models/Puppet/Puppet.j3o");
+        rootNode.attachChild(cgModel);
+        cgModel.setCullHint(Spatial.CullHint.Always);// render debug mesh only!
+
+        SkeletonControl skeletonControl = RagUtils.findSkeletonControl(cgModel);
+        Spatial controlledSpatial = skeletonControl.getSpatial();
+        DynamicAnimControl dac = new PuppetControl();
+        controlledSpatial.addControl(dac);
+        dac.setPhysicsSpace(physicsSpace);
+
+        PhysicsRigidBody[] rigids = dac.listRigidBodies();
+        for (PhysicsRigidBody rigid : rigids) {
+            rigid.setDebugMaterial(pinkMaterial);
+            rigid.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        }
+        /*
+         * waistline vertex indices, arranged clockwise as seen from above,
+         * starting and ending at the right hip:
+         */
+        final int[] waistVIndices = new int[]{2312, 2345, 499, 498, 502, 464,
+            509, 505, 2351, 2354, 2319, 2311, 2312};
+
+        float separation = 0.1f;
+        int horizontalLines = 10;
+        int verticalLines = waistVIndices.length;
+        Mesh mesh = new ClothGrid(verticalLines, horizontalLines,
+                separation); // TODO flaired shape
+        PhysicsSoftBody skirtBody = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromTriMesh(mesh, skirtBody);
+        float skirtMass = 0.2f;
+        skirtBody.setMass(skirtMass);
+
+        SoftBodyConfig config = skirtBody.getSoftConfig();
+        config.set(Sbcp.Damping, 0.02f);
+        config.setPositionIterations(3);
+
+        PhysicsSoftBody.Material material = skirtBody.getSoftMaterial();
+        material.setAngularStiffness(0f);
+        physicsSpace.add(skirtBody);
+
+        Quaternion rotation = new Quaternion();
+        rotation.fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_Z);
+        skirtBody.applyRotation(rotation);
+        skirtBody.applyTranslation(new Vector3f(0.2f, 0.75f, 0f));
+
+        boolean collide = true;
+        float influence = 1f;
+        Vector3f tmpLocalPivot = new Vector3f();
+        for (int skirtI = 0; skirtI < verticalLines; ++skirtI) {
+            int waistI = waistVIndices[skirtI];
+            String vSpecifier = String.format("%d/Mesh.009_0", waistI);
+            PhysicsLink link = dac.findManagerForVertex(vSpecifier, null,
+                    tmpLocalPivot);
+            PhysicsRigidBody rigid = link.getRigidBody();
+            skirtBody.appendAnchor(skirtI, rigid, tmpLocalPivot, collide,
+                    influence);
+        }
+
+        AnimControl animControl
+                = controlledSpatial.getControl(AnimControl.class);
+        AnimChannel animChannel = animControl.createChannel();
+        String animationName = "walk";
+        animChannel.setAnim(animationName);
+    }
+
+    /**
      * Add a squishy ball to the scene.
      */
     private void addSquishyBall() {
@@ -483,11 +571,30 @@ public class TestSoftBody
      * Clean up after a test.
      */
     private void cleanupAfterTest() {
+        /*
+         * Remove scene objects.
+         */
+        List<Spatial> spatials = rootNode.getChildren();
+        int numChildren = spatials.size();
+        Spatial[] array = new Spatial[numChildren];
+        spatials.toArray(array);
+        for (Spatial spatial : spatials) {
+            spatial.removeFromParent();
+        }
+        /*
+         * Remove physics objects.
+         */
+        Collection<PhysicsJoint> joints = physicsSpace.getJointList();
+        for (PhysicsJoint joint : joints) {
+            physicsSpace.remove(joint);
+        }
         Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
         for (PhysicsCollisionObject pco : pcos) {
             physicsSpace.remove(pco);
         }
-
+        /*
+         * Clear the hidden-object list.
+         */
         hiddenObjects.clear();
     }
 
@@ -495,6 +602,12 @@ public class TestSoftBody
      * Configure the camera during startup.
      */
     private void configureCamera() {
+        float yDegrees = MyCamera.yDegrees(cam);
+        float aspectRatio = MyCamera.viewAspectRatio(cam);
+        float near = 0.02f;
+        float far = 20f;
+        cam.setFrustumPerspective(yDegrees, aspectRatio, near, far);
+
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(4f);
         cam.setLocation(new Vector3f(0f, 2.3f, 5f));
@@ -546,6 +659,8 @@ public class TestSoftBody
      * Configure physics during startup.
      */
     private void configurePhysics() {
+        CollisionShape.setDefaultMargin(0.005f);
+
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugFilter(this);
