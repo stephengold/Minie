@@ -431,7 +431,29 @@ be used to add lighting for debug visualization:
 
 ### Configure the PhysicsSpace
 
-Section to be written.
+Attaching a `BulletAppState` instantiates a `PhysicsSpace` that
+you can access immediately:
+
+        PhysicsSpace space = bas.getPhysicsSpace();
+
+`SoftPhysicsAppState` instantiates a `PhysicsSoftSpace`, which is a subclass:
+
+        PhysicsSoftSpace space = bas.getPhysicsSoftSpace();
+
+Physics simulation can run with a fixed time step or a variable time step.
+The default configuration is a fixed time step of 1/60 second
+with up to 4 time steps per frame.
+
+To configure a variable time step:
+
+        space.setMaxSubSteps(0);
+
+To configure a fixed time step of 0.1 second with up to 6 time steps per frame:
+
+        space.setAccuracy(0.1f);
+        space.setMaxSubSteps(6);
+
+TODO: gravity, solver iterations, ray-test flags, SoftBodyWorldInfo
 
 ### Create physics controls, collision objects, and joints
 
