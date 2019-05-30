@@ -443,7 +443,7 @@ public class PhysicsSpace {
     /**
      * Distribute each collision event to all listeners.
      */
-    void distributeEvents() {
+    public void distributeEvents() {
         while (!collisionEvents.isEmpty()) {
             PhysicsCollisionEvent physicsCollisionEvent = collisionEvents.pop();
             for (PhysicsCollisionListener listener : collisionListeners) {
