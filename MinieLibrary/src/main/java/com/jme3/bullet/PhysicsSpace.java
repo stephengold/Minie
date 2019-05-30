@@ -152,7 +152,8 @@ public class PhysicsSpace {
      */
     private float accuracy = 1f / 60f;
     /**
-     * maximum number of physics steps per frame (&ge;0, default=4)
+     * maximum number of time steps per frame, or 0 for a variable time step
+     * (&ge;0, default=4)
      */
     private int maxSubSteps = 4;
     /**
@@ -662,12 +663,12 @@ public class PhysicsSpace {
     }
 
     /**
-     * Read the maximum number of steps per frame.
+     * Read the maximum number of time steps per frame.
      *
-     * @return number of steps (&ge;1)
+     * @return number of steps (&gt;0) or 0 for a variable time step
      */
     public int maxSubSteps() {
-        assert maxSubSteps >= 1 : maxSubSteps;
+        assert maxSubSteps >= 0 : maxSubSteps;
         return maxSubSteps;
     }
 
@@ -897,7 +898,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Alter the maximum number of physics steps per frame.
+     * Alter the maximum number of physics time steps per frame.
      * <p>
      * Extra physics steps help maintain determinism when the render fps drops
      * below 1/accuracy. For example a value of 2 can compensate for frame rates
@@ -905,11 +906,11 @@ public class PhysicsSpace {
      * <p>
      * Setting this value too high can depress the frame rate.
      *
-     * @param steps the desired maximum number of steps per frame (&ge;1,
-     * default=4)
+     * @param steps the desired maximum number of steps (&ge;1) or 0 for a
+     * variable time step (default=4)
      */
     public void setMaxSubSteps(int steps) {
-        Validate.positive(steps, "steps");
+        Validate.nonNegative(steps, "steps");
         maxSubSteps = steps;
     }
 
@@ -1310,12 +1311,13 @@ public class PhysicsSpace {
      * Simulate for the specified time interval, using no more than the
      * specified number of steps.
      *
-     * @param time the time interval (in seconds, &ge;0)
-     * @param maxSteps the maximum number of steps (&ge;1)
+     * @param time the time interval to simulate (in seconds, &ge;0)
+     * @param maxSteps the maximum number of steps (&ge;1) or 0 for a variable
+     * time step
      */
     private void update(float time, int maxSteps) {
         assert time >= 0f : time;
-        assert maxSteps >= 1 : maxSteps;
+        assert maxSteps >= 0 : maxSteps;
         assert accuracy > 0f : accuracy;
 
         stepSimulation(nativeId, time, maxSteps, accuracy);
