@@ -105,7 +105,9 @@ public class TestSoftBody
             for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
                 float x = positions.get(3 * vertexI);
                 float y = positions.get(3 * vertexI + 1);
-                uvs.put(x - 0.5f).put(2f - y);
+                float u = x - 0.5f;
+                float v = 2f - y;
+                uvs.put(u).put(v);
             }
             uvs.flip();
         }
@@ -125,7 +127,9 @@ public class TestSoftBody
             for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
                 float x = positions.get(3 * vertexI);
                 float z = positions.get(3 * vertexI + 2);
-                uvs.put(12f * x).put(12f * z);
+                float u = 12f * x;
+                float v = 12f * z;
+                uvs.put(u).put(v);
             }
             uvs.flip();
         }
