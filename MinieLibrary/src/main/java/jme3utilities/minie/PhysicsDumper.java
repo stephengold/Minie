@@ -216,7 +216,7 @@ public class PhysicsDumper extends Dumper {
             stream.print(" linST=" + MyString.describe(linST));
         }
         /*
-         * 2nd line has the shape, group info, and the number of joints.
+         * 2nd line has the shape, scale, group info, and the number of joints.
          */
         CollisionShape shape = body.getCollisionShape();
         desc = describer.describe(shape);

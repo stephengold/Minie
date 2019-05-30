@@ -647,8 +647,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Put this body into kinematic mode or take it out of kinematic mode.
      * <p>
      * In kinematic mode, the body is not influenced by physics but can affect
-     * other physics objects. Its kinetic force is calculated based on its
-     * movement and weight.
+     * other physics objects. Its kinetic force is calculated based on its mass
+     * and motion.
      *
      * @param kinematic true&rarr;set kinematic mode, false&rarr;set
      * dynamic/static mode (default=false)
