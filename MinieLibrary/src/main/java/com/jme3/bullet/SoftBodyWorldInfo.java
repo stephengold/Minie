@@ -141,7 +141,7 @@ public class SoftBodyWorldInfo implements Savable {
     }
 
     /**
-     * Read the maximum displacement.
+     * Read the maximum distance a node can travel per time step.
      *
      * @return the displacement
      */
@@ -179,11 +179,12 @@ public class SoftBodyWorldInfo implements Savable {
     }
 
     /**
-     * Alter the maximum displacement.
+     * Alter the maximum distance a node can travel per time step.
      *
-     * @param maxDisplacement the desired value (default=1000)
+     * @param maxDisplacement the desired value (&gt;0, default=1000)
      */
     public void setMaxDisplacement(float maxDisplacement) {
+        Validate.positive(maxDisplacement, "max displacement");
         setMaxDisplacement(nativeId, maxDisplacement);
     }
 
