@@ -42,6 +42,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.logging.Logger;
@@ -69,6 +70,10 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // fields
 
+    /**
+     * geometry to visualize anchors
+     */
+    final private Geometry anchorsGeometry;
     /**
      * geometry to visualize clusters
      */
@@ -109,6 +114,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         super(debugAppState);
         this.body = body;
 
+        anchorsGeometry = createAnchorsGeometry();
         clustersGeometry = createClustersGeometry();
         facesGeometry = createFacesGeometry();
         linksGeometry = createLinksGeometry();
@@ -125,9 +131,14 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     protected void controlUpdate(float tpf) {
-        // TODO check for changes in the number of links/faces/clusters
+        // TODO check for changes in the number of anchors/links/faces/clusters
 
         boolean localFlag = true; // use local coordinates
+        if (anchorsGeometry != null) {
+            Mesh mesh = anchorsGeometry.getMesh();
+            NativeSoftBodyUtil.updateAnchorMesh(body, mesh, localFlag);
+        }
+
         if (clustersGeometry != null) {
             Mesh mesh = clustersGeometry.getMesh();
             NativeSoftBodyUtil.updateClusterMesh(body, mesh, localFlag);
@@ -172,7 +183,11 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         if (spatial instanceof Node) {
             assert this.spatial == null;
             spatial.setCullHint(Spatial.CullHint.Never);
+
             Node node = (Node) spatial;
+            if (anchorsGeometry != null) {
+                node.attachChild(anchorsGeometry);
+            }
             if (clustersGeometry != null) {
                 node.attachChild(clustersGeometry);
             }
@@ -184,6 +199,9 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             }
         } else if (spatial == null && this.spatial != null) {
             Node node = (Node) this.spatial;
+            if (anchorsGeometry != null) {
+                node.detachChild(anchorsGeometry);
+            }
             if (clustersGeometry != null) {
                 node.detachChild(clustersGeometry);
             }
@@ -200,16 +218,48 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // private methods
 
     /**
+     * Create a Geometry to visualize the body's anchors.
+     *
+     * @return a new Geometry, or null if no anchors
+     */
+    private Geometry createAnchorsGeometry() {
+        Geometry result = null;
+        int numAnchors = body.countAnchors();
+        if (numAnchors > 0) {
+            Mesh mesh = new Mesh();
+
+            int numVertices = 2 * numAnchors;
+            int numFloats = 3 * numVertices;
+            FloatBuffer positions = BufferUtils.createFloatBuffer(numFloats);
+            mesh.setBuffer(VertexBuffer.Type.Position, 3, positions);
+
+            mesh.setMode(Mesh.Mode.Lines);
+            mesh.setStreamed();
+
+            result = new Geometry(body.toString() + " anchors", mesh);
+            SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+            Material material = sdas.getAnchorMaterial();
+            result.setMaterial(material);
+        }
+
+        return result;
+    }
+
+    /**
      * Create a Geometry to visualize the body's clusters.
      *
      * @return a new Geometry, or null if no clusters
      */
     private Geometry createClustersGeometry() {
         Geometry result = null;
-        if (body.countClusters() > 0) {
+        int numClusters = body.countClusters();
+        if (numClusters > 0) {
             Mesh mesh = new Mesh();
-            FloatBuffer centers = body.copyClusterCenters(null);
+
+            int numFloats = 3 * numClusters;
+            FloatBuffer centers = BufferUtils.createFloatBuffer(numFloats);
             mesh.setBuffer(VertexBuffer.Type.Position, 3, centers);
+
             mesh.setMode(Mesh.Mode.Points);
             mesh.setStreamed();
 
@@ -232,18 +282,39 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         if (body.countFaces() > 0) {
             Mesh mesh = new Mesh();
             mesh.setBuffer(VertexBuffer.Type.Index, 3, body.copyFaces(null));
-            FloatBuffer locations = body.copyLocations(null);
-            mesh.setBuffer(VertexBuffer.Type.Position, 3, locations);
-
-            DebugMeshNormals option = body.debugMeshNormals();
-            if (option != DebugMeshNormals.None) {
-                FloatBuffer normals = body.copyNormals(null);
-                mesh.setBuffer(VertexBuffer.Type.Normal, 3, normals);
-            }
 
             DebugMeshInitListener listener = body.debugMeshInitListener();
-            if (listener != null) {
+            DebugMeshNormals option = body.debugMeshNormals();
+            if (listener == null) {
+                /*
+                 * Allocate buffers for positions and normals.
+                 */
+                int numNodes = body.countNodes();
+                int numFloats = 3 * numNodes;
+                FloatBuffer pos = BufferUtils.createFloatBuffer(numFloats);
+                mesh.setBuffer(VertexBuffer.Type.Position, 3, pos);
+                if (option != DebugMeshNormals.None) {
+                    FloatBuffer norm = BufferUtils.createFloatBuffer(numFloats);
+                    mesh.setBuffer(VertexBuffer.Type.Normal, 3, norm);
+                }
+
+            } else {
+                /*
+                 * Calculate positions, normals, and bounds in world coords.
+                 */
+                FloatBuffer pos = body.copyLocations(null);
+                mesh.setBuffer(VertexBuffer.Type.Position, 3, pos);
+                if (option != DebugMeshNormals.None) {
+                    FloatBuffer norm = body.copyNormals(null);
+                    mesh.setBuffer(VertexBuffer.Type.Normal, 3, norm);
+                }
+                mesh.updateBound();
+
                 listener.debugMeshInit(mesh);
+                /*
+                 * After debugMeshInit, positions are calculated in
+                 * local coordinates!
+                 */
             }
 
             mesh.setMode(Mesh.Mode.Triangles);
@@ -271,8 +342,11 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         if (body.countFaces() == 0 && body.countLinks() > 0) {
             Mesh mesh = new Mesh();
             mesh.setBuffer(VertexBuffer.Type.Index, 2, body.copyLinks(null));
-            FloatBuffer locations = body.copyLocations(null);
+
+            int numFloats = 3 * body.countNodes();
+            FloatBuffer locations = BufferUtils.createFloatBuffer(numFloats);
             mesh.setBuffer(VertexBuffer.Type.Position, 3, locations);
+
             mesh.setMode(Mesh.Mode.Lines);
             mesh.setStreamed();
 
