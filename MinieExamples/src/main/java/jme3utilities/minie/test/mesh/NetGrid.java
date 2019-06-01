@@ -73,13 +73,13 @@ public class NetGrid extends Mesh {
      *
      * @param xLines the number of grid lines parallel to the X axis (&ge;2)
      * @param zLines the number of grid lines parallel to the Z axis (&ge;2)
-     * @param separation the distance between adjacent grid lines (in mesh
+     * @param lineSpacing the distance between adjacent grid lines (in mesh
      * units, &gt;0)
      */
-    public NetGrid(int xLines, int zLines, float separation) {
+    public NetGrid(int xLines, int zLines, float lineSpacing) {
         Validate.inRange(xLines, "X lines", 2, Integer.MAX_VALUE);
         Validate.inRange(zLines, "Z lines", 2, Integer.MAX_VALUE);
-        Validate.positive(separation, "separation");
+        Validate.positive(lineSpacing, "line spacing");
 
         setMode(Mode.Lines);
 
@@ -91,9 +91,9 @@ public class NetGrid extends Mesh {
          * Write the vertex locations:
          */
         for (int xIndex = 0; xIndex < zLines; ++xIndex) {
-            float x = (2 * xIndex - zLines + 1) * separation / 2f;
+            float x = (2 * xIndex - zLines + 1) * lineSpacing / 2f;
             for (int zIndex = 0; zIndex < xLines; ++zIndex) {
-                float z = (2 * zIndex - xLines + 1) * separation / 2f;
+                float z = (2 * zIndex - xLines + 1) * lineSpacing / 2f;
                 posBuffer.put(x).put(0f).put(z);
             }
         }
