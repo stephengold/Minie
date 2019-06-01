@@ -825,9 +825,9 @@ public class DacLinks
 
     /**
      * Remove spatial-dependent data. Invoked each time this control is rebuilt
-     * or removed from a spatial.
+     * or removed from a Spatial.
      *
-     * @param spat the previously controlled spatial (unused)
+     * @param spat the previously controlled Spatial (unused)
      */
     @Override
     protected void removeSpatialData(Spatial spat) {

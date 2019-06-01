@@ -392,7 +392,8 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Initialize the double-sided wire-frame materials.
+     * Initialize the double-sided wire-frame materials. TODO option for
+     * single-sided materials
      *
      * @param am the application's AssetManager (not null)
      */

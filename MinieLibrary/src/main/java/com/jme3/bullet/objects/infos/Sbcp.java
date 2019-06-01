@@ -90,8 +90,8 @@ public enum Sbcp {
      */
     DynamicFriction,
     /**
-     * kinetic-contact hardness coefficient (&ge;0, &le;1, default=0.1, native
-     * field: kKHR)
+     * contact hardness coefficient for static or kinematic rigid bodies (&ge;0,
+     * &le;1, default=0.1, native field: kKHR)
      */
     KineticHardness,
     /**
@@ -112,8 +112,8 @@ public enum Sbcp {
      */
     Pressure,
     /**
-     * rigid-body contact hardness coefficient (&ge;0, &le;1, default=1, native
-     * field: kCHR)
+     * contact hardness coefficient for dynamic rigid bodies (&ge;0, &le;1,
+     * default=1, native field: kCHR)
      */
     RigidHardness,
     /**
