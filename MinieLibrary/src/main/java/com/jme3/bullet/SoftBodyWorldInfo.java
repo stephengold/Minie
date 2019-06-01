@@ -46,8 +46,9 @@ import jme3utilities.Validate;
  * A set of physics-simulation parameters that can be customized for each
  * PhysicsSoftBody, based on Bullet's btSoftBodyWorldInfo.
  * <p>
- * By default, all soft bodies share a single SoftBodyWorldInfo. However, this
- * is not the case in native Bullet.
+ * NOTE: When a PhysicsSoftBody is added to a PhysicsSoftSpace, it acquires the
+ * SoftBodyWorldInfo of that space. To customize a body, assign it a new info
+ * after adding it to the space.
  *
  * @author dokthar
  */
@@ -258,7 +259,7 @@ public class SoftBodyWorldInfo implements Savable {
     }
 
     /**
-     * Serialize this object, for example when saving to a J3O file.
+     * Serialize this info, for example when saving to a J3O file.
      *
      * @param exporter the exporter (not null)
      * @throws IOException from the exporter
