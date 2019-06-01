@@ -119,13 +119,20 @@ public class ClothGrid extends Mesh {
          */
         for (int zIndex = 0; zIndex < xLines - 1; ++zIndex) {
             for (int xIndex = 0; xIndex < zLines - 1; ++xIndex) {
-                // four vertices forming a square
+                // 4 vertices and 2 triangles forming a square
                 int vi0 = zIndex + xLines * xIndex;
                 int vi1 = vi0 + 1;
                 int vi2 = vi0 + xLines;
                 int vi3 = vi1 + xLines;
-                indexBuffer.put(vi0).put(vi1).put(vi2);
-                indexBuffer.put(vi3).put(vi2).put(vi1);
+                if ((xIndex + zIndex) % 2 == 0) {
+                    // major diagonal: joins vi1 to vi2
+                    indexBuffer.put(vi0).put(vi1).put(vi2);
+                    indexBuffer.put(vi3).put(vi2).put(vi1);
+                } else {
+                    // minor diagonal: joins vi0 to vi3
+                    indexBuffer.put(vi0).put(vi1).put(vi3);
+                    indexBuffer.put(vi3).put(vi2).put(vi0);
+                }
             }
         }
         assert indexBuffer.position() == vpt * numTriangles;
