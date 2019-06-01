@@ -77,7 +77,7 @@ public class ClothGrid extends Mesh {
      */
     public ClothGrid(int xLines, int zLines, float separation) {
         Validate.inRange(xLines, "X lines", 2, Integer.MAX_VALUE);
-        Validate.inRange(xLines, "Z lines", 2, Integer.MAX_VALUE);
+        Validate.inRange(zLines, "Z lines", 2, Integer.MAX_VALUE);
         Validate.positive(separation, "separation");
 
         int numVertices = xLines * zLines;
