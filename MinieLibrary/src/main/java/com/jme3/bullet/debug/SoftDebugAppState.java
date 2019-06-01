@@ -71,6 +71,10 @@ public class SoftDebugAppState extends BulletDebugAppState {
      */
     private HashMap<PhysicsSoftBody, Node> softBodies = new HashMap<>(64);
     /**
+     * material for visualizing all soft-body anchors
+     */
+    private Material anchorMaterial;
+    /**
      * material for visualizing all soft-body clusters
      */
     private Material clusterMaterial;
@@ -101,6 +105,16 @@ public class SoftDebugAppState extends BulletDebugAppState {
     }
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Access the Material for visualizing soft-body anchors.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getAnchorMaterial() {
+        assert anchorMaterial != null;
+        return anchorMaterial;
+    }
 
     /**
      * Access the Material for visualizing soft-body clusters.
@@ -143,6 +157,9 @@ public class SoftDebugAppState extends BulletDebugAppState {
     protected void setupMaterials(AssetManager am) {
         assert am != null;
         super.setupMaterials(am);
+
+        anchorMaterial = MyAsset.createWireframeMaterial(am, ColorRGBA.Green);
+        anchorMaterial.setName("anchorMaterial");
 
         String matDefPath = "MatDefs/wireframe/multicolor2.j3md";
         clusterMaterial = new Material(am, matDefPath);
