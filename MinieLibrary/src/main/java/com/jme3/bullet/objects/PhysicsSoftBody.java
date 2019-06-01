@@ -420,16 +420,9 @@ public class PhysicsSoftBody extends PhysicsBody {
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyClusterCenters(FloatBuffer storeResult) {
-        int numClusters = countClusters();
-        FloatBuffer result;
-        if (storeResult == null) {
-            result = BufferUtils.createFloatBuffer(3 * numClusters);
-        } else {
-            assert storeResult.capacity() == 3 * numClusters;
-            result = storeResult;
-        }
-
+        FloatBuffer result = ensureCapacity(3 * countClusters(), storeResult);
         getClustersPositions(objectId, result);
+
         return result;
     }
 
@@ -441,16 +434,9 @@ public class PhysicsSoftBody extends PhysicsBody {
      * or a new buffer)
      */
     public FloatBuffer copyClusterMasses(FloatBuffer storeResult) {
-        int numClusters = countClusters();
-        FloatBuffer result;
-        if (storeResult == null) {
-            result = BufferUtils.createFloatBuffer(numClusters);
-        } else {
-            assert storeResult.capacity() == numClusters;
-            result = storeResult;
-        }
-
+        FloatBuffer result = ensureCapacity(countClusters(), storeResult);
         getClustersMasses(objectId, result);
+
         return result;
     }
 
@@ -462,12 +448,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * new buffer)
      */
     public IntBuffer copyFaces(IntBuffer storeResult) {
-        int numFaces = countFaces();
+        int numFloats = 3 * countFaces();
         IntBuffer result;
         if (storeResult == null) {
-            result = BufferUtils.createIntBuffer(3 * numFaces);
+            result = BufferUtils.createIntBuffer(numFloats);
         } else {
-            assert storeResult.capacity() == 3 * numFaces;
+            assert storeResult.capacity() == numFloats;
             result = storeResult;
         }
 
@@ -483,12 +469,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * new buffer)
      */
     public IntBuffer copyLinks(IntBuffer storeResult) {
-        int numLinks = countLinks();
+        int numFloats = 2 * countLinks();
         IntBuffer result;
         if (storeResult == null) {
-            result = BufferUtils.createIntBuffer(2 * numLinks);
+            result = BufferUtils.createIntBuffer(numFloats);
         } else {
-            assert storeResult.capacity() == 2 * numLinks;
+            assert storeResult.capacity() == numFloats;
             result = storeResult;
         }
 
@@ -504,16 +490,9 @@ public class PhysicsSoftBody extends PhysicsBody {
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyLocations(FloatBuffer storeResult) {
-        int numNodes = countNodes();
-        FloatBuffer result;
-        if (storeResult == null) {
-            result = BufferUtils.createFloatBuffer(3 * numNodes);
-        } else {
-            assert storeResult.capacity() == 3 * numNodes;
-            result = storeResult;
-        }
-
+        FloatBuffer result = ensureCapacity(3 * countNodes(), storeResult);
         getNodesPositions(objectId, result);
+
         return result;
     }
 
@@ -525,16 +504,9 @@ public class PhysicsSoftBody extends PhysicsBody {
      * a new buffer)
      */
     public FloatBuffer copyMasses(FloatBuffer storeResult) {
-        int numNodes = countNodes();
-        FloatBuffer result;
-        if (storeResult == null) {
-            result = BufferUtils.createFloatBuffer(numNodes);
-        } else {
-            assert storeResult.capacity() == numNodes;
-            result = storeResult;
-        }
-
+        FloatBuffer result = ensureCapacity(countNodes(), storeResult);
         getMasses(objectId, result);
+
         return result;
     }
 
@@ -546,16 +518,9 @@ public class PhysicsSoftBody extends PhysicsBody {
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyNormals(FloatBuffer storeResult) {
-        int numNodes = countNodes();
-        FloatBuffer result;
-        if (storeResult == null) {
-            result = BufferUtils.createFloatBuffer(3 * numNodes);
-        } else {
-            assert storeResult.capacity() == 3 * numNodes;
-            result = storeResult;
-        }
-
+        FloatBuffer result = ensureCapacity(3 * countNodes(), storeResult);
         getNodesNormals(objectId, result);
+
         return result;
     }
 
@@ -588,16 +553,9 @@ public class PhysicsSoftBody extends PhysicsBody {
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyVelocities(FloatBuffer storeResult) {
-        int numNodes = countNodes();
-        FloatBuffer result;
-        if (storeResult == null) {
-            result = BufferUtils.createFloatBuffer(3 * numNodes);
-        } else {
-            assert storeResult.capacity() == 3 * numNodes;
-            result = storeResult;
-        }
-
+        FloatBuffer result = ensureCapacity(3 * countNodes(), storeResult);
         getNodesVelocities(objectId, result);
+
         return result;
     }
 
@@ -1523,9 +1481,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     // *************************************************************************
     // private methods
 
-    native private void addAeroForceToNode(long bodyId, Vector3f windVector,
-            int nodeIndex);
-
     native private void addForce(long bodyId, Vector3f forceVector);
 
     native private void addForce(long bodyId, Vector3f forceVector,
@@ -1576,6 +1531,38 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private boolean cutLink(long bodyId, int nodeIndex0, int nodeIndex1,
             float cutLocation);
+
+    /**
+     * Reuse the specified FloatBuffer, if it has the desired capacity. If no
+     * buffer is specified, allocate a new one.
+     *
+     * @param minFloats the desired capacity (in floats, &ge;0)
+     * @param storeResult the buffer to reuse, or null for none
+     * @return a buffer with at least the required capacity (either storeResult
+     * or a new buffer)
+     */
+    private static FloatBuffer ensureCapacity(int minFloats,
+            FloatBuffer storeResult) {
+        Validate.nonNegative(minFloats, "minimum number of elements");
+
+        FloatBuffer result;
+        if (storeResult == null) {
+            result = BufferUtils.createFloatBuffer(minFloats);
+
+        } else {
+            int capacityFloats = storeResult.capacity();
+            if (capacityFloats < minFloats) {
+                logger2.log(Level.SEVERE, "capacity={0}", capacityFloats);
+                String message = String.format(
+                        "Buffer capacity must be greater than or equal to %d.",
+                        minFloats);
+                throw new IllegalArgumentException(message);
+            }
+            result = storeResult;
+        }
+
+        return result;
+    }
 
     native private void generateBendingConstraints(long bodyId, int distance,
             long materialId);
