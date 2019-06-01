@@ -26,16 +26,22 @@
  */
 package jme3utilities.minie.test.mesh;
 
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A static, triangle-mode mesh that renders a subdivided rectangle in the X-Z
+ * A dynamic, triangle-mode mesh that renders a subdivided rectangle in the X-Z
  * plane.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -58,6 +64,17 @@ public class ClothGrid extends Mesh {
     final public static Logger logger
             = Logger.getLogger(ClothGrid.class.getName());
     // *************************************************************************
+    // fields
+
+    /**
+     * number of grid lines parallel to the X axis
+     */
+    private int numXLines;
+    /**
+     * number of grid lines parallel to the Z axis
+     */
+    private int numZLines;
+    // *************************************************************************
     // constructors
 
     /**
@@ -79,6 +96,9 @@ public class ClothGrid extends Mesh {
         Validate.inRange(xLines, "X lines", 2, Integer.MAX_VALUE);
         Validate.inRange(zLines, "Z lines", 2, Integer.MAX_VALUE);
         Validate.positive(separation, "separation");
+
+        numXLines = xLines;
+        numZLines = zLines;
 
         int numVertices = xLines * zLines;
         FloatBuffer posBuffer
@@ -139,6 +159,65 @@ public class ClothGrid extends Mesh {
         indexBuffer.flip();
 
         updateBound();
-        setStatic();
+        setDynamic();
+    }
+    // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Reposition the specified mesh vertex. Use this to deform the mesh without
+     * changing its topology. Normals are unaffected.
+     *
+     * @param xIndex the index of the vertex along the original X axis (&ge;0,
+     * &lt;numZLines)
+     * @param zIndex the index of the vertex along the original Z axis (&ge;0,
+     * &lt;numXLines)
+     * @param location the desired vertex location (in mesh coordinates, not
+     * null, unaffected)
+     */
+    public void reposition(int xIndex, int zIndex, Vector3f location) {
+        Validate.inRange(xIndex, "x index", 0, numZLines - 1);
+        Validate.inRange(zIndex, "z index", 0, numXLines - 1);
+        Validate.nonNull(location, "desired location");
+
+        VertexBuffer pos = getBuffer(VertexBuffer.Type.Position);
+        FloatBuffer positions = (FloatBuffer) pos.getData();
+        int vertexIndex = zIndex + numXLines * xIndex;
+        int floatIndex = 3 * vertexIndex;
+        positions.put(floatIndex, location.x);
+        positions.put(floatIndex + 1, location.y);
+        positions.put(floatIndex + 2, location.z);
+    }
+    // *************************************************************************
+    // Mesh methods
+
+    /**
+     * De-serialize this mesh, for example when loading from a J3O file.
+     *
+     * @param importer the importer (not null)
+     * @throws IOException from the importer
+     */
+    @Override
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
+
+        numXLines = capsule.readInt("xLines", 12);
+        numZLines = capsule.readInt("zLines", 12);
+    }
+
+    /**
+     * Serialize this mesh, for example when saving to a J3O file.
+     *
+     * @param exporter the exporter (not null)
+     * @throws IOException from the exporter
+     */
+    @Override
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
+
+        capsule.write(numXLines, "xLines", 12);
+        capsule.write(numZLines, "zLines", 12);
     }
 }
