@@ -113,7 +113,6 @@ public class TestClonePhysicsControls {
         bcc.setJumpForce(new Vector3f(b + 0.05f, b + 0.06f, b + 0.07f));
         bcc.setViewDirection(new Vector3f(b + 0.10f, b + 0.11f, b + 0.12f));
         bcc.setWalkDirection(new Vector3f(b + 0.13f, b + 0.14f, b + 0.15f));
-        bcc.setGravity(new Vector3f(b + 0.02f, b + 0.03f, b + 0.04f));
     }
 
     /**
@@ -126,11 +125,6 @@ public class TestClonePhysicsControls {
     private void verifyParameters(BetterCharacterControl bcc, float b) {
         assert bcc.getDuckedFactor() == b + 0.01f;
         assert bcc.getPhysicsDamping() == b + 0.08f;
-
-        Vector3f g = bcc.getGravity(null);
-        assert g.x == b + 0.02f : g;
-        assert g.y == b + 0.03f : g;
-        assert g.z == b + 0.04f : g;
 
         Vector3f f = bcc.getJumpForce(null);
         assert f.x == b + 0.05f : f;

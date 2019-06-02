@@ -28,7 +28,6 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
-import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
@@ -196,7 +195,6 @@ public class TestCloneBody {
         body.setContactProcessingThreshold(b + 0.0845f);
         body.setContactStiffness(b + 0.085f);
         body.setFriction(b + 0.09f);
-        body.setGravity(new Vector3f(b + 0.10f, b + 0.11f, b + 0.12f));
         body.setInverseInertiaLocal(
                 new Vector3f(b + 0.122f, b + 0.123f, b + 0.124f));
         body.setLinearDamping(b + 0.13f);
@@ -230,14 +228,6 @@ public class TestCloneBody {
         material.setAngularStiffness(b + 0.04f);
         material.setLinearStiffness(b + 0.041f);
         material.setVolumeStiffness(b + 0.042f);
-
-        SoftBodyWorldInfo sbwi = body.getWorldInfo();
-        sbwi.setAirDensity(b + 0.05f);
-        sbwi.setGravity(new Vector3f(b + 0.051f, b + 0.052f, b + 0.053f));
-        sbwi.setMaxDisplacement(b + 0.054f);
-        sbwi.setWaterDensity(b + 0.055f);
-        sbwi.setWaterNormal(new Vector3f(b + 0.056f, b + 0.057f, b + 0.058f));
-        sbwi.setWaterOffset(b + 0.059f);
     }
 
     private void verifyParameters(PhysicsCollisionObject pco, float b) {
@@ -284,11 +274,6 @@ public class TestCloneBody {
         assert body.getContactStiffness() == b + 0.085f;
         assert body.getDeactivationTime() == b + 0.087f;
         assert body.getFriction() == b + 0.09f;
-
-        Vector3f g = body.getGravity(null);
-        assert g.x == b + 0.10f : g;
-        assert g.y == b + 0.11f : g;
-        assert g.z == b + 0.12f : g;
 
         Vector3f i = body.getInverseInertiaLocal(null);
         assert i.x == b + 0.122f : i;
@@ -346,23 +331,5 @@ public class TestCloneBody {
         assert material.angularStiffness() == b + 0.04f;
         assert material.linearStiffness() == b + 0.041f;
         assert material.volumeStiffness() == b + 0.042f;
-
-        SoftBodyWorldInfo sbwi = body.getWorldInfo();
-        assert sbwi.airDensity() == b + 0.05f;
-
-        Vector3f g = sbwi.copyGravity(null);
-        assert g.x == b + 0.051f : g;
-        assert g.y == b + 0.052f : g;
-        assert g.z == b + 0.053f : g;
-
-        assert sbwi.maxDisplacement() == b + 0.054f;
-        assert sbwi.waterDensity() == b + 0.055f;
-
-        Vector3f n = sbwi.copyWaterNormal(null);
-        assert n.x == b + 0.056f : n;
-        assert n.y == b + 0.057f : n;
-        assert n.z == b + 0.058f : n;
-
-        assert sbwi.waterOffset() == b + 0.059f;
     }
 }
