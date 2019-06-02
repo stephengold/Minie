@@ -1051,12 +1051,18 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Alter the world info of this body. Automatically invoked when this body
-     * is added to a SoftPhysicsSpace.
+     * Alter the world info of this body.
+     * <p>
+     * Invoke this method <em>after</em> adding the body to a PhysicsSpace.
+     * Adding a body to a PhysicsSpace overrides its world info.
      *
      * @param worldInfo the desired SoftBodyWorldInfo (not null)
      */
     public void setWorldInfo(SoftBodyWorldInfo worldInfo) {
+        if (!isInWorld()) {
+            logger2.warning("The body is not in any PhysicsSpace.");
+        }
+
         long worldInfoId = worldInfo.nativeId();
         setSoftBodyWorldInfo(objectId, worldInfoId);
     }
@@ -1414,8 +1420,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Alter this body's gravitational acceleration.
      * <p>
-     * Invoke this method <em>after</em> adding this body to a PhysicsSpace.
-     * Adding a body to a PhysicsSpace alters its gravity.
+     * Invoke this method <em>after</em> adding the body to a PhysicsSpace.
+     * Adding a body to a PhysicsSpace overrides its gravity.
      *
      * @param acceleration the desired acceleration vector (in physics-space
      * coordinates, not null, unaffected)

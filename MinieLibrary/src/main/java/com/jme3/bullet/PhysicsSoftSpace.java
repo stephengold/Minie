@@ -268,8 +268,8 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         logger2.log(Level.FINE, "Adding soft body {0} to physics space.",
                 Long.toHexString(softBodyId));
 
-        softBody.setWorldInfo(getWorldInfo());
         addSoftBody(spaceId, softBodyId);
+        softBody.setWorldInfo(getWorldInfo());
     }
 
     private void removeSoftBody(PhysicsSoftBody softBody) {
