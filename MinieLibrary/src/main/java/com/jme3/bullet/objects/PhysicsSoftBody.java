@@ -1210,11 +1210,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         material.setLinearStiffness(oldMaterial.linearStiffness());
         material.setVolumeStiffness(oldMaterial.volumeStiffness());
 
-        SoftBodyWorldInfo oldInfo = old.getWorldInfo();
-        SoftBodyWorldInfo newInfo = new SoftBodyWorldInfo();
-        setWorldInfo(newInfo);
-        newInfo.copyAll(oldInfo);
-
         FloatBuffer floats = old.copyLocations(null);
         appendNodes(floats);
         old.copyNormals(floats);
@@ -1382,8 +1377,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         setRestingLengthScale(capsule.readFloat("RestLengthScale", 0f));
         setPhysicsLocation((Vector3f) capsule.readSavable("PhysicsLocation",
                 new Vector3f()));
-        setWorldInfo((SoftBodyWorldInfo) capsule.readSavable(
-                "WorldInfo", new SoftBodyWorldInfo()));
 
         getSoftMaterial().read(capsule);
     }
@@ -1477,7 +1470,6 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         capsule.write(restingLengthsScale(), "RestLengthScale", 0f);
         capsule.write(getPhysicsLocation(), "PhysicsLocation", null);
-        capsule.write(getWorldInfo(), "WorldInfo", null);
         // TODO anchors, joints, nodes, links, faces, tetras
 
         assert config != null;
