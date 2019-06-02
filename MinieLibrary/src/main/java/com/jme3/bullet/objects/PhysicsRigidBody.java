@@ -874,7 +874,6 @@ public class PhysicsRigidBody extends PhysicsBody {
         setAngularFactor(old.getAngularFactor(tmpVector));
         setAngularSleepingThreshold(old.getAngularSleepingThreshold());
         setContactResponse(old.isContactResponse());
-        setGravity(old.getGravity(tmpVector));
         setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
         setLinearDamping(old.getLinearDamping());
         setLinearFactor(old.getLinearFactor(tmpVector));
@@ -980,8 +979,6 @@ public class PhysicsRigidBody extends PhysicsBody {
         readPcoProperties(capsule);
 
         setContactResponse(capsule.readBoolean("contactResponse", true));
-        setGravity((Vector3f) capsule.readSavable("gravity",
-                Vector3f.ZERO.clone()));
         if (mass != massForStatic) {
             setKinematic(capsule.readBoolean("kinematic", false));
         }
@@ -1102,7 +1099,6 @@ public class PhysicsRigidBody extends PhysicsBody {
 
         capsule.write(getMass(), "mass", 1f);
         capsule.write(isContactResponse(), "contactResponse", true);
-        capsule.write(getGravity(null), "gravity", null);
         capsule.write(getAngularFactor(null), "angularFactor", null);
         capsule.write(getLinearFactor(null), "linearFactor", null);
         capsule.write(kinematic, "kinematic", false);
