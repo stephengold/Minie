@@ -768,7 +768,7 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * Interface to restrict which physics objects are visualized.
      */
-    public static interface DebugAppStateFilter {
+    public interface DebugAppStateFilter {
         /**
          * Test whether the specified physics object should be rendered in the
          * debug scene.
