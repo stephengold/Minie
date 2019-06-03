@@ -606,6 +606,9 @@ Minie offers 4 collision-detection interfaces:
 
 YouTube videos about Minie:
 
+  + June 2019 teaser #1 (jogger in skirt)
+    [watch](https://www.youtube.com/watch?v=lLMBIASzAAM) (0:24)
+    [source code](https://github.com/stephengold/Minie/blob/40add685ec9243c3fa1e10f8b38b805a04a32863/MinieExamples/src/main/java/jme3utilities/minie/test/TestSoftBody.java)
   + May 2019 teaser #3 (wind-blown flag)
     [watch](https://www.youtube.com/watch?v=7dcBr0j6sKw) (0:06)
     [source code](https://github.com/stephengold/Minie/blob/9fb33ce21c5082af36ce2969daa79d63b57c0641/MinieExamples/src/main/java/jme3utilities/minie/test/TestSoftBody.java)
