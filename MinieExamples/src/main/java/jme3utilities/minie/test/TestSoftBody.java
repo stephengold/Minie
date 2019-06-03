@@ -36,7 +36,6 @@ import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
-import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -64,10 +63,12 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
 import com.jme3.util.BufferUtils;
@@ -80,6 +81,7 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
+import jme3utilities.Validate;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.DumpFlags;
@@ -152,10 +154,10 @@ public class TestSoftBody
     final private static float mass = 1f;
     /**
      * indices of the waistline vertices in the Puppet model, arranged clockwise
-     * as seen from above, starting and ending at her right hip - TODO overlap?
+     * as seen from above, starting at her right hip
      */
-    final private static int[] waistlineVertices = new int[]{2311, 2312, 2345,
-        499, 498, 502, 464, 509, 505, 2351, 2354, 2319, 2311};
+    final private static int[] waistlineVertices = new int[]{2396, 2394, 569,
+        545, 553, 554, 562, 2401};
     /**
      * message logger for this class
      */
@@ -174,9 +176,9 @@ public class TestSoftBody
      */
     final private List<Savable> hiddenObjects = new ArrayList<>(9);
     /**
-     * double-sided blue material to visualize clothing
+     * single-sided green material to visualize the platform
      */
-    private Material blueMaterial;
+    private Material greenMaterial;
     /**
      * double-sided logo material to visualize flags
      */
@@ -189,6 +191,10 @@ public class TestSoftBody
      * double-sided plaid material to visualize tablecloths
      */
     private Material plaidMaterial;
+    /**
+     * double-sided red material to visualize clothing
+     */
+    private Material redMaterial;
     /**
      * dump debugging information to System.out
      */
@@ -220,7 +226,7 @@ public class TestSoftBody
 
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
-        settings.setVSync(true);
+        settings.setVSync(false);
         application.setSettings(settings);
 
         application.start();
@@ -237,11 +243,13 @@ public class TestSoftBody
         configureDumper();
         configureMaterials();
         configurePhysics();
-        ColorRGBA gray = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
-        viewPort.setBackgroundColor(gray);
+        ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(sky);
+        addLighting(rootNode, false);
 
         addBox(0f);
-        addSquishyBall(1.5f);
+        DynamicAnimControl dac = addPuppet();
+        addSkirt(dac);
     }
 
     /**
@@ -286,17 +294,18 @@ public class TestSoftBody
 
                 case "next":
                     nextPuppetAnimation();
+                    nextWindVelocity();
                     return;
 
                 case "test poleAndFlag":
                     cleanupAfterTest();
+                    addAxes();
                     addBox(-2f);
                     addPoleAndFlag();
                     return;
 
                 case "test puppetInSkirt":
                     cleanupAfterTest();
-                    addAxes();
                     addBox(0f);
                     DynamicAnimControl dac = addPuppet();
                     addSkirt(dac);
@@ -326,11 +335,11 @@ public class TestSoftBody
     // BulletDebugAppState.DebugAppStateFilter methods
 
     /**
-     * Test whether the specified physics object should be displayed in the
-     * debug scene.
+     * Test whether the specified physics object should be rendered in the debug
+     * scene.
      *
      * @param physicsObject the joint or collision object to test (unaffected)
-     * @return return true if the object should be displayed, false if not
+     * @return return true if the object should be rendered, false if not
      */
     @Override
     public boolean displayObject(Savable physicsObject) {
@@ -347,10 +356,35 @@ public class TestSoftBody
      */
     @Override
     public void bulletDebugInit(Node physicsDebugRootNode) {
-        addLighting(physicsDebugRootNode);
+        addLighting(physicsDebugRootNode, true);
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Calculate the center of the axis-aligned bounding box of a non-empty
+     * array of vectors.
+     *
+     * @param array the vectors (not null, not empty, unaffected)
+     * @param storeResult storage for the result (modified if not null)
+     * @return the center (either storeResult or a new vector, not null)
+     */
+    private static Vector3f aabbCenter(Vector3f[] array, Vector3f storeResult) {
+        Validate.nonEmpty(array, "array");
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        Vector3f maxima = new Vector3f(Float.NEGATIVE_INFINITY,
+                Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
+        Vector3f minima = new Vector3f(Float.POSITIVE_INFINITY,
+                Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
+        for (Vector3f tempVector : array) {
+            MyVector3f.accumulateMinima(minima, tempVector);
+            MyVector3f.accumulateMaxima(maxima, tempVector);
+        }
+        MyVector3f.midpoint(maxima, minima, result);
+
+        return result;
+    }
 
     /**
      * Add a visualizer for the axes of the world coordinate system.
@@ -366,6 +400,9 @@ public class TestSoftBody
 
     /**
      * Add a large static box to the scene, to serve as a platform.
+     *
+     * @param topY the Y coordinate of the top surface (in physics-space
+     * coordinates)
      */
     private void addBox(float topY) {
         float halfExtent = 4f;
@@ -373,8 +410,7 @@ public class TestSoftBody
         float boxMass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody boxBody = new PhysicsRigidBody(shape, boxMass);
 
-        Material material = MyAsset.createDebugMaterial(assetManager);
-        boxBody.setDebugMaterial(material);
+        boxBody.setDebugMaterial(greenMaterial);
         boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
         boxBody.setPhysicsLocation(new Vector3f(0f, topY - halfExtent, 0f));
         physicsSpace.add(boxBody);
@@ -382,6 +418,9 @@ public class TestSoftBody
 
     /**
      * Add a static cylinder to the scene, to serve as an obstacle.
+     *
+     * @param topY the Y coordinate of the top surface (in physics-space
+     * coordinates)
      */
     private void addCylinder(float topY) {
         float halfHeight = 0.2f;
@@ -401,8 +440,11 @@ public class TestSoftBody
 
     /**
      * Add lighting to the specified scene.
+     *
+     * @param rootSpatial which scene (not null)
+     * @param shadowFlag if true, add a shadow renderer to the default viewport
      */
-    private void addLighting(Spatial rootSpatial) {
+    private void addLighting(Spatial rootSpatial, boolean shadowFlag) {
         ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
@@ -411,6 +453,15 @@ public class TestSoftBody
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         rootSpatial.addLight(sun);
+
+        rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        if (shadowFlag) {
+            DirectionalLightShadowRenderer dlsr
+                    = new DirectionalLightShadowRenderer(assetManager, 2048, 3);
+            dlsr.setLight(sun);
+            dlsr.setShadowIntensity(0.6f);
+            viewPort.addProcessor(dlsr);
+        }
     }
 
     /**
@@ -440,15 +491,16 @@ public class TestSoftBody
         PhysicsSoftBody flagPsb = new PhysicsSoftBody();
 
         NativeSoftBodyUtil.appendFromTriMesh(mesh, flagPsb);
+        flagPsb.setMargin(0.1f);
         flagPsb.setMass(mass);
 
         Vector3f wind = new Vector3f(2.5f, 0f, -0.5f);
-        flagPsb.setWindVelocity(wind); // TODO vary the wind velocity
+        flagPsb.setWindVelocity(wind);
 
         SoftBodyConfig config = flagPsb.getSoftConfig();
-        config.set(Sbcp.Damping, 0.05f);
+        config.set(Sbcp.Damping, 0.01f);
         config.set(Sbcp.Drag, 0.5f);
-        config.set(Sbcp.Lift, 0.5f);
+        config.set(Sbcp.Lift, 1);
         config.setAerodynamics(Aero.F_TwoSidedLiftDrag);
         config.setPositionIterations(3);
 
@@ -466,7 +518,7 @@ public class TestSoftBody
 
         physicsSpace.add(flagPsb);
         /*
-         * Append 2 anchors connecting the flag to the pole.
+         * Append 2 anchors that join the flag to the pole.
          */
         boolean collideFlag = true;
         float influence = 1f;
@@ -499,42 +551,43 @@ public class TestSoftBody
                 = controlledSpatial.getControl(AnimControl.class);
         animControl.createChannel(); // Channel[0] includes all bones.
         /*
-         * Configure and add the physics control.
+         * Configure and add her physics control.
          */
         DynamicAnimControl dac = new PuppetControl();
         controlledSpatial.addControl(dac);
         dac.setPhysicsSpace(physicsSpace);
-
+        /*
+         * Don't visualize her rigid bodies.
+         */
         PhysicsRigidBody[] rigids = dac.listRigidBodies();
         for (PhysicsRigidBody rigid : rigids) {
             hiddenObjects.add(rigid);
         }
 
-        float thighMargin = 0.12f;
-        PhysicsLink leftThigh = dac.findBoneLink("thigh.L");
-        leftThigh.getRigidBody().getCollisionShape().setMargin(thighMargin);
-        PhysicsLink rightThigh = dac.findBoneLink("thigh.R");
-        rightThigh.getRigidBody().getCollisionShape().setMargin(thighMargin);
-
         return dac;
     }
 
     /**
-     * Anchor a skirt to the specified Puppet model.
+     * Add a wraparound skirt to the specified Puppet model.
      *
      * @param puppetDac the model's physics control (not null)
      */
     private void addSkirt(DynamicAnimControl puppetDac) {
-        int numSubdiv = 8;
-        int numAnchors = waistlineVertices.length;
-        Vector3f[] anchorLocal = new Vector3f[numAnchors];
-        Mesh mesh = createSkirtMesh(puppetDac, numSubdiv, anchorLocal);
+        int numSubdiv = 5;
+        int numAnchors = 51;
+        float length = 0.57f;
+        Vector3f[] anchorLocs = new Vector3f[numAnchors];
+        for (int zIndex = 0; zIndex < numAnchors; ++zIndex) {
+            anchorLocs[zIndex] = new Vector3f();
+        }
+        Mesh mesh = createSkirtMesh(puppetDac, numSubdiv, length, anchorLocs);
         /*
          * Create and configure the soft body.
          */
         PhysicsSoftBody skirtPsb = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(mesh, skirtPsb);
-        skirtPsb.setMass(0.01f);
+        skirtPsb.setMargin(0.1f);
+        skirtPsb.setMass(0.02f);
 
         SoftBodyConfig config = skirtPsb.getSoftConfig();
         config.set(Sbcp.AnchorHardness, 1f);
@@ -543,26 +596,27 @@ public class TestSoftBody
 
         PhysicsSoftBody.Material material = skirtPsb.getSoftMaterial();
         material.setAngularStiffness(0f);
+        material.setLinearStiffness(0.5f);
 
-        skirtPsb.setDebugMaterial(blueMaterial);
+        skirtPsb.setDebugMaterial(redMaterial);
         skirtPsb.setDebugMeshNormals(DebugMeshNormals.Smooth);
 
-        TorsoLink torsoLink = puppetDac.getTorsoLink();
-        Transform localToWorld = torsoLink.physicsTransform(null);
+        String vSpec0 = puppetVSpec(0);
+        PhysicsLink link = puppetDac.findManagerForVertex(vSpec0, null, null);
+        Transform localToWorld = link.physicsTransform(null);
         skirtPsb.applyTransform(localToWorld);
 
         physicsSpace.add(skirtPsb);
         skirtPsb.setGravity(new Vector3f(0f, -10f, 0f));
         /*
-         * Append anchors connecting Puppet to her skirt.
+         * Append anchors that join Puppet to her skirt.
          */
+        PhysicsRigidBody rigid = link.getRigidBody();
         boolean collide = true;
         float influence = 1f;
-        PhysicsRigidBody rigid = torsoLink.getRigidBody();
-        for (int anchorIndex = 0; anchorIndex < numAnchors; ++anchorIndex) {
-            int nodeIndex = numSubdiv * anchorIndex;
-            Vector3f inner = anchorLocal[anchorIndex];
-            skirtPsb.appendAnchor(nodeIndex, rigid, inner, collide, influence);
+        for (int anchorI = 0; anchorI < numAnchors; ++anchorI) {
+            Vector3f location = anchorLocs[anchorI];
+            skirtPsb.appendAnchor(anchorI, rigid, location, collide, influence);
         }
     }
 
@@ -658,7 +712,7 @@ public class TestSoftBody
         cam.setFrustumPerspective(yDegrees, aspectRatio, near, far);
 
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
+        flyCam.setMoveSpeed(2f);
         cam.setLocation(new Vector3f(0f, 2.2f, 3.9f));
         cam.setRotation(new Quaternion(0f, 0.98525f, -0.172f, 0f));
 
@@ -680,11 +734,9 @@ public class TestSoftBody
      * Configure materials during startup.
      */
     private void configureMaterials() {
-        ColorRGBA blue = new ColorRGBA(0.5f, 0.5f, 1f, 1f);
-        blueMaterial = MyAsset.createShadedMaterial(assetManager, blue);
-        blueMaterial.setName("blue");
-        RenderState renderState = blueMaterial.getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
+        greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
+        greenMaterial.setName("green");
 
         Texture plaid
                 = MyAsset.loadTexture(assetManager, "Textures/plaid.png", true);
@@ -692,7 +744,7 @@ public class TestSoftBody
         plaid.setWrap(Texture.WrapMode.Repeat);
         plaidMaterial = MyAsset.createShadedMaterial(assetManager, plaid);
         plaidMaterial.setName("plaid");
-        renderState = plaidMaterial.getAdditionalRenderState();
+        RenderState renderState = plaidMaterial.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         Texture texture = MyAsset.loadTexture(assetManager,
@@ -707,6 +759,14 @@ public class TestSoftBody
         pinkMaterial.setFloat("Shininess", 4f);
         pinkMaterial.setName("pink");
         renderState = pinkMaterial.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
+        ColorRGBA red = new ColorRGBA(0.7f, 0.01f, 0.01f, 1f);
+        redMaterial = MyAsset.createShadedMaterial(assetManager, red);
+        redMaterial.setColor("Specular", new ColorRGBA(0.05f, 0.05f, 0.05f, 1f));
+        redMaterial.setFloat("Shininess", 4f);
+        redMaterial.setName("red");
+        renderState = redMaterial.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
     }
 
@@ -733,92 +793,91 @@ public class TestSoftBody
      * @param puppetDac the model's physics control (not null)
      * @param numSubDiv the number of mesh squares between successive anchors
      * (&ge;1)
-     * @param anchorLocal storage for anchor locations (not null,
-     * length=numAnchors)
-     * @return a new Mesh
+     * @param skirtLength the desired length (in physics-space units, &get;0)
+     * @param local storage for waist locations in local coordinates (not null,
+     * modified)
+     * @return a new Mesh, fitted to the model in her bone's local coordinates
      */
     private Mesh createSkirtMesh(DynamicAnimControl puppetDac, int numSubdiv,
-            Vector3f[] anchorLocal) {
-        int numAnchors = waistlineVertices.length;
-        assert anchorLocal.length == numAnchors : numAnchors;
+            float skirtLength, Vector3f[] local) {
+        int numWaistVerts = waistlineVertices.length;
+        int numXLines = local.length;
 
-        int numXLines = numAnchors * numSubdiv - numSubdiv + 1;
-        Vector3f[] nodeLocal = new Vector3f[numXLines];
         for (int zIndex = 0; zIndex < numXLines; ++zIndex) {
-            nodeLocal[zIndex] = new Vector3f();
+            local[zIndex].zero();
         }
         /*
-         * Calculate anchor locations (in the local coordinates of the
-         * rigid body) along Puppet's waistline. Later, these will be
-         * anchored to the xIndex=0 edge of the ClothGrid.
+         * Calculate locations (in local coordinates of the
+         * rigid body) of the mesh vertices on Puppet's waistline.
          */
-        for (int anchorIndex = 0; anchorIndex < numAnchors; ++anchorIndex) {
-            int zIndex = numSubdiv * anchorIndex;
-            Vector3f local = nodeLocal[zIndex]; // alias
-            anchorLocal[anchorIndex] = local; // alias
-            String vSpec = puppetVSpec(anchorIndex);
-            PhysicsLink link = puppetDac.findManagerForVertex(vSpec, null, local);
-            assert link == puppetDac.getTorsoLink();
+        float raiseWaistline = 0.04f;
+        String vSpec = puppetVSpec(0);
+        PhysicsLink link0 = puppetDac.findManagerForVertex(vSpec, null, null);
+        for (int zIndex = 0; zIndex < numXLines; zIndex += numSubdiv) {
+            int waistVertI = (zIndex / numSubdiv) % numWaistVerts;
+            vSpec = puppetVSpec(waistVertI);
+            Vector3f location = local[zIndex];
+            PhysicsLink link
+                    = puppetDac.findManagerForVertex(vSpec, null, location);
+            assert link == link0 : link;
+            location.z -= raiseWaistline;
         }
         /*
-         * Expand the waistline outward (from the origin of the rigid body)
-         * to provide a margin.  Also, compute its maxRadius.
+         * Expand the waistline outward (from the apex of the cone)
+         * to provide a margin.  Also, compute maxRadius.
          */
-        float margin = 0.001f;
+        float margin = 0.02f;
+        Vector3f apex = aabbCenter(local, null);
+        float raiseApex = 0.5f; // 0 = full-circle skirt, 0.5 = not very full
+        apex.z -= raiseApex;
         float maxRadius = 0f;
-        for (int anchorIndex = 0; anchorIndex < numAnchors; ++anchorIndex) {
-            Vector3f local = anchorLocal[anchorIndex]; // alias
-            float radius = local.length();
+        for (int zIndex = 0; zIndex < numXLines; zIndex += numSubdiv) {
+            float radius = local[zIndex].distance(apex);
             float expandedRadius = radius + margin;
-            local.multLocal(expandedRadius / radius);
+            local[zIndex].multLocal(expandedRadius / radius);
 
             maxRadius = Math.max(expandedRadius, maxRadius);
         }
         /*
-         * Subdivide the waistline, interpolating numSubdiv-1 nodes
-         * between each pair of successive anchors.
+         * Subdivide the waistline, interpolating numSubdiv-1 soft-body nodes
+         * between each pair of successive Puppet vertices.
          * Also, calculate its circumference.
          */
         float circumference = 0f;
-        for (int anchorIndex = 1; anchorIndex < numAnchors; ++anchorIndex) {
-            int zIndex = numSubdiv * anchorIndex;
-            Vector3f local = nodeLocal[zIndex]; // alias
-            int prevAnchorZIndex = numSubdiv * (anchorIndex - 1);
-            Vector3f prevAnchorLocal = nodeLocal[prevAnchorZIndex]; // alias
-            float anchorSpacing = local.distance(prevAnchorLocal);
-            circumference += anchorSpacing;
+        for (int zIndex = numSubdiv; zIndex < numXLines; zIndex += numSubdiv) {
+            int prevZi = zIndex - numSubdiv;
+            float vSpacing = local[zIndex].distance(local[prevZi]);
+            circumference += vSpacing;
 
-            for (int zi = prevAnchorZIndex + 1; zi < zIndex; ++zi) {
-                float t = ((float) (zi - prevAnchorZIndex)) / numSubdiv;
-                MyVector3f.lerp(t, prevAnchorLocal, local, nodeLocal[zi]);
+            for (int zi = prevZi + 1; zi < zIndex; ++zi) {
+                float t = ((float) (zi - prevZi)) / numSubdiv;
+                MyVector3f.lerp(t, local[prevZi], local[zIndex], local[zi]);
             }
         }
         /*
          * Generate the mesh topology.
          */
-        float averageSpacing = circumference / (numAnchors - 1);
-        float skirtLength = 0.8f;
-        float outerRadius = maxRadius + skirtLength;
-        int numZLines = Math.round(skirtLength / averageSpacing);
+        float averageSpacing = circumference / (numXLines - 1);
+        int numZLines = Math.round(0.3f * skirtLength / averageSpacing);
         ClothGrid mesh = new ClothGrid(numXLines, numZLines, averageSpacing);
         /*
-         * Scale the waistline outward from a chosen point.
-         * Use those locations to deform the mesh into a roughly conical shape.
+         * Scale the waistline outward from the apex.
+         * Apply the resulting locations to deform the ClothGrid
+         * into a roughly conical shape.
          */
-        Vector3f scaleCenter = new Vector3f(0f, 0f, -0.3f);
+        float hemRadius = maxRadius + skirtLength;
         Vector3f offset = new Vector3f();
-        Vector3f outer = new Vector3f();
+        Vector3f hemLocation = new Vector3f();
         Vector3f tmpLocation = new Vector3f();
         for (int zIndex = 0; zIndex < numXLines; ++zIndex) {
-            Vector3f inner = nodeLocal[zIndex]; // alias
-            inner.subtract(scaleCenter, offset);
-            float innerRadius = offset.length();
-            offset.multLocal(outerRadius / innerRadius);
-            offset.add(scaleCenter, outer);
+            local[zIndex].subtract(apex, offset);
+            float waistRadius = offset.length();
+            offset.multLocal(hemRadius / waistRadius);
+            offset.add(apex, hemLocation);
 
             for (int xIndex = 0; xIndex < numZLines; ++xIndex) {
                 float t = ((float) xIndex) / (numZLines - 1);
-                MyVector3f.lerp(t, inner, outer, tmpLocation);
+                MyVector3f.lerp(t, local[zIndex], hemLocation, tmpLocation);
                 mesh.reposition(xIndex, zIndex, tmpLocation);
             }
         }
@@ -843,20 +902,31 @@ public class TestSoftBody
 
         String animationName = channel.getAnimationName();
         if (animationName == null) { // first time
-            animationName = "idle";
-        } else {
-            switch (animationName) {
-                case "walk":
-                    animationName = "idle";
-                    break;
-                case "idle":
-                    animationName = "walk";
-                    break;
-            }
+            channel.setAnim("jog");
+        } else if (animationName.equals("jog")) {
+            float blendTime = 1f; // seconds
+            channel.setAnim("walk", blendTime);
+        } else if (animationName.equals("walk")) {
+            float blendTime = 1f; // seconds
+            channel.setAnim("jog", blendTime);
         }
+    }
 
-        float blendTime = 1f; // seconds
-        channel.setAnim(animationName, blendTime);
+    /**
+     * Cycle through wind velocities.
+     */
+    private void nextWindVelocity() {
+        Collection<PhysicsSoftBody> softBodies = physicsSpace.getSoftBodyList();
+        for (PhysicsSoftBody softBody : softBodies) {
+            Vector3f windVelocity = softBody.windVelocity(null);
+            float windSpeed = windVelocity.length();
+            if (windSpeed > 1f) {
+                windVelocity.divideLocal(4f);
+            } else {
+                windVelocity.multLocal(4f);
+            }
+            softBody.setWindVelocity(windVelocity);
+        }
     }
 
     /**
