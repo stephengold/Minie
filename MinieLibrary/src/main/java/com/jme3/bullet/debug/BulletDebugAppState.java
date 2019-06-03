@@ -770,10 +770,11 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     public static interface DebugAppStateFilter {
         /**
-         * Test whether the specified physics object should be displayed.
+         * Test whether the specified physics object should be rendered in the
+         * debug scene.
          *
          * @param obj the joint or collision object to test (unaffected)
-         * @return return true if the object should be displayed, false if not
+         * @return return true if the object should be rendered, false if not
          */
         boolean displayObject(Savable obj);
     }
