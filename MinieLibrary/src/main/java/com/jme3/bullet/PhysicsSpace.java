@@ -487,7 +487,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Read the accuracy: the time step used when maxSubSteps>0.
+     * Read the accuracy: the time step used when maxSubSteps&gt;0.
      *
      * @return the time step (in seconds, &gt;0)
      */
@@ -874,7 +874,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Alter the accuracy (time step used when maxSubSteps>0).
+     * Alter the accuracy (time step used when maxSubSteps&gt;0).
      * <p>
      * In general, the smaller the time step, the more accurate (and
      * compute-intensive) the simulation will be.
