@@ -148,9 +148,13 @@ public class PhysicsSpace {
     final private Deque<PhysicsCollisionEvent> collisionEvents
             = new ArrayDeque<>(20);
     /**
-     * physics time step (in seconds, &gt;0)
+     * time step (in seconds, &gt;0) ignored when maxSubSteps=0
      */
     private float accuracy = 1f / 60f;
+    /**
+     * maximum time step (in seconds, &gt;0) ignored maxSubSteps>0
+     */
+    private float maxTimeStep = 0.1f;
     /**
      * maximum number of time steps per frame, or 0 for a variable time step
      * (&ge;0, default=4)
@@ -483,9 +487,9 @@ public class PhysicsSpace {
     }
 
     /**
-     * Read the accuracy (time step) of the physics simulation.
+     * Read the accuracy: the time step used when maxSubSteps>0.
      *
-     * @return the timestep (in seconds, &gt;0)
+     * @return the time step (in seconds, &gt;0)
      */
     public float getAccuracy() {
         return accuracy;
@@ -670,6 +674,16 @@ public class PhysicsSpace {
     public int maxSubSteps() {
         assert maxSubSteps >= 0 : maxSubSteps;
         return maxSubSteps;
+    }
+
+    /**
+     * Read the maximum time step (imposed when maxSubSteps=0).
+     *
+     * @return the maximum time step (in seconds, &gt;0, default=0.1)
+     */
+    public float maxTimeStep() {
+        assert maxTimeStep > 0f : maxTimeStep;
+        return maxTimeStep;
     }
 
     /**
@@ -860,11 +874,10 @@ public class PhysicsSpace {
     }
 
     /**
-     * Alter the accuracy (time step) of the physics simulation.
+     * Alter the accuracy (time step used when maxSubSteps>0).
      * <p>
      * In general, the smaller the time step, the more accurate (and
-     * compute-intensive) the simulation will be. Bullet works best with a time
-     * step of no more than 1/60 second.
+     * compute-intensive) the simulation will be.
      *
      * @param accuracy the desired time step (in seconds, &gt;0, default=1/60)
      */
@@ -898,7 +911,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Alter the maximum number of physics time steps per frame.
+     * Alter the maximum number of time steps per frame.
      * <p>
      * Extra physics steps help maintain determinism when the render fps drops
      * below 1/accuracy. For example a value of 2 can compensate for frame rates
@@ -912,6 +925,20 @@ public class PhysicsSpace {
     public void setMaxSubSteps(int steps) {
         Validate.nonNegative(steps, "steps");
         maxSubSteps = steps;
+    }
+
+    /**
+     * Alter the maximum time step (imposed when maxSubSteps=0).
+     * <p>
+     * In general, the smaller the time step, the more accurate (and
+     * compute-intensive) the simulation will be.
+     *
+     * @param maxTimeStep the desired maximum time step (in seconds, &gt;0,
+     * default=0.1)
+     */
+    public void setMaxTimeStep(float maxTimeStep) {
+        Validate.positive(maxTimeStep, "max time step");
+        this.maxTimeStep = maxTimeStep;
     }
 
     /**
@@ -1016,6 +1043,10 @@ public class PhysicsSpace {
      */
     public void update(float time) {
         assert time >= 0f : time;
+
+        if (maxSubSteps == 0) {
+            time = Math.min(time, maxTimeStep);
+        }
         update(time, maxSubSteps);
     }
     // *************************************************************************
