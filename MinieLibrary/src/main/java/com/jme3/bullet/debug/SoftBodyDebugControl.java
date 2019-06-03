@@ -37,6 +37,7 @@ import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.material.Material;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
@@ -183,6 +184,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         if (spatial instanceof Node) {
             assert this.spatial == null;
             spatial.setCullHint(Spatial.CullHint.Never);
+            spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
 
             Node node = (Node) spatial;
             if (anchorsGeometry != null) {
