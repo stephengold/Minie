@@ -415,7 +415,8 @@ public class DacWizard extends GuiApplication {
      * @param renderer the value passed to
      * {@link com.jme3.system.AppSettings#setRenderer(java.lang.String)}
      */
-    private static void mainStartup(boolean forceDialog, final String renderer) {
+    private static void mainStartup(final boolean forceDialog,
+            final String renderer) {
         /*
          * Instantiate the application.
          */
