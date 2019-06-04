@@ -6,8 +6,8 @@ apply plugin: 'maven'
 group = 'jme3utilities'
 
 // select one source-code option
-//sourceCompatibility = '1.7'
-sourceCompatibility = '1.8'
+sourceCompatibility = '1.7'
+//sourceCompatibility = '1.8'
 
 gradle.projectsEvaluated {
     tasks.withType(JavaCompile) { // compile-time options:
