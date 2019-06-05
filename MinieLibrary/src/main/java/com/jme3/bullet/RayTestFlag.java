@@ -87,16 +87,16 @@ public class RayTestFlag {
      */
     public static String describe(int flags) {
         List<String> flagList = new ArrayList<>(4);
-        if ((flags & FilterBackfaces) != 0) {
+        if ((flags & FilterBackfaces) != 0x0) {
             flagList.add("FilterBackfaces");
         }
-        if ((flags & KeepUnflippedNormal) != 0) {
+        if ((flags & KeepUnflippedNormal) != 0x0) {
             flagList.add("KeepUnflippedNormal");
         }
-        if ((flags & SubSimplexRaytest) != 0) {
+        if ((flags & SubSimplexRaytest) != 0x0) {
             flagList.add("SubSimplex");
         }
-        if ((flags & GjkRaytest) != 0) {
+        if ((flags & GjkRaytest) != 0x0) {
             flagList.add("Gjk");
         }
 
