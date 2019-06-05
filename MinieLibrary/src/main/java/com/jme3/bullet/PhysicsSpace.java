@@ -91,12 +91,12 @@ public class PhysicsSpace {
         SIMPLE,
         /**
          * btAxisSweep3: uses incremental 3-D sweep and prune, requires world
-         * bounds, limited to 16_384 objects
+         * bounds, limited to 16_384 physics objects
          */
         AXIS_SWEEP_3,
         /**
          * bt32BitAxisSweep3: uses incremental 3-D sweep and prune, requires
-         * world bounds, limited to 1_500_000 objects
+         * world bounds, limited to 1_500_000 physics objects
          */
         AXIS_SWEEP_3_32,
         /**
@@ -152,7 +152,7 @@ public class PhysicsSpace {
      */
     private float accuracy = 1f / 60f;
     /**
-     * maximum time step (in seconds, &gt;0) ignored maxSubSteps>0
+     * maximum time step (in seconds, &gt;0) ignored when maxSubSteps>0
      */
     private float maxTimeStep = 0.1f;
     /**
@@ -161,9 +161,9 @@ public class PhysicsSpace {
      */
     private int maxSubSteps = 4;
     /**
-     * flags used in ray tests
+     * flags used in ray tests (default=SubSimplexRaytest)
      */
-    private int rayTestFlags = 1 << 2;
+    private int rayTestFlags = RayTestFlag.SubSimplexRaytest;
     /**
      * copy of number of iterations used by the contact-and-constraint solver
      * (default=10)
@@ -574,7 +574,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Read the m_flags used in ray tests.
+     * Read the flags used in ray tests (native field: m_flags).
      *
      * @return which flags are used
      * @see com.jme3.bullet.RayTestFlag
@@ -594,9 +594,10 @@ public class PhysicsSpace {
     }
 
     /**
-     * Read the number of iterations used by the contact-and-constraint solver.
+     * Read the number of iterations used by the contact-and-constraint solver
+     * (native field: m_numIterations).
      *
-     * @return the number of iterations used
+     * @return the number of iterations used (&ge;1)
      */
     public int getSolverNumIterations() {
         return solverNumIterations;
@@ -1034,9 +1035,9 @@ public class PhysicsSpace {
     }
 
     /**
-     * Update this space. Invoked (by the Bullet app state) once per frame while
+     * Update this space. Invoked (by the BulletAppState) once per frame while
      * the app state is attached and enabled. Can also be used to single-step
-     * the physics simulation, if maxSubSteps is set to 1.
+     * the physics simulation, if maxSubSteps is set to 0 or 1.
      *
      * @see #setMaxSubSteps(int)
      * @param time time-per-frame multiplied by speed (in seconds, &ge;0)
@@ -1340,7 +1341,7 @@ public class PhysicsSpace {
 
     /**
      * Simulate for the specified time interval, using no more than the
-     * specified number of steps.
+     * specified number of steps. TODO inline
      *
      * @param time the time interval to simulate (in seconds, &ge;0)
      * @param maxSteps the maximum number of steps (&ge;1) or 0 for a variable
