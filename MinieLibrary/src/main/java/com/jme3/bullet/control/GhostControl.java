@@ -85,9 +85,9 @@ public class GhostControl
     // fields TODO re-order
 
     /**
-     * spatial to which this Control is added, or null if none TODO privatize
+     * spatial to which this Control is added, or null if none
      */
-    protected Spatial spatial;
+    private Spatial spatial;
     /**
      * true &rarr; enable shape scaling (to the extent the CollisionShape
      * supports it), false &rarr; disable shape scaling (default=false)
@@ -96,15 +96,15 @@ public class GhostControl
     /**
      * true&rarr;Control is enabled, false&rarr;Control is disabled
      */
-    protected boolean enabled = true;
+    private boolean enabled = true;
     /**
      * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
      */
-    protected boolean added = false;
+    private boolean added = false;
     /**
      * space to which the ghost object is (or would be) added
      */
-    protected PhysicsSpace space = null;
+    private PhysicsSpace space = null;
     /**
      * true &rarr; match physics-space coordinates to the spatial's local
      * coordinates, false &rarr; match physics-space coordinates to the
