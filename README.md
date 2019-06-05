@@ -444,16 +444,38 @@ Physics simulation can run with a fixed time step or a variable time step.
 The default configuration is a fixed time step of 1/60 second
 with up to 4 time steps per frame.
 
-To configure a variable time step:
+To configure a variable time step with a maximum of 0.25 seconds:
 
         space.setMaxSubSteps(0);
+        space.setMaxTimeStep(0.25f);
 
-To configure a fixed time step of 0.1 second with up to 6 time steps per frame:
+To configure a fixed time step of 0.01 second with up to 6 time steps per frame:
 
-        space.setAccuracy(0.1f);
+        space.setAccuracy(0.01f);
         space.setMaxSubSteps(6);
 
-TODO: gravity, solver iterations, ray-test flags, SoftBodyWorldInfo
+Note that `setAccuracy()` has no effect when `maxSubSteps==0`,
+whereas `setMaxTimeStep()` has no effect when `maxSubSteps>0`.
+
+Bullet's contact solver performs a fixed number of iterations per time step,
+by default, 10.  For higher-quality simualtion, increase this number.  For
+instance, to use 20 iterations:
+
+        space.setSolverNumIterations(20);
+
+TODO: gravity, ray-test flags, SoftBodyWorldInfo
+
+### Global configuration
+
+By default, the native library prints a startup message to `System.out`.
+Once the library is loaded (but not started) you can disable this message:
+
+        DebugTools.setStartupMessageEnabled(false);
+
+The default collision margin for new shapes is 0.04 physics-space units.
+To configure a default margin of 0.1 psu:
+
+        CollisionShape.setDefaultMargin(0.1f);
 
 ### Create physics controls, collision objects, and joints
 
@@ -583,7 +605,7 @@ due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 
 ## Collision detection
 
-Minie offers 4 collision-detection interfaces:
+Minie provides 4 collision-detection interfaces:
 
  1. You can add collision listeners to a `PhysicsSpace` to be notified about
     up to 4 collision contacts per colliding object, including references to
