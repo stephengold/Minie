@@ -82,12 +82,18 @@ public class GhostControl
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
-    // fields TODO re-order
+    // fields
 
     /**
-     * spatial to which this Control is added, or null if none
+     * true&rarr;body is added to a PhysicsSpace, false&rarr;not added
      */
-    private Spatial spatial;
+    private boolean added = false;
+    /**
+     * true &rarr; match physics-space coordinates to the spatial's local
+     * coordinates, false &rarr; match physics-space coordinates to the
+     * spatial's world coordinates
+     */
+    private boolean applyLocal = false;
     /**
      * true &rarr; enable shape scaling (to the extent the CollisionShape
      * supports it), false &rarr; disable shape scaling (default=false)
@@ -98,19 +104,13 @@ public class GhostControl
      */
     private boolean enabled = true;
     /**
-     * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
-     */
-    private boolean added = false;
-    /**
      * space to which the ghost object is (or would be) added
      */
     private PhysicsSpace space = null;
     /**
-     * true &rarr; match physics-space coordinates to the spatial's local
-     * coordinates, false &rarr; match physics-space coordinates to the
-     * spatial's world coordinates
+     * Spatial to which this Control is added, or null if none
      */
-    private boolean applyLocal = false;
+    private Spatial spatial;
     // *************************************************************************
     // constructors
 
@@ -130,7 +130,7 @@ public class GhostControl
         super(shape);
     }
     // *************************************************************************
-    // new methods exposed TODO re-order methods
+    // new methods exposed
 
     /**
      * Access the controlled Spatial.
@@ -186,36 +186,8 @@ public class GhostControl
     public void setApplyScale(boolean setting) {
         applyScale = setting;
     }
-
-    /**
-     * Access whichever spatial translation corresponds to the physics location.
-     *
-     * @return the pre-existing vector (not null) TODO
-     */
-    private Vector3f getSpatialTranslation() {
-        if (MySpatial.isIgnoringTransforms(spatial)) {
-            return translateIdentity;
-        } else if (applyLocal) {
-            return spatial.getLocalTranslation();
-        } else {
-            return spatial.getWorldTranslation();
-        }
-    }
-
-    /**
-     * Access whichever spatial rotation corresponds to the physics rotation.
-     *
-     * @return the pre-existing Quaternion (not null) TODO
-     */
-    private Quaternion getSpatialRotation() {
-        if (MySpatial.isIgnoringTransforms(spatial)) {
-            return rotateIdentity;
-        } else if (applyLocal) {
-            return spatial.getLocalRotation();
-        } else {
-            return spatial.getWorldRotation();
-        }
-    }
+    // *************************************************************************
+    // PhysicsControl methods
 
     /**
      * Clone this Control for a different Spatial. No longer used as of JME 3.1.
@@ -229,57 +201,35 @@ public class GhostControl
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
+     * Access the PhysicsSpace to which the ghost object is (or would be) added.
      *
-     * @return a new Control (not null)
+     * @return the pre-existing space, or null for none
      */
     @Override
-    public GhostControl jmeClone() {
-        try {
-            GhostControl clone = (GhostControl) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
+    public PhysicsSpace getPhysicsSpace() {
+        return space;
     }
 
     /**
-     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
-     * and original to resolve copied fields.
+     * Test whether this Control is enabled.
      *
-     * @param cloner the Cloner that's cloning this Control (not null)
-     * @param original the Control from which this Control was shallow-cloned
-     * (unused)
+     * @return true if enabled, otherwise false
      */
     @Override
-    public void cloneFields(Cloner cloner, Object original) {
-        super.cloneFields(cloner, original);
-        spatial = cloner.clone(spatial);
+    public boolean isEnabled() {
+        return enabled;
     }
-    // *************************************************************************
-    // PhysicsControl methods
 
     /**
-     * Alter which Spatial is controlled. Invoked when the Control is added to
-     * or removed from a Spatial. Should be invoked only by a subclass or from
-     * Spatial. Do not invoke directly from user code.
+     * Render this Control. Invoked once per view port per frame, provided the
+     * Control is added to a scene. Should be invoked only by a subclass or by
+     * the RenderManager.
      *
-     * @param controlledSpatial the Spatial to control (or null)
+     * @param rm the render manager (not null)
+     * @param vp the view port to render (not null)
      */
     @Override
-    public void setSpatial(Spatial controlledSpatial) {
-        if (spatial == controlledSpatial) {
-            return;
-        }
-
-        spatial = controlledSpatial;
-        setUserObject(controlledSpatial); // link from collision object
-
-        if (controlledSpatial != null) {
-            setPhysicsLocation(getSpatialTranslation());
-            setPhysicsRotation(getSpatialRotation());
-        }
+    public void render(RenderManager rm, ViewPort vp) {
     }
 
     /**
@@ -310,13 +260,52 @@ public class GhostControl
     }
 
     /**
-     * Test whether this Control is enabled.
+     * If enabled, add this control's physics object to the specified
+     * PhysicsSpace. If not enabled, alter where the object would be added. The
+     * object is removed from any other space it's currently in.
      *
-     * @return true if enabled, otherwise false
+     * @param newSpace where to add, or null to simply remove
      */
     @Override
-    public boolean isEnabled() {
-        return enabled;
+    public void setPhysicsSpace(PhysicsSpace newSpace) {
+        if (space == newSpace) {
+            return;
+        }
+        if (added) {
+            space.removeCollisionObject(this);
+            added = false;
+        }
+        if (newSpace != null && isEnabled()) {
+            newSpace.addCollisionObject(this);
+            added = true;
+        }
+        /*
+         * If this Control isn't enabled, its physics object will be
+         * added to the new space when the Control becomes enabled.
+         */
+        space = newSpace;
+    }
+
+    /**
+     * Alter which Spatial is controlled. Invoked when the Control is added to
+     * or removed from a Spatial. Should be invoked only by a subclass or from
+     * Spatial. Do not invoke directly from user code.
+     *
+     * @param controlledSpatial the Spatial to control (or null)
+     */
+    @Override
+    public void setSpatial(Spatial controlledSpatial) {
+        if (spatial == controlledSpatial) {
+            return;
+        }
+
+        spatial = controlledSpatial;
+        setUserObject(controlledSpatial); // link from collision object
+
+        if (controlledSpatial != null) {
+            setPhysicsLocation(getSpatialTranslation());
+            setPhysicsRotation(getSpatialRotation());
+        }
     }
 
     /**
@@ -349,72 +338,37 @@ public class GhostControl
             }
         }
     }
-
-    /**
-     * Render this Control. Invoked once per view port per frame, provided the
-     * control is added to a scene. Should be invoked only by a subclass or by
-     * the RenderManager.
-     *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
-     */
-    @Override
-    public void render(RenderManager rm, ViewPort vp) {
-    }
-
-    /**
-     * If enabled, add this control's physics object to the specified
-     * PhysicsSpace. If not enabled, alter where the object would be added. The
-     * object is removed from any other space it's currently in.
-     *
-     * @param newSpace where to add, or null to simply remove
-     */
-    @Override
-    public void setPhysicsSpace(PhysicsSpace newSpace) {
-        if (space == newSpace) {
-            return;
-        }
-        if (added) {
-            space.removeCollisionObject(this);
-            added = false;
-        }
-        if (newSpace != null && isEnabled()) {
-            newSpace.addCollisionObject(this);
-            added = true;
-        }
-        /*
-         * If this Control isn't enabled, its physics object will be
-         * added to the new space when the Control becomes enabled.
-         */
-        space = newSpace;
-    }
-
-    /**
-     * Access the PhysicsSpace to which the ghost object is (or would be) added.
-     *
-     * @return the pre-existing space, or null for none
-     */
-    @Override
-    public PhysicsSpace getPhysicsSpace() {
-        return space;
-    }
     // *************************************************************************
     // PhysicsGhostObject methods
 
     /**
-     * Serialize this Control, for example when saving to a J3O file.
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
+     * and original to resolve copied fields.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param cloner the Cloner that's cloning this Control (not null)
+     * @param original the Control from which this Control was shallow-cloned
+     * (unused)
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule oc = ex.getCapsule(this);
-        oc.write(enabled, "enabled", true);
-        oc.write(applyLocal, "applyLocalPhysics", false);
-        oc.write(applyScale, "applyScale", false);
-        oc.write(spatial, "spatial", null);
+    public void cloneFields(Cloner cloner, Object original) {
+        super.cloneFields(cloner, original);
+        spatial = cloner.clone(spatial);
+    }
+
+    /**
+     * Create a shallow clone for the JME cloner.
+     *
+     * @return a new Control (not null)
+     */
+    @Override
+    public GhostControl jmeClone() {
+        try {
+            GhostControl clone = (GhostControl) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     /**
@@ -427,10 +381,28 @@ public class GhostControl
     public void read(JmeImporter im) throws IOException {
         super.read(im);
         InputCapsule ic = im.getCapsule(this);
+
         enabled = ic.readBoolean("enabled", true);
         spatial = (Spatial) ic.readSavable("spatial", null);
         applyLocal = ic.readBoolean("applyLocalPhysics", false);
         applyScale = ic.readBoolean("applyScale", false);
+    }
+
+    /**
+     * Serialize this Control, for example when saving to a J3O file.
+     *
+     * @param ex exporter (not null)
+     * @throws IOException from exporter
+     */
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+        OutputCapsule oc = ex.getCapsule(this);
+
+        oc.write(enabled, "enabled", true);
+        oc.write(applyLocal, "applyLocalPhysics", false);
+        oc.write(applyScale, "applyScale", false);
+        oc.write(spatial, "spatial", null);
     }
     // *************************************************************************
     // private methods
@@ -456,5 +428,35 @@ public class GhostControl
         }
 
         return result;
+    }
+
+    /**
+     * Access whichever spatial rotation corresponds to the physics rotation.
+     *
+     * @return the pre-existing Quaternion (not null)
+     */
+    private Quaternion getSpatialRotation() {
+        if (MySpatial.isIgnoringTransforms(spatial)) {
+            return rotateIdentity;
+        } else if (applyLocal) {
+            return spatial.getLocalRotation();
+        } else {
+            return spatial.getWorldRotation();
+        }
+    }
+
+    /**
+     * Access whichever spatial translation corresponds to the physics location.
+     *
+     * @return the pre-existing vector (not null)
+     */
+    private Vector3f getSpatialTranslation() {
+        if (MySpatial.isIgnoringTransforms(spatial)) {
+            return translateIdentity;
+        } else if (applyLocal) {
+            return spatial.getLocalTranslation();
+        } else {
+            return spatial.getWorldTranslation();
+        }
     }
 }
