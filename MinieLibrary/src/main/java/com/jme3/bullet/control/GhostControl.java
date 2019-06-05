@@ -51,9 +51,9 @@ import jme3utilities.MySpatial;
 import jme3utilities.math.MyMath;
 
 /**
- * A physics control to link a PhysicsGhostObject to a spatial.
+ * A PhysicsControl to link a PhysicsGhostObject to a Spatial.
  * <p>
- * The ghost object moves with the spatial it is attached to and can be used to
+ * The ghost object moves with the Spatial it is attached to and can be used to
  * detect overlaps with other physics objects (e.g. aggro radius).
  *
  * @author normenhansen
@@ -82,10 +82,10 @@ public class GhostControl
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
-    // fields
+    // fields TODO re-order
 
     /**
-     * spatial to which this control is added, or null if none
+     * spatial to which this Control is added, or null if none TODO privatize
      */
     protected Spatial spatial;
     /**
@@ -94,7 +94,7 @@ public class GhostControl
      */
     private boolean applyScale = false;
     /**
-     * true&rarr;control is enabled, false&rarr;control is disabled
+     * true&rarr;Control is enabled, false&rarr;Control is disabled
      */
     protected boolean enabled = true;
     /**
@@ -106,8 +106,9 @@ public class GhostControl
      */
     protected PhysicsSpace space = null;
     /**
-     * true &rarr; physics-space coordinates match local transform, false &rarr;
-     * physics-space coordinates match world transform
+     * true &rarr; match physics-space coordinates to the spatial's local
+     * coordinates, false &rarr; match physics-space coordinates to the
+     * spatial's world coordinates
      */
     private boolean applyLocal = false;
     // *************************************************************************
@@ -121,7 +122,7 @@ public class GhostControl
     }
 
     /**
-     * Instantiate an enabled control with the specified CollisionShape.
+     * Instantiate an enabled Control with the specified CollisionShape.
      *
      * @param shape the desired shape (not null, alias created)
      */
@@ -129,12 +130,12 @@ public class GhostControl
         super(shape);
     }
     // *************************************************************************
-    // new methods exposed
+    // new methods exposed TODO re-order methods
 
     /**
-     * Access the controlled spatial.
+     * Access the controlled Spatial.
      *
-     * @return the spatial, or null if none
+     * @return the Spatial, or null if none
      */
     public Spatial getSpatial() {
         return spatial;
@@ -204,7 +205,7 @@ public class GhostControl
     /**
      * Access whichever spatial rotation corresponds to the physics rotation.
      *
-     * @return the pre-existing quaternion (not null) TODO
+     * @return the pre-existing Quaternion (not null) TODO
      */
     private Quaternion getSpatialRotation() {
         if (MySpatial.isIgnoringTransforms(spatial)) {
@@ -217,10 +218,10 @@ public class GhostControl
     }
 
     /**
-     * Clone this control for a different spatial. No longer used as of JME 3.1.
+     * Clone this Control for a different Spatial. No longer used as of JME 3.1.
      *
-     * @param spatial the spatial for the clone to control (or null)
-     * @return a new control (not null)
+     * @param spatial the Spatial for the clone to control (or null)
+     * @return a new Control (not null)
      */
     @Override
     public Control cloneForSpatial(Spatial spatial) {
@@ -230,7 +231,7 @@ public class GhostControl
     /**
      * Create a shallow clone for the JME cloner.
      *
-     * @return a new control (not null)
+     * @return a new Control (not null)
      */
     @Override
     public GhostControl jmeClone() {
@@ -244,11 +245,11 @@ public class GhostControl
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified cloner
+     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this control (not null)
-     * @param original the control from which this control was shallow-cloned
+     * @param cloner the Cloner that's cloning this Control (not null)
+     * @param original the Control from which this Control was shallow-cloned
      * (unused)
      */
     @Override
@@ -260,11 +261,11 @@ public class GhostControl
     // PhysicsControl methods
 
     /**
-     * Alter which spatial is controlled. Invoked when the control is added to
-     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Alter which Spatial is controlled. Invoked when the Control is added to
+     * or removed from a Spatial. Should be invoked only by a subclass or from
      * Spatial. Do not invoke directly from user code.
      *
-     * @param controlledSpatial the spatial to control (or null)
+     * @param controlledSpatial the Spatial to control (or null)
      */
     @Override
     public void setSpatial(Spatial controlledSpatial) {
@@ -282,13 +283,13 @@ public class GhostControl
     }
 
     /**
-     * Enable or disable this control.
+     * Enable or disable this Control.
      * <p>
-     * When the control is disabled, the ghost object is removed from physics
-     * space. When the control is enabled again, the object is moved to the
-     * current location of the spatial and then added to the PhysicsSpace.
+     * When the Control is disabled, the ghost object is removed from physics
+     * space. When the Control is enabled again, the object is moved to the
+     * current location of the Spatial and then added to the PhysicsSpace.
      *
-     * @param enabled true&rarr;enable the control, false&rarr;disable it
+     * @param enabled true&rarr;enable the Control, false&rarr;disable it
      */
     @Override
     public void setEnabled(boolean enabled) {
@@ -309,7 +310,7 @@ public class GhostControl
     }
 
     /**
-     * Test whether this control is enabled.
+     * Test whether this Control is enabled.
      *
      * @return true if enabled, otherwise false
      */
@@ -319,8 +320,8 @@ public class GhostControl
     }
 
     /**
-     * Update this control. Invoked once per frame during the logical-state
-     * update, provided the control is added to a scene. Do not invoke directly
+     * Update this Control. Invoked once per frame during the logical-state
+     * update, provided the Control is added to a scene. Do not invoke directly
      * from user code.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
@@ -350,7 +351,7 @@ public class GhostControl
     }
 
     /**
-     * Render this control. Invoked once per view port per frame, provided the
+     * Render this Control. Invoked once per view port per frame, provided the
      * control is added to a scene. Should be invoked only by a subclass or by
      * the RenderManager.
      *
@@ -362,9 +363,9 @@ public class GhostControl
     }
 
     /**
-     * If enabled, add this control's physics object to the specified physics
-     * space. If not enabled, alter where the object would be added. The object
-     * is removed from any other space it's currently in.
+     * If enabled, add this control's physics object to the specified
+     * PhysicsSpace. If not enabled, alter where the object would be added. The
+     * object is removed from any other space it's currently in.
      *
      * @param newSpace where to add, or null to simply remove
      */
@@ -382,8 +383,8 @@ public class GhostControl
             added = true;
         }
         /*
-         * If this control isn't enabled, its physics object will be
-         * added to the new space when the control becomes enabled.
+         * If this Control isn't enabled, its physics object will be
+         * added to the new space when the Control becomes enabled.
          */
         space = newSpace;
     }
@@ -401,7 +402,7 @@ public class GhostControl
     // PhysicsGhostObject methods
 
     /**
-     * Serialize this control, for example when saving to a J3O file.
+     * Serialize this Control, for example when saving to a J3O file.
      *
      * @param ex exporter (not null)
      * @throws IOException from exporter
@@ -417,7 +418,7 @@ public class GhostControl
     }
 
     /**
-     * De-serialize this control, for example when loading from a J3O file.
+     * De-serialize this Control, for example when loading from a J3O file.
      *
      * @param im importer (not null)
      * @throws IOException from importer
@@ -435,7 +436,7 @@ public class GhostControl
     // private methods
 
     /**
-     * Copy whichever spatial scale corresponds to the shape scale.
+     * Copy whichever scale vector corresponds to the shape scale.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the scale factor for each local axis (either storeResult or a new
