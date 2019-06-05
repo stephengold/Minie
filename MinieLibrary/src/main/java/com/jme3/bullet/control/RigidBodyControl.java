@@ -61,7 +61,7 @@ import jme3utilities.MySpatial;
 import jme3utilities.math.MyMath;
 
 /**
- * A physics control to link a PhysicsRigidBody to a spatial.
+ * A PhysicsControl to link a PhysicsRigidBody to a Spatial.
  *
  * @author normenhansen
  */
@@ -92,16 +92,16 @@ public class RigidBodyControl
     // fields
 
     /**
-     * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
+     * true&rarr;body is added to a PhysicsSpace, false&rarr;not added
      */
     private boolean added = false;
     /**
-     * true &rarr; enable shape scaling (to the extent the CollisionShape
+     * true &rarr; enable shape scaling (to the extent that the CollisionShape
      * supports it), false &rarr; disable shape scaling (default=false)
      */
     private boolean applyScale = false;
     /**
-     * true&rarr;control is enabled, false&rarr;control is disabled
+     * true&rarr;Control is enabled, false&rarr;Control is disabled
      */
     private boolean enabled = true;
     /**
@@ -113,7 +113,7 @@ public class RigidBodyControl
      */
     private PhysicsSpace space = null;
     /**
-     * spatial to which this control is added, or null if none
+     * Spatial to which this Control is added, or null if none
      */
     private Spatial spatial;
     // *************************************************************************
@@ -127,9 +127,9 @@ public class RigidBodyControl
     }
 
     /**
-     * Instantiate an enabled control with a responsive dynamic or static body
+     * Instantiate an enabled Control with a responsive dynamic or static body
      * and the specified mass. The CollisionShape is generated automatically
-     * when the control is added to a spatial.
+     * when the Control is added to a Spatial.
      *
      * @param mass the desired mass (&ge;0) if &gt;0, a HullCollisionShape is
      * generated, otherwise a MeshCollisionShape is used. For geometries with
@@ -140,7 +140,7 @@ public class RigidBodyControl
     }
 
     /**
-     * Instantiate an enabled control with a responsive dynamic body, mass=1,
+     * Instantiate an enabled Control with a responsive dynamic body, mass=1,
      * and the specified CollisionShape.
      *
      * @param shape the desired shape (not null, alias created)
@@ -150,7 +150,7 @@ public class RigidBodyControl
     }
 
     /**
-     * Instantiate an enabled control with a responsive dynamic or static body
+     * Instantiate an enabled Control with a responsive dynamic or static body
      * and the specified CollisionShape and mass.
      *
      * @param shape the desired shape (not null, alias created)
@@ -163,9 +163,9 @@ public class RigidBodyControl
     // new methods exposed
 
     /**
-     * Access the controlled spatial.
+     * Access the controlled Spatial.
      *
-     * @return the spatial, or null if none
+     * @return the Spatial, or null if none
      */
     public Spatial getSpatial() {
         return spatial;
@@ -193,9 +193,9 @@ public class RigidBodyControl
     }
 
     /**
-     * Test whether this control is in kinematic mode.
+     * Test whether this Control is in kinematic mode.
      *
-     * @return true if the spatial location and rotation are applied to the
+     * @return true if the spatial's location and rotation are applied to the
      * rigid body, otherwise false
      */
     final public boolean isKinematicSpatial() {
@@ -242,7 +242,7 @@ public class RigidBodyControl
     // new protected methods
 
     /**
-     * Set the body's CollisionShape based on the controlled spatial and its
+     * Set the body's CollisionShape based on the controlled Spatial and its
      * descendants.
      */
     protected void createCollisionShape() {
@@ -275,10 +275,10 @@ public class RigidBodyControl
     // PhysicsControl methods
 
     /**
-     * Clone this control for a different spatial. No longer used as of JME 3.1.
+     * Clone this Control for a different Spatial. No longer used as of JME 3.1.
      *
-     * @param spatial the spatial for the clone to control (or null)
-     * @return a new control (not null)
+     * @param spatial the Spatial for the clone to control (or null)
+     * @return a new Control (not null)
      */
     @Override
     public Control cloneForSpatial(Spatial spatial) {
@@ -296,7 +296,7 @@ public class RigidBodyControl
     }
 
     /**
-     * Test whether this control is enabled.
+     * Test whether this Control is enabled.
      *
      * @return true if enabled, otherwise false
      */
@@ -306,8 +306,8 @@ public class RigidBodyControl
     }
 
     /**
-     * Render this control. Invoked once per view port per frame, provided the
-     * control is added to a scene. Should be invoked only by a subclass or by
+     * Render this Control. Invoked once per view port per frame, provided the
+     * Control is added to a scene. Should be invoked only by a subclass or by
      * the RenderManager.
      *
      * @param rm the render manager (not null)
@@ -318,11 +318,11 @@ public class RigidBodyControl
     }
 
     /**
-     * Enable or disable this control.
+     * Enable or disable this Control.
      * <p>
-     * When the control is disabled, the body is removed from PhysicsSpace. When
-     * the control is enabled again, the body is moved to the current location
-     * of the spatial and then added to the PhysicsSpace.
+     * When the Control is disabled, the body is removed from PhysicsSpace. When
+     * the Control is enabled again, the body is moved to the current location
+     * of the Spatial and then added to the PhysicsSpace.
      *
      * @param enabled true&rarr;enable the control, false&rarr;disable it
      */
@@ -366,18 +366,18 @@ public class RigidBodyControl
             added = true;
         }
         /*
-         * If this control isn't enabled, its body will be
-         * added to the new space when the control becomes enabled.
+         * If this Control isn't enabled, its body will be
+         * added to the new space when the Control becomes enabled.
          */
         space = newSpace;
     }
 
     /**
-     * Alter which spatial is controlled. Invoked when the control is added to
-     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Alter which Spatial is controlled. Invoked when the Control is added to
+     * or removed from a Spatial. Should be invoked only by a subclass or from
      * Spatial. Do not invoke directly from user code.
      *
-     * @param controlledSpatial the spatial to control (or null)
+     * @param controlledSpatial the Spatial to control (or null)
      */
     @Override
     public void setSpatial(Spatial controlledSpatial) {
@@ -399,8 +399,8 @@ public class RigidBodyControl
     }
 
     /**
-     * Update this control. Invoked once per frame, during the logical-state
-     * update, provided the control is added to a scene.
+     * Update this Control. Invoked once per frame, during the logical-state
+     * update, provided the Control is added to a scene.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
      */
@@ -437,11 +437,11 @@ public class RigidBodyControl
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified cloner
+     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this control (not null)
-     * @param original the control from which this control was shallow-cloned
+     * @param cloner the Cloner that's cloning this Control (not null)
+     * @param original the Control from which this Control was shallow-cloned
      * (unused)
      */
     @Override
@@ -453,7 +453,7 @@ public class RigidBodyControl
     /**
      * Create a shallow clone for the JME cloner.
      *
-     * @return a new control (not null)
+     * @return a new Control (not null)
      */
     @Override
     public RigidBodyControl jmeClone() {
@@ -466,7 +466,7 @@ public class RigidBodyControl
     }
 
     /**
-     * De-serialize this control, for example when loading from a J3O file.
+     * De-serialize this Control, for example when loading from a J3O file.
      *
      * @param im importer (not null)
      * @throws IOException from importer
@@ -485,7 +485,7 @@ public class RigidBodyControl
     }
 
     /**
-     * Serialize this control, for example when saving to a J3O file.
+     * Serialize this Control, for example when saving to a J3O file.
      *
      * @param ex exporter (not null)
      * @throws IOException from exporter
@@ -506,7 +506,7 @@ public class RigidBodyControl
     // private methods
 
     /**
-     * Update whichever spatial scale corresponds to the shape scale.
+     * Update whichever scale corresponds to the shape scale.
      */
     private void applySpatialScale() {
         Vector3f scale = getPhysicsScale(null);
@@ -525,7 +525,7 @@ public class RigidBodyControl
     }
 
     /**
-     * Copy whichever spatial scale corresponds to the shape scale.
+     * Copy whichever scale corresponds to the shape scale.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the scale factor for each local axis of the shape (either
@@ -548,7 +548,7 @@ public class RigidBodyControl
     }
 
     /**
-     * Access whichever spatial translation corresponds to the physics location.
+     * Access whichever translation corresponds to the physics location.
      *
      * @return the pre-existing vector (not null)
      */
@@ -566,7 +566,7 @@ public class RigidBodyControl
     }
 
     /**
-     * Access whichever spatial rotation corresponds to the physics rotation.
+     * Access whichever rotation corresponds to the physics rotation.
      *
      * @return the pre-existing quaternion (not null)
      */
