@@ -713,11 +713,11 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified cloner
+     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this control (not null, modified)
-     * @param original the control from which this control was shallow-cloned
+     * @param cloner the Cloner that's cloning this Control (not null, modified)
+     * @param original the Control from which this Control was shallow-cloned
      * (not null, unaffected)
      */
     @Override
@@ -750,8 +750,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     @Override
     public DacConfiguration jmeClone() {
         try {
-            DacConfiguration clone
-                    = (DacConfiguration) super.clone();
+            DacConfiguration clone = (DacConfiguration) super.clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
@@ -759,7 +758,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * De-serialize this control, for example when loading from a J3O file.
+     * De-serialize this Control, for example when loading from a J3O file.
      *
      * @param im importer (not null)
      * @throws IOException from importer
@@ -804,15 +803,16 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Render this control. Invoked once per view port per frame, provided the
+     * Render this control. Invoked once per ViewPort per frame, provided the
      * control is added to a scene. Should be invoked only by a subclass or by
      * the RenderManager.
      *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
+     * @param rm the render manager (unused)
+     * @param vp the view port to render (unused)
      */
     @Override
     public void render(RenderManager rm, ViewPort vp) {
+        // do nothing
     }
 
     /**
@@ -831,7 +831,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Serialize this control, for example when saving to a J3O file.
+     * Serialize this Control, for example when saving to a J3O file.
      *
      * @param ex exporter (not null)
      * @throws IOException from exporter

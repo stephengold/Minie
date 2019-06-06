@@ -50,7 +50,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A physics control to link a PhysicsCharacter to a Spatial. Compare with
+ * A PhysicsControl to link a PhysicsCharacter to a Spatial. Compare with
  * {@link com.jme3.bullet.control.BetterCharacterControl} and JME's
  * CharacterControl.
  *
@@ -102,7 +102,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Instantiate an enabled control with the specified CollisionShape and step
+     * Instantiate an enabled Control with the specified CollisionShape and step
      * height.
      *
      * @param shape the desired shape (not null, alias created)
@@ -299,7 +299,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Render this control. Invoked once per view port per frame, provided the
+     * Render this control. Invoked once per ViewPort per frame, provided the
      * control is added to a scene. Should be invoked only by a subclass or by
      * the RenderManager.
      *
@@ -308,7 +308,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     @Override
     public void render(RenderManager rm, ViewPort vp) {
-        // does nothing
+        // do nothing
     }
 
     /**
@@ -328,7 +328,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     @Override
     protected void setPhysicsRotation(Quaternion quat) {
-        // does nothing
+        // do nothing
     }
 
     /**

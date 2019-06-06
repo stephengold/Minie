@@ -272,10 +272,11 @@ abstract public class AbstractPhysicsControl
     // PhysicsControl methods
 
     /**
-     * Clone this control for a different spatial. No longer used as of JME 3.1.
+     * Clone this Control for a different Spatial. No longer used as of JME 3.1.
      *
-     * @param spatial the spatial for the clone to control (or null)
-     * @return a new control (not null)
+     * @param spatial (unused)
+     * @return never
+     * @throws UnsupportedOperationException always
      */
     @Override
     public Control cloneForSpatial(Spatial spatial) {

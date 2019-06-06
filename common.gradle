@@ -28,8 +28,7 @@ gradle.projectsEvaluated {
     }
 }
 
-ext {
-    // current versions of the libraries
+ext { // current versions of the libraries
     heartVersion = '2.28.0'
     jme3utilitiesuiVersion = '0.7.2'
     jmonkeyengineVersion = '3.2.3-stable'
@@ -43,18 +42,17 @@ repositories {
     jcenter()
 }
 
+// custom tasks for creating source/javadoc jars
 task sourcesJar(type: Jar, dependsOn: classes, description: 'Create a jar of source files.') {
     classifier = 'sources'
     from sourceSets.main.allJava
 }
-
 task javadocJar(type: Jar, dependsOn: javadoc, description: 'Create a jar of javadoc.') {
     classifier = 'javadoc'
     from javadoc.destinationDir
 }
 
+// add javadoc/source jar tasks as artifacts
 artifacts {
-    archives jar
-    archives sourcesJar
-    archives javadocJar
+    archives jar, sourcesJar, javadocJar
 }

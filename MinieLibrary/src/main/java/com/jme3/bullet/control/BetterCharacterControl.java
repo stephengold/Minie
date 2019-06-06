@@ -82,7 +82,7 @@ public class BetterCharacterControl
     final public static Logger logger2
             = Logger.getLogger(BetterCharacterControl.class.getName());
     // *************************************************************************
-    // fields
+    // fields TODO re-order
 
     private PhysicsRigidBody rigidBody;
     private float radius;
@@ -92,7 +92,7 @@ public class BetterCharacterControl
      */
     private float mass;
     /**
-     * relative height when ducked (1=full height)
+     * relative height when ducked (&gt;0, &le;1, 1=full height)
      */
     private float duckedFactor = 0.6f;
     /**
@@ -539,10 +539,10 @@ public class BetterCharacterControl
     }
 
     /**
-     * Destroy spatial-dependent data. Invoked when this control is removed from
-     * a spatial.
+     * Destroy spatial-dependent data. Invoked when this Control is removed from
+     * its controlled spatial.
      *
-     * @param spat the previously controlled spatial (not null)
+     * @param spat the previously controlled spatial (unused)
      */
     @Override
     protected void removeSpatialData(Spatial spat) {
@@ -550,15 +550,16 @@ public class BetterCharacterControl
     }
 
     /**
-     * Render this control. Invoked once per view port per frame, provided the
+     * Render this Control. Invoked once per ViewPort per frame, provided the
      * control is added to a scene. Should be invoked only by a subclass or by
      * the RenderManager.
      *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
+     * @param rm the render manager (unused)
+     * @param vp the view port to render (unused)
      */
     @Override
     public void render(RenderManager rm, ViewPort vp) {
+        // do nothing
     }
 
     /**
@@ -578,7 +579,7 @@ public class BetterCharacterControl
      * We don't set the actual physics rotation but the view rotation here. It
      * might actually be altered by the calculateNewForward method.
      *
-     * @param quat desired orientation (not null, unaffected)
+     * @param quat the desired orientation (not null, unaffected)
      */
     @Override
     protected void setPhysicsRotation(Quaternion quat) {
@@ -588,8 +589,8 @@ public class BetterCharacterControl
     }
 
     /**
-     * Update this control. Invoked once per frame during the logical-state
-     * update, provided the control is added to a scene graph. Do not invoke
+     * Update this Control. Invoked once per frame during the logical-state
+     * update, provided the Control is added to a scene graph. Do not invoke
      * directly from user code.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
@@ -853,5 +854,4 @@ public class BetterCharacterControl
         localForwardRotation.multLocal(rotatedViewDirection.set(viewDirection));
         calculateNewForward(rotation, rotatedViewDirection, localUp);
     }
-
 }

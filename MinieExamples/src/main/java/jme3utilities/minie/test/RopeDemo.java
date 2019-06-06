@@ -926,7 +926,7 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Generate a skeleton composed of straight-line branches originating from
+     * Generate a Skeleton composed of straight-line branches originating from
      * the root bone.
      *
      * @param branchToNumSteps the number of bones in each branch (each &ge;1)

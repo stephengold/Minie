@@ -53,7 +53,7 @@ import jme3utilities.math.MyMath;
 /**
  * A PhysicsControl to link a PhysicsGhostObject to a Spatial.
  * <p>
- * The ghost object moves with the Spatial it is attached to and can be used to
+ * The ghost object follows the Spatial it is attached to and can be used to
  * detect overlaps with other physics objects (e.g. aggro radius).
  *
  * @author normenhansen
@@ -89,14 +89,14 @@ public class GhostControl
      */
     private boolean added = false;
     /**
-     * true &rarr; match physics-space coordinates to the spatial's local
-     * coordinates, false &rarr; match physics-space coordinates to the
-     * spatial's world coordinates
+     * true&rarr;match physics-space coordinates to the spatial's local
+     * coordinates, false&rarr;match physics-space coordinates to the spatial's
+     * world coordinates
      */
     private boolean applyLocal = false;
     /**
-     * true &rarr; enable shape scaling (to the extent the CollisionShape
-     * supports it), false &rarr; disable shape scaling (default=false)
+     * true&rarr;enable shape scaling (to the extent the CollisionShape supports
+     * it), false&rarr;disable shape scaling (default=false)
      */
     private boolean applyScale = false;
     /**
@@ -192,8 +192,9 @@ public class GhostControl
     /**
      * Clone this Control for a different Spatial. No longer used as of JME 3.1.
      *
-     * @param spatial the Spatial for the clone to control (or null)
-     * @return a new Control (not null)
+     * @param spatial (unused)
+     * @return never
+     * @throws UnsupportedOperationException always
      */
     @Override
     public Control cloneForSpatial(Spatial spatial) {
@@ -221,15 +222,16 @@ public class GhostControl
     }
 
     /**
-     * Render this Control. Invoked once per view port per frame, provided the
+     * Render this Control. Invoked once per ViewPort per frame, provided the
      * Control is added to a scene. Should be invoked only by a subclass or by
      * the RenderManager.
      *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
+     * @param rm the RenderManager (unused)
+     * @param vp the ViewPort to render (unused)
      */
     @Override
     public void render(RenderManager rm, ViewPort vp) {
+        // do nothing
     }
 
     /**
@@ -383,9 +385,9 @@ public class GhostControl
         InputCapsule ic = im.getCapsule(this);
 
         enabled = ic.readBoolean("enabled", true);
-        spatial = (Spatial) ic.readSavable("spatial", null);
         applyLocal = ic.readBoolean("applyLocalPhysics", false);
         applyScale = ic.readBoolean("applyScale", false);
+        spatial = (Spatial) ic.readSavable("spatial", null);
     }
 
     /**
@@ -411,8 +413,8 @@ public class GhostControl
      * Copy whichever scale vector corresponds to the shape scale.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the scale factor for each local axis (either storeResult or a new
-     * vector, not null)
+     * @return the scale factor for each local axis of the shape (either
+     * storeResult or a new vector, not null)
      */
     private Vector3f copySpatialScale(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -431,7 +433,7 @@ public class GhostControl
     }
 
     /**
-     * Access whichever spatial rotation corresponds to the physics rotation.
+     * Access whichever rotation corresponds to the physics rotation.
      *
      * @return the pre-existing Quaternion (not null)
      */
@@ -446,7 +448,7 @@ public class GhostControl
     }
 
     /**
-     * Access whichever spatial translation corresponds to the physics location.
+     * Access whichever translation corresponds to the physics location.
      *
      * @return the pre-existing vector (not null)
      */

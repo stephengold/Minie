@@ -51,7 +51,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
- * A physics control to link a PhysicsVehicle to a spatial.
+ * A PhysicsControl to link a PhysicsVehicle to a Spatial.
  *
  * @author normenhansen
  */
@@ -70,11 +70,11 @@ public class VehicleControl
     // fields
 
     /**
-     * true&rarr;vehicle is added to the PhysicsSpace, false&rarr;not added
+     * true&rarr;vehicle is added to a PhysicsSpace, false&rarr;not added
      */
     private boolean added = false;
     /**
-     * true&rarr;control is enabled, false&rarr;control is disabled
+     * true&rarr;Control is enabled, false&rarr;Control is disabled
      */
     private boolean enabled = true;
     /**
@@ -82,7 +82,7 @@ public class VehicleControl
      */
     private PhysicsSpace space = null;
     /**
-     * spatial to which this control is added, or null if none
+     * Spatial to which this Control is added, or null if none
      */
     private Spatial spatial;
     // *************************************************************************
@@ -96,7 +96,7 @@ public class VehicleControl
     }
 
     /**
-     * Instantiate an enabled control with mass=1 and the specified
+     * Instantiate an enabled Control with mass=1 and the specified
      * CollisionShape.
      *
      * @param shape the desired shape (not null, alias created)
@@ -106,10 +106,11 @@ public class VehicleControl
     }
 
     /**
-     * Instantiate an enabled with the specified CollisionShape and mass.
+     * Instantiate an enabled Control with the specified CollisionShape and
+     * mass.
      *
      * @param shape the desired shape (not null, alias created)
-     * @param mass (&gt;0)
+     * @param mass the desired mass (&gt;0)
      */
     public VehicleControl(CollisionShape shape, float mass) {
         super(shape, mass);
@@ -118,9 +119,9 @@ public class VehicleControl
     // new methods exposed
 
     /**
-     * Access the controlled spatial.
+     * Access the controlled Spatial.
      *
-     * @return the spatial, or null if none
+     * @return the Spatial, or null if none
      */
     public Spatial getSpatial() {
         return spatial;
@@ -156,10 +157,11 @@ public class VehicleControl
     // PhysicsControl methods
 
     /**
-     * Clone this control for a different spatial. No longer used as of JME 3.1.
+     * Clone this Control for a different Spatial. No longer used as of JME 3.1.
      *
-     * @param spatial the spatial for the clone to control (or null)
-     * @return a new control (not null)
+     * @param spatial (unused)
+     * @return never
+     * @throws UnsupportedOperationException always
      */
     @Override
     public Control cloneForSpatial(Spatial spatial) {
@@ -177,7 +179,7 @@ public class VehicleControl
     }
 
     /**
-     * Test whether this control is enabled.
+     * Test whether this Control is enabled.
      *
      * @return true if enabled, otherwise false
      */
@@ -187,25 +189,26 @@ public class VehicleControl
     }
 
     /**
-     * Render this control. Invoked once per view port per frame, provided the
-     * control is added to a scene. Should be invoked only by a subclass or by
+     * Render this Control. Invoked once per ViewPort per frame, provided the
+     * Control is added to a scene. Should be invoked only by a subclass or by
      * the RenderManager.
      *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
+     * @param rm the RenderManager (unused)
+     * @param vp the ViewPort to render (unused)
      */
     @Override
     public void render(RenderManager rm, ViewPort vp) {
+        // do nothing
     }
 
     /**
-     * Enable or disable this control.
+     * Enable or disable this Control.
      * <p>
-     * When the control is disabled, the vehicle is removed from PhysicsSpace.
-     * When the control is enabled again, the vehicle is moved to the spatial's
-     * location and then added to the PhysicsSpace.
+     * When the Control is disabled, the vehicle is removed from PhysicsSpace.
+     * When the Control is enabled again, the vehicle is moved to the current
+     * location of the Spatial and then added to the PhysicsSpace.
      *
-     * @param enabled true&rarr;enable the control, false&rarr;disable it
+     * @param enabled true&rarr;enable the Control, false&rarr;disable it
      */
     @Override
     public void setEnabled(boolean enabled) {
@@ -221,14 +224,15 @@ public class VehicleControl
             } else if (!enabled && added) {
                 space.removeCollisionObject(this);
                 added = false;
+                // TODO also remove all joints
             }
         }
     }
 
     /**
-     * If enabled, add this control's physics object to the specified physics
-     * space. In not enabled, alter where the object would be added. The object
-     * is removed from any other space it's currently in.
+     * If enabled, add this control's physics object to the specified
+     * PhysicsSpace. In not enabled, alter where the object would be added. The
+     * object is removed from any other space it's currently in.
      *
      * @param newSpace where to add, or null to simply remove
      */
@@ -246,18 +250,18 @@ public class VehicleControl
             added = true;
         }
         /*
-         * If this control isn't enabled, its physics object will be
-         * added to the new space when the control becomes enabled.
+         * If this Control isn't enabled, its physics object will be
+         * added to the new space when the Control becomes enabled.
          */
         space = newSpace;
     }
 
     /**
-     * Alter which spatial is controlled. Invoked when the control is added to
-     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Alter which Spatial is controlled. Invoked when the Control is added to
+     * or removed from a Spatial. Should be invoked only by a subclass or from
      * Spatial. Do not invoke directly from user code.
      *
-     * @param spatial the spatial to control (or null)
+     * @param spatial the Spatial to control (or null)
      */
     @Override
     public void setSpatial(Spatial spatial) {
@@ -270,8 +274,8 @@ public class VehicleControl
     }
 
     /**
-     * Update this control. Invoked once per frame, during the logical-state
-     * update, provided the control is added to a scene.
+     * Update this Control. Invoked once per frame, during the logical-state
+     * update, provided the Control is added to a scene.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
      */
@@ -291,11 +295,11 @@ public class VehicleControl
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified cloner
+     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this control (not null)
-     * @param original the control from which this control was shallow-cloned
+     * @param cloner the Cloner that's cloning this Control (not null)
+     * @param original the Control from which this Control was shallow-cloned
      * (unused)
      */
     @Override
@@ -307,7 +311,7 @@ public class VehicleControl
     /**
      * Create a shallow clone for the JME cloner.
      *
-     * @return a new control (not null)
+     * @return a new Control (not null)
      */
     @Override
     public VehicleControl jmeClone() {
@@ -320,7 +324,7 @@ public class VehicleControl
     }
 
     /**
-     * De-serialize this control, for example when loading from a J3O file.
+     * De-serialize this Control, for example when loading from a J3O file.
      *
      * @param im importer (not null)
      * @throws IOException from importer
@@ -338,7 +342,7 @@ public class VehicleControl
     }
 
     /**
-     * Serialize this control, for example when saving to a J3O file.
+     * Serialize this Control, for example when saving to a J3O file.
      *
      * @param ex exporter (not null)
      * @throws IOException from exporter
@@ -357,7 +361,20 @@ public class VehicleControl
     // private methods
 
     /**
-     * Access whichever spatial translation corresponds to the physics location.
+     * Access whichever rotation corresponds to the physics rotation.
+     *
+     * @return the pre-existing Quaternion (not null)
+     */
+    private Quaternion getSpatialRotation() {
+        RigidBodyMotionState ms = getMotionState();
+        if (ms.isApplyPhysicsLocal()) {
+            return spatial.getLocalRotation();
+        }
+        return spatial.getWorldRotation();
+    }
+
+    /**
+     * Access whichever translation corresponds to the physics location.
      *
      * @return the pre-existing vector (not null)
      */
@@ -367,18 +384,5 @@ public class VehicleControl
             return spatial.getLocalTranslation();
         }
         return spatial.getWorldTranslation();
-    }
-
-    /**
-     * Access whichever spatial rotation corresponds to the physics rotation.
-     *
-     * @return the pre-existing quaternion (not null)
-     */
-    private Quaternion getSpatialRotation() {
-        RigidBodyMotionState ms = getMotionState();
-        if (ms.isApplyPhysicsLocal()) {
-            return spatial.getLocalRotation();
-        }
-        return spatial.getWorldRotation();
     }
 }

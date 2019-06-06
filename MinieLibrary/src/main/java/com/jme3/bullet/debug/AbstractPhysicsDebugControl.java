@@ -54,7 +54,7 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
     // fields
 
     /**
-     * app state that this control serves
+     * AppState that this Control serves
      */
     final protected BulletDebugAppState debugAppState;
     /**
@@ -65,7 +65,7 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
     // constructors
 
     /**
-     * Instantiate an enabled control to serve the specified debug app state.
+     * Instantiate an enabled Control to serve the specified debug app state.
      *
      * @param debugAppState which app state (not null, alias created)
      */
@@ -92,11 +92,11 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified cloner
+     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this control (unused)
-     * @param original the control from which this control was shallow-cloned
+     * @param cloner the Cloner that's cloning this Control (unused)
+     * @param original the control from which this Control was shallow-cloned
      * (unused)
      */
     @Override
@@ -105,15 +105,16 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
     }
 
     /**
-     * Render this control. Invoked once per view port per frame, provided the
-     * control is enabled and added to a scene. Should be invoked only by a
+     * Render this Control. Invoked once per ViewPort per frame, provided the
+     * Control is enabled and added to a scene. Should be invoked only by a
      * subclass or by AbstractControl.
      *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
+     * @param rm the render manager (unused)
+     * @param vp the view port to render (unused)
      */
     @Override
     protected void controlRender(RenderManager rm, ViewPort vp) {
+        // do nothing
     }
 
     /**
@@ -128,7 +129,7 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
     }
 
     /**
-     * De-serialize this control from the specified importer, for example when
+     * De-serialize this Control from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param im importer (unused)
@@ -141,7 +142,7 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
     }
 
     /**
-     * Serialize this object, for example when saving to a J3O file.
+     * Serialize this Control, for example when saving to a J3O file.
      *
      * @param ex exporter (unused)
      * @throws IOException never
@@ -155,7 +156,7 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
     // private methods
 
     /**
-     * Apply the specified location and orientation to the specified spatial.
+     * Apply the specified location and orientation to the specified Spatial.
      *
      * @param worldLocation location vector (in physics-space coordinates, not
      * null, unaffected)

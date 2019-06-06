@@ -96,8 +96,8 @@ public class RigidBodyControl
      */
     private boolean added = false;
     /**
-     * true &rarr; enable shape scaling (to the extent that the CollisionShape
-     * supports it), false &rarr; disable shape scaling (default=false)
+     * true&rarr;enable shape scaling (to the extent that the CollisionShape
+     * supports it), false&rarr;disable shape scaling (default=false)
      */
     private boolean applyScale = false;
     /**
@@ -277,8 +277,9 @@ public class RigidBodyControl
     /**
      * Clone this Control for a different Spatial. No longer used as of JME 3.1.
      *
-     * @param spatial the Spatial for the clone to control (or null)
-     * @return a new Control (not null)
+     * @param spatial (unused)
+     * @return never
+     * @throws UnsupportedOperationException always
      */
     @Override
     public Control cloneForSpatial(Spatial spatial) {
@@ -306,15 +307,16 @@ public class RigidBodyControl
     }
 
     /**
-     * Render this Control. Invoked once per view port per frame, provided the
+     * Render this Control. Invoked once per ViewPort per frame, provided the
      * Control is added to a scene. Should be invoked only by a subclass or by
      * the RenderManager.
      *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
+     * @param rm the RenderManager (unused)
+     * @param vp the ViewPort to render (unused)
      */
     @Override
     public void render(RenderManager rm, ViewPort vp) {
+        // do nothing
     }
 
     /**
@@ -324,7 +326,7 @@ public class RigidBodyControl
      * the Control is enabled again, the body is moved to the current location
      * of the Spatial and then added to the PhysicsSpace.
      *
-     * @param enabled true&rarr;enable the control, false&rarr;disable it
+     * @param enabled true&rarr;enable the Control, false&rarr;disable it
      */
     @Override
     public void setEnabled(boolean enabled) {
@@ -399,8 +401,9 @@ public class RigidBodyControl
     }
 
     /**
-     * Update this Control. Invoked once per frame, during the logical-state
-     * update, provided the Control is added to a scene.
+     * Update this Control. Invoked once per frame during the logical-state
+     * update, provided the Control is added to a scene. Do not invoke directly
+     * from user code.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
      */
@@ -506,7 +509,7 @@ public class RigidBodyControl
     // private methods
 
     /**
-     * Update whichever scale corresponds to the shape scale.
+     * Update whichever scale vector corresponds to the shape scale.
      */
     private void applySpatialScale() {
         Vector3f scale = getPhysicsScale(null);
@@ -525,7 +528,7 @@ public class RigidBodyControl
     }
 
     /**
-     * Copy whichever scale corresponds to the shape scale.
+     * Copy whichever scale vector corresponds to the shape scale.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the scale factor for each local axis of the shape (either
@@ -535,7 +538,7 @@ public class RigidBodyControl
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         if (MySpatial.isIgnoringTransforms(spatial)) {
-            result.set(scaleIdentity); // TODO not right
+            result.set(scaleIdentity);
         } else if (isApplyPhysicsLocal()) {
             Vector3f scale = spatial.getLocalScale();
             result.set(scale);
@@ -548,37 +551,37 @@ public class RigidBodyControl
     }
 
     /**
-     * Access whichever translation corresponds to the physics location.
-     *
-     * @return the pre-existing vector (not null)
-     */
-    private Vector3f getSpatialTranslation() {
-        if (MySpatial.isIgnoringTransforms(spatial)) {
-            return translateIdentity; // TODO not right
-        } else {
-            RigidBodyMotionState ms = getMotionState();
-            if (ms.isApplyPhysicsLocal()) {
-                return spatial.getLocalTranslation();
-            } else {
-                return spatial.getWorldTranslation();
-            }
-        }
-    }
-
-    /**
      * Access whichever rotation corresponds to the physics rotation.
      *
-     * @return the pre-existing quaternion (not null)
+     * @return the pre-existing Quaternion (not null)
      */
     private Quaternion getSpatialRotation() {
         if (MySpatial.isIgnoringTransforms(spatial)) {
-            return rotateIdentity; // TODO not right
+            return rotateIdentity;
         } else {
             RigidBodyMotionState ms = getMotionState();
             if (ms.isApplyPhysicsLocal()) {
                 return spatial.getLocalRotation();
             } else {
                 return spatial.getWorldRotation();
+            }
+        }
+    }
+
+    /**
+     * Access whichever translation corresponds to the physics location.
+     *
+     * @return the pre-existing vector (not null)
+     */
+    private Vector3f getSpatialTranslation() {
+        if (MySpatial.isIgnoringTransforms(spatial)) {
+            return translateIdentity;
+        } else {
+            RigidBodyMotionState ms = getMotionState();
+            if (ms.isApplyPhysicsLocal()) {
+                return spatial.getLocalTranslation();
+            } else {
+                return spatial.getWorldTranslation();
             }
         }
     }

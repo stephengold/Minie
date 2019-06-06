@@ -704,7 +704,7 @@ public class BulletAppState
      * AppStateManager. Invoked once per frame, provided the state is attached
      * and enabled.
      *
-     * @param rm the render manager (not null)
+     * @param rm the render manager (unused)
      */
     @Override
     public void render(RenderManager rm) {
@@ -746,10 +746,11 @@ public class BulletAppState
      * Transition this state from running to terminating. Should be invoked only
      * by a subclass or by the AppStateManager.
      *
-     * @param stateManager (not null)
+     * @param stateManager (unused)
      */
     @Override
     public void stateDetached(AppStateManager stateManager) {
+        // do nothing
     }
 
     /**
