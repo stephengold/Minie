@@ -39,10 +39,14 @@ import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A utility class for interfacing with Native Bullet, specifically for soft
@@ -54,6 +58,10 @@ public class NativeSoftBodyUtil {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * number of axes in a vector
+     */
+    final private static int numAxes = 3;
     /**
      * message logger for this class
      */
@@ -168,6 +176,128 @@ public class NativeSoftBodyUtil {
             newTetras.put(4 * faceIndex + 3, centerIndex);
         }
         softBody.appendTetras(newTetras);
+    }
+
+    /**
+     * Create an index map to merge any mesh vertices that share the same
+     * position. Other vertex properties (such as bone weights, normals, and
+     * texture coordinates) are ignored.
+     *
+     * @param positionBuffer the buffer of mesh-vertex positions (not null,
+     * capacity a multiple of 3, unaffected)
+     * @return a new index map (not null)
+     */
+    public static IntBuffer generateIndexMap(FloatBuffer positionBuffer) {
+        int numFloats = positionBuffer.limit();
+        assert (numFloats % numAxes == 0) : numFloats;
+        int numVertices = numFloats / numAxes;
+
+        IntBuffer result = BufferUtils.createIntBuffer(numVertices);
+        Map<Vector3f, Integer> tmpHashMap = new HashMap<>(numVertices);
+        int nextMappedIndex = 0;
+
+        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
+            float x = positionBuffer.get(numAxes * vertexIndex);
+            float y = positionBuffer.get(numAxes * vertexIndex + 1);
+            float z = positionBuffer.get(numAxes * vertexIndex + 2);
+            Vector3f position = new Vector3f(x, y, z);
+            MyVector3f.standardize(position, position);
+
+            if (!tmpHashMap.containsKey(position)) {
+                tmpHashMap.put(position, nextMappedIndex);
+                result.put(nextMappedIndex);
+                ++nextMappedIndex;
+            } else {
+                int mappedIndex = tmpHashMap.get(position);
+                result.put(mappedIndex);
+            }
+        }
+        result.flip();
+
+        return result;
+    }
+
+    /**
+     * Map all indices in the specified input buffer using the specified map
+     * buffer.
+     *
+     * @param indexMap the buffer to use to map input indices to result indices
+     * (not null, unaffected)
+     * @param inputBuffer the input buffer to map (not null, unaffected)
+     * @param reuseBuffer the buffer to reuse for output, or null if none
+     * (modified)
+     * @return a buffer containing mapped indices (either reuseBuffer or a new
+     * buffer, not null)
+     */
+    public static IndexBuffer mapIndices(IntBuffer indexMap,
+            IndexBuffer inputBuffer, IndexBuffer reuseBuffer) {
+        int numIndices = inputBuffer.size();
+        IndexBuffer result;
+        if (reuseBuffer == null) {
+            int vertexCount = Integer.MAX_VALUE;
+            result = IndexBuffer.createIndexBuffer(vertexCount, numIndices);
+        } else {
+            int reuseBufferSize = reuseBuffer.size();
+            if (reuseBufferSize < numIndices) {
+                logger.log(Level.SEVERE, "outputSize={0}", reuseBufferSize);
+                String message = String.format("Reuse buffer size must be "
+                        + "greater than or equal to %d.", numIndices);
+                throw new IllegalArgumentException(message);
+            }
+            result = reuseBuffer;
+        }
+
+        for (int offset = 0; offset < numIndices; ++offset) {
+            int oldIndex = inputBuffer.get(offset);
+            int newIndex = indexMap.get(oldIndex);
+            result.put(offset, newIndex);
+        }
+        result.getBuffer().limit(numIndices);
+
+        return result;
+    }
+
+    /**
+     * Copy all vertex data in the specified input buffer, using the specified
+     * map buffer to map vertex indices.
+     *
+     * @param indexMap the buffer to use to map input indices to result indices
+     * (not null, unaffected)
+     * @param inputBuffer the input buffer to map (not null, length a multiple
+     * of numFloatsPerVertex, unaffected)
+     * @param numFloatsPerVertex the number of float components per vertex
+     * (&gt;0)
+     * @return a new buffer containing mapped vertex data
+     */
+    public static FloatBuffer mapVertexData(IntBuffer indexMap,
+            FloatBuffer inputBuffer, int numFloatsPerVertex) {
+        Validate.nonNull(indexMap, "index map");
+        Validate.positive(numFloatsPerVertex, "number of floats per vertex");
+        int numFloats = inputBuffer.limit();
+        assert (numFloats % numFloatsPerVertex == 0) : numFloats;
+        int numVertices = numFloats / numFloatsPerVertex;
+
+        FloatBuffer result = BufferUtils.createFloatBuffer(numFloats);
+
+        int lastNewVIndex = -1;
+        for (int oldVIndex = 0; oldVIndex < numVertices; ++oldVIndex) {
+            int newVIndex = indexMap.get(oldVIndex);
+            for (int i = 0; i < numFloatsPerVertex; ++i) {
+                int oldFloatIndex = numFloatsPerVertex * oldVIndex + i;
+                float x = inputBuffer.get(oldFloatIndex);
+
+                int newFloatIndex = numFloatsPerVertex * newVIndex + i;
+                result.put(newFloatIndex, x);
+            }
+            if (newVIndex > lastNewVIndex) {
+                lastNewVIndex = newVIndex;
+            }
+        }
+
+        int newLimit = numFloatsPerVertex * (lastNewVIndex + 1);
+        result.limit(newLimit);
+
+        return result;
     }
 
     /**
