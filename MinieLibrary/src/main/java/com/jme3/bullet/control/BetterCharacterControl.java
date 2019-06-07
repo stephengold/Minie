@@ -82,23 +82,44 @@ public class BetterCharacterControl
     final public static Logger logger2
             = Logger.getLogger(BetterCharacterControl.class.getName());
     // *************************************************************************
-    // fields TODO re-order
+    // fields
 
-    private PhysicsRigidBody rigidBody;
-    private float radius;
+    private boolean ducked = false;
+    private boolean jump = false;
+    private boolean onGround = false;
+    private boolean wantToUnDuck = false;
+    /**
+     * relative height when ducked (&gt;0, &le;1, 1=full height)
+     */
+    private float duckedFactor = 0.6f;
     private float height;
     /**
      * mass of this character (&gt;0)
      */
     private float mass;
     /**
-     * relative height when ducked (&gt;0, &le;1, 1=full height)
+     * X-Z motion attenuation factor (0&rarr;no damping, 1=no external forces,
+     * default=0.9)
      */
-    private float duckedFactor = 0.6f;
+    private float physicsDamping = 0.9f;
+    private float radius;
     /**
-     * local up direction, derived from gravity
+     *
      */
-    private Vector3f localUp = new Vector3f(0f, 1f, 0f);
+    private PhysicsRigidBody rigidBody;
+    /**
+     * Local z-forward quaternion for the "local absolute" z-forward direction.
+     */
+    private Quaternion localForwardRotation
+            = new Quaternion(Quaternion.DIRECTION_Z);
+    /**
+     * spatial rotation, a Z-forward rotation based on the view direction and
+     * local X-Z plane.
+     *
+     * @see #rotatedViewDirection
+     */
+    private Quaternion rotation = new Quaternion(Quaternion.DIRECTION_Z);
+    private Vector3f jumpForce = new Vector3f();
     /**
      * Local absolute z-forward direction, derived from gravity and UNIT_Z,
      * updated continuously when gravity changes.
@@ -109,39 +130,21 @@ public class BetterCharacterControl
      */
     private Vector3f localLeft = new Vector3f(1f, 0f, 0f);
     /**
-     * Local z-forward quaternion for the "local absolute" z-forward direction.
+     * local up direction, derived from gravity
      */
-    private Quaternion localForwardRotation
-            = new Quaternion(Quaternion.DIRECTION_Z);
-    /**
-     * a Z-forward vector based on the view direction and the local X-Z plane.
-     */
-    private Vector3f viewDirection = new Vector3f(0f, 0f, 1f);
+    private Vector3f localUp = new Vector3f(0f, 1f, 0f);
     /**
      * spatial location, corresponds to RigidBody location.
      */
     private Vector3f location = new Vector3f();
-    /**
-     * spatial rotation, a Z-forward rotation based on the view direction and
-     * local X-Z plane.
-     *
-     * @see #rotatedViewDirection
-     */
-    private Quaternion rotation = new Quaternion(Quaternion.DIRECTION_Z);
     private Vector3f rotatedViewDirection = new Vector3f(0f, 0f, 1f);
-    private Vector3f walkDirection = new Vector3f();
-    private Vector3f jumpForce = new Vector3f();
-    /**
-     * X-Z motion attenuation factor (0&rarr;no damping, 1=no external forces,
-     * default=0.9)
-     */
-    private float physicsDamping = 0.9f;
     private Vector3f scale = new Vector3f(1f, 1f, 1f);
     private Vector3f velocity = new Vector3f();
-    private boolean jump = false;
-    private boolean onGround = false;
-    private boolean ducked = false;
-    private boolean wantToUnDuck = false;
+    /**
+     * a Z-forward vector based on the view direction and the local X-Z plane.
+     */
+    private Vector3f viewDirection = new Vector3f(0f, 0f, 1f);
+    private Vector3f walkDirection = new Vector3f();
     // *************************************************************************
     // constructors
 
