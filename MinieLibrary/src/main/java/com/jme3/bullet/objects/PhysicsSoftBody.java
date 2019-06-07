@@ -32,7 +32,6 @@
 package com.jme3.bullet.objects;
 
 import com.jme3.bounding.BoundingBox;
-import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
@@ -1133,6 +1132,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     protected void newEmptySoftBody() {
         destroySoftBody();
+
         objectId = createEmptySoftBody();
         assert objectId != 0L;
 
@@ -1140,31 +1140,6 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         assert !isInWorld();
         assert isEmpty();
-    }
-
-    /**
-     * Build/rebuild this body.
-     */
-    protected void rebuildSoftBody() {
-        boolean removed = false;
-        if (objectId != 0L) {
-            if (isInWorld()) {
-                PhysicsSpace.getPhysicsSpace().remove(this);
-                removed = true;
-            }
-            logger2.log(Level.FINE, "Finalizing SoftBody {0}",
-                    Long.toHexString(objectId));
-            finalizeNative(objectId);
-        }
-
-        objectId = createEmptySoftBody();
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created SoftBody {0}",
-                Long.toHexString(objectId));
-
-        if (removed) {
-            PhysicsSpace.getPhysicsSpace().add(this);
-        }
     }
     // *************************************************************************
     // PhysicsBody methods
@@ -1215,7 +1190,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        rebuildSoftBody();
+        newEmptySoftBody();
 
         PhysicsSoftBody old = (PhysicsSoftBody) original;
         copyPcoProperties(old);
@@ -1388,7 +1363,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        rebuildSoftBody();
+        newEmptySoftBody();
         readPcoProperties(capsule);
         config = (SoftBodyConfig) capsule.readSavable("config", null);
         assert config != null;
