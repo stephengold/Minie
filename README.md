@@ -630,6 +630,7 @@ YouTube videos about Minie:
 
   + June 2019 teaser #2 (rubber duck)
     [watch](https://www.youtube.com/watch?v=GKc-_SqcpZo) (0:16)
+    [source code](https://github.com/stephengold/Minie/blob/d0326f636dbed76c809cb8ec654bfaf94786e988/MinieExamples/src/main/java/jme3utilities/minie/test/TestSoftBodyControl.java)
   + June 2019 teaser #1 (jogger in skirt)
     [watch](https://www.youtube.com/watch?v=lLMBIASzAAM) (0:24)
     [source code](https://github.com/stephengold/Minie/blob/40add685ec9243c3fa1e10f8b38b805a04a32863/MinieExamples/src/main/java/jme3utilities/minie/test/TestSoftBody.java)
