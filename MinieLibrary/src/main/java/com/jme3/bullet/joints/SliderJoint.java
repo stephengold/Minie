@@ -807,59 +807,8 @@ public class SliderJoint extends PhysicsJoint {
     }
 
     /**
-     * Serialize this joint to the specified exporter, for example when saving
-     * to a J3O file. TODO re-order methods
-     *
-     * @param exporter (not null)
-     * @throws IOException from the exporter
-     */
-    @Override
-    public void write(JmeExporter exporter) throws IOException {
-        super.write(exporter);
-        OutputCapsule capsule = exporter.getCapsule(this);
-
-        //TODO: standard values..
-        capsule.write(getDampingDirAng(), "dampingDirAng", 0f);
-        capsule.write(getDampingDirLin(), "dampingDirLin", 0f);
-        capsule.write(getDampingLimAng(), "dampingLimAng", 0f);
-        capsule.write(getDampingLimLin(), "dampingLimLin", 0f);
-        capsule.write(getDampingOrthoAng(), "dampingOrthoAng", 0f);
-        capsule.write(getDampingOrthoLin(), "dampingOrthoLin", 0f);
-        capsule.write(getLowerAngLimit(), "lowerAngLimit", 0f);
-        capsule.write(getLowerLinLimit(), "lowerLinLimit", 0f);
-        capsule.write(getMaxAngMotorForce(), "maxAngMotorForce", 0f);
-        capsule.write(getMaxLinMotorForce(), "maxLinMotorForce", 0f);
-        capsule.write(isPoweredAngMotor(), "poweredAngMotor", false);
-        capsule.write(isPoweredLinMotor(), "poweredLinMotor", false);
-        capsule.write(getRestitutionDirAng(), "restitutionDirAng", 0f);
-        capsule.write(getRestitutionDirLin(), "restitutionDirLin", 0f);
-        capsule.write(getRestitutionLimAng(), "restitutionLimAng", 0f);
-        capsule.write(getRestitutionLimLin(), "restitutionLimLin", 0f);
-        capsule.write(getRestitutionOrthoAng(), "restitutionOrthoAng", 0f);
-        capsule.write(getRestitutionOrthoLin(), "restitutionOrthoLin", 0f);
-
-        capsule.write(getSoftnessDirAng(), "softnessDirAng", 0f);
-        capsule.write(getSoftnessDirLin(), "softnessDirLin", 0f);
-        capsule.write(getSoftnessLimAng(), "softnessLimAng", 0f);
-        capsule.write(getSoftnessLimLin(), "softnessLimLin", 0f);
-        capsule.write(getSoftnessOrthoAng(), "softnessOrthoAng", 0f);
-        capsule.write(getSoftnessOrthoLin(), "softnessOrthoLin", 0f);
-
-        capsule.write(getTargetAngMotorVelocity(),
-                "targetAngMotorVelicoty", 0f); //oops
-        capsule.write(getTargetLinMotorVelocity(),
-                "targetLinMotorVelicoty", 0f); //oops
-
-        capsule.write(getUpperAngLimit(), "upperAngLimit", 0f);
-        capsule.write(getUpperLinLimit(), "upperLinLimit", 0f);
-
-        capsule.write(useLinearReferenceFrameA, "useLinearReferenceFrameA",
-                false);
-    }
-
-    /**
      * De-serialize this joint from the specified importer, for example when
-     * loading from a J3O file. TODO re-order methods
+     * loading from a J3O file.
      *
      * @param importer (not null)
      * @throws IOException from the importer
@@ -948,6 +897,57 @@ public class SliderJoint extends PhysicsJoint {
 
         setUpperAngLimit(upperAngLimit);
         setUpperLinLimit(upperLinLimit);
+    }
+
+    /**
+     * Serialize this joint to the specified exporter, for example when saving
+     * to a J3O file.
+     *
+     * @param exporter (not null)
+     * @throws IOException from the exporter
+     */
+    @Override
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
+
+        //TODO: standard values..
+        capsule.write(getDampingDirAng(), "dampingDirAng", 0f);
+        capsule.write(getDampingDirLin(), "dampingDirLin", 0f);
+        capsule.write(getDampingLimAng(), "dampingLimAng", 0f);
+        capsule.write(getDampingLimLin(), "dampingLimLin", 0f);
+        capsule.write(getDampingOrthoAng(), "dampingOrthoAng", 0f);
+        capsule.write(getDampingOrthoLin(), "dampingOrthoLin", 0f);
+        capsule.write(getLowerAngLimit(), "lowerAngLimit", 0f);
+        capsule.write(getLowerLinLimit(), "lowerLinLimit", 0f);
+        capsule.write(getMaxAngMotorForce(), "maxAngMotorForce", 0f);
+        capsule.write(getMaxLinMotorForce(), "maxLinMotorForce", 0f);
+        capsule.write(isPoweredAngMotor(), "poweredAngMotor", false);
+        capsule.write(isPoweredLinMotor(), "poweredLinMotor", false);
+        capsule.write(getRestitutionDirAng(), "restitutionDirAng", 0f);
+        capsule.write(getRestitutionDirLin(), "restitutionDirLin", 0f);
+        capsule.write(getRestitutionLimAng(), "restitutionLimAng", 0f);
+        capsule.write(getRestitutionLimLin(), "restitutionLimLin", 0f);
+        capsule.write(getRestitutionOrthoAng(), "restitutionOrthoAng", 0f);
+        capsule.write(getRestitutionOrthoLin(), "restitutionOrthoLin", 0f);
+
+        capsule.write(getSoftnessDirAng(), "softnessDirAng", 0f);
+        capsule.write(getSoftnessDirLin(), "softnessDirLin", 0f);
+        capsule.write(getSoftnessLimAng(), "softnessLimAng", 0f);
+        capsule.write(getSoftnessLimLin(), "softnessLimLin", 0f);
+        capsule.write(getSoftnessOrthoAng(), "softnessOrthoAng", 0f);
+        capsule.write(getSoftnessOrthoLin(), "softnessOrthoLin", 0f);
+
+        capsule.write(getTargetAngMotorVelocity(),
+                "targetAngMotorVelicoty", 0f); //oops
+        capsule.write(getTargetLinMotorVelocity(),
+                "targetLinMotorVelicoty", 0f); //oops
+
+        capsule.write(getUpperAngLimit(), "upperAngLimit", 0f);
+        capsule.write(getUpperLinLimit(), "upperLinLimit", 0f);
+
+        capsule.write(useLinearReferenceFrameA, "useLinearReferenceFrameA",
+                false);
     }
     // *************************************************************************
     // private methods
