@@ -71,13 +71,13 @@ abstract public class AbstractPhysicsControl
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
-    // fields
+    // fields TODO re-order
 
     /**
      * true &rarr; physics-space coordinates match local transform, false &rarr;
-     * physics-space coordinates match world transform TODO rename localPhysics
+     * physics-space coordinates match world transform
      */
-    private boolean applyLocal = false;
+    private boolean localPhysics = false;
     /**
      * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
      */
@@ -95,10 +95,9 @@ abstract public class AbstractPhysicsControl
      */
     private Quaternion tmp_inverseWorldRotation = new Quaternion();
     /**
-     * Spatial to which this Control is added, or null if none TODO rename
-     * controlledSpatial
+     * Spatial to which this Control is added, or null if none
      */
-    private Spatial spatial;
+    private Spatial controlledSpatial;
     // *************************************************************************
     // new methods exposed
 
@@ -108,7 +107,7 @@ abstract public class AbstractPhysicsControl
      * @return the Spatial, or null if none
      */
     public Spatial getSpatial() {
-        return spatial;
+        return controlledSpatial;
     }
 
     /**
@@ -119,7 +118,7 @@ abstract public class AbstractPhysicsControl
      * coordinates
      */
     public boolean isApplyPhysicsLocal() {
-        return applyLocal;
+        return localPhysics;
     }
 
     /**
@@ -130,7 +129,7 @@ abstract public class AbstractPhysicsControl
      * false&rarr;match world coordinates (default=false)
      */
     public void setApplyPhysicsLocal(boolean applyPhysicsLocal) {
-        applyLocal = applyPhysicsLocal;
+        localPhysics = applyPhysicsLocal;
     }
     // *************************************************************************
     // new protected methods
@@ -141,30 +140,30 @@ abstract public class AbstractPhysicsControl
     protected abstract void addPhysics();
 
     /**
-     * Apply a physics transform to the spatial. TODO use MySpatial
+     * Apply a physics transform to the controlled spatial. TODO use MySpatial
      *
-     * @param worldLocation location vector (in physics-space coordinates, not
-     * null, unaffected)
-     * @param worldRotation orientation (in physics-space coordinates, not null,
-     * unaffected)
+     * @param physicsLocation the desired location (in physics-space
+     * coordinates, not null, unaffected)
+     * @param physicsOrientation the desired orientation (in physics-space
+     * coordinates, not null, unaffected)
      */
-    protected void applyPhysicsTransform(Vector3f worldLocation,
-            Quaternion worldRotation) {
-        if (enabled && spatial != null) {
-            Vector3f localLocation = spatial.getLocalTranslation();
-            Quaternion localRotationQuat = spatial.getLocalRotation();
-            if (!applyLocal && spatial.getParent() != null) {
-                localLocation.set(worldLocation).subtractLocal(spatial.getParent().getWorldTranslation());
-                localLocation.divideLocal(spatial.getParent().getWorldScale());
-                tmp_inverseWorldRotation.set(spatial.getParent().getWorldRotation()).inverseLocal().multLocal(localLocation);
-                localRotationQuat.set(worldRotation);
-                tmp_inverseWorldRotation.set(spatial.getParent().getWorldRotation()).inverseLocal().mult(localRotationQuat, localRotationQuat);
+    protected void applyPhysicsTransform(Vector3f physicsLocation,
+            Quaternion physicsOrientation) {
+        if (enabled && controlledSpatial != null) {
+            Vector3f localLocation = controlledSpatial.getLocalTranslation();
+            Quaternion localRotationQuat = controlledSpatial.getLocalRotation();
+            if (!localPhysics && controlledSpatial.getParent() != null) {
+                localLocation.set(physicsLocation).subtractLocal(controlledSpatial.getParent().getWorldTranslation());
+                localLocation.divideLocal(controlledSpatial.getParent().getWorldScale());
+                tmp_inverseWorldRotation.set(controlledSpatial.getParent().getWorldRotation()).inverseLocal().multLocal(localLocation);
+                localRotationQuat.set(physicsOrientation);
+                tmp_inverseWorldRotation.set(controlledSpatial.getParent().getWorldRotation()).inverseLocal().mult(localRotationQuat, localRotationQuat);
 
-                spatial.setLocalTranslation(localLocation);
-                spatial.setLocalRotation(localRotationQuat);
+                controlledSpatial.setLocalTranslation(localLocation);
+                controlledSpatial.setLocalRotation(localRotationQuat);
             } else {
-                spatial.setLocalTranslation(worldLocation);
-                spatial.setLocalRotation(worldRotation);
+                controlledSpatial.setLocalTranslation(physicsLocation);
+                controlledSpatial.setLocalRotation(physicsOrientation);
             }
         }
     }
@@ -173,66 +172,69 @@ abstract public class AbstractPhysicsControl
      * Create spatial-dependent data. Invoked when this Control is added to a
      * Spatial.
      *
-     * @param spat the controlled spatial (not null)
+     * @param spatial the controlled spatial (not null)
      */
-    protected abstract void createSpatialData(Spatial spat);
+    protected abstract void createSpatialData(Spatial spatial);
 
     /**
-     * Access whichever rotation corresponds to the physics rotation.
+     * Access whichever (spatial) rotation corresponds to the physics rotation.
      *
-     * @return the pre-existing Quaternion (in physics-space coordinates, not
-     * null)
+     * @return a pre-existing rotation Quaternion (in physics-space coordinates,
+     * not null)
      */
     protected Quaternion getSpatialRotation() {
-        if (MySpatial.isIgnoringTransforms(spatial)) {
+        if (MySpatial.isIgnoringTransforms(controlledSpatial)) {
             return rotateIdentity;
-        } else if (applyLocal) {
-            return spatial.getLocalRotation();
+        } else if (localPhysics) {
+            return controlledSpatial.getLocalRotation();
         } else {
-            return spatial.getWorldRotation();
+            return controlledSpatial.getWorldRotation();
         }
     }
 
     /**
-     * Access whichever spatial translation corresponds to the physics location.
+     * Access whichever (spatial) translation corresponds to the physics
+     * location.
      *
-     * @return the pre-existing location vector (in physics-space coordinates,
-     * not null) TODO
+     * @return a pre-existing location vector (in physics-space coordinates, not
+     * null)
      */
     protected Vector3f getSpatialTranslation() {
-        if (MySpatial.isIgnoringTransforms(spatial)) {
+        if (MySpatial.isIgnoringTransforms(controlledSpatial)) {
             return translateIdentity;
-        } else if (applyLocal) {
-            return spatial.getLocalTranslation();
+        } else if (localPhysics) {
+            return controlledSpatial.getLocalTranslation();
         } else {
-            return spatial.getWorldTranslation();
+            return controlledSpatial.getWorldTranslation();
         }
     }
 
     /**
      * Destroy spatial-dependent data. Invoked when this Control is removed from
-     * a Spatial.
+     * its Spatial.
      *
-     * @param spat the previously controlled spatial (not null)
+     * @param spatial the previously controlled spatial (not null)
      */
-    protected abstract void removeSpatialData(Spatial spat);
+    protected abstract void removeSpatialData(Spatial spatial);
 
     /**
      * Translate the physics object to the specified location.
      *
-     * @param vec the desired location (not null, unaffected)
+     * @param location the desired location (in physics-space coordinates, not
+     * null, unaffected)
      */
-    protected abstract void setPhysicsLocation(Vector3f vec);
+    protected abstract void setPhysicsLocation(Vector3f location);
 
     /**
      * Rotate the physics object to the specified orientation.
      *
-     * @param quat the desired orientation (not null, unaffected)
+     * @param orientation the desired orientation (in physics-space coordinates,
+     * not null, unaffected)
      */
-    protected abstract void setPhysicsRotation(Quaternion quat);
+    protected abstract void setPhysicsRotation(Quaternion orientation);
 
     /**
-     * Remove all managed physics objects from the PhysicsSpace.
+     * Remove all managed physics objects from the PhysicsSpace. TODO re-order
      */
     protected abstract void removePhysics();
     // *************************************************************************
@@ -250,14 +252,14 @@ abstract public class AbstractPhysicsControl
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         tmp_inverseWorldRotation = cloner.clone(tmp_inverseWorldRotation);
-        spatial = cloner.clone(spatial);
+        controlledSpatial = cloner.clone(controlledSpatial);
         // space not cloned
     }
 
     /**
      * Create a shallow clone for the JME cloner.
      *
-     * @return a new instance
+     * @return a new Control (not null)
      */
     @Override
     public AbstractPhysicsControl jmeClone() {
@@ -316,8 +318,8 @@ abstract public class AbstractPhysicsControl
         InputCapsule capsule = importer.getCapsule(this);
 
         enabled = capsule.readBoolean("enabled", true);
-        spatial = (Spatial) capsule.readSavable("spatial", null);
-        applyLocal = capsule.readBoolean("applyLocalPhysics", false);
+        controlledSpatial = (Spatial) capsule.readSavable("spatial", null);
+        localPhysics = capsule.readBoolean("applyLocalPhysics", false);
     }
 
     /**
@@ -327,21 +329,20 @@ abstract public class AbstractPhysicsControl
      * PhysicsSpace. When the Control is enabled again, the physics object is
      * moved to the location of the Spatial and then added to the PhysicsSpace.
      *
-     * @param enabled true&rarr;enable the Control, false&rarr;disable it TODO
-     * rename enable
+     * @param enable true&rarr;enable the Control, false&rarr;disable it
      */
     @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setEnabled(boolean enable) {
+        this.enabled = enable;
         if (space != null) {
-            if (enabled && !added) {
-                if (spatial != null) {
+            if (enable && !added) {
+                if (controlledSpatial != null) {
                     setPhysicsLocation(getSpatialTranslation());
                     setPhysicsRotation(getSpatialRotation());
                 }
                 addPhysics();
                 added = true;
-            } else if (!enabled && added) {
+            } else if (!enable && added) {
                 removePhysics();
                 added = false;
             }
@@ -381,20 +382,20 @@ abstract public class AbstractPhysicsControl
      * or removed from a Spatial. Should be invoked only by a subclass or from
      * Spatial. Do not invoke directly from user code.
      *
-     * @param controlledSpatial the Spatial to control (or null)
+     * @param newSpatial the Spatial to control (or null)
      */
     @Override
-    public void setSpatial(Spatial controlledSpatial) {
-        if (spatial == controlledSpatial) {
+    public void setSpatial(Spatial newSpatial) {
+        if (this.controlledSpatial == newSpatial) {
             return;
-        } else if (spatial != null) {
-            removeSpatialData(spatial);
+        } else if (this.controlledSpatial != null) {
+            removeSpatialData(this.controlledSpatial);
         }
 
-        spatial = controlledSpatial;
+        this.controlledSpatial = newSpatial;
 
-        if (controlledSpatial != null) {
-            createSpatialData(spatial);
+        if (newSpatial != null) {
+            createSpatialData(this.controlledSpatial);
             setPhysicsLocation(getSpatialTranslation());
             setPhysicsRotation(getSpatialRotation());
         }
@@ -412,7 +413,7 @@ abstract public class AbstractPhysicsControl
         OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(enabled, "enabled", true);
-        capsule.write(applyLocal, "applyLocalPhysics", false);
-        capsule.write(spatial, "spatial", null);
+        capsule.write(localPhysics, "applyLocalPhysics", false);
+        capsule.write(controlledSpatial, "spatial", null);
     }
 }
