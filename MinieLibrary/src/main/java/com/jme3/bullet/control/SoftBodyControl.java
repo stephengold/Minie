@@ -48,9 +48,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
-import com.jme3.scene.control.Control;
 import com.jme3.scene.mesh.IndexBuffer;
-import com.jme3.util.TempVars;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -60,52 +58,22 @@ import java.util.logging.Logger;
 import jme3utilities.MySpatial;
 
 /**
- * A PhysicsControl to link a PhysicsSoftBody to a Spatial. TODO extend
- * AbstractPhysicsControl
+ * A PhysicsControl to link a PhysicsSoftBody to a Spatial.
  *
  * @author dokthar
  */
-public class SoftBodyControl
-        extends PhysicsSoftBody
-        implements PhysicsControl {
+public class SoftBodyControl extends AbstractPhysicsControl {
     // *************************************************************************
     // constants and loggers
 
     /**
      * message logger for this class
      */
-    final public static Logger logger3
+    final public static Logger logger2
             = Logger.getLogger(SoftBodyControl.class.getName());
-    /**
-     * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
-     */
-    final private static Quaternion rotateIdentity = new Quaternion();
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
-     */
-    final private static Vector3f scaleIdentity = new Vector3f(1f, 1f, 1f);
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#ZERO}
-     */
-    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
-    /**
-     * true&rarr;body is added to a PhysicsSpace, false&rarr;not added
-     */
-    private boolean added = false;
-    /**
-     * true&rarr;Control is enabled, false&rarr;Control is disabled
-     * (default=true)
-     */
-    private boolean enabled = true;
-    /**
-     * true &rarr; match physics-space coordinates to the spatial's local
-     * coordinates, false &rarr; match physics-space coordinates to world
-     * coordinates (default=false)
-     */
-    private boolean localPhysics = false;
     /**
      * true&rarr;merge duplicate vertices in the soft body, false&rarr;don't
      * merge duplicate vertices (default=true)
@@ -124,13 +92,9 @@ public class SoftBodyControl
      */
     private IntBuffer indexMap = null;
     /**
-     * space to which the body is (or would be) added
+     * underlying collision object
      */
-    private PhysicsSoftSpace space = null;
-    /**
-     * Spatial to which this Control is added, or null if none
-     */
-    private Spatial spatial = null;
+    private PhysicsSoftBody body = null;
     // *************************************************************************
     // constructors
 
@@ -157,7 +121,7 @@ public class SoftBodyControl
      */
     public SoftBodyControl(boolean localPhysics, boolean updateNormals,
             boolean mergeVertices) {
-        this.localPhysics = localPhysics;
+        super.setApplyPhysicsLocal(localPhysics);
         this.mergeVertices = mergeVertices;
         this.updateNormals = updateNormals;
     }
@@ -165,245 +129,63 @@ public class SoftBodyControl
     // new methods exposed
 
     /**
-     * Access the Spatial to which this Control is added.
+     * Access the soft body managed by this Control.
      *
-     * @return the Spatial, or null if none
+     * @return the pre-existing instance, or null if the Control is not added to
+     * a Spatial
      */
-    public Spatial getSpatial() {
-        return spatial;
-    }
-
-    /**
-     * Test whether physics-space coordinates should match the controlled
-     * spatial's local coordinates.
-     *
-     * @return true if matching local coordinates, false if matching world
-     * coordinates
-     */
-    public boolean isLocalPhysics() {
-        return localPhysics;
-    }
-
-    /**
-     * If enabled, add this control's physics object to the specified
-     * PhysicsSpace. If not enabled, alter where the object would be added. The
-     * object is removed from any other space it's currently in.
-     *
-     * @param newSpace where to add, or null to simply remove
-     */
-    public void setPhysicsSoftSpace(PhysicsSoftSpace newSpace) {
-        if (space == newSpace) {
-            return;
-        }
-        if (added) {
-            space.removeCollisionObject(this);
-            added = false;
-        }
-        if (newSpace != null && isEnabled()) {
-            newSpace.addCollisionObject(this);
-            added = true;
-        }
-        /*
-         * If this Control isn't enabled, its physics object will be
-         * added to the new space when the Control becomes enabled.
-         */
-        space = newSpace;
+    public PhysicsSoftBody getBody() {
+        return body;
     }
     // *************************************************************************
-    // PhysicsControl methods
+    // AbstractPhysicsControl methods
 
     /**
-     * Clone this Control for a different Spatial. No longer used as of JME 3.1.
-     *
-     * @param spatial (unused)
-     * @return never
-     * @throws UnsupportedOperationException always
+     * Add all managed physics objects to the PhysicsSpace.
      */
     @Override
-    public Control cloneForSpatial(Spatial spatial) {
-        throw new UnsupportedOperationException();
+    protected void addPhysics() {
+        PhysicsSpace space = getPhysicsSpace();
+        space.addCollisionObject(body);
     }
-
-    /**
-     * Access the PhysicsSpace to which the body is (or would be) added.
-     *
-     * @return the pre-existing space, or null for none
-     */
-    @Override
-    public PhysicsSoftSpace getPhysicsSpace() {
-        return space;
-    }
-
-    /**
-     * Test whether this Control is enabled.
-     *
-     * @return true if enabled, otherwise false
-     */
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    /**
-     * Render this Control. Invoked once per ViewPort per frame, provided the
-     * Control is added to a scene. Should be invoked only by a subclass or by
-     * the RenderManager.
-     *
-     * @param rm the RenderManager (unused)
-     * @param vp the ViewPort to render (unused)
-     */
-    @Override
-    public void render(RenderManager rm, ViewPort vp) {
-        // do nothing
-    }
-
-    /**
-     * Enable or disable this Control.
-     * <p>
-     * When the Control is disabled, the body is removed from any PhysicsSpace.
-     * When the Control is enabled again, the body is moved to the current
-     * location of the Spatial and then added to the PhysicsSpace.
-     *
-     * @param enabled true&rarr;enable the Control, false&rarr;disable it
-     */
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-        if (space != null) {
-            if (enabled && !added) {
-                if (spatial != null) {
-                    setPhysicsLocation(spatial.getWorldTranslation());
-                    TempVars vars = TempVars.get();
-                    try {
-                        if (localPhysics) {
-                            getPhysicsLocation(vars.vect1);
-                            spatial.getParent().worldToLocal(vars.vect1, vars.vect2);
-                            spatial.setLocalTranslation(vars.vect2);
-                        } else {
-                            spatial.getParent().worldToLocal(Vector3f.ZERO, vars.vect2);
-                            spatial.setLocalTranslation(vars.vect2);
-                        }
-                        if (!spatial.getWorldRotation().equals(Quaternion.IDENTITY)) {
-                            Spatial parent = spatial.getParent();
-                            if (parent != null) {
-                                Quaternion rot = parent.getWorldRotation().inverse();
-                                //rot.multLocal(Quaternion.IDENTITY);
-                                spatial.setLocalRotation(rot);
-                            } else {
-                                spatial.setLocalRotation(new Quaternion(Quaternion.IDENTITY));
-                            }
-                        }
-                    } finally {
-                        vars.release();
-                    }
-                }
-                space.addCollisionObject(this);
-                added = true;
-            } else if (!enabled && added) {
-                space.removeCollisionObject(this);
-                added = false;
-                // TODO also remove all joints
-            }
-        }
-    }
-
-    /**
-     * If enabled, add this control's physics object to the specified
-     * PhysicsSpace. If not enabled, alter where the object would be added. The
-     * object is removed from any other space it's currently in.
-     *
-     * @param newSpace where to add, or null to simply remove
-     */
-    @Override
-    public void setPhysicsSpace(PhysicsSpace newSpace) {
-        if (newSpace == null || newSpace instanceof PhysicsSoftSpace) {
-            setPhysicsSoftSpace((PhysicsSoftSpace) newSpace);
-        } else {
-            throw new IllegalArgumentException(
-                    "The PhysicsSpace must be a PhysicsSoftSpace or null.");
-        }
-    }
-
-    /**
-     * Alter which Spatial is controlled. Invoked when the Control is added to
-     * or removed from a Spatial. Should be invoked only by a subclass or from
-     * Spatial. Do not invoke directly from user code.
-     *
-     * @param controlledSpatial the Spatial to control (or null)
-     */
-    @Override
-    public void setSpatial(Spatial controlledSpatial) {
-        if (spatial == controlledSpatial) {
-            return;
-        }
-
-        spatial = controlledSpatial;
-        setUserObject(spatial); // link from collision object
-
-        if (spatial != null && geometry == null) {
-            // TODO clear any pre-existing nodes/links/faces
-            List<Geometry> geometries
-                    = MySpatial.listSpatials(spatial, Geometry.class, null);
-            geometry = geometries.get(0); // TODO use name
-            Mesh mesh = geometry.getMesh();
-            if (mesh.getBuffer(VertexBuffer.Type.Normal) == null) {
-                updateNormals = false;
-            }
-            appendFromGeometry();
-        }
-    }
-
-    /**
-     * Update this Control. Invoked once per frame, during the logical-state
-     * update, provided the Control is added to a scene. Do not invoke directly
-     * from user code.
-     *
-     * @param tpf the time interval between frames (in seconds, &ge;0)
-     */
-    @Override
-    public void update(float tpf) {
-        if (!enabled) {
-            return;
-        }
-
-        Transform physicsToMesh;
-        Transform meshToWorld = geometry.getWorldTransform(); // alias
-        Transform worldToMesh = meshToWorld.invert();
-        if (localPhysics) {
-            Transform localToWorld = spatial.getWorldTransform(); // alias
-            Transform localToMesh
-                    = localToWorld.clone().combineWithParent(worldToMesh);
-            physicsToMesh = localToMesh; // alias
-        } else {
-            physicsToMesh = worldToMesh; // alias
-        }
-
-        Mesh mesh = geometry.getMesh();
-        boolean localFlag = false; // copy physics-space locations
-        NativeSoftBodyUtil.updateMesh(this, indexMap, mesh, localFlag,
-                updateNormals, physicsToMesh);
-
-        spatial.updateModelBound();
-    }
-    // *************************************************************************
-    // PhysicsSoftBody methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified Cloner
+     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the Cloner that's cloning this Control (not null)
+     * @param cloner the Cloner that's cloning this Control (not null, modified)
      * @param original the Control from which this Control was shallow-cloned
-     * (unused)
+     * (not null, unaffected)
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
+        body = cloner.clone(body);
         indexMap = cloner.clone(indexMap);
         geometry = cloner.clone(geometry);
-        spatial = cloner.clone(spatial);
+    }
+
+    /**
+     * Create spatial-dependent data. Invoked when this Control is added to a
+     * Spatial.
+     *
+     * @param spatial the controlled Spatial (not null, alias created)
+     */
+    @Override
+    protected void createSpatialData(Spatial spatial) {
+        body = new PhysicsSoftBody();
+        body.setUserObject(spatial); // link from collision object
+
+        List<Geometry> geometries
+                = MySpatial.listSpatials(spatial, Geometry.class, null);
+        geometry = geometries.get(0); // TODO use name
+        Mesh mesh = geometry.getMesh();
+        if (mesh.getBuffer(VertexBuffer.Type.Normal) == null) {
+            updateNormals = false;
+        }
+        appendFromGeometry();
     }
 
     /**
@@ -433,12 +215,116 @@ public class SoftBodyControl
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        enabled = capsule.readBoolean("enabled", true);
+        body = (PhysicsSoftBody) capsule.readSavable("body", null);
         geometry = (Geometry) capsule.readSavable("geometry", null);
-        localPhysics = capsule.readBoolean("localPhysics", false);
         mergeVertices = capsule.readBoolean("mergeVertices", false);
-        spatial = (Spatial) capsule.readSavable("spatial", null);
         updateNormals = capsule.readBoolean("updateNormals", false);
+    }
+
+    /**
+     * Remove all managed physics objects from the PhysicsSpace.
+     */
+    @Override
+    protected void removePhysics() {
+        PhysicsSpace space = getPhysicsSpace();
+        space.removeCollisionObject(body);
+    }
+
+    /**
+     * Destroy spatial-dependent data. Invoked when this Control is removed from
+     * its Spatial.
+     *
+     * @param spatial the previously controlled Spatial (not null)
+     */
+    @Override
+    protected void removeSpatialData(Spatial spatial) {
+        body.setUserObject(null);
+        body = null;
+    }
+
+    /**
+     * Render this Control. Invoked once per ViewPort per frame, provided the
+     * Control is added to a scene. Should be invoked only by a subclass or by
+     * the RenderManager.
+     *
+     * @param rm the RenderManager (unused)
+     * @param vp the ViewPort to render (unused)
+     */
+    @Override
+    public void render(RenderManager rm, ViewPort vp) {
+        // do nothing
+    }
+
+    /**
+     * Translate the soft body to the specified location.
+     *
+     * @param location the desired location (not null, unaffected)
+     */
+    @Override
+    public void setPhysicsLocation(Vector3f location) {
+        body.setPhysicsLocation(location);
+    }
+
+    /**
+     * Rotate the soft body to the specified orientation.
+     *
+     * @param orientation the desired orientation (not null, unaffected)
+     */
+    @Override
+    protected void setPhysicsRotation(Quaternion orientation) {
+        // TODO
+    }
+
+    /**
+     * If enabled, add this control's physics object to the specified
+     * PhysicsSpace. If not enabled, alter where the object would be added. The
+     * object is removed from any other space it's currently in.
+     *
+     * @param newSpace where to add, or null to simply remove
+     */
+    @Override
+    public void setPhysicsSpace(PhysicsSpace newSpace) {
+        if (newSpace == null || newSpace instanceof PhysicsSoftSpace) {
+            super.setPhysicsSpace(newSpace);
+        } else {
+            throw new IllegalArgumentException(
+                    "The PhysicsSpace must be a PhysicsSoftSpace or null.");
+        }
+    }
+
+    /**
+     * Update this Control. Invoked once per frame during the logical-state
+     * update, provided the Control is added to a scene. Do not invoke directly
+     * from user code.
+     *
+     * @param tpf the time interval between frames (in seconds, &ge;0)
+     */
+    @Override
+    public void update(float tpf) {
+        if (!isEnabled()) {
+            return;
+        }
+
+        Spatial spatial = getSpatial();
+
+        Transform physicsToMesh;
+        Transform meshToWorld = geometry.getWorldTransform(); // alias
+        Transform worldToMesh = meshToWorld.invert();
+        if (isApplyPhysicsLocal()) {
+            Transform localToWorld = spatial.getWorldTransform(); // alias
+            Transform localToMesh
+                    = localToWorld.clone().combineWithParent(worldToMesh);
+            physicsToMesh = localToMesh; // alias
+        } else {
+            physicsToMesh = worldToMesh; // alias
+        }
+
+        Mesh mesh = geometry.getMesh();
+        boolean localFlag = false; // copy physics-space locations, not local
+        NativeSoftBodyUtil.updateMesh(body, indexMap, mesh, localFlag,
+                updateNormals, physicsToMesh);
+
+        spatial.updateModelBound();
     }
 
     /**
@@ -453,22 +339,20 @@ public class SoftBodyControl
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(enabled, "enabled", true);
+        capsule.write(body, "body", null);
         capsule.write(geometry, "geometry", null);
-        capsule.write(localPhysics, "localPhysics", false);
         capsule.write(mergeVertices, "mergeVertices", false);
-        capsule.write(spatial, "spatial", null);
         capsule.write(updateNormals, "updateNormals", false);
     }
     // *************************************************************************
     // private methods
 
     /**
-     * Append soft-body nodes, links, and faces to an empty body, based on
+     * Append soft-body nodes, links, and faces to the empty body, based on
      * buffer data.
      */
     private void appendFromGeometry() {
-        assert isEmpty();
+        assert body.isEmpty();
 
         Mesh mesh = geometry.getMesh();
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
@@ -497,17 +381,18 @@ public class SoftBodyControl
             indexMap = null;
         }
 
-        appendNodes(positions);
+        body.appendNodes(positions);
         if (links != null) {
-            appendLinks(links);
+            body.appendLinks(links);
         }
         if (faces != null) {
-            appendFaces(faces);
+            body.appendFaces(faces);
         }
 
         Transform meshToPhysics;
         Transform meshToWorld = geometry.getWorldTransform(); // alias
-        if (localPhysics) {
+        if (isApplyPhysicsLocal()) {
+            Spatial spatial = getSpatial();
             Transform localToWorld = spatial.getWorldTransform(); // alias
             Transform worldToLocal = localToWorld.invert();
             Transform meshToLocal
@@ -516,6 +401,6 @@ public class SoftBodyControl
         } else {
             meshToPhysics = meshToWorld; // alias
         }
-        applyTransform(meshToPhysics);
+        body.applyTransform(meshToPhysics);
     }
 }

@@ -38,6 +38,7 @@ import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.export.Savable;
@@ -47,7 +48,6 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
@@ -280,21 +280,22 @@ public class TestSoftBodyControl
         SoftBodyControl duckSbc = new SoftBodyControl(applyLocal, updateNormals,
                 mergeVertices);
         cgModel.addControl(duckSbc);
-        
-        float totalMass = 1f;
-        duckSbc.setMassByArea(totalMass);
+        PhysicsSoftBody duckPsb = duckSbc.getBody();
 
-        SoftBodyConfig config = duckSbc.getSoftConfig();
+        float totalMass = 1f;
+        duckPsb.setMassByArea(totalMass);
+
+        SoftBodyConfig config = duckPsb.getSoftConfig();
         config.set(Sbcp.KineticHardness, 1f);
         config.set(Sbcp.PoseMatching, 0.03f);
         //config.setPositionIterations(15);
 
         boolean setVolumePose = false;
         boolean setFramePose = true;
-        duckSbc.setPose(setVolumePose, setFramePose);
+        duckPsb.setPose(setVolumePose, setFramePose);
 
-        duckSbc.applyRotation(new Quaternion().fromAngles(0.4f, 0f, 1f));
-        duckSbc.applyTranslation(new Vector3f(0f, 1.2f, 0f));
+        duckPsb.applyRotation(new Quaternion().fromAngles(0.4f, 0f, 1f));
+        duckPsb.applyTranslation(new Vector3f(0f, 1.2f, 0f));
 
         physicsSpace.add(duckSbc);
         hiddenObjects.add(duckSbc);
