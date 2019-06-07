@@ -355,12 +355,12 @@ To advance the physics simulation at a different rate, use:
 
 By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
 collision detection.
-To specify a different data structure, use the 3-argument constructor:
+To specify a different data structure, use `setBroadphaseType()`:
 
-        Vector3f worldMin = new Vector3f(-1000f, -10f, -1000f);
-        Vector3f worldMax = new Vector3f(1000f, 10f, 1000f);
-        SoftPhysicsAppState bas = new SoftPhysicsAppState(worldMin, worldMax,
-                PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+        SoftPhysicsAppState bas = new SoftPhysicsAppState();
+        bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+        bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
+        bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
         stateManager.attach(bas);
         PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();
 
