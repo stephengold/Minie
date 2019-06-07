@@ -242,11 +242,11 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * Create spatial-dependent data. Invoked when this Control is added to a
      * Spatial.
      *
-     * @param spat the controlled Spatial (not null, alias created) TODO rename
+     * @param spatial the controlled Spatial (not null, alias created)
      */
     @Override
-    protected void createSpatialData(Spatial spat) {
-        character.setUserObject(spat);
+    protected void createSpatialData(Spatial spatial) {
+        character.setUserObject(spatial);
     }
 
     /**
@@ -295,10 +295,10 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * Destroy spatial-dependent data. Invoked when this Control is removed from
      * its Spatial.
      *
-     * @param spat the previously controlled Spatial (not null) TODO rename
+     * @param spatial the previously controlled Spatial (not null)
      */
     @Override
-    protected void removeSpatialData(Spatial spat) {
+    protected void removeSpatialData(Spatial spatial) {
         character.setUserObject(null);
     }
 
@@ -318,20 +318,20 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     /**
      * Translate the PhysicsCharacter to the specified location.
      *
-     * @param vec the desired location (not null, unaffected) TODO rename
+     * @param location the desired location (not null, unaffected)
      */
     @Override
-    public void setPhysicsLocation(Vector3f vec) {
-        character.setPhysicsLocation(vec);
+    public void setPhysicsLocation(Vector3f location) {
+        character.setPhysicsLocation(location);
     }
 
     /**
      * Rotate the PhysicsCharacter to the specified orientation.
      *
-     * @param quat the desired orientation (not null, unaffected) TODO rename
+     * @param orientation the desired orientation (not null, unaffected)
      */
     @Override
-    protected void setPhysicsRotation(Quaternion quat) {
+    protected void setPhysicsRotation(Quaternion orientation) {
         // do nothing
     }
 
