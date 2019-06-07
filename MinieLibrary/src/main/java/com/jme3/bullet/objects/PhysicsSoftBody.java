@@ -246,13 +246,14 @@ public class PhysicsSoftBody extends PhysicsBody {
                     "The number of indices must be a multiple of 3.");
         }
 
+        int numFaces = nodeIndices.size() / 3;
         Buffer buffer = nodeIndices.getBuffer();
         if (buffer instanceof ByteBuffer) {
-            appendFaces(objectId, (ByteBuffer) buffer);
+            appendFaces(objectId, numFaces, (ByteBuffer) buffer);
         } else if (buffer instanceof ShortBuffer) {
-            appendFaces(objectId, (ShortBuffer) buffer);
+            appendFaces(objectId, numFaces, (ShortBuffer) buffer);
         } else if (buffer instanceof IntBuffer) {
-            appendFaces(objectId, (IntBuffer) buffer);
+            appendFaces(objectId, numFaces, (IntBuffer) buffer);
         } else {
             throw new IllegalArgumentException(
                     buffer.getClass().getSimpleName());
@@ -272,13 +273,14 @@ public class PhysicsSoftBody extends PhysicsBody {
                     "The number of indices must be a multiple of 2.");
         }
 
+        int numLinks = nodeIndices.size() / 2;
         Buffer buffer = nodeIndices.getBuffer();
         if (buffer instanceof ByteBuffer) {
-            appendLinks(objectId, (ByteBuffer) buffer);
+            appendLinks(objectId, numLinks, (ByteBuffer) buffer);
         } else if (buffer instanceof ShortBuffer) {
-            appendLinks(objectId, (ShortBuffer) buffer);
+            appendLinks(objectId, numLinks, (ShortBuffer) buffer);
         } else if (buffer instanceof IntBuffer) {
-            appendLinks(objectId, (IntBuffer) buffer);
+            appendLinks(objectId, numLinks, (IntBuffer) buffer);
         } else {
             throw new IllegalArgumentException(
                     buffer.getClass().getSimpleName());
@@ -290,16 +292,16 @@ public class PhysicsSoftBody extends PhysicsBody {
      * node has its own location, velocity, mass, etcetera.
      *
      * @param nodeLocations a node is created for every 3 floats in this buffer
-     * (not null, capacity=limit, limit a multiple of 3)
+     * (not null, limit a multiple of 3)
      */
     public void appendNodes(FloatBuffer nodeLocations) {
-        assert nodeLocations.capacity() == nodeLocations.limit();
-        if (nodeLocations.capacity() % 3 != 0) {
+        if (nodeLocations.limit() % 3 != 0) {
             throw new IllegalArgumentException(
                     "The number of floats must be a multiple of 3.");
         }
 
-        appendNodes(objectId, nodeLocations);
+        int numNodes = nodeLocations.limit() / 3;
+        appendNodes(objectId, numNodes, nodeLocations);
     }
 
     /**
@@ -315,13 +317,14 @@ public class PhysicsSoftBody extends PhysicsBody {
                     "The number of indices must be a multiple of 4.");
         }
 
+        int numTetras = tetrahedra.size() / 4;
         Buffer buffer = tetrahedra.getBuffer();
         if (buffer instanceof ByteBuffer) {
-            appendTetras(objectId, (ByteBuffer) buffer);
+            appendTetras(objectId, numTetras, (ByteBuffer) buffer);
         } else if (buffer instanceof ShortBuffer) {
-            appendTetras(objectId, (ShortBuffer) buffer);
+            appendTetras(objectId, numTetras, (ShortBuffer) buffer);
         } else if (buffer instanceof IntBuffer) {
-            appendTetras(objectId, (IntBuffer) buffer);
+            appendTetras(objectId, numTetras, (IntBuffer) buffer);
         } else {
             throw new IllegalArgumentException(
                     buffer.getClass().getSimpleName());
@@ -365,7 +368,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Scale this body. Use caution!
+     * Scale this body.
      *
      * @param factors the scaling factor to apply to each axis (not null,
      * unaffected)
@@ -376,7 +379,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Transform this body. Apply non-identity scaling with caution!
+     * Transform this body.
      *
      * @param transform the transform to apply (not null, unaffected)
      */
@@ -388,7 +391,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Translate this body.
      *
-     * @param offset the translation to apply (not null, unaffected)
+     * @param offset the translation to apply to each axis (not null,
+     * unaffected)
      */
     public void applyTranslation(Vector3f offset) {
         Validate.finite(offset, "offset");
@@ -1493,25 +1497,35 @@ public class PhysicsSoftBody extends PhysicsBody {
             long rigidBodyId, Vector3f localPivotVector,
             boolean collisionBetweenLinkedBodies, float influenceFraction);
 
-    native private void appendFaces(long bodyId, ByteBuffer byteBuffer);
+    native private void appendFaces(long bodyId, int numFaces,
+            ByteBuffer byteBuffer);
 
-    native private void appendFaces(long bodyId, IntBuffer intBuffer);
+    native private void appendFaces(long bodyId, int numFaces,
+            IntBuffer intBuffer);
 
-    native private void appendFaces(long bodyId, ShortBuffer shortBuffer);
+    native private void appendFaces(long bodyId, int numFaces,
+            ShortBuffer shortBuffer);
 
-    native private void appendLinks(long bodyId, ByteBuffer byteBuffer);
+    native private void appendLinks(long bodyId, int numLinks,
+            ByteBuffer byteBuffer);
 
-    native private void appendLinks(long bodyId, IntBuffer intBuffer);
+    native private void appendLinks(long bodyId, int numLinks,
+            IntBuffer intBuffer);
 
-    native private void appendLinks(long bodyId, ShortBuffer shortBuffer);
+    native private void appendLinks(long bodyId, int numLinks,
+            ShortBuffer shortBuffer);
 
-    native private void appendNodes(long bodyId, FloatBuffer locationBuffer);
+    native private void appendNodes(long bodyId, int numNodes,
+            FloatBuffer locationBuffer);
 
-    native private void appendTetras(long bodyId, ByteBuffer byteBuffer);
+    native private void appendTetras(long bodyId, int numNodes,
+            ByteBuffer byteBuffer);
 
-    native private void appendTetras(long bodyId, IntBuffer intBuffer);
+    native private void appendTetras(long bodyId, int numNodes,
+            IntBuffer intBuffer);
 
-    native private void appendTetras(long bodyId, ShortBuffer shortBuffer);
+    native private void appendTetras(long bodyId, int numNodes,
+            ShortBuffer shortBuffer);
 
     native private void applyPhysicsRotation(long bodyId,
             Quaternion quaternion);
