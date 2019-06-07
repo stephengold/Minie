@@ -428,17 +428,23 @@ public class PhysicsDumper extends Dumper {
          */
         int numIterations = space.getSolverNumIterations();
         int rayTestFlags = space.getRayTestFlags();
-        PhysicsDescriber describer = getDescriber();
-        String rtText = RayTestFlag.describe(rayTestFlags);
-        Vector3f worldMin = space.getWorldMin(null);
-        String minString = MyVector3f.describe(worldMin);
-        Vector3f worldMax = space.getWorldMax(null);
-        String maxString = MyVector3f.describe(worldMax);
-        stream.printf("%n%s iters=%d rayTest=%s worldMin[%s] worldMax[%s]",
-                indent, numIterations, rtText, minString, maxString);
+        String rayTestText = RayTestFlag.describe(rayTestFlags);
+        stream.printf("%n%s iters=%d rayTest=%s",
+                indent, numIterations, rayTestText);
+
+        if (bphase == PhysicsSpace.BroadphaseType.AXIS_SWEEP_3
+                || bphase == PhysicsSpace.BroadphaseType.AXIS_SWEEP_3_32) {
+            Vector3f worldMin = space.getWorldMin(null);
+            String minString = MyVector3f.describe(worldMin);
+            Vector3f worldMax = space.getWorldMax(null);
+            String maxString = MyVector3f.describe(worldMax);
+            stream.printf(" worldMin[%s] worldMax[%s]",
+                    minString, maxString);
+        }
         /*
          * For soft spaces, 4th line has the world info.
          */
+        PhysicsDescriber describer = getDescriber();
         if (space instanceof PhysicsSoftSpace) {
             SoftBodyWorldInfo info = ((PhysicsSoftSpace) space).getWorldInfo();
             String infoDesc = describer.describe(info);
