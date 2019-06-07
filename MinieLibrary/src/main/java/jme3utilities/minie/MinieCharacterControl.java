@@ -239,10 +239,10 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Create spatial-dependent data. Invoked when this control is added to a
-     * spatial.
+     * Create spatial-dependent data. Invoked when this Control is added to a
+     * Spatial.
      *
-     * @param spat the controlled spatial (not null)
+     * @param spat the controlled Spatial (not null, alias created) TODO rename
      */
     @Override
     protected void createSpatialData(Spatial spat) {
@@ -252,7 +252,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     /**
      * Create a shallow clone for the JME cloner.
      *
-     * @return a new instance
+     * @return a new Control (not null)
      */
     @Override
     public MinieCharacterControl jmeClone() {
@@ -282,6 +282,9 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
                 new Vector3f(Vector3f.UNIT_Z));
     }
 
+    /**
+     * Remove all managed physics objects from the PhysicsSpace.
+     */
     @Override
     protected void removePhysics() {
         PhysicsSpace space = getPhysicsSpace();
@@ -289,10 +292,10 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Destroy spatial-dependent data. Invoked when this control is removed from
-     * a spatial.
+     * Destroy spatial-dependent data. Invoked when this Control is removed from
+     * its Spatial.
      *
-     * @param spat the previously controlled spatial (not null)
+     * @param spat the previously controlled Spatial (not null) TODO rename
      */
     @Override
     protected void removeSpatialData(Spatial spat) {
@@ -300,12 +303,12 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Render this control. Invoked once per ViewPort per frame, provided the
-     * control is added to a scene. Should be invoked only by a subclass or by
+     * Render this Control. Invoked once per ViewPort per frame, provided the
+     * Control is added to a scene. Should be invoked only by a subclass or by
      * the RenderManager.
      *
-     * @param rm the render manager (not null)
-     * @param vp the view port to render (not null)
+     * @param rm the RenderManager (unused)
+     * @param vp the ViewPort to render (unused)
      */
     @Override
     public void render(RenderManager rm, ViewPort vp) {
@@ -315,7 +318,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     /**
      * Translate the PhysicsCharacter to the specified location.
      *
-     * @param vec the desired location (not null, unaffected)
+     * @param vec the desired location (not null, unaffected) TODO rename
      */
     @Override
     public void setPhysicsLocation(Vector3f vec) {
@@ -325,7 +328,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     /**
      * Rotate the PhysicsCharacter to the specified orientation.
      *
-     * @param quat the desired orientation (not null, unaffected)
+     * @param quat the desired orientation (not null, unaffected) TODO rename
      */
     @Override
     protected void setPhysicsRotation(Quaternion quat) {
@@ -333,14 +336,15 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Update this control. Invoked once per frame during the logical-state
-     * update, provided the control is added to a scene graph. Do not invoke
-     * directly from user code.
+     * Update this Control. Invoked once per frame during the logical-state
+     * update, provided the Control is added to a scene. Do not invoke directly
+     * from user code.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void update(float tpf) {
+        // TODO test isEnabled()
         Quaternion orientation = tmpQuaternionTL.get();
         if (orientation == null) {
             orientation = new Quaternion();

@@ -47,7 +47,7 @@ import java.util.logging.Logger;
 import jme3utilities.MySpatial;
 
 /**
- * Manage the life cycle of a physics object linked to a spatial in a scene
+ * Manage the lifecycle of a physics object linked to a Spatial in a scene
  * graph.
  *
  * @author normenhansen
@@ -75,7 +75,7 @@ abstract public class AbstractPhysicsControl
 
     /**
      * true &rarr; physics-space coordinates match local transform, false &rarr;
-     * physics-space coordinates match world transform
+     * physics-space coordinates match world transform TODO rename localPhysics
      */
     private boolean applyLocal = false;
     /**
@@ -83,7 +83,7 @@ abstract public class AbstractPhysicsControl
      */
     protected boolean added = false;
     /**
-     * true&rarr;control is enabled, false&rarr;control is disabled
+     * true&rarr;Control is enabled, false&rarr;Control is disabled
      */
     private boolean enabled = true;
     /**
@@ -91,20 +91,21 @@ abstract public class AbstractPhysicsControl
      */
     private PhysicsSpace space = null;
     /**
-     * temporary storage during calculations
+     * temporary storage during calculations TODO thread safety
      */
     private Quaternion tmp_inverseWorldRotation = new Quaternion();
     /**
-     * spatial to which this control is added, or null if none
+     * Spatial to which this Control is added, or null if none TODO rename
+     * controlledSpatial
      */
     private Spatial spatial;
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Access the controlled spatial.
+     * Access the Spatial to which this Control is added.
      *
-     * @return the spatial, or null if none
+     * @return the Spatial, or null if none
      */
     public Spatial getSpatial() {
         return spatial;
@@ -122,7 +123,7 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * Alter whether physics-space coordinates should match the spatial's local
+     * Alter whether physics-space coordinates should match the Spatial's local
      * coordinates.
      *
      * @param applyPhysicsLocal true&rarr;match local coordinates,
@@ -169,17 +170,17 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * Create spatial-dependent data. Invoked when this control is added to a
-     * spatial.
+     * Create spatial-dependent data. Invoked when this Control is added to a
+     * Spatial.
      *
      * @param spat the controlled spatial (not null)
      */
     protected abstract void createSpatialData(Spatial spat);
 
     /**
-     * Access whichever spatial rotation corresponds to the physics rotation.
+     * Access whichever rotation corresponds to the physics rotation.
      *
-     * @return the pre-existing quaternion (in physics-space coordinates, not
+     * @return the pre-existing Quaternion (in physics-space coordinates, not
      * null)
      */
     protected Quaternion getSpatialRotation() {
@@ -209,8 +210,8 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * Destroy spatial-dependent data. Invoked when this control is removed from
-     * a spatial.
+     * Destroy spatial-dependent data. Invoked when this Control is removed from
+     * a Spatial.
      *
      * @param spat the previously controlled spatial (not null)
      */
@@ -219,14 +220,14 @@ abstract public class AbstractPhysicsControl
     /**
      * Translate the physics object to the specified location.
      *
-     * @param vec desired location (not null, unaffected)
+     * @param vec the desired location (not null, unaffected)
      */
     protected abstract void setPhysicsLocation(Vector3f vec);
 
     /**
      * Rotate the physics object to the specified orientation.
      *
-     * @param quat desired orientation (not null, unaffected)
+     * @param quat the desired orientation (not null, unaffected)
      */
     protected abstract void setPhysicsRotation(Quaternion quat);
 
@@ -239,11 +240,11 @@ abstract public class AbstractPhysicsControl
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified cloner
+     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this control (not null)
-     * @param original the control from which this control was shallow-cloned
+     * @param cloner the Cloner that's cloning this Control (not null)
+     * @param original the Control from which this Control was shallow-cloned
      * (unused)
      */
     @Override
@@ -320,13 +321,14 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * Enable or disable this control.
+     * Enable or disable this control. TODO add a render() method
      * <p>
-     * When the control is disabled, the physics object is removed from
-     * PhysicsSpace. When the control is enabled again, the physics object is
-     * moved to the spatial's location and then added to the PhysicsSpace.
+     * When the Control is disabled, the physics object is removed from any
+     * PhysicsSpace. When the Control is enabled again, the physics object is
+     * moved to the location of the Spatial and then added to the PhysicsSpace.
      *
-     * @param enabled true&rarr;enable the control, false&rarr;disable it
+     * @param enabled true&rarr;enable the Control, false&rarr;disable it TODO
+     * rename enable
      */
     @Override
     public void setEnabled(boolean enabled) {
@@ -347,8 +349,8 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * If enabled, add this control's physics objects to the specified physics
-     * space. If not enabled, alter where the objects would be added. The
+     * If enabled, add this control's physics objects to the specified
+     * PhysicsSpace. If not enabled, alter where the objects would be added. The
      * objects are removed from any other space they're in.
      *
      * @param newSpace where to add, or null to simply remove
@@ -369,17 +371,17 @@ abstract public class AbstractPhysicsControl
             added = true;
         }
         /*
-         * If the control isn't enabled, its physics object will be
-         * added to the new space when the control becomes enabled.
+         * If the Control isn't enabled, its physics objects will be
+         * added to the new space when the Control becomes enabled.
          */
     }
 
     /**
-     * Alter which spatial is controlled. Invoked when the control is added to
-     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Alter which Spatial is controlled. Invoked when the Control is added to
+     * or removed from a Spatial. Should be invoked only by a subclass or from
      * Spatial. Do not invoke directly from user code.
      *
-     * @param controlledSpatial the spatial to control (or null)
+     * @param controlledSpatial the Spatial to control (or null)
      */
     @Override
     public void setSpatial(Spatial controlledSpatial) {

@@ -104,7 +104,7 @@ public class BetterCharacterControl
     private float physicsDamping = 0.9f;
     private float radius;
     /**
-     *
+     * underlying rigid body
      */
     private PhysicsRigidBody rigidBody;
     /**
@@ -156,7 +156,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Instantiate an enabled control with the specified properties.
+     * Instantiate an enabled Control with the specified properties.
      * <p>
      * The final height when ducking must be larger than 2x radius. The
      * jumpForce will be set to an upward force of 5x mass.
@@ -453,11 +453,11 @@ public class BetterCharacterControl
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified cloner
+     * shallow-cloned control into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this control (not null)
-     * @param original the control from which this control was shallow-cloned
+     * @param cloner the Cloner that's cloning this Control (not null)
+     * @param original the Control from which this Control was shallow-cloned
      * (unused)
      */
     @Override
@@ -480,10 +480,10 @@ public class BetterCharacterControl
     }
 
     /**
-     * Create spatial-dependent data. Invoked when this control is added to a
-     * spatial.
+     * Create spatial-dependent data. Invoked when this Control is added to a
+     * Spatial.
      *
-     * @param spat the controlled spatial (not null, alias created)
+     * @param spat the controlled Spatial (not null, alias created) TODO rename
      */
     @Override
     protected void createSpatialData(Spatial spat) {
@@ -493,7 +493,7 @@ public class BetterCharacterControl
     /**
      * Create a shallow clone for the JME cloner.
      *
-     * @return a new instance
+     * @return a new Control (not null)
      */
     @Override
     public BetterCharacterControl jmeClone() {
@@ -544,9 +544,9 @@ public class BetterCharacterControl
 
     /**
      * Destroy spatial-dependent data. Invoked when this Control is removed from
-     * its controlled spatial.
+     * its Spatial.
      *
-     * @param spat the previously controlled spatial (unused)
+     * @param spat the previously controlled spatial (unused) TODO rename
      */
     @Override
     protected void removeSpatialData(Spatial spat) {
@@ -555,11 +555,11 @@ public class BetterCharacterControl
 
     /**
      * Render this Control. Invoked once per ViewPort per frame, provided the
-     * control is added to a scene. Should be invoked only by a subclass or by
+     * Control is added to a scene. Should be invoked only by a subclass or by
      * the RenderManager.
      *
-     * @param rm the render manager (unused)
-     * @param vp the view port to render (unused)
+     * @param rm the RenderManager (unused)
+     * @param vp the ViewPort to render (unused)
      */
     @Override
     public void render(RenderManager rm, ViewPort vp) {
@@ -569,7 +569,7 @@ public class BetterCharacterControl
     /**
      * Translate the character to the specified location.
      *
-     * @param vec desired location (not null, unaffected)
+     * @param vec desired location (not null, unaffected) TODO rename
      */
     @Override
     protected void setPhysicsLocation(Vector3f vec) {
@@ -583,7 +583,7 @@ public class BetterCharacterControl
      * We don't set the actual physics rotation but the view rotation here. It
      * might actually be altered by the calculateNewForward method.
      *
-     * @param quat the desired orientation (not null, unaffected)
+     * @param quat the desired orientation (not null, unaffected) TODO rename
      */
     @Override
     protected void setPhysicsRotation(Quaternion quat) {
@@ -594,8 +594,8 @@ public class BetterCharacterControl
 
     /**
      * Update this Control. Invoked once per frame during the logical-state
-     * update, provided the Control is added to a scene graph. Do not invoke
-     * directly from user code.
+     * update, provided the Control is added to a scene. Do not invoke directly
+     * from user code.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
      */

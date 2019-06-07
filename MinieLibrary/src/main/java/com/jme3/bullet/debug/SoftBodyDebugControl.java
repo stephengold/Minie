@@ -135,7 +135,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     protected void controlUpdate(float tpf) {
         // TODO check for changes in the number of anchors/links/faces/clusters
 
-        boolean localFlag = true; // use local coordinates
+        boolean localFlag = true; // copy local coords, not physics-space ones
         if (anchorsGeometry != null) {
             Mesh mesh = anchorsGeometry.getMesh();
             NativeSoftBodyUtil.updateAnchorMesh(body, mesh, localFlag);

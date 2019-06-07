@@ -116,7 +116,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     // constructors
 
     /**
-     * Instantiate an enabled control without any attachments or linked bones
+     * Instantiate an enabled Control without any attachments or linked bones
      * (torso only).
      */
     DacConfiguration() {
