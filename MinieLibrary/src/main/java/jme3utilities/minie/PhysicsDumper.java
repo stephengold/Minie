@@ -27,6 +27,7 @@
 package jme3utilities.minie;
 
 import com.jme3.app.state.AppState;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
@@ -257,11 +258,12 @@ public class PhysicsDumper extends Dumper {
         Validate.nonNull(indent, "indent");
 
         long objectId = body.getObjectId();
-        stream.printf("%n%sSoft #%s", indent, Long.toHexString(objectId));
+        stream.printf("%n%sSoft #%s ", indent, Long.toHexString(objectId));
 
-        Vector3f location = body.getPhysicsLocation(null);
-        String desc = MyVector3f.describe(location);
-        stream.printf(" loc[%s]", desc);
+        PhysicsDescriber describer = getDescriber();
+        BoundingBox aabb = body.boundingBox(null);
+        String desc = describer.describe(aabb);
+        stream.print(desc);
 
         stream.print(" mass=");
         float mass = body.getMass();
@@ -273,7 +275,7 @@ public class PhysicsDumper extends Dumper {
         desc = MyString.describe(margin);
         stream.print(desc);
 
-        stream.print(" vol=");
+        stream.printf("%n%s  vol=", indent);
         float volume = body.volume();
         desc = MyString.describe(volume);
         stream.print(desc);
@@ -284,7 +286,6 @@ public class PhysicsDumper extends Dumper {
         stream.print(desc);
         stream.print(']');
 
-        PhysicsDescriber describer = getDescriber();
         desc = describer.describeUser(body);
         stream.print(desc);
 
@@ -302,7 +303,7 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" orient[%s]", desc);
         }
         /*
-         * 2nd & 3rd lines have the Config.
+         * 3rd & 4th lines have the Config.
          */
         SoftBodyConfig config = body.getSoftConfig();
         desc = describer.describe1(config);
@@ -310,19 +311,19 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describe2(config);
         stream.printf("%n%s %s", indent, desc);
         /*
-         * 4th line has the Material.
+         * 5th line has the Material.
          */
         PhysicsSoftBody.Material material = body.getSoftMaterial();
         desc = describer.describe(material);
         stream.printf("%n%s %s", indent, desc);
         /*
-         * 5th line has the world info.
+         * 6th line has the world info.
          */
         SoftBodyWorldInfo info = body.getWorldInfo();
         desc = describer.describe(info);
         stream.printf("%n%s %s", indent, desc);
         /*
-         * 6th line has the group info and number of joints.
+         * 7th line has the group info and number of anchors.
          */
         desc = describer.describeGroups(body);
         stream.printf("%n%s%s", indent, desc);
