@@ -36,6 +36,7 @@ import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.material.Material;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
@@ -105,7 +106,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // constructors
 
     /**
-     * Instantiate an enabled control to visualize the specified body.
+     * Instantiate an enabled Control to visualize the specified body.
      *
      * @param debugAppState which app state (not null, alias created)
      * @param body which body to visualize (not null, alias created)
@@ -124,8 +125,8 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // AbstractPhysicsDebugControl methods
 
     /**
-     * Update this control. Invoked once per frame during the logical-state
-     * update, provided the control is enabled and added to a scene. Should be
+     * Update this Control. Invoked once per frame during the logical-state
+     * update, provided the Control is enabled and added to a scene. Should be
      * invoked only by a subclass or by AbstractControl.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
@@ -146,19 +147,20 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         }
 
         DebugMeshNormals normals = body.debugMeshNormals();
-        boolean normalsFlag = (normals != DebugMeshNormals.None);
         IntBuffer noIndexMap = null; // node indices = vertex indices
+        boolean normalsFlag = (normals != DebugMeshNormals.None);
+        Transform noTransform = null; // physics locations = mesh positions
 
         if (linksGeometry != null) {
             Mesh mesh = linksGeometry.getMesh();
             NativeSoftBodyUtil.updateMesh(body, noIndexMap, mesh, localFlag,
-                    normalsFlag);
+                    normalsFlag, noTransform);
         }
 
         if (facesGeometry != null) {
             Mesh mesh = facesGeometry.getMesh();
             NativeSoftBodyUtil.updateMesh(body, noIndexMap, mesh, localFlag,
-                    normalsFlag);
+                    normalsFlag, noTransform);
 
             Material material = body.getDebugMaterial();
             if (material == null) {

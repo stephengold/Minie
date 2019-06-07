@@ -32,6 +32,7 @@
 package com.jme3.bullet.util;
 
 import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
@@ -129,7 +130,7 @@ public class NativeSoftBodyUtil {
             uniqueEdges.add(new MeshEdge(ti0, ti2));
         }
 
-        int vertexCount = positions.capacity();
+        int vertexCount = positions.limit();
         int numUniqueEdges = uniqueEdges.size();
         int indexCount = 2 * numUniqueEdges;
         IndexBuffer links
@@ -184,7 +185,7 @@ public class NativeSoftBodyUtil {
      * texture coordinates) are ignored.
      *
      * @param positionBuffer the buffer of mesh-vertex positions (not null,
-     * capacity a multiple of 3, unaffected)
+     * limit a multiple of 3, unaffected)
      * @return a new index map (not null)
      */
     public static IntBuffer generateIndexMap(FloatBuffer positionBuffer) {
@@ -345,25 +346,29 @@ public class NativeSoftBodyUtil {
     /**
      * Update the position/normal buffers of a Mesh from the nodes in the
      * specified soft body. Mesh-vertex indices may be mapped to body-node
-     * indices.
+     * indices, and physics-space locations may be transformed into mesh
+     * positions.
      *
      * @param body the soft body to provide locations and normals (not null,
      * unaffected)
-     * @param vertexToNodeMap the index map, or null for a 1:1 map
+     * @param vertexToNodeMap the index map to apply, or null for identity
      * @param store the Mesh to update (not null, modified)
-     * @param meshInLocalSpace if true, transform the node locations into the
-     * body's local coordinates (relative to its bounding-box center), otherwise
-     * use physics-space coordinates
-     * @param updateNormals if true, update the normal buffer, otherwise skip
+     * @param meshInLocalSpace if true, transform node locations into the body's
+     * local coordinates (relative to its bounding-box center), otherwise use
+     * physics-space coordinates
+     * @param updateNormals if true, update the normal buffer, otherwise ignore
      * the normal buffer
+     * @param physicsToMesh the coordinate transform to apply, or null for
+     * identity (unaffected)
      */
     public static void updateMesh(PhysicsSoftBody body,
             IntBuffer vertexToNodeMap, Mesh store, boolean meshInLocalSpace,
-            boolean updateNormals) {
+            boolean updateNormals, Transform physicsToMesh) {
         long bodyId = body.getObjectId();
         FloatBuffer positionBuffer
                 = store.getFloatBuffer(VertexBuffer.Type.Position);
         assert positionBuffer != null;
+
         FloatBuffer normalBuffer = null;
         if (updateNormals) {
             normalBuffer = store.getFloatBuffer(VertexBuffer.Type.Normal);
@@ -371,17 +376,56 @@ public class NativeSoftBodyUtil {
         }
 
         if (vertexToNodeMap != null) {
-            // map vertex indices to node indices
+            // map mesh-vertex indices to body-node indices
             updateMesh(bodyId, vertexToNodeMap, positionBuffer, normalBuffer,
                     meshInLocalSpace, updateNormals);
         } else {
-            // null map: vertex indices equal node indices
+            // null map: mesh-vertex indices equal body-node indices
             updateMesh(bodyId, positionBuffer, normalBuffer,
                     meshInLocalSpace, updateNormals);
         }
 
+        if (physicsToMesh != null) {
+            Vector3f tempVector = new Vector3f();
+            /*
+             * Transform physics locations to mesh positions.
+             */
+            positionBuffer.rewind();
+            while (positionBuffer.hasRemaining()) {
+                positionBuffer.mark();
+                tempVector.x = positionBuffer.get();
+                tempVector.y = positionBuffer.get();
+                tempVector.z = positionBuffer.get();
+                physicsToMesh.transformVector(tempVector, tempVector);
+
+                positionBuffer.reset();
+                positionBuffer.put(tempVector.x);
+                positionBuffer.put(tempVector.y);
+                positionBuffer.put(tempVector.z);
+            }
+
+            if (normalBuffer != null) {
+                /*
+                 * Rotate the normals.
+                 */
+                normalBuffer.rewind();
+                while (normalBuffer.hasRemaining()) {
+                    normalBuffer.mark();
+                    tempVector.x = normalBuffer.get();
+                    tempVector.y = normalBuffer.get();
+                    tempVector.z = normalBuffer.get();
+                    physicsToMesh.getRotation().mult(tempVector, tempVector);
+
+                    normalBuffer.reset();
+                    normalBuffer.put(tempVector.x);
+                    normalBuffer.put(tempVector.y);
+                    normalBuffer.put(tempVector.z);
+                }
+            }
+        }
+
         store.getBuffer(VertexBuffer.Type.Position).setUpdateNeeded();
-        if (updateNormals) {
+        if (normalBuffer != null) {
             store.getBuffer(VertexBuffer.Type.Normal).setUpdateNeeded();
         }
     }
