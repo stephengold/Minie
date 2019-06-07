@@ -71,13 +71,8 @@ abstract public class AbstractPhysicsControl
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
-    // fields TODO re-order
+    // fields
 
-    /**
-     * true &rarr; physics-space coordinates match local transform, false &rarr;
-     * physics-space coordinates match world transform
-     */
-    private boolean localPhysics = false;
     /**
      * true&rarr;body is added to the PhysicsSpace, false&rarr;not added
      */
@@ -86,6 +81,11 @@ abstract public class AbstractPhysicsControl
      * true&rarr;Control is enabled, false&rarr;Control is disabled
      */
     private boolean enabled = true;
+    /**
+     * true &rarr; physics-space coordinates match local transform, false &rarr;
+     * physics-space coordinates match world transform
+     */
+    private boolean localPhysics = false;
     /**
      * space to which the physics object is (or would be) added
      */
@@ -210,6 +210,11 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
+     * Remove all managed physics objects from the PhysicsSpace.
+     */
+    protected abstract void removePhysics();
+
+    /**
      * Destroy spatial-dependent data. Invoked when this Control is removed from
      * its Spatial.
      *
@@ -232,11 +237,6 @@ abstract public class AbstractPhysicsControl
      * not null, unaffected)
      */
     protected abstract void setPhysicsRotation(Quaternion orientation);
-
-    /**
-     * Remove all managed physics objects from the PhysicsSpace. TODO re-order
-     */
-    protected abstract void removePhysics();
     // *************************************************************************
     // JmeCloneable methods
 
