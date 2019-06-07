@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie;
 
+import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -76,6 +77,28 @@ public class PhysicsDescriber extends Describer {
             = Logger.getLogger(PhysicsDescriber.class.getName());
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Generate a textual description for a BoundingBox.
+     *
+     * @param aabb the box to describe (not null, unaffected)
+     * @return description (not null, not empty)
+     */
+    public String describe(BoundingBox aabb) {
+        StringBuilder builder = new StringBuilder(80);
+
+        builder.append("loc[");
+        Vector3f location = aabb.getCenter();
+        String desc = MyVector3f.describe(location);
+        builder.append(desc);
+        builder.append("]");
+
+        Vector3f he = aabb.getExtent(null);
+        desc = describeHalfExtents(he);
+        builder.append(desc);
+
+        return builder.toString();
+    }
 
     /**
      * Generate a textual description for a CollisionShape.
