@@ -1264,8 +1264,8 @@ public class PhysicsSpace {
             }
             try {
                 task.invoke();
-            } catch (Exception ex) {
-                logger.log(Level.SEVERE, null, ex);
+            } catch (Exception exception) {
+                logger.log(Level.SEVERE, null, exception);
             }
         }
 

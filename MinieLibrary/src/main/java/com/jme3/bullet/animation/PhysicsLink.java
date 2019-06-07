@@ -623,54 +623,57 @@ abstract public class PhysicsLink
     // Savable methods
 
     /**
-     * De-serialize this link, for example when loading from a J3O file.
+     * De-serialize this link from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
     @SuppressWarnings("unchecked")
-    public void read(JmeImporter im) throws IOException {
-        InputCapsule ic = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
 
-        ikControllers
-                = ic.readSavableArrayList("ikControllers", new ArrayList(1));
-        children = ic.readSavableArrayList("children", new ArrayList(1));
-        bone = (Bone) ic.readSavable("bone", null);
-        control = (DacLinks) ic.readSavable("control", null);
-        blendInterval = ic.readFloat("blendInterval", 1f);
-        kinematicWeight = ic.readFloat("kinematicWeight", 1f);
-        joint = (PhysicsJoint) ic.readSavable("joint", null);
-        parent = (PhysicsLink) ic.readSavable("parent", null);
-        rigidBody = (PhysicsRigidBody) ic.readSavable("rigidBody", null);
-        kpTransform
-                = (Transform) ic.readSavable("kpTransform", new Transform());
-        kpVelocity = (Vector3f) ic.readSavable("kpVelocity", new Vector3f());
-        localOffset = (Vector3f) ic.readSavable("offset", new Vector3f());
+        ikControllers = capsule.readSavableArrayList("ikControllers",
+                new ArrayList(1));
+        children = capsule.readSavableArrayList("children", new ArrayList(1));
+        bone = (Bone) capsule.readSavable("bone", null);
+        control = (DacLinks) capsule.readSavable("control", null);
+        blendInterval = capsule.readFloat("blendInterval", 1f);
+        kinematicWeight = capsule.readFloat("kinematicWeight", 1f);
+        joint = (PhysicsJoint) capsule.readSavable("joint", null);
+        parent = (PhysicsLink) capsule.readSavable("parent", null);
+        rigidBody = (PhysicsRigidBody) capsule.readSavable("rigidBody", null);
+        kpTransform = (Transform) capsule.readSavable("kpTransform",
+                new Transform());
+        kpVelocity
+                = (Vector3f) capsule.readSavable("kpVelocity", new Vector3f());
+        localOffset = (Vector3f) capsule.readSavable("offset", new Vector3f());
     }
 
     /**
-     * Serialize this link, for example when saving to a J3O file.
+     * Serialize this link to the specified exporter, for example when saving to
+     * a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule oc = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
 
-        oc.writeSavableArrayList(ikControllers, "ikControllers", null);
-        oc.writeSavableArrayList(children, "children", null);
-        oc.write(bone, "bone", null);
-        oc.write(control, "control", null);
-        oc.write(blendInterval, "blendInterval", 1f);
-        oc.write(kinematicWeight, "kinematicWeight", 1f);
-        oc.write(joint, "joint", null);
-        oc.write(parent, "parent", null);
-        oc.write(rigidBody, "rigidBody", null);
-        oc.write(kpTransform, "kpTransform", null);
-        oc.write(kpVelocity, "kpVelocity", null);
-        oc.write(localOffset, "offset", null);
+        capsule.writeSavableArrayList(ikControllers, "ikControllers", null);
+        capsule.writeSavableArrayList(children, "children", null);
+        capsule.write(bone, "bone", null);
+        capsule.write(control, "control", null);
+        capsule.write(blendInterval, "blendInterval", 1f);
+        capsule.write(kinematicWeight, "kinematicWeight", 1f);
+        capsule.write(joint, "joint", null);
+        capsule.write(parent, "parent", null);
+        capsule.write(rigidBody, "rigidBody", null);
+        capsule.write(kpTransform, "kpTransform", null);
+        capsule.write(kpVelocity, "kpVelocity", null);
+        capsule.write(localOffset, "offset", null);
     }
     // *************************************************************************
     // private methods

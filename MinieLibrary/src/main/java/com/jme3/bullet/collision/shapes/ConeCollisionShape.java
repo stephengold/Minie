@@ -200,15 +200,17 @@ public class ConeCollisionShape extends CollisionShape {
     }
 
     /**
-     * De-serialize this shape, for example when loading from a J3O file.
+     * De-serialize this shape from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule capsule = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
+
         radius = capsule.readFloat("radius", 0.5f);
         height = capsule.readFloat("height", 0.5f);
         axis = capsule.readInt("axis", PhysicsSpace.AXIS_Y);
@@ -216,15 +218,17 @@ public class ConeCollisionShape extends CollisionShape {
     }
 
     /**
-     * Serialize this shape, for example when saving to a J3O file.
+     * Serialize this shape to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
+
         capsule.write(radius, "radius", 0.5f);
         capsule.write(height, "height", 0.5f);
         capsule.write(axis, "axis", PhysicsSpace.AXIS_Y);

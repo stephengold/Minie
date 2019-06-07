@@ -173,30 +173,33 @@ abstract public class IKController
     // Savable methods
 
     /**
-     * De-serialize this controller, for example when loading from a J3O file.
+     * De-serialize this controller from the specified importer, for example
+     * when loading from a J3O file.
      *
-     * @param importer the importer (not null)
+     * @param importer (not null)
      * @throws IOException from the importer
      */
     @Override
     public void read(JmeImporter importer) throws IOException {
-        InputCapsule ic = importer.getCapsule(this);
+        InputCapsule capsule = importer.getCapsule(this);
 
-        isEnabled = ic.readBoolean("isEnabled", true);
-        controlledLink = (PhysicsLink) ic.readSavable("controlledLink", null);
+        isEnabled = capsule.readBoolean("isEnabled", true);
+        controlledLink
+                = (PhysicsLink) capsule.readSavable("controlledLink", null);
     }
 
     /**
-     * Serialize this controller, for example when saving to a J3O file.
+     * Serialize this controller to the specified exporter, for example when
+     * saving to a J3O file.
      *
-     * @param exporter the exporter (not null)
+     * @param exporter (not null)
      * @throws IOException from the exporter
      */
     @Override
     public void write(JmeExporter exporter) throws IOException {
-        OutputCapsule oc = exporter.getCapsule(this);
+        OutputCapsule capsule = exporter.getCapsule(this);
 
-        oc.write(isEnabled, "isEnabled", true);
-        oc.write(controlledLink, "controlledLink", null);
+        capsule.write(isEnabled, "isEnabled", true);
+        capsule.write(controlledLink, "controlledLink", null);
     }
 }

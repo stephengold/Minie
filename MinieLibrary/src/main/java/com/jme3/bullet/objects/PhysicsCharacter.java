@@ -593,14 +593,14 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * De-serialize this character from the specified importer, for example when
      * loading from a J3O file.
      *
-     * @param im the importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
 
-        InputCapsule capsule = im.getCapsule(this);
+        InputCapsule capsule = importer.getCapsule(this);
         stepHeight = capsule.readFloat("stepHeight", 1f);
         buildObject();
         readPcoProperties(capsule);
@@ -636,15 +636,16 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Serialize this character, for example when saving to a J3O file.
+     * Serialize this character to the specified exporter, for example when
+     * saving to a J3O file.
      *
-     * @param ex the exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(stepHeight, "stepHeight", 1f);
 

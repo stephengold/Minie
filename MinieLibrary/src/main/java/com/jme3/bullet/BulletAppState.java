@@ -602,8 +602,8 @@ public class BulletAppState
         };
         try {
             return executor.submit(call).get();
-        } catch (InterruptedException | ExecutionException ex) {
-            logger.log(Level.SEVERE, null, ex);
+        } catch (InterruptedException | ExecutionException exception) {
+            logger.log(Level.SEVERE, null, exception);
             return false;
         }
     }
@@ -693,8 +693,8 @@ public class BulletAppState
             try {
                 physicsFuture.get();
                 physicsFuture = null;
-            } catch (InterruptedException | ExecutionException ex) {
-                logger.log(Level.SEVERE, null, ex);
+            } catch (InterruptedException | ExecutionException exception) {
+                logger.log(Level.SEVERE, null, exception);
             }
         }
     }

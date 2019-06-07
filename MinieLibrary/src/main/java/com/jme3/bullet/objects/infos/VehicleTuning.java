@@ -234,14 +234,16 @@ public class VehicleTuning
     // Savable methods
 
     /**
-     * De-serialize these parameters, for example when loading from a J3O file.
+     * De-serialize these parameters from the specified importer, for example
+     * when loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        InputCapsule capsule = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
+
         suspensionStiffness = capsule.readFloat("suspensionStiffness", 5.88f);
         suspensionDamping
                 = capsule.readFloat("wheelsDampingRelaxation", 0.88f);
@@ -256,12 +258,13 @@ public class VehicleTuning
     /**
      * Serialize these parameters, for example when saving to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
+
         capsule.write(suspensionStiffness, "suspensionStiffness", 5.88f);
         capsule.write(suspensionDamping, "wheelsDampingRelaxation", 0.88f);
         capsule.write(suspensionCompression, "wheelsDampingCompression",

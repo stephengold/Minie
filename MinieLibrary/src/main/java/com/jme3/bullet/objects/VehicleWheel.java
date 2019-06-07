@@ -646,14 +646,16 @@ public class VehicleWheel implements JmeCloneable, Savable {
     // Savable methods
 
     /**
-     * De-serialize this wheel, for example when loading from a J3O file.
+     * De-serialize this wheel from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        InputCapsule capsule = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
+
         wheelSpatial = (Spatial) capsule.readSavable("wheelSpatial", null);
         isFront = capsule.readBoolean("frontWheel", false);
         location = (Vector3f) capsule.readSavable("wheelLocation",
@@ -670,14 +672,16 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Serialize this wheel, for example when saving to a J3O file.
+     * Serialize this wheel to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
+
         capsule.write(wheelSpatial, "wheelSpatial", null);
         capsule.write(isFront, "frontWheel", false);
         capsule.write(location, "wheelLocation", new Vector3f());

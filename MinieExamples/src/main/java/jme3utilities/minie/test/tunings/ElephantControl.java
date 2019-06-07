@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class ElephantControl 
+public class ElephantControl
         extends DynamicAnimControl
         implements Face {
     // *************************************************************************
@@ -169,7 +169,7 @@ public class ElephantControl
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         result.set(1f, 1f, 0f);
         result.normalizeLocal();
-        
+
         return result;
     }
 }

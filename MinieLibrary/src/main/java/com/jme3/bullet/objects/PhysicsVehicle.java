@@ -688,15 +688,16 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * De-serialize this vehicle, for example when loading from a J3O file.
+     * De-serialize this vehicle from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
     @SuppressWarnings("unchecked")
-    public void read(JmeImporter im) throws IOException {
-        InputCapsule capsule = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
         tuning = new VehicleTuning();
 
         float readFloat = capsule.readFloat("frictionSlip", 10.5f);
@@ -722,18 +723,19 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         RigidBodyMotionState ms = getMotionState();
         ms.setVehicle(this);
 
-        super.read(im);
+        super.read(importer);
     }
 
     /**
-     * Serialize this vehicle, for example when saving to a J3O file.
+     * Serialize this vehicle to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(tuning.getFrictionSlip(),
                 "frictionSlip", 10.5f);
@@ -749,7 +751,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
                 "suspensionStiffness", 5.88f);
         capsule.writeSavableArrayList(wheels, "wheelsList", null);
 
-        super.write(ex);
+        super.write(exporter);
     }
     // *************************************************************************
     // Object methods

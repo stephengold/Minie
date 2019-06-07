@@ -132,24 +132,25 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
      * De-serialize this Control from the specified importer, for example when
      * loading from a J3O file.
      *
-     * @param im importer (unused)
+     * @param importer (unused)
      * @throws java.io.IOException never
      * @throws UnsupportedOperationException always
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
+    public void read(JmeImporter importer) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Serialize this Control, for example when saving to a J3O file.
+     * Serialize this Control to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (unused)
+     * @param exporter (unused)
      * @throws IOException never
      * @throws UnsupportedOperationException always
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
+    public void write(JmeExporter exporter) throws IOException {
         throw new UnsupportedOperationException();
     }
     // *************************************************************************

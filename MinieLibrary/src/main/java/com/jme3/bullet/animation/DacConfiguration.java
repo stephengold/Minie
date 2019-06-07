@@ -758,26 +758,28 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * De-serialize this Control, for example when loading from a J3O file.
+     * De-serialize this Control from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule ic = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
 
-        damping = ic.readFloat("damping", 0.6f);
+        damping = capsule.readFloat("damping", 0.6f);
         eventDispatchImpulseThreshold
-                = ic.readFloat("eventDispatchImpulseThreshold", 0f);
+                = capsule.readFloat("eventDispatchImpulseThreshold", 0f);
 
         jointMap.clear();
         blConfigMap.clear();
-        String[] linkedBoneNames = ic.readStringArray("linkedBoneNames", null);
+        String[] linkedBoneNames
+                = capsule.readStringArray("linkedBoneNames", null);
         Savable[] linkedBoneJoints
-                = ic.readSavableArray("linkedBoneJoints", null);
-        Savable[] blConfigs = ic.readSavableArray("blConfigs", null);
+                = capsule.readSavableArray("linkedBoneJoints", null);
+        Savable[] blConfigs = capsule.readSavableArray("blConfigs", null);
         for (int i = 0; i < linkedBoneNames.length; ++i) {
             String boneName = linkedBoneNames[i];
             RangeOfMotion rom = (RangeOfMotion) linkedBoneJoints[i];
@@ -787,10 +789,11 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
 
         attachModelMap.clear();
         alConfigMap.clear();
-        String[] attachBoneNames = ic.readStringArray("attachBoneNames", null);
+        String[] attachBoneNames
+                = capsule.readStringArray("attachBoneNames", null);
         Savable[] attachModels
-                = ic.readSavableArray("attachModels", null);
-        Savable[] alConfigs = ic.readSavableArray("alConfigs", null);
+                = capsule.readSavableArray("attachModels", null);
+        Savable[] alConfigs = capsule.readSavableArray("alConfigs", null);
         for (int i = 0; i < attachBoneNames.length; ++i) {
             String boneName = attachBoneNames[i];
             Spatial model = (Spatial) attachModels[i];
@@ -798,8 +801,8 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             alConfigMap.put(boneName, (LinkConfig) alConfigs[i]);
         }
 
-        torsoConfig = (LinkConfig) ic.readSavable("torsoConfig", null);
-        gravityVector = (Vector3f) ic.readSavable("gravity", null);
+        torsoConfig = (LinkConfig) capsule.readSavable("torsoConfig", null);
+        gravityVector = (Vector3f) capsule.readSavable("gravity", null);
     }
 
     /**
@@ -831,19 +834,20 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Serialize this Control, for example when saving to a J3O file.
+     * Serialize this Control to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule oc = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
 
-        oc.write(damping, "damping", 0.6f);
-        oc.write(eventDispatchImpulseThreshold, "eventDispatchImpulseThreshold",
-                0f);
+        capsule.write(damping, "damping", 0.6f);
+        capsule.write(eventDispatchImpulseThreshold,
+                "eventDispatchImpulseThreshold", 0f);
 
         int count = countLinkedBones();
         String[] linkedBoneNames = new String[count];
@@ -856,9 +860,9 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             blConfigs[i] = entry.getValue();
             ++i;
         }
-        oc.write(linkedBoneNames, "linkedBoneNames", null);
-        oc.write(roms, "linkedBoneJoints", null);
-        oc.write(blConfigs, "blConfigs", null);
+        capsule.write(linkedBoneNames, "linkedBoneNames", null);
+        capsule.write(roms, "linkedBoneJoints", null);
+        capsule.write(blConfigs, "blConfigs", null);
 
         count = countAttachments();
         String[] attachBoneNames = new String[count];
@@ -871,18 +875,18 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             alConfigs[i] = entry.getValue();
             ++i;
         }
-        oc.write(attachBoneNames, "attachBoneNames", null);
-        oc.write(attachModels, "attachModels", null);
-        oc.write(alConfigs, "alConfigs", null);
+        capsule.write(attachBoneNames, "attachBoneNames", null);
+        capsule.write(attachModels, "attachModels", null);
+        capsule.write(alConfigs, "alConfigs", null);
 
-        oc.write(torsoConfig, "torsoConfig", null);
-        oc.write(gravityVector, "gravity", null);
+        capsule.write(torsoConfig, "torsoConfig", null);
+        capsule.write(gravityVector, "gravity", null);
     }
     // *************************************************************************
     // private methods
 
     /**
-     * Verify that this control is NOT added to a Spatial.
+     * Verify that this Control is NOT added to a Spatial.
      *
      * @param desiredAction (not null, not empty)
      */

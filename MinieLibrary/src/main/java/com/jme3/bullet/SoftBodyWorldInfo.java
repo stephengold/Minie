@@ -239,9 +239,10 @@ public class SoftBodyWorldInfo implements Savable {
     // Savable methods
 
     /**
-     * De-serialize this info, for example when loading from a J3O file.
+     * De-serialize this info from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param importer the importer (not null)
+     * @param importer (not null)
      * @throws IOException from the importer
      */
     @Override
@@ -259,9 +260,10 @@ public class SoftBodyWorldInfo implements Savable {
     }
 
     /**
-     * Serialize this info, for example when saving to a J3O file.
+     * Serialize this info to the specified exporter, for example when saving to
+     * a J3O file.
      *
-     * @param exporter the exporter (not null)
+     * @param exporter (not null)
      * @throws IOException from the exporter
      */
     @Override

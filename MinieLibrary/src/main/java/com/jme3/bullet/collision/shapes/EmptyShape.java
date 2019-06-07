@@ -103,14 +103,15 @@ public class EmptyShape extends CollisionShape {
     }
 
     /**
-     * De-serialize this shape, for example when loading from a J3O file.
+     * De-serialize this shape from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
         createShape();
     }
     // *************************************************************************

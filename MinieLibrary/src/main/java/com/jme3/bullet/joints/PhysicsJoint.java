@@ -457,14 +457,15 @@ abstract public class PhysicsJoint
     // Savable methods
 
     /**
-     * De-serialize this joint, for example when loading from a J3O file.
+     * De-serialize this joint from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        InputCapsule capsule = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
 
         nodeA = (PhysicsRigidBody) capsule.readSavable("nodeA", null);
         nodeB = (PhysicsRigidBody) capsule.readSavable("nodeB", null);
@@ -477,14 +478,15 @@ abstract public class PhysicsJoint
     }
 
     /**
-     * Serialize this joint, for example when saving to a J3O file.
+     * Serialize this joint to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(nodeA, "nodeA", null);
         capsule.write(nodeB, "nodeB", null);

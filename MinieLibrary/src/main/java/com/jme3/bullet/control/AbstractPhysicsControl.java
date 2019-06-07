@@ -294,7 +294,7 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * Test whether this control is enabled.
+     * Test whether this Control is enabled.
      *
      * @return true if enabled, otherwise false
      */
@@ -304,18 +304,19 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * De-serialize this control from the specified importer, for example when
+     * De-serialize this Control from the specified importer, for example when
      * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        InputCapsule ic = im.getCapsule(this);
-        enabled = ic.readBoolean("enabled", true);
-        spatial = (Spatial) ic.readSavable("spatial", null);
-        applyLocal = ic.readBoolean("applyLocalPhysics", false);
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
+
+        enabled = capsule.readBoolean("enabled", true);
+        spatial = (Spatial) capsule.readSavable("spatial", null);
+        applyLocal = capsule.readBoolean("applyLocalPhysics", false);
     }
 
     /**
@@ -398,16 +399,18 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * Serialize this control, for example when saving to a J3O file.
+     * Serialize this Control to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule oc = ex.getCapsule(this);
-        oc.write(enabled, "enabled", true);
-        oc.write(applyLocal, "applyLocalPhysics", false);
-        oc.write(spatial, "spatial", null);
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
+
+        capsule.write(enabled, "enabled", true);
+        capsule.write(applyLocal, "applyLocalPhysics", false);
+        capsule.write(spatial, "spatial", null);
     }
 }

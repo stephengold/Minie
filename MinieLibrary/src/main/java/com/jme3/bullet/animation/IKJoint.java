@@ -166,10 +166,11 @@ public class IKJoint implements JmeCloneable, Savable {
     // Savable methods
 
     /**
-     * De-serialize this joint, for example when loading from a J3O file.
+     * De-serialize this joint from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param importer importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
     public void read(JmeImporter importer) throws IOException {
@@ -180,10 +181,11 @@ public class IKJoint implements JmeCloneable, Savable {
     }
 
     /**
-     * Serialize this preset, for example when saving to a J3O file.
+     * Serialize this joint to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param exporter exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
     public void write(JmeExporter exporter) throws IOException {

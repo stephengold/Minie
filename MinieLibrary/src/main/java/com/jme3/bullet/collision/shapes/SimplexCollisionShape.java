@@ -274,15 +274,16 @@ public class SimplexCollisionShape extends CollisionShape {
     }
 
     /**
-     * De-serialize this shape, for example when loading from a J3O file.
+     * De-serialize this shape from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule capsule = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
 
         vector1 = (Vector3f) capsule.readSavable("simplexPoint1", null);
         vector2 = (Vector3f) capsule.readSavable("simplexPoint2", null);
@@ -292,15 +293,16 @@ public class SimplexCollisionShape extends CollisionShape {
     }
 
     /**
-     * Serialize this shape, for example when saving to a J3O file.
+     * Serialize this shape to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(vector1, "simplexPoint1", null);
         capsule.write(vector2, "simplexPoint2", null);

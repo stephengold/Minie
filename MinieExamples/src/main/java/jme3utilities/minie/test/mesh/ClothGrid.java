@@ -192,9 +192,10 @@ public class ClothGrid extends Mesh {
     // Mesh methods
 
     /**
-     * De-serialize this mesh, for example when loading from a J3O file.
+     * De-serialize this mesh from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param importer the importer (not null)
+     * @param importer (not null)
      * @throws IOException from the importer
      */
     @Override
@@ -207,9 +208,10 @@ public class ClothGrid extends Mesh {
     }
 
     /**
-     * Serialize this mesh, for example when saving to a J3O file.
+     * Serialize this Mesh to the specified exporter, for example when saving to
+     * a J3O file.
      *
-     * @param exporter the exporter (not null)
+     * @param exporter (not null)
      * @throws IOException from the exporter
      */
     @Override

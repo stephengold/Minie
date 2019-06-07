@@ -227,38 +227,40 @@ public class UprightController extends IKController {
     }
 
     /**
-     * De-serialize this controller, for example when loading from a J3O file.
+     * De-serialize this controller from the specified importer, for example
+     * when loading from a J3O file.
      *
-     * @param importer the importer (not null)
+     * @param importer (not null)
      * @throws IOException from the importer
      */
     @Override
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
-        InputCapsule ic = importer.getCapsule(this);
+        InputCapsule capsule = importer.getCapsule(this);
 
-        deltaGainFactor = ic.readFloat("deltaGainFactor", 0.1f);
-        errorGainFactor = ic.readFloat("errorGainFactor", 0.1f);
-        directionInLinkBody = (Vector3f) ic.readSavable("directionInLinkBody",
-                new Vector3f(1f, 0f, 0f));
-        previousError = (Vector3f) ic.readSavable("previousError",
+        deltaGainFactor = capsule.readFloat("deltaGainFactor", 0.1f);
+        errorGainFactor = capsule.readFloat("errorGainFactor", 0.1f);
+        directionInLinkBody = (Vector3f) capsule.readSavable(
+                "directionInLinkBody", new Vector3f(1f, 0f, 0f));
+        previousError = (Vector3f) capsule.readSavable("previousError",
                 new Vector3f());
     }
 
     /**
-     * Serialize this controller, for example when saving to a J3O file.
+     * Serialize this controller to the specified exporter, for example when
+     * saving to a J3O file.
      *
-     * @param exporter the exporter (not null)
+     * @param exporter (not null)
      * @throws IOException from the exporter
      */
     @Override
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
-        OutputCapsule oc = exporter.getCapsule(this);
+        OutputCapsule capsule = exporter.getCapsule(this);
 
-        oc.write(deltaGainFactor, "deltaGainFactor", 0.1f);
-        oc.write(errorGainFactor, "errorGainFactor", 0.1f);
-        oc.write(directionInLinkBody, "directionInLinkBody", null);
-        oc.write(previousError, "previousError", null);
+        capsule.write(deltaGainFactor, "deltaGainFactor", 0.1f);
+        capsule.write(errorGainFactor, "errorGainFactor", 0.1f);
+        capsule.write(directionInLinkBody, "directionInLinkBody", null);
+        capsule.write(previousError, "previousError", null);
     }
 }

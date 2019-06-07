@@ -266,10 +266,11 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * De-serialize this Control, for example when loading from a J3O file.
+     * De-serialize this Control from the specified importer, for example when
+     * loading from a J3O file.
      *
      * @param importer (not null)
-     * @throws IOException from importer
+     * @throws IOException from the importer
      */
     @Override
     public void read(JmeImporter importer) throws IOException {
@@ -361,10 +362,11 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Serialize this Control, for example when saving to a J3O file.
+     * Serialize this Control to the specified exporter, for example when saving
+     * to a J3O file.
      *
      * @param exporter (not null)
-     * @throws IOException from exporter
+     * @throws IOException from the exporter
      */
     @Override
     public void write(JmeExporter exporter) throws IOException {

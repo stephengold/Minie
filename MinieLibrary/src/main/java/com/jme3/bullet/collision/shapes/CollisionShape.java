@@ -330,14 +330,15 @@ abstract public class CollisionShape
     // Savable methods
 
     /**
-     * De-serialize this shape, for example when loading from a J3O file.
+     * De-serialize this shape from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        InputCapsule capsule = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
 
         Savable s = capsule.readSavable("scale", new Vector3f(1f, 1f, 1f));
         scale.set((Vector3f) s);
@@ -346,14 +347,15 @@ abstract public class CollisionShape
     }
 
     /**
-     * Serialize this shape, for example when saving to a J3O file.
+     * Serialize this shape to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(scale, "scale", new Vector3f(1f, 1f, 1f));
         capsule.write(margin, "margin", 0.04f);

@@ -414,41 +414,43 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     // Savable methods
 
     /**
-     * De-serialize this configuration, for example when loading from a J3O
-     * file.
+     * De-serialize this configuration from the specified importer, for example
+     * when loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        InputCapsule ic = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
 
-        centerHeuristic = ic.readEnum("centerHeuristic", CenterHeuristic.class,
-                CenterHeuristic.Mean);
-        massParameter = ic.readFloat("massParameter", 1f);
-        massHeuristic = ic.readEnum("massHeuristic", MassHeuristic.class,
+        centerHeuristic = capsule.readEnum("centerHeuristic",
+                CenterHeuristic.class, CenterHeuristic.Mean);
+        massParameter = capsule.readFloat("massParameter", 1f);
+        massHeuristic = capsule.readEnum("massHeuristic", MassHeuristic.class,
                 MassHeuristic.Mass);
-        shapeHeuristic = ic.readEnum("shapeHeuristic", ShapeHeuristic.class,
-                ShapeHeuristic.VertexHull);
-        shapeScale = (Vector3f) ic.readSavable("shapeScale", null);
+        shapeHeuristic = capsule.readEnum("shapeHeuristic",
+                ShapeHeuristic.class, ShapeHeuristic.VertexHull);
+        shapeScale = (Vector3f) capsule.readSavable("shapeScale", null);
     }
 
     /**
-     * Serialize this configuration, for example when saving to a J3O file.
+     * Serialize this configuration to the specified exporter, for example when
+     * saving to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule oc = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
 
-        oc.write(centerHeuristic, "centerHeuristic", CenterHeuristic.Mean);
-        oc.write(massParameter, "massParameter", 1f);
-        oc.write(massHeuristic, "massHeuristic", MassHeuristic.Mass);
-        oc.write(shapeHeuristic, "shapeHeuristic", ShapeHeuristic.VertexHull);
-        oc.write(shapeScale, "shapeScale", null);
+        capsule.write(centerHeuristic, "centerHeuristic", CenterHeuristic.Mean);
+        capsule.write(massParameter, "massParameter", 1f);
+        capsule.write(massHeuristic, "massHeuristic", MassHeuristic.Mass);
+        capsule.write(shapeHeuristic, "shapeHeuristic",
+                ShapeHeuristic.VertexHull);
+        capsule.write(shapeScale, "shapeScale", null);
     }
     // *************************************************************************
     // Object methods

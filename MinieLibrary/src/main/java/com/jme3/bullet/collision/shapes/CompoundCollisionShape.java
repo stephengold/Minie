@@ -228,30 +228,32 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
-     * De-serialize this shape, for example when loading from a J3O file.
+     * De-serialize this shape from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
     @SuppressWarnings("unchecked")
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule capsule = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
         children = capsule.readSavableArrayList("children", null);
         loadChildren();
     }
 
     /**
-     * Serialize this shape, for example when saving to a J3O file.
+     * Serialize this shape to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
         capsule.writeSavableArrayList(children, "children", null);
     }
     // *************************************************************************

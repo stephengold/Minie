@@ -374,37 +374,39 @@ public class GhostControl
     }
 
     /**
-     * De-serialize this Control, for example when loading from a J3O file.
+     * De-serialize this Control from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule ic = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
 
-        enabled = ic.readBoolean("enabled", true);
-        applyLocal = ic.readBoolean("applyLocalPhysics", false);
-        applyScale = ic.readBoolean("applyScale", false);
-        spatial = (Spatial) ic.readSavable("spatial", null);
+        enabled = capsule.readBoolean("enabled", true);
+        applyLocal = capsule.readBoolean("applyLocalPhysics", false);
+        applyScale = capsule.readBoolean("applyScale", false);
+        spatial = (Spatial) capsule.readSavable("spatial", null);
     }
 
     /**
-     * Serialize this Control, for example when saving to a J3O file.
+     * Serialize this Control to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule oc = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
 
-        oc.write(enabled, "enabled", true);
-        oc.write(applyLocal, "applyLocalPhysics", false);
-        oc.write(applyScale, "applyScale", false);
-        oc.write(spatial, "spatial", null);
+        capsule.write(enabled, "enabled", true);
+        capsule.write(applyLocal, "applyLocalPhysics", false);
+        capsule.write(applyScale, "applyScale", false);
+        capsule.write(spatial, "spatial", null);
     }
     // *************************************************************************
     // private methods

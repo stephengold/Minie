@@ -186,14 +186,16 @@ public class ChildCollisionShape
     // Savable methods
 
     /**
-     * De-serialize this shape, for example when loading from a J3O file.
+     * De-serialize this shape from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        InputCapsule capsule = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
+
         location = (Vector3f) capsule.readSavable("location", new Vector3f());
         rotation = (Matrix3f) capsule.readSavable("rotation", new Matrix3f());
         shape = (CollisionShape) capsule.readSavable("shape",
@@ -201,14 +203,16 @@ public class ChildCollisionShape
     }
 
     /**
-     * Serialize this shape, for example when saving to a J3O file.
+     * Serialize this shape to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
+
         capsule.write(location, "location", null);
         capsule.write(rotation, "rotation", null);
         capsule.write(shape, "shape", null);

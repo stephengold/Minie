@@ -769,24 +769,25 @@ public class DynamicAnimControl
     }
 
     /**
-     * De-serialize this control, for example when loading from a J3O file.
+     * De-serialize this Control from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im the importer (not null)
+     * @param importer (not null)
      * @throws IOException from the importer
      */
     @Override
     @SuppressWarnings("unchecked")
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule ic = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
 
         // isReady and collisionListeners not read
-        ikJoints = ic.readSavableArrayList("ikJoints", new ArrayList(1));
-        ragdollMass = ic.readFloat("ragdollMass", 1f);
-        centerLocation
-                = (Vector3f) ic.readSavable("centerLocation", new Vector3f());
-        centerVelocity
-                = (Vector3f) ic.readSavable("centerVelocity", new Vector3f());
+        ikJoints = capsule.readSavableArrayList("ikJoints", new ArrayList(1));
+        ragdollMass = capsule.readFloat("ragdollMass", 1f);
+        centerLocation = (Vector3f) capsule.readSavable(
+                "centerLocation", new Vector3f());
+        centerVelocity = (Vector3f) capsule.readSavable(
+                "centerVelocity", new Vector3f());
     }
 
     /**
@@ -807,21 +808,22 @@ public class DynamicAnimControl
     }
 
     /**
-     * Serialize this control, for example when saving to a J3O file.
+     * Serialize this Control to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex the exporter (not null)
+     * @param exporter (not null)
      * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule oc = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
 
         // isReady and collisionListeners not written
-        oc.writeSavableArrayList(ikJoints, "ikJoints", null);
-        oc.write(ragdollMass, "ragdollMass", 1f);
-        oc.write(centerLocation, "centerLocation", null);
-        oc.write(centerVelocity, "centerVelocity", null);
+        capsule.writeSavableArrayList(ikJoints, "ikJoints", null);
+        capsule.write(ragdollMass, "ragdollMass", 1f);
+        capsule.write(centerLocation, "centerLocation", null);
+        capsule.write(centerVelocity, "centerVelocity", null);
     }
     // *************************************************************************
     // PhysicsCollisionListener methods

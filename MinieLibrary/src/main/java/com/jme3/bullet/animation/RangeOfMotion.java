@@ -317,14 +317,16 @@ public class RangeOfMotion implements Savable {
     // Savable methods
 
     /**
-     * De-serialize this preset, for example when loading from a J3O file.
+     * De-serialize this preset from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        InputCapsule capsule = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
+
         maxX = capsule.readFloat("maxX", 0f);
         minX = capsule.readFloat("minX", 0f);
         maxY = capsule.readFloat("maxY", 0f);
@@ -334,14 +336,16 @@ public class RangeOfMotion implements Savable {
     }
 
     /**
-     * Serialize this preset, for example when saving to a J3O file.
+     * Serialize this preset to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        OutputCapsule capsule = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
+
         capsule.write(maxX, "maxX", 0f);
         capsule.write(minX, "minX", 0f);
         capsule.write(maxY, "maxY", 0f);

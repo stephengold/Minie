@@ -759,35 +759,36 @@ public class DacLinks
     }
 
     /**
-     * De-serialize this control, for example when loading from a J3O file.
+     * De-serialize this Control from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
     @SuppressWarnings("unchecked")
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule ic = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
 
         boneLinkList
-                = ic.readSavableArrayList("boneLinkList", null);
+                = capsule.readSavableArrayList("boneLinkList", null);
         for (BoneLink link : boneLinkList) {
             String name = link.boneName();
             boneLinks.put(name, link);
         }
 
         Savable[] savableArray
-                = ic.readSavableArray("attachmentLinks", null);
+                = capsule.readSavableArray("attachmentLinks", null);
         for (Savable savable : savableArray) {
             AttachmentLink link = (AttachmentLink) savable;
             String name = link.boneName();
             attachmentLinks.put(name, link);
         }
 
-        skeleton = (Skeleton) ic.readSavable("skeleton", null);
-        transformer = (Spatial) ic.readSavable("transformer", null);
-        torsoLink = (TorsoLink) ic.readSavable("torsoLink", null);
+        skeleton = (Skeleton) capsule.readSavable("skeleton", null);
+        transformer = (Spatial) capsule.readSavable("transformer", null);
+        torsoLink = (TorsoLink) capsule.readSavable("torsoLink", null);
     }
 
     /**
@@ -1001,7 +1002,7 @@ public class DacLinks
     }
 
     /**
-     * Update this control. Invoked once per frame during the logical-state
+     * Update this Control. Invoked once per frame during the logical-state
      * update, provided the control is added to a scene. Do not invoke directly
      * from user code.
      *
@@ -1026,29 +1027,30 @@ public class DacLinks
     }
 
     /**
-     * Serialize this control, for example when saving to a J3O file.
+     * Serialize this Control to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule oc = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
 
         int count = countLinkedBones();
         Savable[] savableArray = new Savable[count];
         boneLinkList.toArray(savableArray);
-        oc.write(savableArray, "boneLinkList", null);
+        capsule.write(savableArray, "boneLinkList", null);
 
         count = countAttachments();
         AttachmentLink[] links = new AttachmentLink[count];
         attachmentLinks.values().toArray(links);
-        oc.write(links, "attachmentLinks", new AttachmentLink[0]);
+        capsule.write(links, "attachmentLinks", new AttachmentLink[0]);
 
-        oc.write(skeleton, "skeleton", null);
-        oc.write(transformer, "transformer", null);
-        oc.write(torsoLink, "torsoLink", null);
+        capsule.write(skeleton, "skeleton", null);
+        capsule.write(transformer, "transformer", null);
+        capsule.write(torsoLink, "torsoLink", null);
     }
     // *************************************************************************
     // PhysicsTickListener methods

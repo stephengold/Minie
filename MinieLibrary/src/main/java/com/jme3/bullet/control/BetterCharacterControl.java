@@ -504,28 +504,29 @@ public class BetterCharacterControl
     }
 
     /**
-     * De-serialize this control, for example when loading from a J3O file.
+     * De-serialize this Control from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule in = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
 
-        radius = in.readFloat("radius", 1f);
-        height = in.readFloat("height", 2f);
-        mass = in.readFloat("mass", 80f);
-        jumpForce = (Vector3f) in.readSavable("jumpForce",
+        radius = capsule.readFloat("radius", 1f);
+        height = capsule.readFloat("height", 2f);
+        mass = capsule.readFloat("mass", 80f);
+        jumpForce = (Vector3f) capsule.readSavable("jumpForce",
                 new Vector3f(0f, mass * 5f, 0f));
-        physicsDamping = in.readFloat("physicsDamping", 0.9f);
-        duckedFactor = in.readFloat("duckedFactor", 0.6f);
-        viewDirection = (Vector3f) in.readSavable("viewDirection",
+        physicsDamping = capsule.readFloat("physicsDamping", 0.9f);
+        duckedFactor = capsule.readFloat("duckedFactor", 0.6f);
+        viewDirection = (Vector3f) capsule.readSavable("viewDirection",
                 new Vector3f(0f, 0f, 1f));
-        walkDirection = (Vector3f) in.readSavable("walkDirection",
+        walkDirection = (Vector3f) capsule.readSavable("walkDirection",
                 new Vector3f(0f, 0f, 1f));
-        rigidBody = (PhysicsRigidBody) in.readSavable("body", null);
+        rigidBody = (PhysicsRigidBody) capsule.readSavable("body", null);
     }
 
     /**
@@ -603,25 +604,26 @@ public class BetterCharacterControl
     }
 
     /**
-     * Serialize this control, for example when saving to a J3O file.
+     * Serialize this Control to the specified exporter, for example when saving
+     * to a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule oc = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
 
-        oc.write(radius, "radius", 1f);
-        oc.write(height, "height", 2f);
-        oc.write(mass, "mass", 80f);
-        oc.write(jumpForce, "jumpForce", null);
-        oc.write(physicsDamping, "physicsDamping", 0.9f);
-        oc.write(duckedFactor, "duckedFactor", 0.6f);
-        oc.write(viewDirection, "viewDirection", null);
-        oc.write(walkDirection, "walkDirection", null);
-        oc.write(rigidBody, "body", null);
+        capsule.write(radius, "radius", 1f);
+        capsule.write(height, "height", 2f);
+        capsule.write(mass, "mass", 80f);
+        capsule.write(jumpForce, "jumpForce", null);
+        capsule.write(physicsDamping, "physicsDamping", 0.9f);
+        capsule.write(duckedFactor, "duckedFactor", 0.6f);
+        capsule.write(viewDirection, "viewDirection", null);
+        capsule.write(walkDirection, "walkDirection", null);
+        capsule.write(rigidBody, "body", null);
     }
     // *************************************************************************
     // PhysicsTickListener methods

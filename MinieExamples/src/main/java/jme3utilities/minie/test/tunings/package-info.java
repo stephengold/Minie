@@ -25,7 +25,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * DynamicAnimControl tunings for animated models used in the TestDac 
+ * DynamicAnimControl tunings for animated models used in the TestDac
  * application.
  */
 package jme3utilities.minie.test.tunings;

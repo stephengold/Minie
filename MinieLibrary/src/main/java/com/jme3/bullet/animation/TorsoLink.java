@@ -394,17 +394,18 @@ public class TorsoLink extends PhysicsLink {
     }
 
     /**
-     * De-serialize this link, for example when loading from a J3O file.
+     * De-serialize this link from the specified importer, for example when
+     * loading from a J3O file.
      *
-     * @param im importer (not null)
-     * @throws IOException from importer
+     * @param importer (not null)
+     * @throws IOException from the importer
      */
     @Override
-    public void read(JmeImporter im) throws IOException {
-        super.read(im);
-        InputCapsule ic = im.getCapsule(this);
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
 
-        Savable[] tmp = ic.readSavableArray("managedBones", null);
+        Savable[] tmp = capsule.readSavableArray("managedBones", null);
         if (tmp == null) {
             managedBones = null;
         } else {
@@ -414,17 +415,17 @@ public class TorsoLink extends PhysicsLink {
             }
         }
 
-        submode = ic.readEnum("submode", KinematicSubmode.class,
+        submode = capsule.readEnum("submode", KinematicSubmode.class,
                 KinematicSubmode.Animated);
-        endModelTransform = (Transform) ic.readSavable("endModelTransform",
+        endModelTransform = (Transform) capsule.readSavable("endModelTransform",
                 new Transform());
-        meshToModel
-                = (Transform) ic.readSavable("meshToModel", new Transform());
-        startModelTransform = (Transform) ic.readSavable("startModelTransform",
+        meshToModel = (Transform) capsule.readSavable("meshToModel",
                 new Transform());
-        prevBoneTransforms = RagUtils.readTransformArray(ic,
+        startModelTransform = (Transform) capsule.readSavable(
+                "startModelTransform", new Transform());
+        prevBoneTransforms = RagUtils.readTransformArray(capsule,
                 "prevBoneTransforms");
-        startBoneTransforms = RagUtils.readTransformArray(ic,
+        startBoneTransforms = RagUtils.readTransformArray(capsule,
                 "startBoneTransforms");
     }
 
@@ -497,23 +498,27 @@ public class TorsoLink extends PhysicsLink {
     }
 
     /**
-     * Serialize this link, for example when saving to a J3O file.
+     * Serialize this link to the specified exporter, for example when saving to
+     * a J3O file.
      *
-     * @param ex exporter (not null)
-     * @throws IOException from exporter
+     * @param exporter (not null)
+     * @throws IOException from the exporter
      */
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        super.write(ex);
-        OutputCapsule oc = ex.getCapsule(this);
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
 
-        oc.write(managedBones, "managedBones", null);
-        oc.write(submode, "submode", KinematicSubmode.Animated);
-        oc.write(endModelTransform, "endModelTransforms", new Transform());
-        oc.write(meshToModel, "meshToModel", new Transform());
-        oc.write(startModelTransform, "startModelTransforms", new Transform());
-        oc.write(prevBoneTransforms, "prevBoneTransforms", new Transform[0]);
-        oc.write(startBoneTransforms, "startBoneTransforms", new Transform[0]);
+        capsule.write(managedBones, "managedBones", null);
+        capsule.write(submode, "submode", KinematicSubmode.Animated);
+        capsule.write(endModelTransform, "endModelTransforms", new Transform());
+        capsule.write(meshToModel, "meshToModel", new Transform());
+        capsule.write(startModelTransform, "startModelTransforms",
+                new Transform());
+        capsule.write(prevBoneTransforms, "prevBoneTransforms",
+                new Transform[0]);
+        capsule.write(startBoneTransforms, "startBoneTransforms",
+                new Transform[0]);
     }
     // *************************************************************************
     // private methods
