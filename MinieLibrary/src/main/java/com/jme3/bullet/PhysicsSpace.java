@@ -1044,11 +1044,13 @@ public class PhysicsSpace {
      */
     public void update(float time) {
         assert time >= 0f : time;
+        assert accuracy > 0f : accuracy;
+        assert maxSubSteps >= 0 : maxSubSteps;
 
         if (maxSubSteps == 0) {
             time = Math.min(time, maxTimeStep);
         }
-        update(time, maxSubSteps);
+        stepSimulation(nativeId, time, maxSubSteps, accuracy);
     }
     // *************************************************************************
     // new protected methods
@@ -1337,22 +1339,6 @@ public class PhysicsSpace {
                 Long.toHexString(rigidBodyId));
         physicsBodies.remove(rigidBodyId);
         removeRigidBody(nativeId, rigidBodyId);
-    }
-
-    /**
-     * Simulate for the specified time interval, using no more than the
-     * specified number of steps. TODO inline
-     *
-     * @param time the time interval to simulate (in seconds, &ge;0)
-     * @param maxSteps the maximum number of steps (&ge;1) or 0 for a variable
-     * time step
-     */
-    private void update(float time, int maxSteps) {
-        assert time >= 0f : time;
-        assert maxSteps >= 0 : maxSteps;
-        assert accuracy > 0f : accuracy;
-
-        stepSimulation(nativeId, time, maxSteps, accuracy);
     }
     // *************************************************************************
     // native private methods
