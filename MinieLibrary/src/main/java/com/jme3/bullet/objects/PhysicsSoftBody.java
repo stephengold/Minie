@@ -102,6 +102,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     public PhysicsSoftBody() {
         objectId = createEmptySoftBody();
         assert objectId != 0L;
+        logger2.log(Level.FINE, "Created SoftBody {0}",
+                Long.toHexString(objectId));
 
         config = new SoftBodyConfig(this);
         super.initUserPointer();
@@ -283,8 +285,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Append nodes to this body. Nodes provide the shape of a soft body. Each
-     * node has its own location, velocity, mass, etcetera.
+     * Append nodes to this body, each with mass=1. Nodes provide the shape of a
+     * soft body. Each node has its own location, velocity, mass, etcetera.
      *
      * @param nodeLocations a node is created for every 3 floats in this buffer
      * (not null, limit a multiple of 3)
@@ -910,8 +912,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Alter the total mass for this body, distributing it based on the surface
-     * area of each face.
+     * Alter the total mass for this body, distributing it based on the area of
+     * each face.
      *
      * @param totalMass the desired total mass (&gt;0)
      */
@@ -1135,6 +1137,8 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         objectId = createEmptySoftBody();
         assert objectId != 0L;
+        logger2.log(Level.FINE, "Created SoftBody {0}",
+                Long.toHexString(objectId));
 
         initUserPointer();
 
