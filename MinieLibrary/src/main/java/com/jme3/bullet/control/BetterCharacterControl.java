@@ -483,11 +483,11 @@ public class BetterCharacterControl
      * Create spatial-dependent data. Invoked when this Control is added to a
      * Spatial.
      *
-     * @param spat the controlled Spatial (not null, alias created) TODO rename
+     * @param spatial the controlled Spatial (not null, alias created)
      */
     @Override
-    protected void createSpatialData(Spatial spat) {
-        rigidBody.setUserObject(spat);
+    protected void createSpatialData(Spatial spatial) {
+        rigidBody.setUserObject(spatial);
     }
 
     /**
@@ -546,10 +546,10 @@ public class BetterCharacterControl
      * Destroy spatial-dependent data. Invoked when this Control is removed from
      * its Spatial.
      *
-     * @param spat the previously controlled spatial (unused) TODO rename
+     * @param spatial the previously controlled spatial (unused)
      */
     @Override
-    protected void removeSpatialData(Spatial spat) {
+    protected void removeSpatialData(Spatial spatial) {
         rigidBody.setUserObject(null);
     }
 
@@ -569,25 +569,27 @@ public class BetterCharacterControl
     /**
      * Translate the character to the specified location.
      *
-     * @param vec desired location (not null, unaffected) TODO rename
+     * @param location the desired location (in physics-space coordinates, not
+     * null, unaffected)
      */
     @Override
-    protected void setPhysicsLocation(Vector3f vec) {
-        rigidBody.setPhysicsLocation(vec);
-        location.set(vec);
+    protected void setPhysicsLocation(Vector3f location) {
+        rigidBody.setPhysicsLocation(location);
+        location.set(location);
     }
 
     /**
-     * Rotate the physics object to the specified orientation.
+     * Rotate the character to the specified orientation.
      * <p>
      * We don't set the actual physics rotation but the view rotation here. It
      * might actually be altered by the calculateNewForward method.
      *
-     * @param quat the desired orientation (not null, unaffected) TODO rename
+     * @param orientation the desired orientation (in physics-space coordinates,
+     * not null, unaffected)
      */
     @Override
-    protected void setPhysicsRotation(Quaternion quat) {
-        rotation.set(quat);
+    protected void setPhysicsRotation(Quaternion orientation) {
+        rotation.set(orientation);
         rotation.multLocal(rotatedViewDirection.set(viewDirection));
         updateLocalViewDirection();
     }
