@@ -408,14 +408,21 @@ public class PhysicsDumper extends Dumper {
         /*
          * 2nd line
          */
-        float accuracy = space.getAccuracy();
-        String accuString = MyString.describe(accuracy);
-        PhysicsSpace.BroadphaseType broadphaseType = space.getBroadphaseType();
+        PhysicsSpace.BroadphaseType bphase = space.getBroadphaseType();
         Vector3f gravity = space.getGravity(null);
         String gravString = MyVector3f.describe(gravity);
+        stream.printf("%n%s bphase=%s grav[%s]", indent, bphase, gravString);
+
         int maxSubSteps = space.maxSubSteps();
-        stream.printf("%n%s accu=%s bphase=%s grav[%s] maxStep=%d",
-                indent, accuString, broadphaseType, gravString, maxSubSteps);
+        if (maxSubSteps == 0) {
+            float maxTimeStep = space.maxTimeStep();
+            String mtsDesc = MyString.describe(maxTimeStep);
+            stream.printf(" timeStep[VAR max=%s]", mtsDesc);
+        } else {
+            float accuracy = space.getAccuracy();
+            String accuDesc = MyString.describe(accuracy);
+            stream.printf(" timeStep[%s maxSS=%d]", accuDesc, maxSubSteps);
+        }
         /*
          * 3rd line
          */
