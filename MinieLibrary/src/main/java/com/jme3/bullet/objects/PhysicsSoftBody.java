@@ -106,16 +106,12 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         config = new SoftBodyConfig(this);
         super.initUserPointer();
+
         float defaultMargin = CollisionShape.getDefaultMargin();
         setMargin(defaultMargin);
 
         assert !isInWorld();
-        assert countAnchors() == 0;
-        assert countClusters() == 0;
-        assert countNodes() == 0;
-        assert countLinks() == 0;
-        assert countFaces() == 0;
-        assert countTetras() == 0;
+        assert isEmpty();
     }
     // *************************************************************************
     // new methods exposed
@@ -734,6 +730,21 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Test whether this body is empty.
+     *
+     * @return true if empty, otherwise false
+     */
+    final public boolean isEmpty() {
+        boolean result = countNodes() == 0
+                && countFaces() == 0
+                && countLinks() == 0
+                && countTetras() == 0
+                && countAnchors() == 0
+                && countClusters() == 0;
+        return result;
+    }
+
+    /**
      * List all nodes in the indexed cluster.
      *
      * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
@@ -1124,7 +1135,11 @@ public class PhysicsSoftBody extends PhysicsBody {
         destroySoftBody();
         objectId = createEmptySoftBody();
         assert objectId != 0L;
+
         initUserPointer();
+
+        assert !isInWorld();
+        assert isEmpty();
     }
 
     /**
