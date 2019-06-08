@@ -17,7 +17,7 @@ dependencies {
     runtime "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
     runtime "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     runtime "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
-    runtime "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"
+    runtime "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion"
     runtime "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
 
     //compile "jme3utilities:Minie:$minieVersion"
