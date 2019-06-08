@@ -446,6 +446,12 @@ public class PhysicsSpace {
     }
 
     /**
+     * For compatibility with the jme3-bullet library.
+     */
+    public void destroy() {
+    }
+
+    /**
      * Distribute each collision event to all listeners.
      */
     public void distributeEvents() {
