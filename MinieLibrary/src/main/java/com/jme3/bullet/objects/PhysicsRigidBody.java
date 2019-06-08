@@ -303,7 +303,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * For compatability with the jme3-bullet library.
+     * For compatibility with the jme3-bullet library.
      *
      * @return a new velocity vector (in physics-space coordinates, not null)
      */
@@ -408,7 +408,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * For compatability with the jme3-bullet library.
+     * For compatibility with the jme3-bullet library.
      *
      * @return a new velocity vector (in physics-space coordinates, not null)
      */
@@ -443,7 +443,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * For compatability with the jme3-bullet library.
+     * For compatibility with the jme3-bullet library.
      *
      * @return a new quaternion (in physics-space coordinates, not null)
      */

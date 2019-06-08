@@ -405,7 +405,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * For compatability with the jme3-bullet library.
+     * For compatibility with the jme3-bullet library.
      *
      * @return a new location vector (in physics-space coordinates, not null)
      */

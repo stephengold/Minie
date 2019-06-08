@@ -332,7 +332,7 @@ public class HingeJoint extends PhysicsJoint {
     }
 
     /**
-     * For compatability with the jme3-bullet library.
+     * For compatibility with the jme3-bullet library.
      *
      * @param low the desired lower limit of the hinge angle (in radians)
      * @param high the desired upper limit of the hinge angle (in radians)

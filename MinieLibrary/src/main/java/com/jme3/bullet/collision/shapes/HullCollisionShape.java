@@ -379,7 +379,7 @@ public class HullCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        // for backwards compatability
+        // for backwards compatibility
         Mesh mesh = (Mesh) capsule.readSavable("hullMesh", null);
         if (mesh != null) {
             points = getPoints(mesh);

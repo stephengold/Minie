@@ -293,7 +293,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Jump in the "up" direction. For compatability with the jme3-bullet
+     * Jump in the "up" direction. For compatibility with the jme3-bullet
      * library.
      */
     public void jump() {
@@ -393,7 +393,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter the character's gravitational acceleration. For compatability with
+     * Alter the character's gravitational acceleration. For compatibility with
      * the jme3-bullet library.
      *
      * @param downwardAcceleration the desired downward acceleration (in
