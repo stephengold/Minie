@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.2 released on TBD
+## Version 0.9.2 released on 7 June 2019
 
  + API changes:
    + Privatized 5 fields in the `GhostControl` class.
