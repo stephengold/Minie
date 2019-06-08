@@ -2,6 +2,10 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
+plugins {
+    id 'maven'
+}
+
 description = 'the Minie physics-support library for jMonkeyEngine'
 ext {
     artifact = 'Minie'
