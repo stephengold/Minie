@@ -1,5 +1,36 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.2 released on TBD
+
+ + API changes:
+   + Privatized 5 fields in the `GhostControl` class.
+   + Removed the `rebuildSoftBody()` method from the `PhysicsSoftBody` class.
+   + Added a `Transform` argument to the `updateMesh()` method in the
+     `NativeSoftBodyUtil` class.
+ + New features for soft-body physics:
+   + Added a `SoftBodyControl` class.
+   + Allowed setting `maxSubSteps` to 0 for a variable-length time step.
+   + Added `maxTimeStep` parameter to `PhysicsSpace`, for use with a
+     variable-length time step.
+   + Added a warning when `setGravity()` is applied to a body that isn't
+     in any space.
+   + Publicized the `distributeEvents()` method of `PhysicsSpace`, for use in
+     non-`BulletAppState` applications.
+   + An `isEmpty()` method for `PhysicsSoftBody`.
+ + Built for compatibility with Java 7.
+ + Added debug visualization of soft-body anchors.
+ + Avoided cloning/serializing world info and gravity: adding to a physics space
+   would trash these data.
+ + Improvements to `DacWizard` and examples:
+   + Added a `TestSoftBodyControl` application.
+   + Made `ClothGrid` dynamic and added a `reposition()` method.
+   + Changed `ClothGrid` to minimize directional bias.
+   + Added Sony Duck model with license.
+   + Use LWJGL v3 to allow fullscreen mode on Linux systems (JME issue #947).
+ + Various improvements to physics dumps.
+ + Updated the native libraries to version 1.0.73 of `Libbulletjme`.
+ + Based on version 2.28.1 of the `jme3-utilities-heart` library.
+
 ## Version 0.9.1 released on 28 May 2019
 
  + API changes:
