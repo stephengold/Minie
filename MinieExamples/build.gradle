@@ -6,18 +6,18 @@ description = 'demos, examples, and tests that do not generate reports'
 
 processResources.dependsOn(':MinieAssets:textures')
 dependencies {
-    compile "jme3utilities:jme3-utilities-heart:$heartVersion"
-    compile "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
-    runtime "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
-    runtime "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
-    compile "org.jmonkeyengine:jme3-effects:$jmonkeyengineVersion"
-    runtime "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
-    runtime "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion"
-    compile "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
-    runtime 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
+    implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
+    implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    implementation "org.jmonkeyengine:jme3-effects:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion"
+    implementation "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+    runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
-    //compile "jme3utilities:Minie:$minieVersion"
-    compile project(':MinieLibrary')
+    //implementation "jme3utilities:Minie:$minieVersion"
+    implementation project(':MinieLibrary')
 }
 
 // cleanup tasks

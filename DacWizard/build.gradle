@@ -9,19 +9,19 @@ if (!hasProperty('mainClass')) {
 }
 
 dependencies {
-    runtime 'com.github.nifty-gui:nifty-style-black:1.4.3'
-    compile "jme3utilities:jme3-utilities-heart:$heartVersion"
-    compile "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
-    compile 'jme3utilities:jme3-utilities-nifty:0.9.5'
-    compile 'jme3utilities:Wes:0.4.1'
-    runtime "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
-    runtime "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
-    runtime "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
-    runtime "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion"
-    runtime "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+    runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
+    implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
+    implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
+    implementation 'jme3utilities:jme3-utilities-nifty:0.9.5'
+    implementation 'jme3utilities:Wes:0.4.1'
+    runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
 
-    //compile "jme3utilities:Minie:$minieVersion"
-    compile project(':MinieLibrary')
+    //implementation "jme3utilities:Minie:$minieVersion"
+    implementation project(':MinieLibrary')
 }
 
 // cleanup tasks

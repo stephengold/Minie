@@ -3,6 +3,7 @@
 //   of the root project.
 
 plugins {
+    id 'java-library'
     id 'maven'
 }
 
@@ -18,12 +19,12 @@ javadocJar { baseName project.ext.baseName }
 sourcesJar { baseName project.ext.baseName }
 
 dependencies {
-    compile "jme3utilities:jme3-utilities-heart:$heartVersion"
-    compile "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
+    api "jme3utilities:jme3-utilities-heart:$heartVersion"
+    api "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
 
-    testCompile 'junit:junit:4.12'
-    testCompile "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
-    testRuntime 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    testRuntimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 }
 
 compileJava.options.headerOutputDirectory = new File('build/cpp')
