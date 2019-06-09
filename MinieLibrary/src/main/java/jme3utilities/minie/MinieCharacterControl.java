@@ -90,7 +90,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     /**
      * view direction
      */
-    private Vector3f viewDirection = new Vector3f(Vector3f.UNIT_Z);
+    private Vector3f viewDirection = new Vector3f(0f, 0f, 1f);
     // *************************************************************************
     // constructors
 
@@ -279,7 +279,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
 
         character = (PhysicsCharacter) capsule.readSavable("character", null);
         viewDirection = (Vector3f) capsule.readSavable("viewDirection",
-                new Vector3f(Vector3f.UNIT_Z));
+                new Vector3f(0f, 0f, 1f));
     }
 
     /**

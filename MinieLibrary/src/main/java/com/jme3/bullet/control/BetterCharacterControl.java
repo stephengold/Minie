@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * This class is intended to replace the CharacterControl class.
@@ -314,8 +315,8 @@ public class BetterCharacterControl
     }
 
     /**
-     * Realign the local forward vector to given direction vector, if null is
-     * supplied Vector3f.UNIT_Z is used. The input vector must be perpendicular
+     * Realign the local forward vector to given direction vector. If null is
+     * supplied, Vector3f.UNIT_Z is used. The input vector must be perpendicular
      * to gravity vector. This normally only needs to be invoked when the
      * gravity direction changed continuously and the local forward vector is
      * off due to drift. E.g. after walking around on a sphere "planet" for a
@@ -327,7 +328,7 @@ public class BetterCharacterControl
      */
     public void resetForward(Vector3f vec) {
         if (vec == null) {
-            localForward.set(Vector3f.UNIT_Z);
+            localForward.set(0f, 0f, 1f);
         } else {
             localForward.set(vec);
         }
@@ -724,7 +725,7 @@ public class BetterCharacterControl
         Vector3f newLeftNegate = vars.vect2;
 
         newLeft.set(worldUpVector).crossLocal(direction).normalizeLocal();
-        if (newLeft.equals(Vector3f.ZERO)) {
+        if (MyVector3f.isZero(newLeft)) {
             if (direction.x != 0) {
                 newLeft.set(direction.y, -direction.x, 0f).normalizeLocal();
             } else {
@@ -735,8 +736,8 @@ public class BetterCharacterControl
         }
         newLeftNegate.set(newLeft).negateLocal();
         direction.set(worldUpVector).crossLocal(newLeftNegate).normalizeLocal();
-        if (direction.equals(Vector3f.ZERO)) {
-            direction.set(Vector3f.UNIT_Z);
+        if (MyVector3f.isZero(direction)) {
+            direction.set(0f, 0f, 1f);
             logger2.log(Level.INFO, "Zero left for left {0}, up {1}",
                     new Object[]{newLeft, worldUpVector});
         }

@@ -69,6 +69,10 @@ public class HeightfieldCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(HeightfieldCollisionShape.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
+     */
+    final private static Vector3f scaleIdentity = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
     // fields
 
@@ -119,7 +123,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
         Validate.nonEmpty(heightmap, "heightmap");
         assert heightmap.length >= 4 : heightmap.length;
 
-        createCollisionHeightfield(heightmap, Vector3f.UNIT_XYZ);
+        createCollisionHeightfield(heightmap, scaleIdentity);
     }
 
     /**

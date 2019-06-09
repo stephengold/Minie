@@ -74,6 +74,14 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     final public static Logger logger2
             = Logger.getLogger(PhysicsRigidBody.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
+     */
+    final private static Vector3f scaleIdentity = new Vector3f(1f, 1f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -985,11 +993,11 @@ public class PhysicsRigidBody extends PhysicsBody {
         }
 
         setInverseInertiaLocal((Vector3f) capsule.readSavable("inverseInertia",
-                Vector3f.UNIT_XYZ.clone()));
+                scaleIdentity));
         setAngularFactor((Vector3f) capsule.readSavable("angularFactor",
-                Vector3f.UNIT_XYZ.clone()));
+                scaleIdentity));
         setLinearFactor((Vector3f) capsule.readSavable("linearFactor",
-                Vector3f.UNIT_XYZ.clone()));
+                scaleIdentity));
         setDamping(capsule.readFloat("linearDamping", 0f),
                 capsule.readFloat("angularDamping", 0f));
         setSleepingThresholds(
@@ -997,13 +1005,13 @@ public class PhysicsRigidBody extends PhysicsBody {
                 capsule.readFloat("angularSleepingThreshold", 1f));
 
         setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
-                Vector3f.ZERO.clone()));
+                translateIdentity));
         setPhysicsRotation((Matrix3f) capsule.readSavable("physicsRotation",
-                Matrix3f.ZERO.clone()));
+                translateIdentity));
         setLinearVelocity((Vector3f) capsule.readSavable("linearVelocity",
-                Vector3f.ZERO.clone()));
+                translateIdentity));
         setAngularVelocity((Vector3f) capsule.readSavable("angularVelocity",
-                Vector3f.ZERO.clone()));
+                translateIdentity));
         setDeactivationTime(capsule.readFloat("deactivationTime", 0f));
 
         joints = capsule.readSavableArrayList("joints", null);

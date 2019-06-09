@@ -79,6 +79,10 @@ public class SixDofJoint extends PhysicsJoint {
      */
     final public static Logger logger2
             = Logger.getLogger(SixDofJoint.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -493,7 +497,7 @@ public class SixDofJoint extends PhysicsJoint {
 
     /**
      * De-serialize this joint from the specified importer, for example when
-     * loading from a J3O file.
+     * loading from a J3O file. TODO re-format code
      *
      * @param importer (not null)
      * @throws IOException from the importer
@@ -535,17 +539,17 @@ public class SixDofJoint extends PhysicsJoint {
             rotationalLimitMotor.setTargetVelocity(capsule.readFloat("rotMotor" + i + "_TargetVelocity", 0));
             rotationalLimitMotor.setEnableMotor(capsule.readBoolean("rotMotor" + i + "_EnableMotor", false));
         }
-        getTranslationalLimitMotor().setAccumulatedImpulse((Vector3f) capsule.readSavable("transMotor_AccumulatedImpulse", Vector3f.ZERO));
+        getTranslationalLimitMotor().setAccumulatedImpulse((Vector3f) capsule.readSavable("transMotor_AccumulatedImpulse", translateIdentity));
         getTranslationalLimitMotor().setDamping(capsule.readFloat("transMotor_Damping", 1.0f));
         getTranslationalLimitMotor().setLimitSoftness(capsule.readFloat("transMotor_LimitSoftness", 0.7f));
-        getTranslationalLimitMotor().setLowerLimit((Vector3f) capsule.readSavable("transMotor_LowerLimit", Vector3f.ZERO));
+        getTranslationalLimitMotor().setLowerLimit((Vector3f) capsule.readSavable("transMotor_LowerLimit", translateIdentity));
         getTranslationalLimitMotor().setRestitution(capsule.readFloat("transMotor_Restitution", 0.5f));
-        getTranslationalLimitMotor().setUpperLimit((Vector3f) capsule.readSavable("transMotor_UpperLimit", Vector3f.ZERO));
+        getTranslationalLimitMotor().setUpperLimit((Vector3f) capsule.readSavable("transMotor_UpperLimit", translateIdentity));
     }
 
     /**
      * Serialize this joint to the specified exporter, for example when saving
-     * to a J3O file.
+     * to a J3O file. TODO re-format code
      *
      * @param exporter (not null)
      * @throws IOException from the exporter
@@ -579,12 +583,12 @@ public class SixDofJoint extends PhysicsJoint {
             capsule.write(rotationalLimitMotor.isEnableMotor(), "rotMotor" + i + "_EnableMotor", false);
             ++i;
         }
-        capsule.write(getTranslationalLimitMotor().getAccumulatedImpulse(), "transMotor_AccumulatedImpulse", Vector3f.ZERO);
+        capsule.write(getTranslationalLimitMotor().getAccumulatedImpulse(), "transMotor_AccumulatedImpulse", null);
         capsule.write(getTranslationalLimitMotor().getDamping(), "transMotor_Damping", 1.0f);
         capsule.write(getTranslationalLimitMotor().getLimitSoftness(), "transMotor_LimitSoftness", 0.7f);
-        capsule.write(getTranslationalLimitMotor().getLowerLimit(null), "transMotor_LowerLimit", Vector3f.ZERO);
+        capsule.write(getTranslationalLimitMotor().getLowerLimit(null), "transMotor_LowerLimit", null);
         capsule.write(getTranslationalLimitMotor().getRestitution(), "transMotor_Restitution", 0.5f);
-        capsule.write(getTranslationalLimitMotor().getUpperLimit(null), "transMotor_UpperLimit", Vector3f.ZERO);
+        capsule.write(getTranslationalLimitMotor().getUpperLimit(null), "transMotor_UpperLimit", null);
     }
     // *************************************************************************
     // private methods
