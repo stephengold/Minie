@@ -78,17 +78,17 @@ public class CollisionShapeFactory {
      * Create a simplified shape for the specified Spatial, based on the
      * bounding volumes of its geometries. TODO buggy!
      *
-     * @param spatial the Spatial on which to base the shape (not null,
+     * @param subtree the Spatial on which to base the shape (not null,
      * unaffected)
      * @return a new box/sphere CollisionShape (if spatial is a Geometry) or a
      * CompoundCollisionShape with box/sphere shapes as children (if spatial is
      * a Node)
      */
-    public static CollisionShape createBoxShape(Spatial spatial) {
-        if (spatial instanceof Geometry) {
-            return createSingleBoxShape(spatial);
-        } else if (spatial instanceof Node) {
-            return createBoxCompoundShape((Node) spatial);
+    public static CollisionShape createBoxShape(Spatial subtree) {
+        if (subtree instanceof Geometry) {
+            return createSingleBoxShape(subtree);
+        } else if (subtree instanceof Node) {
+            return createBoxCompoundShape((Node) subtree);
         } else {
             throw new IllegalArgumentException(
                     "The spatial must either be a Node or a Geometry!");
@@ -101,19 +101,19 @@ public class CollisionShapeFactory {
      * For mesh-accurate movable objects (CPU-intense!) use
      * GImpactCollisionShape.
      *
-     * @param spatial the Spatial on which to base the shape (not null,
+     * @param subtree the Spatial on which to base the shape (not null,
      * unaffected)
      * @return a new HullCollisionShape (if spatial is a Geometry) or a new
      * CompoundCollisionShape with hull shapes as children (if spatial is a
      * Node)
      */
-    public static CollisionShape createDynamicMeshShape(Spatial spatial) {
-        if (spatial instanceof Geometry) {
-            return createSingleHullShape((Geometry) spatial, spatial);
-        } else if (spatial instanceof Node) {
+    public static CollisionShape createDynamicMeshShape(Spatial subtree) {
+        if (subtree instanceof Geometry) {
+            return createSingleHullShape((Geometry) subtree, subtree);
+        } else if (subtree instanceof Node) {
             boolean meshAccurate = true;
             boolean dynamic = true;
-            return createCompoundShape((Node) spatial, (Node) spatial,
+            return createCompoundShape((Node) subtree, (Node) subtree,
                     new CompoundCollisionShape(), meshAccurate, dynamic);
         } else {
             throw new IllegalArgumentException(
@@ -124,26 +124,26 @@ public class CollisionShapeFactory {
     /**
      * Create a shape for an immovable object, based on the specified Spatial.
      *
-     * @param spatial the Spatial on which to base the shape (not null,
+     * @param subtree the Spatial on which to base the shape (not null,
      * unaffected)
      * @return a new MeshCollisionShape (if spatial is a Geometry) or a new
      * HeightfieldCollisionShape (if spatial is a TerrainQuad or TerrainPatch)
      * or a new CompoundCollisionShape with mesh/heightfield shapes as children
      * (if spatial is a Node)
      */
-    public static CollisionShape createMeshShape(Spatial spatial) {
-        if (spatial instanceof TerrainQuad) {
-            TerrainQuad terrain = (TerrainQuad) spatial;
+    public static CollisionShape createMeshShape(Spatial subtree) {
+        if (subtree instanceof TerrainQuad) {
+            TerrainQuad terrain = (TerrainQuad) subtree;
             return new HeightfieldCollisionShape(terrain.getHeightMap(),
                     terrain.getLocalScale());
-        } else if (spatial instanceof TerrainPatch) {
-            TerrainPatch terrain = (TerrainPatch) spatial;
+        } else if (subtree instanceof TerrainPatch) {
+            TerrainPatch terrain = (TerrainPatch) subtree;
             return new HeightfieldCollisionShape(terrain.getHeightMap(),
                     terrain.getLocalScale());
-        } else if (spatial instanceof Geometry) {
-            return createSingleMeshShape((Geometry) spatial, spatial);
-        } else if (spatial instanceof Node) {
-            return createMeshCompoundShape((Node) spatial);
+        } else if (subtree instanceof Geometry) {
+            return createSingleMeshShape((Geometry) subtree, subtree);
+        } else if (subtree instanceof Node) {
+            return createMeshCompoundShape((Node) subtree);
         } else {
             throw new IllegalArgumentException(
                     "The spatial must either be a Node or a Geometry!");
