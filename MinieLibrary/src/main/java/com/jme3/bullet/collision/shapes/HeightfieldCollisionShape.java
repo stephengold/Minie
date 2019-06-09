@@ -41,11 +41,10 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
-import jme3utilities.math.MyVector3f;
 
 /**
  * A CollisionShape for terrain based on Bullet's btHeightfieldTerrainShape.
@@ -99,7 +98,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
      * A Java reference must persist after createShape() completes, or else the
      * buffer might get garbage collected.
      */
-    private ByteBuffer bbuf;
+    private FloatBuffer bbuf;
     // *************************************************************************
     // constructors
 
@@ -111,7 +110,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a new shape for the specified height map.
+     * Instantiate a new, un-scaled shape for the specified height map.
      *
      * @param heightmap (not null, length&ge;4, length a perfect square,
      * unaffected)
@@ -134,9 +133,11 @@ public class HeightfieldCollisionShape extends CollisionShape {
     public HeightfieldCollisionShape(float[] heightmap, Vector3f scale) {
         Validate.nonEmpty(heightmap, "heightmap");
         assert heightmap.length >= 4 : heightmap.length;
+        Validate.nonNegative(scale, "scale");
 
         createCollisionHeightfield(heightmap, scale);
     }
+    // TODO add constructor that specifies upAxis, flipQuadEdges, length!=width
     // *************************************************************************
     // new methods exposed
 
@@ -237,9 +238,6 @@ public class HeightfieldCollisionShape extends CollisionShape {
 
     private void createCollisionHeightfield(float[] heightmap,
             Vector3f worldScale) {
-        assert heightmap != null;
-        assert MyVector3f.isAllNonNegative(worldScale);
-
         scale.set(worldScale);
         heightfieldData = heightmap;
 
@@ -283,21 +281,24 @@ public class HeightfieldCollisionShape extends CollisionShape {
     private void createShape() {
         assert objectId == 0L;
 
-        bbuf = BufferUtils.createByteBuffer(heightfieldData.length * 4);
+        bbuf = BufferUtils.createFloatBuffer(heightfieldData.length);
         for (float height : heightfieldData) {
-            bbuf.putFloat(height);
+            bbuf.put(height);
         }
 
         objectId = createShape(heightStickWidth, heightStickLength, bbuf,
                 heightScale, minHeight, maxHeight, upAxis, flipQuadEdges);
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Shape {0}", Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created Shape {0}",
+                Long.toHexString(objectId));
 
         setScale(scale);
         setMargin(margin);
     }
+    // *************************************************************************
+    // native private methods
 
     native private long createShape(int heightStickWidth, int heightStickLength,
-            ByteBuffer heightfieldData, float heightScale, float minHeight,
+            FloatBuffer heightfieldData, float heightScale, float minHeight,
             float maxHeight, int upAxis, boolean flipQuadEdges);
 }
