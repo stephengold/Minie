@@ -94,7 +94,7 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Test/demonstrate soft-body physics.
+ * Demo/testbed for soft-body physics.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -439,7 +439,7 @@ public class TestSoftBody
     }
 
     /**
-     * Add lighting to the specified scene.
+     * Add lighting and shadows to the specified scene.
      *
      * @param rootSpatial which scene (not null)
      * @param shadowFlag if true, add a shadow renderer to the default viewport
@@ -459,7 +459,7 @@ public class TestSoftBody
             DirectionalLightShadowRenderer dlsr
                     = new DirectionalLightShadowRenderer(assetManager, 2048, 3);
             dlsr.setLight(sun);
-            dlsr.setShadowIntensity(0.6f);
+            dlsr.setShadowIntensity(0.5f);
             viewPort.addProcessor(dlsr);
         }
     }
@@ -705,14 +705,13 @@ public class TestSoftBody
      * Configure the camera during startup.
      */
     private void configureCamera() {
-        float yDegrees = MyCamera.yDegrees(cam);
-        float aspectRatio = MyCamera.viewAspectRatio(cam);
         float near = 0.02f;
         float far = 20f;
-        cam.setFrustumPerspective(yDegrees, aspectRatio, near, far);
+        MyCamera.setNearFar(cam, near, far);
 
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(2f);
+
         cam.setLocation(new Vector3f(0f, 2.2f, 3.9f));
         cam.setRotation(new Quaternion(0f, 0.98525f, -0.172f, 0f));
 
@@ -774,7 +773,7 @@ public class TestSoftBody
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f);
+        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
@@ -783,7 +782,7 @@ public class TestSoftBody
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
-        physicsSpace.setAccuracy(0.01f);
+        physicsSpace.setAccuracy(0.01f); // 10-msec timestep
         physicsSpace.setGravity(new Vector3f(0f, -1f, 0f));
     }
 
