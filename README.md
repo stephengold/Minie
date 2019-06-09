@@ -557,7 +557,7 @@ and removing a `Control` from its controlled `Spatial` destroys the ragdoll.
 The controlled `Spatial` must include the model's `SkeletonControl`.
 Usually this is the model's root `Spatial`, but not always.
 For a very simple example, see
-[HelloDac.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/HelloDac.java).
+[HelloDac.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloDac.java).
 
 A model's ragdoll is composed of rigid bodies joined by 6-DOF joints.
 Within the `Control`, each `PhysicsRigidBody` is represented by
@@ -587,7 +587,7 @@ for each linked bone:
     dynamicAnimControl.link(boneName, new LinkConfig(), new RangeOfMotion(1f, 1f, 1f));
 
 For a simple example, see
-[HelloBoneLink.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/HelloBoneLink.java).
+[HelloBoneLink.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloBoneLink.java).
 
 Alternatively, you can generate configuration code for a specific model using
 the [DacWizard application][dacwizard], which uses animation data to estimate
