@@ -59,7 +59,7 @@ public class TestHeightfield extends SimpleApplication {
      * message logger for this class
      */
     final public static Logger logger
-            = Logger.getLogger(TestScaleChange.class.getName());
+            = Logger.getLogger(TestHeightfield.class.getName());
     // *************************************************************************
     // fields
 
@@ -123,6 +123,7 @@ public class TestHeightfield extends SimpleApplication {
         quad.setMaterial(material);
         quad.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         rootNode.attachChild(quad);
+        quad.setLocalTranslation(new Vector3f(0, 1, 0));
 
         Vector3f lightDirection = new Vector3f(-1f, -1f, -1f).normalizeLocal();
         ColorRGBA lightColor = new ColorRGBA(1f, 1f, 1f, 1f);
