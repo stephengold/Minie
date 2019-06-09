@@ -30,7 +30,6 @@ import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.StatsAppState;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.BoneLink;
@@ -45,6 +44,7 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -68,6 +68,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
+import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
@@ -130,7 +131,7 @@ public class BalanceDemo extends ActionApplication {
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
-     * control being tested
+     * Control being tested
      */
     private DynamicAnimControl dac;
     /**
@@ -148,9 +149,17 @@ public class BalanceDemo extends ActionApplication {
     private float vaMagnitude = 0f; // tuned for each model
     private float vaSign = +1f;
     /**
-     * C-G model on which the control is being tested
+     * single-sided green material to visualize the platform
+     */
+    private Material greenMaterial;
+    /**
+     * C-G model on which the Control is being tested
      */
     private Node cgModel;
+    /**
+     * dump debugging information to System.out
+     */
+    final private PhysicsDumper dumper = new PhysicsDumper();
     /**
      * space for physics simulation
      */
@@ -172,7 +181,7 @@ public class BalanceDemo extends ActionApplication {
      */
     private SkeletonVisualizer sv;
     /**
-     * name of the animation to play on the model
+     * name of the Animation to play on the model
      */
     private String animationName = null;
     /**
@@ -205,8 +214,6 @@ public class BalanceDemo extends ActionApplication {
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
         BalanceDemo application = new BalanceDemo();
         /*
@@ -234,6 +241,8 @@ public class BalanceDemo extends ActionApplication {
         Logger.getLogger(MeshLoader.class.getName()).setLevel(Level.SEVERE);
 
         configureCamera();
+        configureDumper();
+        configureMaterials();
         configurePhysics();
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
@@ -279,6 +288,8 @@ public class BalanceDemo extends ActionApplication {
         dim.bind("posture tall center", KeyInput.KEY_NUMPAD8);
         dim.bind("posture tall left", KeyInput.KEY_NUMPAD9);
         dim.bind("posture tall right", KeyInput.KEY_NUMPAD7);
+        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
@@ -300,11 +311,11 @@ public class BalanceDemo extends ActionApplication {
         if (ongoing) {
             switch (actionString) {
                 case "dump physicsSpace":
-                    dumpPhysicsSpace();
+                    dumper.dump(physicsSpace);
                     return;
 
                 case "dump scenes":
-                    dumpScenes();
+                    dumper.dump(renderManager);
                     return;
 
                 case "go limp":
@@ -338,7 +349,6 @@ public class BalanceDemo extends ActionApplication {
                 setPosture(words[1], words[2]);
                 return;
             }
-
         }
         super.onAction(actionString, ongoing, tpf);
     }
@@ -392,9 +402,7 @@ public class BalanceDemo extends ActionApplication {
         rootNode.attachChild(geometry);
 
         geometry.move(0f, -halfExtent, 0f);
-        ColorRGBA color = new ColorRGBA(0f, 0.2f, 0f, 1f);
-        Material material = MyAsset.createShadedMaterial(assetManager, color);
-        geometry.setMaterial(material);
+        geometry.setMaterial(greenMaterial);
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
@@ -514,8 +522,12 @@ public class BalanceDemo extends ActionApplication {
      * Configure the camera during startup.
      */
     private void configureCamera() {
+        float near = 0.02f;
+        float far = 20f;
+        MyCamera.setNearFar(cam, near, far);
+
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
+        flyCam.setMoveSpeed(2f);
 
         cam.setLocation(new Vector3f(-3.3f, 1.5f, -0.1f));
         cam.setRotation(new Quaternion(0.08f, 0.687f, -0.06f, 0.72f));
@@ -523,6 +535,24 @@ public class BalanceDemo extends ActionApplication {
         CameraOrbitAppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
+    }
+
+    /**
+     * Configure the PhysicsDumper during startup.
+     */
+    private void configureDumper() {
+        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
+     * Configure materials during startup.
+     */
+    private void configureMaterials() {
+        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
+        greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
+        greenMaterial.setName("green");
     }
 
     /**
@@ -535,25 +565,6 @@ public class BalanceDemo extends ActionApplication {
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setAccuracy(1f / 30); // 33.33-msec timestep
         physicsSpace.setSolverNumIterations(15);
-    }
-
-    /**
-     * Process a "dump physicsSpace" action.
-     */
-    private void dumpPhysicsSpace() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.dump(physicsSpace);
-    }
-
-    /**
-     * Process a "dump scenes" action.
-     */
-    private void dumpScenes() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.Transforms, true);
-        dumper.dump(renderManager);
     }
 
     /**
