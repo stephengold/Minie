@@ -36,6 +36,7 @@ import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
+import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -54,6 +55,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
+import jme3utilities.MyCamera;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
@@ -63,7 +65,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Test/demonstrate MultiSphere collision shapes.
+ * Demo/testbed for MultiSphere collision shapes.
  * <p>
  * As seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=OS2zjB01c6E
@@ -106,7 +108,11 @@ public class MultiSphereDemo
      */
     final private Material gemMaterials[] = new Material[4];
     /**
-     * dump debugging information to the console
+     * single-sided green material to visualize the platform
+     */
+    private Material greenMaterial;
+    /**
+     * dump debugging information to System.out
      */
     final private PhysicsDumper dumper = new PhysicsDumper();
     /**
@@ -134,7 +140,7 @@ public class MultiSphereDemo
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
-        settings.setGammaCorrection(false); // TODO
+        settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
@@ -153,7 +159,8 @@ public class MultiSphereDemo
         configureDumper();
         configureMaterials();
         configurePhysics();
-        viewPort.setBackgroundColor(ColorRGBA.Gray);
+        ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(sky);
 
         addBox();
         addAGem();
@@ -168,6 +175,8 @@ public class MultiSphereDemo
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
@@ -288,8 +297,7 @@ public class MultiSphereDemo
         float boxMass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody boxBody = new PhysicsRigidBody(shape, boxMass);
 
-        Material material = MyAsset.createDebugMaterial(assetManager);
-        boxBody.setDebugMaterial(material);
+        boxBody.setDebugMaterial(greenMaterial);
         boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
         boxBody.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
         physicsSpace.add(boxBody);
@@ -299,12 +307,13 @@ public class MultiSphereDemo
      * Add lighting and shadows to the specified scene.
      */
     private void addLighting(Spatial rootSpatial) {
-        ColorRGBA ambientColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
+        ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
 
+        ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
-        DirectionalLight sun = new DirectionalLight(direction);
+        DirectionalLight sun = new DirectionalLight(direction, directColor);
         rootSpatial.addLight(sun);
 
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
@@ -312,7 +321,7 @@ public class MultiSphereDemo
         DirectionalLightShadowRenderer dlsr
                 = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
         dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.6f);
+        dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
     }
 
@@ -320,9 +329,14 @@ public class MultiSphereDemo
      * Configure the camera during startup.
      */
     private void configureCamera() {
+        float near = 0.02f;
+        float far = 20f;
+        MyCamera.setNearFar(cam, near, far);
+
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
-        cam.setLocation(new Vector3f(0f, 2.3f, 5f));
+        flyCam.setMoveSpeed(2f);
+
+        cam.setLocation(new Vector3f(0f, 2.2f, 3.9f));
         cam.setRotation(new Quaternion(0f, 0.98525f, -0.172f, 0f));
 
         CameraOrbitAppState orbitState
@@ -343,6 +357,10 @@ public class MultiSphereDemo
      * Configure materials during startup.
      */
     private void configureMaterials() {
+        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
+        greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
+        greenMaterial.setName("green");
+
         ColorRGBA gemColors[] = new ColorRGBA[gemMaterials.length];
         gemColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
         gemColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
@@ -361,7 +379,7 @@ public class MultiSphereDemo
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
+        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
