@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,9 @@ import com.jme3.texture.Texture;
 public class PhysicsTestHelper {
 
     /**
-     * creates a simple physics test world with a floor, an obstacle and some test boxes
+     * creates a simple physics test world with a floor, an obstacle and some
+     * test boxes
+     *
      * @param rootNode where lights and geometries should be added
      * @param assetManager for loading assets
      * @param space where collision objects should be added
@@ -161,6 +163,7 @@ public class PhysicsTestHelper {
 
     /**
      * creates a box geometry with a RigidBodyControl
+     *
      * @param assetManager for loading assets
      * @return a new Geometry
      */
@@ -177,6 +180,7 @@ public class PhysicsTestHelper {
 
     /**
      * creates a sphere geometry with a RigidBodyControl
+     *
      * @param assetManager for loading assets
      * @return a new Geometry
      */
@@ -193,6 +197,7 @@ public class PhysicsTestHelper {
 
     /**
      * creates an empty node with a RigidBodyControl
+     *
      * @param manager for loading assets
      * @param shape a shape for the collision object
      * @param mass a mass for rigid body
@@ -206,7 +211,9 @@ public class PhysicsTestHelper {
     }
 
     /**
-     * creates the necessary inputlistener and action to shoot balls from the camera
+     * creates the necessary inputlistener and action to shoot balls from the
+     * camera
+     *
      * @param app the application that's running
      * @param rootNode where ball geometries should be added
      * @param space where collision objects should be added

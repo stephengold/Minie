@@ -213,6 +213,7 @@ public class TestBoneRagdoll extends SimpleApplication implements RagdollCollisi
         inputManager.addMapping("bullet-", new KeyTrigger(KeyInput.KEY_COMMA));
         inputManager.addMapping("bullet+", new KeyTrigger(KeyInput.KEY_PERIOD));
 
+
     }
 
     private void setupLight() {
