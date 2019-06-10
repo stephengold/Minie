@@ -33,6 +33,8 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.input.CameraInput;
+import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
@@ -50,7 +52,11 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
+import jme3utilities.debug.AxesVisualizer;
+import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
+import jme3utilities.ui.CameraOrbitAppState;
+import jme3utilities.ui.InputMode;
 
 /**
  * Test heightfield collision shapes.
@@ -79,13 +85,13 @@ public class TestHeightfield extends ActionApplication {
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
-     * seconds since the application started
-     */
-    private float elapsedTime = 0f;
-    /**
      * lit green material to visualize the terrain
      */
     private Material terrainMaterial;
+    /**
+     * dump debugging information to System.out
+     */
+    final private PhysicsDumper dumper = new PhysicsDumper();
     /**
      * space for physics simulation
      */
@@ -127,30 +133,74 @@ public class TestHeightfield extends ActionApplication {
     @Override
     public void actionInitializeApplication() {
         configureCamera();
+        configureDumper();
         configureMaterials();
         configurePhysics();
 
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
+        addAxes();
         addLighting();
         addTerrain();
     }
 
     /**
-     * Callback invoked once per frame.
-     *
-     * @param tpf the time interval between frames (in seconds, &ge;0)
+     * Add application-specific hotkey bindings and override existing ones.
      */
     @Override
-    public void simpleUpdate(float tpf) {
-        elapsedTime += tpf;
-        if (elapsedTime > 2f) {
-            elapsedTime = 0f;
-            togglePhysicsDebug();
+    public void moreDefaultBindings() {
+        InputMode dim = getDefaultInputMode();
+
+        dim.bind("dump physicsSpace", KeyInput.KEY_O);
+        dim.bind("dump scenes", KeyInput.KEY_P);
+
+        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
+        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
+        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
+    }
+
+    /**
+     * Process an action that wasn't handled by the active input mode.
+     *
+     * @param actionString textual description of the action (not null)
+     * @param ongoing true if the action is ongoing, otherwise false
+     * @param tpf time interval between frames (in seconds, &ge;0)
+     */
+    @Override
+    public void onAction(String actionString, boolean ongoing, float tpf) {
+        if (ongoing) {
+            switch (actionString) {
+                case "dump physicsSpace":
+                    dumper.dump(physicsSpace);
+                    return;
+
+                case "dump scenes":
+                    dumper.dump(renderManager);
+                    return;
+
+                case "toggle physics debug":
+                    togglePhysicsDebug();
+                    return;
+            }
         }
+        super.onAction(actionString, ongoing, tpf);
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Add a visualizer for the axes of the world coordinate system.
+     */
+    private void addAxes() {
+        float axisLength = 0.8f;
+        AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
+        axes.setLineWidth(0f);
+
+        rootNode.addControl(axes);
+        axes.setEnabled(true);
+    }
 
     /**
      * Add lighting to the scene.
@@ -200,6 +250,17 @@ public class TestHeightfield extends ActionApplication {
 
         cam.setLocation(new Vector3f(5.9f, 5.4f, 2.3f));
         cam.setRotation(new Quaternion(0.1825f, -0.76803f, 0.2501f, 0.56058f));
+
+        CameraOrbitAppState orbitState
+                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
+        stateManager.attach(orbitState);
+    }
+
+    /**
+     * Configure the PhysicsDumper during startup.
+     */
+    private void configureDumper() {
+        dumper.setMaxChildren(3);
     }
 
     /**
