@@ -37,9 +37,11 @@ import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
+import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
+import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
@@ -166,6 +168,12 @@ public class PhysicsDescriber extends Describer {
             String desc = String.format("[%d]", numV);
             result.append(desc);
 
+        } else if (shape instanceof HeightfieldCollisionShape) {
+            HeightfieldCollisionShape hf = (HeightfieldCollisionShape) shape;
+            int numV = hf.countMeshVertices();
+            String desc = String.format("[%d]", numV);
+            result.append(desc);
+
         } else if (shape instanceof HullCollisionShape) {
             HullCollisionShape hull = (HullCollisionShape) shape;
             int numV = hull.countHullVertices();
@@ -191,6 +199,12 @@ public class PhysicsDescriber extends Describer {
                 result.append(desc);
             }
             result.append(']');
+
+        } else if (shape instanceof SimplexCollisionShape) {
+            SimplexCollisionShape simplex = (SimplexCollisionShape) shape;
+            int numV = simplex.countMeshVertices();
+            String desc = String.format("[%d]", numV);
+            result.append(desc);
 
         } else if (shape instanceof SphereCollisionShape) {
             SphereCollisionShape sphere = (SphereCollisionShape) shape;
