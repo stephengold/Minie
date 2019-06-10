@@ -30,6 +30,7 @@ import com.jme3.app.Application;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
@@ -40,6 +41,7 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
@@ -47,12 +49,15 @@ import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.debug.AxesVisualizer;
+import jme3utilities.debug.PointVisualizer;
+import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -96,6 +101,10 @@ public class TestHeightfield extends ActionApplication {
      * space for physics simulation
      */
     private PhysicsSpace physicsSpace;
+    /**
+     * visualizer for the ray intersection
+     */
+    private PointVisualizer rayPoint;
     // *************************************************************************
     // new methods exposed
 
@@ -141,6 +150,12 @@ public class TestHeightfield extends ActionApplication {
         viewPort.setBackgroundColor(bgColor);
         addAxes();
         addLighting();
+
+        rayPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Red,
+                "saltire");
+        rootNode.attachChild(rayPoint);
+        rayPoint.setEnabled(false);
+
         addTerrain();
     }
 
@@ -151,6 +166,7 @@ public class TestHeightfield extends ActionApplication {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
+        dim.bind("cast ray", "RMB");
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
 
@@ -172,6 +188,10 @@ public class TestHeightfield extends ActionApplication {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
+                case "cast ray":
+                    castRay();
+                    return;
+
                 case "dump physicsSpace":
                     dumper.dump(physicsSpace);
                     return;
@@ -235,6 +255,28 @@ public class TestHeightfield extends ActionApplication {
         RigidBodyControl rbc = new RigidBodyControl(shape, massForStatic);
         rbc.setPhysicsSpace(physicsSpace);
         rootNode.addControl(rbc);
+    }
+
+    /**
+     * Cast a physics ray from mouse pointer and move the PointVisualizer to the
+     * nearest intersection.
+     */
+    private void castRay() {
+        Ray mouseRay = MyCamera.mouseRay(cam, inputManager);
+        Vector3f from = mouseRay.origin;
+        float rayLength = cam.getFrustumFar();
+        Vector3f to = mouseRay.direction.clone().scaleAdd(rayLength, from);
+        List<PhysicsRayTestResult> rayTest = physicsSpace.rayTest(from, to);
+
+        if (rayTest.size() > 0) {
+            PhysicsRayTestResult intersect = rayTest.get(0);
+            float fraction = intersect.getHitFraction();
+            Vector3f location = MyVector3f.lerp(fraction, from, to, null);
+            rayPoint.setLocalTranslation(location);
+            rayPoint.setEnabled(true);
+        } else {
+            rayPoint.setEnabled(false);
+        }
     }
 
     /**
