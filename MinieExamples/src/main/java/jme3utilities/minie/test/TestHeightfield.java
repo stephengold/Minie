@@ -26,7 +26,7 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.app.SimpleApplication;
+import com.jme3.app.Application;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -45,13 +45,14 @@ import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
 import java.util.logging.Logger;
+import jme3utilities.ui.ActionApplication;
 
 /**
  * Test heightfield collision shapes.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestHeightfield extends SimpleApplication {
+public class TestHeightfield extends ActionApplication {
     // *************************************************************************
     // constants and loggers
 
@@ -64,10 +65,6 @@ public class TestHeightfield extends SimpleApplication {
     // fields
 
     /**
-     * true IFF debug physics visualization is enabled
-     */
-    private boolean debugFlag = false;
-    /**
      * AppState to manage the PhysicsSpace
      */
     final private BulletAppState bulletAppState = new BulletAppState();
@@ -76,9 +73,13 @@ public class TestHeightfield extends SimpleApplication {
      */
     private float elapsedTime = 0f;
     /**
-     * terrain on which the shape is based
+     * lit green material to visualize the terrain
      */
-    private TerrainQuad quad;
+    private Material terrainMaterial;
+    /**
+     * space for physics simulation
+     */
+    private PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -88,56 +89,23 @@ public class TestHeightfield extends SimpleApplication {
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
-        TestHeightfield app = new TestHeightfield();
-        app.start();
+        Application application = new TestHeightfield();
+        application.start();
     }
     // *************************************************************************
-    // SimpleApplication methods
+    // ActionApplication methods
 
     /**
      * Initialize this application.
      */
     @Override
-    public void simpleInitApp() {
-        Vector3f cameraLocation = new Vector3f(8f, 7f, 3f);
-        cam.setLocation(cameraLocation);
-        Quaternion cameraRotation
-                = new Quaternion(0.22f, -0.76f, 0.24f, 0.56f).normalizeLocal();
-        cam.setRotation(cameraRotation);
-        flyCam.setMoveSpeed(10f);
+    public void actionInitializeApplication() {
+        configureCamera();
+        configureMaterials();
+        configurePhysics();
 
-        Material material = new Material(assetManager,
-                "Common/MatDefs/Light/Lighting.j3md");
-        material.setBoolean("UseMaterialColors", true);
-        ColorRGBA terrainColor
-                = new ColorRGBA(0.65f, 0.8f, 0.2f, 1f);
-        material.setColor("Diffuse", terrainColor.clone());
-
-        AbstractHeightMap heightMap = loadHeightMap();
-        int patchSize = 33; // in pixels
-        int terrainDiameter = heightMap.getSize(); // in pixels
-        int mapSize = terrainDiameter + 1; // number of samples on a side
-        float[] heightArray = heightMap.getHeightMap();
-        quad = new TerrainQuad("terrain", patchSize, mapSize, heightArray);
-        quad.setLocalScale(0.01f);
-        quad.setMaterial(material);
-        quad.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-        rootNode.attachChild(quad);
-        quad.setLocalTranslation(new Vector3f(0, 1, 0));
-
-        Vector3f lightDirection = new Vector3f(-1f, -1f, -1f).normalizeLocal();
-        ColorRGBA lightColor = new ColorRGBA(1f, 1f, 1f, 1f);
-        DirectionalLight dl = new DirectionalLight(lightDirection, lightColor);
-        rootNode.addLight(dl);
-
-        stateManager.attach(bulletAppState);
-        PhysicsSpace space = bulletAppState.getPhysicsSpace();
-
-        CollisionShape shape = CollisionShapeFactory.createMeshShape(quad);
-        float massForStatic = 0f;
-        RigidBodyControl rbc = new RigidBodyControl(shape, massForStatic);
-        rbc.setPhysicsSpace(space);
-        rootNode.addControl(rbc);
+        addLighting();
+        addTerrain();
     }
 
     /**
@@ -150,13 +118,82 @@ public class TestHeightfield extends SimpleApplication {
         elapsedTime += tpf;
         if (elapsedTime > 2f) {
             elapsedTime = 0f;
-            debugFlag = !debugFlag;
-            bulletAppState.setDebugEnabled(debugFlag);
+            togglePhysicsDebug();
         }
     }
     // *************************************************************************
     // private methods
 
+    /**
+     * Add lighting to the scene.
+     */
+    private void addLighting() {
+        Vector3f lightDirection = new Vector3f(-1f, -1f, -1f).normalizeLocal();
+        ColorRGBA lightColor = new ColorRGBA(1f, 1f, 1f, 1f);
+        DirectionalLight dl = new DirectionalLight(lightDirection, lightColor);
+        rootNode.addLight(dl);
+    }
+
+    /**
+     * Add terrain to the scene.
+     */
+    private void addTerrain() {
+        AbstractHeightMap heightMap = loadHeightMap();
+        int patchSize = 33; // in pixels
+        int terrainDiameter = heightMap.getSize(); // in pixels
+        int mapSize = terrainDiameter + 1; // number of samples on a side
+        float[] heightArray = heightMap.getHeightMap();
+        TerrainQuad quad
+                = new TerrainQuad("terrain", patchSize, mapSize, heightArray);
+        quad.setLocalScale(0.01f);
+        quad.setMaterial(terrainMaterial);
+        quad.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        rootNode.attachChild(quad);
+
+        CollisionShape shape = CollisionShapeFactory.createMeshShape(quad);
+        float massForStatic = 0f;
+        RigidBodyControl rbc = new RigidBodyControl(shape, massForStatic);
+        rbc.setPhysicsSpace(physicsSpace);
+        rootNode.addControl(rbc);
+    }
+
+    /**
+     * Configure the camera during startup.
+     */
+    private void configureCamera() {
+        Vector3f cameraLocation = new Vector3f(8f, 7f, 3f);
+        cam.setLocation(cameraLocation);
+        Quaternion cameraRotation
+                = new Quaternion(0.22f, -0.76f, 0.24f, 0.56f).normalizeLocal();
+        cam.setRotation(cameraRotation);
+        flyCam.setMoveSpeed(10f);
+    }
+
+    /**
+     * Configure materials during startup.
+     */
+    private void configureMaterials() {
+        terrainMaterial = new Material(assetManager,
+                "Common/MatDefs/Light/Lighting.j3md");
+        terrainMaterial.setBoolean("UseMaterialColors", true);
+        ColorRGBA terrainColor
+                = new ColorRGBA(0.65f, 0.8f, 0.2f, 1f);
+        terrainMaterial.setColor("Diffuse", terrainColor.clone());
+    }
+
+    /**
+     * Configure physics during startup.
+     */
+    private void configurePhysics() {
+        stateManager.attach(bulletAppState);
+        physicsSpace = bulletAppState.getPhysicsSpace();
+    }
+
+    /**
+     * Load a simple height map from a texture asset.
+     *
+     * @return a new instance (not null)
+     */
     private AbstractHeightMap loadHeightMap() {
         boolean flipY = false;
         TextureKey key = new TextureKey(
@@ -169,5 +206,13 @@ public class TestHeightfield extends SimpleApplication {
         heightMap.load();
 
         return heightMap;
+    }
+
+    /**
+     * Toggle physics-debug visualization on/off.
+     */
+    private void togglePhysicsDebug() {
+        boolean enabled = bulletAppState.isDebugEnabled();
+        bulletAppState.setDebugEnabled(!enabled);
     }
 }
