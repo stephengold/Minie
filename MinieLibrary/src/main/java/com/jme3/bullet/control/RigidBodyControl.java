@@ -231,9 +231,11 @@ public class RigidBodyControl
 
     /**
      * Enable or disable kinematic mode. In kinematic mode, the spatial's
-     * location and rotation will be applied to the rigid body.
+     * location and rotation will be applied to the rigid body. This setting has
+     * no effect if the body is dynamic.
      *
-     * @param kinematicSpatial true&rarr;kinematic, false&rarr;dynamic or static
+     * @param kinematicSpatial true&rarr;kinematic, false&rarr;dynamic
+     * (default=true)
      */
     public void setKinematicSpatial(boolean kinematicSpatial) {
         this.kinematicSpatial = kinematicSpatial;
@@ -413,9 +415,9 @@ public class RigidBodyControl
             return;
         }
 
-        if (isKinematic() && kinematicSpatial) {
+        if (!isDynamic() && kinematicSpatial) {
             setPhysicsLocation(getSpatialTranslation());
-            setPhysicsRotation(getSpatialRotation());
+            setPhysicsRotation(getSpatialRotation()); // TODO garbage
             if (applyScale) {
                 Vector3f newScale = copySpatialScale(null);
                 if (!collisionShape.canScale(newScale)) {
@@ -577,15 +579,18 @@ public class RigidBodyControl
      * @return the pre-existing vector (not null)
      */
     private Vector3f getSpatialTranslation() {
+        Vector3f result;
         if (MySpatial.isIgnoringTransforms(spatial)) {
-            return translateIdentity;
+            result = translateIdentity;
         } else {
             RigidBodyMotionState ms = getMotionState();
             if (ms.isApplyPhysicsLocal()) {
-                return spatial.getLocalTranslation();
+                result = spatial.getLocalTranslation();
             } else {
-                return spatial.getWorldTranslation();
+                result = spatial.getWorldTranslation();
             }
         }
+
+        return result;
     }
 }
