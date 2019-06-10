@@ -477,6 +477,7 @@ public class PhysicsDumper extends Dumper {
                 stream.printf("%n%s%s", moreIndent, desc);
             }
         }
+        stream.println();
     }
 
     /**
@@ -532,7 +533,7 @@ public class PhysicsDumper extends Dumper {
             PhysicsSpace space = appState.getPhysicsSpace();
             dump(space, indent);
         } else {
-            stream.printf(" disabled");
+            stream.println(" disabled");
         }
     }
 
@@ -690,7 +691,7 @@ public class PhysicsDumper extends Dumper {
     /**
      * Dump the specified AppState.
      *
-     * @param appState the app state to dump (not null, unaffected)
+     * @param appState the AppState to dump (not null, unaffected)
      * @param indent (not null)
      */
     @Override
@@ -706,7 +707,7 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Access the describer used by this dumper.
+     * Access the Describer used by this Dumper.
      *
      * @return the pre-existing instance (not null)
      */
