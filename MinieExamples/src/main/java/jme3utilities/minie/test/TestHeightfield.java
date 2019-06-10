@@ -246,15 +246,15 @@ public class TestHeightfield extends ActionApplication {
         float[] heightArray = heightMap.getHeightMap();
         TerrainQuad quad
                 = new TerrainQuad("terrain", patchSize, mapSize, heightArray);
+        rootNode.attachChild(quad);
         quad.setLocalScale(0.01f);
         quad.setMaterial(terrainMaterial);
-        rootNode.attachChild(quad);
 
         CollisionShape shape = CollisionShapeFactory.createMeshShape(quad);
         float massForStatic = 0f;
         RigidBodyControl rbc = new RigidBodyControl(shape, massForStatic);
         rbc.setPhysicsSpace(physicsSpace);
-        rootNode.addControl(rbc);
+        quad.addControl(rbc);
     }
 
     /**
