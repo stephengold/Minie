@@ -736,11 +736,6 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setPhysicsRotation(Quaternion orientation) {
         Validate.nonNull(orientation, "orientation");
-        if (collisionShape instanceof HeightfieldCollisionShape
-                && !MyQuaternion.isRotationIdentity(orientation)) {
-            throw new IllegalArgumentException("No rotation of heightfields.");
-        }
-
         setPhysicsRotation(objectId, orientation);
     }
 
@@ -1086,12 +1081,6 @@ public class PhysicsRigidBody extends PhysicsBody {
     @Override
     public void setPhysicsLocation(Vector3f location) {
         Validate.finite(location, "location");
-        if (collisionShape instanceof HeightfieldCollisionShape
-                && (location.x != 0f || location.z != 0f)) {
-            throw new IllegalArgumentException(
-                    "No horizontal translation of heightfields.");
-        }
-
         setPhysicsLocation(objectId, location);
     }
 
