@@ -33,18 +33,23 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.queue.RenderQueue;
+import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.Misc;
+import jme3utilities.MyAsset;
+import jme3utilities.MyCamera;
 import jme3utilities.ui.ActionApplication;
 
 /**
@@ -61,6 +66,11 @@ public class TestHeightfield extends ActionApplication {
      */
     final public static Logger logger
             = Logger.getLogger(TestHeightfield.class.getName());
+    /**
+     * application name (for the title bar of the app's window)
+     */
+    final private static String applicationName
+            = TestHeightfield.class.getSimpleName();
     // *************************************************************************
     // fields
 
@@ -89,7 +99,23 @@ public class TestHeightfield extends ActionApplication {
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
+        /*
+         * Mute the chatty loggers in certain packages.
+         */
+        Misc.setLoggingLevels(Level.WARNING);
+
         Application application = new TestHeightfield();
+        /*
+         * Customize the window's title bar.
+         */
+        AppSettings settings = new AppSettings(true);
+        settings.setTitle(applicationName);
+
+        settings.setGammaCorrection(true);
+        settings.setSamples(4); // anti-aliasing
+        settings.setVSync(true);
+        application.setSettings(settings);
+
         application.start();
     }
     // *************************************************************************
@@ -104,6 +130,8 @@ public class TestHeightfield extends ActionApplication {
         configureMaterials();
         configurePhysics();
 
+        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
+        viewPort.setBackgroundColor(bgColor);
         addLighting();
         addTerrain();
     }
@@ -128,10 +156,13 @@ public class TestHeightfield extends ActionApplication {
      * Add lighting to the scene.
      */
     private void addLighting() {
-        Vector3f lightDirection = new Vector3f(-1f, -1f, -1f).normalizeLocal();
-        ColorRGBA lightColor = new ColorRGBA(1f, 1f, 1f, 1f);
-        DirectionalLight dl = new DirectionalLight(lightDirection, lightColor);
-        rootNode.addLight(dl);
+        ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        AmbientLight ambient = new AmbientLight(ambientColor);
+        rootNode.addLight(ambient);
+
+        Vector3f direction = new Vector3f(1f, -2f, -2f).normalizeLocal();
+        DirectionalLight sun = new DirectionalLight(direction);
+        rootNode.addLight(sun);
     }
 
     /**
@@ -147,7 +178,6 @@ public class TestHeightfield extends ActionApplication {
                 = new TerrainQuad("terrain", patchSize, mapSize, heightArray);
         quad.setLocalScale(0.01f);
         quad.setMaterial(terrainMaterial);
-        quad.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         rootNode.attachChild(quad);
 
         CollisionShape shape = CollisionShapeFactory.createMeshShape(quad);
@@ -161,30 +191,31 @@ public class TestHeightfield extends ActionApplication {
      * Configure the camera during startup.
      */
     private void configureCamera() {
-        Vector3f cameraLocation = new Vector3f(8f, 7f, 3f);
-        cam.setLocation(cameraLocation);
-        Quaternion cameraRotation
-                = new Quaternion(0.22f, -0.76f, 0.24f, 0.56f).normalizeLocal();
-        cam.setRotation(cameraRotation);
-        flyCam.setMoveSpeed(10f);
+        float near = 0.02f;
+        float far = 20f;
+        MyCamera.setNearFar(cam, near, far);
+
+        flyCam.setDragToRotate(true);
+        flyCam.setMoveSpeed(5f);
+
+        cam.setLocation(new Vector3f(5.9f, 5.4f, 2.3f));
+        cam.setRotation(new Quaternion(0.1825f, -0.76803f, 0.2501f, 0.56058f));
     }
 
     /**
      * Configure materials during startup.
      */
     private void configureMaterials() {
-        terrainMaterial = new Material(assetManager,
-                "Common/MatDefs/Light/Lighting.j3md");
-        terrainMaterial.setBoolean("UseMaterialColors", true);
-        ColorRGBA terrainColor
-                = new ColorRGBA(0.65f, 0.8f, 0.2f, 1f);
-        terrainMaterial.setColor("Diffuse", terrainColor.clone());
+        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
+        terrainMaterial = MyAsset.createShadedMaterial(assetManager, green);
+        terrainMaterial.setName("terrain");
     }
 
     /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
+        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
         stateManager.attach(bulletAppState);
         physicsSpace = bulletAppState.getPhysicsSpace();
     }
