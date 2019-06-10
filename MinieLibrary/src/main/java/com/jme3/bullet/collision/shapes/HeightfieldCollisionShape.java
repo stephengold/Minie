@@ -47,16 +47,9 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A CollisionShape for terrain based on Bullet's btHeightfieldTerrainShape.
- * <p>
- * This is much more efficient than a regular mesh, but it has a couple
- * limitations:
- * <ul>
- * <li>No rotation or horizontal translation.</li>
- * <li>The collision bounding box must be centered on (0,0,0) with the height
- * above and below the X-Z plane being equal on either side. If not, the whole
- * collision box is shifted vertically and objects won't collide properly.</li>
- * </ul>
+ * A CollisionShape for terrain defined by a matrix of height values, based on
+ * Bullet's btHeightfieldTerrainShape. Should be more efficient than an
+ * equivalent MeshCollisionShape.
  *
  * @author Brent Owens
  */
