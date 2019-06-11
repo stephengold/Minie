@@ -217,22 +217,22 @@ public class BetterCharacterControl
     }
 
     /**
-     * Access the rigid body managed by this control. TODO re-order methods
-     *
-     * @return the pre-existing rigid body (not null)
-     */
-    public PhysicsRigidBody getRigidBody() {
-        assert rigidBody != null;
-        return rigidBody;
-    }
-
-    /**
      * Read how much motion in the local X-Z plane is damped.
      *
      * @return the damping factor (0&rarr;no damping, 1=no external forces)
      */
     public float getPhysicsDamping() {
         return physicsDamping;
+    }
+
+    /**
+     * Access the rigid body managed by this control.
+     *
+     * @return the pre-existing rigid body (not null)
+     */
+    public PhysicsRigidBody getRigidBody() {
+        assert rigidBody != null;
+        return rigidBody;
     }
 
     /**
