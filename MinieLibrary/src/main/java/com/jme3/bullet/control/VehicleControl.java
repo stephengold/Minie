@@ -270,13 +270,14 @@ public class VehicleControl
      * or removed from a Spatial. Should be invoked only by a subclass or from
      * Spatial. Do not invoke directly from user code.
      *
-     * @param spatial the Spatial to control (or null)
+     * @param controlledSpatial the Spatial to control (or null)
      */
     @Override
-    public void setSpatial(Spatial spatial) {
-        this.spatial = spatial;
-        setUserObject(spatial);
-        if (spatial != null) {
+    public void setSpatial(Spatial controlledSpatial) {
+        spatial = controlledSpatial;
+        setUserObject(controlledSpatial);
+
+        if (controlledSpatial != null) {
             setPhysicsLocation(getSpatialTranslation());
             setPhysicsRotation(getSpatialRotation());
         }
@@ -291,12 +292,16 @@ public class VehicleControl
      */
     @Override
     public void update(float tpf) {
-        if (enabled && spatial != null) {
+        if (!enabled) {
+            return;
+        }
+
+        if (spatial != null) {
             if (getMotionState().applyTransform(spatial)) {
                 spatial.getWorldTransform();
                 applyWheelTransforms();
             }
-        } else if (enabled) {
+        } else {
             applyWheelTransforms();
         }
     }
