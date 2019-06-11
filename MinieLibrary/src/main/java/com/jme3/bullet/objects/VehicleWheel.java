@@ -48,7 +48,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * Information about one wheel of a PhysicsVehicle.
+ * Information about one wheel of a vehicle, based on Bullet's btWheelInfo.
  *
  * @author normenhansen
  */
@@ -145,7 +145,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     /**
      * Instantiate a wheel.
      *
-     * @param spat the associated spatial, or null if none
+     * @param spatial the associated spatial, or null if none
      * @param location the location where the suspension connects to the chassis
      * (in chassis coordinates, not null, unaffected)
      * @param direction the suspension direction (in chassis coordinates, not
@@ -158,11 +158,11 @@ public class VehicleWheel implements JmeCloneable, Savable {
      * @param frontWheel true&rarr;front (steering) wheel, false&rarr;non-front
      * wheel
      */
-    public VehicleWheel(Spatial spat, Vector3f location, Vector3f direction,
+    public VehicleWheel(Spatial spatial, Vector3f location, Vector3f direction,
             Vector3f axle, float restLength, float radius, boolean frontWheel) {
         Validate.positive(radius, "radius");
 
-        wheelSpatial = spat;
+        wheelSpatial = spatial;
         this.location.set(location);
         this.suspensionDirection.set(direction);
         this.axisDirection.set(axle);
@@ -175,7 +175,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
     /**
      * Apply this wheel's physics location and orientation to its associated
-     * spatial, if any.
+     * spatial, if any. TODO re-format
      */
     public void applyWheelTransform() {
         if (wheelSpatial == null) {
@@ -265,7 +265,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the friction between this wheel's tire and the ground.
+     * Read the friction between this wheel's tire and the ground (native field:
+     * m_frictionSlip).
      *
      * @return the coefficient of friction
      */
@@ -289,7 +290,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the maximum force exerted by this wheel's suspension.
+     * Read the maximum force exerted by this wheel's suspension (native field:
+     * m_maxSuspensionForce).
      *
      * @return the maximum force
      */
@@ -298,7 +300,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the travel distance for this wheel's suspension.
+     * Read the travel distance for this wheel's suspension (native field:
+     * m_maxSuspensionTravelCm).
      *
      * @return the maximum travel distance (in centimeters)
      */
@@ -307,7 +310,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the radius of this wheel.
+     * Read the radius of this wheel (native field: m_wheelsRadius).
      *
      * @return the radius (in physics-space units, &ge;0)
      */
@@ -316,7 +319,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the rest length of this wheel.
+     * Read the rest length of this wheel (native field:
+     * m_suspensionRestLength1).
      *
      * @return the length
      */
@@ -325,7 +329,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read this wheel's roll influence.
+     * Read this wheel's roll influence (native field: m_rollInfluence).
      *
      * @return the roll-influence factor
      */
@@ -345,7 +349,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the stiffness for this wheel's suspension.
+     * Read the stiffness for this wheel's suspension (native field:
+     * m_suspensionStiffness).
      *
      * @return the stiffness constant
      */
@@ -363,7 +368,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read this wheel's damping when the suspension is expanded.
+     * Read this wheel's damping when the suspension is expanded (native field:
+     * m_wheelsDampingRelaxation).
      *
      * @return the damping
      */
@@ -396,10 +402,10 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Copy this wheel's orientation to the specified quaternion.
+     * Copy this wheel's orientation.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a quaternion (in physics-space coordinates, either storeResult or
+     * @return a Quaternion (in physics-space coordinates, either storeResult or
      * a new instance)
      */
     public Quaternion getWheelWorldRotation(Quaternion storeResult) {
@@ -422,7 +428,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Test whether this wheel is a front wheel.
+     * Test whether this wheel is a front (steering) wheel (native field:
+     * m_bIsFrontWheel).
      *
      * @return true if front wheel, otherwise false
      */
@@ -442,10 +449,11 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the friction between this wheel's tire and the ground.
+     * Alter the friction between this wheel's tire and the ground (native
+     * field: m_frictionSlip).
      * <p>
      * Should be about 0.8 for realistic cars, but can increased for better
-     * handling. Set large (10000.0) for kart racers.
+     * handling. Set large (10000) for kart racers.
      *
      * @param coeff the desired coefficient of friction (default=10.5)
      */
@@ -455,7 +463,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter whether this wheel is a front (steering) wheel.
+     * Alter whether this wheel is a front (steering) wheel (native field:
+     * m_bIsFrontWheel).
      *
      * @param frontWheel true&rarr;front wheel, false&rarr;non-front wheel
      */
@@ -465,7 +474,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the maximum force exerted by this wheel's suspension.
+     * Alter the maximum force exerted by this wheel's suspension (native field:
+     * m_maxSuspensionForce).
      * <p>
      * Increase this if your suspension cannot handle the weight of your
      * vehicle.
@@ -478,7 +488,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the travel distance for this wheel's suspension.
+     * Alter the travel distance for this wheel's suspension (native field:
+     * m_maxSuspensionTravelCm).
      *
      * @param travelCm the desired maximum travel distance (in centimetres,
      * default=500)
@@ -489,7 +500,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the radius of this wheel.
+     * Alter the radius of this wheel (native field: m_wheelsRadius).
      *
      * @param radius the desired radius (in physics-space units, &ge;0,
      * default=0.5)
@@ -500,7 +511,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the rest length of the suspension of this wheel.
+     * Alter the rest length of the suspension of this wheel (native field:
+     * m_suspensionRestLength1).
      *
      * @param restLength the desired length (default=1)
      */
@@ -510,7 +522,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter this wheel's roll influence.
+     * Alter this wheel's roll influence (native field: m_rollInfluence).
      * <p>
      * The roll-influence factor reduces (or magnifies) the torque contributed
      * by this wheel that tends to cause the vehicle to roll over. This is a bit
@@ -529,7 +541,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the stiffness of this wheel's suspension.
+     * Alter the stiffness of this wheel's suspension (native field:
+     * m_suspensionStiffness).
      *
      * @param stiffness the desired stiffness constant (10&rarr;off-road buggy,
      * 50&rarr;sports car, 200&rarr;Formula-1 race car, default=5.88)
@@ -555,7 +568,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter this wheel's damping when the suspension is compressed.
+     * Alter this wheel's damping when the suspension is compressed (native
+     * field: m_wheelsDampingCompression).
      * <p>
      * Set to k * 2 * FastMath.sqrt(m_suspensionStiffness) where k is the
      * damping ratio:
@@ -571,7 +585,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter this wheel's damping when the suspension is expanded.
+     * Alter this wheel's damping when the suspension is expanded (native field:
+     * m_wheelsDampingRelaxation).
      * <p>
      * Set to k * 2 * FastMath.sqrt(m_suspensionStiffness) where k is the
      * damping ratio:
@@ -711,7 +726,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
         }
     }
 
-    native private void applyInfo(long wheelId, int wheelIndex,
+    native private void applyInfo(long vehicleId, int wheelIndex,
             float suspensionStiffness,
             float wheelsDampingRelaxation,
             float wheelsDampingCompression,
@@ -723,19 +738,19 @@ public class VehicleWheel implements JmeCloneable, Savable {
             boolean frontWheel,
             float suspensionRestLength);
 
-    native private void getCollisionLocation(long wheelId, int wheelIndex,
-            Vector3f vec);
+    native private void getCollisionLocation(long vehicleId, int wheelIndex,
+            Vector3f vector);
 
-    native private void getCollisionNormal(long wheelId, int wheelIndex,
-            Vector3f vec);
+    native private void getCollisionNormal(long vehicleId, int wheelIndex,
+            Vector3f vector);
 
-    native private float getDeltaRotation(long wheelId, int wheelIndex);
+    native private float getDeltaRotation(long vehicleId, int wheelIndex);
 
-    native private float getSkidInfo(long wheelId, int wheelIndex);
+    native private float getSkidInfo(long vehicleId, int wheelIndex);
 
-    native private void getWheelLocation(long vehicleId, int wheelId,
-            Vector3f location);
+    native private void getWheelLocation(long vehicleId, int wheelIndex,
+            Vector3f vector);
 
-    native private void getWheelRotation(long vehicleId, int wheelId,
-            Matrix3f location);
+    native private void getWheelRotation(long vehicleId, int wheelIndex,
+            Matrix3f matrix);
 }
