@@ -180,7 +180,7 @@ abstract public class PhysicsCollisionObject
     private Material debugMaterial = null;
     /**
      * scene object that uses this collision object, typically a PhysicsControl,
-     * PhysicsLink, or Spatial
+     * PhysicsLink, or Spatial TODO define as Savable?
      */
     private Object userObject;
     // *************************************************************************

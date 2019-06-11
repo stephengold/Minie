@@ -53,8 +53,7 @@ import jme3utilities.Validate;
  *
  * @author normenhansen
  */
-public class BulletAppState
-        implements AppState, PhysicsTickListener {
+public class BulletAppState implements AppState, PhysicsTickListener {
     // *************************************************************************
     // classes and enums
 

@@ -53,8 +53,7 @@ import jme3utilities.Validate;
  *
  * @author normenhansen
  */
-public class ChildCollisionShape
-        implements JmeCloneable, Savable {
+public class ChildCollisionShape implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,8 +49,7 @@ import jme3utilities.MyString;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-abstract public class IKController
-        implements JmeCloneable, Savable {
+abstract public class IKController implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 

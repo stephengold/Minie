@@ -626,7 +626,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
      * shallow-cloned wheel into a deep-cloned one, using the specified cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this wheel (not null)
+     * @param cloner the Cloner that's cloning this wheel (not null)
      * @param original the instance from which this instance was shallow-cloned
      * (unused)
      */
