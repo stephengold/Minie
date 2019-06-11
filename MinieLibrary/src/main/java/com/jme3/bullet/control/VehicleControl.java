@@ -49,6 +49,7 @@ import com.jme3.scene.control.Control;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
+import jme3utilities.MySpatial;
 
 /**
  * A PhysicsControl to link a PhysicsVehicle to a Spatial.
@@ -66,6 +67,14 @@ public class VehicleControl
      */
     final public static Logger logger4
             = Logger.getLogger(VehicleControl.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
+     */
+    final private static Quaternion rotateIdentity = new Quaternion();
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -275,7 +284,8 @@ public class VehicleControl
 
     /**
      * Update this Control. Invoked once per frame, during the logical-state
-     * update, provided the Control is added to a scene.
+     * update, provided the Control is added to a scene. Do not invoke directly
+     * from user code.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
      */
@@ -340,6 +350,7 @@ public class VehicleControl
         RigidBodyMotionState ms = getMotionState();
         ms.setApplyPhysicsLocal(
                 capsule.readBoolean("applyLocalPhysics", false));
+
         setUserObject(spatial);
     }
 
@@ -369,11 +380,16 @@ public class VehicleControl
      * @return the pre-existing Quaternion (not null)
      */
     private Quaternion getSpatialRotation() {
-        RigidBodyMotionState ms = getMotionState();
-        if (ms.isApplyPhysicsLocal()) {
-            return spatial.getLocalRotation();
+        if (MySpatial.isIgnoringTransforms(spatial)) {
+            return rotateIdentity;
+        } else {
+            RigidBodyMotionState ms = getMotionState();
+            if (ms.isApplyPhysicsLocal()) {
+                return spatial.getLocalRotation();
+            } else {
+                return spatial.getWorldRotation();
+            }
         }
-        return spatial.getWorldRotation();
     }
 
     /**
@@ -382,10 +398,18 @@ public class VehicleControl
      * @return the pre-existing vector (not null)
      */
     private Vector3f getSpatialTranslation() {
-        RigidBodyMotionState ms = getMotionState();
-        if (ms.isApplyPhysicsLocal()) {
-            return spatial.getLocalTranslation();
+        Vector3f result;
+        if (MySpatial.isIgnoringTransforms(spatial)) {
+            result = translateIdentity;
+        } else {
+            RigidBodyMotionState ms = getMotionState();
+            if (ms.isApplyPhysicsLocal()) {
+                result = spatial.getLocalTranslation();
+            } else {
+                result = spatial.getWorldTranslation();
+            }
         }
-        return spatial.getWorldTranslation();
+
+        return result;
     }
 }
