@@ -175,21 +175,27 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
     /**
      * Apply this wheel's physics location and orientation to its associated
-     * spatial, if any. TODO re-format
+     * Spatial, if any.
      */
     public void applyWheelTransform() {
         if (wheelSpatial == null) {
             return;
         }
+
         Quaternion localRotationQuat = wheelSpatial.getLocalRotation();
         Vector3f localLocation = wheelSpatial.getLocalTranslation();
-        if (!applyLocal && wheelSpatial.getParent() != null) {
-            localLocation.set(wheelWorldLocation).subtractLocal(wheelSpatial.getParent().getWorldTranslation());
-            localLocation.divideLocal(wheelSpatial.getParent().getWorldScale());
-            tmp_inverseWorldRotation.set(wheelSpatial.getParent().getWorldRotation()).inverseLocal().multLocal(localLocation);
+        Spatial parent = wheelSpatial.getParent();
+        if (!applyLocal && parent != null) {
+            Vector3f parentOffset = parent.getWorldTranslation();
+            Quaternion parentRot = parent.getWorldRotation();
+            localLocation.set(wheelWorldLocation).subtractLocal(parentOffset);
+            localLocation.divideLocal(parent.getWorldScale());
+            tmp_inverseWorldRotation.set(parentRot).inverseLocal()
+                    .multLocal(localLocation);
 
             localRotationQuat.set(wheelWorldRotation);
-            tmp_inverseWorldRotation.set(wheelSpatial.getParent().getWorldRotation()).inverseLocal().mult(localRotationQuat, localRotationQuat);
+            tmp_inverseWorldRotation.set(parentRot).inverseLocal()
+                    .mult(localRotationQuat, localRotationQuat);
 
             wheelSpatial.setLocalTranslation(localLocation);
             wheelSpatial.setLocalRotation(localRotationQuat);
