@@ -95,8 +95,8 @@ public class GhostControl
      */
     private boolean applyLocal = false;
     /**
-     * true&rarr;enable shape scaling (to the extent the CollisionShape supports
-     * it), false&rarr;disable shape scaling (default=false)
+     * true&rarr;enable shape scaling (to the extent that the CollisionShape
+     * supports it), false&rarr;disable shape scaling (default=false)
      */
     private boolean applyScale = false;
     /**
@@ -311,7 +311,7 @@ public class GhostControl
     }
 
     /**
-     * Update this Control. Invoked once per frame during the logical-state
+     * Update this Control. Invoked once per frame, during the logical-state
      * update, provided the Control is added to a scene. Do not invoke directly
      * from user code.
      *
@@ -389,6 +389,8 @@ public class GhostControl
         applyLocal = capsule.readBoolean("applyLocalPhysics", false);
         applyScale = capsule.readBoolean("applyScale", false);
         spatial = (Spatial) capsule.readSavable("spatial", null);
+
+        setUserObject(spatial);
     }
 
     /**

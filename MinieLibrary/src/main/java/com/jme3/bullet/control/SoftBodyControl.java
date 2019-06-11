@@ -219,6 +219,9 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         geometry = (Geometry) capsule.readSavable("geometry", null);
         mergeVertices = capsule.readBoolean("mergeVertices", false);
         updateNormals = capsule.readBoolean("updateNormals", false);
+
+        Spatial controlled = getSpatial();
+        body.setUserObject(controlled);
     }
 
     /**

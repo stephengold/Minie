@@ -403,7 +403,7 @@ public class RigidBodyControl
     }
 
     /**
-     * Update this Control. Invoked once per frame during the logical-state
+     * Update this Control. Invoked once per frame, during the logical-state
      * update, provided the Control is added to a scene. Do not invoke directly
      * from user code.
      *
@@ -489,6 +489,8 @@ public class RigidBodyControl
         ms.setApplyPhysicsLocal(
                 capsule.readBoolean("applyLocalPhysics", false));
         applyScale = capsule.readBoolean("applyScale", false);
+
+        setUserObject(spatial);
     }
 
     /**

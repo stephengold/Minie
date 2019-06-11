@@ -280,6 +280,9 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
         character = (PhysicsCharacter) capsule.readSavable("character", null);
         viewDirection = (Vector3f) capsule.readSavable("viewDirection",
                 new Vector3f(0f, 0f, 1f));
+
+        Spatial controlled = getSpatial();
+        character.setUserObject(controlled);
     }
 
     /**
@@ -295,7 +298,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * Destroy spatial-dependent data. Invoked when this Control is removed from
      * its Spatial.
      *
-     * @param spatial the previously controlled Spatial (not null)
+     * @param spatial the Spatial to which this Control was added (unused)
      */
     @Override
     protected void removeSpatialData(Spatial spatial) {

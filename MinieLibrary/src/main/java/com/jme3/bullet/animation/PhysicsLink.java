@@ -62,8 +62,7 @@ import jme3utilities.minie.MyShape;
  *
  * Based on KinematicRagdollControl by Normen Hansen and Rémy Bouquet (Nehon).
  */
-abstract public class PhysicsLink
-        implements JmeCloneable, Savable {
+abstract public class PhysicsLink implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -118,7 +117,7 @@ abstract public class PhysicsLink
      */
     private PhysicsRigidBody rigidBody;
     /**
-     * transform of the rigid body as of the most recent update (in
+     * Transform of the rigid body as of the most recent update (in
      * physics-space coordinates, updated in kinematic mode only)
      */
     private Transform kpTransform = new Transform();
@@ -587,7 +586,7 @@ abstract public class PhysicsLink
      * shallow-cloned link into a deep-cloned one, using the specified cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this link (not null)
+     * @param cloner the Cloner that's cloning this link (not null)
      * @param original the instance from which this link was shallow-cloned
      * (unused)
      */
@@ -649,6 +648,8 @@ abstract public class PhysicsLink
         kpVelocity
                 = (Vector3f) capsule.readSavable("kpVelocity", new Vector3f());
         localOffset = (Vector3f) capsule.readSavable("offset", new Vector3f());
+
+        rigidBody.setUserObject(this);
     }
 
     /**

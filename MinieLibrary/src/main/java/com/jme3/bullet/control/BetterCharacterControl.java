@@ -109,7 +109,7 @@ public class BetterCharacterControl
      */
     private PhysicsRigidBody rigidBody;
     /**
-     * Local z-forward quaternion for the "local absolute" z-forward direction.
+     * Local z-forward Quaternion for the "local absolute" z-forward direction.
      */
     private Quaternion localForwardRotation
             = new Quaternion(Quaternion.DIRECTION_Z);
@@ -217,7 +217,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Access the rigid body managed by this control.
+     * Access the rigid body managed by this control. TODO re-order methods
      *
      * @return the pre-existing rigid body (not null)
      */
@@ -429,7 +429,7 @@ public class BetterCharacterControl
 
     /**
      * Move the character somewhere. Note the character also warps to the
-     * location of the spatial when the control is added.
+     * location of the Spatial when the Control is added.
      *
      * @param vec the desired character location (not null)
      */
@@ -454,10 +454,10 @@ public class BetterCharacterControl
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned control into a deep-cloned one, using the specified Cloner
+     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the Cloner that's cloning this Control (not null)
+     * @param cloner the Cloner that's cloning this Control (not null, modified)
      * @param original the Control from which this Control was shallow-cloned
      * (unused)
      */
@@ -531,6 +531,9 @@ public class BetterCharacterControl
         walkDirection = (Vector3f) capsule.readSavable("walkDirection",
                 new Vector3f(0f, 0f, 1f));
         rigidBody = (PhysicsRigidBody) capsule.readSavable("body", null);
+
+        Spatial controlled = getSpatial();
+        rigidBody.setUserObject(controlled);
     }
 
     /**
@@ -547,7 +550,7 @@ public class BetterCharacterControl
      * Destroy spatial-dependent data. Invoked when this Control is removed from
      * its Spatial.
      *
-     * @param spatial the previously controlled spatial (unused)
+     * @param spatial the Spatial to which this Control was added (unused)
      */
     @Override
     protected void removeSpatialData(Spatial spatial) {
@@ -842,8 +845,8 @@ public class BetterCharacterControl
 
     /**
      * Updates the local coordinate system from the localForward and localUp
-     * vectors, adapts localForward, sets localForwardRotation quaternion to
-     * local Z-forward rotation.
+     * vectors, adapts localForward, sets localForwardRotation to local
+     * Z-forward rotation.
      */
     protected void updateLocalCoordinateSystem() {
         //gravity vector has possibly changed, calculate new world forward (UNIT_Z)
@@ -855,10 +858,10 @@ public class BetterCharacterControl
 
     /**
      * Updates the local X-Z view direction and the corresponding rotation
-     * quaternion for the spatial.
+     * Quaternion for the Spatial.
      */
     protected void updateLocalViewDirection() {
-        //update local rotation quaternion to use for view rotation
+        //update local rotation Quaternion to use for view rotation
         localForwardRotation.multLocal(rotatedViewDirection.set(viewDirection));
         calculateNewForward(rotation, rotatedViewDirection, localUp);
     }
