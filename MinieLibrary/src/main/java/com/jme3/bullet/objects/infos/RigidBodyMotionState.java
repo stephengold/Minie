@@ -166,10 +166,10 @@ public class RigidBodyMotionState implements JmeCloneable {
     }
 
     /**
-     * Copy the orientation from this motion state (as a quaternion).
+     * Copy the orientation from this motion state (as a Quaternion).
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the rotation quaternion (in physics-space coordinates, either
+     * @return the rotation Quaternion (in physics-space coordinates, either
      * storeResult or a new vector, not null)
      */
     public Quaternion getOrientation(Quaternion storeResult) {

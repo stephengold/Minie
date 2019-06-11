@@ -156,7 +156,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      *
      * @param cloner the Cloner that's cloning this Control (not null, modified)
      * @param original the Control from which this Control was shallow-cloned
-     * (not null, unaffected)
+     * (unused)
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
@@ -234,7 +234,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      * Destroy spatial-dependent data. Invoked when this Control is removed from
      * its Spatial.
      *
-     * @param spatial the previously controlled Spatial (not null)
+     * @param spatial the Spatial to which this Control was added (unused)
      */
     @Override
     protected void removeSpatialData(Spatial spatial) {
@@ -258,7 +258,8 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     /**
      * Translate the soft body to the specified location.
      *
-     * @param location the desired location (not null, unaffected)
+     * @param location the desired location (in physics-space coordinates, not
+     * null, unaffected)
      */
     @Override
     public void setPhysicsLocation(Vector3f location) {
@@ -268,7 +269,8 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     /**
      * Rotate the soft body to the specified orientation.
      *
-     * @param orientation the desired orientation (not null, unaffected)
+     * @param orientation the desired orientation (in physics-space coordinates,
+     * not null, unaffected)
      */
     @Override
     protected void setPhysicsRotation(Quaternion orientation) {

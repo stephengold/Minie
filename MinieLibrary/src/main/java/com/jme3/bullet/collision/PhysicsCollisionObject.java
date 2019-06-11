@@ -432,7 +432,7 @@ abstract public class PhysicsCollisionObject
      * Copy the orientation (rotation) of this object to a Quaternion.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a rotation quaternion (in physics-space coordinates, either
+     * @return a rotation Quaternion (in physics-space coordinates, either
      * storeResult or a new instance, not null)
      */
     public Quaternion getPhysicsRotation(Quaternion storeResult) {

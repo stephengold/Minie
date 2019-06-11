@@ -159,8 +159,8 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     /**
      * Directly alter this object's orientation.
      *
-     * @param rotation the desired orientation (quaternion, not null,
-     * unaffected)
+     * @param rotation the desired orientation (a rotation quaternion in
+     * physics-space coordinates, not null, unaffected)
      */
     public void setPhysicsRotation(Quaternion rotation) {
         setPhysicsRotation(objectId, rotation);

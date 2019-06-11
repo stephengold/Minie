@@ -140,7 +140,7 @@ abstract public class AbstractPhysicsControl
     protected abstract void addPhysics();
 
     /**
-     * Apply a physics transform to the controlled spatial. TODO use MySpatial
+     * Apply a physics transform to the controlled Spatial. TODO use MySpatial
      *
      * @param physicsLocation the desired location (in physics-space
      * coordinates, not null, unaffected)
@@ -172,7 +172,7 @@ abstract public class AbstractPhysicsControl
      * Create spatial-dependent data. Invoked when this Control is added to a
      * Spatial.
      *
-     * @param spatial the controlled spatial (not null)
+     * @param spatial the controlled Spatial (not null)
      */
     protected abstract void createSpatialData(Spatial spatial);
 
@@ -218,7 +218,7 @@ abstract public class AbstractPhysicsControl
      * Destroy spatial-dependent data. Invoked when this Control is removed from
      * its Spatial.
      *
-     * @param spatial the previously controlled spatial (not null)
+     * @param spatial the previous controlled Spatial (not null)
      */
     protected abstract void removeSpatialData(Spatial spatial);
 
