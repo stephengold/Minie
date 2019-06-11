@@ -1,5 +1,21 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.3 released on 11 June 2019
+
+ + Moved 2 tutorials to a new `jme3utilities.tutorial` package.
+ + Fixed bugs:
+   + Spatial transform not applied to static bodies in `RigidBodyControl`.
+   + `IllegalArgumentException` thrown when translating/rotating a
+     heightfield-shaped rigid body.
+   + Some physics controls ignore `isEnabled()`.
+   + After de-serializing a physics control, its `userObject` is null.
+   + `TestHeightfield` attached physics control to the root node.
+   + `TestHeightfield` used wrong logger.
+ + Added a `PhysicsSpace.destroy()` method for compatability with jme3-bullet.
+ + Improved physics dumps.
+ + Removed uses of shared mutable "constants".
+ + Made various improvements to MinieExamples.
+
 ## Version 0.9.2 released on 7 June 2019
 
  + API changes:
