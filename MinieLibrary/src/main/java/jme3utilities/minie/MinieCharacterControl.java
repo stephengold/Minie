@@ -303,6 +303,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     @Override
     protected void removeSpatialData(Spatial spatial) {
         character.setUserObject(null);
+        character = null;
     }
 
     /**
@@ -347,7 +348,10 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     @Override
     public void update(float tpf) {
-        // TODO test isEnabled()
+        if (!isEnabled()) {
+            return;
+        }
+
         Quaternion orientation = tmpQuaternionTL.get();
         if (orientation == null) {
             orientation = new Quaternion();

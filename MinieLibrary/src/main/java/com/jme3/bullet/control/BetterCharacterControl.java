@@ -555,6 +555,7 @@ public class BetterCharacterControl
     @Override
     protected void removeSpatialData(Spatial spatial) {
         rigidBody.setUserObject(null);
+        rigidBody = null;
     }
 
     /**
@@ -607,6 +608,10 @@ public class BetterCharacterControl
      */
     @Override
     public void update(float tpf) {
+        if (!isEnabled()) {
+            return;
+        }
+
         rigidBody.getPhysicsLocation(location);
         //rotation has been set through viewDirection
         applyPhysicsTransform(location, rotation);
