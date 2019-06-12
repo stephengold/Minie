@@ -280,7 +280,7 @@ public class PhysicsDumper extends Dumper {
         desc = MyString.describe(volume);
         stream.print(desc);
 
-        stream.print(" wind=[");
+        stream.print(" wind[");
         Vector3f wind = body.windVelocity(null);
         desc = MyVector3f.describe(wind);
         stream.print(desc);
