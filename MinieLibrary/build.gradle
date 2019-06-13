@@ -9,21 +9,22 @@ plugins {
 
 description = 'the Minie physics-support library for jMonkeyEngine'
 ext {
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/1.0.78'
-    btfLinux = 'ReleaseSP'
-    btfMacOSX = 'ReleaseSP'
-    btfWindows = 'ReleaseSP'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/1.0.78/'
+    btfLinux32 = 'ReleaseSp'
+    btfLinux64 = 'ReleaseSp'
+    btfMacOSX32 = 'ReleaseSp'
+    btfMacOSX64 = 'ReleaseSp'
+    btfWindows32 = 'ReleaseSp'
+    btfWindows64 = 'ReleaseSp'
     artifact = 'Minie'
     version = minieVersion
     baseName = "$artifact-$version"
-    nativeDir = 'src/main/resources/native'
+    nativeDir = 'src/main/resources/native/'
 }
 
 jar { baseName project.ext.baseName }
 javadocJar { baseName project.ext.baseName }
 sourcesJar { baseName project.ext.baseName }
-
-processResources { dependsOn 'downloadNatives' }
 
 dependencies {
     api "jme3utilities:jme3-utilities-heart:$heartVersion"
@@ -38,49 +39,67 @@ compileJava.options.headerOutputDirectory = new File('build/cpp')
 
 test { forkEvery 1 } // don't run tests in parallel
 
+processResources.dependsOn((btfLinux32 == '' ? 'clean' : 'download') + 'Linux32')
+processResources.dependsOn((btfLinux64 == '' ? 'clean' : 'download') + 'Linux64')
+processResources.dependsOn((btfMacOSX32 == '' ? 'clean' : 'download') + 'MacOSX32')
+processResources.dependsOn((btfMacOSX64 == '' ? 'clean' : 'download') + 'MacOSX64')
+processResources.dependsOn((btfWindows32 == '' ? 'clean' : 'download') + 'Windows32')
+processResources.dependsOn((btfWindows64 == '' ? 'clean' : 'download') + 'Windows64')
+
 // tasks to download native libraries from GitHub
-task downloadNatives {
-    dependsOn 'downloadLinux32', 'downloadLinux64'
-    dependsOn 'downloadMacOSX32', 'downloadMacOSX64'
-    dependsOn 'downloadWindows32', 'downloadWindows64'
-}
 task downloadLinux32(type: MyDownload) {
-    sourceUrl = "${libbulletjmeUrl}/Linux32${btfLinux}_libbulletjme.so"
-    target = file("${nativeDir}/linux/x86/libbulletjme.so")
+    sourceUrl = libbulletjmeUrl + "Linux32${btfLinux32}_libbulletjme.so"
+    target = file(nativeDir + 'linux/x86/libbulletjme.so')
 }
 task downloadLinux64(type: MyDownload) {
-    sourceUrl = "${libbulletjmeUrl}/Linux64${btfLinux}_libbulletjme.so"
-    target = file("${nativeDir}/linux/x86_64/libbulletjme.so")
+    sourceUrl = libbulletjmeUrl + "Linux64${btfLinux64}_libbulletjme.so"
+    target = file(nativeDir + 'linux/x86_64/libbulletjme.so')
 }
 task downloadMacOSX32(type: MyDownload) {
-    sourceUrl = "${libbulletjmeUrl}/MacOSX32${btfMacOSX}_libbulletjme.dylib"
-    target = file("${nativeDir}/osx/x86/libbulletjme.dylib")
+    sourceUrl = libbulletjmeUrl + "MacOSX32${btfMacOSX32}_libbulletjme.dylib"
+    target = file(nativeDir + 'osx/x86/libbulletjme.dylib')
 }
 task downloadMacOSX64(type: MyDownload) {
-    sourceUrl = "${libbulletjmeUrl}/MacOSX64${btfMacOSX}_libbulletjme.dylib"
-    target = file("${nativeDir}/osx/x86_64/libbulletjme.dylib")
+    sourceUrl = libbulletjmeUrl + "MacOSX64${btfMacOSX64}_libbulletjme.dylib"
+    target = file(nativeDir + 'osx/x86_64/libbulletjme.dylib')
 }
 task downloadWindows32(type: MyDownload) {
-    sourceUrl = "${libbulletjmeUrl}/Windows32${btfWindows}_bulletjme.dll"
-    target = file("${nativeDir}/windows/x86/bulletjme.dll")
+    sourceUrl = libbulletjmeUrl + "Windows32${btfWindows32}_bulletjme.dll"
+    target = file(nativeDir + 'windows/x86/bulletjme.dll')
 }
 task downloadWindows64(type: MyDownload) {
-    sourceUrl = "${libbulletjmeUrl}/Windows64${btfWindows}_bulletjme.dll"
-    target = file("${nativeDir}/windows/x86_64/bulletjme.dll")
+    sourceUrl = libbulletjmeUrl + "Windows64${btfWindows64}_bulletjme.dll"
+    target = file(nativeDir + 'windows/x86_64/bulletjme.dll')
 }
 
 // cleanup tasks
-clean { dependsOn 'cleanDLLs', 'cleanLogs', 'cleanNatives', 'cleanSOs' }
+clean.dependsOn('cleanDLLs', 'cleanLinux32', 'cleanLinux64',
+    'cleanLogs', 'cleanMacOSX32', 'cleanMacOSX64', 'cleanSOs',
+    'cleanWindows32', 'cleanWindows64'
+)
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
+}
+task cleanLinux32(type: Delete) {
+    delete file(nativeDir + 'linux/x86/libbulletjme.so')
+}
+task cleanLinux64(type: Delete) {
+    delete file(nativeDir + 'linux/x86_64/libbulletjme.so')
 }
 task cleanLogs(type: Delete) {
     delete fileTree(dir: '.', include: 'hs_err_pid*.log')
 }
-task cleanNatives(type: Delete) {
-    delete fileTree(nativeDir).matching {
-        include "**/*bulletjme.*"
-    }
+task cleanMacOSX32(type: Delete) {
+    delete file(nativeDir + 'osx/x86/libbulletjme.dylib')
+}
+task cleanMacOSX64(type: Delete) {
+    delete file(nativeDir + 'osx/x86_64/libbulletjme.dylib')
+}
+task cleanWindows32(type: Delete) {
+    delete file(nativeDir + 'windows/x86/bulletjme.dll')
+}
+task cleanWindows64(type: Delete) {
+    delete file(nativeDir + 'windows/x86_64/bulletjme.dll')
 }
 task cleanSOs(type: Delete) {
     delete fileTree(dir: '.', include: '*.so')
@@ -105,7 +124,7 @@ task pom {
     }
 }
 
-// Helper class to wrap Ant download task
+// helper class to wrap Ant download task
 class MyDownload extends DefaultTask {
     @Input
     String sourceUrl
