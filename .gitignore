@@ -1,18 +1,13 @@
+*.dll
+*.dylib
+*.so
 /.gradle/
 /.nb-gradle/
-/DacWizard/*.dll
-/DacWizard/*.so
 /DacWizard/build/
 /DacWizard/private/
 /DacWizard/Written Assets/
-/MinieAssets/*.dll
-/MinieAssets/*.so
 /MinieAssets/build/
-/MinieExamples/*.dll
-/MinieExamples/*.so
 /MinieExamples/build/
 /MinieExamples/src/main/resources/Textures/plaid.png
 /MinieExamples/Written Assets/
-/MinieLibrary/*.dll
-/MinieLibrary/*.so
 /MinieLibrary/build/
