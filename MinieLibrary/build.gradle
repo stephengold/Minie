@@ -10,6 +10,7 @@ plugins {
 description = 'the Minie physics-support library for jMonkeyEngine'
 ext {
     libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/1.0.78/'
+    //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/'
     btfLinux32 = 'ReleaseSp'
     btfLinux64 = 'ReleaseSp'
     btfMacOSX32 = 'ReleaseSp'
@@ -37,7 +38,13 @@ dependencies {
 
 compileJava.options.headerOutputDirectory = new File('build/cpp')
 
-test { forkEvery 1 } // don't run tests in parallel
+test {
+    failFast true // stop after first failure
+    forkEvery 1  // don't run tests in parallel
+    testLogging {
+        events 'started', 'skipped', 'failed'
+    }
+}
 
 processResources.dependsOn((btfLinux32 == '' ? 'clean' : 'download') + 'Linux32')
 processResources.dependsOn((btfLinux64 == '' ? 'clean' : 'download') + 'Linux64')
