@@ -421,9 +421,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyClusterCenters(FloatBuffer storeResult) {
-        FloatBuffer result = ensureCapacity(3 * countClusters(), storeResult);
-        getClustersPositions(objectId, result);
+        int numFloats = 3 * countClusters();
+        FloatBuffer result = ensureCapacity(numFloats, storeResult);
 
+        if (numFloats != 0) {
+            getClustersPositions(objectId, result);
+        }
         return result;
     }
 
@@ -435,9 +438,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * or a new buffer)
      */
     public FloatBuffer copyClusterMasses(FloatBuffer storeResult) {
-        FloatBuffer result = ensureCapacity(countClusters(), storeResult);
-        getClustersMasses(objectId, result);
+        int numFloats = countClusters();
+        FloatBuffer result = ensureCapacity(numFloats, storeResult);
 
+        if (numFloats != 0) {
+            getClustersMasses(objectId, result);
+        }
         return result;
     }
 
@@ -449,16 +455,18 @@ public class PhysicsSoftBody extends PhysicsBody {
      * new buffer)
      */
     public IntBuffer copyFaces(IntBuffer storeResult) {
-        int numFloats = 3 * countFaces();
+        int numInts = 3 * countFaces();
         IntBuffer result;
         if (storeResult == null) {
-            result = BufferUtils.createIntBuffer(numFloats);
+            result = BufferUtils.createIntBuffer(numInts);
         } else {
-            assert storeResult.capacity() == numFloats;
+            assert storeResult.capacity() == numInts;
             result = storeResult;
         }
 
-        getFacesIndexes(objectId, result);
+        if (numInts != 0) {
+            getFacesIndexes(objectId, result);
+        }
         return result;
     }
 
@@ -470,16 +478,18 @@ public class PhysicsSoftBody extends PhysicsBody {
      * new buffer)
      */
     public IntBuffer copyLinks(IntBuffer storeResult) {
-        int numFloats = 2 * countLinks();
+        int numInts = 2 * countLinks();
         IntBuffer result;
         if (storeResult == null) {
-            result = BufferUtils.createIntBuffer(numFloats);
+            result = BufferUtils.createIntBuffer(numInts);
         } else {
-            assert storeResult.capacity() == numFloats;
+            assert storeResult.capacity() == numInts;
             result = storeResult;
         }
 
-        getLinksIndexes(objectId, result);
+        if (numInts != 0) {
+            getLinksIndexes(objectId, result);
+        }
         return result;
     }
 
@@ -491,9 +501,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyLocations(FloatBuffer storeResult) {
-        FloatBuffer result = ensureCapacity(3 * countNodes(), storeResult);
-        getNodesPositions(objectId, result);
+        int numFloats = 3 * countNodes();
+        FloatBuffer result = ensureCapacity(numFloats, storeResult);
 
+        if (numFloats != 0) {
+            getNodesPositions(objectId, result);
+        }
         return result;
     }
 
@@ -505,9 +518,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * a new buffer)
      */
     public FloatBuffer copyMasses(FloatBuffer storeResult) {
-        FloatBuffer result = ensureCapacity(countNodes(), storeResult);
-        getMasses(objectId, result);
+        int numFloats = countNodes();
+        FloatBuffer result = ensureCapacity(numFloats, storeResult);
 
+        if (numFloats != 0) {
+            getMasses(objectId, result);
+        }
         return result;
     }
 
@@ -519,9 +535,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyNormals(FloatBuffer storeResult) {
-        FloatBuffer result = ensureCapacity(3 * countNodes(), storeResult);
-        getNodesNormals(objectId, result);
+        int numFloats = 3 * countNodes();
+        FloatBuffer result = ensureCapacity(numFloats, storeResult);
 
+        if (numFloats != 0) {
+            getNodesNormals(objectId, result);
+        }
         return result;
     }
 
@@ -533,16 +552,18 @@ public class PhysicsSoftBody extends PhysicsBody {
      * or a new buffer)
      */
     public IntBuffer copyTetras(IntBuffer storeResult) {
-        int numTetras = countTetras();
+        int numInts = 4 * countTetras();
         IntBuffer result;
         if (storeResult == null) {
-            result = BufferUtils.createIntBuffer(4 * numTetras);
+            result = BufferUtils.createIntBuffer(numInts);
         } else {
-            assert storeResult.capacity() == 4 * numTetras;
+            assert storeResult.capacity() == numInts;
             result = storeResult;
         }
 
-        getTetrasIndexes(objectId, result);
+        if (numInts != 0) {
+            getTetrasIndexes(objectId, result);
+        }
         return result;
     }
 
@@ -554,9 +575,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyVelocities(FloatBuffer storeResult) {
-        FloatBuffer result = ensureCapacity(3 * countNodes(), storeResult);
-        getNodesVelocities(objectId, result);
+        int numFloats = 3 * countNodes();
+        FloatBuffer result = ensureCapacity(numFloats, storeResult);
 
+        if (numFloats != 0) {
+            getNodesVelocities(objectId, result);
+        }
         return result;
     }
 
