@@ -369,7 +369,7 @@ public class StridingMesh implements JmeCloneable, Savable {
         vertexPositions = BufferUtils.createFloatBuffer(numFloats);
         for (int offset = 0; offset < numFloats; ++offset) {
             float temp = meshVs.get(offset);
-            meshVs.put(temp);
+            vertexPositions.put(temp);
         }
 
         numTriangles = mesh.getTriangleCount();
