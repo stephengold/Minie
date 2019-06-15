@@ -62,7 +62,7 @@ public class GImpactCollisionShape extends CollisionShape {
     /**
      * native mesh used to construct this shape
      */
-    private CompoundMesh stridingMesh;
+    private CompoundMesh nativeMesh;
     // *************************************************************************
     // constructors
 
@@ -76,10 +76,10 @@ public class GImpactCollisionShape extends CollisionShape {
     /**
      * Instantiate a shape based on the specified JME mesh.
      *
-     * @param mesh the mesh on which to base the shape (not null, unaffected)
+     * @param jmeMesh the mesh on which to base the shape (not null, unaffected)
      */
-    public GImpactCollisionShape(Mesh mesh) {
-        stridingMesh = new CompoundMesh(mesh);
+    public GImpactCollisionShape(Mesh jmeMesh) {
+        nativeMesh = new CompoundMesh(jmeMesh);
         createShape();
     }
     // *************************************************************************
@@ -91,7 +91,7 @@ public class GImpactCollisionShape extends CollisionShape {
      * @return the count (&ge;0)
      */
     public int countMeshVertices() {
-        int numVertices = stridingMesh.countVertices();
+        int numVertices = nativeMesh.countVertices();
         return numVertices;
     }
     // *************************************************************************
@@ -110,7 +110,7 @@ public class GImpactCollisionShape extends CollisionShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        stridingMesh = cloner.clone(stridingMesh);
+        nativeMesh = cloner.clone(nativeMesh);
         createShape();
     }
 
@@ -140,7 +140,7 @@ public class GImpactCollisionShape extends CollisionShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        stridingMesh = (CompoundMesh) capsule.readSavable("stridingMesh", null);
+        nativeMesh = (CompoundMesh) capsule.readSavable("nativeMesh", null);
         createShape();
     }
 
@@ -155,18 +155,18 @@ public class GImpactCollisionShape extends CollisionShape {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-        capsule.write(stridingMesh, "stridingMesh", null);
+        capsule.write(nativeMesh, "nativeMesh", null);
     }
     // *************************************************************************
     // private methods
 
     /**
-     * Instantiate the configured shape in Bullet.
+     * Instantiate the configured btGImpactMeshShape.
      */
     private void createShape() {
         assert objectId == 0L;
 
-        long meshId = stridingMesh.nativeId();
+        long meshId = nativeMesh.nativeId();
         objectId = createShape(meshId);
         assert objectId != 0L;
         logger2.log(Level.FINE, "Created Shape {0}",
