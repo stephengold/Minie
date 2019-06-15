@@ -31,7 +31,7 @@
  */
 package com.jme3.bullet.collision.shapes;
 
-import com.jme3.bullet.collision.shapes.infos.StridingMesh;
+import com.jme3.bullet.collision.shapes.infos.CompoundMesh;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -62,7 +62,7 @@ public class GImpactCollisionShape extends CollisionShape {
     /**
      * native mesh used to construct this shape
      */
-    private StridingMesh stridingMesh;
+    private CompoundMesh stridingMesh;
     // *************************************************************************
     // constructors
 
@@ -79,7 +79,7 @@ public class GImpactCollisionShape extends CollisionShape {
      * @param mesh the mesh on which to base the shape (not null, unaffected)
      */
     public GImpactCollisionShape(Mesh mesh) {
-        stridingMesh = new StridingMesh(mesh);
+        stridingMesh = new CompoundMesh(mesh);
         createShape();
     }
     // *************************************************************************
@@ -140,7 +140,7 @@ public class GImpactCollisionShape extends CollisionShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        stridingMesh = (StridingMesh) capsule.readSavable("stridingMesh", null);
+        stridingMesh = (CompoundMesh) capsule.readSavable("stridingMesh", null);
         createShape();
     }
 

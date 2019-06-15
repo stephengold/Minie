@@ -31,7 +31,7 @@
  */
 package com.jme3.bullet.collision.shapes;
 
-import com.jme3.bullet.collision.shapes.infos.StridingMesh;
+import com.jme3.bullet.collision.shapes.infos.CompoundMesh;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -76,7 +76,7 @@ public class MeshCollisionShape extends CollisionShape {
     /**
      * native mesh used to construct this shape
      */
-    private StridingMesh stridingMesh;
+    private CompoundMesh stridingMesh;
     /**
      * unique identifier of the native BVH data
      */
@@ -109,7 +109,7 @@ public class MeshCollisionShape extends CollisionShape {
      */
     public MeshCollisionShape(Mesh mesh, boolean useCompression) {
         this.useCompression = useCompression;
-        stridingMesh = new StridingMesh(mesh);
+        stridingMesh = new CompoundMesh(mesh);
         createShape(null);
     }
     // *************************************************************************
@@ -193,7 +193,7 @@ public class MeshCollisionShape extends CollisionShape {
             nativeBvh = null; // will re-create the BVH for the new platform
         }
 
-        stridingMesh = (StridingMesh) capsule.readSavable(STRIDING_MESH, null);
+        stridingMesh = (CompoundMesh) capsule.readSavable(STRIDING_MESH, null);
         useCompression = capsule.readBoolean(USE_COMPRESSION, true);
 
         createShape(nativeBvh);
