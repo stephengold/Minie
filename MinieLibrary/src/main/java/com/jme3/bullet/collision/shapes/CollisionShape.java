@@ -400,9 +400,9 @@ abstract public class CollisionShape
     native private void getAabb(long objectId, Vector3f location,
             Matrix3f basisMatrix, Vector3f storeMinima, Vector3f storeMaxima);
 
-    native private float getMargin(long objectId);
-
     native private void getLocalScaling(long objectId, Vector3f storeVector);
+
+    native private float getMargin(long objectId);
 
     native private boolean isConcave(long objectId);
 
