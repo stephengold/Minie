@@ -206,7 +206,12 @@ public class CompoundMesh implements JmeCloneable, Savable {
         scale = cloner.clone(scale);
 
         nativeId = 0L;
-        create();
+        createEmpty();
+        setScale(scale);
+        for (IndexedMesh submesh : submeshes) {
+            long submeshId = submesh.nativeId();
+            addIndexedMesh(nativeId, submeshId);
+        }
     }
 
     /**
@@ -241,7 +246,11 @@ public class CompoundMesh implements JmeCloneable, Savable {
         scale = (Vector3f) capsule.readSavable(SCALE, new Vector3f(1f, 1f, 1f));
         submeshes = capsule.readSavableArrayList(SUBMESHES, submeshes);
 
-        create();
+        setScale(scale);
+        for (IndexedMesh submesh : submeshes) {
+            long submeshId = submesh.nativeId();
+            addIndexedMesh(nativeId, submeshId);
+        }
     }
 
     /**
@@ -277,7 +286,7 @@ public class CompoundMesh implements JmeCloneable, Savable {
     // *************************************************************************
     // private methods
 
-    native void addIndexedMesh(long compoundMeshId, long submeshId);
+    private native void addIndexedMesh(long compoundMeshId, long submeshId);
 
     /**
      * Compare Bullet's scaling factors to the local copy.
@@ -295,19 +304,7 @@ public class CompoundMesh implements JmeCloneable, Savable {
     }
 
     /**
-     * Create a new mesh based on configuration.
-     */
-    private void create() {
-        createEmpty();
-
-        for (IndexedMesh submesh : submeshes) {
-            long submeshId = submesh.nativeId();
-            addIndexedMesh(nativeId, submeshId);
-        }
-    }
-
-    /**
-     * Create a new empty mesh.
+     * Create a new empty btTriangleIndexVertexArray.
      */
     private void createEmpty() {
         assert nativeId == 0L;
