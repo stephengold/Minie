@@ -31,19 +31,14 @@
  */
 package com.jme3.bullet.collision.shapes;
 
-import com.jme3.bullet.util.NativeMeshUtil;
+import com.jme3.bullet.collision.shapes.infos.StridingMesh;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.scene.Mesh;
-import com.jme3.scene.VertexBuffer.Type;
-import com.jme3.scene.mesh.IndexBuffer;
-import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -64,17 +59,10 @@ public class GImpactCollisionShape extends CollisionShape {
     // *************************************************************************
     // fields
 
-    private ByteBuffer triangleIndexBase;
-    private ByteBuffer vertexBase;
-    private int numTriangles;
-    private int numVertices;
-    private int triangleIndexStride;
-    private int vertexStride;
     /**
-     * Unique identifier of the Bullet mesh. The constructor sets this to a
-     * non-zero value.
+     * native mesh used to construct this shape
      */
-    private long meshId = 0L;
+    private StridingMesh stridingMesh;
     // *************************************************************************
     // constructors
 
@@ -88,10 +76,11 @@ public class GImpactCollisionShape extends CollisionShape {
     /**
      * Instantiate a shape based on the specified JME mesh.
      *
-     * @param mesh the Mesh to use (not null, unaffected)
+     * @param mesh the mesh on which to base the shape (not null, unaffected)
      */
     public GImpactCollisionShape(Mesh mesh) {
-        createCollisionMesh(mesh);
+        stridingMesh = new StridingMesh(mesh);
+        createShape();
     }
     // *************************************************************************
     // new methods exposed
@@ -99,10 +88,10 @@ public class GImpactCollisionShape extends CollisionShape {
     /**
      * Count how many vertices are in the mesh.
      *
-     * @return the count (&gt;0)
+     * @return the count (&ge;0)
      */
     public int countMeshVertices() {
-        assert numVertices > 0 : numVertices;
+        int numVertices = stridingMesh.countVertices();
         return numVertices;
     }
     // *************************************************************************
@@ -120,23 +109,9 @@ public class GImpactCollisionShape extends CollisionShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        // triangleIndexBase not cloned
-        // vertexBase not cloned
-        meshId = 0L;
-        createShape();
-    }
 
-    /**
-     * Finalize this shape just before it is destroyed. Should be invoked only
-     * by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        logger2.log(Level.FINE, "Finalizing Mesh {0}", Long.toHexString(meshId));
-        finalizeNative(meshId);
+        stridingMesh = cloner.clone(stridingMesh);
+        createShape();
     }
 
     /**
@@ -165,27 +140,7 @@ public class GImpactCollisionShape extends CollisionShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-
-        numVertices = capsule.readInt("numVertices", 0);
-        numTriangles = capsule.readInt("numTriangles", 0);
-        vertexStride = capsule.readInt("vertexStride", 0);
-        triangleIndexStride = capsule.readInt("triangleIndexStride", 0);
-
-        byte[] indexBytes
-                = capsule.readByteArray("triangleIndexBase", new byte[0]);
-        int numIndexBytes = indexBytes.length;
-        triangleIndexBase = BufferUtils.createByteBuffer(numIndexBytes);
-        for (int byteI = 0; byteI < numIndexBytes; ++byteI) {
-            triangleIndexBase.put(indexBytes[byteI]);
-        }
-
-        byte[] vertexBytes = capsule.readByteArray("vertexBase", new byte[0]);
-        int numVertexBytes = vertexBytes.length;
-        vertexBase = BufferUtils.createByteBuffer(numVertexBytes);
-        for (int byteI = 0; byteI < numVertexBytes; ++byteI) {
-            vertexBase.put(vertexBytes[byteI]);
-        }
-
+        stridingMesh = (StridingMesh) capsule.readSavable("stridingMesh", null);
         createShape();
     }
 
@@ -193,88 +148,33 @@ public class GImpactCollisionShape extends CollisionShape {
      * Serialize this shape to the specified exporter, for example when saving
      * to a J3O file.
      *
-     * @param exporter(not null)
+     * @param exporter (not null)
      * @throws IOException from the exporter
      */
     @Override
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-
-        capsule.write(numVertices, "numVertices", 0);
-        capsule.write(numTriangles, "numTriangles", 0);
-        capsule.write(vertexStride, "vertexStride", 0);
-        capsule.write(triangleIndexStride, "triangleIndexStride", 0);
-
-        triangleIndexBase.rewind();
-        int numIndexBytes = triangleIndexBase.limit();
-        byte[] indexBytes = new byte[numIndexBytes];
-        for (int byteI = 0; byteI < numIndexBytes; ++byteI) {
-            indexBytes[byteI] = triangleIndexBase.get();
-        }
-        capsule.write(indexBytes, "triangleIndexBase", null);
-
-        vertexBase.rewind();
-        int numVertexBytes = vertexBase.limit();
-        byte[] vertexBytes = new byte[numVertexBytes];
-        for (int byteI = 0; byteI < numVertexBytes; ++byteI) {
-            vertexBytes[byteI] = vertexBase.get();
-        }
-        capsule.write(vertexBytes, "vertexBase", null);
+        capsule.write(stridingMesh, "stridingMesh", null);
     }
     // *************************************************************************
     // private methods
-
-    private void createCollisionMesh(Mesh mesh) {
-        triangleIndexBase = BufferUtils.createByteBuffer(mesh.getTriangleCount() * 3 * 4);
-        vertexBase = BufferUtils.createByteBuffer(mesh.getVertexCount() * 3 * 4);
-        numVertices = mesh.getVertexCount();
-        vertexStride = 12; // 3 verts * 4 bytes per.
-        numTriangles = mesh.getTriangleCount();
-        triangleIndexStride = 12; // 3 index entries * 4 bytes each.
-
-        IndexBuffer indices = mesh.getIndicesAsList();
-        FloatBuffer vertices = mesh.getFloatBuffer(Type.Position);
-        vertices.rewind();
-
-        int verticesLength = mesh.getVertexCount() * 3;
-        for (int i = 0; i < verticesLength; ++i) {
-            float tempFloat = vertices.get();
-            vertexBase.putFloat(tempFloat);
-        }
-
-        int indicesLength = mesh.getTriangleCount() * 3;
-        for (int i = 0; i < indicesLength; ++i) {
-            triangleIndexBase.putInt(indices.get(i));
-        }
-        vertices.rewind();
-        vertices.clear();
-
-        createShape();
-    }
 
     /**
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
-        assert meshId == 0L;
         assert objectId == 0L;
 
-        meshId = NativeMeshUtil.createTriangleIndexVertexArray(
-                triangleIndexBase, vertexBase, numTriangles, numVertices,
-                vertexStride, triangleIndexStride);
-        assert meshId != 0L;
-        logger2.log(Level.FINE, "Created Mesh {0}", Long.toHexString(meshId));
-
+        long meshId = stridingMesh.nativeId();
         objectId = createShape(meshId);
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Shape {0}", Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created Shape {0}",
+                Long.toHexString(objectId));
 
         setScale(scale);
         setMargin(margin);
     }
 
     native private long createShape(long meshId);
-
-    native private void finalizeNative(long objectId);
 }
