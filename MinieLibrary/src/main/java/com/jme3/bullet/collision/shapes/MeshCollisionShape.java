@@ -64,7 +64,7 @@ public class MeshCollisionShape extends CollisionShape {
      */
     final private static String NATIVE_BVH = "nativeBvh";
     final private static String NATIVE_PLATFORM = "nativePlatform";
-    final private static String STRIDING_MESH = "stridingMesh";
+    final private static String NATIVE_MESH = "nativeMesh";
     final private static String USE_COMPRESSION = "useCompression";
     // *************************************************************************
     // fields
@@ -76,7 +76,7 @@ public class MeshCollisionShape extends CollisionShape {
     /**
      * native mesh used to construct this shape
      */
-    private CompoundMesh stridingMesh;
+    private CompoundMesh nativeMesh;
     /**
      * unique identifier of the native BVH data
      */
@@ -109,7 +109,7 @@ public class MeshCollisionShape extends CollisionShape {
      */
     public MeshCollisionShape(Mesh mesh, boolean useCompression) {
         this.useCompression = useCompression;
-        stridingMesh = new CompoundMesh(mesh);
+        nativeMesh = new CompoundMesh(mesh);
         createShape(null);
     }
     // *************************************************************************
@@ -121,7 +121,7 @@ public class MeshCollisionShape extends CollisionShape {
      * @return the count (&ge;0)
      */
     public int countMeshVertices() {
-        int numVertices = stridingMesh.countVertices();
+        int numVertices = nativeMesh.countVertices();
         return numVertices;
     }
     // *************************************************************************
@@ -140,7 +140,7 @@ public class MeshCollisionShape extends CollisionShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        stridingMesh = cloner.clone(stridingMesh);
+        nativeMesh = cloner.clone(nativeMesh);
         nativeBVHBuffer = 0L;
         createShape(null);
     }
@@ -193,7 +193,7 @@ public class MeshCollisionShape extends CollisionShape {
             nativeBvh = null; // will re-create the BVH for the new platform
         }
 
-        stridingMesh = (CompoundMesh) capsule.readSavable(STRIDING_MESH, null);
+        nativeMesh = (CompoundMesh) capsule.readSavable(NATIVE_MESH, null);
         useCompression = capsule.readBoolean(USE_COMPRESSION, true);
 
         createShape(nativeBvh);
@@ -217,14 +217,14 @@ public class MeshCollisionShape extends CollisionShape {
         Platform nativePlatform = JmeSystem.getPlatform();
         capsule.write(nativePlatform, NATIVE_PLATFORM, null);
 
-        capsule.write(stridingMesh, STRIDING_MESH, null);
+        capsule.write(nativeMesh, NATIVE_MESH, null);
         capsule.write(useCompression, USE_COMPRESSION, true);
     }
     // *************************************************************************
     // private methods
 
     /**
-     * Instantiate the configured shape in Bullet.
+     * Instantiate the configured btBvhTriangleMeshShape.
      *
      * @param bvh built BVH data, or null if the BVH needs to be built
      */
@@ -232,7 +232,7 @@ public class MeshCollisionShape extends CollisionShape {
         assert nativeBVHBuffer == 0L;
 
         boolean buildBvh = (bvh == null || bvh.length == 0);
-        long meshId = stridingMesh.nativeId();
+        long meshId = nativeMesh.nativeId();
         objectId = createShape(useCompression, buildBvh, meshId);
         logger2.log(Level.FINE, "Created Shape {0}",
                 Long.toHexString(objectId));
