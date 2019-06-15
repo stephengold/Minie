@@ -179,7 +179,7 @@ public class StridingMesh implements JmeCloneable, Savable {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         assert checkScale(result);
         result.set(scale);
-        
+
         return result;
     }
 
@@ -200,10 +200,9 @@ public class StridingMesh implements JmeCloneable, Savable {
      * negative component, unaffected, default=(1,1,1))
      */
     public void setScale(Vector3f scale) {
-        Validate.nonNull(scale, "scale");
         assert nativeId != 0L;
 
-        setScaling(nativeId, scale);
+        setScaling(nativeId, scale.x, scale.y, scale.z);
         logger.log(Level.FINE, "Scaled StridingMesh {0}",
                 Long.toHexString(nativeId));
         this.scale.set(scale);
@@ -421,5 +420,6 @@ public class StridingMesh implements JmeCloneable, Savable {
 
     native private void getScaling(long nativeId, Vector3f storeVector);
 
-    native private void setScaling(long nativeId, Vector3f scale);
+    native private void setScaling(long nativeId, float xScale, float yScale,
+            float zScale);
 }

@@ -155,7 +155,7 @@ public class MeshCollisionShape extends CollisionShape {
     protected void finalize() throws Throwable {
         super.finalize();
         if (nativeBVHBuffer != 0L) {
-            finalizeNative(nativeBVHBuffer);
+            finalizeBVH(nativeBVHBuffer);
         }
     }
 
@@ -248,7 +248,7 @@ public class MeshCollisionShape extends CollisionShape {
     native private long createShape(boolean useCompression, boolean buildBvh,
             long meshId);
 
-    native private void finalizeNative(long nativeBVHBufferId);
+    native private void finalizeBVH(long nativeBVHBufferId);
 
     native private byte[] saveBVH(long objectId);
 
