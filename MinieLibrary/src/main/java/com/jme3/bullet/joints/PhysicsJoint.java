@@ -419,6 +419,15 @@ abstract public class PhysicsJoint
         setEnabled(objectId, enable);
     }
     // *************************************************************************
+    // new protected methods
+
+    /**
+     * Finalize the btTypedConstraint.
+     *
+     * @param jointId identifier of the btTypedConstraint (not 0)
+     */
+    native protected void finalizeNative(long jointId);
+    // *************************************************************************
     // JmeCloneable methods
 
     /**
@@ -515,7 +524,7 @@ abstract public class PhysicsJoint
         return result;
     }
     // *************************************************************************
-    // Object methods
+    // Object methods TODO define equals()
 
     /**
      * Finalize this physics joint just before it is destroyed. Should be
@@ -530,8 +539,6 @@ abstract public class PhysicsJoint
                 Long.toHexString(objectId));
         finalizeNative(objectId);
     }
-
-    native protected void finalizeNative(long jointId);
     // *************************************************************************
     // private methods
 
