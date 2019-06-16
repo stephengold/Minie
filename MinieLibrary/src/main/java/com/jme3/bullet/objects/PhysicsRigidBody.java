@@ -53,7 +53,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
-import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
