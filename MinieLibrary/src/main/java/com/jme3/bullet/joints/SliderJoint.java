@@ -731,11 +731,11 @@ public class SliderJoint extends PhysicsJoint {
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned object into a deep-cloned one, using the specified cloner
+     * shallow-cloned joint into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this shape (not null)
-     * @param original the instance from which this instance was shallow-cloned
+     * @param cloner the Cloner that's cloning this joint (not null)
+     * @param original the instance from which this joint was shallow-cloned
      * (not null, unaffected)
      */
     @Override

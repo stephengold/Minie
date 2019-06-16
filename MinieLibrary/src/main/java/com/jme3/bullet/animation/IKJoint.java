@@ -136,10 +136,10 @@ public class IKJoint implements JmeCloneable, Savable {
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned link into a deep-cloned one, using the specified cloner
+     * shallow-cloned link into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this link (not null)
+     * @param cloner the Cloner that's cloning this link (not null)
      * @param original the instance from which this link was shallow-cloned
      * (unused)
      */

@@ -191,14 +191,19 @@ public class SixDofSpringJoint extends SixDofJoint {
     /**
      * Create a new, double-ended btGeneric6DofSpringConstraint.
      *
-     * @param bodyIdA
-     * @param bodyIdB
-     * @param pivotInA
-     * @param rotInA
-     * @param pivotInB
-     * @param rotInB
-     * @param useLinearReferenceFrameA
-     * @return
+     * @param bodyIdA the ID of the body for the A end (not 0)
+     * @param bodyIdB the ID of the body for the B end (not 0)
+     * @param pivotInA the pivot location in A's scaled local coordinates (not
+     * null, unaffected)
+     * @param rotInA the orientation of the joint in A's local coordinates (not
+     * null, unaffected)
+     * @param pivotInB the pivot location in B's scaled local coordinates (not
+     * null, unaffected)
+     * @param rotInB the orientation of the joint in B's local coordinates (not
+     * null, unaffected)
+     * @param useLinearReferenceFrameA true&rarr;use node A, false&rarr;use node
+     * B
+     * @return the ID of the new joint
      */
     @Override
     native protected long createJoint(long bodyIdA, long bodyIdB,
@@ -208,11 +213,14 @@ public class SixDofSpringJoint extends SixDofJoint {
     /**
      * Create a new, single-ended btGeneric6DofSpringConstraint.
      *
-     * @param bodyIdB
-     * @param pivotInB
-     * @param rotInB
-     * @param useLinearReferenceFrameB
-     * @return
+     * @param bodyIdB the ID of the body for the B end (not 0)
+     * @param pivotInB the pivot location in B's scaled local coordinates (not
+     * null, unaffected)
+     * @param rotInB the orientation of the joint in B's local coordinates (not
+     * null, unaffected)
+     * @param useLinearReferenceFrameB true&rarr;use node A, false&rarr;use node
+     * B
+     * @return the ID of the new joint
      */
     @Override
     native protected long createJoint1(long bodyIdB, Vector3f pivotInB,

@@ -96,7 +96,7 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
      * and original to resolve copied fields.
      *
      * @param cloner the Cloner that's cloning this Control (unused)
-     * @param original the control from which this Control was shallow-cloned
+     * @param original the instance from which this Control was shallow-cloned
      * (unused)
      */
     @Override

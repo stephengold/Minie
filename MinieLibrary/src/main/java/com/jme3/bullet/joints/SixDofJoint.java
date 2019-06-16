@@ -404,14 +404,19 @@ public class SixDofJoint extends PhysicsJoint {
     /**
      * Create a new, double-ended btGeneric6DofConstraint.
      *
-     * @param bodyIdA
-     * @param bodyIdB
-     * @param pivotInA
-     * @param rotInA
-     * @param pivotInB
-     * @param rotInB
-     * @param useLinearReferenceFrameA
-     * @return
+     * @param bodyIdA the ID of the body for the A end (not 0)
+     * @param bodyIdB the ID of the body for the B end (not 0)
+     * @param pivotInA the pivot location in A's scaled local coordinates (not
+     * null, unaffected)
+     * @param rotInA the orientation of the joint in A's local coordinates (not
+     * null, unaffected)
+     * @param pivotInB the pivot location in B's scaled local coordinates (not
+     * null, unaffected)
+     * @param rotInB the orientation of the joint in B's local coordinates (not
+     * null, unaffected)
+     * @param useLinearReferenceFrameA true&rarr;use node A, false&rarr;use node
+     * B
+     * @return the ID of the new joint
      */
     native protected long createJoint(long bodyIdA, long bodyIdB,
             Vector3f pivotInA, Matrix3f rotInA, Vector3f pivotInB,
@@ -420,11 +425,14 @@ public class SixDofJoint extends PhysicsJoint {
     /**
      * Create a new, single-ended btGeneric6DofConstraint.
      *
-     * @param bodyIdB
-     * @param pivotInB
-     * @param rotInB
-     * @param useLinearReferenceFrameB
-     * @return
+     * @param bodyIdB the ID of the body for the B end (not 0)
+     * @param pivotInB the pivot location in B's scaled local coordinates (not
+     * null, unaffected)
+     * @param rotInB the orientation of the joint in B's local coordinates (not
+     * null, unaffected)
+     * @param useLinearReferenceFrameB true&rarr;use node A, false&rarr;use node
+     * B
+     * @return the ID of the new joint
      */
     native protected long createJoint1(long bodyIdB, Vector3f pivotInB,
             Matrix3f rotInB, boolean useLinearReferenceFrameB);
@@ -433,11 +441,11 @@ public class SixDofJoint extends PhysicsJoint {
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned object into a deep-cloned one, using the specified cloner
+     * shallow-cloned joint into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this shape (not null)
-     * @param original the instance from which this instance was shallow-cloned
+     * @param cloner the Cloner that's cloning this joint (not null)
+     * @param original the instance from which this joint was shallow-cloned
      * (not null, unaffected)
      */
     @Override

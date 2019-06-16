@@ -68,7 +68,7 @@ abstract public class PhysicsJoint
     final public static Logger logger
             = Logger.getLogger(PhysicsJoint.class.getName());
     // *************************************************************************
-    // fields
+    // fields TODO privatize
 
     /**
      * true IFF bodies A and B are allowed to collide
@@ -82,12 +82,12 @@ abstract public class PhysicsJoint
     protected long objectId = 0L;
     /**
      * body A specified in the constructor, or null for a single-ended joint
-     * with body B
+     * with body B TODO rename
      */
     protected PhysicsRigidBody nodeA;
     /**
      * body B specified in the constructor, or null for a single-ended joint
-     * with body A
+     * with body A TODO rename
      */
     protected PhysicsRigidBody nodeB;
     /**
@@ -432,11 +432,11 @@ abstract public class PhysicsJoint
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned object into a deep-cloned one, using the specified cloner
+     * shallow-cloned object into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this shape (not null)
-     * @param original the instance from which this instance was shallow-cloned
+     * @param cloner the Cloner that's cloning this joint (not null)
+     * @param original the instance from which this joint was shallow-cloned
      * (unused)
      */
     @Override

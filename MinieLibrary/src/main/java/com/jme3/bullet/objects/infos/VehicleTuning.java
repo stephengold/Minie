@@ -203,11 +203,11 @@ public class VehicleTuning implements JmeCloneable, Savable {
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned tuning into a deep-cloned one, using the specified cloner
+     * shallow-cloned tuning into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this tuning (not null)
-     * @param original the instance from which this instance was shallow-cloned
+     * @param cloner the Cloner that's cloning this tuning (unused)
+     * @param original the instance from which this tuning was shallow-cloned
      * (unused)
      */
     @Override

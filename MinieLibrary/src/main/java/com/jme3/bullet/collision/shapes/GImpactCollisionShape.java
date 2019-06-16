@@ -99,12 +99,12 @@ public class GImpactCollisionShape extends CollisionShape {
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned shape into a deep-cloned one, using the specified cloner
+     * shallow-cloned shape into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this shape (not null)
-     * @param original the instance from which this instance was shallow-cloned
-     * (unused)
+     * @param cloner the Cloner that's cloning this shape (not null)
+     * @param original the instance from which this shape was shallow-cloned
+     * (not null)
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {

@@ -143,9 +143,9 @@ abstract public class IKController implements JmeCloneable, Savable {
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
      * shallow-cloned controller into a deep-cloned one, using the specified
-     * cloner and original to resolve copied fields.
+     * Cloner and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this controller (not null)
+     * @param cloner the Cloner that's cloning this controller (not null)
      * @param original the instance from which this controller was
      * shallow-cloned (unused)
      */

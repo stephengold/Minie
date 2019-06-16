@@ -446,8 +446,8 @@ public class RigidBodyControl
      * and original to resolve copied fields.
      *
      * @param cloner the Cloner that's cloning this Control (not null)
-     * @param original the Control from which this Control was shallow-cloned
-     * (unused)
+     * @param original the instance from which this Control was shallow-cloned
+     * (not null, unaffected)
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {

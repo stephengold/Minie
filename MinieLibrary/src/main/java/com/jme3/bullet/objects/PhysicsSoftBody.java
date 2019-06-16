@@ -1214,12 +1214,12 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned body into a deep-cloned one, using the specified cloner
+     * shallow-cloned body into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this body (not null)
-     * @param original the instance from which this instance was shallow-cloned
-     * (not null, unaffected)
+     * @param cloner the Cloner that's cloning this body (not null)
+     * @param original the instance from which this body was shallow-cloned (not
+     * null, unaffected)
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {

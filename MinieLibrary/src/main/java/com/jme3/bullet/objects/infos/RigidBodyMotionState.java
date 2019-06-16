@@ -235,11 +235,11 @@ public class RigidBodyMotionState implements JmeCloneable {
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned state into a deep-cloned one, using the specified cloner
+     * shallow-cloned state into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
      *
-     * @param cloner the cloner that's cloning this state (not null)
-     * @param original the instance from which this instance was shallow-cloned
+     * @param cloner the Cloner that's cloning this state (not null)
+     * @param original the instance from which this state was shallow-cloned
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
