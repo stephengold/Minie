@@ -31,48 +31,11 @@
  */
 package com.jme3.bullet.util;
 
-import java.nio.ByteBuffer;
-import java.util.logging.Logger;
-
 /**
- * A utility class for interfacing with Native Bullet.
+ * A utility class for interfacing with Native Bullet. If this class doesn't
+ * exist, JME won't load the native library.
  *
  * @author normenhansen
  */
 public class NativeMeshUtil {
-    // *************************************************************************
-    // constants and loggers
-
-    /**
-     * message logger for this class
-     */
-    final public static Logger logger
-            = Logger.getLogger(NativeMeshUtil.class.getName());
-    // *************************************************************************
-    // constructors
-
-    /**
-     * A private constructor to inhibit instantiation of this class.
-     */
-    private NativeMeshUtil() {
-    }
-    // *************************************************************************
-    // new methods exposed
-
-    /**
-     * Instantiate a btTriangleIndexVertexArray.
-     *
-     * @param triangleIndexBase index buffer (not null)
-     * @param vertexBase vertex buffer (not null)
-     * @param numTriangles the number of triangles in the mesh (&ge;0)
-     * @param numVertices the number of vertices in the mesh (&ge;0)
-     * @param vertexStride (in bytes, &gt;0)
-     * @param triangleIndexStride (in bytes, &gt;0)
-     * @return the unique identifier of the resulting btTriangleIndexVertexArray
-     * (not 0)
-     */
-    native public static long createTriangleIndexVertexArray(
-            ByteBuffer triangleIndexBase, ByteBuffer vertexBase,
-            int numTriangles, int numVertices, int vertexStride,
-            int triangleIndexStride);
 }
