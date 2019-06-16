@@ -67,7 +67,7 @@ import jme3utilities.MyAsset;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading on collision shapes of all types.
+ * Test cloning/saving/loading collision shapes of all types.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -82,6 +82,9 @@ public class TestCloneShapes {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test cloning/saving/loading collision shapes of all types.
+     */
     @Test
     public void testCloneShapes() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);

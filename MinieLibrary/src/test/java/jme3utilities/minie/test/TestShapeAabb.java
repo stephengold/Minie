@@ -52,6 +52,9 @@ public class TestShapeAabb {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test AABB calculations for collision shapes.
+     */
     @Test
     public void testShapeAabb() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);

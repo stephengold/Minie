@@ -61,7 +61,7 @@ import jme3utilities.MyAsset;
 import org.junit.Test;
 
 /**
- * Try the setScale() function on collision shapes of all types.
+ * Test the setScale() function on collision shapes of all types.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -69,6 +69,9 @@ public class TestSetScale {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test the setScale() function on collision shapes of all types.
+     */
     @Test
     public void testSetMargin() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);

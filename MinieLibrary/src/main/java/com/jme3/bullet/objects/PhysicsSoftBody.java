@@ -1143,6 +1143,12 @@ public class PhysicsSoftBody extends PhysicsBody {
         }
     }
 
+    /**
+     * Identify the Material for the identified btSoftBody.
+     *
+     * @param bodyId the ID of the btSoftBody (not 0)
+     * @return the ID of the Material (not 0)
+     */
     native protected long getMaterial(long bodyId);
 
     /**

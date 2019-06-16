@@ -188,11 +188,32 @@ public class SixDofSpringJoint extends SixDofJoint {
     // *************************************************************************
     // SixDofJoint methods
 
+    /**
+     * Create a new, double-ended btGeneric6DofSpringConstraint.
+     *
+     * @param bodyIdA
+     * @param bodyIdB
+     * @param pivotInA
+     * @param rotInA
+     * @param pivotInB
+     * @param rotInB
+     * @param useLinearReferenceFrameA
+     * @return
+     */
     @Override
     native protected long createJoint(long bodyIdA, long bodyIdB,
             Vector3f pivotInA, Matrix3f rotInA, Vector3f pivotInB,
             Matrix3f rotInB, boolean useLinearReferenceFrameA);
 
+    /**
+     * Create a new, single-ended btGeneric6DofSpringConstraint.
+     *
+     * @param bodyIdB
+     * @param pivotInB
+     * @param rotInB
+     * @param useLinearReferenceFrameB
+     * @return
+     */
     @Override
     native protected long createJoint1(long bodyIdB, Vector3f pivotInB,
             Matrix3f rotInB, boolean useLinearReferenceFrameB);

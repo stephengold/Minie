@@ -52,6 +52,9 @@ public class TestClonePhysicsControls {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test cloning abstract physics controls.
+     */
     @Test
     public void testClonePhysicsControls() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);

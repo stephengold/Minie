@@ -329,7 +329,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         NativeSoftBodyUtil.updateMesh(body, indexMap, mesh, localFlag,
                 updateNormals, physicsToMesh);
 
-        spatial.updateModelBound();
+        spatial.updateModelBound(); // TODO needed?
     }
 
     /**

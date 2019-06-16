@@ -39,6 +39,9 @@ public class TestCloneDumper {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test cloning a PhysicsDumper.
+     */
     @Test
     public void testCloneCharacter() {
         PhysicsDumper dumper = new PhysicsDumper();

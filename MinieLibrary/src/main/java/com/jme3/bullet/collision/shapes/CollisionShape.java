@@ -361,7 +361,7 @@ abstract public class CollisionShape
         capsule.write(margin, "margin", 0.04f);
     }
     // *************************************************************************
-    // Object methods
+    // Object methods TODO define equals()
 
     /**
      * Finalize this shape just before it is destroyed. Should be invoked only

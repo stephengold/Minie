@@ -64,6 +64,9 @@ public class TestCloneJoints {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test cloning physics joints of all types.
+     */
     @Test
     public void testCloneJoints() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
