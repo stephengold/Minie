@@ -268,6 +268,32 @@ public class TestSoftBodyControl
     }
 
     /**
+     * Add lighting to the specified scene.
+     *
+     * @param rootSpatial which scene (not null)
+     * @param shadowFlag if true, add a shadow renderer to the default viewport
+     */
+    private void addLighting(Spatial rootSpatial, boolean shadowFlag) {
+        ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
+        AmbientLight ambient = new AmbientLight(ambientColor);
+        rootSpatial.addLight(ambient);
+
+        ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
+        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
+        DirectionalLight sun = new DirectionalLight(direction, directColor);
+        rootSpatial.addLight(sun);
+
+        rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        if (shadowFlag) {
+            DirectionalLightShadowRenderer dlsr
+                    = new DirectionalLightShadowRenderer(assetManager, 2048, 3);
+            dlsr.setLight(sun);
+            dlsr.setShadowIntensity(0.6f);
+            viewPort.addProcessor(dlsr);
+        }
+    }
+
+    /**
      * Add a rubber duck to the scene.
      */
     private void addRubberDuck() {
@@ -299,32 +325,6 @@ public class TestSoftBodyControl
 
         physicsSpace.add(duckSbc);
         hiddenObjects.add(duckSbc);
-    }
-
-    /**
-     * Add lighting to the specified scene.
-     *
-     * @param rootSpatial which scene (not null)
-     * @param shadowFlag if true, add a shadow renderer to the default viewport
-     */
-    private void addLighting(Spatial rootSpatial, boolean shadowFlag) {
-        ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
-        AmbientLight ambient = new AmbientLight(ambientColor);
-        rootSpatial.addLight(ambient);
-
-        ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
-        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
-        DirectionalLight sun = new DirectionalLight(direction, directColor);
-        rootSpatial.addLight(sun);
-
-        rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-        if (shadowFlag) {
-            DirectionalLightShadowRenderer dlsr
-                    = new DirectionalLightShadowRenderer(assetManager, 2048, 3);
-            dlsr.setLight(sun);
-            dlsr.setShadowIntensity(0.6f);
-            viewPort.addProcessor(dlsr);
-        }
     }
 
     /**
