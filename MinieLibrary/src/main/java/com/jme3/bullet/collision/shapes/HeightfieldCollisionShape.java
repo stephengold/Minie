@@ -67,7 +67,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
      */
     final private static Vector3f scaleIdentity = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
-    // fields
+    // fields TODO re-order
 
     /**
      * copy of number of rows in the heightfield (&gt;1)
@@ -85,10 +85,25 @@ public class HeightfieldCollisionShape extends CollisionShape {
     private float minHeight;
     private float maxHeight;
     /**
-     * copy of height axis (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
+     * copy of the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z, default=1)
      */
     private int upAxis = PhysicsSpace.AXIS_Y;
+    /**
+     * TODO description (default=false)
+     */
     private boolean flipQuadEdges = false;
+    /**
+     * true&rarr;left-hand winding of triangles (default=false)
+     */
+    boolean flipTriangleWinding = false;
+    /**
+     * true&rarr;diagonals alternate on both horizontal axes (default=false)
+     */
+    boolean useDiamond = false;
+    /**
+     * true&rarr;diagonals alternate on one horizontal axis (default=false)
+     */
+    boolean useZigzag = false;
     /**
      * buffer for passing height data to Bullet
      * <p>
@@ -120,12 +135,12 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a new shape for the specified height map and scale vector.
+     * Instantiate a square shape for the specified height map and scale vector.
      *
      * @param heightmap (not null, length&ge;4, length a perfect square,
      * unaffected)
-     * @param scale (not null, no negative component, unaffected,
-     * default=(1,1,1))
+     * @param scale the desired scaling factor for each local axis (not null, no
+     * negative component, unaffected, default=(1,1,1))
      */
     public HeightfieldCollisionShape(float[] heightmap, Vector3f scale) {
         Validate.nonEmpty(heightmap, "heightmap");
@@ -134,7 +149,45 @@ public class HeightfieldCollisionShape extends CollisionShape {
 
         createCollisionHeightfield(heightmap, scale);
     }
-    // TODO add constructor that specifies upAxis, flipQuadEdges, length!=width
+
+    /**
+     * Instantiate a rectangular shape for the specified parameters.
+     *
+     * @param stickLength the number of rows in the heightfield (&gt;1)
+     * @param stickWidth number of columns in the heightfield (&gt;1)
+     * @param heightmap (not null, length = stickLength*stickWidth, unaffected)
+     * @param scale the desired scaling factor for each local axis (not null, no
+     * negative component, unaffected, default=(1,1,1))
+     * @param upAxis the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
+     * @param flipQuadEdges TODO description
+     * @param flipTriangleWinding true&rarr;left-hand winding of triangles
+     * @param useDiamond true&rarr;diagonals alternate on both horizontal axes
+     * @param useZigzag true&rarr;diagonals alternate on one horizontal axis
+     */
+    public HeightfieldCollisionShape(int stickLength, int stickWidth,
+            float[] heightmap, Vector3f scale, int upAxis,
+            boolean flipQuadEdges, boolean flipTriangleWinding,
+            boolean useDiamond, boolean useZigzag) {
+        Validate.inRange(stickLength, "stick length", 2, Integer.MAX_VALUE);
+        Validate.inRange(stickWidth, "stick width", 2, Integer.MAX_VALUE);
+        Validate.nonEmpty(heightmap, "heightmap");
+        assert heightmap.length >= stickLength * stickWidth : heightmap.length;
+        Validate.nonNegative(scale, "scale");
+        Validate.inRange(upAxis, "up axis", 0, 2);
+
+        heightStickLength = stickLength;
+        heightStickWidth = stickWidth;
+        heightfieldData = heightmap;
+        this.scale.set(scale);
+        this.upAxis = upAxis;
+        this.flipQuadEdges = flipQuadEdges;
+        this.flipTriangleWinding = flipTriangleWinding;
+        this.useDiamond = useDiamond;
+        this.useZigzag = useZigzag;
+
+        calculateMinAndMax();
+        createShape();
+    }
     // *************************************************************************
     // new methods exposed
 
@@ -167,6 +220,19 @@ public class HeightfieldCollisionShape extends CollisionShape {
         // bbuf not cloned
         // heightfieldData not cloned
         createShape();
+    }
+
+    /**
+     * Finalize this shape just before it is destroyed. Should be invoked only
+     * by a subclass or by the garbage collector.
+     *
+     * @throws Throwable ignored by the garbage collector
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        long nativeId = getObjectId();
+        //finalizeNative(nativeId);
+        super.finalize();
     }
 
     /**
@@ -206,6 +272,10 @@ public class HeightfieldCollisionShape extends CollisionShape {
         heightfieldData = capsule.readFloatArray("heightfieldData",
                 new float[0]);
         flipQuadEdges = capsule.readBoolean("flipQuadEdges", false);
+        flipTriangleWinding = capsule.readBoolean("flipTriangleWinding", false);
+        useDiamond = capsule.readBoolean("useDiamond", false);
+        useZigzag = capsule.readBoolean("useZigzag", false);
+
         createShape();
     }
 
@@ -229,18 +299,25 @@ public class HeightfieldCollisionShape extends CollisionShape {
         capsule.write(upAxis, "upAxis", PhysicsSpace.AXIS_Y);
         capsule.write(heightfieldData, "heightfieldData", new float[0]);
         capsule.write(flipQuadEdges, "flipQuadEdges", false);
+        capsule.write(flipTriangleWinding, "flipTriangleWinding", false);
+        capsule.write(useDiamond, "useDiamond", false);
+        capsule.write(useZigzag, "useZigzag", false);
     }
     // *************************************************************************
     // private methods
 
-    private void createCollisionHeightfield(float[] heightmap,
-            Vector3f worldScale) {
-        scale.set(worldScale);
-        heightfieldData = heightmap;
+    /**
+     * Calculate min and max heights for the heightfield data.
+     */
+    private void calculateMinAndMax() {
+        int elements = heightStickLength * heightStickWidth;
+        assert elements == heightfieldData.length : heightfieldData.length;
 
         float min = heightfieldData[0];
         float max = heightfieldData[0];
-        // calculate min and max height
+        /*
+         * Find the min and max heights in the data.
+         */
         for (float height : heightfieldData) {
             if (height < min) {
                 min = height;
@@ -249,31 +326,41 @@ public class HeightfieldCollisionShape extends CollisionShape {
                 max = height;
             }
         }
-        // we need to center the terrain collision box at 0,0,0 for BulletPhysics. And to do that we need to set the
-        // min and max height to be equal on either side of the y axis, otherwise it gets shifted and collision is incorrect.
+        /*
+         * Center the terrain's bounding box at y=0 by setting the
+         * min and max height to have equal magnitudes and opposite signs.
+         * Otherwise, the collision shape won't match the rendered heights.
+         */
         if (max < 0) {
             max = -min;
+        } else if (Math.abs(max) > Math.abs(min)) {
+            min = -max;
         } else {
-            if (Math.abs(max) > Math.abs(min)) {
-                min = -max;
-            } else {
-                max = -min;
-            }
+            max = -min;
         }
         minHeight = min;
         maxHeight = max;
+    }
 
+    /**
+     * Instantiate a square btHeightfieldTerrainShape.
+     */
+    private void createCollisionHeightfield(float[] heightmap,
+            Vector3f worldScale) {
+        scale.set(worldScale);
+
+        heightfieldData = heightmap;
         heightStickWidth = (int) FastMath.sqrt(heightfieldData.length);
         assert heightStickWidth > 1 : heightStickWidth;
-        heightStickLength = heightStickWidth;
-        int elements = heightStickLength * heightStickWidth;
-        assert elements == heightfieldData.length : heightfieldData.length;
 
+        heightStickLength = heightStickWidth;
+
+        calculateMinAndMax();
         createShape();
     }
 
     /**
-     * Instantiate the configured shape in Bullet.
+     * Instantiate the configured btHeightfieldTerrainShape.
      */
     private void createShape() {
         assert objectId == 0L;
@@ -285,6 +372,9 @@ public class HeightfieldCollisionShape extends CollisionShape {
 
         objectId = createShape(heightStickWidth, heightStickLength, bbuf,
                 heightScale, minHeight, maxHeight, upAxis, flipQuadEdges);
+        //       objectId = createShape2(heightStickWidth, heightStickLength, bbuf,
+        //               heightScale, minHeight, maxHeight, upAxis, flipQuadEdges,
+        //               flipTriangleWinding, useDiamond, useZigzag);
         assert objectId != 0L;
         logger2.log(Level.FINE, "Created Shape {0}",
                 Long.toHexString(objectId));
@@ -295,7 +385,14 @@ public class HeightfieldCollisionShape extends CollisionShape {
     // *************************************************************************
     // native private methods
 
-    native private long createShape(int heightStickWidth, int heightStickLength,
+    native private long createShape(int stickWidth, int stickLength,
             FloatBuffer heightfieldData, float heightScale, float minHeight,
             float maxHeight, int upAxis, boolean flipQuadEdges);
+
+    native private long createShape2(int stickWidth, int stickLength,
+            FloatBuffer heightfieldData, float heightScale, float minHeight,
+            float maxHeight, int upAxis, boolean flipQuadEdges,
+            boolean flipTriangleWinding, boolean useDiamond, boolean useZigzag);
+
+    native private void finalizeNative(long shapeId);
 }
