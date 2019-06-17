@@ -136,14 +136,18 @@ public class CollisionShapeFactory {
             TerrainQuad terrain = (TerrainQuad) subtree;
             return new HeightfieldCollisionShape(terrain.getHeightMap(),
                     terrain.getLocalScale());
+            
         } else if (subtree instanceof TerrainPatch) {
             TerrainPatch terrain = (TerrainPatch) subtree;
             return new HeightfieldCollisionShape(terrain.getHeightMap(),
                     terrain.getLocalScale());
+            
         } else if (subtree instanceof Geometry) {
             return createSingleMeshShape((Geometry) subtree, subtree);
+            
         } else if (subtree instanceof Node) {
             return createMeshCompoundShape((Node) subtree);
+            
         } else {
             throw new IllegalArgumentException(
                     "The spatial must either be a Node or a Geometry!");
