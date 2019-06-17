@@ -55,7 +55,7 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     /**
      * message logger for this class
      */
-    final public static Logger logger
+    final public static Logger logger3
             = Logger.getLogger(SoftLinearJoint.class.getName());
     // *************************************************************************
     // fields
@@ -226,7 +226,8 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
                     location);
         }
 
-        logger.log(Level.FINE, "Created Joint {0}", Long.toHexString(objectId));
+        logger3.log(Level.FINE, "Created Joint {0}",
+                Long.toHexString(objectId));
     }
 
     private native long createJointSoftRigid(long objectIdA, long objectIdB,
