@@ -231,7 +231,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
     @Override
     protected void finalize() throws Throwable {
         long nativeId = getObjectId();
-        //finalizeNative(nativeId);
+        finalizeNative(nativeId);
+
         super.finalize();
     }
 
@@ -370,11 +371,9 @@ public class HeightfieldCollisionShape extends CollisionShape {
             bbuf.put(height);
         }
 
-        objectId = createShape(heightStickWidth, heightStickLength, bbuf,
-                heightScale, minHeight, maxHeight, upAxis, flipQuadEdges);
-        //       objectId = createShape2(heightStickWidth, heightStickLength, bbuf,
-        //               heightScale, minHeight, maxHeight, upAxis, flipQuadEdges,
-        //               flipTriangleWinding, useDiamond, useZigzag);
+        objectId = createShape2(heightStickWidth, heightStickLength, bbuf,
+                heightScale, minHeight, maxHeight, upAxis, flipQuadEdges,
+                flipTriangleWinding, useDiamond, useZigzag);
         assert objectId != 0L;
         logger2.log(Level.FINE, "Created Shape {0}",
                 Long.toHexString(objectId));
@@ -384,10 +383,6 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
     // *************************************************************************
     // native private methods
-
-    native private long createShape(int stickWidth, int stickLength,
-            FloatBuffer heightfieldData, float heightScale, float minHeight,
-            float maxHeight, int upAxis, boolean flipQuadEdges);
 
     native private long createShape2(int stickWidth, int stickLength,
             FloatBuffer heightfieldData, float heightScale, float minHeight,
