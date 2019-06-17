@@ -89,9 +89,9 @@ public class HeightfieldCollisionShape extends CollisionShape {
      */
     private int upAxis = PhysicsSpace.AXIS_Y;
     /**
-     * TODO description (default=false)
+     * reverse the direction of the first diagonal (default=true)
      */
-    private boolean flipQuadEdges = false;
+    private boolean flipQuadEdges = true;
     /**
      * true&rarr;left-hand winding of triangles (default=false)
      */
@@ -157,9 +157,10 @@ public class HeightfieldCollisionShape extends CollisionShape {
      * @param stickWidth number of columns in the heightfield (&gt;1)
      * @param heightmap (not null, length = stickLength*stickWidth, unaffected)
      * @param scale the desired scaling factor for each local axis (not null, no
-     * negative component, unaffected, default=(1,1,1))
+     * negative component, unaffected)
      * @param upAxis the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
-     * @param flipQuadEdges TODO description
+     * @param flipQuadEdges true&rarr;reverse the direction of the first
+     * diagonal
      * @param flipTriangleWinding true&rarr;left-hand winding of triangles
      * @param useDiamond true&rarr;diagonals alternate on both horizontal axes
      * @param useZigzag true&rarr;diagonals alternate on one horizontal axis
@@ -272,7 +273,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
         upAxis = capsule.readInt("upAxis", PhysicsSpace.AXIS_Y);
         heightfieldData = capsule.readFloatArray("heightfieldData",
                 new float[0]);
-        flipQuadEdges = capsule.readBoolean("flipQuadEdges", false);
+        flipQuadEdges = capsule.readBoolean("flipQuadEdges", true);
         flipTriangleWinding = capsule.readBoolean("flipTriangleWinding", false);
         useDiamond = capsule.readBoolean("useDiamond", false);
         useZigzag = capsule.readBoolean("useZigzag", false);
@@ -299,7 +300,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
         capsule.write(maxHeight, "maxHeight", 0f);
         capsule.write(upAxis, "upAxis", PhysicsSpace.AXIS_Y);
         capsule.write(heightfieldData, "heightfieldData", new float[0]);
-        capsule.write(flipQuadEdges, "flipQuadEdges", false);
+        capsule.write(flipQuadEdges, "flipQuadEdges", true);
         capsule.write(flipTriangleWinding, "flipTriangleWinding", false);
         capsule.write(useDiamond, "useDiamond", false);
         capsule.write(useZigzag, "useZigzag", false);
