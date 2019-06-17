@@ -29,10 +29,10 @@ package jme3utilities.minie.test;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
+import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.asset.AssetNotFoundException;
 import com.jme3.asset.ModelKey;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.BoneLink;
@@ -52,6 +52,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.xml.XMLExporter;
 import com.jme3.font.BitmapText;
+import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -173,6 +174,10 @@ public class TestDac extends ActionApplication {
      */
     private Node cgModel;
     /**
+     * dump debugging information to System.out
+     */
+    final private PhysicsDumper dumper = new PhysicsDumper();
+    /**
      * space for physics simulation
      */
     private PhysicsSpace physicsSpace;
@@ -209,10 +214,8 @@ public class TestDac extends ActionApplication {
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
-        TestDac application = new TestDac();
+        Application application = new TestDac();
         /*
          * Customize the window's title bar.
          */
@@ -236,18 +239,19 @@ public class TestDac extends ActionApplication {
         Logger.getLogger(MeshLoader.class.getName()).setLevel(Level.SEVERE);
 
         configureCamera();
+        configureDumper();
         configurePhysics();
         viewPort.setBackgroundColor(ColorRGBA.Gray);
-        addLighting();
 
+        addLighting();
         stateManager.getState(StatsAppState.class).toggleStats();
+        addBox();
 
         ColorRGBA ballColor = new ColorRGBA(0.4f, 0f, 0f, 1f);
         ballMaterial = MyAsset.createShinyMaterial(assetManager, ballColor);
         ballMaterial.setFloat("Shininess", 5f);
         ballShape = new SphereCollisionShape(ballRadius);
 
-        addBox();
         addModel("Sinbad");
         /*
          * Initialize the GUI node.
@@ -300,6 +304,9 @@ public class TestDac extends ActionApplication {
         dim.bind("set height 1", KeyInput.KEY_1);
         dim.bind("set height 2", KeyInput.KEY_2);
         dim.bind("set height 3", KeyInput.KEY_3);
+
+        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal rotateLeft", KeyInput.KEY_LEFT);
         dim.bind("signal rotateRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
@@ -333,11 +340,11 @@ public class TestDac extends ActionApplication {
                     return;
 
                 case "dump physicsSpace":
-                    dumpPhysicsSpace();
+                    dumper.dump(physicsSpace);
                     return;
 
                 case "dump scenes":
-                    dumpScenes();
+                    dumper.dump(renderManager);
                     return;
 
                 case "freeze all":
@@ -682,6 +689,15 @@ public class TestDac extends ActionApplication {
     }
 
     /**
+     * Configure the PhysicsDumper during startup.
+     */
+    private void configureDumper() {
+        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
@@ -691,25 +707,6 @@ public class TestDac extends ActionApplication {
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setAccuracy(0.01f); // 10-msec timestep
         physicsSpace.setSolverNumIterations(15);
-    }
-
-    /**
-     * Process a "dump physicsSpace" action.
-     */
-    private void dumpPhysicsSpace() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.dump(physicsSpace);
-    }
-
-    /**
-     * Process a "dump scenes" action.
-     */
-    private void dumpScenes() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.Transforms, true);
-        dumper.dump(renderManager);
     }
 
     /**
@@ -924,7 +921,7 @@ public class TestDac extends ActionApplication {
     }
 
     /**
-     * Remove all balls from the scene.
+     * Delete all balls from the scene.
      */
     private void removeAllBalls() {
         List<Geometry> geometries = rootNode.descendantMatches(Geometry.class);
