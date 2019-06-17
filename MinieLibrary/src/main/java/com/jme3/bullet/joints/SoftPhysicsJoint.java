@@ -69,6 +69,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
             = Logger.getLogger(SoftPhysicsJoint.class.getName());
     // *************************************************************************
     // fields TODO privatize
+
     /**
      * true if this joint is added to a soft body A
      */
@@ -338,8 +339,8 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
             // assuming the joint is Garbage collected at the same time as his softbody
             // (the softbody have a reference to this in his joint list)
             // when deleted the softbody will delete all his joints as well.
-            logger2.log(Level.FINE, 
-                    "SoftPhysicsJoint {0} is still attached, it will be destroyed by the softBody", 
+            logger2.log(Level.FINE,
+                    "SoftPhysicsJoint {0} is still attached, it will be destroyed by the softBody",
                     Long.toHexString(objectId));
         } else {
             // finalizeNative() will be invoked by the superclass finalize
