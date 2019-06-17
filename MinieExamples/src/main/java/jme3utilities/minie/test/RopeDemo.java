@@ -29,8 +29,8 @@ package jme3utilities.minie.test;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
+import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
@@ -47,6 +47,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -211,7 +212,11 @@ public class RopeDemo extends ActionApplication {
     /**
      * parent for rope geometries
      */
-    private Node ropesNode;
+    final private Node ropesNode = new Node("ropes");
+    /**
+     * dump debugging information to System.out
+     */
+    final private PhysicsDumper dumper = new PhysicsDumper();
     /**
      * space for physics simulation
      */
@@ -233,10 +238,8 @@ public class RopeDemo extends ActionApplication {
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
-        RopeDemo application = new RopeDemo();
+        Application application = new RopeDemo();
         /*
          * Customize the window's title bar.
          */
@@ -259,18 +262,18 @@ public class RopeDemo extends ActionApplication {
     @Override
     public void actionInitializeApplication() {
         configureCamera();
+        configureDumper();
         configureMaterials();
         configurePhysics();
 
-        ColorRGBA gray = new ColorRGBA().setAsSrgb(0.5f, 0.5f, 0.5f, 1f);
-        viewPort.setBackgroundColor(gray);
+        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
+        viewPort.setBackgroundColor(bgColor);
 
         addLighting();
         stateManager.getState(StatsAppState.class).toggleStats();
         addBox();
         addSkeleton();
 
-        ropesNode = new Node();
         rootNode.attachChild(ropesNode);
     }
 
@@ -295,6 +298,9 @@ public class RopeDemo extends ActionApplication {
         dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("pull a pin", KeyInput.KEY_X);
         dim.bind("save", KeyInput.KEY_SEMICOLON);
+
+        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
@@ -320,11 +326,11 @@ public class RopeDemo extends ActionApplication {
                     return;
 
                 case "dump physicsSpace":
-                    dumpPhysicsSpace();
+                    dumper.dump(physicsSpace);
                     return;
 
                 case "dump scenes":
-                    dumpScenes();
+                    dumper.dump(renderManager);
                     return;
 
                 case "go limp":
@@ -405,11 +411,11 @@ public class RopeDemo extends ActionApplication {
      * Add lighting and shadows to the scene.
      */
     private void addLighting() {
-        ColorRGBA ambientColor = new ColorRGBA().setAsSrgb(0.5f, 0.5f, 0.5f, 1f);
+        ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootNode.addLight(ambient);
 
-        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
+        Vector3f direction = new Vector3f(1f, -2f, -2f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
 
@@ -735,11 +741,9 @@ public class RopeDemo extends ActionApplication {
      * Configure the camera during startup.
      */
     private void configureCamera() {
-        float yDegrees = MyCamera.yDegrees(cam);
-        float aspectRatio = MyCamera.viewAspectRatio(cam);
         float near = 0.1f * ropeRadius;
         float far = 20f;
-        cam.setFrustumPerspective(yDegrees, aspectRatio, near, far);
+        MyCamera.setNearFar(cam, near, far);
 
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(2f);
@@ -750,6 +754,15 @@ public class RopeDemo extends ActionApplication {
         CameraOrbitAppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
+    }
+
+    /**
+     * Configure the PhysicsDumper during startup.
+     */
+    private void configureDumper() {
+        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
     }
 
     /**
@@ -771,7 +784,6 @@ public class RopeDemo extends ActionApplication {
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(1f / 60); // 16.67-msec timestep
         physicsSpace.setSolverNumIterations(8);
     }
 
@@ -847,25 +859,6 @@ public class RopeDemo extends ActionApplication {
             dacs.removeLast();
             shapes.removeLast();
         }
-    }
-
-    /**
-     * Process a "dump physicsSpace" action.
-     */
-    private void dumpPhysicsSpace() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.dump(physicsSpace);
-    }
-
-    /**
-     * Process a "dump scenes" action.
-     */
-    private void dumpScenes() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.Transforms, true);
-        dumper.dump(renderManager);
     }
 
     /**
