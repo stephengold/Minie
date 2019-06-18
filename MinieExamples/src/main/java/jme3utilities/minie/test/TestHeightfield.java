@@ -30,6 +30,7 @@ import com.jme3.app.Application;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -43,12 +44,15 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,7 +68,7 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Test heightfield collision shapes.
+ * Test static rigid bodies with heightfield collision shapes.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -86,13 +90,29 @@ public class TestHeightfield extends ActionApplication {
     // fields
 
     /**
+     * height map for a large heightfield
+     */
+    private AbstractHeightMap heightMap;
+    /**
      * AppState to manage the PhysicsSpace
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
+     * height array for a small heightfield
+     */
+    final private float[] nineHeights = new float[9];
+    /**
      * lit green material to visualize the terrain
      */
     private Material terrainMaterial;
+    /**
+     * green wireframe material
+     */
+    private Material wireMaterial;
+    /**
+     * parent for added geometries
+     */
+    final private Node addNode = new Node("add");
     /**
      * dump debugging information to System.out
      */
@@ -102,7 +122,7 @@ public class TestHeightfield extends ActionApplication {
      */
     private PhysicsSpace physicsSpace;
     /**
-     * visualizer for the ray intersection
+     * visualizer for ray intersections
      */
     private PointVisualizer rayPoint;
     // *************************************************************************
@@ -145,6 +165,7 @@ public class TestHeightfield extends ActionApplication {
         configureDumper();
         configureMaterials();
         configurePhysics();
+        initializeHeightData();
 
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
@@ -156,7 +177,9 @@ public class TestHeightfield extends ActionApplication {
         rootNode.attachChild(rayPoint);
         rayPoint.setEnabled(false);
 
-        addTerrain();
+        rootNode.attachChild(addNode);
+
+        addSmallTerrain();
     }
 
     /**
@@ -166,7 +189,12 @@ public class TestHeightfield extends ActionApplication {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
+        dim.bind("add LargeTerrain", KeyInput.KEY_F1);
+        dim.bind("add SmallTerrain", KeyInput.KEY_F2);
+
         dim.bind("cast ray", "RMB");
+        dim.bind("clear shapes", KeyInput.KEY_BACK);
+        dim.bind("clear shapes", KeyInput.KEY_DELETE);
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
 
@@ -174,6 +202,8 @@ public class TestHeightfield extends ActionApplication {
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+
+        dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
     }
 
@@ -192,6 +222,10 @@ public class TestHeightfield extends ActionApplication {
                     castRay();
                     return;
 
+                case "clear shapes":
+                    clearShapes();
+                    return;
+
                 case "dump physicsSpace":
                     dumper.dump(physicsSpace);
                     return;
@@ -200,9 +234,19 @@ public class TestHeightfield extends ActionApplication {
                     dumper.dump(renderManager);
                     return;
 
+                case "toggle meshes":
+                    toggleMeshes();
+                    return;
+
                 case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
+            }
+
+            String[] words = actionString.split(" ");
+            if (words.length >= 2 && "add".equals(words[0])) {
+                addShape(words[1]);
+                return;
             }
         }
         super.onAction(actionString, ongoing, tpf);
@@ -223,6 +267,27 @@ public class TestHeightfield extends ActionApplication {
     }
 
     /**
+     * Add 513x513 terrain to the scene and physics space.
+     */
+    private void addLargeTerrain() {
+        int patchSize = 33; // in pixels
+        int terrainDiameter = heightMap.getSize(); // in pixels
+        int mapSize = terrainDiameter + 1; // number of samples on a side
+        float[] heightArray = heightMap.getHeightMap();
+        TerrainQuad quad
+                = new TerrainQuad("terrain", patchSize, mapSize, heightArray);
+        addNode.attachChild(quad);
+        quad.setLocalScale(0.01f);
+        quad.setMaterial(terrainMaterial);
+
+        CollisionShape shape = CollisionShapeFactory.createMeshShape(quad);
+        float massForStatic = 0f;
+        RigidBodyControl rbc = new RigidBodyControl(shape, massForStatic);
+        rbc.setPhysicsSpace(physicsSpace);
+        quad.addControl(rbc);
+    }
+
+    /**
      * Add lighting to the scene.
      */
     private void addLighting() {
@@ -236,19 +301,37 @@ public class TestHeightfield extends ActionApplication {
     }
 
     /**
-     * Add terrain to the scene.
+     * Add a shape to the scene and physics space.
+     *
+     * @param shapeName the name of the shape to add (not null, not empty)
      */
-    private void addTerrain() {
-        AbstractHeightMap heightMap = loadHeightMap();
-        int patchSize = 33; // in pixels
-        int terrainDiameter = heightMap.getSize(); // in pixels
-        int mapSize = terrainDiameter + 1; // number of samples on a side
-        float[] heightArray = heightMap.getHeightMap();
+    private void addShape(String shapeName) {
+        clearShapes();
+
+        switch (shapeName) {
+            case "SmallTerrain":
+                addSmallTerrain();
+                break;
+
+            case "LargeTerrain":
+                addLargeTerrain();
+                break;
+
+            default:
+                throw new IllegalArgumentException(shapeName);
+        }
+    }
+
+    /**
+     * Add 3x3 terrain to the scene and physics space.
+     */
+    private void addSmallTerrain() {
+        int patchSize = 3;
+        int mapSize = 3;
         TerrainQuad quad
-                = new TerrainQuad("terrain", patchSize, mapSize, heightArray);
-        rootNode.attachChild(quad);
-        quad.setLocalScale(0.01f);
-        quad.setMaterial(terrainMaterial);
+                = new TerrainQuad("terrain", patchSize, mapSize, nineHeights);
+        addNode.attachChild(quad);
+        quad.setMaterial(wireMaterial);
 
         CollisionShape shape = CollisionShapeFactory.createMeshShape(quad);
         float massForStatic = 0f;
@@ -276,6 +359,26 @@ public class TestHeightfield extends ActionApplication {
             rayPoint.setEnabled(true);
         } else {
             rayPoint.setEnabled(false);
+        }
+    }
+
+    /**
+     * Delete all added shapes from the scene and physics space. Also disable
+     * the visualizer for ray intersections.
+     */
+    private void clearShapes() {
+        rayPoint.setEnabled(false);
+        /*
+         * Remove all added shapes from the scene.
+         */
+        addNode.detachAllChildren();
+        /*
+         * Remove all collision objects from the physics space,
+         * which also removes their debug meshes.
+         */
+        Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
+        for (PhysicsCollisionObject pco : pcos) {
+            physicsSpace.remove(pco);
         }
     }
 
@@ -312,6 +415,8 @@ public class TestHeightfield extends ActionApplication {
         ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
         terrainMaterial = MyAsset.createShadedMaterial(assetManager, green);
         terrainMaterial.setName("terrain");
+
+        wireMaterial = MyAsset.createWireframeMaterial(assetManager, green);
     }
 
     /**
@@ -320,7 +425,25 @@ public class TestHeightfield extends ActionApplication {
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
         stateManager.attach(bulletAppState);
+
         physicsSpace = bulletAppState.getPhysicsSpace();
+    }
+
+    /**
+     * Initialize the height data during startup.
+     */
+    private void initializeHeightData() {
+        heightMap = loadHeightMap();
+
+        nineHeights[0] = 1f;
+        nineHeights[1] = 0f;
+        nineHeights[2] = 1f;
+        nineHeights[3] = 0f;
+        nineHeights[4] = 0.5f;
+        nineHeights[5] = 0f;
+        nineHeights[6] = 1f;
+        nineHeights[7] = 0f;
+        nineHeights[8] = 1f;
     }
 
     /**
@@ -340,6 +463,20 @@ public class TestHeightfield extends ActionApplication {
         heightMap.load();
 
         return heightMap;
+    }
+
+    /**
+     * Toggle rendering of added geometries on/off.
+     */
+    private void toggleMeshes() {
+        Spatial.CullHint hint = addNode.getLocalCullHint();
+        if (hint == Spatial.CullHint.Inherit
+                || hint == Spatial.CullHint.Never) {
+            hint = Spatial.CullHint.Always;
+        } else if (hint == Spatial.CullHint.Always) {
+            hint = Spatial.CullHint.Never;
+        }
+        addNode.setCullHint(hint);
     }
 
     /**
