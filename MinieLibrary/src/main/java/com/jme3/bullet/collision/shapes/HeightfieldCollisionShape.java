@@ -67,36 +67,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
      */
     final private static Vector3f scaleIdentity = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
-    // fields TODO re-order
+    // fields
 
-    /**
-     * copy of number of rows in the heightfield (&gt;1)
-     */
-    private int heightStickWidth;
-    /**
-     * copy of number of columns in the heightfield (&gt;1)
-     */
-    private int heightStickLength;
-    /**
-     * array of heightfield samples
-     */
-    private float[] heightfieldData;
-    /**
-     * scale factor for Bullet to apply to the heightfield
-     */
-    private float heightScale = 1f;
-    /*
-     * lowest sample in the heightfield or -maxHeight, whichever is lower
-     */
-    private float minHeight;
-    /*
-     * highest sample in the heightfield or -minHeight, whichever is higher
-     */
-    private float maxHeight;
-    /**
-     * copy of the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z, default=1)
-     */
-    private int upAxis = PhysicsSpace.AXIS_Y;
     /**
      * reverse the direction of the first diagonal (default=true)
      */
@@ -114,12 +86,40 @@ public class HeightfieldCollisionShape extends CollisionShape {
      */
     private boolean useZigzag = false;
     /**
+     * scale factor for Bullet to apply to the heightfield
+     */
+    private float heightScale = 1f;
+    /*
+     * highest sample in the heightfield or -minHeight, whichever is higher
+     */
+    private float maxHeight;
+    /*
+     * lowest sample in the heightfield or -maxHeight, whichever is lower
+     */
+    private float minHeight;
+    /**
+     * array of heightfield samples
+     */
+    private float[] heightfieldData;
+    /**
      * buffer for passing height data to Bullet
      * <p>
      * A Java reference must persist after createShape() completes, or else the
      * buffer might get garbage collected.
      */
     private FloatBuffer bbuf;
+    /**
+     * copy of number of columns in the heightfield (&gt;1)
+     */
+    private int heightStickLength;
+    /**
+     * copy of number of rows in the heightfield (&gt;1)
+     */
+    private int heightStickWidth;
+    /**
+     * copy of the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z, default=1)
+     */
+    private int upAxis = PhysicsSpace.AXIS_Y;
     // *************************************************************************
     // constructors
 
