@@ -188,7 +188,7 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
             axleGeom.setLocalTranslation(wLocation.add(wDirection));
             wheelGeom.setLocalTranslation(wLocation.add(wDirection));
 
-            Material material = debugAppState.getActiveMaterial();
+            Material material = debugAppState.getActiveMaterial(1);
             locGeom.setMaterial(material);
             dirGeom.setMaterial(material);
             axleGeom.setMaterial(material);

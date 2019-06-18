@@ -82,6 +82,10 @@ public class SoftDebugAppState extends BulletDebugAppState {
      * material for visualizing all soft-body links
      */
     private Material linkMaterial;
+    /**
+     * materials for soft-body faces
+     */
+    final private Material[] faceMaterials = new Material[3];
     // *************************************************************************
     // constructors
 
@@ -127,13 +131,16 @@ public class SoftDebugAppState extends BulletDebugAppState {
     }
 
     /**
-     * Access the Material for visualizing soft-body faces.
+     * Access a Material for visualizing soft-body faces.
      *
-     * @return the pre-existing instance (not null)
+     * @param numSides 0&rarr;invisible, 1&rarr;single-sided material,
+     * 2&rarr;double-sided Material
+     * @return the pre-existing Material (not null)
      */
-    Material getFaceMaterial() {
-        assert DEBUG_RED != null;
-        return DEBUG_RED;
+    Material getFaceMaterial(int numSides) {
+        Material result = faceMaterials[numSides];
+        assert result != null;
+        return result;
     }
 
     /**
@@ -175,6 +182,14 @@ public class SoftDebugAppState extends BulletDebugAppState {
         RenderState renderState = clusterMaterial.getAdditionalRenderState();
         renderState.setBlendMode(RenderState.BlendMode.Alpha);
         renderState.setDepthTest(false);
+
+        faceMaterials[0] = MyAsset.createInvisibleMaterial(am);
+        faceMaterials[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
+        faceMaterials[1].setName("debug red ss");
+        faceMaterials[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
+        faceMaterials[2].setName("debug red ds");
+        renderState = faceMaterials[2].getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         linkMaterial = MyAsset.createWireframeMaterial(am, ColorRGBA.Orange);
         linkMaterial.setName("linkMaterial");

@@ -134,35 +134,35 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     private HashMap<PhysicsVehicle, Node> vehicles = new HashMap<>(64);
     /**
-     * material for rigid bodies (and vehicles) that are responsive and either
-     * static/kinematic/inactive
+     * materials for rigid bodies (and vehicles) that are responsive and either
+     * static or kinematic or inactive
      */
-    private Material DEBUG_BLUE;
+    final private Material[] blues = new Material[3];
     /**
-     * material for joints (the A ends)
+     * Material for joints (their A ends)
      */
     private Material DEBUG_GREEN;
     /**
-     * material for rigid bodies (and vehicles) that are responsive and dynamic
+     * materials for rigid bodies (and vehicles) that are responsive, dynamic,
      * and active
      */
-    private Material DEBUG_MAGENTA;
+    final private Material[] magentas = new Material[3];
     /**
-     * material for responsive physics characters
+     * materials for responsive physics characters
      */
-    private Material DEBUG_PINK;
+    final private Material[] pink = new Material[3];
     /**
-     * material for joints (the B ends) and soft-body links
+     * Material for joints (their B ends)
      */
-    protected Material DEBUG_RED;
+    private Material DEBUG_RED;
     /**
-     * material for bounding boxes and swept spheres
+     * Material for bounding boxes and swept spheres
      */
     private Material DEBUG_WHITE;
     /**
-     * material for ghosts and other non-responsive objects
+     * materials for ghosts and other non-responsive collision objects
      */
-    private Material DEBUG_YELLOW;
+    final private Material[] yellows = new Material[3];
     /**
      * scene-graph node to parent the geometries
      */
@@ -229,19 +229,22 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Access the Material for visualizing active rigid bodies.
+     * Access a Material for visualizing active, responsive rigid bodies.
      *
-     * @return the pre-existing instance (not null)
+     * @param numSides 0&rarr;invisible, 1&rarr;single-sided Material,
+     * 2&rarr;double-sided Material
+     * @return the pre-existing Material (not null)
      */
-    Material getActiveMaterial() {
-        assert DEBUG_MAGENTA != null;
-        return DEBUG_MAGENTA;
+    Material getActiveMaterial(int numSides) {
+        Material result = magentas[numSides];
+        assert result != null;
+        return result;
     }
 
     /**
      * Access the Material for visualizing bounding boxes.
      *
-     * @return the pre-existing instance (not null)
+     * @return the pre-existing Material (not null)
      */
     Material getBoundingBoxMaterial() {
         assert DEBUG_WHITE != null;
@@ -249,40 +252,49 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Access the Material for visualizing responsive characters.
+     * Access a Material for visualizing responsive characters.
      *
-     * @return the pre-existing instance (not null)
+     * @param numSides 0&rarr;invisible, 1&rarr;single-sided Material,
+     * 2&rarr;double-sided Material
+     * @return the pre-existing Material (not null)
      */
-    Material getCharacterMaterial() {
-        assert DEBUG_PINK != null;
-        return DEBUG_PINK;
+    Material getCharacterMaterial(int numSides) {
+        Material result = pink[numSides];
+        assert result != null;
+        return result;
     }
 
     /**
-     * Access the Material for visualizing non-responsive objects.
+     * Access a Material for visualizing non-responsive collision objects.
      *
-     * @return the pre-existing instance (not null)
+     * @param numSides 0&rarr;invisible, 1&rarr;single-sided Material,
+     * 2&rarr;double-sided Material
+     * @return the pre-existing Material (not null)
      */
-    Material getGhostMaterial() {
-        assert DEBUG_YELLOW != null;
-        return DEBUG_YELLOW;
+    Material getGhostMaterial(int numSides) {
+        Material result = yellows[numSides];
+        assert result != null;
+        return result;
     }
 
     /**
-     * Access the Material for visualizing inactive objects.
+     * Access a Material for visualizing inactive rigid bodies.
      *
-     * @return the pre-existing instance (not null)
+     * @param numSides 0&rarr;invisible, 1&rarr;single-sided Material,
+     * 2&rarr;double-sided Material
+     * @return the pre-existing Material (not null)
      */
-    Material getInactiveMaterial() {
-        assert DEBUG_BLUE != null;
-        return DEBUG_BLUE;
+    Material getInactiveMaterial(int numSides) {
+        Material result = blues[numSides];
+        assert result != null;
+        return result;
     }
 
     /**
-     * Access a Material for visualizing joints.
+     * Access a Material for visualizing joints and soft-body anchors.
      *
      * @param end which end to visualize (not null)
-     * @return the pre-existing instance (not null)
+     * @return the pre-existing Material (not null)
      */
     Material getJointMaterial(JointEnd end) {
         Material result;
@@ -304,7 +316,7 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * Access the Material for visualizing swept spheres.
      *
-     * @return the pre-existing instance (not null)
+     * @return the pre-existing Material (not null)
      */
     Material getSweptSphereMaterial() {
         assert DEBUG_WHITE != null;
@@ -392,17 +404,20 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Initialize the double-sided wire-frame materials. TODO option for
-     * single-sided materials
+     * Initialize the wireframe materials.
      *
      * @param am the application's AssetManager (not null)
      */
     protected void setupMaterials(AssetManager am) {
         assert am != null;
 
-        DEBUG_BLUE = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
-        DEBUG_BLUE.setName("DEBUG_BLUE");
-        RenderState renderState = DEBUG_BLUE.getAdditionalRenderState();
+        Material invisible = MyAsset.createInvisibleMaterial(am);
+        blues[0] = invisible;
+        blues[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
+        blues[1].setName("debug blue ss");
+        blues[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
+        blues[2].setName("debug blue ds");
+        RenderState renderState = blues[2].getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         DEBUG_GREEN = MyAsset.createWireframeMaterial(am, ColorRGBA.Green);
@@ -410,14 +425,20 @@ public class BulletDebugAppState extends AbstractAppState {
         renderState = DEBUG_GREEN.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
-        DEBUG_MAGENTA = MyAsset.createWireframeMaterial(am, ColorRGBA.Magenta);
-        DEBUG_MAGENTA.setName("DEBUG_MAGENTA");
-        renderState = DEBUG_MAGENTA.getAdditionalRenderState();
+        magentas[0] = invisible;
+        magentas[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Magenta);
+        magentas[1].setName("debug magenta ss");
+        magentas[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Magenta);
+        magentas[2].setName("debug magenta ds");
+        renderState = magentas[2].getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
-        DEBUG_PINK = MyAsset.createWireframeMaterial(am, ColorRGBA.Pink);
-        DEBUG_PINK.setName("DEBUG_PINK");
-        renderState = DEBUG_PINK.getAdditionalRenderState();
+        pink[0] = invisible;
+        pink[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Pink);
+        pink[1].setName("debug pink ss");
+        pink[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Pink);
+        pink[2].setName("debug pink ds");
+        renderState = pink[2].getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         DEBUG_RED = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
@@ -430,9 +451,12 @@ public class BulletDebugAppState extends AbstractAppState {
         renderState = DEBUG_WHITE.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
-        DEBUG_YELLOW = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
-        DEBUG_YELLOW.setName("DEBUG_YELLOW");
-        renderState = DEBUG_YELLOW.getAdditionalRenderState();
+        yellows[0] = invisible;
+        yellows[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
+        yellows[1].setName("debug yellow ss");
+        yellows[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
+        yellows[2].setName("debug yellow ds");
+        renderState = yellows[2].getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
     }
     // *************************************************************************
@@ -769,6 +793,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * Interface to restrict which physics objects are visualized.
      */
     public interface DebugAppStateFilter {
+
         /**
          * Test whether the specified physics object should be rendered in the
          * debug scene.

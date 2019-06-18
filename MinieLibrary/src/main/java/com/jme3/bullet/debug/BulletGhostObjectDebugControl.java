@@ -199,13 +199,14 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
     // private methods
 
     /**
-     * Update the material applied to the debug geometry based on the properties
-     * of the ghost object.
+     * Update the Material applied to the debug geometry, based on properties of
+     * the ghost object.
      */
     private void updateMaterial() {
         Material material = ghost.getDebugMaterial();
-        if (material == null) {
-            material = debugAppState.getGhostMaterial();
+        if (material == null) { // apply one of the default materials
+            int numSides = ghost.debugNumSides();
+            material = debugAppState.getGhostMaterial(numSides);
         }
         geom.setMaterial(material);
     }

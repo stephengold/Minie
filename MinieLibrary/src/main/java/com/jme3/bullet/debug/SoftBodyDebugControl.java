@@ -163,8 +163,10 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
                     normalsFlag, noTransform);
 
             Material material = body.getDebugMaterial();
-            if (material == null) {
-                material = debugAppState.DEBUG_RED;
+            if (material == null) { // apply one of the default materials
+                int numSides = body.debugNumSides();
+                SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+                material = sdas.getFaceMaterial(numSides);
             }
             facesGeometry.setMaterial(material);
         }
@@ -326,9 +328,10 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
 
             result = new Geometry(body.toString() + " faces", mesh);
             Material material = body.getDebugMaterial();
-            if (material == null) {
+            if (material == null) { // use one of the default materials
+                int numSides = body.debugNumSides();
                 SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-                material = sdas.getFaceMaterial();
+                material = sdas.getFaceMaterial(numSides);
             }
             result.setMaterial(material);
         }

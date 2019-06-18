@@ -199,18 +199,19 @@ public class BulletRigidBodyDebugControl extends AbstractPhysicsDebugControl {
     // private methods
 
     /**
-     * Update the material applied to the debug geometry based on the properties
-     * of the rigid body.
+     * Update the Material applied to the debug geometry, based on properties of
+     * the rigid body.
      */
     private void updateMaterial() {
         Material material = body.getDebugMaterial();
-        if (material == null) {
+        if (material == null) { // use one of the default materials
+            int numSides = body.debugNumSides();
             if (!body.isContactResponse()) {
-                material = debugAppState.getGhostMaterial();
+                material = debugAppState.getGhostMaterial(numSides);
             } else if (body.isDynamic() && body.isActive()) {
-                material = debugAppState.getActiveMaterial();
+                material = debugAppState.getActiveMaterial(numSides);
             } else {
-                material = debugAppState.getInactiveMaterial();
+                material = debugAppState.getInactiveMaterial(numSides);
             }
         }
         geom.setMaterial(material);

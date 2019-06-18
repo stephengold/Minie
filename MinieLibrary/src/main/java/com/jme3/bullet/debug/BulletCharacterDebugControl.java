@@ -206,16 +206,17 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
     // private methods
 
     /**
-     * Update the material applied to the debug geometry based on the properties
-     * of the character.
+     * Update the Material applied to the debug geometry, based on properties of
+     * the character.
      */
     private void updateMaterial() {
         Material material = character.getDebugMaterial();
-        if (material == null) {
+        if (material == null) { // apply one of the default materials
+            int numSides = character.debugNumSides();
             if (character.isContactResponse()) {
-                material = debugAppState.getCharacterMaterial();
+                material = debugAppState.getCharacterMaterial(numSides);
             } else {
-                material = debugAppState.getGhostMaterial();
+                material = debugAppState.getGhostMaterial(numSides);
             }
         }
         geom.setMaterial(material);

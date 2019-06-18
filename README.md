@@ -60,10 +60,11 @@ Summary of added features:
  + `EmptyShape` collision shapes based on `btEmptyShape`
  + debugging aids:
     + dump the contents of a `BulletAppState` or `PhysicsSpace`
+    + visualize physics objects in multiple viewports
     + customize debug material per collision object
     + visualize the local axes, bounding boxes, and/or CCD swept spheres
       of collision objects
-    + visualize physics in multiple viewports
+    + optional double-sided debug materials
     + optional high-resolution debug meshes for convex shapes
     + options to generate debug meshes that include normals (for shading)
       and/or texture coordinates (for texturing)
@@ -101,9 +102,9 @@ Some JME bugs that have been fixed in Minie:
  + 969 linear factors not cloned
  + 1029 sphere-sphere collisions not reported
  + 1037 performance issue with `HullCollisionShape`
- + 1058 crash while removing body from BroadphaseType.SIMPLE PhysicsSpace
+ + 1058 crash while removing body from `BroadphaseType.SIMPLE` `PhysicsSpace`
  + 1060 doesn't implement `bt32BitAxisSweep3`
- + 1125 heightfield collision shapes don't match TerrainQuad
+ + 1125 heightfield collision shapes don't match `TerrainQuad`
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 

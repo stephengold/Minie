@@ -169,6 +169,11 @@ abstract public class PhysicsCollisionObject
      */
     private int debugMeshResolution = DebugShapeFactory.lowResolution;
     /**
+     * number of visible sides for default debug materials (&ge;0, &le;2,
+     * default=1)
+     */
+    private int debugNumSides = 1;
+    /**
      * Unique identifier of the btCollisionObject. Constructors are responsible
      * for setting this to a non-zero value. The ID might change if the object
      * gets rebuilt. TODO privatize and rename nativeId
@@ -257,6 +262,18 @@ abstract public class PhysicsCollisionObject
         assert debugMeshResolution >= 0 : debugMeshResolution;
         assert debugMeshResolution <= 1 : debugMeshResolution;
         return debugMeshResolution;
+    }
+
+    /**
+     * Determine how many sides of this object's default debug materials are
+     * visible.
+     *
+     * @return the number of sides (&ge;0, &le;2)
+     */
+    public int debugNumSides() {
+        assert debugNumSides >= 0 : debugNumSides;
+        assert debugNumSides <= 2 : debugNumSides;
+        return debugNumSides;
     }
 
     /**
@@ -379,7 +396,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Access the custom debug material, if specified.
      *
-     * @return the pre-existing instance, or null if default/unspecified
+     * @return the pre-existing instance, or null for default materials
      */
     public Material getDebugMaterial() {
         return debugMaterial;
@@ -685,8 +702,8 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter or remove the custom debug material.
      *
-     * @param material the desired material, or null for default/unspecified
-     * (alias created)
+     * @param material the desired material, or null to use the default debug
+     * materials (alias created)
      */
     public void setDebugMaterial(Material material) {
         debugMaterial = material;
@@ -720,6 +737,17 @@ abstract public class PhysicsCollisionObject
     public void setDebugMeshResolution(int newSetting) {
         Validate.inRange(newSetting, "new setting", 0, 1);
         debugMeshResolution = newSetting;
+    }
+
+    /**
+     * Alter how many sides of this object's default debug materials are
+     * visible. This setting has no effect on custom debug materials.
+     *
+     * @param numSides the desired number of sides (&ge;0, &le;2, default=1)
+     */
+    public void setDebugNumSides(int numSides) {
+        Validate.inRange(numSides, "new setting", 0, 2);
+        debugNumSides = numSides;
     }
 
     /**
