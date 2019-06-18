@@ -174,6 +174,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param force the force vector (not null, unaffected)
      */
     public void applyCentralForce(Vector3f force) {
+        Validate.finite(force, "force");
+
         applyCentralForce(objectId, force);
         activate();
     }
@@ -184,6 +186,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param impulse the impulse vector (not null, unaffected)
      */
     public void applyCentralImpulse(Vector3f impulse) {
+        Validate.finite(impulse, "impulse");
+
         applyCentralImpulse(objectId, impulse);
         activate();
     }
@@ -199,6 +203,9 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param location the location to apply the force (not null, unaffected)
      */
     public void applyForce(Vector3f force, Vector3f location) {
+        Validate.finite(force, "force");
+        Validate.finite(location, "relative location");
+
         applyForce(objectId, force, location);
         activate();
     }
@@ -211,6 +218,9 @@ public class PhysicsRigidBody extends PhysicsBody {
      * not null, unaffected)
      */
     public void applyImpulse(Vector3f impulse, Vector3f rel_pos) {
+        Validate.finite(impulse, "impulse");
+        Validate.finite(rel_pos, "relative location");
+
         applyImpulse(objectId, impulse, rel_pos);
         activate();
     }
@@ -225,6 +235,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param torque the torque vector (not null, unaffected)
      */
     public void applyTorque(Vector3f torque) {
+        Validate.finite(torque, "torque");
+
         applyTorque(objectId, torque);
         activate();
     }
@@ -235,6 +247,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param torqueImpulse the torque impulse vector (not null, unaffected)
      */
     public void applyTorqueImpulse(Vector3f torqueImpulse) {
+        Validate.finite(torqueImpulse, "torque impulse");
+
         applyTorqueImpulse(objectId, torqueImpulse);
         activate();
     }
