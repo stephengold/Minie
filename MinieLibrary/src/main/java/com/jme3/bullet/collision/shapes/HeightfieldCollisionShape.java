@@ -81,8 +81,17 @@ public class HeightfieldCollisionShape extends CollisionShape {
      * array of heightfield samples
      */
     private float[] heightfieldData;
+    /**
+     * scale factor for Bullet to apply to the heightfield
+     */
     private float heightScale = 1f;
+    /*
+     * lowest sample in the heightfield or -maxHeight, whichever is lower
+     */
     private float minHeight;
+    /*
+     * highest sample in the heightfield or -minHeight, whichever is higher
+     */
     private float maxHeight;
     /**
      * copy of the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z, default=1)
@@ -95,15 +104,15 @@ public class HeightfieldCollisionShape extends CollisionShape {
     /**
      * true&rarr;left-hand winding of triangles (default=false)
      */
-    boolean flipTriangleWinding = false;
+    private boolean flipTriangleWinding = false;
     /**
      * true&rarr;diagonals alternate on both horizontal axes (default=false)
      */
-    boolean useDiamond = false;
+    private boolean useDiamond = false;
     /**
      * true&rarr;diagonals alternate on one horizontal axis (default=false)
      */
-    boolean useZigzag = false;
+    private boolean useZigzag = false;
     /**
      * buffer for passing height data to Bullet
      * <p>
