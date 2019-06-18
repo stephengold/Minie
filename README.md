@@ -103,6 +103,7 @@ Some JME bugs that have been fixed in Minie:
  + 1037 performance issue with `HullCollisionShape`
  + 1058 crash while removing body from BroadphaseType.SIMPLE PhysicsSpace
  + 1060 doesn't implement `bt32BitAxisSweep3`
+ + 1125 heightfield collision shapes don't match TerrainQuad
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
