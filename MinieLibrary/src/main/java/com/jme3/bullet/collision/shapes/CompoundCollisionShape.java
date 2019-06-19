@@ -244,6 +244,14 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
+     * Recalculate this shape's bounding box if necessary.
+     */
+    @Override
+    protected void recalculateAabb() {
+        recalcAabb(objectId);
+    }
+
+    /**
      * Serialize this shape to the specified exporter, for example when saving
      * to a J3O file.
      *
@@ -260,7 +268,7 @@ public class CompoundCollisionShape extends CollisionShape {
     // private methods
 
     // TODO should return void
-    native private long addChildShape(long objectId, long childId,
+    native private long addChildShape(long compoundId, long childId,
             Vector3f location, Matrix3f rotation);
 
     /**
@@ -291,5 +299,7 @@ public class CompoundCollisionShape extends CollisionShape {
         }
     }
 
-    native private long removeChildShape(long objectId, long childId);
+    native private void recalcAabb(long shapeId);
+
+    native private long removeChildShape(long compoundId, long childId);
 }

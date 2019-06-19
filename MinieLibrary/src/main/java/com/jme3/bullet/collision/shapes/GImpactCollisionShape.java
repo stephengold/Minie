@@ -145,6 +145,14 @@ public class GImpactCollisionShape extends CollisionShape {
     }
 
     /**
+     * Recalculate this shape's bounding box if necessary.
+     */
+    @Override
+    protected void recalculateAabb() {
+        recalcAabb(objectId);
+    }
+
+    /**
      * Serialize this shape to the specified exporter, for example when saving
      * to a J3O file.
      *
@@ -177,4 +185,6 @@ public class GImpactCollisionShape extends CollisionShape {
     }
 
     native private long createShape(long meshId);
+
+    native private void recalcAabb(long shapeId);
 }

@@ -69,6 +69,14 @@ abstract public class CollisionShape
      */
     final public static Logger logger
             = Logger.getLogger(CollisionShape.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
+     */
+    final private static Quaternion rotateIdentity = new Quaternion();
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -96,8 +104,25 @@ abstract public class CollisionShape
     // new methods exposed
 
     /**
+     * Calculate a quick upper bound for the scaled volume of a shape, based on
+     * its axis-aligned bounding box. Collision margin is included.
+     *
+     * @return the volume (in scaled shape units cubed, &ge;0)
+     */
+    public float aabbScaledVolume() {
+        BoundingBox aabb = boundingBox(translateIdentity, rotateIdentity, null);
+        Vector3f halfExtents = aabb.getExtent(null);
+        float volume = 8f * halfExtents.x * halfExtents.y * halfExtents.z;
+
+        assert volume >= 0f : volume;
+        assert Float.isFinite(volume) : volume;
+        return volume;
+    }
+
+    /**
      * Calculate an axis-aligned bounding box for this shape with the specified
      * translation and rotation applied to it. Rotation is applied first.
+     * Collision margin is included.
      *
      * @param translation the translation to apply (not null, unaffected)
      * @param rotation the rotation to apply (not null, unaffected)
@@ -111,6 +136,8 @@ abstract public class CollisionShape
         BoundingBox result
                 = (storeResult == null) ? new BoundingBox() : storeResult;
 
+        recalculateAabb();
+
         Vector3f maxima = new Vector3f();
         Vector3f minima = new Vector3f();
         getAabb(objectId, translation, rotation, minima, maxima);
@@ -122,6 +149,7 @@ abstract public class CollisionShape
     /**
      * Calculate an axis-aligned bounding box for this shape with the specified
      * translation and rotation applied to it. Rotation is applied first.
+     * Collision margin is included.
      *
      * @param translation the translation to apply (not null, unaffected)
      * @param rotation the rotation to apply (not null, unaffected)
@@ -134,6 +162,8 @@ abstract public class CollisionShape
         Validate.nonNull(rotation, "rotation");
         BoundingBox result
                 = (storeResult == null) ? new BoundingBox() : storeResult;
+
+        recalculateAabb();
 
         Matrix3f basisMatrix = new Matrix3f();
         basisMatrix.set(rotation);
@@ -276,6 +306,15 @@ abstract public class CollisionShape
         setLocalScaling(objectId, scale);
         logger.log(Level.FINE, "Scaling Shape {0}", Long.toHexString(objectId));
         this.scale.set(scale);
+    }
+    // *************************************************************************
+    // new protected methods
+
+    /**
+     * Recalculate this shape's bounding box if necessary.
+     */
+    protected void recalculateAabb() {
+        // do nothing
     }
     // *************************************************************************
     // Comparable methods

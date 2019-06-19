@@ -200,6 +200,14 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
+     * Recalculate this shape's bounding box if necessary.
+     */
+    @Override
+    protected void recalculateAabb() {
+        recalcAabb(objectId);
+    }
+
+    /**
      * Serialize this shape to the specified exporter, for example when saving
      * to a J3O file.
      *
@@ -249,6 +257,8 @@ public class MeshCollisionShape extends CollisionShape {
             long meshId);
 
     native private void finalizeBVH(long nativeBVHBufferId);
+
+    native private void recalcAabb(long shapeId);
 
     native private byte[] saveBVH(long objectId);
 

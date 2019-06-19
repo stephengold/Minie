@@ -464,6 +464,14 @@ public class MultiSphere extends CollisionShape {
     }
 
     /**
+     * Recalculate this shape's bounding box if necessary.
+     */
+    @Override
+    protected void recalculateAabb() {
+        recalcAabb(objectId);
+    }
+
+    /**
      * Serialize this shape to the specified exporter, for example when saving
      * to a J3O file.
      *
@@ -500,4 +508,6 @@ public class MultiSphere extends CollisionShape {
 
     native private long createShape(Vector3f[] centers, float[] radii,
             int numSpheres);
+
+    native private void recalcAabb(long shapeId);
 }
