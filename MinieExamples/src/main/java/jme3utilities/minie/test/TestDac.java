@@ -170,7 +170,7 @@ public class TestDac extends ActionApplication {
     final private Mesh ballMesh = new Sphere(16, 32, ballRadius);
     final private NameGenerator nameGenerator = new NameGenerator();
     /**
-     * C-G model on which the control is being tested
+     * root node of the C-G model on which the control is being tested
      */
     private Node cgModel;
     /**
@@ -182,7 +182,7 @@ public class TestDac extends ActionApplication {
      */
     private PhysicsSpace physicsSpace;
     /**
-     * SkeletonControl of the model
+     * SkeletonControl of the loaded model
      */
     private SkeletonControl sc;
     /**
@@ -190,7 +190,7 @@ public class TestDac extends ActionApplication {
      */
     private SkeletonVisualizer sv;
     /**
-     * name of the animation to play on the model
+     * name of the animation to play on the C-G model
      */
     private String animationName = null;
     /**
@@ -436,20 +436,16 @@ public class TestDac extends ActionApplication {
                 case "toggle meshes":
                     toggleMeshes();
                     return;
-
                 case "toggle pause":
                     togglePause();
                     return;
-
                 case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
-
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
             }
-
             String[] words = actionString.split(" ");
             if (words.length >= 2 && "load".equals(words[0])) {
                 addModel(words[1]);
