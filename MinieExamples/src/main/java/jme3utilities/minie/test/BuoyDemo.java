@@ -29,8 +29,8 @@ package jme3utilities.minie.test;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
+import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
@@ -41,6 +41,7 @@ import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -115,7 +116,7 @@ public class BuoyDemo extends ActionApplication {
     // fields
 
     /**
-     * channel for skeleton animation
+     * channel for playing canned animations
      */
     private AnimChannel animChannel = null;
     /**
@@ -123,11 +124,11 @@ public class BuoyDemo extends ActionApplication {
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
-     * control being tested
+     * Control being tested
      */
     private DynamicAnimControl dac;
     /**
-     * root node of the loaded model
+     * root node of the C-G model on which the Control is being tested
      */
     private Node cgModel;
     /**
@@ -138,6 +139,10 @@ public class BuoyDemo extends ActionApplication {
      * scene-graph subtree containing all reflective geometries
      */
     final private Node reflectorsNode = new Node("reflectors");
+    /**
+     * dump debugging information to System.out
+     */
+    final private PhysicsDumper dumper = new PhysicsDumper();
     /**
      * space for physics simulation
      */
@@ -151,18 +156,18 @@ public class BuoyDemo extends ActionApplication {
      */
     private SkeletonControl sc;
     /**
-     * visualizer control for the model's skeleton
+     * visualizer for the skeleton of the C-G model
      */
     private SkeletonVisualizer sv;
     /**
-     * name of the animation to play
+     * name of the Animation to play on the C-G model
      */
     private String animationName = null;
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Main entry point for the application.
+     * Main entry point for the BuoyDemo application.
      *
      * @param ignored array of command-line arguments (not null)
      */
@@ -171,16 +176,15 @@ public class BuoyDemo extends ActionApplication {
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
-        BuoyDemo application = new BuoyDemo();
+        Application application = new BuoyDemo();
         /*
          * Customize the window's title bar.
          */
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
+        settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
 
@@ -200,6 +204,7 @@ public class BuoyDemo extends ActionApplication {
         rootNode.attachChild(reflectiblesNode);
         rootNode.attachChild(reflectorsNode);
         configureCamera();
+        configureDumper();
         configurePhysics();
         addLighting();
 
@@ -221,6 +226,7 @@ public class BuoyDemo extends ActionApplication {
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("go floating", KeyInput.KEY_0);
         dim.bind("go floating", KeyInput.KEY_SPACE);
+
         dim.bind("load CesiumMan", KeyInput.KEY_F12);
         dim.bind("load Elephant", KeyInput.KEY_F3);
         dim.bind("load Jaime", KeyInput.KEY_F2);
@@ -231,8 +237,12 @@ public class BuoyDemo extends ActionApplication {
         dim.bind("load Sinbad", KeyInput.KEY_F1);
         dim.bind("load SinbadWith1Sword", KeyInput.KEY_F10);
         dim.bind("load SinbadWithSwords", KeyInput.KEY_F4);
+
+        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal rotateLeft", KeyInput.KEY_LEFT);
         dim.bind("signal rotateRight", KeyInput.KEY_RIGHT);
+
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
@@ -251,10 +261,10 @@ public class BuoyDemo extends ActionApplication {
         if (ongoing) {
             switch (actionString) {
                 case "dump physicsSpace":
-                    dumpPhysicsSpace();
+                    dumper.dump(physicsSpace);
                     return;
                 case "dump scenes":
-                    dumpScenes();
+                    dumper.dump(renderManager);
                     return;
 
                 case "go floating":
@@ -275,7 +285,7 @@ public class BuoyDemo extends ActionApplication {
                     return;
             }
             String[] words = actionString.split(" ");
-            if (words.length >= 2 && "load".equals(words[0])) {
+            if (words.length == 2 && "load".equals(words[0])) {
                 addModel(words[1]);
                 return;
             }
@@ -286,7 +296,7 @@ public class BuoyDemo extends ActionApplication {
     /**
      * Callback invoked once per frame.
      *
-     * @param tpf time interval between frames (in seconds, &ge;0)
+     * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float tpf) {
@@ -317,7 +327,7 @@ public class BuoyDemo extends ActionApplication {
      * Add lighting and reflections to the scene.
      */
     private void addLighting() {
-        ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.3f, 1f);
+        ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootNode.addLight(ambient);
 
@@ -485,34 +495,24 @@ public class BuoyDemo extends ActionApplication {
     }
 
     /**
+     * Configure the PhysicsDumper during startup.
+     */
+    private void configureDumper() {
+        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
+        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setSolverNumIterations(15);
         physicsSpace.setAccuracy(0.01f); // 10-msec timestep
-    }
-
-    /**
-     * Process a "dump physicsSpace" action.
-     */
-    private void dumpPhysicsSpace() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.dump(physicsSpace);
-    }
-
-    /**
-     * Process a "dump scenes" action.
-     */
-    private void dumpScenes() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.Transforms, true);
-        dumper.dump(renderManager);
+        physicsSpace.setSolverNumIterations(15);
     }
 
     /**
