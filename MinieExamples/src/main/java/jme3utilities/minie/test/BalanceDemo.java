@@ -29,6 +29,7 @@ package jme3utilities.minie.test;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
+import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -79,6 +80,7 @@ import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.controllers.BalanceController;
 import jme3utilities.minie.test.controllers.UprightController;
 import jme3utilities.minie.test.tunings.Biped;
+import jme3utilities.minie.test.tunings.CesiumManControl;
 import jme3utilities.minie.test.tunings.JaimeControl;
 import jme3utilities.minie.test.tunings.MhGameControl;
 import jme3utilities.minie.test.tunings.NinjaControl;
@@ -153,7 +155,7 @@ public class BalanceDemo extends ActionApplication {
      */
     private Material greenMaterial;
     /**
-     * C-G model on which the Control is being tested
+     * root node of the C-G model on which the Control is being tested
      */
     private Node cgModel;
     /**
@@ -173,7 +175,7 @@ public class BalanceDemo extends ActionApplication {
      */
     private PointVisualizer supportPoint;
     /**
-     * SkeletonControl of the model
+     * SkeletonControl of the loaded model
      */
     private SkeletonControl sc;
     /**
@@ -181,7 +183,7 @@ public class BalanceDemo extends ActionApplication {
      */
     private SkeletonVisualizer sv;
     /**
-     * name of the Animation to play on the model
+     * name of the Animation to play on the C-G model
      */
     private String animationName = null;
     /**
@@ -215,7 +217,7 @@ public class BalanceDemo extends ActionApplication {
          */
         Misc.setLoggingLevels(Level.WARNING);
 
-        BalanceDemo application = new BalanceDemo();
+        Application application = new BalanceDemo();
         /*
          * Customize the window's title bar.
          */
@@ -244,6 +246,7 @@ public class BalanceDemo extends ActionApplication {
         configureDumper();
         configureMaterials();
         configurePhysics();
+
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
         addLighting();
@@ -273,6 +276,7 @@ public class BalanceDemo extends ActionApplication {
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("go limp", KeyInput.KEY_SPACE);
 
+        dim.bind("load CesiumMan", KeyInput.KEY_F12);
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);
         dim.bind("load Ninja", KeyInput.KEY_F7);
@@ -288,6 +292,7 @@ public class BalanceDemo extends ActionApplication {
         dim.bind("posture tall center", KeyInput.KEY_NUMPAD8);
         dim.bind("posture tall left", KeyInput.KEY_NUMPAD9);
         dim.bind("posture tall right", KeyInput.KEY_NUMPAD7);
+
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
@@ -313,7 +318,6 @@ public class BalanceDemo extends ActionApplication {
                 case "dump physicsSpace":
                     dumper.dump(physicsSpace);
                     return;
-
                 case "dump scenes":
                     dumper.dump(renderManager);
                     return;
@@ -327,20 +331,16 @@ public class BalanceDemo extends ActionApplication {
                 case "toggle meshes":
                     toggleMeshes();
                     return;
-
                 case "toggle pause":
                     togglePause();
                     return;
-
                 case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
-
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
             }
-
             String[] words = actionString.split(" ");
             if (words.length == 2 && "load".equals(words[0])) {
                 addModel(words[1]);
@@ -447,6 +447,9 @@ public class BalanceDemo extends ActionApplication {
         }
 
         switch (modelName) {
+            case "CesiumMan":
+                loadCesiumMan();
+                break;
             case "Jaime":
                 loadJaime();
                 break;
@@ -483,8 +486,7 @@ public class BalanceDemo extends ActionApplication {
         cgModel.setCullHint(Spatial.CullHint.Never);
 
         rootNode.attachChild(cgModel);
-        float height = 2f;
-        setHeight(cgModel, height);
+        setHeight(cgModel, 2f);
         center(cgModel);
 
         sc = RagUtils.findSkeletonControl(cgModel);
@@ -614,6 +616,21 @@ public class BalanceDemo extends ActionApplication {
          * Start playing a canned animation.
          */
         animChannel.setAnim(animationName);
+    }
+
+    /**
+     * Load the CesiumMan model.
+     */
+    private void loadCesiumMan() {
+        cgModel = (Node) assetManager.loadModel(
+                "Models/CesiumMan/glTF-Binary/CesiumMan.glb");
+        cgModel.rotate(0f, -3.14f, 0f);
+        dac = new CesiumManControl();
+        animationName = "anim_0";
+        uprightGain = 10f;
+        vaBias = 0f;
+        vaMagnitude = 0f;
+        torsoUpDirection = Vector3f.UNIT_Z;
     }
 
     /**
