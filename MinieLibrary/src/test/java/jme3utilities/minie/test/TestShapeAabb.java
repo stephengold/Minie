@@ -29,11 +29,14 @@ package jme3utilities.minie.test;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.EmptyShape;
+import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
+import jme3utilities.math.RectangularSolid;
 import org.junit.Test;
 
 /**
@@ -77,6 +80,33 @@ public class TestShapeAabb {
         box.boundingBox(location, rotation, aabb);
         float root8 = FastMath.sqrt(8f);
         checkAabb(-root8, 1f, 7f - root8, root8, 5f, 7f + root8);
+        /*
+         * empty
+         */
+        CollisionShape empty = new EmptyShape(true);
+        empty.boundingBox(location, rotation, aabb);
+        checkAabb(-0.04f, 2.96f, 6.96f, 0.04f, 3.04f, 7.04f);
+
+        empty.setMargin(0.11f);
+        empty.boundingBox(location, rotation, aabb);
+        checkAabb(-0.11f, 2.89f, 6.89f, 0.11f, 3.11f, 7.11f);
+
+        empty.setScale(new Vector3f(10f, 10f, 10f));
+        empty.boundingBox(location, rotation, aabb);
+        checkAabb(-0.11f, 2.89f, 6.89f, 0.11f, 3.11f, 7.11f);
+        /*
+         * hull
+         */
+        Vector3f halfExtents = new Vector3f(1f, 2f, 3f);
+        RectangularSolid rectangularSolid = new RectangularSolid(halfExtents);
+        CollisionShape hull = new HullCollisionShape(rectangularSolid);
+        rotation = Quaternion.IDENTITY;
+        hull.boundingBox(location, rotation, aabb);
+        checkAabb(-1.08f, 0.92f, 3.92f, 1.08f, 5.08f, 10.08f); // double margin
+
+        hull.setMargin(0.55f);
+        hull.boundingBox(location, rotation, aabb);
+        checkAabb(-2.1f, -0.1f, 2.9f, 2.1f, 6.1f, 11.1f); // double margin
         /*
          * Sphere
          */
