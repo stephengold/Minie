@@ -36,6 +36,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -150,6 +151,21 @@ public class GImpactCollisionShape extends CollisionShape {
     @Override
     protected void recalculateAabb() {
         recalcAabb(objectId);
+    }
+
+    /**
+     * Alter the scaling factors of this shape.
+     * <p>
+     * Note that if the shape is shared (between collision objects and/or
+     * compound shapes) changes can have unintended consequences.
+     *
+     * @param scale the desired scaling factor for each local axis (not null, no
+     * negative component, unaffected, default=(1,1,1))
+     */
+    @Override
+    public void setScale(Vector3f scale) {
+        super.setScale(scale);
+        recalculateAabb();
     }
 
     /**
