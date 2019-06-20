@@ -381,7 +381,7 @@ public class BulletDebugAppState extends AbstractAppState {
         System.arraycopy(viewPorts, 0, this.viewPorts, 0, length);
     }
     // *************************************************************************
-    // new protected methods - TODO re-order methods
+    // new protected methods
 
     /**
      * Attach the specified Spatial to the debug root node.
@@ -458,6 +458,27 @@ public class BulletDebugAppState extends AbstractAppState {
         yellows[2].setName("debug yellow ds");
         renderState = yellows[2].getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+    }
+
+    /**
+     * Update the AxesVisualizer for the specified Node.
+     *
+     * @param node which node to update (not null)
+     */
+    protected void updateAxes(Node node) {
+        AxesVisualizer axes = node.getControl(AxesVisualizer.class);
+        if (axes != null) {
+            if (axisLength > 0f) {
+                axes.setAxisLength(axisLength);
+                axes.setLineWidth(axisLineWidth);
+            } else {
+                node.removeControl(axes);
+            }
+        } else if (axisLength > 0f) {
+            axes = new AxesVisualizer(assetManager, axisLength, axisLineWidth);
+            node.addControl(axes);
+            axes.setEnabled(true);
+        }
     }
     // *************************************************************************
     // AbstractAppState methods
@@ -543,27 +564,6 @@ public class BulletDebugAppState extends AbstractAppState {
         // Update the debug root node.
         physicsDebugRootNode.updateLogicalState(tpf);
         physicsDebugRootNode.updateGeometricState();
-    }
-
-    /**
-     * Update the AxesVisualizer for the specified Node.
-     *
-     * @param node which node to update (not null)
-     */
-    protected void updateAxes(Node node) {
-        AxesVisualizer axes = node.getControl(AxesVisualizer.class);
-        if (axes != null) {
-            if (axisLength > 0f) {
-                axes.setAxisLength(axisLength);
-                axes.setLineWidth(axisLineWidth);
-            } else {
-                node.removeControl(axes);
-            }
-        } else if (axisLength > 0f) {
-            axes = new AxesVisualizer(assetManager, axisLength, axisLineWidth);
-            node.addControl(axes);
-            axes.setEnabled(true);
-        }
     }
     // *************************************************************************
     // private methods
