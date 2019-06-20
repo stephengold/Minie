@@ -137,7 +137,7 @@ abstract public class AbstractPhysicsControl
     /**
      * Add all managed physics objects to the PhysicsSpace.
      */
-    protected abstract void addPhysics();
+    abstract protected void addPhysics();
 
     /**
      * Apply a physics transform to the controlled Spatial. TODO use MySpatial
@@ -174,7 +174,7 @@ abstract public class AbstractPhysicsControl
      *
      * @param spatial the controlled Spatial (not null)
      */
-    protected abstract void createSpatialData(Spatial spatial);
+    abstract protected void createSpatialData(Spatial spatial);
 
     /**
      * Access whichever (spatial) rotation corresponds to the physics rotation.
@@ -212,7 +212,7 @@ abstract public class AbstractPhysicsControl
     /**
      * Remove all managed physics objects from the PhysicsSpace.
      */
-    protected abstract void removePhysics();
+    abstract protected void removePhysics();
 
     /**
      * Destroy spatial-dependent data. Invoked when this Control is removed from
@@ -220,7 +220,7 @@ abstract public class AbstractPhysicsControl
      *
      * @param spatial the previous controlled Spatial (not null)
      */
-    protected abstract void removeSpatialData(Spatial spatial);
+    abstract protected void removeSpatialData(Spatial spatial);
 
     /**
      * Translate the physics object to the specified location.
@@ -228,7 +228,7 @@ abstract public class AbstractPhysicsControl
      * @param location the desired location (in physics-space coordinates, not
      * null, unaffected)
      */
-    protected abstract void setPhysicsLocation(Vector3f location);
+    abstract protected void setPhysicsLocation(Vector3f location);
 
     /**
      * Rotate the physics object to the specified orientation.
@@ -236,7 +236,7 @@ abstract public class AbstractPhysicsControl
      * @param orientation the desired orientation (in physics-space coordinates,
      * not null, unaffected)
      */
-    protected abstract void setPhysicsRotation(Quaternion orientation);
+    abstract protected void setPhysicsRotation(Quaternion orientation);
     // *************************************************************************
     // JmeCloneable methods
 
