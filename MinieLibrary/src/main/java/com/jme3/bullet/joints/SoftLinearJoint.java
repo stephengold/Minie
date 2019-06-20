@@ -92,7 +92,7 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
         super(nodeA, nodeB, pivotA, pivotB);
         assert nodeA.countClusters() > 0;
 
-        this.location.set(location);
+        this.location = location.clone();
         createJoint();
     }
 
@@ -115,7 +115,7 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
         assert nodeA.countClusters() > 0;
         assert nodeB.countClusters() > 0;
 
-        this.location.set(location);
+        this.location = location.clone();
         createJoint();
     }
     // *************************************************************************
@@ -162,7 +162,17 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        // TODO
+
+        location = cloner.clone(location);
+        createJoint();
+
+        SoftLinearJoint old = (SoftLinearJoint) original;
+
+        float bit = old.getBreakingImpulseThreshold();
+        setBreakingImpulseThreshold(bit);
+
+        boolean enableJoint = old.isEnabled();
+        setEnabled(enableJoint);
     }
 
     /**
@@ -211,21 +221,26 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     // *************************************************************************
     // private methods
 
+    /**
+     * Create the configured joint in Bullet.
+     */
     private void createJoint() {
         assert objectId == 0L : objectId;
+        assert nodeA instanceof PhysicsSoftBody;
 
         if (isSoftRigidJoint()) {
-            objectId = createJointSoftRigid(softA.getObjectId(),
+            objectId = createJointSoftRigid(nodeA.getObjectId(),
                     nodeB.getObjectId(), pivotA, pivotB,
                     errorReductionParameter, constraintForceMixing, split,
                     location);
-        } else {
-            objectId = createJointSoftSoft(softA.getObjectId(),
-                    softB.getObjectId(), pivotA, pivotB,
+        } else if (isSoftSoftJoint()) {
+            objectId = createJointSoftSoft(nodeA.getObjectId(),
+                    nodeB.getObjectId(), pivotA, pivotB,
                     errorReductionParameter, constraintForceMixing, split,
                     location);
         }
 
+        assert objectId != 0L;
         logger3.log(Level.FINE, "Created Joint {0}",
                 Long.toHexString(objectId));
     }

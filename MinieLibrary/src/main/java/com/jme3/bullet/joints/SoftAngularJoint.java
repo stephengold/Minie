@@ -88,11 +88,12 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      * @param pivotB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      */
-    public SoftAngularJoint(Vector3f axis, PhysicsSoftBody nodeA, PhysicsRigidBody nodeB, Vector3f pivotA, Vector3f pivotB) {
+    public SoftAngularJoint(Vector3f axis, PhysicsSoftBody nodeA,
+            PhysicsRigidBody nodeB, Vector3f pivotA, Vector3f pivotB) {
         super(nodeA, nodeB, pivotA, pivotB);
         assert nodeA.countClusters() > 0;
 
-        this.axis.set(axis);
+        this.axis = axis.clone();
         createJoint();
     }
 
@@ -109,12 +110,13 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      * @param pivotB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      */
-    public SoftAngularJoint(Vector3f axis, PhysicsSoftBody nodeA, PhysicsSoftBody nodeB, Vector3f pivotA, Vector3f pivotB) {
+    public SoftAngularJoint(Vector3f axis, PhysicsSoftBody nodeA,
+            PhysicsSoftBody nodeB, Vector3f pivotA, Vector3f pivotB) {
         super(nodeA, nodeB, pivotA, pivotB);
         assert nodeA.countClusters() > 0;
         assert nodeB.countClusters() > 0;
 
-        this.axis.set(axis);
+        this.axis = axis.clone();
         createJoint();
     }
     // *************************************************************************
@@ -161,7 +163,17 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        // TODO
+
+        axis = cloner.clone(axis);
+        createJoint();
+
+        SoftAngularJoint old = (SoftAngularJoint) original;
+
+        float bit = old.getBreakingImpulseThreshold();
+        setBreakingImpulseThreshold(bit);
+
+        boolean enableJoint = old.isEnabled();
+        setEnabled(enableJoint);
     }
 
     /**
@@ -210,22 +222,28 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
     // *************************************************************************
     // private methods
 
+    /**
+     * Create the configured joint in Bullet.
+     */
     private void createJoint() {
         assert objectId == 0L : objectId;
+        assert nodeA instanceof PhysicsSoftBody;
 
         if (isSoftRigidJoint()) {
-            objectId = createJointSoftRigid(softA.getObjectId(),
+            objectId = createJointSoftRigid(nodeA.getObjectId(),
                     nodeB.getObjectId(), pivotA, pivotB,
                     errorReductionParameter, constraintForceMixing, split,
                     axis);
-        } else {
-            objectId = createJointSoftSoft(softA.getObjectId(),
-                    softB.getObjectId(), pivotA, pivotB,
+        } else if (isSoftSoftJoint()) {
+            objectId = createJointSoftSoft(nodeA.getObjectId(),
+                    nodeB.getObjectId(), pivotA, pivotB,
                     errorReductionParameter, constraintForceMixing, split,
                     axis);
         }
 
-        logger3.log(Level.FINE, "Created Joint {0}", Long.toHexString(objectId));
+        assert objectId != 0L;
+        logger3.log(Level.FINE, "Created Joint {0}",
+                Long.toHexString(objectId));
     }
 
     private native long createJointSoftRigid(long objectIdA, long objectIdB,

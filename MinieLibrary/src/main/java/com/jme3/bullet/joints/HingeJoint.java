@@ -501,7 +501,8 @@ public class HingeJoint extends PhysicsJoint {
      */
     private void createJoint() {
         assert objectId == 0L;
-        assert nodeA != null;
+        PhysicsRigidBody a = getBodyA();
+        assert a != null;
         assert pivotA != null;
         assert axisA.isUnitVector() : axisA;
         assert pivotB != null;
@@ -513,8 +514,8 @@ public class HingeJoint extends PhysicsJoint {
              * btHingeConstraints are satisfied at creation, so we
              * temporarily re-position the body to satisfy the constraint.
              */
-            Vector3f saveLocation = nodeA.getPhysicsLocation(null);
-            Quaternion saveRotation = nodeA.getPhysicsRotation(null);
+            Vector3f saveLocation = a.getPhysicsLocation(null);
+            Quaternion saveRotation = a.getPhysicsRotation(null);
 
             Vector3f cross = axisB.cross(axisA);
             float sinAngle = cross.length();
@@ -523,23 +524,23 @@ public class HingeJoint extends PhysicsJoint {
             cross.normalizeLocal();
             Quaternion rotation = new Quaternion();
             rotation.fromAngleNormalAxis(angle, cross);
-            nodeA.setPhysicsRotation(rotation);
+            a.setPhysicsRotation(rotation);
 
             Vector3f offset = pivotB.subtract(pivotA);
-            nodeA.setPhysicsLocation(offset);
+            a.setPhysicsLocation(offset);
 
-            objectId = createJoint1(nodeA.getObjectId(), pivotA, axisA,
+            objectId = createJoint1(a.getObjectId(), pivotA, axisA,
                     useReferenceFrameA);
 
-            nodeA.setPhysicsLocation(saveLocation);
-            nodeA.setPhysicsRotation(saveRotation);
+            a.setPhysicsLocation(saveLocation);
+            a.setPhysicsRotation(saveRotation);
 
         } else {
             /*
              * Create a double-ended joint.
              */
             assert !useReferenceFrameA;
-            objectId = createJoint(nodeA.getObjectId(), nodeB.getObjectId(),
+            objectId = createJoint(a.getObjectId(), nodeB.getObjectId(),
                     pivotA, axisA, pivotB, axisB);
         }
         assert objectId != 0L;

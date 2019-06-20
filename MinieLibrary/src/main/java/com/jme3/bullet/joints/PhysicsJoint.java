@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.joints;
 
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -84,12 +85,12 @@ abstract public class PhysicsJoint
      * body A specified in the constructor, or null for a single-ended joint
      * with body B TODO rename
      */
-    protected PhysicsRigidBody nodeA;
+    protected PhysicsBody nodeA;
     /**
      * body B specified in the constructor, or null for a single-ended joint
      * with body A TODO rename
      */
-    protected PhysicsRigidBody nodeB;
+    protected PhysicsBody nodeB;
     /**
      * copy of the pivot location: in physics-space coordinates if nodeA is
      * null, or else in A's scaled local coordinates
@@ -267,7 +268,7 @@ abstract public class PhysicsJoint
      * @param end which end of the joint to access (not null)
      * @return the pre-existing body, or null if none
      */
-    public PhysicsRigidBody getBody(JointEnd end) {
+    public PhysicsBody getBody(JointEnd end) {
         switch (end) {
             case A:
                 return nodeA;
@@ -279,21 +280,29 @@ abstract public class PhysicsJoint
     }
 
     /**
-     * Access the body at the A end.
+     * Access the rigid body at the A end.
      *
-     * @return the pre-existing body, or null if none
+     * @return the pre-existing rigid body, or null if none
      */
     public PhysicsRigidBody getBodyA() {
-        return nodeA;
+        PhysicsRigidBody result = null;
+        if (nodeA instanceof PhysicsRigidBody) {
+            result = (PhysicsRigidBody) nodeA;
+        }
+        return result;
     }
 
     /**
-     * Access the body at the B end.
+     * Access the rigid body at the B end.
      *
      * @return the pre-existing body, or null if none
      */
     public PhysicsRigidBody getBodyB() {
-        return nodeB;
+        PhysicsRigidBody result = null;
+        if (nodeB instanceof PhysicsRigidBody) {
+            result = (PhysicsRigidBody) nodeB;
+        }
+        return result;
     }
 
     /**

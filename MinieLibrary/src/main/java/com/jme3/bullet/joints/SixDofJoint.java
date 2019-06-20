@@ -629,7 +629,8 @@ public class SixDofJoint extends PhysicsJoint {
         assert objectId == 0L;
         assert pivotA != null;
         assert rotA != null;
-        assert nodeB != null;
+        PhysicsRigidBody b = getBodyB();
+        assert b != null;
         assert pivotB != null;
         assert rotB != null;
 
@@ -649,23 +650,23 @@ public class SixDofJoint extends PhysicsJoint {
 
             Transform bToWorld = jInB.invert().combineWithParent(jInWorld);
 
-            Vector3f saveLocation = nodeB.getPhysicsLocation(null);
-            Quaternion saveRotation = nodeB.getPhysicsRotation(null);
+            Vector3f saveLocation = b.getPhysicsLocation(null);
+            Quaternion saveRotation = b.getPhysicsRotation(null);
 
-            nodeB.setPhysicsLocation(bToWorld.getTranslation());
-            nodeB.setPhysicsRotation(bToWorld.getRotation());
+            b.setPhysicsLocation(bToWorld.getTranslation());
+            b.setPhysicsRotation(bToWorld.getRotation());
             boolean useLinearReferenceFrameB = !useLinearReferenceFrameA;
-            objectId = createJoint1(nodeB.getObjectId(), pivotB, rotB,
+            objectId = createJoint1(b.getObjectId(), pivotB, rotB,
                     useLinearReferenceFrameB);
 
-            nodeB.setPhysicsLocation(saveLocation);
-            nodeB.setPhysicsRotation(saveRotation);
+            b.setPhysicsLocation(saveLocation);
+            b.setPhysicsRotation(saveRotation);
 
         } else {
             /*
              * Create a double-ended joint.
              */
-            objectId = createJoint(nodeA.getObjectId(), nodeB.getObjectId(),
+            objectId = createJoint(nodeA.getObjectId(), b.getObjectId(),
                     pivotA, rotA, pivotB, rotB, useLinearReferenceFrameA);
         }
         assert objectId != 0L;

@@ -38,7 +38,6 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
-import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,12 +46,12 @@ import java.util.logging.Logger;
  * The abstract base class for joining a PhysicsSoftBody to another body, based
  * on Bullet's btSoftBody::Joint. There are 2 kinds of SoftPhysicsJoint:
  * <ul>
- * <li>soft-soft joints to join 2 distinct soft bodies, and</li>
- * <li>soft-rigid joints to join a soft body and a rigid body.</li>
+ * <li>soft-soft joints, which join 2 distinct soft bodies, and</li>
+ * <li>soft-rigid joints, which join soft bodies to rigid bodies.</li>
  * </ul>
  * Subclasses include: SoftLinearJoint and SoftAngularJoint.
  * <p>
- * Another way to join a soft body and a rigid body is to append an anchor to
+ * To join a particular node of a soft body to a rigid body, append an anchor to
  * the soft body:
  * {@link com.jme3.bullet.objects.PhysicsSoftBody#appendAnchor(int, com.jme3.bullet.objects.PhysicsRigidBody, com.jme3.math.Vector3f, boolean, float)}
  *
@@ -71,7 +70,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     // fields TODO privatize
 
     /**
-     * true if this joint is added to a soft body A
+     * true if this joint is added to soft body A
      */
     private boolean added = false;
     /**
@@ -86,14 +85,6 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * local copy (default=1)
      */
     protected float split = 1f;
-    /**
-     * soft body A specified in the constructor, or null if A is a rigid body
-     */
-    protected PhysicsSoftBody softA;
-    /**
-     * soft body B specified in the constructor, or null if B is a rigid body
-     */
-    protected PhysicsSoftBody softB;
     // *************************************************************************
     // constructors
 
@@ -119,10 +110,8 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      */
     public SoftPhysicsJoint(PhysicsSoftBody nodeA, PhysicsRigidBody nodeB,
             Vector3f pivotA, Vector3f pivotB) {
-        this.nodeA = null;
+        this.nodeA = nodeA;
         this.nodeB = nodeB;
-        this.softA = nodeA;
-        this.softB = null;
         this.pivotA = pivotA;
         this.pivotB = pivotB;
 
@@ -149,10 +138,8 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
             throw new IllegalArgumentException("The bodies must be distinct.");
         }
 
-        this.softA = nodeA;
-        this.softB = nodeB;
-        this.nodeA = null;
-        this.nodeB = null;
+        this.nodeA = nodeA;
+        this.nodeB = nodeB;
         this.pivotA = pivotA;
         this.pivotB = pivotB;
 
@@ -168,7 +155,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      */
     public void addConstraint() {
         if (!added) {
-            addConstraint(objectId, softA.getObjectId());
+            addConstraint(objectId, nodeA.getObjectId());
             added = true;
         }
     }
@@ -220,12 +207,30 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         return getErrorReductionParameter(objectId);
     }
 
+    /**
+     * Access the soft body at the A end.
+     *
+     * @return the pre-existing body, or null if none
+     */
     public PhysicsSoftBody getSoftBodyA() {
-        return softA;
+        PhysicsSoftBody result = null;
+        if (nodeA instanceof PhysicsSoftBody) {
+            result = (PhysicsSoftBody) nodeA;
+        }
+        return result;
     }
 
+    /**
+     * Access the soft body at the B end.
+     *
+     * @return the pre-existing body, or null if none
+     */
     public PhysicsSoftBody getSoftBodyB() {
-        return softB;
+        PhysicsSoftBody result = null;
+        if (nodeB instanceof PhysicsSoftBody) {
+            result = (PhysicsSoftBody) nodeB;
+        }
+        return result;
     }
 
     public float getSplit() {
@@ -233,11 +238,11 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
 
     public boolean isSoftRigidJoint() {
-        return nodeB != null;
+        return nodeB instanceof PhysicsRigidBody;
     }
 
     public boolean isSoftSoftJoint() {
-        return nodeB == null; // == (softB != null)
+        return nodeB instanceof PhysicsSoftBody;
     }
 
     /**
@@ -246,7 +251,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      */
     public void removeConstraint() {
         if (added) {
-            removeConstraint(objectId, softA.getObjectId());
+            removeConstraint(objectId, nodeA.getObjectId());
             added = false;
         }
     }
@@ -305,33 +310,11 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     // PhysicsJoint methods
 
     /**
-     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned joint into a deep-cloned one, using the specified Cloner
-     * and original to resolve copied fields.
+     * Finalize this joint just before it is destroyed. Should be invoked only
+     * by a subclass or by the garbage collector.
      *
-     * @param cloner the Cloner that's cloning this joint (not null)
-     * @param original the instance from which this joint was shallow-cloned
-     * (not null, unaffected)
+     * @throws Throwable ignored by the garbage collector
      */
-    @Override
-    public void cloneFields(Cloner cloner, Object original) {
-        super.cloneFields(cloner, original);
-        // TODO
-    }
-
-    /**
-     * Destroy this joint and remove it from its connected Body joint lists
-     */
-    @Override
-    public void destroy() {
-        getSoftBodyA().removeJoint(this);
-        if (isSoftRigidJoint()) {
-            getBodyB().removeJoint(this);
-        } else {
-            getSoftBodyB().removeJoint(this);
-        }
-    }
-
     @Override
     protected void finalize() throws Throwable {
         if (added) {
@@ -350,16 +333,6 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
 
     @Override
     native protected void finalizeNative(long jointId);
-
-    /**
-     * The bodyA must be a SoftBody.
-     *
-     * @return null
-     */
-    @Override
-    public PhysicsRigidBody getBodyA() {
-        return null;
-    }
 
     @Override
     public boolean isCollisionBetweenLinkedBodies() {
@@ -393,9 +366,6 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        softA = (PhysicsSoftBody) capsule.readSavable("softA", null);
-        softB = (PhysicsSoftBody) capsule.readSavable("softB", null);
-
         constraintForceMixing = capsule.readFloat("constraintForceMixing", 1f);
         errorReductionParameter = capsule.readFloat("errorReductionParameter", 1f);
         split = capsule.readFloat("split", 1f);
@@ -416,9 +386,6 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-
-        capsule.write(softA, "softA", null);
-        capsule.write(softB, "softB", null);
 
         capsule.write(getConstraintForceMixing(), "constraintForceMixing", 1);
         capsule.write(getErrorReductionParameter(), "errorReductionParameter", 1);
