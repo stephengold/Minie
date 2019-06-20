@@ -37,13 +37,20 @@ import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
+import com.jme3.bullet.joints.SoftAngularJoint;
+import com.jme3.bullet.joints.SoftLinearJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Mesh;
+import com.jme3.scene.debug.WireBox;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Misc;
 import org.junit.Test;
@@ -61,6 +68,7 @@ public class TestCloneJoints {
     final private static Quaternion qb = new Quaternion(0.5f, 0.5f, 0.5f, 0.5f);
     final private static Vector3f va = new Vector3f(-1f, -2f, -3f);
     final private static Vector3f vb = new Vector3f(-4f, -5f, -6f);
+    final private static Vector3f vc = new Vector3f(8f, 7f, 6f);
     // *************************************************************************
     // new methods exposed
 
@@ -71,9 +79,22 @@ public class TestCloneJoints {
     public void testCloneJoints() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
+        float mass = 1f;
         CollisionShape box = new BoxCollisionShape(1f);
-        PhysicsRigidBody bodyA = new PhysicsRigidBody(box, 1f);
-        PhysicsRigidBody bodyB = new PhysicsRigidBody(box, 1f);
+        PhysicsRigidBody bodyA = new PhysicsRigidBody(box, mass); // TODO rename
+        PhysicsRigidBody bodyB = new PhysicsRigidBody(box, mass);
+
+        Mesh wireBox = new WireBox();
+        PhysicsSoftBody softA = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
+        softA.generateClusters(2, 999);
+        softA.setMargin(0.1f);
+        softA.setMass(mass);
+        PhysicsSoftBody softB = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromLineMesh(wireBox, softB);
+        softB.generateClusters(2, 999);
+        softB.setMargin(0.1f);
+        softB.setMass(mass);
         /*
          * ConeJoint: single- and double-ended
          */
@@ -170,6 +191,34 @@ public class TestCloneJoints {
         verifyParameters(seSlide, 0f);
         SliderJoint seSlideClone = (SliderJoint) Misc.deepCopy(seSlide);
         cloneTest(seSlide, seSlideClone);
+        /*
+         * SoftAngularJoint: soft-soft and soft-rigid
+         */
+        SoftAngularJoint ssaj = new SoftAngularJoint(va, softA, softB, vb, vc);
+        setParameters(ssaj, 0f);
+        verifyParameters(ssaj, 0f);
+//        SoftAngularJoint ssajClone = (SoftAngularJoint) Misc.deepCopy(ssaj);
+//        cloneTest(ssaj, ssajClone);
+
+        SoftAngularJoint sraj = new SoftAngularJoint(va, softA, bodyB, vb, vc);
+        setParameters(sraj, 0f);
+        verifyParameters(sraj, 0f);
+//        SoftAngularJoint srajClone = (SoftAngularJoint) Misc.deepCopy(sraj);
+//        cloneTest(sraj, srajClone);
+        /*
+         * SoftLinearJoint: soft-soft and soft-rigid
+         */
+        SoftLinearJoint sslj = new SoftLinearJoint(va, softA, softB, vb, vc);
+        setParameters(sslj, 0f);
+        verifyParameters(sslj, 0f);
+//        SoftLinearJoint ssljClone = (SoftLinearJoint) Misc.deepCopy(sslj);
+//        cloneTest(sslj, ssljClone);
+
+        SoftLinearJoint srlj = new SoftLinearJoint(va, softA, bodyB, vb, vc);
+        setParameters(srlj, 0f);
+        verifyParameters(srlj, 0f);
+//        SoftLinearJoint srljClone = (SoftLinearJoint) Misc.deepCopy(srlj);
+//        cloneTest(srlj, srljClone);
     }
     // *************************************************************************
     // private methods
@@ -177,8 +226,8 @@ public class TestCloneJoints {
     private static void cloneTest(PhysicsJoint joint, PhysicsJoint jointClone) {
         assert jointClone.getObjectId() != joint.getObjectId();
 
-        PhysicsRigidBody a = joint.getBodyA();
-        PhysicsRigidBody aClone = jointClone.getBodyA();
+        PhysicsBody a = joint.getBody(JointEnd.A);
+        PhysicsBody aClone = jointClone.getBody(JointEnd.A);
         if (a == null) {
             assert aClone == null;
         } else {
@@ -186,8 +235,8 @@ public class TestCloneJoints {
             assert a.getObjectId() != aClone.getObjectId();
         }
 
-        PhysicsRigidBody b = joint.getBodyB();
-        PhysicsRigidBody bClone = jointClone.getBodyB();
+        PhysicsBody b = joint.getBody(JointEnd.B);
+        PhysicsBody bClone = jointClone.getBody(JointEnd.B);
         if (b == null) {
             assert bClone == null;
         } else {
@@ -222,6 +271,10 @@ public class TestCloneJoints {
             setSix((SixDofJoint) joint, b);
         } else if (joint instanceof SliderJoint) {
             setSlide((SliderJoint) joint, b);
+        } else if (joint instanceof SoftAngularJoint) {
+            setSoftAngular((SoftAngularJoint) joint, b);
+        } else if (joint instanceof SoftLinearJoint) {
+            setSoftLinear((SoftLinearJoint) joint, b);
         } else {
             throw new IllegalArgumentException(joint.getClass().getName());
         }
@@ -326,6 +379,18 @@ public class TestCloneJoints {
         slide.setUpperLinLimit(b + 0.26f);
     }
 
+    private static void setSoftAngular(SoftAngularJoint saj, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        saj.setCollisionBetweenLinkedBodies(flag);
+        // TODO
+    }
+
+    private static void setSoftLinear(SoftLinearJoint slj, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        slj.setCollisionBetweenLinkedBodies(flag);
+        // TODO
+    }
+
     private static void verifyParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert joint.isEnabled() == flag;
@@ -341,6 +406,10 @@ public class TestCloneJoints {
             verifySix((SixDofJoint) joint, b);
         } else if (joint instanceof SliderJoint) {
             verifySlide((SliderJoint) joint, b);
+        } else if (joint instanceof SoftAngularJoint) {
+            verifySoftAngular((SoftAngularJoint) joint, b);
+        } else if (joint instanceof SoftLinearJoint) {
+            verifySoftLinear((SoftLinearJoint) joint, b);
         } else {
             throw new IllegalArgumentException(joint.getClass().getName());
         }
@@ -520,5 +589,13 @@ public class TestCloneJoints {
 
         assert slide.getUpperAngLimit() == b + 0.25f;
         assert slide.getUpperLinLimit() == b + 0.26f;
+    }
+
+    private static void verifySoftAngular(SoftAngularJoint saj, float b) {
+        // TODO
+    }
+
+    private static void verifySoftLinear(SoftLinearJoint slj, float b) {
+        // TODO
     }
 }
