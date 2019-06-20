@@ -141,7 +141,7 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * Material for joints (their A ends)
      */
-    private Material DEBUG_GREEN;
+    private Material green;
     /**
      * materials for rigid bodies (and vehicles) that are responsive, dynamic,
      * and active
@@ -154,11 +154,11 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * Material for joints (their B ends)
      */
-    private Material DEBUG_RED;
+    private Material red;
     /**
      * Material for bounding boxes and swept spheres
      */
-    private Material DEBUG_WHITE;
+    private Material white;
     /**
      * materials for ghosts and other non-responsive collision objects
      */
@@ -247,8 +247,8 @@ public class BulletDebugAppState extends AbstractAppState {
      * @return the pre-existing Material (not null)
      */
     Material getBoundingBoxMaterial() {
-        assert DEBUG_WHITE != null;
-        return DEBUG_WHITE;
+        assert white != null;
+        return white;
     }
 
     /**
@@ -300,10 +300,10 @@ public class BulletDebugAppState extends AbstractAppState {
         Material result;
         switch (end) {
             case A:
-                result = DEBUG_GREEN;
+                result = green;
                 break;
             case B:
-                result = DEBUG_RED;
+                result = red;
                 break;
             default:
                 throw new IllegalArgumentException(end.toString());
@@ -319,8 +319,8 @@ public class BulletDebugAppState extends AbstractAppState {
      * @return the pre-existing Material (not null)
      */
     Material getSweptSphereMaterial() {
-        assert DEBUG_WHITE != null;
-        return DEBUG_WHITE;
+        assert white != null;
+        return white;
     }
 
     /**
@@ -381,7 +381,7 @@ public class BulletDebugAppState extends AbstractAppState {
         System.arraycopy(viewPorts, 0, this.viewPorts, 0, length);
     }
     // *************************************************************************
-    // new protected methods
+    // new protected methods - TODO re-order methods
 
     /**
      * Attach the specified Spatial to the debug root node.
@@ -420,9 +420,9 @@ public class BulletDebugAppState extends AbstractAppState {
         RenderState renderState = blues[2].getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
-        DEBUG_GREEN = MyAsset.createWireframeMaterial(am, ColorRGBA.Green);
-        DEBUG_GREEN.setName("DEBUG_GREEN");
-        renderState = DEBUG_GREEN.getAdditionalRenderState();
+        green = MyAsset.createWireframeMaterial(am, ColorRGBA.Green);
+        green.setName("debug green");
+        renderState = green.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         magentas[0] = invisible;
@@ -441,14 +441,14 @@ public class BulletDebugAppState extends AbstractAppState {
         renderState = pink[2].getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
-        DEBUG_RED = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
-        DEBUG_RED.setName("DEBUG_RED");
-        renderState = DEBUG_RED.getAdditionalRenderState();
+        red = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
+        red.setName("debug red");
+        renderState = red.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
-        DEBUG_WHITE = MyAsset.createWireframeMaterial(am, ColorRGBA.White);
-        DEBUG_WHITE.setName("DEBUG_WHITE");
-        renderState = DEBUG_WHITE.getAdditionalRenderState();
+        white = MyAsset.createWireframeMaterial(am, ColorRGBA.White);
+        white.setName("debug white");
+        renderState = white.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         yellows[0] = invisible;
