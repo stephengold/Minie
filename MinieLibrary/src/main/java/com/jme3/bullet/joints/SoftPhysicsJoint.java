@@ -162,8 +162,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
 
     /**
-     * Get the constraint force mixing coefficient (aka CFM). TODO rename
-     * getCFM()
+     * Get the constraint force mixing coefficient (aka CFM).
      * <p>
      * From the Bullet documentation:</p>
      * <ul>
@@ -176,12 +175,12 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      *
      * @return the coefficient value (&ge;0)
      */
-    public float getConstraintForceMixing() {
+    public float getCFM() {
         return getConstraintForceMixing(objectId);
     }
 
     /**
-     * Get the error-reduction parameter (aka ERP). TODO rename getERP()
+     * Get the error-reduction parameter (aka ERP).
      * <p>
      * From the Bullet documentation:</p>
      * <p>
@@ -200,7 +199,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      *
      * @return the parameter value (&ge;0, &le;1, default=1)
      */
-    public float getErrorReductionParameter() {
+    public float getERP() {
         return getErrorReductionParameter(objectId);
     }
 
@@ -269,8 +268,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
 
     /**
-     * Set the constraint force mixing coefficient (aka CFM). TODO rename
-     * setCFM()
+     * Set the constraint force mixing coefficient (aka CFM).
      * <p>
      * From the Bullet documentation:</p>
      * <ul>
@@ -286,16 +284,15 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      *
      * @param cfm the desired coefficient value (&ge;0, default=1)
      */
-    public void setConstraintForceMixing(float cfm) {
+    public void setCFM(float cfm) {
         Validate.nonNegative(cfm, "CFM coefficient");
         setConstraintForceMixing(objectId, cfm);
     }
 
     /**
-     * Set the error-reduction parameter coefficient (aka ERP). TODO rename
-     * setERP()
+     * Set the error-reduction parameter (aka ERP).
      * <p>
-     * From the Bullet documentation :</p>
+     * From the Bullet documentation:</p>
      * <p>
      * The ERP specifies what proportion of the joint error will be fixed during
      * the next simulation step.
@@ -312,7 +309,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      *
      * @param erp the desired parameter value (&ge;0, &le;1, default=1)
      */
-    public void setErrorReductionParameter(float erp) {
+    public void setERP(float erp) {
         Validate.fraction(erp, "error-reduction parameter");
         setErrorReductionParameter(objectId, erp);
     }
@@ -406,8 +403,8 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(getConstraintForceMixing(), "constraintForceMixing", 1);
-        capsule.write(getErrorReductionParameter(), "errorReductionParameter", 1);
+        capsule.write(getCFM(), "constraintForceMixing", 1);
+        capsule.write(getERP(), "errorReductionParameter", 1);
         capsule.write(getSplit(), "split", 1);
     }
     // *************************************************************************
