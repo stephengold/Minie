@@ -33,9 +33,11 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.control.VehicleControl;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
+import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.export.binary.BinaryExporter;
@@ -123,8 +125,7 @@ public class TestCloneBody {
     // *************************************************************************
     // private methods
 
-    private void cloneTest(PhysicsCollisionObject body,
-            PhysicsCollisionObject bodyClone) {
+    private void cloneTest(PhysicsBody body, PhysicsBody bodyClone) {
         assert bodyClone.getObjectId() != body.getObjectId();
         if (body instanceof PhysicsSoftBody) {
             PhysicsSoftBody sBody = (PhysicsSoftBody) body;
@@ -144,24 +145,12 @@ public class TestCloneBody {
         verifyParameters(body, 0.3f);
         verifyParameters(bodyClone, 0.6f);
 
-        if (body instanceof PhysicsRigidBody) {
-            PhysicsRigidBody bodyCopy = BinaryExporter.saveAndLoad(
-                    assetManager, (PhysicsRigidBody) body);
-            verifyParameters(bodyCopy, 0.3f);
+        PhysicsBody bodyCopy = BinaryExporter.saveAndLoad(assetManager, body);
+        verifyParameters(bodyCopy, 0.3f);
 
-            PhysicsRigidBody bodyCloneCopy = BinaryExporter.saveAndLoad(
-                    assetManager, (PhysicsRigidBody) bodyClone);
-            verifyParameters(bodyCloneCopy, 0.6f);
-        }
-        if (body instanceof PhysicsSoftBody) {
-            PhysicsSoftBody bodyCopy = BinaryExporter.saveAndLoad(
-                    assetManager, (PhysicsSoftBody) body);
-            verifyParameters(bodyCopy, 0.3f);
-
-            PhysicsSoftBody bodyCloneCopy = BinaryExporter.saveAndLoad(
-                    assetManager, (PhysicsSoftBody) bodyClone);
-            verifyParameters(bodyCloneCopy, 0.6f);
-        }
+        PhysicsBody bodyCloneCopy
+                = BinaryExporter.saveAndLoad(assetManager, bodyClone);
+        verifyParameters(bodyCloneCopy, 0.6f);
     }
 
     private void setParameters(PhysicsCollisionObject pco, float b) {
@@ -218,11 +207,27 @@ public class TestCloneBody {
     }
 
     private void setSoft(PhysicsSoftBody body, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        int n = Math.round(10f * b);
+
         SoftBodyConfig config = body.getSoftConfig();
         for (Sbcp sbcp : Sbcp.values()) {
             float value = b + 0.001f * sbcp.ordinal();
             config.set(sbcp, value);
         }
+
+        config.setClusterIterations(n);
+        config.setDriftIterations(n + 1);
+        config.setPositionIterations(n + 2);
+        config.setVelocityIterations(n + 3);
+
+        int flags;
+        if (flag) {
+            flags = ConfigFlag.CL_RS | ConfigFlag.CL_SS | ConfigFlag.CL_SELF;
+        } else {
+            flags = ConfigFlag.SDF_RS | ConfigFlag.VF_SS;
+        }
+        config.setCollisionFlags(flags);
 
         PhysicsSoftBody.Material material = body.getSoftMaterial();
         material.setAngularStiffness(b + 0.04f);
@@ -319,13 +324,28 @@ public class TestCloneBody {
     }
 
     private void verifySoft(PhysicsSoftBody body, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        int n = Math.round(10f * b);
+
         SoftBodyConfig config = body.getSoftConfig();
         for (Sbcp sbcp : Sbcp.values()) {
             float expected = b + 0.001f * sbcp.ordinal();
             float actual = config.get(sbcp);
             assert actual == expected : sbcp;
         }
-        // TODO verify collision flags and iteration counts
+
+        assert config.clusterIterations() == n;
+        assert config.driftIterations() == n + 1;
+        assert config.positionIterations() == n + 2;
+        assert config.velocityIterations() == n + 3;
+
+        int flags;
+        if (flag) {
+            flags = ConfigFlag.CL_RS | ConfigFlag.CL_SS | ConfigFlag.CL_SELF;
+        } else {
+            flags = ConfigFlag.SDF_RS | ConfigFlag.VF_SS;
+        }
+        assert config.collisionFlags() == flags;
 
         PhysicsSoftBody.Material material = body.getSoftMaterial();
         assert material.angularStiffness() == b + 0.04f;
