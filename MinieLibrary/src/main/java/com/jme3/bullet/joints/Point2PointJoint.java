@@ -242,18 +242,12 @@ public class Point2PointJoint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        float breakingImpulseThreshold = capsule.readFloat(
-                "breakingImpulseThreshold", Float.MAX_VALUE);
-        boolean isEnabled = capsule.readBoolean("isEnabled", true);
-
         createJoint();
-
-        setBreakingImpulseThreshold(breakingImpulseThreshold);
-        setEnabled(isEnabled);
+        readJointProperties(capsule);
 
         setDamping(capsule.readFloat("damping", 1f));
-        setDamping(capsule.readFloat("tau", 0.3f));
-        setDamping(capsule.readFloat("impulseClamp", 0f));
+        setTau(capsule.readFloat("tau", 0.3f));
+        setImpulseClamp(capsule.readFloat("impulseClamp", 0f));
     }
 
     /**
