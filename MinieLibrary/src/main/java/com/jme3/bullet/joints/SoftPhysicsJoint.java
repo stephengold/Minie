@@ -41,6 +41,7 @@ import com.jme3.math.Vector3f;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * The abstract base class for joining a PhysicsSoftBody to another body, based
@@ -49,7 +50,7 @@ import java.util.logging.Logger;
  * <li>soft-soft joints, which join 2 distinct soft bodies, and</li>
  * <li>soft-rigid joints, which join soft bodies to rigid bodies.</li>
  * </ul>
- * Subclasses include: SoftLinearJoint and SoftAngularJoint.
+ * Subclasses include SoftLinearJoint and SoftAngularJoint.
  * <p>
  * To join a particular node of a soft body to a rigid body, append an anchor to
  * the soft body:
@@ -161,30 +162,26 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
 
     /**
-     * Get the constraint force mixing coefficient (aka CFM).
+     * Get the constraint force mixing coefficient (aka CFM). TODO rename
+     * getCFM()
      * <p>
-     * From bullet documentation :</p>
+     * From the Bullet documentation:</p>
      * <ul>
-     * <li>If CFM = 0 then the constraint will be hard.
+     * <li>If CFM=0 then the constraint will be hard.
      * <li>If CFM is set to a positive value, it will be possible to violate the
      * constraint by "pushing on it" (for example, for contact constraints by
      * forcing the two contacting objects together). In other words the
      * constraint will be soft, and the softness will increase as CFM increases.
      * </ul>
-     * <p>
-     * Note that setting CFM to a negative value can have undesirable bad
-     * effects, such as instability. Don't do it.
-     * </p>
-     * (1 is the default).
      *
-     * @return the constraint force mixing value
+     * @return the coefficient value (&ge;0)
      */
     public float getConstraintForceMixing() {
         return getConstraintForceMixing(objectId);
     }
 
     /**
-     * Get the error reduction parameter coefficient (aka ERP).
+     * Get the error-reduction parameter (aka ERP). TODO rename getERP()
      * <p>
      * From the Bullet documentation:</p>
      * <p>
@@ -194,14 +191,14 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * <ul>
      * <li>If ERP=0 then no correcting force is applied and the bodies will
      * eventually drift apart as the simulation proceeds.
-     * <li>If ERP = 1 then the simulation will attempt to fix all joint error
+     * <li>If ERP=1 then the simulation will attempt to fix all joint error
      * during the next time step. However, setting ERP=1 is not recommended, as
      * the joint error will not be completely fixed due to various internal
      * approximations.
      * </ul>
-     * A value of ERP = 0.1 to 0.8 is recommended (1 is the default).
+     * Values between 0.1 and 0.8 are recommended.
      *
-     * @return the error reduction parameter value
+     * @return the parameter value (&ge;0, &le;1, default=1)
      */
     public float getErrorReductionParameter() {
         return getErrorReductionParameter(objectId);
@@ -233,14 +230,29 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         return result;
     }
 
+    /**
+     * TODO description
+     *
+     * @return
+     */
     public float getSplit() {
         return getSplit(objectId);
     }
 
+    /**
+     * Test whether this joint is a soft-rigid joint.
+     *
+     * @return true if soft-rigid, otherwise false
+     */
     public boolean isSoftRigidJoint() {
         return nodeB instanceof PhysicsRigidBody;
     }
 
+    /**
+     * Test whether this joint is a soft-soft joint.
+     *
+     * @return true if soft-soft, otherwise false
+     */
     public boolean isSoftSoftJoint() {
         return nodeB instanceof PhysicsSoftBody;
     }
@@ -257,11 +269,12 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
 
     /**
-     * Set the constraint force mixing coefficient (aka CFM).
+     * Set the constraint force mixing coefficient (aka CFM). TODO rename
+     * setCFM()
      * <p>
-     * From bullet documentation:</p>
+     * From the Bullet documentation:</p>
      * <ul>
-     * <li>If CFM = 0 then the constraint will be hard.
+     * <li>If CFM=0 then the constraint will be hard.
      * <li>If CFM is set to a positive value, it will be possible to violate the
      * constraint by "pushing on it" (for example, for contact constraints by
      * forcing the two contacting objects together). In other words the
@@ -270,19 +283,19 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * <p>
      * Note that setting CFM to a negative value can have undesirable bad
      * effects, such as instability. Don't do it.
-     * </p>
-     * (1 is the default).
      *
-     * @param cfm the value to set, between [0,+inf].
+     * @param cfm the desired coefficient value (&ge;0, default=1)
      */
     public void setConstraintForceMixing(float cfm) {
+        Validate.nonNegative(cfm, "CFM coefficient");
         setConstraintForceMixing(objectId, cfm);
     }
 
     /**
-     * Set the error reduction parameter coefficient (aka ERP).
+     * Set the error-reduction parameter coefficient (aka ERP). TODO rename
+     * setERP()
      * <p>
-     * From bullet documentation :</p>
+     * From the Bullet documentation :</p>
      * <p>
      * The ERP specifies what proportion of the joint error will be fixed during
      * the next simulation step.
@@ -290,19 +303,25 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * <ul>
      * <li>If ERP=0 then no correcting force is applied and the bodies will
      * eventually drift apart as the simulation proceeds.
-     * <li>If ERP = 1 then the simulation will attempt to fix all joint error
+     * <li>If ERP=1 then the simulation will attempt to fix all joint error
      * during the next time step. However, setting ERP=1 is not recommended, as
      * the joint error will not be completely fixed due to various internal
      * approximations.
      * </ul>
-     * A value of ERP = 0.1 to 0.8 is recommended (1 is the default).
+     * Values between 0.1 and 0.8 are recommended.
      *
-     * @param erp the value to set, between [0,1].
+     * @param erp the desired parameter value (&ge;0, &le;1, default=1)
      */
     public void setErrorReductionParameter(float erp) {
+        Validate.fraction(erp, "error-reduction parameter");
         setErrorReductionParameter(objectId, erp);
     }
 
+    /**
+     * TODO description
+     *
+     * @param split the desired split value (default=1)
+     */
     public void setSplit(float split) {
         setSplit(objectId, split);
     }
@@ -336,7 +355,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
 
     @Override
     public boolean isCollisionBetweenLinkedBodies() {
-        return false;
+        return false; //TODO ??
     }
 
     /**
