@@ -81,7 +81,7 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     /**
      * list of joints that connect to this body: The list isn't populated until
-     * the body is added to a PhysicsSpace.
+     * the body is added to a PhysicsSpace. TODO move to PhysicsBody
      */
     private List<PhysicsJoint> joints = new ArrayList<>(4);
     /**
@@ -1230,7 +1230,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         copyPcoProperties(old);
 
         config = cloner.clone(config);
-        joints = cloner.clone(joints);
 
         Material oldMaterial = old.getSoftMaterial();
         material = new Material(this);
@@ -1260,7 +1259,21 @@ public class PhysicsSoftBody extends PhysicsBody {
         IndexBuffer tetraIndices = IndexBuffer.wrapIndexBuffer(tetras);
         appendLinks(tetraIndices);
 
+        assert countClusters() == 0 : countClusters();
+        int numClusters = old.countClusters();
+        for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
+            IntBuffer nodeIndices = old.listNodesInCluster(clusterIndex, null);
+            int numNodesInCluster = nodeIndices.capacity();
+            appendCluster(objectId, numNodesInCluster, nodeIndices);
+        }
+        finishClusters(objectId);
+        assert countClusters() == numClusters : countClusters();
+
         setDeactivationTime(old.getDeactivationTime());
+        /*
+         * Soft joints require clusters; clone them after appending clusters.
+         */
+        joints = cloner.clone(joints);
     }
 
     /**
@@ -1523,6 +1536,9 @@ public class PhysicsSoftBody extends PhysicsBody {
             long rigidBodyId, Vector3f localPivotVector,
             boolean collisionBetweenLinkedBodies, float influenceFraction);
 
+    native private void appendCluster(long softBodyId, int numNodesInCluster,
+            IntBuffer intBuffer);
+
     native private void appendFaces(long bodyId, int numFaces,
             ByteBuffer byteBuffer);
 
@@ -1601,6 +1617,8 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         return result;
     }
+
+    native private void finishClusters(long softBodyId);
 
     native private void generateBendingConstraints(long bodyId, int distance,
             long materialId);
