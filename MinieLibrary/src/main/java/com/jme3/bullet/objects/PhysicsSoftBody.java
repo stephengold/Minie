@@ -55,7 +55,6 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -83,7 +82,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * list of joints that connect to this body: The list isn't populated until
      * the body is added to a PhysicsSpace. TODO move to PhysicsBody
      */
-    private List<PhysicsJoint> joints = new ArrayList<>(4);
+    private ArrayList<PhysicsJoint> joints = new ArrayList<>(4);
     /**
      * material properties of this soft body, allocated lazily
      */
@@ -1407,6 +1406,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * @throws IOException from the importer
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
@@ -1416,11 +1416,51 @@ public class PhysicsSoftBody extends PhysicsBody {
         config = (SoftBodyConfig) capsule.readSavable("config", null);
         assert config != null;
 
+        float[] fArray = capsule.readFloatArray("NodeLocations", new float[0]);
+        appendNodes(BufferUtils.createFloatBuffer(fArray));
+
+        fArray = capsule.readFloatArray("NodeMasses", new float[0]);
+        setMasses(BufferUtils.createFloatBuffer(fArray));
+
+        fArray = capsule.readFloatArray("NodeNormals", new float[0]);
+        setNormals(BufferUtils.createFloatBuffer(fArray));
+
+        fArray = capsule.readFloatArray("NodeVelocities", new float[0]);
+        setVelocities(BufferUtils.createFloatBuffer(fArray));
+
+        int[] nodeIndices = capsule.readIntArray("FaceIndices", new int[0]);
+        IndexBuffer indexBuffer = IndexBuffer.wrapIndexBuffer(
+                BufferUtils.createIntBuffer(nodeIndices));
+        appendFaces(indexBuffer);
+
+        nodeIndices = capsule.readIntArray("LinkIndices", new int[0]);
+        indexBuffer = IndexBuffer.wrapIndexBuffer(
+                BufferUtils.createIntBuffer(nodeIndices));
+        appendLinks(indexBuffer);
+
+        nodeIndices = capsule.readIntArray("TetraIndices", new int[0]);
+        indexBuffer = IndexBuffer.wrapIndexBuffer(
+                BufferUtils.createIntBuffer(nodeIndices));
+        appendTetras(indexBuffer);
+
+        assert countClusters() == 0 : countClusters();
+        int numClusters = capsule.readInt("NumClusters", 0);
+        for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
+            nodeIndices = capsule.readIntArray("Indices" + clusterIndex,
+                    new int[0]);
+            IntBuffer intBuffer = BufferUtils.createIntBuffer(nodeIndices);
+            appendCluster(objectId, numClusters, intBuffer);
+        }
+        finishClusters(objectId);
+        assert countClusters() == numClusters : countClusters();
+
         setRestingLengthScale(capsule.readFloat("RestLengthScale", 0f));
         setPhysicsLocation((Vector3f) capsule.readSavable("PhysicsLocation",
                 new Vector3f()));
 
         getSoftMaterial().read(capsule);
+
+        joints = capsule.readSavableArrayList("joints", null);
     }
 
     /**
@@ -1513,11 +1553,42 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         capsule.write(restingLengthsScale(), "RestLengthScale", 0f);
         capsule.write(getPhysicsLocation(), "PhysicsLocation", null);
-        // TODO anchors, joints, nodes, links, faces, tetras
+        // TODO anchors
+
+        FloatBuffer floatBuffer = copyLocations(null);
+        capsule.write(copyToArray(floatBuffer), "NodeLocations", null);
+
+        floatBuffer = copyMasses(null);
+        capsule.write(copyToArray(floatBuffer), "NodeMasses", null);
+
+        floatBuffer = copyNormals(null);
+        capsule.write(copyToArray(floatBuffer), "NodeNormals", null);
+
+        floatBuffer = copyVelocities(null);
+        capsule.write(copyToArray(floatBuffer), "NodeVelocities", null);
+
+        IntBuffer intBuffer = copyFaces(null);
+        capsule.write(copyToArray(intBuffer), "FaceIndices", null);
+
+        intBuffer = copyLinks(null);
+        capsule.write(copyToArray(intBuffer), "LinkIndices", null);
+
+        intBuffer = copyTetras(null);
+        capsule.write(copyToArray(intBuffer), "TetraIndices", null);
+
+        int numClusters = countClusters();
+        capsule.write(numClusters, "NumClusters", 0);
+        for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
+            intBuffer = listNodesInCluster(clusterIndex, null);
+            capsule.write(copyToArray(intBuffer),
+                    "Indices" + clusterIndex, null);
+        }
 
         assert config != null;
         capsule.write(config, "config", null);
         getSoftMaterial().write(capsule);
+
+        capsule.writeSavableArrayList(joints, "joints", null);
     }
     // *************************************************************************
     // private methods
@@ -1578,6 +1649,36 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private void applyPhysicsTranslate(long bodyId,
             Vector3f offsetVector);
+
+    /**
+     * Copy the specfied buffer to an array.
+     *
+     * @param floatBuffer (not null, unaffected)
+     * @return a new array
+     */
+    private float[] copyToArray(FloatBuffer floatBuffer) {
+        int numFloats = floatBuffer.capacity();
+        float[] result = new float[numFloats];
+        for (int i = 0; i < numFloats; ++i) {
+            result[i] = floatBuffer.get(i);
+        }
+        return result;
+    }
+
+    /**
+     * Copy the specfied buffer to an array.
+     *
+     * @param floatBuffer (not null, unaffected)
+     * @return a new array
+     */
+    private int[] copyToArray(IntBuffer intBuffer) {
+        int numInts = intBuffer.capacity();
+        int[] result = new int[numInts];
+        for (int i = 0; i < numInts; ++i) {
+            result[i] = intBuffer.get(i);
+        }
+        return result;
+    }
 
     native private int countNodesInCluster(long objectId, int clusterIndex);
 
