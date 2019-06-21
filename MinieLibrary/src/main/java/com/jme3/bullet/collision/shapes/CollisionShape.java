@@ -44,6 +44,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -400,7 +401,26 @@ abstract public class CollisionShape
         capsule.write(margin, "margin", 0.04f);
     }
     // *************************************************************************
-    // Object methods TODO define equals()
+    // Object methods
+
+    /**
+     * Test whether this shape is identical to another.
+     *
+     * @param otherObject (may be null, unaffected)
+     * @return true if the shapes have the same ID, otherwise false
+     */
+    @Override
+    public boolean equals(Object otherObject) {
+        boolean result = false;
+        if (otherObject instanceof CollisionShape) {
+            long otherId = ((CollisionShape) otherObject).getObjectId();
+            if (objectId == otherId) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
 
     /**
      * Finalize this shape just before it is destroyed. Should be invoked only
@@ -415,6 +435,17 @@ abstract public class CollisionShape
                 Long.toHexString(objectId));
         DebugShapeFactory.removeShapeFromCache(objectId);
         finalizeNative(objectId);
+    }
+
+    /**
+     * Generate the hash code for this shape.
+     *
+     * @return value for use in hashing
+     */
+    @Override
+    public int hashCode() {
+        int hash = Objects.hashCode(this.objectId);
+        return hash;
     }
     // *************************************************************************
     // private methods
