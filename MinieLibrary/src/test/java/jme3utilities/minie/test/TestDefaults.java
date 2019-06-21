@@ -37,10 +37,15 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.joints.SixDofJoint;
+import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.DebugShapeFactory;
+import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Mesh;
+import com.jme3.scene.debug.WireBox;
 import com.jme3.system.NativeLibraryLoader;
 import org.junit.Assert;
 import org.junit.Test;
@@ -97,49 +102,26 @@ public class TestDefaults {
         assertEquals(1f, 1f, 1f, sphere.getScale(null), 0f);
 
         PhysicsRigidBody rigidA = new PhysicsRigidBody(box);
-        Assert.assertFalse(rigidA.isInWorld());
+        testPco(rigidA);
         Assert.assertFalse(rigidA.isStatic());
         Assert.assertEquals(0, rigidA.countJoints());
-        Assert.assertTrue(rigidA.isActive());
         Assert.assertEquals(0f, rigidA.getAngularDamping(), 0f);
         Assert.assertEquals(1f, rigidA.getAngularFactor(), 0f);
         Assert.assertEquals(1f, rigidA.getAngularSleepingThreshold(), 0f);
         assertEquals(0f, 0f, 0f, rigidA.getAngularVelocity(null), 0);
-        assertEquals(1f, 1f, 1f, rigidA.getAnisotropicFriction(null), 0f);
-        Assert.assertFalse(rigidA.hasAnisotropicFriction(1));
-        Assert.assertFalse(rigidA.hasAnisotropicFriction(2));
-        Assert.assertEquals(0f, rigidA.getCcdMotionThreshold(), 0f);
-        Assert.assertEquals(0f, rigidA.getCcdSweptSphereRadius(), 0f);
-        Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
-                rigidA.getCollideWithGroups());
-        Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
-                rigidA.getCollisionGroup());
-        Assert.assertEquals(0.1f, rigidA.getContactDamping(), 0f);
-        Assert.assertEquals(1e18f, rigidA.getContactProcessingThreshold(), 0f);
-        Assert.assertTrue(rigidA.isContactResponse());
-        Assert.assertEquals(1e18f, rigidA.getContactStiffness(), 0f);
-        Assert.assertEquals(0f, rigidA.getDeactivationTime(), 0f);
-        Assert.assertNull(rigidA.getDebugMaterial());
-        Assert.assertNull(rigidA.debugMeshInitListener());
-        Assert.assertSame(DebugMeshNormals.None, rigidA.debugMeshNormals());
-        Assert.assertEquals(DebugShapeFactory.lowResolution,
-                rigidA.debugMeshResolution());
-        Assert.assertEquals(1, rigidA.debugNumSides());
-        Assert.assertEquals(0.5f, rigidA.getFriction(), 0f);
+        assertEquals(0f, 0f, 0f, rigidA.getLinearVelocity(null), 0);
         Assert.assertFalse(rigidA.isKinematic());
         Assert.assertEquals(1f, rigidA.getMass(), 0f);
-        Assert.assertEquals(0f, rigidA.getRestitution(), 0f);
-        Assert.assertEquals(0f, rigidA.getRollingFriction(), 0f);
-        Assert.assertEquals(0f, rigidA.getSpinningFriction(), 0f);
-        Assert.assertNull(rigidA.getUserObject());
 
         PhysicsRigidBody rigidB = new PhysicsRigidBody(box);
         SixDofJoint six = new SixDofJoint(rigidA, rigidB, new Vector3f(),
                 new Vector3f(), false);
-        Assert.assertTrue(six.isCollisionBetweenLinkedBodies());
-        Assert.assertTrue(six.isEnabled());
+        Assert.assertEquals(2, six.countEnds());
+        Assert.assertEquals(0f, six.getAppliedImpulse(), 0f);
         Assert.assertEquals(Float.MAX_VALUE, six.getBreakingImpulseThreshold(),
                 0f);
+        Assert.assertTrue(six.isCollisionBetweenLinkedBodies());
+        Assert.assertTrue(six.isEnabled());
 
         RotationalLimitMotor rlm
                 = six.getRotationalLimitMotor(PhysicsSpace.AXIS_X);
@@ -155,6 +137,34 @@ public class TestDefaults {
         Assert.assertEquals(0f, rlm.getStopCFM(), 0f);
         Assert.assertEquals(0f, rlm.getTargetVelocity(), 0f);
         Assert.assertEquals(-1f, rlm.getUpperLimit(), 0f);
+
+        PhysicsSoftBody softA = new PhysicsSoftBody();
+        testPco(softA);
+        Assert.assertEquals(0, softA.countAnchors());
+        Assert.assertEquals(0, softA.countClusters());
+        Assert.assertEquals(0, softA.countFaces());
+        Assert.assertEquals(0, softA.countJoints());
+        Assert.assertEquals(0, softA.countLinks());
+        Assert.assertEquals(0, softA.countNodes());
+        Assert.assertEquals(0, softA.countTetras());
+        Assert.assertEquals(0f, softA.getMass(), 0f);
+
+        Mesh wireBox = new WireBox();
+        NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
+        softA.generateClusters(2, 999);
+        softA.setMass(1f);
+
+        SoftAngularJoint sraj = new SoftAngularJoint(new Vector3f(0f, 0f, 0f),
+                softA, rigidB, new Vector3f(0f, 0f, 0f),
+                new Vector3f(0f, 0f, 0f));
+        Assert.assertEquals(2, sraj.countEnds());
+        Assert.assertEquals(0f, sraj.getAppliedImpulse(), 0f);
+        Assert.assertEquals(0f, sraj.getBreakingImpulseThreshold(), 0f);
+        Assert.assertEquals(1f, sraj.getCFM(), 0f);
+        Assert.assertFalse(sraj.isCollisionBetweenLinkedBodies());
+        Assert.assertFalse(sraj.isEnabled());
+        Assert.assertEquals(1f, sraj.getERP(), 0f);
+        Assert.assertEquals(1f, sraj.getSplit(), 0f);
     }
 
     void assertEquals(float x, float y, float z, Vector3f vector,
@@ -162,5 +172,42 @@ public class TestDefaults {
         Assert.assertEquals(x, vector.x, tolerance);
         Assert.assertEquals(y, vector.y, tolerance);
         Assert.assertEquals(z, vector.z, tolerance);
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Test the defaults that are common to all newly-created collision objects.
+     *
+     * @param pco the object to test (not null, unaffected)
+     */
+    private void testPco(PhysicsCollisionObject pco) {
+        Assert.assertFalse(pco.isInWorld());
+        Assert.assertTrue(pco.isActive());
+        assertEquals(1f, 1f, 1f, pco.getAnisotropicFriction(null), 0f);
+        Assert.assertFalse(pco.hasAnisotropicFriction(1));
+        Assert.assertFalse(pco.hasAnisotropicFriction(2));
+        Assert.assertEquals(0f, pco.getCcdMotionThreshold(), 0f);
+        Assert.assertEquals(0f, pco.getCcdSweptSphereRadius(), 0f);
+        Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
+                pco.getCollideWithGroups());
+        Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
+                pco.getCollisionGroup());
+        Assert.assertEquals(0.1f, pco.getContactDamping(), 0f);
+        Assert.assertEquals(1e18f, pco.getContactProcessingThreshold(), 0f);
+        Assert.assertTrue(pco.isContactResponse());
+        Assert.assertEquals(1e18f, pco.getContactStiffness(), 0f);
+        Assert.assertEquals(0f, pco.getDeactivationTime(), 0f);
+        Assert.assertNull(pco.getDebugMaterial());
+        Assert.assertNull(pco.debugMeshInitListener());
+        Assert.assertSame(DebugMeshNormals.None, pco.debugMeshNormals());
+        Assert.assertEquals(DebugShapeFactory.lowResolution,
+                pco.debugMeshResolution());
+        Assert.assertEquals(1, pco.debugNumSides());
+        Assert.assertEquals(0.5f, pco.getFriction(), 0f);
+        Assert.assertEquals(0f, pco.getRestitution(), 0f);
+        Assert.assertEquals(0f, pco.getRollingFriction(), 0f);
+        Assert.assertEquals(0f, pco.getSpinningFriction(), 0f);
+        Assert.assertNull(pco.getUserObject());
     }
 }
