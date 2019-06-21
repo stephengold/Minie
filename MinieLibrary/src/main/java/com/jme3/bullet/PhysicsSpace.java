@@ -913,7 +913,7 @@ public class PhysicsSpace {
      *
      * @param space which space to simulate on the current thread
      */
-    public static void setLocalThreadPhysicsSpace(PhysicsSpace space) {
+    static void setLocalThreadPhysicsSpace(PhysicsSpace space) {
         physicsSpaceTL.set(space);
     }
 
