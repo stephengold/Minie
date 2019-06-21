@@ -204,6 +204,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
         InputCapsule capsule = importer.getCapsule(this);
         axis = (Vector3f) capsule.readSavable("axis", new Vector3f());
         createJoint();
+        readJointProperties(capsule);
     }
 
     /**
