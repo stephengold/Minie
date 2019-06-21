@@ -153,9 +153,8 @@ public class HullCollisionShape extends CollisionShape {
         assert numFloats % numAxes == 0 : numFloats;
 
         points = new float[numFloats];
-        flippedBuffer.rewind();
         for (int i = 0; i < numFloats; ++i) {
-            points[i] = flippedBuffer.get();
+            points[i] = flippedBuffer.get(i);
         }
 
         createShape();
