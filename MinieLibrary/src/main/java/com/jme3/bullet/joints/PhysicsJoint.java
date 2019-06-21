@@ -454,7 +454,7 @@ abstract public class PhysicsJoint
         nodeB = cloner.clone(nodeB);
         pivotA = cloner.clone(pivotA);
         pivotB = cloner.clone(pivotB);
-        objectId = 0L; // subclass must create the btCollisionObject
+        objectId = 0L; // subclass must create the btTypedConstraint
     }
 
     /**
@@ -490,7 +490,7 @@ abstract public class PhysicsJoint
         pivotA = (Vector3f) capsule.readSavable("pivotA", new Vector3f());
         pivotB = (Vector3f) capsule.readSavable("pivotB", new Vector3f());
         /*
-         * Each subclass must create the btCollisionObject and
+         * Each subclass must create the btTypedConstraint and
          * read the breaking impulse threshold and the enabled flag.
          */
     }
