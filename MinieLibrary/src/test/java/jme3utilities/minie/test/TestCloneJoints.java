@@ -26,6 +26,8 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.asset.AssetManager;
+import com.jme3.asset.DesktopAssetManager;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -45,6 +47,7 @@ import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
+import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
@@ -56,7 +59,7 @@ import jme3utilities.Misc;
 import org.junit.Test;
 
 /**
- * Test cloning physics joints of all types.
+ * Test cloning/saving/loading physics joints of all types.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -69,6 +72,13 @@ public class TestCloneJoints {
     final private static Vector3f va = new Vector3f(-1f, -2f, -3f);
     final private static Vector3f vb = new Vector3f(-4f, -5f, -6f);
     final private static Vector3f vc = new Vector3f(8f, 7f, 6f);
+    // *************************************************************************
+    // fields
+
+    /**
+     * AssetManager required by the BinaryImporter
+     */
+    final private static AssetManager assetManager = new DesktopAssetManager();
     // *************************************************************************
     // new methods exposed
 
@@ -254,6 +264,14 @@ public class TestCloneJoints {
         setParameters(jointClone, 0.6f);
         verifyParameters(joint, 0.3f);
         verifyParameters(jointClone, 0.6f);
+
+        PhysicsJoint jointCopy
+                = BinaryExporter.saveAndLoad(assetManager, joint);
+        verifyParameters(jointCopy, 0.3f);
+
+        PhysicsJoint jointCloneCopy
+                = BinaryExporter.saveAndLoad(assetManager, jointClone);
+        verifyParameters(jointCloneCopy, 0.6f);
     }
 
     private static void setParameters(PhysicsJoint joint, float b) {
