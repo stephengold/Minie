@@ -370,7 +370,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         errorReductionParameter = capsule.readFloat("errorReductionParameter", 1f);
         split = capsule.readFloat("split", 1f);
 
-        // TODO create the btCollisionObject
+        // TODO create the btTypedConstraint
         // TODO read the breaking impulse threshold
         // TODO read the enabled flag
     }

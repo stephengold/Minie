@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 
 /**
  * A motor based on Bullet's btTranslationalLimitMotor. Motors are used to drive
- * joints.
+ * joints. TODO make Savable
  *
  * @author normenhansen
  */

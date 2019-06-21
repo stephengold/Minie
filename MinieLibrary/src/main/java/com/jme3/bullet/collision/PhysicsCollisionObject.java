@@ -619,7 +619,8 @@ abstract public class PhysicsCollisionObject
     /**
      * Directly alter the collision groups with which this object can collide.
      *
-     * @param collisionGroups desired groups, ORed together (bit mask)
+     * @param collisionGroups desired groups, ORed together (bit mask,
+     * default=COLLISION_GROUP_01)
      */
     public void setCollideWithGroups(int collisionGroups) {
         collideWithGroups = collisionGroups;
@@ -632,14 +633,13 @@ abstract public class PhysicsCollisionObject
      * Alter which collision group this object belongs to.
      * <p>
      * Groups are represented by integer bit masks with exactly 1 bit set.
-     * Pre-made variables are available in PhysicsCollisionObject. By default,
-     * physics objects are in COLLISION_GROUP_01.
+     * Pre-made variables are available in PhysicsCollisionObject.
      * <p>
      * Two objects can collide only if one of them has the collisionGroup of the
      * other in its collideWithGroups set.
      *
      * @param collisionGroup the collisionGroup to apply (bit mask with exactly
-     * 1 bit set)
+     * 1 bit set, default=COLLISION_GROUP_01)
      */
     public void setCollisionGroup(int collisionGroup) {
         assert Integer.bitCount(collisionGroup) == 1 : collisionGroup;
@@ -674,7 +674,7 @@ abstract public class PhysicsCollisionObject
      * Alter the contact-processing threshold.
      *
      * @param distance the desired threshold distance (in physics-space units,
-     * default=0)
+     * default=1e18)
      */
     public void setContactProcessingThreshold(float distance) {
         setContactProcessingThreshold(objectId, distance);
@@ -683,7 +683,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter the contact stiffness.
      *
-     * @param stiffness the desired stiffness (default=1e30)
+     * @param stiffness the desired stiffness (default=1e18)
      */
     public void setContactStiffness(float stiffness) {
         float damping = getContactDamping(objectId);
@@ -693,7 +693,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter the deactivation time.
      *
-     * @param time the desired time (in seconds)
+     * @param time the desired time (in seconds, default=0)
      */
     public void setDeactivationTime(float time) {
         setDeactivationTime(objectId, time);
@@ -703,7 +703,7 @@ abstract public class PhysicsCollisionObject
      * Alter or remove the custom debug material.
      *
      * @param material the desired material, or null to use the default debug
-     * materials (alias created)
+     * materials (alias created, default=null)
      */
     public void setDebugMaterial(Material material) {
         debugMaterial = material;
@@ -712,7 +712,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter the listener for new debug meshes.
      *
-     * @param listener the desired listener, or null for none
+     * @param listener the desired listener, or null for none (default=null)
      */
     public void setDebugMeshInitListener(DebugMeshInitListener listener) {
         debugMeshInitListener = listener;
@@ -721,7 +721,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter which normals to include in new debug meshes.
      *
-     * @param newSetting an enum value (not null)
+     * @param newSetting an enum value (not null, default=None)
      */
     public void setDebugMeshNormals(DebugMeshNormals newSetting) {
         Validate.nonNull(newSetting, "new setting");
@@ -732,7 +732,7 @@ abstract public class PhysicsCollisionObject
      * Alter the mesh resolution for new debug meshes. Effective only for convex
      * shapes.
      *
-     * @param newSetting 0=low, 1=high
+     * @param newSetting 0=low, 1=high (default=0)
      */
     public void setDebugMeshResolution(int newSetting) {
         Validate.inRange(newSetting, "new setting", 0, 1);
@@ -792,7 +792,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter which scene object uses this collision object.
      *
-     * @param userObject the desired scene object (alias created, may be null)
+     * @param userObject the desired scene object (alias created, default=null)
      */
     public void setUserObject(Object userObject) {
         this.userObject = userObject;

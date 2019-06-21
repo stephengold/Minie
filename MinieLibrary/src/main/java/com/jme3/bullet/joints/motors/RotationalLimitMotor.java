@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 
 /**
  * A motor based on Bullet's btRotationalLimitMotor. Motors are used to drive
- * joints.
+ * joints. TODO make Savable
  *
  * @author normenhansen
  */
@@ -223,7 +223,7 @@ public class RotationalLimitMotor {
     /**
      * Enable or disable this motor (m_enableMotor).
      *
-     * @param enableMotor true&rarr;enable, false&rarr;disable
+     * @param enableMotor true&rarr;enable, false&rarr;disable (default=false)
      */
     public void setEnableMotor(boolean enableMotor) {
         setEnableMotor(motorId, enableMotor);
@@ -251,7 +251,7 @@ public class RotationalLimitMotor {
     /**
      * Alter this motor's constraint lower limit (m_loLimit).
      *
-     * @param lowerLimit the desired limit value
+     * @param lowerLimit the desired limit value (default=1)
      */
     public void setLowerLimit(float lowerLimit) {
         setLoLimit(motorId, lowerLimit);
@@ -269,7 +269,7 @@ public class RotationalLimitMotor {
     /**
      * Alter this motor's maximum force (m_maxMotorForce).
      *
-     * @param maxMotorForce the desired maximum force
+     * @param maxMotorForce the desired maximum force (default=6)
      */
     public void setMaxMotorForce(float maxMotorForce) {
         setMaxMotorForce(motorId, maxMotorForce);
@@ -279,7 +279,7 @@ public class RotationalLimitMotor {
      * Alter this motor's constraint-force mixing parameter for normal
      * conditions (m_normalCFM).
      *
-     * @param cfm the desired mixing parameter (&ge;0)
+     * @param cfm the desired mixing parameter (&ge;0, default=0)
      */
     public void setNormalCFM(float cfm) {
         setNormalCFM(motorId, cfm);
@@ -298,7 +298,7 @@ public class RotationalLimitMotor {
      * Alter this motor's constraint-force mixing parameter at the limits
      * (m_stopCFM).
      *
-     * @param cfm the desired mixing parameter (&ge;0)
+     * @param cfm the desired mixing parameter (&ge;0, default=0)
      */
     public void setStopCFM(float cfm) {
         setStopCFM(motorId, cfm);
@@ -307,7 +307,8 @@ public class RotationalLimitMotor {
     /**
      * Alter this motor's target velocity (m_targetVelocity).
      *
-     * @param targetVelocity the desired target velocity (in radians per second)
+     * @param targetVelocity the desired target velocity (in radians per second,
+     * default=0)
      */
     public void setTargetVelocity(float targetVelocity) {
         setTargetVelocity(motorId, targetVelocity);
@@ -316,7 +317,7 @@ public class RotationalLimitMotor {
     /**
      * Alter this motor's constraint upper limit (m_hiLimit).
      *
-     * @param upperLimit the desired limit value
+     * @param upperLimit the desired limit value (default=-1)
      */
     public void setUpperLimit(float upperLimit) {
         setHiLimit(motorId, upperLimit);
