@@ -434,10 +434,6 @@ public class HingeJoint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        float breakingImpulseThreshold = capsule.readFloat(
-                "breakingImpulseThreshold", Float.MAX_VALUE);
-        boolean isEnabled = capsule.readBoolean("isEnabled", true);
-
         axisA = (Vector3f) capsule.readSavable("axisA", new Vector3f());
         axisB = (Vector3f) capsule.readSavable("axisB", new Vector3f());
 
@@ -449,17 +445,15 @@ public class HingeJoint extends PhysicsJoint {
         relaxationFactor = capsule.readFloat("relaxationFactor", 1f);
         limitSoftness = capsule.readFloat("limitSoftness", 0.9f);
 
+        createJoint();
+        readJointProperties(capsule);
+
         boolean enableAngularMotor
                 = capsule.readBoolean("enableAngularMotor", false);
         float targetVelocity = capsule.readFloat("targetVelocity", 0f);
         float maxMotorImpulse = capsule.readFloat("maxMotorImpulse", 0f);
-
-        createJoint();
-
-        setBreakingImpulseThreshold(breakingImpulseThreshold);
-        setEnabled(isEnabled);
-
         enableMotor(enableAngularMotor, targetVelocity, maxMotorImpulse);
+
         setAngularOnly(angularOnly);
         setLimit(lowerLimit, upperLimit, limitSoftness, biasFactor,
                 relaxationFactor);

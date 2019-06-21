@@ -818,10 +818,6 @@ public class SliderJoint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        float breakingImpulseThreshold = capsule.readFloat(
-                "breakingImpulseThreshold", Float.MAX_VALUE);
-        boolean isEnabled = capsule.readBoolean("isEnabled", true);
-
         float dampingDirAng = capsule.readFloat("dampingDirAng", 0f);
         float dampingDirLin = capsule.readFloat("dampingDirLin", 0f);
         float dampingLimAng = capsule.readFloat("dampingLimAng", 0f);
@@ -858,13 +854,13 @@ public class SliderJoint extends PhysicsJoint {
         float upperAngLimit = capsule.readFloat("upperAngLimit", 0f);
         float upperLinLimit = capsule.readFloat("upperLinLimit", 0f);
 
+        rotA = (Matrix3f) capsule.readSavable("rotA", new Matrix3f());
+        rotB = (Matrix3f) capsule.readSavable("rotB", new Matrix3f());
         useLinearReferenceFrameA = capsule.readBoolean(
                 "useLinearReferenceFrameA", false);
 
         createJoint();
-
-        setBreakingImpulseThreshold(breakingImpulseThreshold);
-        setEnabled(isEnabled);
+        readJointProperties(capsule);
 
         setDampingDirAng(dampingDirAng);
         setDampingDirLin(dampingDirLin);

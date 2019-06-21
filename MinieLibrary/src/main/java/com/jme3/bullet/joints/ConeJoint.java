@@ -320,10 +320,6 @@ public class ConeJoint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        float breakingImpulseThreshold = capsule.readFloat(
-                "breakingImpulseThreshold", Float.MAX_VALUE);
-        boolean isEnabled = capsule.readBoolean("isEnabled", true);
-
         rotA = (Matrix3f) capsule.readSavable("rotA", new Matrix3f());
         rotB = (Matrix3f) capsule.readSavable("rotB", new Matrix3f());
 
@@ -333,9 +329,7 @@ public class ConeJoint extends PhysicsJoint {
         twistSpan = capsule.readFloat("twistSpan", 1e30f);
 
         createJoint();
-
-        setBreakingImpulseThreshold(breakingImpulseThreshold);
-        setEnabled(isEnabled);
+        readJointProperties(capsule);
     }
 
     /**

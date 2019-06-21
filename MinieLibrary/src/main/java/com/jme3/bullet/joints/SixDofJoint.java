@@ -536,19 +536,13 @@ public class SixDofJoint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        float breakingImpulseThreshold = capsule.readFloat(
-                "breakingImpulseThreshold", Float.MAX_VALUE);
-        boolean isEnabled = capsule.readBoolean("isEnabled", true);
-
         rotA = (Matrix3f) capsule.readSavable("rotA", new Matrix3f());
         rotB = (Matrix3f) capsule.readSavable("rotB", new Matrix3f());
         useLinearReferenceFrameA
                 = capsule.readBoolean("useLinearReferenceFrameA", false);
 
         createJoint();
-
-        setBreakingImpulseThreshold(breakingImpulseThreshold);
-        setEnabled(isEnabled);
+        readJointProperties(capsule);
 
         setAngularUpperLimit((Vector3f) capsule.readSavable("angularUpperLimit", new Vector3f()));
         setAngularLowerLimit((Vector3f) capsule.readSavable("angularLowerLimit", new Vector3f()));

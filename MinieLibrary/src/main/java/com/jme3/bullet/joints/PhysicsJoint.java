@@ -431,6 +431,27 @@ abstract public class PhysicsJoint
     // new protected methods
 
     /**
+     * Read common properties from a capsule.
+     *
+     * @param capsule the input capsule (not null, modified)
+     * @throws IOException from the importer
+     */
+    final protected void readJointProperties(InputCapsule capsule)
+            throws IOException {
+
+        float bit = capsule.readFloat(
+                "breakingImpulseThreshold", Float.MAX_VALUE);
+        setBreakingImpulseThreshold(bit);
+
+        boolean collisionFlag = capsule.readBoolean(
+                "isCollisionBetweenLinkedBodies", true);
+        setCollisionBetweenLinkedBodies(collisionFlag);
+
+        boolean enabledFlag = capsule.readBoolean("isEnabled", true);
+        setEnabled(enabledFlag);
+    }
+
+    /**
      * Finalize the btTypedConstraint.
      *
      * @param jointId identifier of the btTypedConstraint (not 0)
@@ -485,13 +506,13 @@ abstract public class PhysicsJoint
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        nodeA = (PhysicsRigidBody) capsule.readSavable("nodeA", null);
-        nodeB = (PhysicsRigidBody) capsule.readSavable("nodeB", null);
+        nodeA = (PhysicsBody) capsule.readSavable("nodeA", null);
+        nodeB = (PhysicsBody) capsule.readSavable("nodeB", null);
         pivotA = (Vector3f) capsule.readSavable("pivotA", new Vector3f());
         pivotB = (Vector3f) capsule.readSavable("pivotB", new Vector3f());
         /*
-         * Each subclass must create the btTypedConstraint and
-         * read the breaking impulse threshold and the enabled flag.
+         * Each subclass must create the btTypedConstraint and then
+         * invoke readJointProperties() .
          */
     }
 
@@ -511,8 +532,10 @@ abstract public class PhysicsJoint
         capsule.write(pivotA, "pivotA", null);
         capsule.write(pivotB, "pivotB", null);
 
-        capsule.write(getBreakingImpulseThreshold(), "breakingImpulseThreshold",
-                Float.MAX_VALUE);
+        capsule.write(getBreakingImpulseThreshold(),
+                "breakingImpulseThreshold", Float.MAX_VALUE);
+        capsule.write(isCollisionBetweenLinkedBodies(),
+                "isCollisionBetweenLinkedBodies", true);
         capsule.write(isEnabled(), "isEnabled", true);
     }
     // *************************************************************************
