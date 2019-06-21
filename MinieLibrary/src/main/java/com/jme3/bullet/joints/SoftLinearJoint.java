@@ -227,6 +227,7 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     private void createJoint() {
         assert objectId == 0L : objectId;
         assert nodeA instanceof PhysicsSoftBody;
+        assert ((PhysicsSoftBody)nodeA).countClusters() > 0;
 
         if (isSoftRigidJoint()) {
             objectId = createJointSoftRigid(nodeA.getObjectId(),
@@ -234,6 +235,7 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
                     errorReductionParameter, constraintForceMixing, split,
                     location);
         } else if (isSoftSoftJoint()) {
+            assert ((PhysicsSoftBody)nodeB).countClusters() > 0;
             objectId = createJointSoftSoft(nodeA.getObjectId(),
                     nodeB.getObjectId(), pivotA, pivotB,
                     errorReductionParameter, constraintForceMixing, split,
