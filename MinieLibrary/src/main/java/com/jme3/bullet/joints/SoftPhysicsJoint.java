@@ -123,12 +123,12 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         Validate.inRange(clusterIndexA, "cluster index", 0, numClustersA - 1);
         Validate.nonNull(rigidBodyB, "rigid body B");
 
-        nodeA = softBodyA;
-        nodeA.addJoint(this);
+        bodyA = softBodyA;
+        bodyA.addJoint(this);
         this.clusterIndexA = clusterIndexA;
 
-        nodeB = rigidBodyB;
-        nodeB.addJoint(this);
+        bodyB = rigidBodyB;
+        bodyB.addJoint(this);
     }
 
     /**
@@ -149,12 +149,12 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         int numClustersB = softBodyB.countClusters();
         Validate.inRange(clusterIndexB, "cluster index B", 0, numClustersB - 1);
 
-        nodeA = softBodyA;
-        nodeA.addJoint(this);
+        bodyA = softBodyA;
+        bodyA.addJoint(this);
         this.clusterIndexA = clusterIndexA;
 
-        nodeB = softBodyB;
-        nodeB.addJoint(this);
+        bodyB = softBodyB;
+        bodyB.addJoint(this);
         this.clusterIndexB = clusterIndexB;
     }
     // *************************************************************************
@@ -227,7 +227,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @return the pre-existing soft body (not null)
      */
     public PhysicsSoftBody getSoftBodyA() {
-        PhysicsSoftBody result = (PhysicsSoftBody) nodeA;
+        PhysicsSoftBody result = (PhysicsSoftBody) bodyA;
         return result;
     }
 
@@ -238,8 +238,8 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      */
     public PhysicsSoftBody getSoftBodyB() {
         PhysicsSoftBody result = null;
-        if (nodeB instanceof PhysicsSoftBody) {
-            result = (PhysicsSoftBody) nodeB;
+        if (bodyB instanceof PhysicsSoftBody) {
+            result = (PhysicsSoftBody) bodyB;
         }
         return result;
     }
@@ -259,7 +259,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @return true if soft-rigid, otherwise false
      */
     public boolean isSoftRigidJoint() {
-        return nodeB instanceof PhysicsRigidBody;
+        return bodyB instanceof PhysicsRigidBody;
     }
 
     /**
@@ -268,7 +268,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @return true if soft-soft, otherwise false
      */
     public boolean isSoftSoftJoint() {
-        return nodeB instanceof PhysicsSoftBody;
+        return bodyB instanceof PhysicsSoftBody;
     }
 
     /**

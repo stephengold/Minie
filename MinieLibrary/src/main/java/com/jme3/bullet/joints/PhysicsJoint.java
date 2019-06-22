@@ -69,14 +69,14 @@ abstract public class PhysicsJoint
     protected long objectId = 0L;
     /**
      * body A specified in the constructor, or null for a single-ended joint
-     * with body B TODO rename
+     * with body B only
      */
-    protected PhysicsBody nodeA;
+    protected PhysicsBody bodyA;
     /**
      * body B specified in the constructor, or null for a single-ended joint
-     * with body A TODO rename
+     * with body A only
      */
-    protected PhysicsBody nodeB;
+    protected PhysicsBody bodyB;
     // *************************************************************************
     // constructors
 
@@ -94,7 +94,7 @@ abstract public class PhysicsJoint
      * @return 1 if single-ended, 2 if double-ended
      */
     public int countEnds() {
-        if (nodeA == null || nodeB == null) {
+        if (bodyA == null || bodyB == null) {
             return 1;
         } else {
             return 2;
@@ -105,11 +105,11 @@ abstract public class PhysicsJoint
      * Remove this joint from the joint lists of both connected bodies.
      */
     public void destroy() {
-        if (nodeA != null) {
-            nodeA.removeJoint(this);
+        if (bodyA != null) {
+            bodyA.removeJoint(this);
         }
-        if (nodeB != null) {
-            nodeB.removeJoint(this);
+        if (bodyB != null) {
+            bodyB.removeJoint(this);
         }
     }
 
@@ -122,9 +122,9 @@ abstract public class PhysicsJoint
     public PhysicsBody getBody(JointEnd end) {
         switch (end) {
             case A:
-                return nodeA;
+                return bodyA;
             case B:
-                return nodeB;
+                return bodyB;
             default:
                 throw new IllegalArgumentException("end = " + end.toString());
         }
@@ -160,8 +160,8 @@ abstract public class PhysicsJoint
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        nodeA = cloner.clone(nodeA);
-        nodeB = cloner.clone(nodeB);
+        bodyA = cloner.clone(bodyA);
+        bodyB = cloner.clone(bodyB);
         objectId = 0L;
         /*
          * Each subclass must create the btTypedConstraint or btSoftBody::Joint.
@@ -196,8 +196,8 @@ abstract public class PhysicsJoint
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        nodeA = (PhysicsBody) capsule.readSavable("nodeA", null);
-        nodeB = (PhysicsBody) capsule.readSavable("nodeB", null);
+        bodyA = (PhysicsBody) capsule.readSavable("nodeA", null);
+        bodyB = (PhysicsBody) capsule.readSavable("nodeB", null);
         /*
          * Each subclass must create the btTypedConstraint or btSoftBody::Joint.
          */
@@ -214,8 +214,8 @@ abstract public class PhysicsJoint
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(nodeA, "nodeA", null);
-        capsule.write(nodeB, "nodeB", null);
+        capsule.write(bodyA, "nodeA", null);
+        capsule.write(bodyB, "nodeB", null);
     }
     // *************************************************************************
     // Comparable methods

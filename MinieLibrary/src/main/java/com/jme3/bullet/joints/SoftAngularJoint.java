@@ -208,12 +208,12 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      */
     private void createJoint() {
         assert objectId == 0L : objectId;
-        assert nodeA instanceof PhysicsSoftBody;
-        assert ((PhysicsSoftBody) nodeA).countClusters() > 0;
+        assert bodyA instanceof PhysicsSoftBody;
+        assert ((PhysicsSoftBody) bodyA).countClusters() > 0;
         int cia = clusterIndexA();
-        long ida = nodeA.getObjectId();
+        long ida = bodyA.getObjectId();
         int cib = clusterIndexB();
-        long idb = nodeB.getObjectId();
+        long idb = bodyB.getObjectId();
 
         assert cia >= 0 : cia;
         if (isSoftRigidJoint()) {

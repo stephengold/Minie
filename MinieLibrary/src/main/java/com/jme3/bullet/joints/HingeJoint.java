@@ -117,7 +117,7 @@ public class HingeJoint extends Constraint {
      * To be effective, the joint must be added to the body's PhysicsSpace and
      * the body must be dynamic.
      *
-     * @param nodeA the body to constrain (not null, alias created)
+     * @param rigidBodyA the body to constrain (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInWorld the pivot location in physics-space coordinates (not
@@ -128,10 +128,10 @@ public class HingeJoint extends Constraint {
      * vector, unaffected)
      * @param referenceFrame which end to use as the reference frame (not null)
      */
-    public HingeJoint(PhysicsRigidBody nodeA, Vector3f pivotInA,
+    public HingeJoint(PhysicsRigidBody rigidBodyA, Vector3f pivotInA,
             Vector3f pivotInWorld, Vector3f axisInA, Vector3f axisInWorld,
             JointEnd referenceFrame) {
-        super(nodeA, JointEnd.A, pivotInA, pivotInWorld);
+        super(rigidBodyA, JointEnd.A, pivotInA, pivotInWorld);
 
         assert axisInA.isUnitVector() : axisInA;
         assert axisInWorld.isUnitVector() : axisInWorld;
@@ -157,8 +157,8 @@ public class HingeJoint extends Constraint {
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *
-     * @param nodeA the body for the A end (not null, alias created)
-     * @param nodeB the body for the B end (not null, alias created)
+     * @param rigidBodyA the body for the A end (not null, alias created)
+     * @param rigidBodyB the body for the B end (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
@@ -168,10 +168,10 @@ public class HingeJoint extends Constraint {
      * @param axisInB the joint axis in B's local coordinates (unit vector,
      * unaffected)
      */
-    public HingeJoint(PhysicsRigidBody nodeA, PhysicsRigidBody nodeB,
+    public HingeJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
             Vector3f pivotInA, Vector3f pivotInB, Vector3f axisInA,
             Vector3f axisInB) {
-        super(nodeA, nodeB, pivotInA, pivotInB);
+        super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
         assert axisInA.isUnitVector() : axisInA;
         assert axisInB.isUnitVector() : axisInB;
@@ -502,7 +502,7 @@ public class HingeJoint extends Constraint {
         assert pivotB != null;
         assert axisB.isUnitVector() : axisB;
 
-        if (nodeB == null) {
+        if (bodyB == null) {
             /*
              * Create a single-ended joint.  Bullet assumes single-ended
              * btHingeConstraints are satisfied at creation, so we
@@ -534,7 +534,7 @@ public class HingeJoint extends Constraint {
              * Create a double-ended joint.
              */
             assert !useReferenceFrameA;
-            objectId = createJoint(a.getObjectId(), nodeB.getObjectId(),
+            objectId = createJoint(a.getObjectId(), bodyB.getObjectId(),
                     pivotA, axisA, pivotB, axisB);
         }
         assert objectId != 0L;

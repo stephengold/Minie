@@ -76,12 +76,12 @@ abstract public class Constraint extends PhysicsJoint {
      */
     private boolean collisionBetweenLinkedBodies = true;
     /**
-     * copy of the pivot location: in physics-space coordinates if nodeA is
+     * copy of the pivot location: in physics-space coordinates if bodyA is
      * null, or else in A's scaled local coordinates
      */
     protected Vector3f pivotA;
     /**
-     * copy of the pivot location: in physics-space coordinates if nodeB is
+     * copy of the pivot location: in physics-space coordinates if bodyB is
      * null, or else in B's scaled local coordinates
      */
     protected Vector3f pivotB;
@@ -114,19 +114,19 @@ abstract public class Constraint extends PhysicsJoint {
 
         switch (bodyEnd) {
             case A:
-                nodeA = body;
-                nodeB = null;
+                bodyA = body;
+                bodyB = null;
                 pivotA = pivotInBody.clone();
                 pivotB = null;
-                nodeA.addJoint(this);
+                bodyA.addJoint(this);
                 break;
 
             case B:
-                nodeA = null;
-                nodeB = body;
+                bodyA = null;
+                bodyB = body;
                 pivotA = null;
                 pivotB = pivotInBody.clone();
-                nodeB.addJoint(this);
+                bodyB.addJoint(this);
                 break;
 
             default:
@@ -158,19 +158,19 @@ abstract public class Constraint extends PhysicsJoint {
 
         switch (bodyEnd) {
             case A:
-                nodeA = body;
-                nodeB = null;
+                bodyA = body;
+                bodyB = null;
                 pivotA = pivotInBody.clone();
                 pivotB = pivotInWorld.clone();
-                nodeA.addJoint(this);
+                bodyA.addJoint(this);
                 break;
 
             case B:
-                nodeA = null;
-                nodeB = body;
+                bodyA = null;
+                bodyB = body;
                 pivotA = pivotInWorld.clone();
                 pivotB = pivotInBody.clone();
-                nodeB.addJoint(this);
+                bodyB.addJoint(this);
                 break;
 
             default:
@@ -186,26 +186,26 @@ abstract public class Constraint extends PhysicsJoint {
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *
-     * @param nodeA the body for the A end (not null, alias created)
-     * @param nodeB the body for the B end (not null, alias created)
+     * @param bodyA the body for the A end (not null, alias created)
+     * @param bodyB the body for the B end (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      */
-    protected Constraint(PhysicsBody nodeA, PhysicsBody nodeB,
+    protected Constraint(PhysicsBody bodyA, PhysicsBody bodyB,
             Vector3f pivotInA, Vector3f pivotInB) {
-        if (nodeA == nodeB) {
+        if (bodyA == bodyB) {
             throw new IllegalArgumentException(
                     "The jointed bodies must be distinct.");
         }
 
-        this.nodeA = nodeA;
-        this.nodeB = nodeB;
+        this.bodyA = bodyA;
+        this.bodyB = bodyB;
         pivotA = pivotInA.clone();
         pivotB = pivotInB.clone();
-        nodeA.addJoint(this);
-        nodeB.addJoint(this);
+        bodyA.addJoint(this);
+        bodyB.addJoint(this);
     }
     // *************************************************************************
     // new methods exposed
@@ -233,8 +233,8 @@ abstract public class Constraint extends PhysicsJoint {
      */
     public PhysicsRigidBody getBodyA() {
         PhysicsRigidBody result = null;
-        if (nodeA instanceof PhysicsRigidBody) {
-            result = (PhysicsRigidBody) nodeA;
+        if (bodyA instanceof PhysicsRigidBody) {
+            result = (PhysicsRigidBody) bodyA;
         }
         return result;
     }
@@ -246,8 +246,8 @@ abstract public class Constraint extends PhysicsJoint {
      */
     public PhysicsRigidBody getBodyB() {
         PhysicsRigidBody result = null;
-        if (nodeB instanceof PhysicsRigidBody) {
-            result = (PhysicsRigidBody) nodeB;
+        if (bodyB instanceof PhysicsRigidBody) {
+            result = (PhysicsRigidBody) bodyB;
         }
         return result;
     }
@@ -293,7 +293,7 @@ abstract public class Constraint extends PhysicsJoint {
      */
     public Vector3f getPivotA(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        if (nodeA == null) {
+        if (bodyA == null) {
             throw new IllegalArgumentException("No body at the A end.");
         }
 
@@ -310,7 +310,7 @@ abstract public class Constraint extends PhysicsJoint {
      */
     public Vector3f getPivotB(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        if (nodeB == null) {
+        if (bodyB == null) {
             throw new IllegalArgumentException("No body at the B end.");
         }
 

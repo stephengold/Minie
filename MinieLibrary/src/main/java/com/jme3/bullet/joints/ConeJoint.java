@@ -113,15 +113,15 @@ public class ConeJoint extends Constraint {
      * To be effective, the joint must be added to the PhysicsSpace of the body
      * and the body must be dynamic.
      *
-     * @param nodeA the body to constrain (not null, alias created)
+     * @param rigidBodyA the body to constrain (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param rotInA the joint orientation in A's local coordinates (rotation
      * matrix, unaffected)
      */
-    public ConeJoint(PhysicsRigidBody nodeA, Vector3f pivotInA,
+    public ConeJoint(PhysicsRigidBody rigidBodyA, Vector3f pivotInA,
             Matrix3f rotInA) {
-        super(nodeA, JointEnd.A, pivotInA, translateIdentity);
+        super(rigidBodyA, JointEnd.A, pivotInA, translateIdentity);
         rotA = rotInA.clone();
         rotB = rotA;
         createJoint();
@@ -134,16 +134,16 @@ public class ConeJoint extends Constraint {
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *
-     * @param nodeA the body for the A end (not null, alias created)
-     * @param nodeB the body for the B end (not null, alias created)
+     * @param rigidBodyA the body for the A end (not null, alias created)
+     * @param rigidBodyB the body for the B end (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      */
-    public ConeJoint(PhysicsRigidBody nodeA, PhysicsRigidBody nodeB,
+    public ConeJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
             Vector3f pivotInA, Vector3f pivotInB) {
-        super(nodeA, nodeB, pivotInA, pivotInB);
+        super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
         rotA = new Matrix3f();
         rotB = new Matrix3f();
         createJoint();
@@ -156,8 +156,8 @@ public class ConeJoint extends Constraint {
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *
-     * @param nodeA the body for the A end (not null, alias created)
-     * @param nodeB the body for the B end (not null, alias created)
+     * @param rigidBodyA the body for the A end (not null, alias created)
+     * @param rigidBodyB the body for the B end (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
@@ -167,10 +167,10 @@ public class ConeJoint extends Constraint {
      * @param rotInB the joint orientation in B's local coordinates (rotation
      * matrix, unaffected)
      */
-    public ConeJoint(PhysicsRigidBody nodeA, PhysicsRigidBody nodeB,
+    public ConeJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
             Vector3f pivotInA, Vector3f pivotInB, Matrix3f rotInA,
             Matrix3f rotInB) {
-        super(nodeA, nodeB, pivotInA, pivotInB);
+        super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
         rotA = rotInA.clone();
         rotB = rotInB.clone();
         createJoint();
@@ -360,17 +360,17 @@ public class ConeJoint extends Constraint {
      */
     private void createJoint() {
         assert objectId == 0L;
-        assert nodeA != null;
+        assert bodyA != null;
         assert pivotA != null;
         assert rotA != null;
 
-        if (nodeB == null) {
+        if (bodyB == null) {
             /*
              * Create a single-ended joint.
              * Bullet assumes single-ended btConeTwistConstraints have
              * rotInWorld=rotInA and pivotInWorld=(0,0,0).
              */
-            objectId = createJoint1(nodeA.getObjectId(), pivotA, rotA);
+            objectId = createJoint1(bodyA.getObjectId(), pivotA, rotA);
 
         } else {
             assert pivotB != null;
@@ -378,7 +378,7 @@ public class ConeJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            objectId = createJoint(nodeA.getObjectId(), nodeB.getObjectId(),
+            objectId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
                     pivotA, rotA, pivotB, rotB);
         }
         assert objectId != 0L;

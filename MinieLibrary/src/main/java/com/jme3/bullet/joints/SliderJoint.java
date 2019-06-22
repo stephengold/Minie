@@ -73,7 +73,7 @@ public class SliderJoint extends Constraint {
      */
     private boolean useLinearReferenceFrameA;
     /**
-     * copy of the joint orientation: in physics-space coordinates if nodeA is
+     * copy of the joint orientation: in physics-space coordinates if bodyA is
      * null, or else in A's local coordinates (rotation matrix)
      */
     private Matrix3f rotA;
@@ -97,7 +97,7 @@ public class SliderJoint extends Constraint {
      * To be effective, the joint must be added to the body's PhysicsSpace and
      * the body must be dynamic.
      *
-     * @param nodeB the body to constrain (not null, alias created)
+     * @param rigidBodyB the body to constrain (not null, alias created)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInWorld the pivot location in physics-space coordinates (not
@@ -105,9 +105,9 @@ public class SliderJoint extends Constraint {
      * @param linearReferenceFrame which end to use as the linear reference (not
      * null)
      */
-    public SliderJoint(PhysicsRigidBody nodeB, Vector3f pivotInB,
+    public SliderJoint(PhysicsRigidBody rigidBodyB, Vector3f pivotInB,
             Vector3f pivotInWorld, JointEnd linearReferenceFrame) {
-        super(nodeB, JointEnd.B, pivotInB, pivotInWorld);
+        super(rigidBodyB, JointEnd.B, pivotInB, pivotInWorld);
         rotA = new Matrix3f();
         rotB = new Matrix3f();
 
@@ -122,8 +122,8 @@ public class SliderJoint extends Constraint {
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *
-     * @param nodeA the body for the A end (not null, alias created)
-     * @param nodeB the body for the B end (not null, alias created)
+     * @param rigidBodyA the body for the A end (not null, alias created)
+     * @param rigidBodyB the body for the B end (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
@@ -132,13 +132,13 @@ public class SliderJoint extends Constraint {
      * alias unaffected)
      * @param rotInB the joint orientation in B's local coordinates (not null,
      * alias unaffected)
-     * @param useLinearReferenceFrameA true&rarr;use node A, false&rarr;use node
+     * @param useLinearReferenceFrameA true&rarr;use body A, false&rarr;use body
      * B
      */
-    public SliderJoint(PhysicsRigidBody nodeA, PhysicsRigidBody nodeB,
+    public SliderJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
             Vector3f pivotInA, Vector3f pivotInB, Matrix3f rotInA,
             Matrix3f rotInB, boolean useLinearReferenceFrameA) {
-        super(nodeA, nodeB, pivotInA, pivotInB);
+        super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
         this.useLinearReferenceFrameA = useLinearReferenceFrameA;
         rotA = rotInA.clone();
@@ -152,19 +152,19 @@ public class SliderJoint extends Constraint {
      * To be effective, the joint must be added to the body's PhysicsSpace and
      * the body must be dynamic.
      *
-     * @param nodeA the 1st body to constrain (not null, alias created)
-     * @param nodeB the 2nd body to constrain (not null, alias created)
+     * @param rigidBodyA the 1st body to constrain (not null, alias created)
+     * @param rigidBodyB the 2nd body to constrain (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
-     * @param useLinearReferenceFrameA true&rarr;use node A, false&rarr;use node
+     * @param useLinearReferenceFrameA true&rarr;use body A, false&rarr;use body
      * B
      */
-    public SliderJoint(PhysicsRigidBody nodeA, PhysicsRigidBody nodeB,
+    public SliderJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
             Vector3f pivotInA, Vector3f pivotInB,
             boolean useLinearReferenceFrameA) {
-        super(nodeA, nodeB, pivotInA, pivotInB);
+        super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
         this.useLinearReferenceFrameA = useLinearReferenceFrameA;
         rotA = new Matrix3f();
@@ -955,30 +955,30 @@ public class SliderJoint extends Constraint {
         assert objectId == 0L;
         assert pivotA != null;
         assert rotA != null;
-        assert nodeB != null;
+        assert bodyB != null;
         assert pivotB != null;
         assert rotB != null;
 
-        if (nodeA == null) {
+        if (bodyA == null) {
             /*
              * Create a single-ended joint.  Bullet assumes single-ended
              * btSliderConstraints are satisfied at creation, so we
              * temporarily re-position the body to satisfy the constraint.
              */
-            Vector3f saveLocation = nodeB.getPhysicsLocation(null);
+            Vector3f saveLocation = bodyB.getPhysicsLocation(null);
 
             Vector3f offset = pivotA.subtract(pivotB);
-            nodeB.setPhysicsLocation(offset);
-            objectId = createJoint1(nodeB.getObjectId(), pivotB, rotB,
+            bodyB.setPhysicsLocation(offset);
+            objectId = createJoint1(bodyB.getObjectId(), pivotB, rotB,
                     useLinearReferenceFrameA);
 
-            nodeB.setPhysicsLocation(saveLocation);
+            bodyB.setPhysicsLocation(saveLocation);
 
         } else {
             /*
              * Create a double-ended joint.
              */
-            objectId = createJoint(nodeA.getObjectId(), nodeB.getObjectId(),
+            objectId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
                     pivotA, rotA, pivotB, rotB, useLinearReferenceFrameA);
         }
         assert objectId != 0L;

@@ -87,7 +87,7 @@ public class SixDofJoint extends Constraint {
     // fields
 
     /**
-     * copy of the joint orientation: in physics-space coordinates if nodeA is
+     * copy of the joint orientation: in physics-space coordinates if bodyA is
      * null, or else in A's local coordinates (rotation matrix)
      */
     private Matrix3f rotA;
@@ -141,7 +141,7 @@ public class SixDofJoint extends Constraint {
      * To be effective, the joint must be added to the body's PhysicsSpace and
      * the body must be dynamic.
      *
-     * @param nodeB the body to constrain (not null, alias created)
+     * @param rigidBodyB the body to constrain (not null, alias created)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInWorld the pivot location in physics-space coordinates (not
@@ -153,10 +153,10 @@ public class SixDofJoint extends Constraint {
      * @param linearReferenceFrame which end to use as the linear reference
      * frame (not null)
      */
-    public SixDofJoint(PhysicsRigidBody nodeB, Vector3f pivotInB,
+    public SixDofJoint(PhysicsRigidBody rigidBodyB, Vector3f pivotInB,
             Vector3f pivotInWorld, Matrix3f rotInB, Matrix3f rotInWorld,
             JointEnd linearReferenceFrame) {
-        super(nodeB, JointEnd.B, pivotInB, pivotInWorld);
+        super(rigidBodyB, JointEnd.B, pivotInB, pivotInWorld);
 
         useLinearReferenceFrameA = (linearReferenceFrame == JointEnd.A);
         rotA = rotInWorld.clone();
@@ -171,8 +171,8 @@ public class SixDofJoint extends Constraint {
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *
-     * @param nodeA the body for the A end (not null, alias created)
-     * @param nodeB the body for the B end (not null, alias created)
+     * @param rigidBodyA the body for the A end (not null, alias created)
+     * @param rigidBodyB the body for the B end (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
@@ -181,13 +181,13 @@ public class SixDofJoint extends Constraint {
      * matrix, unaffected)
      * @param rotInB the joint orientation in B's local coordinates (rotation
      * matrix, unaffected)
-     * @param useLinearReferenceFrameA true&rarr;use node A, false&rarr;use node
+     * @param useLinearReferenceFrameA true&rarr;use body A, false&rarr;use body
      * B
      */
-    public SixDofJoint(PhysicsRigidBody nodeA, PhysicsRigidBody nodeB,
+    public SixDofJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
             Vector3f pivotInA, Vector3f pivotInB, Matrix3f rotInA,
             Matrix3f rotInB, boolean useLinearReferenceFrameA) {
-        super(nodeA, nodeB, pivotInA, pivotInB);
+        super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
         this.useLinearReferenceFrameA = useLinearReferenceFrameA;
         rotA = rotInA.clone();
@@ -201,19 +201,19 @@ public class SixDofJoint extends Constraint {
      * To be effective, the joint must be added to the body's PhysicsSpace and
      * the body must be dynamic.
      *
-     * @param nodeA the 1st body to constrain (not null, alias created)
-     * @param nodeB the 2nd body to constrain (not null, alias created)
+     * @param rigidBodyA the 1st body to constrain (not null, alias created)
+     * @param rigidBodyB the 2nd body to constrain (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
-     * @param useLinearReferenceFrameA true&rarr;use node A, false&rarr;use node
+     * @param useLinearReferenceFrameA true&rarr;use body A, false&rarr;use body
      * B
      */
-    public SixDofJoint(PhysicsRigidBody nodeA, PhysicsRigidBody nodeB,
+    public SixDofJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
             Vector3f pivotInA, Vector3f pivotInB,
             boolean useLinearReferenceFrameA) {
-        super(nodeA, nodeB, pivotInA, pivotInB);
+        super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
         this.useLinearReferenceFrameA = useLinearReferenceFrameA;
         rotA = new Matrix3f();
@@ -414,7 +414,7 @@ public class SixDofJoint extends Constraint {
      * null, unaffected)
      * @param rotInB the orientation of the joint in B's local coordinates (not
      * null, unaffected)
-     * @param useLinearReferenceFrameA true&rarr;use node A, false&rarr;use node
+     * @param useLinearReferenceFrameA true&rarr;use body A, false&rarr;use body
      * B
      * @return the ID of the new joint
      */
@@ -430,7 +430,7 @@ public class SixDofJoint extends Constraint {
      * null, unaffected)
      * @param rotInB the orientation of the joint in B's local coordinates (not
      * null, unaffected)
-     * @param useLinearReferenceFrameB true&rarr;use node A, false&rarr;use node
+     * @param useLinearReferenceFrameB true&rarr;use body A, false&rarr;use body
      * B
      * @return the ID of the new joint
      */
@@ -644,7 +644,7 @@ public class SixDofJoint extends Constraint {
         assert pivotB != null;
         assert rotB != null;
 
-        if (nodeA == null) {
+        if (bodyA == null) {
             /*
              * Create a single-ended joint.  Bullet assumes single-ended
              * btGeneric6DofConstraints are satisfied at creation, so we
@@ -676,7 +676,7 @@ public class SixDofJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            objectId = createJoint(nodeA.getObjectId(), b.getObjectId(),
+            objectId = createJoint(bodyA.getObjectId(), b.getObjectId(),
                     pivotA, rotA, pivotB, rotB, useLinearReferenceFrameA);
         }
         assert objectId != 0L;

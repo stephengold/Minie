@@ -79,12 +79,12 @@ public class Point2PointJoint extends Constraint {
      * To be effective, the joint must be added to the body's PhysicsSpace and
      * the body must be dynamic.
      *
-     * @param nodeA the body to constrain (not null, alias created)
+     * @param rigidBodyA the body to constrain (not null, alias created)
      * @param pivotInWorld the pivot location in physics-space coordinates (not
      * null, unaffected)
      */
-    public Point2PointJoint(PhysicsRigidBody nodeA, Vector3f pivotInWorld) {
-        super(nodeA, JointEnd.A, pivotInWorld);
+    public Point2PointJoint(PhysicsRigidBody rigidBodyA, Vector3f pivotInWorld) {
+        super(rigidBodyA, JointEnd.A, pivotInWorld);
         createJoint();
     }
 
@@ -95,15 +95,15 @@ public class Point2PointJoint extends Constraint {
      * To be effective, the joint must be added to the body's PhysicsSpace and
      * the body must be dynamic.
      *
-     * @param nodeA the body to constrain (not null, alias created)
+     * @param rigidBodyA the body to constrain (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInWorld the pivot location in physics-space coordinates (not
      * null, unaffected)
      */
-    public Point2PointJoint(PhysicsRigidBody nodeA, Vector3f pivotInA,
+    public Point2PointJoint(PhysicsRigidBody rigidBodyA, Vector3f pivotInA,
             Vector3f pivotInWorld) {
-        super(nodeA, JointEnd.A, pivotInA, pivotInWorld);
+        super(rigidBodyA, JointEnd.A, pivotInA, pivotInWorld);
         createJoint();
     }
 
@@ -114,16 +114,16 @@ public class Point2PointJoint extends Constraint {
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *
-     * @param nodeA the body for the A end (not null, alias created)
-     * @param nodeB the body for the B end (not null, alias created)
+     * @param rigidBodyA the body for the A end (not null, alias created)
+     * @param rigidBodyB the body for the B end (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      */
-    public Point2PointJoint(PhysicsRigidBody nodeA, PhysicsRigidBody nodeB,
+    public Point2PointJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
             Vector3f pivotInA, Vector3f pivotInB) {
-        super(nodeA, nodeB, pivotInA, pivotInB);
+        super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
         createJoint();
     }
     // *************************************************************************
@@ -274,35 +274,35 @@ public class Point2PointJoint extends Constraint {
      */
     private void createJoint() {
         assert objectId == 0L;
-        assert nodeA != null;
+        assert bodyA != null;
         assert pivotA != null;
 
-        if (nodeB == null) {
+        if (bodyB == null) {
             /*
              * Create a single-ended joint.
              */
             if (pivotB == null) {
-                objectId = createJoint1(nodeA.getObjectId(), pivotA);
+                objectId = createJoint1(bodyA.getObjectId(), pivotA);
             } else {
                 /*
                  * Bullet assumes single-ended btPoint2PointConstraints are
                  * satisfied at creation, so we temporarily re-position the body
                  * to satisfy the constraint.
                  */
-                Vector3f saveLocation = nodeA.getPhysicsLocation(null);
+                Vector3f saveLocation = bodyA.getPhysicsLocation(null);
 
                 Transform localToWorld = new Transform();
                 localToWorld.setTranslation(saveLocation);
-                nodeA.getPhysicsRotation(localToWorld.getRotation());
+                bodyA.getPhysicsRotation(localToWorld.getRotation());
 
                 Vector3f pivotAWorld
                         = localToWorld.transformVector(pivotA, null);
                 Vector3f worldOffset = pivotB.subtract(pivotAWorld);
                 Vector3f tempLocation = saveLocation.add(worldOffset);
-                nodeA.setPhysicsLocation(tempLocation);
-                objectId = createJoint1(nodeA.getObjectId(), pivotA);
+                bodyA.setPhysicsLocation(tempLocation);
+                objectId = createJoint1(bodyA.getObjectId(), pivotA);
 
-                nodeA.setPhysicsLocation(saveLocation);
+                bodyA.setPhysicsLocation(saveLocation);
             }
 
         } else {
@@ -310,7 +310,7 @@ public class Point2PointJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            objectId = createJoint(nodeA.getObjectId(), nodeB.getObjectId(),
+            objectId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
                     pivotA, pivotB);
         }
         assert objectId != 0L;

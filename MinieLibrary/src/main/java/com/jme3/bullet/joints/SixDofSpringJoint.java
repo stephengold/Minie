@@ -85,7 +85,7 @@ public class SixDofSpringJoint extends SixDofJoint {
      * To be effective, the joint must be added to the body's PhysicsSpace and
      * the body must be dynamic.
      *
-     * @param nodeB the body to constrain (not null, alias created)
+     * @param rigidBodyB the body to constrain (not null, alias created)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInWorld the pivot location in physics-space coordinates (not
@@ -97,10 +97,10 @@ public class SixDofSpringJoint extends SixDofJoint {
      * @param linearReferenceFrame which end to use as the linear reference
      * frame (not null)
      */
-    public SixDofSpringJoint(PhysicsRigidBody nodeB, Vector3f pivotInB,
+    public SixDofSpringJoint(PhysicsRigidBody rigidBodyB, Vector3f pivotInB,
             Vector3f pivotInWorld, Matrix3f rotInB, Matrix3f rotInWorld,
             JointEnd linearReferenceFrame) {
-        super(nodeB, pivotInB, pivotInWorld, rotInB, rotInWorld,
+        super(rigidBodyB, pivotInB, pivotInWorld, rotInB, rotInWorld,
                 linearReferenceFrame);
     }
 
@@ -111,8 +111,8 @@ public class SixDofSpringJoint extends SixDofJoint {
      * bodies. Also, the bodies must be distinct and at least one of them must
      * be dynamic.
      *
-     * @param nodeA the body for the A end (not null, alias created)
-     * @param nodeB the body for the B end (not null, alias created)
+     * @param rigidBodyA the body for the A end (not null, alias created)
+     * @param rigidBodyB the body for the B end (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
@@ -121,13 +121,13 @@ public class SixDofSpringJoint extends SixDofJoint {
      * null, unaffected)
      * @param rotInB the orientation of the joint in B's local coordinates (not
      * null, unaffected)
-     * @param useLinearReferenceFrameA true&rarr;use node A, false&rarr;use node
+     * @param useLinearReferenceFrameA true&rarr;use body A, false&rarr;use body
      * B
      */
-    public SixDofSpringJoint(PhysicsRigidBody nodeA, PhysicsRigidBody nodeB,
+    public SixDofSpringJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
             Vector3f pivotInA, Vector3f pivotInB, Matrix3f rotInA, Matrix3f rotInB,
             boolean useLinearReferenceFrameA) {
-        super(nodeA, nodeB, pivotInA, pivotInB, rotInA, rotInB,
+        super(rigidBodyA, rigidBodyB, pivotInA, pivotInB, rotInA, rotInB,
                 useLinearReferenceFrameA);
     }
     // *************************************************************************
@@ -201,7 +201,7 @@ public class SixDofSpringJoint extends SixDofJoint {
      * null, unaffected)
      * @param rotInB the orientation of the joint in B's local coordinates (not
      * null, unaffected)
-     * @param useLinearReferenceFrameA true&rarr;use node A, false&rarr;use node
+     * @param useLinearReferenceFrameA true&rarr;use body A, false&rarr;use body
      * B
      * @return the ID of the new joint
      */
@@ -218,7 +218,7 @@ public class SixDofSpringJoint extends SixDofJoint {
      * null, unaffected)
      * @param rotInB the orientation of the joint in B's local coordinates (not
      * null, unaffected)
-     * @param useLinearReferenceFrameB true&rarr;use node A, false&rarr;use node
+     * @param useLinearReferenceFrameB true&rarr;use body A, false&rarr;use body
      * B
      * @return the ID of the new joint
      */
