@@ -42,6 +42,7 @@ import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.DebugShapeFactory;
+import com.jme3.bullet.util.NativeLibrary;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
@@ -121,7 +122,10 @@ public class TestDefaults {
 
         Assert.assertEquals(2, six.countEnds());
         Assert.assertEquals(0f, six.getAppliedImpulse(), 0f);
-        //Assert.assertEquals(Float.MAX_VALUE or Infinity, six.getBreakingImpulseThreshold(), 0f);
+
+        float simdInf = NativeLibrary.isDoublePrecision() ? 
+                Float.POSITIVE_INFINITY : Float.MAX_VALUE;
+        Assert.assertEquals(simdInf, six.getBreakingImpulseThreshold(), 0f);
         Assert.assertTrue(six.isCollisionBetweenLinkedBodies());
         Assert.assertTrue(six.isEnabled());
 
@@ -192,9 +196,12 @@ public class TestDefaults {
         Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
                 pco.getCollisionGroup());
         Assert.assertEquals(0.1f, pco.getContactDamping(), 0f);
-        //Assert.assertEquals(1e18f or 1e30f, pco.getContactProcessingThreshold(), 0f);
+
+        float largeFloat = NativeLibrary.isDoublePrecision() ? 1e30f : 1e18f;
+        Assert.assertEquals(largeFloat, pco.getContactProcessingThreshold(), 0f);
+        Assert.assertEquals(largeFloat, pco.getContactStiffness(), 0f);
+
         Assert.assertTrue(pco.isContactResponse());
-        //Assert.assertEquals(1e18f or 1e30f, pco.getContactStiffness(), 0f);
         Assert.assertEquals(0f, pco.getDeactivationTime(), 0f);
         Assert.assertNull(pco.getDebugMaterial());
         Assert.assertNull(pco.debugMeshInitListener());
