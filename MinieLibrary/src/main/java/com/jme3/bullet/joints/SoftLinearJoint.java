@@ -154,14 +154,6 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
 
         location = cloner.clone(location);
         createJoint();
-
-        SoftLinearJoint old = (SoftLinearJoint) original;
-
-        float bit = old.getBreakingImpulseThreshold();
-        setBreakingImpulseThreshold(bit);
-
-        boolean enableJoint = old.isEnabled();
-        setEnabled(enableJoint);
     }
 
     /**

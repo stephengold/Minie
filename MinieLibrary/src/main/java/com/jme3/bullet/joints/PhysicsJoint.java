@@ -76,9 +76,9 @@ abstract public class PhysicsJoint
      */
     private boolean collisionBetweenLinkedBodies = true;
     /**
-     * Unique identifier of the btTypedConstraint. Subtype constructors are
-     * responsible for setting this to a non-zero value. Once set, the
-     * identifier never changes.
+     * Unique identifier of the btTypedConstraint or btSoftBody::Joint. Subtype
+     * constructors are responsible for setting this to a non-zero value. Once
+     * set, the identifier never changes.
      */
     protected long objectId = 0L;
     /**
@@ -253,12 +253,17 @@ abstract public class PhysicsJoint
     }
 
     /**
-     * Read the magnitude of the applied impulse.
+     * Read the magnitude of the applied impulse. Requires feedback.
      *
      * @return impulse magnitude (&ge;0)
+     * @throws IllegalStateException if feedback is not enabled
      */
     public float getAppliedImpulse() {
+        if (!isFeedback()) {
+            throw new IllegalStateException();
+        }
         float result = getAppliedImpulse(objectId);
+
         assert result >= 0f : result;
         return result;
     }
@@ -317,7 +322,7 @@ abstract public class PhysicsJoint
     }
 
     /**
-     * Read the ID of the btTypedConstraint.
+     * Read the ID of the btTypedConstraint or btSoftBody::Joint.
      *
      * @return the unique identifier (not zero)
      */
@@ -402,9 +407,20 @@ abstract public class PhysicsJoint
     }
 
     /**
+     * Test whether this joint has feedback enabled.
+     *
+     * @return true if enabled, otherwise false
+     */
+    public boolean isFeedback() {
+        boolean result = needsFeedback(objectId);
+        return result;
+    }
+
+    /**
      * Read the breaking impulse threshold.
      *
-     * @param desiredThreshold the desired value (default=MAX_VALUE)
+     * @param desiredThreshold the desired value (default=MAX_VALUE with
+     * SP library or +Infinity with DP library)
      */
     public void setBreakingImpulseThreshold(float desiredThreshold) {
         setBreakingImpulseThreshold(objectId, desiredThreshold);
@@ -428,8 +444,17 @@ abstract public class PhysicsJoint
     public void setEnabled(boolean enable) {
         setEnabled(objectId, enable);
     }
+
+    /**
+     * Enable or disable feedback for this joint.
+     *
+     * @param enable true to enable, false to disable (default=false)
+     */
+    public void setFeedback(boolean enable) {
+        enableFeedback(objectId, enable);
+    }
     // *************************************************************************
-    // new protected methods
+    // new protected methods TODO re-order methods
 
     /**
      * Read common properties from a capsule.
@@ -440,16 +465,18 @@ abstract public class PhysicsJoint
     final protected void readJointProperties(InputCapsule capsule)
             throws IOException {
 
-        float bit = capsule.readFloat(
-                "breakingImpulseThreshold", Float.MAX_VALUE);
-        setBreakingImpulseThreshold(bit);
+        if (!(this instanceof SoftPhysicsJoint)) {
+            float bit = capsule.readFloat(
+                    "breakingImpulseThreshold", Float.MAX_VALUE);
+            setBreakingImpulseThreshold(bit);
 
-        boolean collisionFlag = capsule.readBoolean(
-                "isCollisionBetweenLinkedBodies", true);
-        setCollisionBetweenLinkedBodies(collisionFlag);
+            boolean collisionFlag = capsule.readBoolean(
+                    "isCollisionBetweenLinkedBodies", true);
+            setCollisionBetweenLinkedBodies(collisionFlag);
 
-        boolean enabledFlag = capsule.readBoolean("isEnabled", true);
-        setEnabled(enabledFlag);
+            boolean enabledFlag = capsule.readBoolean("isEnabled", true);
+            setEnabled(enabledFlag);
+        }
     }
 
     /**
@@ -476,7 +503,7 @@ abstract public class PhysicsJoint
         nodeB = cloner.clone(nodeB);
         pivotA = cloner.clone(pivotA);
         pivotB = cloner.clone(pivotB);
-        objectId = 0L; // subclass must create the btTypedConstraint
+        objectId = 0L; // subclass must create the btTypedConstraint or btSoftBody::Joint
     }
 
     /**
@@ -533,11 +560,13 @@ abstract public class PhysicsJoint
         capsule.write(pivotA, "pivotA", null);
         capsule.write(pivotB, "pivotB", null);
 
-        capsule.write(getBreakingImpulseThreshold(),
-                "breakingImpulseThreshold", Float.MAX_VALUE);
-        capsule.write(isCollisionBetweenLinkedBodies(),
-                "isCollisionBetweenLinkedBodies", true);
-        capsule.write(isEnabled(), "isEnabled", true);
+        if (!(this instanceof SoftPhysicsJoint)) {
+            capsule.write(getBreakingImpulseThreshold(),
+                    "breakingImpulseThreshold", Float.MAX_VALUE);
+            capsule.write(isCollisionBetweenLinkedBodies(),
+                    "isCollisionBetweenLinkedBodies", true);
+            capsule.write(isEnabled(), "isEnabled", true);
+        }
     }
     // *************************************************************************
     // Comparable methods
@@ -557,7 +586,7 @@ abstract public class PhysicsJoint
         return result;
     }
     // *************************************************************************
-    // Object methods TODO define equals()
+    // Object methods TODO define equals(), hashCode()
 
     /**
      * Finalize this physics joint just before it is destroyed. Should be
@@ -568,18 +597,24 @@ abstract public class PhysicsJoint
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        logger.log(Level.FINE, "Finalizing Joint {0}",
-                Long.toHexString(objectId));
-        finalizeNative(objectId);
+        if (!(this instanceof SoftPhysicsJoint)) {
+            logger.log(Level.FINE, "Finalizing Joint {0}",
+                    Long.toHexString(objectId));
+            finalizeNative(objectId);
+        }
     }
     // *************************************************************************
     // private methods
+
+    native private void enableFeedback(long jointId, boolean enable);
 
     native private float getAppliedImpulse(long jointId);
 
     native private float getBreakingImpulseThreshold(long jointId);
 
     native private boolean isEnabled(long jointId);
+
+    native private boolean needsFeedback(long jointId);
 
     native private void setBreakingImpulseThreshold(long jointId,
             float desiredThreshold);

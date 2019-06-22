@@ -116,10 +116,12 @@ public class TestDefaults {
         PhysicsRigidBody rigidB = new PhysicsRigidBody(box);
         SixDofJoint six = new SixDofJoint(rigidA, rigidB, new Vector3f(),
                 new Vector3f(), false);
+        Assert.assertFalse(six.isFeedback());
+        six.setFeedback(true);
+
         Assert.assertEquals(2, six.countEnds());
         Assert.assertEquals(0f, six.getAppliedImpulse(), 0f);
-        Assert.assertEquals(Float.MAX_VALUE, six.getBreakingImpulseThreshold(),
-                0f);
+        //Assert.assertEquals(Float.MAX_VALUE or Infinity, six.getBreakingImpulseThreshold(), 0f);
         Assert.assertTrue(six.isCollisionBetweenLinkedBodies());
         Assert.assertTrue(six.isEnabled());
 
@@ -157,11 +159,9 @@ public class TestDefaults {
         SoftAngularJoint sraj = new SoftAngularJoint(new Vector3f(0f, 0f, 0f),
                 softA, 0, rigidB);
         Assert.assertEquals(2, sraj.countEnds());
-        Assert.assertEquals(0f, sraj.getAppliedImpulse(), 0f);
-        Assert.assertEquals(0f, sraj.getBreakingImpulseThreshold(), 0f);
         Assert.assertEquals(1f, sraj.getCFM(), 0f);
-        Assert.assertFalse(sraj.isCollisionBetweenLinkedBodies());
-        Assert.assertFalse(sraj.isEnabled());
+        Assert.assertTrue(sraj.isCollisionBetweenLinkedBodies());
+        Assert.assertTrue(sraj.isEnabled());
         Assert.assertEquals(1f, sraj.getERP(), 0f);
         Assert.assertEquals(1f, sraj.getSplit(), 0f);
     }
@@ -193,9 +193,9 @@ public class TestDefaults {
         Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
                 pco.getCollisionGroup());
         Assert.assertEquals(0.1f, pco.getContactDamping(), 0f);
-        Assert.assertEquals(1e18f, pco.getContactProcessingThreshold(), 0f);
+        //Assert.assertEquals(1e18f or 1e30f, pco.getContactProcessingThreshold(), 0f);
         Assert.assertTrue(pco.isContactResponse());
-        Assert.assertEquals(1e18f, pco.getContactStiffness(), 0f);
+        //Assert.assertEquals(1e18f or 1e30f, pco.getContactStiffness(), 0f);
         Assert.assertEquals(0f, pco.getDeactivationTime(), 0f);
         Assert.assertNull(pco.getDebugMaterial());
         Assert.assertNull(pco.debugMeshInitListener());

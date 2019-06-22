@@ -41,6 +41,7 @@ import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
 import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.SoftLinearJoint;
+import com.jme3.bullet.joints.SoftPhysicsJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsBody;
@@ -71,7 +72,6 @@ public class TestCloneJoints {
     final private static Quaternion qb = new Quaternion(0.5f, 0.5f, 0.5f, 0.5f);
     final private static Vector3f va = new Vector3f(-1f, -2f, -3f);
     final private static Vector3f vb = new Vector3f(-4f, -5f, -6f);
-    final private static Vector3f vc = new Vector3f(8f, 7f, 6f);
     // *************************************************************************
     // fields
 
@@ -276,8 +276,10 @@ public class TestCloneJoints {
 
     private static void setParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        joint.setEnabled(flag);
-        joint.setBreakingImpulseThreshold(b + 0.505f);
+        if (!(joint instanceof SoftPhysicsJoint)) {
+            joint.setEnabled(flag);
+            joint.setBreakingImpulseThreshold(b + 0.505f);
+        }
 
         if (joint instanceof ConeJoint) {
             setCone((ConeJoint) joint, b);
@@ -399,21 +401,20 @@ public class TestCloneJoints {
 
     private static void setSoftAngular(SoftAngularJoint saj, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        saj.setCollisionBetweenLinkedBodies(flag);
         // TODO
     }
 
     private static void setSoftLinear(SoftLinearJoint slj, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        slj.setCollisionBetweenLinkedBodies(flag);
         // TODO
     }
 
     private static void verifyParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        assert joint.isEnabled() == flag;
-        assert joint.getBreakingImpulseThreshold() == b + 0.505f;
-
+        if (!(joint instanceof SoftPhysicsJoint)) {
+            assert joint.isEnabled() == flag;
+            assert joint.getBreakingImpulseThreshold() == b + 0.505f;
+        }
         if (joint instanceof ConeJoint) {
             verifyCone((ConeJoint) joint, b);
         } else if (joint instanceof HingeJoint) {

@@ -155,14 +155,6 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
 
         axis = cloner.clone(axis);
         createJoint();
-
-        SoftAngularJoint old = (SoftAngularJoint) original;
-
-        float bit = old.getBreakingImpulseThreshold();
-        setBreakingImpulseThreshold(bit);
-
-        boolean enableJoint = old.isEnabled();
-        setEnabled(enableJoint);
     }
 
     /**

@@ -157,17 +157,6 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     // *************************************************************************
     // new methods exposed
 
-    /**
-     * Add this constraint to body A. This method should be invoked only by the
-     * PhysicsSoftSpace.
-     */
-    public void addConstraint() {
-        if (!added) {
-            addConstraint(objectId, nodeA.getObjectId());
-            added = true;
-        }
-    }
-
     public int clusterIndexA() {
         return clusterIndexA;
     }
@@ -272,17 +261,6 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
 
     /**
-     * Remove this constraint from body A. This method should be invoked only by
-     * the PhysicsSoftSpace.
-     */
-    public void removeConstraint() {
-        if (added) {
-            removeConstraint(objectId, nodeA.getObjectId());
-            added = false;
-        }
-    }
-
-    /**
      * Set the constraint force mixing coefficient (aka CFM).
      * <p>
      * From the Bullet documentation:</p>
@@ -365,9 +343,54 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     @Override
     native protected void finalizeNative(long jointId);
 
+    /**
+     * Read the magnitude of the applied impulse.
+     *
+     * @return never
+     */
+    @Override
+    public float getAppliedImpulse() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Read the breaking impulse threshold.
+     *
+     * @return never
+     */
+    @Override
+    public float getBreakingImpulseThreshold() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Test whether collisions are allowed between the linked bodies.
+     *
+     * @return true
+     */
     @Override
     public boolean isCollisionBetweenLinkedBodies() {
-        return false; //TODO ??
+        return true;
+    }
+
+    /**
+     * Test whether this joint is enabled.
+     *
+     * @return true
+     */
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    /**
+     * Test whether this joint has feedback enabled.
+     *
+     * @return false
+     */
+    @Override
+    public boolean isFeedback() {
+        return false;
     }
 
     /**
@@ -410,6 +433,52 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
 
     /**
+     * Read the breaking impulse threshold.
+     *
+     * @param desiredThreshold the desired value
+     */
+    @Override
+    public void setBreakingImpulseThreshold(float desiredThreshold) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Enable collisions between the linked bodies.
+     *
+     * @param allow true to allow collisions (default=true)
+     */
+    @Override
+    public void setCollisionBetweenLinkedBodies(boolean allow) {
+        if (!allow) {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    /**
+     * Enable this joint.
+     *
+     * @param enable true to enable (default=true)
+     */
+    @Override
+    public void setEnabled(boolean enable) {
+        if (!enable) {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    /**
+     * Enable or disable feedback for this joint.
+     *
+     * @param enable false to disable (default=false)
+     */
+    @Override
+    public void setFeedback(boolean enable) {
+        if (enable) {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    /**
      * Serialize this joint to the specified exporter, for example when saving
      * to a J3O file.
      *
@@ -431,15 +500,11 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     // *************************************************************************
     // private methods
 
-    native private void addConstraint(long jointId, long softBodyId);
-
     native private float getConstraintForceMixing(long jointId);
 
     native private float getErrorReductionParameter(long jointId);
 
     native private float getSplit(long jointId);
-
-    native private void removeConstraint(long jointId, long softBodyId);
 
     native private void setConstraintForceMixing(long jointId, float cfm);
 
