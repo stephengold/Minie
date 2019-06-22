@@ -204,13 +204,13 @@ public class TestCloneJoints {
         /*
          * SoftAngularJoint: soft-soft and soft-rigid
          */
-        SoftAngularJoint ssaj = new SoftAngularJoint(va, softA, softB, vb, vc);
+        SoftAngularJoint ssaj = new SoftAngularJoint(va, softA, 0, softB, 0);
         setParameters(ssaj, 0f);
         verifyParameters(ssaj, 0f);
         SoftAngularJoint ssajClone = (SoftAngularJoint) Misc.deepCopy(ssaj);
         cloneTest(ssaj, ssajClone);
 
-        SoftAngularJoint sraj = new SoftAngularJoint(va, softA, rigidB, vb, vc);
+        SoftAngularJoint sraj = new SoftAngularJoint(va, softA, 0, rigidB);
         setParameters(sraj, 0f);
         verifyParameters(sraj, 0f);
         SoftAngularJoint srajClone = (SoftAngularJoint) Misc.deepCopy(sraj);
@@ -218,13 +218,13 @@ public class TestCloneJoints {
         /*
          * SoftLinearJoint: soft-soft and soft-rigid
          */
-        SoftLinearJoint sslj = new SoftLinearJoint(va, softA, softB, vb, vc);
+        SoftLinearJoint sslj = new SoftLinearJoint(va, softA, 0, softB, 0);
         setParameters(sslj, 0f);
         verifyParameters(sslj, 0f);
         SoftLinearJoint ssljClone = (SoftLinearJoint) Misc.deepCopy(sslj);
         cloneTest(sslj, ssljClone);
 
-        SoftLinearJoint srlj = new SoftLinearJoint(va, softA, rigidB, vb, vc);
+        SoftLinearJoint srlj = new SoftLinearJoint(va, softA, 0, rigidB);
         setParameters(srlj, 0f);
         verifyParameters(srlj, 0f);
         SoftLinearJoint srljClone = (SoftLinearJoint) Misc.deepCopy(srlj);

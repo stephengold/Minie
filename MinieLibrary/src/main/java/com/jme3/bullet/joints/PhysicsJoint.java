@@ -210,10 +210,11 @@ abstract public class PhysicsJoint
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      */
-    protected PhysicsJoint(PhysicsRigidBody nodeA, PhysicsRigidBody nodeB,
+    protected PhysicsJoint(PhysicsBody nodeA, PhysicsBody nodeB,
             Vector3f pivotInA, Vector3f pivotInB) {
         if (nodeA == nodeB) {
-            throw new IllegalArgumentException("The bodies must be distinct.");
+            throw new IllegalArgumentException(
+                    "The jointed bodies must be distinct.");
         }
 
         this.nodeA = nodeA;

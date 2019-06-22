@@ -75,23 +75,17 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     }
 
     /**
-     * Instantiate a soft-rigid linear joint. The soft body ({@code nodeA}) must
-     * contain a cluster.
+     * Instantiate a soft-rigid linear joint.
      *
      * @param location the location of the joint (in physics-space coordinates,
      * not null, unaffected)
-     * @param nodeA the soft body for the A end (not null, alias created)
-     * @param nodeB the rigid body for the B end (not null, alias created)
-     * @param pivotA the pivot location in A's scaled local coordinates (not
-     * null, unaffected)
-     * @param pivotB the pivot location in B's scaled local coordinates (not
-     * null, unaffected)
+     * @param softA the soft body for the A end (not null, alias created)
+     * @param clusterIndexA the index of the cluster for the A end (&ge;0)
+     * @param rigidB the rigid body for the B end (not null, alias created)
      */
-    public SoftLinearJoint(Vector3f location, PhysicsSoftBody nodeA,
-            PhysicsRigidBody nodeB, Vector3f pivotA, Vector3f pivotB) {
-        super(nodeA, nodeB, pivotA, pivotB);
-        assert nodeA.countClusters() > 0;
-
+    public SoftLinearJoint(Vector3f location, PhysicsSoftBody softA,
+            int clusterIndexA, PhysicsRigidBody rigidB) {
+        super(softA, clusterIndexA, rigidB);
         this.location = location.clone();
         createJoint();
     }
@@ -102,19 +96,14 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
      *
      * @param location the location of the joint (in physics-space coordinates,
      * not null, unaffected)
-     * @param nodeA the soft body for the A end (not null, alias created)
-     * @param nodeB the soft body for the B end (not null, alias created)
-     * @param pivotA the pivot location in A's scaled local coordinates (not
-     * null, unaffected)
-     * @param pivotB the pivot location in B's scaled local coordinates (not
-     * null, unaffected)
+     * @param softA the soft body for the A end (not null, alias created)
+     * @param clusterIndexA the index of the cluster for the A end (&ge;0)
+     * @param softB the soft body for the B end (not null, alias created)
+     * @param clusterIndexB the index of the cluster for the B end (&ge;0)
      */
-    public SoftLinearJoint(Vector3f location, PhysicsSoftBody nodeA,
-            PhysicsSoftBody nodeB, Vector3f pivotA, Vector3f pivotB) {
-        super(nodeA, nodeB, pivotA, pivotB);
-        assert nodeA.countClusters() > 0;
-        assert nodeB.countClusters() > 0;
-
+    public SoftLinearJoint(Vector3f location, PhysicsSoftBody softA,
+            int clusterIndexA, PhysicsSoftBody softB, int clusterIndexB) {
+        super(softA, clusterIndexA, softB, clusterIndexB);
         this.location = location.clone();
         createJoint();
     }
@@ -223,23 +212,25 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     // private methods
 
     /**
-     * Create the configured joint in Bullet.
+     * Create the configured btSoftBody::LJoint.
      */
     private void createJoint() {
         assert objectId == 0L : objectId;
         assert nodeA instanceof PhysicsSoftBody;
-        assert ((PhysicsSoftBody)nodeA).countClusters() > 0;
+        assert ((PhysicsSoftBody) nodeA).countClusters() > 0;
+        int cia = clusterIndexA();
+        long ida = nodeA.getObjectId();
+        int cib = clusterIndexB();
+        long idb = nodeB.getObjectId();
 
+        assert cia >= 0 : cia;
         if (isSoftRigidJoint()) {
-            objectId = createJointSoftRigid(nodeA.getObjectId(),
-                    nodeB.getObjectId(), pivotA, pivotB,
-                    errorReductionParameter, constraintForceMixing, split,
+            assert cib == -1 : cib;
+            objectId = createJointSoftRigid(ida, cia, idb, erp, cfm, split,
                     location);
         } else if (isSoftSoftJoint()) {
-            assert ((PhysicsSoftBody)nodeB).countClusters() > 0;
-            objectId = createJointSoftSoft(nodeA.getObjectId(),
-                    nodeB.getObjectId(), pivotA, pivotB,
-                    errorReductionParameter, constraintForceMixing, split,
+            assert cib >= 0 : cib;
+            objectId = createJointSoftSoft(ida, cia, idb, cib, erp, cfm, split,
                     location);
         }
 
@@ -248,12 +239,12 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
                 Long.toHexString(objectId));
     }
 
-    private native long createJointSoftRigid(long objectIdA, long objectIdB,
-            Vector3f pivotA, Vector3f pivotB, float erp, float cfm, float split,
+    private native long createJointSoftRigid(long softIdA, int clusterIndexA,
+            long rigidIdB, float erp, float cfm, float split,
             Vector3f location);
 
-    private native long createJointSoftSoft(long objectIdA, long objectIdB,
-            Vector3f pivotA, Vector3f pivotB, float erp, float cfm, float split,
+    private native long createJointSoftSoft(long softIdA, int clusterIndexA,
+            long softIdB, int clusterIndexB, float erp, float cfm, float split,
             Vector3f location);
 
     private native void setPosition(long jointId, Vector3f location);

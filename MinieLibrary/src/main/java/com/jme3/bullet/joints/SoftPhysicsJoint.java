@@ -47,8 +47,10 @@ import jme3utilities.Validate;
  * The abstract base class for joining a PhysicsSoftBody to another body, based
  * on Bullet's btSoftBody::Joint. There are 2 kinds of SoftPhysicsJoint:
  * <ul>
- * <li>soft-soft joints, which join 2 distinct soft bodies, and</li>
- * <li>soft-rigid joints, which join soft bodies to rigid bodies.</li>
+ * <li>a soft-soft joint joins particular clusters of 2 distinct soft
+ * bodies</li>
+ * <li>a soft-rigid joint joins a particular cluster of a soft body to a rigid
+ * body</li>
  * </ul>
  * Subclasses include SoftLinearJoint and SoftAngularJoint.
  * <p>
@@ -67,6 +69,10 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      */
     final public static Logger logger2
             = Logger.getLogger(SoftPhysicsJoint.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields TODO privatize
 
@@ -75,17 +81,25 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      */
     private boolean added = false;
     /**
-     * local copy (default=1)
+     * local copy of the constraint force mixing parameter (default=1)
      */
-    protected float constraintForceMixing = 1f;
+    protected float cfm = 1f;
     /**
-     * local copy (default=1)
+     * local copy of the error-reduction parameter (default=1)
      */
-    protected float errorReductionParameter = 1f;
+    protected float erp = 1f;
     /**
      * local copy (default=1)
      */
     protected float split = 1f;
+    /**
+     * the index of the cluster for the A end (&ge;0)
+     */
+    private int clusterIndexA = -1;
+    /**
+     * the index of the cluster for the B end, or -1 for a soft-rigid joint
+     */
+    private int clusterIndexB = -1;
     // *************************************************************************
     // constructors
 
@@ -97,27 +111,24 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
 
     /**
-     * Instantiate a SoftPhysicsJoint to join a soft body and a rigid body.
+     * Instantiate a SoftPhysicsJoint to join a soft-body cluster and a rigid
+     * body.
      * <p>
      * To be effective, the joint must be added to the PhysicsSoftSpace of both
      * bodies.
      *
-     * @param nodeA the soft body for the A end (not null, alias created)
-     * @param nodeB the rigid body for the B end (not null, alias created)
-     * @param pivotA the pivot location in A's local coordinates (not null,
-     * unaffected)
-     * @param pivotB the pivot location in B's local coordinates (not null,
-     * unaffected)
+     * @param softBodyA the soft body for the A end (not null, alias created)
+     * @param clusterIndexA the index of the cluster for the A end (&ge;0)
+     * @param rigidBodyB the rigid body for the B end (not null, alias created)
      */
-    public SoftPhysicsJoint(PhysicsSoftBody nodeA, PhysicsRigidBody nodeB,
-            Vector3f pivotA, Vector3f pivotB) {
-        this.nodeA = nodeA;
-        this.nodeB = nodeB;
-        this.pivotA = pivotA;
-        this.pivotB = pivotB;
+    public SoftPhysicsJoint(PhysicsSoftBody softBodyA, int clusterIndexA,
+            PhysicsRigidBody rigidBodyB) {
+        super(softBodyA, rigidBodyB, translateIdentity, translateIdentity);
 
-        nodeA.addJoint(this);
-        nodeB.addJoint(this);
+        int numClustersA = softBodyA.countClusters();
+        Validate.inRange(clusterIndexA, "cluster index", 0, numClustersA - 1);
+
+        this.clusterIndexA = clusterIndexA;
     }
 
     /**
@@ -126,26 +137,22 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * To be effective, the joint must be added to the PhysicsSoftSpace of both
      * bodies. Also, the bodies must be distinct.
      *
-     * @param nodeA the body for the A end (not null, alias created)
-     * @param nodeB the body for the B end (not null, alias created)
-     * @param pivotA the pivot location in A's local coordinates (not null,
-     * unaffected)
-     * @param pivotB the pivot location in B's local coordinates (not null,
-     * unaffected)
+     * @param softBodyA the body for the A end (not null, alias created)
+     * @param clusterIndexA the index of the cluster for the A end (&ge;0)
+     * @param softBodyB the body for the B end (not null, alias created)
+     * @param clusterIndexB the index of the cluster for the B end (&ge;0)
      */
-    public SoftPhysicsJoint(PhysicsSoftBody nodeA, PhysicsSoftBody nodeB,
-            Vector3f pivotA, Vector3f pivotB) {
-        if (nodeA == nodeB) {
-            throw new IllegalArgumentException("The bodies must be distinct.");
-        }
+    public SoftPhysicsJoint(PhysicsSoftBody softBodyA, int clusterIndexA,
+            PhysicsSoftBody softBodyB, int clusterIndexB) {
+        super(softBodyA, softBodyB, translateIdentity, translateIdentity);
 
-        this.nodeA = nodeA;
-        this.nodeB = nodeB;
-        this.pivotA = pivotA;
-        this.pivotB = pivotB;
+        int numClustersA = softBodyA.countClusters();
+        Validate.inRange(clusterIndexA, "cluster index A", 0, numClustersA - 1);
+        int numClustersB = softBodyB.countClusters();
+        Validate.inRange(clusterIndexB, "cluster index B", 0, numClustersB - 1);
 
-        nodeA.addJoint(this);
-        nodeB.addJoint(this);
+        this.clusterIndexA = clusterIndexA;
+        this.clusterIndexB = clusterIndexB;
     }
     // *************************************************************************
     // new methods exposed
@@ -159,6 +166,14 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
             addConstraint(objectId, nodeA.getObjectId());
             added = true;
         }
+    }
+
+    public int clusterIndexA() {
+        return clusterIndexA;
+    }
+
+    public int clusterIndexB() {
+        return clusterIndexB;
     }
 
     /**
@@ -206,7 +221,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     /**
      * Access the soft body at the A end.
      *
-     * @return the pre-existing body, or null if none
+     * @return the pre-existing soft body, or null if none
      */
     public PhysicsSoftBody getSoftBodyA() {
         PhysicsSoftBody result = null;
@@ -219,7 +234,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     /**
      * Access the soft body at the B end.
      *
-     * @return the pre-existing body, or null if none
+     * @return the pre-existing soft body, or null if none
      */
     public PhysicsSoftBody getSoftBodyB() {
         PhysicsSoftBody result = null;
@@ -232,7 +247,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     /**
      * TODO description
      *
-     * @return
+     * @return the split value
      */
     public float getSplit() {
         return getSplit(objectId);
@@ -382,13 +397,16 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        constraintForceMixing = capsule.readFloat("constraintForceMixing", 1f);
-        errorReductionParameter = capsule.readFloat("errorReductionParameter", 1f);
+        cfm = capsule.readFloat("constraintForceMixing", 1f);
+        erp = capsule.readFloat("errorReductionParameter", 1f);
         split = capsule.readFloat("split", 1f);
 
-        // TODO create the btTypedConstraint
-        // TODO read the breaking impulse threshold
-        // TODO read the enabled flag
+        clusterIndexA = capsule.readInt("clusterIndexA", -1);
+        clusterIndexB = capsule.readInt("clusterIndexB", -1);
+        /*
+         * Each subclass must create the btTypedConstraint and then
+         * invoke readJointProperties() .
+         */
     }
 
     /**
@@ -406,11 +424,14 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         capsule.write(getCFM(), "constraintForceMixing", 1);
         capsule.write(getERP(), "errorReductionParameter", 1);
         capsule.write(getSplit(), "split", 1);
+
+        capsule.write(clusterIndexA(), "clusterIndexA", -1);
+        capsule.write(clusterIndexB(), "clusterIndexB", -1);
     }
     // *************************************************************************
     // private methods
 
-    native private void addConstraint(long jointId, long bodyId);
+    native private void addConstraint(long jointId, long softBodyId);
 
     native private float getConstraintForceMixing(long jointId);
 
@@ -418,7 +439,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
 
     native private float getSplit(long jointId);
 
-    native private void removeConstraint(long jointId, long bodyId);
+    native private void removeConstraint(long jointId, long softBodyId);
 
     native private void setConstraintForceMixing(long jointId, float cfm);
 

@@ -155,8 +155,7 @@ public class TestDefaults {
         softA.setMass(1f);
 
         SoftAngularJoint sraj = new SoftAngularJoint(new Vector3f(0f, 0f, 0f),
-                softA, rigidB, new Vector3f(0f, 0f, 0f),
-                new Vector3f(0f, 0f, 0f));
+                softA, 0, rigidB);
         Assert.assertEquals(2, sraj.countEnds());
         Assert.assertEquals(0f, sraj.getAppliedImpulse(), 0f);
         Assert.assertEquals(0f, sraj.getBreakingImpulseThreshold(), 0f);
