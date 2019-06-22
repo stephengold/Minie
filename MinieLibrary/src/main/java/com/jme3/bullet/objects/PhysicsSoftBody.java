@@ -1448,8 +1448,9 @@ public class PhysicsSoftBody extends PhysicsBody {
         for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
             nodeIndices = capsule.readIntArray("Indices" + clusterIndex,
                     new int[0]);
+            int numNodesInCluster = nodeIndices.length;
             IntBuffer intBuffer = BufferUtils.createIntBuffer(nodeIndices);
-            appendCluster(objectId, numClusters, intBuffer);
+            appendCluster(objectId, numNodesInCluster, intBuffer);
         }
         finishClusters(objectId);
         assert countClusters() == numClusters : countClusters();
