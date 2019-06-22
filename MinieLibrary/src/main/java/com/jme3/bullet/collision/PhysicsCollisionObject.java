@@ -674,7 +674,7 @@ abstract public class PhysicsCollisionObject
      * Alter the contact-processing threshold.
      *
      * @param distance the desired threshold distance (in physics-space units,
-     * default=1e18)
+     * default=1e18 with SP library or 1e30 with DP library)
      */
     public void setContactProcessingThreshold(float distance) {
         setContactProcessingThreshold(objectId, distance);
@@ -683,7 +683,8 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter the contact stiffness.
      *
-     * @param stiffness the desired stiffness (default=1e18)
+     * @param stiffness the desired stiffness (default=1e18 with SP library or
+     * 1e30 with DP library)
      */
     public void setContactStiffness(float stiffness) {
         float damping = getContactDamping(objectId);
