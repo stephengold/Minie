@@ -40,6 +40,7 @@ import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.PhysicsSweepTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
+import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
@@ -1170,8 +1171,12 @@ public class PhysicsSpace {
         logger.log(Level.FINE, "Adding joint {0} to physics space.",
                 Long.toHexString(jointId));
         physicsJoints.put(jointId, joint);
-        addConstraintC(nativeId, jointId,
-                !joint.isCollisionBetweenLinkedBodies());
+
+        if (joint instanceof Constraint) {
+            Constraint constr = (Constraint) joint;
+            boolean allowCollision = constr.isCollisionBetweenLinkedBodies();
+            addConstraintC(nativeId, jointId, !allowCollision);
+        }
     }
 
     /**

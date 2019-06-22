@@ -56,7 +56,7 @@ import java.util.logging.Logger;
  *
  * @author normenhansen
  */
-public class HingeJoint extends PhysicsJoint {
+public class HingeJoint extends Constraint {
     // *************************************************************************
     // constants and loggers
 
@@ -446,7 +446,7 @@ public class HingeJoint extends PhysicsJoint {
         limitSoftness = capsule.readFloat("limitSoftness", 0.9f);
 
         createJoint();
-        readJointProperties(capsule);
+        readConstraintProperties(capsule);
 
         boolean enableAngularMotor
                 = capsule.readBoolean("enableAngularMotor", false);

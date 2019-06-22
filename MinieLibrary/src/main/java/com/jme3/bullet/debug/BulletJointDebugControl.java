@@ -31,8 +31,8 @@
  */
 package com.jme3.bullet.debug;
 
+import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
-import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.material.Material;
 import com.jme3.math.Transform;
@@ -44,7 +44,8 @@ import com.jme3.scene.debug.Arrow;
 import java.util.logging.Logger;
 
 /**
- * A physics-debug control used to visualize a PhysicsJoint.
+ * A physics-debug control to visualize a Constraint. TODO rename
+ * ConstraintDebugControl
  *
  * @author normenhansen
  */
@@ -62,28 +63,49 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
-    // fields TODO documentation
+    // fields
 
+    /**
+     * mesh to visualize the A end
+     */
     final private Arrow arrowA;
+    /**
+     * mesh to visualize the B end
+     */
     final private Arrow arrowB;
+    /**
+     * Constraint to visualize (not null)
+     */
+    final private Constraint constraint;
+    /**
+     * geometry to visualize the A end
+     */
     final private Geometry geomA;
+    /**
+     * geometry to visualize the B end
+     */
     final private Geometry geomB;
-    final private PhysicsJoint joint;
+    /**
+     * Transform of the A end
+     */
     final private Transform a = new Transform();
+    /**
+     * Transform of the B end
+     */
     final private Transform b = new Transform();
     // *************************************************************************
     // constructors
 
     /**
-     * Instantiate an enabled control to visualize the specified joint.
+     * Instantiate an enabled Control to visualize the specified Constraint.
      *
      * @param debugAppState which app state (not null, alias created)
-     * @param jo the joint to visualize (not null, alias created)
+     * @param jo the Constraint to visualize (not null, alias created)
      */
     public BulletJointDebugControl(BulletDebugAppState debugAppState,
-            PhysicsJoint jo) {
+            Constraint jo) {
         super(debugAppState);
-        joint = jo;
+        constraint = jo;
 
         geomA = new Geometry(jo.toString());
         arrowA = new Arrow(translateIdentity);
@@ -101,16 +123,16 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
     // AbstractPhysicsDebugControl methods
 
     /**
-     * Update this control. Invoked once per frame during the logical-state
-     * update, provided the control is enabled and added to a scene. Should be
+     * Update this Control. Invoked once per frame during the logical-state
+     * update, provided the Control is enabled and added to a scene. Should be
      * invoked only by a subclass or by AbstractControl.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
     protected void controlUpdate(float tpf) {
-        if (joint.isEnabled()) {
-            PhysicsRigidBody bodyA = joint.getBodyA();
+        if (constraint.isEnabled()) {
+            PhysicsRigidBody bodyA = constraint.getBodyA();
             if (bodyA == null) {
                 geomA.setCullHint(Spatial.CullHint.Always);
             } else {
@@ -118,10 +140,10 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
                 bodyA.getPhysicsRotation(a.getRotation());
                 geomA.setLocalTransform(a);
                 geomA.setCullHint(Spatial.CullHint.Never);
-                arrowA.setArrowExtent(joint.getPivotA(null));
+                arrowA.setArrowExtent(constraint.getPivotA(null));
             }
 
-            PhysicsRigidBody bodyB = joint.getBodyB();
+            PhysicsRigidBody bodyB = constraint.getBodyB();
             if (bodyB == null) {
                 geomB.setCullHint(Spatial.CullHint.Always);
             } else {
@@ -129,7 +151,7 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
                 bodyB.getPhysicsRotation(b.getRotation());
                 geomB.setLocalTransform(b);
                 geomB.setCullHint(Spatial.CullHint.Never);
-                arrowB.setArrowExtent(joint.getPivotB(null));
+                arrowB.setArrowExtent(constraint.getPivotB(null));
             }
 
         } else {
@@ -139,8 +161,8 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
     }
 
     /**
-     * Alter which spatial is controlled. Invoked when the control is added to
-     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Alter which Spatial is controlled. Invoked when the Control is added to
+     * or removed from a Spatial. Should be invoked only by a subclass or from
      * Spatial. Do not invoke directly from user code.
      *
      * @param spatial the spatial to control (or null)

@@ -53,7 +53,7 @@ import java.util.logging.Logger;
  *
  * @author normenhansen
  */
-public class Point2PointJoint extends PhysicsJoint {
+public class Point2PointJoint extends Constraint {
     // *************************************************************************
     // constants and loggers
 
@@ -243,7 +243,7 @@ public class Point2PointJoint extends PhysicsJoint {
         InputCapsule capsule = importer.getCapsule(this);
 
         createJoint();
-        readJointProperties(capsule);
+        readConstraintProperties(capsule);
 
         setDamping(capsule.readFloat("damping", 1f));
         setTau(capsule.readFloat("tau", 0.3f));

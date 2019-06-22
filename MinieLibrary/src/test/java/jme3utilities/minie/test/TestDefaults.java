@@ -160,7 +160,6 @@ public class TestDefaults {
                 softA, 0, rigidB);
         Assert.assertEquals(2, sraj.countEnds());
         Assert.assertEquals(1f, sraj.getCFM(), 0f);
-        Assert.assertTrue(sraj.isCollisionBetweenLinkedBodies());
         Assert.assertTrue(sraj.isEnabled());
         Assert.assertEquals(1f, sraj.getERP(), 0f);
         Assert.assertEquals(1f, sraj.getSplit(), 0f);

@@ -31,7 +31,7 @@
  */
 package com.jme3.bullet.animation;
 
-import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.joints.Constraint;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -44,8 +44,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A PhysicsJoint used for inverse kinematics (as opposed to joining bones
- * and/or attachments).
+ * A Constraint used for inverse kinematics (as opposed to joining bones and/or
+ * attachments).
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -62,14 +62,14 @@ public class IKJoint implements JmeCloneable, Savable {
     // fields
 
     /**
-     * true&rarr;disable the joint when entering ragdoll mode, false&rarr;joint
-     * unaffected by ragdoll mode
+     * true&rarr;disable the Constraint when entering ragdoll mode,
+     * false&rarr;Constraint unaffected by ragdoll mode
      */
     private boolean disableForRagdoll;
     /**
-     * underlying PhysicsJoint
+     * underlying Constraint
      */
-    private PhysicsJoint joint;
+    private Constraint joint;
     // *************************************************************************
     // constructors
 
@@ -83,11 +83,11 @@ public class IKJoint implements JmeCloneable, Savable {
     /**
      * Instantiate a new IK joint.
      *
-     * @param joint the underlying PhysicsJoint (not null, alias created)
-     * @param disableForRagdoll true&rarr;disable the joint when entering
+     * @param joint the underlying Constraint (not null, alias created)
+     * @param disableForRagdoll true&rarr;disable the Constraint when entering
      * ragdoll mode, false&rarr;unaffected by ragdoll mode
      */
-    public IKJoint(PhysicsJoint joint, boolean disableForRagdoll) {
+    public IKJoint(Constraint joint, boolean disableForRagdoll) {
         Validate.nonNull(joint, "joint");
 
         this.joint = joint;
@@ -97,16 +97,16 @@ public class IKJoint implements JmeCloneable, Savable {
     // new methods exposed
 
     /**
-     * Access the underlying PhysicsJoint.
+     * Access the underlying Constraint.
      *
      * @return the pre-existing joint (not null)
      */
-    public PhysicsJoint getPhysicsJoint() {
+    public Constraint getPhysicsJoint() {
         return joint;
     }
 
     /**
-     * Test whether to disable the joint when entering ragdoll mode.
+     * Test whether to disable the Constraint when entering ragdoll mode.
      *
      * @return true to disable, otherwise false
      */
@@ -115,7 +115,7 @@ public class IKJoint implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter whether to disable the joint when entering ragdoll mode.
+     * Alter whether to disable the Constraint when entering ragdoll mode.
      *
      * @param disableForRagdoll true to disable, false to be unaffected
      */
@@ -124,11 +124,12 @@ public class IKJoint implements JmeCloneable, Savable {
     }
 
     /**
-     * Put this joint into ragdoll mode.
+     * Put the Constraint into ragdoll mode.
      */
     void setRagdollMode() {
         if (disableForRagdoll) {
-            joint.setEnabled(false);
+            Constraint constraint = (Constraint) joint;
+            constraint.setEnabled(false);
         }
     }
     // *************************************************************************
@@ -177,7 +178,7 @@ public class IKJoint implements JmeCloneable, Savable {
         InputCapsule capsule = importer.getCapsule(this);
 
         disableForRagdoll = capsule.readBoolean("disableForRagdoll", true);
-        joint = (PhysicsJoint) capsule.readSavable("joint", null);
+        joint = (Constraint) capsule.readSavable("joint", null);
     }
 
     /**

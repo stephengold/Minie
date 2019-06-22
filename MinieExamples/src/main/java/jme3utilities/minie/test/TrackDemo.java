@@ -43,7 +43,7 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -135,7 +135,7 @@ public class TrackDemo extends ActionApplication {
     /**
      * inverse kinematics joint for the finger/sword tip
      */
-    private PhysicsJoint tipJoint = null;
+    private Constraint tipJoint = null;
     private PhysicsLink tipLink;
     private PhysicsRigidBody targetBody;
     /**

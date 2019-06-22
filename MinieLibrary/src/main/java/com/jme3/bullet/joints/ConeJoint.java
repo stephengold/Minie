@@ -54,7 +54,7 @@ import java.util.logging.Logger;
  *
  * @author normenhansen
  */
-public class ConeJoint extends PhysicsJoint {
+public class ConeJoint extends Constraint {
     // *************************************************************************
     // constants and loggers
 
@@ -329,7 +329,7 @@ public class ConeJoint extends PhysicsJoint {
         twistSpan = capsule.readFloat("twistSpan", 1e30f);
 
         createJoint();
-        readJointProperties(capsule);
+        readConstraintProperties(capsule);
     }
 
     /**

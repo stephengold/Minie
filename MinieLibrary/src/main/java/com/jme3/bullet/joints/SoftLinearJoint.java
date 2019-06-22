@@ -184,7 +184,6 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
         InputCapsule capsule = importer.getCapsule(this);
         location = (Vector3f) capsule.readSavable("location", new Vector3f());
         createJoint();
-        readJointProperties(capsule);
     }
 
     /**

@@ -70,7 +70,7 @@ import jme3utilities.Validate;
  *
  * @author normenhansen
  */
-public class SixDofJoint extends PhysicsJoint {
+public class SixDofJoint extends Constraint {
     // *************************************************************************
     // constants and loggers
 
@@ -542,7 +542,7 @@ public class SixDofJoint extends PhysicsJoint {
                 = capsule.readBoolean("useLinearReferenceFrameA", false);
 
         createJoint();
-        readJointProperties(capsule);
+        readConstraintProperties(capsule);
 
         setAngularUpperLimit((Vector3f) capsule.readSavable("angularUpperLimit", new Vector3f()));
         setAngularLowerLimit((Vector3f) capsule.readSavable("angularLowerLimit", new Vector3f()));

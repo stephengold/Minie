@@ -54,7 +54,7 @@ import java.util.logging.Logger;
  *
  * @author normenhansen
  */
-public class SliderJoint extends PhysicsJoint {
+public class SliderJoint extends Constraint {
     // *************************************************************************
     // constants and loggers
 
@@ -860,7 +860,7 @@ public class SliderJoint extends PhysicsJoint {
                 "useLinearReferenceFrameA", false);
 
         createJoint();
-        readJointProperties(capsule);
+        readConstraintProperties(capsule);
 
         setDampingDirAng(dampingDirAng);
         setDampingDirLin(dampingDirLin);

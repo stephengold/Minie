@@ -37,6 +37,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsCharacter;
@@ -678,9 +679,15 @@ public class BulletDebugAppState extends AbstractAppState {
                     node = new Node(joint.toString());
                     attachChild(node);
 
-                    logger.log(Level.FINE,
-                            "Create new BulletJointDebugControl");
-                    Control control = new BulletJointDebugControl(this, joint);
+                    Control control;
+                    if (joint instanceof Constraint) {
+                        logger.log(Level.FINE,
+                                "Create new BulletJointDebugControl");
+                        Constraint constraint = (Constraint) joint;
+                        control = new BulletJointDebugControl(this, constraint);
+                    } else {
+                        control = null; // TODO
+                    }
                     node.addControl(control);
                 }
                 joints.put(joint, node);

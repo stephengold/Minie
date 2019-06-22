@@ -44,7 +44,10 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
+import com.jme3.bullet.joints.Constraint;
+import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Aero;
@@ -455,35 +458,39 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
-     * Describe the specified PhysicsJoint in the context of the specified rigid
-     * body.
+     * Describe the specified PhysicsJoint in the context of the specified body.
      *
      * @param joint the joint to describe (not null, unaffected)
      * @param body one end of the joint
      * @return descriptive text (not null, not empty)
      */
-    public String describeJointInBody(PhysicsJoint joint,
-            PhysicsRigidBody body) {
+    public String describeJointInBody(PhysicsJoint joint, PhysicsBody body) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(joint);
         result.append(desc);
 
         long otherBodyId = 0L;
-        Vector3f pivot;
-        if (joint.getBodyA() == body) {
-            PhysicsRigidBody bodyB = joint.getBodyB();
+        Vector3f pivot = null;
+        if (joint.getBody(JointEnd.A) == body) {
+            PhysicsBody bodyB = joint.getBody(JointEnd.B);
             if (bodyB != null) {
                 otherBodyId = bodyB.getObjectId();
             }
-            pivot = joint.getPivotA(null);
-        } else {
-            assert joint.getBodyB() == body;
-            PhysicsRigidBody bodyA = joint.getBodyA();
-            if (bodyA != null) {
-                otherBodyId = joint.getBodyA().getObjectId();
+            if (joint instanceof Constraint) {
+                Constraint constraint = (Constraint) joint;
+                pivot = constraint.getPivotA(null);
             }
-            pivot = joint.getPivotB(null);
+        } else {
+            assert joint.getBody(JointEnd.B) == body;
+            PhysicsBody bodyA = joint.getBody(JointEnd.A);
+            if (bodyA != null) {
+                otherBodyId = bodyA.getObjectId();
+            }
+            if (joint instanceof Constraint) {
+                Constraint constraint = (Constraint) joint;
+                pivot = constraint.getPivotB(null);
+            }
         }
 
         if (otherBodyId == 0L) {
@@ -492,26 +499,28 @@ public class PhysicsDescriber extends Describer {
             result.append(" to=#");
             result.append(Long.toHexString(otherBodyId));
         }
-        result.append(" piv=[");
-        result.append(MyVector3f.describe(pivot));
-        result.append("]");
+        if (pivot != null) {
+            result.append(" piv=[");
+            result.append(MyVector3f.describe(pivot));
+            result.append(']');
+        }
 
         return result.toString();
     }
 
     /**
-     * Describe the specified PhysicsJoint in the context of a PhysicsSpace.
+     * Describe the specified Constraint in the context of a PhysicsSpace.
      *
-     * @param joint the joint to describe (not null, unaffected)
+     * @param constraint the Constraint to describe (not null, unaffected)
      * @return descriptive text (not null, not empty)
      */
-    public String describeJointInSpace(PhysicsJoint joint) {
+    public String describeJointInSpace(Constraint constraint) {
         StringBuilder result = new StringBuilder(80);
 
-        String desc = describe(joint);
+        String desc = describe(constraint);
         result.append(desc);
 
-        float bit = joint.getBreakingImpulseThreshold();
+        float bit = constraint.getBreakingImpulseThreshold();
         if (bit != Float.MAX_VALUE) {
             result.append(" bit=");
             desc = MyString.describe(bit);
@@ -519,10 +528,10 @@ public class PhysicsDescriber extends Describer {
         }
 
         int numDyn = 0;
-        PhysicsRigidBody bodyA = joint.getBodyA();
+        PhysicsRigidBody bodyA = constraint.getBodyA();
         if (bodyA != null) {
             result.append(" a=");
-            long aId = joint.getBodyA().getObjectId();
+            long aId = constraint.getBodyA().getObjectId();
             result.append(Long.toHexString(aId));
             if (!bodyA.isInWorld()) {
                 result.append("_NOT_IN_WORLD");
@@ -532,7 +541,7 @@ public class PhysicsDescriber extends Describer {
             }
         }
 
-        PhysicsRigidBody bodyB = joint.getBodyB();
+        PhysicsRigidBody bodyB = constraint.getBodyB();
         if (bodyB != null) {
             result.append(" b=");
             long bId = bodyB.getObjectId();

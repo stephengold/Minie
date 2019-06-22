@@ -32,6 +32,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.ConeJoint;
+import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.HingeJoint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
@@ -41,7 +42,6 @@ import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
 import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.SoftLinearJoint;
-import com.jme3.bullet.joints.SoftPhysicsJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsBody;
@@ -276,9 +276,11 @@ public class TestCloneJoints {
 
     private static void setParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        if (!(joint instanceof SoftPhysicsJoint)) {
-            joint.setEnabled(flag);
-            joint.setBreakingImpulseThreshold(b + 0.505f);
+
+        if (joint instanceof Constraint) {
+            Constraint constraint = (Constraint) joint;
+            constraint.setEnabled(flag);
+            constraint.setBreakingImpulseThreshold(b + 0.505f);
         }
 
         if (joint instanceof ConeJoint) {
@@ -411,10 +413,13 @@ public class TestCloneJoints {
 
     private static void verifyParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        if (!(joint instanceof SoftPhysicsJoint)) {
-            assert joint.isEnabled() == flag;
-            assert joint.getBreakingImpulseThreshold() == b + 0.505f;
+
+        if (joint instanceof Constraint) {
+            Constraint constraint = (Constraint) joint;
+            assert constraint.isEnabled() == flag;
+            assert constraint.getBreakingImpulseThreshold() == b + 0.505f;
         }
+
         if (joint instanceof ConeJoint) {
             verifyCone((ConeJoint) joint, b);
         } else if (joint instanceof HingeJoint) {

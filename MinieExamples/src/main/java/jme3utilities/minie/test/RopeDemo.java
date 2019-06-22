@@ -45,7 +45,7 @@ import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -997,9 +997,9 @@ public class RopeDemo extends ActionApplication {
         if (latestDac != null) {
             IKJoint[] ikJoints = latestDac.listIKJoints();
             for (IKJoint ikJoint : ikJoints) {
-                PhysicsJoint joint = ikJoint.getPhysicsJoint();
-                if (joint.isEnabled() && joint.countEnds() == 1) {
-                    joint.setEnabled(false);
+                Constraint constraint = ikJoint.getPhysicsJoint();
+                if (constraint.isEnabled() && constraint.countEnds() == 1) {
+                    constraint.setEnabled(false);
                     break;
                 }
             }

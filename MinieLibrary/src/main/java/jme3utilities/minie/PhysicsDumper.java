@@ -34,6 +34,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
@@ -473,8 +474,11 @@ public class PhysicsDumper extends Dumper {
         if (dumpJointsInSpaces) {
             String moreIndent = indent + indentIncrement();
             for (PhysicsJoint joint : joints) {
-                String desc = describer.describeJointInSpace(joint);
-                stream.printf("%n%s%s", moreIndent, desc);
+                if (joint instanceof Constraint) {
+                    Constraint constraint = (Constraint) joint;
+                    String desc = describer.describeJointInSpace(constraint);
+                    stream.printf("%n%s%s", moreIndent, desc);
+                }
             }
         }
         stream.println();
