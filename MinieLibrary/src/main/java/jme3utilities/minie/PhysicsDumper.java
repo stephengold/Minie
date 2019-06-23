@@ -185,8 +185,7 @@ public class PhysicsDumper extends Dumper {
     public void dump(PhysicsRigidBody body, String indent) {
         Validate.nonNull(indent, "indent");
 
-        long objectId = body.getObjectId();
-        stream.printf("%n%sRigid #%s ", indent, Long.toHexString(objectId));
+        stream.printf("%n%sRigid ", indent);
 
         String desc = MyPco.describe(body);
         stream.print(desc);
@@ -215,8 +214,13 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" grav[%s]", graString);
 
             float linST = body.getLinearSleepingThreshold();
-            stream.print(" linST=" + MyString.describe(linST));
+            stream.print(" linST=");
+            stream.print(MyString.describe(linST));
         }
+
+        stream.print(" #");
+        long objectId = body.getObjectId();
+        stream.printf(Long.toHexString(objectId));
         /*
          * 2nd line has the shape, scale, group info, and the number of joints.
          */
@@ -258,8 +262,7 @@ public class PhysicsDumper extends Dumper {
     public void dump(PhysicsSoftBody body, String indent) {
         Validate.nonNull(indent, "indent");
 
-        long objectId = body.getObjectId();
-        stream.printf("%n%sSoft #%s ", indent, Long.toHexString(objectId));
+        stream.printf("%n%sSoft ", indent);
 
         PhysicsDescriber describer = getDescriber();
         BoundingBox aabb = body.boundingBox(null);
@@ -275,6 +278,10 @@ public class PhysicsDumper extends Dumper {
         float margin = body.margin();
         desc = MyString.describe(margin);
         stream.print(desc);
+
+        stream.print(" #");
+        long objectId = body.getObjectId();
+        stream.print(Long.toHexString(objectId));
 
         stream.printf("%n%s  vol=", indent);
         float volume = body.volume();
@@ -379,14 +386,12 @@ public class PhysicsDumper extends Dumper {
         Validate.nonNull(indent, "indent");
 
         String type = space.getClass().getSimpleName();
-        long spaceId = space.getSpaceId();
         Collection<PhysicsCharacter> characters = space.getCharacterList();
         int numCharacters = characters.size();
         Collection<PhysicsGhostObject> ghosts = space.getGhostObjectList();
         int numGhosts = ghosts.size();
-        stream.printf("%n%s%s #%s with %d char%s, %d ghost%s, ",
-                indent, type, Long.toHexString(spaceId),
-                numCharacters, (numCharacters == 1) ? "" : "s",
+        stream.printf("%n%s%s with %d char%s, %d ghost%s, ",
+                indent, type, numCharacters, (numCharacters == 1) ? "" : "s",
                 numGhosts, (numGhosts == 1) ? "" : "s");
 
         Collection<PhysicsJoint> joints = space.getJointList();
@@ -406,6 +411,9 @@ public class PhysicsDumper extends Dumper {
                 numRigids, (numRigids == 1) ? "" : "s",
                 numSofts, (numSofts == 1) ? "" : "s",
                 numVehicles, (numVehicles == 1) ? "" : "s");
+
+        long spaceId = space.getSpaceId();
+        stream.printf(" #%s", Long.toHexString(spaceId));
         /*
          * 2nd line
          */
