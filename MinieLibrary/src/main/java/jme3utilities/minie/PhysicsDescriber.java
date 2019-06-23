@@ -85,7 +85,7 @@ public class PhysicsDescriber extends Describer {
     final public static Logger logger
             = Logger.getLogger(PhysicsDescriber.class.getName());
     // *************************************************************************
-    // new methods exposed TODO re-order
+    // new methods exposed
 
     /**
      * Generate a textual description for a BoundingBox.
@@ -400,6 +400,38 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
+     * Describe the specified Anchor in the context of a PhysicsSpace.
+     *
+     * @param anchor the Anchor to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeAnchorInSpace(Anchor anchor) {
+        StringBuilder result = new StringBuilder(80);
+
+        String desc = describe(anchor);
+        result.append(desc);
+
+        PhysicsSoftBody bodyA = anchor.getSoftBody();
+        result.append(" a=");
+        long aId = bodyA.getObjectId();
+        result.append(Long.toHexString(aId));
+        if (!bodyA.isInWorld()) {
+            result.append("_NOT_IN_WORLD");
+        }
+
+        PhysicsRigidBody bodyB = anchor.getRigidBody();
+        result.append(" b=");
+        long bId = bodyB.getObjectId();
+        result.append(Long.toHexString(bId));
+        if (!bodyB.isInWorld()) {
+            result.append("_NOT_IN_WORLD");
+        }
+
+        // TODO node index, pivot, influence
+        return result.toString();
+    }
+
+    /**
      * Generate a textual description of a compound shape's children.
      *
      * @param compound shape being described (not null)
@@ -431,6 +463,59 @@ public class PhysicsDescriber extends Describer {
                 result.append(desc);
                 result.append("]");
             }
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Describe the specified Constraint in the context of a PhysicsSpace.
+     *
+     * @param constraint the Constraint to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeConstraintInSpace(Constraint constraint) {
+        StringBuilder result = new StringBuilder(80);
+
+        String desc = describe(constraint);
+        result.append(desc);
+
+        float bit = constraint.getBreakingImpulseThreshold();
+        if (bit != Float.MAX_VALUE) {
+            result.append(" bit=");
+            desc = MyString.describe(bit);
+            result.append(desc);
+        }
+
+        int numDyn = 0;
+        PhysicsRigidBody bodyA = constraint.getBodyA();
+        if (bodyA != null) {
+            result.append(" a=");
+            long aId = bodyA.getObjectId();
+            result.append(Long.toHexString(aId));
+            if (!bodyA.isInWorld()) {
+                result.append("_NOT_IN_WORLD");
+            }
+            if (bodyA.isDynamic()) {
+                ++numDyn;
+            }
+        }
+
+        PhysicsRigidBody bodyB = constraint.getBodyB();
+        if (bodyB != null) {
+            result.append(" b=");
+            long bId = bodyB.getObjectId();
+            result.append(Long.toHexString(bId));
+            if (!bodyB.isInWorld()) {
+                result.append("_NOT_IN_WORLD");
+            }
+            if (bodyB.isDynamic()) {
+                ++numDyn;
+            }
+        }
+
+        if (numDyn == 0) {
+            result.append("   NO_DYNAMIC_END");
         }
 
         return result.toString();
@@ -526,59 +611,6 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
-     * Describe the specified Constraint in the context of a PhysicsSpace.
-     *
-     * @param constraint the Constraint to describe (not null, unaffected)
-     * @return descriptive text (not null, not empty)
-     */
-    public String describeConstraintInSpace(Constraint constraint) {
-        StringBuilder result = new StringBuilder(80);
-
-        String desc = describe(constraint);
-        result.append(desc);
-
-        float bit = constraint.getBreakingImpulseThreshold();
-        if (bit != Float.MAX_VALUE) {
-            result.append(" bit=");
-            desc = MyString.describe(bit);
-            result.append(desc);
-        }
-
-        int numDyn = 0;
-        PhysicsRigidBody bodyA = constraint.getBodyA();
-        if (bodyA != null) {
-            result.append(" a=");
-            long aId = bodyA.getObjectId();
-            result.append(Long.toHexString(aId));
-            if (!bodyA.isInWorld()) {
-                result.append("_NOT_IN_WORLD");
-            }
-            if (bodyA.isDynamic()) {
-                ++numDyn;
-            }
-        }
-
-        PhysicsRigidBody bodyB = constraint.getBodyB();
-        if (bodyB != null) {
-            result.append(" b=");
-            long bId = bodyB.getObjectId();
-            result.append(Long.toHexString(bId));
-            if (!bodyB.isInWorld()) {
-                result.append("_NOT_IN_WORLD");
-            }
-            if (bodyB.isDynamic()) {
-                ++numDyn;
-            }
-        }
-
-        if (numDyn == 0) {
-            result.append("   NO_DYNAMIC_END");
-        }
-
-        return result.toString();
-    }
-
-    /**
      * Describe the specified joint in the context of a PhysicsSpace.
      *
      * @param joint the joint to describe (not null, unaffected)
@@ -596,38 +628,6 @@ public class PhysicsDescriber extends Describer {
         }
 
         return result;
-    }
-
-    /**
-     * Describe the specified Anchor in the context of a PhysicsSpace.
-     *
-     * @param anchor the Anchor to describe (not null, unaffected)
-     * @return descriptive text (not null, not empty)
-     */
-    public String describeAnchorInSpace(Anchor anchor) {
-        StringBuilder result = new StringBuilder(80);
-
-        String desc = describe(anchor);
-        result.append(desc);
-
-        PhysicsSoftBody bodyA = anchor.getSoftBody();
-        result.append(" a=");
-        long aId = bodyA.getObjectId();
-        result.append(Long.toHexString(aId));
-        if (!bodyA.isInWorld()) {
-            result.append("_NOT_IN_WORLD");
-        }
-
-        PhysicsRigidBody bodyB = anchor.getRigidBody();
-        result.append(" b=");
-        long bId = bodyB.getObjectId();
-        result.append(Long.toHexString(bId));
-        if (!bodyB.isInWorld()) {
-            result.append("_NOT_IN_WORLD");
-        }
-
-        // TODO node index, pivot, influence
-        return result.toString();
     }
 
     /**
