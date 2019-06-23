@@ -118,7 +118,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      * @return the axis (in physics-space coordinates, either storeResult or a
      * new vector, not null)
      */
-    public Vector3f getAxis(Vector3f storeResult) {
+    public Vector3f copyAxis(Vector3f storeResult) {
         // TODO verify copy
         if (storeResult == null) {
             return axis.clone();
