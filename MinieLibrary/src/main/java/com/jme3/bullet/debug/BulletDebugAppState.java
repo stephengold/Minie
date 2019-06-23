@@ -37,6 +37,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.joints.Anchor;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
@@ -681,11 +682,17 @@ public class BulletDebugAppState extends AbstractAppState {
                     attachChild(node);
 
                     Control control;
-                    if (joint instanceof Constraint) {
+                    if (joint instanceof Anchor) {
+                        logger.log(Level.FINE, "Create new AnchorDebugControl");
+                        Anchor anchor = (Anchor) joint;
+                        control = new AnchorDebugControl(this, anchor);
+
+                    } else if (joint instanceof Constraint) {
                         logger.log(Level.FINE,
                                 "Create new BulletJointDebugControl");
                         Constraint constraint = (Constraint) joint;
                         control = new BulletJointDebugControl(this, constraint);
+
                     } else {
                         logger.log(Level.FINE,
                                 "Create new SoftJointDebugControl");
@@ -801,10 +808,10 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Interface to restrict which physics objects are visualized.
+     * Interface to restrict which physics objects are visualized. TODO make
+     * compatible with jme3-bullet
      */
     public interface DebugAppStateFilter {
-
         /**
          * Test whether the specified physics object should be rendered in the
          * debug scene.

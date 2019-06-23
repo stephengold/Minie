@@ -34,8 +34,8 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -237,19 +237,10 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describeGroups(body);
         stream.print(desc);
 
-        PhysicsJoint[] joints = body.listJoints();
-        stream.printf(" joints=%d", joints.length);
-        if (dumpJointsInBodies) {
-            if (joints.length > 0) {
-                stream.print(":");
-            }
-            /*
-             * Each joint gets its own line in the dump.
-             */
-            for (PhysicsJoint joint : joints) {
-                desc = describer.describeJointInBody(joint, body);
-                stream.printf("%n%s  %s", indent, desc);
-            }
+        int numJoints = body.countJoints();
+        stream.printf(" with %d joint%s", numJoints, (numJoints == 1) ? "" : "s");
+        if (dumpJointsInBodies && numJoints > 0) {
+            dumpJoints(body, indent);
         }
     }
 
@@ -336,28 +327,23 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describeGroups(body);
         stream.printf("%n%s%s", indent, desc);
 
-        int numAnchors = body.countAnchors();
-        stream.printf(" %d anchor%s%s", numAnchors,
-                (numAnchors == 1) ? "" : "s",
-                (numAnchors == 0) ? "," : ":");
-        for (int anchorI = 0; anchorI < numAnchors; ++anchorI) {
-            dumpAnchor(body, anchorI, indent);
-        }
-        if (numAnchors > 0) {
-            stream.printf("%n%s", indent);
-        }
-
         int numJoints = body.countJoints();
-        stream.printf(" %d joint%s", numJoints, (numJoints == 1) ? "" : "s");
-        // TODO joint details
+        stream.printf(" with %d joint%s", numJoints,
+                (numJoints == 1) ? "" : "s");
+        if (dumpJointsInBodies && numJoints > 0) {
+            dumpJoints(body, indent);
+            stream.printf("%n%s", indent);
+        } else {
+            stream.print(',');
+        }
 
         int numClusters = body.countClusters();
-        stream.printf(", %d cluster%s", numClusters,
+        stream.printf(" %d cluster%s", numClusters,
                 (numClusters == 1) ? "" : "s");
         if (dumpClustersInSofts && numClusters > 0) {
             dumpClusters(body, indent);
         } else {
-            stream.print(",");
+            stream.print(',');
         }
 
         int numNodes = body.countNodes();
@@ -482,11 +468,8 @@ public class PhysicsDumper extends Dumper {
         if (dumpJointsInSpaces) {
             String moreIndent = indent + indentIncrement();
             for (PhysicsJoint joint : joints) {
-                if (joint instanceof Constraint) {
-                    Constraint constraint = (Constraint) joint;
-                    String desc = describer.describeJointInSpace(constraint);
-                    stream.printf("%n%s%s", moreIndent, desc);
-                }
+                String desc = describer.describeJointInSpace(joint);
+                stream.printf("%n%s%s", moreIndent, desc);
             }
         }
         stream.println();
@@ -753,27 +736,6 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Dump the indexed anchor of the specified soft body.
-     *
-     * @param softBody which body to read (not null, unaffected)
-     * @param anchorIndex which anchor to dump (&ge;0, &lt;numAnchors)
-     * @param indent (not null)
-     */
-    private void dumpAnchor(PhysicsSoftBody softBody, int anchorIndex,
-            String indent) {
-        int nodeIndex = softBody.anchorNodeIndex(anchorIndex);
-        Vector3f pivotLocal = softBody.anchorPivot(anchorIndex, null);
-        long rigidId = softBody.anchorRigidId(anchorIndex);
-        stream.printf("%n%s  [%d] node%d/rigid#%x piv[%s]", indent, anchorIndex,
-                nodeIndex, rigidId, MyVector3f.describe(pivotLocal));
-
-        boolean collideFlag = softBody.isCollisionAllowed(rigidId);
-        float influence = softBody.anchorInfluence(anchorIndex);
-        stream.printf(" %scollide infl=%s", collideFlag ? "" : "NO",
-                MyString.describe(influence));
-    }
-
-    /**
      * Dump all clusters in the specified soft body.
      *
      * @param softBody which body to dump (not null, unaffected)
@@ -801,6 +763,22 @@ public class PhysicsDumper extends Dumper {
             }
         }
         stream.printf("%n%s", indent);
+    }
+
+    /**
+     * Dump all joints in the specified body.
+     *
+     * @param body (not null, unaffected)
+     * @param indent (not null)
+     */
+    private void dumpJoints(PhysicsBody body, String indent) {
+        stream.print(":");
+        PhysicsJoint[] joints = body.listJoints();
+        PhysicsDescriber describer = getDescriber();
+        for (PhysicsJoint joint : joints) {
+            String desc = describer.describeJointInBody(joint, body);
+            stream.printf("%n%s  %s", indent, desc);
+        }
     }
 
     /**

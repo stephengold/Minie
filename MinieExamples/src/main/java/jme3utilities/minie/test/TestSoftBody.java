@@ -44,6 +44,7 @@ import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.debug.DebugMeshInitListener;
+import com.jme3.bullet.joints.Anchor;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
@@ -518,22 +519,24 @@ public class TestSoftBody
 
         physicsSpace.add(flagPsb);
         /*
-         * Append 2 anchors that join the flag to the pole.
+         * Add 2 anchors that join the flag to the pole.
          */
-        boolean collideFlag = true;
-        float influence = 1f;
+        boolean allowCollisions = true;
         int nodeIndex = 0; // upper left corner of flag
-        Vector3f localPivot = flagPsb.nodeLocation(nodeIndex, null);
-        flagPsb.appendAnchor(nodeIndex, polePrb, localPivot, collideFlag,
-                influence);
+        Vector3f initialLocation = flagPsb.nodeLocation(nodeIndex, null);
+        Anchor anchor0 = new Anchor(flagPsb, nodeIndex, polePrb,
+                initialLocation, allowCollisions);
+        physicsSpace.add(anchor0);
+
         nodeIndex = xLines - 1; // lower left corner of flag
-        flagPsb.nodeLocation(nodeIndex, localPivot);
-        flagPsb.appendAnchor(nodeIndex, polePrb, localPivot, collideFlag,
-                influence);
+        flagPsb.nodeLocation(nodeIndex, initialLocation);
+        Anchor anchor1 = new Anchor(flagPsb, nodeIndex, polePrb,
+                initialLocation, allowCollisions);
+        physicsSpace.add(anchor1);
     }
 
     /**
-     * Add a Puppet model.
+     * Add a Puppet model. TODO add "go limp" action
      */
     private DynamicAnimControl addPuppet() {
         /*
@@ -609,14 +612,15 @@ public class TestSoftBody
         physicsSpace.add(skirtPsb);
         skirtPsb.setGravity(new Vector3f(0f, -10f, 0f));
         /*
-         * Append anchors that join Puppet to her skirt.
+         * Add anchors that join Puppet to her skirt.
          */
         PhysicsRigidBody rigid = link.getRigidBody();
-        boolean collide = true;
-        float influence = 1f;
-        for (int anchorI = 0; anchorI < numAnchors; ++anchorI) {
-            Vector3f location = anchorLocs[anchorI];
-            skirtPsb.appendAnchor(anchorI, rigid, location, collide, influence);
+        boolean allowCollisions = true;
+        for (int anchorIndex = 0; anchorIndex < numAnchors; ++anchorIndex) {
+            Vector3f location = anchorLocs[anchorIndex];
+            Anchor anchor = new Anchor(skirtPsb, anchorIndex, rigid, location,
+                    allowCollisions);
+            physicsSpace.add(anchor);
         }
     }
 

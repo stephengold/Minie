@@ -73,10 +73,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
-     * geometry to visualize anchors
-     */
-    final private Geometry anchorsGeometry;
-    /**
      * geometry to visualize clusters
      */
     final private Geometry clustersGeometry;
@@ -116,7 +112,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         super(debugAppState);
         this.body = body;
 
-        anchorsGeometry = createAnchorsGeometry();
         clustersGeometry = createClustersGeometry();
         facesGeometry = createFacesGeometry();
         linksGeometry = createLinksGeometry();
@@ -136,10 +131,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         // TODO check for changes in the number of anchors/links/faces/clusters
 
         boolean localFlag = true; // copy local coords, not physics-space ones
-        if (anchorsGeometry != null) {
-            Mesh mesh = anchorsGeometry.getMesh();
-            NativeSoftBodyUtil.updateAnchorMesh(body, mesh, localFlag);
-        }
 
         if (clustersGeometry != null) {
             Mesh mesh = clustersGeometry.getMesh();
@@ -191,9 +182,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
 
             Node node = (Node) spatial;
-            if (anchorsGeometry != null) {
-                node.attachChild(anchorsGeometry);
-            }
             if (clustersGeometry != null) {
                 node.attachChild(clustersGeometry);
             }
@@ -205,9 +193,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             }
         } else if (spatial == null && this.spatial != null) {
             Node node = (Node) this.spatial;
-            if (anchorsGeometry != null) {
-                node.detachChild(anchorsGeometry);
-            }
             if (clustersGeometry != null) {
                 node.detachChild(clustersGeometry);
             }
@@ -222,34 +207,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     }
     // *************************************************************************
     // private methods
-
-    /**
-     * Create a Geometry to visualize the body's anchors.
-     *
-     * @return a new Geometry, or null if no anchors
-     */
-    private Geometry createAnchorsGeometry() {
-        Geometry result = null;
-        int numAnchors = body.countAnchors();
-        if (numAnchors > 0) {
-            Mesh mesh = new Mesh();
-
-            int numVertices = 2 * numAnchors;
-            int numFloats = 3 * numVertices;
-            FloatBuffer positions = BufferUtils.createFloatBuffer(numFloats);
-            mesh.setBuffer(VertexBuffer.Type.Position, 3, positions);
-
-            mesh.setMode(Mesh.Mode.Lines);
-            mesh.setStreamed();
-
-            result = new Geometry(body.toString() + " anchors", mesh);
-            SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-            Material material = sdas.getAnchorMaterial();
-            result.setMaterial(material);
-        }
-
-        return result;
-    }
 
     /**
      * Create a Geometry to visualize the body's clusters.
@@ -270,6 +227,8 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             mesh.setStreamed();
 
             result = new Geometry(body.toString() + " clusters", mesh);
+            result.setShadowMode(RenderQueue.ShadowMode.Off);
+
             SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
             Material material = sdas.getClusterMaterial();
             result.setMaterial(material);

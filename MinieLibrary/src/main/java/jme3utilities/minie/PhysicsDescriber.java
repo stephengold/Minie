@@ -44,9 +44,13 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
+import com.jme3.bullet.joints.Anchor;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.joints.SoftAngularJoint;
+import com.jme3.bullet.joints.SoftLinearJoint;
+import com.jme3.bullet.joints.SoftPhysicsJoint;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
@@ -81,7 +85,7 @@ public class PhysicsDescriber extends Describer {
     final public static Logger logger
             = Logger.getLogger(PhysicsDescriber.class.getName());
     // *************************************************************************
-    // new methods exposed
+    // new methods exposed TODO re-order
 
     /**
      * Generate a textual description for a BoundingBox.
@@ -470,12 +474,12 @@ public class PhysicsDescriber extends Describer {
         String desc = describe(joint);
         result.append(desc);
 
-        long otherBodyId = 0L;
+        PhysicsBody otherBody = null;
         Vector3f pivot = null;
         if (joint.getBody(JointEnd.A) == body) {
             PhysicsBody bodyB = joint.getBody(JointEnd.B);
             if (bodyB != null) {
-                otherBodyId = bodyB.getObjectId();
+                otherBody = bodyB;
             }
             if (joint instanceof Constraint) {
                 Constraint constraint = (Constraint) joint;
@@ -485,7 +489,7 @@ public class PhysicsDescriber extends Describer {
             assert joint.getBody(JointEnd.B) == body;
             PhysicsBody bodyA = joint.getBody(JointEnd.A);
             if (bodyA != null) {
-                otherBodyId = bodyA.getObjectId();
+                otherBody = bodyA;
             }
             if (joint instanceof Constraint) {
                 Constraint constraint = (Constraint) joint;
@@ -493,15 +497,28 @@ public class PhysicsDescriber extends Describer {
             }
         }
 
-        if (otherBodyId == 0L) {
+        if (otherBody == null) {
             result.append(" single-ended");
         } else {
-            result.append(" to=#");
-            result.append(Long.toHexString(otherBodyId));
+            result.append(" to:");
+            result.append(otherBody.toString());
         }
+
         if (pivot != null) {
-            result.append(" piv=[");
+            result.append(" piv[");
             result.append(MyVector3f.describe(pivot));
+            result.append(']');
+        } else if (joint instanceof SoftAngularJoint) {
+            SoftAngularJoint saj = (SoftAngularJoint) joint;
+            result.append(" axis[");
+            Vector3f axis = saj.copyAxis(null);
+            result.append(MyVector3f.describe(axis));
+            result.append(']');
+        } else if (joint instanceof SoftLinearJoint) {
+            SoftLinearJoint slj = (SoftLinearJoint) joint;
+            result.append(" loc[");
+            Vector3f location = slj.copyLocation(null);
+            result.append(MyVector3f.describe(location));
             result.append(']');
         }
 
@@ -514,7 +531,7 @@ public class PhysicsDescriber extends Describer {
      * @param constraint the Constraint to describe (not null, unaffected)
      * @return descriptive text (not null, not empty)
      */
-    public String describeJointInSpace(Constraint constraint) {
+    public String describeConstraintInSpace(Constraint constraint) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(constraint);
@@ -531,7 +548,7 @@ public class PhysicsDescriber extends Describer {
         PhysicsRigidBody bodyA = constraint.getBodyA();
         if (bodyA != null) {
             result.append(" a=");
-            long aId = constraint.getBodyA().getObjectId();
+            long aId = bodyA.getObjectId();
             result.append(Long.toHexString(aId));
             if (!bodyA.isInWorld()) {
                 result.append("_NOT_IN_WORLD");
@@ -558,6 +575,89 @@ public class PhysicsDescriber extends Describer {
             result.append("   NO_DYNAMIC_END");
         }
 
+        return result.toString();
+    }
+
+    /**
+     * Describe the specified joint in the context of a PhysicsSpace.
+     *
+     * @param joint the joint to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeJointInSpace(PhysicsJoint joint) {
+        String result;
+        if (joint instanceof Anchor) {
+            result = describeAnchorInSpace((Anchor) joint);
+        } else if (joint instanceof Constraint) {
+            result = describeConstraintInSpace((Constraint) joint);
+        } else {
+            SoftPhysicsJoint softJoint = (SoftPhysicsJoint) joint;
+            result = describeSoftJointInSpace(softJoint);
+        }
+
+        return result;
+    }
+
+    /**
+     * Describe the specified Anchor in the context of a PhysicsSpace.
+     *
+     * @param anchor the Anchor to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeAnchorInSpace(Anchor anchor) {
+        StringBuilder result = new StringBuilder(80);
+
+        String desc = describe(anchor);
+        result.append(desc);
+
+        PhysicsSoftBody bodyA = anchor.getSoftBody();
+        result.append(" a=");
+        long aId = bodyA.getObjectId();
+        result.append(Long.toHexString(aId));
+        if (!bodyA.isInWorld()) {
+            result.append("_NOT_IN_WORLD");
+        }
+
+        PhysicsRigidBody bodyB = anchor.getRigidBody();
+        result.append(" b=");
+        long bId = bodyB.getObjectId();
+        result.append(Long.toHexString(bId));
+        if (!bodyB.isInWorld()) {
+            result.append("_NOT_IN_WORLD");
+        }
+
+        // TODO node index, pivot, influence
+        return result.toString();
+    }
+
+    /**
+     * Describe the specified soft joint in the context of a PhysicsSpace.
+     *
+     * @param joint the soft joint to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeSoftJointInSpace(SoftPhysicsJoint joint) {
+        StringBuilder result = new StringBuilder(80);
+
+        String desc = describe(joint);
+        result.append(desc);
+
+        PhysicsSoftBody bodyA = joint.getSoftBodyA();
+        result.append(" a=");
+        long aId = bodyA.getObjectId();
+        result.append(Long.toHexString(aId));
+        if (!bodyA.isInWorld()) {
+            result.append("_NOT_IN_WORLD");
+        }
+
+        PhysicsBody bodyB = joint.getBody(JointEnd.B);
+        result.append(" b=");
+        result.append(bodyB.toString());
+        if (!bodyB.isInWorld()) {
+            result.append("_NOT_IN_WORLD");
+        }
+
+        // TODO cluster indices, CFM, ERP, split
         return result.toString();
     }
 

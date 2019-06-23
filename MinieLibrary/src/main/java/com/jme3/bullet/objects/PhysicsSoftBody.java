@@ -143,94 +143,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Read the influence of the indexed anchor.
-     *
-     * @param anchorIndex which anchor (&ge;0, &lt;numAnchors)
-     * @return the amount of influence on this body (0&rarr;no influence,
-     * 1&rarr;strong influence)
-     */
-    public float anchorInfluence(int anchorIndex) {
-        int numAnchors = countAnchors();
-        Validate.inRange(anchorIndex, "anchor index", 0, numAnchors - 1);
-
-        float result = getAnchorInfluence(objectId, anchorIndex);
-        return result;
-    }
-
-    /**
-     * Read the index of the node connected by the indexed anchor.
-     *
-     * @param anchorIndex which anchor (&ge;0, &lt;numAnchors)
-     * @return the index of the node (&ge;0, &lt;numNodes)
-     */
-    public int anchorNodeIndex(int anchorIndex) {
-        int numAnchors = countAnchors();
-        Validate.inRange(anchorIndex, "anchor index", 0, numAnchors - 1);
-
-        int result = getAnchorNodeIndex(objectId, anchorIndex);
-
-        assert result >= 0 : result;
-        assert result < countNodes() : result;
-        return result;
-    }
-
-    /**
-     * Copy the pivot offset of the indexed anchor.
-     *
-     * @param anchorIndex which anchor (&ge;0, &lt;numAnchors)
-     * @param storeResult storage for the result (modified if null)
-     * @return an offset vector (either storeResult or a new vector)
-     */
-    public Vector3f anchorPivot(int anchorIndex, Vector3f storeResult) {
-        int numAnchors = countAnchors();
-        Validate.inRange(anchorIndex, "anchor index", 0, numAnchors - 1);
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-
-        getAnchorPivot(objectId, anchorIndex, result);
-        return result;
-    }
-
-    /**
-     * Read the native ID of the rigid body connected by the indexed anchor.
-     *
-     * @param anchorIndex which anchor (&ge;0, &lt;numAnchors)
-     * @return an offset vector (either storeResult or a new vector)
-     */
-    public long anchorRigidId(int anchorIndex) {
-        int numAnchors = countAnchors();
-        Validate.inRange(anchorIndex, "anchor index", 0, numAnchors - 1);
-
-        long result = getAnchorRigidId(objectId, anchorIndex);
-        return result;
-    }
-
-    /**
-     * Add an anchor connecting the indexed node of this body to the specified
-     * rigid body.
-     *
-     * @param nodeIndex which node of this body to connect (&ge;0, &lt;numNodes)
-     * @param rigidBody the rigid body to connect (not null)
-     * @param localPivot the anchor location in the soft body's local
-     * coordinates (not null, unaffected)
-     * @param collisionBetweenLinkedBodies true&rarr;allow collisions between
-     * this body and the rigid body, false&rarr;don't allow such collisions
-     * @param influence how much influence the anchor has on this body (&ge;0,
-     * &le;1, 0&rarr;no influence, 1&rarr;strong influence)
-     */
-    public void appendAnchor(int nodeIndex, PhysicsRigidBody rigidBody,
-            Vector3f localPivot, boolean collisionBetweenLinkedBodies,
-            float influence) {
-        int numNodes = countNodes();
-        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
-        Validate.finite(localPivot, "local pivot");
-        Validate.fraction(influence, "influence");
-
-        long rigidBodyId = rigidBody.getObjectId();
-        appendAnchor(objectId, nodeIndex, rigidBodyId, localPivot,
-                collisionBetweenLinkedBodies, influence);
-    }
-
-    /**
      * Append faces to this body. A Face is a triangle connecting 3 nodes.
      *
      * @param nodeIndices a face is created for every 3 indices in this buffer
@@ -584,15 +496,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Count the anchors in this body.
-     *
-     * @return the number of anchors (&ge;0)
-     */
-    final public int countAnchors() {
-        return getAnchorCount(objectId);
-    }
-
-    /**
      * Count the clusters in this body.
      *
      * @return the number of clusters (&ge;0)
@@ -763,7 +666,7 @@ public class PhysicsSoftBody extends PhysicsBody {
                 && countFaces() == 0
                 && countLinks() == 0
                 && countTetras() == 0
-                && countAnchors() == 0
+                && countJoints() == 0
                 && countClusters() == 0;
         return result;
     }
@@ -890,22 +793,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         Validate.inRange(clusterIndex, "cluster index", 0, numClusters - 1);
 
         releaseCluster(objectId, clusterIndex);
-    }
-
-    /**
-     * Remove the pre-existing anchor connecting the indexed node with the
-     * specified rigid body.
-     *
-     * @param nodeIndex which node to disconnect (&ge;0, &lt;numNodes)
-     * @param rigidBody which rigid body to disconnect (not null)
-     */
-    public void removeAnchor(int nodeIndex, PhysicsRigidBody rigidBody) {
-        int numNodes = countNodes();
-        Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
-        Validate.nonNull(rigidBody, "rigid body");
-
-        long rigidBodyId = rigidBody.getObjectId();
-        removeAnchor(objectId, nodeIndex, rigidBodyId);
     }
 
     /**
@@ -1554,7 +1441,6 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         capsule.write(restingLengthsScale(), "RestLengthScale", 0f);
         capsule.write(getPhysicsLocation(), "PhysicsLocation", null);
-        // TODO anchors
 
         FloatBuffer floatBuffer = copyLocations(null);
         capsule.write(copyToArray(floatBuffer), "NodeLocations", null);
@@ -1603,10 +1489,6 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private void addVelocity(long bodyId, Vector3f velocityVector,
             int nodeIndex);
-
-    native private void appendAnchor(long softBodyId, int nodeIndex,
-            long rigidBodyId, Vector3f localPivotVector,
-            boolean collisionBetweenLinkedBodies, float influenceFraction);
 
     native private void appendCluster(long softBodyId, int numNodesInCluster,
             IntBuffer intBuffer);
@@ -1727,17 +1609,6 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private void generateClusters(long bodyId, int k, int maxIterations);
 
-    native private int getAnchorCount(long bodyId);
-
-    native private float getAnchorInfluence(long bodyId, int anchorIndex);
-
-    native private int getAnchorNodeIndex(long bodyId, int anchorIndex);
-
-    native private void getAnchorPivot(long bodyId, int anchorIndex,
-            Vector3f storePivot);
-
-    native private long getAnchorRigidId(long bodyId, int anchorIndex);
-
     native private void getBounds(long objectId, Vector3f storeMinima,
             Vector3f storeMaxima);
 
@@ -1811,9 +1682,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     native private void releaseCluster(long bodyId, int index);
 
     native private void releaseClusters(long bodyId);
-
-    native private void removeAnchor(long softBodyId, int nodeIndex,
-            long rigidBodyId);
 
     native private void resetLinkRestLengths(long bodyId);
 

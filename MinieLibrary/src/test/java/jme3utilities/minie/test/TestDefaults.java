@@ -123,8 +123,8 @@ public class TestDefaults {
         Assert.assertEquals(2, six.countEnds());
         Assert.assertEquals(0f, six.getAppliedImpulse(), 0f);
 
-        float simdInf = NativeLibrary.isDoublePrecision() ? 
-                Float.POSITIVE_INFINITY : Float.MAX_VALUE;
+        float simdInf = NativeLibrary.isDoublePrecision()
+                ? Float.POSITIVE_INFINITY : Float.MAX_VALUE;
         Assert.assertEquals(simdInf, six.getBreakingImpulseThreshold(), 0f);
         Assert.assertTrue(six.isCollisionBetweenLinkedBodies());
         Assert.assertTrue(six.isEnabled());
@@ -146,7 +146,6 @@ public class TestDefaults {
 
         PhysicsSoftBody softA = new PhysicsSoftBody();
         testPco(softA);
-        Assert.assertEquals(0, softA.countAnchors());
         Assert.assertEquals(0, softA.countClusters());
         Assert.assertEquals(0, softA.countFaces());
         Assert.assertEquals(0, softA.countJoints());
