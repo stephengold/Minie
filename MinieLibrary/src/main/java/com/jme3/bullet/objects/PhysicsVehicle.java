@@ -75,7 +75,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     final public static Logger logger3
             = Logger.getLogger(PhysicsVehicle.class.getName());
     // *************************************************************************
-    // fields
+    // fields TODO re-order
 
     /**
      * Unique identifier of the btRaycastVehicle. The constructor sets this to a
@@ -129,7 +129,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         super(shape, mass);
     }
     // *************************************************************************
-    // new methods exposed
+    // new methods exposed TODO re-order
 
     /**
      * used internally
@@ -645,9 +645,10 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * used internally
      *
-     * @return the unique identifier
+     * @return the unique identifier (not zero)
      */
     public long getVehicleId() {
+        assert vehicleId != 0L;
         return vehicleId;
     }
     // *************************************************************************
