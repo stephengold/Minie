@@ -41,10 +41,11 @@ import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * The abstract base class for physics joints based on Bullet's
- * btTypedConstraint or btSoftBody::Joint.
+ * btTypedConstraint, btSoftBody::Anchor, or btSoftBody::Joint.
  *
  * @author normenhansen
  */
@@ -62,9 +63,9 @@ abstract public class PhysicsJoint
     // fields TODO privatize
 
     /**
-     * Unique identifier of the btTypedConstraint or btSoftBody::Joint. Subtype
-     * constructors are responsible for setting this to a non-zero value. Once
-     * set, the identifier never changes.
+     * Unique identifier of the btTypedConstraint, btSoftBody::Anchor, or
+     * btSoftBody::Joint. Subtype constructors are responsible for setting this
+     * to a non-zero value. Once set, the identifier never changes.
      */
     protected long objectId = 0L;
     /**
@@ -114,12 +115,14 @@ abstract public class PhysicsJoint
     }
 
     /**
-     * Access the specified body.
+     * Access the body at the specified end of this joint.
      *
      * @param end which end of the joint to access (not null)
      * @return the pre-existing body, or null if none
      */
     public PhysicsBody getBody(JointEnd end) {
+        Validate.nonNull(end, "end");
+
         switch (end) {
             case A:
                 return bodyA;
@@ -131,7 +134,8 @@ abstract public class PhysicsJoint
     }
 
     /**
-     * Read the ID of the btTypedConstraint or btSoftBody::Joint.
+     * Read the ID of the btTypedConstraint, btSoftBody::Anchor, or
+     * btSoftBody::Joint.
      *
      * @return the unique identifier (not zero)
      */
@@ -164,7 +168,8 @@ abstract public class PhysicsJoint
         bodyB = cloner.clone(bodyB);
         objectId = 0L;
         /*
-         * Each subclass must create the btTypedConstraint or btSoftBody::Joint.
+         * Each subclass must create the btTypedConstraint, btSoftBody::Anchor,
+         * or btSoftBody::Joint.
          */
     }
 
@@ -199,7 +204,8 @@ abstract public class PhysicsJoint
         bodyA = (PhysicsBody) capsule.readSavable("nodeA", null);
         bodyB = (PhysicsBody) capsule.readSavable("nodeB", null);
         /*
-         * Each subclass must create the btTypedConstraint or btSoftBody::Joint.
+         * Each subclass must create the btTypedConstraint, btSoftBody::Anchor,
+         * or btSoftBody::Joint.
          */
     }
 
@@ -268,5 +274,22 @@ abstract public class PhysicsJoint
     public int hashCode() {
         int hash = (int) (objectId >> 4);
         return hash;
+    }
+
+    /**
+     * Represent this joint as a String.
+     *
+     * @return a descriptive string of text (not null, not empty)
+     */
+    @Override
+    public String toString() {
+        String result = getClass().getSimpleName();
+        result = result.replace("Joint", "");
+        result = result.replace("Physics", "");
+        result = result.replace("Point", "P");
+        result = result.replace("Six", "6");
+        result += "#" + Long.toHexString(objectId);
+
+        return result;
     }
 }
