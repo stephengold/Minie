@@ -75,29 +75,29 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     final public static Logger logger3
             = Logger.getLogger(PhysicsVehicle.class.getName());
     // *************************************************************************
-    // fields TODO re-order
+    // fields
 
+    /**
+     * list of wheels
+     */
+    protected ArrayList<VehicleWheel> wheels = new ArrayList<>(6);
+    /**
+     * Unique identifier of the ray caster.
+     */
+    private long rayCasterId = 0L;
     /**
      * Unique identifier of the btRaycastVehicle. The constructor sets this to a
      * non-zero value.
      */
     private long vehicleId = 0L;
     /**
-     * Unique identifier of the ray caster.
+     * space where this vehicle is added, or null if none
      */
-    private long rayCasterId = 0L;
+    private PhysicsSpace physicsSpace;
     /**
      * tuning parameters applied when a wheel is created
      */
     protected VehicleTuning tuning = new VehicleTuning();
-    /**
-     * list of wheels
-     */
-    protected ArrayList<VehicleWheel> wheels = new ArrayList<>(6);
-    /**
-     * space where this vehicle is added, or null if none
-     */
-    private PhysicsSpace physicsSpace;
     // *************************************************************************
     // constructors
 
