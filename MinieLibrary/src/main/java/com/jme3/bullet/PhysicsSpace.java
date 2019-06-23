@@ -1070,7 +1070,7 @@ public class PhysicsSpace {
                 worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal(),
                 false);
         assert spaceId != 0L;
-        logger.log(Level.FINE, "Created Space {0}", Long.toHexString(spaceId));
+        logger.log(Level.FINE, "Created {0}", this);
         initThread(spaceId);
     }
 
@@ -1099,30 +1099,41 @@ public class PhysicsSpace {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        logger.log(Level.FINE, "Finalizing PhysicsSpace {0}",
-                Long.toHexString(nativeId));
+        logger.log(Level.FINE, "Finalizing {0}", this);
         finalizeNative(nativeId);
+    }
+
+    /**
+     * Represent this space as a String.
+     *
+     * @return a descriptive string of text (not null, not empty)
+     */
+    @Override
+    public String toString() {
+        String result = getClass().getSimpleName();
+        result += "#" + Long.toHexString(nativeId);
+
+        return result;
     }
     // *************************************************************************
     // private Java methods
 
     private void addCharacter(PhysicsCharacter character) {
-        long characterId = character.getObjectId();
         if (contains(character)) {
-            logger.log(Level.WARNING,
-                    "Character {0} is already added to PhysicsSpace {1}.",
-                    new Object[]{
-                        Long.toHexString(characterId),
-                        Long.toHexString(nativeId)
-                    });
+            logger.log(Level.WARNING, "{0} is already added to {1}.",
+                    new Object[]{character, this});
             return;
         }
 
+        logger.log(Level.FINE, "Adding {0} to {1}.",
+                new Object[]{character, this});
+
+        long characterId = character.getObjectId();
         physicsCharacters.put(characterId, character);
-        logger.log(Level.FINE, "Adding character {0} to physics space.",
-                Long.toHexString(characterId));
         addCharacterObject(nativeId, characterId);
-        addAction(nativeId, character.getControllerId());
+
+        long actionId = character.getControllerId();
+        addAction(nativeId, actionId);
     }
 
     /**
@@ -1138,38 +1149,30 @@ public class PhysicsSpace {
     }
 
     private void addGhostObject(PhysicsGhostObject ghost) {
-        long ghostId = ghost.getObjectId();
         if (contains(ghost)) {
-            logger.log(Level.WARNING,
-                    "Ghost {0} is already added to PhysicsSpace {1}.",
-                    new Object[]{
-                        Long.toHexString(ghostId),
-                        Long.toHexString(nativeId)
-                    });
-
+            logger.log(Level.WARNING, "{0} is already added to {1}.",
+                    new Object[]{ghost, this});
             return;
         }
 
+        logger.log(Level.FINE, "Adding {0} to {1}.",
+                new Object[]{ghost, this});
+
+        long ghostId = ghost.getObjectId();
         physicsGhostObjects.put(ghostId, ghost);
-        logger.log(Level.FINE, "Adding ghost {0} to physics space.",
-                Long.toHexString(ghostId));
         addCollisionObject(nativeId, ghostId);
     }
 
     private void addJoint(PhysicsJoint joint) {
         long jointId = joint.getObjectId();
-        if (physicsJoints.containsKey(jointId)) {
-            logger.log(Level.WARNING,
-                    "Joint {0} is already added to PhysicsSpace {1}.",
-                    new Object[]{
-                        Long.toHexString(jointId),
-                        Long.toHexString(nativeId)
-                    });
+        if (physicsJoints.containsKey(jointId)) { // TODO public method
+            logger.log(Level.WARNING, "{0} is already added to {1}.",
+                    new Object[]{joint, this});
             return;
         }
 
-        logger.log(Level.FINE, "Adding joint {0} to physics space.",
-                Long.toHexString(jointId));
+        logger.log(Level.FINE, "Adding {0} to {1}.",
+                new Object[]{joint, this});
         physicsJoints.put(jointId, joint);
 
         if (joint instanceof Constraint) {
@@ -1183,47 +1186,43 @@ public class PhysicsSpace {
      * NOTE: When a rigid body is added, its gravity gets set to that of the
      * space.
      *
-     * @param body the body to add (not null, not already in the space)
+     * @param rigidBody the body to add (not null, not already in the space)
      */
-    private void addRigidBody(PhysicsRigidBody body) {
-        long rigidBodyId = body.getObjectId();
-        if (contains(body)) {
-            logger.log(Level.WARNING,
-                    "Rigid body {0} is already added to PhysicsSpace {1}.",
-                    new Object[]{
-                        Long.toHexString(rigidBodyId),
-                        Long.toHexString(nativeId)
-                    });
+    private void addRigidBody(PhysicsRigidBody rigidBody) {
+        if (contains(rigidBody)) {
+            logger.log(Level.WARNING, "{0} is already added to {1}.",
+                    new Object[]{rigidBody, this});
             return;
         }
 
-        physicsBodies.put(rigidBodyId, body);
+        logger.log(Level.FINE, "Adding {0} to {1}.",
+                new Object[]{rigidBody, this});
+        long rigidBodyId = rigidBody.getObjectId();
+        physicsBodies.put(rigidBodyId, rigidBody);
 
         //Workaround
         //It seems that adding a Kinematic RigidBody to the dynamicWorld
         //prevents it from being dynamic again afterward.
         //So we add it dynamic, then set it kinematic.
         boolean kinematic = false;
-        if (body.isKinematic()) {
+        if (rigidBody.isKinematic()) {
             kinematic = true;
-            body.setKinematic(false);
+            rigidBody.setKinematic(false);
         }
         addRigidBody(nativeId, rigidBodyId);
         if (kinematic) {
-            body.setKinematic(true);
+            rigidBody.setKinematic(true);
         }
-        logger.log(Level.FINE, "Adding rigid body {0} to physics space.",
-                Long.toHexString(rigidBodyId));
 
-        if (body instanceof PhysicsVehicle) {
-            PhysicsVehicle vehicle = (PhysicsVehicle) body;
+        if (rigidBody instanceof PhysicsVehicle) {
+            PhysicsVehicle vehicle = (PhysicsVehicle) rigidBody;
+            logger.log(Level.FINE, "Adding action for {0} to {1}.",
+                    new Object[]{vehicle, this});
+
             vehicle.createVehicle(this);
-            long vehicleId = vehicle.getVehicleId();
-            assert vehicleId != 0L;
-            logger.log(Level.FINE, "Adding vehicle {0} to physics space.",
-                    Long.toHexString(vehicleId));
-            physicsVehicles.put(vehicleId, vehicle);
-            addAction(nativeId, vehicleId);
+            long actionId = vehicle.getVehicleId();
+            physicsVehicles.put(actionId, vehicle);
+            addAction(nativeId, actionId);
         }
     }
 
@@ -1290,14 +1289,14 @@ public class PhysicsSpace {
     private void removeCharacter(PhysicsCharacter character) {
         long characterId = character.getObjectId();
         if (!physicsCharacters.containsKey(characterId)) {
-            logger.log(Level.WARNING,
-                    "Character {0} does not exist in PhysicsSpace.",
-                    Long.toHexString(characterId));
+            logger.log(Level.WARNING, "{0} does not exist in {1}.",
+                    new Object[]{character, this});
             return;
         }
+
         physicsCharacters.remove(characterId);
-        logger.log(Level.FINE, "Removing character {0} from physics space.",
-                Long.toHexString(characterId));
+        logger.log(Level.FINE, "Removing {0} from {1}.",
+                new Object[]{character, this});
         removeAction(nativeId, character.getControllerId());
         removeCharacterObject(nativeId, characterId);
     }
@@ -1305,27 +1304,26 @@ public class PhysicsSpace {
     private void removeGhostObject(PhysicsGhostObject ghost) {
         long ghostId = ghost.getObjectId();
         if (!physicsGhostObjects.containsKey(ghostId)) {
-            logger.log(Level.WARNING,
-                    "Ghost {0} does not exist in PhysicsSpace",
-                    Long.toHexString(ghostId));
+            logger.log(Level.WARNING, "{0} does not exist in {1}.",
+                    new Object[]{ghost, this});
             return;
         }
+
         physicsGhostObjects.remove(ghostId);
-        logger.log(Level.FINE, "Removing ghost {0} from physics space.",
-                Long.toHexString(ghostId));
+        logger.log(Level.FINE, "Removing {0} from {1}.",
+                new Object[]{ghost, this});
         removeCollisionObject(nativeId, ghostId);
     }
 
     private void removeJoint(PhysicsJoint joint) {
         long jointId = joint.getObjectId();
         if (!physicsJoints.containsKey(jointId)) {
-            logger.log(Level.WARNING,
-                    "Joint {0} does not exist in PhysicsSpace.",
-                    Long.toHexString(jointId));
+            logger.log(Level.WARNING, "{0} does not exist in {1}.",
+                    new Object[]{joint, this});
             return;
         }
-        logger.log(Level.FINE, "Removing Joint {0} from physics space.",
-                Long.toHexString(jointId));
+        logger.log(Level.FINE, "Removing {0} from {1}.",
+                new Object[]{joint, this});
         physicsJoints.remove(jointId);
 
         if (joint instanceof Constraint) {
@@ -1333,24 +1331,25 @@ public class PhysicsSpace {
         }
     }
 
-    private void removeRigidBody(PhysicsRigidBody body) {
-        long rigidBodyId = body.getObjectId();
+    private void removeRigidBody(PhysicsRigidBody rigidBody) {
+        long rigidBodyId = rigidBody.getObjectId();
         if (!physicsBodies.containsKey(rigidBodyId)) {
-            logger.log(Level.WARNING,
-                    "Rigid body {0} does not exist in PhysicsSpace.",
-                    Long.toHexString(rigidBodyId));
+            logger.log(Level.WARNING, "{0} does not exist in {1}.",
+                    new Object[]{rigidBody, this});
             return;
         }
-        if (body instanceof PhysicsVehicle) {
-            PhysicsVehicle vehicle = (PhysicsVehicle) body;
+
+        if (rigidBody instanceof PhysicsVehicle) {
+            PhysicsVehicle vehicle = (PhysicsVehicle) rigidBody;
             long vehicleId = vehicle.getVehicleId();
-            logger.log(Level.FINE, "Removing vehicle {0} from physics space.",
-                    Long.toHexString(vehicleId));
+            logger.log(Level.FINE, "Removing action for {0} from {1}.",
+                    new Object[]{vehicle, this});
             physicsVehicles.remove(vehicleId);
             removeAction(nativeId, vehicleId);
         }
-        logger.log(Level.FINE, "Removing rigid body {0} from physics space.",
-                Long.toHexString(rigidBodyId));
+
+        logger.log(Level.FINE, "Removing {0} from {1}.",
+                new Object[]{rigidBody, this});
         physicsBodies.remove(rigidBodyId);
         removeRigidBody(nativeId, rigidBodyId);
     }
