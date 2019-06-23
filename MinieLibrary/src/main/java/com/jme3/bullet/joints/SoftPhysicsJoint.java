@@ -54,9 +54,8 @@ import jme3utilities.Validate;
  * </ul>
  * Subclasses include SoftLinearJoint and SoftAngularJoint.
  * <p>
- * To join a particular node of a soft body to a rigid body, use an anchor
- * instead:
- * {@link com.jme3.bullet.objects.PhysicsSoftBody#appendAnchor(int, com.jme3.bullet.objects.PhysicsRigidBody, com.jme3.math.Vector3f, boolean, float)}
+ * To join a particular *node* of a soft body to a rigid body, use an Anchor
+ * instead.
  *
  * @author dokthar
  */

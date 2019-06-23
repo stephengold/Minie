@@ -58,10 +58,11 @@ public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
     // constructors
 
     /**
-     * Instantiate an enabled Control to visualize the specified Constraint.
+     * Instantiate an enabled Control to visualize the specified
+     * SoftPhysicsJoint.
      *
      * @param debugAppState which app state (not null, alias created)
-     * @param joint the Constraint to visualize (not null, alias created)
+     * @param joint the joint to visualize (not null, alias created)
      */
     public SoftJointDebugControl(BulletDebugAppState debugAppState,
             SoftPhysicsJoint joint) {

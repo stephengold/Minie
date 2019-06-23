@@ -95,8 +95,8 @@ abstract public class Constraint extends PhysicsJoint {
     }
 
     /**
-     * Instantiate a single-ended Constraint using the specified body at the
-     * specified end.
+     * Instantiate an enabled, single-ended Constraint using the specified body
+     * at the specified end.
      * <p>
      * To be effective, the Constraint must be added to the body's PhysicsSpace
      * and the body must be dynamic.
@@ -136,8 +136,8 @@ abstract public class Constraint extends PhysicsJoint {
     }
 
     /**
-     * Instantiate a single-ended Constraint using the specified body at the
-     * specified end.
+     * Instantiate an enabled, single-ended Constraint using the specified body
+     * at the specified end.
      * <p>
      * To be effective, the Constraint must be added to the body's PhysicsSpace
      * and the body must be dynamic.
@@ -180,7 +180,7 @@ abstract public class Constraint extends PhysicsJoint {
     }
 
     /**
-     * Instantiate a double-ended Constraint.
+     * Instantiate an enabled, double-ended Constraint.
      * <p>
      * To be effective, the Constraint must be added to the PhysicsSpace of both
      * bodies. Also, the bodies must be distinct and at least one of them must
@@ -288,7 +288,7 @@ abstract public class Constraint extends PhysicsJoint {
      * Copy the location of the connection point in the body at the A end.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a location vector (in scaled local coordinates, either
+     * @return a location vector (in A's scaled local coordinates, either
      * storeResult or a new instance)
      */
     public Vector3f getPivotA(Vector3f storeResult) {
@@ -305,7 +305,7 @@ abstract public class Constraint extends PhysicsJoint {
      * Copy the location of the connection point in the body at the B end.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a location vector (in scaled local coordinates, either
+     * @return a location vector (in B's scaled local coordinates, either
      * storeResult or a new instance)
      */
     public Vector3f getPivotB(Vector3f storeResult) {
