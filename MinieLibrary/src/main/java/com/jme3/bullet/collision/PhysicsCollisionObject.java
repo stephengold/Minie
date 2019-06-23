@@ -1115,7 +1115,7 @@ abstract public class PhysicsCollisionObject
         result = result.replace("Control", "C");
         result = result.replace("Physics", "");
         result = result.replace("Object", "");
-        result += " #" + Long.toHexString(objectId);
+        result += "#" + Long.toHexString(objectId);
 
         return result;
     }
