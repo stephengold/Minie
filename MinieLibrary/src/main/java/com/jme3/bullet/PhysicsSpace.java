@@ -1327,7 +1327,10 @@ public class PhysicsSpace {
         logger.log(Level.FINE, "Removing Joint {0} from physics space.",
                 Long.toHexString(jointId));
         physicsJoints.remove(jointId);
-        removeConstraint(nativeId, jointId);
+
+        if (joint instanceof Constraint) {
+            removeConstraint(nativeId, jointId);
+        }
     }
 
     private void removeRigidBody(PhysicsRigidBody body) {
@@ -1360,7 +1363,7 @@ public class PhysicsSpace {
 
     native private void addCollisionObject(long spaceId, long pcoId);
 
-    native private void addConstraintC(long spaceId, long jointId,
+    native private void addConstraintC(long spaceId, long constraintId,
             boolean collisionBetweenLinkedBodies);
 
     native private void addRigidBody(long spaceId, long rigidBodyId);
@@ -1383,7 +1386,7 @@ public class PhysicsSpace {
 
     native private void removeCollisionObject(long spaceId, long pcoId);
 
-    native private void removeConstraint(long spaceId, long jointId);
+    native private void removeConstraint(long spaceId, long constraintId);
 
     native private void removeRigidBody(long spaceId, long rigidBodyId);
 
