@@ -302,27 +302,6 @@ public class NativeSoftBodyUtil {
     }
 
     /**
-     * Update the position buffer of a Mesh from the anchors in the specified
-     * soft body.
-     *
-     * @param body the soft body to provide locations (not null, unaffected)
-     * @param store the Mesh to update (not null, modified)
-     * @param meshInLocalSpace if true, transform the anchor locations into the
-     * body's local coordinates (relative to its bounding-box center), otherwise
-     * use physics-space coordinates
-     */
-    public static void updateAnchorMesh(PhysicsSoftBody body, Mesh store,
-            boolean meshInLocalSpace) {
-        long bodyId = body.getObjectId();
-        FloatBuffer positionBuffer
-                = store.getFloatBuffer(VertexBuffer.Type.Position);
-        assert positionBuffer != null;
-
-        updateAnchorMesh(bodyId, positionBuffer, meshInLocalSpace);
-        store.getBuffer(VertexBuffer.Type.Position).setUpdateNeeded();
-    }
-
-    /**
      * Update the position buffer of a Mesh from the clusters in the specified
      * soft body.
      *
@@ -431,9 +410,6 @@ public class NativeSoftBodyUtil {
     }
     // *************************************************************************
     // private methods
-
-    native private static void updateAnchorMesh(long softBodyId,
-            FloatBuffer outPositionBuffer, boolean meshInLocalSpace);
 
     native private static void updateClusterMesh(long softBodyId,
             FloatBuffer outPositionBuffer, boolean meshInLocalSpace);

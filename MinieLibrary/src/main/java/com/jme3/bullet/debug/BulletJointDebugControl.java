@@ -37,6 +37,7 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.material.Material;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -112,12 +113,14 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
         geomA.setMesh(arrowA);
         Material materialA = debugAppState.getJointMaterial(JointEnd.A);
         geomA.setMaterial(materialA);
+        geomA.setShadowMode(RenderQueue.ShadowMode.Off);
 
         geomB = new Geometry(jo.toString());
         arrowB = new Arrow(translateIdentity);
         geomB.setMesh(arrowB);
         Material materialB = debugAppState.getJointMaterial(JointEnd.B);
         geomB.setMaterial(materialB);
+        geomB.setShadowMode(RenderQueue.ShadowMode.Off);
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
@@ -139,7 +142,7 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
                 bodyA.getPhysicsLocation(a.getTranslation());
                 bodyA.getPhysicsRotation(a.getRotation());
                 geomA.setLocalTransform(a);
-                geomA.setCullHint(Spatial.CullHint.Never);
+                geomA.setCullHint(Spatial.CullHint.Never); // TODO dynamic
                 arrowA.setArrowExtent(constraint.getPivotA(null));
             }
 
