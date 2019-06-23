@@ -170,6 +170,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @return the unique identifier (not zero)
      */
     public long getControllerId() {
+        assert characterId != 0L;
         return characterId;
     }
 
