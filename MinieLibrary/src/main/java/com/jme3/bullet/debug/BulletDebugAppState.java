@@ -40,6 +40,7 @@ import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.joints.SoftPhysicsJoint;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -686,7 +687,10 @@ public class BulletDebugAppState extends AbstractAppState {
                         Constraint constraint = (Constraint) joint;
                         control = new BulletJointDebugControl(this, constraint);
                     } else {
-                        control = null; // TODO
+                        logger.log(Level.FINE,
+                                "Create new SoftJointDebugControl");
+                        SoftPhysicsJoint softJoint = (SoftPhysicsJoint) joint;
+                        control = new SoftJointDebugControl(this, softJoint);
                     }
                     node.addControl(control);
                 }
