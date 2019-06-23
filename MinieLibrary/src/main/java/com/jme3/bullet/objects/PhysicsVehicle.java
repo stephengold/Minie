@@ -129,96 +129,27 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         super(shape, mass);
     }
     // *************************************************************************
-    // new methods exposed TODO re-order
+    // new methods exposed
 
     /**
-     * used internally
-     */
-    public void updateWheels() {
-        if (vehicleId != 0L) {
-            for (int i = 0; i < wheels.size(); ++i) {
-                updateWheelTransform(vehicleId, i, true);
-                wheels.get(i).updatePhysicsState();
-            }
-        }
-    }
-
-    /**
-     * used internally
-     */
-    public void applyWheelTransforms() {
-        if (wheels != null) {
-            for (VehicleWheel wheel : wheels) {
-                wheel.applyWheelTransform();
-            }
-        }
-    }
-
-    @Override
-    protected void postRebuild() {
-        super.postRebuild();
-        RigidBodyMotionState ms = getMotionState();
-        ms.setVehicle(this);
-        createVehicle(physicsSpace);
-    }
-
-    /**
-     * Used internally, creates the btRaycastVehicle when vehicle is added to a
-     * PhysicsSpace.
+     * Apply the specified engine force to all wheels. Works continuously.
      *
-     * @param space which PhysicsSpace
+     * @param force the desired amount of force
      */
-    public void createVehicle(PhysicsSpace space) {
-        physicsSpace = space;
-        if (space == null) {
-            return;
-        }
-        if (space.getSpaceId() == 0L) {
-            throw new IllegalStateException("Physics space is not initialized!");
-        }
-        if (rayCasterId != 0L) {
-            logger3.log(Level.FINE, "Clearing RayCaster {0}",
-                    Long.toHexString(rayCasterId));
-            logger3.log(Level.FINE, "Clearing Vehicle {0}",
-                    Long.toHexString(vehicleId));
-            finalizeNative(rayCasterId, vehicleId);
-        }
-        rayCasterId = createVehicleRaycaster(objectId, space.getSpaceId());
-        logger3.log(Level.FINE, "Created RayCaster {0}",
-                Long.toHexString(rayCasterId));
-        vehicleId = createRaycastVehicle(objectId, rayCasterId);
-        logger3.log(Level.FINE, "Created Vehicle {0}",
-                Long.toHexString(vehicleId));
-        setCoordinateSystem(vehicleId, 0, 1, 2);
-        for (VehicleWheel wheel : wheels) {
-            wheel.setVehicleId(vehicleId, addWheel(vehicleId,
-                    wheel.getLocation(null), wheel.getDirection(null),
-                    wheel.getAxle(null), wheel.getRestLength(),
-                    wheel.getRadius(), tuning, wheel.isFrontWheel()));
+    public void accelerate(float force) {
+        for (int i = 0; i < wheels.size(); ++i) {
+            accelerate(i, force);
         }
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * Apply the given engine force to the indexed wheel. Works continuously.
      *
-     * @param connectionPoint the location where the suspension connects to the
-     * chassis (in chassis coordinates, not null, unaffected)
-     * @param direction the suspension direction (in chassis coordinates, not
-     * null, unaffected, typically down/0,-1,0)
-     * @param axle the axis direction (in chassis coordinates, not null,
-     * unaffected, typically -1,0,0)
-     * @param suspensionRestLength the rest length of the suspension (in
-     * physics-space units)
-     * @param wheelRadius the wheel radius (in physics-space units, &gt;0)
-     * @param isFrontWheel true&rarr;front (steering) wheel,
-     * false&rarr;non-front wheel
-     * @return a new VehicleWheel for access (not null)
+     * @param wheel the index of the wheel to apply the force to (&ge;0)
+     * @param force the desired amount of force
      */
-    public VehicleWheel addWheel(Vector3f connectionPoint,
-            Vector3f direction, Vector3f axle, float suspensionRestLength,
-            float wheelRadius, boolean isFrontWheel) {
-        return addWheel(null, connectionPoint, direction, axle,
-                suspensionRestLength, wheelRadius, isFrontWheel);
+    public void accelerate(int wheel, float force) {
+        applyEngineForce(vehicleId, wheel, force);
     }
 
     /**
@@ -266,15 +197,194 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Remove a wheel.
+     * For compatibility with the jme3-bullet library.
      *
-     * @param wheel the index of the wheel to remove (&ge;0)
+     * @param connectionPoint the location where the suspension connects to the
+     * chassis (in chassis coordinates, not null, unaffected)
+     * @param direction the suspension direction (in chassis coordinates, not
+     * null, unaffected, typically down/0,-1,0)
+     * @param axle the axis direction (in chassis coordinates, not null,
+     * unaffected, typically -1,0,0)
+     * @param suspensionRestLength the rest length of the suspension (in
+     * physics-space units)
+     * @param wheelRadius the wheel radius (in physics-space units, &gt;0)
+     * @param isFrontWheel true&rarr;front (steering) wheel,
+     * false&rarr;non-front wheel
+     * @return a new VehicleWheel for access (not null)
      */
-    public void removeWheel(int wheel) {
-        Validate.nonNegative(wheel, "wheel");
-        wheels.remove(wheel);
-        rebuildRigidBody();
-        //Bullet has no API to remove a wheel.
+    public VehicleWheel addWheel(Vector3f connectionPoint,
+            Vector3f direction, Vector3f axle, float suspensionRestLength,
+            float wheelRadius, boolean isFrontWheel) {
+        return addWheel(null, connectionPoint, direction, axle,
+                suspensionRestLength, wheelRadius, isFrontWheel);
+    }
+
+    /**
+     * used internally
+     */
+    public void applyWheelTransforms() {
+        if (wheels != null) {
+            for (VehicleWheel wheel : wheels) {
+                wheel.applyWheelTransform();
+            }
+        }
+    }
+
+    /**
+     * Apply the given brake force to all wheels. Works continuously.
+     *
+     * @param force the desired amount of force
+     */
+    public void brake(float force) {
+        for (int i = 0; i < wheels.size(); ++i) {
+            brake(i, force);
+        }
+    }
+
+    /**
+     * Apply the given brake force to the indexed wheel. Works continuously.
+     *
+     * @param wheel the index of the wheel to apply the force to (&ge;0)
+     * @param force the desired amount of force
+     */
+    public void brake(int wheel, float force) {
+        brake(vehicleId, wheel, force);
+    }
+
+    /**
+     * Used internally, creates the btRaycastVehicle when vehicle is added to a
+     * PhysicsSpace.
+     *
+     * @param space which PhysicsSpace
+     */
+    public void createVehicle(PhysicsSpace space) {
+        physicsSpace = space;
+        if (space == null) {
+            return;
+        }
+        if (space.getSpaceId() == 0L) {
+            throw new IllegalStateException("Physics space is not initialized!");
+        }
+        if (rayCasterId != 0L) {
+            logger3.log(Level.FINE, "Clearing RayCaster {0}",
+                    Long.toHexString(rayCasterId));
+            logger3.log(Level.FINE, "Clearing Vehicle {0}",
+                    Long.toHexString(vehicleId));
+            finalizeNative(rayCasterId, vehicleId);
+        }
+        rayCasterId = createVehicleRaycaster(objectId, space.getSpaceId());
+        logger3.log(Level.FINE, "Created RayCaster {0}",
+                Long.toHexString(rayCasterId));
+        vehicleId = createRaycastVehicle(objectId, rayCasterId);
+        logger3.log(Level.FINE, "Created Vehicle {0}",
+                Long.toHexString(vehicleId));
+        setCoordinateSystem(vehicleId, 0, 1, 2);
+        for (VehicleWheel wheel : wheels) {
+            wheel.setVehicleId(vehicleId, addWheel(vehicleId,
+                    wheel.getLocation(null), wheel.getDirection(null),
+                    wheel.getAxle(null), wheel.getRestLength(),
+                    wheel.getRadius(), tuning, wheel.isFrontWheel()));
+        }
+    }
+
+    /**
+     * Read the vehicle's speed in km/h.
+     *
+     * @return speed (in kilometers per hour)
+     */
+    public float getCurrentVehicleSpeedKmHour() {
+        return getCurrentVehicleSpeedKmHour(vehicleId);
+    }
+
+    /**
+     * Copy the vehicle's forward direction.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a direction vector (in physics-space coordinates, either
+     * storeResult or a new vector, not null)
+     */
+    public Vector3f getForwardVector(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        getForwardVector(vehicleId, result);
+        return result;
+    }
+
+    /**
+     * Read the initial friction for new wheels.
+     *
+     * @return the coefficient of friction between tire and ground
+     * (0.8&rarr;realistic car, 10000&rarr;kart racer)
+     */
+    public float getFrictionSlip() {
+        return tuning.getFrictionSlip();
+    }
+
+    /**
+     * Read the initial maximum suspension force for new wheels.
+     *
+     * @return the maximum force per wheel
+     */
+    public float getMaxSuspensionForce() {
+        return tuning.getMaxSuspensionForce();
+    }
+
+    /**
+     * Read the initial maximum suspension travel distance for new wheels.
+     *
+     * @return the maximum distance the suspension can be compressed (in
+     * centimeters)
+     */
+    public float getMaxSuspensionTravelCm() {
+        return tuning.getMaxSuspensionTravelCm();
+    }
+
+    /**
+     * Read the number of wheels on this vehicle.
+     *
+     * @return count (&ge;0)
+     */
+    public int getNumWheels() {
+        return wheels.size();
+    }
+
+    /**
+     * Read the initial damping (when the suspension is compressed) for new
+     * wheels.
+     *
+     * @return the damping coefficient
+     */
+    public float getSuspensionCompression() {
+        return tuning.getSuspensionCompression();
+    }
+
+    /**
+     * Read the initial damping (when the suspension is expanded) for new
+     * wheels.
+     *
+     * @return the damping coefficient
+     */
+    public float getSuspensionDamping() {
+        return tuning.getSuspensionDamping();
+    }
+
+    /**
+     * Read the initial suspension stiffness for new wheels.
+     *
+     * @return the stiffness constant (10&rarr;off-road buggy, 50&rarr;sports
+     * car, 200&rarr;Formula-1 race car)
+     */
+    public float getSuspensionStiffness() {
+        return tuning.getSuspensionStiffness();
+    }
+
+    /**
+     * used internally
+     *
+     * @return the unique identifier (not zero)
+     */
+    public long getVehicleId() {
+        assert vehicleId != 0L;
+        return vehicleId;
     }
 
     /**
@@ -288,22 +398,22 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Read the number of wheels on this vehicle.
+     * Remove a wheel.
      *
-     * @return count (&ge;0)
+     * @param wheel the index of the wheel to remove (&ge;0)
      */
-    public int getNumWheels() {
-        return wheels.size();
+    public void removeWheel(int wheel) {
+        Validate.nonNegative(wheel, "wheel");
+        wheels.remove(wheel);
+        rebuildRigidBody();
+        //Bullet has no API to remove a wheel.
     }
 
     /**
-     * Read the initial friction for new wheels.
-     *
-     * @return the coefficient of friction between tire and ground
-     * (0.8&rarr;realistic car, 10000&rarr;kart racer)
+     * Reset this vehicle's suspension.
      */
-    public float getFrictionSlip() {
-        return tuning.getFrictionSlip();
+    public void resetSuspension() {
+        resetSuspension(vehicleId);
     }
 
     /**
@@ -330,68 +440,6 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     public void setFrictionSlip(int wheel, float frictionSlip) {
         wheels.get(wheel).setFrictionSlip(frictionSlip);
-    }
-
-    /**
-     * Alter the roll influence of the indexed wheel.
-     * <p>
-     * The roll-influence factor reduces (or magnifies) any torque contributed
-     * by the wheel that would tend to cause the vehicle to roll over. This is a
-     * bit of a hack, but it's quite effective.
-     * <p>
-     * If the friction between the tires and the ground is too high, you may
-     * reduce this factor to prevent the vehicle from rolling over. You should
-     * also try lowering the vehicle's center of mass.
-     *
-     * @param wheel the index of the wheel to modify (&ge;0)
-     * @param rollInfluence the desired roll-influence factor (0&rarr;no roll
-     * torque, 1&rarr;realistic behavior, default=1)
-     */
-    public void setRollInfluence(int wheel, float rollInfluence) {
-        wheels.get(wheel).setRollInfluence(rollInfluence);
-    }
-
-    /**
-     * Read the initial maximum suspension travel distance for new wheels.
-     *
-     * @return the maximum distance the suspension can be compressed (in
-     * centimeters)
-     */
-    public float getMaxSuspensionTravelCm() {
-        return tuning.getMaxSuspensionTravelCm();
-    }
-
-    /**
-     * Alter the initial maximum suspension travel distance for new wheels.
-     * Effective only before adding wheels. After adding a wheel, use
-     * {@link #setMaxSuspensionTravelCm(int, float)}.
-     *
-     * @param maxSuspensionTravelCm the desired maximum distance the suspension
-     * can be compressed (in centimeters, default=500)
-     */
-    public void setMaxSuspensionTravelCm(float maxSuspensionTravelCm) {
-        tuning.setMaxSuspensionTravelCm(maxSuspensionTravelCm);
-    }
-
-    /**
-     * Alter the maximum suspension travel distance for the indexed wheel.
-     *
-     * @param wheel the index of the wheel to modify (&ge;0)
-     * @param maxSuspensionTravelCm the desired maximum distance the suspension
-     * can be compressed (in centimeters)
-     */
-    public void setMaxSuspensionTravelCm(int wheel,
-            float maxSuspensionTravelCm) {
-        wheels.get(wheel).setMaxSuspensionTravelCm(maxSuspensionTravelCm);
-    }
-
-    /**
-     * Read the initial maximum suspension force for new wheels.
-     *
-     * @return the maximum force per wheel
-     */
-    public float getMaxSuspensionForce() {
-        return tuning.getMaxSuspensionForce();
     }
 
     /**
@@ -424,13 +472,46 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Read the initial damping (when the suspension is compressed) for new
-     * wheels.
+     * Alter the initial maximum suspension travel distance for new wheels.
+     * Effective only before adding wheels. After adding a wheel, use
+     * {@link #setMaxSuspensionTravelCm(int, float)}.
      *
-     * @return the damping coefficient
+     * @param maxSuspensionTravelCm the desired maximum distance the suspension
+     * can be compressed (in centimeters, default=500)
      */
-    public float getSuspensionCompression() {
-        return tuning.getSuspensionCompression();
+    public void setMaxSuspensionTravelCm(float maxSuspensionTravelCm) {
+        tuning.setMaxSuspensionTravelCm(maxSuspensionTravelCm);
+    }
+
+    /**
+     * Alter the maximum suspension travel distance for the indexed wheel.
+     *
+     * @param wheel the index of the wheel to modify (&ge;0)
+     * @param maxSuspensionTravelCm the desired maximum distance the suspension
+     * can be compressed (in centimeters)
+     */
+    public void setMaxSuspensionTravelCm(int wheel,
+            float maxSuspensionTravelCm) {
+        wheels.get(wheel).setMaxSuspensionTravelCm(maxSuspensionTravelCm);
+    }
+
+    /**
+     * Alter the roll influence of the indexed wheel.
+     * <p>
+     * The roll-influence factor reduces (or magnifies) any torque contributed
+     * by the wheel that would tend to cause the vehicle to roll over. This is a
+     * bit of a hack, but it's quite effective.
+     * <p>
+     * If the friction between the tires and the ground is too high, you may
+     * reduce this factor to prevent the vehicle from rolling over. You should
+     * also try lowering the vehicle's center of mass.
+     *
+     * @param wheel the index of the wheel to modify (&ge;0)
+     * @param rollInfluence the desired roll-influence factor (0&rarr;no roll
+     * torque, 1&rarr;realistic behavior, default=1)
+     */
+    public void setRollInfluence(int wheel, float rollInfluence) {
+        wheels.get(wheel).setRollInfluence(rollInfluence);
     }
 
     /**
@@ -470,16 +551,6 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Read the initial damping (when the suspension is expanded) for new
-     * wheels.
-     *
-     * @return the damping coefficient
-     */
-    public float getSuspensionDamping() {
-        return tuning.getSuspensionDamping();
-    }
-
-    /**
      * Alter the initial damping (when the suspension is expanded) for new
      * wheels. Effective only before adding wheels. After adding a wheel, use
      * {@link #setSuspensionCompression(int, float)}.
@@ -514,16 +585,6 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Read the initial suspension stiffness for new wheels.
-     *
-     * @return the stiffness constant (10&rarr;off-road buggy, 50&rarr;sports
-     * car, 200&rarr;Formula-1 race car)
-     */
-    public float getSuspensionStiffness() {
-        return tuning.getSuspensionStiffness();
-    }
-
-    /**
      * Alter the initial suspension stiffness for new wheels. Effective only
      * before adding wheels. After adding a wheel, use
      * {@link #setSuspensionStiffness(int, float)}.
@@ -546,34 +607,6 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     public void setSuspensionStiffness(int wheel, float suspensionStiffness) {
         wheels.get(wheel).setSuspensionStiffness(suspensionStiffness);
-    }
-
-    /**
-     * Reset this vehicle's suspension.
-     */
-    public void resetSuspension() {
-        resetSuspension(vehicleId);
-    }
-
-    /**
-     * Apply the specified engine force to all wheels. Works continuously.
-     *
-     * @param force the desired amount of force
-     */
-    public void accelerate(float force) {
-        for (int i = 0; i < wheels.size(); ++i) {
-            accelerate(i, force);
-        }
-    }
-
-    /**
-     * Apply the given engine force to the indexed wheel. Works continuously.
-     *
-     * @param wheel the index of the wheel to apply the force to (&ge;0)
-     * @param force the desired amount of force
-     */
-    public void accelerate(int wheel, float force) {
-        applyEngineForce(vehicleId, wheel, force);
     }
 
     /**
@@ -600,59 +633,18 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Apply the given brake force to all wheels. Works continuously.
-     *
-     * @param force the desired amount of force
+     * used internally
      */
-    public void brake(float force) {
-        for (int i = 0; i < wheels.size(); ++i) {
-            brake(i, force);
+    public void updateWheels() {
+        if (vehicleId != 0L) {
+            for (int i = 0; i < wheels.size(); ++i) {
+                updateWheelTransform(vehicleId, i, true);
+                wheels.get(i).updatePhysicsState();
+            }
         }
     }
-
-    /**
-     * Apply the given brake force to the indexed wheel. Works continuously.
-     *
-     * @param wheel the index of the wheel to apply the force to (&ge;0)
-     * @param force the desired amount of force
-     */
-    public void brake(int wheel, float force) {
-        brake(vehicleId, wheel, force);
-    }
-
-    /**
-     * Read the vehicle's speed in km/h.
-     *
-     * @return speed (in kilometers per hour)
-     */
-    public float getCurrentVehicleSpeedKmHour() {
-        return getCurrentVehicleSpeedKmHour(vehicleId);
-    }
-
-    /**
-     * Copy the vehicle's forward direction.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a direction vector (in physics-space coordinates, either
-     * storeResult or a new vector, not null)
-     */
-    public Vector3f getForwardVector(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getForwardVector(vehicleId, result);
-        return result;
-    }
-
-    /**
-     * used internally
-     *
-     * @return the unique identifier (not zero)
-     */
-    public long getVehicleId() {
-        assert vehicleId != 0L;
-        return vehicleId;
-    }
     // *************************************************************************
-    // PhysicsCollisionObject methods
+    // PhysicsRigidBody methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
@@ -671,6 +663,23 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         //physicsSpace not cloned
         tuning = cloner.clone(tuning);
         wheels = cloner.clone(wheels);
+    }
+
+    /**
+     * Finalize this vehicle just before it is destroyed. Should be invoked only
+     * by a subclass or by the garbage collector.
+     *
+     * @throws Throwable ignored by the garbage collector
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+
+        logger3.log(Level.FINE, "Finalizing RayCaster {0}",
+                Long.toHexString(rayCasterId));
+        logger3.log(Level.FINE, "Finalizing Vehicle {0}",
+                Long.toHexString(vehicleId));
+        finalizeNative(rayCasterId, vehicleId);
     }
 
     /**
@@ -727,6 +736,14 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         super.read(importer);
     }
 
+    @Override
+    protected void postRebuild() {
+        super.postRebuild();
+        RigidBodyMotionState ms = getMotionState();
+        ms.setVehicle(this);
+        createVehicle(physicsSpace);
+    }
+
     /**
      * Serialize this vehicle to the specified exporter, for example when saving
      * to a J3O file.
@@ -753,24 +770,6 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         capsule.writeSavableArrayList(wheels, "wheelsList", null);
 
         super.write(exporter);
-    }
-    // *************************************************************************
-    // Object methods
-
-    /**
-     * Finalize this vehicle just before it is destroyed. Should be invoked only
-     * by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        logger3.log(Level.FINE, "Finalizing RayCaster {0}",
-                Long.toHexString(rayCasterId));
-        logger3.log(Level.FINE, "Finalizing Vehicle {0}",
-                Long.toHexString(vehicleId));
-        finalizeNative(rayCasterId, vehicleId);
     }
     // *************************************************************************
     // private methods
