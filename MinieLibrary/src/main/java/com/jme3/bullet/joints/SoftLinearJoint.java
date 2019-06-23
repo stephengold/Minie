@@ -42,6 +42,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * A SoftPhysicsJoint based on Bullet's btSoftBody::LJoint.
@@ -86,6 +87,8 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     public SoftLinearJoint(Vector3f location, PhysicsSoftBody softA,
             int clusterIndexA, PhysicsRigidBody rigidB) {
         super(softA, clusterIndexA, rigidB);
+        Validate.finite(location, "location");
+
         this.location = location.clone();
         createJoint();
     }
@@ -104,6 +107,8 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     public SoftLinearJoint(Vector3f location, PhysicsSoftBody softA,
             int clusterIndexA, PhysicsSoftBody softB, int clusterIndexB) {
         super(softA, clusterIndexA, softB, clusterIndexB);
+        Validate.finite(location, "location");
+
         this.location = location.clone();
         createJoint();
     }
@@ -208,26 +213,25 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     private void createJoint() {
         assert objectId == 0L : objectId;
         assert bodyA instanceof PhysicsSoftBody;
-        assert ((PhysicsSoftBody) bodyA).countClusters() > 0;
-        int cia = clusterIndexA();
         long ida = bodyA.getObjectId();
-        int cib = clusterIndexB();
-        long idb = bodyB.getObjectId();
-
+        int cia = clusterIndexA();
         assert cia >= 0 : cia;
+        assert cia < ((PhysicsSoftBody) bodyA).countClusters() : cia;
+        long idb = bodyB.getObjectId();
+        int cib = clusterIndexB();
+
         if (isSoftRigidJoint()) {
             assert cib == -1 : cib;
             objectId = createJointSoftRigid(ida, cia, idb, erp, cfm, split,
                     location);
         } else if (isSoftSoftJoint()) {
             assert cib >= 0 : cib;
+            assert cib < ((PhysicsSoftBody) bodyB).countClusters() : cib;
             objectId = createJointSoftSoft(ida, cia, idb, cib, erp, cfm, split,
                     location);
         }
-
         assert objectId != 0L;
-        logger3.log(Level.FINE, "Created Joint {0}",
-                Long.toHexString(objectId));
+        logger3.log(Level.FINE, "Created {0}", this);
     }
 
     private native long createJointSoftRigid(long softIdA, int clusterIndexA,
