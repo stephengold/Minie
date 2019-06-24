@@ -447,6 +447,20 @@ abstract public class CollisionShape
         int hash = Objects.hashCode(this.objectId);
         return hash;
     }
+
+    /**
+     * Represent this CollisionShape as a String.
+     *
+     * @return a descriptive string of text (not null, not empty)
+     */
+    @Override
+    public String toString() {
+        String result = getClass().getSimpleName();
+        result = result.replace("Collision", "");
+        result += "#" + Long.toHexString(objectId);
+
+        return result;
+    }
     // *************************************************************************
     // private methods
 
