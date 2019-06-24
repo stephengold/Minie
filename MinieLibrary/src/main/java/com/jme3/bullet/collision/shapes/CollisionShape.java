@@ -313,7 +313,7 @@ abstract public class CollisionShape
     /**
      * Read the type of this shape.
      *
-     * @param objectId the ID of the btCollisionShape (not zero)
+     * @param shapeId the ID of the btCollisionShape (not zero)
      * @return the type value
      */
     final native protected int getShapeType(long shapeId);
