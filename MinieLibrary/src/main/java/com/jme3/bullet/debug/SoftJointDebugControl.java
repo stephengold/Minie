@@ -53,6 +53,9 @@ public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // fields
 
+    /**
+     * joint to visualize (not null)
+     */
     final private SoftPhysicsJoint joint;
     // *************************************************************************
     // constructors
@@ -68,6 +71,8 @@ public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
             SoftPhysicsJoint joint) {
         super(debugAppState);
         this.joint = joint;
+
+        // TODO
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
@@ -81,6 +86,7 @@ public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     protected void controlUpdate(float tpf) {
+        // TODO
     }
 
     /**
@@ -94,7 +100,9 @@ public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
     public void setSpatial(Spatial spatial) {
         if (spatial instanceof Node) {
             assert this.spatial == null;
+            // TODO
         } else if (spatial == null && this.spatial != null) {
+            // TODO
         }
         super.setSpatial(spatial);
     }
