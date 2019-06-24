@@ -279,8 +279,7 @@ abstract public class CollisionShape
         assert objectId != 0L;
 
         setMargin(objectId, margin);
-        logger.log(Level.FINE, "Margining Shape {0}",
-                Long.toHexString(objectId));
+        logger.log(Level.FINE, "Margining {0}.", this);
         this.margin = margin;
     }
 
@@ -305,7 +304,7 @@ abstract public class CollisionShape
         assert objectId != 0L;
 
         setLocalScaling(objectId, scale);
-        logger.log(Level.FINE, "Scaling Shape {0}", Long.toHexString(objectId));
+        logger.log(Level.FINE, "Scaling {0}.", this);
         this.scale.set(scale);
     }
     // *************************************************************************
@@ -439,8 +438,7 @@ abstract public class CollisionShape
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        logger.log(Level.FINE, "Finalizing Shape {0}",
-                Long.toHexString(objectId));
+        logger.log(Level.FINE, "Finalizing {0}.", this);
         DebugShapeFactory.removeShapeFromCache(objectId);
         finalizeNative(objectId);
     }

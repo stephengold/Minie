@@ -207,8 +207,7 @@ public class SphereCollisionShape extends CollisionShape {
 
         objectId = createShape(radius);
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Shape {0}",
-                Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created {0}.", this);
 
         setScale(scale);
         margin = 0f;

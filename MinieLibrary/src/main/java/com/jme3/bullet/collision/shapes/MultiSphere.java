@@ -499,8 +499,7 @@ public class MultiSphere extends CollisionShape {
         assert centers.length == numSpheres : numSpheres;
         objectId = createShape(centers, radii, numSpheres);
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created MultiSphere {0}",
-                Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created {0}.", this);
 
         setScale(scale);
         setMargin(margin);

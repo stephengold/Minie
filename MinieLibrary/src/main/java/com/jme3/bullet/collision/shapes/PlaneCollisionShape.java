@@ -167,7 +167,7 @@ public class PlaneCollisionShape extends CollisionShape {
 
         objectId = createShape(plane.getNormal(), plane.getConstant());
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Shape {0}", Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created {0}.", this);
 
         setScale(scale);
         setMargin(margin);

@@ -242,8 +242,8 @@ public class MeshCollisionShape extends CollisionShape {
         boolean buildBvh = (bvh == null || bvh.length == 0);
         long meshId = nativeMesh.nativeId();
         objectId = createShape(useCompression, buildBvh, meshId);
-        logger2.log(Level.FINE, "Created Shape {0}",
-                Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created {0}.", this);
+
         if (!buildBvh) {
             nativeBVHBuffer = setBVH(bvh, objectId);
             assert nativeBVHBuffer != 0L;

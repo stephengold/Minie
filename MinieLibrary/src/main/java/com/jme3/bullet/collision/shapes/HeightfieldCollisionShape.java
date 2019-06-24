@@ -385,8 +385,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
                 heightScale, minHeight, maxHeight, upAxis, flipQuadEdges,
                 flipTriangleWinding, useDiamond, useZigzag);
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Shape {0}",
-                Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created {0}.", this);
 
         setScale(scale);
         setMargin(margin);
