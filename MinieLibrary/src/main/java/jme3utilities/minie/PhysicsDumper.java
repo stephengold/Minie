@@ -526,7 +526,8 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" bphase=%s", broadphaseType);
 
             PhysicsSpace space = appState.getPhysicsSpace();
-            dump(space, indent);
+            String moreIndent = indent + indentIncrement();
+            dump(space, moreIndent);
         } else {
             stream.println(" disabled");
         }
