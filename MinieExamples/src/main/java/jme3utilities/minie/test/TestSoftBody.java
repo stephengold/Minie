@@ -241,8 +241,9 @@ public class TestSoftBody
         configureDumper();
         configureMaterials();
         configurePhysics();
-        ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(sky);
+
+        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
+        viewPort.setBackgroundColor(bgColor);
         addLighting(rootNode, false);
 
         addBox(0f);
@@ -347,7 +348,7 @@ public class TestSoftBody
 
     /**
      * Calculate the center of the axis-aligned bounding box of a non-empty
-     * array of vectors.
+     * array of vectors. TODO use MyArray
      *
      * @param array the vectors (not null, not empty, unaffected)
      * @param storeResult storage for the result (modified if not null)
@@ -434,7 +435,7 @@ public class TestSoftBody
         rootSpatial.addLight(ambient);
 
         ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
-        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
+        Vector3f direction = new Vector3f(1f, -2f, -2f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         rootSpatial.addLight(sun);
 
