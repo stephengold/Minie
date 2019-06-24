@@ -257,7 +257,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      *
      * @return true if soft-rigid, otherwise false
      */
-    public boolean isSoftRigidJoint() {
+    public boolean isSoftRigid() {
         return bodyB instanceof PhysicsRigidBody;
     }
 
@@ -266,7 +266,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      *
      * @return true if soft-soft, otherwise false
      */
-    public boolean isSoftSoftJoint() {
+    public boolean isSoftSoft() {
         return bodyB instanceof PhysicsSoftBody;
     }
 

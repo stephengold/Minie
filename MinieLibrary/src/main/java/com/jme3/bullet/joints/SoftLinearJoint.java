@@ -220,11 +220,11 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
         long idb = bodyB.getObjectId();
         int cib = clusterIndexB();
 
-        if (isSoftRigidJoint()) {
+        if (isSoftRigid()) {
             assert cib == -1 : cib;
             objectId = createJointSoftRigid(ida, cia, idb, erp, cfm, split,
                     location);
-        } else if (isSoftSoftJoint()) {
+        } else if (isSoftSoft()) {
             assert cib >= 0 : cib;
             assert cib < ((PhysicsSoftBody) bodyB).countClusters() : cib;
             objectId = createJointSoftSoft(ida, cia, idb, cib, erp, cfm, split,
