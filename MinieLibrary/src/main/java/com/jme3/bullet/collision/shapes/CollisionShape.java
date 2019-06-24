@@ -312,6 +312,14 @@ abstract public class CollisionShape
     // new protected methods
 
     /**
+     * Read the type of this shape.
+     *
+     * @param objectId the ID of the btCollisionShape (not zero)
+     * @return the type value
+     */
+    final native protected int getShapeType(long shapeId);
+
+    /**
      * Recalculate this shape's bounding box if necessary.
      */
     protected void recalculateAabb() {
