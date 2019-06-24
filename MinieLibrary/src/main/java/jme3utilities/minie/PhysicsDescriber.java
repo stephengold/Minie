@@ -411,23 +411,36 @@ public class PhysicsDescriber extends Describer {
         String desc = describe(anchor);
         result.append(desc);
 
-        PhysicsSoftBody bodyA = anchor.getSoftBody();
         result.append(" a=");
+        PhysicsSoftBody bodyA = anchor.getSoftBody();
         long aId = bodyA.getObjectId();
         result.append(Long.toHexString(aId));
         if (!bodyA.isInWorld()) {
             result.append("_NOT_IN_WORLD");
         }
 
-        PhysicsRigidBody bodyB = anchor.getRigidBody();
+        result.append(" [");
+        int nodeIndex = anchor.nodeIndex();
+        result.append(nodeIndex);
+        result.append(']');
+
         result.append(" b=");
+        PhysicsRigidBody bodyB = anchor.getRigidBody();
         long bId = bodyB.getObjectId();
         result.append(Long.toHexString(bId));
         if (!bodyB.isInWorld()) {
             result.append("_NOT_IN_WORLD");
         }
 
-        // TODO node index, pivot, influence
+        result.append(" piv[");
+        Vector3f pivot = anchor.copyPivot(null);
+        result.append(MyVector3f.describe(pivot));
+        result.append(']');
+
+        result.append(" infl=");
+        float influence = anchor.influence();
+        result.append(MyString.describe(influence));
+
         return result.toString();
     }
 
