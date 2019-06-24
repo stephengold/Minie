@@ -689,9 +689,9 @@ public class BulletDebugAppState extends AbstractAppState {
 
                     } else if (joint instanceof Constraint) {
                         logger.log(Level.FINE,
-                                "Create new BulletJointDebugControl");
+                                "Create new ConstraintDebugControl");
                         Constraint constraint = (Constraint) joint;
-                        control = new BulletJointDebugControl(this, constraint);
+                        control = new ConstraintDebugControl(this, constraint);
 
                     } else {
                         logger.log(Level.FINE,

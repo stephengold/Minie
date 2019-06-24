@@ -45,12 +45,13 @@ import com.jme3.scene.debug.Arrow;
 import java.util.logging.Logger;
 
 /**
- * A physics-debug control to visualize a Constraint. TODO rename
- * ConstraintDebugControl
+ * A physics-debug control to visualize a Constraint.
  *
- * @author normenhansen
+ * @author Stephen Gold sgold@sonic.net
+ *
+ * Based on BulletJointDebugControl by normenhansen.
  */
-public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
+public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // constants and loggers
 
@@ -58,7 +59,7 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
      * message logger for this class
      */
     final public static Logger logger
-            = Logger.getLogger(BulletJointDebugControl.class.getName());
+            = Logger.getLogger(ConstraintDebugControl.class.getName());
     /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
@@ -101,21 +102,21 @@ public class BulletJointDebugControl extends AbstractPhysicsDebugControl {
      * Instantiate an enabled Control to visualize the specified Constraint.
      *
      * @param debugAppState which app state (not null, alias created)
-     * @param jo the Constraint to visualize (not null, alias created)
+     * @param constraint the Constraint to visualize (not null, alias created)
      */
-    public BulletJointDebugControl(BulletDebugAppState debugAppState,
-            Constraint jo) {
+    public ConstraintDebugControl(BulletDebugAppState debugAppState,
+            Constraint constraint) {
         super(debugAppState);
-        constraint = jo;
+        this.constraint = constraint;
 
-        geomA = new Geometry(jo.toString());
+        geomA = new Geometry(constraint.toString());
         arrowA = new Arrow(translateIdentity);
         geomA.setMesh(arrowA);
         Material materialA = debugAppState.getJointMaterial(JointEnd.A);
         geomA.setMaterial(materialA);
         geomA.setShadowMode(RenderQueue.ShadowMode.Off);
 
-        geomB = new Geometry(jo.toString());
+        geomB = new Geometry(constraint.toString());
         arrowB = new Arrow(translateIdentity);
         geomB.setMesh(arrowB);
         Material materialB = debugAppState.getJointMaterial(JointEnd.B);
