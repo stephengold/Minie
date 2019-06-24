@@ -663,6 +663,11 @@ public class PhysicsDescriber extends Describer {
             result.append("_NOT_IN_WORLD");
         }
 
+        result.append(" [");
+        int clusterIndex = joint.clusterIndexA();
+        result.append(clusterIndex);
+        result.append(']');
+
         PhysicsBody bodyB = joint.getBody(JointEnd.B);
         result.append(" b=");
         result.append(bodyB.toString());
@@ -670,7 +675,25 @@ public class PhysicsDescriber extends Describer {
             result.append("_NOT_IN_WORLD");
         }
 
-        // TODO cluster indices, CFM, ERP, split
+        if (joint.isSoftSoft()) {
+            result.append(" [");
+            clusterIndex = joint.clusterIndexB();
+            result.append(clusterIndex);
+            result.append(']');
+        }
+
+        result.append(" cfm=");
+        float cfm = joint.getCFM();
+        result.append(MyString.describe(cfm));
+
+        result.append(" erp=");
+        float erp = joint.getERP();
+        result.append(MyString.describe(erp));
+
+        result.append(" split=");
+        float split = joint.getSplit();
+        result.append(MyString.describe(split));
+
         return result.toString();
     }
 
