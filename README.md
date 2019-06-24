@@ -84,7 +84,7 @@ Summary of added features:
     + spinning friction
  + option to apply scaling with a `RigidBodyControl`
 
-Some JME bugs that have been fixed in Minie:
+Some `jme3-bullet` bugs that have been fixed in Minie:
 
  + 772 scale of a physics shape is applied 2x
  + 877 physics joints don't work unless both bodies are dynamic
@@ -102,8 +102,10 @@ Some JME bugs that have been fixed in Minie:
  + 969 linear factors not cloned
  + 1029 sphere-sphere collisions not reported
  + 1037 performance issue with `HullCollisionShape`
+ + 1043 `TestCCD` fails
  + 1058 crash while removing body from `BroadphaseType.SIMPLE` `PhysicsSpace`
  + 1060 doesn't implement `bt32BitAxisSweep3`
+ + 1120 scaled GImpact shapes fall through floor
  + 1125 heightfield collision shapes don't match `TerrainQuad`
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
