@@ -27,7 +27,6 @@
 package jme3utilities.minie;
 
 import com.jme3.bullet.debug.BulletDebugAppState;
-import com.jme3.export.Savable;
 import java.util.logging.Logger;
 
 /**
@@ -72,7 +71,7 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
      * @return return true if the object should be displayed, false if not
      */
     @Override
-    public boolean displayObject(Savable physicsObject) {
+    public boolean displayObject(Object physicsObject) {
         return returnValue;
     }
 }

@@ -46,7 +46,6 @@ import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
-import com.jme3.export.Savable;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
@@ -819,6 +818,6 @@ public class BulletDebugAppState extends AbstractAppState {
          * @param obj the joint or collision object to test (unaffected)
          * @return return true if the object should be rendered, false if not
          */
-        boolean displayObject(Savable obj);
+        boolean displayObject(Object obj);
     }
 }

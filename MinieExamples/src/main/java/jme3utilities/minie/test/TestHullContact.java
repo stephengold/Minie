@@ -38,7 +38,6 @@ import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
-import com.jme3.export.Savable;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -233,7 +232,7 @@ public class TestHullContact
      * @return return true if the object should be displayed, false if not
      */
     @Override
-    public boolean displayObject(Savable object) {
+    public boolean displayObject(Object object) {
         return object != boxBody;
     }
     // *************************************************************************

@@ -52,7 +52,6 @@ import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
-import com.jme3.export.Savable;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -175,7 +174,7 @@ public class TestSoftBody
     /**
      * physics objects that are not to be visualized
      */
-    final private List<Savable> hiddenObjects = new ArrayList<>(9);
+    final private List<Object> hiddenObjects = new ArrayList<>(9);
     /**
      * single-sided green material to visualize the platform
      */
@@ -343,7 +342,7 @@ public class TestSoftBody
      * @return return true if the object should be rendered, false if not
      */
     @Override
-    public boolean displayObject(Savable physicsObject) {
+    public boolean displayObject(Object physicsObject) {
         return !hiddenObjects.contains(physicsObject);
     }
     // *************************************************************************
