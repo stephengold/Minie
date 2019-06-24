@@ -34,7 +34,6 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.SoftBodyControl;
-import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -54,9 +53,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
@@ -64,6 +61,7 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.minie.DumpFlags;
+import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -76,7 +74,7 @@ import jme3utilities.ui.InputMode;
  */
 public class TestSoftBodyControl
         extends ActionApplication
-        implements BulletDebugAppState.DebugAppStateFilter, DebugInitListener {
+        implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
 
@@ -96,7 +94,7 @@ public class TestSoftBodyControl
     /**
      * physics objects that are not to be visualized
      */
-    final private List<Object> hiddenObjects = new ArrayList<>(9);
+    final private FilterAll hiddenObjects = new FilterAll(true);
     /**
      * single-sided green material to visualize the platform
      */
@@ -207,20 +205,6 @@ public class TestSoftBodyControl
         super.onAction(actionString, ongoing, tpf);
     }
     // *************************************************************************
-    // BulletDebugAppState.DebugAppStateFilter methods
-
-    /**
-     * Test whether the specified physics object should be rendered in the debug
-     * scene.
-     *
-     * @param physicsObject the joint or collision object to test (unaffected)
-     * @return return true if the object should be rendered, false if not
-     */
-    @Override
-    public boolean displayObject(Object physicsObject) {
-        return !hiddenObjects.contains(physicsObject);
-    }
-    // *************************************************************************
     // DebugInitListener methods
 
     /**
@@ -323,7 +307,7 @@ public class TestSoftBodyControl
         duckPsb.applyTranslation(new Vector3f(0f, 1.2f, 0f));
 
         physicsSpace.add(duckSbc);
-        hiddenObjects.add(duckSbc);
+        hiddenObjects.addException(duckSbc);
     }
 
     /**
@@ -348,7 +332,7 @@ public class TestSoftBodyControl
         /*
          * Clear the hidden-object list.
          */
-        hiddenObjects.clear();
+        hiddenObjects.clearExceptions();
     }
 
     /**
@@ -397,7 +381,7 @@ public class TestSoftBodyControl
 
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
-        bulletAppState.setDebugFilter(this);
+        bulletAppState.setDebugFilter(hiddenObjects);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
 

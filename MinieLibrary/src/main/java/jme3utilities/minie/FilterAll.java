@@ -27,10 +27,14 @@
 package jme3utilities.minie;
 
 import com.jme3.bullet.debug.BulletDebugAppState;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
- * A very simple DebugAppStateFilter that always returns the same value.
+ * A simple DebugAppStateFilter that returns true for all physics objects (or
+ * false for all physics objects) with a few exceptions.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -47,19 +51,55 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
     // fields
 
     /**
-     * value returned by displayObject()
+     * default value returned by displayObject()
      */
     final private boolean returnValue;
+    /**
+     * physics objects that are exceptions
+     */
+    final private List<Object> exceptions = new ArrayList<>(32);
     // *************************************************************************
     // constructors
 
     /**
      * Instantiate a new filter.
      *
-     * @param returnValue value to be returned by displayObject()
+     * @param returnValue default value to be returned by displayObject()
      */
     public FilterAll(boolean returnValue) {
         this.returnValue = returnValue;
+    }
+    // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Add an exceptional object to the list.
+     *
+     * @param exception the object to add (not null)
+     */
+    public void addException(Object exception) {
+        Validate.nonNull(exception, "exception");
+
+        if (!exceptions.contains(exception)) {
+            exceptions.add(exception);
+        }
+    }
+
+    /**
+     * Clear the list of exceptions.
+     */
+    public void clearExceptions() {
+        exceptions.clear();
+    }
+
+    /**
+     * Remove a object from the exceptions list.
+     *
+     * @param exception the object to remove (not null)
+     */
+    public void removeException(Object exception) {
+        Validate.nonNull(exception, "exception");
+        exceptions.remove(exception);
     }
     // *************************************************************************
     // DebugAppStateFilter methods
@@ -72,6 +112,10 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
      */
     @Override
     public boolean displayObject(Object physicsObject) {
-        return returnValue;
+        if (exceptions.contains(physicsObject)) {
+            return !returnValue;
+        } else {
+            return returnValue;
+        }
     }
 }
