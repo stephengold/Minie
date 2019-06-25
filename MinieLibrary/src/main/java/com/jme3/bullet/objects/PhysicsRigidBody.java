@@ -840,6 +840,8 @@ public class PhysicsRigidBody extends PhysicsBody {
         objectId = createRigidBody(mass, motionState.getObjectId(),
                 collisionShape.getObjectId());
         logger2.log(Level.FINE, "Created {0}.", this);
+        assert objectId != 0L;
+        assert getInternalType(objectId) == 2 : getInternalType(objectId);
         postRebuild();
 
         if (removed) {

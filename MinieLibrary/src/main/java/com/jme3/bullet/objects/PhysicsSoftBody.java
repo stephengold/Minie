@@ -101,6 +101,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     public PhysicsSoftBody() {
         objectId = createEmptySoftBody();
         assert objectId != 0L;
+        assert getInternalType(objectId) == 8 : getInternalType(objectId);
         logger2.log(Level.FINE, "Created {0}.", this);
 
         config = new SoftBodyConfig(this);
