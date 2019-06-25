@@ -29,6 +29,7 @@ package jme3utilities.minie.test;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import java.util.Collection;
 import java.util.List;
@@ -116,6 +117,10 @@ class HelpUtils {
                     }
                     spatial.setLocalTranslation(x, y, 0f);
                     x += textWidth + space;
+
+                    if (actionName.equals("toggle help")) {
+                        spatial.setColor(ColorRGBA.Yellow);
+                    }
                 }
             }
         }
