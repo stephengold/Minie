@@ -52,6 +52,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.xml.XMLExporter;
 import com.jme3.font.BitmapText;
+import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -158,7 +159,7 @@ public class TestDac extends ActionApplication {
     final private BulletAppState bulletAppState = new BulletAppState();
     private CollisionShape ballShape;
     /**
-     * control being tested
+     * Control being tested
      */
     private DynamicAnimControl dac;
     final private float ballRadius = 0.2f; // mesh units
@@ -173,6 +174,10 @@ public class TestDac extends ActionApplication {
      * root node of the C-G model on which the control is being tested
      */
     private Node cgModel;
+    /**
+     * GUI node for displaying hotkey help/hints
+     */
+    private Node helpNode;
     /**
      * dump debugging information to System.out
      */
@@ -223,6 +228,7 @@ public class TestDac extends ActionApplication {
         settings.setTitle(applicationName);
 
         settings.setVSync(true);
+        settings.setSamples(4); // anti-aliasing
         application.setSettings(settings);
 
         application.start();
@@ -241,9 +247,11 @@ public class TestDac extends ActionApplication {
         configureCamera();
         configureDumper();
         configurePhysics();
-        viewPort.setBackgroundColor(ColorRGBA.Gray);
 
+        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
+        viewPort.setBackgroundColor(bgColor);
         addLighting();
+
         stateManager.getState(StatsAppState.class).toggleStats();
         addBox();
 
@@ -312,10 +320,21 @@ public class TestDac extends ActionApplication {
         dim.bind("signal shower", KeyInput.KEY_I);
         dim.bind("signal shower", KeyInput.KEY_INSERT);
 
+        dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
+
+        float x = 10f;
+        float y = cam.getHeight() - 10f;
+        float width = cam.getWidth() - 20f;
+        float height = cam.getHeight() - 20f;
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        float space = 20f;
+        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
+        guiNode.attachChild(helpNode);
     }
 
     /**
@@ -433,6 +452,9 @@ public class TestDac extends ActionApplication {
                     setHeight(3f);
                     return;
 
+                case "toggle help":
+                    toggleHelp();
+                    return;
                 case "toggle meshes":
                     toggleMeshes();
                     return;
@@ -988,6 +1010,17 @@ public class TestDac extends ActionApplication {
         float oldHeight = minMax[1].y - minMax[0].y;
 
         model.scale(height / oldHeight);
+    }
+
+    /**
+     * Toggle visibility of the helpNode.
+     */
+    private void toggleHelp() {
+        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
+            helpNode.setCullHint(Spatial.CullHint.Never);
+        } else {
+            helpNode.setCullHint(Spatial.CullHint.Always);
+        }
     }
 
     /**
