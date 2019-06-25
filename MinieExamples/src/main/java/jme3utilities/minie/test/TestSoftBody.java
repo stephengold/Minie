@@ -51,6 +51,7 @@ import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
+import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -194,6 +195,10 @@ public class TestSoftBody
      */
     private Material redMaterial;
     /**
+     * GUI node for displaying hotkey help/hints
+     */
+    private Node helpNode;
+    /**
      * dump debugging information to System.out
      */
     final private PhysicsDumper dumper = new PhysicsDumper();
@@ -269,7 +274,18 @@ public class TestSoftBody
         dim.bind("test puppetInSkirt", KeyInput.KEY_F4);
         dim.bind("test squishyBall", KeyInput.KEY_F1);
         dim.bind("test tablecloth", KeyInput.KEY_F2);
+        dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+
+        float x = 10f;
+        float y = cam.getHeight() - 10f;
+        float width = cam.getWidth() - 20f;
+        float height = cam.getHeight() - 20f;
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        float space = 20f;
+        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
+        guiNode.attachChild(helpNode);
     }
 
     /**
@@ -321,6 +337,10 @@ public class TestSoftBody
                     addBox(-1f);
                     addCylinder(1.7f);
                     addTablecloth(2f);
+                    return;
+
+                case "toggle help":
+                    toggleHelp();
                     return;
 
                 case "toggle pause":
@@ -925,6 +945,17 @@ public class TestSoftBody
         int puppetVertex = waistlineVertices[waistIndex];
         String vertexSpecifier = String.format("%d/Mesh.009_0", puppetVertex);
         return vertexSpecifier;
+    }
+
+    /**
+     * Toggle visibility of the helpNode.
+     */
+    private void toggleHelp() {
+        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
+            helpNode.setCullHint(Spatial.CullHint.Never);
+        } else {
+            helpNode.setCullHint(Spatial.CullHint.Always);
+        }
     }
 
     /**
