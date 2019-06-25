@@ -860,7 +860,7 @@ abstract public class PhysicsCollisionObject
      * @param objectId the ID of the btCollisionObject (not zero)
      * @return the type value
      */
-    native protected int getInternalType(long objectId);
+    final native protected int getInternalType(long objectId);
 
     /**
      * Initialize the collision-group information of this object.
