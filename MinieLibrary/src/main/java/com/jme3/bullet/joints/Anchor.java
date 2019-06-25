@@ -309,7 +309,7 @@ public class Anchor extends PhysicsJoint {
         objectId = createAnchor(ida, nodeIndexA, idb, pivotInB,
                 allowCollisions, influence);
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}", this);
+        logger2.log(Level.FINE, "Created {0}.", this);
     }
 
     native private long createAnchor(long softBodyId, int nodeIndex,

@@ -232,7 +232,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
                     axis);
         }
         assert objectId != 0L;
-        logger3.log(Level.FINE, "Created {0}", this);
+        logger3.log(Level.FINE, "Created {0}.", this);
     }
 
     private native long createJointSoftRigid(long softIdA, int clusterIndexA,

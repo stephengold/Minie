@@ -87,7 +87,7 @@ abstract public class IKController implements JmeCloneable, Savable {
     public IKController(PhysicsLink controlledLink) {
         assert controlledLink != null;
 
-        logger.log(Level.FINE, "Creating controller for bone {0}",
+        logger.log(Level.FINE, "Creating controller for bone {0}.",
                 MyString.quote(controlledLink.boneName()));
         this.controlledLink = controlledLink;
         isEnabled = true;

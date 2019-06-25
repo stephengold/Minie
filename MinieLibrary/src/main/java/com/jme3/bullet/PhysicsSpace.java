@@ -1070,7 +1070,7 @@ public class PhysicsSpace {
                 worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal(),
                 false);
         assert spaceId != 0L;
-        logger.log(Level.FINE, "Created {0}", this);
+        logger.log(Level.FINE, "Created {0}.", this);
         initThread(spaceId);
     }
 
@@ -1099,7 +1099,7 @@ public class PhysicsSpace {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        logger.log(Level.FINE, "Finalizing {0}", this);
+        logger.log(Level.FINE, "Finalizing {0}.", this);
         finalizeNative(nativeId);
     }
 
