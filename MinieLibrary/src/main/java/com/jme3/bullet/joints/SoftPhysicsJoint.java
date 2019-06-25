@@ -351,8 +351,8 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
             // (the softbody have a reference to this in his joint list)
             // when deleted the softbody will delete all his joints as well.
             logger2.log(Level.FINE,
-                    "SoftPhysicsJoint {0} is still attached, it will be destroyed by the soft body",
-                    Long.toHexString(objectId));
+                    "{0} is still attached, it will be destroyed by the soft body",
+                    this);
         } else {
             // finalizeNative() will be invoked by the superclass finalize
             super.finalize();

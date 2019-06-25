@@ -982,8 +982,7 @@ public class SliderJoint extends Constraint {
                     pivotA, rotA, pivotB, rotB, useLinearReferenceFrameA);
         }
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Joint {0}",
-                Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created {0}.", this);
     }
 
     native private long createJoint(long bodyIdA, long bodyIdB,

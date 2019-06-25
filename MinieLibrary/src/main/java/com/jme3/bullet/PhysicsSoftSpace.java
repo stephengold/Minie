@@ -180,8 +180,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         long nativeId = createPhysicsSoftSpace(getWorldMin(null),
                 getWorldMax(null), getBroadphaseType().ordinal(), false);
         assert nativeId != 0L;
-        logger2.log(Level.FINE, "Created SoftSpace {0}",
-                Long.toHexString(nativeId));
+        logger2.log(Level.FINE, "Created {0}.", this);
         initThread(nativeId);
     }
 
@@ -253,37 +252,32 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      */
     private void addSoftBody(PhysicsSoftBody softBody) {
         long softBodyId = softBody.getObjectId();
-        long spaceId = getSpaceId();
         if (softBodiesAdded.containsKey(softBodyId)) {
-            logger2.log(Level.WARNING,
-                    "Soft body {0} is already added to PhysicsSoftSpace {1}.",
-                    new Object[]{
-                        Long.toHexString(softBodyId),
-                        Long.toHexString(spaceId)
-                    });
+            logger2.log(Level.WARNING, "{0} is already added to {1}.",
+                    new Object[]{softBody, this});
             return;
         }
 
         softBodiesAdded.put(softBodyId, softBody);
-        logger2.log(Level.FINE, "Adding soft body {0} to physics space.",
-                Long.toHexString(softBodyId));
+        logger2.log(Level.FINE, "Adding {0} to {1}.",
+                new Object[]{softBody, this});
 
+        long spaceId = getSpaceId();
         addSoftBody(spaceId, softBodyId);
         softBody.setWorldInfo(getWorldInfo());
     }
 
     private void removeSoftBody(PhysicsSoftBody softBody) {
         long softBodyId = softBody.getObjectId();
-        long spaceId = getSpaceId();
         if (!softBodiesAdded.containsKey(softBodyId)) {
-            logger2.log(Level.WARNING,
-                    "Soft body {0} does not exist in PhysicsSoftSpace.",
-                    Long.toHexString(softBodyId));
+            logger2.log(Level.WARNING, "{0} does not exist in {1}.",
+                    new Object[]{softBody, this});
             return;
         }
-        logger2.log(Level.FINE, "Removing soft body {0} from physics space.",
-                Long.toHexString(softBodyId));
+        logger2.log(Level.FINE, "Removing {0} from {1}.",
+                new Object[]{softBody, this});
         softBodiesAdded.remove(softBodyId);
+        long spaceId = getSpaceId();
         removeSoftBody(spaceId, softBodyId);
     }
     // *************************************************************************

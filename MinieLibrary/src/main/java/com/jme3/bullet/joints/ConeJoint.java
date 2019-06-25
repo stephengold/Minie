@@ -382,7 +382,7 @@ public class ConeJoint extends Constraint {
                     pivotA, rotA, pivotB, rotB);
         }
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Joint {0}", Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created {0}.", this);
 
         setLimit(swingSpan1, swingSpan2, twistSpan);
         setAngularOnly(angularOnly);

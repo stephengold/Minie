@@ -538,8 +538,7 @@ public class HingeJoint extends Constraint {
                     pivotA, axisA, pivotB, axisB);
         }
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created Joint {0}",
-                Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created {0}.", this);
     }
 
     native private long createJoint(long objectIdA, long objectIdB,

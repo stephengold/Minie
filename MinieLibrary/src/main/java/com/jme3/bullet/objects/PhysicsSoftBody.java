@@ -101,8 +101,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     public PhysicsSoftBody() {
         objectId = createEmptySoftBody();
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created SoftBody {0}",
-                Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created {0}.", this);
 
         config = new SoftBodyConfig(this);
         super.initUserPointer();
@@ -1022,8 +1021,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     protected void destroySoftBody() {
         if (objectId != 0L) {
-            logger2.log(Level.FINE, "Destroying SoftBody {0}",
-                    Long.toHexString(objectId));
+            logger2.log(Level.FINE, "Destroying {0}.", this);
             finalizeNative(objectId);
             objectId = 0L;
         }
@@ -1053,8 +1051,7 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         objectId = createEmptySoftBody();
         assert objectId != 0L;
-        logger2.log(Level.FINE, "Created SoftBody {0}",
-                Long.toHexString(objectId));
+        logger2.log(Level.FINE, "Created {0}.", this);
 
         initUserPointer();
 
@@ -1534,7 +1531,7 @@ public class PhysicsSoftBody extends PhysicsBody {
             Vector3f offsetVector);
 
     /**
-     * Copy the specfied buffer to an array.
+     * Copy the specified buffer to an array, ignoring the limit. TODO utility
      *
      * @param floatBuffer (not null, unaffected)
      * @return a new array
@@ -1545,13 +1542,14 @@ public class PhysicsSoftBody extends PhysicsBody {
         for (int i = 0; i < numFloats; ++i) {
             result[i] = floatBuffer.get(i);
         }
+
         return result;
     }
 
     /**
-     * Copy the specfied buffer to an array.
+     * Copy the specified buffer to an array, ignoring the limit. TODO utility
      *
-     * @param floatBuffer (not null, unaffected)
+     * @param intBuffer (not null, unaffected)
      * @return a new array
      */
     private int[] copyToArray(IntBuffer intBuffer) {
@@ -1560,6 +1558,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         for (int i = 0; i < numInts; ++i) {
             result[i] = intBuffer.get(i);
         }
+
         return result;
     }
 

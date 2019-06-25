@@ -866,8 +866,7 @@ abstract public class PhysicsCollisionObject
      * Initialize the collision-group information of this object.
      */
     protected void initUserPointer() {
-        logger.log(Level.FINE, "initUserPointer() objectId = {0}",
-                Long.toHexString(objectId));
+        logger.log(Level.FINE, "initUserPointer() for {0}", this);
         initUserPointer(objectId, collisionGroup, collideWithGroups);
     }
 
@@ -1088,8 +1087,7 @@ abstract public class PhysicsCollisionObject
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        logger.log(Level.FINE, "Finalizing CollisionObject {0}",
-                Long.toHexString(objectId));
+        logger.log(Level.FINE, "Finalizing {0}.", this);
         finalizeNative(objectId);
     }
 

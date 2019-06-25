@@ -505,8 +505,7 @@ abstract public class Constraint extends PhysicsJoint {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        logger.log(Level.FINE, "Finalizing Constraint {0}",
-                Long.toHexString(objectId));
+        logger.log(Level.FINE, "Finalizing {0}.", this);
         finalizeNative(objectId);
     }
     // *************************************************************************
