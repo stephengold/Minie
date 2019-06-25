@@ -40,6 +40,7 @@ import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
+import com.jme3.font.Rectangle;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -133,6 +134,10 @@ public class SeJointDemo extends ActionApplication {
      * mesh for visualizing seeds
      */
     private Mesh seedMesh;
+    /**
+     * GUI node for displaying hotkey help/hints
+     */
+    private Node helpNode;
     /**
      * scene-graph node for visualizing seeds
      */
@@ -233,14 +238,27 @@ public class SeJointDemo extends ActionApplication {
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
         dim.bind("signal shower", KeyInput.KEY_INSERT);
+
         dim.bind("test 6dof", KeyInput.KEY_F6);
         dim.bind("test 6dofSpring", KeyInput.KEY_F7);
         dim.bind("test cone", KeyInput.KEY_F3);
         dim.bind("test hinge", KeyInput.KEY_F2);
         dim.bind("test p2p", KeyInput.KEY_F1);
         dim.bind("test slider", KeyInput.KEY_F4);
+
+        dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
+
+        float x = 10f;
+        float y = cam.getHeight() - 10f;
+        float width = cam.getWidth() - 20f;
+        float height = cam.getHeight() - 20f;
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        float space = 20f;
+        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
+        guiNode.attachChild(helpNode);
     }
 
     /**
@@ -287,10 +305,12 @@ public class SeJointDemo extends ActionApplication {
                     testName = "slider";
                     return;
 
+                case "toggle help":
+                    toggleHelp();
+                    return;
                 case "toggle pause":
                     togglePause();
                     return;
-
                 case "toggle view":
                     toggleMeshes();
                     togglePhysicsDebug();
@@ -566,6 +586,17 @@ public class SeJointDemo extends ActionApplication {
 
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setAccuracy(0.1f); // 100-msec timestep
+    }
+
+    /**
+     * Toggle visibility of the helpNode.
+     */
+    private void toggleHelp() {
+        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
+            helpNode.setCullHint(Spatial.CullHint.Never);
+        } else {
+            helpNode.setCullHint(Spatial.CullHint.Always);
+        }
     }
 
     /**
