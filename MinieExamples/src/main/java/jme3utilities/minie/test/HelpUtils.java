@@ -165,10 +165,11 @@ class HelpUtils {
                 String hot = compress(hotkeyName);
                 if (actionsToHots.containsKey(action)) {
                     String oldList = actionsToHots.get(action);
-                    String newList = oldList + "," + hot;
+                    String newList = oldList + "/" + hot;
                     actionsToHots.put(action, newList);
+                } else {
+                    actionsToHots.put(action, hot);
                 }
-                actionsToHots.put(action, hot);
             }
         }
 
