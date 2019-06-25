@@ -385,6 +385,14 @@ abstract public class Constraint extends PhysicsJoint {
     native protected void finalizeNative(long constraintId);
 
     /**
+     * Read the constraint type.
+     *
+     * @param constraintId identifier of the btTypedConstraint (not 0)
+     * @return a btTypedConstraintType ordinal value (&ge;3)
+     */
+    final native protected int getConstraintType(long constraintId);
+
+    /**
      * Read common properties from a capsule.
      *
      * @param capsule the input capsule (not null, modified)
