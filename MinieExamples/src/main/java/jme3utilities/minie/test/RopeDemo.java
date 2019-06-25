@@ -47,6 +47,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -210,6 +211,10 @@ public class RopeDemo extends ActionApplication {
      */
     final private NameGenerator geometryNamer = new NameGenerator();
     /**
+     * GUI node for displaying hotkey help/hints
+     */
+    private Node helpNode;
+    /**
      * parent for rope geometries
      */
     final private Node ropesNode = new Node("ropes");
@@ -304,10 +309,21 @@ public class RopeDemo extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
+        dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
+
+        float x = 10f;
+        float y = cam.getHeight() - 10f;
+        float width = cam.getWidth() - 20f;
+        float height = cam.getHeight() - 20f;
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        float space = 20f;
+        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
+        guiNode.attachChild(helpNode);
     }
 
     /**
@@ -341,18 +357,18 @@ public class RopeDemo extends ActionApplication {
                     pullAPin();
                     return;
 
+                case "toggle help":
+                    toggleHelp();
+                    return;
                 case "toggle meshes":
                     toggleMeshes();
                     return;
-
                 case "toggle pause":
                     togglePause();
                     return;
-
                 case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
-
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
@@ -1032,6 +1048,17 @@ public class RopeDemo extends ActionApplication {
         linkA = latestDac.findManagerForVertex(capSpecsA[2], null, pivotA);
         linkB = latestDac.findManagerForVertex(capSpecsB[1], null, pivotB);
         latestDac.pinToSelf(linkA, linkB, pivotA, pivotB);
+    }
+
+    /**
+     * Toggle visibility of the helpNode.
+     */
+    private void toggleHelp() {
+        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
+            helpNode.setCullHint(Spatial.CullHint.Never);
+        } else {
+            helpNode.setCullHint(Spatial.CullHint.Always);
+        }
     }
 
     /**
