@@ -276,11 +276,13 @@ public class TestCloneJoints {
 
     private static void setParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
+        int index = Math.round(b / 0.3f);
 
         if (joint instanceof Constraint) {
             Constraint constraint = (Constraint) joint;
             constraint.setEnabled(flag);
             constraint.setBreakingImpulseThreshold(b + 0.505f);
+            constraint.overrideIterations(index);
         }
 
         if (joint instanceof ConeJoint) {
@@ -413,11 +415,13 @@ public class TestCloneJoints {
 
     private static void verifyParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
+        int index = Math.round(b / 0.3f);
 
         if (joint instanceof Constraint) {
             Constraint constraint = (Constraint) joint;
             assert constraint.isEnabled() == flag;
             assert constraint.getBreakingImpulseThreshold() == b + 0.505f;
+            assert constraint.getOverrideIterations() == index;
         }
 
         if (joint instanceof ConeJoint) {
