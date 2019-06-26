@@ -40,6 +40,7 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -100,6 +101,10 @@ public class TestSoftBodyControl
      */
     private Material greenMaterial;
     /**
+     * GUI node for displaying hotkey help/hints
+     */
+    private Node helpNode;
+    /**
      * dump debugging information to System.out
      */
     final private PhysicsDumper dumper = new PhysicsDumper();
@@ -147,8 +152,9 @@ public class TestSoftBodyControl
         configureDumper();
         configureMaterials();
         configurePhysics();
-        ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(sky);
+
+        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
+        viewPort.setBackgroundColor(bgColor);
         addLighting(rootNode, false);
 
         addBox(0f);
@@ -168,8 +174,20 @@ public class TestSoftBodyControl
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+
         dim.bind("test rubberDuck", KeyInput.KEY_F1);
+        dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+
+        float x = 10f;
+        float y = cam.getHeight() - 10f;
+        float width = cam.getWidth() - 20f;
+        float height = cam.getHeight() - 20f;
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        float space = 20f;
+        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
+        guiNode.attachChild(helpNode);
     }
 
     /**
@@ -197,6 +215,9 @@ public class TestSoftBodyControl
                     addRubberDuck();
                     return;
 
+                case "toggle help":
+                    toggleHelp();
+                    return;
                 case "toggle pause":
                     togglePause();
                     return;
@@ -387,6 +408,17 @@ public class TestSoftBodyControl
 
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
         physicsSpace.setGravity(new Vector3f(0f, -1f, 0f));
+    }
+
+    /**
+     * Toggle visibility of the helpNode.
+     */
+    private void toggleHelp() {
+        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
+            helpNode.setCullHint(Spatial.CullHint.Never);
+        } else {
+            helpNode.setCullHint(Spatial.CullHint.Always);
+        }
     }
 
     /**
