@@ -227,8 +227,8 @@ public class TestDac extends ActionApplication {
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
-        settings.setVSync(true);
         settings.setSamples(4); // anti-aliasing
+        settings.setVSync(true);
         application.setSettings(settings);
 
         application.start();

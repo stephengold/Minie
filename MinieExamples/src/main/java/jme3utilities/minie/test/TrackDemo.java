@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.animation.SkeletonControl;
+import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -147,7 +148,13 @@ public class TrackDemo extends ActionApplication {
      * space for physics simulation
      */
     private PhysicsSpace physicsSpace;
+    /**
+     * SkeletonControl of the model
+     */
     private SkeletonControl sc;
+    /**
+     * visualizer for the skeleton of the C-G model
+     */
     private SkeletonVisualizer sv;
     /**
      * vertex specifier for finger/sword tip
@@ -178,7 +185,7 @@ public class TrackDemo extends ActionApplication {
          */
         Misc.setLoggingLevels(Level.WARNING);
 
-        TrackDemo application = new TrackDemo();
+        Application application = new TrackDemo();
         /*
          * Customize the window's title bar.
          */

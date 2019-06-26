@@ -129,7 +129,7 @@ class HelpUtils {
     }
 
     /**
-     * Invert the specified String-to-String map. TODO add to heart lib
+     * Invert the specified String-to-String map. TODO use to heart lib
      *
      * @param input (not null, unaffected)
      * @return a new String-to-String map
@@ -220,7 +220,8 @@ class HelpUtils {
     }
 
     /**
-     * Convert the first character of the specified String to lower case.
+     * Convert the first character of the specified String to lower case. TODO
+     * use heart lib
      *
      * @param input the input string (not null)
      * @return the converted String (not null)
