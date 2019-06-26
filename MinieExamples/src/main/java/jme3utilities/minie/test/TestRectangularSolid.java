@@ -36,6 +36,8 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
+import com.jme3.font.Rectangle;
+import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -44,6 +46,7 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -114,6 +117,10 @@ public class TestRectangularSolid extends ActionApplication {
      */
     private Material samplePointMaterial;
     /**
+     * GUI node for displaying hotkey help/hints
+     */
+    private Node helpNode;
+    /**
      * scene-graph node for the current trial
      */
     private Node trialNode = null;
@@ -139,6 +146,9 @@ public class TestRectangularSolid extends ActionApplication {
          */
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
+
+        settings.setSamples(4); // anti-aliasing
+        settings.setVSync(true);
         application.setSettings(settings);
 
         application.start();
@@ -187,8 +197,23 @@ public class TestRectangularSolid extends ActionApplication {
         dim.bind("next trial capsule", KeyInput.KEY_F3);
         dim.bind("next trial rounded", KeyInput.KEY_F1);
         dim.bind("next trial square", KeyInput.KEY_F2);
+
+        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+
+        dim.bind("toggle help", KeyInput.KEY_H);
+
+        float x = 10f;
+        float y = cam.getHeight() - 10f;
+        float width = cam.getWidth() - 20f;
+        float height = cam.getHeight() - 20f;
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        float space = 20f;
+        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
+        guiNode.attachChild(helpNode);
     }
 
     /**
@@ -213,6 +238,9 @@ public class TestRectangularSolid extends ActionApplication {
                 case "next trial square":
                     nextTrial(false, 0);
                     return;
+                case "toggle help":
+                    toggleHelp();
+                    return;
             }
         }
         super.onAction(actionString, ongoing, tpf);
@@ -235,6 +263,17 @@ public class TestRectangularSolid extends ActionApplication {
             trialNode = null;
         }
         trial(roundCorners, numSpheres);
+    }
+
+    /**
+     * Toggle visibility of the helpNode.
+     */
+    private void toggleHelp() {
+        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
+            helpNode.setCullHint(Spatial.CullHint.Never);
+        } else {
+            helpNode.setCullHint(Spatial.CullHint.Always);
+        }
     }
 
     /**
