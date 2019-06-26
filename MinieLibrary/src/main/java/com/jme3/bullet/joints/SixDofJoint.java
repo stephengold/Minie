@@ -471,6 +471,9 @@ public class SixDofJoint extends Constraint {
         boolean enableJoint = old.isEnabled();
         setEnabled(enableJoint);
 
+        int numIterations = old.getOverrideIterations();
+        overrideIterations(numIterations);
+
         setAngularLowerLimit(old.getAngularLowerLimit(null));
         setAngularUpperLimit(old.getAngularUpperLimit(null));
         setLinearLowerLimit(old.getLinearLowerLimit(null));

@@ -397,6 +397,9 @@ public class HingeJoint extends Constraint {
         boolean enableJoint = old.isEnabled();
         setEnabled(enableJoint);
 
+        int numIterations = old.getOverrideIterations();
+        overrideIterations(numIterations);
+
         float low = old.getLowerLimit();
         float high = old.getUpperLimit();
         setLimit(low, high, limitSoftness, biasFactor, relaxationFactor);

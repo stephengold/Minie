@@ -210,6 +210,9 @@ public class Point2PointJoint extends Constraint {
         boolean enableJoint = old.isEnabled();
         setEnabled(enableJoint);
 
+        int numIterations = old.getOverrideIterations();
+        overrideIterations(numIterations);
+
         setDamping(old.getDamping());
         setImpulseClamp(old.getImpulseClamp());
         setTau(old.getTau());

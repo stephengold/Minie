@@ -291,6 +291,9 @@ public class ConeJoint extends Constraint {
 
         boolean enableJoint = old.isEnabled();
         setEnabled(enableJoint);
+        
+        int numIterations = old.getOverrideIterations();
+        overrideIterations(numIterations);
     }
 
     /**

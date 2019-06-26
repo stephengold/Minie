@@ -754,6 +754,9 @@ public class SliderJoint extends Constraint {
         boolean enableJoint = old.isEnabled();
         setEnabled(enableJoint);
 
+        int numIterations = old.getOverrideIterations();
+        overrideIterations(numIterations);
+
         setDampingDirAng(old.getDampingDirAng());
         setDampingDirLin(old.getDampingDirLin());
         setDampingLimAng(old.getDampingLimAng());

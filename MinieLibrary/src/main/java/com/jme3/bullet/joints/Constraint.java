@@ -68,6 +68,16 @@ abstract public class Constraint extends PhysicsJoint {
      */
     final public static Logger logger15
             = Logger.getLogger(Constraint.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagBreakingImpulse = "breakingImpulseThreshold";
+    final private static String tagIsCollision
+            = "isCollisionBetweenLinkedBodies";
+    final private static String tagIsEnabled = "isEnabled";
+    final private static String tagNumIterations = "numIterations";
+    final private static String tagPivotA = "pivotA";
+    final private static String tagPivotB = "pivotB";
     // *************************************************************************
     // fields TODO privatize
 
@@ -263,6 +273,17 @@ abstract public class Constraint extends PhysicsJoint {
     }
 
     /**
+     * Read the number of iterations used to solve this Constraint.
+     *
+     * @return the number of iterations (&ge;0) or -1 if using the solver's
+     * default
+     */
+    public int getOverrideIterations() {
+        int result = getOverrideIterations(objectId);
+        return result;
+    }
+
+    /**
      * Copy the location of the specified connection point in the specified
      * body.
      *
@@ -338,6 +359,18 @@ abstract public class Constraint extends PhysicsJoint {
     }
 
     /**
+     * Override the number of iterations used to solve this Constraint.
+     *
+     * @param numIterations the desired number of iterations (&ge;0) or -1 to
+     * use the solver's default (default=-1)
+     */
+    public void overrideIterations(int numIterations) {
+        Validate.inRange(numIterations, "number of iterations", -1,
+                Integer.MAX_VALUE);
+        overrideIterations(objectId, numIterations);
+    }
+
+    /**
      * Read the breaking impulse threshold.
      *
      * @param desiredThreshold the desired value (default=MAX_VALUE with SP
@@ -400,16 +433,18 @@ abstract public class Constraint extends PhysicsJoint {
      */
     final protected void readConstraintProperties(InputCapsule capsule)
             throws IOException {
-        float bit = capsule.readFloat(
-                "breakingImpulseThreshold", Float.MAX_VALUE);
-        setBreakingImpulseThreshold(bit);
+        float breakingImpulse
+                = capsule.readFloat(tagBreakingImpulse, Float.MAX_VALUE);
+        setBreakingImpulseThreshold(breakingImpulse);
 
-        boolean collisionFlag = capsule.readBoolean(
-                "isCollisionBetweenLinkedBodies", true);
-        setCollisionBetweenLinkedBodies(collisionFlag);
+        boolean isCollision = capsule.readBoolean(tagIsCollision, true);
+        setCollisionBetweenLinkedBodies(isCollision);
 
-        boolean enabledFlag = capsule.readBoolean("isEnabled", true);
-        setEnabled(enabledFlag);
+        boolean isEnabled = capsule.readBoolean(tagIsEnabled, true);
+        setEnabled(isEnabled);
+
+        int numIterations = capsule.readInt(tagNumIterations, -1);
+        overrideIterations(numIterations);
     }
     // *************************************************************************
     // JmeCloneable methods
@@ -472,8 +507,8 @@ abstract public class Constraint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        pivotA = (Vector3f) capsule.readSavable("pivotA", new Vector3f());
-        pivotB = (Vector3f) capsule.readSavable("pivotB", new Vector3f());
+        pivotA = (Vector3f) capsule.readSavable(tagPivotA, new Vector3f());
+        pivotB = (Vector3f) capsule.readSavable(tagPivotB, new Vector3f());
         /*
          * Each subclass must create the btTypedConstraint and then
          * invoke readConstraintProperties().
@@ -492,14 +527,14 @@ abstract public class Constraint extends PhysicsJoint {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(pivotA, "pivotA", null);
-        capsule.write(pivotB, "pivotB", null);
+        capsule.write(pivotA, tagPivotA, null);
+        capsule.write(pivotB, tagPivotB, null);
 
-        capsule.write(getBreakingImpulseThreshold(),
-                "breakingImpulseThreshold", Float.MAX_VALUE);
-        capsule.write(isCollisionBetweenLinkedBodies(),
-                "isCollisionBetweenLinkedBodies", true);
-        capsule.write(isEnabled(), "isEnabled", true);
+        capsule.write(getBreakingImpulseThreshold(), tagBreakingImpulse,
+                Float.MAX_VALUE);
+        capsule.write(isCollisionBetweenLinkedBodies(), tagIsCollision, true);
+        capsule.write(isEnabled(), tagIsEnabled, true);
+        capsule.write(getOverrideIterations(), tagNumIterations, -1);
     }
     // *************************************************************************
     // Object methods
@@ -525,9 +560,14 @@ abstract public class Constraint extends PhysicsJoint {
 
     native private float getBreakingImpulseThreshold(long constraintId);
 
+    native private int getOverrideIterations(long constraintId);
+
     native private boolean isEnabled(long constraintId);
 
     native private boolean needsFeedback(long constraintId);
+
+    native private void overrideIterations(long constraintId,
+            int numIterations);
 
     native private void setBreakingImpulseThreshold(long constraintId,
             float desiredThreshold);
