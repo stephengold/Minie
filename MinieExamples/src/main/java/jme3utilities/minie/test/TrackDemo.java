@@ -28,7 +28,6 @@ package jme3utilities.minie.test;
 
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.StatsAppState;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
@@ -45,6 +44,8 @@ import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.font.Rectangle;
+import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -133,6 +134,10 @@ public class TrackDemo extends ActionApplication {
      */
     private Node cgModel;
     /**
+     * GUI node for displaying hotkey help/hints
+     */
+    private Node helpNode;
+    /**
      * inverse kinematics joint for the finger/sword tip
      */
     private Constraint tipJoint = null;
@@ -172,8 +177,6 @@ public class TrackDemo extends ActionApplication {
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
         TrackDemo application = new TrackDemo();
         /*
@@ -243,14 +246,28 @@ public class TrackDemo extends ActionApplication {
         dim.bind("load Sinbad", KeyInput.KEY_F1);
         dim.bind("load SinbadWith1Sword", KeyInput.KEY_F10);
         dim.bind("load SinbadWithSwords", KeyInput.KEY_F4);
+
+        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal track", "RMB");
 
+        dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
+
+        float x = 10f;
+        float y = cam.getHeight() - 10f;
+        float width = cam.getWidth() - 20f;
+        float height = cam.getHeight() - 20f;
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        float space = 20f;
+        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
+        guiNode.attachChild(helpNode);
     }
 
     /**
@@ -267,22 +284,22 @@ public class TrackDemo extends ActionApplication {
                 case "dump physicsSpace":
                     dumpPhysicsSpace();
                     return;
-
                 case "dump scenes":
                     dumpScenes();
+                    return;
+
+                case "toggle help":
+                    toggleHelp();
                     return;
                 case "toggle meshes":
                     toggleMeshes();
                     return;
-
                 case "toggle pause":
                     togglePause();
                     return;
-
                 case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
-
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
@@ -746,6 +763,17 @@ public class TrackDemo extends ActionApplication {
         float oldHeight = minMax[1].y - minMax[0].y;
 
         model.scale(height / oldHeight);
+    }
+
+    /**
+     * Toggle visibility of the helpNode.
+     */
+    private void toggleHelp() {
+        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
+            helpNode.setCullHint(Spatial.CullHint.Never);
+        } else {
+            helpNode.setCullHint(Spatial.CullHint.Always);
+        }
     }
 
     /**
