@@ -41,6 +41,7 @@ import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
 import com.jme3.font.Rectangle;
+import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -234,6 +235,9 @@ public class SeJointDemo extends ActionApplication {
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scene", KeyInput.KEY_P);
+
+        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
