@@ -24,8 +24,10 @@ dependencies {
     implementation project(':MinieLibrary')
 }
 
+jar.manifest.attributes( 'Main-Class': 'jme3utilities.minie.wizard.DacWizard' )
+
 // cleanup tasks
-clean { dependsOn 'cleanDLLs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets' }
+clean.dependsOn('cleanDLLs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets')
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
 }
