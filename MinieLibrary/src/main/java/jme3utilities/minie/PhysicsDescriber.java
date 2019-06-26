@@ -496,8 +496,13 @@ public class PhysicsDescriber extends Describer {
         float bit = constraint.getBreakingImpulseThreshold();
         if (bit != Float.MAX_VALUE) {
             result.append(" bit=");
-            desc = MyString.describe(bit);
-            result.append(desc);
+            result.append(MyString.describe(bit));
+        }
+
+        int numIterations = constraint.getOverrideIterations();
+        if (numIterations != -1) {
+            result.append(" iters=");
+            result.append(numIterations);
         }
 
         int numDyn = 0;
