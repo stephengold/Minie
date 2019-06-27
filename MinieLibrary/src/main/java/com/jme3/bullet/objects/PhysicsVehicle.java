@@ -262,7 +262,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         if (space == null) {
             return;
         }
-        if (space.getSpaceId() == 0L) {
+        long spaceId = space.getSpaceId();
+        if (spaceId == 0L) {
             throw new IllegalStateException("Physics space is not initialized!");
         }
         if (rayCasterId != 0L) {
@@ -272,13 +273,14 @@ public class PhysicsVehicle extends PhysicsRigidBody {
                     Long.toHexString(vehicleId));
             finalizeNative(rayCasterId, vehicleId);
         }
-        rayCasterId = createVehicleRaycaster(objectId, space.getSpaceId());
+        rayCasterId = createVehicleRaycaster(objectId, spaceId);
         logger3.log(Level.FINE, "Created RayCaster {0}",
                 Long.toHexString(rayCasterId));
         vehicleId = createRaycastVehicle(objectId, rayCasterId);
         logger3.log(Level.FINE, "Created Vehicle {0}",
                 Long.toHexString(vehicleId));
-        setCoordinateSystem(vehicleId, 0, 1, 2);
+        setCoordinateSystem(vehicleId, PhysicsSpace.AXIS_X,
+                PhysicsSpace.AXIS_Y, PhysicsSpace.AXIS_Z);
         for (VehicleWheel wheel : wheels) {
             wheel.setVehicleId(vehicleId, addWheel(vehicleId,
                     wheel.getLocation(null), wheel.getDirection(null),
