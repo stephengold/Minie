@@ -36,6 +36,7 @@ import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.objects.infos.Cluster;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -608,6 +609,44 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Read the specified parameter of the indexed cluster.
+     *
+     * @param parameter which parameter to read (not null)
+     * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
+     * @return the coefficient value
+     */
+    public float get(Cluster parameter, int clusterIndex) {
+        int numClusters = countClusters();
+        Validate.inRange(clusterIndex, "cluster index", 0, numClusters - 1);
+
+        float result;
+        switch (parameter) {
+            case AngularDamping:
+                result = getClusterAngularDamping(objectId, clusterIndex);
+                break;
+            case LinearDamping:
+                result = getClusterLinearDamping(objectId, clusterIndex);
+                break;
+            case Matching:
+                result = getClusterMatching(objectId, clusterIndex);
+                break;
+            case MaxSelfImpulse:
+                result = getClusterMaxSelfImpulse(objectId, clusterIndex);
+                break;
+            case NodeDamping:
+                result = getClusterNodeDamping(objectId, clusterIndex);
+                break;
+            case SelfImpulse:
+                result = getClusterSelfImpulse(objectId, clusterIndex);
+                break;
+            default:
+                throw new IllegalArgumentException(parameter.toString());
+        }
+
+        return result;
+    }
+
+    /**
      * Access the SoftBodyConfig of this body.
      *
      * @return the pre-existing instance (not null)
@@ -809,6 +848,41 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     public float restingLengthsScale() {
         return getRestLengthScale(objectId);
+    }
+
+    /**
+     * Alter the specified parameter of the indexed cluster.
+     *
+     * @param parameter which parameter to alter (not null)
+     * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
+     * @param value the desired value
+     */
+    public void set(Cluster parameter, int clusterIndex, float value) {
+        int numClusters = countClusters();
+        Validate.inRange(clusterIndex, "cluster index", 0, numClusters - 1);
+
+        switch (parameter) {
+            case AngularDamping:
+                setClusterAngularDamping(objectId, clusterIndex, value);
+                break;
+            case LinearDamping:
+                setClusterLinearDamping(objectId, clusterIndex, value);
+                break;
+            case Matching:
+                setClusterMatching(objectId, clusterIndex, value);
+                break;
+            case MaxSelfImpulse:
+                setClusterMaxSelfImpulse(objectId, clusterIndex, value);
+                break;
+            case NodeDamping:
+                setClusterNodeDamping(objectId, clusterIndex, value);
+                break;
+            case SelfImpulse:
+                setClusterSelfImpulse(objectId, clusterIndex, value);
+                break;
+            default:
+                throw new IllegalArgumentException(parameter.toString());
+        }
     }
 
     /**
@@ -1149,6 +1223,11 @@ public class PhysicsSoftBody extends PhysicsBody {
             IntBuffer nodeIndices = old.listNodesInCluster(clusterIndex, null);
             int numNodesInCluster = nodeIndices.capacity();
             appendCluster(objectId, numNodesInCluster, nodeIndices);
+
+            for (Cluster clusterParameter : Cluster.values()) {
+                float value = old.get(clusterParameter, clusterIndex);
+                set(clusterParameter, clusterIndex, value);
+            }
         }
         finishClusters(objectId);
         assert countClusters() == numClusters : countClusters();
@@ -1336,6 +1415,13 @@ public class PhysicsSoftBody extends PhysicsBody {
             int numNodesInCluster = nodeIndices.length;
             IntBuffer intBuffer = BufferUtils.createIntBuffer(nodeIndices);
             appendCluster(objectId, numNodesInCluster, intBuffer);
+
+            for (Cluster clusterParameter : Cluster.values()) {
+                String tag = clusterParameter.toString() + clusterIndex;
+                float defValue = clusterParameter.defValue();
+                float value = capsule.readFloat(tag, defValue);
+                set(clusterParameter, clusterIndex, value);
+            }
         }
         finishClusters(objectId);
         assert countClusters() == numClusters : countClusters();
@@ -1465,8 +1551,15 @@ public class PhysicsSoftBody extends PhysicsBody {
         capsule.write(numClusters, "NumClusters", 0);
         for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
             intBuffer = listNodesInCluster(clusterIndex, null);
-            capsule.write(copyToArray(intBuffer),
-                    "Indices" + clusterIndex, null);
+            capsule.write(copyToArray(intBuffer), "Indices" + clusterIndex,
+                    null);
+
+            for (Cluster clusterParameter : Cluster.values()) {
+                float value = get(clusterParameter, clusterIndex);
+                String tag = clusterParameter.toString() + clusterIndex;
+                float defValue = clusterParameter.defValue();
+                capsule.write(value, tag, defValue);
+            }
         }
 
         assert config != null;
@@ -1612,10 +1705,24 @@ public class PhysicsSoftBody extends PhysicsBody {
     native private void getBounds(long objectId, Vector3f storeMinima,
             Vector3f storeMaxima);
 
+    native private float getClusterAngularDamping(long bodyId,
+            int clusterIndex);
+
     native private void getClusterCenter(long bodyId, int clusterIndex,
             Vector3f storeVector);
 
     native private int getClusterCount(long bodyId);
+
+    native private float getClusterLinearDamping(long bodyId, int clusterIndex);
+
+    native private float getClusterMatching(long bodyId, int clusterIndex);
+
+    native private float getClusterMaxSelfImpulse(long bodyId,
+            int clusterIndex);
+
+    native private float getClusterNodeDamping(long bodyId, int clusterIndex);
+
+    native private float getClusterSelfImpulse(long bodyId, int clusterIndex);
 
     native private void getClustersMasses(long bodyId, FloatBuffer storeBuffer);
 
@@ -1684,6 +1791,24 @@ public class PhysicsSoftBody extends PhysicsBody {
     native private void releaseClusters(long bodyId);
 
     native private void resetLinkRestLengths(long bodyId);
+
+    native private void setClusterAngularDamping(long bodyId, int clusterIndex,
+            float damping);
+
+    native private void setClusterLinearDamping(long bodyId, int clusterIndex,
+            float damping);
+
+    native private void setClusterMatching(long bodyId, int clusterIndex,
+            float coefficient);
+
+    native private void setClusterMaxSelfImpulse(long bodyId, int clusterIndex,
+            float impulse);
+
+    native private void setClusterNodeDamping(long bodyId, int clusterIndex,
+            float damping);
+
+    native private void setClusterSelfImpulse(long bodyId, int clusterIndex,
+            float factor);
 
     native private void setMargin(long bodyId, float margin);
 
