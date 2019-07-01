@@ -216,6 +216,14 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     private Geometry createClustersGeometry() {
         Geometry result = null;
         int numClusters = body.countClusters();
+
+        SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+        BulletDebugAppState.DebugAppStateFilter filter
+                = sdas.getClusterFilter();
+        if (filter == null || !filter.displayObject(body)) {
+            numClusters = 0;
+        }
+
         if (numClusters > 0) {
             Mesh mesh = new Mesh();
 
@@ -229,7 +237,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             result = new Geometry(body.toString() + " clusters", mesh);
             result.setShadowMode(RenderQueue.ShadowMode.Off);
 
-            SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
             Material material = sdas.getClusterMaterial();
             result.setMaterial(material);
         }

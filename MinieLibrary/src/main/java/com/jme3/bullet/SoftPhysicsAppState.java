@@ -55,6 +55,13 @@ public class SoftPhysicsAppState extends BulletAppState {
     final public static Logger logger2
             = Logger.getLogger(SoftPhysicsAppState.class.getName());
     // *************************************************************************
+    // fields exposed
+
+    /**
+     * limit which clusters are visualized, or null to visualize no clusters
+     */
+    private BulletDebugAppState.DebugAppStateFilter clusterFilter;
+    // *************************************************************************
     // new methods exposed
 
     /**
@@ -66,6 +73,20 @@ public class SoftPhysicsAppState extends BulletAppState {
     public PhysicsSoftSpace getPhysicsSoftSpace() {
         PhysicsSoftSpace pSpace = (PhysicsSoftSpace) getPhysicsSpace();
         return pSpace;
+    }
+
+    /**
+     * Alter which soft-body clusters are included in the debug visualization.
+     *
+     * @param filter the desired filter, or null to visualize no clusters
+     */
+    public void setDebugClusterFilter(
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        SoftDebugAppState sdas = (SoftDebugAppState) getDebugAppState();
+        if (sdas != null) {
+            sdas.setClusterFilter(filter);
+        }
+        clusterFilter = filter;
     }
     // *************************************************************************
     // BulletAppState methods
@@ -85,8 +106,9 @@ public class SoftPhysicsAppState extends BulletAppState {
             BulletDebugAppState.DebugAppStateFilter filter,
             DebugInitListener listener) {
         PhysicsSoftSpace softSpace = getPhysicsSoftSpace();
-        BulletDebugAppState result = new SoftDebugAppState(softSpace,
+        SoftDebugAppState result = new SoftDebugAppState(softSpace,
                 viewPorts, filter, listener);
+        result.setClusterFilter(clusterFilter);
 
         return result;
     }

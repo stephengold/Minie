@@ -67,6 +67,10 @@ public class SoftDebugAppState extends BulletDebugAppState {
     // fields
 
     /**
+     * limit which clusters are visualized, or null to visualize no clusters
+     */
+    private BulletDebugAppState.DebugAppStateFilter clusterFilter;
+    /**
      * map soft bodies to visualization nodes
      */
     private HashMap<PhysicsSoftBody, Node> softBodies = new HashMap<>(64);
@@ -121,6 +125,15 @@ public class SoftDebugAppState extends BulletDebugAppState {
     }
 
     /**
+     * Access the filter that determines which clusters are visualized.
+     *
+     * @return the filter, or null if none
+     */
+    BulletDebugAppState.DebugAppStateFilter getClusterFilter() {
+        return clusterFilter;
+    }
+
+    /**
      * Access the Material for visualizing soft-body clusters.
      *
      * @return the pre-existing instance (not null)
@@ -151,6 +164,16 @@ public class SoftDebugAppState extends BulletDebugAppState {
     Material getLinkMaterial() {
         assert linkMaterial != null;
         return linkMaterial;
+    }
+
+    /**
+     * Alter which soft-body clusters are visualized.
+     *
+     * @param filter the desired filter, or null to visualize no clusters
+     */
+    public void setClusterFilter(
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        clusterFilter = filter;
     }
     // *************************************************************************
     // BulletDebugAppState methods
