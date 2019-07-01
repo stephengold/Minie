@@ -282,8 +282,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * constraint will be soft, and the softness will increase as CFM increases.
      * </ul>
      * <p>
-     * Note that setting CFM to a negative value can have undesirable bad
-     * effects, such as instability. Don't do it.
+     * Setting CFM to a negative value can cause instability.
      *
      * @param cfm the desired coefficient value (&ge;0, default=1)
      */

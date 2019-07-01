@@ -103,8 +103,8 @@ public enum Sbcp {
      */
     MaxVolumeRatio,
     /**
-     * pose-matching coefficient: how strongly the soft body will match its pose
-     * (&ge;0, &le;1, default=0, native field: kMT)
+     * pose-matching coefficient: how strongly the soft body will tend to return
+     * to its default pose (&ge;0, &le;1, default=0, native field: kMT)
      */
     PoseMatching,
     /**

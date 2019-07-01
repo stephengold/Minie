@@ -32,7 +32,7 @@
 package com.jme3.bullet.objects.infos;
 
 /**
- * Enumerate the float-valued parameters in a cluster.
+ * Enumerate the float-valued parameters in a soft-body cluster.
  *
  * @author Stephen Gold sgold@sonic.net
  * @see com.jme3.bullet.objects.PhysicsSoftBody#set(Cluster, int, float)
