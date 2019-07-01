@@ -106,7 +106,7 @@ public class BulletAppState implements AppState, PhysicsTickListener {
      */
     private BroadphaseType broadphaseType = BroadphaseType.DBVT;
     /**
-     * app state to manage the debug visualization, or null if none
+     * AppState to manage the debug visualization, or null if none
      */
     private BulletDebugAppState debugAppState;
     /**
@@ -370,7 +370,7 @@ public class BulletAppState implements AppState, PhysicsTickListener {
         if (debugAppState != null) {
             debugAppState.setBoundingBoxFilter(filter);
         }
-        this.boundingBoxFilter = filter;
+        boundingBoxFilter = filter;
     }
 
     /**
@@ -414,7 +414,7 @@ public class BulletAppState implements AppState, PhysicsTickListener {
         if (debugAppState != null) {
             debugAppState.setSweptSphereFilter(filter);
         }
-        this.sweptSphereFilter = filter;
+        sweptSphereFilter = filter;
     }
 
     /**
@@ -558,6 +558,15 @@ public class BulletAppState implements AppState, PhysicsTickListener {
     protected PhysicsSpace createPhysicsSpace(Vector3f min, Vector3f max,
             BroadphaseType type) {
         return new PhysicsSpace(min, max, type);
+    }
+
+    /**
+     * Access the AppState to manage the debug visualization.
+     *
+     * @return the pre-existing instance, or null if none
+     */
+    protected BulletDebugAppState getDebugAppState() {
+        return debugAppState;
     }
 
     /**
