@@ -1,8 +1,55 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.4 released on 2 July 2019
+
+ + API changes:
+   + Made the `DebugAppStateFilter` interface compatible with jme3-bullet again.
+   + De-publicized the `PhysicsSpace.setLocalThreadPhysicsSpace()` method.
+   + Removed the `createTriangleIndexVertexArray()` method from the
+     `NativeMeshUtil` class.
+   + Re-implemented anchors as a kind of `PhysicsJoint`.
+   + Renamed the `BulletJointDebugControl` class.
+   + Removed the `updateAnchorMesh()` method from the
+     `NativeSoftBodyUtil` class.
+ + Fixed bugs:
+   + JME issue 1120 (scaled `GImpactCollisionShape` gets incorrect bounding box)
+   + bounding box of a shape not updated for `getAabb()`
+   + JME issue 1125 (inaccurate visualization of `HeightfieldCollisionShape`)
+   + clusters/joints/nodes of a soft body not cloned/serialized properly
+   + tau and impulseClamp of a `Point2PointJoint` not de-serialized properly
+   + 7 limit-motor parameters of a `SixDofJoint` not serialized properly
+   + JME issues 1126 and 1127 (`TestHoverTank` crash and reset action)
+ + Added library features:
+   + new classes `SoftAngularJoint` and `SoftLinearJoint` for soft-body joints
+   + new classes `CompoundMesh` and `IndexedMesh` for native meshes
+   + select single-sided/double-sided debug visualization materials for each
+     collision object
+   + an exception list for each `FilterAll` instance
+   + control which soft bodies have their clusters visualized
+   + a new constructor for a `HeightfieldCollisionShape` with additional options
+   + access the `BulletDebugAppState` associated with a `BulletAppState`
+   + access the `feedback` flag of each physics constraint
+   + access 6 per-cluster parameters
+   + access the per-constraint property that overrides the number of
+     solver iterations
+ + Other improvements:
+   + Added hotkey-binding hints to demo apps: press H to toggle hints.
+   + Bound the up/down arrow keys to control camera movement in
+     demo applications.
+   + Added a test for default values of newly created physics objects.
+   + Customized the `toString()` methods of the `CollisionShape`,
+     `PhysicsJoint`, and `PhysicsSpace` classes.
+   + Improved the output of `PhysicsDumper`.
+   + Customized the `equals()` and `hashCode()` methods of the
+     `CollisionShape` class.
+   + Avoided calling native code to fill zero-length buffers.
+   + Removed native libraries from the Git repository; download them
+     from GitHub instead.
+   + Updated the native libraries to version 1.0.89 of `Libbulletjme`.
+
 ## Version 0.9.3 released on 11 June 2019
 
- + Moved 2 tutorials to a new `jme3utilities.tutorial` package.
+ + Moved 2 tutorial apps to a new `jme3utilities.tutorial` package.
  + Fixed bugs:
    + Spatial transform not applied to static bodies in `RigidBodyControl`.
    + `IllegalArgumentException` thrown when translating/rotating a
