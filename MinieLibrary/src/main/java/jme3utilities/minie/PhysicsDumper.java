@@ -41,6 +41,7 @@ import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
+import com.jme3.bullet.objects.infos.Cluster;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -231,7 +232,8 @@ public class PhysicsDumper extends Dumper {
         Vector3f scale = shape.getScale(null);
         desc = describer.describeScale(scale);
         if (!desc.isEmpty()) {
-            stream.print(" " + desc);
+            stream.print(' ');
+            stream.print(desc);
         }
 
         desc = describer.describeGroups(body);
@@ -739,26 +741,53 @@ public class PhysicsDumper extends Dumper {
     /**
      * Dump all clusters in the specified soft body.
      *
-     * @param softBody which body to dump (not null, unaffected)
+     * @param softBody the body to dump (not null, unaffected)
      * @param indent (not null)
      */
     private void dumpClusters(PhysicsSoftBody softBody, String indent) {
-        stream.print(":");
+        stream.print(':');
         FloatBuffer coms = softBody.copyClusterCenters(null);
         FloatBuffer masses = softBody.copyClusterMasses(null);
         int numClusters = softBody.countClusters();
         for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
-            int floatIndex = 3 * clusterIndex;
-            float x = coms.get(floatIndex);
-            float y = coms.get(floatIndex + 1);
-            float z = coms.get(floatIndex + 2);
-            String comString = MyVector3f.describe(new Vector3f(x, y, z));
+            stream.printf("%n%s  [%d] com[", indent, clusterIndex);
+            String desc = describeVector(coms, clusterIndex);
+            stream.print(desc);
+
+            stream.print("] mass=");
             float mass = masses.get(clusterIndex);
-            String massString = MyString.describe(mass);
+            stream.print(MyString.describe(mass));
+
+            stream.print(" damp[ang=");
+            float angularDamping = softBody.get(Cluster.AngularDamping,
+                    clusterIndex);
+            stream.print(MyString.describe(angularDamping));
+
+            stream.print(" lin=");
+            float linearDamping = softBody.get(Cluster.LinearDamping,
+                    clusterIndex);
+            stream.print(MyString.describe(linearDamping));
+
+            stream.print(" node=");
+            float nodeDamping = softBody.get(Cluster.NodeDamping, clusterIndex);
+            stream.print(MyString.describe(nodeDamping));
+
+            stream.print("] match=");
+            float matching = softBody.get(Cluster.Matching, clusterIndex);
+            stream.print(MyString.describe(matching));
+
+            stream.print(" scif=");
+            float selfImpulse = softBody.get(Cluster.SelfImpulse, clusterIndex);
+            stream.print(MyString.describe(selfImpulse));
+
+            stream.print(" maxSci=");
+            float maxSelfImpulse = softBody.get(Cluster.MaxSelfImpulse,
+                    clusterIndex);
+            stream.print(MyString.describe(maxSelfImpulse));
+
             int numNodes = softBody.countNodesInCluster(clusterIndex);
-            stream.printf("%n%s  [%d] com[%s] mass=%s  %d node%s", indent,
-                    clusterIndex, comString, massString, numNodes,
-                    (numNodes == 1) ? "" : "s");
+            stream.printf("  %d node%s", numNodes, (numNodes == 1) ? "" : "s");
+
             if (dumpNodesInClusters) {
                 dumpNodesInCluster(softBody, clusterIndex);
             }
@@ -769,11 +798,11 @@ public class PhysicsDumper extends Dumper {
     /**
      * Dump all joints in the specified body.
      *
-     * @param body (not null, unaffected)
+     * @param body the body to dump (not null, unaffected)
      * @param indent (not null)
      */
     private void dumpJoints(PhysicsBody body, String indent) {
-        stream.print(":");
+        stream.print(':');
         PhysicsJoint[] joints = body.listJoints();
         PhysicsDescriber describer = getDescriber();
         for (PhysicsJoint joint : joints) {
@@ -785,11 +814,11 @@ public class PhysicsDumper extends Dumper {
     /**
      * Dump all nodes in the specified soft body.
      *
-     * @param softBody which body to dump (not null, unaffected)
+     * @param softBody the soft body to dump (not null, unaffected)
      * @param indent (not null)
      */
     private void dumpNodes(PhysicsSoftBody softBody, String indent) {
-        stream.print(":");
+        stream.print(':');
         FloatBuffer locations = softBody.copyLocations(null);
         FloatBuffer masses = softBody.copyMasses(null);
         FloatBuffer velocities = softBody.copyVelocities(null);
@@ -810,7 +839,7 @@ public class PhysicsDumper extends Dumper {
     /**
      * Dump the indices of all nodes in the specified cluster.
      *
-     * @param softBody which body to dump (not null, unaffected)
+     * @param softBody the soft body to dump (not null, unaffected)
      * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
      */
     private void dumpNodesInCluster(PhysicsSoftBody softBody,
@@ -855,7 +884,7 @@ public class PhysicsDumper extends Dumper {
 
     /**
      * Count the number of times the specified integer value occurs in the
-     * specified buffer.
+     * specified buffer. TODO move to utility class
      *
      * @param buffer the buffer to read (not null, unaffected)
      * @param bufferLength the number of integers in the buffer (&ge;0)
