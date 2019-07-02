@@ -55,7 +55,8 @@ Summary of added features:
     + understands attachments
     + highly configurable, with many options for bone mass, center, and shape
     + apply inverse-kinematic controllers and joints
- + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`
+ + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`,
+    including anchors and soft-body joints
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `EmptyShape` collision shapes based on `btEmptyShape`
  + debugging aids:
@@ -287,7 +288,7 @@ repository location:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.9.3'
+        compile 'jme3utilities:Minie:0.9.4'
     }
 
 #### For Ant projects
@@ -295,7 +296,7 @@ repository location:
 For projects built using Ant, download the 2 non-standard
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/0.9.3
+ + https://github.com/stephengold/Minie/releases/tag/0.9.4
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.28.1
 
 You'll want both class JARs
