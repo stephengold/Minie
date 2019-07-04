@@ -16,7 +16,7 @@ ext {
     btfMacOSX32 = 'ReleaseSp'
     btfMacOSX64 = 'ReleaseSp'
     btfWindows32 = 'ReleaseSp'
-    btfWindows64 = 'DebugSp'
+    btfWindows64 = 'ReleaseSp'
     artifact = 'Minie'
     version = minieVersion
     baseName = "$artifact-$version"
