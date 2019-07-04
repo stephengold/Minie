@@ -404,7 +404,7 @@ public class PhysicsSpace {
     /**
      * Test whether the specified collision object is added to this space.
      *
-     * @param pco the object to test (not null)
+     * @param pco the object to test (not null, unaffected)
      * @return true if currently added, otherwise false
      */
     public boolean contains(PhysicsCollisionObject pco) {
@@ -421,6 +421,19 @@ public class PhysicsSpace {
             String msg = "Unknown type of collision object: " + typeName;
             throw new IllegalArgumentException(msg);
         }
+
+        return result;
+    }
+
+    /**
+     * Test whether the specified joint is added to this space.
+     *
+     * @param joint the joint to test (not null, unaffected)
+     * @return true if currently added, otherwise false
+     */
+    public boolean contains(PhysicsJoint joint) {
+        long jointId = joint.getObjectId();
+        boolean result = physicsJoints.containsKey(jointId);
 
         return result;
     }
