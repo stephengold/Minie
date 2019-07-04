@@ -308,7 +308,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Add all collision objects in the specified subtree of the scene graph to
+     * Add all physics controls in the specified subtree of the scene graph to
      * this space (e.g. after loading from disk).
      * <p>
      * Does not add any joints.

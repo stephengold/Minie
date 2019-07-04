@@ -240,7 +240,8 @@ public class PhysicsDumper extends Dumper {
         stream.print(desc);
 
         int numJoints = body.countJoints();
-        stream.printf(" with %d joint%s", numJoints, (numJoints == 1) ? "" : "s");
+        stream.printf(" with %d joint%s", numJoints,
+                (numJoints == 1) ? "" : "s");
         if (dumpJointsInBodies && numJoints > 0) {
             dumpJoints(body, indent);
         }
