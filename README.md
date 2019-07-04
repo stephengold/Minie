@@ -120,6 +120,8 @@ Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 Other important differences:
 
  + The default collision margin increased from 0 to 0.04 .
+ + `PhysicsSpace.addAll()` and `PhysicsSpace.removeAll()` add/remove collision
+   objects only; they do not add joints.
  + `RagdollCollisionListener` interface changed and moved
    from the `com.jme3.bullet.collision` package
    to the `com.jme3.bullet.animation` package.
