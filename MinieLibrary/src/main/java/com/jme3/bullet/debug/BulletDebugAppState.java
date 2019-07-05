@@ -807,8 +807,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Interface to restrict which physics objects are visualized. TODO make
-     * compatible with jme3-bullet
+     * Interface to restrict which physics objects are visualized.
      */
     public interface DebugAppStateFilter {
         /**

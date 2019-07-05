@@ -80,7 +80,7 @@ import jme3test.bullet.PhysicsTestHelper;
  * eventually, generally a larger scales for this test.
  * </li>
  * <li>
- * Some shapes such as PQTorus & signpost never go inactive at larger scales for
+ * Some shapes such as PQTorus and signpost never go inactive at larger scales for
  * both Native and JBullet (test at 1.5 and 1.9 scale)
  * </li>
  * </ol>

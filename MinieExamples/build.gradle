@@ -16,6 +16,8 @@ dependencies {
     implementation "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
+    //implementation 'junit:junit:4.12'
+    
     //implementation "jme3utilities:Minie:$minieVersion"
     implementation project(':MinieLibrary')
 }
