@@ -49,6 +49,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.mesh.IndexBuffer;
+import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -162,9 +163,16 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        body = cloner.clone(body);
-        indexMap = cloner.clone(indexMap);
         geometry = cloner.clone(geometry);
+        body = cloner.clone(body);
+
+        SoftBodyControl originalControl = (SoftBodyControl) original;
+        int numIndices = indexMap.limit();
+        indexMap = BufferUtils.createIntBuffer(numIndices);
+        for (int offset = 0; offset < numIndices; ++offset) {
+            int tmpIndex = originalControl.indexMap.get(offset);
+            indexMap.put(tmpIndex);
+        }
     }
 
     /**
