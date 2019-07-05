@@ -160,6 +160,11 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
 
         axis = cloner.clone(axis);
         createJoint();
+
+        SoftAngularJoint originalJoint = (SoftAngularJoint) original;
+        setCFM(originalJoint.getCFM());
+        setERP(originalJoint.getERP());
+        setSplit(originalJoint.getSplit());
     }
 
     /**

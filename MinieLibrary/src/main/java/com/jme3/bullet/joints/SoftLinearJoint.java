@@ -159,6 +159,11 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
 
         location = cloner.clone(location);
         createJoint();
+
+        SoftLinearJoint originalJoint = (SoftLinearJoint) original;
+        setCFM(originalJoint.getCFM());
+        setERP(originalJoint.getERP());
+        setSplit(originalJoint.getSplit());
     }
 
     /**
