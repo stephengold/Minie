@@ -1177,8 +1177,7 @@ public class PhysicsSpace {
     }
 
     private void addJoint(PhysicsJoint joint) {
-        long jointId = joint.getObjectId();
-        if (physicsJoints.containsKey(jointId)) { // TODO public method
+        if (contains(joint)) {
             logger.log(Level.WARNING, "{0} is already added to {1}.",
                     new Object[]{joint, this});
             return;
@@ -1191,6 +1190,7 @@ public class PhysicsSpace {
         if (joint instanceof Constraint) {
             Constraint constr = (Constraint) joint;
             boolean allowCollision = constr.isCollisionBetweenLinkedBodies();
+            long jointId = joint.getObjectId();
             addConstraintC(nativeId, jointId, !allowCollision);
         }
     }
