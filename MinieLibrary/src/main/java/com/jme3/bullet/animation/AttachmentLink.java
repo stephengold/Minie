@@ -113,11 +113,11 @@ public class AttachmentLink extends PhysicsLink {
      * Instantiate a purely kinematic link between the specified model and the
      * specified rigid body.
      *
-     * @param control the control that will manage this link (not null, alias
+     * @param control the Control that will manage this link (not null, alias
      * created)
-     * @param associatedBone the bone associated with the attachment node (not
+     * @param associatedBone the Bone associated with the attachment node (not
      * null, alias created)
-     * @param manager the bone/torso link that manages the associated bone (not
+     * @param manager the bone/torso link that manages the associated Bone (not
      * null, alias created)
      * @param attachModel the attached model to link (not null, alias created)
      * @param collisionShape the desired shape (not null, alias created)
