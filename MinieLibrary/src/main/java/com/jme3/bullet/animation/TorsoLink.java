@@ -72,7 +72,7 @@ public class TorsoLink extends PhysicsLink {
 
     /**
      * bones managed by this link, in a pre-order, depth-first traversal of the
-     * skeleton
+     * Skeleton
      */
     private Bone[] managedBones = null;
     /**
@@ -114,9 +114,9 @@ public class TorsoLink extends PhysicsLink {
 
     /**
      * Instantiate a purely kinematic link between the torso of the specified
-     * control and the specified rigid body.
+     * Control and the specified rigid body.
      *
-     * @param control the control that will manage this link (not null, alias
+     * @param control the Control that will manage this link (not null, alias
      * created)
      * @param mainRootBone the root bone with the most animation weight (not
      * null, alias created)
@@ -134,7 +134,7 @@ public class TorsoLink extends PhysicsLink {
         this.meshToModel = meshToModel.clone();
         managedBones = control.listManagedBones(DynamicAnimControl.torsoName);
 
-        int numManaged = managedBones.length;
+        int numManaged = countManaged();
         startBoneTransforms = new Transform[numManaged];
         for (int i = 0; i < numManaged; ++i) {
             startBoneTransforms[i] = new Transform();
@@ -169,29 +169,34 @@ public class TorsoLink extends PhysicsLink {
             Transform current = getControl().getSpatial().getLocalTransform();
             startModelTransform.set(current);
         }
-        int numManaged = managedBones.length;
-        for (int mbIndex = 0; mbIndex < numManaged; ++mbIndex) {
+        int numManaged = countManaged();
+        for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             Transform transform;
             if (prevBoneTransforms == null) { // this link not updated yet
-                Bone managedBone = managedBones[mbIndex];
-                transform = MySkeleton.copyLocalTransform(managedBone, null);
+                transform = copyManagedTransform(managedIndex, null);
             } else {
-                transform = prevBoneTransforms[mbIndex];
+                transform = prevBoneTransforms[managedIndex];
             }
-            startBoneTransforms[mbIndex].set(transform);
+            startBoneTransforms[managedIndex].set(transform);
         }
         /*
          * Take or release control of the managed bones.
          */
-        boolean wantUserControl;
         if (submode == KinematicSubmode.Animated) {
-            wantUserControl = false;
+            setUserControl(false);
         } else {
-            wantUserControl = true;
+            setUserControl(true);
         }
-        for (Bone managedBone : managedBones) {
-            managedBone.setUserControl(wantUserControl);
-        }
+    }
+
+    /**
+     * Determine the number of managed bones.
+     *
+     * @return the count (&ge;0)
+     */
+    public int countManaged() {
+        int result = managedBones.length;
+        return result;
     }
     // *************************************************************************
     // PhysicsLink methods
@@ -242,13 +247,13 @@ public class TorsoLink extends PhysicsLink {
         getControl().getSpatial().setLocalTransform(transform);
 
         localBoneTransform(transform);
-        Bone[] rootBones = getControl().getSkeleton().getRoots();
-        for (Bone rootBone : rootBones) {
-            MySkeleton.setLocalTransform(rootBone, transform);
+        Bone[] roots = getControl().getSkeleton().getRoots();
+        for (Bone root : roots) {
+            MySkeleton.setLocalTransform(root, transform);
         }
 
-        for (Bone managedBone : managedBones) {
-            managedBone.updateModelTransforms();
+        for (Bone managed : managedBones) {
+            managed.updateModelTransforms();
         }
     }
 
@@ -288,7 +293,6 @@ public class TorsoLink extends PhysicsLink {
         assert getRigidBody().isKinematic();
 
         Transform transform = new Transform();
-
         if (endModelTransform != null) {
             /*
              * For a smooth transition, blend the saved model transform
@@ -304,21 +308,22 @@ public class TorsoLink extends PhysicsLink {
             getControl().getSpatial().setLocalTransform(transform);
         }
 
-        for (int mbIndex = 0; mbIndex < managedBones.length; ++mbIndex) {
-            Bone managedBone = managedBones[mbIndex];
+        int numManaged = countManaged();
+        for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
+            Bone managedBone = managedBones[managedIndex];
             switch (submode) {
                 case Amputated:
                     MySkeleton.copyBindTransform(managedBone, transform);
                     transform.setScale(0.001f);
                     break;
                 case Animated:
-                    MySkeleton.copyLocalTransform(managedBone, transform);
+                    copyManagedTransform(managedIndex, transform);
                     break;
                 case Bound:
                     MySkeleton.copyBindTransform(managedBone, transform);
                     break;
                 case Frozen:
-                    transform.set(prevBoneTransforms[mbIndex]);
+                    transform.set(prevBoneTransforms[managedIndex]);
                     break;
                 default:
                     throw new IllegalStateException(submode.toString());
@@ -330,21 +335,21 @@ public class TorsoLink extends PhysicsLink {
                  * (from the start of the blend interval)
                  * into the goal transform.
                  */
-                Transform start = startBoneTransforms[mbIndex];
+                Transform start = startBoneTransforms[managedIndex];
                 Quaternion startQuat = start.getRotation();
                 Quaternion endQuat = transform.getRotation();
                 if (startQuat.dot(endQuat) < 0f) {
                     endQuat.multLocal(-1f);
                 }
-                MyMath.slerp(kinematicWeight(), startBoneTransforms[mbIndex],
-                        transform, transform);
-                // TODO smarter sign flipping for bones
+                MyMath.slerp(kinematicWeight(),
+                        startBoneTransforms[managedIndex], transform,
+                        transform);
+                // TODO smarter sign flipping
             }
             /*
              * Update the managed bone.
              */
-            MySkeleton.setLocalTransform(managedBone, transform);
-            managedBone.updateModelTransforms();
+            setManagedTransform(managedIndex, transform);
         }
 
         super.kinematicUpdate(tpf);
@@ -367,8 +372,8 @@ public class TorsoLink extends PhysicsLink {
      * @param oldLink the link to copy from (not null, unaffected)
      */
     void postRebuild(TorsoLink oldLink) {
-        int numManaged = managedBones.length;
-        assert oldLink.managedBones.length == numManaged;
+        int numManaged = countManaged();
+        assert oldLink.countManaged() == numManaged;
 
         super.postRebuild(oldLink);
         if (oldLink.isKinematic()) {
@@ -383,13 +388,16 @@ public class TorsoLink extends PhysicsLink {
 
         if (prevBoneTransforms == null) {
             prevBoneTransforms = new Transform[numManaged];
-            for (int i = 0; i < numManaged; ++i) {
-                prevBoneTransforms[i] = new Transform();
+            for (int managedI = 0; managedI < numManaged; ++managedI) {
+                prevBoneTransforms[managedI] = new Transform();
             }
         }
-        for (int i = 0; i < numManaged; ++i) {
-            prevBoneTransforms[i].set(oldLink.prevBoneTransforms[i]);
-            startBoneTransforms[i].set(oldLink.startBoneTransforms[i]);
+        for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
+            Transform transform = oldLink.prevBoneTransforms[managedIndex];
+            prevBoneTransforms[managedIndex].set(transform);
+            
+            transform = oldLink.startBoneTransforms[managedIndex];
+            startBoneTransforms[managedIndex].set(transform);
         }
     }
 
@@ -441,10 +449,7 @@ public class TorsoLink extends PhysicsLink {
         getControl().verifyReadyForDynamicMode("put link into ragdoll mode");
 
         super.setDynamic(uniformAcceleration);
-
-        for (Bone managedBone : managedBones) {
-            managedBone.setUserControl(true);
-        }
+        setUserControl(true);
     }
 
     /**
@@ -470,30 +475,26 @@ public class TorsoLink extends PhysicsLink {
     void update(float tpf) {
         assert tpf >= 0f : tpf;
 
+        int numManaged = countManaged();
         if (prevBoneTransforms == null) {
             /*
              * On the first update, allocate and initialize
              * the array of previous bone transforms, if it wasn't
              * allocated in blendToKinematicMode().
              */
-            int numManaged = managedBones.length;
             prevBoneTransforms = new Transform[numManaged];
-            for (int mbIndex = 0; mbIndex < numManaged; ++mbIndex) {
-                Bone managedBone = managedBones[mbIndex];
-                Transform boneTransform
-                        = MySkeleton.copyLocalTransform(managedBone, null);
-                prevBoneTransforms[mbIndex] = boneTransform;
+            for (int managedI = 0; managedI < numManaged; ++managedI) {
+                Transform boneTransform = copyManagedTransform(managedI, null);
+                prevBoneTransforms[managedI] = boneTransform;
             }
         }
 
         super.update(tpf);
         /*
-         * Save copies of the latest bone transforms.
+         * Save copies of the latest managed-bone transforms.
          */
-        for (int mbIndex = 0; mbIndex < managedBones.length; ++mbIndex) {
-            Transform lastTransform = prevBoneTransforms[mbIndex];
-            Bone managedBone = managedBones[mbIndex];
-            MySkeleton.copyLocalTransform(managedBone, lastTransform);
+        for (int managedI = 0; managedI < numManaged; ++managedI) {
+            copyManagedTransform(managedI, prevBoneTransforms[managedI]);
         }
     }
 
@@ -522,6 +523,23 @@ public class TorsoLink extends PhysicsLink {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Copy the local transform of the indexed managed bone in this link.
+     *
+     * @param managedIndex which managed bone (&ge;0, &lt;numManaged)
+     * @param storeResult storage for the result (modified if not null)
+     * @return the Transform (either storeResult or a new instance, not null)
+     */
+    private Transform copyManagedTransform(int managedIndex, Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+
+        Bone bone = managedBones[managedIndex];
+        MySkeleton.copyLocalTransform(bone, result);
+
+        return result;
+    }
 
     /**
      * Calculate the local bone transform to match the physics transform of the
@@ -555,5 +573,28 @@ public class TorsoLink extends PhysicsLink {
         location.subtractLocal(meshOffset);
 
         return result;
+    }
+
+    /**
+     * Alter the local transform of the indexed managed bone in this link.
+     *
+     * @param managedIndex which managed bone (&ge;0, &lt;numManaged)
+     * @param transform the desired transform (not null, unaffected)
+     */
+    private void setManagedTransform(int managedIndex, Transform transform) {
+        Bone managed = managedBones[managedIndex];
+        MySkeleton.setLocalTransform(managed, transform);
+        managed.updateModelTransforms();
+    }
+
+    /**
+     * Alter the user-control flags of all bones managed by this link.
+     *
+     * @param wantUserControl the desired setting
+     */
+    private void setUserControl(boolean wantUserControl) {
+        for (Bone managedBone : managedBones) {
+            managedBone.setUserControl(wantUserControl);
+        }
     }
 }
