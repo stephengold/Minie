@@ -32,6 +32,7 @@ import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.control.SoftBodyControl;
 import com.jme3.bullet.control.VehicleControl;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -40,10 +41,14 @@ import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
+import com.jme3.scene.debug.WireBox;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Misc;
 import org.junit.Test;
@@ -119,8 +124,33 @@ public class TestCloneBody {
         verifyParameters(soft, 0f);
         PhysicsSoftBody softClone = (PhysicsSoftBody) Misc.deepCopy(soft);
         cloneTest(soft, softClone);
-
-        // TODO clone a non-empty PhysicsSoftBody
+        /*
+         * PhysicsSoftBody (non-empty)
+         */
+        Mesh wireBox = new WireBox();
+        PhysicsSoftBody soft2 = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromLineMesh(wireBox, soft2);
+        setParameters(soft2, 0f);
+        verifyParameters(soft2, 0f);
+        PhysicsSoftBody soft2Clone = (PhysicsSoftBody) Misc.deepCopy(soft2);
+        cloneTest(soft2, soft2Clone);
+        /*
+         * SoftBodyControl
+         */
+        boolean localPhysics = false;
+        boolean updateNormals = true;
+        boolean mergeVertices = true;
+        SoftBodyControl sbc = new SoftBodyControl(localPhysics, updateNormals,
+                mergeVertices);
+        Geometry sbcGeom = new Geometry("sbcGeom", wireBox);
+        sbcGeom.addControl(sbc);
+        PhysicsSoftBody soft3 = sbc.getBody();
+        setParameters(soft3, 0f);
+        verifyParameters(soft3, 0f);
+        Geometry sbcGeomClone = (Geometry) Misc.deepCopy(sbcGeom);
+        SoftBodyControl sbcClone = (SoftBodyControl) sbcGeomClone.getControl(0);
+        PhysicsSoftBody soft3Clone = sbcClone.getBody();
+        cloneTest(soft3, soft3Clone);
     }
     // *************************************************************************
     // private methods
