@@ -1185,12 +1185,12 @@ public class PhysicsSpace {
 
         logger.log(Level.FINE, "Adding {0} to {1}.",
                 new Object[]{joint, this});
+        long jointId = joint.getObjectId();
         physicsJoints.put(jointId, joint);
 
         if (joint instanceof Constraint) {
             Constraint constr = (Constraint) joint;
             boolean allowCollision = constr.isCollisionBetweenLinkedBodies();
-            long jointId = joint.getObjectId();
             addConstraintC(nativeId, jointId, !allowCollision);
         }
     }
