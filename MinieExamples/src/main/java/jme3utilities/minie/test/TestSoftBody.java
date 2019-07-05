@@ -30,6 +30,7 @@ import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
@@ -79,8 +80,8 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
-import jme3utilities.Validate;
 import jme3utilities.debug.AxesVisualizer;
+import jme3utilities.math.MyArray;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
@@ -365,31 +366,6 @@ public class TestSoftBody
     }
     // *************************************************************************
     // private methods
-
-    /**
-     * Calculate the center of the axis-aligned bounding box of a non-empty
-     * array of vectors. TODO use MyArray
-     *
-     * @param array the vectors (not null, not empty, unaffected)
-     * @param storeResult storage for the result (modified if not null)
-     * @return the center (either storeResult or a new vector, not null)
-     */
-    private static Vector3f aabbCenter(Vector3f[] array, Vector3f storeResult) {
-        Validate.nonEmpty(array, "array");
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-
-        Vector3f maxima = new Vector3f(Float.NEGATIVE_INFINITY,
-                Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
-        Vector3f minima = new Vector3f(Float.POSITIVE_INFINITY,
-                Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
-        for (Vector3f tempVector : array) {
-            MyVector3f.accumulateMinima(minima, tempVector);
-            MyVector3f.accumulateMaxima(maxima, tempVector);
-        }
-        MyVector3f.midpoint(maxima, minima, result);
-
-        return result;
-    }
 
     /**
      * Add a visualizer for the axes of the world coordinate system.
@@ -834,7 +810,8 @@ public class TestSoftBody
          * to provide a margin.  Also, compute maxRadius.
          */
         float margin = 0.02f;
-        Vector3f apex = aabbCenter(local, null);
+        BoundingBox aabb = MyArray.aabb(local, null);
+        Vector3f apex = aabb.getCenter();
         float raiseApex = 0.5f; // 0 = full-circle skirt, 0.5 = not very full
         apex.z -= raiseApex;
         float maxRadius = 0f;

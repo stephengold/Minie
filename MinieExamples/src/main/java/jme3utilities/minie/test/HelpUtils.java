@@ -33,7 +33,6 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
@@ -83,8 +82,8 @@ class HelpUtils {
         Validate.nonNull(bounds, "bounds");
         Validate.nonNull(font, "font");
 
-        Map<String, String> actionToList = HelpUtils.mapActions(inputMode);
-        Map<String, String> listToAction = HelpUtils.invert(actionToList);
+        Map<String, String> actionToList = mapActions(inputMode);
+        Map<String, String> listToAction = MyString.invert(actionToList);
 
         Node result = new Node("help node");
         float x = bounds.x;
@@ -123,26 +122,6 @@ class HelpUtils {
                     }
                 }
             }
-        }
-
-        return result;
-    }
-
-    /**
-     * Invert the specified String-to-String map. TODO use to heart lib
-     *
-     * @param input (not null, unaffected)
-     * @return a new String-to-String map
-     */
-    static Map<String, String> invert(Map<String, String> input) {
-        Map<String, String> result = new TreeMap<>();
-        for (Map.Entry<String, String> entry : input.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            if (result.containsKey(key)) {
-                throw new IllegalArgumentException("Non-invertible map.");
-            }
-            result.put(value, key);
         }
 
         return result;
@@ -193,10 +172,10 @@ class HelpUtils {
         }
         if (result.startsWith("SIMPLEAPP_")) {
             String suffix = MyString.remainder(result, "SIMPLEAPP_");
-            result = firstToLower(suffix);
+            result = MyString.firstToLower(suffix);
         } else if (result.startsWith("FLYCAM_")) {
             String suffix = MyString.remainder(result, "FLYCAM_");
-            result = "camera " + firstToLower(suffix);
+            result = "camera " + MyString.firstToLower(suffix);
         }
 
         return result;
@@ -214,27 +193,6 @@ class HelpUtils {
         String result = hotkeyName;
         if (result.endsWith(" arrow")) {
             result = MyString.removeSuffix(result, " arrow");
-        }
-
-        return result;
-    }
-
-    /**
-     * Convert the first character of the specified String to lower case. TODO
-     * use heart lib
-     *
-     * @param input the input string (not null)
-     * @return the converted String (not null)
-     */
-    private static String firstToLower(String input) {
-        Validate.nonNull(input, "input");
-
-        String result = input;
-        if (!input.isEmpty()) {
-            String first = input.substring(0, 1);
-            first = first.toLowerCase(Locale.ROOT);
-            String rest = input.substring(1);
-            result = first + rest;
         }
 
         return result;
