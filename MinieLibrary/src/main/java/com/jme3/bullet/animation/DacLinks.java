@@ -159,9 +159,9 @@ public class DacLinks
     }
 
     /**
-     * Access the named bone.
+     * Access the named Bone.
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the Control IS added to a Spatial.
      *
      * @param boneName the name of the skeleton bone to access
      * @return the pre-existing instance, or null if not found
@@ -210,10 +210,10 @@ public class DacLinks
     }
 
     /**
-     * Access the skeleton. Returns null if the control is not added to a
-     * spatial.
+     * Access the Skeleton. Returns null if the Control is not added to a
+     * Spatial.
      *
-     * @return the pre-existing skeleton, or null
+     * @return the pre-existing Skeleton, or null
      */
     public Skeleton getSkeleton() {
         return skeleton;
@@ -610,8 +610,8 @@ public class DacLinks
     }
 
     /**
-     * Create spatial-dependent data. Invoked each time the control is added to
-     * a spatial. Also invoked by {@link #rebuild()}.
+     * Create spatial-dependent data. Invoked each time the Control is added to
+     * a Spatial. Also invoked by {@link #rebuild()}.
      *
      * @param spatial the controlled spatial (not null)
      */
@@ -676,7 +676,7 @@ public class DacLinks
         VectorSet vertexLocations = coordsMap.get(torsoName);
         createTorsoLink(vertexLocations, targets);
         /*
-         * Create bone links without joints.
+         * Create bone links without physics joints.
          */
         String[] linkedBoneNames = listLinkedBoneNames();
         for (String boneName : linkedBoneNames) {
@@ -693,7 +693,7 @@ public class DacLinks
         addJoints(torsoLink);
         assert boneLinkList.size() == numLinkedBones : boneLinkList.size();
         /*
-         * Create attachment links with joints.
+         * Create attachment links with physics joints.
          */
         String[] attachBoneNames = listAttachmentBoneNames();
         for (String boneName : attachBoneNames) {

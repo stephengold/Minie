@@ -83,7 +83,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      */
     private ArrayList<PhysicsLink> children = new ArrayList<>(8);
     /**
-     * corresponding bone in the skeleton (not null)
+     * corresponding Bone in the skeleton (not null)
      */
     private Bone bone;
     /**
@@ -145,9 +145,9 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * Instantiate a purely kinematic link between the specified skeleton bone
      * and the specified rigid body.
      *
-     * @param control the control that will manage this link (not null, alias
+     * @param control the Control that will manage this link (not null, alias
      * created)
-     * @param bone the corresponding bone (not null, alias created)
+     * @param bone the corresponding Bone (not null, alias created)
      * @param collisionShape the desired shape (not null, alias created)
      * @param linkConfig the link configuration (not null)
      * @param localOffset the location of the body's center (in the bone's local
@@ -239,7 +239,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     abstract public void freeze(boolean forceKinematic);
 
     /**
-     * Access the corresponding bone.
+     * Access the corresponding skeleton bone.
      *
      * @return the pre-existing instance (not null)
      */

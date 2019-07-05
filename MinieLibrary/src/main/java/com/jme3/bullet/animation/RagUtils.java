@@ -131,7 +131,7 @@ public class RagUtils {
     }
 
     /**
-     * Find the main root bone of a skeleton, based on its total bone weight.
+     * Find the main root bone of a Skeleton, based on its total mesh weight.
      *
      * @param skeleton the skeleton (not null, unaffected)
      * @param targetMeshes an array of animated meshes to provide bone weights
@@ -359,9 +359,9 @@ public class RagUtils {
     }
 
     /**
-     * Validate a skeleton for use with DynamicAnimControl.
+     * Validate a Skeleton for use with DynamicAnimControl.
      *
-     * @param skeleton the skeleton to validate (not null, unaffected)
+     * @param skeleton the Skeleton to validate (not null, unaffected)
      */
     public static void validate(Skeleton skeleton) {
         int numBones = skeleton.getBoneCount();
@@ -461,12 +461,12 @@ public class RagUtils {
     }
 
     /**
-     * Calculate the total bone weight animated by each bone in the specified
+     * Calculate the total mesh weight animated by each Bone in the specified
      * meshes.
      *
      * @param meshes the animated meshes to analyze (not null, unaffected)
      * @param skeleton (not null, unaffected)
-     * @return a map from bone indices to total bone weight
+     * @return a map from bone indices to total mesh weight
      */
     private static float[] totalWeights(Mesh[] meshes, Skeleton skeleton) {
         Validate.nonNull(meshes, "meshes");
