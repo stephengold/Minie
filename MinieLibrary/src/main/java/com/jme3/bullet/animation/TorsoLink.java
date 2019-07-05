@@ -134,9 +134,9 @@ public class TorsoLink extends PhysicsLink {
         this.meshToModel = meshToModel.clone();
         managedBones = control.listManagedBones(DynamicAnimControl.torsoName);
 
-        int numManagedBones = managedBones.length;
-        startBoneTransforms = new Transform[numManagedBones];
-        for (int i = 0; i < numManagedBones; ++i) {
+        int numManaged = managedBones.length;
+        startBoneTransforms = new Transform[numManaged];
+        for (int i = 0; i < numManaged; ++i) {
             startBoneTransforms[i] = new Transform();
         }
     }
@@ -169,8 +169,8 @@ public class TorsoLink extends PhysicsLink {
             Transform current = getControl().getSpatial().getLocalTransform();
             startModelTransform.set(current);
         }
-        int numManagedBones = managedBones.length;
-        for (int mbIndex = 0; mbIndex < numManagedBones; ++mbIndex) {
+        int numManaged = managedBones.length;
+        for (int mbIndex = 0; mbIndex < numManaged; ++mbIndex) {
             Transform transform;
             if (prevBoneTransforms == null) { // this link not updated yet
                 Bone managedBone = managedBones[mbIndex];
@@ -367,8 +367,8 @@ public class TorsoLink extends PhysicsLink {
      * @param oldLink the link to copy from (not null, unaffected)
      */
     void postRebuild(TorsoLink oldLink) {
-        int numManagedBones = managedBones.length;
-        assert oldLink.managedBones.length == numManagedBones;
+        int numManaged = managedBones.length;
+        assert oldLink.managedBones.length == numManaged;
 
         super.postRebuild(oldLink);
         if (oldLink.isKinematic()) {
@@ -382,12 +382,12 @@ public class TorsoLink extends PhysicsLink {
         startModelTransform.set(oldLink.startModelTransform);
 
         if (prevBoneTransforms == null) {
-            prevBoneTransforms = new Transform[numManagedBones];
-            for (int i = 0; i < numManagedBones; ++i) {
+            prevBoneTransforms = new Transform[numManaged];
+            for (int i = 0; i < numManaged; ++i) {
                 prevBoneTransforms[i] = new Transform();
             }
         }
-        for (int i = 0; i < numManagedBones; ++i) {
+        for (int i = 0; i < numManaged; ++i) {
             prevBoneTransforms[i].set(oldLink.prevBoneTransforms[i]);
             startBoneTransforms[i].set(oldLink.startBoneTransforms[i]);
         }
@@ -476,9 +476,9 @@ public class TorsoLink extends PhysicsLink {
              * the array of previous bone transforms, if it wasn't
              * allocated in blendToKinematicMode().
              */
-            int numManagedBones = managedBones.length;
-            prevBoneTransforms = new Transform[numManagedBones];
-            for (int mbIndex = 0; mbIndex < numManagedBones; ++mbIndex) {
+            int numManaged = managedBones.length;
+            prevBoneTransforms = new Transform[numManaged];
+            for (int mbIndex = 0; mbIndex < numManaged; ++mbIndex) {
                 Bone managedBone = managedBones[mbIndex];
                 Transform boneTransform
                         = MySkeleton.copyLocalTransform(managedBone, null);

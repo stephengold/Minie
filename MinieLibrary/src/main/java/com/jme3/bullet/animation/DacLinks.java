@@ -311,8 +311,8 @@ public class DacLinks
         /*
          * Convert the list to an array.
          */
-        int numManagedBones = list.size();
-        Bone[] array = new Bone[numManagedBones];
+        int numManaged = list.size();
+        Bone[] array = new Bone[numManaged];
         list.toArray(array);
 
         return array;
