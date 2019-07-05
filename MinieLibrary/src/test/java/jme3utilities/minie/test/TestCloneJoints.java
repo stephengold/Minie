@@ -404,13 +404,15 @@ public class TestCloneJoints {
     }
 
     private static void setSoftAngular(SoftAngularJoint saj, float b) {
-        boolean flag = (b > 0.15f && b < 0.45f);
-        // TODO
+        saj.setCFM(b + 0.01f);
+        saj.setERP(b + 0.02f);
+        saj.setSplit(b + 0.03f);
     }
 
     private static void setSoftLinear(SoftLinearJoint slj, float b) {
-        boolean flag = (b > 0.15f && b < 0.45f);
-        // TODO
+        slj.setCFM(b + 0.02f);
+        slj.setERP(b + 0.03f);
+        slj.setSplit(b + 0.04f);
     }
 
     private static void verifyParameters(PhysicsJoint joint, float b) {
@@ -620,10 +622,14 @@ public class TestCloneJoints {
     }
 
     private static void verifySoftAngular(SoftAngularJoint saj, float b) {
-        // TODO
+        assert saj.getCFM() == b + 0.01f;
+        assert saj.getERP() == b + 0.02f;
+        assert saj.getSplit() == b + 0.03f;
     }
 
     private static void verifySoftLinear(SoftLinearJoint slj, float b) {
-        // TODO
+        assert slj.getCFM() == b + 0.02f;
+        assert slj.getERP() == b + 0.03f;
+        assert slj.getSplit() == b + 0.04f;
     }
 }
