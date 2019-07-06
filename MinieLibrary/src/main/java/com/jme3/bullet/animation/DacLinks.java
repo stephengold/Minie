@@ -137,7 +137,7 @@ public class DacLinks
      */
     private Spatial transformer = null;
     /**
-     * saved bind transform for each armature joint
+     * saved bind transform for each armature joint or skeleton bone
      */
     private Transform[] bindTransforms = null;
     /**
@@ -174,6 +174,20 @@ public class DacLinks
     }
 
     /**
+     * Access the named armature joint.
+     * <p>
+     * Allowed only when the Control IS added to a Spatial.
+     *
+     * @param jointName the name of the armature joint to access
+     * @return the pre-existing instance, or null if not found
+     */
+    public Joint findArmatureJoint(String jointName) {
+        verifyAddedToSpatial("access an armature joint");
+        Joint result = armature.getJoint(jointName);
+        return result;
+    }
+
+    /**
      * Access the AttachmentLink for the named bone. Returns null if the bone is
      * not associated with an attachment, or if the control is not added to a
      * spatial.
@@ -198,20 +212,6 @@ public class DacLinks
     public Bone findBone(String boneName) {
         verifyAddedToSpatial("access a bone");
         Bone result = skeleton.getBone(boneName);
-        return result;
-    }
-
-    /**
-     * Access the named armature joint.
-     * <p>
-     * Allowed only when the Control IS added to a Spatial.
-     *
-     * @param jointName the name of the armature joint to access
-     * @return the pre-existing instance, or null if not found
-     */
-    public Joint findArmatureJoint(String jointName) {
-        verifyAddedToSpatial("access an armature joint");
-        Joint result = armature.getJoint(jointName);
         return result;
     }
 
