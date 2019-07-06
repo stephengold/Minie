@@ -35,6 +35,7 @@ import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -113,6 +114,10 @@ public class TestHeightfield extends ActionApplication {
      * parent for added geometries
      */
     final private Node addNode = new Node("add");
+    /**
+     * GUI node for displaying hotkey help/hints
+     */
+    private Node helpNode;
     /**
      * dump debugging information to System.out
      */
@@ -203,8 +208,19 @@ public class TestHeightfield extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
+        dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
+
+        float x = 10f;
+        float y = cam.getHeight() - 10f;
+        float width = cam.getWidth() - 20f;
+        float height = cam.getHeight() - 20f;
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        float space = 20f;
+        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
+        guiNode.attachChild(helpNode);
     }
 
     /**
@@ -232,6 +248,10 @@ public class TestHeightfield extends ActionApplication {
 
                 case "dump scenes":
                     dumper.dump(renderManager);
+                    return;
+
+                case "toggle help":
+                    toggleHelp();
                     return;
 
                 case "toggle meshes":
@@ -463,6 +483,17 @@ public class TestHeightfield extends ActionApplication {
         heightMap.load();
 
         return heightMap;
+    }
+
+    /**
+     * Toggle visibility of the helpNode.
+     */
+    private void toggleHelp() {
+        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
+            helpNode.setCullHint(Spatial.CullHint.Never);
+        } else {
+            helpNode.setCullHint(Spatial.CullHint.Always);
+        }
     }
 
     /**
