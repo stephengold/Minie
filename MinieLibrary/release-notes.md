@@ -1,5 +1,20 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.5for33 released on 6 July 2019
+
+ + Modified `DynamicAnimControl` to work with armatures as well as skeletons.
+ + Fixed JME issue 1135 (`ConeJoint` causes rigid body to disappear).
+ + Fixed cloning bugs in `SoftPhysicsJoint` and `SoftBodyControl`.
+ + Removed 3 `jme3test` apps that now work unmodified with Minie.
+ + Added a `contains(PhysicsJoint)` method to the `PhysicsSpace` class.
+ + Added modified `TestRagDoll` and `TestGimpactShape` apps that
+   work with Minie.
+ + Added hotkey-binding hints to `TestHeightfield` and `TestHullContact`.
+ + Added a `TestStaticBody` test.
+ + Updated the native libraries to version 1.0.90 of `Libbulletjme`.
+ + Based on version 2.29 of the `jme3-utilities-heart` library.
+ + Based on version 3.3.0-alpha2 of jMonkeyEngine.
+
 ## Version 0.9.4 released on 2 July 2019
 
  + API changes:
