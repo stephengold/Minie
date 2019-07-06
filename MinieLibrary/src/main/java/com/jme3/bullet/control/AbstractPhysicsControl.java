@@ -386,16 +386,16 @@ abstract public class AbstractPhysicsControl
      */
     @Override
     public void setSpatial(Spatial newSpatial) {
-        if (this.controlledSpatial == newSpatial) {
+        if (controlledSpatial == newSpatial) {
             return;
-        } else if (this.controlledSpatial != null) {
-            removeSpatialData(this.controlledSpatial);
+        } else if (controlledSpatial != null) {
+            removeSpatialData(controlledSpatial);
         }
 
-        this.controlledSpatial = newSpatial;
+        controlledSpatial = newSpatial;
 
         if (newSpatial != null) {
-            createSpatialData(this.controlledSpatial);
+            createSpatialData(controlledSpatial);
             setPhysicsLocation(getSpatialTranslation());
             setPhysicsRotation(getSpatialRotation());
         }

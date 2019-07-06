@@ -649,7 +649,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * collection. Note: recursive.
      *
      * @param startBone the starting Bone (not null, unaffected)
-     * @param addResult the collection of bone names to append to (not null,
+     * @param addResult the collection of skeleton bones to append to (not null,
      * modified)
      */
     protected void addUnlinkedDescendants(Bone startBone,
@@ -664,7 +664,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Find the manager of the specified bone.
+     * Find the manager of the specified Bone.
      *
      * @param startBone the bone (not null, unaffected)
      * @return a bone/torso name (not null)

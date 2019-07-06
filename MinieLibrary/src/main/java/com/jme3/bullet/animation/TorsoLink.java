@@ -395,7 +395,7 @@ public class TorsoLink extends PhysicsLink {
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             Transform transform = oldLink.prevBoneTransforms[managedIndex];
             prevBoneTransforms[managedIndex].set(transform);
-            
+
             transform = oldLink.startBoneTransforms[managedIndex];
             startBoneTransforms[managedIndex].set(transform);
         }
@@ -418,8 +418,8 @@ public class TorsoLink extends PhysicsLink {
             managedBones = null;
         } else {
             managedBones = new Bone[tmp.length];
-            for (int i = 0; i < tmp.length; ++i) {
-                managedBones[i] = (Bone) tmp[i];
+            for (int managedI = 0; managedI < tmp.length; ++managedI) {
+                managedBones[managedI] = (Bone) tmp[managedI];
             }
         }
 
@@ -493,8 +493,9 @@ public class TorsoLink extends PhysicsLink {
         /*
          * Save copies of the latest managed-bone transforms.
          */
-        for (int managedI = 0; managedI < numManaged; ++managedI) {
-            copyManagedTransform(managedI, prevBoneTransforms[managedI]);
+        for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
+            Transform lastTransform = prevBoneTransforms[managedIndex];
+            copyManagedTransform(managedIndex, lastTransform);
         }
     }
 
@@ -531,7 +532,8 @@ public class TorsoLink extends PhysicsLink {
      * @param storeResult storage for the result (modified if not null)
      * @return the Transform (either storeResult or a new instance, not null)
      */
-    private Transform copyManagedTransform(int managedIndex, Transform storeResult) {
+    private Transform copyManagedTransform(int managedIndex,
+            Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 
@@ -579,7 +581,7 @@ public class TorsoLink extends PhysicsLink {
      * Alter the local transform of the indexed managed bone in this link.
      *
      * @param managedIndex which managed bone (&ge;0, &lt;numManaged)
-     * @param transform the desired transform (not null, unaffected)
+     * @param transform the desired Transform (not null, unaffected)
      */
     private void setManagedTransform(int managedIndex, Transform transform) {
         Bone managed = managedBones[managedIndex];

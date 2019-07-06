@@ -121,7 +121,7 @@ public class DacLinks
      */
     private Map<String, BoneLink> boneLinks = new HashMap<>(32);
     /**
-     * skeleton being controlled
+     * Skeleton being controlled
      */
     private Skeleton skeleton = null;
     /**
@@ -671,7 +671,7 @@ public class DacLinks
         Map<String, VectorSet> coordsMap
                 = RagUtils.coordsMap(targets, tempManagerMap);
         /*
-         * Create the torso link.
+         * Create the TorsoLink.
          */
         VectorSet vertexLocations = coordsMap.get(torsoName);
         createTorsoLink(vertexLocations, targets);
@@ -1293,7 +1293,7 @@ public class DacLinks
     }
 
     /**
-     * Sort the controls of the controlled spatial, such that this control will
+     * Sort the controls of the controlled spatial, such that this Control will
      * come BEFORE the specified SkeletonControl.
      *
      * @param skeletonControl (not null)

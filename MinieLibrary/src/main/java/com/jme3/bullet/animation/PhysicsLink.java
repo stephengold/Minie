@@ -83,7 +83,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      */
     private ArrayList<PhysicsLink> children = new ArrayList<>(8);
     /**
-     * corresponding Bone in the skeleton (not null)
+     * corresponding Bone in the Skeleton (not null)
      */
     private Bone bone;
     /**
@@ -190,7 +190,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the name of the corresponding bone.
+     * Read the name of the corresponding Bone.
      *
      * @return the bone name (not null)
      */
