@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.anim.AnimComposer;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
@@ -68,6 +69,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.plugins.ogre.MaterialLoader;
 import com.jme3.scene.plugins.ogre.MeshLoader;
 import com.jme3.scene.shape.Box;
@@ -140,9 +142,9 @@ public class TestDac extends ActionApplication {
     // fields
 
     /**
-     * channel for playing canned animations
+     * SkeletonControl/SkinningControl of the loaded model
      */
-    private AnimChannel animChannel = null;
+    private AbstractControl sc;
     /**
      * text displayed in the GUI node
      */
@@ -171,7 +173,7 @@ public class TestDac extends ActionApplication {
     final private Mesh ballMesh = new Sphere(16, 32, ballRadius);
     final private NameGenerator nameGenerator = new NameGenerator();
     /**
-     * root node of the C-G model on which the control is being tested
+     * root node of the C-G model on which the Control is being tested
      */
     private Node cgModel;
     /**
@@ -187,15 +189,11 @@ public class TestDac extends ActionApplication {
      */
     private PhysicsSpace physicsSpace;
     /**
-     * SkeletonControl of the loaded model
-     */
-    private SkeletonControl sc;
-    /**
      * visualizer for the skeleton of the C-G model
      */
     private SkeletonVisualizer sv;
     /**
-     * name of the animation to play on the C-G model
+     * name of the Animation/Action to play on the C-G model
      */
     private String animationName = null;
     /**
@@ -644,7 +642,7 @@ public class TestDac extends ActionApplication {
         center(cgModel);
         resetTransform = cgModel.getLocalTransform().clone();
 
-        sc = RagUtils.findSkeletonControl(cgModel);
+        sc = RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);
@@ -673,9 +671,16 @@ public class TestDac extends ActionApplication {
         rightClavicle = dac.findBoneLink(rightClavicleName);
         upperBody = dac.findBoneLink(upperBodyName);
 
-        AnimControl animControl = controlledSpatial.getControl(AnimControl.class);
-        animChannel = animControl.createChannel();
-        animChannel.setAnim(animationName);
+        if (sc instanceof SkeletonControl) {
+            AnimControl animControl
+                    = controlledSpatial.getControl(AnimControl.class);
+            AnimChannel animChannel = animControl.createChannel();
+            animChannel.setAnim(animationName);
+        } else {
+            AnimComposer composer
+                    = controlledSpatial.getControl(AnimComposer.class);
+            composer.setCurrentAction(animationName);
+        }
 
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow); // TODO clean up visualization

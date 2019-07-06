@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.anim.AnimComposer;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
@@ -60,6 +61,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.plugins.ogre.MaterialLoader;
 import com.jme3.scene.plugins.ogre.MeshLoader;
 import com.jme3.scene.shape.Box;
@@ -118,9 +120,17 @@ public class BalanceDemo extends ActionApplication {
     // fields
 
     /**
+     * SkeletonControl/SkinningControl of the loaded model
+     */
+    private AbstractControl sc;
+    /**
      * channel for playing canned animations
      */
     private AnimChannel animChannel = null;
+    /**
+     * composer for playing canned animations
+     */
+    private AnimComposer composer = null;
     /**
      * keeps the model's center of mass directly above its center of support
      */
@@ -180,15 +190,11 @@ public class BalanceDemo extends ActionApplication {
      */
     private PointVisualizer supportPoint;
     /**
-     * SkeletonControl of the loaded model
-     */
-    private SkeletonControl sc;
-    /**
      * visualizer for the skeleton of the C-G model
      */
     private SkeletonVisualizer sv;
     /**
-     * name of the Animation to play on the C-G model
+     * name of the Animation/Action to play on the C-G model
      */
     private String animationName = null;
     /**
@@ -347,7 +353,6 @@ public class BalanceDemo extends ActionApplication {
                 case "toggle help":
                     toggleHelp();
                     return;
-
                 case "toggle meshes":
                     toggleMeshes();
                     return;
@@ -509,7 +514,7 @@ public class BalanceDemo extends ActionApplication {
         setHeight(cgModel, 2f);
         center(cgModel);
 
-        sc = RagUtils.findSkeletonControl(cgModel);
+        sc = RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);
@@ -517,9 +522,13 @@ public class BalanceDemo extends ActionApplication {
 
         torso = dac.getTorsoLink();
 
-        AnimControl animControl
-                = controlledSpatial.getControl(AnimControl.class);
-        animChannel = animControl.createChannel();
+        if (sc instanceof SkeletonControl) {
+            AnimControl animControl
+                    = controlledSpatial.getControl(AnimControl.class);
+            animChannel = animControl.createChannel();
+        } else {
+            composer = controlledSpatial.getControl(AnimComposer.class);
+        }
 
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow); // TODO clean up visualization
@@ -635,7 +644,11 @@ public class BalanceDemo extends ActionApplication {
         /*
          * Start playing a canned animation.
          */
-        animChannel.setAnim(animationName);
+        if (animChannel != null) {
+            animChannel.setAnim(animationName);
+        } else {
+            composer.setCurrentAction(animationName);
+        }
     }
 
     /**
