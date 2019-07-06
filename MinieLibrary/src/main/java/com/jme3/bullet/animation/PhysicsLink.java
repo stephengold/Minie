@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.anim.Joint;
 import com.jme3.animation.Bone;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
@@ -83,7 +84,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      */
     private ArrayList<PhysicsLink> children = new ArrayList<>(8);
     /**
-     * corresponding Bone in the skeleton (not null)
+     * corresponding Bone in the Skeleton, or null for an armature joint
      */
     private Bone bone;
     /**
@@ -103,6 +104,10 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * kinematic, default=1, progresses from 0 to 1 during the blend interval)
      */
     private float kinematicWeight = 1f;
+    /**
+     * corresponding Joint in the Armature, or null for a skeleton bone
+     */
+    private Joint armatureJoint;
     /**
      * joint between the rigid body and the parent's rigid body, or null if not
      * yet created
@@ -173,6 +178,40 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         this.localOffset = localOffset.clone();
         updateKPTransform();
     }
+
+    /**
+     * Instantiate a purely kinematic link between the specified armature joint
+     * and the specified rigid body.
+     *
+     * @param control the Control that will manage this link (not null, alias
+     * created)
+     * @param armatureJoint the corresponding Joint (not null, alias created)
+     * @param collisionShape the desired shape (not null, alias created)
+     * @param linkConfig the link configuration (not null)
+     * @param localOffset the location of the body's center (in the armature
+     * joint's local coordinates, not null, unaffected)
+     */
+    PhysicsLink(DacLinks control, Joint armatureJoint,
+            CollisionShape collisionShape, LinkConfig linkConfig,
+            Vector3f localOffset) {
+        assert control != null;
+        assert armatureJoint != null;
+        assert collisionShape != null;
+        assert linkConfig != null;
+        assert localOffset != null;
+
+        this.control = control;
+        this.armatureJoint = armatureJoint;
+        rigidBody = createRigidBody(linkConfig, collisionShape);
+
+        logger.log(Level.FINE, "Creating link for joint {0} with mass={1}",
+                new Object[]{
+                    MyString.quote(armatureJoint.getName()), rigidBody.getMass()
+                });
+
+        this.localOffset = localOffset.clone();
+        updateKPTransform();
+    }
     // *************************************************************************
     // new methods exposed
 
@@ -190,15 +229,20 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the name of the corresponding bone.
+     * Read the name of the corresponding skeleton bone or armature joint.
      *
-     * @return the bone name (not null)
+     * @return the bone/joint name (not null)
      */
     public String boneName() {
-        String boneName = bone.getName();
+        String name;
+        if (bone != null) {
+            name = bone.getName();
+        } else {
+            name = armatureJoint.getName();
+        }
 
-        assert boneName != null;
-        return boneName;
+        assert name != null;
+        return name;
     }
 
     /**
@@ -239,12 +283,20 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     abstract public void freeze(boolean forceKinematic);
 
     /**
+     * Access the corresponding armature joint.
+     *
+     * @return the pre-existing instance, or null if none
+     */
+    final public Joint getArmatureJoint() {
+        return armatureJoint;
+    }
+
+    /**
      * Access the corresponding skeleton bone.
      *
-     * @return the pre-existing instance (not null)
+     * @return the pre-existing instance, or null if none
      */
     final public Bone getBone() {
-        assert bone != null;
         return bone;
     }
 
@@ -281,7 +333,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      *
      * @return the pre-existing instance (not null)
      */
-    public PhysicsRigidBody getRigidBody() {
+    final public PhysicsRigidBody getRigidBody() {
         assert rigidBody != null;
         return rigidBody;
     }
@@ -592,6 +644,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        armatureJoint = cloner.clone(armatureJoint);
         bone = cloner.clone(bone);
         control = cloner.clone(control);
         ikControllers = cloner.clone(ikControllers);
@@ -636,6 +689,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         ikControllers = capsule.readSavableArrayList("ikControllers",
                 new ArrayList(1));
         children = capsule.readSavableArrayList("children", new ArrayList(1));
+        armatureJoint = (Joint) capsule.readSavable("armatureJoint", null);
         bone = (Bone) capsule.readSavable("bone", null);
         control = (DacLinks) capsule.readSavable("control", null);
         blendInterval = capsule.readFloat("blendInterval", 1f);
@@ -665,6 +719,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
 
         capsule.writeSavableArrayList(ikControllers, "ikControllers", null);
         capsule.writeSavableArrayList(children, "children", null);
+        capsule.write(armatureJoint, "armatureJoint", null);
         capsule.write(bone, "bone", null);
         capsule.write(control, "control", null);
         capsule.write(blendInterval, "blendInterval", 1f);
@@ -732,6 +787,10 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * Update the kinematic physics transform.
      */
     private void updateKPTransform() {
-        control.physicsTransform(bone, localOffset, kpTransform);
+        if (bone != null) {
+            control.physicsTransform(bone, localOffset, kpTransform);
+        } else {
+            control.physicsTransform(armatureJoint, localOffset, kpTransform);
+        }
     }
 }

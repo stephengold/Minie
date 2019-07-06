@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.anim.Joint;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
@@ -121,7 +122,7 @@ public class DacLinks
      */
     private Map<String, BoneLink> boneLinks = new HashMap<>(32);
     /**
-     * skeleton being controlled
+     * Skeleton being controlled, or null for an Armature
      */
     private Skeleton skeleton = null;
     /**
@@ -385,6 +386,41 @@ public class DacLinks
          * Convert to mesh coordinates.
          */
         Transform localToMesh = MySkeleton.copyMeshTransform(bone, null);
+        result.combineWithParent(localToMesh);
+        /*
+         * Convert to world (physics-space) coordinates.
+         */
+        Transform meshToWorld = meshTransform(null);
+        result.combineWithParent(meshToWorld);
+
+        return result;
+    }
+
+    /**
+     * Calculate the physics transform to match the specified armature joint.
+     *
+     * @param joint the armature joint to match (not null, unaffected)
+     * @param localOffset the location of the body's center (in the bone's local
+     * coordinates, not null, unaffected)
+     * @param storeResult storage for the result (modified if not null)
+     * @return the calculated physics transform (either storeResult or a new
+     * transform, not null)
+     */
+    Transform physicsTransform(Joint joint, Vector3f localOffset,
+            Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+        /*
+         * Start with the body's transform in the armature joint's
+         * local coordinates.
+         */
+        result.setTranslation(localOffset);
+        result.setRotation(rotateIdentity);
+        result.setScale(1f);
+        /*
+         * Convert to mesh coordinates.
+         */
+        Transform localToMesh = joint.getModelTransform();
         result.combineWithParent(localToMesh);
         /*
          * Convert to world (physics-space) coordinates.
