@@ -38,6 +38,7 @@ import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
+import com.jme3.font.Rectangle;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -102,6 +103,10 @@ public class TestHullContact
     final private Generator random = new Generator();
     private int numGems = 0;
     final private Material gemMaterials[] = new Material[4];
+    /**
+     * GUI node for displaying hotkey help/hints
+     */
+    private Node helpNode;
     /**
      * space for physics simulation
      */
@@ -173,11 +178,24 @@ public class TestHullContact
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
+
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
         dim.bind("signal shower", KeyInput.KEY_INSERT);
+
+        dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+
+        float x = 10f;
+        float y = cam.getHeight() - 10f;
+        float width = cam.getWidth() - 20f;
+        float height = cam.getHeight() - 20f;
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        float space = 20f;
+        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
+        guiNode.attachChild(helpNode);
     }
 
     /**
@@ -197,6 +215,10 @@ public class TestHullContact
 
                 case "dump scenes":
                     dumpScenes();
+                    return;
+
+                case "toggle help":
+                    toggleHelp();
                     return;
 
                 case "toggle pause":
@@ -380,6 +402,17 @@ public class TestHullContact
         dumper.setDumpTransform(true);
         //dumper.setDumpUser(true);
         dumper.dump(renderManager);
+    }
+
+    /**
+     * Toggle visibility of the helpNode.
+     */
+    private void toggleHelp() {
+        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
+            helpNode.setCullHint(Spatial.CullHint.Never);
+        } else {
+            helpNode.setCullHint(Spatial.CullHint.Always);
+        }
     }
 
     /**
