@@ -209,7 +209,7 @@ public class BoneLink extends PhysicsLink {
         assert managedBones == null;
         assert managedArmatureJoints == null;
         int numManaged;
-        if (bone == null) {
+        if (bone != null) {
             managedBones = getControl().listManagedBones(name);
             numManaged = managedBones.length;
         } else {
