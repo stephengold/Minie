@@ -237,6 +237,16 @@ public class DacLinks
     }
 
     /**
+     * Access the Armature. Returns null if the Control is not added to a
+     * Spatial.
+     *
+     * @return the pre-existing Armature, or null
+     */
+    public Armature getArmature() {
+        return armature;
+    }
+
+    /**
      * Access the Skeleton. Returns null if the Control is not added to a
      * Spatial.
      *

@@ -31,7 +31,9 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.anim.Joint;
 import com.jme3.animation.Bone;
+import com.jme3.animation.Skeleton;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -72,9 +74,14 @@ public class TorsoLink extends PhysicsLink {
 
     /**
      * bones managed by this link, in a pre-order, depth-first traversal of the
-     * Skeleton
+     * Skeleton, or null for an Armature
      */
     private Bone[] managedBones = null;
+    /**
+     * armature joints managed by this link, in a pre-order, depth-first
+     * traversal of the Armature, or null for a Skeleton
+     */
+    private Joint[] managedArmatureJoints = null;
     /**
      * submode when kinematic
      */
@@ -140,6 +147,36 @@ public class TorsoLink extends PhysicsLink {
             startBoneTransforms[i] = new Transform();
         }
     }
+
+    /**
+     * Instantiate a purely kinematic link between the torso of the specified
+     * Control and the specified rigid body.
+     *
+     * @param control the Control that will manage this link (not null, alias
+     * created)
+     * @param mainRootJoint the root armature joint with the most mesh weight
+     * (not null, alias created)
+     * @param collisionShape the desired shape (not null, alias created)
+     * @param linkConfig the link configuration (not null)
+     * @param meshToModel the transform from mesh coordinates to model
+     * coordinates (not null, unaffected)
+     * @param localOffset the location of the body's center (in the joint's
+     * local coordinates, not null, unaffected)
+     */
+    TorsoLink(DacLinks control, Joint mainRootJoint,
+            CollisionShape collisionShape, LinkConfig linkConfig,
+            Transform meshToModel, Vector3f localOffset) {
+        super(control, mainRootJoint, collisionShape, linkConfig, localOffset);
+        this.meshToModel = meshToModel.clone();
+        managedArmatureJoints = control.listManagedArmatureJoints(
+                DynamicAnimControl.torsoName);
+
+        int numManagedJoints = managedArmatureJoints.length;
+        startBoneTransforms = new Transform[numManagedJoints];
+        for (int i = 0; i < numManagedJoints; ++i) {
+            startBoneTransforms[i] = new Transform();
+        }
+    }
     // *************************************************************************
     // new methods exposed
 
@@ -195,7 +232,13 @@ public class TorsoLink extends PhysicsLink {
      * @return the count (&ge;0)
      */
     public int countManaged() {
-        int result = managedBones.length;
+        int result;
+        if (managedBones != null) {
+            result = managedBones.length;
+        } else {
+            result = managedArmatureJoints.length;
+        }
+
         return result;
     }
     // *************************************************************************
@@ -215,6 +258,7 @@ public class TorsoLink extends PhysicsLink {
         super.cloneFields(cloner, original);
 
         managedBones = cloner.clone(managedBones);
+        managedArmatureJoints = cloner.clone(managedArmatureJoints);
         endModelTransform = cloner.clone(endModelTransform);
         meshToModel = cloner.clone(meshToModel);
         prevBoneTransforms = cloner.clone(prevBoneTransforms);
@@ -247,13 +291,22 @@ public class TorsoLink extends PhysicsLink {
         getControl().getSpatial().setLocalTransform(transform);
 
         localBoneTransform(transform);
-        Bone[] roots = getControl().getSkeleton().getRoots();
-        for (Bone root : roots) {
-            MySkeleton.setLocalTransform(root, transform);
-        }
-
-        for (Bone managed : managedBones) {
-            managed.updateModelTransforms();
+        if (managedBones != null) {
+            Bone[] roots = getControl().getSkeleton().getRoots();
+            for (Bone root : roots) {
+                MySkeleton.setLocalTransform(root, transform);
+            }
+            for (Bone managed : managedBones) {
+                managed.updateModelTransforms();
+            }
+        } else {
+            Joint[] roots = getControl().getArmature().getRoots();
+            for (Joint root : roots) {
+                root.setLocalTransform(transform);
+            }
+            for (Joint managed : managedArmatureJoints) {
+                managed.updateModelTransforms();
+            }
         }
     }
 
@@ -310,17 +363,19 @@ public class TorsoLink extends PhysicsLink {
 
         int numManaged = countManaged();
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
-            Bone managedBone = managedBones[managedIndex];
             switch (submode) {
                 case Amputated:
-                    MySkeleton.copyBindTransform(managedBone, transform);
+                    int boneIndex;
+                    boneIndex = boneIndex(managedIndex);
+                    getControl().copyBindTransform(boneIndex, transform);
                     transform.setScale(0.001f);
                     break;
                 case Animated:
                     copyManagedTransform(managedIndex, transform);
                     break;
                 case Bound:
-                    MySkeleton.copyBindTransform(managedBone, transform);
+                    boneIndex = boneIndex(managedIndex);
+                    getControl().copyBindTransform(boneIndex, transform);
                     break;
                 case Frozen:
                     transform.set(prevBoneTransforms[managedIndex]);
@@ -344,7 +399,7 @@ public class TorsoLink extends PhysicsLink {
                 MyMath.slerp(kinematicWeight(),
                         startBoneTransforms[managedIndex], transform,
                         transform);
-                // TODO smarter sign flipping
+                // TODO smarter sign flipping for bones
             }
             /*
              * Update the managed bone.
@@ -395,7 +450,7 @@ public class TorsoLink extends PhysicsLink {
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             Transform transform = oldLink.prevBoneTransforms[managedIndex];
             prevBoneTransforms[managedIndex].set(transform);
-            
+
             transform = oldLink.startBoneTransforms[managedIndex];
             startBoneTransforms[managedIndex].set(transform);
         }
@@ -413,13 +468,23 @@ public class TorsoLink extends PhysicsLink {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        Savable[] tmp = capsule.readSavableArray("managedBones", null);
+        Savable[] tmp = capsule.readSavableArray("managedArmatureJoints", null);
+        if (tmp == null) {
+            managedArmatureJoints = null;
+        } else {
+            managedArmatureJoints = new Joint[tmp.length];
+            for (int managedI = 0; managedI < tmp.length; ++managedI) {
+                managedArmatureJoints[managedI] = (Joint) tmp[managedI];
+            }
+        }
+
+        tmp = capsule.readSavableArray("managedBones", null);
         if (tmp == null) {
             managedBones = null;
         } else {
             managedBones = new Bone[tmp.length];
-            for (int i = 0; i < tmp.length; ++i) {
-                managedBones[i] = (Bone) tmp[i];
+            for (int managedI = 0; managedI < tmp.length; ++managedI) {
+                managedBones[managedI] = (Bone) tmp[managedI];
             }
         }
 
@@ -446,7 +511,6 @@ public class TorsoLink extends PhysicsLink {
     @Override
     public void setDynamic(Vector3f uniformAcceleration) {
         Validate.nonNull(uniformAcceleration, "uniform acceleration");
-        getControl().verifyReadyForDynamicMode("put link into ragdoll mode");
 
         super.setDynamic(uniformAcceleration);
         setUserControl(true);
@@ -493,8 +557,9 @@ public class TorsoLink extends PhysicsLink {
         /*
          * Save copies of the latest managed-bone transforms.
          */
-        for (int managedI = 0; managedI < numManaged; ++managedI) {
-            copyManagedTransform(managedI, prevBoneTransforms[managedI]);
+        for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
+            Transform lastTransform = prevBoneTransforms[managedIndex];
+            copyManagedTransform(managedIndex, lastTransform);
         }
     }
 
@@ -510,6 +575,7 @@ public class TorsoLink extends PhysicsLink {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
+        capsule.write(managedArmatureJoints, "managedArmatureJoints", null);
         capsule.write(managedBones, "managedBones", null);
         capsule.write(submode, "submode", KinematicSubmode.Animated);
         capsule.write(endModelTransform, "endModelTransforms", new Transform());
@@ -525,18 +591,45 @@ public class TorsoLink extends PhysicsLink {
     // private methods
 
     /**
+     * Find the index in the Armature/Skeleton of the indexed managed bone.
+     *
+     * @param managedIndex which managed bone (&ge;0, &lt;numManaged)
+     * @return index in the Armature/Skeleton (&ge;0)
+     */
+    private int boneIndex(int managedIndex) {
+        int result;
+        if (managedBones != null) {
+            Bone managed = managedBones[managedIndex];
+            Skeleton skeleton = getControl().getSkeleton();
+            result = skeleton.getBoneIndex(managed);
+        } else {
+            Joint managed = managedArmatureJoints[managedIndex];
+            result = managed.getId();
+        }
+
+        assert result >= 0 : result;
+        return result;
+    }
+
+    /**
      * Copy the local transform of the indexed managed bone in this link.
      *
      * @param managedIndex which managed bone (&ge;0, &lt;numManaged)
      * @param storeResult storage for the result (modified if not null)
      * @return the Transform (either storeResult or a new instance, not null)
      */
-    private Transform copyManagedTransform(int managedIndex, Transform storeResult) {
+    private Transform copyManagedTransform(int managedIndex,
+            Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 
-        Bone bone = managedBones[managedIndex];
-        MySkeleton.copyLocalTransform(bone, result);
+        if (managedBones != null) {
+            Bone managed = managedBones[managedIndex];
+            MySkeleton.copyLocalTransform(managed, result);
+        } else {
+            Joint managed = managedArmatureJoints[managedIndex];
+            result.set(managed.getLocalTransform());
+        }
 
         return result;
     }
@@ -579,22 +672,30 @@ public class TorsoLink extends PhysicsLink {
      * Alter the local transform of the indexed managed bone in this link.
      *
      * @param managedIndex which managed bone (&ge;0, &lt;numManaged)
-     * @param transform the desired transform (not null, unaffected)
+     * @param transform the desired Transform (not null, unaffected)
      */
     private void setManagedTransform(int managedIndex, Transform transform) {
-        Bone managed = managedBones[managedIndex];
-        MySkeleton.setLocalTransform(managed, transform);
-        managed.updateModelTransforms();
+        if (managedBones != null) {
+            Bone managed = managedBones[managedIndex];
+            MySkeleton.setLocalTransform(managed, transform);
+            managed.updateModelTransforms();
+        } else {
+            Joint managed = managedArmatureJoints[managedIndex];
+            managed.setLocalTransform(transform);
+            managed.updateModelTransforms();
+        }
     }
 
     /**
-     * Alter the user-control flags of all bones managed by this link.
+     * Alter the user-control flags of all skeleton bones managed by this link.
      *
      * @param wantUserControl the desired setting
      */
     private void setUserControl(boolean wantUserControl) {
-        for (Bone managedBone : managedBones) {
-            managedBone.setUserControl(wantUserControl);
+        if (managedBones != null) {
+            for (Bone managed : managedBones) {
+                managed.setUserControl(wantUserControl);
+            }
         }
     }
 }
