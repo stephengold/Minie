@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.anim.Armature;
 import com.jme3.anim.Joint;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
@@ -709,6 +710,52 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
 
         assert managerName != null;
         return managerName;
+    }
+
+    /**
+     * Find the manager of the specified armature joint.
+     *
+     * @param startJoint the joint (not null, unaffected)
+     * @return a joint/torso name (not null)
+     */
+    protected String findManager(Joint startJoint) {
+        Validate.nonNull(startJoint, "start joint");
+
+        String managerName;
+        Joint joint = startJoint;
+        while (true) {
+            String jointName = joint.getName();
+            if (hasBoneLink(jointName)) {
+                managerName = jointName;
+                break;
+            }
+            joint = joint.getParent();
+            if (joint == null) {
+                managerName = torsoName;
+                break;
+            }
+        }
+
+        assert managerName != null;
+        return managerName;
+    }
+
+    /**
+     * Create a map from joint indices to the names of the armature joints that
+     * manage them.
+     *
+     * @param armature (not null, unaffected)
+     * @return a new array of joint/torso names (not null)
+     */
+    protected String[] managerMap(Armature armature) {
+        int numJoints = armature.getJointCount();
+        String[] managerMap = new String[numJoints];
+        for (int jointIndex = 0; jointIndex < numJoints; ++jointIndex) {
+            Joint joint = armature.getJoint(jointIndex);
+            managerMap[jointIndex] = findManager(joint);
+        }
+
+        return managerMap;
     }
 
     /**
