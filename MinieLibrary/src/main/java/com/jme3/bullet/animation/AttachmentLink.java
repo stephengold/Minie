@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.anim.Joint;
 import com.jme3.animation.Bone;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -143,7 +144,64 @@ public class AttachmentLink extends PhysicsLink {
         Transform attachToManager = attachToWorld.clone();
         attachToManager.combineWithParent(worldToManager);
 
-        Vector3f pivotMesh = getBone().getModelSpacePosition();
+        Vector3f pivotMesh = associatedBone.getModelSpacePosition();
+        Spatial transformer = control.getTransformer();
+        Vector3f pivotWorld = transformer.localToWorld(pivotMesh, null);
+        managerToWorld.setScale(1f);
+        Vector3f pivotManager
+                = managerToWorld.transformInverseVector(pivotWorld, null);
+        attachToWorld.setScale(1f);
+        Vector3f pivot = attachToWorld.transformInverseVector(pivotWorld, null);
+
+        Matrix3f rotManager = attachToManager.getRotation().toRotationMatrix();
+        Matrix3f rot = matrixIdentity;
+
+        SixDofJoint joint = new SixDofJoint(managerBody, getRigidBody(),
+                pivotManager, pivot, rotManager, rot, true);
+        setJoint(joint);
+
+        RangeOfMotion rangeOfMotion = new RangeOfMotion();
+        rangeOfMotion.setupJoint(joint, false, false, false);
+
+        joint.setCollisionBetweenLinkedBodies(false);
+    }
+
+    /**
+     * Instantiate a purely kinematic link between the specified model and the
+     * specified rigid body.
+     *
+     * @param control the Control that will manage this link (not null, alias
+     * created)
+     * @param associatedJoint the armature joint associated with the attachment
+     * node (not null, alias created)
+     * @param manager the bone/torso link that manages the associated armature
+     * joint (not null, alias created)
+     * @param attachModel the attached model to link (not null, alias created)
+     * @param collisionShape the desired shape (not null, alias created)
+     * @param linkConfig the link configuration (not null)
+     * @param localOffset the location of the body's center (in the attached
+     * model's local coordinates, not null, unaffected)
+     */
+    AttachmentLink(DacLinks control, Joint associatedJoint, PhysicsLink manager,
+            Spatial attachModel, CollisionShape collisionShape,
+            LinkConfig linkConfig, Vector3f localOffset) {
+        super(control, associatedJoint, collisionShape, linkConfig, localOffset);
+        assert manager != null;
+        assert attachModel != null;
+
+        this.attachedModel = attachModel;
+        setParent(manager);
+
+        PhysicsRigidBody managerBody = manager.getRigidBody();
+        Transform managerToWorld = manager.physicsTransform(null);
+        Transform worldToManager = managerToWorld.invert();
+
+        Transform attachToWorld = physicsTransform(null);
+        Transform attachToManager = attachToWorld.clone();
+        attachToManager.combineWithParent(worldToManager);
+
+        Vector3f pivotMesh
+                = associatedJoint.getModelTransform().getTranslation();
         Spatial transformer = control.getTransformer();
         Vector3f pivotWorld = transformer.localToWorld(pivotMesh, null);
         managerToWorld.setScale(1f);
@@ -372,7 +430,13 @@ public class AttachmentLink extends PhysicsLink {
         /*
          * Convert to mesh coordinates.
          */
-        tmp = MySkeleton.copyMeshTransform(getBone(), null);
+        Bone bone = getBone();
+        if (bone != null) {
+            tmp = MySkeleton.copyMeshTransform(bone, null);
+        } else {
+            Joint armatureJoint = getArmatureJoint();
+            tmp = armatureJoint.getModelTransform().clone();
+        }
         result.combineWithParent(tmp);
         /*
          * Convert to physics/world coordinates.
@@ -486,7 +550,14 @@ public class AttachmentLink extends PhysicsLink {
         /**
          * Convert to bone local coordinates.
          */
-        Transform boneToMesh = MySkeleton.copyMeshTransform(getBone(), null);
+        Transform boneToMesh;
+        Bone bone = getBone();
+        if (bone != null) {
+            boneToMesh = MySkeleton.copyMeshTransform(bone, null);
+        } else {
+            Joint armatureJoint = getArmatureJoint();
+            boneToMesh = armatureJoint.getModelTransform();
+        }
         Transform meshToBone = boneToMesh.invert();
         result.combineWithParent(meshToBone);
         /*
