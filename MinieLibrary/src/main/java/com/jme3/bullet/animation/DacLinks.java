@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.anim.Armature;
 import com.jme3.anim.Joint;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
@@ -105,6 +106,10 @@ public class DacLinks
     // fields
 
     /**
+     * Armature being controlled, or null for a Skeleton
+     */
+    private Armature armature = null;
+    /**
      * false until the 1st physics tick, true thereafter, indicating that all
      * links are ready for dynamic mode
      */
@@ -130,6 +135,10 @@ public class DacLinks
      */
     private Spatial transformer = null;
     /**
+     * saved bind transform for each armature joint
+     */
+    private Transform[] bindTransforms = null;
+    /**
      * torso link for this control
      */
     private TorsoLink torsoLink = null;
@@ -144,6 +153,23 @@ public class DacLinks
     }
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Copy the saved bind transform of the indexed armature joint.
+     *
+     * @param jointIndex which joint in the Armature
+     * @param storeResult storage for the result (modified if not null)
+     * @return the bone's bind transform (in its parent's coordinates, either
+     * storeResult or a new instance)
+     */
+    Transform copyBindTransform(int jointIndex, Transform storeResult) {
+        Transform alias = bindTransforms[jointIndex];
+        if (storeResult == null) {
+            return alias.clone();
+        } else {
+            return storeResult.set(alias);
+        }
+    }
 
     /**
      * Access the AttachmentLink for the named bone. Returns null if the bone is
@@ -314,6 +340,45 @@ public class DacLinks
          */
         int numManaged = list.size();
         Bone[] array = new Bone[numManaged];
+        list.toArray(array);
+
+        return array;
+    }
+
+    /**
+     * Enumerate all managed armature joints of the named link, in a pre-order,
+     * depth-first traversal of the Armature, such that child joints never
+     * precede their ancestors.
+     *
+     * @param managerName the name of the managing link (not null)
+     * @return a new array of managed joints, including the manager if it is not
+     * the torso
+     */
+    Joint[] listManagedArmatureJoints(String managerName) {
+        List<Joint> list = new ArrayList<>(8);
+
+        if (torsoName.equals(managerName)) {
+            Joint[] roots = armature.getRoots();
+            for (Joint rootJoint : roots) {
+                list.add(rootJoint);
+                addUnlinkedDescendants(rootJoint, list);
+            }
+
+        } else {
+            BoneLink manager = findBoneLink(managerName);
+            if (manager == null) {
+                String msg = "No link named " + MyString.quote(managerName);
+                throw new IllegalArgumentException(msg);
+            }
+            Joint managerJoint = manager.getArmatureJoint();
+            list.add(managerJoint);
+            addUnlinkedDescendants(managerJoint, list);
+        }
+        /*
+         * Convert the list to an array.
+         */
+        int numManagedJoints = list.size();
+        Joint[] array = new Joint[numManagedJoints];
         list.toArray(array);
 
         return array;

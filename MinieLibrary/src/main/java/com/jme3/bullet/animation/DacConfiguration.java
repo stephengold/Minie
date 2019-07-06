@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.anim.Joint;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.bullet.control.AbstractPhysicsControl;
@@ -649,22 +650,41 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * collection. Note: recursive.
      *
      * @param startBone the starting Bone (not null, unaffected)
-     * @param addResult the collection of bone names to append to (not null,
+     * @param addResult the collection of skeleton bones to append to (not null,
      * modified)
      */
     protected void addUnlinkedDescendants(Bone startBone,
             Collection<Bone> addResult) {
-        for (Bone childBone : startBone.getChildren()) {
-            String childName = childBone.getName();
+        for (Bone child : startBone.getChildren()) {
+            String childName = child.getName();
             if (!hasBoneLink(childName)) {
-                addResult.add(childBone);
-                addUnlinkedDescendants(childBone, addResult);
+                addResult.add(child);
+                addUnlinkedDescendants(child, addResult);
             }
         }
     }
 
     /**
-     * Find the manager of the specified bone.
+     * Add unlinked descendants of the specified Joint to the specified
+     * collection. Note: recursive.
+     *
+     * @param startJoint the starting Joint (not null, unaffected)
+     * @param addResult the collection of armature joints to append to (not
+     * null, modified)
+     */
+    protected void addUnlinkedDescendants(Joint startJoint,
+            Collection<Joint> addResult) {
+        for (Joint child : startJoint.getChildren()) {
+            String childName = child.getName();
+            if (!hasBoneLink(childName)) {
+                addResult.add(child);
+                addUnlinkedDescendants(child, addResult);
+            }
+        }
+    }
+
+    /**
+     * Find the manager of the specified Bone.
      *
      * @param startBone the bone (not null, unaffected)
      * @return a bone/torso name (not null)
