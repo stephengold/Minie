@@ -31,6 +31,9 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.anim.Armature;
+import com.jme3.anim.Joint;
+import com.jme3.anim.SkinningControl;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
@@ -47,6 +50,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.control.AbstractControl;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
@@ -164,6 +168,39 @@ public class RagUtils {
     }
 
     /**
+     * Find the main root joint of an Armature, based on its total mesh weight.
+     *
+     * @param armature the Armature (not null, unaffected)
+     * @param targetMeshes an array of animated meshes to provide weights (not
+     * null)
+     * @return a root joint, or null if none found
+     */
+    static Joint findMainJoint(Armature armature, Mesh[] targetMeshes) {
+        Validate.nonNull(targetMeshes, "target meshes");
+
+        Joint[] roots = armature.getRoots();
+
+        Joint result;
+        if (roots.length == 1) {
+            result = roots[0];
+        } else {
+            result = null;
+            float[] totalWeights = totalWeights(targetMeshes, armature);
+            float greatestTotalWeight = Float.NEGATIVE_INFINITY;
+            for (Joint root : roots) {
+                int jointIndex = root.getId();
+                float weight = totalWeights[jointIndex];
+                if (weight > greatestTotalWeight) {
+                    result = root;
+                    greatestTotalWeight = weight;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Determine which physics link should manage the specified mesh vertex.
      *
      * @param mesh the mesh containing the vertex (not null, unaffected)
@@ -197,6 +234,30 @@ public class RagUtils {
         }
 
         return bestName;
+    }
+
+    /**
+     * Access the SkeletonControl or SkinningControl in the specified subtree,
+     * assuming it doesn't contain more than one.
+     *
+     * @param subtree a subtree of a scene graph (may be null, unaffected)
+     * @return the pre-existing instance, or null if none or multiple
+     */
+    public static AbstractControl findSControl(Spatial subtree) {
+        AbstractControl result = null;
+        if (subtree != null) {
+            List<SkinningControl> skinners = MySpatial.listControls(subtree,
+                    SkinningControl.class, null);
+            List<SkeletonControl> skellers = MySpatial.listControls(subtree,
+                    SkeletonControl.class, null);
+            if (skellers.isEmpty() && skinners.size() == 1) {
+                result = skinners.get(0);
+            } else if (skinners.isEmpty() && skellers.size() == 1) {
+                result = skellers.get(0);
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -302,6 +363,30 @@ public class RagUtils {
     }
 
     /**
+     * Convert a Transform from the mesh coordinate system to the local
+     * coordinate system of the specified armature joint.
+     *
+     * @param parent (not null)
+     * @param transform the transform to convert (not null, modified)
+     */
+    static void meshToLocal(Joint parent, Transform transform) {
+        Vector3f location = transform.getTranslation();
+        Quaternion orientation = transform.getRotation();
+        Vector3f scale = transform.getScale();
+
+        Transform pm = parent.getModelTransform();
+        Vector3f pmTranslate = pm.getTranslation();
+        Quaternion pmRotInv = pm.getRotation().inverse();
+        Vector3f pmScale = pm.getScale();
+
+        location.subtractLocal(pmTranslate);
+        location.divideLocal(pmScale);
+        pmRotInv.mult(location, location);
+        scale.divideLocal(pmScale);
+        pmRotInv.mult(orientation, orientation);
+    }
+
+    /**
      * Read an array of transforms from an input capsule.
      *
      * @param capsule the input capsule (not null)
@@ -356,6 +441,44 @@ public class RagUtils {
         }
 
         return result;
+    }
+
+    /**
+     * Validate an Armature for use with DynamicAnimControl.
+     *
+     * @param armature the Armature to validate (not null, unaffected)
+     */
+    static void validate(Armature armature) {
+        int numJoints = armature.getJointCount();
+        if (numJoints < 0) {
+            throw new IllegalArgumentException("Joint count is negative!");
+        }
+
+        Set<String> nameSet = new TreeSet<>();
+        for (int jointIndex = 0; jointIndex < numJoints; ++jointIndex) {
+            Joint joint = armature.getJoint(jointIndex);
+            if (joint == null) {
+                String msg = String.format("Joint %d in armature is null!",
+                        jointIndex);
+                throw new IllegalArgumentException(msg);
+            }
+            String jointName = joint.getName();
+            if (jointName == null) {
+                String message = String.format(
+                        "Joint %d in armature has null name!", jointIndex);
+                throw new IllegalArgumentException(message);
+            } else if (jointName.equals(DynamicAnimControl.torsoName)) {
+                String message = String.format(
+                        "Joint %d in armature has a reserved name!",
+                        jointIndex);
+                throw new IllegalArgumentException(message);
+            } else if (nameSet.contains(jointName)) {
+                String message
+                        = "Duplicate joint name in skeleton: " + jointName;
+                throw new IllegalArgumentException(message);
+            }
+            nameSet.add(jointName);
+        }
     }
 
     /**
@@ -458,6 +581,37 @@ public class RagUtils {
                 }
             }
         }
+    }
+
+    /**
+     * Calculate the total mesh weight animated by each Joint in the specified
+     * meshes.
+     *
+     * @param meshes the animated meshes to analyze (not null, unaffected)
+     * @param armature (not null, unaffected)
+     * @return a map from joint indices to total mesh weight
+     */
+    private static float[] totalWeights(Mesh[] meshes, Armature armature) {
+        Validate.nonNull(meshes, "meshes");
+
+        int numBones = armature.getJointCount();
+        float[] result = new float[numBones];
+        for (Mesh mesh : meshes) {
+            RagUtils.addWeights(mesh, result);
+        }
+
+        List<Joint> joints = MySkeleton.preOrderJoints(armature);
+        Collections.reverse(joints);
+        for (Joint childJoint : joints) {
+            int childIndex = childJoint.getId();
+            Joint parent = childJoint.getParent();
+            if (parent != null) {
+                int parentIndex = parent.getId();
+                result[parentIndex] += result[childIndex];
+            }
+        }
+
+        return result;
     }
 
     /**
