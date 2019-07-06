@@ -762,10 +762,10 @@ public class TestDac extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
         dac = new CesiumManControl();
         animationName = "anim_0";
-        leftClavicleName = "Bone_16";
-        leftUlnaName = "Bone_17";
-        rightClavicleName = "Bone_13";
-        upperBodyName = "Bone_11";
+        leftClavicleName = "Joint_16";
+        leftUlnaName = "Joint_17";
+        rightClavicleName = "Joint_13";
+        upperBodyName = "Joint_11";
     }
 
     /**

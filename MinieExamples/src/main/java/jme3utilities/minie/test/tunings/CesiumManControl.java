@@ -67,49 +67,49 @@ public class CesiumManControl
         super.setConfig(torsoName, hull);
 
         // chest
-        super.link("Bone_11", hull,
+        super.link("Joint_11", hull,
                 new RangeOfMotion(0.5f, -1f, 0.7f, -0.7f, 0.7f, -0.7f));
-        super.link("Bone_12", hull,
+        super.link("Joint_12", hull,
                 new RangeOfMotion(0.3f, -0.6f, 0.2f, -0.2f, 0.2f, -0.2f));
-        super.link("Bone_19", hull,
+        super.link("Joint_19", hull,
                 new RangeOfMotion(0.2f, -0.5f, 0.2f, -0.2f, 0.2f, -0.2f));
-        super.link("Bone_20", hull,
+        super.link("Joint_20", hull,
                 new RangeOfMotion(0.5f, 0.5f, 0.2f));
 
         // right arm
-        super.link("Bone_13", hull,
+        super.link("Joint_13", hull,
                 new RangeOfMotion(1f, -1f, 0.2f, -0.2f, 1f, -0.2f));
-        super.link("Bone_14", hull,
+        super.link("Joint_14", hull,
                 new RangeOfMotion(0f, 0f, 1f, -1f, 2f, 0f));
-        super.link("Bone_15", hull,
+        super.link("Joint_15", hull,
                 new RangeOfMotion(0.6f, 0f, 0.1f));
 
         // left arm
-        super.link("Bone_16", hull,
+        super.link("Joint_16", hull,
                 new RangeOfMotion(1f, -1f, 0.2f, -0.2f, 0.2f, -1f));
-        super.link("Bone_17", hull,
+        super.link("Joint_17", hull,
                 new RangeOfMotion(0f, 0f, 1f, -1f, 0f, -2f));
-        super.link("Bone_18", hull,
+        super.link("Joint_18", hull,
                 new RangeOfMotion(0.6f, 0f, 0.1f));
 
         // right leg
-        super.link("Bone_3", hull,
+        super.link("Joint_3", hull,
                 new RangeOfMotion(0.2f, -1f, 0.1f, -0.1f, 0.8f, -0.2f));
-        super.link("Bone_4", hull,
+        super.link("Joint_4", hull,
                 new RangeOfMotion(1.6f, 0f, 0f, 0f, 0f, 0f));
-        super.link("Bone_5", hull,
+        super.link("Joint_5", hull,
                 new RangeOfMotion(0.5f, 0.4f, 0.2f));
-        super.link("Bone_6", hull,
+        super.link("Joint_6", hull,
                 new RangeOfMotion(0.5f, 0.4f, 0.2f));
 
         // left leg
-        super.link("Bone_7", hull,
+        super.link("Joint_7", hull,
                 new RangeOfMotion(0.2f, -1f, 0.1f, -0.1f, 0.2f, -0.8f));
-        super.link("Bone_8", hull,
+        super.link("Joint_8", hull,
                 new RangeOfMotion(1.6f, 0f, 0f, 0f, 0f, 0f));
-        super.link("Bone_9", hull,
+        super.link("Joint_9", hull,
                 new RangeOfMotion(0.5f, 0.4f, 0.2f));
-        super.link("Bone_10", hull,
+        super.link("Joint_10", hull,
                 new RangeOfMotion(0.5f, 0.4f, 0.2f));
     }
     // *************************************************************************
@@ -122,7 +122,7 @@ public class CesiumManControl
      */
     @Override
     public BoneLink getLeftFoot() {
-        return findBoneLink("Bone_10");
+        return findBoneLink("Joint_10");
     }
 
     /**
@@ -132,7 +132,7 @@ public class CesiumManControl
      */
     @Override
     public BoneLink getRightFoot() {
-        return findBoneLink("Bone_6");
+        return findBoneLink("Joint_6");
     }
     // *************************************************************************
     // Face methods
