@@ -33,6 +33,7 @@ package com.jme3.bullet.animation;
 
 import com.jme3.anim.Armature;
 import com.jme3.anim.Joint;
+import com.jme3.anim.SkinningControl;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
@@ -54,6 +55,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.Control;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -196,6 +198,20 @@ public class DacLinks
     public Bone findBone(String boneName) {
         verifyAddedToSpatial("access a bone");
         Bone result = skeleton.getBone(boneName);
+        return result;
+    }
+
+    /**
+     * Access the named armature joint.
+     * <p>
+     * Allowed only when the Control IS added to a Spatial.
+     *
+     * @param jointName the name of the armature joint to access
+     * @return the pre-existing instance, or null if not found
+     */
+    public Joint findArmatureJoint(String jointName) {
+        verifyAddedToSpatial("access an armature joint");
+        Joint result = armature.getJoint(jointName);
         return result;
     }
 
@@ -377,8 +393,8 @@ public class DacLinks
         } else {
             BoneLink manager = findBoneLink(managerName);
             if (manager == null) {
-                String msg = "No link named " + MyString.quote(managerName);
-                throw new IllegalArgumentException(msg);
+                String message = "No link named " + MyString.quote(managerName);
+                throw new IllegalArgumentException(message);
             }
             Joint managerJoint = manager.getArmatureJoint();
             list.add(managerJoint);
@@ -715,6 +731,7 @@ public class DacLinks
             boneLinks.put(boneName, copyLink);
         }
 
+        armature = cloner.clone(armature);
         skeleton = cloner.clone(skeleton);
         transformer = cloner.clone(transformer);
         torsoLink = cloner.clone(torsoLink);
@@ -730,43 +747,90 @@ public class DacLinks
     protected void createSpatialData(Spatial spatial) {
         RagUtils.validate(spatial);
 
-        SkeletonControl skeletonControl
-                = spatial.getControl(SkeletonControl.class);
-        if (skeletonControl == null) {
-            throw new IllegalArgumentException(
-                    "The controlled spatial must have a SkeletonControl. "
-                    + "Make sure the control is there and not on a subnode.");
-        }
-        sortControls(skeletonControl);
-        skeletonControl.setHardwareSkinningPreferred(false);
-        /*
-         * Analyze the model's skeleton.
-         */
-        skeleton = skeletonControl.getSkeleton();
-        validateSkeleton();
-        String[] tempManagerMap = managerMap(skeleton);
-        int numBones = skeleton.getBoneCount();
-        /*
-         * Temporarily set all bones' local translations and rotations to bind.
-         */
-        MySkeleton.setUserControl(skeleton, true);
-        Transform[] savedTransforms = new Transform[numBones];
-        Vector3f userScale = new Vector3f();
-        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
-            Bone bone = skeleton.getBone(boneIndex);
-            savedTransforms[boneIndex]
-                    = MySkeleton.copyLocalTransform(bone, null);
+        SkinningControl skinningControl
+                = spatial.getControl(SkinningControl.class);
+        String[] tempManagerMap;
+        Transform[] savedTransforms;
+        SkeletonControl skeletonControl = null;
+        if (skinningControl == null) {
+            skeletonControl = spatial.getControl(SkeletonControl.class);
+            if (skeletonControl == null) {
+                throw new IllegalArgumentException(
+                        "The controlled spatial must have a SkinningControl or "
+                        + "a SkeletonControl. Make sure the Control is there "
+                        + "and not on some other Spatial.");
+            }
+            sortControls(skeletonControl);
+            skeletonControl.setHardwareSkinningPreferred(false);
+            /*
+             * Analyze the model's Skeleton.
+             */
+            skeleton = skeletonControl.getSkeleton();
+            validateSkeleton();
+            tempManagerMap = managerMap(skeleton);
+            int numBones = skeleton.getBoneCount();
+            /*
+             * Temporarily set all bones' local translations
+             * and rotations to bind.
+             */
+            MySkeleton.setUserControl(skeleton, true);
+            savedTransforms = new Transform[numBones];
+            Vector3f userScale = new Vector3f();
+            for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+                Bone bone = skeleton.getBone(boneIndex);
+                savedTransforms[boneIndex]
+                        = MySkeleton.copyLocalTransform(bone, null);
 
-            userScale.set(bone.getLocalScale());
-            userScale.divideLocal(bone.getBindScale()); // multiply?
-            bone.setUserTransforms(translateIdentity, rotateIdentity,
-                    userScale);
+                userScale.set(bone.getLocalScale());
+                userScale.divideLocal(bone.getBindScale()); // multiply?
+                bone.setUserTransforms(translateIdentity, rotateIdentity,
+                        userScale);
+            }
+            MySkeleton.setUserControl(skeleton, false);
+            skeleton.updateWorldVectors();
+
+            bindTransforms = new Transform[numBones];
+            for (int jointIndex = 0; jointIndex < numBones; ++jointIndex) {
+                Bone bone = skeleton.getBone(jointIndex);
+                bindTransforms[jointIndex]
+                        = MySkeleton.copyBindTransform(bone, null);
+            }
+
+        } else { // spatial has a SkinningControl
+            sortControls(skinningControl);
+            skinningControl.setHardwareSkinningPreferred(false);
+            /*
+             * Analyze the model's Armature.
+             */
+            armature = skinningControl.getArmature();
+            validateArmature();
+            tempManagerMap = managerMap(armature);
+            int numArmatureJoints = armature.getJointCount();
+            /*
+             * Temporarily set all armature joints' local translations
+             * and rotations to bind.
+             */
+            savedTransforms = new Transform[numArmatureJoints];
+            for (int jointI = 0; jointI < numArmatureJoints; ++jointI) {
+                Joint armatureJoint = armature.getJoint(jointI);
+                savedTransforms[jointI]
+                        = armatureJoint.getLocalTransform().clone();
+                armatureJoint.applyBindPose(); // TODO adjust the scale?
+            }
+            armature.update();
+            /*
+             * Save the bind transform of each armature joint.
+             */
+            bindTransforms = new Transform[numArmatureJoints];
+            for (int jointI = 0; jointI < numArmatureJoints; ++jointI) {
+                Joint armatureJoint = armature.getJoint(jointI);
+                bindTransforms[jointI]
+                        = armatureJoint.getLocalTransform().clone();
+            }
         }
-        MySkeleton.setUserControl(skeleton, false);
-        skeleton.updateWorldVectors();
         /*
          * Find the target meshes and choose the transform spatial.
-         * Don't invoke SkeletonControl.getTargets() here, since the
+         * Don't invoke getTargets() here, since the SkinningControl or
          * SkeletonControl might not be initialized yet.
          */
         List<Mesh> targetList = MySpatial.listAnimatedMeshes(spatial, null);
@@ -782,7 +846,7 @@ public class DacLinks
         Map<String, VectorSet> coordsMap
                 = RagUtils.coordsMap(targets, tempManagerMap);
         /*
-         * Create the torso link.
+         * Create the TorsoLink.
          */
         VectorSet vertexLocations = coordsMap.get(torsoName);
         createTorsoLink(vertexLocations, targets);
@@ -808,22 +872,40 @@ public class DacLinks
          */
         String[] attachBoneNames = listAttachmentBoneNames();
         for (String boneName : attachBoneNames) {
-            createAttachmentLink(boneName, skeletonControl, tempManagerMap);
+            if (skinningControl == null) {
+                createAttachmentLink(boneName, skeletonControl, tempManagerMap);
+            } else {
+                createAttachmentLink(boneName, skinningControl, tempManagerMap);
+            }
         }
-        /*
-         * Restore the skeleton's pose.
-         */
-        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
-            Bone bone = skeleton.getBone(boneIndex);
-            MySkeleton.setLocalTransform(bone, savedTransforms[boneIndex]);
+
+        if (skinningControl == null) {
+            /*
+             * Restore the skeleton's pose.
+             */
+            int numBones = skeleton.getBoneCount();
+            for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+                Bone bone = skeleton.getBone(boneIndex);
+                MySkeleton.setLocalTransform(bone, savedTransforms[boneIndex]);
+            }
+            skeleton.updateWorldVectors();
+        } else {
+            /*
+             * Restore the armature's pose.
+             */
+            int numArmatureJoints = armature.getJointCount();
+            for (int jointI = 0; jointI < numArmatureJoints; ++jointI) {
+                Joint armatureJoint = armature.getJoint(jointI);
+                armatureJoint.setLocalTransform(savedTransforms[jointI]);
+            }
+            armature.update();
         }
-        skeleton.updateWorldVectors();
 
         if (added) {
             addPhysics();
         }
 
-        logger3.log(Level.FINE, "Created ragdoll for skeleton.");
+        logger3.log(Level.FINE, "Created ragdoll.");
     }
 
     /**
@@ -897,6 +979,7 @@ public class DacLinks
             attachmentLinks.put(name, link);
         }
 
+        armature = (Armature) capsule.readSavable("armature", null);
         skeleton = (Skeleton) capsule.readSavable("skeleton", null);
         transformer = (Spatial) capsule.readSavable("transformer", null);
         torsoLink = (TorsoLink) capsule.readSavable("torsoLink", null);
@@ -948,15 +1031,25 @@ public class DacLinks
         }
 
         for (AttachmentLink attachmentLink : attachmentLinks.values()) {
-            Bone bone = attachmentLink.getBone();
-            Node node = MySkeleton.getAttachments(bone);
-            MySkeleton.cancelAttachments(bone);
+            Node node;
+            Joint armatureJoint = attachmentLink.getArmatureJoint();
+            if (armatureJoint == null) {
+                Bone bone = attachmentLink.getBone();
+                node = MySkeleton.getAttachments(bone);
+                MySkeleton.cancelAttachments(bone);
+            } else {
+                node = MySkeleton.getAttachments(armatureJoint);
+                MySkeleton.cancelAttachments(armatureJoint);
+            }
             node.removeFromParent();
         }
         attachmentLinks.clear();
 
-        MySkeleton.setUserControl(skeleton, false);
-        skeleton = null;
+        armature = null;
+        if (skeleton != null) {
+            MySkeleton.setUserControl(skeleton, false);
+            skeleton = null;
+        }
 
         boneLinks.clear();
         boneLinkList = null;
@@ -979,10 +1072,17 @@ public class DacLinks
         AttachmentLink link = attachmentLinks.get(boneName);
         if (link != null) {
             Spatial spatial = getSpatial();
-            SkeletonControl skeletonControl
-                    = spatial.getControl(SkeletonControl.class);
-            String[] managerMap = managerMap(skeleton);
-            createAttachmentLink(boneName, skeletonControl, managerMap);
+            if (skeleton != null) {
+                SkeletonControl skeletonControl
+                        = spatial.getControl(SkeletonControl.class);
+                String[] managerMap = managerMap(skeleton);
+                createAttachmentLink(boneName, skeletonControl, managerMap);
+            } else {
+                SkinningControl skinningControl
+                        = spatial.getControl(SkinningControl.class);
+                String[] managerMap = managerMap(skeleton);
+                createAttachmentLink(boneName, skinningControl, managerMap);
+            }
         }
     }
 
@@ -1159,6 +1259,7 @@ public class DacLinks
         attachmentLinks.values().toArray(links);
         capsule.write(links, "attachmentLinks", new AttachmentLink[0]);
 
+        capsule.write(armature, "armature", null);
         capsule.write(skeleton, "skeleton", null);
         capsule.write(transformer, "transformer", null);
         capsule.write(torsoLink, "torsoLink", null);
@@ -1255,10 +1356,18 @@ public class DacLinks
 
         List<String> result = new ArrayList<>(8);
         for (String childName : listLinkedBoneNames()) {
-            Bone bone = findBone(childName);
-            Bone parent = bone.getParent();
-            if (parent != null && findManager(parent).equals(linkName)) {
-                result.add(childName);
+            if (armature == null) {
+                Bone bone = findBone(childName);
+                Bone parent = bone.getParent();
+                if (parent != null && findManager(parent).equals(linkName)) {
+                    result.add(childName);
+                }
+            } else {
+                Joint armatureJoint = findArmatureJoint(childName);
+                Joint parent = armatureJoint.getParent();
+                if (parent != null && findManager(parent).equals(linkName)) {
+                    result.add(childName);
+                }
             }
         }
 
@@ -1323,15 +1432,81 @@ public class DacLinks
     }
 
     /**
-     * Create a jointless BoneLink for the named bone, and add it to the
+     * Create a jointed AttachmentLink for the named armature joint and add it
+     * to the attachmentLinks map.
+     *
+     * @param jointName the name of the attachment joint to be linked (not null)
+     * @param skinningControl (not null)
+     * @param managerMap a map from joint indices to managing link names (not
+     * null, unaffected)
+     * @return an attachment link with a physics joint, added to the boneLinks
+     * map
+     */
+    private void createAttachmentLink(String jointName,
+            SkinningControl skinningControl, String[] managerMap) {
+        assert jointName != null;
+        assert skinningControl != null;
+        assert managerMap != null;
+        /*
+         * Collect the location of every mesh vertex in the attached model.
+         */
+        Spatial attachModel = getAttachmentModel(jointName);
+        attachModel = (Spatial) Misc.deepCopy(attachModel);
+        VectorSet vertexLocations
+                = MyMesh.listVertexLocations(attachModel, null);
+        /*
+         * Attach the model to the attachments node.
+         */
+        Node node = skinningControl.getAttachmentsNode(jointName);
+        node.attachChild(attachModel);
+        /*
+         * Determine which link will manage the new AttachmentLink.
+         */
+        Joint joint = armature.getJoint(jointName);
+        int jointIndex = armature.getJointIndex(joint);
+        String managerName = managerMap[jointIndex];
+        PhysicsLink manager;
+        if (managerName.equals(torsoName)) {
+            manager = torsoLink;
+        } else {
+            manager = boneLinks.get(managerName);
+        }
+        /*
+         * Locate the attached model's center of mass.
+         */
+        LinkConfig linkConfig = attachmentConfig(jointName);
+        CenterHeuristic centerHeuristic = linkConfig.centerHeuristic();
+        assert centerHeuristic != CenterHeuristic.Joint;
+        Vector3f center = centerHeuristic.center(vertexLocations, null);
+        /*
+         * Create the CollisionShape.
+         */
+        CollisionShape shape = linkConfig.createShape(transformIdentity,
+                center, vertexLocations);
+
+        AttachmentLink link = new AttachmentLink(this, joint, manager,
+                attachModel, shape, linkConfig, center);
+        attachmentLinks.put(jointName, link);
+    }
+
+    /**
+     * Create a jointless BoneLink for the named bone/joint, and add it to the
      * boneLinks map.
      *
-     * @param boneName the name of the bone to be linked (not null)
+     * @param boneName the name of the bone/joint to be linked (not null)
      * @param vertexLocations the set of vertex locations (not null, not empty)
      */
     private void createBoneLink(String boneName, VectorSet vertexLocations) {
-        Bone bone = findBone(boneName);
-        Transform boneToMesh = MySkeleton.copyMeshTransform(bone, null);
+        Bone bone = null;
+        Joint joint = null;
+        Transform boneToMesh;
+        if (skeleton != null) {
+            bone = findBone(boneName);
+            boneToMesh = MySkeleton.copyMeshTransform(bone, null);
+        } else {
+            joint = findArmatureJoint(boneName);
+            boneToMesh = joint.getModelTransform();
+        }
         Transform meshToBone = boneToMesh.invert();
         LinkConfig linkConfig = config(boneName);
         /*
@@ -1348,14 +1523,19 @@ public class DacLinks
                 center = translateIdentity;
             } else {
                 center = centerHeuristic.center(vertexLocations, null);
-                center.subtractLocal(bone.getModelSpacePosition());
+                center.subtractLocal(boneToMesh.getTranslation());
             }
             shape = linkConfig.createShape(meshToBone, center, vertexLocations);
         }
 
         meshToBone.getTranslation().zero();
         Vector3f offset = meshToBone.transformVector(center, null);
-        BoneLink link = new BoneLink(this, bone, shape, linkConfig, offset);
+        BoneLink link;
+        if (skeleton != null) {
+            link = new BoneLink(this, bone, shape, linkConfig, offset);
+        } else {
+            link = new BoneLink(this, joint, shape, linkConfig, offset);
+        }
         boneLinks.put(boneName, link);
     }
 
@@ -1374,15 +1554,24 @@ public class DacLinks
         /*
          * Create the CollisionShape.
          */
-        Bone bone = RagUtils.findMainBone(skeleton, meshes);
-        assert bone.getParent() == null;
-        Transform boneToMesh = MySkeleton.copyMeshTransform(bone, null);
+        Bone bone = null;
+        Joint armatureJoint = null;
+        Transform boneToMesh;
+        if (skeleton != null) {
+            bone = RagUtils.findMainBone(skeleton, meshes);
+            assert bone.getParent() == null;
+            boneToMesh = MySkeleton.copyMeshTransform(bone, null);
+        } else {
+            armatureJoint = RagUtils.findMainJoint(armature, meshes);
+            assert armatureJoint.getParent() == null;
+            boneToMesh = armatureJoint.getModelTransform();
+        }
         Transform meshToBone = boneToMesh.invert();
         LinkConfig linkConfig = config(torsoName);
         CenterHeuristic centerHeuristic = linkConfig.centerHeuristic();
         assert centerHeuristic != CenterHeuristic.Joint;
         Vector3f center = centerHeuristic.center(vertexLocations, null);
-        center.subtractLocal(bone.getModelSpacePosition());
+        center.subtractLocal(boneToMesh.getTranslation());
         CollisionShape shape = linkConfig.createShape(meshToBone, center,
                 vertexLocations);
 
@@ -1399,39 +1588,74 @@ public class DacLinks
             meshToModel = transformIdentity;
         }
 
-        torsoLink = new TorsoLink(this, bone, shape, linkConfig, meshToModel,
-                offset);
+        if (skeleton != null) {
+            torsoLink = new TorsoLink(this, bone, shape, linkConfig,
+                    meshToModel, offset);
+        } else {
+            torsoLink = new TorsoLink(this, armatureJoint, shape, linkConfig,
+                    meshToModel, offset);
+        }
     }
 
     /**
-     * Sort the controls of the controlled spatial, such that this control will
-     * come BEFORE the specified SkeletonControl.
+     * Sort the controls of the controlled spatial, such that this Control will
+     * come BEFORE the specified Control.
      *
-     * @param skeletonControl (not null)
+     * @param otherSgc (not null)
      */
-    private void sortControls(SkeletonControl skeletonControl) {
-        assert skeletonControl != null;
+    private void sortControls(Control otherSgc) {
+        assert otherSgc != null;
 
         Spatial spatial = getSpatial();
         int dacIndex = MySpatial.findIndex(spatial, this);
         assert dacIndex != -1;
-        int scIndex = MySpatial.findIndex(spatial, skeletonControl);
-        assert scIndex != -1;
-        assert dacIndex != scIndex;
+        int otherIndex = MySpatial.findIndex(spatial, otherSgc);
+        assert otherIndex != -1;
+        assert dacIndex != otherIndex;
 
-        if (dacIndex > scIndex) {
+        if (dacIndex > otherIndex) {
             /*
-             * Remove the SkeletonControl and re-add it to make sure it will get
-             * updated *after* this control. TODO also arrange with AnimControl
+             * Remove the other Control and re-add it to make sure it will get
+             * updated *after* this control. TODO also arrange with AnimComposer/AnimControl
              */
-            spatial.removeControl(skeletonControl);
-            spatial.addControl(skeletonControl);
+            spatial.removeControl(otherSgc);
+            spatial.addControl(otherSgc);
 
             dacIndex = MySpatial.findIndex(spatial, this);
             assert dacIndex != -1;
-            scIndex = MySpatial.findIndex(spatial, skeletonControl);
-            assert scIndex != -1;
-            assert dacIndex < scIndex;
+            otherIndex = MySpatial.findIndex(spatial, otherSgc);
+            assert otherIndex != -1;
+            assert dacIndex < otherIndex;
+        }
+    }
+
+    /**
+     * Validate the model's armature.
+     */
+    private void validateArmature() {
+        RagUtils.validate(armature);
+
+        for (String jointName : listLinkedBoneNames()) {
+            Joint joint = findArmatureJoint(jointName);
+            if (joint == null) {
+                String message = String.format(
+                        "Linked bone %s not found in armature.",
+                        MyString.quote(jointName));
+                throw new IllegalArgumentException(message);
+            }
+            if (joint.getParent() == null) {
+                logger3.log(Level.WARNING, "Linked bone {0} is a root joint.",
+                        MyString.quote(jointName));
+            }
+        }
+        for (String jointName : listAttachmentBoneNames()) {
+            Joint joint = findArmatureJoint(jointName);
+            if (joint == null) {
+                String message = String.format(
+                        "Attachment joint %s not found in armature.",
+                        MyString.quote(jointName));
+                throw new IllegalArgumentException(message);
+            }
         }
     }
 
