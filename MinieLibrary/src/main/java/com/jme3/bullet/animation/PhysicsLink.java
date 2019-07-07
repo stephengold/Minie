@@ -281,7 +281,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      *
      * @return the pre-existing instance (not null)
      */
-    public PhysicsRigidBody getRigidBody() {
+    final public PhysicsRigidBody getRigidBody() {
         assert rigidBody != null;
         return rigidBody;
     }
