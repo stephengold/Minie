@@ -25,6 +25,7 @@ Java source code is provided under
  + [Choosing a collision shape](#shape)
  + [An introduction to DynamicAnimControl](#dac)
  + [Collision detection](#detect)
+ + [An Introduction to soft-body physics](#softbody)
  + [External links](#links)
  + [Acknowledgments](#acks)
 
@@ -551,7 +552,7 @@ In particular, `CapsuleCollisionShape` is often used with humanoid models.
 
 <a name="dac"/>
 
-## An Introduction to DynamicAnimControl
+## An introduction to DynamicAnimControl
 
 The centerpiece of Minie is `DynamicAnimControl`, a new `PhysicsControl`.
 Adding a `DynamicAnimControl` to an animated model provides ragdoll physics and
@@ -627,6 +628,44 @@ Minie provides 4 collision-detection interfaces:
  4. You can invoke `getOverlappingObjects()` on any `PhysicsGhostObject` to
     enumerate all collision objects that overlap with it, based on
     axis-aligned bounding boxes.
+
+<a name="softbody"/>
+
+## An Introduction to soft-body physics
+
+While rope, cloth, and foam rubber can be simulated using many small rigid
+bodies, it is more natural and efficient to treat them as individual bodies
+that are deformable.
+For this purpose, Minie supports simulation of soft bodies in a manner
+roughly analogous to that for rigid bodies.
+
+ + In place of `BulletAppState`, use `SoftPhysicsAppState`.
+ + In place of `PhysicsSpace`, use `PhysicsSoftSpace`.
+ + In place of `PhysicsRigidBody`, use `PhysicsSoftBody`.
+ + In place of `RigidBodyControl`, use `SoftBodyControl`.
+
+Soft bodies can collide with rigid bodies and other soft bodies.
+They can also be joined (using special subclasses of `PhysicsJoint`) to
+rigid bodies and other soft bodies.
+
+Unlike a rigid body, a soft body does not have a `CollisionShape` or
+an orientation.
+Instead, it is composed of point masses (called "nodes") whose positions
+are specified in physics-space coordinates.
+Its structure is described by a mesh:
+
+ + To simulate rope, nodes can be connected in pairs (called "links").
+ + To simulate cloth, nodes can be connected to form triangles (called "faces").
+ + To simulate foam rubber, nodes can be connected in foursomes
+   (called "tetrahedra" or "tetras").
+
+By default, soft-body collisions are detected between nodes and faces.
+As an alternative, collision detection can be performed on overlapping groups
+of nodes (called "clusters").
+For a given soft body, clusters can be generated automatically.
+
+TODO: code snippets, SoftBodyControl, applying forces, anchors, soft joints
+TODO: tutorial codes, default posse, world info, aerodynamics
 
 <a name="links"/>
 
