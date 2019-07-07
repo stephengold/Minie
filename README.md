@@ -108,6 +108,8 @@ Some `jme3-bullet` bugs that have been fixed in Minie:
  + 1060 doesn't implement `bt32BitAxisSweep3`
  + 1120 scaled GImpact shapes fall through floor
  + 1125 heightfield collision shapes don't match `TerrainQuad`
+ + 1134 missing collisions for some rotations of a `GImpactCollisionShape`
+ + 1135 `ConeJoint` causes rigid body to disappear on Linux
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
@@ -121,7 +123,7 @@ Other important differences:
 
  + The default collision margin increased from 0 to 0.04 .
  + `PhysicsSpace.addAll()` and `PhysicsSpace.removeAll()` add/remove collision
-   objects only; they do not add joints.
+   objects only; they do not add/remove joints.
  + `RagdollCollisionListener` interface changed and moved
    from the `com.jme3.bullet.collision` package
    to the `com.jme3.bullet.animation` package.
@@ -290,7 +292,7 @@ repository location:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.9.4'
+        compile 'jme3utilities:Minie:0.9.5for32'
     }
 
 #### For Ant projects
@@ -298,8 +300,8 @@ repository location:
 For projects built using Ant, download the 2 non-standard
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/0.9.4
- + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.28.1
+ + https://github.com/stephengold/Minie/releases/tag/0.9.5for32
+ + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.29.0for32
 
 You'll want both class JARs
 and probably the `-sources` and `-javadoc` JARs as well.
@@ -315,15 +317,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Navigate to the "jme3-utilities" project folder.
     + Open the "heart" sub-project folder.
     + Navigate to the "build/libs" folder.
-    + Select the "jme3-utilities-heart-2.28.1.jar" file.
+    + Select the "jme3-utilities-heart-2.29.0for32.jar" file.
     + Click on the "Open" button.
  6. (optional) Add JARs for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "jme3-utilities-heart-2.28.1-javadoc.jar" file.
+    + Select the "jme3-utilities-heart-2.29.0for32-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "jme3-utilities-heart-2.28.1-sources.jar" file.
+    + Select the "jme3-utilities-heart-2.29.0for32-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the Minie JAR(s).
