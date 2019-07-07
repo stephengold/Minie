@@ -654,11 +654,11 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      */
     protected void addUnlinkedDescendants(Bone startBone,
             Collection<Bone> addResult) {
-        for (Bone childBone : startBone.getChildren()) {
-            String childName = childBone.getName();
+        for (Bone child : startBone.getChildren()) {
+            String childName = child.getName();
             if (!hasBoneLink(childName)) {
-                addResult.add(childBone);
-                addUnlinkedDescendants(childBone, addResult);
+                addResult.add(child);
+                addUnlinkedDescendants(child, addResult);
             }
         }
     }
