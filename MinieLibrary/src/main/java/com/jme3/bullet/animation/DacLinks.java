@@ -624,7 +624,7 @@ public class DacLinks
         if (skeletonControl == null) {
             throw new IllegalArgumentException(
                     "The controlled spatial must have a SkeletonControl. "
-                    + "Make sure the control is there and not on a subnode.");
+                    + "Make sure the Control is there and not on some other Spatial.");
         }
         sortControls(skeletonControl);
         skeletonControl.setHardwareSkinningPreferred(false);
@@ -712,7 +712,7 @@ public class DacLinks
             addPhysics();
         }
 
-        logger3.log(Level.FINE, "Created ragdoll for skeleton.");
+        logger3.log(Level.FINE, "Created ragdoll.");
     }
 
     /**
@@ -1271,7 +1271,7 @@ public class DacLinks
         CenterHeuristic centerHeuristic = linkConfig.centerHeuristic();
         assert centerHeuristic != CenterHeuristic.Joint;
         Vector3f center = centerHeuristic.center(vertexLocations, null);
-        center.subtractLocal(bone.getModelSpacePosition());
+        center.subtractLocal(boneToMesh.getTranslation());
         CollisionShape shape = linkConfig.createShape(meshToBone, center,
                 vertexLocations);
 
