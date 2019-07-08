@@ -47,7 +47,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import java.util.logging.Logger;
 
 /**
  * A simple example of a DynamicAnimControl with 3 bone links.
@@ -55,14 +54,6 @@ import java.util.logging.Logger;
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloBoneLink extends SimpleApplication {
-    // *************************************************************************
-    // constants and loggers
-
-    /**
-     * message logger for this class
-     */
-    final public static Logger logger
-            = Logger.getLogger(HelloBoneLink.class.getName());
     // *************************************************************************
     // fields
 
