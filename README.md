@@ -25,7 +25,7 @@ Java source code is provided under
  + [Choosing a collision shape](#shape)
  + [An introduction to DynamicAnimControl](#dac)
  + [Collision detection](#detect)
- + [An Introduction to soft-body physics](#softbody)
+ + [An introduction to soft-body physics](#softbody)
  + [External links](#links)
  + [Acknowledgments](#acks)
 
@@ -631,7 +631,7 @@ Minie provides 4 collision-detection interfaces:
 
 <a name="softbody"/>
 
-## An Introduction to soft-body physics
+## An introduction to soft-body physics
 
 While rope, cloth, and foam rubber can be simulated using many small rigid
 bodies, it is more natural and efficient to treat them as individual bodies
@@ -644,28 +644,51 @@ roughly analogous to that for rigid bodies.
  + In place of `PhysicsRigidBody`, use `PhysicsSoftBody`.
  + In place of `RigidBodyControl`, use `SoftBodyControl`.
 
-Soft bodies can collide with rigid bodies and other soft bodies.
-They can also be joined (using special subclasses of `PhysicsJoint`) to
-rigid bodies and other soft bodies.
+Soft bodies can collide with both rigid bodies and soft bodies.
+They can also be joined to other bodies, using certain subclasses
+of `PhysicsJoint`.
 
 Unlike a rigid body, a soft body does not have a `CollisionShape` or
 an orientation.
 Instead, it is composed of point masses (called "nodes") whose positions
 are specified in physics-space coordinates.
-Its structure is described by a mesh:
+Its shape and structure are defined by a mesh of nodes:
 
  + To simulate rope, nodes can be connected in pairs (called "links").
  + To simulate cloth, nodes can be connected to form triangles (called "faces").
  + To simulate foam rubber, nodes can be connected in foursomes
    (called "tetrahedra" or "tetras").
 
+Like rigid bodies, soft bodies can be directly created using `new`,
+or they can be created by physics controls (such as `SoftBodyControl`)
+that tie them to particular spatials in the scene graph.
+However, unlike a `RigidBodyControl`, a `SoftBodyControl` can only be
+dynamic (spatial follows body) never kinematic (body follows spatial).
+
+Soft bodies have many properties that can affect their behavior.
+Most of these properties are enumerated
+by the `Sbcp` ("soft-body configuration parameter") enum.
+For instance, a body can have a preferred shape (called its "default pose")
+that its tends to return to if deformed.
+The strength of this tendency is configured by the body's `Sbcp.PoseMatching`
+parameter, which defaults to zero.
+
+For a simple example using `SoftPhysicsAppState`, `SoftBodyControl`, and
+pose matching, see
+[HelloSoftBody.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloSoftBody.java).
+
 By default, soft-body collisions are detected between nodes and faces.
 As an alternative, collision detection can be performed on overlapping groups
 of nodes (called "clusters").
-For a given soft body, clusters can be generated automatically.
+Given a soft body, clusters can be generated automatically, as follows:
 
-TODO: code snippets, SoftBodyControl, applying forces, anchors, soft joints
-TODO: tutorial codes, default posse, world info, aerodynamics
+    softBody.generateClusters();
+
+TODO: more code snippets, applying forces, anchors, soft joints
+
+TODO: more tutorial apps, demo apps
+
+TODO: materials, world info, aerodynamics
 
 <a name="links"/>
 
