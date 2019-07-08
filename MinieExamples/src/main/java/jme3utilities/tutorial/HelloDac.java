@@ -26,7 +26,7 @@
  */
 package jme3utilities.tutorial;
 
-import com.jme3.animation.SkeletonControl;
+import com.jme3.anim.SkinningControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -80,9 +80,9 @@ public class HelloDac extends SimpleApplication {
         ninjaModel.scale(0.02f);
 
         // The DynamicAnimControl must be added to the Spatial with
-        // the model's SkeletonControl.
+        // the model's SkinningControl.
         // In the Ninja model, that Spatial is the model's root Node.
-        assert ninjaModel.getControl(SkeletonControl.class) != null;
+        assert ninjaModel.getControl(SkinningControl.class) != null;
 
         // Add a DynamicAnimControl to the model.
         DynamicAnimControl dac = new DynamicAnimControl();
