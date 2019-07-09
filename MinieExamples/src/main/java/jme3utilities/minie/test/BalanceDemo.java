@@ -45,7 +45,7 @@ import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -431,7 +431,7 @@ public class BalanceDemo extends ActionApplication {
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsRigidBody.massForStatic;
+        float mass = PhysicsBody.massForStatic;
         RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
         geometry.addControl(boxBody);
         boxBody.setApplyScale(true);
