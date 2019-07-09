@@ -34,7 +34,7 @@ import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
@@ -149,7 +149,7 @@ public class HelloBoneLink extends SimpleApplication {
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsRigidBody.massForStatic;
+        float mass = PhysicsBody.massForStatic;
         RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
         geometry.addControl(boxBody);
         boxBody.setPhysicsSpace(physicsSpace);

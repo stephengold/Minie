@@ -32,7 +32,7 @@ import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.control.SoftBodyControl;
-import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
@@ -146,7 +146,7 @@ public class HelloSoftBody extends SimpleApplication {
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsRigidBody.massForStatic;
+        float mass = PhysicsBody.massForStatic;
         RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
         geometry.addControl(boxBody);
         boxBody.setPhysicsSpace(physicsSpace);

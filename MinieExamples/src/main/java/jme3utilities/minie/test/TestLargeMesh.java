@@ -32,7 +32,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
@@ -90,7 +90,7 @@ public class TestLargeMesh extends SimpleApplication {
         mesh.setBuffer(VertexBuffer.Type.Position, 3, buffer);
         CollisionShape shape = new MeshCollisionShape(mesh, optimized);
 
-        float mass = PhysicsRigidBody.massForStatic;
+        float mass = PhysicsBody.massForStatic;
         RigidBodyControl rbc = new RigidBodyControl(shape, mass);
 
         BulletAppState bulletAppState = new BulletAppState();

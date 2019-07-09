@@ -196,7 +196,7 @@ public class TestCloneBody {
     private void setRigid(PhysicsRigidBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         body.setContactResponse(flag);
-        if (body.getMass() != PhysicsRigidBody.massForStatic) {
+        if (body.getMass() != PhysicsBody.massForStatic) {
             body.setKinematic(!flag);
         }
 
@@ -278,7 +278,7 @@ public class TestCloneBody {
     private void verifyRigid(PhysicsRigidBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert body.isContactResponse() == flag;
-        if (body.getMass() != PhysicsRigidBody.massForStatic) {
+        if (body.getMass() != PhysicsBody.massForStatic) {
             assert body.isKinematic() == !flag;
         }
 
