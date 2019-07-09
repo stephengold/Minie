@@ -649,33 +649,48 @@ They can also be joined to other bodies, using certain subclasses
 of `PhysicsJoint`.
 
 Unlike a rigid body, a soft body does not have a `CollisionShape` or
-an orientation.
-Instead, it is composed of point masses (called "nodes") whose positions
+a physics transform.
+Instead, it is composed of point masses (called "nodes") whose locations
 are specified in physics-space coordinates.
-Its shape and structure are defined by a mesh of nodes:
+A soft body's shape, structure, and position are all defined
+by a mesh of nodes:
 
  + To simulate rope, nodes can be connected in pairs (called "links").
  + To simulate cloth, nodes can be connected to form triangles (called "faces").
- + To simulate foam rubber, nodes can be connected in foursomes
-   (called "tetrahedra" or "tetras").
+ + To simulate foam rubber, nodes can be connected to form tetrahedra (also
+   called "tetras").
 
-Like rigid bodies, soft bodies can be directly created using `new`,
-or they can be created by physics controls (such as `SoftBodyControl`)
-that tie them to particular spatials in the scene graph.
+Like rigid bodies, soft bodies can be created directly (using `new`)
+or they can be created using physics controls (such as `SoftBodyControl`),
+which tie them to particular spatials in the scene graph.
 However, unlike a `RigidBodyControl`, a `SoftBodyControl` can only be
 dynamic (spatial follows body) never kinematic (body follows spatial).
 
-Soft bodies have many properties that can affect their behavior.
-Most of these properties are enumerated
+A soft body has numerous properties that can affect its behavior.
+Most of these are stored in its configuration object, which can be
+accessed using `getSoftConfig()`.
+
+Configuration properties with `float` values are enumerated
 by the `Sbcp` ("soft-body configuration parameter") enum.
-For instance, a body can have a preferred shape (called its "default pose")
-that its tends to return to if deformed.
-The strength of this tendency is configured by the body's `Sbcp.PoseMatching`
-parameter, which defaults to zero.
+For instance, a soft body can have a preferred shape (called its "default pose")
+that it tends to return to if deformed.
+The strength of this tendency is configured by the configuration object's
+"pose matching" parameter, which defaults to zero.
 
 For a simple example using `SoftPhysicsAppState`, `SoftBodyControl`, and
 pose matching, see
 [HelloSoftBody.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloSoftBody.java).
+
+By default, collisions between soft bodies are ignored.
+One way to enable soft-soft collisions for a specific body is to
+set the `VF_SS` collision flag in its configuration object:
+
+    SoftBodyConfig config = softBody.getSoftConfig();
+    int oldFlags = config.getCollisionFlags();
+    config.setCollisionFlags(oldFlags, ConfigFlag.VF_SS);
+
+For a simple example of soft-soft collisions, see
+[HelloSoftSoft.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloSoftSoft.java).
 
 By default, soft-body collisions are detected between nodes and faces.
 As an alternative, collision detection can be performed on overlapping groups
@@ -683,6 +698,8 @@ of nodes (called "clusters").
 Given a soft body, clusters can be generated automatically, as follows:
 
     softBody.generateClusters();
+
+To enable cluster-based collision detection, ...
 
 TODO: more code snippets, applying forces, anchors, soft joints
 
