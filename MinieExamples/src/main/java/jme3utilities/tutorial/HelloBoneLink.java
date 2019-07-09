@@ -83,7 +83,7 @@ public class HelloBoneLink extends SimpleApplication {
     public void simpleInitApp() {
         // Set up Bullet physics (with debug enabled).
         BulletAppState bulletAppState = new BulletAppState();
-        bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugEnabled(true); // default = false
         stateManager.attach(bulletAppState);
         physicsSpace = bulletAppState.getPhysicsSpace();
 
