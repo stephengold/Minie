@@ -65,10 +65,6 @@ public class PhysicsRigidBody extends PhysicsBody {
     // constants and loggers
 
     /**
-     * magic mass value used to specify a static body
-     */
-    final public static float massForStatic = 0f;
-    /**
      * message logger for this class
      */
     final public static Logger logger2
