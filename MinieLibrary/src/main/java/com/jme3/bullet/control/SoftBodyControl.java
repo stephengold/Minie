@@ -102,7 +102,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     /**
      * Instantiate an enabled Control for a soft body based on a single
      * Geometry. Merge duplicate vertices, match physics-space coordinates to
-     * world coordinates, and update mesh normals.
+     * world coordinates, and update mesh normals if present.
      */
     public SoftBodyControl() {
     }
@@ -114,8 +114,8 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      * @param localPhysics true &rarr; match physics-space coordinates to the
      * spatial's local coordinates, false &rarr; match physics-space coordinates
      * to world coordinates
-     * @param updateNormals true&rarr;update mesh normals, false&rarr;don't
-     * update mesh normals
+     * @param updateNormals true&rarr;update mesh normals if present,
+     * false&rarr;never update mesh normals
      * @param mergeVertices true&rarr;merge duplicate vertices in the soft body,
      * false&rarr;don't merge duplicate vertices, see
      * {@link com.jme3.bullet.util.NativeSoftBodyUtil#generateIndexMap}
