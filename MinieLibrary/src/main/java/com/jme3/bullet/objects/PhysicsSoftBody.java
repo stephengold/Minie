@@ -907,8 +907,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Alter the total mass for this body, distributing it based on the current
-     * mass of each node.
+     * Alter the total mass for this body, distributing it to nodes in
+     * proportion to their current masses.
      *
      * @param totalMass the desired total mass (&gt;0, default=numNodes)
      */
@@ -942,7 +942,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Alter the mass of the indexed node.
      *
      * @param nodeIndex which node to modify (&ge;0, &lt;numNodes)
-     * @param mass the desired mass (&ge;0)
+     * @param mass the desired mass (&ge;0, default=1)
      */
     public void setNodeMass(int nodeIndex, float mass) {
         int numNodes = countNodes();
@@ -1283,8 +1283,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Locate the center of this body's bounding box. The bounding box isn't
-     * updated on every frame.
+     * Locate the center of this body's axis-aligned bounding box.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
@@ -1501,8 +1500,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Directly relocate the center of this body's bounding box. The bounding
-     * box isn't updated on every frame.
+     * Directly relocate the center of this body's bounding box.
      *
      * @param location the desired location (in physics-space coordinates, not
      * null, unaffected)
