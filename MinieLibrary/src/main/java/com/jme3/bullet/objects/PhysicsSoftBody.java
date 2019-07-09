@@ -765,7 +765,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Read the mass of the indexed node.
      *
      * @param nodeIndex which node to read (&ge;0, &lt;numNodes)
-     * @return the mass of the node (&gt;0)
+     * @return the mass of the node (&ge;0)
      */
     public float nodeMass(int nodeIndex) {
         int numNodes = countNodes();
@@ -921,7 +921,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Alter the masses of all nodes.
      *
      * @param masses a buffer containing the desired masses (not null, all
-     * elements &gt;0)
+     * elements &ge;0)
      */
     public void setMasses(FloatBuffer masses) {
         Validate.nonNull(masses, "masses");
@@ -942,12 +942,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Alter the mass of the indexed node.
      *
      * @param nodeIndex which node to modify (&ge;0, &lt;numNodes)
-     * @param mass the desired mass (&gt;0)
+     * @param mass the desired mass (&ge;0)
      */
     public void setNodeMass(int nodeIndex, float mass) {
         int numNodes = countNodes();
         Validate.inRange(nodeIndex, "node index", 0, numNodes - 1);
-        Validate.positive(mass, "mass");
+        Validate.nonNegative(mass, "mass");
 
         setMass(objectId, nodeIndex, mass);
     }
@@ -1273,11 +1273,13 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Determine the total mass of this body.
      *
-     * @return the total mass (&gt;0)
+     * @return the total mass (&ge;0)
      */
     @Override
     public float getMass() {
-        return getTotalMass(objectId);
+        float totalMass = getTotalMass(objectId);
+        assert totalMass >= 0f : totalMass;
+        return totalMass;
     }
 
     /**
