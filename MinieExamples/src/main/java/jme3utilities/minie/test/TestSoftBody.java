@@ -643,9 +643,9 @@ public class TestSoftBody
         NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
         softBody.setMass(mass);
 
-        SoftBodyConfig clothPsb = softBody.getSoftConfig();
-        clothPsb.set(Sbcp.Damping, 0.02f);
-        clothPsb.setPositionIterations(3);
+        SoftBodyConfig config = softBody.getSoftConfig();
+        config.set(Sbcp.Damping, 0.02f);
+        config.setPositionIterations(3);
 
         PhysicsSoftBody.Material material = softBody.getSoftMaterial();
         material.setAngularStiffness(0f);
