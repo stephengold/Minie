@@ -650,8 +650,14 @@ roughly analogous to that for rigid bodies:
  + In place of `PhysicsRigidBody`, use `PhysicsSoftBody`.
  + In place of `RigidBodyControl`, use `SoftBodyControl`.
 
+`PhysicsSoftSpace` is a subclass of `PhysicsSpace`.
+It implements soft body physics in addition to all the
+features of an ordinary `PhysicsSpace` (such as rigid bodies).
+
 The abstract class `PhysicsBody` is a superclass of both `PhysicsRigidBody`
 and `PhysicsSoftBody`.
+It provides access to many properties that rigid bodies and soft bodies
+have in common, such as gravity, location, mass, and joints.
 
 Soft bodies can collide with both rigid bodies and soft bodies.
 They can also be joined to other bodies of both types, using special subclasses
@@ -672,7 +678,7 @@ by its mesh of nodes:
    called "tetras").
 
 (Soft-body nodes are unrelated to `com.jme3.scene.Node`,
-the kind of node used to define the scene graph.)
+the kind of node found in the scene graph.)
 
 Unlike a rigid body, the physics location of a soft body is not its center
 of mass, but rather the center of its axis-aligned bounding box.
@@ -699,7 +705,7 @@ To construct a soft body directly, start with the null constructor:
     PhysicsSoftBody softBody = new PhysicsSoftBody()
 
 This produces an empty body (one without any nodes, links, faces, tetras,
-or joints) that is not added to any physics space.
+or joints) that isn't added to any physics space.
 
 Methods are provided to append nodes, links, and faces to a soft body.
 However, it's often more convenient to generate a `com.jme3.scene.Mesh`
@@ -712,7 +718,7 @@ using a utility method:
  + `NativeSoftBodyUtil.appendFromLineMesh()`
    to append nodes and links from a mesh with Mode.Lines
 
-However, meshes intended for graphics rendering may prove
+Be aware that meshes intended for graphics rendering may prove
 unsuitable for soft-body simulation.
 For instance, they may define multiple vertices at the same position
 or their edges/faces may be insufficiently subdivided.
@@ -781,7 +787,7 @@ number of position-solver iterations:
 
 Each soft body has 3 stiffness coefficients.
 These are stored in its "material" object,
-which is accessed using `getSoftMaterial()`.
+which can be accessed using `getSoftMaterial()`.
 Soft bodies and their material objects are one-to-one.
 (Soft-body materials are unrelated to `com.jme3.material.Material`,
 the kind of material used to render geometries.)
@@ -798,7 +804,7 @@ For a simple example of cloth simulation, see
 
 ### Mass distribution
 
-All new soft-body nodes have mass=1.
+When a node is appended to a soft body, it has mass=1.
 To alter the mass of a pre-existing node, use the `setNodeMass()` method:
 
     softBody.setNodeMass(nodeIndex, desiredMass);
@@ -828,7 +834,7 @@ Clusters can overlap, but they can't span multiple bodies.
 In other words, a single node can belong to multiple clusters,
 but a single cluster can't contain nodes from multiple bodies.
 
-When a soft body is created, it contains no nodes and no clusters.
+When a soft body is created, it contains no clusters.
 Once nodes are appended to a body, clusters can be generated automatically,
 using an iterative algorithm that's built into Bullet:
 
