@@ -304,31 +304,27 @@ public class TestSoftBodyControl
         Spatial cgModel = assetManager.loadModel("Models/Duck/Duck.gltf");
         rootNode.attachChild(cgModel);
 
-        boolean applyLocal = false;
-        boolean updateNormals = true;
-        boolean mergeVertices = true;
-        SoftBodyControl duckSbc = new SoftBodyControl(applyLocal, updateNormals,
-                mergeVertices);
-        cgModel.addControl(duckSbc);
-        PhysicsSoftBody duckPsb = duckSbc.getBody();
+        SoftBodyControl sbc = new SoftBodyControl();
+        cgModel.addControl(sbc);
+        PhysicsSoftBody psb = sbc.getBody();
 
         float totalMass = 1f;
-        duckPsb.setMassByArea(totalMass);
+        psb.setMassByArea(totalMass);
 
-        SoftBodyConfig config = duckPsb.getSoftConfig();
+        SoftBodyConfig config = psb.getSoftConfig();
         config.set(Sbcp.KineticHardness, 1f);
         config.set(Sbcp.PoseMatching, 0.03f);
         //config.setPositionIterations(15);
 
         boolean setVolumePose = false;
         boolean setFramePose = true;
-        duckPsb.setPose(setVolumePose, setFramePose);
+        psb.setPose(setVolumePose, setFramePose);
 
-        duckPsb.applyRotation(new Quaternion().fromAngles(0.4f, 0f, 1f));
-        duckPsb.applyTranslation(new Vector3f(0f, 1.2f, 0f));
+        psb.applyRotation(new Quaternion().fromAngles(0.4f, 0f, 1f));
+        psb.applyTranslation(new Vector3f(0f, 1.2f, 0f));
 
-        physicsSpace.add(duckSbc);
-        hiddenObjects.addException(duckSbc);
+        physicsSpace.add(sbc);
+        hiddenObjects.addException(sbc);
     }
 
     /**
