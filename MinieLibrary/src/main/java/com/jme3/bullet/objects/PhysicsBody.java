@@ -42,6 +42,11 @@ import com.jme3.math.Vector3f;
  */
 abstract public class PhysicsBody extends PhysicsCollisionObject {
     /**
+     * magic mass value used to specify a static rigid body or soft-body node
+     */
+    final public static float massForStatic = 0f;
+
+    /**
      * Do not invoke directly! Joints are added automatically when created.
      *
      * @param joint the joint to add (not null)
