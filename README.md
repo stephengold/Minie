@@ -599,7 +599,13 @@ for each linked bone:
 For a simple example, see
 [HelloBoneLink.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloBoneLink.java).
 
-Alternatively, you can generate configuration code for a specific model using
+When you run `HelloBoneLink`, press the space bar to put the control into
+dynamic mode.
+You'll see the linked bones go limp while the remainder of the ninja model
+stays rigid.
+
+As an alternative to hand-coding the control configuration,
+you can generate configuration code for a specific model using
 the [DacWizard application][dacwizard], which uses animation data to estimate
 the range of motion for each linked bone.
 
@@ -634,10 +640,10 @@ Minie provides 4 collision-detection interfaces:
 ## An introduction to soft-body physics
 
 While rope, cloth, and foam rubber can be simulated using many small rigid
-bodies, it is more natural and efficient to treat them as individual bodies
-that are deformable.
-For this purpose, Minie supports simulation of soft bodies in a manner
-roughly analogous to that for rigid bodies.
+bodies, it is more convenient and efficient to treat them as individual bodies
+that can be deformed.
+To this end, Minie supports simulation of soft bodies in a manner
+roughly analogous to that for rigid bodies:
 
  + In place of `BulletAppState`, use `SoftPhysicsAppState`.
  + In place of `PhysicsSpace`, use `PhysicsSoftSpace`.
@@ -645,67 +651,121 @@ roughly analogous to that for rigid bodies.
  + In place of `RigidBodyControl`, use `SoftBodyControl`.
 
 Soft bodies can collide with both rigid bodies and soft bodies.
-They can also be joined to other bodies, using certain subclasses
+They can also be joined to other bodies of both types, using special subclasses
 of `PhysicsJoint`.
 
-Unlike a rigid body, a soft body does not have a `CollisionShape` or
+Unlike a rigid body, a soft body doesn't have a `CollisionShape` or
 a physics transform.
 Instead, it is composed of point masses (called "nodes") whose locations
 are specified in physics-space coordinates.
 A soft body's shape, structure, and position are all defined
-by a mesh of nodes:
+by its mesh of nodes:
 
  + To simulate rope, nodes can be connected in pairs (called "links").
  + To simulate cloth, nodes can be connected to form triangles (called "faces").
  + To simulate foam rubber, nodes can be connected to form tetrahedra (also
    called "tetras").
 
-Like rigid bodies, soft bodies can be created directly (using `new`)
-or they can be created using physics controls (such as `SoftBodyControl`),
+(Soft-body nodes are unrelated to `com.jme3.scene.Node`,
+the kind of node used to define the scene graph.)
+
+Like rigid bodies, soft bodies can be constructed directly (using `new`)
+or they can be created using physics controls (such as `SoftBodyControl`)
 which tie them to particular spatials in the scene graph.
 However, unlike a `RigidBodyControl`, a `SoftBodyControl` can only be
 dynamic (spatial follows body) never kinematic (body follows spatial).
 
-A soft body has numerous properties that can affect its behavior.
+### Soft-body configuration and pose matching
+
+Each soft body has numerous properties that can affect its behavior.
 Most of these are stored in its configuration object, which can be
 accessed using `getSoftConfig()`.
+Soft bodies and configuration objects are one-to-one.
 
 Configuration properties with `float` values are enumerated
 by the `Sbcp` ("soft-body configuration parameter") enum.
 For instance, a soft body can have a preferred shape (called its "default pose")
 that it tends to return to if deformed.
-The strength of this tendency is configured by the configuration object's
+The strength of this tendency depends on the configuration object's
 "pose matching" parameter, which defaults to zero.
 
 For a simple example using `SoftPhysicsAppState`, `SoftBodyControl`, and
 pose matching, see
 [HelloSoftBody.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloSoftBody.java).
 
-By default, collisions between soft bodies are ignored.
-One way to enable soft-soft collisions for a specific body is to
+### Soft-soft collisions
+
+By default, collisions between soft bodies are not handled (ignored).
+One way to handle soft-soft collisions for a specific body is to
 set the `VF_SS` collision flag in its configuration object:
 
     SoftBodyConfig config = softBody.getSoftConfig();
     int oldFlags = config.getCollisionFlags();
     config.setCollisionFlags(oldFlags, ConfigFlag.VF_SS);
 
-For a simple example of soft-soft collisions, see
+For a simple example of a collision between 2 soft bodies, see
 [HelloSoftSoft.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloSoftSoft.java).
 
-By default, soft-body collisions are detected between nodes and faces.
-As an alternative, collision detection can be performed on overlapping groups
-of nodes (called "clusters").
-Given a soft body, clusters can be generated automatically, as follows:
+### Solver iterations
 
-    softBody.generateClusters();
+During each physics timestep, the simulator applies a series of
+iterative solvers to each soft body:
 
-To enable cluster-based collision detection, ...
+ + a cluster solver
+ + a drift solver
+ + a position solver
+ + a velocity solver
 
-TODO: more code snippets, applying forces, anchors, soft joints
+The number of iterations for each solver is stored in the body's
+configuration object.
+When simulating collisions, you can improve accuracy by increasing the
+number of position-solver iterations:
 
-TODO: more tutorial apps, demo apps
+    SoftBodyConfig config = softBody.getSoftConfig();
+    config.setPositionIterations(numIterations);  // default = 1
 
-TODO: materials, world info, aerodynamics
+### Stiffness coefficients
+
+Each soft body has 3 stiffness coefficients.
+These are stored in its "material" object,
+which is accessed using `getSoftMaterial()`.
+Soft bodies and their material objects are one-to-one.
+(Soft-body materials are unrelated to `com.jme3.material.Material`,
+the kind of material used to render geometries.)
+
+To simulate an object that flexes easily (such as cloth), create a soft
+body with many faces and set the angular-stiffness coefficient of its material
+to a small value (such as zero):
+
+    PhysicsSoftBody.Material softMaterial = softBody.getSoftMaterial();
+    softMaterial.setAngularStiffness(0f); // default=1
+
+For a simple example of cloth simulation, see
+
+[HelloCloth.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloCloth.java).
+
+TODO: ropes, applying forces, anchors, soft joints, world info, aerodynamics
+
+### Clusters
+
+By default, soft-body collisions are handled using nodes and faces.
+As an alternative, they can be handled using groups of connected nodes
+(called "clusters").
+To enable cluster-based rigid-soft collisions for a specific soft body,
+set its `CL_RS` collision flag.
+To enable cluster-based soft-soft collisions, set its `CL_SS` flag.
+
+Clusters can overlap, but they can't span multiple bodies.
+In other words, a single node can belong to multiple clusters,
+but a single cluster can't contain nodes from multiple bodies.
+
+When a soft body is created, it contains no nodes and no clusters.
+Once nodes are appended to a body, clusters can be generated automatically,
+using an iterative algorithm that's built into Bullet:
+
+    softBody.generateClusters(k, numIterations);
+
+TODO: describe the demo apps
 
 <a name="links"/>
 
