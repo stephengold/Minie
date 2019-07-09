@@ -399,7 +399,7 @@ public class TorsoLink extends PhysicsLink {
                 MyMath.slerp(kinematicWeight(),
                         startBoneTransforms[managedIndex], transform,
                         transform);
-                // TODO smarter sign flipping for bones
+                // TODO smarter sign flipping
             }
             /*
              * Update the managed bone.

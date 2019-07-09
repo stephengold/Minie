@@ -54,7 +54,7 @@ public class ConfigFlag {
      */
     final public static int CL_RS = 0x2;
     /**
-     * enable the Vertex-versus-Face handler for soft-versus-soft collisions
+     * enable the Node-versus-Face handler for soft-versus-soft collisions
      */
     final public static int VF_SS = 0x10;
     /**
