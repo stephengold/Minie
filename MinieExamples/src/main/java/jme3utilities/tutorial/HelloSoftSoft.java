@@ -39,7 +39,7 @@ import com.jme3.scene.Mesh;
 import jme3utilities.minie.test.mesh.Icosphere;
 
 /**
- * A simple example of a soft-soft collisions.
+ * A simple example of a soft-soft collision.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -73,12 +73,12 @@ public class HelloSoftSoft extends SimpleApplication {
     public void simpleInitApp() {
         // Set up Bullet physics (with debug enabled).
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
-        bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugEnabled(true); // default = false
         stateManager.attach(bulletAppState);
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
         // Set gravity to zero.
-        physicsSpace.setGravity(Vector3f.ZERO);
+        physicsSpace.setGravity(Vector3f.ZERO); // default = default=(0,-9.81,0)
 
         // Relocate the camera.
         cam.setLocation(new Vector3f(0f, 1f, 8f));
@@ -107,16 +107,16 @@ public class HelloSoftSoft extends SimpleApplication {
 
         // Make each ball bouncy by enabling pose matching.
         SoftBodyConfig config1 = ball1.getSoftConfig();
-        config1.set(Sbcp.PoseMatching, 0.5f);
+        config1.set(Sbcp.PoseMatching, 0.5f); // default = 0
         SoftBodyConfig config2 = ball2.getSoftConfig();
         config2.set(Sbcp.PoseMatching, 0.5f);
 
         // Enable soft-soft collisions for each ball.
         // Clearing all other collision flags disables soft-rigid collisions.
-        config1.setCollisionFlags(ConfigFlag.VF_SS);
+        config1.setCollisionFlags(ConfigFlag.VF_SS); // default = SDF_RS
         config2.setCollisionFlags(ConfigFlag.VF_SS);
 
-        // Translate ball2 and put it on a collision course with ball1.
+        // Translate ball2 upward and put it on a collision course with ball1.
         ball2.applyTranslation(new Vector3f(0f, 3f, 0f));
         ball2.setVelocity(new Vector3f(0f, -1f, 0f));
     }
