@@ -99,11 +99,7 @@ public class HelloSoftBody extends SimpleApplication {
         rootNode.attachChild(cgModel);
 
         // Add a soft-body control to the model.
-        boolean applyLocal = false;
-        boolean updateNormals = true;
-        boolean mergeVertices = true;
-        SoftBodyControl sbc = new SoftBodyControl(applyLocal, updateNormals,
-                mergeVertices);
+        SoftBodyControl sbc = new SoftBodyControl();
         cgModel.addControl(sbc);
 
         // Translate and rotate the model's physics body.  Since the control
