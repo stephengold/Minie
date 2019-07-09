@@ -650,15 +650,20 @@ roughly analogous to that for rigid bodies:
  + In place of `PhysicsRigidBody`, use `PhysicsSoftBody`.
  + In place of `RigidBodyControl`, use `SoftBodyControl`.
 
+The abstract class `PhysicsBody` is a superclass of both `PhysicsRigidBody`
+and `PhysicsSoftBody`.
+
 Soft bodies can collide with both rigid bodies and soft bodies.
 They can also be joined to other bodies of both types, using special subclasses
 of `PhysicsJoint`.
+
+### A comparison of soft bodies and rigid bodies
 
 Unlike a rigid body, a soft body doesn't have a `CollisionShape` or
 a physics transform.
 Instead, it is composed of point masses (called "nodes") whose locations
 are specified in physics-space coordinates.
-A soft body's shape, structure, and position are all defined
+A soft body's shape, structure, mass distribution, and position are all defined
 by its mesh of nodes:
 
  + To simulate rope, nodes can be connected in pairs (called "links").
@@ -669,11 +674,59 @@ by its mesh of nodes:
 (Soft-body nodes are unrelated to `com.jme3.scene.Node`,
 the kind of node used to define the scene graph.)
 
+Unlike a rigid body, the physics location of a soft body is not its center
+of mass, but rather the center of its axis-aligned bounding box.
+
+Like rigid bodies, soft bodies have collision margins.
+However, since a soft body lacks a `CollisionShape`,
+different accessors are used.
+
+Soft bodies lack many other features of rigid bodies, including:
+ + motion state (for extrapolating between time steps),
+ + deactivation/sleeping (for efficient simulation), and
+ + continuous collision detection (CCD) (for fast-moving objects).
+
 Like rigid bodies, soft bodies can be constructed directly (using `new`)
 or they can be created using physics controls (such as `SoftBodyControl`)
 which tie them to particular spatials in the scene graph.
 However, unlike a `RigidBodyControl`, a `SoftBodyControl` can only be
 dynamic (spatial follows body) never kinematic (body follows spatial).
+
+### Constructing a soft body
+
+To construct a soft body directly, start with the null constructor:
+
+    PhysicsSoftBody softBody = new PhysicsSoftBody()
+
+This produces an empty body (one without any nodes, links, faces, tetras,
+or joints) that is not added to any physics space.
+
+Methods are provided to append nodes, links, and faces to a soft body.
+However, it's often more convenient to generate a `com.jme3.scene.Mesh`
+(the same kind of mesh used to create geometries)
+with the desired shape and topology and append it to the body
+using a utility method:
+
+ + `NativeSoftBodyUtil.appendFromTriMesh()`
+   to append nodes and faces from a mesh with Mode.Triangles
+ + `NativeSoftBodyUtil.appendFromLineMesh()`
+   to append nodes and links from a mesh with Mode.Lines
+
+However, meshes intended for graphics rendering may prove
+unsuitable for soft-body simulation.
+For instance, they may define multiple vertices at the same position
+or their edges/faces may be insufficiently subdivided.
+
+To construct a soft body using `SoftBodyControl`, instantiate a control
+and add it to a `Geometry`:
+
+    SoftBodyControl sbc = new SoftBodyControl();
+    geometry.addControl(sbc);
+
+Access the newly-constructed `PhysicsSoftBody` using `sbc.getBody()`.
+
+If you add the control to a scene-graph `Node` instead of a `Geometry`,
+it will traverse the node's subtree and use the first Geometry it finds.
 
 ### Soft-body configuration and pose matching
 
@@ -708,7 +761,7 @@ For a simple example of a collision between 2 soft bodies, see
 
 ### Solver iterations
 
-During each physics timestep, the simulator applies a series of
+During every time step, the simulator applies a series of
 iterative solvers to each soft body:
 
  + a cluster solver
@@ -718,11 +771,11 @@ iterative solvers to each soft body:
 
 The number of iterations for each solver is stored in the body's
 configuration object.
-When simulating collisions, you can improve accuracy by increasing the
+When simulating collisions, you can often improve accuracy by increasing the
 number of position-solver iterations:
 
     SoftBodyConfig config = softBody.getSoftConfig();
-    config.setPositionIterations(numIterations);  // default = 1
+    config.setPositionIterations(numIterations);  // default=1
 
 ### Stiffness coefficients
 
@@ -734,15 +787,31 @@ Soft bodies and their material objects are one-to-one.
 the kind of material used to render geometries.)
 
 To simulate an object that flexes easily (such as cloth), create a soft
-body with many faces and set the angular-stiffness coefficient of its material
+body with many faces and set its angular-stiffness coefficient
 to a small value (such as zero):
 
     PhysicsSoftBody.Material softMaterial = softBody.getSoftMaterial();
     softMaterial.setAngularStiffness(0f); // default=1
 
 For a simple example of cloth simulation, see
-
 [HelloCloth.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloCloth.java).
+
+### Mass distribution
+
+All new soft-body nodes have mass=1.
+To alter the mass of a pre-existing node, use the `setNodeMass()` method:
+
+    softBody.setNodeMass(nodeIndex, desiredMass);
+
+You can also alter the total mass of a soft body, distributing the mass across
+the pre-existing nodes in various ways:
+  + in proportion to the current mass of each node, using `setMassByCurrent()`,
+  + in proportion to the area of adjacent faces, using `setMassByArea()`, or
+  + in a custom fashion, using `setMasses()`.
+
+`softBody.setMass()` is equivalent to `setMassByCurrent()`.
+
+TODO: pinned nodes in Minie v0.9.6
 
 TODO: ropes, applying forces, anchors, soft joints, world info, aerodynamics
 
