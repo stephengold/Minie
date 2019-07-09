@@ -149,7 +149,6 @@ public class HelloSoftBody extends SimpleApplication {
         float mass = PhysicsRigidBody.massForStatic;
         RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
         geometry.addControl(boxBody);
-        boxBody.setApplyScale(true);
         boxBody.setPhysicsSpace(physicsSpace);
     }
 }
