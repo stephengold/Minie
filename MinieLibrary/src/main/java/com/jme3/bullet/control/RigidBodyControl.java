@@ -105,7 +105,8 @@ public class RigidBodyControl
      */
     private boolean enabled = true;
     /**
-     * true&rarr;body is kinematic, false&rarr;body is static or dynamic
+     * true&rarr; kinematic body follows Spatial, false&rarr;Spatial follows
+     * kinematic body
      */
     private boolean kinematicSpatial = true;
     /**
@@ -163,7 +164,7 @@ public class RigidBodyControl
     // new methods exposed
 
     /**
-     * Access the controlled Spatial.
+     * Access the controlled spatial.
      *
      * @return the Spatial, or null if none
      */
@@ -193,10 +194,11 @@ public class RigidBodyControl
     }
 
     /**
-     * Test whether this Control is in kinematic mode.
+     * Test whether this Control is in kinematic mode. Kinematic mode has no
+     * effect when the body isn't kinematic.
      *
-     * @return true if the spatial's location and rotation are applied to the
-     * rigid body, otherwise false
+     * @return true if the spatial's location and rotation would be applied to a
+     * kinematic body, otherwise false
      */
     final public boolean isKinematicSpatial() {
         return kinematicSpatial;
@@ -230,9 +232,10 @@ public class RigidBodyControl
     }
 
     /**
-     * Enable or disable kinematic mode. In kinematic mode, the spatial's
-     * location and rotation will be applied to the rigid body. This setting has
-     * no effect if the body is dynamic.
+     * Enable or disable kinematic mode for this Control. If both the rigid body
+     * and controlled spatial are kinematic, the spatial's location and rotation
+     * will be applied to the body during each update. Kinematic mode has no
+     * effect when the body isn't kinematic.
      *
      * @param kinematicSpatial true&rarr;kinematic, false&rarr;dynamic
      * (default=true)
@@ -244,7 +247,7 @@ public class RigidBodyControl
     // new protected methods
 
     /**
-     * Set the body's CollisionShape based on the controlled Spatial and its
+     * Set the body's CollisionShape based on the controlled spatial and its
      * descendants.
      */
     protected void createCollisionShape() {
@@ -415,7 +418,7 @@ public class RigidBodyControl
             return;
         }
 
-        if (!isDynamic() && kinematicSpatial) {
+        if (isKinematic() && kinematicSpatial) {
             setPhysicsLocation(getSpatialTranslation());
             setPhysicsRotation(getSpatialRotation()); // TODO garbage
             if (applyScale) {
