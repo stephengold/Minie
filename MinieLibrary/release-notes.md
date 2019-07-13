@@ -1,5 +1,16 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.6for32 released on TBD
+
+ + Finalized the `getRigidBody()` method in the `PhysicsLink`
+   class. (API change)
+ + Allowed soft-body nodes to have mass=0 (for pinning).
+ + Added tutorial apps: `HelloSoftBody`, `HelloSoftSoft`, `HelloCloth`,
+   and `HelloSoftRope`.
+ + Added a `DividedLine` mesh class.
+ + Moved the `massForStatic` constant to the `PhysicsBody` class.
+ + Based on JME 3.2.4-stable.
+
 ## Version 0.9.5for32 released on 6 July 2019
 
  + Fixed JME issue 1135 (`ConeJoint` causes rigid body to disappear).
