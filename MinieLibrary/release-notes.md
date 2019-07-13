@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.6for33 released on TBD
+## Version 0.9.6for33 released on 13 July 2019
 
  + Finalized the `getRigidBody()` method in the `PhysicsLink`
    class. (API change)

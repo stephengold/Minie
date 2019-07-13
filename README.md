@@ -293,7 +293,7 @@ repository location:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.9.5for32'
+        compile 'jme3utilities:Minie:0.9.6for32'
     }
 
 #### For Ant projects
@@ -301,8 +301,8 @@ repository location:
 For projects built using Ant, download the 2 non-standard
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/0.9.5for32
- + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.29.0for32
+ + https://github.com/stephengold/Minie/releases/tag/0.9.6for32
+ + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.29.1for32
 
 You'll want both class JARs
 and probably the `-sources` and `-javadoc` JARs as well.
@@ -318,15 +318,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Navigate to the "jme3-utilities" project folder.
     + Open the "heart" sub-project folder.
     + Navigate to the "build/libs" folder.
-    + Select the "jme3-utilities-heart-2.29.0for32.jar" file.
+    + Select the "jme3-utilities-heart-2.29.1for32.jar" file.
     + Click on the "Open" button.
  6. (optional) Add JARs for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "jme3-utilities-heart-2.29.0for32-javadoc.jar" file.
+    + Select the "jme3-utilities-heart-2.29.1for32-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "jme3-utilities-heart-2.29.0for32-sources.jar" file.
+    + Select the "jme3-utilities-heart-2.29.1for32-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the Minie JAR(s).
@@ -651,12 +651,12 @@ roughly analogous to that for rigid bodies:
  + In place of `RigidBodyControl`, use `SoftBodyControl`.
 
 `PhysicsSoftSpace` is a subclass of `PhysicsSpace`.
-It implements soft body physics in addition to all the
+It implements soft-body physics in addition to all the
 features of an ordinary `PhysicsSpace` (such as rigid bodies).
 
 The abstract class `PhysicsBody` is a superclass of both `PhysicsRigidBody`
 and `PhysicsSoftBody`.
-It provides access to many properties that rigid bodies and soft bodies
+It provides access to properties that rigid bodies and soft bodies
 have in common, such as gravity, location, mass, and joints.
 
 Soft bodies can collide with both rigid bodies and soft bodies.
@@ -685,7 +685,10 @@ of mass, but rather the center of its axis-aligned bounding box.
 
 Like rigid bodies, soft bodies have collision margins.
 However, since a soft body lacks a `CollisionShape`,
-different accessors are used.
+different accessors are used:
+
+    float oldMargin = softBody.margin();
+    softBody.setMargin(0.1f);
 
 Soft bodies lack many other features of rigid bodies, including:
  + motion state (for extrapolating between time steps),
@@ -817,7 +820,11 @@ the pre-existing nodes in various ways:
 
 `softBody.setMass()` is equivalent to `setMassByCurrent()`.
 
-TODO: pinned nodes in Minie v0.9.6
+If a soft-body node has mass=0, it becomes pinned/immovable, like a static
+`PhysicsRigidBody`.
+
+For a simple example of a pinned node, see
+[HelloPin.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloPin.java).
 
 TODO: ropes, applying forces, anchors, soft joints, world info, aerodynamics
 
