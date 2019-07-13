@@ -1,5 +1,17 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.6for33 released on TBD
+
+ + Finalized the `getRigidBody()` method in the `PhysicsLink`
+   class. (API change)
+ + Allowed soft-body nodes to have mass=0 (for pinning).
+ + Changed the semantics of `RigidBodyControl.setKinematicSpatial()`
+   to match jme3-bullet.
+ + Added tutorial apps: `HelloSoftBody`, `HelloSoftSoft`, `HelloCloth`,
+   and `HelloSoftRope`.
+ + Added a `DividedLine` mesh class.
+ + Moved the `massForStatic` constant to the `PhysicsBody` class.
+
 ## Version 0.9.5for33 released on 6 July 2019
 
  + Modified `DynamicAnimControl` to work with armatures as well as skeletons.

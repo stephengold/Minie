@@ -6,7 +6,7 @@ group = 'jme3utilities'
 
 // select one source-code (JDK) option
 sourceCompatibility = '1.7'
-//sourceCompatibility = '1.8'
+targetCompatibility = '1.7'
 
 gradle.projectsEvaluated {
     tasks.withType(JavaCompile) { // compile-time options:
@@ -31,7 +31,7 @@ ext { // current versions of the libraries
     heartVersion = '2.29.0for33'
     jme3utilitiesuiVersion = '0.7.4for33'
     jmonkeyengineVersion = '3.3.0-alpha2'
-    minieVersion = '0.9.5for33'
+    minieVersion = '0.9.6for33'
 }
 
 repositories {
