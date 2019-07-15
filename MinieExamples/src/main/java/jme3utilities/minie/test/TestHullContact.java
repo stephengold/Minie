@@ -26,7 +26,6 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
@@ -34,11 +33,11 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.font.Rectangle;
+import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -59,6 +58,8 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.minie.DumpFlags;
+import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -72,7 +73,7 @@ import jme3utilities.ui.Signals;
  */
 public class TestHullContact
         extends ActionApplication
-        implements BulletDebugAppState.DebugAppStateFilter, DebugInitListener {
+        implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
 
@@ -98,9 +99,16 @@ public class TestHullContact
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
+     * physics objects that are not to be visualized
+     */
+    final private FilterAll hiddenObjects = new FilterAll(true);
+    /**
      * enhanced pseudo-random generator
      */
     final private Generator random = new Generator();
+    /**
+     * how many gems have been added
+     */
     private int numGems = 0;
     final private Material gemMaterials[] = new Material[4];
     /**
@@ -108,10 +116,13 @@ public class TestHullContact
      */
     private Node helpNode;
     /**
+     * dump debugging information to System.out
+     */
+    final private PhysicsDumper dumper = new PhysicsDumper();
+    /**
      * space for physics simulation
      */
     private PhysicsSpace physicsSpace;
-    private RigidBodyControl boxBody;
     // *************************************************************************
     // new methods exposed
 
@@ -125,8 +136,6 @@ public class TestHullContact
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
         TestHullContact application = new TestHullContact();
         /*
@@ -135,6 +144,7 @@ public class TestHullContact
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
+        settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
 
@@ -149,22 +159,12 @@ public class TestHullContact
     @Override
     public void actionInitializeApplication() {
         configureCamera();
+        configureDumper();
+        configureMaterials();
         configurePhysics();
+
         viewPort.setBackgroundColor(ColorRGBA.Gray);
         addLighting(rootNode);
-
-        ColorRGBA gemColors[] = new ColorRGBA[gemMaterials.length];
-        gemColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
-        gemColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
-        gemColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire
-        gemColors[3] = new ColorRGBA(0.2f, 0.1f, 0f, 1f); // topaz
-
-        for (int i = 0; i < gemMaterials.length; ++i) {
-            ColorRGBA color = gemColors[i];
-            gemMaterials[i]
-                    = MyAsset.createShinyMaterial(assetManager, color);
-            gemMaterials[i].setFloat("Shininess", 15f);
-        }
 
         addBox();
     }
@@ -179,6 +179,8 @@ public class TestHullContact
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
 
+        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
@@ -210,17 +212,15 @@ public class TestHullContact
         if (ongoing) {
             switch (actionString) {
                 case "dump physicsSpace":
-                    dumpPhysicsSpace();
+                    dumper.dump(physicsSpace);
                     return;
-
                 case "dump scenes":
-                    dumpScenes();
+                    dumper.dump(renderManager);
                     return;
 
                 case "toggle help":
                     toggleHelp();
                     return;
-
                 case "toggle pause":
                     togglePause();
                     return;
@@ -242,20 +242,6 @@ public class TestHullContact
         if (signals.test("shower")) {
             addAGem();
         }
-    }
-    // *************************************************************************
-    // DebugAppStateFilter methods
-
-    /**
-     * Test whether the specified physics object should be displayed in the
-     * debug scene.
-     *
-     * @param object the joint or collision object to test (unaffected)
-     * @return return true if the object should be displayed, false if not
-     */
-    @Override
-    public boolean displayObject(Object object) {
-        return object != boxBody;
     }
     // *************************************************************************
     // DebugInitListener methods
@@ -331,11 +317,12 @@ public class TestHullContact
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
         float mass = PhysicsRigidBody.massForStatic;
-        boxBody = new RigidBodyControl(shape, mass);
+        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
         boxBody.setApplyScale(true);
         boxBody.setPhysicsSpace(physicsSpace);
 
         geometry.addControl(boxBody);
+        hiddenObjects.addException(boxBody);
     }
 
     /**
@@ -366,42 +353,45 @@ public class TestHullContact
     }
 
     /**
+     * Configure the PhysicsDumper during startup.
+     */
+    private void configureDumper() {
+        //dumper.setEnabled(DumpFlags.MatParams, true);
+        //dumper.setEnabled(DumpFlags.ShadowModes, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
+     * Configure materials during startup.
+     */
+    private void configureMaterials() {
+        ColorRGBA gemColors[] = new ColorRGBA[gemMaterials.length];
+        gemColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
+        gemColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
+        gemColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire
+        gemColors[3] = new ColorRGBA(0.2f, 0.1f, 0f, 1f); // topaz
+
+        for (int i = 0; i < gemMaterials.length; ++i) {
+            ColorRGBA color = gemColors[i];
+            gemMaterials[i]
+                    = MyAsset.createShinyMaterial(assetManager, color);
+            gemMaterials[i].setFloat("Shininess", 15f);
+        }
+    }
+
+    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5 mm margin
-        stateManager.attach(bulletAppState);
 
         bulletAppState.setDebugEnabled(true);
-        bulletAppState.setDebugFilter(this);
+        bulletAppState.setDebugFilter(hiddenObjects);
         bulletAppState.setDebugInitListener(this);
+        stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(1f / 60); // 16.67-msec timestep
         physicsSpace.setSolverNumIterations(30);
-    }
-
-    /**
-     * Process a "dump physicsSpace" action.
-     */
-    private void dumpPhysicsSpace() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.dump(physicsSpace);
-    }
-
-    /**
-     * Process a "dump scenes" action.
-     */
-    private void dumpScenes() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        //dumper.setDumpBucket(true);
-        //dumper.setDumpCull(true);
-        //dumper.setDumpMatParam(true);
-        //dumper.setDumpOverride(true);
-        //dumper.setDumpShadow(true);
-        dumper.setDumpTransform(true);
-        //dumper.setDumpUser(true);
-        dumper.dump(renderManager);
     }
 
     /**
