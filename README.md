@@ -111,6 +111,7 @@ Some `jme3-bullet` bugs that have been fixed in Minie:
  + 1125 heightfield collision shapes don't match `TerrainQuad`
  + 1134 missing collisions for some rotations of a `GImpactCollisionShape`
  + 1135 `ConeJoint` causes rigid body to disappear on Linux
+ + 1141 `TestAttachGhostObject` fails on Linux
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
