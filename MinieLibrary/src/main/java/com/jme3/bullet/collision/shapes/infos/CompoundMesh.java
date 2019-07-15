@@ -93,15 +93,17 @@ public class CompoundMesh implements JmeCloneable, Savable {
     }
 
     /**
-     * Instantiate based on the specified JME mesh.
+     * Instantiate based on the specified JME mesh(es).
      *
-     * @param mesh the JME mesh (not null, unaffected)
+     * @param jmeMeshes the JME mesh(es) (all non-null, unaffected)
      */
-    public CompoundMesh(Mesh mesh) {
-        Validate.nonNull(mesh, "mesh");
+    public CompoundMesh(Mesh... jmeMeshes) {
         createEmpty();
-        IndexedMesh indexedMesh = new IndexedMesh(mesh);
-        add(indexedMesh);
+
+        for (Mesh jmeMesh : jmeMeshes) {
+            IndexedMesh indexedMesh = new IndexedMesh(jmeMesh);
+            add(indexedMesh);
+        }
     }
     // *************************************************************************
     // new methods exposed
