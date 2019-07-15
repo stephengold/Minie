@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.7for32 released on TBD
+## Version 0.9.7for32 released on 15 July 2019
 
  + Extended the constructors for `GImpactCollisionShape` and `CompoundMesh` to
    accept multiple meshes.
