@@ -1,15 +1,24 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.7for32 released on TBD
+
+ + Extended the constructors for `GImpactCollisionShape` and `CompoundMesh` to
+   accept multiple meshes.
+ + Updated the `TestHullContact` app to be more like a demo.
+ + Upgraded to Gradle v5.5.1 .
+
 ## Version 0.9.6for32 released on 13 July 2019
 
  + Finalized the `getRigidBody()` method in the `PhysicsLink`
    class. (API change)
  + Allowed soft-body nodes to have mass=0 (for pinning).
+ + Changed the semantics of `RigidBodyControl.setKinematicSpatial()`
+   to match jme3-bullet.
  + Added tutorial apps: `HelloSoftBody`, `HelloSoftSoft`, `HelloCloth`,
    and `HelloSoftRope`.
  + Added a `DividedLine` mesh class.
  + Moved the `massForStatic` constant to the `PhysicsBody` class.
- + Based on JME 3.2.4-stable.
+ + Based on version 3.2.4-stable of jMonkeyEngine.
 
 ## Version 0.9.5for32 released on 6 July 2019
 
