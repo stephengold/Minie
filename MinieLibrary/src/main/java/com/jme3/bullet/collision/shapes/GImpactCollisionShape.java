@@ -75,12 +75,13 @@ public class GImpactCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a shape based on the specified JME mesh.
+     * Instantiate a shape based on the specified JME mesh(es).
      *
-     * @param jmeMesh the mesh on which to base the shape (not null, unaffected)
+     * @param jmeMeshes the mesh(es) on which to base the shape (not null,
+     * unaffected)
      */
-    public GImpactCollisionShape(Mesh jmeMesh) {
-        nativeMesh = new CompoundMesh(jmeMesh);
+    public GImpactCollisionShape(Mesh... jmeMeshes) {
+        nativeMesh = new CompoundMesh(jmeMeshes);
         createShape();
     }
     // *************************************************************************
