@@ -987,13 +987,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Perform a sweep-collision test and return the results as a new list.
-     * <p>
-     * The starting and ending locations must be at least 0.4f physics-space
-     * units apart.
-     * <p>
-     * A sweep test will miss a collision if it starts inside an object and
-     * sweeps away from the object's center.
+     * For compatibility with the jme3-bullet library.
      *
      * @param shape the shape to sweep (not null)
      * @param start the starting physics-space transform (not null)
@@ -1008,13 +1002,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Perform a sweep-collision test and store the results in an existing list.
-     * <p>
-     * The starting and ending locations must be at least 0.4f physics-space
-     * units apart.
-     * <p>
-     * A sweep test will miss a collision if it starts inside an object and
-     * sweeps away from the object's center.
+     * For compatibility with the jme3-bullet library.
      *
      * @param shape the shape to sweep (not null)
      * @param start the starting physics-space transform (not null)
@@ -1025,13 +1013,13 @@ public class PhysicsSpace {
     public List<PhysicsSweepTestResult> sweepTest(CollisionShape shape,
             Transform start, Transform end,
             List<PhysicsSweepTestResult> results) {
-        return sweepTest(shape, start, end, results, 0.0f);
+        return sweepTest(shape, start, end, results, 0f);
     }
 
     /**
      * Perform a sweep-collision test and store the results in an existing list.
      * <p>
-     * The starting and ending locations must be at least 0.4f physics-space
+     * The starting and ending locations must be at least 0.4 physics-space
      * units apart.
      * <p>
      * A sweep test will miss a collision if it starts inside an object and
@@ -1047,9 +1035,14 @@ public class PhysicsSpace {
     public List<PhysicsSweepTestResult> sweepTest(CollisionShape shape,
             Transform start, Transform end,
             List<PhysicsSweepTestResult> results, float allowedCcdPenetration) {
+        Validate.nonNull(start, "start");
+        Validate.nonNull(end, "end");
+        Validate.nonNull(results, "results");
+
+        long shapeId = shape.getObjectId();
         results.clear();
-        sweepTest_native(shape.getObjectId(), start, end, nativeId,
-                results, allowedCcdPenetration);
+        sweepTest_native(shapeId, start, end, nativeId, results,
+                allowedCcdPenetration);
 
         return results;
     }
@@ -1063,7 +1056,7 @@ public class PhysicsSpace {
      * @param time time-per-frame multiplied by speed (in seconds, &ge;0)
      */
     public void update(float time) {
-        assert time >= 0f : time;
+        Validate.nonNegative(time, "time");
         assert accuracy > 0f : accuracy;
         assert maxSubSteps >= 0 : maxSubSteps;
 

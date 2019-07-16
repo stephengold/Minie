@@ -106,9 +106,9 @@ public class DebugShapeFactory {
         assert !shape.isConcave();
         Validate.inRange(meshResolution, "mesh resolution", 0, 1);
 
-        long id = shape.getObjectId();
+        long shapeId = shape.getObjectId();
         DebugMeshCallback callback = new DebugMeshCallback();
-        getVertices2(id, meshResolution, callback);
+        getVertices2(shapeId, meshResolution, callback);
         Vector3f[] cornerLocations = callback.footprint(shapeToWorld);
 
         return cornerLocations;
@@ -192,9 +192,9 @@ public class DebugShapeFactory {
         assert !shape.isConcave();
         Validate.inRange(meshResolution, "mesh resolution", 0, 1);
 
-        long id = shape.getObjectId();
+        long shapeId = shape.getObjectId();
         DebugMeshCallback callback = new DebugMeshCallback();
-        getVertices2(id, meshResolution, callback);
+        getVertices2(shapeId, meshResolution, callback);
         float volume = callback.volumeConvex();
 
         assert volume >= 0f : volume;
@@ -204,7 +204,7 @@ public class DebugShapeFactory {
     // private methods
 
     /**
-     * Create a geometry for visualizing the specified (non-compound) collision
+     * Create a Geometry for visualizing the specified (non-compound) collision
      * shape.
      *
      * @param shape (not null, unaffected)
@@ -238,7 +238,7 @@ public class DebugShapeFactory {
     }
 
     /**
-     * Create a mesh for visualizing the specified (non-compound) collision
+     * Create a Mesh for visualizing the specified (non-compound) collision
      * shape.
      *
      * @param shape (not null, unaffected)
