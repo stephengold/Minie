@@ -161,17 +161,15 @@ public class HullCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a shape based on the specified JME mesh. For best performance
-     * and stability, the convex hull should have no more than 100 vertices.
+     * Instantiate a shape based on the specified JME mesh(es). For best
+     * performance and stability, the convex hull should have no more than 100
+     * vertices.
      *
-     * @param mesh the mesh on which to base the shape (not null, at least one
-     * vertex, unaffected)
+     * @param meshes the mesh(es) on which to base the shape (all non-null, at
+     * least one vertex, unaffected)
      */
-    public HullCollisionShape(Mesh mesh) {
-        Validate.nonNull(mesh, "mesh");
-        assert mesh.getVertexCount() > 0;
-
-        points = getPoints(mesh);
+    public HullCollisionShape(Mesh... meshes) {
+        points = getPoints(meshes);
         createShape();
     }
 
@@ -450,21 +448,29 @@ public class HullCollisionShape extends CollisionShape {
     native private void getHullVertices(long shapeId, ByteBuffer vertices);
 
     /**
-     * Copy the vertex positions from a JME mesh.
+     * Copy the vertex positions from JME mesh(es).
      *
-     * @param mesh the mesh to read (not null)
+     * @param meshes the mesh(es) to read (not null)
      * @return a new array (not null, length a multiple of 3)
      */
-    private float[] getPoints(Mesh mesh) {
-        FloatBuffer buffer = mesh.getFloatBuffer(Type.Position);
-        buffer.rewind();
-        int numFloats = mesh.getVertexCount() * numAxes;
-        float[] pointsArray = new float[numFloats];
-        for (int i = 0; i < numFloats; i += numAxes) {
-            pointsArray[i] = buffer.get();
-            pointsArray[i + 1] = buffer.get();
-            pointsArray[i + 2] = buffer.get();
+    private float[] getPoints(Mesh... meshes) {
+        int numVectors = 0;
+        for (Mesh mesh : meshes) {
+            numVectors += mesh.getVertexCount();
         }
+        int numFloats = numAxes * numVectors;
+        float[] pointsArray = new float[numFloats];
+
+        int arrayIndex = 0;
+        for (Mesh mesh : meshes) {
+            FloatBuffer buffer = mesh.getFloatBuffer(Type.Position);
+            int bufNumFloats = numAxes * mesh.getVertexCount();
+            for (int bufPos = 0; bufPos < bufNumFloats; ++bufPos) {
+                pointsArray[arrayIndex] = buffer.get(bufPos);
+                ++arrayIndex;
+            }
+        }
+        assert arrayIndex == numFloats : arrayIndex;
 
         return pointsArray;
     }
