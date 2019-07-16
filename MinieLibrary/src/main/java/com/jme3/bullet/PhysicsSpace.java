@@ -1072,6 +1072,22 @@ public class PhysicsSpace {
         }
         stepSimulation(nativeId, time, maxSubSteps, accuracy);
     }
+
+    /**
+     * For compatibility with the jme3-bullet library.
+     *
+     * @param timeInterval the time interval since the previous simulation step
+     * (in seconds, &ge;0)
+     * @param maxSteps the maximum number of simulation steps of size accuracy
+     * (&ge;1) or 0 for a single simulation step of size interval
+     */
+    public void update(float timeInterval, int maxSteps) {
+        Validate.nonNegative(timeInterval, "time interval");
+        Validate.nonNegative(maxSteps, "max steps");
+        assert accuracy > 0f : accuracy;
+
+        stepSimulation(nativeId, timeInterval, maxSteps, accuracy);
+    }
     // *************************************************************************
     // new protected methods
 
