@@ -122,7 +122,34 @@ public class DebugShapeFactory {
     }
 
     /**
-     * Create a spatial for visualizing the specified collision object.
+     * For compatibility with the jme3-bullet library.
+     *
+     * @param shape the shape to visualize (may be null, unaffected)
+     * @return a new tree of geometries, or null
+     */
+    public static Spatial getDebugShape(CollisionShape shape) {
+        Validate.nonNull(shape, "shape");
+
+        Spatial result;
+        DebugMeshInitListener noListener = null;
+        if (shape == null) {
+            result = null;
+
+        } else if (shape instanceof CompoundCollisionShape) {
+            CompoundCollisionShape compound = (CompoundCollisionShape) shape;
+            result = createNode(compound, noListener, DebugMeshNormals.None,
+                    lowResolution);
+
+        } else {
+            result = createGeometry(shape, noListener, DebugMeshNormals.None,
+                    lowResolution);
+        }
+
+        return result;
+    }
+
+    /**
+     * Create a Spatial for visualizing the specified collision object.
      * <p>
      * This is mostly used internally. To enable debug visualization, use
      * {@link com.jme3.bullet.BulletAppState#setDebugEnabled(boolean)}.
@@ -133,42 +160,18 @@ public class DebugShapeFactory {
     public static Spatial getDebugShape(PhysicsCollisionObject pco) {
         Validate.nonNull(pco, "collision object");
 
-        CollisionShape collisionShape = pco.getCollisionShape();
+        CollisionShape shape = pco.getCollisionShape();
         DebugMeshInitListener listener = pco.debugMeshInitListener();
         DebugMeshNormals normals = pco.debugMeshNormals();
         int resolution = pco.debugMeshResolution();
 
         Spatial result;
-        if (collisionShape instanceof CompoundCollisionShape) {
-            CompoundCollisionShape parent
-                    = (CompoundCollisionShape) collisionShape;
-
-            Node node = new Node("Bullet debug");
-
-            ChildCollisionShape[] children = parent.listChildren();
-            for (ChildCollisionShape child : children) {
-                CollisionShape simpleShape = child.getShape();
-                Geometry geometry = createGeometry(simpleShape, listener,
-                        normals, resolution);
-
-                // apply translation
-                Vector3f translation = child.getLocation(null);
-                geometry.setLocalTranslation(translation);
-
-                // apply rotation
-                Matrix3f rotation = child.getRotation(null);
-                geometry.setLocalRotation(rotation);
-
-                node.attachChild(geometry);
+        if (shape instanceof CompoundCollisionShape) {
+            CompoundCollisionShape compound = (CompoundCollisionShape) shape;
+            result = createNode(compound, listener, normals, resolution);
+        } else {
+            result = createGeometry(shape, listener, normals, resolution);
         }
-            result = node;
-
-        } else {  // not a compound shape
-            result = createGeometry(collisionShape, listener, normals,
-                    resolution);
-        }
-
-        result.updateGeometricState();
 
         return result;
     }
@@ -276,6 +279,46 @@ public class DebugShapeFactory {
         }
 
         return mesh;
+    }
+
+    /**
+     * Create a Node for visualizing the specified CompoundCollisionShape.
+     *
+     * @param compoundShape (not null, unaffected)
+     * @param normals which normals to generate (not null)
+     * @param resolution how much detail for convex shapes (0=low, 1=high)
+     * @return a new Node (not null)
+     */
+    private static Node createNode(CompoundCollisionShape compoundShape,
+            DebugMeshInitListener listener, DebugMeshNormals normals,
+            int resolution) {
+        assert compoundShape != null;
+        assert normals != null;
+        assert resolution >= lowResolution : resolution;
+        assert resolution <= highResolution : resolution;
+
+        Node node = new Node("Bullet debug");
+
+        ChildCollisionShape[] children = compoundShape.listChildren();
+        for (ChildCollisionShape child : children) {
+            CollisionShape simpleShape = child.getShape();
+            Geometry geometry = createGeometry(simpleShape, listener, normals,
+                    resolution);
+
+            // apply translation
+            Vector3f translation = child.getLocation(null);
+            geometry.setLocalTranslation(translation);
+
+            // apply rotation
+            Matrix3f rotation = child.getRotation(null);
+            geometry.setLocalRotation(rotation);
+
+            node.attachChild(geometry);
+        }
+        node.updateGeometricState();
+
+        return node;
+
     }
     // *************************************************************************
     // native methods
