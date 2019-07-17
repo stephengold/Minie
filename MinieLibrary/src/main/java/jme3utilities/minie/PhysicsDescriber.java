@@ -51,6 +51,7 @@ import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.SoftLinearJoint;
 import com.jme3.bullet.joints.SoftPhysicsJoint;
+import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
@@ -270,6 +271,50 @@ public class PhysicsDescriber extends Describer {
         result.append(Long.toHexString(jointId));
 
         if (!joint.isEnabled()) {
+            result.append(" DISABLED");
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Describe the specified RotationalLimitMotor.
+     *
+     * @param motor the motor to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describe(RotationalLimitMotor motor) {
+        StringBuilder result = new StringBuilder(80);
+
+        float angle = motor.getAngle();
+        result.append(angle);
+
+        if (motor.isEnableMotor()) {
+            result.append(" lo=");
+            float lo = motor.getLowerLimit();
+            result.append(lo);
+
+            result.append(" hi=");
+            float hi = motor.getUpperLimit();
+            result.append(hi);
+
+            result.append(" tgtV=");
+            float targetV = motor.getTargetVelocity();
+            result.append(MyString.describe(targetV));
+
+            result.append(" damp=");
+            float damping = motor.getDamping();
+            result.append(MyString.describe(damping));
+
+            result.append(" erp=");
+            float erp = motor.getERP();
+            result.append(MyString.describe(erp));
+
+            result.append(" maxMF=");
+            float maxMF = motor.getMaxMotorForce();
+            result.append(MyString.describe(maxMF));
+
+        } else {
             result.append(" DISABLED");
         }
 

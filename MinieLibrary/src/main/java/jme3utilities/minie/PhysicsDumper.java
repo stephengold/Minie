@@ -35,6 +35,8 @@ import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.joints.SixDofJoint;
+import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
@@ -90,6 +92,10 @@ public class PhysicsDumper extends Dumper {
      * enable dumping of joints in physics spaces
      */
     private boolean dumpJointsInSpaces = false;
+    /**
+     * enable dumping of motors in joints
+     */
+    private boolean dumpMotors = false;
     /**
      * enable dumping of nodes in clusters
      */
@@ -469,12 +475,9 @@ public class PhysicsDumper extends Dumper {
         }
 
         if (dumpJointsInSpaces) {
-            String moreIndent = indent + indentIncrement();
-            for (PhysicsJoint joint : joints) {
-                String desc = describer.describeJointInSpace(joint);
-                stream.printf("%n%s%s", moreIndent, desc);
-            }
+            dumpJoints(joints, indent);
         }
+
         stream.println();
     }
 
@@ -570,6 +573,10 @@ public class PhysicsDumper extends Dumper {
                 result = isDumpMatParam();
                 break;
 
+            case Motors:
+                result = dumpMotors;
+                break;
+
             case NodesInClusters:
                 result = dumpNodesInClusters;
                 break;
@@ -636,6 +643,10 @@ public class PhysicsDumper extends Dumper {
 
             case MatParams:
                 setDumpMatParam(newValue);
+                break;
+
+            case Motors:
+                dumpMotors = newValue;
                 break;
 
             case NodesInClusters:
@@ -789,11 +800,43 @@ public class PhysicsDumper extends Dumper {
             int numNodes = softBody.countNodesInCluster(clusterIndex);
             stream.printf("  %d node%s", numNodes, (numNodes == 1) ? "" : "s");
 
-            if (dumpNodesInClusters) {
+            if (dumpMotors) {
                 dumpNodesInCluster(softBody, clusterIndex);
             }
         }
         stream.printf("%n%s", indent);
+    }
+
+    /**
+     * Dump the specified joints in a PhysicsSpace context.
+     *
+     * @param joints (not null, unaffected)
+     * @param indent (not null)
+     */
+    private void dumpJoints(Collection<PhysicsJoint> joints, String indent) {
+        PhysicsDescriber describer = getDescriber();
+        String moreIndent = indent + indentIncrement();
+        String mmIndent = moreIndent + indentIncrement();
+
+        for (PhysicsJoint joint : joints) {
+            String desc = describer.describeJointInSpace(joint);
+            stream.printf("%n%s%s", moreIndent, desc);
+
+            if (joint instanceof SixDofJoint) {
+                SixDofJoint sixDof = (SixDofJoint) joint;
+
+                if (dumpMotors) {
+                    for (int axisIndex = 0; axisIndex < 3; ++axisIndex) {
+                        String axisName = MyString.axisName(axisIndex);
+                        stream.printf("%n%srot%s: ", mmIndent, axisName);
+                        RotationalLimitMotor motor
+                                = sixDof.getRotationalLimitMotor(axisIndex);
+                        desc = describer.describe(motor);
+                        stream.print(desc);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -806,9 +849,10 @@ public class PhysicsDumper extends Dumper {
         stream.print(':');
         PhysicsJoint[] joints = body.listJoints();
         PhysicsDescriber describer = getDescriber();
+        String moreIndent = indent + indentIncrement();
         for (PhysicsJoint joint : joints) {
             String desc = describer.describeJointInBody(joint, body);
-            stream.printf("%n%s  %s", indent, desc);
+            stream.printf("%n%s%s", moreIndent, desc);
         }
     }
 
