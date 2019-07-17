@@ -91,6 +91,13 @@ public class DebugShapeFactory {
     // new methods exposed
 
     /**
+     * Forget all previously generated debug meshes.
+     */
+    public static void clearCache() {
+        cache.clear();
+    }
+
+    /**
      * Estimate the footprint of the specified convex shape. The shape's current
      * scale and margin are taken into account, but not its debug-mesh
      * resolution.
@@ -117,8 +124,8 @@ public class DebugShapeFactory {
     /**
      * Create a spatial for visualizing the specified collision object.
      * <p>
-     * This is mostly used internally. To enable physics debug visualization,
-     * use {@link com.jme3.bullet.BulletAppState#setDebugEnabled(boolean)}.
+     * This is mostly used internally. To enable debug visualization, use
+     * {@link com.jme3.bullet.BulletAppState#setDebugEnabled(boolean)}.
      *
      * @param pco the object to visualize (not null, unaffected)
      * @return a new tree of nodes and geometries, or null
@@ -153,7 +160,7 @@ public class DebugShapeFactory {
                 geometry.setLocalRotation(rotation);
 
                 node.attachChild(geometry);
-            }
+        }
             result = node;
 
         } else {  // not a compound shape
@@ -167,7 +174,7 @@ public class DebugShapeFactory {
     }
 
     /**
-     * Remove the identified shape from the cache.
+     * Forget all previously generated debug meshes for the identified shape.
      *
      * @param shapeId the ID of the shape to remove
      */
@@ -270,7 +277,9 @@ public class DebugShapeFactory {
 
         return mesh;
     }
+    // *************************************************************************
+    // native methods
 
-    private static native void getVertices2(long shapeId, int meshResolution,
+    native private static void getVertices2(long shapeId, int meshResolution,
             DebugMeshCallback buffer);
 }
