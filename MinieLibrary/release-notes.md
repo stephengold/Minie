@@ -1,5 +1,15 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.8for33 released on TBD
+
+ + Added an `update(float, int)` method to the `PhysicsSpace` class.
+ + Added `clearCache()`, `getDebugMesh()`, and `getDebugShape(CollisionShape)`
+   methods to the `DebugShapeFactory` class.
+ + Extended the constructors for `CompoundMesh`, `GImpactCollisionShape`, and
+   `HullCollisionShape` to accept multiple meshes.
+ + Updated the `TestHullContact` app to be more like a demo.
+ + Upgraded to Gradle v5.5.1 .
+
 ## Version 0.9.6for33 released on 13 July 2019
 
  + Finalized the `getRigidBody()` method in the `PhysicsLink`
