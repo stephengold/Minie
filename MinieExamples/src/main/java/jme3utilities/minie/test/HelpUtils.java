@@ -194,6 +194,7 @@ class HelpUtils {
         if (result.endsWith(" arrow")) {
             result = MyString.removeSuffix(result, " arrow");
         }
+        result = result.replace("numpad ", "num");
 
         return result;
     }
