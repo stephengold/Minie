@@ -45,6 +45,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer.Type;
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -119,6 +120,24 @@ public class DebugShapeFactory {
         Vector3f[] cornerLocations = callback.footprint(shapeToWorld);
 
         return cornerLocations;
+    }
+
+    /**
+     * For compatibility with the jme3-bullet library.
+     *
+     * @param shape (not null, unaffected)
+     * @return a new Mesh (not null)
+     */
+    public static Mesh getDebugMesh(CollisionShape shape) {
+        long shapeId = shape.getObjectId();
+        DebugMeshCallback callback = new DebugMeshCallback();
+        getVertices2(shapeId, lowResolution, callback);
+        FloatBuffer floatBuffer = callback.getVertices();
+
+        Mesh result = new Mesh();
+        result.setBuffer(Type.Position, 3, floatBuffer);
+
+        return result;
     }
 
     /**
@@ -220,7 +239,7 @@ public class DebugShapeFactory {
      * @param shape (not null, unaffected)
      * @param normals which normals to generate (not null)
      * @param resolution how much detail for convex shapes (0=low, 1=high)
-     * @return a new geometry (not null)
+     * @return a new Geometry (not null)
      */
     private static Geometry createGeometry(CollisionShape shape,
             DebugMeshInitListener listener, DebugMeshNormals normals,
@@ -254,13 +273,13 @@ public class DebugShapeFactory {
      * @param shape (not null, unaffected)
      * @param normals which normals to generate (not null)
      * @param resolution how much detail for convex shapes (0=low, 1=high)
-     * @return a new mesh (not null)
+     * @return a new Mesh (not null)
      */
     private static Mesh createMesh(CollisionShape shape,
             DebugMeshNormals normals, int resolution) {
-        long id = shape.getObjectId();
+        long shapeId = shape.getObjectId();
         DebugMeshCallback callback = new DebugMeshCallback();
-        getVertices2(id, resolution, callback);
+        getVertices2(shapeId, resolution, callback);
 
         Mesh mesh = new Mesh();
         mesh.setBuffer(Type.Position, 3, callback.getVertices());
