@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.8for33 released on TBD
+## Version 0.9.8for33 released on 17 July 2019
 
  + Added an `update(float, int)` method to the `PhysicsSpace` class.
  + Added `clearCache()`, `getDebugMesh()`, and `getDebugShape(CollisionShape)`
