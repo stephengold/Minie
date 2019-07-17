@@ -60,6 +60,10 @@ public enum DumpFlags {
      */
     MatParams,
     /**
+     * motors in joints
+     */
+    Motors,
+    /**
      * nodes in clusters
      */
     NodesInClusters,
