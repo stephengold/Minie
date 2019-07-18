@@ -82,6 +82,9 @@ public class MyPco {
         if (!body.isContactResponse()) {
             result += "/NOresponse";
         }
+        if (!body.isInWorld()) {
+            result += "/NOspace";
+        }
 
         return result;
     }
