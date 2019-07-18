@@ -504,10 +504,10 @@ public class SeJointDemo extends ActionApplication {
                 throw new IllegalStateException("testName = " + testName);
         }
 
-        physicsSpace.add(joint);
-
         rbc.setPhysicsSpace(physicsSpace);
         rbc.setGravity(gravity); // must be set *after* setPhysicsSpace!
+
+        physicsSpace.add(joint);
 
         geometry.addControl(rbc);
     }
