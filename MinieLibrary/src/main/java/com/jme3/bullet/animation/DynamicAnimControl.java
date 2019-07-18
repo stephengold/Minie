@@ -31,6 +31,8 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.anim.Armature;
+import com.jme3.anim.Joint;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.bullet.PhysicsSpace;
@@ -290,21 +292,42 @@ public class DynamicAnimControl
         /*
          * Find the mesh that contains the vertex.
          */
+        Armature armature = getArmature();
         Skeleton skeleton = getSkeleton();
         Spatial subtree;
         if (numFields == 3) { // The vertex is in an attached model.
-            Bone attachBone = skeleton.getBone(fields[2]);
-            if (attachBone == null) {
-                String message = String.format("non-existent bone %s"
-                        + " in vertex specifier", MyString.quote(fields[2]));
-                throw new IllegalArgumentException(message);
+            String attachName = fields[2];
+            if (armature == null) {
+                Bone attachBone = skeleton.getBone(attachName);
+                if (attachBone == null) {
+                    String message = String.format("non-existent bone %s"
+                            + " in vertex specifier",
+                            MyString.quote(attachName));
+                    throw new IllegalArgumentException(message);
+                }
+                subtree = MySkeleton.getAttachments(attachBone);
+                if (subtree == null) {
+                    String message = String.format("no attachment to bone %s",
+                            MyString.quote(attachName));
+                    throw new IllegalArgumentException(message);
+                }
+
+            } else { // armature != null
+                Joint attachArmatureJoint = armature.getJoint(attachName);
+                if (attachArmatureJoint == null) {
+                    String message = String.format("non-existent bone %s"
+                            + " in vertex specifier",
+                            MyString.quote(attachName));
+                    throw new IllegalArgumentException(message);
+                }
+                subtree = MySkeleton.getAttachments(attachArmatureJoint);
+                if (subtree == null) {
+                    String message = String.format("no attachment to bone %s",
+                            MyString.quote(attachName));
+                    throw new IllegalArgumentException(message);
+                }
             }
-            subtree = MySkeleton.getAttachments(attachBone);
-            if (subtree == null) {
-                String message = String.format("no attachment to bone %s",
-                        MyString.quote(fields[2]));
-                throw new IllegalArgumentException(message);
-            }
+
         } else { // The vertex is in the controlled model.
             subtree = getSpatial();
             assert subtree != null;
@@ -349,7 +372,12 @@ public class DynamicAnimControl
 
         } else { // The vertex is in the controlled model.
             assert MyMesh.isAnimated(mesh);
-            String[] managerMap = managerMap(skeleton);
+            String[] managerMap;
+            if (armature == null) {
+                managerMap = managerMap(skeleton);
+            } else {
+                managerMap = managerMap(armature);
+            }
             String managerName = RagUtils.findManager(mesh, vertexIndex,
                     new int[4], new float[4], managerMap);
             if (managerName.equals(torsoName)) {
