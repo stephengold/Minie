@@ -41,7 +41,9 @@ import com.jme3.bullet.collision.PhysicsSweepTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.joints.Constraint;
+import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -1177,8 +1179,7 @@ public class PhysicsSpace {
             return;
         }
 
-        logger.log(Level.FINE, "Adding {0} to {1}.",
-                new Object[]{ghost, this});
+        logger.log(Level.FINE, "Adding {0} to {1}.", new Object[]{ghost, this});
 
         long ghostId = ghost.getObjectId();
         physicsGhostObjects.put(ghostId, ghost);
@@ -1191,9 +1192,23 @@ public class PhysicsSpace {
                     new Object[]{joint, this});
             return;
         }
+        /*
+         * Warn if the jointed bodies aren't already added to this space.
+         */
+        PhysicsBody a = joint.getBody(JointEnd.A);
+        if (a != null && !contains(a)) {
+            logger.log(Level.WARNING,
+                    "{0} at the A end of {1} has not yet been added to {2}.",
+                    new Object[]{a, joint, this});
+        }
+        PhysicsBody b = joint.getBody(JointEnd.B);
+        if (b != null && !contains(b)) {
+            logger.log(Level.WARNING,
+                    "{0} at the B end of {1} has not yet been added to {2}.",
+                    new Object[]{b, joint, this});
+        }
 
-        logger.log(Level.FINE, "Adding {0} to {1}.",
-                new Object[]{joint, this});
+        logger.log(Level.FINE, "Adding {0} to {1}.", new Object[]{joint, this});
         long jointId = joint.getObjectId();
         physicsJoints.put(jointId, joint);
 
