@@ -175,7 +175,7 @@ The evolution of Minie is chronicled in
 
 ### jMonkeyEngine3 (jME3) Software Development Kit (SDK)
 
-Minie currently targets Version 3.2.3 of jMonkeyEngine.
+Minie currently targets Version 3.2.4 of jMonkeyEngine.
 You are welcome to use the Engine without also using the SDK, but I use the SDK,
 and the following installation instructions assume you will too.
 
@@ -294,7 +294,7 @@ repository location:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.9.6for32'
+        compile 'jme3utilities:Minie:0.9.7for32'
     }
 
 #### For Ant projects
@@ -302,7 +302,7 @@ repository location:
 For projects built using Ant, download the 2 non-standard
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/0.9.6for32
+ + https://github.com/stephengold/Minie/releases/tag/0.9.7for32
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.29.1for32
 
 You'll want both class JARs
@@ -412,7 +412,8 @@ or you can specify 3-D arrows:
 
         bas.setDebugAxisLineWidth(0f); // solid axis arrows
 
-By default, Minie visualizes collision shapes using wire materials:
+By default, Minie visualizes collision shapes
+using single-sided wireframe materials:
 
  + yellow for any collision object without contact response,
    which includes any `PhysicsGhostObject`
