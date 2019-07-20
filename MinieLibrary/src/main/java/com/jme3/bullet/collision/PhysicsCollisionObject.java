@@ -184,8 +184,8 @@ abstract public class PhysicsCollisionObject
      */
     private Material debugMaterial = null;
     /**
-     * scene object that uses this collision object, typically a PhysicsControl,
-     * PhysicsLink, or Spatial TODO define as Savable?
+     * object that uses this collision object, typically a PhysicsControl,
+     * PhysicsLink, or Spatial
      */
     private Object userObject;
     // *************************************************************************
@@ -953,9 +953,14 @@ abstract public class PhysicsCollisionObject
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        userObject = cloner.clone(userObject);
+        if (userObject instanceof Cloneable
+                || userObject instanceof JmeCloneable) {
+            userObject = cloner.clone(userObject);
+        }
+
         collisionShape = cloner.clone(collisionShape);
         debugMaterial = cloner.clone(debugMaterial);
+
         objectId = 0L;
         /*
          * The subclass should create the btCollisionObject and then
@@ -1003,6 +1008,8 @@ abstract public class PhysicsCollisionObject
 
         Savable shape = capsule.readSavable("collisionShape", null);
         collisionShape = (CollisionShape) shape;
+
+        userObject = capsule.readSavable("userObject", null);
         /*
          * The subclass should create the btCollisionObject and then
          * invoke readPcoProperties() .
@@ -1028,6 +1035,10 @@ abstract public class PhysicsCollisionObject
         capsule.write(debugMeshResolution, "debugMeshResolution", 0);
         capsule.write(debugMaterial, "debugMaterial", null);
         capsule.write(collisionShape, "collisionShape", null);
+
+        if (userObject instanceof Savable) {
+            capsule.write((Savable) userObject, "userObject", null);
+        }
 
         // common properties
         capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
