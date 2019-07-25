@@ -93,6 +93,14 @@ public class DacLinks
      */
     final private static Quaternion rotateIdentity = new Quaternion();
     /**
+     * field names for serialization
+     */
+    final private static String tagAttachmentLinks = "attachmentLinks";
+    final private static String tagBoneLinkList = "boneLinkList";
+    final private static String tagSkeleton = "skeleton";
+    final private static String tagTorsoLink = "torsoLink";
+    final private static String tagTransformer = "transformer";
+    /**
      * local copy of {@link com.jme3.math.Transform#IDENTITY}
      */
     final private static Transform transformIdentity = new Transform();
@@ -771,24 +779,23 @@ public class DacLinks
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        boneLinkList
-                = capsule.readSavableArrayList("boneLinkList", null);
+        boneLinkList = capsule.readSavableArrayList(tagBoneLinkList, null);
         for (BoneLink link : boneLinkList) {
             String name = link.boneName();
             boneLinks.put(name, link);
         }
 
         Savable[] savableArray
-                = capsule.readSavableArray("attachmentLinks", null);
+                = capsule.readSavableArray(tagAttachmentLinks, null);
         for (Savable savable : savableArray) {
             AttachmentLink link = (AttachmentLink) savable;
             String name = link.boneName();
             attachmentLinks.put(name, link);
         }
 
-        skeleton = (Skeleton) capsule.readSavable("skeleton", null);
-        transformer = (Spatial) capsule.readSavable("transformer", null);
-        torsoLink = (TorsoLink) capsule.readSavable("torsoLink", null);
+        skeleton = (Skeleton) capsule.readSavable(tagSkeleton, null);
+        transformer = (Spatial) capsule.readSavable(tagTransformer, null);
+        torsoLink = (TorsoLink) capsule.readSavable(tagTorsoLink, null);
     }
 
     /**
@@ -1041,16 +1048,16 @@ public class DacLinks
         int count = countLinkedBones();
         Savable[] savableArray = new Savable[count];
         boneLinkList.toArray(savableArray);
-        capsule.write(savableArray, "boneLinkList", null);
+        capsule.write(savableArray, tagBoneLinkList, null);
 
         count = countAttachments();
         AttachmentLink[] links = new AttachmentLink[count];
         attachmentLinks.values().toArray(links);
-        capsule.write(links, "attachmentLinks", new AttachmentLink[0]);
+        capsule.write(links, tagAttachmentLinks, new AttachmentLink[0]);
 
-        capsule.write(skeleton, "skeleton", null);
-        capsule.write(transformer, "transformer", null);
-        capsule.write(torsoLink, "torsoLink", null);
+        capsule.write(skeleton, tagSkeleton, null);
+        capsule.write(transformer, tagTransformer, null);
+        capsule.write(torsoLink, tagTorsoLink, null);
     }
     // *************************************************************************
     // PhysicsTickListener methods

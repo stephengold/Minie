@@ -67,6 +67,16 @@ public class TorsoLink extends PhysicsLink {
      */
     final public static Logger logger2
             = Logger.getLogger(TorsoLink.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagEndModelTransform = "endModelTransform";
+    final private static String tagManagedBones = "managedBones";
+    final private static String tagMeshToModel = "meshToModel";
+    final private static String tagPrevBoneTransforms = "prevBoneTransforms";
+    final private static String tagStartBoneTransforms = "startBoneTransforms";
+    final private static String tagStartModelTransform = "startModelTransform";
+    final private static String tagSubmode = "submode";
     // *************************************************************************
     // fields
 
@@ -413,7 +423,7 @@ public class TorsoLink extends PhysicsLink {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        Savable[] tmp = capsule.readSavableArray("managedBones", null);
+        Savable[] tmp = capsule.readSavableArray(tagManagedBones, null);
         if (tmp == null) {
             managedBones = null;
         } else {
@@ -423,18 +433,18 @@ public class TorsoLink extends PhysicsLink {
             }
         }
 
-        submode = capsule.readEnum("submode", KinematicSubmode.class,
+        submode = capsule.readEnum(tagSubmode, KinematicSubmode.class,
                 KinematicSubmode.Animated);
-        endModelTransform = (Transform) capsule.readSavable("endModelTransform",
-                new Transform());
-        meshToModel = (Transform) capsule.readSavable("meshToModel",
+        endModelTransform = (Transform) capsule.readSavable(
+                tagEndModelTransform, new Transform());
+        meshToModel = (Transform) capsule.readSavable(tagMeshToModel,
                 new Transform());
         startModelTransform = (Transform) capsule.readSavable(
-                "startModelTransform", new Transform());
+                tagStartModelTransform, new Transform());
         prevBoneTransforms = RagUtils.readTransformArray(capsule,
-                "prevBoneTransforms");
+                tagPrevBoneTransforms);
         startBoneTransforms = RagUtils.readTransformArray(capsule,
-                "startBoneTransforms");
+                tagStartBoneTransforms);
     }
 
     /**
@@ -511,15 +521,15 @@ public class TorsoLink extends PhysicsLink {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(managedBones, "managedBones", null);
-        capsule.write(submode, "submode", KinematicSubmode.Animated);
-        capsule.write(endModelTransform, "endModelTransforms", new Transform());
-        capsule.write(meshToModel, "meshToModel", new Transform());
-        capsule.write(startModelTransform, "startModelTransforms",
+        capsule.write(managedBones, tagManagedBones, null);
+        capsule.write(submode, tagSubmode, KinematicSubmode.Animated);
+        capsule.write(endModelTransform, tagEndModelTransform, new Transform());
+        capsule.write(meshToModel, tagMeshToModel, new Transform());
+        capsule.write(startModelTransform, tagStartModelTransform,
                 new Transform());
-        capsule.write(prevBoneTransforms, "prevBoneTransforms",
+        capsule.write(prevBoneTransforms, tagPrevBoneTransforms,
                 new Transform[0]);
-        capsule.write(startBoneTransforms, "startBoneTransforms",
+        capsule.write(startBoneTransforms, tagStartBoneTransforms,
                 new Transform[0]);
     }
     // *************************************************************************
