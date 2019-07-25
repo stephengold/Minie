@@ -72,6 +72,22 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      */
     final public static Logger logger
             = Logger.getLogger(PhysicsLink.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagArmatureJoint = "armatureJoint";
+    final private static String tagBlendInterval = "blendInterval";
+    final private static String tagBone = "bone";
+    final private static String tagChildren = "children";
+    final private static String tagControl = "control";
+    final private static String tagIkControllers = "ikControllers";
+    final private static String tagJoint = "joint";
+    final private static String tagKinematicWeight = "kinematicWeight";
+    final private static String tagKpTransform = "kpTransform";
+    final private static String tagKpVelocity = "kpVelocity";
+    final private static String tagLocalOffset = "offset";
+    final private static String tagParent = "parent";
+    final private static String tagRigidBody = "rigidBody";
     // *************************************************************************
     // fields
 
@@ -686,22 +702,23 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        ikControllers = capsule.readSavableArrayList("ikControllers",
+        ikControllers = capsule.readSavableArrayList(tagIkControllers,
                 new ArrayList(1));
-        children = capsule.readSavableArrayList("children", new ArrayList(1));
-        armatureJoint = (Joint) capsule.readSavable("armatureJoint", null);
-        bone = (Bone) capsule.readSavable("bone", null);
-        control = (DacLinks) capsule.readSavable("control", null);
-        blendInterval = capsule.readFloat("blendInterval", 1f);
-        kinematicWeight = capsule.readFloat("kinematicWeight", 1f);
-        joint = (PhysicsJoint) capsule.readSavable("joint", null);
-        parent = (PhysicsLink) capsule.readSavable("parent", null);
-        rigidBody = (PhysicsRigidBody) capsule.readSavable("rigidBody", null);
-        kpTransform = (Transform) capsule.readSavable("kpTransform",
+        children = capsule.readSavableArrayList(tagChildren, new ArrayList(1));
+        armatureJoint = (Joint) capsule.readSavable(tagArmatureJoint, null);
+        bone = (Bone) capsule.readSavable(tagBone, null);
+        control = (DacLinks) capsule.readSavable(tagControl, null);
+        blendInterval = capsule.readFloat(tagBlendInterval, 1f);
+        kinematicWeight = capsule.readFloat(tagKinematicWeight, 1f);
+        joint = (PhysicsJoint) capsule.readSavable(tagJoint, null);
+        parent = (PhysicsLink) capsule.readSavable(tagParent, null);
+        rigidBody = (PhysicsRigidBody) capsule.readSavable(tagRigidBody, null);
+        kpTransform = (Transform) capsule.readSavable(tagKpTransform,
                 new Transform());
         kpVelocity
-                = (Vector3f) capsule.readSavable("kpVelocity", new Vector3f());
-        localOffset = (Vector3f) capsule.readSavable("offset", new Vector3f());
+                = (Vector3f) capsule.readSavable(tagKpVelocity, new Vector3f());
+        localOffset = (Vector3f) capsule.readSavable(tagLocalOffset,
+                new Vector3f());
 
         rigidBody.setUserObject(this);
     }
@@ -717,19 +734,19 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.writeSavableArrayList(ikControllers, "ikControllers", null);
-        capsule.writeSavableArrayList(children, "children", null);
-        capsule.write(armatureJoint, "armatureJoint", null);
-        capsule.write(bone, "bone", null);
-        capsule.write(control, "control", null);
-        capsule.write(blendInterval, "blendInterval", 1f);
-        capsule.write(kinematicWeight, "kinematicWeight", 1f);
-        capsule.write(joint, "joint", null);
-        capsule.write(parent, "parent", null);
-        capsule.write(rigidBody, "rigidBody", null);
-        capsule.write(kpTransform, "kpTransform", null);
-        capsule.write(kpVelocity, "kpVelocity", null);
-        capsule.write(localOffset, "offset", null);
+        capsule.writeSavableArrayList(ikControllers, tagIkControllers, null);
+        capsule.writeSavableArrayList(children, tagChildren, null);
+        capsule.write(armatureJoint, tagArmatureJoint, null);
+        capsule.write(bone, tagBone, null);
+        capsule.write(control, tagControl, null);
+        capsule.write(blendInterval, tagBlendInterval, 1f);
+        capsule.write(kinematicWeight, tagKinematicWeight, 1f);
+        capsule.write(joint, tagJoint, null);
+        capsule.write(parent, tagParent, null);
+        capsule.write(rigidBody, tagRigidBody, null);
+        capsule.write(kpTransform, tagKpTransform, null);
+        capsule.write(kpVelocity, tagKpVelocity, null);
+        capsule.write(localOffset, tagLocalOffset, null);
     }
     // *************************************************************************
     // private methods

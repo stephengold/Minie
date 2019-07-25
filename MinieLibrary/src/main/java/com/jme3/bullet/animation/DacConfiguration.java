@@ -73,6 +73,20 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     final public static Logger logger2
             = Logger.getLogger(DacConfiguration.class.getName());
     /**
+     * field names for serialization
+     */
+    final private static String tagAlConfigs = "alConfigs";
+    final private static String tagAttachBoneNames = "attachBoneNames";
+    final private static String tagAttachModels = "attachModels";
+    final private static String tagBlConfigs = "blConfigs";
+    final private static String tagDamping = "damping";
+    final private static String tagEventDispatchImpulseThreshold
+            = "eventDispatchImpulseThreshold";
+    final private static String tagGravity = "gravity";
+    final private static String tagLinkedBoneJoints = "linkedBoneJoints";
+    final private static String tagLinkedBoneNames = "linkedBoneNames";
+    final private static String tagTorsoConfig = "torsoConfig";
+    /**
      * name for the ragdoll's torso, must not be used for any bone
      */
     final public static String torsoName = "";
@@ -836,17 +850,17 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        damping = capsule.readFloat("damping", 0.6f);
+        damping = capsule.readFloat(tagDamping, 0.6f);
         eventDispatchImpulseThreshold
-                = capsule.readFloat("eventDispatchImpulseThreshold", 0f);
+                = capsule.readFloat(tagEventDispatchImpulseThreshold, 0f);
 
         jointMap.clear();
         blConfigMap.clear();
         String[] linkedBoneNames
-                = capsule.readStringArray("linkedBoneNames", null);
+                = capsule.readStringArray(tagLinkedBoneNames, null);
         Savable[] linkedBoneJoints
-                = capsule.readSavableArray("linkedBoneJoints", null);
-        Savable[] blConfigs = capsule.readSavableArray("blConfigs", null);
+                = capsule.readSavableArray(tagLinkedBoneJoints, null);
+        Savable[] blConfigs = capsule.readSavableArray(tagBlConfigs, null);
         for (int i = 0; i < linkedBoneNames.length; ++i) {
             String boneName = linkedBoneNames[i];
             RangeOfMotion rom = (RangeOfMotion) linkedBoneJoints[i];
@@ -857,10 +871,10 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         attachModelMap.clear();
         alConfigMap.clear();
         String[] attachBoneNames
-                = capsule.readStringArray("attachBoneNames", null);
+                = capsule.readStringArray(tagAttachBoneNames, null);
         Savable[] attachModels
-                = capsule.readSavableArray("attachModels", null);
-        Savable[] alConfigs = capsule.readSavableArray("alConfigs", null);
+                = capsule.readSavableArray(tagAttachModels, null);
+        Savable[] alConfigs = capsule.readSavableArray(tagAlConfigs, null);
         for (int i = 0; i < attachBoneNames.length; ++i) {
             String boneName = attachBoneNames[i];
             Spatial model = (Spatial) attachModels[i];
@@ -868,8 +882,8 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             alConfigMap.put(boneName, (LinkConfig) alConfigs[i]);
         }
 
-        torsoConfig = (LinkConfig) capsule.readSavable("torsoConfig", null);
-        gravityVector = (Vector3f) capsule.readSavable("gravity", null);
+        torsoConfig = (LinkConfig) capsule.readSavable(tagTorsoConfig, null);
+        gravityVector = (Vector3f) capsule.readSavable(tagGravity, null);
     }
 
     /**
@@ -912,9 +926,9 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(damping, "damping", 0.6f);
+        capsule.write(damping, tagDamping, 0.6f);
         capsule.write(eventDispatchImpulseThreshold,
-                "eventDispatchImpulseThreshold", 0f);
+                tagEventDispatchImpulseThreshold, 0f);
 
         int count = countLinkedBones();
         String[] linkedBoneNames = new String[count];
@@ -927,9 +941,9 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             blConfigs[i] = entry.getValue();
             ++i;
         }
-        capsule.write(linkedBoneNames, "linkedBoneNames", null);
-        capsule.write(roms, "linkedBoneJoints", null);
-        capsule.write(blConfigs, "blConfigs", null);
+        capsule.write(linkedBoneNames, tagLinkedBoneNames, null);
+        capsule.write(roms, tagLinkedBoneJoints, null);
+        capsule.write(blConfigs, tagBlConfigs, null);
 
         count = countAttachments();
         String[] attachBoneNames = new String[count];
@@ -942,12 +956,12 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             alConfigs[i] = entry.getValue();
             ++i;
         }
-        capsule.write(attachBoneNames, "attachBoneNames", null);
-        capsule.write(attachModels, "attachModels", null);
-        capsule.write(alConfigs, "alConfigs", null);
+        capsule.write(attachBoneNames, tagAttachBoneNames, null);
+        capsule.write(attachModels, tagAttachModels, null);
+        capsule.write(alConfigs, tagAlConfigs, null);
 
-        capsule.write(torsoConfig, "torsoConfig", null);
-        capsule.write(gravityVector, "gravity", null);
+        capsule.write(torsoConfig, tagTorsoConfig, null);
+        capsule.write(gravityVector, tagGravity, null);
     }
     // *************************************************************************
     // private methods

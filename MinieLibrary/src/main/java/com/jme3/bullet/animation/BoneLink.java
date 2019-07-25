@@ -77,6 +77,14 @@ public class BoneLink extends PhysicsLink {
      */
     final private static Matrix3f matrixIdentity = new Matrix3f();
     /**
+     * field names for serialization
+     */
+    final private static String tagManagedArmatureJoints = "managedArmatureJoints";
+    final private static String tagManagedBones = "managedBones";
+    final private static String tagPrevBoneTransforms = "prevBoneTransforms";
+    final private static String tagStartBoneTransforms = "startBoneTransforms";
+    final private static String tagSubmode = "submode";
+    /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
@@ -519,7 +527,8 @@ public class BoneLink extends PhysicsLink {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        Savable[] tmp = capsule.readSavableArray("managedArmatureJoints", null);
+        Savable[] tmp
+                = capsule.readSavableArray(tagManagedArmatureJoints, null);
         if (tmp == null) {
             managedArmatureJoints = null;
         } else {
@@ -529,7 +538,7 @@ public class BoneLink extends PhysicsLink {
             }
         }
 
-        tmp = capsule.readSavableArray("managedBones", null);
+        tmp = capsule.readSavableArray(tagManagedBones, null);
         if (tmp == null) {
             managedBones = null;
         } else {
@@ -539,12 +548,12 @@ public class BoneLink extends PhysicsLink {
             }
         }
 
-        submode = capsule.readEnum("submode", KinematicSubmode.class,
+        submode = capsule.readEnum(tagSubmode, KinematicSubmode.class,
                 KinematicSubmode.Animated);
         prevBoneTransforms = RagUtils.readTransformArray(capsule,
-                "prevBoneTransforms");
+                tagPrevBoneTransforms);
         startBoneTransforms = RagUtils.readTransformArray(capsule,
-                "startBoneTransforms");
+                tagStartBoneTransforms);
     }
 
     /**
@@ -607,12 +616,12 @@ public class BoneLink extends PhysicsLink {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(managedArmatureJoints, "managedArmatureJoints", null);
-        capsule.write(managedBones, "managedBones", null);
-        capsule.write(submode, "submode", KinematicSubmode.Animated);
-        capsule.write(prevBoneTransforms, "prevBoneTransforms",
+        capsule.write(managedArmatureJoints, tagManagedArmatureJoints, null);
+        capsule.write(managedBones, tagManagedBones, null);
+        capsule.write(submode, tagSubmode, KinematicSubmode.Animated);
+        capsule.write(prevBoneTransforms, tagPrevBoneTransforms,
                 new Transform[0]);
-        capsule.write(startBoneTransforms, "startBoneTransforms",
+        capsule.write(startBoneTransforms, tagStartBoneTransforms,
                 new Transform[0]);
     }
     // *************************************************************************
