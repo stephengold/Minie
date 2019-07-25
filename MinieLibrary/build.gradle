@@ -9,7 +9,7 @@ plugins {
 
 description = 'the Minie physics-support library for jMonkeyEngine'
 ext {
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/1.0.90/'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/2.0.1/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/'
     btfLinux32 = 'ReleaseSp'
     btfLinux64 = 'ReleaseSp'
