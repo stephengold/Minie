@@ -204,7 +204,7 @@ public class PhysicsSpace {
     /**
      * map joint IDs to added objects
      */
-    final private Map<Long, PhysicsJoint> physicsJoints
+    final protected Map<Long, PhysicsJoint> physicsJoints
             = new ConcurrentHashMap<>(64);
     /**
      * map rigid-body IDs to added objects (including vehicles)
