@@ -542,13 +542,13 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
 
     native private float getVelocitiesCorrectionFactor(long bodyId);
 
-    native private int getVelocitiesIterations(long objectId);
+    native private int getVelocitiesIterations(long bodyId);
 
     native private float getVolumeConservationCoef(long bodyId);
 
-    native private void setAnchorsHardness(long bodyId, float hardness);
-
     native private void setAeroModel(long bodyId, int aeroModel);
+
+    native private void setAnchorsHardness(long bodyId, float hardness);
 
     native private void setClusterIterations(long bodyId,
             int numIterations);
