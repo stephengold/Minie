@@ -173,6 +173,17 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     }
 
     /**
+     * Count the joints in this space, including anchors and soft-body joints.
+     *
+     * @return count (&ge;0)
+     */
+    @Override
+    public int countJoints() {
+        int count = physicsJoints.size();
+        return count;
+    }
+
+    /**
      * Must be invoked on the designated physics thread.
      */
     @Override
