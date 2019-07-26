@@ -56,6 +56,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyAsset;
@@ -103,38 +104,21 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     final private DebugInitListener initListener;
     /**
-     * length of each axis arrow (in world units, &gt;0) or 0 for no axis arrows
+     * length of each axis arrow (in shape units, &gt;0) or 0 for no axis arrows
      */
     private float axisLength = 0f;
     /**
-     * line width for wireframe axis arrows (in pixels, &ge;1) or 0 for solid
-     * axis arrows
+     * line width for axis arrows (in pixels, &ge;1) or 0 for solid axis arrows
      */
     private float axisLineWidth = 1f;
     /**
-     * map physics characters to visualization nodes
+     * map collision objects to transformed visualization nodes
      */
-    private HashMap<PhysicsCharacter, Node> characters = new HashMap<>(64);
+    private HashMap<PhysicsCollisionObject, Node> pcoMap = new HashMap<>(64);
     /**
-     * map ghosts to visualization nodes
+     * map physics joints to visualization nodes
      */
-    private HashMap<PhysicsGhostObject, Node> ghosts = new HashMap<>(64);
-    /**
-     * map joints to visualization nodes
-     */
-    private HashMap<PhysicsJoint, Node> joints = new HashMap<>(64);
-    /**
-     * map collision objects to bounding-box visualization nodes
-     */
-    private HashMap<PhysicsCollisionObject, Node> pcos = new HashMap<>(64);
-    /**
-     * map rigid bodies to visualization nodes
-     */
-    private HashMap<PhysicsRigidBody, Node> bodies = new HashMap<>(64);
-    /**
-     * map vehicles to visualization nodes
-     */
-    private HashMap<PhysicsVehicle, Node> vehicles = new HashMap<>(64);
+    private HashMap<PhysicsJoint, Node> jointMap = new HashMap<>(64);
     /**
      * materials for rigid bodies (and vehicles) that are responsive and either
      * static or kinematic or inactive
@@ -182,7 +166,7 @@ public class BulletDebugAppState extends AbstractAppState {
     // constructors
 
     /**
-     * Instantiate an app state to visualize the specified space using the
+     * Instantiate an AppState to visualize the specified space using the
      * specified view ports. This constructor should be invoked only by
      * BulletAppState.
      *
@@ -213,7 +197,7 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * Read the length of the axis arrows.
      *
-     * @return length (in world units, &ge;0)
+     * @return length (in shape units, &ge;0)
      */
     public float axisLength() {
         assert axisLength >= 0f : axisLength;
@@ -221,7 +205,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Read the line width of the axis arrows.
+     * Read the line width for axis arrows.
      *
      * @return width (in pixels, &ge;1) or 0 for solid arrows
      */
@@ -328,7 +312,7 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * Alter the length of the axis arrows.
      *
-     * @param length (in world units, &ge;0, default=0)
+     * @param length (in shape units, &ge;0, default=0)
      */
     public void setAxisLength(float length) {
         Validate.nonNegative(length, "length");
@@ -352,6 +336,12 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     public void setBoundingBoxFilter(DebugAppStateFilter filter) {
         boundingBoxFilter = filter;
+
+        for (Node transformedNode : pcoMap.values()) {
+            Node parent = transformedNode.getParent();
+            Control control = parent.getControl(BoundingBoxDebugControl.class);
+            parent.removeControl(control);
+        }
     }
 
     /**
@@ -370,6 +360,12 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     public void setSweptSphereFilter(DebugAppStateFilter filter) {
         sweptSphereFilter = filter;
+
+        for (Node transformedNode : pcoMap.values()) {
+            Node parent = transformedNode.getParent();
+            Control control = parent.getControl(SweptSphereDebugControl.class);
+            parent.removeControl(control);
+        }
     }
 
     /**
@@ -465,21 +461,22 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * Update the AxesVisualizer for the specified Node.
      *
-     * @param node which node to update (not null)
+     * @param node the transformed Node to update (not null)
      */
     protected void updateAxes(Node node) {
-        AxesVisualizer axes = node.getControl(AxesVisualizer.class);
-        if (axes != null) {
+        AxesVisualizer control = node.getControl(AxesVisualizer.class);
+        if (control != null) {
             if (axisLength > 0f) {
-                axes.setAxisLength(axisLength);
-                axes.setLineWidth(axisLineWidth);
+                control.setAxisLength(axisLength);
+                control.setLineWidth(axisLineWidth);
             } else {
-                node.removeControl(axes);
+                node.removeControl(control);
             }
         } else if (axisLength > 0f) {
-            axes = new AxesVisualizer(assetManager, axisLength, axisLineWidth);
-            node.addControl(axes);
-            axes.setEnabled(true);
+            control = new AxesVisualizer(assetManager, axisLength,
+                    axisLineWidth);
+            node.addControl(control);
+            control.setEnabled(true);
         }
     }
     // *************************************************************************
@@ -550,18 +547,12 @@ public class BulletDebugAppState extends AbstractAppState {
     public void update(float tpf) {
         super.update(tpf);
 
-        // Update all object links.
-        updateRigidBodies();
-        updateGhosts();
-        updateCharacters();
-        updateJoints();
+        updatePcoMap();
+        updateShapes();
         updateVehicles();
-        if (boundingBoxFilter != null) {
-            updateBoundingBoxes();
-        }
-        if (sweptSphereFilter != null) {
-            updateSweptSpheres();
-        }
+        updateBoundingBoxes();
+        updateSweptSpheres();
+        updateJoints();
 
         // Update the debug root node.
         physicsDebugRootNode.updateLogicalState(tpf);
@@ -575,93 +566,25 @@ public class BulletDebugAppState extends AbstractAppState {
      * the PhysicsSpace.
      */
     private void updateBoundingBoxes() {
-        assert boundingBoxFilter != null;
+        if (boundingBoxFilter == null) {
+            return;
+        }
 
-        HashMap<PhysicsCollisionObject, Node> oldMap = pcos;
-        //create new map
-        pcos = new HashMap<>(oldMap.size());
-        Collection<PhysicsCollisionObject> list = space.getPcoList();
-        for (PhysicsCollisionObject pco : list) {
-            if (boundingBoxFilter.displayObject(pco)) {
-                Node node = oldMap.remove(pco);
-                if (node == null) {
-                    node = new Node(pco.toString());
-                    attachChild(node);
+        for (Map.Entry<PhysicsCollisionObject, Node> entry : pcoMap.entrySet()) {
+            PhysicsCollisionObject pco = entry.getKey();
+            boolean display = boundingBoxFilter.displayObject(pco);
 
-                    logger.log(Level.FINE,
-                            "Create new BoundingBoxDebugControl");
-                    Control control = new BoundingBoxDebugControl(this, pco);
-                    node.addControl(control);
-                }
-                pcos.put(pco, node);
+            Node transformedNode = entry.getValue();
+            Node parent = transformedNode.getParent();
+            Control control = parent.getControl(BoundingBoxDebugControl.class);
+
+            if (control == null && display) {
+                logger.log(Level.FINE, "Create new BoundingBoxDebugControl");
+                control = new BoundingBoxDebugControl(this, pco);
+                parent.addControl(control);
+            } else if (control != null && !display) {
+                parent.removeControl(control);
             }
-        }
-        // Detach any leftover nodes.
-        for (Node node : oldMap.values()) {
-            node.removeFromParent();
-        }
-    }
-
-    /**
-     * Synchronize the character debug controls with the characters in the
-     * PhysicsSpace.
-     */
-    private void updateCharacters() {
-        HashMap<PhysicsCharacter, Node> oldMap = characters;
-        //create new map
-        characters = new HashMap<>(oldMap.size());
-        Collection<PhysicsCharacter> list = space.getCharacterList();
-        for (PhysicsCharacter character : list) {
-            if (filter == null || filter.displayObject(character)) {
-                Node node = oldMap.remove(character);
-                if (node == null) {
-                    node = new Node(character.toString());
-                    attachChild(node);
-
-                    logger.log(Level.FINE,
-                            "Create new BulletCharacterDebugControl");
-                    Control control
-                            = new BulletCharacterDebugControl(this, character);
-                    node.addControl(control);
-                }
-                characters.put(character, node);
-                updateAxes(node);
-            }
-        }
-        // Detach any leftover nodes.
-        for (Node node : oldMap.values()) {
-            node.removeFromParent();
-        }
-    }
-
-    /**
-     * Synchronize the ghost debug controls with the ghosts in the PhysicsSpace.
-     */
-    private void updateGhosts() {
-        HashMap<PhysicsGhostObject, Node> oldMap = ghosts;
-        //create new map
-        ghosts = new HashMap<>(oldMap.size());
-        Collection<PhysicsGhostObject> list = space.getGhostObjectList();
-        for (PhysicsGhostObject ghost : list) {
-            if (filter == null || filter.displayObject(ghost)) {
-                Node node = oldMap.remove(ghost);
-                if (node == null) {
-                    node = new Node(ghost.toString());
-                    attachChild(node);
-
-                    logger.log(Level.FINE,
-                            "Create new BulletGhostObjectDebugControl");
-                    Control control
-                            = new BulletGhostObjectDebugControl(this, ghost);
-                    node.addControl(control);
-                }
-                ghosts.put(ghost, node);
-                updateAxes(node);
-            }
-        }
-        // Detach any leftover nodes.
-        for (Node node : oldMap.values()) {
-            node.removeFromParent();
         }
     }
 
@@ -669,9 +592,9 @@ public class BulletDebugAppState extends AbstractAppState {
      * Synchronize the joint debug controls with the joints in the PhysicsSpace.
      */
     private void updateJoints() {
-        HashMap<PhysicsJoint, Node> oldMap = joints;
+        HashMap<PhysicsJoint, Node> oldMap = jointMap;
         //create new map
-        joints = new HashMap<>(oldMap.size());
+        jointMap = new HashMap<>(oldMap.size());
         Collection<PhysicsJoint> list = space.getJointList();
         for (PhysicsJoint joint : list) {
             if (filter == null || filter.displayObject(joint)) {
@@ -700,7 +623,7 @@ public class BulletDebugAppState extends AbstractAppState {
                     }
                     node.addControl(control);
                 }
-                joints.put(joint, node);
+                jointMap.put(joint, node);
             }
         }
         // Detach any leftover nodes.
@@ -710,34 +633,85 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Synchronize the rigid-body debug controls with the rigid bodies in the
+     * Synchronize the visualization nodes with the collision objects in the
      * PhysicsSpace.
      */
-    private void updateRigidBodies() {
-        HashMap<PhysicsRigidBody, Node> oldMap = bodies;
-        //create new map
-        bodies = new HashMap<>(oldMap.size());
-        Collection<PhysicsRigidBody> list = space.getRigidBodyList();
-        for (PhysicsRigidBody body : list) {
-            if (filter == null || filter.displayObject(body)) {
-                Node node = oldMap.remove(body);
-                if (node == null) {
-                    node = new Node(body.toString());
-                    attachChild(node);
+    private void updatePcoMap() {
+        /*
+         * Create visualization nodes for PCOs that have been added.
+         */
+        HashMap<PhysicsCollisionObject, Node> oldMap = pcoMap;
+        pcoMap = new HashMap<>(oldMap.size());
+        Collection<PhysicsCollisionObject> list = space.getPcoList();
+        for (PhysicsCollisionObject pco : list) {
+            Node node = oldMap.remove(pco);
+            if (node == null) {
+                // 2 nodes for each PCO
+                Node parent = new Node(pco.toString());
+                attachChild(parent);
+                node = new Node(pco.toString() + " transformed");
+                parent.attachChild(node);
+            }
+            pcoMap.put(pco, node);
+        }
+        /*
+         * Detach nodes of PCOs that have been removed from the space.
+         */
+        for (Node transformedNode : oldMap.values()) {
+            Node parent = transformedNode.getParent();
+            parent.removeFromParent();
+        }
+    }
 
+    /**
+     * Synchronize the collision-shape debug controls with the collision objects
+     * in the PhysicsSpace.
+     */
+    private void updateShapes() {
+        for (Map.Entry<PhysicsCollisionObject, Node> entry
+                : pcoMap.entrySet()) {
+            PhysicsCollisionObject pco = entry.getKey();
+            boolean display = (filter == null || filter.displayObject(pco));
+
+            Node node = entry.getValue();
+            Control control = null;
+            if (pco instanceof PhysicsCharacter) {
+                control = node.getControl(BulletCharacterDebugControl.class);
+                if (control == null && display) {
                     logger.log(Level.FINE,
-                            "Create new BulletRigidBodyDebugControl");
-                    Control control
-                            = new BulletRigidBodyDebugControl(this, body);
+                            "Create new BulletCharacterDebugControl");
+                    control = new BulletCharacterDebugControl(this,
+                            (PhysicsCharacter) pco);
                     node.addControl(control);
                 }
-                bodies.put(body, node);
+                updateAxes(node);
+
+            } else if (pco instanceof PhysicsGhostObject) {
+                control = node.getControl(BulletGhostObjectDebugControl.class);
+                if (control == null && display) {
+                    logger.log(Level.FINE,
+                            "Create new BulletGhostObjectDebugControl");
+                    control = new BulletGhostObjectDebugControl(this,
+                            (PhysicsGhostObject) pco);
+                    node.addControl(control);
+                }
+                updateAxes(node);
+
+            } else if (pco instanceof PhysicsRigidBody) {
+                control = node.getControl(BulletRigidBodyDebugControl.class);
+                if (control == null && display) {
+                    logger.log(Level.FINE,
+                            "Create new BulletRigidBodyDebugControl");
+                    control = new BulletRigidBodyDebugControl(this,
+                            (PhysicsRigidBody) pco);
+                    node.addControl(control);
+                }
                 updateAxes(node);
             }
-        }
-        // Detach any leftover nodes.
-        for (Node node : oldMap.values()) {
-            node.removeFromParent();
+
+            if (control != null && !display) {
+                node.removeControl(control);
+            }
         }
     }
 
@@ -746,32 +720,28 @@ public class BulletDebugAppState extends AbstractAppState {
      * the PhysicsSpace.
      */
     private void updateSweptSpheres() {
-        assert sweptSphereFilter != null;
-
-        HashMap<PhysicsCollisionObject, Node> oldMap = pcos;
-        //create new map
-        pcos = new HashMap<>(oldMap.size());
-        Collection<PhysicsCollisionObject> list = space.getPcoList();
-        for (PhysicsCollisionObject pco : list) {
-            if (sweptSphereFilter.displayObject(pco)
-                    && pco.getCcdMotionThreshold() > 0f
-                    && pco.getCcdSweptSphereRadius() > 0f) {
-                Node node = oldMap.remove(pco);
-                if (node == null) {
-                    node = new Node(pco.toString());
-                    attachChild(node);
-
-                    logger.log(Level.FINE,
-                            "Create new SweptSphereDebugControl");
-                    Control control = new SweptSphereDebugControl(this, pco);
-                    node.addControl(control);
-                }
-                pcos.put(pco, node);
-            }
+        if (sweptSphereFilter == null) {
+            return;
         }
-        // Detach any leftover nodes.
-        for (Node node : oldMap.values()) {
-            node.removeFromParent();
+
+        for (Map.Entry<PhysicsCollisionObject, Node> entry : pcoMap.entrySet()) {
+            PhysicsCollisionObject pco = entry.getKey();
+            boolean display = sweptSphereFilter.displayObject(pco)
+                    && pco.getCcdMotionThreshold() > 0f
+                    && pco.getCcdSweptSphereRadius() > 0f;
+
+            Node transformedNode = entry.getValue();
+            Node parent = transformedNode.getParent();
+            Control control = parent.getControl(SweptSphereDebugControl.class);
+
+            if (control == null && display) {
+                logger.log(Level.FINE, "Create new SweptSphereDebugControl");
+                control = new SweptSphereDebugControl(this, pco);
+                parent.addControl(control);
+
+            } else if (control != null && !display) {
+                parent.removeControl(control);
+            }
         }
     }
 
@@ -780,29 +750,20 @@ public class BulletDebugAppState extends AbstractAppState {
      * PhysicsSpace.
      */
     private void updateVehicles() {
-        HashMap<PhysicsVehicle, Node> oldMap = vehicles;
-        //create new map
-        vehicles = new HashMap<>(oldMap.size());
-        Collection<PhysicsVehicle> list = space.getVehicleList();
-        for (PhysicsVehicle vehicle : list) {
-            if (filter == null || filter.displayObject(vehicle)) {
-                Node node = oldMap.remove(vehicle);
-                if (node == null) {
-                    node = new Node(vehicle.toString());
-                    attachChild(node);
+        for (PhysicsVehicle vehicle : space.getVehicleList()) {
+            boolean display = (filter == null || filter.displayObject(vehicle));
 
-                    logger.log(Level.FINE,
-                            "Create new BulletVehicleDebugControl");
-                    Control control
-                            = new BulletVehicleDebugControl(this, vehicle);
-                    node.addControl(control);
-                }
-                vehicles.put(vehicle, node);
+            Node node = pcoMap.get(vehicle);
+            Control control = node.getControl(BulletVehicleDebugControl.class);
+
+            if (control == null && display) {
+                logger.log(Level.FINE, "Create new BulletVehicleDebugControl");
+                control = new BulletVehicleDebugControl(this, vehicle);
+                node.addControl(control);
+
+            } else if (control != null && !display) {
+                node.removeControl(control);
             }
-        }
-        // Detach any leftover nodes.
-        for (Node node : oldMap.values()) {
-            node.removeFromParent();
         }
     }
 
