@@ -34,6 +34,7 @@ package com.jme3.bullet.debug;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -97,6 +98,7 @@ public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
 
         Material material = debugAppState.getSweptSphereMaterial();
         geom.setMaterial(material);
+        geom.setShadowMode(RenderQueue.ShadowMode.Off);
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
