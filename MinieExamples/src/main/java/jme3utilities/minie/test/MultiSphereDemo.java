@@ -68,7 +68,7 @@ import jme3utilities.ui.Signals;
 /**
  * Demo/testbed for MultiSphere collision shapes.
  * <p>
- * As seen in the November 2018 demo video:
+ * Seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=OS2zjB01c6E
  *
  * @author Stephen Gold sgold@sonic.net
@@ -224,6 +224,7 @@ public class MultiSphereDemo
                 case "toggle help":
                     toggleHelp();
                     return;
+
                 case "toggle pause":
                     togglePause();
                     return;
@@ -273,10 +274,12 @@ public class MultiSphereDemo
         int numSpheres = 1 + random.nextInt(4);
         List<Vector3f> centers = new ArrayList<>(numSpheres);
         List<Float> radii = new ArrayList<>(numSpheres);
-        centers.add(new Vector3f(0f, 0f, 0f));
+
+        centers.add(Vector3f.ZERO);
         float mainRadius = 0.1f + 0.2f * random.nextFloat();
         radii.add(mainRadius);
 
+        float boundRadius = mainRadius;
         for (int sphereIndex = 1; sphereIndex < numSpheres; ++sphereIndex) {
             Vector3f center = random.nextUnitVector3f();
             center.multLocal(mainRadius);
@@ -284,6 +287,8 @@ public class MultiSphereDemo
 
             float radius = mainRadius * (0.2f + 0.8f * random.nextFloat());
             radii.add(radius);
+            float extRadius = center.length() + radius;
+            boundRadius = Math.max(boundRadius, extRadius);
         }
         CollisionShape shape = new MultiSphere(centers, radii);
 
@@ -295,17 +300,15 @@ public class MultiSphereDemo
 
         float mass = 1f;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+        body.setCcdSweptSphereRadius(boundRadius);
+        body.setCcdMotionThreshold(1f);
         body.setDamping(0.6f, 0.6f);
         body.setDebugMaterial(debugMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        body.setFriction(1f);
-        body.setKinematic(false);
         body.setPhysicsLocation(startLocation);
 
         physicsSpace.add(body);
-        body.setGravity(new Vector3f(0f, -9f, 0f));
-
         ++numGems;
     }
 
