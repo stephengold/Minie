@@ -35,6 +35,7 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
@@ -103,6 +104,7 @@ public class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
 
         Material material = debugAppState.getBoundingBoxMaterial();
         geom.setMaterial(material);
+        geom.setShadowMode(RenderQueue.ShadowMode.Off);
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
