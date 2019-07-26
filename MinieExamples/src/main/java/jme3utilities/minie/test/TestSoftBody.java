@@ -42,6 +42,7 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
+import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.joints.Anchor;
@@ -172,6 +173,15 @@ public class TestSoftBody
     // fields
 
     /**
+     * AppState to manage the PhysicsSpace
+     */
+    final private SoftPhysicsAppState bulletAppState
+            = new SoftPhysicsAppState();
+    /**
+     * filter to control visualization of axis-aligned bounding boxes
+     */
+    private BulletDebugAppState.DebugAppStateFilter bbFilter;
+    /**
      * physics objects that are not to be visualized
      */
     final private FilterAll hiddenObjects = new FilterAll(true);
@@ -267,14 +277,19 @@ public class TestSoftBody
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("next", KeyInput.KEY_N);
+
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+
         dim.bind("test poleAndFlag", KeyInput.KEY_F3);
         dim.bind("test puppetInSkirt", KeyInput.KEY_F4);
         dim.bind("test squishyBall", KeyInput.KEY_F1);
         dim.bind("test tablecloth", KeyInput.KEY_F2);
+
+        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
+        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
 
@@ -338,6 +353,14 @@ public class TestSoftBody
                     addBox(-1f);
                     addCylinder(1.7f);
                     addTablecloth(2f);
+                    return;
+
+                case "toggle axes":
+                    toggleAxes();
+                    return;
+
+                case "toggle boxes":
+                    toggleBoxes();
                     return;
 
                 case "toggle help":
@@ -759,7 +782,6 @@ public class TestSoftBody
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
-        SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugFilter(hiddenObjects);
         bulletAppState.setDebugInitListener(this);
@@ -922,6 +944,27 @@ public class TestSoftBody
         int puppetVertex = waistlineVertices[waistIndex];
         String vertexSpecifier = String.format("%d/Mesh.009_0", puppetVertex);
         return vertexSpecifier;
+    }
+
+    /**
+     * Toggle visualization of collision-object axes.
+     */
+    private void toggleAxes() {
+        float length = bulletAppState.debugAxisLength();
+        bulletAppState.setDebugAxisLength(0.5f - length);
+    }
+
+    /**
+     * Toggle visualization of collision-object bounding boxes.
+     */
+    private void toggleBoxes() {
+        if (bbFilter == null) {
+            bbFilter = new FilterAll(true);
+        } else {
+            bbFilter = null;
+        }
+
+        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
     }
 
     /**
