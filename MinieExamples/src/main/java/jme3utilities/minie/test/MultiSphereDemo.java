@@ -51,7 +51,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -111,13 +113,13 @@ public class MultiSphereDemo
      */
     private BulletDebugAppState.DebugAppStateFilter ssFilter;
     /**
+     * added gems, in order of creation
+     */
+    final private Deque<PhysicsRigidBody> gems = new ArrayDeque<>(maxNumGems);
+    /**
      * enhanced pseudo-random generator
      */
     final private Generator random = new Generator();
-    /**
-     * how many gems have been added
-     */
-    private int numGems = 0;
     /**
      * materials to visualize gems
      */
@@ -192,6 +194,9 @@ public class MultiSphereDemo
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
+        dim.bind("delete", KeyInput.KEY_BACK);
+        dim.bind("delete", KeyInput.KEY_DELETE);
+
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
 
@@ -230,6 +235,10 @@ public class MultiSphereDemo
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
+                case "delete":
+                    delete();
+                    return;
+
                 case "dump physicsSpace":
                     dumper.dump(physicsSpace);
                     return;
@@ -296,7 +305,7 @@ public class MultiSphereDemo
      * Add a dynamic rigid body to the scene.
      */
     private void addAGem() {
-        if (numGems >= maxNumGems) {
+        if (gems.size() >= maxNumGems) {
             return; // too many gems
         }
 
@@ -338,7 +347,7 @@ public class MultiSphereDemo
         body.setPhysicsLocation(startLocation);
 
         physicsSpace.add(body);
-        ++numGems;
+        gems.addLast(body);
     }
 
     /**
@@ -439,6 +448,17 @@ public class MultiSphereDemo
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
+    }
+
+    /**
+     * Delete the most recently added gem.
+     */
+    private void delete() {
+        PhysicsRigidBody latestGem = gems.peekLast();
+        if (latestGem != null) {
+            physicsSpace.remove(latestGem);
+            gems.removeLast();
+        }
     }
 
     /**
