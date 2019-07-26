@@ -45,6 +45,7 @@ import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.font.Rectangle;
@@ -79,6 +80,7 @@ import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
+import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.mesh.TubeTreeMesh;
 import jme3utilities.ui.ActionApplication;
@@ -88,7 +90,7 @@ import jme3utilities.ui.InputMode;
 /**
  * Simulate ropes using DynamicAnimControl.
  * <p>
- * As seen in the February 2019 demo video:
+ * Seen in the February 2019 demo video:
  * https://www.youtube.com/watch?v=7PYDAyB5RCE
  *
  * @author Stephen Gold sgold@sonic.net
@@ -186,6 +188,10 @@ public class RopeDemo extends ActionApplication {
      * AppState to manage the PhysicsSpace
      */
     final private BulletAppState bulletAppState = new BulletAppState();
+    /**
+     * filter to control visualization of axis-aligned bounding boxes
+     */
+    private BulletDebugAppState.DebugAppStateFilter bbFilter;
     /**
      * physics controls for the ropes, in order of creation
      */
@@ -298,6 +304,7 @@ public class RopeDemo extends ActionApplication {
 
         dim.bind("delete", KeyInput.KEY_BACK);
         dim.bind("delete", KeyInput.KEY_DELETE);
+
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("go limp", KeyInput.KEY_SPACE);
@@ -309,6 +316,8 @@ public class RopeDemo extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
+        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
+        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
@@ -349,6 +358,14 @@ public class RopeDemo extends ActionApplication {
                     dumper.dump(renderManager);
                     return;
 
+                case "toggle axes":
+                    toggleAxes();
+                    return;
+
+                case "toggle boxes":
+                    toggleBoxes();
+                    return;
+
                 case "go limp":
                     goLimp();
                     return;
@@ -360,15 +377,19 @@ public class RopeDemo extends ActionApplication {
                 case "toggle help":
                     toggleHelp();
                     return;
+
                 case "toggle meshes":
                     toggleMeshes();
                     return;
+
                 case "toggle pause":
                     togglePause();
                     return;
+
                 case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
+
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
@@ -1048,6 +1069,27 @@ public class RopeDemo extends ActionApplication {
         linkA = latestDac.findManagerForVertex(capSpecsA[2], null, pivotA);
         linkB = latestDac.findManagerForVertex(capSpecsB[1], null, pivotB);
         latestDac.pinToSelf(linkA, linkB, pivotA, pivotB);
+    }
+
+    /**
+     * Toggle visualization of collision-object axes.
+     */
+    private void toggleAxes() {
+        float length = bulletAppState.debugAxisLength();
+        bulletAppState.setDebugAxisLength(0.5f - length);
+    }
+
+    /**
+     * Toggle visualization of collision-object bounding boxes.
+     */
+    private void toggleBoxes() {
+        if (bbFilter == null) {
+            bbFilter = new FilterAll(true);
+        } else {
+            bbFilter = null;
+        }
+
+        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
     }
 
     /**
