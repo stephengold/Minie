@@ -33,6 +33,7 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
+import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
@@ -59,6 +60,7 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
+import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -96,6 +98,18 @@ public class MultiSphereDemo
     // *************************************************************************
     // fields
 
+    /**
+     * AppState to manage the PhysicsSpace
+     */
+    final private BulletAppState bulletAppState = new BulletAppState();
+    /**
+     * filter to control visualization of axis-aligned bounding boxes
+     */
+    private BulletDebugAppState.DebugAppStateFilter bbFilter;
+    /**
+     * filter to control visualization of swept spheres
+     */
+    private BulletDebugAppState.DebugAppStateFilter ssFilter;
     /**
      * enhanced pseudo-random generator
      */
@@ -188,8 +202,11 @@ public class MultiSphereDemo
         dim.bind("signal shower", KeyInput.KEY_I);
         dim.bind("signal shower", KeyInput.KEY_INSERT);
 
+        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
+        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+        dim.bind("toggle spheres", KeyInput.KEY_L);
 
         float x = 10f;
         float y = cam.getHeight() - 10f;
@@ -221,12 +238,24 @@ public class MultiSphereDemo
                     dumper.dump(renderManager);
                     return;
 
+                case "toggle axes":
+                    toggleAxes();
+                    return;
+
+                case "toggle boxes":
+                    toggleBoxes();
+                    return;
+
                 case "toggle help":
                     toggleHelp();
                     return;
 
                 case "toggle pause":
                     togglePause();
+                    return;
+
+                case "toggle spheres":
+                    toggleSpheres();
                     return;
             }
         }
@@ -405,12 +434,32 @@ public class MultiSphereDemo
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
-        BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
+    }
+
+    /**
+     * Toggle visualization of collision-object axes.
+     */
+    private void toggleAxes() {
+        float length = bulletAppState.debugAxisLength();
+        bulletAppState.setDebugAxisLength(0.5f - length);
+    }
+
+    /**
+     * Toggle visualization of collision-object bounding boxes.
+     */
+    private void toggleBoxes() {
+        if (bbFilter == null) {
+            bbFilter = new FilterAll(true);
+        } else {
+            bbFilter = null;
+        }
+
+        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
     }
 
     /**
@@ -430,5 +479,18 @@ public class MultiSphereDemo
     private void togglePause() {
         float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
         setSpeed(newSpeed);
+    }
+
+    /**
+     * Toggle visualization of collision-object swept spheres.
+     */
+    private void toggleSpheres() {
+        if (ssFilter == null) {
+            ssFilter = new FilterAll(true);
+        } else {
+            ssFilter = null;
+        }
+
+        bulletAppState.setDebugSweptSphereFilter(ssFilter);
     }
 }
