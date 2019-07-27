@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.9for32 released on TBD
+## Version 0.9.9for32 released on 27 July 2019
 
  + Fixed various bugs in debug visualization, including one where shadows
    were cast by visualizations of bounding boxes and swept spheres.
