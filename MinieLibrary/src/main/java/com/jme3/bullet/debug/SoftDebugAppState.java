@@ -94,7 +94,7 @@ public class SoftDebugAppState extends BulletDebugAppState {
     // constructors
 
     /**
-     * Instantiate an app state to visualize the specified space using the
+     * Instantiate an AppState to visualize the specified space using the
      * specified view ports. This constructor should be invoked only by
      * BulletSoftBodyAppState.
      *
