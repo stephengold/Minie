@@ -73,8 +73,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A Bullet-JME physics space with its own btDynamicsWorld. TODO add a method to
- * count non-sleeping dynamic rigid bodies
+ * A Bullet-JME physics space with its own btDynamicsWorld.
  *
  * @author normenhansen
  */
