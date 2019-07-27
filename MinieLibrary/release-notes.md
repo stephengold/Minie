@@ -1,5 +1,28 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.9for32 released on TBD
+
+ + Fixed various bugs in debug visualization, including one where shadows
+   were cast by visualizations of bounding boxes and swept spheres.
+ + Fixed a bug where user objects were not cloned/serialized, even if
+   they implement `JmeCloneable` or `Savable`.
+ + Fixed an assertion failure in `PhysicsSpace.countJoints()`.
+ + Added an `update(float, int)` method to the `PhysicsSpace` class.
+ + Added `clearCache()`, `getDebugMesh()`, and `getDebugShape(CollisionShape)`
+   methods to the `DebugShapeFactory` class.
+ + Added a warning in case a joint is added to a `PhysicsSpace` before
+   the bodies that it joins.
+ + Added the `JointDemo` demo app.
+ + Enhanced the `MultiSphereDemo`, `RopeDemo`, and `TestSoftBody` apps with
+   hotkeys to toggle debug visualization options.
+ + Added a hotkey to `MultiSphereDemo` to delete gems.
+ + Added a flag to `PhysicsDumper` to dump motors.
+ + Extended the `setDebugViewPorts()` method of `BulletAppState` to accept
+   multiple arguments.
+ + Extended the constructor for `HullCollisionShape` to accept multiple meshes.
+ + Updated the native libraries to version 2.0.1 of `Libbulletjme`.
+ + Based on version 2.29 of the `jme3-utilities-heart` library.
+
 ## Version 0.9.7for32 released on 15 July 2019
 
  + Extended the constructors for `GImpactCollisionShape` and `CompoundMesh` to
