@@ -139,6 +139,32 @@ abstract public class PhysicsCollisionObject
      */
     final public static Logger logger
             = Logger.getLogger(PhysicsCollisionObject.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagAnisotropicFrictionComponents
+            = "anisotropicFrictionComponents";
+    final private static String tagAnisotropicFrictionMode
+            = "anisotropicFrictionMode";
+    final private static String tagCcdMotionThreshold
+            = "ccdMotionThreshold";
+    final private static String tagCcdSweptSphereRadius
+            = "ccdSweptSphereRadius";
+    final private static String tagCollisionGroup = "collisionGroup";
+    final private static String tagCollisionGroupsMask = "collisionGroupsMask";
+    final private static String tagCollisionShape = "collisionShape";
+    final private static String tagContactDamping = "contactDamping";
+    final private static String tagContactProcessingThreshold
+            = "contactProcessingThreshold";
+    final private static String tagContactStiffness = "contactStiffness";
+    final private static String tagDebugMaterial = "debugMaterial";
+    final private static String tagDebugMeshNormals = "debugMeshNormals";
+    final private static String tagDebugMeshResolution = "debugMeshResolution";
+    final private static String tagFriction = "friction";
+    final private static String tagRestitution = "restitution";
+    final private static String tagRollingFriction = "rollingFriction";
+    final private static String tagSpinningFriction = "spinningFriction";
+    final private static String tagUserObject = "userObject";
     // *************************************************************************
     // fields
 
@@ -878,21 +904,22 @@ abstract public class PhysicsCollisionObject
      */
     final protected void readPcoProperties(InputCapsule capsule)
             throws IOException {
-        setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold", 0f));
-        setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius", 0f));
-        setContactDamping(capsule.readFloat("contactDamping", 0.1f));
+        setCcdMotionThreshold(capsule.readFloat(tagCcdMotionThreshold, 0f));
+        setCcdSweptSphereRadius(
+                capsule.readFloat(tagCcdSweptSphereRadius, 0f));
+        setContactDamping(capsule.readFloat(tagContactDamping, 0.1f));
         setContactProcessingThreshold(
-                capsule.readFloat("contactProcessingThreshold", 0f));
-        setContactStiffness(capsule.readFloat("contactStiffness", 1e30f));
-        setFriction(capsule.readFloat("friction", 0.5f));
-        setRestitution(capsule.readFloat("restitution", 0f));
-        setRollingFriction(capsule.readFloat("rollingFriction", 0f));
-        setSpinningFriction(capsule.readFloat("spinningFriction", 0f));
+                capsule.readFloat(tagContactProcessingThreshold, 0f));
+        setContactStiffness(capsule.readFloat(tagContactStiffness, 1e30f));
+        setFriction(capsule.readFloat(tagFriction, 0.5f));
+        setRestitution(capsule.readFloat(tagRestitution, 0f));
+        setRollingFriction(capsule.readFloat(tagRollingFriction, 0f));
+        setSpinningFriction(capsule.readFloat(tagSpinningFriction, 0f));
 
-        int mode = capsule.readInt("anisotropicFrictionMode", 0);
+        int mode = capsule.readInt(tagAnisotropicFrictionMode, 0);
         if (mode != 0) {
             Vector3f components = (Vector3f) capsule.readSavable(
-                    "anisotropicFrictionComponents", new Vector3f(1f, 1f, 1f));
+                    tagAnisotropicFrictionComponents, new Vector3f(1f, 1f, 1f));
             setAnisotropicFriction(components, mode);
         }
     }
@@ -998,18 +1025,18 @@ abstract public class PhysicsCollisionObject
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        collisionGroup = capsule.readInt("collisionGroup", COLLISION_GROUP_01);
-        collideWithGroups = capsule.readInt("collisionGroupsMask",
+        collisionGroup = capsule.readInt(tagCollisionGroup, COLLISION_GROUP_01);
+        collideWithGroups = capsule.readInt(tagCollisionGroupsMask,
                 COLLISION_GROUP_01);
-        debugMeshNormals = capsule.readEnum("debugMeshNormals",
+        debugMeshNormals = capsule.readEnum(tagDebugMeshNormals,
                 DebugMeshNormals.class, DebugMeshNormals.None);
-        debugMeshResolution = capsule.readInt("debugMeshResolution", 0);
-        debugMaterial = (Material) capsule.readSavable("debugMaterial", null);
+        debugMeshResolution = capsule.readInt(tagDebugMeshResolution, 0);
+        debugMaterial = (Material) capsule.readSavable(tagDebugMaterial, null);
 
-        Savable shape = capsule.readSavable("collisionShape", null);
+        Savable shape = capsule.readSavable(tagCollisionShape, null);
         collisionShape = (CollisionShape) shape;
 
-        userObject = capsule.readSavable("userObject", null);
+        userObject = capsule.readSavable(tagUserObject, null);
         /*
          * The subclass should create the btCollisionObject and then
          * invoke readPcoProperties() .
@@ -1041,16 +1068,16 @@ abstract public class PhysicsCollisionObject
         }
 
         // common properties
-        capsule.write(getCcdMotionThreshold(), "ccdMotionThreshold", 0f);
-        capsule.write(getCcdSweptSphereRadius(), "ccdSweptSphereRadius", 0f);
-        capsule.write(getContactDamping(), "contactDamping", 0.1f);
+        capsule.write(getCcdMotionThreshold(), tagCcdMotionThreshold, 0f);
+        capsule.write(getCcdSweptSphereRadius(), tagCcdSweptSphereRadius, 0f);
+        capsule.write(getContactDamping(), tagContactDamping, 0.1f);
         capsule.write(getContactProcessingThreshold(),
-                "contactProcessingThreshold", 0f);
-        capsule.write(getContactStiffness(), "contactStiffness", 1e30f);
-        capsule.write(getFriction(), "friction", 0.5f);
-        capsule.write(getRestitution(), "restitution", 0f);
-        capsule.write(getRollingFriction(), "rollingFriction", 0f);
-        capsule.write(getSpinningFriction(), "spinningFriction", 0f);
+                tagContactProcessingThreshold, 0f);
+        capsule.write(getContactStiffness(), tagContactStiffness, 1e30f);
+        capsule.write(getFriction(), tagFriction, 0.5f);
+        capsule.write(getRestitution(), tagRestitution, 0f);
+        capsule.write(getRollingFriction(), tagRollingFriction, 0f);
+        capsule.write(getSpinningFriction(), tagSpinningFriction, 0f);
 
         int mode = 0;
         if (hasAnisotropicFriction(1)) {
@@ -1058,10 +1085,10 @@ abstract public class PhysicsCollisionObject
         } else if (hasAnisotropicFriction(2)) {
             mode = 2;
         }
-        capsule.write(mode, "anisotropicFrictionMode", 0);
+        capsule.write(mode, tagAnisotropicFrictionMode, 0);
         if (mode != 0) {
             Vector3f components = getAnisotropicFriction(null);
-            capsule.write(components, "anisotropicFrictionComponents", null);
+            capsule.write(components, tagAnisotropicFrictionComponents, null);
         }
     }
     // *************************************************************************

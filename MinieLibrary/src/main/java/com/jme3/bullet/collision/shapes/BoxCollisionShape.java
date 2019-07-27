@@ -57,6 +57,10 @@ public class BoxCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(BoxCollisionShape.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagHalfExtents = "halfExtents";
     // *************************************************************************
     // fields
 
@@ -185,7 +189,7 @@ public class BoxCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        Vector3f he = (Vector3f) capsule.readSavable("halfExtents",
+        Vector3f he = (Vector3f) capsule.readSavable(tagHalfExtents,
                 new Vector3f(1f, 1f, 1f));
         halfExtents.set(he);
         createShape();
@@ -202,7 +206,7 @@ public class BoxCollisionShape extends CollisionShape {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-        capsule.write(halfExtents, "halfExtents", new Vector3f(1f, 1f, 1f));
+        capsule.write(halfExtents, tagHalfExtents, null);
     }
     // *************************************************************************
     // private methods

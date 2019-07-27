@@ -65,6 +65,10 @@ public class CompoundCollisionShape extends CollisionShape {
      * local copy of {@link com.jme3.math.Matrix3f#IDENTITY}
      */
     final private static Matrix3f matrixIdentity = new Matrix3f();
+    /**
+     * field names for serialization
+     */
+    final private static String tagChildren = "children";
     // *************************************************************************
     // fields
 
@@ -239,7 +243,7 @@ public class CompoundCollisionShape extends CollisionShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        children = capsule.readSavableArrayList("children", null);
+        children = capsule.readSavableArrayList(tagChildren, null);
         loadChildren();
     }
 
@@ -262,7 +266,7 @@ public class CompoundCollisionShape extends CollisionShape {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-        capsule.writeSavableArrayList(children, "children", null);
+        capsule.writeSavableArrayList(children, tagChildren, null);
     }
     // *************************************************************************
     // private methods

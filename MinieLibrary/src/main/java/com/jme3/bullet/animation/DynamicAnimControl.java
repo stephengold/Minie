@@ -93,6 +93,13 @@ public class DynamicAnimControl
      */
     final public static Logger logger35
             = Logger.getLogger(DynamicAnimControl.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagCenterLocation = "centerLocation";
+    final private static String tagCenterVelocity = "centerVelocity";
+    final private static String tagIkJoints = "ikJoints";
+    final private static String tagRagdollMass = "ragdollMass";
     // *************************************************************************
     // fields
 
@@ -782,12 +789,12 @@ public class DynamicAnimControl
         InputCapsule capsule = importer.getCapsule(this);
 
         // isReady and collisionListeners not read
-        ikJoints = capsule.readSavableArrayList("ikJoints", new ArrayList(1));
-        ragdollMass = capsule.readFloat("ragdollMass", 1f);
+        ikJoints = capsule.readSavableArrayList(tagIkJoints, new ArrayList(1));
+        ragdollMass = capsule.readFloat(tagRagdollMass, 1f);
         centerLocation = (Vector3f) capsule.readSavable(
-                "centerLocation", new Vector3f());
+                tagCenterLocation, new Vector3f());
         centerVelocity = (Vector3f) capsule.readSavable(
-                "centerVelocity", new Vector3f());
+                tagCenterVelocity, new Vector3f());
     }
 
     /**
@@ -820,10 +827,10 @@ public class DynamicAnimControl
         OutputCapsule capsule = exporter.getCapsule(this);
 
         // isReady and collisionListeners not written
-        capsule.writeSavableArrayList(ikJoints, "ikJoints", null);
-        capsule.write(ragdollMass, "ragdollMass", 1f);
-        capsule.write(centerLocation, "centerLocation", null);
-        capsule.write(centerVelocity, "centerVelocity", null);
+        capsule.writeSavableArrayList(ikJoints, tagIkJoints, null);
+        capsule.write(ragdollMass, tagRagdollMass, 1f);
+        capsule.write(centerLocation, tagCenterLocation, null);
+        capsule.write(centerVelocity, tagCenterVelocity, null);
     }
     // *************************************************************************
     // PhysicsCollisionListener methods

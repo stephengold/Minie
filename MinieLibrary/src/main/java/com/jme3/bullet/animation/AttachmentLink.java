@@ -79,6 +79,12 @@ public class AttachmentLink extends PhysicsLink {
      */
     final private static Quaternion rotateIdentity = new Quaternion();
     /**
+     * field names for serialization
+     */
+    final private static String tagAttachedModel = "attachedModel";
+    final private static String tagEndModelTransform = "endModelTransform";
+    final private static String tagStartModelTransform = "startModelTransform";
+    /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
@@ -421,11 +427,11 @@ public class AttachmentLink extends PhysicsLink {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        attachedModel = (Spatial) capsule.readSavable("attachedModel", null);
-        endModelTransform = (Transform) capsule.readSavable("endModelTransform",
-                new Transform());
-        startModelTransform = (Transform) capsule.readSavable("startModelTransform",
-                new Transform());
+        attachedModel = (Spatial) capsule.readSavable(tagAttachedModel, null);
+        endModelTransform = (Transform) capsule.readSavable(
+                tagEndModelTransform, new Transform());
+        startModelTransform = (Transform) capsule.readSavable(
+                tagStartModelTransform, new Transform());
     }
 
     /**
@@ -453,9 +459,9 @@ public class AttachmentLink extends PhysicsLink {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(attachedModel, "attachedModel", null);
-        capsule.write(endModelTransform, "endModelTransform", null);
-        capsule.write(startModelTransform, "startModelTransform", null);
+        capsule.write(attachedModel, tagAttachedModel, null);
+        capsule.write(endModelTransform, tagEndModelTransform, null);
+        capsule.write(startModelTransform, tagStartModelTransform, null);
     }
     // *************************************************************************
     // private methods

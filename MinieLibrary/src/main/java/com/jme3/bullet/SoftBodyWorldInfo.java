@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A set of physics-simulation parameters that can be customized for each
+ * Physics-simulation parameters that can be customized for each
  * PhysicsSoftBody, based on Bullet's btSoftBodyWorldInfo.
  * <p>
  * NOTE: When a PhysicsSoftBody is added to a PhysicsSoftSpace, it acquires the
@@ -61,6 +61,15 @@ public class SoftBodyWorldInfo implements Savable {
      */
     final public static Logger logger
             = Logger.getLogger(PhysicsSoftBody.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagAirDensity = "airDensity";
+    final private static String tagGravity = "gravity";
+    final private static String tagMaxDisplacement = "maxDisplacement";
+    final private static String tagWaterDensity = "waterDensity";
+    final private static String tagWaterNormal = "waterNormal";
+    final private static String tagWaterOffset = "waterOffset";
     // *************************************************************************
     // fields
 
@@ -249,14 +258,14 @@ public class SoftBodyWorldInfo implements Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        setAirDensity(capsule.readFloat("airDensity", 1.2f));
-        setGravity((Vector3f) capsule.readSavable(
-                "gravity", new Vector3f(0f, -10f, 0f)));
-        setMaxDisplacement(capsule.readFloat("maxDisplacement", 1000f));
-        setWaterDensity(capsule.readFloat("waterDensity", 0f));
-        setWaterNormal((Vector3f) capsule.readSavable(
-                "waterNormal", new Vector3f(0f, 0f, 0f)));
-        setWaterOffset(capsule.readFloat("waterOffset", 0f));
+        setAirDensity(capsule.readFloat(tagAirDensity, 1.2f));
+        setGravity((Vector3f) capsule.readSavable(tagGravity,
+                new Vector3f(0f, -10f, 0f)));
+        setMaxDisplacement(capsule.readFloat(tagMaxDisplacement, 1000f));
+        setWaterDensity(capsule.readFloat(tagWaterDensity, 0f));
+        setWaterNormal((Vector3f) capsule.readSavable(tagWaterNormal,
+                new Vector3f(0f, 0f, 0f)));
+        setWaterOffset(capsule.readFloat(tagWaterOffset, 0f));
     }
 
     /**
@@ -270,15 +279,15 @@ public class SoftBodyWorldInfo implements Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(airDensity(), "airDensity", 1.2f);
-        capsule.write(copyGravity(null), "gravity", null);
-        capsule.write(maxDisplacement(), "maxDisplacement", 1000f);
-        capsule.write(waterDensity(), "waterDensity", 0f);
-        capsule.write(copyWaterNormal(null), "waterNormal", null);
-        capsule.write(waterOffset(), "waterOffset", 0f);
+        capsule.write(airDensity(), tagAirDensity, 1.2f);
+        capsule.write(copyGravity(null), tagGravity, null);
+        capsule.write(maxDisplacement(), tagMaxDisplacement, 1000f);
+        capsule.write(waterDensity(), tagWaterDensity, 0f);
+        capsule.write(copyWaterNormal(null), tagWaterNormal, null);
+        capsule.write(waterOffset(), tagWaterOffset, 0f);
     }
     // *************************************************************************
-    // private methods
+    // native methods
 
     native private long createSoftBodyWorldInfo();
 

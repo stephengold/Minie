@@ -75,6 +75,11 @@ abstract public class CollisionShape
      */
     final private static Quaternion rotateIdentity = new Quaternion();
     /**
+     * field names for serialization
+     */
+    final private static String tagMargin = "margin";
+    final private static String tagScale = "scale";
+    /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
@@ -387,9 +392,9 @@ abstract public class CollisionShape
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        Savable s = capsule.readSavable("scale", new Vector3f(1f, 1f, 1f));
+        Savable s = capsule.readSavable(tagScale, new Vector3f(1f, 1f, 1f));
         scale.set((Vector3f) s);
-        margin = capsule.readFloat("margin", 0.04f);
+        margin = capsule.readFloat(tagMargin, 0.04f);
         // subclass must create the btCollisionShape and apply margin and scale
     }
 
@@ -404,8 +409,8 @@ abstract public class CollisionShape
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(scale, "scale", new Vector3f(1f, 1f, 1f));
-        capsule.write(margin, "margin", 0.04f);
+        capsule.write(scale, tagScale, null);
+        capsule.write(margin, tagMargin, 0.04f);
     }
     // *************************************************************************
     // Object methods

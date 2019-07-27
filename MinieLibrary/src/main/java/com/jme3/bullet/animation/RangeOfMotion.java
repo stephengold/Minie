@@ -64,6 +64,15 @@ public class RangeOfMotion implements Savable {
     final public static Logger logger
             = Logger.getLogger(RangeOfMotion.class.getName());
     /**
+     * field names for serialization
+     */
+    final private static String tagMaxX = "maxX";
+    final private static String tagMaxY = "maxY";
+    final private static String tagMaxZ = "maxZ";
+    final private static String tagMinX = "minX";
+    final private static String tagMinY = "minY";
+    final private static String tagMinZ = "minZ";
+    /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
@@ -327,12 +336,12 @@ public class RangeOfMotion implements Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        maxX = capsule.readFloat("maxX", 0f);
-        minX = capsule.readFloat("minX", 0f);
-        maxY = capsule.readFloat("maxY", 0f);
-        minY = capsule.readFloat("minY", 0f);
-        maxZ = capsule.readFloat("maxZ", 0f);
-        minZ = capsule.readFloat("minZ", 0f);
+        maxX = capsule.readFloat(tagMaxX, 0f);
+        minX = capsule.readFloat(tagMinX, 0f);
+        maxY = capsule.readFloat(tagMaxY, 0f);
+        minY = capsule.readFloat(tagMinY, 0f);
+        maxZ = capsule.readFloat(tagMaxZ, 0f);
+        minZ = capsule.readFloat(tagMinZ, 0f);
     }
 
     /**
@@ -346,11 +355,11 @@ public class RangeOfMotion implements Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(maxX, "maxX", 0f);
-        capsule.write(minX, "minX", 0f);
-        capsule.write(maxY, "maxY", 0f);
-        capsule.write(minY, "minY", 0f);
-        capsule.write(maxZ, "maxZ", 0f);
-        capsule.write(minZ, "minZ", 0f);
+        capsule.write(maxX, tagMaxX, 0f);
+        capsule.write(minX, tagMinX, 0f);
+        capsule.write(maxY, tagMaxY, 0f);
+        capsule.write(minY, tagMinY, 0f);
+        capsule.write(maxZ, tagMaxZ, 0f);
+        capsule.write(minZ, tagMinZ, 0f);
     }
 }
