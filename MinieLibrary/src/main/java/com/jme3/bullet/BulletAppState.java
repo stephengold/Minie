@@ -420,9 +420,9 @@ public class BulletAppState implements AppState, PhysicsTickListener {
     /**
      * Alter which view ports will render the debug visualization.
      *
-     * @param viewPorts (not null, alias created)
+     * @param viewPorts (not null, aliases created)
      */
-    public void setDebugViewPorts(ViewPort[] viewPorts) {
+    public void setDebugViewPorts(ViewPort... viewPorts) {
         Validate.nonNull(viewPorts, "view ports");
 
         if (debugAppState != null) {
