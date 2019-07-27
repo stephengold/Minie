@@ -57,6 +57,10 @@ public class GImpactCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(GImpactCollisionShape.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagNativeMesh = "nativeMesh";
     // *************************************************************************
     // fields
 
@@ -142,7 +146,7 @@ public class GImpactCollisionShape extends CollisionShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        nativeMesh = (CompoundMesh) capsule.readSavable("nativeMesh", null);
+        nativeMesh = (CompoundMesh) capsule.readSavable(tagNativeMesh, null);
         createShape();
     }
 
@@ -180,7 +184,7 @@ public class GImpactCollisionShape extends CollisionShape {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-        capsule.write(nativeMesh, "nativeMesh", null);
+        capsule.write(nativeMesh, tagNativeMesh, null);
     }
     // *************************************************************************
     // private methods

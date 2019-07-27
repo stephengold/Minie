@@ -58,6 +58,11 @@ abstract public class IKController implements JmeCloneable, Savable {
      */
     final public static Logger logger
             = Logger.getLogger(IKController.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagControlledLink = "controlledLink";
+    final private static String tagIsEnabled = "isEnabled";
     // *************************************************************************
     // fields
 
@@ -182,9 +187,9 @@ abstract public class IKController implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        isEnabled = capsule.readBoolean("isEnabled", true);
+        isEnabled = capsule.readBoolean(tagIsEnabled, true);
         controlledLink
-                = (PhysicsLink) capsule.readSavable("controlledLink", null);
+                = (PhysicsLink) capsule.readSavable(tagControlledLink, null);
     }
 
     /**
@@ -198,7 +203,7 @@ abstract public class IKController implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(isEnabled, "isEnabled", true);
-        capsule.write(controlledLink, "controlledLink", null);
+        capsule.write(isEnabled, tagIsEnabled, true);
+        capsule.write(controlledLink, tagControlledLink, null);
     }
 }

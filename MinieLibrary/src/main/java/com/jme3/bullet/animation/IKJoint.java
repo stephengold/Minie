@@ -58,6 +58,11 @@ public class IKJoint implements JmeCloneable, Savable {
      */
     final public static Logger logger
             = Logger.getLogger(IKJoint.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagDisableForRagdoll = "disableForRagdoll";
+    final private static String tagJoint = "joint";
     // *************************************************************************
     // fields
 
@@ -177,8 +182,8 @@ public class IKJoint implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        disableForRagdoll = capsule.readBoolean("disableForRagdoll", true);
-        joint = (Constraint) capsule.readSavable("joint", null);
+        disableForRagdoll = capsule.readBoolean(tagDisableForRagdoll, true);
+        joint = (Constraint) capsule.readSavable(tagJoint, null);
     }
 
     /**
@@ -192,7 +197,7 @@ public class IKJoint implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(disableForRagdoll, "disableForRagdoll", true);
-        capsule.write(joint, "joint", null);
+        capsule.write(disableForRagdoll, tagDisableForRagdoll, true);
+        capsule.write(joint, tagJoint, null);
     }
 }

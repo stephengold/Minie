@@ -75,6 +75,12 @@ public class CapsuleCollisionShape extends CollisionShape {
      * copy of main (height) axis (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
      */
     private int axis;
+    /**
+     * field names for serialization
+     */
+    final private static String tagAxis = "axis";
+    final private static String tagHeight = "height";
+    final private static String tagRadius = "radius";
     // *************************************************************************
     // constructors
 
@@ -224,9 +230,9 @@ public class CapsuleCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        radius = capsule.readFloat("radius", 0.5f);
-        height = capsule.readFloat("height", 1f);
-        axis = capsule.readInt("axis", PhysicsSpace.AXIS_Y);
+        radius = capsule.readFloat(tagRadius, 0.5f);
+        height = capsule.readFloat(tagHeight, 1f);
+        axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
         createShape();
     }
 
@@ -254,9 +260,9 @@ public class CapsuleCollisionShape extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(radius, "radius", 0.5f);
-        capsule.write(height, "height", 1f);
-        capsule.write(axis, "axis", PhysicsSpace.AXIS_Y);
+        capsule.write(radius, tagRadius, 0.5f);
+        capsule.write(height, tagHeight, 1f);
+        capsule.write(axis, tagAxis, PhysicsSpace.AXIS_Y);
     }
     // *************************************************************************
     // private methods

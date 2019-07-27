@@ -70,6 +70,14 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
      * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
      */
     final private static Quaternion rotateIdentity = new Quaternion();
+    /**
+     * field names for serialization
+     */
+    final private static String tagCenterHeuristic = "centerHeuristic";
+    final private static String tagMassHeuristic = "massHeuristic";
+    final private static String tagMassParameter = "massParameter";
+    final private static String tagShapeHeuristic = "shapeHeuristic";
+    final private static String tagShapeScale = "shapeScale";
     // *************************************************************************
     // fields
 
@@ -424,14 +432,14 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        centerHeuristic = capsule.readEnum("centerHeuristic",
+        centerHeuristic = capsule.readEnum(tagCenterHeuristic,
                 CenterHeuristic.class, CenterHeuristic.Mean);
-        massParameter = capsule.readFloat("massParameter", 1f);
-        massHeuristic = capsule.readEnum("massHeuristic", MassHeuristic.class,
+        massParameter = capsule.readFloat(tagMassParameter, 1f);
+        massHeuristic = capsule.readEnum(tagMassHeuristic, MassHeuristic.class,
                 MassHeuristic.Mass);
-        shapeHeuristic = capsule.readEnum("shapeHeuristic",
+        shapeHeuristic = capsule.readEnum(tagShapeHeuristic,
                 ShapeHeuristic.class, ShapeHeuristic.VertexHull);
-        shapeScale = (Vector3f) capsule.readSavable("shapeScale", null);
+        shapeScale = (Vector3f) capsule.readSavable(tagShapeScale, null);
     }
 
     /**
@@ -445,12 +453,13 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(centerHeuristic, "centerHeuristic", CenterHeuristic.Mean);
-        capsule.write(massParameter, "massParameter", 1f);
-        capsule.write(massHeuristic, "massHeuristic", MassHeuristic.Mass);
-        capsule.write(shapeHeuristic, "shapeHeuristic",
+        capsule.write(centerHeuristic, tagCenterHeuristic,
+                CenterHeuristic.Mean);
+        capsule.write(massParameter, tagMassParameter, 1f);
+        capsule.write(massHeuristic, tagMassHeuristic, MassHeuristic.Mass);
+        capsule.write(shapeHeuristic, tagShapeHeuristic,
                 ShapeHeuristic.VertexHull);
-        capsule.write(shapeScale, "shapeScale", null);
+        capsule.write(shapeScale, tagShapeScale, null);
     }
     // *************************************************************************
     // Object methods

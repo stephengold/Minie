@@ -59,6 +59,11 @@ public class CylinderCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(CylinderCollisionShape.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagAxis = "axis";
+    final private static String tagHalfExtents = "halfExtents";
     // *************************************************************************
     // fields
 
@@ -211,10 +216,10 @@ public class CylinderCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        Vector3f he = (Vector3f) capsule.readSavable("halfExtents",
+        Vector3f he = (Vector3f) capsule.readSavable(tagHalfExtents,
                 new Vector3f(0.5f, 0.5f, 0.5f));
         halfExtents.set(he);
-        axis = capsule.readInt("axis", PhysicsSpace.AXIS_Y);
+        axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
         createShape();
     }
 
@@ -230,9 +235,8 @@ public class CylinderCollisionShape extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(halfExtents, "halfExtents",
-                new Vector3f(0.5f, 0.5f, 0.5f));
-        capsule.write(axis, "axis", PhysicsSpace.AXIS_Y);
+        capsule.write(halfExtents, tagHalfExtents, null);
+        capsule.write(axis, tagAxis, PhysicsSpace.AXIS_Y);
     }
     // *************************************************************************
     // private methods

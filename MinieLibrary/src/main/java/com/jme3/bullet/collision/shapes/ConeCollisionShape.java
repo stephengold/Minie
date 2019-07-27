@@ -59,6 +59,12 @@ public class ConeCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(ConeCollisionShape.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagAxis = "axis";
+    final private static String tagHeight = "height";
+    final private static String tagRadius = "radius";
     // *************************************************************************
     // fields
 
@@ -211,9 +217,9 @@ public class ConeCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        radius = capsule.readFloat("radius", 0.5f);
-        height = capsule.readFloat("height", 0.5f);
-        axis = capsule.readInt("axis", PhysicsSpace.AXIS_Y);
+        radius = capsule.readFloat(tagRadius, 0.5f);
+        height = capsule.readFloat(tagHeight, 0.5f);
+        axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
         createShape();
     }
 
@@ -229,9 +235,9 @@ public class ConeCollisionShape extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(radius, "radius", 0.5f);
-        capsule.write(height, "height", 0.5f);
-        capsule.write(axis, "axis", PhysicsSpace.AXIS_Y);
+        capsule.write(radius, tagRadius, 0.5f);
+        capsule.write(height, tagHeight, 0.5f);
+        capsule.write(axis, tagAxis, PhysicsSpace.AXIS_Y);
     }
     // *************************************************************************
     // private methods
