@@ -52,6 +52,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
+import vhacd.VHACDHull;
 
 /**
  * A convex-hull CollisionShape based on Bullet's btConvexHullShape.
@@ -135,6 +136,23 @@ public class HullCollisionShape extends CollisionShape {
         assert (numFloats % numAxes == 0) : numFloats;
 
         this.points = points.clone();
+        createShape();
+    }
+
+    /**
+     * Instantiate a shape based on a VHACDHull. For best performance and
+     * stability, the convex hull should have no more than 100 vertices.
+     *
+     * @param vhacdHull (not null, not empty, length a multiple of 3,
+     * unaffected)
+     */
+    public HullCollisionShape(VHACDHull vhacdHull) {
+        Validate.nonNull(vhacdHull, "points");
+        float positions[] = vhacdHull.positions;
+        int numFloats = positions.length;
+        assert (numFloats % numAxes == 0) : numFloats;
+
+        points = positions.clone();
         createShape();
     }
 

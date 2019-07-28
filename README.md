@@ -58,6 +58,7 @@ Summary of added features:
     + apply inverse-kinematic controllers and joints
  + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`,
     including anchors and soft-body joints
+ + Convex decomposition using [Khaled Mamou's V-HACD Library][vhacd].
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `EmptyShape` collision shapes based on `btEmptyShape`
  + debugging aids:
@@ -286,11 +287,12 @@ For projects built using Maven or Gradle, it is sufficient to specify the
 dependency on the Minie library.  The build tools should automatically
 resolve the remaining dependencies automatically.
 
-Because Minie is not on JCenter yet, you must explicitly specify the
-repository location:
+Because Minie and the [V-HACD Bindings][vhacdBindings] are not on JCenter yet,
+you must explicitly specify their repository locations:
 
     repositories {
         maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
+        maven { url 'https://dl.bintray.com/riccardo/v-hacd' }
         jcenter()
     }
     dependencies {
@@ -299,14 +301,14 @@ repository location:
 
 #### For Ant projects
 
-For projects built using Ant, download the 2 non-standard
-libraries from GitHub:
+For projects built using [Ant][], download the 3 non-standard libraries:
 
  + https://github.com/stephengold/Minie/releases/tag/0.9.9for32
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.30.0for32
+ + https://bintray.com/riccardo/v-hacd/download_file?file_path=vhacd%2Fvhacd-native%2F1.1.1%2Fvhacd-native-1.1.1.jar
 
-You'll want both class JARs
-and probably the `-sources` and `-javadoc` JARs as well.
+You'll want the class jars
+and probably the `-sources` and `-javadoc` jars as well.
 
 Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
@@ -314,14 +316,14 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
  2. Select "Properties to open the "Project Properties" dialog.
  3. Under "Categories:" select "Libraries".
  4. Click on the "Compile" tab.
- 5. Add the `jme3-utilities-heart` class JAR:
+ 5. Add the `jme3-utilities-heart` class jar:
     + Click on the "Add JAR/Folder" button.
     + Navigate to the "jme3-utilities" project folder.
     + Open the "heart" sub-project folder.
     + Navigate to the "build/libs" folder.
     + Select the "jme3-utilities-heart-2.30.0for32.jar" file.
     + Click on the "Open" button.
- 6. (optional) Add JARs for javadoc and sources:
+ 6. (optional) Add jars for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
     + Select the "jme3-utilities-heart-2.30.0for32-javadoc.jar" file.
@@ -330,7 +332,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Select the "jme3-utilities-heart-2.30.0for32-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
- 7. Similarly, add the Minie JAR(s).
+ 7. Similarly, add the Minie and V-HACD jar(s).
  8. Click on the "OK" button to exit the "Project Properties" dialog.
 
 ### Create, configure, and attach a BulletAppState
@@ -545,6 +547,8 @@ In particular, `CapsuleCollisionShape` is often used with humanoid models.
     } else { // if the object moves
         if (its shape can be approximated by the convex hull of a mesh) {
             use a HullCollisionShape
+        } else if (its shape can be decomposed into convex hulls) {
+            use a compound of hull shapes
         } else {
             use a GImpactCollisionShape
         }
@@ -924,6 +928,8 @@ YouTube videos about Minie:
 [obs]: https://obsproject.com "Open Broadcaster Software Project"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [vegdahl]: http://www.cessen.com "Nathan Vegdahl"
+[vhacd]: https://github.com/kmammou/v-hacd "V-HACD Library"
+[vhacdBindings]: https://github.com/riccardobl/v-hacd-java-bindings "V-HACD Java Bindings Project"
 [winmerge]: http://winmerge.org "WinMerge Project"
 
 <a name="acks"/>
@@ -941,6 +947,10 @@ artists and software developers:
   and also for many helpful insights
 + Jules (aka "dokthar") for creating the soft-body fork of jMonkeyEngine
   from which Minie's soft-body support is derived
++ Khaled Mamou for creating and licensing the [V-HACD Library][vhacd]
+  for decomposing meshes into convex hulls.
++ Riccardo Balbo (aka "riccardo") for creating and licensing
+  the [V-HACD Java Bindings Project][vhacdBindings].
 + Paul Speed, for helpful insights
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down.
 + [Nathan Vegdahl][vegdahl], for creating the Puppet model (used in

@@ -45,9 +45,19 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.UserData;
+import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.terrain.geomipmap.TerrainPatch;
 import com.jme3.terrain.geomipmap.TerrainQuad;
+import java.nio.FloatBuffer;
+import java.util.List;
 import java.util.logging.Logger;
+import jme3utilities.MySpatial;
+import jme3utilities.Validate;
+import vhacd.VHACD;
+import vhacd.VHACDHull;
+import vhacd.VHACDParameters;
+import vhacd.VHACDResults;
 
 /**
  * Utility methods for generating collision shapes from spatials.
@@ -58,6 +68,10 @@ public class CollisionShapeFactory {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * number of axes in a vector
+     */
+    final private static int numAxes = 3;
     /**
      * message logger for this class
      */
@@ -136,25 +150,111 @@ public class CollisionShapeFactory {
             TerrainQuad terrain = (TerrainQuad) subtree;
             return new HeightfieldCollisionShape(terrain.getHeightMap(),
                     terrain.getLocalScale());
-            
+
         } else if (subtree instanceof TerrainPatch) {
             TerrainPatch terrain = (TerrainPatch) subtree;
             return new HeightfieldCollisionShape(terrain.getHeightMap(),
                     terrain.getLocalScale());
-            
+
         } else if (subtree instanceof Geometry) {
             return createSingleMeshShape((Geometry) subtree, subtree);
-            
+
         } else if (subtree instanceof Node) {
             return createMeshCompoundShape((Node) subtree);
-            
+
         } else {
             throw new IllegalArgumentException(
                     "The spatial must either be a Node or a Geometry!");
         }
     }
+
+    /**
+     * Create a shape for a dynamic object based on the specified Spatial.
+     *
+     * @param subtree the Spatial on which to base the shape (not null,
+     * unaffected)
+     * @param parameters (not null, unaffected)
+     * @return a new compound shape (not null)
+     */
+    public static CompoundCollisionShape createVhacdShape(Spatial subtree,
+            VHACDParameters parameters) {
+        Validate.nonNull(subtree, "subtree");
+        Validate.nonNull(parameters, "parameters");
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        List<Geometry> geometries
+                = MySpatial.listSpatials(subtree, Geometry.class, null);
+        for (Geometry geometry : geometries) {
+            addVhacdShape(geometry, subtree, parameters, result);
+        }
+
+        return result;
+    }
     // *************************************************************************
     // private methods
+
+    /**
+     * Add a V-HACD HullCollisionShape for the specified Geometry for the
+     * specified CompoundCollisionShape.
+     *
+     * @param geometry the Geometry on which to base the shape (not null,
+     * unaffected)
+     * @param modelRoot
+     * @param parameters (not null, unaffected)
+     * @param addResult (modified if not null)
+     */
+    private static void addVhacdShape(Geometry geometry, Spatial modelRoot,
+            VHACDParameters parameters, CompoundCollisionShape addResult) {
+        /*
+         * Skip the Geometry if it is tagged with "JmePhysicsIgnore" or has a
+         * null/empty mesh.
+         */
+        Boolean skipChild = geometry.getUserData(UserData.JME_PHYSICSIGNORE);
+        if (skipChild != null && skipChild) {
+            return;
+        }
+        Mesh jmeMesh = geometry.getMesh();
+        if (jmeMesh == null) {
+            return;
+        }
+        int numVertices = jmeMesh.getVertexCount();
+        if (numVertices == 0) {
+            return;
+        }
+        /*
+         * Copy vertex positions and indices to arrays.
+         */
+        FloatBuffer positionBuffer
+                = jmeMesh.getFloatBuffer(VertexBuffer.Type.Position);
+        int numFloats = numAxes * numVertices;
+        float[] positionArray = new float[numFloats];
+        for (int offset = 0; offset < numFloats; ++offset) {
+            float coordinate = positionBuffer.get(offset);
+            positionArray[offset] = coordinate;
+        }
+        IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
+        int numIndices = indexBuffer.size();
+        int[] indexArray = new int[numIndices];
+        for (int offset = 0; offset < numIndices; ++offset) {
+            int index = indexBuffer.get(offset);
+            indexArray[offset] = index;
+        }
+        /*
+         * Use the V-HACD algorithm to generate a list of hulls.
+         */
+        VHACDResults vhacdHulls
+                = VHACD.compute(positionArray, indexArray, parameters);
+        /*
+         * Convert each V-HACD hull to a CollisionShape
+         * and add that to the result.
+         */
+        Transform transform = getTransform(geometry, modelRoot);
+        for (VHACDHull vhacdHull : vhacdHulls) {
+            HullCollisionShape hullShape = new HullCollisionShape(vhacdHull);
+            addResult.addChildShape(hullShape, transform);
+            hullShape.setScale(transform.getScale());
+        }
+    }
 
     /**
      * Create a CompoundShape of boxes, based on the bounds of the Geometries in
