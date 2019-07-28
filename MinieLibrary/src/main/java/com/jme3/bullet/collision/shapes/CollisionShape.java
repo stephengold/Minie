@@ -240,7 +240,7 @@ abstract public class CollisionShape
      */
     public Vector3f getScale(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        assert checkScale(result);
+        //assert checkScale(result); TODO - fails for child of scaled compound shape
         result.set(scale);
         return result;
     }

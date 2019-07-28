@@ -110,6 +110,7 @@ public class TestSetScale {
         assert compound.getScale(null).equals(non);
         compound.setScale(non2);
         assert compound.getScale(null).equals(non2);
+        assert capsule.getScale(null).equals(uni);
         /*
          * Cone
          */
