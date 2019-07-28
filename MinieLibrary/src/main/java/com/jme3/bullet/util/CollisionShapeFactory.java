@@ -49,9 +49,13 @@ import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.terrain.geomipmap.TerrainPatch;
 import com.jme3.terrain.geomipmap.TerrainQuad;
+import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 import vhacd.VHACD;
@@ -77,6 +81,10 @@ public class CollisionShapeFactory {
      */
     final public static Logger logger
             = Logger.getLogger(CollisionShapeFactory.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Transform#IDENTITY}
+     */
+    final private static Transform transformIdentity = new Transform();
     // *************************************************************************
     // constructors
 
@@ -169,10 +177,10 @@ public class CollisionShapeFactory {
     }
 
     /**
-     * Create a shape for a dynamic object based on the specified Spatial.
+     * Create a shape for a dynamic object using the V-HACD library.
      *
-     * @param subtree the Spatial on which to base the shape (not null,
-     * unaffected)
+     * @param subtree the scene-graph subtree on which to base the shape (not
+     * null, unaffected)
      * @param parameters (not null, unaffected)
      * @return a new compound shape (not null)
      */
@@ -181,11 +189,71 @@ public class CollisionShapeFactory {
         Validate.nonNull(subtree, "subtree");
         Validate.nonNull(parameters, "parameters");
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        List<Geometry> geometries
+        List<Geometry> allGeometries
                 = MySpatial.listSpatials(subtree, Geometry.class, null);
-        for (Geometry geometry : geometries) {
-            addVhacdShape(geometry, subtree, parameters, result);
+
+        List<Geometry> includedGeometries
+                = new ArrayList<>(allGeometries.size());
+        int totalVertices = 0;
+        int totalIndices = 0;
+        for (Geometry geometry : allGeometries) {
+            /*
+             * Exclude any Geometry tagged with "JmePhysicsIgnore"
+             * or having a null/empty mesh.
+             */
+            Boolean ignore = geometry.getUserData(UserData.JME_PHYSICSIGNORE);
+            if (ignore != null && ignore) {
+                continue;
+            }
+            Mesh jmeMesh = geometry.getMesh();
+            if (jmeMesh == null) {
+                continue;
+            }
+            IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
+            int numIndices = indexBuffer.size();
+            if (numIndices == 0) {
+                continue;
+            }
+            int numVertices = jmeMesh.getVertexCount();
+            if (numVertices == 0) {
+                continue;
+            }
+
+            includedGeometries.add(geometry);
+            totalIndices += numIndices;
+            totalVertices += numVertices;
+        }
+        /*
+         * Generate a temporary mesh that combines the triangles of
+         * all included meshes.
+         */
+        IntBuffer indexBuffer = BufferUtils.createIntBuffer(totalIndices);
+        int totalFloats = numAxes * totalVertices;
+        FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(totalFloats);
+        for (Geometry geometry : includedGeometries) {
+            appendTriangles(geometry, subtree, positionBuffer, indexBuffer);
+        }
+        float[] positionArray = new float[totalFloats];
+        for (int offset = 0; offset < totalFloats; ++offset) {
+            positionArray[offset] = positionBuffer.get(offset);
+        }
+        int[] indexArray = new int[totalIndices];
+        for (int offset = 0; offset < totalIndices; ++offset) {
+            indexArray[offset] = indexBuffer.get(offset);
+        }
+        /*
+         * Use the V-HACD algorithm to generate a list of hulls.
+         */
+        VHACDResults vhacdHulls
+                = VHACD.compute(positionArray, indexArray, parameters);
+        /*
+         * Convert each V-HACD hull to a HullCollisionShape
+         * and add that to the result.
+         */
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        for (VHACDHull vhacdHull : vhacdHulls) {
+            HullCollisionShape hullShape = new HullCollisionShape(vhacdHull);
+            result.addChildShape(hullShape, transformIdentity);
         }
 
         return result;
@@ -194,65 +262,43 @@ public class CollisionShapeFactory {
     // private methods
 
     /**
-     * Add a V-HACD HullCollisionShape for the specified Geometry for the
-     * specified CompoundCollisionShape.
+     * Append transformed mesh triangles to a combined mesh.
      *
-     * @param geometry the Geometry on which to base the shape (not null,
+     * @param geometry the Geometry from which to read triangles (not null,
      * unaffected)
-     * @param modelRoot
-     * @param parameters (not null, unaffected)
-     * @param addResult (modified if not null)
+     * @param modelRoot (not null, unaffected)
+     * @param addPositions the position buffer for the combined mesh (not null,
+     * modified)
+     * @param addIndices the index buffer for the combined mesh (not null,
+     * modified)
      */
-    private static void addVhacdShape(Geometry geometry, Spatial modelRoot,
-            VHACDParameters parameters, CompoundCollisionShape addResult) {
-        /*
-         * Skip the Geometry if it is tagged with "JmePhysicsIgnore" or has a
-         * null/empty mesh.
-         */
-        Boolean skipChild = geometry.getUserData(UserData.JME_PHYSICSIGNORE);
-        if (skipChild != null && skipChild) {
-            return;
-        }
+    private static void appendTriangles(Geometry geometry, Spatial modelRoot,
+            FloatBuffer addPositions, IntBuffer addIndices) {
         Mesh jmeMesh = geometry.getMesh();
-        if (jmeMesh == null) {
-            return;
-        }
-        int numVertices = jmeMesh.getVertexCount();
-        if (numVertices == 0) {
-            return;
-        }
         /*
-         * Copy vertex positions and indices to arrays.
+         * Append combined-mesh indices to the IntBuffer.
          */
-        FloatBuffer positionBuffer
-                = jmeMesh.getFloatBuffer(VertexBuffer.Type.Position);
-        int numFloats = numAxes * numVertices;
-        float[] positionArray = new float[numFloats];
-        for (int offset = 0; offset < numFloats; ++offset) {
-            float coordinate = positionBuffer.get(offset);
-            positionArray[offset] = coordinate;
-        }
+        int indexBase = addPositions.position() / numAxes;
         IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
         int numIndices = indexBuffer.size();
-        int[] indexArray = new int[numIndices];
         for (int offset = 0; offset < numIndices; ++offset) {
-            int index = indexBuffer.get(offset);
-            indexArray[offset] = index;
+            int indexInGeometry = indexBuffer.get(offset);
+            int indexInCombinedMesh = indexBase + indexInGeometry;
+            addIndices.put(indexInCombinedMesh);
         }
         /*
-         * Use the V-HACD algorithm to generate a list of hulls.
-         */
-        VHACDResults vhacdHulls
-                = VHACD.compute(positionArray, indexArray, parameters);
-        /*
-         * Convert each V-HACD hull to a CollisionShape
-         * and add that to the result.
+         * Append transformed vertex locations to the FloatBuffer.
          */
         Transform transform = getTransform(geometry, modelRoot);
-        for (VHACDHull vhacdHull : vhacdHulls) {
-            HullCollisionShape hullShape = new HullCollisionShape(vhacdHull);
-            addResult.addChildShape(hullShape, transform);
-            hullShape.setScale(transform.getScale());
+        Vector3f tmpPosition = new Vector3f();
+        int numVertices = jmeMesh.getVertexCount();
+        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
+            MyMesh.vertexVector3f(jmeMesh, VertexBuffer.Type.Position,
+                    vertexIndex, tmpPosition);
+            transform.transformVector(tmpPosition, tmpPosition);
+            addPositions.put(tmpPosition.x);
+            addPositions.put(tmpPosition.y);
+            addPositions.put(tmpPosition.z);
         }
     }
 
