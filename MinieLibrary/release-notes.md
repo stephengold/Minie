@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.10for32 released on TBD
+## Version 0.9.10for32 released on 28 July 2019
 
  + Fixed a bug where a scaled compound shape caused an assertion failure.
  + Add support for V-HACD using Riccardo's Java bindings.
