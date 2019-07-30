@@ -69,9 +69,28 @@ public class HingeJoint extends Constraint {
     // fields
 
     /**
+     * copy of the angular-only flag (default=false)
+     */
+    private boolean angularOnly = false;
+    /**
      * copy of the "use reference frame A" flag (default=false)
      */
     private boolean useReferenceFrameA = false;
+    /**
+     * copy of the limit's bias factor: how strictly position errors (drift) is
+     * corrected (default=0.3)
+     */
+    private float biasFactor = 0.3f;
+    /**
+     * copy of the limit's softness: the range fraction at which velocity-error
+     * correction starts operating (default=0.9)
+     */
+    private float limitSoftness = 0.9f;
+    /**
+     * copy of the limit's relaxation factor: the rate at which velocity errors
+     * are corrected (default=1)
+     */
+    private float relaxationFactor = 1f;
     /**
      * copy of the joint axis in A's local coordinates (unit vector)
      */
@@ -82,25 +101,6 @@ public class HingeJoint extends Constraint {
      * vector)
      */
     private Vector3f axisB;
-    /**
-     * copy of the angular-only flag (default=false)
-     */
-    private boolean angularOnly = false;
-    /**
-     * copy of the limit's bias factor: how strictly position errors (drift) is
-     * corrected (default=0.3)
-     */
-    private float biasFactor = 0.3f;
-    /**
-     * copy of the limit's relaxation factor: the rate at which velocity errors
-     * are corrected (default=1)
-     */
-    private float relaxationFactor = 1f;
-    /**
-     * copy of the limit's softness: the range fraction at which velocity-error
-     * correction starts operating (default=0.9)
-     */
-    private float limitSoftness = 0.9f;
     // *************************************************************************
     // constructors
 
