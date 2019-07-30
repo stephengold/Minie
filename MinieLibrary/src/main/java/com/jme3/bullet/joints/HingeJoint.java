@@ -343,7 +343,7 @@ public class HingeJoint extends Constraint {
     }
 
     /**
-     * Alter the angular limits for this joint.
+     * Alter the angular limits for this joint. TODO document default limits
      * <p>
      * If you're above the softness, velocities that would shoot through the
      * actual limit are slowed down. The bias should be in the range of 0.2 -
@@ -351,21 +351,21 @@ public class HingeJoint extends Constraint {
      *
      * @param low the desired lower limit of the hinge angle (in radians)
      * @param high the desired upper limit of the hinge angle (in radians)
-     * @param _softness the desired range fraction at which velocity-error
+     * @param softness the desired range fraction at which velocity-error
      * correction starts operating. A softness of 0.9 means that the correction
      * starts at 90% of the limit range. (default=0.9)
-     * @param _biasFactor the desired magnitude of the position correction: how
+     * @param bias the desired magnitude of the position correction: how
      * strictly position errors (drift) are corrected (default=0.3)
-     * @param _relaxationFactor the desired rate at which velocity errors are
+     * @param relaxation the desired rate at which velocity errors are
      * corrected. This can be seen as the strength of the limits. A low value
      * will make the limits more spongy. (default=1)
      */
-    public void setLimit(float low, float high, float _softness,
-            float _biasFactor, float _relaxationFactor) {
-        biasFactor = _biasFactor;
-        relaxationFactor = _relaxationFactor;
-        limitSoftness = _softness;
-        setLimit(objectId, low, high, _softness, _biasFactor, _relaxationFactor);
+    public void setLimit(float low, float high, float softness, float bias,
+            float relaxation) {
+        biasFactor = bias;
+        relaxationFactor = relaxation;
+        limitSoftness = softness;
+        setLimit(objectId, low, high, softness, bias, relaxation);
     }
     // *************************************************************************
     // PhysicsJoint methods
