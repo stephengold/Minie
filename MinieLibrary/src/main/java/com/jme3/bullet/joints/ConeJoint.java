@@ -390,6 +390,8 @@ public class ConeJoint extends Constraint {
         setLimit(swingSpan1, swingSpan2, twistSpan);
         setAngularOnly(angularOnly);
     }
+    // *************************************************************************
+    // native methods
 
     native private long createJoint(long bodyIdA, long bodyIdB,
             Vector3f pivotInA, Matrix3f rotInA, Vector3f pivotInB,

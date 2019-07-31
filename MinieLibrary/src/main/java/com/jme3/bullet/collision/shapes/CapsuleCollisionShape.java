@@ -285,6 +285,8 @@ public class CapsuleCollisionShape extends CollisionShape {
         setScale(scale);
         margin = 0f;
     }
+    // *************************************************************************
+    // native methods
 
     native private long createShape(int axis, float radius, float height);
 }

@@ -169,7 +169,7 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
      * or removed from a Spatial. Should be invoked only by a subclass or from
      * Spatial. Do not invoke directly from user code.
      *
-     * @param spatial the spatial to control (or null)
+     * @param spatial the Spatial to control (or null)
      */
     @Override
     public void setSpatial(Spatial spatial) {

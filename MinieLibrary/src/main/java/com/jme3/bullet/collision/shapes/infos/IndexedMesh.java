@@ -346,6 +346,8 @@ public class IndexedMesh implements JmeCloneable, Savable {
         logger.log(Level.FINE, "Created IndexedMesh {0}",
                 Long.toHexString(nativeId));
     }
+    // *************************************************************************
+    // native methods
 
     native private long createInt(IntBuffer indices,
             FloatBuffer vertexPositions, int numTriangles, int numVertices,

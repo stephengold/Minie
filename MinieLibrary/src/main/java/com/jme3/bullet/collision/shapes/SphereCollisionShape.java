@@ -212,6 +212,8 @@ public class SphereCollisionShape extends CollisionShape {
         setScale(scale);
         margin = 0f;
     }
+    // *************************************************************************
+    // native methods
 
     native private long createShape(float radius);
 }

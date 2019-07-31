@@ -260,6 +260,8 @@ public class ConeCollisionShape extends CollisionShape {
         setScale(scale);
         setMargin(margin);
     }
+    // *************************************************************************
+    // native methods
 
     native private long createShape(int axis, float radius, float height);
 }

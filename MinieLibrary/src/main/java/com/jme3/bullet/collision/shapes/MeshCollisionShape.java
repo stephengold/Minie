@@ -252,6 +252,8 @@ public class MeshCollisionShape extends CollisionShape {
         setScale(scale);
         setMargin(margin);
     }
+    // *************************************************************************
+    // native methods
 
     native private long createShape(boolean useCompression, boolean buildBvh,
             long meshId);

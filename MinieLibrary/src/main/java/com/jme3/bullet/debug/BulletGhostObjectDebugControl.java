@@ -178,8 +178,8 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
     }
 
     /**
-     * Alter which spatial is controlled. Invoked when the control is added to
-     * or removed from a spatial. Should be invoked only by a subclass or from
+     * Alter which Spatial is controlled. Invoked when the Control is added to
+     * or removed from a Spatial. Should be invoked only by a subclass or from
      * Spatial. Do not invoke directly from user code.
      *
      * @param spatial the spatial to control (or null)

@@ -194,7 +194,7 @@ public class HingeJoint extends Constraint {
     /**
      * Enable or disable this joint's motor.
      *
-     * @param enable true to enable, false to disable
+     * @param enable true to enable, false to disable (default=false)
      * @param targetVelocity the desired target velocity
      * @param maxMotorImpulse the desired maximum rotational force
      */
@@ -334,8 +334,10 @@ public class HingeJoint extends Constraint {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @param low the desired lower limit of the hinge angle (in radians)
-     * @param high the desired upper limit of the hinge angle (in radians)
+     * @param low the desired lower limit of the hinge angle (in radians,
+     * default=1)
+     * @param high the desired upper limit of the hinge angle (in radians,
+     * default=-1)
      */
     public void setLimit(float low, float high) {
         setLimit(objectId, low, high, limitSoftness, biasFactor,
@@ -343,14 +345,16 @@ public class HingeJoint extends Constraint {
     }
 
     /**
-     * Alter the angular limits for this joint. TODO document default limits
+     * Alter the angular limits for this joint.
      * <p>
      * If you're above the softness, velocities that would shoot through the
      * actual limit are slowed down. The bias should be in the range of 0.2 -
      * 0.5.
      *
-     * @param low the desired lower limit of the hinge angle (in radians)
-     * @param high the desired upper limit of the hinge angle (in radians)
+     * @param low the desired lower limit of the hinge angle (in radians,
+     * default=1)
+     * @param high the desired upper limit of the hinge angle (in radians,
+     * default=-1)
      * @param softness the desired range fraction at which velocity-error
      * correction starts operating. A softness of 0.9 means that the correction
      * starts at 90% of the limit range. (default=0.9)
@@ -413,7 +417,7 @@ public class HingeJoint extends Constraint {
     /**
      * Create a shallow clone for the JME cloner.
      *
-     * @return a new instance
+     * @return a new joint
      */
     @Override
     public HingeJoint jmeClone() {
@@ -543,6 +547,8 @@ public class HingeJoint extends Constraint {
         assert objectId != 0L;
         logger2.log(Level.FINE, "Created {0}.", this);
     }
+    // *************************************************************************
+    // native methods
 
     native private long createJoint(long objectIdA, long objectIdB,
             Vector3f pivotInA, Vector3f axisInA, Vector3f pivotInB,

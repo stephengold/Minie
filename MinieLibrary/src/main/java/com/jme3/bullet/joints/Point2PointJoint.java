@@ -319,6 +319,8 @@ public class Point2PointJoint extends Constraint {
         assert objectId != 0L;
         logger2.log(Level.FINE, "Created {0}.", this);
     }
+    // *************************************************************************
+    // native methods
 
     native private long createJoint(long bodyIdA, long bodyIdB,
             Vector3f pivotInA, Vector3f pivotInB);

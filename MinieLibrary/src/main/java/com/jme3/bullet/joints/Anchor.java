@@ -311,6 +311,8 @@ public class Anchor extends PhysicsJoint {
         assert objectId != 0L;
         logger2.log(Level.FINE, "Created {0}.", this);
     }
+    // *************************************************************************
+    // native methods
 
     native private long createAnchor(long softBodyId, int nodeIndex,
             long rigidBodyId, Vector3f initialLocation, boolean allowCollisions,

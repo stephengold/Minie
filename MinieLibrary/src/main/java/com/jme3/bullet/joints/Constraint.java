@@ -384,7 +384,7 @@ abstract public class Constraint extends PhysicsJoint {
      * Enable or disable collisions between the linked bodies. Changes take
      * effect when the Constraint is added to a PhysicsSpace.
      *
-     * @param enable true to allow collisions, false to prevent them
+     * @param enable true to allow collisions, false to prevent them (default=true)
      */
     public void setCollisionBetweenLinkedBodies(boolean enable) {
         collisionBetweenLinkedBodies = enable;
@@ -552,7 +552,7 @@ abstract public class Constraint extends PhysicsJoint {
         finalizeNative(objectId);
     }
     // *************************************************************************
-    // private methods
+    // native private methods
 
     native private void enableFeedback(long constraintId, boolean enable);
 

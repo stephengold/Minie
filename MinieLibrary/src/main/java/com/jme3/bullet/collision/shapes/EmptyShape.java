@@ -130,6 +130,8 @@ public class EmptyShape extends CollisionShape {
         setScale(scale);
         setMargin(margin);
     }
+    // *************************************************************************
+    // native methods
 
     native private long createShapeNative();
 }
