@@ -1156,7 +1156,7 @@ abstract public class PhysicsCollisionObject
         return result;
     }
     // *************************************************************************
-    // private methods
+    // native private methods
 
     native private void activate(long objectId, boolean forceFlag);
 

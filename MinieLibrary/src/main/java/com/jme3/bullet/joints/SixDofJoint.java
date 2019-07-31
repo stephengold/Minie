@@ -701,6 +701,8 @@ public class SixDofJoint extends Constraint {
         long motorId = getTranslationalLimitMotor(objectId);
         translationalMotor = new TranslationalLimitMotor(motorId);
     }
+    // *************************************************************************
+    // native private methods
 
     native private void getAngles(long jointId, Vector3f storeVector);
 

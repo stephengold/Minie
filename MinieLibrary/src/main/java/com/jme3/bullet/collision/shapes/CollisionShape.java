@@ -489,6 +489,8 @@ abstract public class CollisionShape
 
         return result;
     }
+    // *************************************************************************
+    // native private methods
 
     native private void finalizeNative(long objectId);
 

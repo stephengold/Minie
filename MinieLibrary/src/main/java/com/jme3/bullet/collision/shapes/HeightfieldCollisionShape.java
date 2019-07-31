@@ -391,7 +391,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
         setMargin(margin);
     }
     // *************************************************************************
-    // native private methods
+    // native methods
 
     native private long createShape2(int stickWidth, int stickLength,
             FloatBuffer heightfieldData, float heightScale, float minHeight,

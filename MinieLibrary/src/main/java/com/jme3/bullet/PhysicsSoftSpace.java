@@ -292,7 +292,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         removeSoftBody(spaceId, softBodyId);
     }
     // *************************************************************************
-    // native private methods
+    // native methods
 
     native private void addSoftBody(long softSpaceId, long softBodyId);
 

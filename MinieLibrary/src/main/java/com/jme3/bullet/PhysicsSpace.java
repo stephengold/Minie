@@ -1390,7 +1390,7 @@ public class PhysicsSpace {
         removeRigidBody(nativeId, rigidBodyId);
     }
     // *************************************************************************
-    // native private methods
+    // native methods
 
     native private void addAction(long spaceId, long actionId);
 
