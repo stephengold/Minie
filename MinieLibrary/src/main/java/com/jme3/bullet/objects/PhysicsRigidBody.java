@@ -190,7 +190,7 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     /**
      * Apply a force to the body. Effective only if the next physics update
-     * steps the physics.
+     * steps the physics. TODO document coordinate systems
      * <p>
      * To apply an impulse, use
      * {@link #applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)}.
@@ -1132,6 +1132,28 @@ public class PhysicsRigidBody extends PhysicsBody {
     // *************************************************************************
     // private methods
 
+    /**
+     * Validate a shape suitable for a dynamic body.
+     *
+     * @param shape (not null, unaffected)
+     */
+    private static void validateDynamicShape(CollisionShape shape) {
+        assert shape != null;
+
+        if (shape instanceof HeightfieldCollisionShape) {
+            throw new IllegalStateException(
+                    "Dynamic rigid body can't have heightfield shape!");
+        } else if (shape instanceof MeshCollisionShape) {
+            throw new IllegalStateException(
+                    "Dynamic rigid body can't have mesh shape!");
+        } else if (shape instanceof PlaneCollisionShape) {
+            throw new IllegalStateException(
+                    "Dynamic rigid body can't have plane shape!");
+        }
+    }
+    // *************************************************************************
+    // native methods
+
     native private void applyCentralForce(long objectId, Vector3f force);
 
     native private void applyCentralImpulse(long objectId, Vector3f impulse);
@@ -1215,24 +1237,4 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     native private long updateMassProps(long objectId, long collisionShapeId,
             float mass);
-
-    /**
-     * Validate a shape suitable for a dynamic body.
-     *
-     * @param shape (not null, unaffected)
-     */
-    private static void validateDynamicShape(CollisionShape shape) {
-        assert shape != null;
-
-        if (shape instanceof HeightfieldCollisionShape) {
-            throw new IllegalStateException(
-                    "Dynamic rigid body can't have heightfield shape!");
-        } else if (shape instanceof MeshCollisionShape) {
-            throw new IllegalStateException(
-                    "Dynamic rigid body can't have mesh shape!");
-        } else if (shape instanceof PlaneCollisionShape) {
-            throw new IllegalStateException(
-                    "Dynamic rigid body can't have plane shape!");
-        }
-    }
 }
