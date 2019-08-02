@@ -664,8 +664,8 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Synchronize the collision-shape debug controls with the collision objects
-     * in the PhysicsSpace.
+     * Synchronize the collision-shape debug controls and axis visualizers with
+     * the collision objects in the PhysicsSpace.
      */
     private void updateShapes() {
         for (Map.Entry<PhysicsCollisionObject, Node> entry
@@ -711,6 +711,10 @@ public class BulletDebugAppState extends AbstractAppState {
 
             if (control != null && !display) {
                 node.removeControl(control);
+                AxesVisualizer ac = node.getControl(AxesVisualizer.class);
+                if (ac != null) {
+                    node.removeControl(control);
+                }
             }
         }
     }
