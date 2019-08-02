@@ -1088,7 +1088,7 @@ public class DacLinks
             } else {
                 SkinningControl skinningControl
                         = spatial.getControl(SkinningControl.class);
-                String[] managerMap = managerMap(skeleton);
+                String[] managerMap = managerMap(armature);
                 createAttachmentLink(boneName, skinningControl, managerMap);
             }
         }
