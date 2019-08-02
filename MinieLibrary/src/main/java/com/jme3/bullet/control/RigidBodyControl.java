@@ -270,6 +270,7 @@ public class RigidBodyControl
             }
         }
         if (mass > massForStatic) {
+            // TODO use V-HACD?
             collisionShape
                     = CollisionShapeFactory.createDynamicMeshShape(spatial);
         } else {
