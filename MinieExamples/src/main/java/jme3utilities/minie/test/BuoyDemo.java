@@ -42,6 +42,7 @@ import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -75,6 +76,7 @@ import jme3utilities.MySpatial;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.DumpFlags;
+import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.controllers.BuoyController;
 import jme3utilities.minie.test.tunings.CesiumManControl;
@@ -130,6 +132,10 @@ public class BuoyDemo extends ActionApplication {
      * AppState to manage the PhysicsSpace
      */
     final private BulletAppState bulletAppState = new BulletAppState();
+    /**
+     * filter to control visualization of axis-aligned bounding boxes
+     */
+    private BulletDebugAppState.DebugAppStateFilter bbFilter;
     /**
      * Control being tested
      */
@@ -250,6 +256,8 @@ public class BuoyDemo extends ActionApplication {
         dim.bind("signal rotateLeft", KeyInput.KEY_LEFT);
         dim.bind("signal rotateRight", KeyInput.KEY_RIGHT);
 
+        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
+        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
@@ -289,6 +297,12 @@ public class BuoyDemo extends ActionApplication {
                     goFloating();
                     return;
 
+                case "toggle axes":
+                    toggleAxes();
+                    return;
+                case "toggle boxes":
+                    toggleBoxes();
+                    return;
                 case "toggle help":
                     toggleHelp();
                     return;
@@ -694,6 +708,27 @@ public class BuoyDemo extends ActionApplication {
         float oldHeight = minMax[1].y - minMax[0].y;
 
         model.scale(height / oldHeight);
+    }
+
+    /**
+     * Toggle visualization of collision-object axes.
+     */
+    private void toggleAxes() {
+        float length = bulletAppState.debugAxisLength();
+        bulletAppState.setDebugAxisLength(0.5f - length);
+    }
+
+    /**
+     * Toggle visualization of collision-object bounding boxes.
+     */
+    private void toggleBoxes() {
+        if (bbFilter == null) {
+            bbFilter = new FilterAll(true);
+        } else {
+            bbFilter = null;
+        }
+
+        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
     }
 
     /**
