@@ -1,5 +1,16 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.11for32 released on TBD
+
+ + Added a 3rd argument to the `CollisionShapeFactory.createVhacdShape()`
+   method, to simplify augmentation of an existing compound shape. (API change)
+ + Finalized the `TorsoLink.countManaged()` method. (API change)
+ + Fixed a bug where axes were visualized after shapes were no
+   longer visualized.
+ + Added CCD/sleep parameters of dynamic rigid bodies to dumps.
+ + Added optional filtering of physics dumps.
+ + Enhanced the `BuoyDemo` app with hotkeys to toggle visualization options.
+
 ## Version 0.9.10for32 released on 28 July 2019
 
  + Fixed a bug where a scaled compound shape caused an assertion failure.
