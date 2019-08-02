@@ -68,6 +68,11 @@ public class MultiSphere extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(MultiSphere.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagCenters = "centers";
+    final private static String tagRadii = "radii";
     // *************************************************************************
     // fields
 
@@ -453,13 +458,13 @@ public class MultiSphere extends CollisionShape {
         InputCapsule capsule = importer.getCapsule(this);
 
         Savable[] savCenters
-                = capsule.readSavableArray("centers", new Vector3f[0]);
+                = capsule.readSavableArray(tagCenters, new Vector3f[0]);
         int numSpheres = savCenters.length;
         centers = new Vector3f[numSpheres];
         for (int sphereIndex = 0; sphereIndex < numSpheres; ++sphereIndex) {
             centers[sphereIndex] = (Vector3f) savCenters[sphereIndex];
         }
-        radii = capsule.readFloatArray("radii", new float[0]);
+        radii = capsule.readFloatArray(tagRadii, new float[0]);
         createShape();
     }
 
@@ -483,8 +488,8 @@ public class MultiSphere extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(centers, "centers", null);
-        capsule.write(radii, "radii", null);
+        capsule.write(centers, tagCenters, null);
+        capsule.write(radii, tagRadii, null);
     }
     // *************************************************************************
     // private methods

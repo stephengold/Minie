@@ -60,6 +60,13 @@ public class SimplexCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(SimplexCollisionShape.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagSimplexPoint1 = "simplexPoint1";
+    final private static String tagSimplexPoint2 = "simplexPoint2";
+    final private static String tagSimplexPoint3 = "simplexPoint3";
+    final private static String tagSimplexPoint4 = "simplexPoint4";
     // *************************************************************************
     // fields
 
@@ -285,10 +292,10 @@ public class SimplexCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        vector1 = (Vector3f) capsule.readSavable("simplexPoint1", null);
-        vector2 = (Vector3f) capsule.readSavable("simplexPoint2", null);
-        vector3 = (Vector3f) capsule.readSavable("simplexPoint3", null);
-        vector4 = (Vector3f) capsule.readSavable("simplexPoint4", null);
+        vector1 = (Vector3f) capsule.readSavable(tagSimplexPoint1, null);
+        vector2 = (Vector3f) capsule.readSavable(tagSimplexPoint2, null);
+        vector3 = (Vector3f) capsule.readSavable(tagSimplexPoint3, null);
+        vector4 = (Vector3f) capsule.readSavable(tagSimplexPoint4, null);
         createShape();
     }
 
@@ -312,10 +319,10 @@ public class SimplexCollisionShape extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(vector1, "simplexPoint1", null);
-        capsule.write(vector2, "simplexPoint2", null);
-        capsule.write(vector3, "simplexPoint3", null);
-        capsule.write(vector4, "simplexPoint4", null);
+        capsule.write(vector1, tagSimplexPoint1, null);
+        capsule.write(vector2, tagSimplexPoint2, null);
+        capsule.write(vector3, tagSimplexPoint3, null);
+        capsule.write(vector4, tagSimplexPoint4, null);
     }
     // *************************************************************************
     // private methods

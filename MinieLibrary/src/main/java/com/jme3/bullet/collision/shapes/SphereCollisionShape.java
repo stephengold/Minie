@@ -59,6 +59,10 @@ public class SphereCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(SphereCollisionShape.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagRadius = "radius";
     // *************************************************************************
     // fields
 
@@ -167,7 +171,7 @@ public class SphereCollisionShape extends CollisionShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        radius = capsule.readFloat("radius", 0.5f);
+        radius = capsule.readFloat(tagRadius, 0.5f);
         createShape();
     }
 
@@ -194,7 +198,7 @@ public class SphereCollisionShape extends CollisionShape {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-        capsule.write(radius, "radius", 0.5f);
+        capsule.write(radius, tagRadius, 0.5f);
     }
     // *************************************************************************
     // private methods

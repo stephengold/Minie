@@ -82,6 +82,18 @@ public class BetterCharacterControl
      */
     final public static Logger logger2
             = Logger.getLogger(BetterCharacterControl.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagBody = "body";
+    final private static String tagDuckedFactor = "duckedFactor";
+    final private static String tagHeight = "height";
+    final private static String tagJumpForce = "jumpForce";
+    final private static String tagMass = "mass";
+    final private static String tagPhysicsDamping = "physicsDamping";
+    final private static String tagRadius = "radius";
+    final private static String tagViewDirection = "viewDirection";
+    final private static String tagWalkDirection = "walkDirection";
     // *************************************************************************
     // fields
 
@@ -519,18 +531,18 @@ public class BetterCharacterControl
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        radius = capsule.readFloat("radius", 1f);
-        height = capsule.readFloat("height", 2f);
-        mass = capsule.readFloat("mass", 80f);
-        jumpForce = (Vector3f) capsule.readSavable("jumpForce",
+        radius = capsule.readFloat(tagRadius, 1f);
+        height = capsule.readFloat(tagHeight, 2f);
+        mass = capsule.readFloat(tagMass, 80f);
+        jumpForce = (Vector3f) capsule.readSavable(tagJumpForce,
                 new Vector3f(0f, mass * 5f, 0f));
-        physicsDamping = capsule.readFloat("physicsDamping", 0.9f);
-        duckedFactor = capsule.readFloat("duckedFactor", 0.6f);
-        viewDirection = (Vector3f) capsule.readSavable("viewDirection",
+        physicsDamping = capsule.readFloat(tagPhysicsDamping, 0.9f);
+        duckedFactor = capsule.readFloat(tagDuckedFactor, 0.6f);
+        viewDirection = (Vector3f) capsule.readSavable(tagViewDirection,
                 new Vector3f(0f, 0f, 1f));
-        walkDirection = (Vector3f) capsule.readSavable("walkDirection",
+        walkDirection = (Vector3f) capsule.readSavable(tagWalkDirection,
                 new Vector3f(0f, 0f, 1f));
-        rigidBody = (PhysicsRigidBody) capsule.readSavable("body", null);
+        rigidBody = (PhysicsRigidBody) capsule.readSavable(tagBody, null);
 
         Spatial controlled = getSpatial();
         rigidBody.setUserObject(controlled);
@@ -629,15 +641,15 @@ public class BetterCharacterControl
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(radius, "radius", 1f);
-        capsule.write(height, "height", 2f);
-        capsule.write(mass, "mass", 80f);
-        capsule.write(jumpForce, "jumpForce", null);
-        capsule.write(physicsDamping, "physicsDamping", 0.9f);
-        capsule.write(duckedFactor, "duckedFactor", 0.6f);
-        capsule.write(viewDirection, "viewDirection", null);
-        capsule.write(walkDirection, "walkDirection", null);
-        capsule.write(rigidBody, "body", null);
+        capsule.write(radius, tagRadius, 1f);
+        capsule.write(height, tagHeight, 2f);
+        capsule.write(mass, tagMass, 80f);
+        capsule.write(jumpForce, tagJumpForce, null);
+        capsule.write(physicsDamping, tagPhysicsDamping, 0.9f);
+        capsule.write(duckedFactor, tagDuckedFactor, 0.6f);
+        capsule.write(viewDirection, tagViewDirection, null);
+        capsule.write(walkDirection, tagWalkDirection, null);
+        capsule.write(rigidBody, tagBody, null);
     }
     // *************************************************************************
     // PhysicsTickListener methods

@@ -63,6 +63,20 @@ public class HeightfieldCollisionShape extends CollisionShape {
     final public static Logger logger2
             = Logger.getLogger(HeightfieldCollisionShape.class.getName());
     /**
+     * field names for serialization
+     */
+    final private static String tagFlipQuadEdges = "flipQuadEdges";
+    final private static String tagFlipTriangleWinding = "flipTriangleWinding";
+    final private static String tagHeightfieldData = "heightfieldData";
+    final private static String tagHeightScale = "heightScale";
+    final private static String tagHeightStickLength = "heightStickLength";
+    final private static String tagHeightStickWidth = "heightStickWidth";
+    final private static String tagMaxHeight = "maxHeight";
+    final private static String tagMinHeight = "minHeight";
+    final private static String tagUpAxis = "upAxis";
+    final private static String tagUseDiamond = "useDiamond";
+    final private static String tagUseZigzag = "useZigzag";
+    /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
      */
     final private static Vector3f scaleIdentity = new Vector3f(1f, 1f, 1f);
@@ -274,18 +288,19 @@ public class HeightfieldCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        heightStickWidth = capsule.readInt("heightStickWidth", 0);
-        heightStickLength = capsule.readInt("heightStickLength", 0);
-        heightScale = capsule.readFloat("heightScale", 0f);
-        minHeight = capsule.readFloat("minHeight", 0f);
-        maxHeight = capsule.readFloat("maxHeight", 0f);
-        upAxis = capsule.readInt("upAxis", PhysicsSpace.AXIS_Y);
-        heightfieldData = capsule.readFloatArray("heightfieldData",
+        heightStickWidth = capsule.readInt(tagHeightStickWidth, 0);
+        heightStickLength = capsule.readInt(tagHeightStickLength, 0);
+        heightScale = capsule.readFloat(tagHeightScale, 0f);
+        minHeight = capsule.readFloat(tagMinHeight, 0f);
+        maxHeight = capsule.readFloat(tagMaxHeight, 0f);
+        upAxis = capsule.readInt(tagUpAxis, PhysicsSpace.AXIS_Y);
+        heightfieldData = capsule.readFloatArray(tagHeightfieldData,
                 new float[0]);
-        flipQuadEdges = capsule.readBoolean("flipQuadEdges", true);
-        flipTriangleWinding = capsule.readBoolean("flipTriangleWinding", false);
-        useDiamond = capsule.readBoolean("useDiamond", false);
-        useZigzag = capsule.readBoolean("useZigzag", false);
+        flipQuadEdges = capsule.readBoolean(tagFlipQuadEdges, true);
+        flipTriangleWinding = capsule.readBoolean(tagFlipTriangleWinding,
+                false);
+        useDiamond = capsule.readBoolean(tagUseDiamond, false);
+        useZigzag = capsule.readBoolean(tagUseZigzag, false);
 
         createShape();
     }
@@ -302,17 +317,17 @@ public class HeightfieldCollisionShape extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(heightStickWidth, "heightStickWidth", 0);
-        capsule.write(heightStickLength, "heightStickLength", 0);
-        capsule.write(heightScale, "heightScale", 0f);
-        capsule.write(minHeight, "minHeight", 0f);
-        capsule.write(maxHeight, "maxHeight", 0f);
-        capsule.write(upAxis, "upAxis", PhysicsSpace.AXIS_Y);
-        capsule.write(heightfieldData, "heightfieldData", new float[0]);
-        capsule.write(flipQuadEdges, "flipQuadEdges", true);
-        capsule.write(flipTriangleWinding, "flipTriangleWinding", false);
-        capsule.write(useDiamond, "useDiamond", false);
-        capsule.write(useZigzag, "useZigzag", false);
+        capsule.write(heightStickWidth, tagHeightStickWidth, 0);
+        capsule.write(heightStickLength, tagHeightStickLength, 0);
+        capsule.write(heightScale, tagHeightScale, 0f);
+        capsule.write(minHeight, tagMinHeight, 0f);
+        capsule.write(maxHeight, tagMaxHeight, 0f);
+        capsule.write(upAxis, tagUpAxis, PhysicsSpace.AXIS_Y);
+        capsule.write(heightfieldData, tagHeightfieldData, new float[0]);
+        capsule.write(flipQuadEdges, tagFlipQuadEdges, true);
+        capsule.write(flipTriangleWinding, tagFlipTriangleWinding, false);
+        capsule.write(useDiamond, tagUseDiamond, false);
+        capsule.write(useZigzag, tagUseZigzag, false);
     }
     // *************************************************************************
     // private methods
