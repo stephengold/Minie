@@ -378,6 +378,8 @@ public class SoftBodyControl extends AbstractPhysicsControl {
             case Triangles:
                 faces = mesh.getIndexBuffer();
                 break;
+            default:
+                throw new IllegalStateException(mesh.getMode().name());
         }
 
         if (mergeVertices) {
