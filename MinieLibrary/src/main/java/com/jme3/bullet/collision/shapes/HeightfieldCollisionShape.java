@@ -178,7 +178,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
      *
      * @param stickLength the number of rows in the heightfield (&gt;1)
      * @param stickWidth number of columns in the heightfield (&gt;1)
-     * @param heightmap (not null, length = stickLength*stickWidth, unaffected)
+     * @param heightmap (not null, length = stickLength*stickWidth, alias
+     * created) TODO
      * @param scale the desired scaling factor for each local axis (not null, no
      * negative component, unaffected)
      * @param upAxis the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
