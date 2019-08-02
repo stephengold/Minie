@@ -176,7 +176,7 @@ The evolution of Minie is chronicled in
 
 ### jMonkeyEngine3 (jME3) Software Development Kit (SDK)
 
-Minie currently targets Version 3.2.4 of jMonkeyEngine.
+Minie currently targets version 3.2.4 of jMonkeyEngine.
 You are welcome to use the Engine without also using the SDK, but I use the SDK,
 and the following installation instructions assume you will too.
 
@@ -296,14 +296,14 @@ you must explicitly specify their repository locations:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.9.10for32'
+        compile 'jme3utilities:Minie:0.9.11for32'
     }
 
 #### For Ant projects
 
 For projects built using [Ant][], download the 3 non-standard libraries:
 
- + https://github.com/stephengold/Minie/releases/tag/0.9.10for32
+ + https://github.com/stephengold/Minie/releases/tag/0.9.11for32
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.30.0for32
  + https://bintray.com/riccardo/v-hacd/download_file?file_path=vhacd%2Fvhacd-native%2F1.1.1%2Fvhacd-native-1.1.1.jar
 
@@ -356,7 +356,7 @@ If you don't need soft bodies, you can instantiate a `BulletAppState` directly:
         PhysicsSpace physicsSpace = bas.getPhysicsSpace();
 
 By default, the physics simulation executes on the render thread.
-To execute it on a parallel thread, use:
+To execute it on a dedicated thread, use:
 
         bas.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
 
@@ -906,6 +906,7 @@ YouTube videos about Minie:
     [watch](https://www.youtube.com/watch?v=A1Rii99nb3Q) (2:49)
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestDac.java)
 
+[ant]: https://ant.apache.org "Apache Ant Project"
 [blender]: https://docs.blender.org "Blender Project"
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
 [bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
