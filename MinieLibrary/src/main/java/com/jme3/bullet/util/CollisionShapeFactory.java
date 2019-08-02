@@ -182,12 +182,19 @@ public class CollisionShapeFactory {
      * @param subtree the scene-graph subtree on which to base the shape (not
      * null, unaffected)
      * @param parameters (not null, unaffected)
-     * @return a new compound shape (not null)
+     * @param addResult the compound shape to append to (modified if not null)
+     * @return a compound shape (either addResult or a new shape, not null)
      */
     public static CompoundCollisionShape createVhacdShape(Spatial subtree,
-            VHACDParameters parameters) {
+            VHACDParameters parameters, CompoundCollisionShape addResult) {
         Validate.nonNull(subtree, "subtree");
         Validate.nonNull(parameters, "parameters");
+        CompoundCollisionShape result;
+        if (addResult == null) {
+            result = new CompoundCollisionShape();
+        } else {
+            result = addResult;
+        }
 
         List<Geometry> allGeometries
                 = MySpatial.listSpatials(subtree, Geometry.class, null);
@@ -250,7 +257,6 @@ public class CollisionShapeFactory {
          * Convert each V-HACD hull to a HullCollisionShape
          * and add that to the result.
          */
-        CompoundCollisionShape result = new CompoundCollisionShape();
         for (VHACDHull vhacdHull : vhacdHulls) {
             HullCollisionShape hullShape = new HullCollisionShape(vhacdHull);
             result.addChildShape(hullShape, transformIdentity);
