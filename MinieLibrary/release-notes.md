@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.11for32 released on TBD
+## Version 0.9.11for32 released on 2 August 2019
 
  + Added a 3rd argument to the `CollisionShapeFactory.createVhacdShape()`
    method, to simplify augmentation of an existing compound shape. (API change)
