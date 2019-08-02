@@ -237,9 +237,11 @@ public class PhysicsDumper extends Dumper {
             float angularThreshold = body.getAngularSleepingThreshold();
             stream.print(" at=");
             stream.print(MyString.describe(angularThreshold));
-            float deactivationTime = body.getDeactivationTime();
-            stream.print(" time=");
-            stream.print(MyString.describe(deactivationTime));
+            if (body.isActive()) {
+                float deactivationTime = body.getDeactivationTime();
+                stream.print(" time=");
+                stream.print(MyString.describe(deactivationTime));
+            }
             stream.print(']');
         }
 
