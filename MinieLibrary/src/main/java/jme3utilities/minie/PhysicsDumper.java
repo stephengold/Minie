@@ -34,6 +34,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
@@ -368,16 +369,19 @@ public class PhysicsDumper extends Dumper {
      * @param space the PhysicsSpace to dump (not null, unaffected)
      */
     public void dump(PhysicsSpace space) {
-        dump(space, "");
+        dump(space, "", null);
     }
 
     /**
-     * Dump the specified PhysicsSpace.
+     * Dump the specified PhysicsSpace with the specified filter.
      *
      * @param space the PhysicsSpace to dump (not null, unaffected)
-     * @param indent (not null)
+     * @param indent (not null, may be empty)
+     * @param filter determines which physics objects are dumped, or null to
+     * dump all (unaffected)
      */
-    public void dump(PhysicsSpace space, String indent) {
+    public void dump(PhysicsSpace space, String indent,
+            BulletDebugAppState.DebugAppStateFilter filter) {
         Validate.nonNull(indent, "indent");
 
         String type = space.getClass().getSimpleName();
@@ -458,24 +462,34 @@ public class PhysicsDumper extends Dumper {
         if (dumpPcos) {
             String moreIndent = indent + indentIncrement();
             for (PhysicsCharacter character : characters) {
-                dump(character, moreIndent);
+                if (filter == null || filter.displayObject(character)) {
+                    dump(character, moreIndent);
+                }
             }
             for (PhysicsGhostObject ghost : ghosts) {
-                dump(ghost, moreIndent);
+                if (filter == null || filter.displayObject(ghost)) {
+                    dump(ghost, moreIndent);
+                }
             }
             for (PhysicsRigidBody rigid : rigidBodies) {
-                dump(rigid, moreIndent);
+                if (filter == null || filter.displayObject(rigid)) {
+                    dump(rigid, moreIndent);
+                }
             }
             for (PhysicsSoftBody soft : softBodies) {
-                dump(soft, moreIndent);
+                if (filter == null || filter.displayObject(soft)) {
+                    dump(soft, moreIndent);
+                }
             }
             for (PhysicsVehicle vehicle : vehicles) {
-                dump(vehicle, moreIndent);
+                if (filter == null || filter.displayObject(vehicle)) {
+                    dump(vehicle, moreIndent);
+                }
             }
         }
 
         if (dumpJointsInSpaces) {
-            dumpJoints(joints, indent);
+            dumpJoints(joints, indent, filter);
         }
 
         stream.println();
@@ -533,7 +547,7 @@ public class PhysicsDumper extends Dumper {
 
             PhysicsSpace space = appState.getPhysicsSpace();
             String moreIndent = indent + indentIncrement();
-            dump(space, moreIndent);
+            dump(space, moreIndent, null);
         } else {
             stream.println(" disabled");
         }
@@ -811,28 +825,33 @@ public class PhysicsDumper extends Dumper {
      * Dump the specified joints in a PhysicsSpace context.
      *
      * @param joints (not null, unaffected)
-     * @param indent (not null)
+     * @param indent (not null, may be empty)
+     * @param filter determines which physics objects are dumped, or null to
+     * dump all (unaffected)
      */
-    private void dumpJoints(Collection<PhysicsJoint> joints, String indent) {
+    private void dumpJoints(Collection<PhysicsJoint> joints, String indent,
+            BulletDebugAppState.DebugAppStateFilter filter) {
         PhysicsDescriber describer = getDescriber();
         String moreIndent = indent + indentIncrement();
         String mmIndent = moreIndent + indentIncrement();
 
         for (PhysicsJoint joint : joints) {
-            String desc = describer.describeJointInSpace(joint);
-            stream.printf("%n%s%s", moreIndent, desc);
+            if (filter == null || filter.displayObject(joint)) {
+                String desc = describer.describeJointInSpace(joint);
+                stream.printf("%n%s%s", moreIndent, desc);
 
-            if (joint instanceof SixDofJoint) {
-                SixDofJoint sixDof = (SixDofJoint) joint;
+                if (joint instanceof SixDofJoint) {
+                    SixDofJoint sixDof = (SixDofJoint) joint;
 
-                if (dumpMotors) {
-                    for (int axisIndex = 0; axisIndex < 3; ++axisIndex) {
-                        String axisName = MyString.axisName(axisIndex);
-                        stream.printf("%n%srot%s: ", mmIndent, axisName);
-                        RotationalLimitMotor motor
-                                = sixDof.getRotationalLimitMotor(axisIndex);
-                        desc = describer.describe(motor);
-                        stream.print(desc);
+                    if (dumpMotors) {
+                        for (int axisIndex = 0; axisIndex < 3; ++axisIndex) {
+                            String axisName = MyString.axisName(axisIndex);
+                            stream.printf("%n%srot%s: ", mmIndent, axisName);
+                            RotationalLimitMotor motor
+                                    = sixDof.getRotationalLimitMotor(axisIndex);
+                            desc = describer.describe(motor);
+                            stream.print(desc);
+                        }
                     }
                 }
             }
