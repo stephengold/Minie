@@ -64,8 +64,8 @@ public class CompoundMesh implements JmeCloneable, Savable {
     /**
      * field names for serialization
      */
-    final private static String SCALE = "scale";
-    final private static String SUBMESHES = "submeshes";
+    final private static String tagScale = "scale";
+    final private static String tagSubmeshes = "submeshes";
     // *************************************************************************
     // fields
 
@@ -245,8 +245,8 @@ public class CompoundMesh implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        scale = (Vector3f) capsule.readSavable(SCALE, new Vector3f(1f, 1f, 1f));
-        submeshes = capsule.readSavableArrayList(SUBMESHES, submeshes);
+        scale = (Vector3f) capsule.readSavable(tagScale, new Vector3f(1f, 1f, 1f));
+        submeshes = capsule.readSavableArrayList(tagSubmeshes, submeshes);
 
         setScale(scale);
         for (IndexedMesh submesh : submeshes) {
@@ -266,8 +266,8 @@ public class CompoundMesh implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(scale, SCALE, null);
-        capsule.writeSavableArrayList(submeshes, SUBMESHES, null);
+        capsule.write(scale, tagScale, null);
+        capsule.writeSavableArrayList(submeshes, tagSubmeshes, null);
     }
     // *************************************************************************
     // Object methods

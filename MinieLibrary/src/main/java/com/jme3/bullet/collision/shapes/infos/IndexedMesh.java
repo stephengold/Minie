@@ -83,12 +83,12 @@ public class IndexedMesh implements JmeCloneable, Savable {
     /**
      * field names for serialization
      */
-    final private static String INDEX_INTS = "indexInts";
-    final private static String INDEX_STRIDE = "indexStride";
-    final private static String NUM_TRIANGLES = "numTriangles";
-    final private static String NUM_VERTICES = "numVertices";
-    final private static String VERTEX_STRIDE = "vertexStride";
-    final private static String VERTICES = "vertices";
+    final private static String tagIndexInts = "indexInts";
+    final private static String tagIndexStride = "indexStride";
+    final private static String tagNumTriangles = "numTriangles";
+    final private static String tagNumVertices = "numVertices";
+    final private static String tagVertexStride = "vertexStride";
+    final private static String tagVertices = "vertices";
     // *************************************************************************
     // fields
 
@@ -235,15 +235,15 @@ public class IndexedMesh implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        int[] intArray = capsule.readIntArray(INDEX_INTS, new int[0]);
+        int[] intArray = capsule.readIntArray(tagIndexInts, new int[0]);
         indices = BufferUtils.createIntBuffer(intArray);
 
-        indexStride = capsule.readInt(INDEX_STRIDE, 12);
-        numTriangles = capsule.readInt(NUM_TRIANGLES, 0);
-        numVertices = capsule.readInt(NUM_VERTICES, 0);
-        vertexStride = capsule.readInt(VERTEX_STRIDE, numAxes * floatSize);
+        indexStride = capsule.readInt(tagIndexStride, 12);
+        numTriangles = capsule.readInt(tagNumTriangles, 0);
+        numVertices = capsule.readInt(tagNumVertices, 0);
+        vertexStride = capsule.readInt(tagVertexStride, numAxes * floatSize);
 
-        float[] floatArray = capsule.readFloatArray(VERTICES, new float[0]);
+        float[] floatArray = capsule.readFloatArray(tagVertices, new float[0]);
         vertexPositions = BufferUtils.createFloatBuffer(floatArray);
 
         createMesh();
@@ -265,19 +265,19 @@ public class IndexedMesh implements JmeCloneable, Savable {
         for (int offset = 0; offset < numIndices; ++offset) {
             intArray[offset] = indices.get(offset);
         }
-        capsule.write(intArray, INDEX_INTS, null);
+        capsule.write(intArray, tagIndexInts, null);
 
-        capsule.write(indexStride, INDEX_STRIDE, 12);
-        capsule.write(numTriangles, NUM_TRIANGLES, 0);
-        capsule.write(numVertices, NUM_VERTICES, 0);
-        capsule.write(vertexStride, VERTEX_STRIDE, numAxes * floatSize);
+        capsule.write(indexStride, tagIndexStride, 12);
+        capsule.write(numTriangles, tagNumTriangles, 0);
+        capsule.write(numVertices, tagNumVertices, 0);
+        capsule.write(vertexStride, tagVertexStride, numAxes * floatSize);
 
         int numFloats = vertexPositions.limit();
         float[] floatArray = new float[numFloats];
         for (int offset = 0; offset < numFloats; ++offset) {
             floatArray[offset] = vertexPositions.get(offset);
         }
-        capsule.write(floatArray, VERTICES, null);
+        capsule.write(floatArray, tagVertices, null);
     }
     // *************************************************************************
     // Object methods

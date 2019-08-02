@@ -56,6 +56,10 @@ public class PlaneCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(PlaneCollisionShape.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagCollisionPlane = "collisionPlane";
     // *************************************************************************
     // fields
 
@@ -139,7 +143,7 @@ public class PlaneCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        plane = (Plane) capsule.readSavable("collisionPlane", new Plane());
+        plane = (Plane) capsule.readSavable(tagCollisionPlane, new Plane());
         createShape();
     }
 
@@ -154,7 +158,7 @@ public class PlaneCollisionShape extends CollisionShape {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-        capsule.write(plane, "collisionPlane", new Plane());
+        capsule.write(plane, tagCollisionPlane, new Plane());
     }
     // *************************************************************************
     // private methods

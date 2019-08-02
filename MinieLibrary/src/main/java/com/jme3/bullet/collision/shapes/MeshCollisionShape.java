@@ -62,10 +62,10 @@ public class MeshCollisionShape extends CollisionShape {
     /**
      * field names for serialization
      */
-    final private static String NATIVE_BVH = "nativeBvh";
-    final private static String NATIVE_PLATFORM = "nativePlatform";
-    final private static String NATIVE_MESH = "nativeMesh";
-    final private static String USE_COMPRESSION = "useCompression";
+    final private static String tagNativeBvh = "nativeBvh";
+    final private static String tagNativePlatform = "nativePlatform";
+    final private static String tagNativeMesh = "nativeMesh";
+    final private static String tagUseCompression = "useCompression";
     // *************************************************************************
     // fields
 
@@ -186,15 +186,15 @@ public class MeshCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        byte[] nativeBvh = capsule.readByteArray(NATIVE_BVH, null);
+        byte[] nativeBvh = capsule.readByteArray(tagNativeBvh, null);
         Platform writePlatform
-                = capsule.readEnum(NATIVE_PLATFORM, Platform.class, null);
+                = capsule.readEnum(tagNativePlatform, Platform.class, null);
         if (writePlatform == null || writePlatform != JmeSystem.getPlatform()) {
             nativeBvh = null; // will re-create the BVH for the new platform
         }
 
-        nativeMesh = (CompoundMesh) capsule.readSavable(NATIVE_MESH, null);
-        useCompression = capsule.readBoolean(USE_COMPRESSION, true);
+        nativeMesh = (CompoundMesh) capsule.readSavable(tagNativeMesh, null);
+        useCompression = capsule.readBoolean(tagUseCompression, true);
 
         createShape(nativeBvh);
     }
@@ -220,13 +220,13 @@ public class MeshCollisionShape extends CollisionShape {
         OutputCapsule capsule = exporter.getCapsule(this);
 
         byte[] data = saveBVH(objectId);
-        capsule.write(data, NATIVE_BVH, null);
+        capsule.write(data, tagNativeBvh, null);
 
         Platform nativePlatform = JmeSystem.getPlatform();
-        capsule.write(nativePlatform, NATIVE_PLATFORM, null);
+        capsule.write(nativePlatform, tagNativePlatform, null);
 
-        capsule.write(nativeMesh, NATIVE_MESH, null);
-        capsule.write(useCompression, USE_COMPRESSION, true);
+        capsule.write(nativeMesh, tagNativeMesh, null);
+        capsule.write(useCompression, tagUseCompression, true);
     }
     // *************************************************************************
     // private methods

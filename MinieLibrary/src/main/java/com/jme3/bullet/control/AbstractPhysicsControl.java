@@ -67,6 +67,12 @@ abstract public class AbstractPhysicsControl
      */
     final private static Quaternion rotateIdentity = new Quaternion();
     /**
+     * field names for serialization
+     */
+    final private static String tagApplyLocalPhysics = "applyLocalPhysics";
+    final private static String tagEnabled = "enabled";
+    final private static String tagSpatial = "spatial";
+    /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
@@ -317,9 +323,9 @@ abstract public class AbstractPhysicsControl
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        enabled = capsule.readBoolean("enabled", true);
-        controlledSpatial = (Spatial) capsule.readSavable("spatial", null);
-        localPhysics = capsule.readBoolean("applyLocalPhysics", false);
+        enabled = capsule.readBoolean(tagEnabled, true);
+        controlledSpatial = (Spatial) capsule.readSavable(tagSpatial, null);
+        localPhysics = capsule.readBoolean(tagApplyLocalPhysics, false);
     }
 
     /**
@@ -412,8 +418,8 @@ abstract public class AbstractPhysicsControl
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(enabled, "enabled", true);
-        capsule.write(localPhysics, "applyLocalPhysics", false);
-        capsule.write(controlledSpatial, "spatial", null);
+        capsule.write(enabled, tagEnabled, true);
+        capsule.write(localPhysics, tagApplyLocalPhysics, false);
+        capsule.write(controlledSpatial, tagSpatial, null);
     }
 }

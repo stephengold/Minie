@@ -62,6 +62,12 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
      */
     final public static Logger logger
             = Logger.getLogger(ChildCollisionShape.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagLocation = "location";
+    final private static String tagRotation = "rotation";
+    final private static String tagShape = "shape";
     // *************************************************************************
     // fields
 
@@ -195,9 +201,9 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        location = (Vector3f) capsule.readSavable("location", new Vector3f());
-        rotation = (Matrix3f) capsule.readSavable("rotation", new Matrix3f());
-        shape = (CollisionShape) capsule.readSavable("shape",
+        location = (Vector3f) capsule.readSavable(tagLocation, new Vector3f());
+        rotation = (Matrix3f) capsule.readSavable(tagRotation, new Matrix3f());
+        shape = (CollisionShape) capsule.readSavable(tagShape,
                 new BoxCollisionShape(1f));
     }
 
@@ -212,8 +218,8 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(location, "location", null);
-        capsule.write(rotation, "rotation", null);
-        capsule.write(shape, "shape", null);
+        capsule.write(location, tagLocation, null);
+        capsule.write(rotation, tagRotation, null);
+        capsule.write(shape, tagShape, null);
     }
 }

@@ -74,6 +74,11 @@ public class HullCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(HullCollisionShape.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagHullMesh = "hullMesh";
+    final private static String tagPoints = "points";
     // *************************************************************************
     // fields
 
@@ -395,11 +400,11 @@ public class HullCollisionShape extends CollisionShape {
         InputCapsule capsule = importer.getCapsule(this);
 
         // for backwards compatibility
-        Mesh mesh = (Mesh) capsule.readSavable("hullMesh", null);
+        Mesh mesh = (Mesh) capsule.readSavable(tagHullMesh, null);
         if (mesh != null) {
             points = getPoints(mesh);
         } else {
-            points = capsule.readFloatArray("points", new float[0]);
+            points = capsule.readFloatArray(tagPoints, new float[0]);
         }
         createShape();
     }
@@ -425,7 +430,7 @@ public class HullCollisionShape extends CollisionShape {
         OutputCapsule capsule = exporter.getCapsule(this);
 
         float[] vertices = copyHullVertices();
-        capsule.write(vertices, "points", new float[0]);
+        capsule.write(vertices, tagPoints, new float[0]);
     }
     // *************************************************************************
     // private methods
