@@ -72,7 +72,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     // fields TODO privatize
 
     /**
-     * true if this joint is added to soft body A
+     * true if this joint is added to soft body A - TODO never set true!
      */
     private boolean added = false;
     /**
