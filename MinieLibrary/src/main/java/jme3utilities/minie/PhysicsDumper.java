@@ -221,9 +221,26 @@ public class PhysicsDumper extends Dumper {
             String graString = MyVector3f.describe(gravity);
             stream.printf(" grav[%s]", graString);
 
-            float linST = body.getLinearSleepingThreshold();
-            stream.print(" linST=");
-            stream.print(MyString.describe(linST));
+            stream.print(" ccd[mt=");
+            float ccdMt = body.getCcdSquareMotionThreshold();
+            stream.print(MyString.describe(ccdMt));
+            if (ccdMt > 0f) {
+                stream.print(" r=");
+                float ccdR = body.getCcdSweptSphereRadius();
+                stream.print(MyString.describe(ccdR));
+            }
+            stream.print(']');
+
+            stream.print(" sleep[lt=");
+            float linearThreshold = body.getLinearSleepingThreshold();
+            stream.print(MyString.describe(linearThreshold));
+            float angularThreshold = body.getAngularSleepingThreshold();
+            stream.print(" at=");
+            stream.print(MyString.describe(angularThreshold));
+            float deactivationTime = body.getDeactivationTime();
+            stream.print(" time=");
+            stream.print(MyString.describe(deactivationTime));
+            stream.print(']');
         }
 
         stream.print(" #");
