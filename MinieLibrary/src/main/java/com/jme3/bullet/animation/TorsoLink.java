@@ -204,7 +204,7 @@ public class TorsoLink extends PhysicsLink {
      *
      * @return the count (&ge;0)
      */
-    public int countManaged() {
+    final public int countManaged() {
         int result = managedBones.length;
         return result;
     }
