@@ -173,11 +173,6 @@ public class TestSoftBody
     // fields
 
     /**
-     * AppState to manage the PhysicsSpace
-     */
-    final private SoftPhysicsAppState bulletAppState
-            = new SoftPhysicsAppState();
-    /**
      * filter to control visualization of axis-aligned bounding boxes
      */
     private BulletDebugAppState.DebugAppStateFilter bbFilter;
@@ -217,6 +212,11 @@ public class TestSoftBody
      * space for physics simulation
      */
     private PhysicsSoftSpace physicsSpace;
+    /**
+     * AppState to manage the PhysicsSpace
+     */
+    final private SoftPhysicsAppState bulletAppState
+            = new SoftPhysicsAppState();
     // *************************************************************************
     // new methods exposed
 
