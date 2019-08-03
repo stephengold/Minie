@@ -45,6 +45,7 @@ import com.jme3.math.Vector3f;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * Range of motion for a ragdoll joint. Immutable except for
@@ -76,6 +77,11 @@ public class RangeOfMotion implements Savable {
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
+    /**
+     * maximum motor force on each axis
+     */
+    final private static Vector3f maxMotorForces
+            = new Vector3f(1e8f, 1e8f, 1e8f);
     // *************************************************************************
     // fields
 
@@ -261,9 +267,12 @@ public class RangeOfMotion implements Savable {
      * rotational axes at their current angles.
      *
      * @param joint where to apply this preset (not null, modified)
-     * @param lockX true to lock the joint's X axis
-     * @param lockY true to lock the joint's Y axis
-     * @param lockZ true to lock the joint's Z axis
+     * @param lockX true&rarr;prevent the joint from rotating around its local X
+     * axis
+     * @param lockY true&rarr;prevent the joint from rotating around its local Y
+     * axis
+     * @param lockZ true&rarr;prevent the joint from rotating around its local Z
+     * axis
      */
     public void setupJoint(SixDofJoint joint, boolean lockX, boolean lockY,
             boolean lockZ) {
@@ -308,18 +317,20 @@ public class RangeOfMotion implements Savable {
         joint.setAngularLowerLimit(lower);
         joint.setAngularUpperLimit(upper);
 
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < MyVector3f.numAxes; ++i) {
             RotationalLimitMotor rot = joint.getRotationalLimitMotor(i);
-            rot.setMaxMotorForce(1e8f);
-            rot.setMaxLimitForce(1e9f);
+            rot.setMaxMotorForce(maxMotorForces.x);
+            rot.setMaxLimitForce(10f * maxMotorForces.x);
         }
-
+        /*
+         * Prevent the joint from translating.
+         */
         joint.setLinearLowerLimit(translateIdentity);
         joint.setLinearUpperLimit(translateIdentity);
 
         TranslationalLimitMotor tra = joint.getTranslationalLimitMotor();
         tra.setLowerLimit(translateIdentity);
-        tra.setMaxMotorForce(new Vector3f(1e8f, 1e8f, 1e8f));
+        tra.setMaxMotorForce(maxMotorForces);
         tra.setUpperLimit(translateIdentity);
     }
     // *************************************************************************
