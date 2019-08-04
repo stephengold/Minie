@@ -31,8 +31,10 @@
  */
 package com.jme3.bullet.joints.motors;
 
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.math.Vector3f;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * A motor based on Bullet's btTranslationalLimitMotor. Motors are used to drive
@@ -236,6 +238,19 @@ public class TranslationalLimitMotor {
     }
 
     /**
+     * Test whether the indexed axis is enabled (m_enableMotor).
+     *
+     * @param axisIndex which axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @return true if enabled, otherwise false
+     */
+    public boolean isEnabled(int axisIndex) {
+        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
+                PhysicsSpace.AXIS_Z);
+        boolean result = isEnabled(motorId, axisIndex);
+        return result;
+    }
+
+    /**
      * Alter the accumulated impulse (m_accumulatedImpulse).
      *
      * @param accumulatedImpulse the desired vector (not null, unaffected)
@@ -255,10 +270,22 @@ public class TranslationalLimitMotor {
     }
 
     /**
+     * Enable or disable the indexed axis (m_enableMotor).
+     *
+     * @param axisIndex which axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @param enableMotor true&rarr;enable, false&rarr;disable (default=false)
+     */
+    public void setEnabled(int axisIndex, boolean enableMotor) {
+        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
+                PhysicsSpace.AXIS_Z);
+        setEnabled(motorId, axisIndex, enableMotor);
+    }
+
+    /**
      * Alter this motor's error-reduction parameters at the limits (m_stopERP).
      *
      * @param erp the desired error-reduction parameter parameter for each axis
-     * (not null, unaffected)
+     * (not null, unaffected, default=(0.2,0.2,0.2))
      */
     public void setERP(Vector3f erp) {
         setERP(motorId, erp);
@@ -287,7 +314,7 @@ public class TranslationalLimitMotor {
      * Alter this motor's maximum forces (m_maxMotorForce).
      *
      * @param maxForce the desired maximum force for each axis (not null,
-     * unaffected)
+     * unaffected, default=(0,0,0))
      */
     public void setMaxMotorForce(Vector3f maxForce) {
         setMaxMotorForce(motorId, maxForce);
@@ -298,7 +325,7 @@ public class TranslationalLimitMotor {
      * conditions (m_normalCFM).
      *
      * @param cfm the desired mixing parameter for each axis (not null,
-     * unaffected)
+     * unaffected, default=(0,0,0))
      */
     public void setNormalCFM(Vector3f cfm) {
         setNormalCFM(motorId, cfm);
@@ -318,7 +345,7 @@ public class TranslationalLimitMotor {
      * (m_stopCFM).
      *
      * @param cfm the desired mixing parameter for each axis (not null,
-     * unaffected)
+     * unaffected, default=(0,0,0))
      */
     public void setStopCFM(Vector3f cfm) {
         setStopCFM(motorId, cfm);
@@ -327,7 +354,8 @@ public class TranslationalLimitMotor {
     /**
      * Alter this motor's target velocity (m_targetVelocity).
      *
-     * @param velocity the desired velocity vector (not null, unaffected)
+     * @param velocity the desired velocity vector (not null, unaffected,
+     * default=(0,0,0))
      */
     public void setTargetVelocity(Vector3f velocity) {
         setTargetVelocity(motorId, velocity);
@@ -369,9 +397,14 @@ public class TranslationalLimitMotor {
 
     native private void getUpperLimit(long motorId, Vector3f vector);
 
+    native private boolean isEnabled(long motorId, int axisIndex);
+
     native private void setAccumulatedImpulse(long motorId, Vector3f vector);
 
     native private void setDamping(long motorId, float damping);
+
+    native private void setEnabled(long motorId, int axisIndex,
+            boolean enableMotor);
 
     native private void setERP(long motorId, Vector3f vector);
 
