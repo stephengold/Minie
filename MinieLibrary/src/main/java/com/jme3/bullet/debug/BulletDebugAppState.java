@@ -462,21 +462,79 @@ public class BulletDebugAppState extends AbstractAppState {
      * Update the AxesVisualizer for the specified Node.
      *
      * @param node the transformed Node to update (not null)
+     * @param displayShape true shape is visualized, otherwise false
      */
-    protected void updateAxes(Node node) {
+    protected void updateAxes(Node node, boolean displayShape) {
+        boolean displayAxes = displayShape && axisLength > 0f;
         AxesVisualizer control = node.getControl(AxesVisualizer.class);
         if (control != null) {
-            if (axisLength > 0f) {
+            if (displayAxes) {
                 control.setAxisLength(axisLength);
                 control.setLineWidth(axisLineWidth);
             } else {
+                control.setEnabled(false);
                 node.removeControl(control);
             }
-        } else if (axisLength > 0f) {
+        } else if (displayAxes) {
             control = new AxesVisualizer(assetManager, axisLength,
                     axisLineWidth);
             node.addControl(control);
             control.setEnabled(true);
+        }
+    }
+
+    /**
+     * Synchronize the collision-shape debug controls and axis visualizers with
+     * the collision objects in the PhysicsSpace.
+     */
+    protected void updateShapes() {
+        for (Map.Entry<PhysicsCollisionObject, Node> entry
+                : pcoMap.entrySet()) {
+            PhysicsCollisionObject pco = entry.getKey();
+            boolean displayShape = (filter == null)
+                    || filter.displayObject(pco);
+
+            Node node = entry.getValue();
+            Control control;
+            if (pco instanceof PhysicsCharacter) {
+                control = node.getControl(BulletCharacterDebugControl.class);
+                if (control == null && displayShape) {
+                    logger.log(Level.FINE,
+                            "Create new BulletCharacterDebugControl");
+                    control = new BulletCharacterDebugControl(this,
+                            (PhysicsCharacter) pco);
+                    node.addControl(control);
+                } else if (control != null && !displayShape) {
+                    node.removeControl(control);
+                }
+                updateAxes(node, displayShape);
+
+            } else if (pco instanceof PhysicsGhostObject) {
+                control = node.getControl(BulletGhostObjectDebugControl.class);
+                if (control == null && displayShape) {
+                    logger.log(Level.FINE,
+                            "Create new BulletGhostObjectDebugControl");
+                    control = new BulletGhostObjectDebugControl(this,
+                            (PhysicsGhostObject) pco);
+                    node.addControl(control);
+                } else if (control != null && !displayShape) {
+                    node.removeControl(control);
+                }
+                updateAxes(node, displayShape);
+
+            } else if (pco instanceof PhysicsRigidBody) {
+                control = node.getControl(BulletRigidBodyDebugControl.class);
+                if (control == null && displayShape) {
+                    logger.log(Level.FINE,
+                            "Create new BulletRigidBodyDebugControl");
+                    control = new BulletRigidBodyDebugControl(this,
+                            (PhysicsRigidBody) pco);
+                    node.addControl(control);
+                } else if (control != null && !displayShape) {
+                    node.removeControl(control);
+                }
+                updateAxes(node, displayShape);
+            }
         }
     }
     // *************************************************************************
@@ -664,62 +722,6 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Synchronize the collision-shape debug controls and axis visualizers with
-     * the collision objects in the PhysicsSpace.
-     */
-    private void updateShapes() {
-        for (Map.Entry<PhysicsCollisionObject, Node> entry
-                : pcoMap.entrySet()) {
-            PhysicsCollisionObject pco = entry.getKey();
-            boolean display = (filter == null || filter.displayObject(pco));
-
-            Node node = entry.getValue();
-            Control control = null;
-            if (pco instanceof PhysicsCharacter) {
-                control = node.getControl(BulletCharacterDebugControl.class);
-                if (control == null && display) {
-                    logger.log(Level.FINE,
-                            "Create new BulletCharacterDebugControl");
-                    control = new BulletCharacterDebugControl(this,
-                            (PhysicsCharacter) pco);
-                    node.addControl(control);
-                }
-                updateAxes(node);
-
-            } else if (pco instanceof PhysicsGhostObject) {
-                control = node.getControl(BulletGhostObjectDebugControl.class);
-                if (control == null && display) {
-                    logger.log(Level.FINE,
-                            "Create new BulletGhostObjectDebugControl");
-                    control = new BulletGhostObjectDebugControl(this,
-                            (PhysicsGhostObject) pco);
-                    node.addControl(control);
-                }
-                updateAxes(node);
-
-            } else if (pco instanceof PhysicsRigidBody) {
-                control = node.getControl(BulletRigidBodyDebugControl.class);
-                if (control == null && display) {
-                    logger.log(Level.FINE,
-                            "Create new BulletRigidBodyDebugControl");
-                    control = new BulletRigidBodyDebugControl(this,
-                            (PhysicsRigidBody) pco);
-                    node.addControl(control);
-                }
-                updateAxes(node);
-            }
-
-            if (control != null && !display) {
-                node.removeControl(control);
-                AxesVisualizer ac = node.getControl(AxesVisualizer.class);
-                if (ac != null) {
-                    node.removeControl(control);
-                }
-            }
-        }
-    }
-
-    /**
      * Synchronize the swept-sphere debug controls with the collision objects in
      * the PhysicsSpace.
      */
@@ -775,6 +777,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * Interface to restrict which physics objects are visualized.
      */
     public interface DebugAppStateFilter {
+
         /**
          * Test whether the specified physics object should be rendered in the
          * debug scene.
