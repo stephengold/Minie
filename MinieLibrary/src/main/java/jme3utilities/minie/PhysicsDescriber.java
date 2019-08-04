@@ -433,6 +433,8 @@ public class PhysicsDescriber extends Describer {
                 result.append(MyString.describe(softness));
                 result.append(']');
             }
+        } else {
+            result.append(" DISABLED");
         }
 
         return result.toString();
