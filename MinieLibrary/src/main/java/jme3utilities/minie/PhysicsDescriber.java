@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie;
 
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -51,6 +52,7 @@ import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.SoftLinearJoint;
 import com.jme3.bullet.joints.SoftPhysicsJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
+import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
@@ -267,30 +269,55 @@ public class PhysicsDescriber extends Describer {
         result.append(angle);
 
         if (motor.isEnableMotor()) {
-            result.append(" lo=");
             float lo = motor.getLowerLimit();
-            result.append(lo);
-
-            result.append(" hi=");
             float hi = motor.getUpperLimit();
-            result.append(hi);
+            if (hi < lo) {
+                result.append(" unlimited");
+            } else {
+                result.append(" lo=");
+                result.append(MyString.describe(lo));
+                result.append(" hi=");
+                result.append(MyString.describe(hi));
+            }
 
             result.append(" tgtV=");
             float targetV = motor.getTargetVelocity();
             result.append(MyString.describe(targetV));
 
+            result.append(" cfm=");
+            float cfm = motor.getNormalCFM();
+            result.append(MyString.describe(cfm));
+
             result.append(" damp=");
             float damping = motor.getDamping();
             result.append(MyString.describe(damping));
-
-            result.append(" erp=");
-            float erp = motor.getERP();
-            result.append(MyString.describe(erp));
 
             result.append(" maxMF=");
             float maxMF = motor.getMaxMotorForce();
             result.append(MyString.describe(maxMF));
 
+            if (hi >= lo) {
+                result.append(" lim[cfm=");
+                cfm = motor.getStopCFM();
+                result.append(MyString.describe(cfm));
+
+                result.append(" erp=");
+                float erp = motor.getERP();
+                result.append(MyString.describe(erp));
+
+                result.append(" maxMF=");
+                maxMF = motor.getMaxLimitForce();
+                result.append(MyString.describe(maxMF));
+
+                result.append(" rest=");
+                float restit = motor.getRestitution();
+                result.append(MyString.describe(restit));
+
+                result.append(" soft=");
+                float softness = motor.getLimitSoftness();
+                result.append(MyString.describe(softness));
+                result.append(']');
+            }
         } else {
             result.append(" DISABLED");
         }
@@ -340,6 +367,73 @@ public class PhysicsDescriber extends Describer {
         result.append(" #");
         long nativeId = info.nativeId();
         result.append(Long.toHexString(nativeId));
+
+        return result.toString();
+    }
+
+    /**
+     * Describe the indexed axis of the specified TranslationalLimitMotor.
+     *
+     * @param motor the motor to describe (not null, unaffected)
+     * @param axisIndex which axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @return descriptive text (not null, not empty)
+     */
+    public String describe(TranslationalLimitMotor motor, int axisIndex) {
+        Validate.inRange(axisIndex, "index", PhysicsSpace.AXIS_X,
+                PhysicsSpace.AXIS_Z);
+        StringBuilder result = new StringBuilder(80);
+        Vector3f tmpVector = new Vector3f();
+
+        float offset = motor.getOffset(tmpVector).get(axisIndex);
+        result.append(offset);
+
+        if (motor.isEnabled(axisIndex)) {
+            float lo = motor.getLowerLimit(tmpVector).get(axisIndex);
+            float hi = motor.getUpperLimit(tmpVector).get(axisIndex);
+            if (hi < lo) {
+                result.append(" unlimited");
+            } else {
+                result.append(" lo=");
+                result.append(MyString.describe(lo));
+                result.append(" hi=");
+                result.append(MyString.describe(hi));
+            }
+
+            result.append(" tgtV=");
+            float targetV = motor.getTargetVelocity(tmpVector).get(axisIndex);
+            result.append(MyString.describe(targetV));
+
+            result.append(" cfm=");
+            float cfm = motor.getNormalCFM(tmpVector).get(axisIndex);
+            result.append(MyString.describe(cfm));
+
+            result.append(" damp=");
+            float damping = motor.getDamping();
+            result.append(MyString.describe(damping));
+
+            result.append(" maxMF=");
+            float maxMF = motor.getMaxMotorForce(tmpVector).get(axisIndex);
+            result.append(MyString.describe(maxMF));
+
+            if (hi >= lo) {
+                result.append(" lim[cfm=");
+                cfm = motor.getStopCFM(tmpVector).get(axisIndex);
+                result.append(MyString.describe(cfm));
+
+                result.append(" erp=");
+                float erp = motor.getERP(tmpVector).get(axisIndex);
+                result.append(MyString.describe(erp));
+
+                result.append(" rest=");
+                float restit = motor.getRestitution();
+                result.append(MyString.describe(restit));
+
+                result.append(" soft=");
+                float softness = motor.getLimitSoftness();
+                result.append(MyString.describe(softness));
+                result.append(']');
+            }
+        }
 
         return result.toString();
     }

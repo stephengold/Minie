@@ -38,6 +38,7 @@ import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
+import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
@@ -456,8 +457,8 @@ public class PhysicsDumper extends Dumper {
         int numIterations = space.getSolverNumIterations();
         int rayTestFlags = space.getRayTestFlags();
         String rayTestText = RayTestFlag.describe(rayTestFlags);
-        stream.printf("%n%s iters=%d rayTest=%s",
-                indent, numIterations, rayTestText);
+        stream.printf("%n%s iters=%d rayTest=%s", indent, numIterations,
+                rayTestText);
 
         if (bphase == PhysicsSpace.BroadphaseType.AXIS_SWEEP_3
                 || bphase == PhysicsSpace.BroadphaseType.AXIS_SWEEP_3_32) {
@@ -465,8 +466,7 @@ public class PhysicsDumper extends Dumper {
             String minString = MyVector3f.describe(worldMin);
             Vector3f worldMax = space.getWorldMax(null);
             String maxString = MyVector3f.describe(worldMax);
-            stream.printf(" worldMin[%s] worldMax[%s]",
-                    minString, maxString);
+            stream.printf(" worldMin[%s] worldMax[%s]", minString, maxString);
         }
         /*
          * For soft spaces, 4th line has the world info.
@@ -869,6 +869,14 @@ public class PhysicsDumper extends Dumper {
                             RotationalLimitMotor motor
                                     = sixDof.getRotationalLimitMotor(axisIndex);
                             desc = describer.describe(motor);
+                            stream.print(desc);
+                        }
+                        TranslationalLimitMotor motor
+                                = sixDof.getTranslationalLimitMotor();
+                        for (int axisIndex = 0; axisIndex < 3; ++axisIndex) {
+                            String axisName = MyString.axisName(axisIndex);
+                            stream.printf("%n%stra%s: ", mmIndent, axisName);
+                            desc = describer.describe(motor, axisIndex);
                             stream.print(desc);
                         }
                     }
