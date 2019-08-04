@@ -90,6 +90,7 @@ import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
+import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.tunings.Biped;
 import jme3utilities.minie.test.tunings.CesiumManControl;
@@ -164,6 +165,10 @@ public class TestDac extends ActionApplication {
      * Control being tested
      */
     private DynamicAnimControl dac;
+    /**
+     * filter to control visualization of axis-aligned bounding boxes
+     */
+    private FilterAll bbFilter;
     final private float ballRadius = 0.2f; // mesh units
     /**
      * enhanced pseudo-random generator
@@ -306,7 +311,7 @@ public class TestDac extends ActionApplication {
         dim.bind("raise rightFoot", KeyInput.KEY_RCONTROL);
         dim.bind("raise rightHand", KeyInput.KEY_RSHIFT);
         dim.bind("reset model transform", KeyInput.KEY_DOWN);
-        dim.bind("save", KeyInput.KEY_SEMICOLON);
+        dim.bind("save", KeyInput.KEY_K);
         dim.bind("set height 1", KeyInput.KEY_1);
         dim.bind("set height 2", KeyInput.KEY_2);
         dim.bind("set height 3", KeyInput.KEY_3);
@@ -318,6 +323,8 @@ public class TestDac extends ActionApplication {
         dim.bind("signal shower", KeyInput.KEY_I);
         dim.bind("signal shower", KeyInput.KEY_INSERT);
 
+        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
+        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
@@ -450,6 +457,12 @@ public class TestDac extends ActionApplication {
                     setHeight(3f);
                     return;
 
+                case "toggle axes":
+                    toggleAxes();
+                    return;
+                case "toggle boxes":
+                    toggleBoxes();
+                    return;
                 case "toggle help":
                     toggleHelp();
                     return;
@@ -1015,6 +1028,27 @@ public class TestDac extends ActionApplication {
         float oldHeight = minMax[1].y - minMax[0].y;
 
         model.scale(height / oldHeight);
+    }
+
+    /**
+     * Toggle visualization of collision-object axes.
+     */
+    private void toggleAxes() {
+        float length = bulletAppState.debugAxisLength();
+        bulletAppState.setDebugAxisLength(0.5f - length);
+    }
+
+    /**
+     * Toggle visualization of collision-object bounding boxes.
+     */
+    private void toggleBoxes() {
+        if (bbFilter == null) {
+            bbFilter = new FilterAll(true);
+        } else {
+            bbFilter = null;
+        }
+
+        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
     }
 
     /**
