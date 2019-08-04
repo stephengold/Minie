@@ -39,6 +39,7 @@ import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
+import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.DebugShapeFactory;
@@ -143,6 +144,21 @@ public class TestDefaults {
         Assert.assertEquals(0f, rlm.getStopCFM(), 0f);
         Assert.assertEquals(0f, rlm.getTargetVelocity(), 0f);
         Assert.assertEquals(-1f, rlm.getUpperLimit(), 0f);
+
+        TranslationalLimitMotor tlm = six.getTranslationalLimitMotor();
+        Assert.assertEquals(1f, tlm.getDamping(), 0f);
+        Assert.assertFalse(tlm.isEnabled(0));
+        Assert.assertFalse(tlm.isEnabled(1));
+        Assert.assertFalse(tlm.isEnabled(2));
+        assertEquals(0.2f, 0.2f, 0.2f, tlm.getERP(new Vector3f()), 0f);
+        Assert.assertEquals(0.7f, tlm.getLimitSoftness(), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getLowerLimit(new Vector3f()), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getMaxMotorForce(new Vector3f()), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getNormalCFM(new Vector3f()), 0f);
+        Assert.assertEquals(0f, tlm.getRestitution(), 0.5f);
+        assertEquals(0f, 0f, 0f, tlm.getStopCFM(new Vector3f()), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getTargetVelocity(new Vector3f()), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getUpperLimit(new Vector3f()), 0f);
 
         PhysicsSoftBody softA = new PhysicsSoftBody();
         testPco(softA);
