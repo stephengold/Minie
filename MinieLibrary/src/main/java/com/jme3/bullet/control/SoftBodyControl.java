@@ -72,6 +72,13 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      */
     final public static Logger logger2
             = Logger.getLogger(SoftBodyControl.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagBody = "body";
+    final private static String tagGeometry = "geometry";
+    final private static String tagMergeVertices = "mergeVertices";
+    final private static String tagUpdateNormals = "updateNormals";
     // *************************************************************************
     // fields
 
@@ -223,10 +230,10 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        body = (PhysicsSoftBody) capsule.readSavable("body", null);
-        geometry = (Geometry) capsule.readSavable("geometry", null);
-        mergeVertices = capsule.readBoolean("mergeVertices", false);
-        updateNormals = capsule.readBoolean("updateNormals", false);
+        body = (PhysicsSoftBody) capsule.readSavable(tagBody, null);
+        geometry = (Geometry) capsule.readSavable(tagGeometry, null);
+        mergeVertices = capsule.readBoolean(tagMergeVertices, false);
+        updateNormals = capsule.readBoolean(tagUpdateNormals, false);
 
         Spatial controlled = getSpatial();
         body.setUserObject(controlled);
@@ -352,10 +359,10 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(body, "body", null);
-        capsule.write(geometry, "geometry", null);
-        capsule.write(mergeVertices, "mergeVertices", false);
-        capsule.write(updateNormals, "updateNormals", false);
+        capsule.write(body, tagBody, null);
+        capsule.write(geometry, tagGeometry, null);
+        capsule.write(mergeVertices, tagMergeVertices, false);
+        capsule.write(updateNormals, tagUpdateNormals, false);
     }
     // *************************************************************************
     // private methods

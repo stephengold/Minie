@@ -65,6 +65,20 @@ public class HingeJoint extends Constraint {
      */
     final public static Logger logger2
             = Logger.getLogger(HingeJoint.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagAngularOnly = "angularOnly";
+    final private static String tagAxisA = "axisA";
+    final private static String tagAxisB = "axisB";
+    final private static String tagBiasFactor = "biasFactor";
+    final private static String tagEnableAngularMotor = "enableAngularMotor";
+    final private static String tagLimitSoftness = "limitSoftness";
+    final private static String tagLowerLimit = "lowerLimit";
+    final private static String tagMaxMotorImpulse = "maxMotorImpulse";
+    final private static String tagRelaxationFactor = "relaxationFactor";
+    final private static String tagTargetVelocity = "targetVelocity";
+    final private static String tagUpperLimit = "upperLimit";
     // *************************************************************************
     // fields
 
@@ -441,24 +455,24 @@ public class HingeJoint extends Constraint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        axisA = (Vector3f) capsule.readSavable("axisA", new Vector3f());
-        axisB = (Vector3f) capsule.readSavable("axisB", new Vector3f());
+        axisA = (Vector3f) capsule.readSavable(tagAxisA, new Vector3f());
+        axisB = (Vector3f) capsule.readSavable(tagAxisB, new Vector3f());
 
-        angularOnly = capsule.readBoolean("angularOnly", false);
+        angularOnly = capsule.readBoolean(tagAngularOnly, false);
 
-        float lowerLimit = capsule.readFloat("lowerLimit", 1e30f);
-        float upperLimit = capsule.readFloat("upperLimit", -1e30f);
-        biasFactor = capsule.readFloat("biasFactor", 0.3f);
-        relaxationFactor = capsule.readFloat("relaxationFactor", 1f);
-        limitSoftness = capsule.readFloat("limitSoftness", 0.9f);
+        float lowerLimit = capsule.readFloat(tagLowerLimit, 1e30f);
+        float upperLimit = capsule.readFloat(tagUpperLimit, -1e30f);
+        biasFactor = capsule.readFloat(tagBiasFactor, 0.3f);
+        relaxationFactor = capsule.readFloat(tagRelaxationFactor, 1f);
+        limitSoftness = capsule.readFloat(tagLimitSoftness, 0.9f);
 
         createJoint();
         readConstraintProperties(capsule);
 
         boolean enableAngularMotor
-                = capsule.readBoolean("enableAngularMotor", false);
-        float targetVelocity = capsule.readFloat("targetVelocity", 0f);
-        float maxMotorImpulse = capsule.readFloat("maxMotorImpulse", 0f);
+                = capsule.readBoolean(tagEnableAngularMotor, false);
+        float targetVelocity = capsule.readFloat(tagTargetVelocity, 0f);
+        float maxMotorImpulse = capsule.readFloat(tagMaxMotorImpulse, 0f);
         enableMotor(enableAngularMotor, targetVelocity, maxMotorImpulse);
 
         setAngularOnly(angularOnly);
@@ -478,21 +492,21 @@ public class HingeJoint extends Constraint {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(axisA, "axisA", null);
-        capsule.write(axisB, "axisB", null);
+        capsule.write(axisA, tagAxisA, null);
+        capsule.write(axisB, tagAxisB, null);
 
-        capsule.write(angularOnly, "angularOnly", false);
+        capsule.write(angularOnly, tagAngularOnly, false);
 
-        capsule.write(getLowerLimit(), "lowerLimit", 1e30f);
-        capsule.write(getUpperLimit(), "upperLimit", -1e30f);
+        capsule.write(getLowerLimit(), tagLowerLimit, 1e30f);
+        capsule.write(getUpperLimit(), tagUpperLimit, -1e30f);
 
-        capsule.write(biasFactor, "biasFactor", 0.3f);
-        capsule.write(relaxationFactor, "relaxationFactor", 1f);
-        capsule.write(limitSoftness, "limitSoftness", 0.9f);
+        capsule.write(biasFactor, tagBiasFactor, 0.3f);
+        capsule.write(relaxationFactor, tagRelaxationFactor, 1f);
+        capsule.write(limitSoftness, tagLimitSoftness, 0.9f);
 
-        capsule.write(getEnableMotor(), "enableAngularMotor", false);
-        capsule.write(getMotorTargetVelocity(), "targetVelocity", 0f);
-        capsule.write(getMaxMotorImpulse(), "maxMotorImpulse", 0f);
+        capsule.write(getEnableMotor(), tagEnableAngularMotor, false);
+        capsule.write(getMotorTargetVelocity(), tagTargetVelocity, 0f);
+        capsule.write(getMaxMotorImpulse(), tagMaxMotorImpulse, 0f);
     }
     // *************************************************************************
     // private methods

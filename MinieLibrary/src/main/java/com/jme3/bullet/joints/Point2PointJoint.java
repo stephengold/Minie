@@ -62,6 +62,12 @@ public class Point2PointJoint extends Constraint {
      */
     final public static Logger logger2
             = Logger.getLogger(Point2PointJoint.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagDamping = "damping";
+    final private static String tagImpulseClamp = "impulseClamp";
+    final private static String tagTau = "tau";
     // *************************************************************************
     // constructors
 
@@ -248,9 +254,9 @@ public class Point2PointJoint extends Constraint {
         createJoint();
         readConstraintProperties(capsule);
 
-        setDamping(capsule.readFloat("damping", 1f));
-        setTau(capsule.readFloat("tau", 0.3f));
-        setImpulseClamp(capsule.readFloat("impulseClamp", 0f));
+        setDamping(capsule.readFloat(tagDamping, 1f));
+        setTau(capsule.readFloat(tagTau, 0.3f));
+        setImpulseClamp(capsule.readFloat(tagImpulseClamp, 0f));
     }
 
     /**
@@ -265,9 +271,9 @@ public class Point2PointJoint extends Constraint {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(getDamping(), "damping", 1f);
-        capsule.write(getTau(), "tau", 0.3f);
-        capsule.write(getImpulseClamp(), "impulseClamp", 0f);
+        capsule.write(getDamping(), tagDamping, 1f);
+        capsule.write(getTau(), tagTau, 0.3f);
+        capsule.write(getImpulseClamp(), tagImpulseClamp, 0f);
     }
     // *************************************************************************
     // private methods

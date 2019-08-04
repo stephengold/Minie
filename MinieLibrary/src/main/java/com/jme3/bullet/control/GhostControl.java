@@ -70,6 +70,13 @@ public class GhostControl
     final public static Logger logger3
             = Logger.getLogger(GhostControl.class.getName());
     /**
+     * field names for serialization
+     */
+    final private static String tagApplyLocalPhysics = "applyLocalPhysics";
+    final private static String tagApplyScale = "applyScale";
+    final private static String tagEnabled = "enabled";
+    final private static String tagSpatial = "spatial";
+    /**
      * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
      */
     final private static Quaternion rotateIdentity = new Quaternion();
@@ -385,10 +392,10 @@ public class GhostControl
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        enabled = capsule.readBoolean("enabled", true);
-        applyLocal = capsule.readBoolean("applyLocalPhysics", false);
-        applyScale = capsule.readBoolean("applyScale", false);
-        spatial = (Spatial) capsule.readSavable("spatial", null);
+        enabled = capsule.readBoolean(tagEnabled, true);
+        applyLocal = capsule.readBoolean(tagApplyLocalPhysics, false);
+        applyScale = capsule.readBoolean(tagApplyScale, false);
+        spatial = (Spatial) capsule.readSavable(tagSpatial, null);
 
         setUserObject(spatial);
     }
@@ -405,10 +412,10 @@ public class GhostControl
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(enabled, "enabled", true);
-        capsule.write(applyLocal, "applyLocalPhysics", false);
-        capsule.write(applyScale, "applyScale", false);
-        capsule.write(spatial, "spatial", null);
+        capsule.write(enabled, tagEnabled, true);
+        capsule.write(applyLocal, tagApplyLocalPhysics, false);
+        capsule.write(applyScale, tagApplyScale, false);
+        capsule.write(spatial, tagSpatial, null);
     }
     // *************************************************************************
     // private methods

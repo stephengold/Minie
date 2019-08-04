@@ -72,6 +72,12 @@ public class VehicleControl
      */
     final private static Quaternion rotateIdentity = new Quaternion();
     /**
+     * field names for serialization
+     */
+    final private static String tagApplyLocalPhysics = "applyLocalPhysics";
+    final private static String tagEnabled = "enabled";
+    final private static String tagSpatial = "spatial";
+    /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
@@ -350,11 +356,11 @@ public class VehicleControl
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        enabled = capsule.readBoolean("enabled", true);
-        spatial = (Spatial) capsule.readSavable("spatial", null);
+        enabled = capsule.readBoolean(tagEnabled, true);
+        spatial = (Spatial) capsule.readSavable(tagSpatial, null);
         RigidBodyMotionState ms = getMotionState();
         ms.setApplyPhysicsLocal(
-                capsule.readBoolean("applyLocalPhysics", false));
+                capsule.readBoolean(tagApplyLocalPhysics, false));
 
         setUserObject(spatial);
     }
@@ -371,10 +377,10 @@ public class VehicleControl
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(enabled, "enabled", true);
+        capsule.write(enabled, tagEnabled, true);
         RigidBodyMotionState ms = getMotionState();
-        capsule.write(ms.isApplyPhysicsLocal(), "applyLocalPhysics", false);
-        capsule.write(spatial, "spatial", null);
+        capsule.write(ms.isApplyPhysicsLocal(), tagApplyLocalPhysics, false);
+        capsule.write(spatial, tagSpatial, null);
     }
     // *************************************************************************
     // private methods
