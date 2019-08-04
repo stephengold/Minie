@@ -1,12 +1,23 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.12 released on TBD
+
+ + Fixed a bug where axes were visualized after shapes were no
+   longer visualized.
+ + Added `isEnabled()` and `setEnabled()` methods to the
+   `TranslationalLimitMotor` class to address JME issue 1157.
+ + Added `countExceptions()`, `defaultReturnValue()`, and `listExceptions()`
+   methods to the `FilterAll` class.
+ + Added the `UserFilter` class.
+ + More thorough dumps/descriptions of joints, especially 6-DOF joints
+   and their motors.
+ + Updated the native libraries to version 2.0.4 of `Libbulletjme`.
+
 ## Version 0.9.11for32 released on 2 August 2019
 
  + Added a 3rd argument to the `CollisionShapeFactory.createVhacdShape()`
    method, to simplify augmentation of an existing compound shape. (API change)
  + Finalized the `TorsoLink.countManaged()` method. (API change)
- + Fixed a bug where axes were visualized after shapes were no
-   longer visualized.
  + Added CCD/sleep parameters of dynamic rigid bodies to dumps.
  + Added optional filtering of physics dumps.
  + Enhanced the `BuoyDemo` app with hotkeys to toggle visualization options.
