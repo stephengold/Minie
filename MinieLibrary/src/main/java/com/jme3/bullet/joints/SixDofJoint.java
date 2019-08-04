@@ -337,7 +337,7 @@ public class SixDofJoint extends Constraint {
 
     /**
      * Access the indexed RotationalLimitMotor of this joint, the motor which
-     * influences rotation around one axis.
+     * influences rotation around the indexed axis.
      *
      * @param axisIndex the axis index of the desired motor: 0&rarr;X, 1&rarr;Y,
      * 2&rarr;Z

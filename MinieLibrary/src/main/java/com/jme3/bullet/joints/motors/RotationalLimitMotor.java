@@ -74,7 +74,7 @@ public class RotationalLimitMotor {
     /**
      * Read the accumulated impulse (m_accumulatedImpulse).
      *
-     * @return the impulse amount
+     * @return the total impulse
      */
     public float getAccumulatedImpulse() {
         return getAccumulatedImpulse(motorId);
