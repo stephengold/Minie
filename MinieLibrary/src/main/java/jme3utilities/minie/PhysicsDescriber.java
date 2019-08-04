@@ -48,6 +48,7 @@ import com.jme3.bullet.joints.Anchor;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.SoftLinearJoint;
 import com.jme3.bullet.joints.SoftPhysicsJoint;
@@ -265,10 +266,10 @@ public class PhysicsDescriber extends Describer {
     public String describe(RotationalLimitMotor motor) {
         StringBuilder result = new StringBuilder(80);
 
-        float angle = motor.getAngle();
-        result.append(angle);
-
         if (motor.isEnableMotor()) {
+            float angle = motor.getAngle();
+            result.append(angle);
+
             float lo = motor.getLowerLimit();
             float hi = motor.getUpperLimit();
             if (hi < lo) {
@@ -384,10 +385,10 @@ public class PhysicsDescriber extends Describer {
         StringBuilder result = new StringBuilder(80);
         Vector3f tmpVector = new Vector3f();
 
-        float offset = motor.getOffset(tmpVector).get(axisIndex);
-        result.append(offset);
-
         if (motor.isEnabled(axisIndex)) {
+            float offset = motor.getOffset(tmpVector).get(axisIndex);
+            result.append(offset);
+
             float lo = motor.getLowerLimit(tmpVector).get(axisIndex);
             float hi = motor.getUpperLimit(tmpVector).get(axisIndex);
             if (hi < lo) {
@@ -563,9 +564,59 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
+     * Describe the angular components of the specified SixDofJoint.
+     *
+     * @param joint the joint to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeAngular(SixDofJoint joint) {
+        StringBuilder result = new StringBuilder(80);
+
+        result.append("angles=[");
+        Vector3f angles = joint.getAngles(new Vector3f());
+        result.append(MyVector3f.describe(angles));
+
+        result.append("] lower=[");
+        Vector3f lower = joint.getAngularLowerLimit(new Vector3f());
+        result.append(MyVector3f.describe(lower));
+
+        result.append("] upper=[");
+        Vector3f upper = joint.getAngularUpperLimit(new Vector3f());
+        result.append(MyVector3f.describe(upper));
+        result.append(']');
+
+        return result.toString();
+    }
+
+    /**
+     * Describe the linear components of the specified SixDofJoint.
+     *
+     * @param joint the joint to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeLinear(SixDofJoint joint) {
+        StringBuilder result = new StringBuilder(80);
+
+        result.append("offset=[");
+        Vector3f offset = joint.getPivotOffset(new Vector3f());
+        result.append(MyVector3f.describe(offset));
+
+        result.append("] lower=[");
+        Vector3f lower = joint.getLinearLowerLimit(new Vector3f());
+        result.append(MyVector3f.describe(lower));
+
+        result.append("] upper=[");
+        Vector3f upper = joint.getLinearUpperLimit(new Vector3f());
+        result.append(MyVector3f.describe(upper));
+        result.append(']');
+
+        return result.toString();
+    }
+
+    /**
      * Generate a textual description of a compound shape's children.
      *
-     * @param compound shape being described (not null)
+     * @param compound shape being described (not null, unaffected)
      * @return description (not null)
      */
     public String describeChildShapes(CompoundCollisionShape compound) {
@@ -611,10 +662,11 @@ public class PhysicsDescriber extends Describer {
         String desc = describe(constraint);
         result.append(desc);
 
-        float bit = constraint.getBreakingImpulseThreshold();
-        if (bit != Float.MAX_VALUE) {
-            result.append(" bit=");
-            result.append(MyString.describe(bit));
+        boolean endsCollide = constraint.isCollisionBetweenLinkedBodies();
+        if (endsCollide) {
+            result.append(" collide");
+        } else {
+            result.append(" NOcollide");
         }
 
         int numIterations = constraint.getOverrideIterations();
@@ -651,7 +703,19 @@ public class PhysicsDescriber extends Describer {
         }
 
         if (numDyn == 0) {
-            result.append("   NO_DYNAMIC_END");
+            result.append(" NO_DYNAMIC_END");
+        }
+
+        if (constraint.isFeedback()) {
+            float impulse = constraint.getAppliedImpulse();
+            result.append(" impulse=");
+            result.append(impulse);
+        }
+
+        float bit = constraint.getBreakingImpulseThreshold();
+        if (bit != Float.MAX_VALUE) {
+            result.append(" bit=");
+            result.append(MyString.describe(bit));
         }
 
         return result.toString();
