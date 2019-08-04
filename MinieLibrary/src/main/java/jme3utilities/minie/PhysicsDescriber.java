@@ -572,41 +572,16 @@ public class PhysicsDescriber extends Describer {
     public String describeAngular(SixDofJoint joint) {
         StringBuilder result = new StringBuilder(80);
 
-        result.append("angles=[");
+        result.append("angles[");
         Vector3f angles = joint.getAngles(new Vector3f());
         result.append(MyVector3f.describe(angles));
 
-        result.append("] lower=[");
+        result.append("] lo["); // TODO describe axis-by-axis
         Vector3f lower = joint.getAngularLowerLimit(new Vector3f());
         result.append(MyVector3f.describe(lower));
 
-        result.append("] upper=[");
+        result.append("] hi[");
         Vector3f upper = joint.getAngularUpperLimit(new Vector3f());
-        result.append(MyVector3f.describe(upper));
-        result.append(']');
-
-        return result.toString();
-    }
-
-    /**
-     * Describe the linear components of the specified SixDofJoint.
-     *
-     * @param joint the joint to describe (not null, unaffected)
-     * @return descriptive text (not null, not empty)
-     */
-    public String describeLinear(SixDofJoint joint) {
-        StringBuilder result = new StringBuilder(80);
-
-        result.append("offset=[");
-        Vector3f offset = joint.getPivotOffset(new Vector3f());
-        result.append(MyVector3f.describe(offset));
-
-        result.append("] lower=[");
-        Vector3f lower = joint.getLinearLowerLimit(new Vector3f());
-        result.append(MyVector3f.describe(lower));
-
-        result.append("] upper=[");
-        Vector3f upper = joint.getLinearUpperLimit(new Vector3f());
         result.append(MyVector3f.describe(upper));
         result.append(']');
 
@@ -828,6 +803,31 @@ public class PhysicsDescriber extends Describer {
         }
 
         return result;
+    }
+
+    /**
+     * Describe the linear components of the specified SixDofJoint.
+     *
+     * @param joint the joint to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeLinear(SixDofJoint joint) {
+        StringBuilder result = new StringBuilder(80);
+
+        result.append("offset[");
+        Vector3f offset = joint.getPivotOffset(new Vector3f());
+        result.append(MyVector3f.describe(offset));
+
+        result.append("] lo["); // TODO describe axis-by-axis
+        Vector3f lower = joint.getLinearLowerLimit(new Vector3f());
+        result.append(MyVector3f.describe(lower));
+
+        result.append("] hi[");
+        Vector3f upper = joint.getLinearUpperLimit(new Vector3f());
+        result.append(MyVector3f.describe(upper));
+        result.append(']');
+
+        return result.toString();
     }
 
     /**
