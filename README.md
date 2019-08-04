@@ -113,6 +113,7 @@ Some `jme3-bullet` bugs that have been fixed in Minie:
  + 1134 missing collisions for some rotations of a `GImpactCollisionShape`
  + 1135 `ConeJoint` causes rigid body to disappear on Linux
  + 1141 `TestAttachGhostObject` fails on Linux
+ + 1157 can't enable TranslationalLimitMotor
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
@@ -296,14 +297,14 @@ you must explicitly specify their repository locations:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.9.11for32'
+        compile 'jme3utilities:Minie:0.9.12for32'
     }
 
 #### For Ant projects
 
 For projects built using [Ant][], download the 3 non-standard libraries:
 
- + https://github.com/stephengold/Minie/releases/tag/0.9.11for32
+ + https://github.com/stephengold/Minie/releases/tag/0.9.12for32
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.30.0for32
  + https://bintray.com/riccardo/v-hacd/download_file?file_path=vhacd%2Fvhacd-native%2F1.1.1%2Fvhacd-native-1.1.1.jar
 
