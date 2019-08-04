@@ -33,8 +33,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A simple DebugAppStateFilter that returns true for all physics objects (or
- * false for all physics objects) with a few exceptions.
+ * A simple DebugAppStateFilter that returns true for most physics objects (or
+ * false for most physics objects) with specified exceptions.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -51,7 +51,7 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
     // fields
 
     /**
-     * default value returned by displayObject()
+     * value returned by displayObject() for non-exceptional arguments
      */
     final private boolean returnValue;
     /**
@@ -62,9 +62,10 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
     // constructors
 
     /**
-     * Instantiate a new filter.
+     * Instantiate a filter with the specified default return value.
      *
-     * @param returnValue default value to be returned by displayObject()
+     * @param returnValue the default value to be returned by displayObject()
+     * for non-exceptional arguments
      */
     public FilterAll(boolean returnValue) {
         this.returnValue = returnValue;
@@ -93,6 +94,38 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
     }
 
     /**
+     * Count how many exceptions there are.
+     *
+     * @return the count (&ge;0)
+     */
+    public int countExceptions() {
+        int result = exceptions.size();
+        return result;
+    }
+
+    /**
+     * Read the value returned by displayObject() for non-exceptional arguments.
+     *
+     * @return the boolean value
+     */
+    public boolean defaultReturnValue() {
+        return returnValue;
+    }
+
+    /**
+     * Enumerate all exceptions.
+     *
+     * @return a new array of pre-existing objects (not null)
+     */
+    public Object[] listExceptions() {
+        int numExceptions = countExceptions();
+        Object[] result = new Object[numExceptions];
+        exceptions.toArray(result);
+
+        return result;
+    }
+
+    /**
      * Remove a object from the exceptions list.
      *
      * @param exception the object to remove (not null)
@@ -105,10 +138,11 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
     // DebugAppStateFilter methods
 
     /**
-     * Test whether the specified physics object should be displayed.
+     * Test whether the specified physics object should be displayed/dumped.
      *
      * @param physicsObject the joint or collision object to test (unaffected)
-     * @return return true if the object should be displayed, false if not
+     * @return return true if the object should be displayed/dumped, false if
+     * not
      */
     @Override
     public boolean displayObject(Object physicsObject) {
