@@ -59,6 +59,11 @@ abstract public class PhysicsJoint
      */
     final public static Logger logger
             = Logger.getLogger(PhysicsJoint.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagNodeA = "nodeA";
+    final private static String tagNodeB = "nodeB";
     // *************************************************************************
     // fields TODO privatize
 
@@ -201,8 +206,8 @@ abstract public class PhysicsJoint
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        bodyA = (PhysicsBody) capsule.readSavable("nodeA", null);
-        bodyB = (PhysicsBody) capsule.readSavable("nodeB", null);
+        bodyA = (PhysicsBody) capsule.readSavable(tagNodeA, null);
+        bodyB = (PhysicsBody) capsule.readSavable(tagNodeB, null);
         /*
          * Each subclass must create the btTypedConstraint, btSoftBody::Anchor,
          * or btSoftBody::Joint.
@@ -220,8 +225,8 @@ abstract public class PhysicsJoint
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(bodyA, "nodeA", null);
-        capsule.write(bodyB, "nodeB", null);
+        capsule.write(bodyA, tagNodeA, null);
+        capsule.write(bodyB, tagNodeB, null);
     }
     // *************************************************************************
     // Comparable methods

@@ -77,6 +77,14 @@ public class RigidBodyControl
     final public static Logger logger3
             = Logger.getLogger(RigidBodyControl.class.getName());
     /**
+     * field names for serialization
+     */
+    final private static String tagApplyLocalPhysics = "applyLocalPhysics";
+    final private static String tagApplyScale = "applyScale";
+    final private static String tagEnabled = "enabled";
+    final private static String tagKinematicSpatial = "kinematicSpatial";
+    final private static String tagSpatial = "spatial";
+    /**
      * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
      */
     final private static Quaternion rotateIdentity = new Quaternion();
@@ -486,13 +494,13 @@ public class RigidBodyControl
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        enabled = capsule.readBoolean("enabled", true);
-        kinematicSpatial = capsule.readBoolean("kinematicSpatial", true);
-        spatial = (Spatial) capsule.readSavable("spatial", null);
+        enabled = capsule.readBoolean(tagEnabled, true);
+        kinematicSpatial = capsule.readBoolean(tagKinematicSpatial, true);
+        spatial = (Spatial) capsule.readSavable(tagSpatial, null);
         RigidBodyMotionState ms = getMotionState();
         ms.setApplyPhysicsLocal(
-                capsule.readBoolean("applyLocalPhysics", false));
-        applyScale = capsule.readBoolean("applyScale", false);
+                capsule.readBoolean(tagApplyLocalPhysics, false));
+        applyScale = capsule.readBoolean(tagApplyScale, false);
 
         setUserObject(spatial);
     }
@@ -509,12 +517,12 @@ public class RigidBodyControl
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(enabled, "enabled", true);
+        capsule.write(enabled, tagEnabled, true);
         RigidBodyMotionState ms = getMotionState();
-        capsule.write(ms.isApplyPhysicsLocal(), "applyLocalPhysics", false);
-        capsule.write(kinematicSpatial, "kinematicSpatial", true);
-        capsule.write(applyScale, "applyScale", false);
-        capsule.write(spatial, "spatial", null);
+        capsule.write(ms.isApplyPhysicsLocal(), tagApplyLocalPhysics, false);
+        capsule.write(kinematicSpatial, tagKinematicSpatial, true);
+        capsule.write(applyScale, tagApplyScale, false);
+        capsule.write(spatial, tagSpatial, null);
     }
     // *************************************************************************
     // private methods
