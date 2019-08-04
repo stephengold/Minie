@@ -826,8 +826,8 @@ public class PhysicsDumper extends Dumper {
             stream.print(MyString.describe(selfImpulse));
 
             stream.print(" maxSci=");
-            float maxSelfImpulse = softBody.get(Cluster.MaxSelfImpulse,
-                    clusterIndex);
+            float maxSelfImpulse
+                    = softBody.get(Cluster.MaxSelfImpulse, clusterIndex);
             stream.print(MyString.describe(maxSelfImpulse));
 
             int numNodes = softBody.countNodesInCluster(clusterIndex);
@@ -862,6 +862,11 @@ public class PhysicsDumper extends Dumper {
                 if (joint instanceof SixDofJoint) {
                     SixDofJoint sixDof = (SixDofJoint) joint;
 
+                    desc = describer.describeAngular(sixDof);
+                    stream.printf("%n%s %s", moreIndent, desc);
+                    desc = describer.describeLinear(sixDof);
+                    stream.printf("%n%s %s", moreIndent, desc);
+
                     if (dumpMotors) {
                         for (int axisIndex = 0; axisIndex < 3; ++axisIndex) {
                             String axisName = MyString.axisName(axisIndex);
@@ -871,6 +876,7 @@ public class PhysicsDumper extends Dumper {
                             desc = describer.describe(motor);
                             stream.print(desc);
                         }
+
                         TranslationalLimitMotor motor
                                 = sixDof.getTranslationalLimitMotor();
                         for (int axisIndex = 0; axisIndex < 3; ++axisIndex) {
