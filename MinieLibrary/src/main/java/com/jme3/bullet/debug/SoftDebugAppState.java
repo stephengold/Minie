@@ -43,6 +43,7 @@ import com.jme3.scene.control.Control;
 import com.jme3.texture.Texture;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyAsset;
@@ -219,23 +220,19 @@ public class SoftDebugAppState extends BulletDebugAppState {
     }
 
     /**
-     * Update this state prior to rendering. Should be invoked only by a
-     * subclass or by the AppStateManager. Invoked once per frame, provided the
-     * state is attached and enabled.
-     *
-     * @param tpf the time interval between frames (in seconds, &ge;0)
+     * Synchronize the collision-shape debug controls and axis visualizers with
+     * the collision objects in the PhysicsSpace.
      */
     @Override
-    public void update(float tpf) {
+    protected void updateShapes() {
+        super.updateShapes();
         updateSoftBodies();
-        super.update(tpf);
     }
     // *************************************************************************
     // private methods
 
     /**
-     * Synchronize the soft-body debug controls with the soft bodies in the
-     * PhysicsSpoftSpace.
+     * Synchronize the soft-body debug controls with the PhysicsSoftSpace.
      */
     private void updateSoftBodies() {
         HashMap<PhysicsSoftBody, Node> oldMap = softBodies;
@@ -244,23 +241,39 @@ public class SoftDebugAppState extends BulletDebugAppState {
         PhysicsSoftSpace pSpace = (PhysicsSoftSpace) getPhysicsSpace();
         Collection<PhysicsSoftBody> list = pSpace.getSoftBodyList();
         for (PhysicsSoftBody softBody : list) {
-            if (filter == null || filter.displayObject(softBody)) {
-                Node node = oldMap.remove(softBody);
-                if (node == null) {
-                    node = new Node(softBody.toString());
-                    attachChild(node);
-
-                    logger.log(Level.FINE, "Create new SoftBodyDebugControl");
-                    Control control = new SoftBodyDebugControl(this, softBody);
-                    node.addControl(control);
-                }
-                softBodies.put(softBody, node);
-                updateAxes(node);
+            Node node = oldMap.remove(softBody);
+            if (node == null) {
+                node = new Node(softBody.toString());
+                attachChild(node);
             }
+            softBodies.put(softBody, node);
         }
-        // Detach any leftover nodes.
+        /*
+         * Detach nodes of soft bodies that have been removed from the space.
+         */
         for (Node node : oldMap.values()) {
             node.removeFromParent();
+        }
+        /*
+         * Synchronize the soft-body debug controls and axis visualizers
+         * with the soft bodies in the PhysicsSpace.
+         */
+        for (Map.Entry<PhysicsSoftBody, Node> entry : softBodies.entrySet()) {
+            PhysicsSoftBody softBody = entry.getKey();
+            boolean displayShape = (filter == null)
+                    || filter.displayObject(softBody);
+
+            Node node = entry.getValue();
+            Control control = node.getControl(SoftBodyDebugControl.class);
+            if (control == null && displayShape) {
+                logger.log(Level.FINE, "Create new SoftBodyDebugControl");
+                control = new SoftBodyDebugControl(this, softBody);
+                node.addControl(control);
+            } else if (control != null && !displayShape) {
+                node.removeControl(control);
+            }
+
+            updateAxes(node, displayShape);
         }
     }
 }
