@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.12 released on TBD
+## Version 0.9.12 released on 4 August 2019
 
  + Fixed a bug where axes were visualized after shapes were no
    longer visualized.
@@ -11,6 +11,7 @@
  + Added the `UserFilter` class.
  + More thorough dumps/descriptions of joints, especially 6-DOF joints
    and their motors.
+ + Enhanced the `TestDac` app with hotkeys to toggle visualization options.
  + Updated the native libraries to version 2.0.4 of `Libbulletjme`.
 
 ## Version 0.9.11for32 released on 2 August 2019
