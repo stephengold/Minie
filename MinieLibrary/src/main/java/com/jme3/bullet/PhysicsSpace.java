@@ -1054,17 +1054,18 @@ public class PhysicsSpace {
      * the physics simulation, if maxSubSteps is set to 0 or 1.
      *
      * @see #setMaxSubSteps(int)
-     * @param time time-per-frame multiplied by speed (in seconds, &ge;0)
+     * @param timeInterval time-per-frame multiplied by speed (in seconds,
+     * &ge;0)
      */
-    public void update(float time) {
-        Validate.nonNegative(time, "time");
-        assert accuracy > 0f : accuracy;
-        assert maxSubSteps >= 0 : maxSubSteps;
+    public void update(float timeInterval) {
+        Validate.nonNegative(timeInterval, "time interval");
 
+        assert maxSubSteps >= 0 : maxSubSteps;
+        assert accuracy > 0f : accuracy;
         if (maxSubSteps == 0) {
-            time = Math.min(time, maxTimeStep);
+            timeInterval = Math.min(timeInterval, maxTimeStep);
         }
-        stepSimulation(nativeId, time, maxSubSteps, accuracy);
+        stepSimulation(nativeId, timeInterval, maxSubSteps, accuracy);
     }
 
     /**
@@ -1072,14 +1073,14 @@ public class PhysicsSpace {
      *
      * @param timeInterval the time interval since the previous simulation step
      * (in seconds, &ge;0)
-     * @param maxSteps the maximum number of simulation steps of size accuracy
-     * (&ge;1) or 0 for a single simulation step of size interval
+     * @param maxSteps the maximum number of steps of size accuracy (&ge;1) or 0
+     * for a single step of size timeInterval
      */
     public void update(float timeInterval, int maxSteps) {
         Validate.nonNegative(timeInterval, "time interval");
         Validate.nonNegative(maxSteps, "max steps");
-        assert accuracy > 0f : accuracy;
 
+        assert accuracy > 0f : accuracy;
         stepSimulation(nativeId, timeInterval, maxSteps, accuracy);
     }
     // *************************************************************************
@@ -1430,8 +1431,8 @@ public class PhysicsSpace {
     native private void setSolverNumIterations(long spaceId,
             int numIterations);
 
-    native private void stepSimulation(long spaceId, float time, int maxSteps,
-            float timeStep);
+    native private void stepSimulation(long spaceId, float timeInterval,
+            int maxSubSteps, float accuracy);
 
     native private void sweepTest_native(long shape, Transform from,
             Transform to, long spaceId, List<PhysicsSweepTestResult> results,
