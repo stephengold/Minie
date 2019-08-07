@@ -39,9 +39,11 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -87,6 +89,53 @@ public class CylinderCollisionShape extends CollisionShape {
     }
 
     /**
+     * Instantiate a cylinder shape that encloses the sample locations in the
+     * specified FloatBuffer range.
+     *
+     * @param buffer the buffer that contains the sample locations (not null,
+     * unaffected)
+     * @param startPosition the position at which the sample locations start
+     * (&ge;0, &le;endPosition)
+     * @param endPosition the position at which the sample locations end
+     * (&ge;startPosition, &le;capacity)
+     * @param axisIndex local axis for height: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     */
+    public CylinderCollisionShape(FloatBuffer buffer, int startPosition,
+            int endPosition, int axisIndex) {
+        Validate.nonNull(buffer, "buffer");
+        Validate.inRange(startPosition, "start position", 0, endPosition);
+        Validate.inRange(endPosition, "end position", startPosition,
+                buffer.capacity());
+        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
+                PhysicsSpace.AXIS_Z);
+
+        MyBuffer.maxAbs(buffer, startPosition, endPosition, halfExtents);
+
+        float radius = MyBuffer.cylinderRadius(buffer, startPosition,
+                endPosition, axisIndex);
+        switch (axisIndex) {
+            case PhysicsSpace.AXIS_X:
+                halfExtents.y = radius;
+                halfExtents.z = radius;
+                break;
+            case PhysicsSpace.AXIS_Y:
+                halfExtents.x = radius;
+                halfExtents.z = radius;
+                break;
+            case PhysicsSpace.AXIS_Z:
+                halfExtents.x = radius;
+                halfExtents.y = radius;
+                break;
+            default:
+                String message = Integer.toString(axisIndex);
+                throw new RuntimeException(message);
+        }
+        assert MyVector3f.isAllNonNegative(halfExtents) : halfExtents;
+
+        createShape();
+    }
+
+    /**
      * Instantiate a Z-axis cylinder shape with the specified half extents.
      *
      * @param halfExtents the desired unscaled half extents (not null, no
@@ -105,14 +154,15 @@ public class CylinderCollisionShape extends CollisionShape {
      *
      * @param halfExtents the desired unscaled half extents (not null, no
      * negative component, unaffected)
-     * @param axis which local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @param axisIndex local axis for height: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      */
-    public CylinderCollisionShape(Vector3f halfExtents, int axis) {
+    public CylinderCollisionShape(Vector3f halfExtents, int axisIndex) {
         Validate.nonNegative(halfExtents, "half extents");
-        Validate.inRange(axis, "axis", 0, 2);
+        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
+                PhysicsSpace.AXIS_Z);
 
         this.halfExtents.set(halfExtents);
-        this.axis = axis;
+        this.axis = axisIndex;
         createShape();
     }
     // *************************************************************************
