@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.collision.shapes;
 
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -91,6 +92,7 @@ public class HullCollisionShape extends CollisionShape {
     private ByteBuffer bbuf;
     /**
      * array of mesh coordinates (not null, not empty, length a multiple of 3)
+     * TODO use a FloatBuffer instead
      */
     private float[] points;
     // *************************************************************************
@@ -118,9 +120,9 @@ public class HullCollisionShape extends CollisionShape {
         points = new float[numAxes * numLocations];
         int j = 0;
         for (Vector3f location : locations) {
-            points[j] = location.x;
-            points[j + 1] = location.y;
-            points[j + 2] = location.z;
+            points[j + PhysicsSpace.AXIS_X] = location.x;
+            points[j + PhysicsSpace.AXIS_Y] = location.y;
+            points[j + PhysicsSpace.AXIS_Z] = location.z;
             j += numAxes;
         }
 
@@ -225,9 +227,9 @@ public class HullCollisionShape extends CollisionShape {
         Vector3f tempVector = new Vector3f();
         for (Vector3f location : cornerLocations) {
             rectangularSolid.localToWorld(location, tempVector);
-            points[floatIndex] = tempVector.x;
-            points[floatIndex + 1] = tempVector.y;
-            points[floatIndex + 2] = tempVector.z;
+            points[floatIndex + PhysicsSpace.AXIS_X] = tempVector.x;
+            points[floatIndex + PhysicsSpace.AXIS_Y] = tempVector.y;
+            points[floatIndex + PhysicsSpace.AXIS_Z] = tempVector.z;
             floatIndex += numAxes;
         }
 
@@ -250,9 +252,9 @@ public class HullCollisionShape extends CollisionShape {
 
         Vector3f location = new Vector3f();
         for (int floatI = 0; floatI < points.length; floatI += numAxes) {
-            float x = points[floatI];
-            float y = points[floatI + 1];
-            float z = points[floatI + 2];
+            float x = points[floatI + PhysicsSpace.AXIS_X];
+            float y = points[floatI + PhysicsSpace.AXIS_Y];
+            float z = points[floatI + PhysicsSpace.AXIS_Z];
             location.set(x, y, z);
             MyVector3f.accumulateMinima(minima, location);
             MyVector3f.accumulateMaxima(maxima, location);
@@ -323,15 +325,15 @@ public class HullCollisionShape extends CollisionShape {
 
         result.zero();
         for (int i = 0; i < points.length; i += numAxes) {
-            float x = FastMath.abs(points[i]);
+            float x = FastMath.abs(points[i + PhysicsSpace.AXIS_X]);
             if (x > result.x) {
                 result.x = x;
             }
-            float y = FastMath.abs(points[i + 1]);
+            float y = FastMath.abs(points[i + PhysicsSpace.AXIS_Y]);
             if (y > result.y) {
                 result.y = y;
             }
-            float z = FastMath.abs(points[i + 2]);
+            float z = FastMath.abs(points[i + PhysicsSpace.AXIS_Z]);
             if (z > result.z) {
                 result.z = z;
             }
