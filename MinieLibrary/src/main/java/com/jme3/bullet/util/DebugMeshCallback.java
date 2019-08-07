@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.util;
 
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.math.Transform;
 import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
@@ -42,8 +43,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVolume;
 import jme3utilities.math.RectangularSolid;
+import jme3utilities.math.VectorSet;
+import jme3utilities.math.VectorSetUsingBuffer;
 
 /**
  * Temporary objects used to return debug meshes from native Bullet.
@@ -54,6 +58,10 @@ class DebugMeshCallback {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * number of axes in a vector
+     */
+    final private static int numAxes = 3;
     /**
      * number of vertices per triangle
      */
@@ -105,31 +113,37 @@ class DebugMeshCallback {
         /*
          * Copy the location list, removing all duplicates in the process.
          */
-        Set<Vector3f> distinct = new HashSet<>(list.size());
+        VectorSet distinct = new VectorSetUsingBuffer(list.size());
         for (Vector3f vector : list) {
-            if (!distinct.contains(vector)) {
-                Vector3f clone = vector.clone();
-                distinct.add(clone);
-            }
+            distinct.add(vector);
         }
         /*
          * Transform vertex locations to world coordinates and set all the
          * Y coordinates to the minimum coordinate value.
          */
+        FloatBuffer floatBuffer = distinct.toBuffer();
+        int numFloats = floatBuffer.limit();
+        MyBuffer.transform(floatBuffer, 0, numFloats, meshToWorld);
+
         float minY = Float.POSITIVE_INFINITY;
-        for (Vector3f vector : distinct) {
-            meshToWorld.transformVector(vector, vector);
-            if (vector.y < minY) {
-                minY = vector.y;
+        int numVectors = numFloats / numAxes;
+        for (int vectorIndex = 0; vectorIndex < numVectors; ++vectorIndex) {
+            int position = vectorIndex * numAxes + PhysicsSpace.AXIS_Y;
+            float y = floatBuffer.get(position);
+            if (y < minY) {
+                minY = y;
             }
         }
-        for (Vector3f vector : distinct) {
-            vector.y = minY;
+
+        for (int vectorIndex = 0; vectorIndex < numVectors; ++vectorIndex) {
+            int position = vectorIndex * numAxes + PhysicsSpace.AXIS_Y;
+            floatBuffer.put(position, minY);
         }
         /*
          * Fit a rotated rectangular solid to the vertex locations.
          */
-        RectangularSolid solid = new RectangularSolid(distinct);
+        RectangularSolid solid
+                = new RectangularSolid(floatBuffer, 0, numFloats);
         Vector3f maxima = solid.maxima(null);
         Vector3f minima = solid.minima(null);
         /*
