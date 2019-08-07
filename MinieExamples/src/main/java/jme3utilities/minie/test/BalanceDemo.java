@@ -528,6 +528,7 @@ public class BalanceDemo extends ActionApplication {
             animChannel = animControl.createChannel();
         } else {
             composer = controlledSpatial.getControl(AnimComposer.class);
+            animChannel = null;
         }
 
         sv = new SkeletonVisualizer(assetManager, sc);
