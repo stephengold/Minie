@@ -38,9 +38,11 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -109,6 +111,28 @@ public class BoxCollisionShape extends CollisionShape {
         Validate.nonNegative(zHalfExtent, "half extent on Z");
 
         halfExtents.set(xHalfExtent, yHalfExtent, zHalfExtent);
+        createShape();
+    }
+
+    /**
+     * Instantiate a box shape that encloses the sample locations in the
+     * specified FloatBuffer range.
+     *
+     * @param buffer the buffer that contains the sample locations (not null,
+     * unaffected)
+     * @param startPosition the position at which the sample locations start
+     * (&ge;0, &le;endPosition)
+     * @param endPosition the position at which the sample locations end
+     * (&ge;startPosition, &le;capacity)
+     */
+    public BoxCollisionShape(FloatBuffer buffer, int startPosition,
+            int endPosition) {
+        Validate.nonNull(buffer, "buffer");
+        Validate.inRange(startPosition, "start position", 0, endPosition);
+        Validate.inRange(endPosition, "end position", startPosition,
+                buffer.capacity());
+
+        MyBuffer.maxAbs(buffer, startPosition, endPosition, halfExtents);
         createShape();
     }
 
