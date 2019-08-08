@@ -1,11 +1,11 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.13for33 released on TBD
+## Version 0.9.13for33 released on 7 August 2019
 
  + API changes:
    + Finalized the `TorsoLink.countManaged()` method.
    + Standardized `TranslationalLimitMotor.getAccumulatedImpulse()` to use
-     caller-provided storage. (API change)
+     caller-provided storage.
  + Fixed bugs:
    + Various bugs in debug visualization, including one where shadows
      were cast by visualizations of bounding boxes and swept spheres and one
