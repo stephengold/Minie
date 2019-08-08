@@ -486,7 +486,11 @@ public class SixDofJoint extends Constraint {
         TranslationalLimitMotor tlm = getTranslationalLimitMotor();
         TranslationalLimitMotor oldTlm = old.getTranslationalLimitMotor();
 
+        tlm.setAccumulatedImpulse(oldTlm.getAccumulatedImpulse(null));
         tlm.setDamping(oldTlm.getDamping());
+        for (int i = 0; i < numAxes; ++i) {
+            tlm.setEnabled(i, oldTlm.isEnabled(i));
+        }
         tlm.setERP(oldTlm.getERP(null));
         tlm.setLimitSoftness(oldTlm.getLimitSoftness());
         tlm.setLowerLimit(oldTlm.getLowerLimit(null));
@@ -501,6 +505,7 @@ public class SixDofJoint extends Constraint {
             RotationalLimitMotor rlm = getRotationalLimitMotor(i);
             RotationalLimitMotor oldRlm = old.getRotationalLimitMotor(i);
 
+            rlm.setAccumulatedImpulse(oldRlm.getAccumulatedImpulse());
             rlm.setRestitution(oldRlm.getRestitution());
             rlm.setDamping(oldRlm.getDamping());
             rlm.setEnableMotor(oldRlm.isEnableMotor());
@@ -558,6 +563,8 @@ public class SixDofJoint extends Constraint {
 
         for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
             RotationalLimitMotor rotationalLimitMotor = getRotationalLimitMotor(axisIndex);
+
+            rotationalLimitMotor.setAccumulatedImpulse(capsule.readFloat("rotMotor" + axisIndex + "_AccumulatedImpulse", 0f));
             rotationalLimitMotor.setRestitution(capsule.readFloat("rotMotor" + axisIndex + "_Bounce", 0.0f));
             rotationalLimitMotor.setDamping(capsule.readFloat("rotMotor" + axisIndex + "_Damping", 1.0f));
             rotationalLimitMotor.setERP(capsule.readFloat("rotMotor" + axisIndex + "_ERP", 0.5f));
@@ -583,6 +590,9 @@ public class SixDofJoint extends Constraint {
         getTranslationalLimitMotor().setStopCFM((Vector3f) capsule.readSavable("transMotor_StopCFM", translateIdentity));
         getTranslationalLimitMotor().setTargetVelocity((Vector3f) capsule.readSavable("transMotor_TargetVelocity", translateIdentity));
         getTranslationalLimitMotor().setUpperLimit((Vector3f) capsule.readSavable("transMotor_UpperLimit", translateIdentity));
+        for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
+            getTranslationalLimitMotor().setEnabled(axisIndex, capsule.readBoolean("transMotor_Enable" + axisIndex, false));
+        }
     }
 
     /**
@@ -610,6 +620,7 @@ public class SixDofJoint extends Constraint {
         for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
             RotationalLimitMotor rotationalLimitMotor = rotationalMotors[axisIndex];
 
+            capsule.write(rotationalLimitMotor.getAccumulatedImpulse(), "rotMotor" + axisIndex + "_AccumulatedImpulse", 0f);
             capsule.write(rotationalLimitMotor.getRestitution(), "rotMotor" + axisIndex + "_Bounce", 0.0f);
             capsule.write(rotationalLimitMotor.getDamping(), "rotMotor" + axisIndex + "_Damping", 1.0f);
             capsule.write(rotationalLimitMotor.getERP(), "rotMotor" + axisIndex + "_ERP", 0.5f);
@@ -636,6 +647,9 @@ public class SixDofJoint extends Constraint {
         capsule.write(getTranslationalLimitMotor().getStopCFM(null), "transMotor_StopCFM", null);
         capsule.write(getTranslationalLimitMotor().getTargetVelocity(null), "transMotor_TargetVelocity", null);
         capsule.write(getTranslationalLimitMotor().getUpperLimit(null), "transMotor_UpperLimit", null);
+        for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
+            capsule.write(getTranslationalLimitMotor().isEnabled(axisIndex), "transMotor_Enable" + axisIndex, false);
+        }
     }
     // *************************************************************************
     // private methods
