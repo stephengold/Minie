@@ -928,7 +928,7 @@ public class DacLinks
      */
     @Override
     public void setGravity(Vector3f gravity) {
-        Validate.nonNull(gravity, "gravity");
+        Validate.finite(gravity, "gravity");
 
         super.setGravity(gravity);
 

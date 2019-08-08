@@ -137,7 +137,7 @@ abstract public class CollisionShape
      */
     public BoundingBox boundingBox(Vector3f translation, Matrix3f rotation,
             BoundingBox storeResult) {
-        Validate.nonNull(translation, "translation");
+        Validate.finite(translation, "translation");
         Validate.nonNull(rotation, "rotation");
         BoundingBox result
                 = (storeResult == null) ? new BoundingBox() : storeResult;
@@ -164,7 +164,7 @@ abstract public class CollisionShape
      */
     public BoundingBox boundingBox(Vector3f translation, Quaternion rotation,
             BoundingBox storeResult) {
-        Validate.nonNull(translation, "translation");
+        Validate.finite(translation, "translation");
         Validate.nonNull(rotation, "rotation");
         BoundingBox result
                 = (storeResult == null) ? new BoundingBox() : storeResult;
@@ -299,7 +299,7 @@ abstract public class CollisionShape
      * negative component, unaffected, default=(1,1,1))
      */
     public void setScale(Vector3f scale) {
-        Validate.nonNull(scale, "scale");
+        Validate.nonNegative(scale, "scale");
         if (!canScale(scale)) {
             String typeName = this.getClass().getCanonicalName();
             String msg = String.format("%s cannot be scaled to (%s,%s,%s)",

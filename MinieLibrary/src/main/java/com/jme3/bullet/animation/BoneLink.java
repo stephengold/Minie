@@ -265,7 +265,7 @@ public class BoneLink extends PhysicsLink {
      */
     public void setDynamic(Vector3f uniformAcceleration, boolean lockX,
             boolean lockY, boolean lockZ) {
-        Validate.nonNull(uniformAcceleration, "uniform acceleration");
+        Validate.finite(uniformAcceleration, "uniform acceleration");
         getControl().verifyReadyForDynamicMode("put link into dynamic mode");
 
         super.setDynamic(uniformAcceleration);
@@ -494,7 +494,7 @@ public class BoneLink extends PhysicsLink {
      */
     @Override
     public void setDynamic(Vector3f uniformAcceleration) {
-        Validate.nonNull(uniformAcceleration, "uniform acceleration");
+        Validate.finite(uniformAcceleration, "uniform acceleration");
 
         super.setDynamic(uniformAcceleration);
         setUserControl(true);

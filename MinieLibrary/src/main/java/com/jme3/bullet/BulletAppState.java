@@ -241,8 +241,8 @@ public class BulletAppState implements AppState, PhysicsTickListener {
      */
     public BulletAppState(Vector3f worldMin, Vector3f worldMax,
             BroadphaseType broadphaseType) {
-        Validate.nonNull(worldMin, "world min");
-        Validate.nonNull(worldMax, "world max");
+        Validate.finite(worldMin, "world min");
+        Validate.finite(worldMax, "world max");
         Validate.nonNull(broadphaseType, "broadphase type");
 
         this.worldMin.set(worldMin);
@@ -462,7 +462,7 @@ public class BulletAppState implements AppState, PhysicsTickListener {
      * default=10k,10k,10k)
      */
     public void setWorldMax(Vector3f worldMax) {
-        Validate.nonNull(worldMin, "world max");
+        Validate.finite(worldMin, "world max");
         assert !isRunning;
 
         this.worldMax.set(worldMax);
@@ -476,7 +476,7 @@ public class BulletAppState implements AppState, PhysicsTickListener {
      * default=-10k,-10k,-10k)
      */
     public void setWorldMin(Vector3f worldMin) {
-        Validate.nonNull(worldMin, "world min");
+        Validate.finite(worldMin, "world min");
         assert !isRunning;
 
         this.worldMin.set(worldMin);

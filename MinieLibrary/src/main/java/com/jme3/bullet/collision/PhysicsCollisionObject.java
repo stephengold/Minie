@@ -944,7 +944,7 @@ abstract public class PhysicsCollisionObject
      */
     protected void setLocationAndBasis(Vector3f centerLocation,
             Matrix3f orientation) {
-        Validate.nonNull(centerLocation, "center location");
+        Validate.finite(centerLocation, "center location");
         Validate.nonNull(orientation, "orientation");
 
         setLocationAndBasis(objectId, centerLocation, orientation);

@@ -455,7 +455,7 @@ public class TorsoLink extends PhysicsLink {
      */
     @Override
     public void setDynamic(Vector3f uniformAcceleration) {
-        Validate.nonNull(uniformAcceleration, "uniform acceleration");
+        Validate.finite(uniformAcceleration, "uniform acceleration");
         getControl().verifyReadyForDynamicMode("put link into ragdoll mode");
 
         super.setDynamic(uniformAcceleration);

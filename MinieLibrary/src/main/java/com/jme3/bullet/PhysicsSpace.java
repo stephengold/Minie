@@ -267,8 +267,8 @@ public class PhysicsSpace {
      */
     public PhysicsSpace(Vector3f worldMin, Vector3f worldMax,
             BroadphaseType broadphaseType) {
-        Validate.nonNull(worldMin, "world min");
-        Validate.nonNull(worldMax, "world max");
+        Validate.finite(worldMin, "world min");
+        Validate.finite(worldMax, "world max");
         Validate.nonNull(broadphaseType, "broadphase type");
 
         this.worldMin.set(worldMin);
