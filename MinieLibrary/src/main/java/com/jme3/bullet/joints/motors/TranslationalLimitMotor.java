@@ -37,8 +37,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A motor based on Bullet's btTranslationalLimitMotor. Motors are used to drive
- * joints. TODO make Savable
+ * A motor based on Bullet's btTranslationalLimitMotor, used to control the
+ * translation of a SixDofJoint.
  *
  * @author normenhansen
  */
@@ -77,13 +77,14 @@ public class TranslationalLimitMotor {
     /**
      * Copy the accumulated impulse (m_accumulatedImpulse).
      *
+     * @param storeResult storage for the result (modified if not null)
      * @return a new vector (not null)
      */
-    public Vector3f getAccumulatedImpulse() {
-        Vector3f vec = new Vector3f();
-        getAccumulatedImpulse(motorId, vec);
+    public Vector3f getAccumulatedImpulse(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        getAccumulatedImpulse(motorId, result);
 
-        return vec;
+        return result;
     }
 
     /**
@@ -253,7 +254,8 @@ public class TranslationalLimitMotor {
     /**
      * Alter the accumulated impulse (m_accumulatedImpulse).
      *
-     * @param accumulatedImpulse the desired vector (not null, unaffected)
+     * @param accumulatedImpulse the desired vector (not null, unaffected,
+     * default=(0,0,0))
      */
     public void setAccumulatedImpulse(Vector3f accumulatedImpulse) {
         setAccumulatedImpulse(motorId, accumulatedImpulse);
