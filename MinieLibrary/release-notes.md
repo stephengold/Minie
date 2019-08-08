@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.13for32 released on TBD
+## Version 0.9.13for32 released on 7 August 2019
 
  + Standardized `TranslationalLimitMotor.getAccumulatedImpulse()` to use
    caller-provided storage. (API change)
