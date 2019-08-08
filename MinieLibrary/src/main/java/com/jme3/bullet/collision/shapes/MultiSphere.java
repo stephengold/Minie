@@ -143,7 +143,8 @@ public class MultiSphere extends CollisionShape {
      * @param radius the desired radius (in unscaled units, &ge;0)
      * @param height the desired height (of the cylindrical portion) (in
      * unscaled units, &ge;0)
-     * @param axisIndex which local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @param axisIndex which local axis for height: 0&rarr;X, 1&rarr;Y,
+     * 2&rarr;Z
      */
     public MultiSphere(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
