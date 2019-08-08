@@ -163,8 +163,8 @@ abstract public class Constraint extends PhysicsJoint {
             Vector3f pivotInBody, Vector3f pivotInWorld) {
         Validate.nonNull(body, "body");
         Validate.nonNull(bodyEnd, "body end");
-        Validate.nonNull(pivotInBody, "pivot in body");
-        Validate.nonNull(pivotInWorld, "pivot in world");
+        Validate.finite(pivotInBody, "pivot in body");
+        Validate.finite(pivotInWorld, "pivot in world");
 
         switch (bodyEnd) {
             case A:
@@ -384,7 +384,8 @@ abstract public class Constraint extends PhysicsJoint {
      * Enable or disable collisions between the linked bodies. Changes take
      * effect when the Constraint is added to a PhysicsSpace.
      *
-     * @param enable true to allow collisions, false to prevent them (default=true)
+     * @param enable true to allow collisions, false to prevent them
+     * (default=true)
      */
     public void setCollisionBetweenLinkedBodies(boolean enable) {
         collisionBetweenLinkedBodies = enable;

@@ -581,7 +581,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * coordinates, not null, unaffected, default=0,-9.8,0)
      */
     public void setGravity(Vector3f gravity) {
-        Validate.nonNull(gravity, "gravity");
+        Validate.finite(gravity, "gravity");
         gravityVector.set(gravity);
     }
 

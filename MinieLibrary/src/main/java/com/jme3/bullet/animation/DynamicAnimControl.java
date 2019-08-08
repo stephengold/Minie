@@ -540,8 +540,8 @@ public class DynamicAnimControl
      */
     public IKJoint moveToWorld(PhysicsLink link, Vector3f pivotInLinkBody,
             Vector3f goalInWorld) {
-        Validate.nonNull(pivotInLinkBody, "pivot in link body");
-        Validate.nonNull(goalInWorld, "goal location");
+        Validate.finite(pivotInLinkBody, "pivot in link body");
+        Validate.finite(goalInWorld, "goal location");
 
         PhysicsRigidBody linkBody = link.getRigidBody();
         Point2PointJoint newJoint
@@ -663,7 +663,7 @@ public class DynamicAnimControl
         }
         Validate.positive(chainLength, "chain length");
         Validate.nonNull(startLink, "start link");
-        Validate.nonNull(uniformAcceleration, "uniform acceleration");
+        Validate.finite(uniformAcceleration, "uniform acceleration");
         verifyAddedToSpatial("change modes");
 
         if (startLink instanceof BoneLink) {

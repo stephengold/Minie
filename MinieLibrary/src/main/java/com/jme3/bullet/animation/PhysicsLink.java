@@ -502,7 +502,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * physics-space coordinates, not null, unaffected)
      */
     public void setDynamic(Vector3f uniformAcceleration) {
-        Validate.nonNull(uniformAcceleration, "uniform acceleration");
+        Validate.finite(uniformAcceleration, "uniform acceleration");
         control.verifyReadyForDynamicMode("put link into dynamic mode");
 
         setKinematicWeight(0f);

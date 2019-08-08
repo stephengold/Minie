@@ -523,7 +523,7 @@ public class TorsoLink extends PhysicsLink {
      */
     @Override
     public void setDynamic(Vector3f uniformAcceleration) {
-        Validate.nonNull(uniformAcceleration, "uniform acceleration");
+        Validate.finite(uniformAcceleration, "uniform acceleration");
 
         super.setDynamic(uniformAcceleration);
         setUserControl(true);

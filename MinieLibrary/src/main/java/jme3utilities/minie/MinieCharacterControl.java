@@ -204,7 +204,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * physics-space coordinates, not null, unaffected)
      */
     public void setWalkDirection(Vector3f offset) {
-        Validate.nonNull(offset, "offset");
+        Validate.finite(offset, "offset");
         character.setWalkDirection(offset);
     }
     // *************************************************************************
