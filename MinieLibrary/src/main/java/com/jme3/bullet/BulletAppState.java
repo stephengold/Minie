@@ -773,6 +773,9 @@ public class BulletAppState implements AppState, PhysicsTickListener {
         this.tpf = tpf;
 
         if (debugEnabled && debugAppState == null) {
+            /*
+             * Start debug visualization.
+             */
             assert pSpace != null;
             assert debugViewPorts != null;
             debugAppState = createDebugAppState(pSpace, debugViewPorts, filter,
@@ -784,6 +787,9 @@ public class BulletAppState implements AppState, PhysicsTickListener {
             stateManager.attach(debugAppState);
 
         } else if (!debugEnabled && debugAppState != null) {
+            /*
+             * Stop debug visualization.
+             */
             stateManager.detach(debugAppState);
             debugAppState = null;
         }
