@@ -620,7 +620,7 @@ public class SixDofJoint extends Constraint {
             ++i;
         }
 
-        capsule.write(getTranslationalLimitMotor().getAccumulatedImpulse(), "transMotor_AccumulatedImpulse", null);
+        capsule.write(getTranslationalLimitMotor().getAccumulatedImpulse(null), "transMotor_AccumulatedImpulse", null);
         capsule.write(getTranslationalLimitMotor().getDamping(), "transMotor_Damping", 1.0f);
         capsule.write(getTranslationalLimitMotor().getERP(null), "transMotor_ERP", null);
         capsule.write(getTranslationalLimitMotor().getLimitSoftness(), "transMotor_LimitSoftness", 0.7f);
