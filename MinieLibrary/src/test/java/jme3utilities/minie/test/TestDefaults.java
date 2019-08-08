@@ -132,6 +132,7 @@ public class TestDefaults {
 
         RotationalLimitMotor rlm
                 = six.getRotationalLimitMotor(PhysicsSpace.AXIS_X);
+        Assert.assertEquals(0f, rlm.getAccumulatedImpulse(), 0f);
         Assert.assertEquals(1f, rlm.getDamping(), 0f);
         Assert.assertFalse(rlm.isEnableMotor());
         Assert.assertEquals(0.2f, rlm.getERP(), 0f);
@@ -146,19 +147,20 @@ public class TestDefaults {
         Assert.assertEquals(-1f, rlm.getUpperLimit(), 0f);
 
         TranslationalLimitMotor tlm = six.getTranslationalLimitMotor();
+        assertEquals(0f, 0f, 0f, tlm.getAccumulatedImpulse(null), 0f);
         Assert.assertEquals(1f, tlm.getDamping(), 0f);
         Assert.assertFalse(tlm.isEnabled(0));
         Assert.assertFalse(tlm.isEnabled(1));
         Assert.assertFalse(tlm.isEnabled(2));
-        assertEquals(0.2f, 0.2f, 0.2f, tlm.getERP(new Vector3f()), 0f);
+        assertEquals(0.2f, 0.2f, 0.2f, tlm.getERP(null), 0f);
         Assert.assertEquals(0.7f, tlm.getLimitSoftness(), 0f);
-        assertEquals(0f, 0f, 0f, tlm.getLowerLimit(new Vector3f()), 0f);
-        assertEquals(0f, 0f, 0f, tlm.getMaxMotorForce(new Vector3f()), 0f);
-        assertEquals(0f, 0f, 0f, tlm.getNormalCFM(new Vector3f()), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getLowerLimit(null), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getMaxMotorForce(null), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getNormalCFM(null), 0f);
         Assert.assertEquals(0f, tlm.getRestitution(), 0.5f);
-        assertEquals(0f, 0f, 0f, tlm.getStopCFM(new Vector3f()), 0f);
-        assertEquals(0f, 0f, 0f, tlm.getTargetVelocity(new Vector3f()), 0f);
-        assertEquals(0f, 0f, 0f, tlm.getUpperLimit(new Vector3f()), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getStopCFM(null), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getTargetVelocity(null), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getUpperLimit(null), 0f);
 
         PhysicsSoftBody softA = new PhysicsSoftBody();
         testPco(softA);

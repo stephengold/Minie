@@ -337,6 +337,7 @@ public class TestCloneJoints {
         RotationalLimitMotor rot
                 = six.getRotationalLimitMotor(PhysicsSpace.AXIS_Z);
         rot.setEnableMotor(!flag);
+        rot.setAccumulatedImpulse(0.003f);
         rot.setRestitution(b + 0.01f);
         rot.setDamping(b + 0.02f);
         rot.setERP(b + 0.03f);
@@ -350,6 +351,11 @@ public class TestCloneJoints {
         rot.setStopCFM(b + 0.092f);
 
         TranslationalLimitMotor tra = six.getTranslationalLimitMotor();
+        tra.setEnabled(0, flag);
+        tra.setEnabled(1, flag);
+        tra.setEnabled(2, !flag);
+        tra.setAccumulatedImpulse(
+                new Vector3f(b + 0.101f, b + 0.102f, b + 0.103f));
         tra.setDamping(b + 0.10f);
         tra.setLimitSoftness(b + 0.11f);
         tra.setLowerLimit(new Vector3f(b + 0.12f, b + 0.13f, b + 0.14f));
@@ -541,6 +547,7 @@ public class TestCloneJoints {
         RotationalLimitMotor rot
                 = six.getRotationalLimitMotor(PhysicsSpace.AXIS_Z);
         assert rot.isEnableMotor() == !flag;
+        assert rot.getAccumulatedImpulse() == 0.003f;
         assert rot.getRestitution() == b + 0.01f;
         assert rot.getDamping() == b + 0.02f;
         assert rot.getERP() == b + 0.03f;
@@ -554,6 +561,12 @@ public class TestCloneJoints {
         assert rot.getStopCFM() == b + 0.092f;
 
         TranslationalLimitMotor tra = six.getTranslationalLimitMotor();
+        assert tra.isEnabled(0) == flag;
+        assert tra.isEnabled(1) == flag;
+        assert tra.isEnabled(2) == !flag;
+        assert tra.getAccumulatedImpulse(null).x == b + 0.101f;
+        assert tra.getAccumulatedImpulse(null).y == b + 0.102f;
+        assert tra.getAccumulatedImpulse(null).z == b + 0.103f;
         assert tra.getDamping() == b + 0.10f;
         assert tra.getLimitSoftness() == b + 0.11f;
         assert tra.getLowerLimit(null).x == b + 0.12f;
