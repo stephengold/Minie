@@ -119,10 +119,6 @@ public class BuoyDemo extends ActionApplication {
     // fields
 
     /**
-     * channel for playing canned animations
-     */
-    private AnimChannel animChannel = null;
-    /**
      * AppState to manage the PhysicsSpace
      */
     final private BulletAppState bulletAppState = new BulletAppState();
@@ -465,7 +461,7 @@ public class BuoyDemo extends ActionApplication {
 
         AnimControl animControl
                 = controlledSpatial.getControl(AnimControl.class);
-        animChannel = animControl.createChannel();
+        AnimChannel animChannel = animControl.createChannel();
         animChannel.setAnim(animationName);
 
         sv = new SkeletonVisualizer(assetManager, sc);
