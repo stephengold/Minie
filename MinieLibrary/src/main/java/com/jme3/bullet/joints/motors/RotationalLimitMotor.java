@@ -34,8 +34,8 @@ package com.jme3.bullet.joints.motors;
 import java.util.logging.Logger;
 
 /**
- * A motor based on Bullet's btRotationalLimitMotor. Motors are used to drive
- * joints. TODO make Savable
+ * A motor based on Bullet's btRotationalLimitMotor, used to control the
+ * rotation of a SixDofJoint.
  *
  * @author normenhansen
  */
@@ -211,6 +211,15 @@ public class RotationalLimitMotor {
     }
 
     /**
+     * Alter the accumulated impulse (m_accumulatedImpulse).
+     *
+     * @param accumulatedImpulse the desired total (default=0)
+     */
+    public void setAccumulatedImpulse(float accumulatedImpulse) {
+        setAccumulatedImpulse(motorId, accumulatedImpulse);
+    }
+
+    /**
      * Alter this motor's damping (m_damping).
      *
      * @param damping the desired viscous damping ratio (0&rarr;no damping,
@@ -323,7 +332,7 @@ public class RotationalLimitMotor {
         setHiLimit(motorId, upperLimit);
     }
     // *************************************************************************
-    // private methods
+    // native methods
 
     native private float getAccumulatedImpulse(long motorId);
 
@@ -352,6 +361,8 @@ public class RotationalLimitMotor {
     native private float getTargetVelocity(long motorId);
 
     native private boolean isEnableMotor(long motorId);
+
+    native private void setAccumulatedImpulse(long motorId, float vector);
 
     native private void setBounce(long motorId, float limitSoftness);
 
