@@ -1,6 +1,19 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.12 released on 4 August 2019
+## Version 0.9.13for32 released on TBD
+
+ + Standardized `TranslationalLimitMotor.getAccumulatedImpulse()` to use
+   caller-provided storage. (API change)
+ + Fixed bugs where motor-enable flags and accumulated impulses weren't
+   properly loaded/saved/cloned.
+ + Added constructors for box/cylinder/sphere shapes based on float buffers.
+ + Added a `setAccumulatedImpulse()` method to `RotationalLimitMotor`.
+ + Updated the native libraries to version 2.0.5 of `Libbulletjme`.
+ + Based on version 2.31 of the `jme3-utilities-heart` library, version
+   0.7.6 of the `jme3-utilities-ui` library, and version 0.9.8 of the
+   `jme3-utilities-nifty` library.
+
+## Version 0.9.12for32 released on 4 August 2019
 
  + Fixed a bug where axes were visualized after shapes were no
    longer visualized.
