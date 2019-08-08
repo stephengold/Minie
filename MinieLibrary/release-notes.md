@@ -1,5 +1,53 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.13for33 released on TBD
+
+ + API changes:
+   + Finalized the `TorsoLink.countManaged()` method.
+   + Standardized `TranslationalLimitMotor.getAccumulatedImpulse()` to use
+     caller-provided storage. (API change)
+ + Fixed bugs:
+   + Various bugs in debug visualization, including one where shadows
+     were cast by visualizations of bounding boxes and swept spheres and one
+     where axes were visualized after shapes were no
+     longer visualized.
+   + A `NullPointerException` in `DacLinks.findManagerForVertex()`.
+   + A `NullPointerException` in `DacLinks.managerMap()`.
+   + An `AssertionError` in `PhysicsSpace.countJoints()`.
+   + An `AssertionError` caused by scaled compound shapes.
+   + User objects were not cloned/serialized, even if they
+     implement `JmeCloneable` or `Savable`.
+   + Motor-enable flags and accumulated impulses weren't properly
+     loaded/saved/cloned.
+   + Control not found in `TrackDemo`.
+   + A `NullPointerException` when changing models in `BalanceDemo`.
+ + Added library features:
+   + Support for V-HACD using Riccardo's Java bindings.
+   + A warning in case a joint is added to a `PhysicsSpace` before
+     the bodies that it joins.
+   + Constructors for box/cylinder/sphere shapes based on float buffers.
+   + Optional filtering of physics dumps.
+   + Dump CCD/sleep parameters of dynamic rigid bodies.
+   + `isEnabled()` and `setEnabled()` methods for `TranslationalLimitMotor`.
+   + A flag to dump motors.
+   + A `setAccumulatedImpulse()` method for `RotationalLimitMotor`.
+   + `FilterAll` methods `countExceptions()`, `defaultReturnValue()`,
+     and `listExceptions()`.
+   + A `UserFilter` class.
+ + Other improvements:
+   + Extended the `setDebugViewPorts()` method of `BulletAppState` to accept
+     multiple arguments.
+   + Added a `JointDemo` app.
+   + More thorough dumps/descriptions of joints, especially 6-DOF joints
+     and their motors.
+   + Enhanced the `BuoyDemo`, `MultiSphereDemo`, `RopeDemo`, `TestDac`,
+     and `TestSoftBody` apps with hotkeys to toggle debug visualization options.
+   + Added a hotkey to `MultiSphereDemo` to delete gems.
+   + Updated the native libraries to version 2.0.5 of `Libbulletjme`.
+   + Based on version 2.31 of the `jme3-utilities-heart` library, version
+     0.7.6 of the `jme3-utilities-ui` library, and version 0.9.8 of the
+     `jme3-utilities-nifty` library.
+
 ## Version 0.9.8for33 released on 17 July 2019
 
  + Added an `update(float, int)` method to the `PhysicsSpace` class.
