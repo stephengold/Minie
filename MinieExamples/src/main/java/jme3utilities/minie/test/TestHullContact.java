@@ -67,7 +67,8 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Test contact forces for hull collision shapes.
+ * Test contact forces for hull collision shapes. TODO add UI to tune friction
+ * and damping
  *
  * @author Stephen Gold sgold@sonic.net
  */

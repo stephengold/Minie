@@ -111,7 +111,7 @@ public class CompoundMesh implements JmeCloneable, Savable {
     /**
      * Add a submesh to this mesh.
      *
-     * @param submesh (not null)
+     * @param submesh (not null, alias created)
      */
     final public void add(IndexedMesh submesh) {
         Validate.nonNull(submesh, "submesh");
