@@ -213,6 +213,7 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" orient[%s]", orientText);
         }
 
+        // TODO dump friction and damping
         if (body.isDynamic()) {
             Vector3f velocity = body.getLinearVelocity(null);
             String velString = MyVector3f.describe(velocity);

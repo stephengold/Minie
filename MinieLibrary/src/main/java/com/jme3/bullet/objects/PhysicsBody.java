@@ -49,7 +49,7 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
     /**
      * Do not invoke directly! Joints are added automatically when created.
      *
-     * @param joint the joint to add (not null)
+     * @param joint the joint to add (not null, alias created)
      */
     abstract public void addJoint(PhysicsJoint joint);
 
@@ -93,7 +93,7 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
     abstract public void removeJoint(PhysicsJoint joint);
 
     /**
-     * Alter this body's gravitational acceleration.
+     * Alter this body's gravitational acceleration. TODO scalar alternative
      * <p>
      * Invoke this method <em>after</em> adding the body to a PhysicsSpace.
      * Adding a body to a PhysicsSpace overrides its gravity.

@@ -136,9 +136,9 @@ public class RigidBodyControl
     }
 
     /**
-     * Instantiate an enabled Control with a responsive dynamic or static body
-     * and the specified mass. The CollisionShape is generated automatically
-     * when the Control is added to a Spatial.
+     * Instantiate an enabled Control in kinematic mode with a responsive
+     * dynamic or static body and the specified mass. The CollisionShape is
+     * generated automatically when the Control is added to a Spatial.
      *
      * @param mass the desired mass (&ge;0) if &gt;0, a HullCollisionShape is
      * generated, otherwise a MeshCollisionShape is used. For geometries with
@@ -149,8 +149,8 @@ public class RigidBodyControl
     }
 
     /**
-     * Instantiate an enabled Control with a responsive dynamic body, mass=1,
-     * and the specified CollisionShape.
+     * Instantiate an enabled Control in kinematic mode with a responsive
+     * dynamic body, mass=1, and the specified CollisionShape.
      *
      * @param shape the desired shape (not null, alias created)
      */
@@ -159,8 +159,8 @@ public class RigidBodyControl
     }
 
     /**
-     * Instantiate an enabled Control with a responsive dynamic or static body
-     * and the specified CollisionShape and mass.
+     * Instantiate an enabled Control in kinematic mode with a responsive
+     * dynamic or static body and the specified CollisionShape and mass.
      *
      * @param shape the desired shape (not null, alias created)
      * @param mass the desired mass (&ge;0)
