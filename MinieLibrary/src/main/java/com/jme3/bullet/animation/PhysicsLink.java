@@ -194,7 +194,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     /**
      * Add an IK controller.
      *
-     * @param controller the controller to add (not null)
+     * @param controller the controller to add (not null, alias created)
      */
     public void addIKController(IKController controller) {
         Validate.nonNull(controller, "controller");
@@ -433,11 +433,12 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     /**
      * Remove an IK controller.
      *
-     * @param controller the controller to remove (not null)
+     * @param controller the controller to remove (not null, unaffected)
      * @return true if successful, otherwise false
      */
     public boolean removeIKController(IKController controller) {
         Validate.nonNull(controller, "controller");
+
         boolean success = ikControllers.remove(controller);
         return success;
     }
