@@ -858,9 +858,9 @@ public class PhysicsSpace {
      */
     public void removeCollisionListener(PhysicsCollisionListener listener) {
         Validate.nonNull(listener, "listener");
-        assert collisionListeners.contains(listener);
 
-        collisionListeners.remove(listener);
+        boolean success = collisionListeners.remove(listener);
+        assert success;
     }
 
     /**
@@ -886,13 +886,13 @@ public class PhysicsSpace {
      * De-register the specified tick listener.
      *
      * @see #addTickListener(com.jme3.bullet.PhysicsTickListener)
-     * @param listener the listener to de-register (not null)
+     * @param listener the listener to de-register (not null, unaffected)
      */
     public void removeTickListener(PhysicsTickListener listener) {
         Validate.nonNull(listener, "listener");
-        assert tickListeners.contains(listener);
 
-        tickListeners.remove(listener);
+        boolean success = tickListeners.remove(listener);
+        assert success;
     }
 
     /**
