@@ -76,7 +76,7 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
     /**
      * Add an exceptional object to the list.
      *
-     * @param exception the object to add (not null)
+     * @param exception the object to add (not null, alias created)
      */
     public void addException(Object exception) {
         Validate.nonNull(exception, "exception");
@@ -128,11 +128,13 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
     /**
      * Remove a object from the exceptions list.
      *
-     * @param exception the object to remove (not null)
+     * @param exception the object to remove (not null, unaffected)
      */
     public void removeException(Object exception) {
         Validate.nonNull(exception, "exception");
-        exceptions.remove(exception);
+
+        boolean success = exceptions.remove(exception);
+        assert success;
     }
     // *************************************************************************
     // DebugAppStateFilter methods

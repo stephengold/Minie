@@ -1139,7 +1139,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Do not invoke directly! Joints are added automatically when created.
      *
-     * @param joint the joint to add (not null)
+     * @param joint the joint to add (not null, alias created)
      */
     @Override
     public void addJoint(PhysicsJoint joint) {
@@ -1439,12 +1439,14 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Do not invoke directly! Joints are removed automatically when destroyed.
      *
-     * @param joint the joint to remove (not null)
+     * @param joint the joint to remove (not null, unaffected)
      */
     @Override
     public void removeJoint(PhysicsJoint joint) {
         Validate.nonNull(joint, "joint");
-        joints.remove(joint);
+
+        boolean success = joints.remove(joint);
+        assert success;
     }
 
     /**
