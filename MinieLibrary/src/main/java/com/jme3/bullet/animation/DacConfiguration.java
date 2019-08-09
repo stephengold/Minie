@@ -664,7 +664,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * Add unlinked descendants of the specified Bone to the specified
      * collection. Note: recursive.
      *
-     * @param startBone the starting Bone (not null, unaffected)
+     * @param startBone the starting Bone (not null, aliases created)
      * @param addResult the collection of skeleton bones to append to (not null,
      * modified)
      */
@@ -683,7 +683,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * Add unlinked descendants of the specified Joint to the specified
      * collection. Note: recursive.
      *
-     * @param startJoint the starting Joint (not null, unaffected)
+     * @param startJoint the starting Joint (not null, aliases created)
      * @param addResult the collection of armature joints to append to (not
      * null, modified)
      */
