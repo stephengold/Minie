@@ -554,7 +554,9 @@ public class PhysicsSpace {
      */
     public Vector3f getGravity(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        assert checkGravity(result);
         result.set(gravity);
+
         return result;
     }
 
@@ -716,7 +718,7 @@ public class PhysicsSpace {
      * unaffected)
      * @param to the ending location (in physics-space coordinates, not null,
      * unaffected)
-     * @return a new list of results (not null)
+     * @return a new list of sorted results (not null)
      */
     public List<PhysicsRayTestResult> rayTest(Vector3f from, Vector3f to) {
         List<PhysicsRayTestResult> results = new ArrayList<>(10);
@@ -734,7 +736,7 @@ public class PhysicsSpace {
      * @param to the ending location (in physics-space coordinates, not null,
      * unaffected)
      * @param results the list to hold results (not null, modified)
-     * @return results
+     * @return sorted results
      */
     public List<PhysicsRayTestResult> rayTest(Vector3f from, Vector3f to,
             List<PhysicsRayTestResult> results) {
@@ -753,7 +755,7 @@ public class PhysicsSpace {
      * null, unaffected)
      * @param to the ending location (in physics-space coordinates, not null,
      * unaffected)
-     * @return a new list of results (not null)
+     * @return a new list of unsorted results (not null)
      */
     public List rayTestRaw(Vector3f from, Vector3f to) {
         List<PhysicsRayTestResult> results = new ArrayList<>(10);
@@ -771,7 +773,7 @@ public class PhysicsSpace {
      * @param to the ending location (in physics-space coordinates, not null,
      * unaffected)
      * @param results the list to hold results (not null, modified)
-     * @return results
+     * @return unsorted results
      */
     public List<PhysicsRayTestResult> rayTestRaw(Vector3f from, Vector3f to,
             List<PhysicsRayTestResult> results) {
@@ -1264,6 +1266,21 @@ public class PhysicsSpace {
     }
 
     /**
+     * Compare Bullet's gravity vector to the local copy.
+     *
+     * @param storeVector caller-allocated temporary storage (not null)
+     * @return true if scaling factors are exactly equal, otherwise false
+     */
+    private boolean checkGravity(Vector3f storeVector) {
+        assert storeVector != null;
+
+        getGravity(nativeId, storeVector);
+        boolean result = gravity.equals(storeVector);
+
+        return result;
+    }
+
+    /**
      * This method is invoked from native code.
      */
     private boolean notifyCollisionGroupListeners_native(
@@ -1409,6 +1426,8 @@ public class PhysicsSpace {
             boolean threading);
 
     native private void finalizeNative(long spaceId);
+
+    native private void getGravity(long spaceId, Vector3f storeVector);
 
     native private int getNumConstraints(long spaceId);
 
