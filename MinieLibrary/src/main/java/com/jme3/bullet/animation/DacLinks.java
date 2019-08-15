@@ -1147,7 +1147,9 @@ public class DacLinks
         if (getSpatial() != null) { // TODO make sure it's in ragdoll mode
             PhysicsRigidBody[] bodies = listRigidBodies();
             for (PhysicsRigidBody rigidBody : bodies) {
-                rigidBody.setGravity(gravity);
+                if (rigidBody.isDynamic() && rigidBody.isInWorld()) {
+                    rigidBody.setGravity(gravity);
+                }
             }
         }
     }
