@@ -183,7 +183,7 @@ public class ClothGrid extends Mesh {
         VertexBuffer pos = getBuffer(VertexBuffer.Type.Position);
         FloatBuffer positions = (FloatBuffer) pos.getData();
         int vertexIndex = zIndex + numXLines * xIndex;
-        int floatIndex = 3 * vertexIndex;
+        int floatIndex = numAxes * vertexIndex;
         positions.put(floatIndex, location.x);
         positions.put(floatIndex + 1, location.y);
         positions.put(floatIndex + 2, location.z);
