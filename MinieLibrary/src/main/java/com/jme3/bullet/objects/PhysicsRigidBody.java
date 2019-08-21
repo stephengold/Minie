@@ -167,7 +167,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * To apply an impulse, use
      * {@link #applyCentralImpulse(com.jme3.math.Vector3f)}.
      *
-     * @param force the force vector (not null, unaffected)
+     * @param force the force vector (in mass times physics-space units per
+     * second squared, not null, unaffected)
      */
     public void applyCentralForce(Vector3f force) {
         Validate.finite(force, "force");
@@ -179,7 +180,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Apply a central impulse to the body.
      *
-     * @param impulse the impulse vector (not null, unaffected)
+     * @param impulse the impulse vector (in mass times physics-space units per
+     * second, not null, unaffected)
      */
     public void applyCentralImpulse(Vector3f impulse) {
         Validate.finite(impulse, "impulse");
@@ -195,7 +197,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * To apply an impulse, use
      * {@link #applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)}.
      *
-     * @param force the force vector (not null, unaffected)
+     * @param force the force vector (in mass times physics-space units per
+     * second squared, not null, unaffected)
      * @param location the location to apply the force (not null, unaffected)
      */
     public void applyForce(Vector3f force, Vector3f location) {
@@ -209,7 +212,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Apply an impulse to the body.
      *
-     * @param impulse the impulse vector (not null, unaffected)
+     * @param impulse the impulse vector (in mass times physics-space units per
+     * second, not null, unaffected)
      * @param rel_pos the location to apply the impulse (in local coordinates,
      * not null, unaffected)
      */
@@ -228,7 +232,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * To apply a torque impulse, use
      * {@link #applyTorqueImpulse(com.jme3.math.Vector3f)}.
      *
-     * @param torque the torque vector (not null, unaffected)
+     * @param torque the torque vector (in mass times physics-space units
+     * squared per second squared, not null, unaffected)
      */
     public void applyTorque(Vector3f torque) {
         Validate.finite(torque, "torque");
@@ -240,7 +245,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Apply a torque impulse to the body.
      *
-     * @param torqueImpulse the torque impulse vector (not null, unaffected)
+     * @param torqueImpulse the torque impulse vector (in mass times
+     * physics-space units squared per second, not null, unaffected)
      */
     public void applyTorqueImpulse(Vector3f torqueImpulse) {
         Validate.finite(torqueImpulse, "torque impulse");

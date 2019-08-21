@@ -329,7 +329,7 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * Enable or disable this control. TODO add a render() method
+     * Enable or disable this Control. TODO add a render() method
      * <p>
      * When the Control is disabled, the physics object is removed from any
      * PhysicsSpace. When the Control is enabled again, the physics object is
