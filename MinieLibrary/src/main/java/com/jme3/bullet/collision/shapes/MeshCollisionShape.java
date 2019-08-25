@@ -92,13 +92,16 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a shape based on the specified JME mesh, using quantized AABB
-     * compression.
+     * Instantiate a shape based on the specified JME mesh(es), using quantized
+     * AABB compression.
      *
-     * @param mesh the mesh on which to base the shape (not null, unaffected)
+     * @param jmeMeshes the mesh(es) on which to base the shape (not null,
+     * unaffected)
      */
-    public MeshCollisionShape(Mesh mesh) {
-        this(mesh, true);
+    public MeshCollisionShape(Mesh... jmeMeshes) {
+        this.useCompression = true;
+        nativeMesh = new CompoundMesh(jmeMeshes);
+        createShape(null);
     }
 
     /**
