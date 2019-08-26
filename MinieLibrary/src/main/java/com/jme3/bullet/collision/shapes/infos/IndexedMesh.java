@@ -36,6 +36,8 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
+import com.jme3.math.Transform;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.mesh.IndexBuffer;
@@ -48,6 +50,7 @@ import java.nio.IntBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * An indexed mesh based on Bullet's btIndexedMesh. Immutable except for
@@ -132,13 +135,26 @@ public class IndexedMesh implements JmeCloneable, Savable {
     }
 
     /**
-     * Instantiate based on the specified JME mesh.
+     * Instantiate based on the specified JME mesh, without transforming
+     * coordinates.
      *
      * @param mesh the JME mesh (not null, unaffected)
      */
     public IndexedMesh(Mesh mesh) {
         Validate.nonNull(mesh, "mesh");
-        create(mesh);
+        create(mesh, null);
+    }
+
+    /**
+     * Instantiate based on the specified JME mesh and coordinate transform.
+     *
+     * @param mesh the JME mesh (not null, unaffected)
+     * @param transform the Transform to apply to vertex positions (unaffected)
+     * or null to use untransformed vertex positions
+     */
+    public IndexedMesh(Mesh mesh, Transform transform) {
+        Validate.nonNull(mesh, "mesh");
+        create(mesh, transform);
     }
     // *************************************************************************
     // new methods exposed
@@ -299,11 +315,14 @@ public class IndexedMesh implements JmeCloneable, Savable {
     // private methods
 
     /**
-     * Configure and create a new btIndexedMesh from the specified JME mesh.
+     * Configure and create a new btIndexedMesh from the specified JME mesh and
+     * Transform.
      *
      * @param jmeMesh the JME mesh (not null, unaffected)
+     * @param transform the Transform to apply to vertex positions (unaffected)
+     * or null to use untransformed vertex positions
      */
-    private void create(Mesh jmeMesh) {
+    private void create(Mesh jmeMesh, Transform transform) {
         assert jmeMesh.getMode() == Mesh.Mode.Triangles; // TODO other modes
 
         numVertices = jmeMesh.getVertexCount();
@@ -312,9 +331,26 @@ public class IndexedMesh implements JmeCloneable, Savable {
         FloatBuffer meshVs = jmeMesh.getFloatBuffer(VertexBuffer.Type.Position);
         int numFloats = numAxes * numVertices;
         vertexPositions = BufferUtils.createFloatBuffer(numFloats);
-        for (int offset = 0; offset < numFloats; ++offset) {
-            float temp = meshVs.get(offset);
-            vertexPositions.put(temp);
+        if (transform == null) {
+            for (int position = 0; position < numFloats; ++position) {
+                float temp = meshVs.get(position);
+                vertexPositions.put(position, temp);
+            }
+
+        } else {
+            Vector3f tmpVector = new Vector3f();
+            for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
+                int position = vertexI * numAxes;
+                tmpVector.x = meshVs.get(position + MyVector3f.xAxis);
+                tmpVector.y = meshVs.get(position + MyVector3f.yAxis);
+                tmpVector.z = meshVs.get(position + MyVector3f.zAxis);
+
+                transform.transformVector(tmpVector, tmpVector);
+
+                vertexPositions.put(position + MyVector3f.xAxis, tmpVector.x);
+                vertexPositions.put(position + MyVector3f.yAxis, tmpVector.y);
+                vertexPositions.put(position + MyVector3f.zAxis, tmpVector.z);
+            }
         }
 
         indexStride = vpt * intSize;
@@ -324,11 +360,11 @@ public class IndexedMesh implements JmeCloneable, Savable {
         indices = BufferUtils.createIntBuffer(numIndices);
 
         IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
-        for (int offset = 0; offset < numIndices; ++offset) {
-            int index = indexBuffer.get(offset);
+        for (int position = 0; position < numIndices; ++position) {
+            int index = indexBuffer.get(position);
             assert index >= 0 : index;
             assert index < numVertices : index;
-            indices.put(index);
+            indices.put(position, index);
         }
 
         createMesh();
