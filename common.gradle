@@ -30,7 +30,7 @@ ext { // current versions of the libraries
     heartVersion = '3.0.0for32'
     jme3utilitiesuiVersion = '0.7.7for32'
     jmonkeyengineVersion = '3.2.4-stable'
-    minieVersion = '0.9.13for32'
+    minieVersion = '0.9.14for32'
 }
 
 repositories {

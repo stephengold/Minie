@@ -1,5 +1,16 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.14for32 released on TBD
+
+ + Simplified the construction of collision shapes from multiple meshes.
+ + Changed `DacLinks` to skip `setGravity()` on kinematic bodies.
+ + Added verification of the local copy of gravity in `PhysicsSpace`
+   when assertions are enabled.
+ + Updated the native libraries to version 2.0.7 of `Libbulletjme`.
+ + Based on version 3.0 of the `jme3-utilities-heart` library, version
+   0.7.7 of the `jme3-utilities-ui` library, and version 0.9.9 of the
+   `jme3-utilities-nifty` library.
+
 ## Version 0.9.13for32 released on 7 August 2019
 
  + Standardized `TranslationalLimitMotor.getAccumulatedImpulse()` to use
