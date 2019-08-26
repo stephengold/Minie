@@ -32,6 +32,7 @@
 package com.jme3.bullet.collision.shapes;
 
 import com.jme3.bullet.collision.shapes.infos.CompoundMesh;
+import com.jme3.bullet.collision.shapes.infos.IndexedMesh;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -76,6 +77,19 @@ public class GImpactCollisionShape extends CollisionShape {
      * directly!
      */
     public GImpactCollisionShape() {
+    }
+
+    /**
+     * Instantiate a shape based on the specified native mesh(es).
+     *
+     * @param submeshes the mesh(es) on which to base the shape (not null)
+     */
+    public GImpactCollisionShape(IndexedMesh... submeshes) {
+        nativeMesh = new CompoundMesh();
+        for (IndexedMesh submesh : submeshes) {
+            nativeMesh.add(submesh);
+        }
+        createShape();
     }
 
     /**
