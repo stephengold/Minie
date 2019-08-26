@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.14for33 released on TBD
+## Version 0.9.14for33 released on 25 August 2019
 
  + Simplified the construction of collision shapes from multiple meshes.
  + Changed `DacLinks` to skip `setGravity()` on kinematic bodies.
