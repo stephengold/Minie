@@ -12,7 +12,7 @@ dependencies {
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
     implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
     implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
-    implementation 'jme3utilities:jme3-utilities-nifty:0.9.8for33'
+    implementation 'jme3utilities:jme3-utilities-nifty:0.9.9for33'
     implementation 'jme3utilities:Wes:0.4.2'
     runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
