@@ -32,6 +32,7 @@
 package com.jme3.bullet.collision.shapes;
 
 import com.jme3.bullet.collision.shapes.infos.CompoundMesh;
+import com.jme3.bullet.collision.shapes.infos.IndexedMesh;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -89,6 +90,22 @@ public class MeshCollisionShape extends CollisionShape {
      * directly!
      */
     public MeshCollisionShape() {
+    }
+
+    /**
+     * Instantiate a shape based on the specified native mesh(es).
+     *
+     * @param submeshes the mesh(es) on which to base the shape (not null)
+     * @param useCompression true to use quantized AABB compression
+     */
+    public MeshCollisionShape(boolean useCompression,
+            IndexedMesh... submeshes) {
+        this.useCompression = useCompression;
+        nativeMesh = new CompoundMesh();
+        for (IndexedMesh submesh : submeshes) {
+            nativeMesh.add(submesh);
+        }
+        createShape(null);
     }
 
     /**
