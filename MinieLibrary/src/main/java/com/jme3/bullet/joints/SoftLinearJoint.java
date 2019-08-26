@@ -58,6 +58,10 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
      */
     final public static Logger logger3
             = Logger.getLogger(SoftLinearJoint.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagLocation = "location";
     // *************************************************************************
     // fields
 
@@ -192,7 +196,7 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        location = (Vector3f) capsule.readSavable("location", new Vector3f());
+        location = (Vector3f) capsule.readSavable(tagLocation, new Vector3f());
         createJoint();
     }
 
@@ -207,7 +211,7 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-        capsule.write(location, "location", null);
+        capsule.write(location, tagLocation, null);
     }
     // *************************************************************************
     // private methods
