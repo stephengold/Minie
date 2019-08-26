@@ -59,6 +59,10 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      */
     final public static Logger logger3
             = Logger.getLogger(SoftAngularJoint.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagAxis = "axis";
     // *************************************************************************
     // fields
 
@@ -193,7 +197,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        axis = (Vector3f) capsule.readSavable("axis", new Vector3f());
+        axis = (Vector3f) capsule.readSavable(tagAxis, new Vector3f());
         createJoint();
     }
 
@@ -208,7 +212,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-        capsule.write(axis, "axis", null);
+        capsule.write(axis, tagAxis, null);
     }
     // *************************************************************************
     // private methods

@@ -83,6 +83,32 @@ public class SixDofJoint extends Constraint {
      */
     final public static Logger logger2
             = Logger.getLogger(SixDofJoint.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagAccumulatedImpulse = "_AccumulatedImpulse";
+    final private static String tagAngularLowerLimit = "angularLowerLimit";
+    final private static String tagAngularUpperLimit = "angularUpperLimit";
+    final private static String tagBounce = "_Bounce";
+    final private static String tagDamping = "_Damping";
+    final private static String tagEnable = "_Enable";
+    final private static String tagERP = "_ERP";
+    final private static String tagHiLimit = "_HiLimit";
+    final private static String tagLimitSoftness = "_LimitSoftness";
+    final private static String tagLinearLowerLimit = "linearLowerLimit";
+    final private static String tagLinearUpperLimit = "linearUpperLimit";
+    final private static String tagLoLimit = "_LoLimit";
+    final private static String tagMaxForce = "_MaxForce";
+    final private static String tagMaxLimitForce = "_MaxLimitForce";
+    final private static String tagNormalCFM = "_NormalCFM";
+    final private static String tagRotA = "rotA";
+    final private static String tagRotB = "rotB";
+    final private static String tagRotMotor = "rotMotor";
+    final private static String tagStopCFM = "_StopCFM";
+    final private static String tagTargetVelocity = "_TargetVelocity";
+    final private static String tagTransMotor = "transMotor";
+    final private static String tagUseLinearReferenceFrameA
+            = "useLinearReferenceFrameA";
     // *************************************************************************
     // fields
 
@@ -544,80 +570,75 @@ public class SixDofJoint extends Constraint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        rotA = (Matrix3f) capsule.readSavable("rotA", null);
-        rotB = (Matrix3f) capsule.readSavable("rotB", null);
+        rotA = (Matrix3f) capsule.readSavable(tagRotA, null);
+        rotB = (Matrix3f) capsule.readSavable(tagRotB, null);
         useLinearReferenceFrameA
-                = capsule.readBoolean("useLinearReferenceFrameA", false);
+                = capsule.readBoolean(tagUseLinearReferenceFrameA, false);
 
         createJoint();
         readConstraintProperties(capsule);
 
         setAngularLowerLimit((Vector3f) capsule.readSavable(
-                "angularLowerLimit", null));
+                tagAngularLowerLimit, null));
         setAngularUpperLimit((Vector3f) capsule.readSavable(
-                "angularUpperLimit", null));
+                tagAngularUpperLimit, null));
         setLinearLowerLimit((Vector3f) capsule.readSavable(
-                "linearLowerLimit", null));
+                tagLinearLowerLimit, null));
         setLinearUpperLimit((Vector3f) capsule.readSavable(
-                "linearUpperLimit", null));
+                tagLinearUpperLimit, null));
 
         for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
             RotationalLimitMotor rlm = getRotationalLimitMotor(axisIndex);
+            String motorTag = tagRotMotor + axisIndex;
 
             rlm.setAccumulatedImpulse(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_AccumulatedImpulse", 0f));
-            rlm.setRestitution(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_Bounce", 0f));
-            rlm.setDamping(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_Damping", 1f));
+                    motorTag + tagAccumulatedImpulse, 0f));
+            rlm.setRestitution(capsule.readFloat(motorTag + tagBounce, 0f));
+            rlm.setDamping(capsule.readFloat(motorTag + tagDamping, 1f));
             rlm.setEnableMotor(capsule.readBoolean(
-                    "rotMotor" + axisIndex + "_EnableMotor", false));
-            rlm.setERP(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_ERP", 0.5f));
+                    motorTag + tagEnable, false));
+            rlm.setERP(capsule.readFloat(motorTag + tagERP, 0.5f));
             rlm.setUpperLimit(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_HiLimit", Float.POSITIVE_INFINITY));
+                    motorTag + tagHiLimit, Float.POSITIVE_INFINITY));
             rlm.setLimitSoftness(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_LimitSoftness", 0.5f));
+                    motorTag + tagLimitSoftness, 0.5f));
             rlm.setLowerLimit(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_LoLimit", Float.NEGATIVE_INFINITY));
+                    motorTag + tagLoLimit, Float.NEGATIVE_INFINITY));
             rlm.setMaxLimitForce(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_MaxLimitForce", 300f));
+                    motorTag + tagMaxLimitForce, 300f));
             rlm.setMaxMotorForce(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_MaxMotorForce", 0.1f));
-            rlm.setNormalCFM(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_NormalCFM", 0f));
-            rlm.setStopCFM(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_StopCFM", 0f));
+                    motorTag + tagMaxForce, 0.1f));
+            rlm.setNormalCFM(capsule.readFloat(motorTag + tagNormalCFM, 0f));
+            rlm.setStopCFM(capsule.readFloat(motorTag + tagStopCFM, 0f));
             rlm.setTargetVelocity(capsule.readFloat(
-                    "rotMotor" + axisIndex + "_TargetVelocity", 0f));
+                    motorTag + tagTargetVelocity, 0f));
         }
 
         TranslationalLimitMotor tlm = translationalMotor;
+        String motorTag = tagTransMotor;
         tlm.setAccumulatedImpulse((Vector3f) capsule.readSavable(
-                "transMotor_AccumulatedImpulse", null));
-        tlm.setDamping(capsule.readFloat("transMotor_Damping", 1f));
+                motorTag + tagAccumulatedImpulse, null));
+        tlm.setRestitution(capsule.readFloat(motorTag + tagBounce, 0.5f));
+        tlm.setDamping(capsule.readFloat(motorTag + tagDamping, 1f));
         for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
             tlm.setEnabled(axisIndex, capsule.readBoolean(
-                    "transMotor_Enable" + axisIndex, false));
+                    motorTag + tagEnable + axisIndex, false));
         }
-        tlm.setERP((Vector3f) capsule.readSavable(
-                "transMotor_ERP", null));
-        tlm.setLimitSoftness(capsule.readFloat(
-                "transMotor_LimitSoftness", 0.7f));
-        tlm.setLowerLimit((Vector3f) capsule.readSavable(
-                "transMotor_LowerLimit", null));
-        tlm.setMaxMotorForce((Vector3f) capsule.readSavable(
-                "transMotor_MaxMotorForce", null));
-        tlm.setNormalCFM((Vector3f) capsule.readSavable(
-                "transMotor_NormalCFM", null));
-        tlm.setRestitution(capsule.readFloat(
-                "transMotor_Restitution", 0.5f));
-        tlm.setStopCFM((Vector3f) capsule.readSavable(
-                "transMotor_StopCFM", null));
-        tlm.setTargetVelocity((Vector3f) capsule.readSavable(
-                "transMotor_TargetVelocity", null));
+        tlm.setERP((Vector3f) capsule.readSavable(motorTag + tagERP, null));
         tlm.setUpperLimit((Vector3f) capsule.readSavable(
-                "transMotor_UpperLimit", null));
+                motorTag + tagHiLimit, null));
+        tlm.setLimitSoftness(capsule.readFloat(
+                motorTag + tagLimitSoftness, 0.7f));
+        tlm.setLowerLimit((Vector3f) capsule.readSavable(
+                motorTag + tagLoLimit, null));
+        tlm.setMaxMotorForce((Vector3f) capsule.readSavable(
+                motorTag + tagMaxForce, null));
+        tlm.setNormalCFM((Vector3f) capsule.readSavable(
+                motorTag + tagNormalCFM, null));
+        tlm.setStopCFM((Vector3f) capsule.readSavable(
+                motorTag + tagStopCFM, null));
+        tlm.setTargetVelocity((Vector3f) capsule.readSavable(
+                motorTag + tagTargetVelocity, null));
     }
 
     /**
@@ -632,75 +653,61 @@ public class SixDofJoint extends Constraint {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(rotA, "rotA", null);
-        capsule.write(rotB, "rotB", null);
+        capsule.write(rotA, tagRotA, null);
+        capsule.write(rotB, tagRotB, null);
         capsule.write(useLinearReferenceFrameA,
-                "useLinearReferenceFrameA", false);
+                tagUseLinearReferenceFrameA, false);
 
-        capsule.write(angularUpperLimit, "angularUpperLimit", null);
-        capsule.write(angularLowerLimit, "angularLowerLimit", null);
-        capsule.write(linearUpperLimit, "linearUpperLimit", null);
-        capsule.write(linearLowerLimit, "linearLowerLimit", null);
+        capsule.write(angularUpperLimit, tagAngularUpperLimit, null);
+        capsule.write(angularLowerLimit, tagAngularLowerLimit, null);
+        capsule.write(linearUpperLimit, tagLinearUpperLimit, null);
+        capsule.write(linearLowerLimit, tagLinearLowerLimit, null);
 
         for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
             RotationalLimitMotor rlm = rotationalMotors[axisIndex];
+            String motorTag = tagRotMotor + axisIndex;
 
             capsule.write(rlm.getAccumulatedImpulse(),
-                    "rotMotor" + axisIndex + "_AccumulatedImpulse", 0f);
-            capsule.write(rlm.getRestitution(),
-                    "rotMotor" + axisIndex + "_Bounce", 0f);
-            capsule.write(rlm.getDamping(),
-                    "rotMotor" + axisIndex + "_Damping", 1f);
-            capsule.write(rlm.getERP(),
-                    "rotMotor" + axisIndex + "_ERP", 0.5f);
+                    motorTag + tagAccumulatedImpulse, 0f);
+            capsule.write(rlm.getRestitution(), motorTag + tagBounce, 0f);
+            capsule.write(rlm.getDamping(), motorTag + tagDamping, 1f);
+            capsule.write(rlm.isEnableMotor(), motorTag + tagEnable, false);
+            capsule.write(rlm.getERP(), motorTag + tagERP, 0.5f);
             capsule.write(rlm.getUpperLimit(),
-                    "rotMotor" + axisIndex + "_HiLimit",
-                    Float.POSITIVE_INFINITY);
+                    motorTag + tagHiLimit, Float.POSITIVE_INFINITY);
             capsule.write(rlm.getLimitSoftness(),
-                    "rotMotor" + axisIndex + "_LimitSoftness", 0.5f);
+                    motorTag + tagLimitSoftness, 0.5f);
             capsule.write(rlm.getLowerLimit(),
-                    "rotMotor" + axisIndex + "_LoLimit",
-                    Float.NEGATIVE_INFINITY);
+                    motorTag + tagLoLimit, Float.NEGATIVE_INFINITY);
             capsule.write(rlm.getMaxLimitForce(),
-                    "rotMotor" + axisIndex + "_MaxLimitForce", 300f);
-            capsule.write(rlm.getMaxMotorForce(),
-                    "rotMotor" + axisIndex + "_MaxMotorForce", 0.1f);
-            capsule.write(rlm.getNormalCFM(),
-                    "rotMotor" + axisIndex + "_NormalCFM", 0f);
-            capsule.write(rlm.getStopCFM(),
-                    "rotMotor" + axisIndex + "_StopCFM", 0f);
+                    motorTag + tagMaxLimitForce, 300f);
+            capsule.write(rlm.getMaxMotorForce(), motorTag + tagMaxForce, 0.1f);
+            capsule.write(rlm.getNormalCFM(), motorTag + tagNormalCFM, 0f);
+            capsule.write(rlm.getStopCFM(), motorTag + tagStopCFM, 0f);
             capsule.write(rlm.getTargetVelocity(),
-                    "rotMotor" + axisIndex + "_TargetVelocity", 0f);
-            capsule.write(rlm.isEnableMotor(),
-                    "rotMotor" + axisIndex + "_EnableMotor", false);
+                    motorTag + tagTargetVelocity, 0f);
         }
 
         TranslationalLimitMotor tlm = translationalMotor;
+        String motorTag = tagTransMotor;
         capsule.write(tlm.getAccumulatedImpulse(null),
-                "transMotor_AccumulatedImpulse", null);
-        capsule.write(tlm.getDamping(), "transMotor_Damping", 1f);
+                motorTag + tagAccumulatedImpulse, null);
+        capsule.write(tlm.getRestitution(), motorTag + tagBounce, 0.5f);
+        capsule.write(tlm.getDamping(), motorTag + tagDamping, 1f);
         for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
             capsule.write(tlm.isEnabled(axisIndex),
-                    "transMotor_Enable" + axisIndex, false);
+                    motorTag + tagEnable + axisIndex, false);
         }
-        capsule.write(tlm.getERP(null),
-                "transMotor_ERP", null);
+        capsule.write(tlm.getERP(null), motorTag + tagERP, null);
+        capsule.write(tlm.getUpperLimit(null), motorTag + tagHiLimit, null);
         capsule.write(tlm.getLimitSoftness(),
-                "transMotor_LimitSoftness", 0.7f);
-        capsule.write(tlm.getLowerLimit(null),
-                "transMotor_LowerLimit", null);
-        capsule.write(tlm.getMaxMotorForce(null),
-                "transMotor_MaxMotorForce", null);
-        capsule.write(tlm.getNormalCFM(null),
-                "transMotor_NormalCFM", null);
-        capsule.write(tlm.getRestitution(),
-                "transMotor_Restitution", 0.5f);
-        capsule.write(tlm.getStopCFM(null),
-                "transMotor_StopCFM", null);
+                motorTag + tagLimitSoftness, 0.7f);
+        capsule.write(tlm.getLowerLimit(null), motorTag + tagLoLimit, null);
+        capsule.write(tlm.getMaxMotorForce(null), motorTag + tagMaxForce, null);
+        capsule.write(tlm.getNormalCFM(null), motorTag + tagNormalCFM, null);
+        capsule.write(tlm.getStopCFM(null), motorTag + tagStopCFM, null);
         capsule.write(tlm.getTargetVelocity(null),
-                "transMotor_TargetVelocity", null);
-        capsule.write(tlm.getUpperLimit(null),
-                "transMotor_UpperLimit", null);
+                motorTag + tagTargetVelocity, null);
     }
     // *************************************************************************
     // private methods

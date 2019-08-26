@@ -68,6 +68,16 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      */
     final public static Logger logger2
             = Logger.getLogger(SoftPhysicsJoint.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagClusterIndexA = "clusterIndexA";
+    final private static String tagClusterIndexB = "clusterIndexB";
+    final private static String tagConstraintForceMixing
+            = "constraintForceMixing";
+    final private static String tagErrorReductionParameter
+            = "errorReductionParameter";
+    final private static String tagSplit = "split";
     // *************************************************************************
     // fields TODO privatize
 
@@ -395,12 +405,12 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        cfm = capsule.readFloat("constraintForceMixing", 1f);
-        erp = capsule.readFloat("errorReductionParameter", 1f);
-        split = capsule.readFloat("split", 1f);
+        cfm = capsule.readFloat(tagConstraintForceMixing, 1f);
+        erp = capsule.readFloat(tagErrorReductionParameter, 1f);
+        split = capsule.readFloat(tagSplit, 1f);
 
-        clusterIndexA = capsule.readInt("clusterIndexA", -1);
-        clusterIndexB = capsule.readInt("clusterIndexB", -1);
+        clusterIndexA = capsule.readInt(tagClusterIndexA, -1);
+        clusterIndexB = capsule.readInt(tagClusterIndexB, -1);
         /*
          * Each subclass must create the btSoftBody::Joint.
          */
@@ -418,12 +428,12 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(getCFM(), "constraintForceMixing", 1);
-        capsule.write(getERP(), "errorReductionParameter", 1);
-        capsule.write(getSplit(), "split", 1);
+        capsule.write(getCFM(), tagConstraintForceMixing, 1);
+        capsule.write(getERP(), tagErrorReductionParameter, 1);
+        capsule.write(getSplit(), tagSplit, 1);
 
-        capsule.write(clusterIndexA(), "clusterIndexA", -1);
-        capsule.write(clusterIndexB(), "clusterIndexB", -1);
+        capsule.write(clusterIndexA(), tagClusterIndexA, -1);
+        capsule.write(clusterIndexB(), tagClusterIndexB, -1);
     }
     // *************************************************************************
     // private methods
