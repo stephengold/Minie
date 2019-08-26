@@ -297,15 +297,15 @@ you must explicitly specify their repository locations:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.9.13for32'
+        compile 'jme3utilities:Minie:0.9.14for32'
     }
 
 #### For Ant projects
 
 For projects built using [Ant][], download the 3 non-standard libraries:
 
- + https://github.com/stephengold/Minie/releases/tag/0.9.13for32
- + https://github.com/stephengold/jme3-utilities/releases/tag/heart-2.31.0for32
+ + https://github.com/stephengold/Minie/releases/tag/0.9.14for32
+ + https://github.com/stephengold/jme3-utilities/releases/tag/heart-3.0.0for32
  + https://bintray.com/riccardo/v-hacd/download_file?file_path=vhacd%2Fvhacd-native%2F1.1.1%2Fvhacd-native-1.1.1.jar
 
 You'll want the class jars
@@ -322,15 +322,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Navigate to the "jme3-utilities" project folder.
     + Open the "heart" sub-project folder.
     + Navigate to the "build/libs" folder.
-    + Select the "jme3-utilities-heart-2.31.0for32.jar" file.
+    + Select the "jme3-utilities-heart-3.0.0for32.jar" file.
     + Click on the "Open" button.
  6. (optional) Add jars for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "jme3-utilities-heart-2.31.0for32-javadoc.jar" file.
+    + Select the "jme3-utilities-heart-3.0.0for32-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "jme3-utilities-heart-2.31.0for32-sources.jar" file.
+    + Select the "jme3-utilities-heart-3.0.0for32-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the Minie and V-HACD jar(s).
