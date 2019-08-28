@@ -441,8 +441,6 @@ public class MultiSphereDemo
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
-
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
