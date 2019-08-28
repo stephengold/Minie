@@ -44,6 +44,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * A mesh CollisionShape based on Bullet's btBvhTriangleMeshShape. TODO add
@@ -95,11 +96,14 @@ public class MeshCollisionShape extends CollisionShape {
     /**
      * Instantiate a shape based on the specified native mesh(es).
      *
-     * @param submeshes the mesh(es) on which to base the shape (not null)
+     * @param submeshes the mesh(es) on which to base the shape (not null, not
+     * empty)
      * @param useCompression true to use quantized AABB compression
      */
     public MeshCollisionShape(boolean useCompression,
             IndexedMesh... submeshes) {
+        Validate.nonEmpty(submeshes, "submmeshes");
+
         this.useCompression = useCompression;
         nativeMesh = new CompoundMesh();
         for (IndexedMesh submesh : submeshes) {
@@ -112,10 +116,12 @@ public class MeshCollisionShape extends CollisionShape {
      * Instantiate a shape based on the specified JME mesh(es), using quantized
      * AABB compression.
      *
-     * @param jmeMeshes the mesh(es) on which to base the shape (not null,
-     * unaffected)
+     * @param jmeMeshes the mesh(es) on which to base the shape (not null, not
+     * empty, unaffected)
      */
     public MeshCollisionShape(Mesh... jmeMeshes) {
+        Validate.nonEmpty(jmeMeshes, "JME meshes");
+
         this.useCompression = true;
         nativeMesh = new CompoundMesh(jmeMeshes);
         createShape(null);
@@ -128,6 +134,8 @@ public class MeshCollisionShape extends CollisionShape {
      * @param useCompression true to use quantized AABB compression
      */
     public MeshCollisionShape(Mesh mesh, boolean useCompression) {
+        Validate.nonNull(mesh, "mesh");
+
         this.useCompression = useCompression;
         nativeMesh = new CompoundMesh(mesh);
         createShape(null);
