@@ -31,9 +31,9 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
-import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
@@ -70,7 +70,8 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Demo/testbed for MultiSphere collision shapes.
+ * Demo/testbed for MultiSphere collision shapes. TODO add UI to tune friction
+ * and damping
  * <p>
  * Seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=OS2zjB01c6E
@@ -105,17 +106,25 @@ public class MultiSphereDemo
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
-     * filter to control visualization of axis-aligned bounding boxes
+     * shape for the new gem
      */
-    private BulletDebugAppState.DebugAppStateFilter bbFilter;
-    /**
-     * filter to control visualization of swept spheres
-     */
-    private BulletDebugAppState.DebugAppStateFilter ssFilter;
+    private CollisionShape gemShape;
     /**
      * added gems, in order of creation
      */
     final private Deque<PhysicsRigidBody> gems = new ArrayDeque<>(maxNumGems);
+    /**
+     * filter to control visualization of axis-aligned bounding boxes
+     */
+    private FilterAll bbFilter;
+    /**
+     * filter to control visualization of swept spheres
+     */
+    private FilterAll ssFilter;
+    /**
+     * bounding-sphere radius for the new gem
+     */
+    private float gemRadius;
     /**
      * enhanced pseudo-random generator
      */
@@ -140,6 +149,10 @@ public class MultiSphereDemo
      * space for physics simulation
      */
     private PhysicsSpace physicsSpace;
+    /**
+     * name of shape for new gems
+     */
+    private String shapeName = "multiSphere";
     // *************************************************************************
     // new methods exposed
 
@@ -200,6 +213,9 @@ public class MultiSphereDemo
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
 
+        dim.bind("shape hull", KeyInput.KEY_F2);
+        dim.bind("shape multiSphere", KeyInput.KEY_F1);
+
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
@@ -245,6 +261,14 @@ public class MultiSphereDemo
 
                 case "dump scenes":
                     dumper.dump(renderManager);
+                    return;
+
+                case "shape hull":
+                    shapeName = "hull";
+                    return;
+
+                case "shape multiSphere":
+                    shapeName = "multiSphere";
                     return;
 
                 case "toggle axes":
@@ -309,26 +333,20 @@ public class MultiSphereDemo
             return; // too many gems
         }
 
-        int numSpheres = 1 + random.nextInt(4);
-        List<Vector3f> centers = new ArrayList<>(numSpheres);
-        List<Float> radii = new ArrayList<>(numSpheres);
+        DebugMeshNormals debugMeshNormals;
 
-        centers.add(Vector3f.ZERO);
-        float mainRadius = 0.1f + 0.2f * random.nextFloat();
-        radii.add(mainRadius);
-
-        float boundRadius = mainRadius;
-        for (int sphereIndex = 1; sphereIndex < numSpheres; ++sphereIndex) {
-            Vector3f center = random.nextUnitVector3f();
-            center.multLocal(mainRadius);
-            centers.add(center);
-
-            float radius = mainRadius * (0.2f + 0.8f * random.nextFloat());
-            radii.add(radius);
-            float extRadius = center.length() + radius;
-            boundRadius = Math.max(boundRadius, extRadius);
+        switch (shapeName) {
+            case "multiSphere":
+                randomMultiSphere();
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+            case "hull":
+                randomHull();
+                debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+            default:
+                throw new RuntimeException(shapeName);
         }
-        CollisionShape shape = new MultiSphere(centers, radii);
 
         Vector3f startLocation = random.nextVector3f();
         startLocation.multLocal(0.5f, 1f, 0.5f);
@@ -337,12 +355,12 @@ public class MultiSphereDemo
         Material debugMaterial = (Material) random.pick(gemMaterials);
 
         float mass = 1f;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-        body.setCcdSweptSphereRadius(boundRadius);
+        PhysicsRigidBody body = new PhysicsRigidBody(gemShape, mass);
+        body.setCcdSweptSphereRadius(gemRadius);
         body.setCcdMotionThreshold(1f);
         body.setDamping(0.6f, 0.6f);
         body.setDebugMaterial(debugMaterial);
-        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setDebugMeshNormals(debugMeshNormals);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
         body.setPhysicsLocation(startLocation);
 
@@ -457,6 +475,51 @@ public class MultiSphereDemo
             physicsSpace.remove(latestGem);
             gems.removeLast();
         }
+    }
+
+    /**
+     * Randomly generate a hull shape based on 5-20 vertices.
+     */
+    private void randomHull() {
+        int numVertices = 5 + random.nextInt(16);
+        List<Vector3f> vertices = new ArrayList<>(numVertices); // TODO use VectorSet
+
+        gemRadius = 0f;
+        vertices.add(new Vector3f(0f, 0f, 0f));
+        for (int vertexIndex = 1; vertexIndex < numVertices; ++vertexIndex) {
+            Vector3f location = random.nextUnitVector3f();
+            location.multLocal(0.4f);
+            vertices.add(location);
+            float distance = location.length();
+            gemRadius = Math.max(gemRadius, distance);
+        }
+        gemShape = new HullCollisionShape(vertices);
+    }
+
+    /**
+     * Randomly generate a MultiSphere shape with 1-4 spheres.
+     */
+    private void randomMultiSphere() {
+        int numSpheres = 1 + random.nextInt(4);
+        List<Vector3f> centers = new ArrayList<>(numSpheres);
+        List<Float> radii = new ArrayList<>(numSpheres);
+
+        centers.add(Vector3f.ZERO);
+        float mainRadius = 0.1f + 0.2f * random.nextFloat();
+        radii.add(mainRadius);
+        gemRadius = mainRadius;
+
+        for (int sphereIndex = 1; sphereIndex < numSpheres; ++sphereIndex) {
+            Vector3f center = random.nextUnitVector3f();
+            center.multLocal(mainRadius);
+            centers.add(center);
+
+            float radius = mainRadius * (0.2f + 0.8f * random.nextFloat());
+            radii.add(radius);
+            float extRadius = center.length() + radius;
+            gemRadius = Math.max(gemRadius, extRadius);
+        }
+        gemShape = new MultiSphere(centers, radii);
     }
 
     /**
