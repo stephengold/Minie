@@ -198,18 +198,18 @@ public class PhysicsCollisionEvent extends EventObject {
     }
 
     /**
-     * Read the collision's index 0.
+     * Read the contact-triangle index for collision object 0.
      *
-     * @return index
+     * @return the triangle index
      */
     public int getIndex0() {
         return getIndex0(manifoldPointObjectId);
     }
 
     /**
-     * Read the collision's index 1.
+     * Read the contact-triangle index for collision object 1.
      *
-     * @return index
+     * @return the triangle index
      */
     public int getIndex1() {
         return getIndex1(manifoldPointObjectId);
@@ -297,18 +297,18 @@ public class PhysicsCollisionEvent extends EventObject {
     }
 
     /**
-     * Read part identifier 0.
+     * Read the contact-part ID for collision object 0.
      *
-     * @return identifier
+     * @return the part identifier
      */
     public int getPartId0() {
         return getPartId0(manifoldPointObjectId);
     }
 
     /**
-     * Read part identifier 1.
+     * Read the contact-part ID for collision object 1.
      *
-     * @return identifier
+     * @return the part identifier
      */
     public int getPartId1() {
         return getPartId1(manifoldPointObjectId);
