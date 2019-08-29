@@ -44,6 +44,7 @@ import com.jme3.export.Savable;
 import com.jme3.material.Material;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
@@ -56,7 +57,7 @@ import jme3utilities.Validate;
  * The abstract base class for collision objects based on Bullet's
  * btCollisionObject.
  * <p>
- * Collision objects include PhysicsCharacter, PhysicsRigidBody, and
+ * Subclasses include PhysicsCharacter, PhysicsRigidBody, and
  * PhysicsGhostObject.
  *
  * @author normenhansen
@@ -518,12 +519,43 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Determine the scale of this object.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the scaling factor for each local axis (either storeResult or a
+     * new vector, not null, no negative component)
+     */
+    public Vector3f getScale(Vector3f storeResult) {
+        Vector3f result = collisionShape.getScale(storeResult);
+        return result;
+    }
+
+    /**
      * Read this object's spinning friction.
      *
      * @return friction value
      */
     public float getSpinningFriction() {
         return getSpinningFriction(objectId);
+    }
+
+    /**
+     * Determine the coordinate transform of this object, including the scale of
+     * its shape.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a coordinate transform (in physics-space coordinates, either
+     * storeResult or a new Transform, not null)
+     */
+    public Transform getTransform(Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+
+        getPhysicsLocation(result.getTranslation());
+        getPhysicsRotation(result.getRotation());
+        getScale(result.getScale());
+
+        return result;
     }
 
     /**

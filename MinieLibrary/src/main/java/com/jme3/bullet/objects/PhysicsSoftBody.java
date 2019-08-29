@@ -1329,6 +1329,20 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Determine the scale of this object.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the scaling factor for each local axis (either storeResult or a
+     * new vector, not null, no negative component)
+     */
+    @Override
+    public Vector3f getScale(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        result.set(1f, 1f, 1f);
+        return result;
+    }
+
+    /**
      * Create a shallow clone for the JME cloner.
      *
      * @return a new instance
