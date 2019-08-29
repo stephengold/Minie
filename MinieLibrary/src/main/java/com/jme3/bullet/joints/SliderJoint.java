@@ -1026,7 +1026,7 @@ public class SliderJoint extends Constraint {
         logger2.log(Level.FINE, "Created {0}.", this);
     }
     // *************************************************************************
-    // native private methods
+    // native methods
 
     native private long createJoint(long bodyIdA, long bodyIdB,
             Vector3f pivotInA, Matrix3f rotInA, Vector3f pivotInB,

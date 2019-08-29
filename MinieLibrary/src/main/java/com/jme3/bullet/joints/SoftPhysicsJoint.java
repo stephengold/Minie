@@ -436,7 +436,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         capsule.write(clusterIndexB(), tagClusterIndexB, -1);
     }
     // *************************************************************************
-    // private methods
+    // native methods
 
     native private float getConstraintForceMixing(long jointId);
 

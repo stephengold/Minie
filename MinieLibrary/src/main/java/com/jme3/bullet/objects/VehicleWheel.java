@@ -731,6 +731,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
                     restLength);
         }
     }
+    // *************************************************************************
+    // native methods
 
     native private void applyInfo(long vehicleId, int wheelIndex,
             float suspensionStiffness,

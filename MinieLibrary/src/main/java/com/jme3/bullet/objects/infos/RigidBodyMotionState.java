@@ -281,7 +281,7 @@ public class RigidBodyMotionState implements JmeCloneable {
         finalizeNative(motionStateId);
     }
     // *************************************************************************
-    // private methods
+    // native methods
 
     native private boolean applyTransform(long stateId, Vector3f location,
             Quaternion rotation);
