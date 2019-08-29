@@ -733,6 +733,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         assert characterId != 0L;
         logger2.log(Level.FINE, "Creating {0}.", this);
     }
+    // *************************************************************************
+    // native methods
 
     native private long createCharacterObject(long ghostId, long shapeId,
             float stepHeight);

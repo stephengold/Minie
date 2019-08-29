@@ -284,6 +284,8 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         }
         attachCollisionShape(objectId, collisionShape.getObjectId());
     }
+    // *************************************************************************
+    // native methods
 
     native private long createGhostObject();
 

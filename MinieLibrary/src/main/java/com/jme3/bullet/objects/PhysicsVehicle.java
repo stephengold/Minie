@@ -774,7 +774,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         super.write(exporter);
     }
     // *************************************************************************
-    // private methods
+    // native methods
 
     native private int addWheel(long objectId, Vector3f location,
             Vector3f direction, Vector3f axle, float restLength, float radius,

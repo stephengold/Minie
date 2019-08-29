@@ -373,7 +373,7 @@ public class TranslationalLimitMotor {
         setUpperLimit(motorId, upperLimit);
     }
     // *************************************************************************
-    // private methods
+    // native methods
 
     native private void getAccumulatedImpulse(long motorId, Vector3f vector);
 

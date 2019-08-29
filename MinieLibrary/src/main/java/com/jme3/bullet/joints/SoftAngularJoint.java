@@ -243,6 +243,8 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
         assert objectId != 0L;
         logger3.log(Level.FINE, "Created {0}.", this);
     }
+    // *************************************************************************
+    // native methods
 
     private native long createJointSoftRigid(long softIdA, int clusterIndexA,
             long rigidIdB, float erp, float cfm, float split,

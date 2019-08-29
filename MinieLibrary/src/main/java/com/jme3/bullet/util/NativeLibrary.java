@@ -46,7 +46,7 @@ public class NativeLibrary {
     private NativeLibrary() {
     }
     // *************************************************************************
-    // new methods exposed
+    // native methods
 
     /**
      * Test whether the native library was built with debugging enabled.

@@ -226,7 +226,7 @@ public class SixDofSpringJoint extends SixDofJoint {
     native protected long createJoint1(long bodyIdB, Vector3f pivotInB,
             Matrix3f rotInB, boolean useLinearReferenceFrameB);
     // *************************************************************************
-    // private methods
+    // native private methods
 
     native private void enableSpring(long jointId, int index, boolean onOff);
 
