@@ -288,8 +288,6 @@ public class CompoundMesh implements JmeCloneable, Savable {
     // *************************************************************************
     // private methods
 
-    private native void addIndexedMesh(long compoundMeshId, long submeshId);
-
     /**
      * Compare Bullet's scaling factors to the local copy.
      *
@@ -316,6 +314,10 @@ public class CompoundMesh implements JmeCloneable, Savable {
         logger.log(Level.FINE, "Created CompoundMesh {0}",
                 Long.toHexString(nativeId));
     }
+    // *************************************************************************
+    // native methods
+
+    native private void addIndexedMesh(long compoundMeshId, long submeshId);
 
     native private long createEmptyTiva();
 

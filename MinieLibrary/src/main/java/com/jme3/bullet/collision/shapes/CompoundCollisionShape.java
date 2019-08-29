@@ -271,10 +271,6 @@ public class CompoundCollisionShape extends CollisionShape {
     // *************************************************************************
     // private methods
 
-    // TODO should return void
-    native private long addChildShape(long compoundId, long childId,
-            Vector3f location, Matrix3f rotation);
-
     /**
      * Instantiate an empty btCompoundShape.
      */
@@ -289,8 +285,6 @@ public class CompoundCollisionShape extends CollisionShape {
         setMargin(margin);
     }
 
-    native private long createShape();
-
     /**
      * Add the configured children to the empty btCompoundShape.
      */
@@ -302,6 +296,14 @@ public class CompoundCollisionShape extends CollisionShape {
                     child.getLocation(null), child.getRotation(null));
         }
     }
+    // *************************************************************************
+    // native methods
+
+    // TODO should return void
+    native private long addChildShape(long compoundId, long childId,
+            Vector3f location, Matrix3f rotation);
+
+    native private long createShape();
 
     native private void recalcAabb(long shapeId);
 

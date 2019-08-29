@@ -48,12 +48,36 @@ import java.util.logging.Logger;
  * @author normenhansen
  */
 public class DebugTools {
+    // *************************************************************************
+    // constants and loggers
 
     /**
      * message logger for this class
      */
     final public static Logger logger
             = Logger.getLogger(DebugTools.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_X}
+     */
+    final private static Vector3f UNIT_X_CHECK = new Vector3f(1f, 0f, 0f);
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_Y}
+     */
+    final private static Vector3f UNIT_Y_CHECK = new Vector3f(0f, 1f, 0f);
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_Z}
+     */
+    final private static Vector3f UNIT_Z_CHECK = new Vector3f(0f, 0f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
+     */
+    final private static Vector3f UNIT_XYZ_CHECK = new Vector3f(1f, 1f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f ZERO_CHECK = new Vector3f(0f, 0f, 0f);
+    // *************************************************************************
+    // fields
 
     final private AssetManager manager;
     /**
@@ -133,26 +157,8 @@ public class DebugTools {
      * geometry for the pink arrow
      */
     public Geometry arrowPinkGeom = new Geometry("Pink Arrow", arrowPink);
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_X}
-     */
-    final private static Vector3f UNIT_X_CHECK = new Vector3f(1f, 0f, 0f);
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_Y}
-     */
-    final private static Vector3f UNIT_Y_CHECK = new Vector3f(0f, 1f, 0f);
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_Z}
-     */
-    final private static Vector3f UNIT_Z_CHECK = new Vector3f(0f, 0f, 1f);
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
-     */
-    final private static Vector3f UNIT_XYZ_CHECK = new Vector3f(1f, 1f, 1f);
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#ZERO}
-     */
-    final private static Vector3f ZERO_CHECK = new Vector3f(0f, 0f, 0f);
+    // *************************************************************************
+    // constructors
 
     /**
      * Instantiate a set of debug tools.
@@ -164,6 +170,8 @@ public class DebugTools {
         setupMaterials();
         setupDebugNode();
     }
+    // *************************************************************************
+    // new methods exposed
 
     /**
      * Alter the location and extent of the blue arrow.
@@ -221,13 +229,6 @@ public class DebugTools {
     }
 
     /**
-     * Alter whether the native library will print a startup message.
-     *
-     * @param printFlag true &rarr; print a message, false &rarr; no message
-     */
-    native public static void setStartupMessageEnabled(boolean printFlag);
-
-    /**
      * Alter the location and extent of the yellow arrow.
      *
      * @param location the coordinates of the tail (not null, unaffected)
@@ -261,6 +262,8 @@ public class DebugTools {
         debugNode.updateGeometricState();
         rm.renderScene(debugNode, vp);
     }
+    // *************************************************************************
+    // new protected methods
 
     /**
      * Attach all the debug geometries to the debug node.
@@ -312,4 +315,13 @@ public class DebugTools {
         DEBUG_PINK.getAdditionalRenderState().setWireframe(true);
         DEBUG_PINK.setColor("Color", ColorRGBA.Pink);
     }
+    // *************************************************************************
+    // native methods
+
+    /**
+     * Alter whether the native library will print a startup message.
+     *
+     * @param printFlag true &rarr; print a message, false &rarr; no message
+     */
+    native public static void setStartupMessageEnabled(boolean printFlag);
 }
