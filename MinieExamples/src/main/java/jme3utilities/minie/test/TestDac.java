@@ -176,7 +176,7 @@ public class TestDac extends ActionApplication {
     final private Mesh ballMesh = new Sphere(16, 32, ballRadius);
     final private NameGenerator nameGenerator = new NameGenerator();
     /**
-     * root node of the C-G model on which the control is being tested
+     * root node of the C-G model on which the Control is being tested
      */
     private Node cgModel;
     /**
@@ -200,7 +200,7 @@ public class TestDac extends ActionApplication {
      */
     private SkeletonVisualizer sv;
     /**
-     * name of the animation to play on the C-G model
+     * name of the Animation to play on the C-G model
      */
     private String animationName = null;
     /**
