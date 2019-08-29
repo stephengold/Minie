@@ -64,6 +64,25 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     final public static Logger logger2
             = Logger.getLogger(PhysicsCharacter.class.getName());
     /**
+     * field names for serialization
+     */
+    final private static String tagAngularDamping = "angularDamping";
+    final private static String tagAngularVelocity = "angularVelocity";
+    final private static String tagContactResponse = "contactResponse";
+    final private static String tagDeactivationTime = "deactivationTime";
+    final private static String tagFallSpeed = "fallSpeed";
+    final private static String tagGhostSweepTest = "ghostSweepTest";
+    final private static String tagGravityVector = "gravityVector";
+    final private static String tagJumpSpeed = "jumpSpeed";
+    final private static String tagLinearDamping = "linearDamping";
+    final private static String tagLinearVelocity = "linearVelocity";
+    final private static String tagMaxPenetrationDepth = "maxPenetrationDepth";
+    final private static String tagMaxSlope = "maxSlope";
+    final private static String tagPhysicsLocation = "physicsLocation";
+    final private static String tagStepHeight = "stepHeight";
+    final private static String tagUpDirection = "upDirection";
+    final private static String tagWalkDirection = "walkDirection";
+    /**
      * default gravity vector -- differs from that of
      * btKinematicCharacterController!
      */
@@ -589,26 +608,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
             throw new RuntimeException(exception);
         }
     }
-
-    /**
-     * field names for serialization
-     */
-    final private static String tagAngularDamping = "angularDamping";
-    final private static String tagAngularVelocity = "angularVelocity";
-    final private static String tagContactResponse = "contactResponse";
-    final private static String tagDeactivationTime = "deactivationTime";
-    final private static String tagFallSpeed = "fallSpeed";
-    final private static String tagGhostSweepTest = "ghostSweepTest";
-    final private static String tagGravityVector = "gravityVector";
-    final private static String tagJumpSpeed = "jumpSpeed";
-    final private static String tagLinearDamping = "linearDamping";
-    final private static String tagLinearVelocity = "linearVelocity";
-    final private static String tagMaxPenetrationDepth = "maxPenetrationDepth";
-    final private static String tagMaxSlope = "maxSlope";
-    final private static String tagPhysicsLocation = "physicsLocation";
-    final private static String tagStepHeight = "stepHeight";
-    final private static String tagUpDirection = "upDirection";
-    final private static String tagWalkDirection = "walkDirection";
 
     /**
      * De-serialize this character from the specified importer, for example when
