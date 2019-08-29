@@ -922,6 +922,8 @@ abstract public class PhysicsCollisionObject
                     tagAnisotropicFrictionComponents, new Vector3f(1f, 1f, 1f));
             setAnisotropicFriction(components, mode);
         }
+
+        userObject = capsule.readSavable(tagUserObject, null);
     }
 
     /**
@@ -1035,8 +1037,6 @@ abstract public class PhysicsCollisionObject
 
         Savable shape = capsule.readSavable(tagCollisionShape, null);
         collisionShape = (CollisionShape) shape;
-
-        userObject = capsule.readSavable(tagUserObject, null);
         /*
          * The subclass should create the btCollisionObject and then
          * invoke readPcoProperties() .
