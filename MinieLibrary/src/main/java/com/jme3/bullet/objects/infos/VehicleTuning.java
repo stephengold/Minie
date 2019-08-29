@@ -55,6 +55,18 @@ public class VehicleTuning implements JmeCloneable, Savable {
      */
     final public static Logger logger
             = Logger.getLogger(VehicleTuning.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagFrictionSlip = "frictionSlip";
+    final private static String tagMaxSuspensionForce = "maxSuspensionForce";
+    final private static String tagMaxSuspensionTravelCm
+            = "maxSuspensionTravelCm";
+    final private static String tagSuspensionStiffness = "suspensionStiffness";
+    final private static String tagWheelsDampingRelaxation
+            = "wheelsDampingRelaxation";
+    final private static String tagWheelsDampingCompression
+            = "wheelsDampingCompression";
     // *************************************************************************
     // fields
 
@@ -243,15 +255,15 @@ public class VehicleTuning implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        suspensionStiffness = capsule.readFloat("suspensionStiffness", 5.88f);
+        suspensionStiffness = capsule.readFloat(tagSuspensionStiffness, 5.88f);
         suspensionDamping
-                = capsule.readFloat("wheelsDampingRelaxation", 0.88f);
+                = capsule.readFloat(tagWheelsDampingRelaxation, 0.88f);
         suspensionCompression
-                = capsule.readFloat("wheelsDampingCompression", 0.83f);
-        frictionSlip = capsule.readFloat("frictionSlip", 10.5f);
+                = capsule.readFloat(tagWheelsDampingCompression, 0.83f);
+        frictionSlip = capsule.readFloat(tagFrictionSlip, 10.5f);
         maxSuspensionTravelCm
-                = capsule.readFloat("maxSuspensionTravelCm", 500f);
-        maxSuspensionForce = capsule.readFloat("maxSuspensionForce", 6000f);
+                = capsule.readFloat(tagMaxSuspensionTravelCm, 500f);
+        maxSuspensionForce = capsule.readFloat(tagMaxSuspensionForce, 6000f);
     }
 
     /**
@@ -264,12 +276,12 @@ public class VehicleTuning implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(suspensionStiffness, "suspensionStiffness", 5.88f);
-        capsule.write(suspensionDamping, "wheelsDampingRelaxation", 0.88f);
-        capsule.write(suspensionCompression, "wheelsDampingCompression",
+        capsule.write(suspensionStiffness, tagSuspensionStiffness, 5.88f);
+        capsule.write(suspensionDamping, tagWheelsDampingRelaxation, 0.88f);
+        capsule.write(suspensionCompression, tagWheelsDampingCompression,
                 0.83f);
-        capsule.write(frictionSlip, "frictionSlip", 10.5f);
-        capsule.write(maxSuspensionTravelCm, "maxSuspensionTravelCm", 500f);
-        capsule.write(maxSuspensionForce, "maxSuspensionForce", 6000f);
+        capsule.write(frictionSlip, tagFrictionSlip, 10.5f);
+        capsule.write(maxSuspensionTravelCm, tagMaxSuspensionTravelCm, 500f);
+        capsule.write(maxSuspensionForce, tagMaxSuspensionForce, 6000f);
     }
 }

@@ -72,6 +72,12 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      */
     final public static Logger logger2
             = Logger.getLogger(PhysicsGhostObject.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagDeactivationTime = "deactivationTime";
+    final private static String tagPhysicsLocation = "physicsLocation";
+    final private static String tagPhysicsRotation = "physicsRotation";
     // *************************************************************************
     // fields
 
@@ -233,11 +239,11 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         buildObject();
         readPcoProperties(capsule);
 
-        setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
+        setPhysicsLocation((Vector3f) capsule.readSavable(tagPhysicsLocation,
                 new Vector3f()));
-        setPhysicsRotation(((Matrix3f) capsule.readSavable("physicsRotation",
+        setPhysicsRotation(((Matrix3f) capsule.readSavable(tagPhysicsRotation,
                 new Matrix3f())));
-        setDeactivationTime(capsule.readFloat("deactivationTime", 0f));
+        setDeactivationTime(capsule.readFloat(tagDeactivationTime, 0f));
     }
 
     /**
@@ -252,11 +258,9 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(getPhysicsLocation(new Vector3f()),
-                "physicsLocation", new Vector3f());
-        capsule.write(getPhysicsRotationMatrix(new Matrix3f()),
-                "physicsRotation", new Matrix3f());
-        capsule.write(getDeactivationTime(), "deactivationTime", 0f);
+        capsule.write(getPhysicsLocation(null), tagPhysicsLocation, null);
+        capsule.write(getPhysicsRotationMatrix(null), tagPhysicsRotation, null);
+        capsule.write(getDeactivationTime(), tagDeactivationTime, 0f);
     }
     // *************************************************************************
     // private methods

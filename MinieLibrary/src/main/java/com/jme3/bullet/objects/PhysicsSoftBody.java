@@ -76,6 +76,22 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     final public static Logger logger2
             = Logger.getLogger(PhysicsSoftBody.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagConfig = "config";
+    final private static String tagFaceIndices = "faceIndices";
+    final private static String tagIndices = "indices";
+    final private static String tagJoints = "joints";
+    final private static String tagLinkIndices = "linkIndices";
+    final private static String tagNodeLocations = "nodeLocations";
+    final private static String tagNodeMasses = "nodeMasses";
+    final private static String tagNodeNormals = "nodeNormals";
+    final private static String tagNodeVelocities = "nodeVelocities";
+    final private static String tagNumClusters = "numClusters";
+    final private static String tagPhysicsLocation = "physicsLocation";
+    final private static String tagRestLengthScale = "restLengthScale";
+    final private static String tagTetraIndices = "tetraIndices";
     // *************************************************************************
     // fields
 
@@ -1392,40 +1408,40 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         newEmptySoftBody();
         readPcoProperties(capsule);
-        config = (SoftBodyConfig) capsule.readSavable("config", null);
+        config = (SoftBodyConfig) capsule.readSavable(tagConfig, null);
         assert config != null;
 
-        float[] fArray = capsule.readFloatArray("NodeLocations", new float[0]);
+        float[] fArray = capsule.readFloatArray(tagNodeLocations, new float[0]);
         appendNodes(BufferUtils.createFloatBuffer(fArray));
 
-        fArray = capsule.readFloatArray("NodeMasses", new float[0]);
+        fArray = capsule.readFloatArray(tagNodeMasses, new float[0]);
         setMasses(BufferUtils.createFloatBuffer(fArray));
 
-        fArray = capsule.readFloatArray("NodeNormals", new float[0]);
+        fArray = capsule.readFloatArray(tagNodeNormals, new float[0]);
         setNormals(BufferUtils.createFloatBuffer(fArray));
 
-        fArray = capsule.readFloatArray("NodeVelocities", new float[0]);
+        fArray = capsule.readFloatArray(tagNodeVelocities, new float[0]);
         setVelocities(BufferUtils.createFloatBuffer(fArray));
 
-        int[] nodeIndices = capsule.readIntArray("FaceIndices", new int[0]);
+        int[] nodeIndices = capsule.readIntArray(tagFaceIndices, new int[0]);
         IndexBuffer indexBuffer = IndexBuffer.wrapIndexBuffer(
                 BufferUtils.createIntBuffer(nodeIndices));
         appendFaces(indexBuffer);
 
-        nodeIndices = capsule.readIntArray("LinkIndices", new int[0]);
+        nodeIndices = capsule.readIntArray(tagLinkIndices, new int[0]);
         indexBuffer = IndexBuffer.wrapIndexBuffer(
                 BufferUtils.createIntBuffer(nodeIndices));
         appendLinks(indexBuffer);
 
-        nodeIndices = capsule.readIntArray("TetraIndices", new int[0]);
+        nodeIndices = capsule.readIntArray(tagTetraIndices, new int[0]);
         indexBuffer = IndexBuffer.wrapIndexBuffer(
                 BufferUtils.createIntBuffer(nodeIndices));
         appendTetras(indexBuffer);
 
         assert countClusters() == 0 : countClusters();
-        int numClusters = capsule.readInt("NumClusters", 0);
+        int numClusters = capsule.readInt(tagNumClusters, 0);
         for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
-            nodeIndices = capsule.readIntArray("Indices" + clusterIndex,
+            nodeIndices = capsule.readIntArray(tagIndices + clusterIndex,
                     new int[0]);
             int numNodesInCluster = nodeIndices.length;
             IntBuffer intBuffer = BufferUtils.createIntBuffer(nodeIndices);
@@ -1441,13 +1457,13 @@ public class PhysicsSoftBody extends PhysicsBody {
         finishClusters(objectId);
         assert countClusters() == numClusters : countClusters();
 
-        setRestingLengthScale(capsule.readFloat("RestLengthScale", 0f));
-        setPhysicsLocation((Vector3f) capsule.readSavable("PhysicsLocation",
+        setRestingLengthScale(capsule.readFloat(tagRestLengthScale, 0f));
+        setPhysicsLocation((Vector3f) capsule.readSavable(tagPhysicsLocation,
                 new Vector3f()));
 
         getSoftMaterial().read(capsule);
 
-        joints = capsule.readSavableArrayList("joints", null);
+        joints = capsule.readSavableArrayList(tagJoints, null);
     }
 
     /**
@@ -1539,35 +1555,35 @@ public class PhysicsSoftBody extends PhysicsBody {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(restingLengthsScale(), "RestLengthScale", 0f);
-        capsule.write(getPhysicsLocation(), "PhysicsLocation", null);
+        capsule.write(restingLengthsScale(), tagRestLengthScale, 0f);
+        capsule.write(getPhysicsLocation(), tagPhysicsLocation, null);
 
         FloatBuffer floatBuffer = copyLocations(null);
-        capsule.write(copyToArray(floatBuffer), "NodeLocations", null);
+        capsule.write(copyToArray(floatBuffer), tagNodeLocations, null);
 
         floatBuffer = copyMasses(null);
-        capsule.write(copyToArray(floatBuffer), "NodeMasses", null);
+        capsule.write(copyToArray(floatBuffer), tagNodeMasses, null);
 
         floatBuffer = copyNormals(null);
-        capsule.write(copyToArray(floatBuffer), "NodeNormals", null);
+        capsule.write(copyToArray(floatBuffer), tagNodeNormals, null);
 
         floatBuffer = copyVelocities(null);
-        capsule.write(copyToArray(floatBuffer), "NodeVelocities", null);
+        capsule.write(copyToArray(floatBuffer), tagNodeVelocities, null);
 
         IntBuffer intBuffer = copyFaces(null);
-        capsule.write(copyToArray(intBuffer), "FaceIndices", null);
+        capsule.write(copyToArray(intBuffer), tagFaceIndices, null);
 
         intBuffer = copyLinks(null);
-        capsule.write(copyToArray(intBuffer), "LinkIndices", null);
+        capsule.write(copyToArray(intBuffer), tagLinkIndices, null);
 
         intBuffer = copyTetras(null);
-        capsule.write(copyToArray(intBuffer), "TetraIndices", null);
+        capsule.write(copyToArray(intBuffer), tagTetraIndices, null);
 
         int numClusters = countClusters();
-        capsule.write(numClusters, "NumClusters", 0);
+        capsule.write(numClusters, tagNumClusters, 0);
         for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
             intBuffer = listNodesInCluster(clusterIndex, null);
-            capsule.write(copyToArray(intBuffer), "Indices" + clusterIndex,
+            capsule.write(copyToArray(intBuffer), tagIndices + clusterIndex,
                     null);
 
             for (Cluster clusterParameter : Cluster.values()) {
@@ -1579,10 +1595,10 @@ public class PhysicsSoftBody extends PhysicsBody {
         }
 
         assert config != null;
-        capsule.write(config, "config", null);
+        capsule.write(config, tagConfig, null);
         getSoftMaterial().write(capsule);
 
-        capsule.writeSavableArrayList(joints, "joints", null);
+        capsule.writeSavableArrayList(joints, tagJoints, null);
     }
     // *************************************************************************
     // private methods
@@ -1870,6 +1886,15 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     public class Material {
         // *********************************************************************
+        // constants and loggers
+
+        /**
+         * field names for serialization
+         */
+        final private static String tagAngularStiffness = "angularStiffness";
+        final private static String tagLinearStiffness = "linearStiffness";
+        final private static String tagVolumeStiffness = "volumeStiffness";
+        // *********************************************************************
         // fields
 
         /**
@@ -1993,9 +2018,9 @@ public class PhysicsSoftBody extends PhysicsBody {
          * @throws IOException from the importer
          */
         private void read(InputCapsule capsule) throws IOException {
-            setAngularStiffness(capsule.readFloat("AngularStiffness", 1f));
-            setLinearStiffness(capsule.readFloat("LinearStiffness", 1f));
-            setVolumeStiffness(capsule.readFloat("VolumeStiffness", 1f));
+            setAngularStiffness(capsule.readFloat(tagAngularStiffness, 1f));
+            setLinearStiffness(capsule.readFloat(tagLinearStiffness, 1f));
+            setVolumeStiffness(capsule.readFloat(tagVolumeStiffness, 1f));
         }
 
         /**
@@ -2006,9 +2031,9 @@ public class PhysicsSoftBody extends PhysicsBody {
          * @throws IOException from the exporter
          */
         private void write(OutputCapsule capsule) throws IOException {
-            capsule.write(angularStiffness(), "AngularStiffness", 1f);
-            capsule.write(linearStiffness(), "LinearStiffness", 1f);
-            capsule.write(volumeStiffness(), "VolumeStiffness", 1f);
+            capsule.write(angularStiffness(), tagAngularStiffness, 1f);
+            capsule.write(linearStiffness(), tagLinearStiffness, 1f);
+            capsule.write(volumeStiffness(), tagVolumeStiffness, 1f);
         }
         // *********************************************************************
         // native methods
