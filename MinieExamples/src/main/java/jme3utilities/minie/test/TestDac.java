@@ -974,7 +974,7 @@ public class TestDac extends ActionApplication {
     }
 
     /**
-     * Save the specified model to a J3O file.
+     * Save the specified model to a J3O or XML file.
      */
     private void save(Spatial model, String assetPath) {
         String filePath = ActionApplication.filePath(assetPath);

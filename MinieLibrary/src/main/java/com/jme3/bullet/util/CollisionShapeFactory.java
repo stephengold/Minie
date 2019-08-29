@@ -410,17 +410,18 @@ public class CollisionShapeFactory {
     /**
      * Create a HullCollisionShape for the specified Geometry.
      *
-     * @param geom the geometry on which to base the shape (not null)
-     * @param modelRoot
+     * @param geometry the Geometry on which to base the shape (not null)
+     * @param modelRoot the ancestor for which the shape is being generated (not
+     * null, unaffected)
      */
-    private static HullCollisionShape createSingleHullShape(
-            Geometry geom, Spatial modelRoot) {
-        Mesh mesh = geom.getMesh();
+    private static HullCollisionShape createSingleHullShape(Geometry geometry,
+            Spatial modelRoot) {
+        Mesh mesh = geometry.getMesh();
         if (mesh == null) {
             return null;
         }
 
-        Transform transform = getTransform(geom, modelRoot);
+        Transform transform = getTransform(geometry, modelRoot);
         HullCollisionShape hullShape = new HullCollisionShape(mesh);
         hullShape.setScale(transform.getScale());
 
@@ -429,6 +430,10 @@ public class CollisionShapeFactory {
 
     /**
      * Create a mesh-accurate CollisionShape for an immovable object.
+     *
+     * @param geometry the Geometry on which to base the shape (not null)
+     * @param modelRoot the ancestor for which the shape is being generated (not
+     * null, unaffected)
      */
     private static MeshCollisionShape createSingleMeshShape(Geometry geometry,
             Spatial modelRoot) {

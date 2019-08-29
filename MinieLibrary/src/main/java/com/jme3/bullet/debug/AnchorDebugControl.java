@@ -112,7 +112,7 @@ public class AnchorDebugControl extends AbstractPhysicsDebugControl {
 
         PhysicsRigidBody rigidBodyB = anchor.getRigidBody();
         Vector3f pivotInB = anchor.copyPivot(null); // TODO garbage
-        Transform t = rigidBodyB.extrapolateTransform(null);
+        Transform t = rigidBodyB.extrapolateTransform(null); // TODO garbage
         t.getScale().set(1f, 1f, 1f);
         Vector3f bLocation = t.transformVector(pivotInB, null);
         positionBuffer.put(3, bLocation.x);

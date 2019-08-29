@@ -326,7 +326,7 @@ public class MultiSphereDemo
     // private methods
 
     /**
-     * Add a dynamic rigid body to the scene.
+     * Add a gem (dynamic rigid body) to the scene.
      */
     private void addAGem() {
         if (gems.size() >= maxNumGems) {
@@ -334,7 +334,6 @@ public class MultiSphereDemo
         }
 
         DebugMeshNormals debugMeshNormals;
-
         switch (shapeName) {
             case "multiSphere":
                 randomMultiSphere();

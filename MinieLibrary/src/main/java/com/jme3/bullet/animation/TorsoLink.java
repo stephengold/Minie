@@ -662,7 +662,7 @@ public class TorsoLink extends PhysicsLink {
         Quaternion orientation = result.getRotation();
         Vector3f scale = result.getScale();
         /*
-         * Start with the rigid body's transform in physics/world coordinates.
+         * Start with the rigid body's Transform relative to world coordinates.
          */
         getRigidBody().extrapolateTransform(result);
         /*
