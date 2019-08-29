@@ -349,16 +349,6 @@ public class SimplexCollisionShape extends CollisionShape {
         setMargin(margin);
     }
 
-    native private long createShape(Vector3f vector1);
-
-    native private long createShape(Vector3f vector1, Vector3f vector2);
-
-    native private long createShape(Vector3f vector1, Vector3f vector2,
-            Vector3f vector3);
-
-    native private long createShape(Vector3f vector1, Vector3f vector2,
-            Vector3f vector3, Vector3f vector4);
-
     /**
      * Access the indexed vertex.
      *
@@ -386,6 +376,18 @@ public class SimplexCollisionShape extends CollisionShape {
 
         return result;
     }
+    // *************************************************************************
+    // native methods
+
+    native private long createShape(Vector3f vector1);
+
+    native private long createShape(Vector3f vector1, Vector3f vector2);
+
+    native private long createShape(Vector3f vector1, Vector3f vector2,
+            Vector3f vector3);
+
+    native private long createShape(Vector3f vector1, Vector3f vector2,
+            Vector3f vector3, Vector3f vector4);
 
     native private void recalcAabb(long shapeId);
 }

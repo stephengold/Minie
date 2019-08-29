@@ -437,8 +437,6 @@ public class HullCollisionShape extends CollisionShape {
     // *************************************************************************
     // private methods
 
-    native private int countHullVertices(long shapeId);
-
     /**
      * Instantiate the configured shape in Bullet.
      */
@@ -468,10 +466,6 @@ public class HullCollisionShape extends CollisionShape {
         setMargin(margin);
     }
 
-    native private long createShapeB(ByteBuffer vertices, int numVertices);
-
-    native private void getHullVertices(long shapeId, ByteBuffer vertices);
-
     /**
      * Copy the vertex positions from JME mesh(es).
      *
@@ -499,6 +493,14 @@ public class HullCollisionShape extends CollisionShape {
 
         return pointsArray;
     }
+    // *************************************************************************
+    // native methods
+
+    native private int countHullVertices(long shapeId);
+
+    native private long createShapeB(ByteBuffer vertices, int numVertices);
+
+    native private void getHullVertices(long shapeId, ByteBuffer vertices);
 
     native private void recalcAabb(long shapeId);
 }
