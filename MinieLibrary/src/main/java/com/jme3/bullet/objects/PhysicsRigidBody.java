@@ -70,6 +70,31 @@ public class PhysicsRigidBody extends PhysicsBody {
     final public static Logger logger2
             = Logger.getLogger(PhysicsRigidBody.class.getName());
     /**
+     * local copy of {@link com.jme3.math.Matrix3f#IDENTITY}
+     */
+    final private static Matrix3f matrixIdentity = new Matrix3f();
+    /**
+     * field names for serialization
+     */
+    final private static String tagAngularDamping = "angularDamping";
+    final private static String tagAngularFactor = "angularFactor";
+    final private static String tagAngularSleepingThreshold
+            = "angularSleepingThreshold";
+    final private static String tagAngularVelocity = "angularVelocity";
+    final private static String tagContactResponse = "contactResponse";
+    final private static String tagDeactivationTime = "deactivationTime";
+    final private static String tagInverseInertia = "inverseInertia";
+    final private static String tagJoints = "joints";
+    final private static String tagKinematic = "kinematic";
+    final private static String tagLinearDamping = "linearDamping";
+    final private static String tagLinearFactor = "linearFactor";
+    final private static String tagLinearSleepingThreshold
+            = "linearSleepingThreshold";
+    final private static String tagLinearVelocity = "linearVelocity";
+    final private static String tagMass = "mass";
+    final private static String tagPhysicsLocation = "physicsLocation";
+    final private static String tagPhysicsRotation = "physicsRotation";
+    /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
      */
     final private static Vector3f scaleIdentity = new Vector3f(1f, 1f, 1f);
@@ -999,38 +1024,38 @@ public class PhysicsRigidBody extends PhysicsBody {
         super.read(importer);
 
         InputCapsule capsule = importer.getCapsule(this);
-        mass = capsule.readFloat("mass", 1f);
+        mass = capsule.readFloat(tagMass, 1f);
         rebuildRigidBody();
         readPcoProperties(capsule);
 
-        setContactResponse(capsule.readBoolean("contactResponse", true));
+        setContactResponse(capsule.readBoolean(tagContactResponse, true));
         if (mass != massForStatic) {
-            setKinematic(capsule.readBoolean("kinematic", false));
+            setKinematic(capsule.readBoolean(tagKinematic, false));
         }
 
-        setInverseInertiaLocal((Vector3f) capsule.readSavable("inverseInertia",
+        setInverseInertiaLocal((Vector3f) capsule.readSavable(tagInverseInertia,
                 scaleIdentity));
-        setAngularFactor((Vector3f) capsule.readSavable("angularFactor",
+        setAngularFactor((Vector3f) capsule.readSavable(tagAngularFactor,
                 scaleIdentity));
-        setLinearFactor((Vector3f) capsule.readSavable("linearFactor",
+        setLinearFactor((Vector3f) capsule.readSavable(tagLinearFactor,
                 scaleIdentity));
-        setDamping(capsule.readFloat("linearDamping", 0f),
-                capsule.readFloat("angularDamping", 0f));
+        setDamping(capsule.readFloat(tagLinearDamping, 0f),
+                capsule.readFloat(tagAngularDamping, 0f));
         setSleepingThresholds(
-                capsule.readFloat("linearSleepingThreshold", 0.8f),
-                capsule.readFloat("angularSleepingThreshold", 1f));
+                capsule.readFloat(tagLinearSleepingThreshold, 0.8f),
+                capsule.readFloat(tagAngularSleepingThreshold, 1f));
 
-        setPhysicsLocation((Vector3f) capsule.readSavable("physicsLocation",
+        setPhysicsLocation((Vector3f) capsule.readSavable(tagPhysicsLocation,
                 translateIdentity));
-        setPhysicsRotation((Matrix3f) capsule.readSavable("physicsRotation",
+        setPhysicsRotation((Matrix3f) capsule.readSavable(tagPhysicsRotation,
+                matrixIdentity));
+        setLinearVelocity((Vector3f) capsule.readSavable(tagLinearVelocity,
                 translateIdentity));
-        setLinearVelocity((Vector3f) capsule.readSavable("linearVelocity",
+        setAngularVelocity((Vector3f) capsule.readSavable(tagAngularVelocity,
                 translateIdentity));
-        setAngularVelocity((Vector3f) capsule.readSavable("angularVelocity",
-                translateIdentity));
-        setDeactivationTime(capsule.readFloat("deactivationTime", 0f));
+        setDeactivationTime(capsule.readFloat(tagDeactivationTime, 0f));
 
-        joints = capsule.readSavableArrayList("joints", null);
+        joints = capsule.readSavableArrayList(tagJoints, null);
     }
 
     /**
@@ -1119,29 +1144,29 @@ public class PhysicsRigidBody extends PhysicsBody {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(getMass(), "mass", 1f);
-        capsule.write(isContactResponse(), "contactResponse", true);
-        capsule.write(getAngularFactor(null), "angularFactor", null);
-        capsule.write(getLinearFactor(null), "linearFactor", null);
-        capsule.write(kinematic, "kinematic", false);
+        capsule.write(getMass(), tagMass, 1f);
+        capsule.write(isContactResponse(), tagContactResponse, true);
+        capsule.write(getAngularFactor(null), tagAngularFactor, null);
+        capsule.write(getLinearFactor(null), tagLinearFactor, null);
+        capsule.write(kinematic, tagKinematic, false);
 
-        capsule.write(getInverseInertiaLocal(null), "inverseInertia", null);
-        capsule.write(getLinearDamping(), "linearDamping", 0f);
-        capsule.write(getAngularDamping(), "angularDamping", 0f);
-        capsule.write(getLinearSleepingThreshold(), "linearSleepingThreshold",
+        capsule.write(getInverseInertiaLocal(null), tagInverseInertia, null);
+        capsule.write(getLinearDamping(), tagLinearDamping, 0f);
+        capsule.write(getAngularDamping(), tagAngularDamping, 0f);
+        capsule.write(getLinearSleepingThreshold(), tagLinearSleepingThreshold,
                 0.8f);
-        capsule.write(getAngularSleepingThreshold(), "angularSleepingThreshold",
-                1f);
+        capsule.write(getAngularSleepingThreshold(),
+                tagAngularSleepingThreshold, 1f);
 
-        capsule.write(getPhysicsLocation(null), "physicsLocation", null);
-        capsule.write(getPhysicsRotationMatrix(null), "physicsRotation", null);
+        capsule.write(getPhysicsLocation(null), tagPhysicsLocation, null);
+        capsule.write(getPhysicsRotationMatrix(null), tagPhysicsRotation, null);
         if (isDynamic()) {
-            capsule.write(getLinearVelocity(null), "linearVelocity", null);
-            capsule.write(getAngularVelocity(null), "angularVelocity", null);
+            capsule.write(getLinearVelocity(null), tagLinearVelocity, null);
+            capsule.write(getAngularVelocity(null), tagAngularVelocity, null);
         }
-        capsule.write(getDeactivationTime(), "deactivationTime", 0f);
+        capsule.write(getDeactivationTime(), tagDeactivationTime, 0f);
 
-        capsule.writeSavableArrayList(joints, "joints", null);
+        capsule.writeSavableArrayList(joints, tagJoints, null);
     }
     // *************************************************************************
     // private methods

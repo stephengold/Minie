@@ -1086,14 +1086,14 @@ abstract public class PhysicsCollisionObject
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(collisionGroup, "collisionGroup", COLLISION_GROUP_01);
-        capsule.write(collideWithGroups, "collisionGroupsMask",
+        capsule.write(collisionGroup, tagCollisionGroup, COLLISION_GROUP_01);
+        capsule.write(collideWithGroups, tagCollisionGroupsMask,
                 COLLISION_GROUP_01);
-        capsule.write(debugMeshNormals, "debugMeshNormals",
+        capsule.write(debugMeshNormals, tagDebugMeshNormals,
                 DebugMeshNormals.None);
-        capsule.write(debugMeshResolution, "debugMeshResolution", 0);
-        capsule.write(debugMaterial, "debugMaterial", null);
-        capsule.write(collisionShape, "collisionShape", null);
+        capsule.write(debugMeshResolution, tagDebugMeshResolution, 0);
+        capsule.write(debugMaterial, tagDebugMaterial, null);
+        capsule.write(collisionShape, tagCollisionShape, null);
 
         if (userObject instanceof Savable) {
             capsule.write((Savable) userObject, "userObject", null);

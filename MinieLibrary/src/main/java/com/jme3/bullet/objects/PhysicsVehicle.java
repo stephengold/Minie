@@ -74,6 +74,18 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     final public static Logger logger3
             = Logger.getLogger(PhysicsVehicle.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagFrictionSlip = "frictionSlip";
+    final private static String tagMaxSuspensionForce = "maxSuspensionForce";
+    final private static String tagMaxSuspensionTravelCm
+            = "maxSuspensionTravelCm";
+    final private static String tagSuspensionCompression
+            = "suspensionCompression";
+    final private static String tagSuspensionDamping = "suspensionDamping";
+    final private static String tagSuspensionStiffness = "suspensionStiffness";
+    final private static String tagWheelsList = "wheelsList";
     // *************************************************************************
     // fields
 
@@ -712,26 +724,26 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         InputCapsule capsule = importer.getCapsule(this);
         tuning = new VehicleTuning();
 
-        float readFloat = capsule.readFloat("frictionSlip", 10.5f);
+        float readFloat = capsule.readFloat(tagFrictionSlip, 10.5f);
         tuning.setFrictionSlip(readFloat);
 
-        readFloat = capsule.readFloat("maxSuspensionTravelCm", 500f);
+        readFloat = capsule.readFloat(tagMaxSuspensionTravelCm, 500f);
         tuning.setMaxSuspensionTravelCm(readFloat);
 
-        readFloat = capsule.readFloat("maxSuspensionForce", 6000f);
+        readFloat = capsule.readFloat(tagMaxSuspensionForce, 6000f);
         tuning.setMaxSuspensionForce(readFloat);
 
-        readFloat = capsule.readFloat("suspensionCompression", 0.83f);
+        readFloat = capsule.readFloat(tagSuspensionCompression, 0.83f);
         tuning.setSuspensionCompression(readFloat);
 
-        readFloat = capsule.readFloat("suspensionDamping", 0.88f);
+        readFloat = capsule.readFloat(tagSuspensionDamping, 0.88f);
         tuning.setSuspensionDamping(readFloat);
 
-        readFloat = capsule.readFloat("suspensionStiffness", 5.88f);
+        readFloat = capsule.readFloat(tagSuspensionStiffness, 5.88f);
         tuning.setSuspensionStiffness(readFloat);
 
-        wheels = capsule.readSavableArrayList(
-                "wheelsList", new ArrayList<VehicleWheel>(6));
+        wheels = capsule.readSavableArrayList(tagWheelsList,
+                new ArrayList<VehicleWheel>(6));
         RigidBodyMotionState ms = getMotionState();
         ms.setVehicle(this);
 
@@ -757,19 +769,18 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(tuning.getFrictionSlip(),
-                "frictionSlip", 10.5f);
+        capsule.write(tuning.getFrictionSlip(), tagFrictionSlip, 10.5f);
         capsule.write(tuning.getMaxSuspensionTravelCm(),
-                "maxSuspensionTravelCm", 500f);
-        capsule.write(tuning.getMaxSuspensionForce(),
-                "maxSuspensionForce", 6000f);
+                tagMaxSuspensionTravelCm, 500f);
+        capsule.write(tuning.getMaxSuspensionForce(), tagMaxSuspensionForce,
+                6000f);
         capsule.write(tuning.getSuspensionCompression(),
-                "suspensionCompression", 0.83f);
-        capsule.write(tuning.getSuspensionDamping(),
-                "suspensionDamping", 0.88f);
-        capsule.write(tuning.getSuspensionStiffness(),
-                "suspensionStiffness", 5.88f);
-        capsule.writeSavableArrayList(wheels, "wheelsList", null);
+                tagSuspensionCompression, 0.83f);
+        capsule.write(tuning.getSuspensionDamping(), tagSuspensionDamping,
+                0.88f);
+        capsule.write(tuning.getSuspensionStiffness(), tagSuspensionStiffness,
+                5.88f);
+        capsule.writeSavableArrayList(wheels, tagWheelsList, null);
 
         super.write(exporter);
     }

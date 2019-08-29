@@ -61,6 +61,18 @@ public class VehicleWheel implements JmeCloneable, Savable {
      */
     final public static Logger logger
             = Logger.getLogger(VehicleWheel.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagFrontWheel = "frontWheel";
+    final private static String tagRestLength = "restLength";
+    final private static String tagRollInfluence = "rollInfluence";
+    final private static String tagTuning = "tuning";
+    final private static String tagWheelAxle = "wheelAxle";
+    final private static String tagWheelDirection = "wheelDirection";
+    final private static String tagWheelLocation = "wheelLocation";
+    final private static String tagWheelRadius = "wheelRadius";
+    final private static String tagWheelSpatial = "wheelSpatial";
     // *************************************************************************
     // fields
 
@@ -677,19 +689,19 @@ public class VehicleWheel implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        wheelSpatial = (Spatial) capsule.readSavable("wheelSpatial", null);
-        isFront = capsule.readBoolean("frontWheel", false);
-        location = (Vector3f) capsule.readSavable("wheelLocation",
+        wheelSpatial = (Spatial) capsule.readSavable(tagWheelSpatial, null);
+        isFront = capsule.readBoolean(tagFrontWheel, false);
+        location = (Vector3f) capsule.readSavable(tagWheelLocation,
                 new Vector3f());
-        suspensionDirection = (Vector3f) capsule.readSavable("wheelDirection",
+        suspensionDirection = (Vector3f) capsule.readSavable(tagWheelDirection,
                 new Vector3f());
-        axisDirection = (Vector3f) capsule.readSavable("wheelAxle",
+        axisDirection = (Vector3f) capsule.readSavable(tagWheelAxle,
                 new Vector3f());
-        tuning = (VehicleTuning) capsule.readSavable("tuning",
+        tuning = (VehicleTuning) capsule.readSavable(tagTuning,
                 new VehicleTuning());
-        rollInfluence = capsule.readFloat("rollInfluence", 1f);
-        radius = capsule.readFloat("wheelRadius", 0.5f);
-        restLength = capsule.readFloat("restLength", 1f);
+        rollInfluence = capsule.readFloat(tagRollInfluence, 1f);
+        radius = capsule.readFloat(tagWheelRadius, 0.5f);
+        restLength = capsule.readFloat(tagRestLength, 1f);
     }
 
     /**
@@ -703,15 +715,15 @@ public class VehicleWheel implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(wheelSpatial, "wheelSpatial", null);
-        capsule.write(isFront, "frontWheel", false);
-        capsule.write(location, "wheelLocation", new Vector3f());
-        capsule.write(suspensionDirection, "wheelDirection", new Vector3f());
-        capsule.write(axisDirection, "wheelAxle", new Vector3f());
-        capsule.write(tuning, "tuning", new VehicleTuning());
-        capsule.write(rollInfluence, "rollInfluence", 1f);
-        capsule.write(radius, "wheelRadius", 0.5f);
-        capsule.write(restLength, "restLength", 1f);
+        capsule.write(wheelSpatial, tagWheelSpatial, null);
+        capsule.write(isFront, tagFrontWheel, false);
+        capsule.write(location, tagWheelLocation, null);
+        capsule.write(suspensionDirection, tagWheelDirection, null);
+        capsule.write(axisDirection, tagWheelAxle, null);
+        capsule.write(tuning, tagTuning, null);
+        capsule.write(rollInfluence, tagRollInfluence, 1f);
+        capsule.write(radius, tagWheelRadius, 0.5f);
+        capsule.write(restLength, tagRestLength, 1f);
     }
     // *************************************************************************
     // private methods

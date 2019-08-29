@@ -65,6 +65,11 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      */
     final public static Logger logger2
             = Logger.getLogger(MinieCharacterControl.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagCharacter = "character";
+    final private static String tagViewDirection = "viewDirection";
     // *************************************************************************
     // fields
 
@@ -277,8 +282,8 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        character = (PhysicsCharacter) capsule.readSavable("character", null);
-        viewDirection = (Vector3f) capsule.readSavable("viewDirection",
+        character = (PhysicsCharacter) capsule.readSavable(tagCharacter, null);
+        viewDirection = (Vector3f) capsule.readSavable(tagViewDirection,
                 new Vector3f(0f, 0f, 1f));
 
         Spatial controlled = getSpatial();
@@ -384,7 +389,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(character, "character", null);
-        capsule.write(viewDirection, "viewDirection", null);
+        capsule.write(character, tagCharacter, null);
+        capsule.write(viewDirection, tagViewDirection, null);
     }
 }

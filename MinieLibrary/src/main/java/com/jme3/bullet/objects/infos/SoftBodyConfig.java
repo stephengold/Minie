@@ -60,6 +60,15 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
      */
     final public static Logger logger
             = Logger.getLogger(SoftBodyConfig.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagBody = "body";
+    final private static String tagClusterIterations = "clusterIterations";
+    final private static String tagCollisionFlags = "collisionFlags";
+    final private static String tagDriftIterations = "driftIterations";
+    final private static String tagPositionIterations = "positionIterations";
+    final private static String tagVelocityIterations = "velocityIterations";
     // *************************************************************************
     // fields
 
@@ -447,13 +456,13 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
         assert body == null;
 
         InputCapsule capsule = importer.getCapsule(this);
-        body = (PhysicsSoftBody) capsule.readSavable("body", null);
+        body = (PhysicsSoftBody) capsule.readSavable(tagBody, null);
 
-        setClusterIterations(capsule.readInt("ClusterIterations", 4));
-        setCollisionFlags(capsule.readInt("CollisionsFlags", ConfigFlag.CL_RS));
-        setDriftIterations(capsule.readInt("DriftIterations", 0));
-        setPositionIterations(capsule.readInt("PositionIterations", 1));
-        setVelocityIterations(capsule.readInt("VelocitiesIterations", 0));
+        setClusterIterations(capsule.readInt(tagClusterIterations, 4));
+        setCollisionFlags(capsule.readInt(tagCollisionFlags, ConfigFlag.CL_RS));
+        setDriftIterations(capsule.readInt(tagDriftIterations, 0));
+        setPositionIterations(capsule.readInt(tagPositionIterations, 1));
+        setVelocityIterations(capsule.readInt(tagVelocityIterations, 0));
 
         for (Sbcp sbcp : Sbcp.values()) {
             String tag = sbcp.toString();
@@ -474,13 +483,12 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(body, "body", null);
-        capsule.write(clusterIterations(), "ClusterIterations", 4);
-        capsule.write(collisionFlags(),
-                "CollisionsFlags", ConfigFlag.CL_RS);
-        capsule.write(driftIterations(), "DriftIterations", 0);
-        capsule.write(positionIterations(), "PositionIterations", 1);
-        capsule.write(velocityIterations(), "VelocitiesIterations", 0);
+        capsule.write(body, tagBody, null);
+        capsule.write(clusterIterations(), tagClusterIterations, 4);
+        capsule.write(collisionFlags(), tagCollisionFlags, ConfigFlag.CL_RS);
+        capsule.write(driftIterations(), tagDriftIterations, 0);
+        capsule.write(positionIterations(), tagPositionIterations, 1);
+        capsule.write(velocityIterations(), tagVelocityIterations, 0);
 
         for (Sbcp sbcp : Sbcp.values()) {
             float value = get(sbcp);
