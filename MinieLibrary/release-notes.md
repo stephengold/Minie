@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 0.9.15for32 released on TBD
+## Version 0.9.15for32 released on 29 August 2019
 
  + API changes:
    + Deprecated the `extrapolateTransform()` and `getPhysicsScale()` methods of
