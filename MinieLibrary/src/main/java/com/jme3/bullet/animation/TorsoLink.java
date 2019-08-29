@@ -297,7 +297,7 @@ public class TorsoLink extends PhysicsLink {
         }
 
         Transform transform = meshToModel.clone();
-        Transform shapeToWorld = getRigidBody().extrapolateTransform(null);
+        Transform shapeToWorld = getRigidBody().getTransform(null);
         transform.combineWithParent(shapeToWorld);
         transform.combineWithParent(worldToParent);
         getControl().getSpatial().setLocalTransform(transform);
@@ -664,7 +664,7 @@ public class TorsoLink extends PhysicsLink {
         /*
          * Start with the rigid body's Transform relative to world coordinates.
          */
-        getRigidBody().extrapolateTransform(result);
+        getRigidBody().getTransform(result);
         /*
          * Convert to mesh coordinates.
          */

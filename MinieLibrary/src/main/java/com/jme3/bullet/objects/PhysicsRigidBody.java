@@ -263,13 +263,16 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Calculate an extrapolated transform of this body, including the scale of
+     * Determine the coordinate transform of this body, including the scale of
      * its shape.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a transform (relative to physics-space coordinates, either
      * storeResult or a new instance)
+     * @deprecated use
+     * {@link com.jme3.bullet.collision.PhysicsCollisionObject#getTransform(com.jme3.math.Transform)}
      */
+    @Deprecated
     public Transform extrapolateTransform(Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
@@ -480,7 +483,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param storeResult storage for the result (modified if not null)
      * @return the scaling factor for each local axis (either storeResult or a
      * new vector, not null)
+     * @deprecated use
+     * {@link com.jme3.bullet.collision.PhysicsCollisionObject#getScale(com.jme3.math.Vector3f)}
      */
+    @Deprecated
     public Vector3f getPhysicsScale(Vector3f storeResult) {
         Vector3f result = collisionShape.getScale(storeResult);
 

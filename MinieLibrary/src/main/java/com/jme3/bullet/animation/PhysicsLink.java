@@ -434,7 +434,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         if (isKinematic()) {
             result.set(kpTransform);
         } else {
-            rigidBody.extrapolateTransform(result);
+            rigidBody.getTransform(result);
         }
 
         return result;
@@ -795,7 +795,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
             rigidBody.setPhysicsTransform(kpTransform);
             rigidBody.setLinearVelocity(kpVelocity);
         } else if (isKinematic && !wasKinematic) {
-            rigidBody.extrapolateTransform(kpTransform);
+            rigidBody.getTransform(kpTransform);
             rigidBody.getLinearVelocity(kpVelocity);
             rigidBody.setKinematic(true);
         }
