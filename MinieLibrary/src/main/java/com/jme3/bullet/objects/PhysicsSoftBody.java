@@ -1587,6 +1587,72 @@ public class PhysicsSoftBody extends PhysicsBody {
     // *************************************************************************
     // private methods
 
+    /**
+     * Copy the specified buffer to an array, ignoring the limit. TODO utility
+     *
+     * @param floatBuffer (not null, unaffected)
+     * @return a new array
+     */
+    private static float[] copyToArray(FloatBuffer floatBuffer) {
+        int numFloats = floatBuffer.capacity();
+        float[] result = new float[numFloats];
+        for (int i = 0; i < numFloats; ++i) {
+            result[i] = floatBuffer.get(i);
+        }
+
+        return result;
+    }
+
+    /**
+     * Copy the specified buffer to an array, ignoring the limit. TODO utility
+     *
+     * @param intBuffer (not null, unaffected)
+     * @return a new array
+     */
+    private static int[] copyToArray(IntBuffer intBuffer) {
+        int numInts = intBuffer.capacity();
+        int[] result = new int[numInts];
+        for (int i = 0; i < numInts; ++i) {
+            result[i] = intBuffer.get(i);
+        }
+
+        return result;
+    }
+
+    /**
+     * Reuse the specified FloatBuffer, if it has the desired capacity. If no
+     * buffer is specified, allocate a new one. TODO utility
+     *
+     * @param minFloats the desired capacity (in floats, &ge;0)
+     * @param storeResult the buffer to reuse, or null for none
+     * @return a buffer with at least the required capacity (either storeResult
+     * or a new buffer)
+     */
+    private static FloatBuffer ensureCapacity(int minFloats,
+            FloatBuffer storeResult) {
+        Validate.nonNegative(minFloats, "minimum number of elements");
+
+        FloatBuffer result;
+        if (storeResult == null) {
+            result = BufferUtils.createFloatBuffer(minFloats);
+
+        } else {
+            int capacityFloats = storeResult.capacity();
+            if (capacityFloats < minFloats) {
+                logger2.log(Level.SEVERE, "capacity={0}", capacityFloats);
+                String message = String.format(
+                        "Buffer capacity must be greater than or equal to %d.",
+                        minFloats);
+                throw new IllegalArgumentException(message);
+            }
+            result = storeResult;
+        }
+
+        return result;
+    }
+    // *************************************************************************
+    // native methods
+
     native private void addForce(long bodyId, Vector3f forceVector);
 
     native private void addForce(long bodyId, Vector3f forceVector,
@@ -1640,76 +1706,12 @@ public class PhysicsSoftBody extends PhysicsBody {
     native private void applyPhysicsTranslate(long bodyId,
             Vector3f offsetVector);
 
-    /**
-     * Copy the specified buffer to an array, ignoring the limit. TODO utility
-     *
-     * @param floatBuffer (not null, unaffected)
-     * @return a new array
-     */
-    private float[] copyToArray(FloatBuffer floatBuffer) {
-        int numFloats = floatBuffer.capacity();
-        float[] result = new float[numFloats];
-        for (int i = 0; i < numFloats; ++i) {
-            result[i] = floatBuffer.get(i);
-        }
-
-        return result;
-    }
-
-    /**
-     * Copy the specified buffer to an array, ignoring the limit. TODO utility
-     *
-     * @param intBuffer (not null, unaffected)
-     * @return a new array
-     */
-    private int[] copyToArray(IntBuffer intBuffer) {
-        int numInts = intBuffer.capacity();
-        int[] result = new int[numInts];
-        for (int i = 0; i < numInts; ++i) {
-            result[i] = intBuffer.get(i);
-        }
-
-        return result;
-    }
-
     native private int countNodesInCluster(long objectId, int clusterIndex);
 
     native private long createEmptySoftBody();
 
     native private boolean cutLink(long bodyId, int nodeIndex0, int nodeIndex1,
             float cutLocation);
-
-    /**
-     * Reuse the specified FloatBuffer, if it has the desired capacity. If no
-     * buffer is specified, allocate a new one.
-     *
-     * @param minFloats the desired capacity (in floats, &ge;0)
-     * @param storeResult the buffer to reuse, or null for none
-     * @return a buffer with at least the required capacity (either storeResult
-     * or a new buffer)
-     */
-    private static FloatBuffer ensureCapacity(int minFloats,
-            FloatBuffer storeResult) {
-        Validate.nonNegative(minFloats, "minimum number of elements");
-
-        FloatBuffer result;
-        if (storeResult == null) {
-            result = BufferUtils.createFloatBuffer(minFloats);
-
-        } else {
-            int capacityFloats = storeResult.capacity();
-            if (capacityFloats < minFloats) {
-                logger2.log(Level.SEVERE, "capacity={0}", capacityFloats);
-                String message = String.format(
-                        "Buffer capacity must be greater than or equal to %d.",
-                        minFloats);
-                throw new IllegalArgumentException(message);
-            }
-            result = storeResult;
-        }
-
-        return result;
-    }
 
     native private void finishClusters(long softBodyId);
 
@@ -1983,12 +1985,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         // *********************************************************************
         // private methods
 
-        native private float getAngularStiffnessFactor(long materialId);
-
-        native private float getLinearStiffnessFactor(long materialId);
-
-        native private float getVolumeStiffnessFactor(long materialId);
-
         /**
          * De-serialize this Material from the specified capsule, for example
          * when loading from a J3O file.
@@ -2002,15 +1998,6 @@ public class PhysicsSoftBody extends PhysicsBody {
             setVolumeStiffness(capsule.readFloat("VolumeStiffness", 1f));
         }
 
-        native private void setAngularStiffnessFactor(long materialId,
-                float stiffness);
-
-        native private void setLinearStiffnessFactor(long materialId,
-                float stiffness);
-
-        native private void setVolumeStiffnessFactor(long materialId,
-                float stiffness);
-
         /**
          * Serialize this Material to the specified capsule, for example when
          * saving to a J3O file.
@@ -2023,5 +2010,22 @@ public class PhysicsSoftBody extends PhysicsBody {
             capsule.write(linearStiffness(), "LinearStiffness", 1f);
             capsule.write(volumeStiffness(), "VolumeStiffness", 1f);
         }
+        // *********************************************************************
+        // native methods
+
+        native private float getAngularStiffnessFactor(long materialId);
+
+        native private float getLinearStiffnessFactor(long materialId);
+
+        native private float getVolumeStiffnessFactor(long materialId);
+
+        native private void setAngularStiffnessFactor(long materialId,
+                float stiffness);
+
+        native private void setLinearStiffnessFactor(long materialId,
+                float stiffness);
+
+        native private void setVolumeStiffnessFactor(long materialId,
+                float stiffness);
     }
 }
