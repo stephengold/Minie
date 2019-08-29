@@ -1,5 +1,22 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 0.9.15for32 released on TBD
+
+ + API changes:
+   + Deprecated the `extrapolateTransform()` and `getPhysicsScale()` methods of
+     the `PhysicsRigidBody` class.
+   + Deleted the unused `OverlapListener` interface.
+ + Fixed bug:
+   + "body A does not exist" `NullPointerException` while loading a
+     `DynamicAnimControl` from a J3O.
+ + Added library features:
+   + `getScale()` and `getTransform()` methods for `PhysicsCollisionObject`
+   + Argument validation for `MeshCollisionShape` constructors
+ + Other improvements:
+   + Merged the functionality of `TestHullContact` into the
+     `MultiSphereDemo` application.
+   + Stopped overriding the default collision margin in `MultiSphereDemo`.
+
 ## Version 0.9.14for32 released on 25 August 2019
 
  + Simplified the construction of collision shapes from multiple meshes.

@@ -30,13 +30,13 @@ ext { // current versions of the libraries
     heartVersion = '3.0.0for32'
     jme3utilitiesuiVersion = '0.7.7for32'
     jmonkeyengineVersion = '3.2.4-stable'
-    minieVersion = '0.9.14for32'
+    minieVersion = '0.9.15for32'
 }
 
 repositories {
     //mavenLocal()
     maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
-    maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for testdata
+    maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for jme3-testdata
     maven { url 'https://dl.bintray.com/riccardo/v-hacd' } // for v-hacd-java-bindings
     jcenter()
 }
