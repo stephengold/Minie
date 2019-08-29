@@ -472,7 +472,7 @@ public class AttachmentLink extends PhysicsLink {
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the calculated model transform (in local coordinates, either
-     * storeResult or a new transform, not null)
+     * storeResult or a new Transform, not null)
      */
     private Transform localModelTransform(Transform storeResult) {
         Transform result
@@ -481,7 +481,7 @@ public class AttachmentLink extends PhysicsLink {
         Quaternion orientation = result.getRotation();
         Vector3f scale = result.getScale();
         /*
-         * Start with the rigid body's transform in physics/world coordinates.
+         * Start with the rigid body's Transform in physics/world coordinates.
          */
         getRigidBody().extrapolateTransform(result);
         /*
