@@ -720,7 +720,7 @@ public class SixDofJoint extends Constraint {
         assert pivotA != null;
         assert rotA != null;
         PhysicsRigidBody b = getBodyB();
-        assert b != null;
+        long bId = b.getObjectId();
         assert pivotB != null;
         assert rotB != null;
 
@@ -745,8 +745,9 @@ public class SixDofJoint extends Constraint {
 
             b.setPhysicsLocation(bToWorld.getTranslation());
             b.setPhysicsRotation(bToWorld.getRotation());
+
             boolean useLinearReferenceFrameB = !useLinearReferenceFrameA;
-            objectId = createJoint1(b.getObjectId(), pivotB, rotB,
+            objectId = createJoint1(bId, pivotB, rotB,
                     useLinearReferenceFrameB);
 
             b.setPhysicsLocation(saveLocation);
@@ -756,8 +757,9 @@ public class SixDofJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            objectId = createJoint(bodyA.getObjectId(), b.getObjectId(),
-                    pivotA, rotA, pivotB, rotB, useLinearReferenceFrameA);
+            long aId = bodyA.getObjectId();
+            objectId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB,
+                    useLinearReferenceFrameA);
         }
         assert objectId != 0L;
         logger2.log(Level.FINE, "Created {0}.", this);
