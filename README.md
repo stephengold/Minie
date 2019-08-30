@@ -297,14 +297,14 @@ you must explicitly specify their repository locations:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:0.9.14for32'
+        compile 'jme3utilities:Minie:0.9.15for32'
     }
 
 #### For Ant projects
 
 For projects built using [Ant][], download the 3 non-standard libraries:
 
- + https://github.com/stephengold/Minie/releases/tag/0.9.14for32
+ + https://github.com/stephengold/Minie/releases/tag/0.9.15for32
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-3.0.0for32
  + https://bintray.com/riccardo/v-hacd/download_file?file_path=vhacd%2Fvhacd-native%2F1.1.1%2Fvhacd-native-1.1.1.jar
 
