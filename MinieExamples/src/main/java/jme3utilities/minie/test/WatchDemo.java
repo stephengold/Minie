@@ -26,7 +26,6 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.bullet.BulletAppState;
@@ -60,6 +59,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.debug.Grid;
 import com.jme3.scene.plugins.ogre.MaterialLoader;
 import com.jme3.scene.plugins.ogre.MeshLoader;
@@ -119,6 +119,10 @@ public class WatchDemo extends ActionApplication {
     // fields
 
     /**
+     * SkeletonControl/SkinningControl of the loaded model
+     */
+    private AbstractControl sc;
+    /**
      * true once {@link #initWhenReady()} has been invoked for the latest model
      */
     private boolean dacReadyInitDone = false;
@@ -147,10 +151,6 @@ public class WatchDemo extends ActionApplication {
      * visualizer for the target
      */
     private PointVisualizer targetPoint;
-    /**
-     * SkeletonControl of the model
-     */
-    private SkeletonControl sc;
     /**
      * visualizer for the skeleton of the C-G model
      */
@@ -488,7 +488,7 @@ public class WatchDemo extends ActionApplication {
         setHeight(cgModel, height);
         center(cgModel);
 
-        sc = RagUtils.findSkeletonControl(cgModel);
+        sc = RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);
