@@ -1470,6 +1470,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Do not invoke directly! Joints are removed automatically when destroyed.
      *
      * @param joint the joint to remove (not null, unaffected)
+     * @see com.jme3.bullet.joints.PhysicsJoint#destroy()
      */
     @Override
     public void removeJoint(PhysicsJoint joint) {

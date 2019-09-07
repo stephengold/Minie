@@ -309,7 +309,8 @@ public class SoftBodyWorldInfo implements Savable {
 
     native private void setMaxDisplacement(long infoId, float displacement);
 
-    native private long setSoftBodyWorldInfo(long targetId, long sourceId);
+    native private long setSoftBodyWorldInfo(long targetId,
+            long sourceId); // TODO should return void
 
     native private void setWaterDensity(long infoId, float density);
 
