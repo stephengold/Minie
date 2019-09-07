@@ -600,16 +600,19 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Alter this body's angular velocity.
      *
-     * @param vec the desired angular velocity vector (not null, unaffected)
+     * @param omega the desired angular velocity (in physics-space coordinates,
+     * not null, unaffected)
      */
-    public void setAngularVelocity(Vector3f vec) {
-        setAngularVelocity(objectId, vec);
+    public void setAngularVelocity(Vector3f omega) {
+        Validate.finite(omega, "omega");
+
+        setAngularVelocity(objectId, omega);
         activate();
     }
 
     /**
      * Apply the specified CollisionShape to this body. The body gets rebuilt on
-     * the physics side.
+     * the native side.
      *
      * @param collisionShape the shape to apply (not null, alias created)
      */
@@ -657,6 +660,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     public void setDamping(float linearDamping, float angularDamping) {
         Validate.fraction(linearDamping, "linear damping");
         Validate.fraction(angularDamping, "angular damping");
+
         setDamping(objectId, linearDamping, angularDamping);
     }
 
@@ -698,6 +702,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setLinearDamping(float linearDamping) {
         Validate.fraction(linearDamping, "linear damping");
+
         float angularDamping = getAngularDamping();
         setDamping(objectId, linearDamping, angularDamping);
     }
@@ -724,11 +729,13 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Alter the linear velocity of this body's center of mass.
      *
-     * @param vec the desired velocity vector (in physics-space coordinates, not
+     * @param velocity the desired velocity (in physics-space coordinates, not
      * null, unaffected)
      */
-    public void setLinearVelocity(Vector3f vec) {
-        setLinearVelocity(objectId, vec);
+    public void setLinearVelocity(Vector3f velocity) {
+        Validate.finite(velocity, "velocity");
+
+        setLinearVelocity(objectId, velocity);
         activate();
     }
 
