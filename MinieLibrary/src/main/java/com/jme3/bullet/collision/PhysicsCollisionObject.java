@@ -304,6 +304,19 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Read this object's activation state.
+     *
+     * @return the state (1=active tag, 2=island sleeping, 3=wants deactivation,
+     * 4=disable deactivation, 5=disable simulation) TODO named constants
+     */
+    public int getActivationState() {
+        int result = getActivationState(objectId);
+        assert result >= 1 : result;
+        assert result <= 5 : result;
+        return result;
+    }
+
+    /**
      * Copy this object's anisotropic friction.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -1192,6 +1205,8 @@ abstract public class PhysicsCollisionObject
 
     native private void activate(long objectId, boolean forceFlag);
 
+    native private int getActivationState(long objectId);
+
     native private void getAnisotropicFriction(long objectId,
             Vector3f storeResult);
 
@@ -1228,6 +1243,8 @@ abstract public class PhysicsCollisionObject
     native private boolean isActive(long objectId);
 
     native private boolean isInWorld(long objectId);
+
+    native private void setActivationState(long objectId, int newState);
 
     native private void setAnisotropicFriction(long objectId,
             Vector3f components, int mode);

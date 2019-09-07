@@ -141,6 +141,7 @@ public class TestDefaults {
         assertEquals(0f, 0f, 0f, rigidA.getLinearVelocity(null), 0);
         Assert.assertFalse(rigidA.isKinematic());
         Assert.assertEquals(1f, rigidA.getMass(), 0f);
+        Assert.assertEquals(1, rigidA.getActivationState());
 
         PhysicsRigidBody rigidB = new PhysicsRigidBody(box);
         SixDofJoint six = new SixDofJoint(rigidA, rigidB, new Vector3f(),
@@ -198,6 +199,7 @@ public class TestDefaults {
         Assert.assertEquals(0, softA.countNodes());
         Assert.assertEquals(0, softA.countTetras());
         Assert.assertEquals(0f, softA.getMass(), 0f);
+        Assert.assertEquals(1, softA.getActivationState());
 
         Mesh wireBox = new WireBox();
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
