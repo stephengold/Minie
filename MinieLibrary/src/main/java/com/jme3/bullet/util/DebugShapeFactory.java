@@ -103,7 +103,7 @@ public class DebugShapeFactory {
      * scale and margin are taken into account, but not its debug-mesh
      * resolution.
      *
-     * @param shape (not null, unaffected, must be convex)
+     * @param shape (not null, convex, unaffected)
      * @param shapeToWorld the world transform of the collision object (not
      * null, unaffected)
      * @param meshResolution (0=low, 1=high)
@@ -111,7 +111,7 @@ public class DebugShapeFactory {
      */
     public static Vector3f[] footprint(CollisionShape shape,
             Transform shapeToWorld, int meshResolution) {
-        assert !shape.isConcave();
+        assert shape.isConvex();
         Validate.inRange(meshResolution, "mesh resolution", 0, 1);
 
         long shapeId = shape.getObjectId();
@@ -213,12 +213,12 @@ public class DebugShapeFactory {
      * shape's current scale and margin are taken into account, but not its
      * debug-mesh resolution.
      *
-     * @param shape (not null, unaffected, must be convex)
+     * @param shape (not null, convex, unaffected)
      * @param meshResolution (0=low, 1=high)
      * @return the scaled volume (in physics-space units cubed, &ge;0)
      */
     public static float volumeConvex(CollisionShape shape, int meshResolution) {
-        assert !shape.isConcave();
+        assert shape.isConvex();
         Validate.inRange(meshResolution, "mesh resolution", 0, 1);
 
         long shapeId = shape.getObjectId();
