@@ -177,12 +177,35 @@ public class PhysicsDumper extends Dumper {
         long objectId = ghost.getObjectId();
         stream.printf("%n%sGhost #%s", indent, Long.toHexString(objectId));
 
-        String desc = getDescriber().describeUser(ghost);
+        PhysicsDescriber describer = getDescriber();
+        String desc = describer.describeUser(ghost);
         stream.print(desc);
 
         Vector3f location = ghost.getPhysicsLocation(null);
         String locString = MyVector3f.describe(location);
         stream.printf(" loc[%s]", locString);
+
+        Quaternion orientation = ghost.getPhysicsRotation(null);
+        if (!MyQuaternion.isRotationIdentity(orientation)) {
+            String orientText = MyQuaternion.describe(orientation);
+            stream.printf(" orient[%s]", orientText);
+        }
+        /*
+         * 2nd line has the shape, scale, and group info.
+         */
+        CollisionShape shape = ghost.getCollisionShape();
+        desc = describer.describe(shape);
+        stream.printf("%n%s %s", indent, desc);
+
+        Vector3f scale = shape.getScale(null);
+        desc = describer.describeScale(scale);
+        if (!desc.isEmpty()) {
+            stream.print(' ');
+            stream.print(desc);
+        }
+
+        desc = describer.describeGroups(ghost);
+        stream.print(desc);
     }
 
     /**
@@ -211,6 +234,19 @@ public class PhysicsDumper extends Dumper {
         if (!MyQuaternion.isRotationIdentity(orientation)) {
             String orientText = MyQuaternion.describe(orientation);
             stream.printf(" orient[%s]", orientText);
+        }
+
+        int expectedState;
+        if (body.isKinematic()) {
+            expectedState = 4;
+        } else if (body.isActive()) {
+            expectedState = 1;
+        } else {
+            expectedState = 2;
+        }
+        int activationState = body.getActivationState();
+        if (activationState != expectedState) {
+            stream.printf(" as=%d", activationState);
         }
 
         // TODO dump friction and damping
@@ -249,7 +285,7 @@ public class PhysicsDumper extends Dumper {
 
         stream.print(" #");
         long objectId = body.getObjectId();
-        stream.printf(Long.toHexString(objectId));
+        stream.print(Long.toHexString(objectId));
         /*
          * 2nd line has the shape, scale, group info, and the number of joints.
          */
