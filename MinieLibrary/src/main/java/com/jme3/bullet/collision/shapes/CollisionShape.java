@@ -248,10 +248,50 @@ abstract public class CollisionShape
     /**
      * Test whether this shape is concave.
      *
-     * @return true if concave, false if convex
+     * @return true if concave, false otherwise
      */
     public boolean isConcave() {
         boolean result = isConcave(objectId);
+        return result;
+    }
+
+    /**
+     * Test whether this shape is convex.
+     *
+     * @return true if convex, false otherwise
+     */
+    public boolean isConvex() {
+        boolean result = isConvex(objectId);
+        return result;
+    }
+
+    /**
+     * Test whether this shape is infinite.
+     *
+     * @return true if infinite, false otherwise
+     */
+    public boolean isInfinite() {
+        boolean result = isInfinite(objectId);
+        return result;
+    }
+
+    /**
+     * Test whether this shape is non-moving.
+     *
+     * @return true if non-moving, false otherwise
+     */
+    public boolean isNonMoving() {
+        boolean result = isNonMoving(objectId);
+        return result;
+    }
+
+    /**
+     * Test whether this shape is polyhedral.
+     *
+     * @return true if polyhedral, false otherwise
+     */
+    public boolean isPolyhedral() {
+        boolean result = isPolyhedral(objectId);
         return result;
     }
 
@@ -502,6 +542,14 @@ abstract public class CollisionShape
     native private float getMargin(long objectId);
 
     native private boolean isConcave(long objectId);
+
+    native private boolean isConvex(long objectId);
+
+    native private boolean isInfinite(long objectId);
+
+    native private boolean isNonMoving(long objectId);
+
+    native private boolean isPolyhedral(long objectId);
 
     native private void setLocalScaling(long objectId, Vector3f scale);
 

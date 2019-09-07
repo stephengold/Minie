@@ -293,7 +293,7 @@ public class BoneLink extends PhysicsLink {
      */
     public Vector3f[] footprint() {
         CollisionShape shape = getRigidBody().getCollisionShape();
-        assert !shape.isConcave();
+        assert shape.isConvex();
 
         Transform localToWorld = physicsTransform(null);
         localToWorld.setScale(1f);

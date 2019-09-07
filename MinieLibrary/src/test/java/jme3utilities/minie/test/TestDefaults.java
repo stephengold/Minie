@@ -34,6 +34,7 @@ import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.joints.SixDofJoint;
@@ -45,6 +46,7 @@ import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeLibrary;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
+import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
@@ -94,14 +96,39 @@ public class TestDefaults {
         CollisionShape box = new BoxCollisionShape(1f);
         Assert.assertEquals(0.04f, box.getMargin(), 0f);
         assertEquals(1f, 1f, 1f, box.getScale(null), 0f);
+        assert !box.isConcave();
+        assert box.isConvex();
+        assert !box.isInfinite();
+        assert !box.isNonMoving();
+        assert box.isPolyhedral();
 
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         Assert.assertEquals(0f, capsule.getMargin(), 0f);
         assertEquals(1f, 1f, 1f, capsule.getScale(null), 0f);
+        assert !capsule.isConcave();
+        assert capsule.isConvex();
+        assert !capsule.isInfinite();
+        assert !capsule.isNonMoving();
+        assert !capsule.isPolyhedral();
+
+        Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
+        CollisionShape pcs = new PlaneCollisionShape(plane);
+        Assert.assertEquals(0.04f, pcs.getMargin(), 0f);
+        assertEquals(1f, 1f, 1f, pcs.getScale(null), 0f);
+        assert pcs.isConcave();
+        assert !pcs.isConvex();
+        assert pcs.isInfinite();
+        assert pcs.isNonMoving();
+        assert !pcs.isPolyhedral();
 
         CollisionShape sphere = new SphereCollisionShape(1f);
         Assert.assertEquals(0f, sphere.getMargin(), 0f);
         assertEquals(1f, 1f, 1f, sphere.getScale(null), 0f);
+        assert !sphere.isConcave();
+        assert sphere.isConvex();
+        assert !sphere.isInfinite();
+        assert !sphere.isNonMoving();
+        assert !sphere.isPolyhedral();
 
         PhysicsRigidBody rigidA = new PhysicsRigidBody(box);
         testPco(rigidA);

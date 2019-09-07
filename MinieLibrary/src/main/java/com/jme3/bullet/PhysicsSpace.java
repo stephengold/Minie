@@ -992,9 +992,9 @@ public class PhysicsSpace {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @param shape the shape to sweep (not null)
-     * @param start the starting physics-space transform (not null)
-     * @param end the ending physics-space transform (not null)
+     * @param shape the shape to sweep (not null, convex, unaffected)
+     * @param start the starting physics-space transform (not null, unaffected)
+     * @param end the ending physics-space transform (not null, unaffected)
      * @return a new list of results
      */
     public List<PhysicsSweepTestResult> sweepTest(CollisionShape shape,
@@ -1007,9 +1007,9 @@ public class PhysicsSpace {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @param shape the shape to sweep (not null)
-     * @param start the starting physics-space transform (not null)
-     * @param end the ending physics-space transform (not null)
+     * @param shape the shape to sweep (not null, convex, unaffected)
+     * @param start the starting physics-space transform (not null, unaffected)
+     * @param end the ending physics-space transform (not null, unaffected)
      * @param results the list to hold results (not null, modified)
      * @return results
      */
@@ -1028,11 +1028,11 @@ public class PhysicsSpace {
      * A sweep test will miss a collision if it starts inside an object and
      * sweeps away from the object's center.
      *
-     * @param shape the shape to sweep (not null)
-     * @param start the starting physics-space transform (not null)
-     * @param end the ending physics-space transform (not null)
+     * @param shape the shape to sweep (not null, convex, unaffected)
+     * @param start the starting physics-space transform (not null, unaffected)
+     * @param end the ending physics-space transform (not null, unaffected)
      * @param results the list to hold results (not null, modified)
-     * @param allowedCcdPenetration true&rarr;allow, false&rarr;disallow
+     * @param allowedCcdPenetration (in physics-space units)
      * @return results
      */
     public List<PhysicsSweepTestResult> sweepTest(CollisionShape shape,
@@ -1041,6 +1041,7 @@ public class PhysicsSpace {
         Validate.nonNull(start, "start");
         Validate.nonNull(end, "end");
         Validate.nonNull(results, "results");
+        assert shape.isConvex();
 
         long shapeId = shape.getObjectId();
         results.clear();
