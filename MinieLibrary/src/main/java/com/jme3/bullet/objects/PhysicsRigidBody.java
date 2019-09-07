@@ -665,6 +665,19 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
+     * Alter this body's activation state to allow/disallow sleep.
+     *
+     * @param setting true&rarr;enable sleep, false&rarr;disable sleep
+     */
+    public void setEnableSleep(boolean setting) {
+        if (setting) {
+            setActivationState(objectId, 1);
+        } else {
+            setActivationState(objectId, 4);
+        }
+    }
+
+    /**
      * Alter the principal (diagonal) components of the local inertia tensor in
      * the body's local coordinates.
      *

@@ -972,6 +972,14 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Alter the activation state of this object.
+     *
+     * @param objectId the ID of the btCollisionObject (not zero)
+     * @param desiredState the desired state
+     */
+    native protected void setActivationState(long objectId, int desiredState);
+
+    /**
      * Alter the collision flags of this object. Subclasses are responsible for
      * cloning/loading/saving these flags. Flags are defined in
      * {@link com.jme3.bullet.collision.CollisionFlag}.
@@ -1243,8 +1251,6 @@ abstract public class PhysicsCollisionObject
     native private boolean isActive(long objectId);
 
     native private boolean isInWorld(long objectId);
-
-    native private void setActivationState(long objectId, int newState);
 
     native private void setAnisotropicFriction(long objectId,
             Vector3f components, int mode);
