@@ -494,6 +494,7 @@ public class TuneDac extends ActionApplication {
                 BoneLink boneLink = (BoneLink) wiggleLink;
                 boneLink.setDynamic(Vector3f.ZERO, false, false, false);
             }
+            // TODO btAssert at btSequentialImpulseConstraintSolver.cpp:947 during stepSimulation()
         }
     }
 

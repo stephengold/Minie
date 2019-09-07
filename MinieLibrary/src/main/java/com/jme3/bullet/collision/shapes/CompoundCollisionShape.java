@@ -299,13 +299,13 @@ public class CompoundCollisionShape extends CollisionShape {
     // *************************************************************************
     // native methods
 
-    // TODO should return void
     native private long addChildShape(long compoundId, long childId,
-            Vector3f location, Matrix3f rotation);
+            Vector3f location, Matrix3f rotation); // TODO should return void
 
     native private long createShape();
 
     native private void recalcAabb(long shapeId);
 
-    native private long removeChildShape(long compoundId, long childId);
+    native private long removeChildShape(long compoundId,
+            long childId); // TODO should return void
 }

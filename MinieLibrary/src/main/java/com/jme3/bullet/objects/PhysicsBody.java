@@ -89,6 +89,7 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      * Do not invoke directly! Joints are removed automatically when destroyed.
      *
      * @param joint the joint to remove (not null)
+     * @see com.jme3.bullet.joints.PhysicsJoint#destroy()
      */
     abstract public void removeJoint(PhysicsJoint joint);
 
