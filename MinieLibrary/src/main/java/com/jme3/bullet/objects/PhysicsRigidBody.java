@@ -474,10 +474,23 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @return a new quaternion (in physics-space coordinates, not null)
+     * @return a new Quaternion (in physics-space coordinates, not null)
      */
     public Quaternion getPhysicsRotation() {
         return getPhysicsRotation(null);
+    }
+
+    /**
+     * Calculate the squared speed of this body. The body must be in dynamic
+     * mode.
+     *
+     * @return the squared speed (in physics-space units squared per second
+     * squared, &ge;0)
+     */
+    public float getSquaredSpeed() {
+        assert isDynamic();
+        float result = getSquaredSpeed(objectId);
+        return result;
     }
 
     /**
@@ -511,9 +524,9 @@ public class PhysicsRigidBody extends PhysicsBody {
     public double kineticEnergy() {
         assert isDynamic();
 
-        Vector3f vec = getLinearVelocity(null);
-        double mv2 = mass * MyVector3f.lengthSquared(vec);
+        double mv2 = mass * getSquaredSpeed();
 
+        Vector3f vec = new Vector3f(); // TODO garbage
         getAngularVelocityLocal(vec);
         double xx = vec.x;
         double yy = vec.y;
@@ -1199,6 +1212,8 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     native private void getLinearVelocity(long objectId, Vector3f storeResult);
 
+    native private float getSquaredSpeed(long objectId);
+
     native private void setAngularDamping(long objectId, float dampingFraction);
 
     native private void setAngularFactor(long objectId, Vector3f factor);
@@ -1237,5 +1252,5 @@ public class PhysicsRigidBody extends PhysicsBody {
             float angular);
 
     native private long updateMassProps(long objectId, long collisionShapeId,
-            float mass);
+            float mass); // TODO should return void
 }
