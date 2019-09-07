@@ -39,9 +39,7 @@ import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVolume;
@@ -75,30 +73,11 @@ class DebugMeshCallback {
     // fields
 
     /**
-     * list of vertex locations (typically includes many duplicates) TODO define
-     * a VectorList class
+     * list of vertex locations (typically includes many duplicates)
      */
     final private ArrayList<Vector3f> list = new ArrayList<>(250);
     // *************************************************************************
     // new methods exposed
-
-    /**
-     * Count the number of distinct vertices in the mesh, distinguishing 0 from
-     * -0.
-     *
-     * @return the count (&ge;0)
-     */
-    int countDistinctVertices() {
-        int length = list.size();
-        Set<Vector3f> distinct = new HashSet<>(length);
-        for (Vector3f vector : list) {
-            distinct.add(vector);
-        }
-
-        int result = distinct.size();
-        assert result >= 0 : result;
-        return result;
-    }
 
     /**
      * Estimate the footprint of the vertex locations in world coordinates.
@@ -323,9 +302,9 @@ class DebugMeshCallback {
      * <p>
      * This method is invoked from native code.
      *
-     * @param x local X coordinate of new vertex
-     * @param y local Y coordinate of new vertex
-     * @param z local Z coordinate of new vertex
+     * @param x the local X coordinate of the new vertex
+     * @param y the local Y coordinate of the new vertex
+     * @param z the local Z coordinate of the new vertex
      * @param part ignored
      * @param index ignored
      */
