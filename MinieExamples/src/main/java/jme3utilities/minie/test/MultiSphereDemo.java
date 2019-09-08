@@ -216,6 +216,8 @@ public class MultiSphereDemo
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
+        dim.bind("add", KeyInput.KEY_INSERT);
+
         dim.bind("delete", KeyInput.KEY_BACK);
         dim.bind("delete", KeyInput.KEY_DELETE);
 
@@ -234,7 +236,6 @@ public class MultiSphereDemo
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
-        dim.bind("signal shower", KeyInput.KEY_INSERT);
 
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
         dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
@@ -264,6 +265,10 @@ public class MultiSphereDemo
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
+                case "add":
+                    addAGem();
+                    return;
+
                 case "delete":
                     delete();
                     return;
