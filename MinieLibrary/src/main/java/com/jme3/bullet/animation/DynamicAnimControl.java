@@ -65,12 +65,12 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 
 /**
- * Before adding this control to a spatial, configure it by invoking
+ * Before adding this Control to a Spatial, configure it by invoking
  * {@link #link(java.lang.String, float, com.jme3.bullet.animation.RangeOfMotion)}
  * for each bone that should have its own rigid body. Leave unlinked bones near
  * the root of the skeleton to form the torso of the ragdoll.
  * <p>
- * When you add the control to a spatial, it generates a ragdoll consisting of a
+ * When you add the Control to a Spatial, it generates a ragdoll consisting of a
  * rigid body for the torso and another for each linked bone. It also creates a
  * SixDofJoint connecting each rigid body to its parent in the link hierarchy.
  * The mass of each rigid body and the range-of-motion of each joint can be
@@ -130,7 +130,7 @@ public class DynamicAnimControl
     // constructors
 
     /**
-     * Instantiate an enabled control without any linked bones or attachments
+     * Instantiate an enabled Control without any linked bones or attachments
      * (torso only).
      */
     public DynamicAnimControl() {
@@ -139,7 +139,7 @@ public class DynamicAnimControl
     // new methods exposed
 
     /**
-     * Add a collision listener to this control.
+     * Add a collision listener to this Control.
      *
      * @param listener (not null, alias created)
      */
@@ -201,12 +201,12 @@ public class DynamicAnimControl
      * Begin blending all links to purely kinematic mode, driven by animation.
      * TODO callback when the transition completes
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the Control IS added to a Spatial.
      *
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
      * @param endModelTransform the desired local transform for the controlled
-     * spatial when the transition completes or null for no change to local
+     * spatial when the transition completes, or null for no change to local
      * transform (unaffected)
      */
     public void blendToKinematicMode(float blendInterval,
@@ -231,7 +231,7 @@ public class DynamicAnimControl
      * Calculate the ragdoll's total mass and center of mass, excluding released
      * attachments.
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the Control IS added to a Spatial.
      *
      * @param storeLocation storage for the location of the center (in
      * physics-space coordinates, modified if not null)
@@ -411,7 +411,7 @@ public class DynamicAnimControl
      * Immediately freeze the specified link and all its descendants. Note:
      * recursive!
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the Control IS added to a Spatial.
      *
      * @param rootLink the root of the subtree to freeze (not null)
      * @param forceKinematic true&rarr;force link to kinematic mode,
@@ -482,7 +482,7 @@ public class DynamicAnimControl
     }
 
     /**
-     * Enumerate all IK joints managed by this control.
+     * Enumerate all IK joints managed by this Control.
      *
      * @return a new array of pre-existing joints (not null, not empty)
      */
@@ -558,7 +558,7 @@ public class DynamicAnimControl
      * Add an IK joint that will restrict the specified links to pivoting around
      * each other.
      * <p>
-     * Allowed only when the control IS added to a spatial and all links are
+     * Allowed only when the Control IS added to a Spatial and all links are
      * "ready".
      *
      * @param linkA the 1st link to pin (not null)
@@ -591,7 +591,7 @@ public class DynamicAnimControl
      * Add an IK joint that will restrict the specified link to pivoting around
      * a fixed pivot.
      * <p>
-     * Allowed only when the control IS added to a spatial and all links are
+     * Allowed only when the Control IS added to a Spatial and all links are
      * "ready".
      *
      * @param link which link to pin (not null)
@@ -622,7 +622,7 @@ public class DynamicAnimControl
      * Alter the contact-response setting of the specified link and all its
      * descendants (excluding released attachments). Note: recursive!
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the Control IS added to a Spatial.
      *
      * @param rootLink the root of the subtree to modify (not null)
      * @param desiredResponse true for the usual rigid-body response, false for
@@ -648,7 +648,7 @@ public class DynamicAnimControl
      * Immediately put the specified link and all its ancestors (excluding the
      * torso) into dynamic mode. Note: recursive!
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the Control IS added to a Spatial.
      *
      * @param startLink the start of the chain to modify (not null)
      * @param chainLength the maximum number of links to modify (&ge;0)
@@ -685,7 +685,7 @@ public class DynamicAnimControl
      * Immediately put the specified link and all its descendants (excluding
      * released attachments) into dynamic mode. Note: recursive!
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the Control IS added to a Spatial.
      *
      * @param rootLink the root of the subtree to modify (not null)
      * @param uniformAcceleration the uniform acceleration vector (in
@@ -719,7 +719,7 @@ public class DynamicAnimControl
     /**
      * Immediately put all links into purely kinematic mode.
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the Control IS added to a Spatial.
      */
     public void setKinematicMode() {
         verifyAddedToSpatial("set kinematic mode");
@@ -731,7 +731,7 @@ public class DynamicAnimControl
     /**
      * Immediately put all links and IK joints into ragdoll mode.
      * <p>
-     * Allowed only when the control IS added to a spatial and all links are
+     * Allowed only when the Control IS added to a Spatial and all links are
      * "ready".
      */
     public void setRagdollMode() {
@@ -902,7 +902,7 @@ public class DynamicAnimControl
             otherPco = pcoA;
         }
         /*
-         * Discard collisions that don't involve this control.
+         * Discard collisions that don't involve this Control.
          */
         if (!isThisControlInvolved) {
             return;
