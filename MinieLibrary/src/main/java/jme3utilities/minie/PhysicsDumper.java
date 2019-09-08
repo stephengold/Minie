@@ -236,6 +236,10 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" orient[%s]", orientText);
         }
 
+        float friction = body.getFriction();
+        stream.print(" fric=");
+        stream.print(MyString.describe(friction));
+
         int expectedState;
         if (body.isKinematic()) {
             expectedState = 4;
@@ -249,11 +253,17 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" as=%d", activationState);
         }
 
-        // TODO dump friction and damping
+        long objectId = body.getObjectId();
+        stream.print(" #");
+        stream.print(Long.toHexString(objectId));
+
         if (body.isDynamic()) {
+            /*
+             * The 2nd line has velocity, gravity, CCD, damping, and sleeping.
+             */
             Vector3f velocity = body.getLinearVelocity(null);
             String velString = MyVector3f.describe(velocity);
-            stream.printf(" v[%s]", velString);
+            stream.printf("%n%s v[%s]", indent, velString);
 
             Vector3f gravity = body.getGravity(null);
             String graString = MyVector3f.describe(gravity);
@@ -267,12 +277,18 @@ public class PhysicsDumper extends Dumper {
                 float ccdR = body.getCcdSweptSphereRadius();
                 stream.print(MyString.describe(ccdR));
             }
-            stream.print(']');
 
-            stream.print(" sleep[lt=");
+            float angularDamping = body.getAngularDamping();
+            float linearDamping = body.getLinearDamping();
+            stream.print("] damp[ang=");
+            stream.print(MyString.describe(angularDamping));
+            stream.print(" lin=");
+            stream.print(MyString.describe(linearDamping));
+
             float linearThreshold = body.getLinearSleepingThreshold();
-            stream.print(MyString.describe(linearThreshold));
             float angularThreshold = body.getAngularSleepingThreshold();
+            stream.print("] sleep[lt=");
+            stream.print(MyString.describe(linearThreshold));
             stream.print(" at=");
             stream.print(MyString.describe(angularThreshold));
             if (body.isActive()) {
@@ -282,12 +298,8 @@ public class PhysicsDumper extends Dumper {
             }
             stream.print(']');
         }
-
-        stream.print(" #");
-        long objectId = body.getObjectId();
-        stream.print(Long.toHexString(objectId));
         /*
-         * 2nd line has the shape, scale, group info, and the number of joints.
+         * next line has the shape, scale, group info, and the number of joints.
          */
         CollisionShape shape = body.getCollisionShape();
         desc = describer.describe(shape);
