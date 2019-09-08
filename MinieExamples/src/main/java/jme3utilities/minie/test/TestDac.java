@@ -149,7 +149,10 @@ public class TestDac extends ActionApplication {
     /**
      * status displayed in the upper-left corner of the GUI node
      */
-    private BitmapText text;
+    private BitmapText statusText;
+    /**
+     * important linked bones
+     */
     private BoneLink leftClavicle;
     private BoneLink leftFemur;
     private BoneLink leftUlna;
@@ -268,11 +271,11 @@ public class TestDac extends ActionApplication {
 
         addModel("Sinbad");
         /*
-         * Initialize the GUI node.
+         * Add the status text to the GUI.
          */
-        text = new BitmapText(guiFont, false);
-        text.setLocalTranslation(0f, cam.getHeight(), 0f);
-        guiNode.attachChild(text);
+        statusText = new BitmapText(guiFont, false);
+        statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
+        guiNode.attachChild(statusText);
     }
 
     /**
@@ -336,7 +339,7 @@ public class TestDac extends ActionApplication {
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float x = 10f;
-        float y = cam.getHeight() - 10f;
+        float y = cam.getHeight() - 40f;
         float width = cam.getWidth() - 20f;
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -521,7 +524,7 @@ public class TestDac extends ActionApplication {
             rotate.mult(orientation, orientation);
             MySpatial.setWorldOrientation(cgModel, orientation);
         }
-        updateGuiNode();
+        updateStatusText();
     }
     // *************************************************************************
     // private methods
@@ -1107,9 +1110,12 @@ public class TestDac extends ActionApplication {
     /**
      * Update the status text in the GUI.
      */
-    private void updateGuiNode() {
+    private void updateStatusText() {
         double energy = dac.kineticEnergy();
-        String message = String.format("KE=%f", energy);
-        text.setText(message);
+        String message = "";
+        if (Double.isFinite(energy)) {
+            message = String.format("KE=%f", energy);
+        }
+        statusText.setText(message);
     }
 }
