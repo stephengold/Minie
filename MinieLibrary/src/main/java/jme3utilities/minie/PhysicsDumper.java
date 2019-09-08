@@ -34,6 +34,11 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
+import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
+import com.jme3.bullet.collision.shapes.HullCollisionShape;
+import com.jme3.bullet.collision.shapes.MeshCollisionShape;
+import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
@@ -311,7 +316,7 @@ public class PhysicsDumper extends Dumper {
             stream.print(']');
         }
         /*
-         * next line has the shape, scale, group info, and the number of joints.
+         * The next line has the shape (and scale).
          */
         CollisionShape shape = body.getCollisionShape();
         desc = describer.describe(shape);
@@ -320,6 +325,19 @@ public class PhysicsDumper extends Dumper {
         Vector3f scale = shape.getScale(null);
         desc = describer.describeScale(scale);
         addDescription(desc);
+        /*
+         * The next line has the bounding box, group info, and number of joints.
+         */
+        stream.printf("%n%s", indent);
+        if (shape instanceof GImpactCollisionShape
+                || shape instanceof HeightfieldCollisionShape
+                || shape instanceof HullCollisionShape
+                || shape instanceof MeshCollisionShape
+                || shape instanceof SimplexCollisionShape) {
+            BoundingBox aabb = shape.boundingBox(location, orientation, null);
+            desc = describer.describe(aabb);
+            stream.printf(" aabb=[%s]", desc);
+        }
 
         desc = describer.describeGroups(body);
         stream.print(desc);
@@ -327,6 +345,9 @@ public class PhysicsDumper extends Dumper {
         int numJoints = body.countJoints();
         stream.printf(" with %d joint%s", numJoints,
                 (numJoints == 1) ? "" : "s");
+        /*
+         * Additional lines, if needed, for the joints.
+         */
         if (dumpJointsInBodies && numJoints > 0) {
             dumpJoints(body, indent);
         }
