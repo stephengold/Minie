@@ -31,8 +31,11 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
+import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -44,6 +47,7 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
@@ -61,6 +65,8 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
+import jme3utilities.MyString;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.VectorSet;
 import jme3utilities.math.VectorSetUsingBuffer;
 import jme3utilities.math.noise.Generator;
@@ -216,8 +222,12 @@ public class MultiSphereDemo
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
 
+        dim.bind("shape box", KeyInput.KEY_F3);
+        dim.bind("shape cone", KeyInput.KEY_F4);
+        dim.bind("shape cylinder", KeyInput.KEY_F6);
         dim.bind("shape hull", KeyInput.KEY_F2);
         dim.bind("shape multiSphere", KeyInput.KEY_F1);
+        dim.bind("shape tetrahedron", KeyInput.KEY_F7);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -266,14 +276,6 @@ public class MultiSphereDemo
                     dumper.dump(renderManager);
                     return;
 
-                case "shape hull":
-                    shapeName = "hull";
-                    return;
-
-                case "shape multiSphere":
-                    shapeName = "multiSphere";
-                    return;
-
                 case "toggle axes":
                     toggleAxes();
                     return;
@@ -293,6 +295,12 @@ public class MultiSphereDemo
                 case "toggle spheres":
                     toggleSpheres();
                     return;
+            }
+
+            String[] words = actionString.split(" ");
+            if (words.length >= 2 && "shape".equals(words[0])) {
+                shapeName = words[1];
+                return;
             }
         }
         super.onAction(actionString, ongoing, tpf);
@@ -338,16 +346,39 @@ public class MultiSphereDemo
 
         DebugMeshNormals debugMeshNormals;
         switch (shapeName) {
-            case "multiSphere":
-                randomMultiSphere();
+            case "box":
+                randomBox();
+                debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
+            case "cone":
+                randomCone();
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
+
+            case "cylinder":
+                randomCylinder();
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
             case "hull":
                 randomHull();
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
+
+            case "multiSphere":
+                randomMultiSphere();
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
+            case "tetrahedron":
+                randomTetrahedron();
+                debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
             default:
-                throw new RuntimeException(shapeName);
+                String message = "shapeName = " + MyString.quote(shapeName);
+                throw new RuntimeException(message);
         }
 
         Vector3f startLocation = random.nextVector3f();
@@ -389,7 +420,7 @@ public class MultiSphereDemo
      * Add lighting and shadows to the specified scene.
      */
     private void addLighting(Spatial rootSpatial) {
-        ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
+        ColorRGBA ambientColor = new ColorRGBA(0.05f, 0.05f, 0.05f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
 
@@ -480,6 +511,44 @@ public class MultiSphereDemo
     }
 
     /**
+     * Generate a box shape with random extents.
+     */
+    private void randomBox() {
+        float rx = 0.1f + 0.3f * random.nextFloat();
+        float ry = 0.1f + 0.3f * random.nextFloat();
+        float rz = 0.1f + 0.3f * random.nextFloat();
+        Vector3f halfExtents = new Vector3f(rx, ry, rz);
+        gemRadius = halfExtents.length();
+
+        gemShape = new BoxCollisionShape(halfExtents);
+    }
+
+    /**
+     * Randomly generate a Y-axis cone shape.
+     */
+    private void randomCone() {
+        float baseRadius = 0.1f + 0.2f * random.nextFloat();
+        float height = 0.1f + 0.4f * random.nextFloat();
+
+        gemRadius = MyMath.hypotenuse(baseRadius, height / 2f);
+        gemRadius += CollisionShape.getDefaultMargin();
+
+        gemShape = new ConeCollisionShape(baseRadius, height);
+    }
+
+    /**
+     * Generate a Z-axis cylinder shape with random extents.
+     */
+    private void randomCylinder() {
+        float baseRadius = 0.1f + 0.2f * random.nextFloat();
+        float halfHeight = 0.1f + 0.3f * random.nextFloat();
+        gemRadius = MyMath.hypotenuse(baseRadius, halfHeight);
+
+        Vector3f halfExtents = new Vector3f(baseRadius, baseRadius, halfHeight);
+        gemShape = new CylinderCollisionShape(halfExtents);
+    }
+
+    /**
      * Randomly generate a hull shape based on 5-20 vertices.
      */
     private void randomHull() {
@@ -490,11 +559,13 @@ public class MultiSphereDemo
         vertices.add(new Vector3f(0f, 0f, 0f));
         for (int vertexIndex = 1; vertexIndex < numVertices; ++vertexIndex) {
             Vector3f location = random.nextUnitVector3f();
-            location.multLocal(0.4f);
+            location.multLocal(0.3f);
             vertices.add(location);
             float distance = location.length();
             gemRadius = Math.max(gemRadius, distance);
         }
+        gemRadius += CollisionShape.getDefaultMargin();
+
         FloatBuffer buffer = vertices.toBuffer();
         gemShape = new HullCollisionShape(buffer);
     }
@@ -522,7 +593,25 @@ public class MultiSphereDemo
             float extRadius = center.length() + radius;
             gemRadius = Math.max(gemRadius, extRadius);
         }
+
         gemShape = new MultiSphere(centers, radii);
+    }
+
+    /**
+     * Randomly generate a simplex shape with 4 vertices.
+     */
+    private void randomTetrahedron() {
+        float r1 = 0.03f + 0.3f * random.nextFloat();
+        float r2 = 0.03f + 0.3f * random.nextFloat();
+        float r3 = 0.03f + 0.3f * random.nextFloat();
+        float r4 = 0.03f + 0.3f * random.nextFloat();
+        gemRadius = FastMath.sqrt(3f) * MyMath.max(r1, r2, Math.max(r3, r4));
+
+        Vector3f p1 = new Vector3f(r1, r1, r1);
+        Vector3f p2 = new Vector3f(r2, -r2, -r2);
+        Vector3f p3 = new Vector3f(-r3, -r3, r3);
+        Vector3f p4 = new Vector3f(-r4, r4, -r4);
+        gemShape = new SimplexCollisionShape(p1, p2, p3, p4);
     }
 
     /**
