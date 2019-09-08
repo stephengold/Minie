@@ -51,6 +51,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
+import java.nio.FloatBuffer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -60,6 +61,8 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
+import jme3utilities.math.VectorSet;
+import jme3utilities.math.VectorSetUsingBuffer;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
@@ -481,7 +484,7 @@ public class MultiSphereDemo
      */
     private void randomHull() {
         int numVertices = 5 + random.nextInt(16);
-        List<Vector3f> vertices = new ArrayList<>(numVertices); // TODO use VectorSet
+        VectorSet vertices = new VectorSetUsingBuffer(numVertices);
 
         gemRadius = 0f;
         vertices.add(new Vector3f(0f, 0f, 0f));
@@ -492,7 +495,8 @@ public class MultiSphereDemo
             float distance = location.length();
             gemRadius = Math.max(gemRadius, distance);
         }
-        gemShape = new HullCollisionShape(vertices);
+        FloatBuffer buffer = vertices.toBuffer();
+        gemShape = new HullCollisionShape(buffer);
     }
 
     /**
