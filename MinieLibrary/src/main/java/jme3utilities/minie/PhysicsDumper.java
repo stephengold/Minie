@@ -154,15 +154,30 @@ public class PhysicsDumper extends Dumper {
     public void dump(PhysicsCharacter character, String indent) {
         Validate.nonNull(indent, "indent");
 
-        long objectId = character.getObjectId();
-        stream.printf("%n%sCharacter #%s", indent, Long.toHexString(objectId));
+        stream.printf("%n%sCharacter", indent);
 
         String desc = getDescriber().describeUser(character);
         stream.print(desc);
 
         Vector3f location = character.getPhysicsLocation();
         String locString = MyVector3f.describe(location);
-        stream.printf(" loc[%s]", locString);
+        stream.printf(" loc[%s] ", locString);
+
+        PhysicsDescriber describer = getDescriber();
+        CollisionShape shape = character.getCollisionShape();
+        desc = describer.describe(shape);
+        stream.print(desc);
+
+        Vector3f scale = shape.getScale(null);
+        desc = describer.describeScale(scale);
+        addDescription(desc);
+
+        desc = describer.describeGroups(character);
+        stream.print(desc);
+
+        long objectId = character.getObjectId();
+        stream.print(" #");
+        stream.print(Long.toHexString(objectId));
     }
 
     /**
@@ -199,10 +214,7 @@ public class PhysicsDumper extends Dumper {
 
         Vector3f scale = shape.getScale(null);
         desc = describer.describeScale(scale);
-        if (!desc.isEmpty()) {
-            stream.print(' ');
-            stream.print(desc);
-        }
+        addDescription(desc);
 
         desc = describer.describeGroups(ghost);
         stream.print(desc);
@@ -307,10 +319,7 @@ public class PhysicsDumper extends Dumper {
 
         Vector3f scale = shape.getScale(null);
         desc = describer.describeScale(scale);
-        if (!desc.isEmpty()) {
-            stream.print(' ');
-            stream.print(desc);
-        }
+        addDescription(desc);
 
         desc = describer.describeGroups(body);
         stream.print(desc);
@@ -1030,7 +1039,7 @@ public class PhysicsDumper extends Dumper {
 
     /**
      * Count the number of times the specified integer value occurs in the
-     * specified buffer. TODO move to utility class
+     * specified buffer. TODO use MyBuffer
      *
      * @param buffer the buffer to read (not null, unaffected)
      * @param bufferLength the number of integers in the buffer (&ge;0)
