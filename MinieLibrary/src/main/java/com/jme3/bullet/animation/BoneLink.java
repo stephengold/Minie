@@ -371,11 +371,24 @@ public class BoneLink extends PhysicsLink {
         Transform transform = localBoneTransform(null);
         if (managedBones != null) {
             MySkeleton.setLocalTransform(getBone(), transform);
+            /*
+             * setUserControl(true) prevents the AnimControl from animating any
+             * managed bones.
+             */
             for (Bone managed : managedBones) {
                 managed.updateModelTransforms();
             }
         } else {
             getArmatureJoint().setLocalTransform(transform);
+            /*
+             * Apply the saved local transform to each managed armature joint,
+             * just in case the AnimComposer is trying to animate it.
+             */
+            int numManaged = countManaged();
+            for (int managedI = 1; managedI < numManaged; ++managedI) {
+                transform.set(prevBoneTransforms[managedI]);
+                setManagedTransform(managedI, transform);
+            }
             for (Joint managed : managedArmatureJoints) {
                 managed.updateModelTransforms();
             }
@@ -427,8 +440,7 @@ public class BoneLink extends PhysicsLink {
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             switch (submode) {
                 case Amputated:
-                    int boneIndex;
-                    boneIndex = boneIndex(managedIndex);
+                    int boneIndex = boneIndex(managedIndex);
                     getControl().copyBindTransform(boneIndex, transform);
                     transform.setScale(0.001f);
                     break;
