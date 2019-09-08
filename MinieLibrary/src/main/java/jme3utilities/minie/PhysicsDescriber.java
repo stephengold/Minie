@@ -153,28 +153,24 @@ public class PhysicsDescriber extends Describer {
         } else if (shape instanceof GImpactCollisionShape) {
             GImpactCollisionShape gimpact = (GImpactCollisionShape) shape;
             int numV = gimpact.countMeshVertices();
-            // TODO describe its axis-aligned bounding box
             String desc = String.format("[%d]", numV);
             result.append(desc);
 
         } else if (shape instanceof HeightfieldCollisionShape) {
             HeightfieldCollisionShape hf = (HeightfieldCollisionShape) shape;
             int numV = hf.countMeshVertices();
-            // TODO describe its axis-aligned bounding box
             String desc = String.format("[%d]", numV);
             result.append(desc);
 
         } else if (shape instanceof HullCollisionShape) {
             HullCollisionShape hull = (HullCollisionShape) shape;
             int numV = hull.countHullVertices();
-            // TODO describe its axis-aligned bounding box
             String desc = String.format("[%d]", numV);
             result.append(desc);
 
         } else if (shape instanceof MeshCollisionShape) {
             MeshCollisionShape mesh = (MeshCollisionShape) shape;
             int numV = mesh.countMeshVertices();
-            // TODO describe its axis-aligned bounding box
             String desc = String.format("[%d]", numV);
             result.append(desc);
 
