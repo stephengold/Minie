@@ -108,7 +108,7 @@ import jme3utilities.ui.Signals;
 /**
  * Test scaling and load/save on a DynamicAnimControl.
  * <p>
- * As seen in the October 2018 demo video:
+ * Seen in the October 2018 demo video:
  * https://www.youtube.com/watch?v=A1Rii99nb3Q
  *
  * @author Stephen Gold sgold@sonic.net
@@ -147,7 +147,7 @@ public class TestDac extends ActionApplication {
      */
     private AbstractControl sc;
     /**
-     * text displayed in the GUI node
+     * status displayed in the upper-left corner of the GUI node
      */
     private BitmapText text;
     private BoneLink leftClavicle;
@@ -202,12 +202,15 @@ public class TestDac extends ActionApplication {
      */
     private String animationName = null;
     /**
-     * name some important linked bones
+     * name the important linked bones
      */
     private String leftClavicleName;
     private String leftUlnaName;
     private String rightClavicleName;
     private String upperBodyName;
+    /**
+     * C-G model's local transform when initially loaded
+     */
     private Transform resetTransform;
     // *************************************************************************
     // new methods exposed
@@ -310,7 +313,8 @@ public class TestDac extends ActionApplication {
         dim.bind("raise leftHand", KeyInput.KEY_LSHIFT);
         dim.bind("raise rightFoot", KeyInput.KEY_RCONTROL);
         dim.bind("raise rightHand", KeyInput.KEY_RSHIFT);
-        dim.bind("reset model transform", KeyInput.KEY_DOWN);
+
+        dim.bind("reset model transform", KeyInput.KEY_HOME);
         dim.bind("save", KeyInput.KEY_K);
         dim.bind("set height 1", KeyInput.KEY_1);
         dim.bind("set height 2", KeyInput.KEY_2);
@@ -1101,7 +1105,7 @@ public class TestDac extends ActionApplication {
     }
 
     /**
-     * Update the GUI node.
+     * Update the status text in the GUI.
      */
     private void updateGuiNode() {
         double energy = dac.kineticEnergy();
