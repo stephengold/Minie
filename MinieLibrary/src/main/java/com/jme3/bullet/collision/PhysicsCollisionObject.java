@@ -445,7 +445,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Read this object's friction.
      *
-     * @return friction coefficient
+     * @return the friction coefficient (&ge;0)
      */
     public float getFriction() {
         return getFriction(objectId);
@@ -818,16 +818,17 @@ abstract public class PhysicsCollisionObject
      * @param numSides the desired number of sides (&ge;0, &le;2, default=1)
      */
     public void setDebugNumSides(int numSides) {
-        Validate.inRange(numSides, "new setting", 0, 2);
+        Validate.inRange(numSides, "number of sides", 0, 2);
         debugNumSides = numSides;
     }
 
     /**
      * Alter this object's friction.
      *
-     * @param friction the desired friction coefficient (default=0.5)
+     * @param friction the desired friction coefficient (&ge;0, default=0.5)
      */
     public void setFriction(float friction) {
+        Validate.nonNegative(friction, "friction");
         setFriction(objectId, friction);
     }
 
