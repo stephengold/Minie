@@ -40,6 +40,7 @@ import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
+import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -79,8 +80,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Demo/testbed for MultiSphere collision shapes. TODO add UI to tune friction
- * and damping
+ * Demo/testbed for convex collision shapes.
  * <p>
  * Seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=OS2zjB01c6E
@@ -111,6 +111,10 @@ public class MultiSphereDemo
     // fields
 
     /**
+     * status displayed in the upper-left corner of the GUI node
+     */
+    private BitmapText statusText;
+    /**
      * AppState to manage the PhysicsSpace
      */
     final private BulletAppState bulletAppState = new BulletAppState();
@@ -130,6 +134,14 @@ public class MultiSphereDemo
      * filter to control visualization of swept spheres
      */
     private FilterAll ssFilter;
+    /**
+     * damping fraction for all gems (&ge;0, &le;1)
+     */
+    private float damping = 0.6f;
+    /**
+     * friction coefficient for all gems (&ge;0)
+     */
+    private float friction = 0.5f;
     /**
      * bounding-sphere radius for the new gem
      */
@@ -207,6 +219,12 @@ public class MultiSphereDemo
 
         addBox();
         addAGem();
+        /*
+         * Add the status text to the GUI.
+         */
+        statusText = new BitmapText(guiFont, false);
+        statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
+        guiNode.attachChild(statusText);
     }
 
     /**
@@ -223,6 +241,12 @@ public class MultiSphereDemo
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
+
+        dim.bind("less damping", KeyInput.KEY_B);
+        dim.bind("less friction", KeyInput.KEY_V);
+
+        dim.bind("more damping", KeyInput.KEY_G);
+        dim.bind("more friction", KeyInput.KEY_F);
 
         dim.bind("shape box", KeyInput.KEY_F3);
         dim.bind("shape cone", KeyInput.KEY_F4);
@@ -244,7 +268,7 @@ public class MultiSphereDemo
         dim.bind("toggle spheres", KeyInput.KEY_L);
 
         float x = 10f;
-        float y = cam.getHeight() - 10f;
+        float y = cam.getHeight() - 40f;
         float width = cam.getWidth() - 20f;
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -279,6 +303,22 @@ public class MultiSphereDemo
 
                 case "dump scenes":
                     dumper.dump(renderManager);
+                    return;
+
+                case "less damping":
+                    incrementDamping(-0.1f);
+                    return;
+
+                case "less friction":
+                    multiplyFriction(0.5f);
+                    return;
+
+                case "more damping":
+                    incrementDamping(0.1f);
+                    return;
+
+                case "more friction":
+                    multiplyFriction(2f);
                     return;
 
                 case "toggle axes":
@@ -324,6 +364,8 @@ public class MultiSphereDemo
         if (signals.test("shower")) {
             addAGem();
         }
+
+        updateStatusText();
     }
     // *************************************************************************
     // DebugInitListener methods
@@ -396,10 +438,11 @@ public class MultiSphereDemo
         PhysicsRigidBody body = new PhysicsRigidBody(gemShape, mass);
         body.setCcdSweptSphereRadius(gemRadius);
         body.setCcdMotionThreshold(1f);
-        body.setDamping(0.6f, 0.6f);
+        body.setDamping(damping, damping);
         body.setDebugMaterial(debugMaterial);
         body.setDebugMeshNormals(debugMeshNormals);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
+        body.setFriction(friction);
         body.setPhysicsLocation(startLocation);
 
         physicsSpace.add(body);
@@ -512,6 +555,35 @@ public class MultiSphereDemo
         if (latestGem != null) {
             physicsSpace.remove(latestGem);
             gems.removeLast();
+        }
+    }
+
+    /**
+     * Alter the damping fractions for all gems.
+     *
+     * @param increment the amount to increase the fraction (may be negative)
+     */
+    private void incrementDamping(float increment) {
+        float newDamping = FastMath.clamp(damping + increment, 0f, 1f);
+        if (newDamping != damping) {
+            damping = newDamping;
+            for (PhysicsRigidBody gem : gems) {
+                gem.setDamping(damping, damping);
+            }
+        }
+    }
+
+    /**
+     * Alter the friction coefficients for all gems.
+     *
+     * @param factor the factor to increase the coefficient (&gt;0)
+     */
+    private void multiplyFriction(float factor) {
+        assert factor > 0f : factor;
+
+        friction *= factor;
+        for (PhysicsRigidBody gem : gems) {
+            gem.setFriction(friction);
         }
     }
 
@@ -670,5 +742,16 @@ public class MultiSphereDemo
         }
 
         bulletAppState.setDebugSweptSphereFilter(ssFilter);
+    }
+
+    /**
+     * Update the status text in the GUI.
+     */
+    private void updateStatusText() {
+        int numGems = gems.size();
+        String message = String.format(
+                "n=%d, shape=%s, friction=%s, damping=%.1f",
+                numGems, shapeName, friction, damping);
+        statusText.setText(message);
     }
 }
