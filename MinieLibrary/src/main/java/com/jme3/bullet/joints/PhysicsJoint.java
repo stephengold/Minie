@@ -141,11 +141,11 @@ abstract public class PhysicsJoint
 
     /**
      * Read the ID of the btTypedConstraint, btSoftBody::Anchor, or
-     * btSoftBody::Joint. TODO finalize
+     * btSoftBody::Joint.
      *
      * @return the unique identifier (not zero)
      */
-    public long getObjectId() {
+    final public long getObjectId() {
         assert objectId != 0L;
         return objectId;
     }
