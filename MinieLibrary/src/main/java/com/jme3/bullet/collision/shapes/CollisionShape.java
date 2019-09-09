@@ -246,7 +246,8 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape is concave.
+     * Test whether this shape is concave. The only concave shapes are the
+     * empty, gimpact, heightfield, mesh, and plane shapes.
      *
      * @return true if concave, false otherwise
      */
@@ -256,7 +257,8 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape is convex.
+     * Test whether this shape is convex. The only convex shapes are the box,
+     * capsule, cone, cylinder, hull, multi-sphere, simplex, and sphere shapes.
      *
      * @return true if convex, false otherwise
      */
@@ -266,7 +268,8 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape is infinite.
+     * Test whether this shape is infinite. PlaneCollisionShape is the only
+     * infinite shape.
      *
      * @return true if infinite, false otherwise
      */
@@ -276,7 +279,8 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape is non-moving.
+     * Test whether this shape can be applied to a dynamic rigid body. The only
+     * non-moving shapes are the empty, heightfield, mesh, and plane shapes.
      *
      * @return true if non-moving, false otherwise
      */
@@ -286,7 +290,8 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape is polyhedral.
+     * Test whether this shape is convex and defined by polygons. The only
+     * polyhedral shapes are the box, hull, and simplex shapes.
      *
      * @return true if polyhedral, false otherwise
      */

@@ -121,7 +121,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
     private int vertexStride;
     /**
      * Unique identifier of the btIndexedMesh. The constructor sets this to a
-     * non-zero value.
+     * non-zero value. Once set, the identifier never changes.
      */
     private long nativeId = 0L;
     // *************************************************************************
