@@ -38,6 +38,7 @@ import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.joints.SixDofJoint;
+import com.jme3.bullet.joints.SliderJoint;
 import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
@@ -205,6 +206,39 @@ public class TestDefaults {
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
         softA.generateClusters(2, 999);
         softA.setMass(1f);
+
+        SliderJoint slider = new SliderJoint(rigidA, rigidB,
+                new Vector3f(0f, 0f, 0f), new Vector3f(0f, 0f, 0f), false);
+        Assert.assertEquals(2, slider.countEnds());
+        Assert.assertEquals(0f, slider.getDampingDirAng(), 0f);
+        Assert.assertEquals(0f, slider.getDampingDirLin(), 0f);
+        Assert.assertEquals(1f, slider.getDampingLimAng(), 0f);
+        Assert.assertEquals(1f, slider.getDampingLimLin(), 0f);
+        Assert.assertEquals(1f, slider.getDampingOrthoAng(), 0f);
+        Assert.assertEquals(1f, slider.getDampingOrthoLin(), 0f);
+        Assert.assertEquals(0f, slider.getLowerAngLimit(), 0f);
+        Assert.assertEquals(1f, slider.getLowerLinLimit(), 0f);
+        Assert.assertEquals(0f, slider.getMaxAngMotorForce(), 0f);
+        Assert.assertEquals(0f, slider.getMaxLinMotorForce(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionDirAng(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionDirLin(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionLimAng(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionLimLin(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionOrthoAng(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionOrthoLin(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessDirAng(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessDirLin(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessLimAng(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessLimLin(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessOrthoAng(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessOrthoLin(), 0f);
+        Assert.assertEquals(0f, slider.getTargetAngMotorVelocity(), 0f);
+        Assert.assertEquals(0f, slider.getTargetLinMotorVelocity(), 0f);
+        Assert.assertEquals(0f, slider.getUpperAngLimit(), 0f);
+        Assert.assertEquals(-1f, slider.getUpperLinLimit(), 0f);
+        Assert.assertTrue(slider.isEnabled());
+        Assert.assertFalse(slider.isPoweredAngMotor());
+        Assert.assertFalse(slider.isPoweredLinMotor());
 
         SoftAngularJoint sraj = new SoftAngularJoint(new Vector3f(0f, 0f, 0f),
                 softA, 0, rigidB);
