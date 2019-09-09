@@ -93,9 +93,10 @@ public class CompoundMesh implements JmeCloneable, Savable {
     }
 
     /**
-     * Instantiate based on the specified JME mesh(es).
+     * Instantiate a mesh based on the specified JME mesh(es).
      *
-     * @param jmeMeshes the JME mesh(es) (all non-null, unaffected)
+     * @param jmeMeshes the JME mesh(es) (all non-null,
+     * modes=Triangles/TriangleStrip/TriangleFan, unaffected)
      */
     public CompoundMesh(Mesh... jmeMeshes) {
         createEmpty();
