@@ -602,7 +602,7 @@ public class SliderJoint extends Constraint {
     /**
      * Alter the joint's lower limit for on-axis translation.
      *
-     * @param lowerLinLimit the desired lower limit (default=-1)
+     * @param lowerLinLimit the desired lower limit (default=1)
      */
     public void setLowerLinLimit(float lowerLinLimit) {
         long constraintId = getObjectId();
@@ -812,7 +812,7 @@ public class SliderJoint extends Constraint {
     /**
      * Alter the joint's upper limit for on-axis translation.
      *
-     * @param upperLinLimit the desired upper limit (default=1)
+     * @param upperLinLimit the desired upper limit (default=-1)
      */
     public void setUpperLinLimit(float upperLinLimit) {
         long constraintId = getObjectId();
