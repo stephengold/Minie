@@ -375,7 +375,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
             Vector3f worldScale) {
         scale.set(worldScale);
 
-        heightfieldData = heightmap;
+        heightfieldData = heightmap.clone();
         heightStickWidth = (int) FastMath.sqrt(heightfieldData.length);
         assert heightStickWidth > 1 : heightStickWidth;
 
