@@ -101,7 +101,7 @@ abstract public class CollisionShape
      * Constructors are responsible for setting this to a non-zero value. After
      * that, the ID never changes.
      */
-    private long objectId = 0L;
+    private long nativeId = 0L;
     /**
      * copy of scaling factors: one for each local axis (default=(1,1,1))
      */
@@ -146,7 +146,7 @@ abstract public class CollisionShape
 
         Vector3f maxima = new Vector3f();
         Vector3f minima = new Vector3f();
-        getAabb(objectId, translation, rotation, minima, maxima);
+        getAabb(nativeId, translation, rotation, minima, maxima);
         result.setMinMax(minima, maxima);
 
         return result;
@@ -175,7 +175,7 @@ abstract public class CollisionShape
         basisMatrix.set(rotation);
         Vector3f maxima = new Vector3f();
         Vector3f minima = new Vector3f();
-        getAabb(objectId, translation, basisMatrix, minima, maxima);
+        getAabb(nativeId, translation, basisMatrix, minima, maxima);
         result.setMinMax(minima, maxima);
 
         return result;
@@ -217,7 +217,7 @@ abstract public class CollisionShape
      */
     public float getMargin() {
         assert margin > 0f : margin;
-        assert margin == getMargin(objectId);
+        assert margin == getMargin(nativeId);
         return margin;
     }
 
@@ -227,8 +227,8 @@ abstract public class CollisionShape
      * @return the unique identifier (not zero)
      */
     public long getObjectId() {
-        assert objectId != 0L;
-        return objectId;
+        assert nativeId != 0L;
+        return nativeId;
     }
 
     /**
@@ -251,7 +251,7 @@ abstract public class CollisionShape
      * @return true if concave, false otherwise
      */
     public boolean isConcave() {
-        boolean result = isConcave(objectId);
+        boolean result = isConcave(nativeId);
         return result;
     }
 
@@ -261,7 +261,7 @@ abstract public class CollisionShape
      * @return true if convex, false otherwise
      */
     public boolean isConvex() {
-        boolean result = isConvex(objectId);
+        boolean result = isConvex(nativeId);
         return result;
     }
 
@@ -271,7 +271,7 @@ abstract public class CollisionShape
      * @return true if infinite, false otherwise
      */
     public boolean isInfinite() {
-        boolean result = isInfinite(objectId);
+        boolean result = isInfinite(nativeId);
         return result;
     }
 
@@ -281,7 +281,7 @@ abstract public class CollisionShape
      * @return true if non-moving, false otherwise
      */
     public boolean isNonMoving() {
-        boolean result = isNonMoving(objectId);
+        boolean result = isNonMoving(nativeId);
         return result;
     }
 
@@ -291,7 +291,7 @@ abstract public class CollisionShape
      * @return true if polyhedral, false otherwise
      */
     public boolean isPolyhedral() {
-        boolean result = isPolyhedral(objectId);
+        boolean result = isPolyhedral(nativeId);
         return result;
     }
 
@@ -321,9 +321,9 @@ abstract public class CollisionShape
      */
     public void setMargin(float margin) {
         Validate.positive(margin, "margin");
-        assert objectId != 0L;
+        assert nativeId != 0L;
 
-        setMargin(objectId, margin);
+        setMargin(nativeId, margin);
         logger.log(Level.FINE, "Margining {0}.", this);
         this.margin = margin;
     }
@@ -346,9 +346,9 @@ abstract public class CollisionShape
                     typeName, scale.x, scale.y, scale.z);
             throw new IllegalArgumentException(msg);
         }
-        assert objectId != 0L;
+        assert nativeId != 0L;
 
-        setLocalScaling(objectId, scale);
+        setLocalScaling(nativeId, scale);
         logger.log(Level.FINE, "Scaling {0}.", this);
         this.scale.set(scale);
     }
@@ -376,10 +376,10 @@ abstract public class CollisionShape
      * @param shapeId the unique identifier of the btCollisionShape (not zero)
      */
     protected void setNativeId(long shapeId) {
-        assert objectId == 0L : objectId;
+        assert nativeId == 0L : nativeId;
         assert shapeId != 0L;
 
-        objectId = shapeId;
+        nativeId = shapeId;
         logger.log(Level.FINE, "Created {0}.", this);
     }
     // *************************************************************************
@@ -395,7 +395,7 @@ abstract public class CollisionShape
     @Override
     public int compareTo(CollisionShape other) {
         long otherId = other.getObjectId();
-        int result = Long.compare(objectId, otherId);
+        int result = Long.compare(nativeId, otherId);
 
         return result;
     }
@@ -414,7 +414,7 @@ abstract public class CollisionShape
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         scale = cloner.clone(scale);
-        objectId = 0L; // subclass must create the btCollisionShape
+        nativeId = 0L; // subclass must create the btCollisionShape
     }
 
     /**
@@ -479,7 +479,7 @@ abstract public class CollisionShape
         boolean result = false;
         if (otherObject instanceof CollisionShape) {
             long otherId = ((CollisionShape) otherObject).getObjectId();
-            if (objectId == otherId) {
+            if (nativeId == otherId) {
                 result = true;
             }
         }
@@ -497,8 +497,8 @@ abstract public class CollisionShape
     protected void finalize() throws Throwable {
         super.finalize();
         logger.log(Level.FINE, "Finalizing {0}.", this);
-        DebugShapeFactory.removeShapeFromCache(objectId);
-        finalizeNative(objectId);
+        DebugShapeFactory.removeShapeFromCache(nativeId);
+        finalizeNative(nativeId);
     }
 
     /**
@@ -508,7 +508,7 @@ abstract public class CollisionShape
      */
     @Override
     public int hashCode() {
-        int hash = Objects.hashCode(this.objectId);
+        int hash = Objects.hashCode(this.nativeId);
         return hash;
     }
 
@@ -521,7 +521,7 @@ abstract public class CollisionShape
     public String toString() {
         String result = getClass().getSimpleName();
         result = result.replace("Collision", "");
-        result += "#" + Long.toHexString(objectId);
+        result += "#" + Long.toHexString(nativeId);
 
         return result;
     }
@@ -537,7 +537,7 @@ abstract public class CollisionShape
     private boolean checkScale(Vector3f storeVector) {
         assert storeVector != null;
 
-        getLocalScaling(objectId, storeVector);
+        getLocalScaling(nativeId, storeVector);
         boolean result = scale.equals(storeVector);
 
         return result;
