@@ -276,11 +276,9 @@ public class CapsuleCollisionShape extends CollisionShape {
                 || axis == PhysicsSpace.AXIS_Z : axis;
         assert radius >= 0f : radius;
         assert height >= 0f : height;
-        assert objectId == 0L : objectId;
 
-        objectId = createShape(axis, radius, height);
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        long shapeId = createShape(axis, radius, height);
+        setNativeId(shapeId);
 
         setScale(scale);
         margin = 0f;

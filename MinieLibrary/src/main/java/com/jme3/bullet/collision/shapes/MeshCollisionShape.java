@@ -42,7 +42,6 @@ import com.jme3.system.JmeSystem;
 import com.jme3.system.Platform;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -232,7 +231,8 @@ public class MeshCollisionShape extends CollisionShape {
      */
     @Override
     protected void recalculateAabb() {
-        recalcAabb(objectId);
+        long shapeId = getObjectId();
+        recalcAabb(shapeId);
     }
 
     /**
@@ -247,7 +247,8 @@ public class MeshCollisionShape extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        byte[] data = saveBVH(objectId);
+        long shapeId = getObjectId();
+        byte[] data = saveBVH(shapeId);
         capsule.write(data, tagNativeBvh, null);
 
         Platform nativePlatform = JmeSystem.getPlatform();
@@ -265,15 +266,13 @@ public class MeshCollisionShape extends CollisionShape {
      * @param bvh built BVH data, or null if the BVH needs to be built
      */
     private void createShape(byte bvh[]) {
-        assert nativeBVHBuffer == 0L;
-
         boolean buildBvh = (bvh == null || bvh.length == 0);
         long meshId = nativeMesh.nativeId();
-        objectId = createShape(useCompression, buildBvh, meshId);
-        logger2.log(Level.FINE, "Created {0}.", this);
+        long shapeId = createShape(useCompression, buildBvh, meshId);
+        setNativeId(shapeId);
 
         if (!buildBvh) {
-            nativeBVHBuffer = setBVH(bvh, objectId);
+            nativeBVHBuffer = setBVH(bvh, shapeId);
             assert nativeBVHBuffer != 0L;
         }
 

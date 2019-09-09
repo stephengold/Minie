@@ -48,7 +48,6 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
@@ -276,10 +275,11 @@ public class HullCollisionShape extends CollisionShape {
      * @return a new array (not null)
      */
     public float[] copyHullVertices() {
+        long shapeId = getObjectId();
         int numHullVertices = countHullVertices();
         ByteBuffer buffer = BufferUtils.createByteBuffer(
                 numHullVertices * numAxes * floatSize);
-        getHullVertices(objectId, buffer);
+        getHullVertices(shapeId, buffer);
 
         float[] result = new float[numHullVertices * numAxes];
         for (int floatI = 0; floatI < numHullVertices * numAxes; ++floatI) {
@@ -290,12 +290,14 @@ public class HullCollisionShape extends CollisionShape {
     }
 
     /**
-     * Copy the vertices in the optimized convex hull.
+     * Count the number of vertices in the optimized convex hull.
      *
-     * @return count (&ge;0)
+     * @return the count (&ge;0)
      */
     public int countHullVertices() {
-        int result = countHullVertices(objectId);
+        long shapeId = getObjectId();
+        int result = countHullVertices(shapeId);
+
         return result;
     }
 
@@ -416,7 +418,8 @@ public class HullCollisionShape extends CollisionShape {
      */
     @Override
     protected void recalculateAabb() {
-        recalcAabb(objectId);
+        long shapeId = getObjectId();
+        recalcAabb(shapeId);
     }
 
     /**
@@ -441,7 +444,6 @@ public class HullCollisionShape extends CollisionShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
-        assert objectId == 0L : objectId;
         assert bbuf == null : bbuf;
 
         int numFloats = points.length;
@@ -458,9 +460,8 @@ public class HullCollisionShape extends CollisionShape {
             bbuf.putFloat(f);
         }
 
-        objectId = createShapeB(bbuf, numVertices);
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        long shapeId = createShapeB(bbuf, numVertices);
+        setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);

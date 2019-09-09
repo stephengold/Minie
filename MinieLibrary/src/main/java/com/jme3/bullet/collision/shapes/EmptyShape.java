@@ -34,7 +34,6 @@ package com.jme3.bullet.collision.shapes;
 import com.jme3.export.JmeImporter;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -121,11 +120,8 @@ public class EmptyShape extends CollisionShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
-        assert objectId == 0L;
-
-        objectId = createShapeNative();
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        long shapeId = createShapeNative();
+        setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);

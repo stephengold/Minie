@@ -39,7 +39,6 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
@@ -304,7 +303,8 @@ public class SimplexCollisionShape extends CollisionShape {
      */
     @Override
     protected void recalculateAabb() {
-        recalcAabb(objectId);
+        long shapeId = getObjectId();
+        recalcAabb(shapeId);
     }
 
     /**
@@ -331,19 +331,17 @@ public class SimplexCollisionShape extends CollisionShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
-        assert objectId == 0L;
-
+        long shapeId;
         if (vector4 != null) {
-            objectId = createShape(vector1, vector2, vector3, vector4);
+            shapeId = createShape(vector1, vector2, vector3, vector4);
         } else if (vector3 != null) {
-            objectId = createShape(vector1, vector2, vector3);
+            shapeId = createShape(vector1, vector2, vector3);
         } else if (vector2 != null) {
-            objectId = createShape(vector1, vector2);
+            shapeId = createShape(vector1, vector2);
         } else {
-            objectId = createShape(vector1);
+            shapeId = createShape(vector1);
         }
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);

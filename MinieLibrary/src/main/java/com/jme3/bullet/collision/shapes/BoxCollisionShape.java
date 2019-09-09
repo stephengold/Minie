@@ -39,7 +39,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.nio.FloatBuffer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
@@ -240,11 +239,9 @@ public class BoxCollisionShape extends CollisionShape {
      */
     private void createShape() {
         assert MyVector3f.isAllNonNegative(halfExtents) : halfExtents;
-        assert objectId == 0L;
 
-        objectId = createShape(halfExtents);
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        long shapeId = createShape(halfExtents);
+        setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);

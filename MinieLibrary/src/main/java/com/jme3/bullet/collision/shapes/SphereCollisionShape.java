@@ -233,9 +233,8 @@ public class SphereCollisionShape extends CollisionShape {
     private void createShape() {
         assert radius >= 0f : radius;
 
-        objectId = createShape(radius);
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        long shapeId = createShape(radius);
+        setNativeId(shapeId);
 
         setScale(scale);
         margin = 0f;

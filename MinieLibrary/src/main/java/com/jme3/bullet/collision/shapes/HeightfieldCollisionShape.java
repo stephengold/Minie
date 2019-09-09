@@ -42,7 +42,6 @@ import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.nio.FloatBuffer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -389,18 +388,15 @@ public class HeightfieldCollisionShape extends CollisionShape {
      * Instantiate the configured btHeightfieldTerrainShape.
      */
     private void createShape() {
-        assert objectId == 0L;
-
         bbuf = BufferUtils.createFloatBuffer(heightfieldData.length);
         for (float height : heightfieldData) {
             bbuf.put(height);
         }
 
-        objectId = createShape2(heightStickWidth, heightStickLength, bbuf,
+        long shapeId = createShape2(heightStickWidth, heightStickLength, bbuf,
                 heightScale, minHeight, maxHeight, upAxis, flipQuadEdges,
                 flipTriangleWinding, useDiamond, useZigzag);
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);
