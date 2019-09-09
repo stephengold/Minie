@@ -29,6 +29,7 @@ package jme3utilities.minie.test;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.control.AbstractPhysicsControl;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Vector3f;
@@ -37,7 +38,7 @@ import jme3utilities.Misc;
 import org.junit.Test;
 
 /**
- * Test cloning abstract physics controls.
+ * Test cloning/saving/loading abstract physics controls.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -53,13 +54,13 @@ public class TestClonePhysicsControls {
     // new methods exposed
 
     /**
-     * Test cloning abstract physics controls.
+     * Test cloning/saving/loading abstract physics controls.
      */
     @Test
     public void testClonePhysicsControls() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
         /*
-         * test BetterCharacterControl
+         * BetterCharacterControl
          */
         float radius = 1f;
         float height = 3f;
@@ -69,38 +70,49 @@ public class TestClonePhysicsControls {
         bcc.setEnabled(true);
         setParameters(bcc, 0f);
         verifyParameters(bcc, 0f);
-
         BetterCharacterControl bccClone
                 = (BetterCharacterControl) Misc.deepCopy(bcc);
-        verifyParameters(bcc, 0f);
-        verifyParameters(bccClone, 0f);
-
-        setParameters(bcc, 0.3f);
-        verifyParameters(bcc, 0.3f);
-        verifyParameters(bccClone, 0f);
-
-        setParameters(bccClone, 0.6f);
-        verifyParameters(bcc, 0.3f);
-        verifyParameters(bccClone, 0.6f);
-
-        BetterCharacterControl bccCopy
-                = BinaryExporter.saveAndLoad(assetManager, bcc);
-        verifyParameters(bccCopy, 0.3f);
-
-        BetterCharacterControl bccCloneCopy
-                = BinaryExporter.saveAndLoad(assetManager, bccClone);
-        verifyParameters(bccCloneCopy, 0.6f);
+        cloneTest(bcc, bccClone);
         /*
-         * test DynamicAnimControl TODO
+         * DynamicAnimControl TODO
          */
         DynamicAnimControl dac = new DynamicAnimControl();
-        DynamicAnimControl dacClone
-                = (DynamicAnimControl) Misc.deepCopy(dac);
+        DynamicAnimControl dacClone = (DynamicAnimControl) Misc.deepCopy(dac);
 
         // TODO test cloning controls added to a scene graph
     }
     // *************************************************************************
     // private methods
+
+    private void cloneTest(AbstractPhysicsControl control,
+            AbstractPhysicsControl controlClone) {
+        verifyParameters(control, 0f);
+        verifyParameters(controlClone, 0f);
+
+        setParameters(control, 0.3f);
+        verifyParameters(control, 0.3f);
+        verifyParameters(controlClone, 0f);
+
+        setParameters(controlClone, 0.6f);
+        verifyParameters(control, 0.3f);
+        verifyParameters(controlClone, 0.6f);
+
+        AbstractPhysicsControl controlCopy
+                = BinaryExporter.saveAndLoad(assetManager, control);
+        verifyParameters(controlCopy, 0.3f);
+
+        AbstractPhysicsControl controlCloneCopy
+                = BinaryExporter.saveAndLoad(assetManager, controlClone);
+        verifyParameters(controlCloneCopy, 0.6f);
+    }
+
+    private void setParameters(AbstractPhysicsControl control, float b) {
+        if (control instanceof BetterCharacterControl) {
+            setBcc((BetterCharacterControl) control, b);
+        } else {
+            throw new IllegalArgumentException(control.getClass().getName());
+        }
+    }
 
     /**
      * Modify BetterCharacterControl parameters based on the specified key
@@ -109,13 +121,21 @@ public class TestClonePhysicsControls {
      * @param bcc the control to modify (not null)
      * @param b the key value
      */
-    private void setParameters(BetterCharacterControl bcc, float b) {
+    private void setBcc(BetterCharacterControl bcc, float b) {
         bcc.setDuckedFactor(b + 0.01f);
         bcc.setPhysicsDamping(b + 0.08f);
 
         bcc.setJumpForce(new Vector3f(b + 0.05f, b + 0.06f, b + 0.07f));
         bcc.setViewDirection(new Vector3f(b + 0.10f, b + 0.11f, b + 0.12f));
         bcc.setWalkDirection(new Vector3f(b + 0.13f, b + 0.14f, b + 0.15f));
+    }
+
+    private void verifyParameters(AbstractPhysicsControl control, float b) {
+        if (control instanceof BetterCharacterControl) {
+            verifyBcc((BetterCharacterControl) control, b);
+        } else {
+            throw new IllegalArgumentException(control.getClass().getName());
+        }
     }
 
     /**
@@ -125,7 +145,7 @@ public class TestClonePhysicsControls {
      * @param bcc the control to verify (not null, unaffected)
      * @param b the key value
      */
-    private void verifyParameters(BetterCharacterControl bcc, float b) {
+    private void verifyBcc(BetterCharacterControl bcc, float b) {
         assert bcc.getDuckedFactor() == b + 0.01f;
         assert bcc.getPhysicsDamping() == b + 0.08f;
 
