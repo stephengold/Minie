@@ -173,12 +173,14 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         geometry = cloner.clone(geometry);
         body = cloner.clone(body);
 
-        SoftBodyControl originalControl = (SoftBodyControl) original;
-        int numIndices = indexMap.limit();
-        indexMap = BufferUtils.createIntBuffer(numIndices);
-        for (int offset = 0; offset < numIndices; ++offset) {
-            int tmpIndex = originalControl.indexMap.get(offset);
-            indexMap.put(tmpIndex);
+        if (indexMap != null) {
+            SoftBodyControl originalControl = (SoftBodyControl) original;
+            int numIndices = indexMap.limit();
+            indexMap = BufferUtils.createIntBuffer(numIndices);
+            for (int offset = 0; offset < numIndices; ++offset) {
+                int tmpIndex = originalControl.indexMap.get(offset);
+                indexMap.put(tmpIndex);
+            }
         }
     }
 
