@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.bullet.BulletAppState;
@@ -497,7 +498,14 @@ public class TrackDemo extends ActionApplication {
         dac.setPhysicsSpace(physicsSpace);
 
         sv = new SkeletonVisualizer(assetManager, sc);
-        sv.setLineColor(ColorRGBA.Yellow); // TODO clean up visualization
+        sv.setLineColor(ColorRGBA.Yellow);
+        if (sc instanceof SkeletonControl) {
+            /*
+             * Clean up Jaime's skeleton visualization by hiding the "IK" bones,
+             * which don't influence any mesh vertices.
+             */
+            InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
+        }
         rootNode.addControl(sv);
 
         addGrid();

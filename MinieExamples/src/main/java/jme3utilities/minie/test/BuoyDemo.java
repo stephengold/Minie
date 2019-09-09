@@ -473,7 +473,14 @@ public class BuoyDemo extends ActionApplication {
         }
 
         sv = new SkeletonVisualizer(assetManager, sc);
-        sv.setLineColor(ColorRGBA.Yellow); // TODO clean up visualization
+        sv.setLineColor(ColorRGBA.Yellow);
+        if (sc instanceof SkeletonControl) {
+            /*
+             * Clean up Jaime's skeleton visualization by hiding the "IK" bones,
+             * which don't influence any mesh vertices.
+             */
+            InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
+        }
         rootNode.addControl(sv);
     }
 
