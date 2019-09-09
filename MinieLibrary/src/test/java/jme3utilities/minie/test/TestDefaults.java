@@ -62,6 +62,10 @@ import org.junit.Test;
  */
 public class TestDefaults {
     // *************************************************************************
+    // fields
+
+    private CollisionShape box; // initialized by testShapes()
+    // *************************************************************************
     // new methods exposed
 
     /**
@@ -94,42 +98,7 @@ public class TestDefaults {
         assertEquals(0f, 0f, 0f, info.copyWaterNormal(null), 0f);
         Assert.assertEquals(0f, info.waterOffset(), 0f);
 
-        CollisionShape box = new BoxCollisionShape(1f);
-        Assert.assertEquals(0.04f, box.getMargin(), 0f);
-        assertEquals(1f, 1f, 1f, box.getScale(null), 0f);
-        Assert.assertFalse(box.isConcave());
-        Assert.assertTrue(box.isConvex());
-        Assert.assertFalse(box.isInfinite());
-        Assert.assertFalse(box.isNonMoving());
-        Assert.assertFalse(box.isPolyhedral());
-
-        CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
-        Assert.assertEquals(0f, capsule.getMargin(), 0f);
-        assertEquals(1f, 1f, 1f, capsule.getScale(null), 0f);
-        Assert.assertFalse(capsule.isConcave());
-        Assert.assertTrue(capsule.isConvex());
-        Assert.assertFalse(capsule.isInfinite());
-        Assert.assertFalse(capsule.isNonMoving());
-        Assert.assertFalse(capsule.isPolyhedral());
-
-        Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
-        CollisionShape pcs = new PlaneCollisionShape(plane);
-        Assert.assertEquals(0.04f, pcs.getMargin(), 0f);
-        assertEquals(1f, 1f, 1f, pcs.getScale(null), 0f);
-        Assert.assertTrue(pcs.isConcave());
-        Assert.assertFalse(pcs.isConvex());
-        Assert.assertTrue(pcs.isInfinite());
-        Assert.assertTrue(pcs.isNonMoving());
-        Assert.assertFalse(pcs.isPolyhedral());
-
-        CollisionShape sphere = new SphereCollisionShape(1f);
-        Assert.assertEquals(0f, sphere.getMargin(), 0f);
-        assertEquals(1f, 1f, 1f, sphere.getScale(null), 0f);
-        Assert.assertFalse(sphere.isConcave());
-        Assert.assertTrue(sphere.isConvex());
-        Assert.assertFalse(sphere.isInfinite());
-        Assert.assertFalse(sphere.isNonMoving());
-        Assert.assertFalse(sphere.isPolyhedral());
+        testShapes();
 
         PhysicsRigidBody rigidA = new PhysicsRigidBody(box);
         testPco(rigidA);
@@ -294,5 +263,44 @@ public class TestDefaults {
         Assert.assertEquals(0f, pco.getRollingFriction(), 0f);
         Assert.assertEquals(0f, pco.getSpinningFriction(), 0f);
         Assert.assertNull(pco.getUserObject());
+    }
+
+    private void testShapes() {
+        box = new BoxCollisionShape(1f);
+        Assert.assertEquals(0.04f, box.getMargin(), 0f);
+        assertEquals(1f, 1f, 1f, box.getScale(null), 0f);
+        Assert.assertFalse(box.isConcave());
+        Assert.assertTrue(box.isConvex());
+        Assert.assertFalse(box.isInfinite());
+        Assert.assertFalse(box.isNonMoving());
+        Assert.assertFalse(box.isPolyhedral());
+
+        CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
+        Assert.assertEquals(0f, capsule.getMargin(), 0f);
+        assertEquals(1f, 1f, 1f, capsule.getScale(null), 0f);
+        Assert.assertFalse(capsule.isConcave());
+        Assert.assertTrue(capsule.isConvex());
+        Assert.assertFalse(capsule.isInfinite());
+        Assert.assertFalse(capsule.isNonMoving());
+        Assert.assertFalse(capsule.isPolyhedral());
+
+        Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
+        CollisionShape pcs = new PlaneCollisionShape(plane);
+        Assert.assertEquals(0.04f, pcs.getMargin(), 0f);
+        assertEquals(1f, 1f, 1f, pcs.getScale(null), 0f);
+        Assert.assertTrue(pcs.isConcave());
+        Assert.assertFalse(pcs.isConvex());
+        Assert.assertTrue(pcs.isInfinite());
+        Assert.assertTrue(pcs.isNonMoving());
+        Assert.assertFalse(pcs.isPolyhedral());
+
+        CollisionShape sphere = new SphereCollisionShape(1f);
+        Assert.assertEquals(0f, sphere.getMargin(), 0f);
+        assertEquals(1f, 1f, 1f, sphere.getScale(null), 0f);
+        Assert.assertFalse(sphere.isConcave());
+        Assert.assertTrue(sphere.isConvex());
+        Assert.assertFalse(sphere.isInfinite());
+        Assert.assertFalse(sphere.isNonMoving());
+        Assert.assertFalse(sphere.isPolyhedral());
     }
 }
