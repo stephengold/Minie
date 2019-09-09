@@ -138,23 +138,25 @@ public class IndexedMesh implements JmeCloneable, Savable {
      * Instantiate based on the specified JME mesh, without transforming
      * coordinates.
      *
-     * @param mesh the JME mesh (not null, unaffected)
+     * @param jmeMesh the input JME mesh (not null, unaffected,
+     * mode=Triangles/TriangleFan/TriangleStrip)
      */
-    public IndexedMesh(Mesh mesh) {
-        Validate.nonNull(mesh, "mesh");
-        create(mesh, null);
+    public IndexedMesh(Mesh jmeMesh) {
+        Validate.nonNull(jmeMesh, "JME mesh");
+        create(jmeMesh, null);
     }
 
     /**
      * Instantiate based on the specified JME mesh and coordinate transform.
      *
-     * @param mesh the JME mesh (not null, unaffected)
+     * @param jmeMesh the input JME mesh (not null, unaffected,
+     * mode=Triangles/TriangleFan/TriangleStrip)
      * @param transform the Transform to apply to vertex positions (unaffected)
      * or null to use untransformed vertex positions
      */
-    public IndexedMesh(Mesh mesh, Transform transform) {
-        Validate.nonNull(mesh, "mesh");
-        create(mesh, transform);
+    public IndexedMesh(Mesh jmeMesh, Transform transform) {
+        Validate.nonNull(jmeMesh, "JME mesh");
+        create(jmeMesh, transform);
     }
     // *************************************************************************
     // new methods exposed
@@ -318,12 +320,16 @@ public class IndexedMesh implements JmeCloneable, Savable {
      * Configure and create a new btIndexedMesh from the specified JME mesh and
      * Transform.
      *
-     * @param jmeMesh the JME mesh (not null, unaffected)
+     * @param jmeMesh the input JME mesh (not null, unaffected,
+     * mode=Triangles/TriangleFan/TriangleStrip)
      * @param transform the Transform to apply to vertex positions (unaffected)
      * or null to use untransformed vertex positions
      */
     private void create(Mesh jmeMesh, Transform transform) {
-        assert jmeMesh.getMode() == Mesh.Mode.Triangles; // TODO other modes
+        Mesh.Mode mode = jmeMesh.getMode();
+        assert mode == Mesh.Mode.Triangles
+                || mode == Mesh.Mode.TriangleStrip
+                || mode == Mesh.Mode.TriangleFan;
 
         numVertices = jmeMesh.getVertexCount();
         vertexStride = numAxes * floatSize;
@@ -359,9 +365,9 @@ public class IndexedMesh implements JmeCloneable, Savable {
         int numIndices = vpt * numTriangles;
         indices = BufferUtils.createIntBuffer(numIndices);
 
-        IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
+        IndexBuffer triangleIndices = jmeMesh.getIndicesAsList();
         for (int position = 0; position < numIndices; ++position) {
-            int index = indexBuffer.get(position);
+            int index = triangleIndices.get(position);
             assert index >= 0 : index;
             assert index < numVertices : index;
             indices.put(position, index);
