@@ -1259,12 +1259,14 @@ public class DacLinks
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        int count = countLinkedBones();
-        Savable[] savableArray = new Savable[count];
-        boneLinkList.toArray(savableArray);
-        capsule.write(savableArray, tagBoneLinkList, null);
+        if (boneLinkList != null) {
+            int count = countLinkedBones();
+            Savable[] savableArray = new Savable[count];
+            boneLinkList.toArray(savableArray);
+            capsule.write(savableArray, tagBoneLinkList, null);
+        }
 
-        count = countAttachments();
+        int count = countAttachments();
         AttachmentLink[] links = new AttachmentLink[count];
         attachmentLinks.values().toArray(links);
         capsule.write(links, tagAttachmentLinks, new AttachmentLink[0]);
