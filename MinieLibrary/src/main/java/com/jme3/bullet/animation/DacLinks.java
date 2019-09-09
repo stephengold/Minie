@@ -974,9 +974,11 @@ public class DacLinks
         InputCapsule capsule = importer.getCapsule(this);
 
         boneLinkList = capsule.readSavableArrayList(tagBoneLinkList, null);
-        for (BoneLink link : boneLinkList) {
-            String name = link.boneName();
-            boneLinks.put(name, link);
+        if (boneLinkList != null) {
+            for (BoneLink link : boneLinkList) {
+                String name = link.boneName();
+                boneLinks.put(name, link);
+            }
         }
 
         Savable[] savableArray
