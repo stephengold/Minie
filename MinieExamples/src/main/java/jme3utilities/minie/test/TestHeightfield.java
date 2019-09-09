@@ -476,13 +476,13 @@ public class TestHeightfield extends ActionApplication {
         TextureKey key = new TextureKey(
                 "Textures/BumpMapTest/Simple_height.png", flipY);
         Texture texture = assetManager.loadTexture(key);
-        Image heightImage = texture.getImage();
-        float heightScale = 1f;
-        AbstractHeightMap heightMap
-                = new ImageBasedHeightMap(heightImage, heightScale);
-        heightMap.load();
+        Image image = texture.getImage();
 
-        return heightMap;
+        float heightScale = 1f;
+        AbstractHeightMap result = new ImageBasedHeightMap(image, heightScale);
+        result.load();
+
+        return result;
     }
 
     /**
