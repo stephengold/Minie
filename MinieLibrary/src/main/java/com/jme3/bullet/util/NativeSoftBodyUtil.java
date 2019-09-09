@@ -83,41 +83,49 @@ public class NativeSoftBodyUtil {
      * Append the edges in the specified line-mode Mesh to the specified soft
      * body.
      *
-     * @param mesh the input mesh (not null, Mode.Lines)
+     * @param mesh the input JME mesh (not null, unaffected,
+     * mode=Lines/LineLoop/LineStrip)
      * @param softBody the soft body to which links will be added (not null,
      * modified)
      */
     public static void appendFromLineMesh(Mesh mesh, PhysicsSoftBody softBody) {
         Mesh.Mode mode = mesh.getMode();
-        assert mode == Mesh.Mode.Lines : mode; // TODO handle other modes
+        assert mode == Mesh.Mode.Lines
+                || mode == Mesh.Mode.LineLoop
+                || mode == Mesh.Mode.LineStrip : mode;
         Validate.nonNull(softBody, "soft body");
 
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
         softBody.appendNodes(positions);
 
-        IndexBuffer indices = mesh.getIndexBuffer();
+        IndexBuffer indices = mesh.getIndicesAsList();
         softBody.appendLinks(indices);
     }
 
     /**
-     * Add the triangles and unique edges in the specified triangle-mode Mesh to
-     * the specified soft body.
+     * Add the triangles and unique edges in the specified JME mesh to the
+     * specified soft body.
      *
-     * @param mesh the input mesh (not null, Mode.Triangles)
+     * @param mesh the input JME mesh (not null, unaffected,
+     * mode=Triangles/TriangleFan/TriangleStrip)
      * @param softBody the soft body to which faces and links will be added (not
      * null, modified)
      */
     public static void appendFromTriMesh(Mesh mesh, PhysicsSoftBody softBody) {
         Mesh.Mode mode = mesh.getMode();
-        assert mode == Mesh.Mode.Triangles : mode; // TODO handle other modes
+        assert mode == Mesh.Mode.Triangles
+                || mode == Mesh.Mode.TriangleFan
+                || mode == Mesh.Mode.TriangleStrip : mode;
         Validate.nonNull(softBody, "soft body");
 
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
         softBody.appendNodes(positions);
 
-        IndexBuffer triangleIndices = mesh.getIndexBuffer();
+        IndexBuffer triangleIndices = mesh.getIndicesAsList();
         softBody.appendFaces(triangleIndices);
-
+        /*
+         * Enumerate all unique edges among the triangles.
+         */
         int size = triangleIndices.size();
         Set<MeshEdge> uniqueEdges = new HashSet<>(3 * size);
         for (int intOffset = 0; intOffset < size; intOffset += 3) {
