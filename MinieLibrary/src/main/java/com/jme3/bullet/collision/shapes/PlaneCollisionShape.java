@@ -39,7 +39,6 @@ import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -167,11 +166,8 @@ public class PlaneCollisionShape extends CollisionShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
-        assert objectId == 0L;
-
-        objectId = createShape(plane.getNormal(), plane.getConstant());
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        long shapeId = createShape(plane.getNormal(), plane.getConstant());
+        setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);

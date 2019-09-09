@@ -43,7 +43,6 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -119,7 +118,8 @@ public class CompoundCollisionShape extends CollisionShape {
         ChildCollisionShape child
                 = new ChildCollisionShape(location, rotation, shape);
         children.add(child);
-        addChildShape(objectId, shape.getObjectId(), location, rotation);
+        long parentId = getObjectId();
+        addChildShape(parentId, shape.getObjectId(), location, rotation);
     }
 
     /**
@@ -186,7 +186,8 @@ public class CompoundCollisionShape extends CollisionShape {
      * @param shape the child shape to remove (not null)
      */
     public void removeChildShape(CollisionShape shape) {
-        removeChildShape(objectId, shape.getObjectId());
+        long parentId = getObjectId();
+        removeChildShape(parentId, shape.getObjectId());
         for (Iterator<ChildCollisionShape> it = children.iterator();
                 it.hasNext();) {
             ChildCollisionShape childCollisionShape = it.next();
@@ -252,7 +253,8 @@ public class CompoundCollisionShape extends CollisionShape {
      */
     @Override
     protected void recalculateAabb() {
-        recalcAabb(objectId);
+        long nativeId = getObjectId();
+        recalcAabb(nativeId);
     }
 
     /**
@@ -275,11 +277,8 @@ public class CompoundCollisionShape extends CollisionShape {
      * Instantiate an empty btCompoundShape.
      */
     private void createEmpty() {
-        assert objectId == 0L;
-
-        objectId = createShape();
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        long shapeId = createShape();
+        setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);
@@ -289,10 +288,10 @@ public class CompoundCollisionShape extends CollisionShape {
      * Add the configured children to the empty btCompoundShape.
      */
     private void loadChildren() {
-        assert objectId != 0L;
+        long parentId = getObjectId();
 
         for (ChildCollisionShape child : children) {
-            addChildShape(objectId, child.getShape().getObjectId(),
+            addChildShape(parentId, child.getShape().getObjectId(),
                     child.getLocation(null), child.getRotation(null));
         }
     }

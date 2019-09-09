@@ -40,7 +40,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.nio.FloatBuffer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
@@ -299,11 +298,9 @@ public class CylinderCollisionShape extends CollisionShape {
                 || axis == PhysicsSpace.AXIS_Y
                 || axis == PhysicsSpace.AXIS_Z : axis;
         assert MyVector3f.isAllNonNegative(halfExtents) : halfExtents;
-        assert objectId == 0L : objectId;
 
-        objectId = createShape(axis, halfExtents);
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        long shapeId = createShape(axis, halfExtents);
+        setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);

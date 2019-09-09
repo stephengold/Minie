@@ -101,7 +101,7 @@ abstract public class CollisionShape
      * Constructors are responsible for setting this to a non-zero value. After
      * that, the ID never changes.
      */
-    protected long objectId = 0L;
+    private long objectId = 0L;
     /**
      * copy of scaling factors: one for each local axis (default=(1,1,1))
      */
@@ -368,6 +368,19 @@ abstract public class CollisionShape
      */
     protected void recalculateAabb() {
         // do nothing
+    }
+
+    /**
+     * Initialize the native ID.
+     *
+     * @param shapeId the unique identifier of the btCollisionShape (not zero)
+     */
+    protected void setNativeId(long shapeId) {
+        assert objectId == 0L : objectId;
+        assert shapeId != 0L;
+
+        objectId = shapeId;
+        logger.log(Level.FINE, "Created {0}.", this);
     }
     // *************************************************************************
     // Comparable methods

@@ -41,7 +41,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -169,7 +168,8 @@ public class GImpactCollisionShape extends CollisionShape {
      */
     @Override
     protected void recalculateAabb() {
-        recalcAabb(objectId);
+        long shapeId = getObjectId();
+        recalcAabb(shapeId);
     }
 
     /**
@@ -207,12 +207,9 @@ public class GImpactCollisionShape extends CollisionShape {
      * Instantiate the configured btGImpactMeshShape.
      */
     private void createShape() {
-        assert objectId == 0L;
-
         long meshId = nativeMesh.nativeId();
-        objectId = createShape(meshId);
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        long shapeId = createShape(meshId);
+        setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);

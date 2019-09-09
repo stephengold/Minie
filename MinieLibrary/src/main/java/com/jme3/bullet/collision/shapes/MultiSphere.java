@@ -44,7 +44,6 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
@@ -474,7 +473,8 @@ public class MultiSphere extends CollisionShape {
      */
     @Override
     protected void recalculateAabb() {
-        recalcAabb(objectId);
+        long shapeId = getObjectId();
+        recalcAabb(shapeId);
     }
 
     /**
@@ -499,13 +499,11 @@ public class MultiSphere extends CollisionShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
-        assert objectId == 0L : objectId;
-
         int numSpheres = radii.length;
         assert centers.length == numSpheres : numSpheres;
-        objectId = createShape(centers, radii, numSpheres);
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+
+        long shapeId = createShape(centers, radii, numSpheres);
+        setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);
