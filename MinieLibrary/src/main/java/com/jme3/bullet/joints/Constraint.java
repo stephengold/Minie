@@ -230,7 +230,8 @@ abstract public class Constraint extends PhysicsJoint {
         if (!isFeedback()) {
             throw new IllegalStateException();
         }
-        float result = getAppliedImpulse(objectId);
+        long constraintId = getObjectId();
+        float result = getAppliedImpulse(constraintId);
 
         assert result >= 0f : result;
         return result;
@@ -268,7 +269,9 @@ abstract public class Constraint extends PhysicsJoint {
      * @return the value
      */
     public float getBreakingImpulseThreshold() {
-        float result = getBreakingImpulseThreshold(objectId);
+        long constraintId = getObjectId();
+        float result = getBreakingImpulseThreshold(constraintId);
+
         return result;
     }
 
@@ -279,7 +282,9 @@ abstract public class Constraint extends PhysicsJoint {
      * default
      */
     public int getOverrideIterations() {
-        int result = getOverrideIterations(objectId);
+        long constraintId = getObjectId();
+        int result = getOverrideIterations(constraintId);
+
         return result;
     }
 
@@ -354,7 +359,9 @@ abstract public class Constraint extends PhysicsJoint {
      * @return true if enabled, otherwise false
      */
     public boolean isFeedback() {
-        boolean result = needsFeedback(objectId);
+        long constraintId = getObjectId();
+        boolean result = needsFeedback(constraintId);
+
         return result;
     }
 
@@ -367,7 +374,9 @@ abstract public class Constraint extends PhysicsJoint {
     public void overrideIterations(int numIterations) {
         Validate.inRange(numIterations, "number of iterations", -1,
                 Integer.MAX_VALUE);
-        overrideIterations(objectId, numIterations);
+
+        long constraintId = getObjectId();
+        overrideIterations(constraintId, numIterations);
     }
 
     /**
@@ -377,7 +386,8 @@ abstract public class Constraint extends PhysicsJoint {
      * library or +Infinity with DP library)
      */
     public void setBreakingImpulseThreshold(float desiredThreshold) {
-        setBreakingImpulseThreshold(objectId, desiredThreshold);
+        long constraintId = getObjectId();
+        setBreakingImpulseThreshold(constraintId, desiredThreshold);
     }
 
     /**
@@ -397,7 +407,8 @@ abstract public class Constraint extends PhysicsJoint {
      * @param enable true to enable, false to disable (default=true)
      */
     public void setEnabled(boolean enable) {
-        setEnabled(objectId, enable);
+        long constraintId = getObjectId();
+        setEnabled(constraintId, enable);
     }
 
     /**
@@ -406,7 +417,8 @@ abstract public class Constraint extends PhysicsJoint {
      * @param enable true to enable, false to disable (default=false)
      */
     public void setFeedback(boolean enable) {
-        enableFeedback(objectId, enable);
+        long constraintId = getObjectId();
+        enableFeedback(constraintId, enable);
     }
     // *************************************************************************
     // new protected methods
@@ -475,7 +487,9 @@ abstract public class Constraint extends PhysicsJoint {
      */
     @Override
     public boolean isEnabled() {
-        boolean result = isEnabled(objectId);
+        long constraintId = getObjectId();
+        boolean result = isEnabled(constraintId);
+
         return result;
     }
 
@@ -550,7 +564,9 @@ abstract public class Constraint extends PhysicsJoint {
     protected void finalize() throws Throwable {
         super.finalize();
         logger.log(Level.FINE, "Finalizing {0}.", this);
-        finalizeNative(objectId);
+
+        long constraintId = getObjectId();
+        finalizeNative(constraintId);
     }
     // *************************************************************************
     // native private methods

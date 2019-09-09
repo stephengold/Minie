@@ -40,7 +40,6 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -142,7 +141,8 @@ public class Point2PointJoint extends Constraint {
      * damped)
      */
     public float getDamping() {
-        return getDamping(objectId);
+        long constraintId = getObjectId();
+        return getDamping(constraintId);
     }
 
     /**
@@ -151,7 +151,8 @@ public class Point2PointJoint extends Constraint {
      * @return the clamp value
      */
     public float getImpulseClamp() {
-        return getImpulseClamp(objectId);
+        long constraintId = getObjectId();
+        return getImpulseClamp(constraintId);
     }
 
     /**
@@ -160,7 +161,8 @@ public class Point2PointJoint extends Constraint {
      * @return the tau value
      */
     public float getTau() {
-        return getTau(objectId);
+        long constraintId = getObjectId();
+        return getTau(constraintId);
     }
 
     /**
@@ -170,7 +172,8 @@ public class Point2PointJoint extends Constraint {
      * 1&rarr;critically damped, default=1)
      */
     public void setDamping(float value) {
-        setDamping(objectId, value);
+        long constraintId = getObjectId();
+        setDamping(constraintId, value);
     }
 
     /**
@@ -179,7 +182,8 @@ public class Point2PointJoint extends Constraint {
      * @param value the desired impulse clamp value (default=0)
      */
     public void setImpulseClamp(float value) {
-        setImpulseClamp(objectId, value);
+        long constraintId = getObjectId();
+        setImpulseClamp(constraintId, value);
     }
 
     /**
@@ -188,7 +192,8 @@ public class Point2PointJoint extends Constraint {
      * @param value the desired tau value (default=0.3)
      */
     public void setTau(float value) {
-        setTau(objectId, value);
+        long constraintId = getObjectId();
+        setTau(constraintId, value);
     }
     // *************************************************************************
     // PhysicsJoint methods
@@ -282,16 +287,16 @@ public class Point2PointJoint extends Constraint {
      * Create the configured joint in Bullet.
      */
     private void createJoint() {
-        assert objectId == 0L;
         assert bodyA != null;
         assert pivotA != null;
 
+        long constraintId;
         if (bodyB == null) {
             /*
              * Create a single-ended joint.
              */
             if (pivotB == null) {
-                objectId = createJoint1(bodyA.getObjectId(), pivotA);
+                constraintId = createJoint1(bodyA.getObjectId(), pivotA);
             } else {
                 /*
                  * Bullet assumes single-ended btPoint2PointConstraints are
@@ -309,7 +314,7 @@ public class Point2PointJoint extends Constraint {
                 Vector3f worldOffset = pivotB.subtract(pivotAWorld);
                 Vector3f tempLocation = saveLocation.add(worldOffset);
                 bodyA.setPhysicsLocation(tempLocation);
-                objectId = createJoint1(bodyA.getObjectId(), pivotA);
+                constraintId = createJoint1(bodyA.getObjectId(), pivotA);
 
                 bodyA.setPhysicsLocation(saveLocation);
             }
@@ -319,11 +324,11 @@ public class Point2PointJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            objectId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
+            constraintId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
                     pivotA, pivotB);
         }
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+
+        setNativeId(constraintId);
     }
     // *************************************************************************
     // native methods

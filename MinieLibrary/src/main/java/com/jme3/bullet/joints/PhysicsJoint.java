@@ -40,6 +40,7 @@ import com.jme3.export.Savable;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -70,9 +71,9 @@ abstract public class PhysicsJoint
     /**
      * Unique identifier of the btTypedConstraint, btSoftBody::Anchor, or
      * btSoftBody::Joint. Subtype constructors are responsible for setting this
-     * to a non-zero value. Once set, the identifier never changes.
+     * to a non-zero value. After that, the ID never changes.
      */
-    protected long objectId = 0L;
+    private long objectId = 0L;
     /**
      * body A specified in the constructor, or null for a single-ended joint
      * with body B only
@@ -140,7 +141,7 @@ abstract public class PhysicsJoint
 
     /**
      * Read the ID of the btTypedConstraint, btSoftBody::Anchor, or
-     * btSoftBody::Joint.
+     * btSoftBody::Joint. TODO finalize
      *
      * @return the unique identifier (not zero)
      */
@@ -155,6 +156,22 @@ abstract public class PhysicsJoint
      * @return true if enabled, otherwise false
      */
     abstract public boolean isEnabled();
+    // *************************************************************************
+    // new protected methods
+
+    /**
+     * Initialize the native ID.
+     *
+     * @param jointId the unique identifier of the btTypedConstraint,
+     * btSoftBody::Anchor, or btSoftBody::Joint (not zero)
+     */
+    protected void setNativeId(long jointId) {
+        assert objectId == 0L : objectId;
+        assert jointId != 0L;
+
+        objectId = jointId;
+        logger.log(Level.FINE, "Created {0}.", this);
+    }
     // *************************************************************************
     // JmeCloneable methods
 

@@ -40,7 +40,6 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -205,8 +204,9 @@ public class Anchor extends PhysicsJoint {
     public void setInfluence(float amount) {
         Validate.fraction(amount, "amount");
 
+        long anchorId = getObjectId();
         this.influence = amount;
-        setInfluence(objectId, amount);
+        setInfluence(anchorId, amount);
     }
     // *************************************************************************
     // PhysicsJoint methods
@@ -299,17 +299,15 @@ public class Anchor extends PhysicsJoint {
      * Create the configured btSoftBody::Anchor.
      */
     private void createAnchor() {
-        assert objectId == 0L : objectId;
         assert bodyA instanceof PhysicsSoftBody;
         long ida = bodyA.getObjectId();
         assert nodeIndexA >= 0 : nodeIndexA;
         assert nodeIndexA < ((PhysicsSoftBody) bodyA).countNodes() : nodeIndexA;
         long idb = bodyB.getObjectId();
 
-        objectId = createAnchor(ida, nodeIndexA, idb, pivotInB,
+        long anchorId = createAnchor(ida, nodeIndexA, idb, pivotInB,
                 allowCollisions, influence);
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        setNativeId(anchorId);
     }
     // *************************************************************************
     // native methods

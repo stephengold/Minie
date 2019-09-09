@@ -203,7 +203,8 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @return the coefficient value (&ge;0)
      */
     public float getCFM() {
-        return getConstraintForceMixing(objectId);
+        long jointId = getObjectId();
+        return getConstraintForceMixing(jointId);
     }
 
     /**
@@ -227,7 +228,8 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @return the parameter value (&ge;0, &le;1, default=1)
      */
     public float getERP() {
-        return getErrorReductionParameter(objectId);
+        long jointId = getObjectId();
+        return getErrorReductionParameter(jointId);
     }
 
     /**
@@ -259,7 +261,8 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @return the split value
      */
     public float getSplit() {
-        return getSplit(objectId);
+        long jointId = getObjectId();
+        return getSplit(jointId);
     }
 
     /**
@@ -298,7 +301,9 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      */
     public void setCFM(float cfm) {
         Validate.nonNegative(cfm, "CFM coefficient");
-        setConstraintForceMixing(objectId, cfm);
+
+        long jointId = getObjectId();
+        setConstraintForceMixing(jointId, cfm);
     }
 
     /**
@@ -323,7 +328,9 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      */
     public void setERP(float erp) {
         Validate.fraction(erp, "error-reduction parameter");
-        setErrorReductionParameter(objectId, erp);
+
+        long jointId = getObjectId();
+        setErrorReductionParameter(jointId, erp);
     }
 
     /**
@@ -332,7 +339,8 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @param split the desired split value (default=1)
      */
     public void setSplit(float split) {
-        setSplit(objectId, split);
+        long jointId = getObjectId();
+        setSplit(jointId, split);
     }
     // *************************************************************************
     // new protected methods

@@ -40,7 +40,6 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -143,8 +142,9 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      * unaffected)
      */
     public void setAxis(Vector3f newAxis) {
+        long jointId = getObjectId();
         axis.set(newAxis);
-        setAxis(objectId, newAxis);
+        setAxis(jointId, newAxis);
     }
     // *************************************************************************
     // SoftPhysicsJoint methods
@@ -221,7 +221,6 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      * Create the configured btSoftBody::AJoint.
      */
     private void createJoint() {
-        assert objectId == 0L : objectId;
         assert bodyA instanceof PhysicsSoftBody;
         long ida = bodyA.getObjectId();
         int cia = clusterIndexA();
@@ -230,18 +229,19 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
         long idb = bodyB.getObjectId();
         int cib = clusterIndexB();
 
+        long jointId;
         if (isSoftRigid()) {
             assert cib == -1 : cib;
-            objectId = createJointSoftRigid(ida, cia, idb, erp, cfm, split,
+            jointId = createJointSoftRigid(ida, cia, idb, erp, cfm, split,
                     axis);
-        } else if (isSoftSoft()) {
+        } else {
+            assert isSoftSoft();
             assert cib >= 0 : cib;
             assert cib < ((PhysicsSoftBody) bodyB).countClusters() : cib;
-            objectId = createJointSoftSoft(ida, cia, idb, cib, erp, cfm, split,
+            jointId = createJointSoftSoft(ida, cia, idb, cib, erp, cfm, split,
                     axis);
         }
-        assert objectId != 0L;
-        logger3.log(Level.FINE, "Created {0}.", this);
+        setNativeId(jointId);
     }
     // *************************************************************************
     // native methods

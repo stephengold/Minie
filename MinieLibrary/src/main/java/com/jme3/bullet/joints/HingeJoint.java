@@ -42,7 +42,6 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -156,11 +155,12 @@ public class HingeJoint extends Constraint {
         /*
          * Synchronize the btHingeConstraint parameters with the local copies.
          */
-        setAngularOnly(objectId, angularOnly);
+        long constraintId = getObjectId();
+        setAngularOnly(constraintId, angularOnly);
 
         float low = getLowerLimit();
         float high = getUpperLimit();
-        setLimit(objectId, low, high, limitSoftness, biasFactor,
+        setLimit(constraintId, low, high, limitSoftness, biasFactor,
                 relaxationFactor);
     }
 
@@ -195,11 +195,12 @@ public class HingeJoint extends Constraint {
         /*
          * Synchronize btHingeConstraint parameters with local copies.
          */
-        setAngularOnly(objectId, angularOnly);
+        long constraintId = getObjectId();
+        setAngularOnly(constraintId, angularOnly);
 
         float low = getLowerLimit();
         float high = getUpperLimit();
-        setLimit(objectId, low, high, limitSoftness, biasFactor,
+        setLimit(constraintId, low, high, limitSoftness, biasFactor,
                 relaxationFactor);
     }
     // *************************************************************************
@@ -214,7 +215,8 @@ public class HingeJoint extends Constraint {
      */
     public void enableMotor(boolean enable, float targetVelocity,
             float maxMotorImpulse) {
-        enableMotor(objectId, enable, targetVelocity, maxMotorImpulse);
+        long constraintId = getObjectId();
+        enableMotor(constraintId, enable, targetVelocity, maxMotorImpulse);
     }
 
     /**
@@ -233,7 +235,8 @@ public class HingeJoint extends Constraint {
      * @return true if enabled, otherwise false
      */
     public boolean getEnableMotor() {
-        return getEnableAngularMotor(objectId);
+        long constraintId = getObjectId();
+        return getEnableAngularMotor(constraintId);
     }
 
     /**
@@ -247,12 +250,13 @@ public class HingeJoint extends Constraint {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 
+        long constraintId = getObjectId();
         switch (end) {
             case A:
-                getFrameOffsetA(objectId, result);
+                getFrameOffsetA(constraintId, result);
                 break;
             case B:
-                getFrameOffsetB(objectId, result);
+                getFrameOffsetB(constraintId, result);
                 break;
             default:
                 String message = "end = " + end.toString();
@@ -268,7 +272,8 @@ public class HingeJoint extends Constraint {
      * @return the angle (in radians)
      */
     public float getHingeAngle() {
-        return getHingeAngle(objectId);
+        long constraintId = getObjectId();
+        return getHingeAngle(constraintId);
     }
 
     /**
@@ -287,7 +292,8 @@ public class HingeJoint extends Constraint {
      * @return the angle (in radians)
      */
     final public float getLowerLimit() {
-        return getLowerLimit(objectId);
+        long constraintId = getObjectId();
+        return getLowerLimit(constraintId);
     }
 
     /**
@@ -296,7 +302,8 @@ public class HingeJoint extends Constraint {
      * @return velocity
      */
     public float getMotorTargetVelocity() {
-        return getMotorTargetVelocity(objectId);
+        long constraintId = getObjectId();
+        return getMotorTargetVelocity(constraintId);
     }
 
     /**
@@ -305,7 +312,8 @@ public class HingeJoint extends Constraint {
      * @return impulse
      */
     public float getMaxMotorImpulse() {
-        return getMaxMotorImpulse(objectId);
+        long constraintId = getObjectId();
+        return getMaxMotorImpulse(constraintId);
     }
 
     /**
@@ -323,7 +331,8 @@ public class HingeJoint extends Constraint {
      * @return angle (in radians)
      */
     final public float getUpperLimit() {
-        return getUpperLimit(objectId);
+        long constraintId = getObjectId();
+        return getUpperLimit(constraintId);
     }
 
     /**
@@ -342,7 +351,8 @@ public class HingeJoint extends Constraint {
      */
     public void setAngularOnly(boolean angularOnly) {
         this.angularOnly = angularOnly;
-        setAngularOnly(objectId, angularOnly);
+        long constraintId = getObjectId();
+        setAngularOnly(constraintId, angularOnly);
     }
 
     /**
@@ -354,7 +364,8 @@ public class HingeJoint extends Constraint {
      * default=-1)
      */
     public void setLimit(float low, float high) {
-        setLimit(objectId, low, high, limitSoftness, biasFactor,
+        long constraintId = getObjectId();
+        setLimit(constraintId, low, high, limitSoftness, biasFactor,
                 relaxationFactor);
     }
 
@@ -380,10 +391,11 @@ public class HingeJoint extends Constraint {
      */
     public void setLimit(float low, float high, float softness, float bias,
             float relaxation) {
+        long constraintId = getObjectId();
         biasFactor = bias;
         relaxationFactor = relaxation;
         limitSoftness = softness;
-        setLimit(objectId, low, high, softness, bias, relaxation);
+        setLimit(constraintId, low, high, softness, bias, relaxation);
     }
     // *************************************************************************
     // PhysicsJoint methods
@@ -515,7 +527,6 @@ public class HingeJoint extends Constraint {
      * Create the configured joint in Bullet.
      */
     private void createJoint() {
-        assert objectId == 0L;
         PhysicsRigidBody a = getBodyA();
         assert a != null;
         assert pivotA != null;
@@ -523,6 +534,7 @@ public class HingeJoint extends Constraint {
         assert pivotB != null;
         assert axisB.isUnitVector() : axisB;
 
+        long constraintId;
         if (bodyB == null) {
             /*
              * Create a single-ended joint.  Bullet assumes single-ended
@@ -544,7 +556,7 @@ public class HingeJoint extends Constraint {
             Vector3f offset = pivotB.subtract(pivotA);
             a.setPhysicsLocation(offset);
 
-            objectId = createJoint1(a.getObjectId(), pivotA, axisA,
+            constraintId = createJoint1(a.getObjectId(), pivotA, axisA,
                     useReferenceFrameA);
 
             a.setPhysicsLocation(saveLocation);
@@ -555,11 +567,10 @@ public class HingeJoint extends Constraint {
              * Create a double-ended joint.
              */
             assert !useReferenceFrameA;
-            objectId = createJoint(a.getObjectId(), bodyB.getObjectId(),
+            constraintId = createJoint(a.getObjectId(), bodyB.getObjectId(),
                     pivotA, axisA, pivotB, axisB);
         }
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        setNativeId(constraintId);
     }
     // *************************************************************************
     // native methods
