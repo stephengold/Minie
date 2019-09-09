@@ -235,8 +235,10 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         mergeVertices = capsule.readBoolean(tagMergeVertices, false);
         updateNormals = capsule.readBoolean(tagUpdateNormals, false);
 
-        Spatial controlled = getSpatial();
-        body.setUserObject(controlled);
+        if (body != null) {
+            Spatial controlled = getSpatial();
+            body.setUserObject(controlled);
+        }
     }
 
     /**

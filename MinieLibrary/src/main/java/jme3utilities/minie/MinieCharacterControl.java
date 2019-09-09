@@ -286,8 +286,10 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
         viewDirection = (Vector3f) capsule.readSavable(tagViewDirection,
                 new Vector3f(0f, 0f, 1f));
 
-        Spatial controlled = getSpatial();
-        character.setUserObject(controlled);
+        if (character != null) {
+            Spatial controlled = getSpatial();
+            character.setUserObject(controlled);
+        }
     }
 
     /**
