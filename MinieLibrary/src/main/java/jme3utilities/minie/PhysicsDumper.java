@@ -33,6 +33,7 @@ import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.SoftBodyWorldInfo;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
@@ -157,25 +158,19 @@ public class PhysicsDumper extends Dumper {
      * @param indent (not null)
      */
     public void dump(PhysicsCharacter character, String indent) {
+        Validate.nonNull(character, "character");
         Validate.nonNull(indent, "indent");
 
         stream.printf("%n%sCharacter", indent);
-
-        String desc = getDescriber().describeUser(character);
+        PhysicsDescriber describer = getDescriber();
+        String desc = describer.describeUser(character);
         stream.print(desc);
 
         Vector3f location = character.getPhysicsLocation();
         String locString = MyVector3f.describe(location);
-        stream.printf(" loc[%s] ", locString);
+        stream.printf(" loc[%s]", locString);
 
-        PhysicsDescriber describer = getDescriber();
-        CollisionShape shape = character.getCollisionShape();
-        desc = describer.describe(shape);
-        stream.print(desc);
-
-        Vector3f scale = shape.getScale(null);
-        desc = describer.describeScale(scale);
-        addDescription(desc);
+        addShapeAndScale(character);
 
         desc = describer.describeGroups(character);
         stream.print(desc);
@@ -192,11 +187,10 @@ public class PhysicsDumper extends Dumper {
      * @param indent (not null)
      */
     public void dump(PhysicsGhostObject ghost, String indent) {
+        Validate.nonNull(ghost, "ghost");
         Validate.nonNull(indent, "indent");
 
-        long objectId = ghost.getObjectId();
-        stream.printf("%n%sGhost #%s", indent, Long.toHexString(objectId));
-
+        stream.printf("%n%sGhost", indent);
         PhysicsDescriber describer = getDescriber();
         String desc = describer.describeUser(ghost);
         stream.print(desc);
@@ -210,16 +204,14 @@ public class PhysicsDumper extends Dumper {
             String orientText = MyQuaternion.describe(orientation);
             stream.printf(" orient[%s]", orientText);
         }
+        long objectId = ghost.getObjectId();
+        stream.print(" #");
+        stream.print(Long.toHexString(objectId));
         /*
          * 2nd line has the shape, scale, and group info.
          */
-        CollisionShape shape = ghost.getCollisionShape();
-        desc = describer.describe(shape);
-        stream.printf("%n%s %s", indent, desc);
-
-        Vector3f scale = shape.getScale(null);
-        desc = describer.describeScale(scale);
-        addDescription(desc);
+        stream.printf("%n%s", indent);
+        addShapeAndScale(ghost);
 
         desc = describer.describeGroups(ghost);
         stream.print(desc);
@@ -232,6 +224,7 @@ public class PhysicsDumper extends Dumper {
      * @param indent (not null)
      */
     public void dump(PhysicsRigidBody body, String indent) {
+        Validate.nonNull(body, "body");
         Validate.nonNull(indent, "indent");
 
         stream.printf("%n%sRigid ", indent);
@@ -257,18 +250,7 @@ public class PhysicsDumper extends Dumper {
         stream.print(" fric=");
         stream.print(MyString.describe(friction));
 
-        int expectedState;
-        if (body.isKinematic()) {
-            expectedState = 4;
-        } else if (body.isActive()) {
-            expectedState = 1;
-        } else {
-            expectedState = 2;
-        }
-        int activationState = body.getActivationState();
-        if (activationState != expectedState) {
-            stream.printf(" as=%d", activationState);
-        }
+        addActivationState(body);
 
         long objectId = body.getObjectId();
         stream.print(" #");
@@ -276,59 +258,21 @@ public class PhysicsDumper extends Dumper {
 
         if (body.isDynamic()) {
             /*
-             * The 2nd line has velocity, gravity, CCD, damping, and sleeping.
+             * The 2nd line has the dynamic info.
              */
-            Vector3f velocity = body.getLinearVelocity(null);
-            String velString = MyVector3f.describe(velocity);
-            stream.printf("%n%s v[%s]", indent, velString);
-
-            Vector3f gravity = body.getGravity(null);
-            String graString = MyVector3f.describe(gravity);
-            stream.printf(" grav[%s]", graString);
-
-            stream.print(" ccd[mt=");
-            float ccdMt = body.getCcdSquareMotionThreshold();
-            stream.print(MyString.describe(ccdMt));
-            if (ccdMt > 0f) {
-                stream.print(" r=");
-                float ccdR = body.getCcdSweptSphereRadius();
-                stream.print(MyString.describe(ccdR));
-            }
-
-            float angularDamping = body.getAngularDamping();
-            float linearDamping = body.getLinearDamping();
-            stream.print("] damp[ang=");
-            stream.print(MyString.describe(angularDamping));
-            stream.print(" lin=");
-            stream.print(MyString.describe(linearDamping));
-
-            float linearThreshold = body.getLinearSleepingThreshold();
-            float angularThreshold = body.getAngularSleepingThreshold();
-            stream.print("] sleep[lt=");
-            stream.print(MyString.describe(linearThreshold));
-            stream.print(" at=");
-            stream.print(MyString.describe(angularThreshold));
-            if (body.isActive()) {
-                float deactivationTime = body.getDeactivationTime();
-                stream.print(" time=");
-                stream.print(MyString.describe(deactivationTime));
-            }
-            stream.print(']');
+            stream.printf("%n%s", indent);
+            addDynamicProperties(body);
         }
         /*
-         * The next line has the shape (and scale).
+         * The next line has the shape and scale.
          */
-        CollisionShape shape = body.getCollisionShape();
-        desc = describer.describe(shape);
-        stream.printf("%n%s %s", indent, desc);
-
-        Vector3f scale = shape.getScale(null);
-        desc = describer.describeScale(scale);
-        addDescription(desc);
+        stream.printf("%n%s", indent);
+        addShapeAndScale(body);
         /*
          * The next line has the bounding box, group info, and number of joints.
          */
         stream.printf("%n%s", indent);
+        CollisionShape shape = body.getCollisionShape();
         if (shape instanceof GImpactCollisionShape
                 || shape instanceof HeightfieldCollisionShape
                 || shape instanceof HullCollisionShape
@@ -844,8 +788,93 @@ public class PhysicsDumper extends Dumper {
     // private methods
 
     /**
+     * Print the activation state of the specified rigid body, unless it happens
+     * to be in the expected state.
+     *
+     * @param rigidBody (not null, unaffected)
+     */
+    private void addActivationState(PhysicsRigidBody body) {
+        int expectedState;
+        if (body.isKinematic()) {
+            expectedState = 4;
+        } else if (body.isActive()) {
+            expectedState = 1;
+        } else {
+            expectedState = 2;
+        }
+
+        int activationState = body.getActivationState();
+        if (activationState != expectedState) {
+            stream.printf(" as=%d", activationState);
+        }
+    }
+
+    /**
+     * Print dynamic properties of the specified rigid body: velocity, gravity,
+     * CCD, damping, and sleeping.
+     *
+     * @param rigidBody (not null, unaffected)
+     */
+    private void addDynamicProperties(PhysicsRigidBody rigidBody) {
+        Vector3f velocity = rigidBody.getLinearVelocity(null);
+        String velString = MyVector3f.describe(velocity);
+        stream.printf(" v[%s]", velString);
+
+        Vector3f gravity = rigidBody.getGravity(null);
+        String graString = MyVector3f.describe(gravity);
+        stream.printf(" grav[%s]", graString);
+
+        stream.print(" ccd[mt=");
+        float ccdMt = rigidBody.getCcdSquareMotionThreshold();
+        stream.print(MyString.describe(ccdMt));
+        if (ccdMt > 0f) {
+            stream.print(" r=");
+            float ccdR = rigidBody.getCcdSweptSphereRadius();
+            stream.print(MyString.describe(ccdR));
+        }
+
+        float angularDamping = rigidBody.getAngularDamping();
+        float linearDamping = rigidBody.getLinearDamping();
+        stream.print("] damp[ang=");
+        stream.print(MyString.describe(angularDamping));
+        stream.print(" lin=");
+        stream.print(MyString.describe(linearDamping));
+
+        float linearThreshold = rigidBody.getLinearSleepingThreshold();
+        float angularThreshold = rigidBody.getAngularSleepingThreshold();
+        stream.print("] sleep[lt=");
+        stream.print(MyString.describe(linearThreshold));
+        stream.print(" at=");
+        stream.print(MyString.describe(angularThreshold));
+        if (rigidBody.isActive()) {
+            float deactivationTime = rigidBody.getDeactivationTime();
+            stream.print(" time=");
+            stream.print(MyString.describe(deactivationTime));
+        }
+        stream.print(']');
+    }
+
+    /**
+     * Print the shape and scale the specified collision object.
+     *
+     * @param pco (not null, unaffected)
+     */
+    private void addShapeAndScale(PhysicsCollisionObject pco) {
+        PhysicsDescriber describer = getDescriber();
+        CollisionShape shape = pco.getCollisionShape();
+
+        stream.print(' ');
+        String desc = describer.describe(shape);
+        stream.print(desc);
+
+        Vector3f scale = shape.getScale(null);
+        desc = describer.describeScale(scale);
+        addDescription(desc);
+    }
+
+    /**
      * Generate a textual description of the indexed vector in the specified
-     * buffer.
+     * FloatBuffer.
      *
      * @param buffer the buffer to read (not null, unaffected)
      * @param vectorIndex the index of the vector in the buffer (&ge;0)
