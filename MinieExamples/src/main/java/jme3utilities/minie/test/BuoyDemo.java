@@ -396,7 +396,7 @@ public class BuoyDemo extends ActionApplication {
         if (cgModel != null) {
             dac.getSpatial().removeControl(dac);
             reflectiblesNode.detachChild(cgModel);
-            reflectiblesNode.removeControl(sv);
+            rootNode.removeControl(sv);
         }
 
         switch (modelName) {
