@@ -41,7 +41,6 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -197,13 +196,14 @@ public class ConeJoint extends Constraint {
     public Transform getFrameTransform(JointEnd end, Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
+        long constraintId = getObjectId();
 
         switch (end) {
             case A:
-                getFrameOffsetA(objectId, result);
+                getFrameOffsetA(constraintId, result);
                 break;
             case B:
-                getFrameOffsetB(objectId, result);
+                getFrameOffsetB(constraintId, result);
                 break;
             default:
                 String message = "end = " + end.toString();
@@ -255,8 +255,9 @@ public class ConeJoint extends Constraint {
      * @param value the desired setting (default=false)
      */
     public void setAngularOnly(boolean value) {
+        long constraintId = getObjectId();
         angularOnly = value;
-        setAngularOnly(objectId, value);
+        setAngularOnly(constraintId, value);
     }
 
     /**
@@ -268,10 +269,11 @@ public class ConeJoint extends Constraint {
      * radians)
      */
     public void setLimit(float swingSpan1, float swingSpan2, float twistSpan) {
+        long constraintId = getObjectId();
         this.swingSpan1 = swingSpan1;
         this.swingSpan2 = swingSpan2;
         this.twistSpan = twistSpan;
-        setLimit(objectId, swingSpan1, swingSpan2, twistSpan);
+        setLimit(constraintId, swingSpan1, swingSpan2, twistSpan);
     }
     // *************************************************************************
     // PhysicsJoint methods
@@ -371,18 +373,18 @@ public class ConeJoint extends Constraint {
      * Create the configured joint in Bullet.
      */
     private void createJoint() {
-        assert objectId == 0L;
         assert bodyA != null;
         assert pivotA != null;
         assert rotA != null;
 
+        long constraintId;
         if (bodyB == null) {
             /*
              * Create a single-ended joint.
              * Bullet assumes single-ended btConeTwistConstraints have
              * rotInWorld=rotInA and pivotInWorld=(0,0,0).
              */
-            objectId = createJoint1(bodyA.getObjectId(), pivotA, rotA);
+            constraintId = createJoint1(bodyA.getObjectId(), pivotA, rotA);
 
         } else {
             assert pivotB != null;
@@ -390,11 +392,10 @@ public class ConeJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            objectId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
+            constraintId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
                     pivotA, rotA, pivotB, rotB);
         }
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        setNativeId(constraintId);
 
         setLimit(swingSpan1, swingSpan2, twistSpan);
         setAngularOnly(angularOnly);

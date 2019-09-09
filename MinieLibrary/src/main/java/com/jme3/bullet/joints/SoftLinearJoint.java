@@ -40,7 +40,6 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -142,8 +141,9 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
      * not null, unaffected)
      */
     public void setLocation(Vector3f newLocation) {
+        long jointId = getObjectId();
         location.set(newLocation);
-        setPosition(objectId, newLocation);
+        setPosition(jointId, newLocation);
     }
     // *************************************************************************
     // SoftPhysicsJoint methods
@@ -220,7 +220,6 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
      * Create the configured btSoftBody::LJoint.
      */
     private void createJoint() {
-        assert objectId == 0L : objectId;
         assert bodyA instanceof PhysicsSoftBody;
         long ida = bodyA.getObjectId();
         int cia = clusterIndexA();
@@ -229,18 +228,19 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
         long idb = bodyB.getObjectId();
         int cib = clusterIndexB();
 
+        long jointId;
         if (isSoftRigid()) {
             assert cib == -1 : cib;
-            objectId = createJointSoftRigid(ida, cia, idb, erp, cfm, split,
+            jointId = createJointSoftRigid(ida, cia, idb, erp, cfm, split,
                     location);
-        } else if (isSoftSoft()) {
+        } else {
+            assert isSoftSoft();
             assert cib >= 0 : cib;
             assert cib < ((PhysicsSoftBody) bodyB).countClusters() : cib;
-            objectId = createJointSoftSoft(ida, cia, idb, cib, erp, cfm, split,
+            jointId = createJointSoftSoft(ida, cia, idb, cib, erp, cfm, split,
                     location);
         }
-        assert objectId != 0L;
-        logger3.log(Level.FINE, "Created {0}.", this);
+        setNativeId(jointId);
     }
     // *************************************************************************
     // native methods

@@ -41,7 +41,6 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -217,7 +216,8 @@ public class SliderJoint extends Constraint {
      * damped)
      */
     public float getDampingDirAng() {
-        return getDampingDirAng(objectId);
+        long constraintId = getObjectId();
+        return getDampingDirAng(constraintId);
     }
 
     /**
@@ -227,7 +227,8 @@ public class SliderJoint extends Constraint {
      * damped)
      */
     public float getDampingDirLin() {
-        return getDampingDirLin(objectId);
+        long constraintId = getObjectId();
+        return getDampingDirLin(constraintId);
     }
 
     /**
@@ -237,7 +238,8 @@ public class SliderJoint extends Constraint {
      * damped)
      */
     public float getDampingLimAng() {
-        return getDampingLimAng(objectId);
+        long constraintId = getObjectId();
+        return getDampingLimAng(constraintId);
     }
 
     /**
@@ -247,7 +249,8 @@ public class SliderJoint extends Constraint {
      * damped)
      */
     public float getDampingLimLin() {
-        return getDampingLimLin(objectId);
+        long constraintId = getObjectId();
+        return getDampingLimLin(constraintId);
     }
 
     /**
@@ -257,7 +260,8 @@ public class SliderJoint extends Constraint {
      * damped)
      */
     public float getDampingOrthoAng() {
-        return getDampingOrthoAng(objectId);
+        long constraintId = getObjectId();
+        return getDampingOrthoAng(constraintId);
     }
 
     /**
@@ -267,7 +271,8 @@ public class SliderJoint extends Constraint {
      * damped)
      */
     public float getDampingOrthoLin() {
-        return getDampingOrthoLin(objectId);
+        long constraintId = getObjectId();
+        return getDampingOrthoLin(constraintId);
     }
 
     /**
@@ -281,12 +286,13 @@ public class SliderJoint extends Constraint {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 
+        long constraintId = getObjectId();
         switch (end) {
             case A:
-                getFrameOffsetA(objectId, result);
+                getFrameOffsetA(constraintId, result);
                 break;
             case B:
-                getFrameOffsetB(objectId, result);
+                getFrameOffsetB(constraintId, result);
                 break;
             default:
                 String message = "end = " + end.toString();
@@ -302,7 +308,8 @@ public class SliderJoint extends Constraint {
      * @return the lower limit angle (in radians)
      */
     public float getLowerAngLimit() {
-        return getLowerAngLimit(objectId);
+        long constraintId = getObjectId();
+        return getLowerAngLimit(constraintId);
     }
 
     /**
@@ -311,7 +318,8 @@ public class SliderJoint extends Constraint {
      * @return the lower limit
      */
     public float getLowerLinLimit() {
-        return getLowerLinLimit(objectId);
+        long constraintId = getObjectId();
+        return getLowerLinLimit(constraintId);
     }
 
     /**
@@ -320,7 +328,8 @@ public class SliderJoint extends Constraint {
      * @return the maximum force
      */
     public float getMaxAngMotorForce() {
-        return getMaxAngMotorForce(objectId);
+        long constraintId = getObjectId();
+        return getMaxAngMotorForce(constraintId);
     }
 
     /**
@@ -329,7 +338,8 @@ public class SliderJoint extends Constraint {
      * @return the maximum force
      */
     public float getMaxLinMotorForce() {
-        return getMaxLinMotorForce(objectId);
+        long constraintId = getObjectId();
+        return getMaxLinMotorForce(constraintId);
     }
 
     /**
@@ -338,7 +348,8 @@ public class SliderJoint extends Constraint {
      * @return the restitution (bounce) factor
      */
     public float getRestitutionDirAng() {
-        return getRestitutionDirAng(objectId);
+        long constraintId = getObjectId();
+        return getRestitutionDirAng(constraintId);
     }
 
     /**
@@ -347,7 +358,8 @@ public class SliderJoint extends Constraint {
      * @return the restitution (bounce) factor
      */
     public float getRestitutionDirLin() {
-        return getRestitutionDirLin(objectId);
+        long constraintId = getObjectId();
+        return getRestitutionDirLin(constraintId);
     }
 
     /**
@@ -356,7 +368,8 @@ public class SliderJoint extends Constraint {
      * @return the restitution (bounce) factor
      */
     public float getRestitutionLimAng() {
-        return getRestitutionLimAng(objectId);
+        long constraintId = getObjectId();
+        return getRestitutionLimAng(constraintId);
     }
 
     /**
@@ -365,7 +378,8 @@ public class SliderJoint extends Constraint {
      * @return the restitution (bounce) factor
      */
     public float getRestitutionLimLin() {
-        return getRestitutionLimLin(objectId);
+        long constraintId = getObjectId();
+        return getRestitutionLimLin(constraintId);
     }
 
     /**
@@ -374,7 +388,8 @@ public class SliderJoint extends Constraint {
      * @return the restitution (bounce) factor
      */
     public float getRestitutionOrthoAng() {
-        return getRestitutionOrthoAng(objectId);
+        long constraintId = getObjectId();
+        return getRestitutionOrthoAng(constraintId);
     }
 
     /**
@@ -383,7 +398,8 @@ public class SliderJoint extends Constraint {
      * @return the restitution (bounce) factor
      */
     public float getRestitutionOrthoLin() {
-        return getRestitutionOrthoLin(objectId);
+        long constraintId = getObjectId();
+        return getRestitutionOrthoLin(constraintId);
     }
 
     /**
@@ -392,7 +408,8 @@ public class SliderJoint extends Constraint {
      * @return the softness
      */
     public float getSoftnessDirAng() {
-        return getSoftnessDirAng(objectId);
+        long constraintId = getObjectId();
+        return getSoftnessDirAng(constraintId);
     }
 
     /**
@@ -401,7 +418,8 @@ public class SliderJoint extends Constraint {
      * @return the softness
      */
     public float getSoftnessDirLin() {
-        return getSoftnessDirLin(objectId);
+        long constraintId = getObjectId();
+        return getSoftnessDirLin(constraintId);
     }
 
     /**
@@ -410,7 +428,8 @@ public class SliderJoint extends Constraint {
      * @return the softness
      */
     public float getSoftnessLimAng() {
-        return getSoftnessLimAng(objectId);
+        long constraintId = getObjectId();
+        return getSoftnessLimAng(constraintId);
     }
 
     /**
@@ -419,7 +438,8 @@ public class SliderJoint extends Constraint {
      * @return the softness
      */
     public float getSoftnessLimLin() {
-        return getSoftnessLimLin(objectId);
+        long constraintId = getObjectId();
+        return getSoftnessLimLin(constraintId);
     }
 
     /**
@@ -428,7 +448,8 @@ public class SliderJoint extends Constraint {
      * @return the softness
      */
     public float getSoftnessOrthoAng() {
-        return getSoftnessOrthoAng(objectId);
+        long constraintId = getObjectId();
+        return getSoftnessOrthoAng(constraintId);
     }
 
     /**
@@ -437,7 +458,8 @@ public class SliderJoint extends Constraint {
      * @return the softness
      */
     public float getSoftnessOrthoLin() {
-        return getSoftnessOrthoLin(objectId);
+        long constraintId = getObjectId();
+        return getSoftnessOrthoLin(constraintId);
     }
 
     /**
@@ -446,7 +468,8 @@ public class SliderJoint extends Constraint {
      * @return the velocity target (in radians per second)
      */
     public float getTargetAngMotorVelocity() {
-        return getTargetAngMotorVelocity(objectId);
+        long constraintId = getObjectId();
+        return getTargetAngMotorVelocity(constraintId);
     }
 
     /**
@@ -455,7 +478,8 @@ public class SliderJoint extends Constraint {
      * @return the velocity target
      */
     public float getTargetLinMotorVelocity() {
-        return getTargetLinMotorVelocity(objectId);
+        long constraintId = getObjectId();
+        return getTargetLinMotorVelocity(constraintId);
     }
 
     /**
@@ -464,7 +488,8 @@ public class SliderJoint extends Constraint {
      * @return the upper limit angle (in radians)
      */
     public float getUpperAngLimit() {
-        return getUpperAngLimit(objectId);
+        long constraintId = getObjectId();
+        return getUpperAngLimit(constraintId);
     }
 
     /**
@@ -473,7 +498,8 @@ public class SliderJoint extends Constraint {
      * @return the upper limit
      */
     public float getUpperLinLimit() {
-        return getUpperLinLimit(objectId);
+        long constraintId = getObjectId();
+        return getUpperLinLimit(constraintId);
     }
 
     /**
@@ -482,7 +508,8 @@ public class SliderJoint extends Constraint {
      * @return true if powered, otherwise false
      */
     public boolean isPoweredAngMotor() {
-        return isPoweredAngMotor(objectId);
+        long constraintId = getObjectId();
+        return isPoweredAngMotor(constraintId);
     }
 
     /**
@@ -491,7 +518,8 @@ public class SliderJoint extends Constraint {
      * @return true if powered, otherwise false
      */
     public boolean isPoweredLinMotor() {
-        return isPoweredLinMotor(objectId);
+        long constraintId = getObjectId();
+        return isPoweredLinMotor(constraintId);
     }
 
     /**
@@ -501,7 +529,8 @@ public class SliderJoint extends Constraint {
      * damping, 1&rarr;critically damped, default=0)
      */
     public void setDampingDirAng(float dampingDirAng) {
-        setDampingDirAng(objectId, dampingDirAng);
+        long constraintId = getObjectId();
+        setDampingDirAng(constraintId, dampingDirAng);
     }
 
     /**
@@ -511,7 +540,8 @@ public class SliderJoint extends Constraint {
      * damping, 1&rarr;critically damped, default=0)
      */
     public void setDampingDirLin(float dampingDirLin) {
-        setDampingDirLin(objectId, dampingDirLin);
+        long constraintId = getObjectId();
+        setDampingDirLin(constraintId, dampingDirLin);
     }
 
     /**
@@ -521,7 +551,8 @@ public class SliderJoint extends Constraint {
      * damping, 1&rarr;critically damped, default=1)
      */
     public void setDampingLimAng(float dampingLimAng) {
-        setDampingLimAng(objectId, dampingLimAng);
+        long constraintId = getObjectId();
+        setDampingLimAng(constraintId, dampingLimAng);
     }
 
     /**
@@ -531,7 +562,8 @@ public class SliderJoint extends Constraint {
      * damping, 1&rarr;critically damped, default=1)
      */
     public void setDampingLimLin(float dampingLimLin) {
-        setDampingLimLin(objectId, dampingLimLin);
+        long constraintId = getObjectId();
+        setDampingLimLin(constraintId, dampingLimLin);
     }
 
     /**
@@ -541,7 +573,8 @@ public class SliderJoint extends Constraint {
      * damping, 1&rarr;critically damped, default=1)
      */
     public void setDampingOrthoAng(float dampingOrthoAng) {
-        setDampingOrthoAng(objectId, dampingOrthoAng);
+        long constraintId = getObjectId();
+        setDampingOrthoAng(constraintId, dampingOrthoAng);
     }
 
     /**
@@ -551,7 +584,8 @@ public class SliderJoint extends Constraint {
      * damping, 1&rarr;critically damped, default=1)
      */
     public void setDampingOrthoLin(float dampingOrthoLin) {
-        setDampingOrthoLin(objectId, dampingOrthoLin);
+        long constraintId = getObjectId();
+        setDampingOrthoLin(constraintId, dampingOrthoLin);
     }
 
     /**
@@ -561,7 +595,8 @@ public class SliderJoint extends Constraint {
      * default=0)
      */
     public void setLowerAngLimit(float lowerAngLimit) {
-        setLowerAngLimit(objectId, lowerAngLimit);
+        long constraintId = getObjectId();
+        setLowerAngLimit(constraintId, lowerAngLimit);
     }
 
     /**
@@ -570,7 +605,8 @@ public class SliderJoint extends Constraint {
      * @param lowerLinLimit the desired lower limit (default=-1)
      */
     public void setLowerLinLimit(float lowerLinLimit) {
-        setLowerLinLimit(objectId, lowerLinLimit);
+        long constraintId = getObjectId();
+        setLowerLinLimit(constraintId, lowerLinLimit);
     }
 
     /**
@@ -579,7 +615,8 @@ public class SliderJoint extends Constraint {
      * @param maxAngMotorForce the desired maximum force (default=0)
      */
     public void setMaxAngMotorForce(float maxAngMotorForce) {
-        setMaxAngMotorForce(objectId, maxAngMotorForce);
+        long constraintId = getObjectId();
+        setMaxAngMotorForce(constraintId, maxAngMotorForce);
     }
 
     /**
@@ -588,7 +625,8 @@ public class SliderJoint extends Constraint {
      * @param maxLinMotorForce the desired maximum force (default=0)
      */
     public void setMaxLinMotorForce(float maxLinMotorForce) {
-        setMaxLinMotorForce(objectId, maxLinMotorForce);
+        long constraintId = getObjectId();
+        setMaxLinMotorForce(constraintId, maxLinMotorForce);
     }
 
     /**
@@ -598,7 +636,8 @@ public class SliderJoint extends Constraint {
      * (default=false)
      */
     public void setPoweredAngMotor(boolean poweredAngMotor) {
-        setPoweredAngMotor(objectId, poweredAngMotor);
+        long constraintId = getObjectId();
+        setPoweredAngMotor(constraintId, poweredAngMotor);
     }
 
     /**
@@ -608,7 +647,8 @@ public class SliderJoint extends Constraint {
      * (default=false)
      */
     public void setPoweredLinMotor(boolean poweredLinMotor) {
-        setPoweredLinMotor(objectId, poweredLinMotor);
+        long constraintId = getObjectId();
+        setPoweredLinMotor(constraintId, poweredLinMotor);
     }
 
     /**
@@ -618,7 +658,8 @@ public class SliderJoint extends Constraint {
      * (default=0.7)
      */
     public void setRestitutionDirAng(float restitutionDirAng) {
-        setRestitutionDirAng(objectId, restitutionDirAng);
+        long constraintId = getObjectId();
+        setRestitutionDirAng(constraintId, restitutionDirAng);
     }
 
     /**
@@ -628,7 +669,8 @@ public class SliderJoint extends Constraint {
      * (default=0.7)
      */
     public void setRestitutionDirLin(float restitutionDirLin) {
-        setRestitutionDirLin(objectId, restitutionDirLin);
+        long constraintId = getObjectId();
+        setRestitutionDirLin(constraintId, restitutionDirLin);
     }
 
     /**
@@ -638,7 +680,8 @@ public class SliderJoint extends Constraint {
      * (default=0.7)
      */
     public void setRestitutionLimAng(float restitutionLimAng) {
-        setRestitutionLimAng(objectId, restitutionLimAng);
+        long constraintId = getObjectId();
+        setRestitutionLimAng(constraintId, restitutionLimAng);
     }
 
     /**
@@ -648,7 +691,8 @@ public class SliderJoint extends Constraint {
      * (default=0.7)
      */
     public void setRestitutionLimLin(float restitutionLimLin) {
-        setRestitutionLimLin(objectId, restitutionLimLin);
+        long constraintId = getObjectId();
+        setRestitutionLimLin(constraintId, restitutionLimLin);
     }
 
     /**
@@ -658,7 +702,8 @@ public class SliderJoint extends Constraint {
      * (default=0.7)
      */
     public void setRestitutionOrthoAng(float restitutionOrthoAng) {
-        setRestitutionOrthoAng(objectId, restitutionOrthoAng);
+        long constraintId = getObjectId();
+        setRestitutionOrthoAng(constraintId, restitutionOrthoAng);
     }
 
     /**
@@ -668,7 +713,8 @@ public class SliderJoint extends Constraint {
      * (default=0.7)
      */
     public void setRestitutionOrthoLin(float restitutionOrthoLin) {
-        setRestitutionOrthoLin(objectId, restitutionOrthoLin);
+        long constraintId = getObjectId();
+        setRestitutionOrthoLin(constraintId, restitutionOrthoLin);
     }
 
     /**
@@ -677,7 +723,8 @@ public class SliderJoint extends Constraint {
      * @param softnessDirAng the desired softness (default=1)
      */
     public void setSoftnessDirAng(float softnessDirAng) {
-        setSoftnessDirAng(objectId, softnessDirAng);
+        long constraintId = getObjectId();
+        setSoftnessDirAng(constraintId, softnessDirAng);
     }
 
     /**
@@ -686,7 +733,8 @@ public class SliderJoint extends Constraint {
      * @param softnessDirLin the desired softness (default=1)
      */
     public void setSoftnessDirLin(float softnessDirLin) {
-        setSoftnessDirLin(objectId, softnessDirLin);
+        long constraintId = getObjectId();
+        setSoftnessDirLin(constraintId, softnessDirLin);
     }
 
     /**
@@ -695,7 +743,8 @@ public class SliderJoint extends Constraint {
      * @param softnessLimAng the desired softness (default=1)
      */
     public void setSoftnessLimAng(float softnessLimAng) {
-        setSoftnessLimAng(objectId, softnessLimAng);
+        long constraintId = getObjectId();
+        setSoftnessLimAng(constraintId, softnessLimAng);
     }
 
     /**
@@ -704,7 +753,8 @@ public class SliderJoint extends Constraint {
      * @param softnessLimLin the desired softness (default=1)
      */
     public void setSoftnessLimLin(float softnessLimLin) {
-        setSoftnessLimLin(objectId, softnessLimLin);
+        long constraintId = getObjectId();
+        setSoftnessLimLin(constraintId, softnessLimLin);
     }
 
     /**
@@ -713,7 +763,8 @@ public class SliderJoint extends Constraint {
      * @param softnessOrthoAng the desired softness (default=1)
      */
     public void setSoftnessOrthoAng(float softnessOrthoAng) {
-        setSoftnessOrthoAng(objectId, softnessOrthoAng);
+        long constraintId = getObjectId();
+        setSoftnessOrthoAng(constraintId, softnessOrthoAng);
     }
 
     /**
@@ -722,7 +773,8 @@ public class SliderJoint extends Constraint {
      * @param softnessOrthoLin the desired softness (default=1)
      */
     public void setSoftnessOrthoLin(float softnessOrthoLin) {
-        setSoftnessOrthoLin(objectId, softnessOrthoLin);
+        long constraintId = getObjectId();
+        setSoftnessOrthoLin(constraintId, softnessOrthoLin);
     }
 
     /**
@@ -732,7 +784,8 @@ public class SliderJoint extends Constraint {
      * second, default=0)
      */
     public void setTargetAngMotorVelocity(float targetAngMotorVelocity) {
-        setTargetAngMotorVelocity(objectId, targetAngMotorVelocity);
+        long constraintId = getObjectId();
+        setTargetAngMotorVelocity(constraintId, targetAngMotorVelocity);
     }
 
     /**
@@ -741,7 +794,8 @@ public class SliderJoint extends Constraint {
      * @param targetLinMotorVelocity the desired velocity target (default=0)
      */
     public void setTargetLinMotorVelocity(float targetLinMotorVelocity) {
-        setTargetLinMotorVelocity(objectId, targetLinMotorVelocity);
+        long constraintId = getObjectId();
+        setTargetLinMotorVelocity(constraintId, targetLinMotorVelocity);
     }
 
     /**
@@ -751,7 +805,8 @@ public class SliderJoint extends Constraint {
      * default=0)
      */
     public void setUpperAngLimit(float upperAngLimit) {
-        setUpperAngLimit(objectId, upperAngLimit);
+        long constraintId = getObjectId();
+        setUpperAngLimit(constraintId, upperAngLimit);
     }
 
     /**
@@ -760,7 +815,8 @@ public class SliderJoint extends Constraint {
      * @param upperLinLimit the desired upper limit (default=1)
      */
     public void setUpperLinLimit(float upperLinLimit) {
-        setUpperLinLimit(objectId, upperLinLimit);
+        long constraintId = getObjectId();
+        setUpperLinLimit(constraintId, upperLinLimit);
     }
     // *************************************************************************
     // PhysicsJoint methods
@@ -993,13 +1049,13 @@ public class SliderJoint extends Constraint {
      * Create the configured joint in Bullet.
      */
     private void createJoint() {
-        assert objectId == 0L;
         assert pivotA != null;
         assert rotA != null;
         assert bodyB != null;
         assert pivotB != null;
         assert rotB != null;
 
+        long constraintId;
         if (bodyA == null) {
             /*
              * Create a single-ended joint.  Bullet assumes single-ended
@@ -1010,7 +1066,7 @@ public class SliderJoint extends Constraint {
 
             Vector3f offset = pivotA.subtract(pivotB);
             bodyB.setPhysicsLocation(offset);
-            objectId = createJoint1(bodyB.getObjectId(), pivotB, rotB,
+            constraintId = createJoint1(bodyB.getObjectId(), pivotB, rotB,
                     useLinearReferenceFrameA);
 
             bodyB.setPhysicsLocation(saveLocation);
@@ -1019,11 +1075,10 @@ public class SliderJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            objectId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
+            constraintId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
                     pivotA, rotA, pivotB, rotB, useLinearReferenceFrameA);
         }
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        setNativeId(constraintId);
     }
     // *************************************************************************
     // native methods

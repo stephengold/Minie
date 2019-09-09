@@ -45,7 +45,6 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -258,7 +257,10 @@ public class SixDofJoint extends Constraint {
      */
     public Vector3f getAngles(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getAngles(objectId, result);
+
+        long constraintId = getObjectId();
+        getAngles(constraintId, result);
+
         return result;
     }
 
@@ -303,12 +305,13 @@ public class SixDofJoint extends Constraint {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 
+        long constraintId = getObjectId();
         switch (end) {
             case A:
-                getFrameOffsetA(objectId, result);
+                getFrameOffsetA(constraintId, result);
                 break;
             case B:
-                getFrameOffsetB(objectId, result);
+                getFrameOffsetB(constraintId, result);
                 break;
             default:
                 String message = "end = " + end.toString();
@@ -327,7 +330,10 @@ public class SixDofJoint extends Constraint {
      */
     public Vector3f getPivotOffset(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getPivotOffset(objectId, result);
+
+        long constraintId = getObjectId();
+        getPivotOffset(constraintId, result);
+
         return result;
     }
 
@@ -392,7 +398,8 @@ public class SixDofJoint extends Constraint {
      */
     public void setAngularLowerLimit(Vector3f vector) {
         angularLowerLimit.set(vector);
-        setAngularLowerLimit(objectId, vector);
+        long constraintId = getObjectId();
+        setAngularLowerLimit(constraintId, vector);
     }
 
     /**
@@ -402,7 +409,8 @@ public class SixDofJoint extends Constraint {
      */
     public void setAngularUpperLimit(Vector3f vector) {
         angularUpperLimit.set(vector);
-        setAngularUpperLimit(objectId, vector);
+        long constraintId = getObjectId();
+        setAngularUpperLimit(constraintId, vector);
     }
 
     /**
@@ -412,7 +420,8 @@ public class SixDofJoint extends Constraint {
      */
     public void setLinearLowerLimit(Vector3f vector) {
         linearLowerLimit.set(vector);
-        setLinearLowerLimit(objectId, vector);
+        long constraintId = getObjectId();
+        setLinearLowerLimit(constraintId, vector);
     }
 
     /**
@@ -422,7 +431,8 @@ public class SixDofJoint extends Constraint {
      */
     public void setLinearUpperLimit(Vector3f vector) {
         linearUpperLimit.set(vector);
-        setLinearUpperLimit(objectId, vector);
+        long constraintId = getObjectId();
+        setLinearUpperLimit(constraintId, vector);
     }
     // *************************************************************************
     // new protected methods
@@ -716,7 +726,6 @@ public class SixDofJoint extends Constraint {
      * Create the configured joint in Bullet.
      */
     private void createJoint() {
-        assert objectId == 0L;
         assert pivotA != null;
         assert rotA != null;
         PhysicsRigidBody b = getBodyB();
@@ -724,6 +733,7 @@ public class SixDofJoint extends Constraint {
         assert pivotB != null;
         assert rotB != null;
 
+        long constraintId;
         if (bodyA == null) {
             /*
              * Create a single-ended joint.  Bullet assumes single-ended
@@ -747,7 +757,7 @@ public class SixDofJoint extends Constraint {
             b.setPhysicsRotation(bToWorld.getRotation());
 
             boolean useLinearReferenceFrameB = !useLinearReferenceFrameA;
-            objectId = createJoint1(bId, pivotB, rotB,
+            constraintId = createJoint1(bId, pivotB, rotB,
                     useLinearReferenceFrameB);
 
             b.setPhysicsLocation(saveLocation);
@@ -758,11 +768,10 @@ public class SixDofJoint extends Constraint {
              * Create a double-ended joint.
              */
             long aId = bodyA.getObjectId();
-            objectId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB,
+            constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB,
                     useLinearReferenceFrameA);
         }
-        assert objectId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
+        setNativeId(constraintId);
 
         gatherMotors();
     }
@@ -771,13 +780,15 @@ public class SixDofJoint extends Constraint {
         assert rotationalMotors == null;
         assert translationalMotor == null;
 
+        long constraintId = getObjectId();
         rotationalMotors = new RotationalLimitMotor[numAxes];
+
         for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
-            long motorId = getRotationalLimitMotor(objectId, axisIndex);
+            long motorId = getRotationalLimitMotor(constraintId, axisIndex);
             rotationalMotors[axisIndex] = new RotationalLimitMotor(motorId);
         }
 
-        long motorId = getTranslationalLimitMotor(objectId);
+        long motorId = getTranslationalLimitMotor(constraintId);
         translationalMotor = new TranslationalLimitMotor(motorId);
     }
     // *************************************************************************
