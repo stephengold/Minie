@@ -226,7 +226,7 @@ abstract public class CollisionShape
      *
      * @return the unique identifier (not zero)
      */
-    public long getObjectId() {
+    final public long getObjectId() {
         assert nativeId != 0L;
         return nativeId;
     }
