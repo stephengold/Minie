@@ -380,10 +380,14 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         IndexBuffer faces = null;
         switch (mesh.getMode()) {
             case Lines:
-                links = mesh.getIndexBuffer();
+            case LineLoop:
+            case LineStrip:
+                links = mesh.getIndicesAsList();
                 break;
             case Triangles:
-                faces = mesh.getIndexBuffer();
+            case TriangleFan:
+            case TriangleStrip:
+                faces = mesh.getIndicesAsList();
                 break;
             default:
                 throw new IllegalStateException(mesh.getMode().name());
