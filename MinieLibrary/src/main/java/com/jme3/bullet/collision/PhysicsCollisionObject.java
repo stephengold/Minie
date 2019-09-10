@@ -318,7 +318,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy this object's anisotropic friction.
+     * Copy this object's anisotropic friction components.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the components of the friction (either storeResult or a new
@@ -444,9 +444,9 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Read this object's friction.
+     * Read this object's friction coefficient.
      *
-     * @return the friction coefficient (&ge;0)
+     * @return the coefficient (&ge;0)
      */
     public float getFriction() {
         return getFriction(objectId);
@@ -589,7 +589,7 @@ abstract public class PhysicsCollisionObject
      * @return true if (one of) the specified mode(s) is active, otherwise false
      */
     public boolean hasAnisotropicFriction(int mode) {
-        Validate.inRange(mode, "mode", 1, 3);
+        Validate.inRange(mode, "mode", AfMode.basic, AfMode.either);
         boolean result = hasAnisotropicFriction(objectId, mode);
         return result;
     }
@@ -655,11 +655,11 @@ abstract public class PhysicsCollisionObject
      * @param components the desired friction components (not null, unaffected,
      * default=(1,1,1))
      * @param mode the desired friction mode: 0=isotropic, 1=basic anisotropic
-     * friction, 2=anisotropic rolling friction (default=0) TODO named constants
+     * friction, 2=anisotropic rolling friction (default=0)
      */
     public void setAnisotropicFriction(Vector3f components, int mode) {
         Validate.nonNull(components, "components");
-        Validate.inRange(mode, "mode", 0, 2);
+        Validate.inRange(mode, "mode", AfMode.none, AfMode.rolling);
 
         setAnisotropicFriction(objectId, components, mode);
     }
@@ -903,10 +903,12 @@ abstract public class PhysicsCollisionObject
         setRollingFriction(old.getRollingFriction());
         setSpinningFriction(old.getSpinningFriction());
 
-        if (old.hasAnisotropicFriction(1)) {
-            setAnisotropicFriction(old.getAnisotropicFriction(null), 1);
-        } else if (old.hasAnisotropicFriction(2)) {
-            setAnisotropicFriction(old.getAnisotropicFriction(null), 2);
+        if (old.hasAnisotropicFriction(AfMode.basic)) {
+            setAnisotropicFriction(old.getAnisotropicFriction(null),
+                    AfMode.basic);
+        } else if (old.hasAnisotropicFriction(AfMode.rolling)) {
+            setAnisotropicFriction(old.getAnisotropicFriction(null),
+                    AfMode.rolling);
         }
     }
 
@@ -963,8 +965,8 @@ abstract public class PhysicsCollisionObject
         setRollingFriction(capsule.readFloat(tagRollingFriction, 0f));
         setSpinningFriction(capsule.readFloat(tagSpinningFriction, 0f));
 
-        int mode = capsule.readInt(tagAnisotropicFrictionMode, 0);
-        if (mode != 0) {
+        int mode = capsule.readInt(tagAnisotropicFrictionMode, AfMode.none);
+        if (mode != AfMode.none) {
             Vector3f components = (Vector3f) capsule.readSavable(
                     tagAnisotropicFrictionComponents, new Vector3f(1f, 1f, 1f));
             setAnisotropicFriction(components, mode);
@@ -1134,14 +1136,14 @@ abstract public class PhysicsCollisionObject
         capsule.write(getRollingFriction(), tagRollingFriction, 0f);
         capsule.write(getSpinningFriction(), tagSpinningFriction, 0f);
 
-        int mode = 0;
-        if (hasAnisotropicFriction(1)) {
-            mode = 1;
-        } else if (hasAnisotropicFriction(2)) {
-            mode = 2;
+        int mode = AfMode.none;
+        if (hasAnisotropicFriction(AfMode.basic)) {
+            mode = AfMode.basic;
+        } else if (hasAnisotropicFriction(AfMode.rolling)) {
+            mode = AfMode.rolling;
         }
-        capsule.write(mode, tagAnisotropicFrictionMode, 0);
-        if (mode != 0) {
+        capsule.write(mode, tagAnisotropicFrictionMode, AfMode.none);
+        if (mode != AfMode.none) {
             Vector3f components = getAnisotropicFriction(null);
             capsule.write(components, tagAnisotropicFrictionComponents, null);
         }

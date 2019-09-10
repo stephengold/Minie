@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
+import com.jme3.bullet.collision.AfMode;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsCharacter;
@@ -105,9 +106,9 @@ public class TestCloneCharacter {
         ch.setContactResponse(flag);
         ch.setSweepTest(!flag);
 
-        int index = Math.round(b / 0.3f);
+        int afMode = Math.round(b / 0.3f);
         ch.setAnisotropicFriction(
-                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), index);
+                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), afMode);
 
         ch.setAngularDamping(b + 0.01f);
         ch.setAngularVelocity(new Vector3f(b + 0.04f, b + 0.05f, b + 0.06f));
@@ -151,7 +152,7 @@ public class TestCloneCharacter {
 
         int index = Math.round(b / 0.3f);
         if (index == 0) {
-            assert !ch.hasAnisotropicFriction(3);
+            assert !ch.hasAnisotropicFriction(AfMode.either);
         } else {
             assert ch.hasAnisotropicFriction(index);
             Vector3f c = ch.getAnisotropicFriction(null);

@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
+import com.jme3.bullet.collision.AfMode;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.GhostControl;
@@ -116,9 +117,9 @@ public class TestCloneGhost {
      * @param b the key value
      */
     private void setParameters(PhysicsGhostObject pgo, float b) {
-        int index = Math.round(b / 0.3f);
+        int afMode = Math.round(b / 0.3f);
         pgo.setAnisotropicFriction(
-                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), index);
+                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), afMode);
 
         pgo.setCcdMotionThreshold(b + 0.07f);
         pgo.setCcdSweptSphereRadius(b + 0.08f);
@@ -150,7 +151,7 @@ public class TestCloneGhost {
     private void verifyParameters(PhysicsGhostObject pgo, float b) {
         int index = Math.round(b / 0.3f);
         if (index == 0) {
-            assert !pgo.hasAnisotropicFriction(3);
+            assert !pgo.hasAnisotropicFriction(AfMode.either);
         } else {
             assert pgo.hasAnisotropicFriction(index);
             Vector3f c = pgo.getAnisotropicFriction(null);
