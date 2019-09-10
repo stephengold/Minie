@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
+import com.jme3.bullet.collision.AfMode;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
@@ -200,9 +201,9 @@ public class TestCloneBody {
             body.setKinematic(!flag);
         }
 
-        int index = Math.round(b / 0.3f);
+        int afMode = Math.round(b / 0.3f);
         body.setAnisotropicFriction(
-                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), index);
+                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), afMode);
 
         body.setAngularDamping(b + 0.01f);
         body.setAngularFactor(new Vector3f(b + 0.02f, b + 0.021f, b + 0.022f));
@@ -284,7 +285,7 @@ public class TestCloneBody {
 
         int index = Math.round(b / 0.3f);
         if (index == 0) {
-            assert !body.hasAnisotropicFriction(3);
+            assert !body.hasAnisotropicFriction(AfMode.either);
         } else {
             assert body.hasAnisotropicFriction(index);
             Vector3f c = body.getAnisotropicFriction(null);
