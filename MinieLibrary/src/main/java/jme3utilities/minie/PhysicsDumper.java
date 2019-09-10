@@ -33,8 +33,10 @@ import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.SoftBodyWorldInfo;
+import com.jme3.bullet.collision.Activation;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
@@ -227,7 +229,12 @@ public class PhysicsDumper extends Dumper {
         Validate.nonNull(body, "body");
         Validate.nonNull(indent, "indent");
 
-        stream.printf("%n%sRigid ", indent);
+        stream.printf("%n%s", indent);
+        if (body instanceof PhysicsVehicle) {
+            stream.print("Vehicle ");
+        } else {
+            stream.print("Rigid ");
+        }
 
         String desc = MyPco.describe(body);
         stream.print(desc);
@@ -269,26 +276,34 @@ public class PhysicsDumper extends Dumper {
         stream.printf("%n%s", indent);
         addShapeAndScale(body);
         /*
-         * The next line has the bounding box, group info, and number of joints.
+         * The next line has the bounding box, group info, number of wheels,
+         * and number of joints.
          */
         stream.printf("%n%s", indent);
         CollisionShape shape = body.getCollisionShape();
-        if (shape instanceof GImpactCollisionShape
+        if (shape instanceof CompoundCollisionShape
+                || shape instanceof GImpactCollisionShape
                 || shape instanceof HeightfieldCollisionShape
                 || shape instanceof HullCollisionShape
                 || shape instanceof MeshCollisionShape
                 || shape instanceof SimplexCollisionShape) {
             BoundingBox aabb = shape.boundingBox(location, orientation, null);
             desc = describer.describe(aabb);
-            stream.printf(" aabb=[%s]", desc);
+            stream.printf(" aabb[%s]", desc);
         }
 
         desc = describer.describeGroups(body);
         stream.print(desc);
 
+        stream.print(" with");
+        if (body instanceof PhysicsVehicle) {
+            int numWheels = ((PhysicsVehicle) body).getNumWheels();
+            stream.printf(" %d wheel%s and", numWheels,
+                    (numWheels == 1) ? "" : "s");
+        }
+
         int numJoints = body.countJoints();
-        stream.printf(" with %d joint%s", numJoints,
-                (numJoints == 1) ? "" : "s");
+        stream.printf(" %d joint%s", numJoints, (numJoints == 1) ? "" : "s");
         /*
          * Additional lines, if needed, for the joints.
          */
@@ -523,11 +538,6 @@ public class PhysicsDumper extends Dumper {
                     dump(soft, moreIndent);
                 }
             }
-            for (PhysicsVehicle vehicle : vehicles) {
-                if (filter == null || filter.displayObject(vehicle)) {
-                    dump(vehicle, moreIndent);
-                }
-            }
         }
 
         if (dumpJointsInSpaces) {
@@ -535,28 +545,6 @@ public class PhysicsDumper extends Dumper {
         }
 
         stream.println();
-    }
-
-    /**
-     * Dump the specified PhysicsVehicle.
-     *
-     * @param vehicle the vehicle to dump (not null, unaffected)
-     * @param indent (not null)
-     */
-    public void dump(PhysicsVehicle vehicle, String indent) {
-        Validate.nonNull(indent, "indent");
-
-        long objectId = vehicle.getObjectId();
-        float mass = vehicle.getMass();
-        stream.printf("%sVehicle #%s mass=%f", indent,
-                Long.toHexString(objectId), mass);
-
-        String desc = getDescriber().describeUser(vehicle);
-        stream.print(desc);
-
-        Vector3f location = vehicle.getPhysicsLocation(null);
-        String locString = MyVector3f.describe(location);
-        stream.printf(" loc[%s]", locString);
     }
 
     /**
@@ -795,12 +783,12 @@ public class PhysicsDumper extends Dumper {
      */
     private void addActivationState(PhysicsRigidBody body) {
         int expectedState;
-        if (body.isKinematic()) {
-            expectedState = 4;
+        if (body.isKinematic() || body instanceof PhysicsVehicle) {
+            expectedState = Activation.exempt;
         } else if (body.isActive()) {
-            expectedState = 1;
+            expectedState = Activation.active;
         } else {
-            expectedState = 2;
+            expectedState = Activation.sleeping;
         }
 
         int activationState = body.getActivationState();
