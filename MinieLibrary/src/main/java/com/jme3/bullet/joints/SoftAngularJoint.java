@@ -246,6 +246,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
                     axis);
         }
         setNativeId(jointId);
+        assert checkParameters();
     }
     // *************************************************************************
     // native methods

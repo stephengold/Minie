@@ -203,8 +203,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @return the coefficient value (&ge;0)
      */
     public float getCFM() {
-        long jointId = getObjectId();
-        return getConstraintForceMixing(jointId);
+        return cfm;
     }
 
     /**
@@ -228,8 +227,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @return the parameter value (&ge;0, &le;1, default=1)
      */
     public float getERP() {
-        long jointId = getObjectId();
-        return getErrorReductionParameter(jointId);
+        return erp;
     }
 
     /**
@@ -261,8 +259,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @return the split value
      */
     public float getSplit() {
-        long jointId = getObjectId();
-        return getSplit(jointId);
+        return split;
     }
 
     /**
@@ -304,6 +301,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
 
         long jointId = getObjectId();
         setConstraintForceMixing(jointId, cfm);
+        this.cfm = cfm;
     }
 
     /**
@@ -331,6 +329,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
 
         long jointId = getObjectId();
         setErrorReductionParameter(jointId, erp);
+        this.erp = erp;
     }
 
     /**
@@ -341,9 +340,24 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     public void setSplit(float split) {
         long jointId = getObjectId();
         setSplit(jointId, split);
+        this.split = split;
     }
     // *************************************************************************
     // new protected methods
+
+    /**
+     * Compare Bullet parameters against their the local copies.
+     *
+     * @return true if the local copies are accurate, otherwise false
+     */
+    public boolean checkParameters() {
+        long jointId = getObjectId();
+        boolean result = (cfm == getConstraintForceMixing(jointId))
+                && (erp == getErrorReductionParameter(jointId))
+                && (split == getSplit(jointId));
+
+        return result;
+    }
 
     /**
      * Finalize the btTypedConstraint.
