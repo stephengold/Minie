@@ -456,7 +456,7 @@ abstract public class PhysicsCollisionObject
      *
      * @return the unique identifier (not zero)
      */
-    public long getObjectId() {
+    final public long getObjectId() {
         assert objectId != 0L;
         return objectId;
     }
