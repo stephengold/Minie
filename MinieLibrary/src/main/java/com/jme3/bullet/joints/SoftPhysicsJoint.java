@@ -79,7 +79,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
             = "errorReductionParameter";
     final private static String tagSplit = "split";
     // *************************************************************************
-    // fields TODO privatize
+    // fields
 
     /**
      * true if this joint is added to soft body A - TODO never set true!
@@ -88,15 +88,15 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     /**
      * local copy of the constraint force mixing parameter (default=1)
      */
-    protected float cfm = 1f;
+    private float cfm = 1f;
     /**
      * local copy of the error-reduction parameter (default=1)
      */
-    protected float erp = 1f;
+    private float erp = 1f;
     /**
      * local copy of the split parameter (default=1)
      */
-    protected float split = 1f;
+    private float split = 1f;
     /**
      * the index of the cluster for the A end (&ge;0)
      */
