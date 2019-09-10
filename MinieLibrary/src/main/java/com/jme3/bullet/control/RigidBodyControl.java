@@ -51,7 +51,6 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
-import com.jme3.scene.shape.AbstractBox;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.clone.Cloner;
@@ -263,17 +262,15 @@ public class RigidBodyControl
             return;
         }
         if (spatial instanceof Geometry) {
-            Geometry geom = (Geometry) spatial;
-            Mesh mesh = geom.getMesh();
+            Mesh mesh = ((Geometry) spatial).getMesh();
             if (mesh instanceof Sphere) {
-                collisionShape = new SphereCollisionShape(
-                        ((Sphere) mesh).getRadius());
+                float radius = ((Sphere) mesh).getRadius();
+                collisionShape = new SphereCollisionShape();
                 return;
             } else if (mesh instanceof Box) {
-                collisionShape = new BoxCollisionShape(
-                        new Vector3f(((AbstractBox) mesh).getXExtent(),
-                                ((AbstractBox) mesh).getYExtent(),
-                                ((AbstractBox) mesh).getZExtent()));
+                Box box = (Box) mesh;
+                collisionShape = new BoxCollisionShape(box.getXExtent(),
+                        box.getYExtent(), box.getZExtent());
                 return;
             }
         }
