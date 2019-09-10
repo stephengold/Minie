@@ -915,33 +915,35 @@ public class SliderJoint extends Constraint {
 
         float dampingDirAng = capsule.readFloat(tagDampingDirAng, 0f);
         float dampingDirLin = capsule.readFloat(tagDampingDirLin, 0f);
-        float dampingLimAng = capsule.readFloat(tagDampingLimAng, 0f);
-        float dampingLimLin = capsule.readFloat(tagDampingLimLin, 0f);
-        float dampingOrthoAng = capsule.readFloat(tagDampingOrthoAng, 0f);
-        float dampingOrthoLin = capsule.readFloat(tagDampingOrthoLin, 0f);
+        float dampingLimAng = capsule.readFloat(tagDampingLimAng, 1f);
+        float dampingLimLin = capsule.readFloat(tagDampingLimLin, 1f);
+        float dampingOrthoAng = capsule.readFloat(tagDampingOrthoAng, 1f);
+        float dampingOrthoLin = capsule.readFloat(tagDampingOrthoLin, 1f);
+
         float lowerAngLimit = capsule.readFloat(tagLowerAngLimit, 0f);
-        float lowerLinLimit = capsule.readFloat(tagLowerLinLimit, 0f);
+        float lowerLinLimit = capsule.readFloat(tagLowerLinLimit, 1f);
         float maxAngMotorForce = capsule.readFloat(tagMaxAngMotorForce, 0f);
         float maxLinMotorForce = capsule.readFloat(tagMaxLinMotorForce, 0f);
         boolean poweredAngMotor
                 = capsule.readBoolean(tagPoweredAngMotor, false);
         boolean poweredLinMotor
                 = capsule.readBoolean(tagPoweredLinMotor, false);
-        float restitutionDirAng = capsule.readFloat(tagRestitutionDirAng, 0f);
-        float restitutionDirLin = capsule.readFloat(tagRestitutionDirLin, 0f);
-        float restitutionLimAng = capsule.readFloat(tagRestitutionLimAng, 0f);
-        float restitutionLimLin = capsule.readFloat(tagRestitutionLimLin, 0f);
-        float restitutionOrthoAng
-                = capsule.readFloat(tagRestitutionOrthoAng, 0f);
-        float restitutionOrthoLin
-                = capsule.readFloat(tagRestitutionOrthoLin, 0f);
 
-        float softnessDirAng = capsule.readFloat(tagSoftnessDirAng, 0f);
-        float softnessDirLin = capsule.readFloat(tagSoftnessDirLin, 0f);
-        float softnessLimAng = capsule.readFloat(tagSoftnessLimAng, 0f);
-        float softnessLimLin = capsule.readFloat(tagSoftnessLimLin, 0f);
-        float softnessOrthoAng = capsule.readFloat(tagSoftnessOrthoAng, 0f);
-        float softnessOrthoLin = capsule.readFloat(tagSoftnessOrthoLin, 0f);
+        float restitutionDirAng = capsule.readFloat(tagRestitutionDirAng, 0.7f);
+        float restitutionDirLin = capsule.readFloat(tagRestitutionDirLin, 0.7f);
+        float restitutionLimAng = capsule.readFloat(tagRestitutionLimAng, 0.7f);
+        float restitutionLimLin = capsule.readFloat(tagRestitutionLimLin, 0.7f);
+        float restitutionOrthoAng
+                = capsule.readFloat(tagRestitutionOrthoAng, 0.7f);
+        float restitutionOrthoLin
+                = capsule.readFloat(tagRestitutionOrthoLin, 0.7f);
+
+        float softnessDirAng = capsule.readFloat(tagSoftnessDirAng, 1f);
+        float softnessDirLin = capsule.readFloat(tagSoftnessDirLin, 1f);
+        float softnessLimAng = capsule.readFloat(tagSoftnessLimAng, 1f);
+        float softnessLimLin = capsule.readFloat(tagSoftnessLimLin, 1f);
+        float softnessOrthoAng = capsule.readFloat(tagSoftnessOrthoAng, 1f);
+        float softnessOrthoLin = capsule.readFloat(tagSoftnessOrthoLin, 1f);
 
         float targetAngMotorVelocity
                 = capsule.readFloat(tagTargetAngMotorVelocity, 0f);
@@ -949,7 +951,7 @@ public class SliderJoint extends Constraint {
                 = capsule.readFloat(tagTargetLinMotorVelocity, 0f);
 
         float upperAngLimit = capsule.readFloat(tagUpperAngLimit, 0f);
-        float upperLinLimit = capsule.readFloat(tagUpperLinLimit, 0f);
+        float upperLinLimit = capsule.readFloat(tagUpperLinLimit, -1f);
 
         rotA = (Matrix3f) capsule.readSavable(tagRotA, new Matrix3f());
         rotB = (Matrix3f) capsule.readSavable(tagRotB, new Matrix3f());
@@ -1004,32 +1006,33 @@ public class SliderJoint extends Constraint {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        //TODO: standard values..
         capsule.write(getDampingDirAng(), tagDampingDirAng, 0f);
         capsule.write(getDampingDirLin(), tagDampingDirLin, 0f);
-        capsule.write(getDampingLimAng(), tagDampingLimAng, 0f);
-        capsule.write(getDampingLimLin(), tagDampingLimLin, 0f);
-        capsule.write(getDampingOrthoAng(), tagDampingOrthoAng, 0f);
-        capsule.write(getDampingOrthoLin(), tagDampingOrthoLin, 0f);
+        capsule.write(getDampingLimAng(), tagDampingLimAng, 1f);
+        capsule.write(getDampingLimLin(), tagDampingLimLin, 1f);
+        capsule.write(getDampingOrthoAng(), tagDampingOrthoAng, 1f);
+        capsule.write(getDampingOrthoLin(), tagDampingOrthoLin, 1f);
+
         capsule.write(getLowerAngLimit(), tagLowerAngLimit, 0f);
-        capsule.write(getLowerLinLimit(), tagLowerLinLimit, 0f);
+        capsule.write(getLowerLinLimit(), tagLowerLinLimit, 1f);
         capsule.write(getMaxAngMotorForce(), tagMaxAngMotorForce, 0f);
         capsule.write(getMaxLinMotorForce(), tagMaxLinMotorForce, 0f);
         capsule.write(isPoweredAngMotor(), tagPoweredAngMotor, false);
         capsule.write(isPoweredLinMotor(), tagPoweredLinMotor, false);
-        capsule.write(getRestitutionDirAng(), tagRestitutionDirAng, 0f);
-        capsule.write(getRestitutionDirLin(), tagRestitutionDirLin, 0f);
-        capsule.write(getRestitutionLimAng(), tagRestitutionLimAng, 0f);
-        capsule.write(getRestitutionLimLin(), tagRestitutionLimLin, 0f);
-        capsule.write(getRestitutionOrthoAng(), tagRestitutionOrthoAng, 0f);
-        capsule.write(getRestitutionOrthoLin(), tagRestitutionOrthoLin, 0f);
 
-        capsule.write(getSoftnessDirAng(), tagSoftnessDirAng, 0f);
-        capsule.write(getSoftnessDirLin(), tagSoftnessDirLin, 0f);
-        capsule.write(getSoftnessLimAng(), tagSoftnessLimAng, 0f);
-        capsule.write(getSoftnessLimLin(), tagSoftnessLimLin, 0f);
-        capsule.write(getSoftnessOrthoAng(), tagSoftnessOrthoAng, 0f);
-        capsule.write(getSoftnessOrthoLin(), tagSoftnessOrthoLin, 0f);
+        capsule.write(getRestitutionDirAng(), tagRestitutionDirAng, 0.7f);
+        capsule.write(getRestitutionDirLin(), tagRestitutionDirLin, 0.7f);
+        capsule.write(getRestitutionLimAng(), tagRestitutionLimAng, 0.7f);
+        capsule.write(getRestitutionLimLin(), tagRestitutionLimLin, 0.7f);
+        capsule.write(getRestitutionOrthoAng(), tagRestitutionOrthoAng, 0.7f);
+        capsule.write(getRestitutionOrthoLin(), tagRestitutionOrthoLin, 0.7f);
+
+        capsule.write(getSoftnessDirAng(), tagSoftnessDirAng, 1f);
+        capsule.write(getSoftnessDirLin(), tagSoftnessDirLin, 1f);
+        capsule.write(getSoftnessLimAng(), tagSoftnessLimAng, 1f);
+        capsule.write(getSoftnessLimLin(), tagSoftnessLimLin, 1f);
+        capsule.write(getSoftnessOrthoAng(), tagSoftnessOrthoAng, 1f);
+        capsule.write(getSoftnessOrthoLin(), tagSoftnessOrthoLin, 1f);
 
         capsule.write(getTargetAngMotorVelocity(),
                 tagTargetAngMotorVelocity, 0f);
@@ -1037,7 +1040,7 @@ public class SliderJoint extends Constraint {
                 tagTargetLinMotorVelocity, 0f);
 
         capsule.write(getUpperAngLimit(), tagUpperAngLimit, 0f);
-        capsule.write(getUpperLinLimit(), tagUpperLinLimit, 0f);
+        capsule.write(getUpperLinLimit(), tagUpperLinLimit, -1f);
 
         capsule.write(useLinearReferenceFrameA, tagUseLinearReferenceFrameA,
                 false);
