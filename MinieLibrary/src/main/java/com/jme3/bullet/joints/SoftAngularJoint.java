@@ -229,6 +229,10 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
         long idb = bodyB.getObjectId();
         int cib = clusterIndexB();
 
+        float erp = getERP();
+        float cfm = getCFM();
+        float split = getSplit();
+
         long jointId;
         if (isSoftRigid()) {
             assert cib == -1 : cib;
