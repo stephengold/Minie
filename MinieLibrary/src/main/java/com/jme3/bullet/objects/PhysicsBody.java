@@ -33,7 +33,13 @@ package com.jme3.bullet.objects;
 
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.export.InputCapsule;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
+import com.jme3.util.clone.Cloner;
+import java.io.IOException;
+import java.util.ArrayList;
+import jme3utilities.Validate;
 
 /**
  * The abstract base class for rigid bodies and soft bodies.
@@ -41,17 +47,49 @@ import com.jme3.math.Vector3f;
  * @author Stephen Gold sgold@sonic.net
  */
 abstract public class PhysicsBody extends PhysicsCollisionObject {
+    // *************************************************************************
+    // constants and loggers
+
     /**
      * magic mass value used to specify a static rigid body or soft-body node
      */
     final public static float massForStatic = 0f;
+    /**
+     * field name for serialization
+     */
+    final private static String tagJoints = "joints";
+    // *************************************************************************
+    // fields
+
+    /**
+     * list of joints that connect to this body: The list isn't populated until
+     * the body is added to a PhysicsSpace.
+     */
+    private ArrayList<PhysicsJoint> joints = new ArrayList<>(4);
+    // *************************************************************************
+    // new methods exposed
 
     /**
      * Do not invoke directly! Joints are added automatically when created.
      *
      * @param joint the joint to add (not null, alias created)
      */
-    abstract public void addJoint(PhysicsJoint joint);
+    public void addJoint(PhysicsJoint joint) {
+        Validate.nonNull(joint, "joint");
+
+        if (!joints.contains(joint)) {
+            joints.add(joint);
+        }
+    }
+
+    /**
+     * Clone this body's joints.
+     *
+     * @param cloner the Cloner that's cloning this body (not null, modified)
+     */
+    protected void cloneJoints(Cloner cloner) {
+        joints = cloner.clone(joints);
+    }
 
     /**
      * Count how many joints connect to this body.
@@ -59,7 +97,14 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      * @return the count (&ge;0) or 0 if the body isn't added to any
      * PhysicsSpace
      */
-    abstract public int countJoints();
+    public int countJoints() {
+        int result = 0;
+        if (isInWorld()) {
+            result = joints.size();
+        }
+
+        return result;
+    }
 
     /**
      * Copy this body's gravitational acceleration.
@@ -81,17 +126,45 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      * Enumerate the joints connected to this body.
      *
      * @return a new array of pre-existing joints, or null if this body is not
-     * added to any space
+     * added to any PhysicsSpace
      */
-    abstract public PhysicsJoint[] listJoints();
+    public PhysicsJoint[] listJoints() {
+        PhysicsJoint[] result;
+        if (isInWorld()) {
+            int numJoints = joints.size();
+            result = new PhysicsJoint[numJoints];
+            joints.toArray(result);
+        } else {
+            result = null;
+        }
+
+        return result;
+    }
+
+    /**
+     * De-serialize joints from the specified InputCapsule, for example when
+     * loading from a J3O file.
+     *
+     * @param capsule (not null, modified)
+     * @throws IOException from the capsule
+     */
+    @SuppressWarnings("unchecked")
+    protected void readJoints(InputCapsule capsule) throws IOException {
+        joints = capsule.readSavableArrayList(tagJoints, null);
+    }
 
     /**
      * Do not invoke directly! Joints are removed automatically when destroyed.
      *
-     * @param joint the joint to remove (not null)
+     * @param joint the joint to remove (not null, unaffected)
      * @see com.jme3.bullet.joints.PhysicsJoint#destroy()
      */
-    abstract public void removeJoint(PhysicsJoint joint);
+    public void removeJoint(PhysicsJoint joint) {
+        Validate.nonNull(joint, "joint");
+
+        boolean success = joints.remove(joint);
+        assert success;
+    }
 
     /**
      * Alter this body's gravitational acceleration. TODO scalar alternative
@@ -118,4 +191,15 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      * null, unaffected)
      */
     abstract public void setPhysicsLocation(Vector3f location);
+
+    /**
+     * Serialize joints to the specified OutputCapsule, for example when saving
+     * to a J3O file.
+     *
+     * @param capsule (not null, modified)
+     * @throws IOException from the capsule
+     */
+    protected void writeJoints(OutputCapsule capsule) throws IOException {
+        capsule.writeSavableArrayList(joints, tagJoints, null);
+    }
 }
