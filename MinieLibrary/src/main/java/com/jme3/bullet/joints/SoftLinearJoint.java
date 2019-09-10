@@ -245,6 +245,7 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
                     location);
         }
         setNativeId(jointId);
+        assert checkParameters();
     }
     // *************************************************************************
     // native methods
