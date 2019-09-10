@@ -32,6 +32,7 @@
 package com.jme3.bullet.objects;
 
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.Activation;
 import com.jme3.bullet.collision.CollisionFlag;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
@@ -663,9 +664,9 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setEnableSleep(boolean setting) {
         if (setting) {
-            setActivationState(objectId, 1);
+            setActivationState(objectId, Activation.active);
         } else {
-            setActivationState(objectId, 4);
+            setActivationState(objectId, Activation.exempt);
         }
     }
 

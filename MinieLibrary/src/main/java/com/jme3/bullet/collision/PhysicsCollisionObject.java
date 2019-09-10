@@ -307,12 +307,13 @@ abstract public class PhysicsCollisionObject
      * Read this object's activation state.
      *
      * @return the state (1=active tag, 2=island sleeping, 3=wants deactivation,
-     * 4=disable deactivation, 5=disable simulation) TODO named constants
+     * 4=disable deactivation, 5=disable simulation)
+     * @see Activation
      */
     public int getActivationState() {
         int result = getActivationState(objectId);
-        assert result >= 1 : result;
-        assert result <= 5 : result;
+        assert result >= Activation.firstValue : result;
+        assert result <= Activation.lastValue : result;
         return result;
     }
 

@@ -30,6 +30,7 @@ import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.SoftBodyWorldInfo;
+import com.jme3.bullet.collision.Activation;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -126,7 +127,7 @@ public class TestDefaults {
         assertEquals(0f, 0f, 0f, rigidA.getLinearVelocity(null), 0);
         Assert.assertFalse(rigidA.isKinematic());
         Assert.assertEquals(1f, rigidA.getMass(), 0f);
-        Assert.assertEquals(1, rigidA.getActivationState());
+        Assert.assertEquals(Activation.active, rigidA.getActivationState());
 
         PhysicsRigidBody rigidB = new PhysicsRigidBody(box);
         SixDofJoint six = new SixDofJoint(rigidA, rigidB, new Vector3f(),
@@ -184,7 +185,7 @@ public class TestDefaults {
         Assert.assertEquals(0, softA.countNodes());
         Assert.assertEquals(0, softA.countTetras());
         Assert.assertEquals(0f, softA.getMass(), 0f);
-        Assert.assertEquals(1, softA.getActivationState());
+        Assert.assertEquals(Activation.active, softA.getActivationState());
 
         Mesh wireBox = new WireBox();
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
