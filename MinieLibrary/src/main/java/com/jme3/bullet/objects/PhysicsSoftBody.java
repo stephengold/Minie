@@ -35,7 +35,6 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
-import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.infos.Cluster;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.export.InputCapsule;
@@ -55,7 +54,6 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -82,7 +80,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     final private static String tagConfig = "config";
     final private static String tagFaceIndices = "faceIndices";
     final private static String tagIndices = "indices";
-    final private static String tagJoints = "joints";
     final private static String tagLinkIndices = "linkIndices";
     final private static String tagNodeLocations = "nodeLocations";
     final private static String tagNodeMasses = "nodeMasses";
@@ -95,11 +92,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     // *************************************************************************
     // fields
 
-    /**
-     * list of joints that connect to this body: The list isn't populated until
-     * the body is added to a PhysicsSpace. TODO move to PhysicsBody
-     */
-    private ArrayList<PhysicsJoint> joints = new ArrayList<>(4);
     /**
      * material properties of this soft body, allocated lazily
      */
@@ -1153,20 +1145,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     // PhysicsBody methods
 
     /**
-     * Do not invoke directly! Joints are added automatically when created.
-     *
-     * @param joint the joint to add (not null, alias created)
-     */
-    @Override
-    public void addJoint(PhysicsJoint joint) {
-        Validate.nonNull(joint, "joint");
-
-        if (!joints.contains(joint)) {
-            joints.add(joint);
-        }
-    }
-
-    /**
      * Calculate the axis-aligned bounding box for this body.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -1252,23 +1230,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         /*
          * Soft joints require clusters; clone them after appending clusters.
          */
-        joints = cloner.clone(joints);
-    }
-
-    /**
-     * Count how many joints connect to this body.
-     *
-     * @return the count (&ge;0) or 0 if this body isn't added to any
-     * PhysicsSpace
-     */
-    @Override
-    public int countJoints() {
-        int result = 0;
-        if (isInWorld()) {
-            result = joints.size();
-        }
-
-        return result;
+        cloneJoints(cloner);
     }
 
     /**
@@ -1374,26 +1336,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Enumerate the joints connected to this body.
-     *
-     * @return a new array of pre-existing joints, or null if this body is not
-     * added to any PhysicsSpace
-     */
-    @Override
-    public PhysicsJoint[] listJoints() {
-        PhysicsJoint[] result;
-        if (isInWorld()) {
-            int numJoints = joints.size();
-            result = new PhysicsJoint[numJoints];
-            joints.toArray(result);
-        } else {
-            result = null;
-        }
-
-        return result;
-    }
-
-    /**
      * De-serialize this body from the specified importer, for example when
      * loading from a J3O file.
      *
@@ -1401,7 +1343,6 @@ public class PhysicsSoftBody extends PhysicsBody {
      * @throws IOException from the importer
      */
     @Override
-    @SuppressWarnings("unchecked")
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
@@ -1462,22 +1403,7 @@ public class PhysicsSoftBody extends PhysicsBody {
                 new Vector3f()));
 
         getSoftMaterial().read(capsule);
-
-        joints = capsule.readSavableArrayList(tagJoints, null);
-    }
-
-    /**
-     * Do not invoke directly! Joints are removed automatically when destroyed.
-     *
-     * @param joint the joint to remove (not null, unaffected)
-     * @see com.jme3.bullet.joints.PhysicsJoint#destroy()
-     */
-    @Override
-    public void removeJoint(PhysicsJoint joint) {
-        Validate.nonNull(joint, "joint");
-
-        boolean success = joints.remove(joint);
-        assert success;
+        readJoints(capsule);
     }
 
     /**
@@ -1599,13 +1525,14 @@ public class PhysicsSoftBody extends PhysicsBody {
         capsule.write(config, tagConfig, null);
         getSoftMaterial().write(capsule);
 
-        capsule.writeSavableArrayList(joints, tagJoints, null);
+        writeJoints(capsule);
     }
     // *************************************************************************
     // private methods
 
     /**
-     * Copy the specified buffer to an array, ignoring the limit. TODO utility
+     * Copy the specified buffer to an array, ignoring the limit. TODO use
+     * MyBuffer
      *
      * @param floatBuffer (not null, unaffected)
      * @return a new array
@@ -1621,7 +1548,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Copy the specified buffer to an array, ignoring the limit. TODO utility
+     * Copy the specified buffer to an array, ignoring the limit. TODO use
+     * MyBuffer
      *
      * @param intBuffer (not null, unaffected)
      * @return a new array
@@ -1638,7 +1566,7 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     /**
      * Reuse the specified FloatBuffer, if it has the desired capacity. If no
-     * buffer is specified, allocate a new one. TODO utility
+     * buffer is specified, allocate a new one. TODO use MyBuffer
      *
      * @param minFloats the desired capacity (in floats, &ge;0)
      * @param storeResult the buffer to reuse, or null for none

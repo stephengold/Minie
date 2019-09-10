@@ -37,7 +37,6 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
-import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.infos.RigidBodyMotionState;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -49,7 +48,6 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -84,7 +82,6 @@ public class PhysicsRigidBody extends PhysicsBody {
     final private static String tagContactResponse = "contactResponse";
     final private static String tagDeactivationTime = "deactivationTime";
     final private static String tagInverseInertia = "inverseInertia";
-    final private static String tagJoints = "joints";
     final private static String tagKinematic = "kinematic";
     final private static String tagLinearDamping = "linearDamping";
     final private static String tagLinearFactor = "linearFactor";
@@ -105,11 +102,6 @@ public class PhysicsRigidBody extends PhysicsBody {
     // *************************************************************************
     // fields
 
-    /**
-     * list of joints that connect to this body: The list isn't populated until
-     * the body is added to a PhysicsSpace.
-     */
-    private ArrayList<PhysicsJoint> joints = new ArrayList<>(4);
     /**
      * copy of kinematic flag: true&rarr;set kinematic mode (spatial controls
      * body), false&rarr;dynamic/static mode (body controls spatial)
@@ -879,20 +871,6 @@ public class PhysicsRigidBody extends PhysicsBody {
     // PhysicsBody methods
 
     /**
-     * Do not invoke directly! Joints are added automatically when created.
-     *
-     * @param joint the joint to add (not null, alias created)
-     */
-    @Override
-    public void addJoint(PhysicsJoint joint) {
-        Validate.nonNull(joint, "joint");
-
-        if (!joints.contains(joint)) {
-            joints.add(joint);
-        }
-    }
-
-    /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
      * shallow-cloned body into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
@@ -906,7 +884,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         super.cloneFields(cloner, original);
         rebuildRigidBody();
 
-        joints = cloner.clone(joints);
+        cloneJoints(cloner);
         motionState = cloner.clone(motionState);
 
         PhysicsRigidBody old = (PhysicsRigidBody) original;
@@ -928,22 +906,6 @@ public class PhysicsRigidBody extends PhysicsBody {
         setPhysicsLocation(old.getPhysicsLocation(tmpVector));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
         setDeactivationTime(old.getDeactivationTime());
-    }
-
-    /**
-     * Count how many joints connect to this body.
-     *
-     * @return the count (&ge;0) or 0 if this body isn't added to any
-     * PhysicsSpace
-     */
-    @Override
-    public int countJoints() {
-        int result = 0;
-        if (isInWorld()) {
-            result = joints.size();
-        }
-
-        return result;
     }
 
     /**
@@ -986,26 +948,6 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Enumerate the joints connected to this body.
-     *
-     * @return a new array of pre-existing joints, or null if this body is not
-     * added to any PhysicsSpace
-     */
-    @Override
-    public PhysicsJoint[] listJoints() {
-        PhysicsJoint[] result;
-        if (isInWorld()) {
-            int numJoints = joints.size();
-            result = new PhysicsJoint[numJoints];
-            joints.toArray(result);
-        } else {
-            result = null;
-        }
-
-        return result;
-    }
-
-    /**
      * De-serialize this body from the specified importer, for example when
      * loading from a J3O file.
      *
@@ -1013,7 +955,6 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @throws IOException from the importer
      */
     @Override
-    @SuppressWarnings("unchecked")
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
 
@@ -1049,21 +990,7 @@ public class PhysicsRigidBody extends PhysicsBody {
                 translateIdentity));
         setDeactivationTime(capsule.readFloat(tagDeactivationTime, 0f));
 
-        joints = capsule.readSavableArrayList(tagJoints, null);
-    }
-
-    /**
-     * Do not invoke directly! Joints are removed automatically when destroyed.
-     *
-     * @param joint the joint to remove (not null, unaffected)
-     * @see com.jme3.bullet.joints.PhysicsJoint#destroy()
-     */
-    @Override
-    public void removeJoint(PhysicsJoint joint) {
-        Validate.nonNull(joint, "joint");
-
-        boolean success = joints.remove(joint);
-        assert success;
+        readJoints(capsule);
     }
 
     /**
@@ -1161,7 +1088,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         }
         capsule.write(getDeactivationTime(), tagDeactivationTime, 0f);
 
-        capsule.writeSavableArrayList(joints, tagJoints, null);
+        writeJoints(capsule);
     }
     // *************************************************************************
     // private methods
