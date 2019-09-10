@@ -29,12 +29,17 @@ package jme3utilities.minie.test;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.AbstractPhysicsControl;
 import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.bullet.control.SoftBodyControl;
+import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Misc;
+import jme3utilities.minie.MinieCharacterControl;
 import org.junit.Test;
 
 /**
@@ -67,19 +72,40 @@ public class TestClonePhysicsControls {
         float mass = 1f;
         BetterCharacterControl bcc
                 = new BetterCharacterControl(radius, height, mass);
-        bcc.setEnabled(true);
         setParameters(bcc, 0f);
         verifyParameters(bcc, 0f);
         BetterCharacterControl bccClone
                 = (BetterCharacterControl) Misc.deepCopy(bcc);
         cloneTest(bcc, bccClone);
         /*
-         * DynamicAnimControl TODO
+         * DynamicAnimControl
          */
         DynamicAnimControl dac = new DynamicAnimControl();
+        setParameters(dac, 0f);
+        verifyParameters(dac, 0f);
         DynamicAnimControl dacClone = (DynamicAnimControl) Misc.deepCopy(dac);
+        cloneTest(dac, dacClone);
+        /*
+         * MinieCharacterControl
+         */
+        CollisionShape shape = new SphereCollisionShape(2f);
+        MinieCharacterControl mcc = new MinieCharacterControl(shape, 0.5f);
+        setParameters(mcc, 0f);
+        verifyParameters(mcc, 0f);
+        MinieCharacterControl mccClone
+                = (MinieCharacterControl) Misc.deepCopy(mcc);
+        cloneTest(mcc, mccClone);
+        /*
+         * SoftBodyControl
+         */
+        SoftBodyControl sbc = new SoftBodyControl();
+        setParameters(sbc, 0f);
+        verifyParameters(sbc, 0f);
+        SoftBodyControl sbcClone = (SoftBodyControl) Misc.deepCopy(sbc);
+        cloneTest(sbc, sbcClone);
 
-        // TODO test cloning controls added to a scene graph
+        // TODO test cloning/saving/loading abstract physics controls
+        // that have been added to a Spatial
     }
     // *************************************************************************
     // private methods
@@ -107,8 +133,20 @@ public class TestClonePhysicsControls {
     }
 
     private void setParameters(AbstractPhysicsControl control, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        if (!(control instanceof DynamicAnimControl)) {
+            control.setApplyPhysicsLocal(!flag);
+        }
+        control.setEnabled(flag);
+
         if (control instanceof BetterCharacterControl) {
             setBcc((BetterCharacterControl) control, b);
+        } else if (control instanceof DynamicAnimControl) {
+            setDac((DynamicAnimControl) control, b);
+        } else if (control instanceof MinieCharacterControl) {
+            setMcc((MinieCharacterControl) control, b);
+        } else if (control instanceof SoftBodyControl) {
+            setSbc((SoftBodyControl) control, b);
         } else {
             throw new IllegalArgumentException(control.getClass().getName());
         }
@@ -130,9 +168,40 @@ public class TestClonePhysicsControls {
         bcc.setWalkDirection(new Vector3f(b + 0.13f, b + 0.14f, b + 0.15f));
     }
 
+    private void setDac(DynamicAnimControl dac, float b) {
+        dac.setDamping(b + 0.01f);
+        dac.setEventDispatchImpulseThreshold(b + 0.02f);
+        dac.setGravity(new Vector3f(b + 0.03f, b + 0.04f, b + 0.05f));
+    }
+
+    private void setMcc(MinieCharacterControl mcc, float b) {
+        PhysicsCharacter pc = mcc.getCharacter();
+        pc.setJumpSpeed(b + 0.01f);
+        pc.setLinearDamping(b + 0.02f);
+        pc.setWalkDirection(new Vector3f(b + 0.03f, b + 0.04f, b + 0.05f));
+
+        mcc.setViewDirection(new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f));
+    }
+
+    private void setSbc(SoftBodyControl sbc, float b) {
+        // TODO
+    }
+
     private void verifyParameters(AbstractPhysicsControl control, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        if (!(control instanceof DynamicAnimControl)) {
+            assert control.isApplyPhysicsLocal() == !flag;
+        }
+        assert control.isEnabled() == flag;
+
         if (control instanceof BetterCharacterControl) {
             verifyBcc((BetterCharacterControl) control, b);
+        } else if (control instanceof DynamicAnimControl) {
+            verifyDac((DynamicAnimControl) control, b);
+        } else if (control instanceof MinieCharacterControl) {
+            verifyMcc((MinieCharacterControl) control, b);
+        } else if (control instanceof SoftBodyControl) {
+            verifySbc((SoftBodyControl) control, b);
         } else {
             throw new IllegalArgumentException(control.getClass().getName());
         }
@@ -163,5 +232,37 @@ public class TestClonePhysicsControls {
         assert w.x == b + 0.13f : w;
         assert w.y == b + 0.14f : w;
         assert w.z == b + 0.15f : w;
+    }
+
+    private void verifyDac(DynamicAnimControl dac, float b) {
+        assert dac.damping() == b + 0.01f;
+        assert dac.eventDispatchImpulseThreshold() == b + 0.02f;
+
+        Vector3f g = dac.gravity(null);
+        assert g.x == b + 0.03f : g;
+        assert g.y == b + 0.04f : g;
+        assert g.z == b + 0.05f : g;
+    }
+
+    private void verifyMcc(MinieCharacterControl mcc, float b) {
+        PhysicsCharacter pc = mcc.getCharacter();
+        assert pc.getJumpSpeed() == b + 0.01f;
+        assert pc.getLinearDamping() == b + 0.02f;
+
+        Vector3f w = pc.getWalkDirection(null);
+        assert w.x == b + 0.03f : w;
+        assert w.y == b + 0.04f : w;
+        assert w.z == b + 0.05f : w;
+
+        Vector3f norm
+                = new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f).normalizeLocal();
+        Vector3f v = mcc.getViewDirection(null);
+        assert v.x == norm.x : v;
+        assert v.y == norm.y : v;
+        assert v.z == norm.z : v;
+    }
+
+    private void verifySbc(SoftBodyControl sbc, float b) {
+        // TODO
     }
 }
