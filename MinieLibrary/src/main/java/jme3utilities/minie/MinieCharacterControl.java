@@ -141,6 +141,22 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     }
 
     /**
+     * Copy the character's view direction. This need not agree with the
+     * spatial's forward direction.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a direction vector (in physics-space coordinates, either the
+     * provided storage or a new vector, not null)
+     */
+    public Vector3f getViewDirection(Vector3f storeResult) {
+        if (storeResult == null) {
+            return viewDirection.clone();
+        } else {
+            return storeResult.set(viewDirection);
+        }
+    }
+
+    /**
      * Jump in the "up" direction.
      */
     public void jump() {
