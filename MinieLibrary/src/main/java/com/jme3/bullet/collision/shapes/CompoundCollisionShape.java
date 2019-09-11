@@ -41,9 +41,11 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * A CollisionShape formed by combining convex child shapes, based on Bullet's
@@ -55,6 +57,10 @@ public class CompoundCollisionShape extends CollisionShape {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * default initial allocation for children
+     */
+    final private static int defaultCapacity = 6;
     /**
      * message logger for this class
      */
@@ -74,15 +80,16 @@ public class CompoundCollisionShape extends CollisionShape {
     /**
      * child shapes of this shape
      */
-    private ArrayList<ChildCollisionShape> children = new ArrayList<>(6);
+    private ArrayList<ChildCollisionShape> children
+            = new ArrayList<>(defaultCapacity);
     // *************************************************************************
     // constructors
 
     /**
-     * Instantiate an empty compound shape (with no children).
+     * Instantiate an empty compound shape (with dynamic AABB and no children).
      */
     public CompoundCollisionShape() {
-        createEmpty();
+        createEmpty(defaultCapacity);
     }
     // *************************************************************************
     // new methods exposed
@@ -90,41 +97,44 @@ public class CompoundCollisionShape extends CollisionShape {
     /**
      * Add a child shape with the specified local translation.
      *
-     * @param shape the child shape to add (not null, not a compound shape,
+     * @param childShape the child shape to add (not null, not a compound shape,
      * alias created)
-     * @param location the local coordinates of the child shape's center (not
+     * @param offset the local coordinates of the child shape's center (not
      * null, unaffected)
      */
-    public void addChildShape(CollisionShape shape, Vector3f location) {
-        addChildShape(shape, location, matrixIdentity);
+    public void addChildShape(CollisionShape childShape, Vector3f offset) {
+        addChildShape(childShape, offset, matrixIdentity);
     }
 
     /**
      * Add a child shape with the specified local translation and orientation.
      *
-     * @param shape the child shape to add (not null, not a compound shape,
+     * @param childShape the child shape to add (not null, not a compound shape,
      * alias created)
-     * @param location the local coordinates of the child shape's center (not
+     * @param offset the local coordinates of the child shape's center (not
      * null, unaffected)
      * @param rotation the local orientation of the child shape (not null,
      * unaffected)
      */
-    public void addChildShape(CollisionShape shape, Vector3f location,
+    public void addChildShape(CollisionShape childShape, Vector3f offset,
             Matrix3f rotation) {
-        if (shape instanceof CompoundCollisionShape) {
+        if (childShape instanceof CompoundCollisionShape) {
             throw new IllegalArgumentException(
-                    "CompoundCollisionShapes cannot have CompoundCollisionShapes as children!");
+                    "A CompoundCollisionShape cannot have a CompoundCollisionShape child!");
         }
+        long childId = childShape.getObjectId();
+
         ChildCollisionShape child
-                = new ChildCollisionShape(location, rotation, shape);
+                = new ChildCollisionShape(offset, rotation, childShape);
         children.add(child);
+
         long parentId = getObjectId();
-        addChildShape(parentId, shape.getObjectId(), location, rotation);
+        addChildShape(parentId, childId, offset, rotation);
     }
 
     /**
-     * Add a child shape with the specified local transform. The transform scale
-     * is ignored.
+     * Add a child shape with the specified local transform. The transform's
+     * scale is ignored.
      *
      * @param shape the child shape to add (not null, not a compound shape,
      * alias created)
@@ -133,8 +143,8 @@ public class CompoundCollisionShape extends CollisionShape {
      */
     public void addChildShape(CollisionShape shape, Transform transform) {
         Vector3f offset = transform.getTranslation();
-        Matrix3f orientation = transform.getRotation().toRotationMatrix();
-        addChildShape(shape, offset, orientation);
+        Matrix3f rotation = transform.getRotation().toRotationMatrix();
+        addChildShape(shape, offset, rotation);
     }
 
     /**
@@ -144,13 +154,15 @@ public class CompoundCollisionShape extends CollisionShape {
      */
     public int countChildren() {
         int numChildren = children.size();
+        assert numChildren == countChildren(getObjectId());
+
         return numChildren;
     }
 
     /**
      * Find the first child with the specified shape.
      *
-     * @param childShape the shape to search for
+     * @param childShape the shape to search for (unaffected)
      * @return the index of the child if found, otherwise -1
      */
     public int findIndex(CollisionShape childShape) {
@@ -181,20 +193,71 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
-     * Remove a child from this shape.
+     * Calculates the coordinate transform to be applied to a collision object
+     * in order for this shape to be centered at the center of mass and its
+     * principal axes to coincide with its local axes. Apply the inverse of this
+     * transform to each child shape. The resuling moment of inertia is also
+     * calculated.
      *
-     * @param shape the child shape to remove (not null)
+     * @param masses the mass for each child shape (not null, all elements
+     * &gt;0)
+     * @param storeTransform storage for the transform (modified if not null)
+     * @param storeInertia storage for the moment of inertia (not null,
+     * modified)
+     * @return a coordinate transform to apply to the collision object (either
+     * storeTransform or a new instance, not null)
      */
-    public void removeChildShape(CollisionShape shape) {
+    public Transform principalAxes(FloatBuffer masses, Transform storeTransform,
+            Vector3f storeInertia) {
+        Transform result
+                = (storeTransform == null) ? new Transform() : storeTransform;
+        Validate.nonNull(storeInertia, "storage for inertia");
+
+        long shapeId = getObjectId();
+        calculatePrincipalAxisTransform(shapeId, masses, result, storeInertia);
+
+        return result;
+    }
+
+    /**
+     * Remove a child CollisionShape from this shape.
+     *
+     * @param childShape the collision shape to remove (not null)
+     */
+    public void removeChildShape(CollisionShape childShape) {
+        long childId = childShape.getObjectId();
         long parentId = getObjectId();
-        removeChildShape(parentId, shape.getObjectId());
+        removeChildShape(parentId, childId);
+
         for (Iterator<ChildCollisionShape> it = children.iterator();
                 it.hasNext();) {
             ChildCollisionShape childCollisionShape = it.next();
-            if (childCollisionShape.getShape() == shape) {
+            if (childCollisionShape.getShape() == childShape) {
                 it.remove();
             }
         }
+    }
+
+    /**
+     * Alter the local transform of the specified child CollisionShape. The
+     * transform's scale is ignored.
+     *
+     * @param childShape the child's CollisionShape (not null, unaffected)
+     * @param transform the transform to apply (not null, unaffected)
+     */
+    public void setChildTransform(CollisionShape childShape,
+            Transform transform) {
+        long childId = childShape.getObjectId();
+        long parentId = getObjectId();
+        Vector3f offset = transform.getTranslation();
+        int childIndex = findIndex(childShape);
+        assert childIndex >= 0 : childIndex;
+        Matrix3f rotation = transform.getRotation().toRotationMatrix();
+
+        setChildTransform(parentId, childId, offset, rotation);
+
+        ChildCollisionShape child = children.get(childIndex);
+        child.setTransform(offset, rotation);
     }
     // *************************************************************************
     // CollisionShape methods
@@ -211,8 +274,9 @@ public class CompoundCollisionShape extends CollisionShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
+
         children = cloner.clone(children);
-        createEmpty();
+        createEmpty(children.size());
         loadChildren();
     }
 
@@ -244,6 +308,7 @@ public class CompoundCollisionShape extends CollisionShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
+
         children = capsule.readSavableArrayList(tagChildren, null);
         loadChildren();
     }
@@ -268,6 +333,7 @@ public class CompoundCollisionShape extends CollisionShape {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
+
         capsule.writeSavableArrayList(children, tagChildren, null);
     }
     // *************************************************************************
@@ -276,8 +342,9 @@ public class CompoundCollisionShape extends CollisionShape {
     /**
      * Instantiate an empty btCompoundShape.
      */
-    private void createEmpty() {
-        long shapeId = createShape();
+    private void createEmpty(int initialCapacity) {
+        boolean enableAabbTree = true;
+        long shapeId = createShape2(enableAabbTree, initialCapacity);
         setNativeId(shapeId);
 
         setScale(scale);
@@ -298,13 +365,23 @@ public class CompoundCollisionShape extends CollisionShape {
     // *************************************************************************
     // native methods
 
-    native private long addChildShape(long compoundId, long childId,
-            Vector3f location, Matrix3f rotation); // TODO should return void
+    native private long addChildShape(long compoundId, long childShapeId,
+            Vector3f offset, Matrix3f rotation); // TODO should return void
 
-    native private long createShape();
+    native private void calculatePrincipalAxisTransform(long shapeId,
+            FloatBuffer massBuffer, Transform storeTransform,
+            Vector3f storeInertia);
+
+    native private int countChildren(long shapeId);
+
+    native private long createShape2(boolean dynamicAabbTree,
+            int initialChildCapacity);
 
     native private void recalcAabb(long shapeId);
 
     native private long removeChildShape(long compoundId,
-            long childId); // TODO should return void
+            long childShapeId); // TODO should return void
+
+    native private void setChildTransform(long compoundId, long childShapeId,
+            Vector3f offset, Matrix3f rotation);
 }
