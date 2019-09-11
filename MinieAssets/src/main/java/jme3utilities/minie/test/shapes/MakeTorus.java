@@ -58,7 +58,8 @@ public class MakeTorus {
     /**
      * filesystem path to the asset directory/folder for output
      */
-    final private static String assetDirPath = "src/main/resources";
+    final private static String assetDirPath
+            = "../MinieExamples/src/main/resources";
     // *************************************************************************
     // new methods exposed
 

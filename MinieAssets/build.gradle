@@ -5,10 +5,22 @@
 description = 'generate assets used in MinieExamples'
 ext {
     plaid = '../MinieExamples/src/main/resources/Textures/plaid.png'
+    torus = '../MinieExamples/src/main/resources/CollisionShapes/torus.j3o'
 }
 
 dependencies {
     implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
+    implementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    implementation project(':MinieLibrary')
+}
+
+task collisionShapes {
+    dependsOn = ['torus']
+    description 'generate collision-shape assets used in MinieExamples'
+}
+task torus(type: JavaExec) {
+    main 'jme3utilities.minie.test.shapes.MakeTorus'
+    outputs.files(["$torus"])
 }
 
 task textures {
