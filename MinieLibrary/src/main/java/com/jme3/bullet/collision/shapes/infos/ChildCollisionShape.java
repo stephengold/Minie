@@ -96,12 +96,14 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     /**
      * Instantiate a child shape for use in a compound shape.
      *
-     * @param location translation relative to the parent (not null, unaffected)
-     * @param rotation rotation relative to the parent (not null, unaffected)
+     * @param offset the desired translation relative to the parent (not null,
+     * unaffected)
+     * @param rotation the desired rotation relative to the parent (not null,
+     * unaffected)
      * @param shape the base shape (not null, not a compound shape, alias
      * created)
      */
-    public ChildCollisionShape(Vector3f location, Matrix3f rotation,
+    public ChildCollisionShape(Vector3f offset, Matrix3f rotation,
             CollisionShape shape) {
         Validate.nonNull(shape, "shape");
         if (shape instanceof CompoundCollisionShape) {
@@ -109,7 +111,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
                     "CompoundCollisionShapes cannot be child shapes!");
         }
 
-        this.location = location.clone();
+        location = offset.clone();
         this.rotation = rotation.clone();
         this.shape = shape;
     }
@@ -153,6 +155,22 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     public CollisionShape getShape() {
         assert shape != null;
         return shape;
+    }
+
+    /**
+     * Alter the child's coordinate transform. For internal use only.
+     *
+     * @param offset the desired translation relative to the parent (not null,
+     * unaffected)
+     * @param rotation the desired rotation relative to the parent (not null,
+     * unaffected)
+     * @see
+     * com.jme3.bullet.collision.shapes.CompoundCollisionShape#setChildTransform(com.jme3.bullet.collision.shapes.CollisionShape,
+     * com.jme3.math.Transform)
+     */
+    public void setTransform(Vector3f offset, Matrix3f rotation) {
+        this.location.set(offset);
+        this.rotation.set(rotation);
     }
     // *************************************************************************
     // JmeCloneable methods
