@@ -459,6 +459,8 @@ public class MultiSphereDemo
         startLocation.multLocal(0.5f, 1f, 0.5f);
         startLocation.y += 4f;
 
+        Quaternion startOrientation = random.nextQuaternion();
+
         Material debugMaterial = (Material) random.pick(gemMaterials);
 
         float mass = 1f;
@@ -471,6 +473,7 @@ public class MultiSphereDemo
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
         body.setFriction(friction);
         body.setPhysicsLocation(startLocation);
+        body.setPhysicsRotation(startOrientation);
 
         physicsSpace.add(body);
         gems.addLast(body);
