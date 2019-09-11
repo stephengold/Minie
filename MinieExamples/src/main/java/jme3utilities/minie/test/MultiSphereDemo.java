@@ -31,6 +31,7 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
@@ -122,6 +123,10 @@ public class MultiSphereDemo
      * shape for the new gem
      */
     private CollisionShape gemShape;
+    /**
+     * shape for a torus (generated using V-HACD, by the MakeTorus app)
+     */
+    private CompoundCollisionShape torusShape;
     /**
      * added gems, in order of creation
      */
@@ -218,6 +223,8 @@ public class MultiSphereDemo
         viewPort.setBackgroundColor(sky);
 
         addBox();
+        String torusPath = "CollisionShapes/torus.j3o";
+        torusShape = (CompoundCollisionShape) assetManager.loadAsset(torusPath);
         addAGem();
         /*
          * Add the status text to the GUI.
@@ -254,6 +261,7 @@ public class MultiSphereDemo
         dim.bind("shape hull", KeyInput.KEY_F2);
         dim.bind("shape multiSphere", KeyInput.KEY_F1);
         dim.bind("shape tetrahedron", KeyInput.KEY_F7);
+        dim.bind("shape torus", KeyInput.KEY_F8);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -421,6 +429,12 @@ public class MultiSphereDemo
             case "tetrahedron":
                 randomTetrahedron();
                 debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
+            case "torus":
+                gemRadius = 0.38f;
+                gemShape = torusShape;
+                debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
             default:
