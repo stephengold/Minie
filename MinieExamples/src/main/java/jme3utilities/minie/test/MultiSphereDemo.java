@@ -34,6 +34,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
@@ -60,6 +61,7 @@ import com.jme3.system.AppSettings;
 import java.nio.FloatBuffer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.logging.Level;
@@ -176,6 +178,10 @@ public class MultiSphereDemo
      */
     private PhysicsSpace physicsSpace;
     /**
+     * name of shape for current platform
+     */
+    private String platformName = "box";
+    /**
      * name of shape for new gems
      */
     private String shapeName = "multiSphere";
@@ -251,6 +257,9 @@ public class MultiSphereDemo
 
         dim.bind("less damping", KeyInput.KEY_B);
         dim.bind("less friction", KeyInput.KEY_V);
+
+        dim.bind("platform box", KeyInput.KEY_1);
+        dim.bind("platform heightfield", KeyInput.KEY_2);
 
         dim.bind("more damping", KeyInput.KEY_G);
         dim.bind("more friction", KeyInput.KEY_F);
@@ -351,7 +360,11 @@ public class MultiSphereDemo
             }
 
             String[] words = actionString.split(" ");
-            if (words.length >= 2 && "shape".equals(words[0])) {
+            if (words.length >= 2 && "platform".equals(words[0])) {
+                platformName = words[1];
+                restartTest();
+                return;
+            } else if (words.length >= 2 && "shape".equals(words[0])) {
                 shapeName = words[1];
                 return;
             }
@@ -464,6 +477,26 @@ public class MultiSphereDemo
     }
 
     /**
+     * Add a platform (static rigid body) to the scene.
+     */
+    private void addAPlatform() {
+        switch (platformName) {
+            case "box":
+                addBox();
+                break;
+
+            case "heightfield":
+                addHeightfield();
+                break;
+
+            default:
+                String message
+                        = "platformName = " + MyString.quote(platformName);
+                throw new RuntimeException(message);
+        }
+    }
+
+    /**
      * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox() {
@@ -476,6 +509,33 @@ public class MultiSphereDemo
         boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
         boxBody.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
         physicsSpace.add(boxBody);
+    }
+
+    /**
+     * Add a static heightfield to the scene, to serve as a platform.
+     */
+    private void addHeightfield() {
+        int n = 64;
+        float halfNm1 = (n - 1) / 2f;
+        float[] heightmap = new float[n * n];
+        for (int i = 0; i < n; ++i) {
+            float x = -1f + i / halfNm1; // -1 .. +1
+            for (int j = 0; j < n; ++j) {
+                float y = -1f + j / halfNm1; // -1 .. +1
+                float r = MyMath.hypotenuse(x, y);
+                int floatIndex = n * i + j;
+                heightmap[floatIndex] = -0.4f + (r - 0.8f) * (r - 0.8f);
+            }
+        }
+        Vector3f scale = new Vector3f(4f / halfNm1, 2.5f, 4f / halfNm1);
+        HeightfieldCollisionShape shape
+                = new HeightfieldCollisionShape(heightmap, scale);
+        float mass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
+        body.setDebugMaterial(greenMaterial);
+        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        physicsSpace.add(body);
     }
 
     /**
@@ -511,8 +571,8 @@ public class MultiSphereDemo
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(2f);
 
-        cam.setLocation(new Vector3f(0f, 2.2f, 3.9f));
-        cam.setRotation(new Quaternion(0f, 0.98525f, -0.172f, 0f));
+        cam.setLocation(new Vector3f(0f, 4f, 8f));
+        cam.setRotation(new Quaternion(0f, 0.9649f, -0.263f, 0f));
 
         CameraOrbitAppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
@@ -706,6 +766,20 @@ public class MultiSphereDemo
     }
 
     /**
+     * Start a new test using the named platform.
+     */
+    private void restartTest() {
+        gems.clear();
+
+        Collection<PhysicsRigidBody> bodies = physicsSpace.getRigidBodyList();
+        for (PhysicsRigidBody body : bodies) {
+            physicsSpace.remove(body);
+        }
+
+        addAPlatform();
+    }
+
+    /**
      * Toggle visualization of collision-object axes.
      */
     private void toggleAxes() {
@@ -764,8 +838,8 @@ public class MultiSphereDemo
     private void updateStatusText() {
         int numGems = gems.size();
         String message = String.format(
-                "n=%d, shape=%s, friction=%s, damping=%.1f",
-                numGems, shapeName, friction, damping);
+                "platform=%s, shape=%s, count=%d, friction=%s, damping=%.1f",
+                platformName, shapeName, numGems, friction, damping);
         statusText.setText(message);
     }
 }
