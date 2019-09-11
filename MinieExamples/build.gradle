@@ -9,7 +9,7 @@ dependencies {
     implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
     implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
     runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
-    runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    implementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     implementation "org.jmonkeyengine:jme3-effects:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion"
