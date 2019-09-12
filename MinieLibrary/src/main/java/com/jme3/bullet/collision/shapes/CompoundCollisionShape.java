@@ -359,7 +359,7 @@ public class CompoundCollisionShape extends CollisionShape {
 
         for (ChildCollisionShape child : children) {
             addChildShape(parentId, child.getShape().getObjectId(),
-                    child.getLocation(null), child.getRotation(null));
+                    child.copyOffset(null), child.copyRotationMatrix(null));
         }
     }
     // *************************************************************************
