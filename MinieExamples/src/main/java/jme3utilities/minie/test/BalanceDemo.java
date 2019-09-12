@@ -79,6 +79,7 @@ import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.DumpFlags;
+import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.controllers.BalanceController;
 import jme3utilities.minie.test.controllers.UprightController;
@@ -147,6 +148,10 @@ public class BalanceDemo extends ActionApplication {
      * Control being tested
      */
     private DynamicAnimControl dac;
+    /**
+     * filter to control visualization of axis-aligned bounding boxes
+     */
+    private FilterAll bbFilter;
     /**
      * fraction of the model's weight that's on its right foot
      */
@@ -309,6 +314,8 @@ public class BalanceDemo extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
+        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
+        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
@@ -350,6 +357,12 @@ public class BalanceDemo extends ActionApplication {
                     }
                     return;
 
+                case "toggle axes":
+                    toggleAxes();
+                    return;
+                case "toggle boxes":
+                    toggleBoxes();
+                    return;
                 case "toggle help":
                     toggleHelp();
                     return;
@@ -866,6 +879,27 @@ public class BalanceDemo extends ActionApplication {
             default:
                 throw new IllegalArgumentException(side);
         }
+    }
+
+    /**
+     * Toggle visualization of collision-object axes.
+     */
+    private void toggleAxes() {
+        float length = bulletAppState.debugAxisLength();
+        bulletAppState.setDebugAxisLength(0.5f - length);
+    }
+
+    /**
+     * Toggle visualization of collision-object bounding boxes.
+     */
+    private void toggleBoxes() {
+        if (bbFilter == null) {
+            bbFilter = new FilterAll(true);
+        } else {
+            bbFilter = null;
+        }
+
+        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
     }
 
     /**
