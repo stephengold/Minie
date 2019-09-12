@@ -42,7 +42,6 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
-import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.joints.Anchor;
@@ -175,7 +174,7 @@ public class TestSoftBody
     /**
      * filter to control visualization of axis-aligned bounding boxes
      */
-    private BulletDebugAppState.DebugAppStateFilter bbFilter;
+    private FilterAll bbFilter;
     /**
      * physics objects that are not to be visualized
      */

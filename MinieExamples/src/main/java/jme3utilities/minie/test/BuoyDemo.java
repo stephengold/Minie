@@ -41,7 +41,6 @@ import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -92,7 +91,7 @@ import jme3utilities.ui.Signals;
 /**
  * Demonstrate BuoyController.
  * <p>
- * As seen in the March 2019 demo video:
+ * Seen in the March 2019 demo video:
  * https://www.youtube.com/watch?v=eq09m7pbk5A
  *
  * @author Stephen Gold sgold@sonic.net
@@ -123,13 +122,13 @@ public class BuoyDemo extends ActionApplication {
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private BulletDebugAppState.DebugAppStateFilter bbFilter;
-    /**
      * Control being tested
      */
     private DynamicAnimControl dac;
+    /**
+     * filter to control visualization of axis-aligned bounding boxes
+     */
+    private FilterAll bbFilter;
     /**
      * root node of the C-G model on which the Control is being tested
      */

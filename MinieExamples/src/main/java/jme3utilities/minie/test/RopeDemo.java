@@ -45,7 +45,6 @@ import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.font.Rectangle;
@@ -189,10 +188,6 @@ public class RopeDemo extends ActionApplication {
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private BulletDebugAppState.DebugAppStateFilter bbFilter;
-    /**
      * physics controls for the ropes, in order of creation
      */
     final private Deque<DynamicAnimControl> dacs = new ArrayDeque<>(12);
@@ -200,6 +195,10 @@ public class RopeDemo extends ActionApplication {
      * shapes of the ropes, in order of creation
      */
     final private Deque<RopeShape> shapes = new ArrayDeque<>(12);
+    /**
+     * filter to control visualization of axis-aligned bounding boxes
+     */
+    private FilterAll bbFilter;
     /**
      * enhanced pseudo-random generator
      */
