@@ -510,6 +510,7 @@ public class MultiSphereDemo
 
         boxBody.setDebugMaterial(greenMaterial);
         boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
+        boxBody.setFriction(friction);
         boxBody.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
         physicsSpace.add(boxBody);
     }
@@ -538,6 +539,7 @@ public class MultiSphereDemo
 
         body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setFriction(friction);
         physicsSpace.add(body);
     }
 
@@ -651,7 +653,7 @@ public class MultiSphereDemo
     }
 
     /**
-     * Alter the friction coefficients for all gems.
+     * Alter the friction coefficients for all rigid bodies.
      *
      * @param factor the factor to increase the coefficient (&gt;0)
      */
@@ -659,8 +661,8 @@ public class MultiSphereDemo
         assert factor > 0f : factor;
 
         friction *= factor;
-        for (PhysicsRigidBody gem : gems) {
-            gem.setFriction(friction);
+        for (PhysicsRigidBody body : physicsSpace.getRigidBodyList()) {
+            body.setFriction(friction);
         }
     }
 
