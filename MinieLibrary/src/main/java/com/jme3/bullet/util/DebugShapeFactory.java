@@ -325,11 +325,11 @@ public class DebugShapeFactory {
                     resolution);
 
             // apply translation
-            Vector3f translation = child.getLocation(null);
+            Vector3f translation = child.copyOffset(null);
             geometry.setLocalTranslation(translation);
 
             // apply rotation
-            Matrix3f rotation = child.getRotation(null);
+            Matrix3f rotation = child.copyRotationMatrix(null);
             geometry.setLocalRotation(rotation);
 
             node.attachChild(geometry);

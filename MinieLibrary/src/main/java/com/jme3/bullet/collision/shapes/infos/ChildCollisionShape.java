@@ -65,7 +65,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     /**
      * field names for serialization
      */
-    final private static String tagLocation = "location";
+    final private static String tagOffset = "location";
     final private static String tagRotation = "rotation";
     final private static String tagShape = "shape";
     // *************************************************************************
@@ -82,7 +82,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     /**
      * translation relative to parent shape (not null)
      */
-    private Vector3f location;
+    private Vector3f offset;
     // *************************************************************************
     // constructors
 
@@ -111,7 +111,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
                     "CompoundCollisionShapes cannot be child shapes!");
         }
 
-        location = offset.clone();
+        this.offset = offset.clone();
         this.rotation = rotation.clone();
         this.shape = shape;
     }
@@ -125,11 +125,11 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
      * @return a translation vector (either storeResult or a new vector, not
      * null)
      */
-    public Vector3f getLocation(Vector3f storeResult) {
+    public Vector3f copyOffset(Vector3f storeResult) {
         if (storeResult == null) {
-            return location.clone();
+            return offset.clone();
         } else {
-            return storeResult.set(location);
+            return storeResult.set(offset);
         }
     }
 
@@ -139,7 +139,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
      * @param storeResult storage for the result (modified if not null)
      * @return a rotation matrix (either storeResult or a new matrix, not null)
      */
-    public Matrix3f getRotation(Matrix3f storeResult) {
+    public Matrix3f copyRotationMatrix(Matrix3f storeResult) {
         if (storeResult == null) {
             return rotation.clone();
         } else {
@@ -169,7 +169,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
      * com.jme3.math.Transform)
      */
     public void setTransform(Vector3f offset, Matrix3f rotation) {
-        this.location.set(offset);
+        this.offset.set(offset);
         this.rotation.set(rotation);
     }
     // *************************************************************************
@@ -186,7 +186,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        location = cloner.clone(location);
+        offset = cloner.clone(offset);
         rotation = cloner.clone(rotation);
         shape = cloner.clone(shape);
     }
@@ -219,7 +219,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        location = (Vector3f) capsule.readSavable(tagLocation, new Vector3f());
+        offset = (Vector3f) capsule.readSavable(tagOffset, new Vector3f());
         rotation = (Matrix3f) capsule.readSavable(tagRotation, new Matrix3f());
         shape = (CollisionShape) capsule.readSavable(tagShape,
                 new BoxCollisionShape(1f));
@@ -236,7 +236,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(location, tagLocation, null);
+        capsule.write(offset, tagOffset, null);
         capsule.write(rotation, tagRotation, null);
         capsule.write(shape, tagShape, null);
     }
