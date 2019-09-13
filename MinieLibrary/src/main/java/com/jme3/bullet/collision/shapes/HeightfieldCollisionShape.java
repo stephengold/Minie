@@ -144,7 +144,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a new, un-scaled shape for the specified height map.
+     * Instantiate a square shape for the specified height map.
      *
      * @param heightmap (not null, length&ge;4, length a perfect square,
      * unaffected)
