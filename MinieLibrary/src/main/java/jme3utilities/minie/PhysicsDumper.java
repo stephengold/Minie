@@ -275,6 +275,9 @@ public class PhysicsDumper extends Dumper {
          */
         stream.printf("%n%s", indent);
         addShapeAndScale(body);
+        objectId = body.getCollisionShape().getObjectId();
+        stream.print(" #");
+        stream.print(Long.toHexString(objectId));
         /*
          * The next line has the bounding box, group info, number of wheels,
          * and number of joints.
