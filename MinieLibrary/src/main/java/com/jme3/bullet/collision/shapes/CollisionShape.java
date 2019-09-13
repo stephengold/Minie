@@ -303,6 +303,9 @@ abstract public class CollisionShape
     /**
      * Alter the default margin for new shapes that are neither capsules nor
      * spheres.
+     * <i>From Bullet manual:</i><br>
+     * It is best not to modify the default collision margin, and if you do use
+     * a positive value: zero margin might introduce problems.
      *
      * @param margin the desired margin distance (in physics-space units, &gt;0,
      * default=0.04)
@@ -315,8 +318,11 @@ abstract public class CollisionShape
     /**
      * Alter the collision margin of this shape. CAUTION: Margin is applied
      * differently, depending on the type of shape. Generally the collision
-     * margin expands the object, creating a gap. Don't set the collision margin
-     * to zero.
+     * margin expands the object, creating a gap.
+     * <p>
+     * <i>From Bullet manual:</i><br>
+     * It is best not to modify the default collision margin, and if you do use
+     * a positive value: zero margin might introduce problems.
      * <p>
      * Note that if the shape is shared (between collision objects and/or
      * compound shapes) changes can have unintended consequences.

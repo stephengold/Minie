@@ -83,7 +83,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Demo/testbed for convex collision shapes.
+ * Demo/testbed for collision shapes.
  * <p>
  * Seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=OS2zjB01c6E

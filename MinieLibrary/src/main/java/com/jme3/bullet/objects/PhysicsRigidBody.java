@@ -781,12 +781,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setPhysicsScale(Vector3f newScale) {
         CollisionShape shape = getCollisionShape();
-        Vector3f oldScale = shape.getScale(null); // TODO reuse temp vector
+        Vector3f oldScale = shape.getScale(null); // TODO garbage
         if (!newScale.equals(oldScale)) {
-            //if (isInWorld()) {
-            //    throw new IllegalStateException(
-            //            "Cannot scale body while in physics space!");
-            //}
             shape.setScale(newScale);
             setCollisionShape(shape);
         }

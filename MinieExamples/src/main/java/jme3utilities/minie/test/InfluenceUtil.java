@@ -45,7 +45,7 @@ import jme3utilities.debug.SkeletonVisualizer;
 
 /**
  * Utility methods to determine which bones can influence mesh vertices. All
- * methods should be static.
+ * methods should be static. TODO use Heart library
  *
  * @author Stephen Gold sgold@sonic.net
  */

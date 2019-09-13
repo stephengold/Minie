@@ -1156,7 +1156,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         BoundingBox result
                 = (storeResult == null) ? new BoundingBox() : storeResult;
 
-        Vector3f minima = new Vector3f(); // TODO reuse
+        Vector3f minima = new Vector3f(); // TODO garbage
         Vector3f maxima = new Vector3f();
         getBounds(objectId, minima, maxima);
         result.setMinMax(minima, maxima);

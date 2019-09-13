@@ -118,12 +118,13 @@ public class DynamicAnimControl
      */
     private List<RagdollCollisionListener> collisionListeners
             = new SafeArrayList<>(RagdollCollisionListener.class);
-    /*
+    /**
      * center-of-mass actual location (in physics-space coordinates)
      */
     private Vector3f centerLocation = new Vector3f();
-    /*
-     * center-of-mass estimated velocity (psu/second in physics-space coordinates)
+    /**
+     * center-of-mass estimated velocity (psu/second in physics-space
+     * coordinates)
      */
     private Vector3f centerVelocity = new Vector3f();
     // *************************************************************************

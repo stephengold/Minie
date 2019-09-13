@@ -98,7 +98,7 @@ import jme3utilities.ui.Signals;
 /**
  * Demo/testbed for head/eye movement using TrackController.
  * <p>
- * As seen in the March 2019 demo video:
+ * Seen in the March 2019 demo video:
  * https://www.youtube.com/watch?v=8zquudx3A1A
  *
  * @author Stephen Gold sgold@sonic.net

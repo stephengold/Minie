@@ -78,7 +78,7 @@ import jme3utilities.ui.Signals;
 /**
  * Test/demonstrate single-ended joints.
  * <p>
- * As seen in the November 2018 demo video:
+ * Seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=Mh9k5AfWzbg
  *
  * @author Stephen Gold sgold@sonic.net
