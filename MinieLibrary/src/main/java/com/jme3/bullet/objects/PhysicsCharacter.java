@@ -148,7 +148,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         Validate.nonNull(shape, "shape");
         assert shape.isConvex();
 
-        collisionShape = shape;
+        super.setCollisionShape(shape);
         this.stepHeight = stepHeight;
         buildObject();
         /*
@@ -725,7 +725,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         }
         setCharacterFlags(objectId);
 
-        long shapeId = collisionShape.getObjectId();
+        CollisionShape shape = getCollisionShape();
+        long shapeId = shape.getObjectId();
         attachCollisionShape(objectId, shapeId);
 
         if (characterId != 0L) {

@@ -261,26 +261,27 @@ public class RigidBodyControl
         if (spatial == null) {
             return;
         }
+
+        CollisionShape shape = null;
         if (spatial instanceof Geometry) {
             Mesh mesh = ((Geometry) spatial).getMesh();
             if (mesh instanceof Sphere) {
                 float radius = ((Sphere) mesh).getRadius();
-                collisionShape = new SphereCollisionShape();
-                return;
+                shape = new SphereCollisionShape(radius);
             } else if (mesh instanceof Box) {
                 Box box = (Box) mesh;
-                collisionShape = new BoxCollisionShape(box.getXExtent(),
+                shape = new BoxCollisionShape(box.getXExtent(),
                         box.getYExtent(), box.getZExtent());
-                return;
             }
         }
-        if (mass > massForStatic) {
-            // TODO use V-HACD?
-            collisionShape
-                    = CollisionShapeFactory.createDynamicMeshShape(spatial);
-        } else {
-            collisionShape = CollisionShapeFactory.createMeshShape(spatial);
+        if (shape == null) {
+            if (mass > massForStatic) {
+                shape = CollisionShapeFactory.createDynamicMeshShape(spatial);
+            } else {
+                shape = CollisionShapeFactory.createMeshShape(spatial);
+            }
         }
+        super.setCollisionShape(shape);
     }
     // *************************************************************************
     // PhysicsControl methods
@@ -402,7 +403,7 @@ public class RigidBodyControl
         setUserObject(controlledSpatial); // link from collision object
 
         if (controlledSpatial != null) {
-            if (collisionShape == null) {
+            if (getCollisionShape() == null) {
                 createCollisionShape();
                 rebuildRigidBody();
             }
@@ -428,13 +429,14 @@ public class RigidBodyControl
             setPhysicsLocation(getSpatialTranslation());
             setPhysicsRotation(getSpatialRotation()); // TODO garbage
             if (applyScale) {
+                CollisionShape shape = getCollisionShape();
                 Vector3f newScale = copySpatialScale(null);
-                if (!collisionShape.canScale(newScale)) {
+                if (!shape.canScale(newScale)) {
                     float factor = MyMath.cubeRoot(
                             newScale.x * newScale.y * newScale.z);
                     newScale.set(factor, factor, factor);
                 }
-                if (collisionShape.canScale(newScale)) {
+                if (shape.canScale(newScale)) {
                     setPhysicsScale(newScale);
                 }
             }

@@ -170,9 +170,9 @@ abstract public class PhysicsCollisionObject
     // fields
 
     /**
-     * shape of this object, or null if none TODO privatize
+     * shape of this object, or null if none
      */
-    protected CollisionShape collisionShape;
+    private CollisionShape collisionShape;
     /**
      * listener for new debug meshes, or null for none
      */

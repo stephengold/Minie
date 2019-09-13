@@ -137,7 +137,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     public PhysicsRigidBody(CollisionShape shape) {
         Validate.nonNull(shape, "shape");
 
-        collisionShape = shape;
+        super.setCollisionShape(shape);
         rebuildRigidBody();
 
         assert isContactResponse();
@@ -159,8 +159,8 @@ public class PhysicsRigidBody extends PhysicsBody {
         Validate.nonNull(shape, "shape");
         Validate.nonNegative(mass, "mass");
 
-        collisionShape = shape;
         this.mass = mass;
+        super.setCollisionShape(shape);
         rebuildRigidBody();
 
         assert isContactResponse();
@@ -753,7 +753,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setPhysicsRotation(Matrix3f orientation) {
         Validate.nonNull(orientation, "rotation");
-        if (collisionShape instanceof HeightfieldCollisionShape
+        if (getCollisionShape() instanceof HeightfieldCollisionShape
                 && !orientation.isIdentity()) {
             throw new IllegalArgumentException("No rotation of heightfields.");
         }
@@ -853,8 +853,9 @@ public class PhysicsRigidBody extends PhysicsBody {
         }
 
         preRebuild();
+        CollisionShape shape = getCollisionShape();
         objectId = createRigidBody(mass, motionState.getObjectId(),
-                collisionShape.getObjectId());
+                shape.getObjectId());
         logger2.log(Level.FINE, "Created {0}.", this);
         assert objectId != 0L;
         assert getInternalType(objectId) == 2 : getInternalType(objectId);
@@ -1018,17 +1019,18 @@ public class PhysicsRigidBody extends PhysicsBody {
     @Override
     public void setMass(float mass) {
         Validate.nonNegative(mass, "mass");
+        CollisionShape shape = getCollisionShape();
+        assert shape != null;
         if (mass != massForStatic) {
-            validateDynamicShape(collisionShape);
+            validateDynamicShape(shape);
         }
         assert objectId != 0L;
-        assert collisionShape != null;
 
         if (mass == this.mass) {
             return;
         }
         this.mass = mass;
-        updateMassProps(objectId, collisionShape.getObjectId(), mass);
+        updateMassProps(objectId, shape.getObjectId(), mass);
 
         int flags = getCollisionFlags(objectId);
         if (mass == massForStatic) {

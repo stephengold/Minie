@@ -103,7 +103,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      * @param shape the desired shape (not null, alias created)
      */
     public PhysicsGhostObject(CollisionShape shape) {
-        collisionShape = shape;
+        super.setCollisionShape(shape);
         buildObject();
 
         assert !isContactResponse();
@@ -286,7 +286,8 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
             setGhostFlags(objectId);
             initUserPointer();
         }
-        attachCollisionShape(objectId, collisionShape.getObjectId());
+        CollisionShape shape = getCollisionShape();
+        attachCollisionShape(objectId, shape.getObjectId());
     }
     // *************************************************************************
     // native methods
