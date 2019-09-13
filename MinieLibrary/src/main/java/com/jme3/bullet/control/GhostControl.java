@@ -334,16 +334,16 @@ public class GhostControl
         setPhysicsRotation(getSpatialRotation());
         if (applyScale) {
             Vector3f newScale = copySpatialScale(null);
-            if (!collisionShape.canScale(newScale)) {
+            CollisionShape shape = getCollisionShape();
+            if (!shape.canScale(newScale)) {
                 float factor = MyMath.cubeRoot(
                         newScale.x * newScale.y * newScale.z);
                 newScale.set(factor, factor, factor);
             }
-            Vector3f oldScale = collisionShape.getScale(null);
-            if (!oldScale.equals(newScale)
-                    && collisionShape.canScale(newScale)) {
-                collisionShape.setScale(newScale);
-                setCollisionShape(collisionShape);
+            Vector3f oldScale = shape.getScale(null);
+            if (!oldScale.equals(newScale) && shape.canScale(newScale)) {
+                shape.setScale(newScale);
+                setCollisionShape(shape);
             }
         }
     }
