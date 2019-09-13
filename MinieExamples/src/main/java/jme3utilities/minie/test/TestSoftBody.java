@@ -75,11 +75,13 @@ import com.jme3.texture.Texture;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
+import jme3utilities.MySpatial;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyVector3f;
@@ -275,6 +277,7 @@ public class TestSoftBody
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("next", KeyInput.KEY_N);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
@@ -320,6 +323,10 @@ public class TestSoftBody
 
                 case "dump scenes":
                     dumper.dump(renderManager);
+                    return;
+
+                case "go limp":
+                    goLimp();
                     return;
 
                 case "next":
@@ -538,7 +545,7 @@ public class TestSoftBody
     }
 
     /**
-     * Add a Puppet model. TODO add "go limp" action
+     * Add a Puppet model.
      */
     private DynamicAnimControl addPuppet() {
         /*
@@ -888,6 +895,21 @@ public class TestSoftBody
         }
 
         return mesh;
+    }
+
+    /**
+     * If the scene contains exactly one DynamicAnimControl, and it's ready to
+     * go dynamic, put it into ragdoll mode.
+     */
+    private void goLimp() {
+        List<DynamicAnimControl> dacs = MySpatial.listControls(rootNode,
+                DynamicAnimControl.class, null);
+        if (dacs.size() == 1) {
+            DynamicAnimControl dac = dacs.get(0);
+            if (dac.isReady()) {
+                dac.setRagdollMode();
+            }
+        }
     }
 
     /**
