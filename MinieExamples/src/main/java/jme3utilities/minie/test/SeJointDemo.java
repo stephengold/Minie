@@ -201,7 +201,7 @@ public class SeJointDemo extends ActionApplication {
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
-        settings.setGammaCorrection(false); // TODO
+        settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
@@ -220,7 +220,8 @@ public class SeJointDemo extends ActionApplication {
         configureDumper();
         configurePhysics();
         configureGroups();
-        viewPort.setBackgroundColor(ColorRGBA.Gray);
+        ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(sky);
         addLighting();
         addAxes();
 
