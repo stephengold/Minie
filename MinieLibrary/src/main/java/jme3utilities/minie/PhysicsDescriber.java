@@ -99,23 +99,24 @@ public class PhysicsDescriber extends Describer {
     public String describe(CollisionShape shape) {
         Validate.nonNull(shape, "shape");
 
-        StringBuilder result = new StringBuilder(40);
+        StringBuilder result = new StringBuilder(80);
+
         String name = shape.getClass().getSimpleName();
         if (name.endsWith("CollisionShape")) {
             name = MyString.removeSuffix(name, "CollisionShape");
         }
         result.append(name);
 
+        String desc;
         if (shape instanceof BoxCollisionShape) {
-            BoxCollisionShape box = (BoxCollisionShape) shape;
-            Vector3f he = box.getHalfExtents(null);
-            String desc = describeHalfExtents(he);
+            Vector3f he = ((BoxCollisionShape) shape).getHalfExtents(null);
+            desc = describeHalfExtents(he);
             result.append(desc);
 
         } else if (shape instanceof CapsuleCollisionShape) {
             CapsuleCollisionShape capsule = (CapsuleCollisionShape) shape;
             int axis = capsule.getAxis();
-            String desc = MyString.axisName(axis);
+            desc = MyString.axisName(axis);
             result.append(desc);
 
             float height = capsule.getHeight();
@@ -123,10 +124,20 @@ public class PhysicsDescriber extends Describer {
             desc = describeHeightAndRadius(height, radius);
             result.append(desc);
 
+        } else if (shape instanceof CompoundCollisionShape) {
+            CompoundCollisionShape compound = (CompoundCollisionShape) shape;
+            int numChildren = compound.countChildren();
+            if (compound.countChildren() > 9) {
+                desc = String.format("[%d]", numChildren);
+            } else {
+                desc = describeChildShapes(compound);
+            }
+            result.append(desc);
+
         } else if (shape instanceof ConeCollisionShape) {
             ConeCollisionShape cone = (ConeCollisionShape) shape;
             int axis = cone.getAxis();
-            String desc = MyString.axisName(axis);
+            desc = MyString.axisName(axis);
             result.append(desc);
 
             float height = cone.getHeight();
@@ -134,16 +145,10 @@ public class PhysicsDescriber extends Describer {
             desc = describeHeightAndRadius(height, radius);
             result.append(desc);
 
-        } else if (shape instanceof CompoundCollisionShape) {
-            CompoundCollisionShape compound = (CompoundCollisionShape) shape;
-            String desc = describeChildShapes(compound);
-            String desc2 = String.format("[%s]", desc);
-            result.append(desc2);
-
         } else if (shape instanceof CylinderCollisionShape) {
             CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
             int axis = cylinder.getAxis();
-            String desc = MyString.axisName(axis);
+            desc = MyString.axisName(axis);
             result.append(desc);
 
             Vector3f he = cylinder.getHalfExtents(null);
@@ -151,62 +156,56 @@ public class PhysicsDescriber extends Describer {
             result.append(desc);
 
         } else if (shape instanceof GImpactCollisionShape) {
-            GImpactCollisionShape gimpact = (GImpactCollisionShape) shape;
-            int numV = gimpact.countMeshVertices();
-            String desc = String.format("[%d]", numV);
+            int numV = ((GImpactCollisionShape) shape).countMeshVertices();
+            desc = String.format("[%d]", numV);
             result.append(desc);
 
         } else if (shape instanceof HeightfieldCollisionShape) {
-            HeightfieldCollisionShape hf = (HeightfieldCollisionShape) shape;
-            int numV = hf.countMeshVertices();
-            String desc = String.format("[%d]", numV);
+            int numV = ((HeightfieldCollisionShape) shape).countMeshVertices();
+            desc = String.format("[%d]", numV);
             result.append(desc);
 
         } else if (shape instanceof HullCollisionShape) {
-            HullCollisionShape hull = (HullCollisionShape) shape;
-            int numV = hull.countHullVertices();
-            String desc = String.format("[%d]", numV);
+            int numV = ((HullCollisionShape) shape).countHullVertices();
+            desc = String.format("[%d]", numV);
             result.append(desc);
 
         } else if (shape instanceof MeshCollisionShape) {
-            MeshCollisionShape mesh = (MeshCollisionShape) shape;
-            int numV = mesh.countMeshVertices();
-            String desc = String.format("[%d]", numV);
+            int numV = ((MeshCollisionShape) shape).countMeshVertices();
+            desc = String.format("[%d]", numV);
             result.append(desc);
 
         } else if (shape instanceof MultiSphere) {
             MultiSphere multiSphere = (MultiSphere) shape;
+            result.append(" r[");
             int numSpheres = multiSphere.countSpheres();
-            result.append("[r=");
             for (int sphereIndex = 0; sphereIndex < numSpheres; ++sphereIndex) {
-                float radius = multiSphere.getRadius(sphereIndex);
                 if (sphereIndex > 0) {
                     result.append(',');
                 }
-                String desc = MyString.describe(radius);
-                result.append(desc);
+                float radius = multiSphere.getRadius(sphereIndex);
+                result.append(MyString.describe(radius));
             }
             result.append(']');
 
         } else if (shape instanceof SimplexCollisionShape) {
-            SimplexCollisionShape simplex = (SimplexCollisionShape) shape;
-            int numV = simplex.countMeshVertices();
-            String desc = String.format("[%d]", numV);
+            int numV = ((SimplexCollisionShape) shape).countMeshVertices();
+            desc = String.format("[%d]", numV);
             result.append(desc);
 
         } else if (shape instanceof SphereCollisionShape) {
             SphereCollisionShape sphere = (SphereCollisionShape) shape;
-            result.append("[r=");
+            result.append(" r=");
             float radius = sphere.getRadius();
-            String rText = MyString.describe(radius);
-            result.append(rText);
-            result.append(']');
+            result.append(MyString.describe(radius));
+
+        } else {
+            result.append('?');
         }
 
         result.append(" marg=");
         float margin = shape.getMargin();
-        String mText = MyString.describe(margin);
-        result.append(mText);
+        result.append(MyString.describe(margin));
 
         return result.toString();
     }
@@ -585,38 +584,56 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
-     * Generate a textual description of a compound shape's children.
+     * Generate a textual description of a compound shape's children. TODO
+     * re-order methods
      *
      * @param compound shape being described (not null, unaffected)
      * @return description (not null)
      */
-    public String describeChildShapes(CompoundCollisionShape compound) {
-        StringBuilder result = new StringBuilder(20);
-        boolean addSeparators = false;
+    private String describeChildShapes(CompoundCollisionShape compound) {
+        StringBuilder result = new StringBuilder(60);
+        result.append('[');
         ChildCollisionShape[] children = compound.listChildren();
+
+        boolean addSeparators = false;
+        boolean brief = (children.length > 3);
         for (ChildCollisionShape child : children) {
             if (addSeparators) {
-                result.append("  ");
+                result.append(brief ? " " : "  ");
             } else {
                 addSeparators = true;
             }
-            String desc = describe(child.getShape());
-            result.append(desc);
 
-            Vector3f location = child.copyOffset(null);
-            String locString = MyVector3f.describe(location);
-            desc = String.format("@[%s]", locString);
-            result.append(desc);
+            String desc;
+            if (brief) {
+                String name = child.getShape().getClass().getSimpleName();
+                if (name.endsWith("CollisionShape")) {
+                    name = MyString.removeSuffix(name, "CollisionShape");
+                }
+                result.append(name);
 
-            Quaternion rotation = new Quaternion();
-            rotation.fromRotationMatrix(child.copyRotationMatrix(null));
-            if (!MyQuaternion.isRotationIdentity(rotation)) {
-                result.append("rot[");
-                desc = MyQuaternion.describe(rotation);
+            } else {
+                desc = describe(child.getShape());
                 result.append(desc);
-                result.append("]");
+
+                Vector3f offset = child.copyOffset(null);
+                if (!MyVector3f.isZero(offset)) {
+                    result.append("@[");
+                    desc = MyVector3f.describe(offset);
+                    result.append(desc);
+                    result.append(']');
+                }
+
+                Quaternion rotation = child.copyRotation(null);
+                if (!MyQuaternion.isRotationIdentity(rotation)) {
+                    result.append("rot[");
+                    desc = MyQuaternion.describe(rotation);
+                    result.append(desc);
+                    result.append(']');
+                }
             }
         }
+        result.append(']');
 
         return result.toString();
     }
@@ -978,7 +995,7 @@ public class PhysicsDescriber extends Describer {
     private String describeHeightAndRadius(float height, float radius) {
         String hText = MyString.describe(height);
         String rText = MyString.describe(radius);
-        String result = String.format("[h=%s,r=%s]", hText, rText);
+        String result = String.format(" h=%s r=%s", hText, rText);
 
         return result;
     }
