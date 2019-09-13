@@ -300,7 +300,7 @@ public class TestDac extends ActionApplication {
         dim.bind("limp right arm", KeyInput.KEY_RBRACKET);
         dim.bind("load", KeyInput.KEY_L);
 
-        dim.bind("load CesiumMan", KeyInput.KEY_F12);
+        //dim.bind("load CesiumMan", KeyInput.KEY_F12);
         dim.bind("load Elephant", KeyInput.KEY_F3);
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);

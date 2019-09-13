@@ -292,7 +292,7 @@ public class BalanceDemo extends ActionApplication {
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("go limp", KeyInput.KEY_SPACE);
 
-        dim.bind("load CesiumMan", KeyInput.KEY_F12);
+        //dim.bind("load CesiumMan", KeyInput.KEY_F12);
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);
         dim.bind("load Ninja", KeyInput.KEY_F7);
