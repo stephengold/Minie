@@ -233,7 +233,7 @@ public class BuoyDemo extends ActionApplication {
         dim.bind("go floating", KeyInput.KEY_0);
         dim.bind("go floating", KeyInput.KEY_SPACE);
 
-        dim.bind("load CesiumMan", KeyInput.KEY_F12);
+        //dim.bind("load CesiumMan", KeyInput.KEY_F12);
         dim.bind("load Elephant", KeyInput.KEY_F3);
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);
