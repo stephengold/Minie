@@ -73,17 +73,17 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
-     * geometry to visualize clusters
+     * Geometry to visualize clusters
      */
-    final private Geometry clustersGeometry;
+    private Geometry clustersGeometry = null;
     /**
-     * geometry to visualize faces
+     * Geometry to visualize faces
      */
-    final private Geometry facesGeometry;
+    private Geometry facesGeometry = null;
     /**
-     * geometry to visualize links
+     * Geometry to visualize links
      */
-    final private Geometry linksGeometry;
+    private Geometry linksGeometry = null;
     /**
      * soft body to visualize (not null)
      */
@@ -111,10 +111,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             PhysicsSoftBody body) {
         super(debugAppState);
         this.body = body;
-
-        clustersGeometry = createClustersGeometry();
-        facesGeometry = createFacesGeometry();
-        linksGeometry = createLinksGeometry();
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
@@ -128,10 +124,48 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     protected void controlUpdate(float tpf) {
-        // TODO check for changes in the number of anchors/links/faces/clusters
+        Node node = (Node) spatial;
+        /*
+         * Ensure that the clustersGeometry mesh is correctly sized.
+         */
+        if (!isClustersGeometrySized()) {
+            if (clustersGeometry != null) {
+                node.detachChild(clustersGeometry);
+            }
+            clustersGeometry = createClustersGeometry();
+            assert isClustersGeometrySized();
+            if (clustersGeometry != null) {
+                node.attachChild(clustersGeometry);
+            }
+        }
+        /*
+         * Ensure that the facesGeometry mesh is correctly sized.
+         */
+        if (!isFacesGeometrySized()) {
+            if (facesGeometry != null) {
+                node.detachChild(facesGeometry);
+            }
+            facesGeometry = createFacesGeometry();
+            assert isFacesGeometrySized();
+            if (facesGeometry != null) {
+                node.attachChild(facesGeometry);
+            }
+        }
+        /*
+         * Ensure that the linksGeometry mesh is correctly sized.
+         */
+        if (!isLinksGeometrySized()) {
+            if (linksGeometry != null) {
+                node.detachChild(linksGeometry);
+            }
+            linksGeometry = createLinksGeometry();
+            assert isLinksGeometrySized();
+            if (linksGeometry != null) {
+                node.attachChild(linksGeometry);
+            }
+        }
 
         boolean localFlag = true; // copy local coords, not physics-space ones
-
         if (clustersGeometry != null) {
             Mesh mesh = clustersGeometry.getMesh();
             NativeSoftBodyUtil.updateClusterMesh(body, mesh, localFlag);
@@ -209,39 +243,95 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // private methods
 
     /**
+     * Count how many clusters to visualize. Clusters are only visualized when
+     * selected by a display filter.
+     *
+     * @return the count (&ge;0)
+     */
+    private int countClustersToVisualize() {
+        SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+        BulletDebugAppState.DebugAppStateFilter filter
+                = sdas.getClusterFilter();
+
+        int result = 0;
+        if (filter != null && filter.displayObject(body)) {
+            result = body.countClusters();
+        }
+
+        return result;
+    }
+
+    /**
+     * Determine how many mesh elements (lines or triangles) are in the
+     * specified Geometry.
+     *
+     * @param geometry (may be null, unaffected)
+     * @return the count (&ge;0)
+     */
+    private static int countElements(Geometry geometry) {
+        int result = 0;
+        if (geometry != null) {
+            result = geometry.getMesh().getTriangleCount();
+        }
+
+        return result;
+    }
+
+    /**
+     * Determine how many mesh vertices are in the specified Geometry.
+     *
+     * @param geometry (may be null, unaffected)
+     * @return the count (&ge;0)
+     */
+    private static int countVertices(Geometry geometry) {
+        int result = 0;
+        if (geometry != null) {
+            result = geometry.getMesh().getVertexCount();
+        }
+
+        return result;
+    }
+
+    /**
      * Create a Geometry to visualize the body's clusters.
      *
      * @return a new Geometry, or null if no clusters
      */
     private Geometry createClustersGeometry() {
         Geometry result = null;
-        int numClusters = body.countClusters();
-
-        SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-        BulletDebugAppState.DebugAppStateFilter filter
-                = sdas.getClusterFilter();
-        if (filter == null || !filter.displayObject(body)) {
-            numClusters = 0;
-        }
-
-        if (numClusters > 0) {
-            Mesh mesh = new Mesh();
-
-            int numFloats = 3 * numClusters;
-            FloatBuffer centers = BufferUtils.createFloatBuffer(numFloats);
-            mesh.setBuffer(VertexBuffer.Type.Position, 3, centers);
-
-            mesh.setMode(Mesh.Mode.Points);
-            mesh.setStreamed();
-
+        int numClustersToVisualize = countClustersToVisualize();
+        if (numClustersToVisualize > 0) {
+            Mesh mesh = createClustersMesh(numClustersToVisualize);
             result = new Geometry(body.toString() + " clusters", mesh);
             result.setShadowMode(RenderQueue.ShadowMode.Off);
 
+            SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
             Material material = sdas.getClusterMaterial();
             result.setMaterial(material);
         }
 
         return result;
+    }
+
+    /**
+     * Create a Points-mode Mesh to visualize the body's clusters.
+     *
+     * @param numClusters the number of clusters to visualize (&gt;0)
+     * @return a new Mesh
+     */
+    private Mesh createClustersMesh(int numClusters) {
+        assert numClusters > 0 : numClusters;
+
+        Mesh mesh = new Mesh();
+
+        int numFloats = 3 * numClusters;
+        FloatBuffer centers = BufferUtils.createFloatBuffer(numFloats);
+        mesh.setBuffer(VertexBuffer.Type.Position, 3, centers);
+
+        mesh.setMode(Mesh.Mode.Points);
+        mesh.setStreamed();
+
+        return mesh;
     }
 
     /**
@@ -252,57 +342,68 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     private Geometry createFacesGeometry() {
         Geometry result = null;
         if (body.countFaces() > 0) {
-            Mesh mesh = new Mesh();
-            mesh.setBuffer(VertexBuffer.Type.Index, 3, body.copyFaces(null));
-
-            DebugMeshInitListener listener = body.debugMeshInitListener();
-            DebugMeshNormals option = body.debugMeshNormals();
-            if (listener == null) {
-                /*
-                 * Allocate buffers for positions and normals.
-                 */
-                int numNodes = body.countNodes();
-                int numFloats = 3 * numNodes;
-                FloatBuffer pos = BufferUtils.createFloatBuffer(numFloats);
-                mesh.setBuffer(VertexBuffer.Type.Position, 3, pos);
-                if (option != DebugMeshNormals.None) {
-                    FloatBuffer norm = BufferUtils.createFloatBuffer(numFloats);
-                    mesh.setBuffer(VertexBuffer.Type.Normal, 3, norm);
-                }
-
-            } else {
-                /*
-                 * Calculate positions, normals, and bounds in world coords.
-                 */
-                FloatBuffer pos = body.copyLocations(null);
-                mesh.setBuffer(VertexBuffer.Type.Position, 3, pos);
-                if (option != DebugMeshNormals.None) {
-                    FloatBuffer norm = body.copyNormals(null);
-                    mesh.setBuffer(VertexBuffer.Type.Normal, 3, norm);
-                }
-                mesh.updateBound();
-
-                listener.debugMeshInit(mesh);
-                /*
-                 * After debugMeshInit, positions are calculated in
-                 * local coordinates!
-                 */
-            }
-
-            mesh.setMode(Mesh.Mode.Triangles);
-            mesh.setStreamed();
-
+            Mesh mesh = createFacesMesh();
             result = new Geometry(body.toString() + " faces", mesh);
+
             Material material = body.getDebugMaterial();
             if (material == null) { // use one of the default materials
-                int numSides = body.debugNumSides();
                 SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+                int numSides = body.debugNumSides();
                 material = sdas.getFaceMaterial(numSides);
             }
             result.setMaterial(material);
         }
 
         return result;
+    }
+
+    /**
+     * Create a Triangles-mode Mesh to visualize the body's faces.
+     *
+     * @return a new Mesh
+     */
+    private Mesh createFacesMesh() {
+        Mesh mesh = new Mesh();
+        mesh.setBuffer(VertexBuffer.Type.Index, 3, body.copyFaces(null));
+
+        DebugMeshInitListener listener = body.debugMeshInitListener();
+        DebugMeshNormals option = body.debugMeshNormals();
+        if (listener == null) {
+            /*
+             * Allocate buffers for positions and normals.
+             */
+            int numNodes = body.countNodes();
+            int numFloats = 3 * numNodes;
+            FloatBuffer pos = BufferUtils.createFloatBuffer(numFloats);
+            mesh.setBuffer(VertexBuffer.Type.Position, 3, pos);
+            if (option != DebugMeshNormals.None) {
+                FloatBuffer norm = BufferUtils.createFloatBuffer(numFloats);
+                mesh.setBuffer(VertexBuffer.Type.Normal, 3, norm);
+            }
+
+        } else {
+            /*
+             * Calculate positions, normals, and bounds in world coords.
+             */
+            FloatBuffer pos = body.copyLocations(null);
+            mesh.setBuffer(VertexBuffer.Type.Position, 3, pos);
+            if (option != DebugMeshNormals.None) {
+                FloatBuffer norm = body.copyNormals(null);
+                mesh.setBuffer(VertexBuffer.Type.Normal, 3, norm);
+            }
+            mesh.updateBound();
+
+            listener.debugMeshInit(mesh);
+            /*
+             * After debugMeshInit, positions are calculated in
+             * local coordinates!
+             */
+        }
+
+        mesh.setMode(Mesh.Mode.Triangles);
+        mesh.setStreamed();
+
+        return mesh;
     }
 
     /**
@@ -313,21 +414,84 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     private Geometry createLinksGeometry() {
         Geometry result = null;
         if (body.countFaces() == 0 && body.countLinks() > 0) {
-            Mesh mesh = new Mesh();
-            mesh.setBuffer(VertexBuffer.Type.Index, 2, body.copyLinks(null));
-
-            int numFloats = 3 * body.countNodes();
-            FloatBuffer locations = BufferUtils.createFloatBuffer(numFloats);
-            mesh.setBuffer(VertexBuffer.Type.Position, 3, locations);
-
-            mesh.setMode(Mesh.Mode.Lines);
-            mesh.setStreamed();
-
+            Mesh mesh = createLinksMesh();
             result = new Geometry(body.toString() + " links", mesh);
+
             SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
             Material material = sdas.getLinkMaterial();
             result.setMaterial(material);
         }
+
+        return result;
+    }
+
+    /**
+     * Create a Lines-mode Mesh to visualize the body's links.
+     *
+     * @return a new Mesh
+     */
+    private Mesh createLinksMesh() {
+        Mesh result = new Mesh();
+        result.setBuffer(VertexBuffer.Type.Index, 2, body.copyLinks(null));
+
+        int numFloats = 3 * body.countNodes();
+        FloatBuffer locations = BufferUtils.createFloatBuffer(numFloats);
+        result.setBuffer(VertexBuffer.Type.Position, 3, locations);
+
+        result.setMode(Mesh.Mode.Lines);
+        result.setStreamed();
+
+        return result;
+    }
+
+    /**
+     * Test whether the clustersGeometry mesh is correctly sized.
+     *
+     * @return true if correct size, otherwise false
+     */
+    private boolean isClustersGeometrySized() {
+        int correctNumVertices = countClustersToVisualize();
+        boolean result = countVertices(clustersGeometry) == correctNumVertices;
+
+        return result;
+    }
+
+    /**
+     * Test whether the facesGeometry mesh is correctly sized.
+     *
+     * @return true if correct size, otherwise false
+     */
+    private boolean isFacesGeometrySized() {
+        int correctNumTriangles = body.countFaces();
+
+        int correctNumVertices;
+        if (correctNumTriangles == 0) {
+            correctNumVertices = 0;
+        } else {
+            correctNumVertices = body.countNodes();
+        }
+
+        boolean result = countElements(facesGeometry) == correctNumTriangles
+                && countVertices(facesGeometry) == correctNumVertices;
+
+        return result;
+    }
+
+    /**
+     * Test whether the linksGeometry mesh is correctly sized.
+     *
+     * @return true if correct size, otherwise false
+     */
+    private boolean isLinksGeometrySized() {
+        int correctNumLines = 0;
+        int correctNumVertices = 0;
+        if (body.countFaces() == 0 && body.countLinks() > 0) {
+            correctNumLines = body.countLinks();
+            correctNumVertices = body.countNodes();
+        }
+
+        boolean result = countElements(linksGeometry) == correctNumLines
+                && countVertices(linksGeometry) == correctNumVertices;
 
         return result;
     }
