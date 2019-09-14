@@ -31,9 +31,20 @@
  */
 package com.jme3.bullet.debug;
 
+import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.SoftPhysicsJoint;
+import com.jme3.bullet.objects.PhysicsBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.material.Material;
+import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.VertexBuffer;
+import com.jme3.util.BufferUtils;
+import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 
 /**
@@ -54,6 +65,10 @@ public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
+     * Geometry to visualize the joint's endpoints (not null)
+     */
+    final private Geometry endsGeometry;
+    /**
      * joint to visualize (not null)
      */
     final private SoftPhysicsJoint joint;
@@ -72,7 +87,7 @@ public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
         super(debugAppState);
         this.joint = joint;
 
-        // TODO
+        endsGeometry = createEndsGeometry();
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
@@ -86,7 +101,35 @@ public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     protected void controlUpdate(float tpf) {
-        // TODO
+        Mesh mesh = endsGeometry.getMesh();
+        FloatBuffer positionBuffer
+                = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+
+        PhysicsSoftBody softBodyA = joint.getSoftBodyA();
+        int clusterIndex = joint.clusterIndexA();
+        Vector3f aLocation
+                = softBodyA.clusterCenter(clusterIndex, null); // TODO garbage
+        positionBuffer.put(0, aLocation.x);
+        positionBuffer.put(1, aLocation.y);
+        positionBuffer.put(2, aLocation.z);
+
+        Vector3f bLocation = new Vector3f(); // TODO garbage
+        if (joint.isSoftSoft()) {
+            PhysicsSoftBody softBodyB = joint.getSoftBodyB();
+            clusterIndex = joint.clusterIndexB();
+            softBodyB.clusterCenter(clusterIndex, bLocation);
+        } else {
+            PhysicsBody rigidBodyB
+                    = joint.getBody(JointEnd.B);
+            rigidBodyB.getPhysicsLocation(bLocation);
+        }
+        positionBuffer.put(3, bLocation.x);
+        positionBuffer.put(4, bLocation.y);
+        positionBuffer.put(5, bLocation.z);
+
+        // TODO also visualize the joint's axis or location
+        mesh.getBuffer(VertexBuffer.Type.Position).setUpdateNeeded();
+        mesh.updateBound();
     }
 
     /**
@@ -100,10 +143,41 @@ public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
     public void setSpatial(Spatial spatial) {
         if (spatial instanceof Node) {
             assert this.spatial == null;
-            // TODO
+            Node node = (Node) spatial;
+            node.attachChild(endsGeometry);
         } else if (spatial == null && this.spatial != null) {
-            // TODO
+            Node node = (Node) this.spatial;
+            node.detachChild(endsGeometry);
         }
+
         super.setSpatial(spatial);
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Create a Geometry to visualize the endpoints.
+     *
+     * @return a new Geometry
+     */
+    private Geometry createEndsGeometry() {
+        Mesh mesh = new Mesh();
+
+        int numVertices = 2;
+        int numFloats = 3 * numVertices;
+        FloatBuffer positions = BufferUtils.createFloatBuffer(numFloats);
+        mesh.setBuffer(VertexBuffer.Type.Position, 3, positions);
+
+        mesh.setMode(Mesh.Mode.Lines);
+        mesh.setStreamed();
+
+        Geometry result = new Geometry(joint.toString(), mesh);
+        result.setShadowMode(RenderQueue.ShadowMode.Off);
+
+        SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+        Material material = sdas.getAnchorMaterial();
+        result.setMaterial(material);
+
+        return result;
     }
 }
