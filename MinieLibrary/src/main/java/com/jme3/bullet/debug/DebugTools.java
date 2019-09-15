@@ -43,7 +43,8 @@ import com.jme3.scene.debug.Arrow;
 import java.util.logging.Logger;
 
 /**
- * Debugging aids.
+ * Debugging aids. Aside from setStartupMessageEnabled(), this class exists
+ * solely for compatibility with the jme3-bullet library.
  *
  * @author normenhansen
  */

@@ -637,7 +637,7 @@ public class DacLinks
         sortControls(skeletonControl);
         skeletonControl.setHardwareSkinningPreferred(false);
         /*
-         * Analyze the model's skeleton.
+         * Analyze the model's Skeleton.
          */
         skeleton = skeletonControl.getSkeleton();
         validateSkeleton();
@@ -1250,7 +1250,7 @@ public class DacLinks
                 center = translateIdentity;
             } else {
                 center = centerHeuristic.center(vertexLocations, null);
-                center.subtractLocal(bone.getModelSpacePosition());
+                center.subtractLocal(boneToMesh.getTranslation());
             }
             shape = linkConfig.createShape(meshToBone, center, vertexLocations);
         }

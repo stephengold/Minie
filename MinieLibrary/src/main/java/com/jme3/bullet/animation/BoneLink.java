@@ -181,7 +181,7 @@ public class BoneLink extends PhysicsLink {
 
         assert managedBones == null;
         managedBones = getControl().listManagedBones(name);
-        int numManaged = countManaged();
+        int numManaged = managedBones.length;
         startBoneTransforms = new Transform[numManaged];
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             startBoneTransforms[managedIndex] = new Transform();
@@ -319,7 +319,10 @@ public class BoneLink extends PhysicsLink {
 
         Transform transform = localBoneTransform(null);
         MySkeleton.setLocalTransform(getBone(), transform);
-
+        /*
+         * setUserControl(true) prevents the AnimControl from animating any
+         * managed bones.
+         */
         for (Bone managedBone : managedBones) {
             managedBone.updateModelTransforms();
         }
@@ -432,7 +435,7 @@ public class BoneLink extends PhysicsLink {
      */
     void postRebuild(BoneLink oldLink) {
         int numManaged = countManaged();
-        assert countManaged() == numManaged;
+        assert oldLink.countManaged() == numManaged;
 
         super.postRebuild(oldLink);
         if (oldLink.isKinematic()) {
@@ -618,7 +621,7 @@ public class BoneLink extends PhysicsLink {
      * Alter the local transform of the indexed managed bone in this link.
      *
      * @param managedIndex which managed bone (&ge;0, &lt;numManaged)
-     * @param transform the desired transform (not null, unaffected)
+     * @param transform the desired Transform (not null, unaffected)
      */
     private void setManagedTransform(int managedIndex, Transform transform) {
         Bone managed = managedBones[managedIndex];
