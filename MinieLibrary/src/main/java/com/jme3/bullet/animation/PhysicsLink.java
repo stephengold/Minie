@@ -210,10 +210,10 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * @return the bone name (not null)
      */
     public String boneName() {
-        String boneName = bone.getName();
+        String name = bone.getName();
 
-        assert boneName != null;
-        return boneName;
+        assert name != null;
+        return name;
     }
 
     /**

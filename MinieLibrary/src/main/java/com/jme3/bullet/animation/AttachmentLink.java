@@ -149,7 +149,7 @@ public class AttachmentLink extends PhysicsLink {
         Transform attachToManager = attachToWorld.clone();
         attachToManager.combineWithParent(worldToManager);
 
-        Vector3f pivotMesh = getBone().getModelSpacePosition();
+        Vector3f pivotMesh = associatedBone.getModelSpacePosition();
         Spatial transformer = control.getTransformer();
         Vector3f pivotWorld = transformer.localToWorld(pivotMesh, null);
         managerToWorld.setScale(1f);
