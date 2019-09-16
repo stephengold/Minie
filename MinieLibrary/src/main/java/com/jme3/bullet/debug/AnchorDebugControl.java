@@ -65,9 +65,12 @@ public class AnchorDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // fields
 
+    /**
+     * Anchor to visualize (not null)
+     */
     final private Anchor anchor;
     /**
-     * geometry to visualize anchor
+     * Geometry to visualize the anchor's endpoints
      */
     final private Geometry anchorGeometry;
     // *************************************************************************
