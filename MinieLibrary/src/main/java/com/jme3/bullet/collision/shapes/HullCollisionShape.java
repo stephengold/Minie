@@ -91,7 +91,6 @@ public class HullCollisionShape extends CollisionShape {
     private ByteBuffer bbuf;
     /**
      * array of mesh coordinates (not null, not empty, length a multiple of 3)
-     * TODO use a FloatBuffer instead
      */
     private float[] points;
     // *************************************************************************

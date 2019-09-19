@@ -173,7 +173,7 @@ public class BulletRigidBodyDebugControl extends AbstractPhysicsDebugControl {
 
         updateMaterial();
         body.getPhysicsLocation(location);
-        body.getPhysicsRotation(rotation); // TODO use MotionState
+        body.getPhysicsRotation(rotation);
         applyPhysicsTransform(location, rotation);
     }
 

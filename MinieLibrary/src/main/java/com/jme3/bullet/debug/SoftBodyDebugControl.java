@@ -295,7 +295,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     /**
      * Create a Geometry to visualize the body's clusters.
      *
-     * @return a new Geometry, or null if no clusters
+     * @return a new Geometry, or null if no clusters to visualize
      */
     private Geometry createClustersGeometry() {
         Geometry result = null;
