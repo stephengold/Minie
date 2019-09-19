@@ -113,7 +113,8 @@ Some `jme3-bullet` bugs that have been fixed in Minie:
  + 1134 missing collisions for some rotations of a `GImpactCollisionShape`
  + 1135 `ConeJoint` causes rigid body to disappear on Linux
  + 1141 `TestAttachGhostObject` fails on Linux
- + 1157 can't enable TranslationalLimitMotor
+ + 1157 can't enable `TranslationalLimitMotor`
+ + 1178 `BulletAppState` violates the `isInitialized()` contract
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
