@@ -119,7 +119,7 @@ public class SeJointDemo extends ActionApplication {
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    final private BulletAppState bulletAppState = new BulletAppState();
     private CollisionShape seedShape;
     /**
      * filter to control visualization of axis-aligned bounding boxes
@@ -597,9 +597,7 @@ public class SeJointDemo extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.001f); // 1 mm margin
-
-        bulletAppState = new BulletAppState();
+        CollisionShape.setDefaultMargin(0.001f); // 1-mm margin
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
