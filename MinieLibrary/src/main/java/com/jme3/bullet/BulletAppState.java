@@ -97,7 +97,7 @@ public class BulletAppState
      * true if-and-only-if the physics simulation is running (started but not
      * yet stopped)
      */
-    private boolean isRunning = false;
+    private volatile boolean isRunning = false;
     /**
      * broadphase collision-detection algorithm for the PhysicsSpace to use (not
      * null)
