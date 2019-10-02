@@ -185,8 +185,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * To apply an impulse, use
      * {@link #applyCentralImpulse(com.jme3.math.Vector3f)}.
      *
-     * @param force the force vector (in mass times physics-space units per
-     * second squared, not null, unaffected)
+     * @param force the force vector (mass times physics-space units per second
+     * squared in physics-space coordinates, not null, unaffected)
      */
     public void applyCentralForce(Vector3f force) {
         Validate.finite(force, "force");
@@ -198,8 +198,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Apply a central impulse to the body.
      *
-     * @param impulse the impulse vector (in mass times physics-space units per
-     * second, not null, unaffected)
+     * @param impulse the impulse vector (mass times physics-space units per
+     * second in physics-space coordinates, not null, unaffected)
      */
     public void applyCentralImpulse(Vector3f impulse) {
         Validate.finite(impulse, "impulse");
@@ -210,36 +210,37 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     /**
      * Apply a force to the body. Effective only if the next physics update
-     * steps the physics. TODO document coordinate systems
+     * steps the physics.
      * <p>
      * To apply an impulse, use
      * {@link #applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)}.
      *
-     * @param force the force vector (in mass times physics-space units per
-     * second squared, not null, unaffected)
-     * @param location the location to apply the force (not null, unaffected)
+     * @param force the force vector (mass times physics-space units per second
+     * squared in physics-space coordinates, not null, unaffected)
+     * @param offset the location to apply the force (relative to the body's
+     * center in physics-space coordinates, not null, unaffected)
      */
-    public void applyForce(Vector3f force, Vector3f location) {
+    public void applyForce(Vector3f force, Vector3f offset) {
         Validate.finite(force, "force");
-        Validate.finite(location, "relative location");
+        Validate.finite(offset, "offset");
 
-        applyForce(objectId, force, location);
+        applyForce(objectId, force, offset);
         activate();
     }
 
     /**
      * Apply an impulse to the body.
      *
-     * @param impulse the impulse vector (in mass times physics-space units per
-     * second, not null, unaffected)
-     * @param rel_pos the location to apply the impulse (in local coordinates,
-     * not null, unaffected)
+     * @param impulse the impulse vector (mass times physics-space units per
+     * second in physics-space coordinates, not null, unaffected)
+     * @param offset the location to apply the impulse (relative to the body's
+     * center in physics-space coordinates, not null, unaffected)
      */
-    public void applyImpulse(Vector3f impulse, Vector3f rel_pos) {
+    public void applyImpulse(Vector3f impulse, Vector3f offset) {
         Validate.finite(impulse, "impulse");
-        Validate.finite(rel_pos, "relative location");
+        Validate.finite(offset, "offset");
 
-        applyImpulse(objectId, impulse, rel_pos);
+        applyImpulse(objectId, impulse, offset);
         activate();
     }
 
@@ -250,8 +251,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * To apply a torque impulse, use
      * {@link #applyTorqueImpulse(com.jme3.math.Vector3f)}.
      *
-     * @param torque the torque vector (in mass times physics-space units
-     * squared per second squared, not null, unaffected)
+     * @param torque the torque vector (mass times physics-space units squared
+     * per second squared in physics-space coordinates, not null, unaffected)
      */
     public void applyTorque(Vector3f torque) {
         Validate.finite(torque, "torque");
@@ -263,8 +264,9 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Apply a torque impulse to the body.
      *
-     * @param torqueImpulse the torque impulse vector (in mass times
-     * physics-space units squared per second, not null, unaffected)
+     * @param torqueImpulse the torque impulse vector (mass times physics-space
+     * units squared per second in physics-space coordinates, not null,
+     * unaffected)
      */
     public void applyTorqueImpulse(Vector3f torqueImpulse) {
         Validate.finite(torqueImpulse, "torque impulse");
@@ -303,7 +305,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Copy this body's angular factors.
+     * Copy this body's angular factor.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the angular factor for each axis (either storeResult or a new
@@ -318,7 +320,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Read this body's angular-motion sleep threshold.
      *
-     * @return the angular-motion sleep threshold (&ge;0)
+     * @return the angular-motion sleep threshold (in radians per second, &ge;0)
      */
     public float getAngularSleepingThreshold() {
         return getAngularSleepingThreshold(objectId);
@@ -327,7 +329,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @return a new velocity vector (in physics-space coordinates, not null)
+     * @return a new velocity vector (radians per second in physics-space
+     * coordinates, not null)
      */
     public Vector3f getAngularVelocity() {
         assert isDynamic();
@@ -338,8 +341,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Copy this body's angular velocity. The body must be in dynamic mode.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a velocity vector (in physics-space coordinates, either
-     * storeResult or a new vector, not null))
+     * @return a velocity vector (radians per second in physics-space
+     * coordinates, either storeResult or a new vector, not null))
      */
     public Vector3f getAngularVelocity(Vector3f storeResult) {
         assert isDynamic();
@@ -354,8 +357,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * must be in dynamic mode.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a velocity vector (in local coordinates, either storeResult or a
-     * new vector, not null))
+     * @return a velocity vector (radians per second in local coordinates,
+     * either storeResult or a new vector, not null))
      */
     public Vector3f getAngularVelocityLocal(Vector3f storeResult) {
         assert isDynamic();
@@ -374,7 +377,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * the body's local coordinates.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a vector (either storeResult or a new vector, not null)
+     * @return a vector (in inverse mass units, either storeResult or a new
+     * vector, not null)
      */
     public Vector3f getInverseInertiaLocal(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -386,7 +390,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Compute the inverse inertia tensor in physics-space coordinates.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a matrix (either storeResult or a new matrix, not null)
+     * @return a matrix (in inverse mass units, either storeResult or a new
+     * matrix, not null)
      */
     public Matrix3f getInverseInertiaWorld(Matrix3f storeResult) {
         Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
@@ -423,7 +428,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Read this body's linear-motion sleep threshold.
      *
-     * @return the linear-motion sleep threshold (&ge;0)
+     * @return the linear-motion sleep threshold (in physics-space units per
+     * second, &ge;0)
      */
     public float getLinearSleepingThreshold() {
         return getLinearSleepingThreshold(objectId);
@@ -432,7 +438,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @return a new velocity vector (in physics-space coordinates, not null)
+     * @return a new velocity vector (physics-space units per second in
+     * physics-space coordinates, not null)
      */
     public Vector3f getLinearVelocity() {
         assert isDynamic();
@@ -444,8 +451,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * in dynamic mode.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a velocity vector (in physics-space coordinates, either
-     * storeResult or a new vector, not null)
+     * @return a velocity vector (physics-space units per second in
+     * physics-space coordinates, either storeResult or a new vector, not null)
      */
     public Vector3f getLinearVelocity(Vector3f storeResult) {
         assert isDynamic();
@@ -467,7 +474,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @return a new Quaternion (in physics-space coordinates, not null)
+     * @return a new Quaternion (relative to physics-space coordinates, not
+     * null)
      */
     public Quaternion getPhysicsRotation() {
         return getPhysicsRotation(null);
@@ -674,7 +682,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Alter the principal (diagonal) components of the local inertia tensor in
      * the body's local coordinates.
      *
-     * @param inverseInertia the desired component values (not null, unaffected)
+     * @param inverseInertia the desired component values (in inverse mass
+     * units, not null, unaffected)
      */
     public void setInverseInertiaLocal(Vector3f inverseInertia) {
         Validate.nonNull(inverseInertia, "inverse inertia");
@@ -726,7 +735,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Alter this body's linear-motion sleep threshold.
      *
-     * @param threshold the desired threshold (&ge;0, default=0.8)
+     * @param threshold the desired threshold (in physics-space units per
+     * second, &ge;0, default=0.8)
      */
     public void setLinearSleepingThreshold(float threshold) {
         setLinearSleepingThreshold(objectId, threshold);
@@ -735,8 +745,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Alter the linear velocity of this body's center of mass.
      *
-     * @param velocity the desired velocity (in physics-space coordinates, not
-     * null, unaffected)
+     * @param velocity the desired velocity (physics-space units per second in
+     * physics-space coordinates, not null, unaffected)
      */
     public void setLinearVelocity(Vector3f velocity) {
         Validate.finite(velocity, "velocity");
@@ -748,7 +758,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Directly alter this body's orientation.
      *
-     * @param orientation the desired orientation (rotation matrix in
+     * @param orientation the desired orientation (rotation matrix relative to
      * physics-space coordinates, not null, unaffected)
      */
     public void setPhysicsRotation(Matrix3f orientation) {
