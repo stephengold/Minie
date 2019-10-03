@@ -302,7 +302,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         int numClustersToVisualize = countClustersToVisualize();
         if (numClustersToVisualize > 0) {
             Mesh mesh = createClustersMesh(numClustersToVisualize);
-            result = new Geometry(body.toString() + " clusters", mesh);
+            result = new Geometry(body + " clusters", mesh);
             result.setShadowMode(RenderQueue.ShadowMode.Off);
 
             SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
@@ -343,7 +343,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         Geometry result = null;
         if (body.countFaces() > 0) {
             Mesh mesh = createFacesMesh();
-            result = new Geometry(body.toString() + " faces", mesh);
+            result = new Geometry(body + " faces", mesh);
 
             Material material = body.getDebugMaterial();
             if (material == null) { // use one of the default materials
@@ -415,7 +415,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         Geometry result = null;
         if (body.countFaces() == 0 && body.countLinks() > 0) {
             Mesh mesh = createLinksMesh();
-            result = new Geometry(body.toString() + " links", mesh);
+            result = new Geometry(body + " links", mesh);
 
             SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
             Material material = sdas.getLinkMaterial();

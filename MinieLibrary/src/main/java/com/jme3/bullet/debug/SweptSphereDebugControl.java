@@ -88,7 +88,7 @@ public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
 
         float radius = 1f;
         WireSphere mesh = new WireSphere(radius);
-        geom = new Geometry("swept sphere of " + pco.toString(), mesh);
+        geom = new Geometry("swept sphere of " + pco, mesh);
 
         radius = pco.getCcdSweptSphereRadius();
         geom.setLocalScale(radius);
