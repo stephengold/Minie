@@ -68,6 +68,7 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.debug.Describer;
 import jme3utilities.debug.Dumper;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
@@ -304,7 +305,6 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" %d wheel%s and", numWheels,
                     (numWheels == 1) ? "" : "s");
         }
-
         int numJoints = body.countJoints();
         stream.printf(" %d joint%s", numJoints, (numJoints == 1) ? "" : "s");
         /*
@@ -1015,6 +1015,7 @@ public class PhysicsDumper extends Dumper {
      */
     private void dumpNodes(PhysicsSoftBody softBody, String indent) {
         stream.print(':');
+
         FloatBuffer locations = softBody.copyLocations(null);
         FloatBuffer masses = softBody.copyMasses(null);
         FloatBuffer velocities = softBody.copyVelocities(null);
@@ -1022,7 +1023,8 @@ public class PhysicsDumper extends Dumper {
         int numNodes = softBody.countNodes();
         int numLinks = softBody.countLinks();
         for (int nodeIndex = 0; nodeIndex < numNodes; ++nodeIndex) {
-            int degree = frequency(linkIndices, 2 * numLinks, nodeIndex);
+            int degree = MyBuffer.frequency(linkIndices, 0, 2 * numLinks,
+                    nodeIndex);
             float nodeMass = masses.get(nodeIndex);
             String locString = describeVector(locations, nodeIndex);
             String vString = describeVector(velocities, nodeIndex);
@@ -1076,27 +1078,5 @@ public class PhysicsDumper extends Dumper {
             }
         }
         stream.print(')');
-    }
-
-    /**
-     * Count the number of times the specified integer value occurs in the
-     * specified buffer. TODO use MyBuffer
-     *
-     * @param buffer the buffer to read (not null, unaffected)
-     * @param bufferLength the number of integers in the buffer (&ge;0)
-     * @param intValue the value to search for
-     * @return the number of occurrences found (&ge;0)
-     */
-    private static int frequency(IntBuffer buffer, int bufferLength,
-            int intValue) {
-        int result = 0;
-        for (int offset = 0; offset < bufferLength; ++offset) {
-            int bufferValue = buffer.get(offset);
-            if (bufferValue == intValue) {
-                ++result;
-            }
-        }
-
-        return result;
     }
 }
