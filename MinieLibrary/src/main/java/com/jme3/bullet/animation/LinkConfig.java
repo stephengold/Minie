@@ -281,7 +281,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
                 break;
 
             default:
-                String message = "heuristic = " + shapeHeuristic.toString();
+                String message = "heuristic = " + shapeHeuristic;
                 throw new IllegalArgumentException(message);
         }
 
@@ -328,7 +328,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
                 break;
 
             default:
-                String message = "heuristic = " + massHeuristic.toString();
+                String message = "heuristic = " + massHeuristic;
                 throw new IllegalArgumentException(message);
         }
 

@@ -97,7 +97,7 @@ public class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
         float yExtent = bbox.getYExtent();
         float zExtent = bbox.getZExtent();
         WireBox mesh = new WireBox(xExtent, yExtent, zExtent);
-        geom = new Geometry("bounding box of " + pco.toString(), mesh);
+        geom = new Geometry("bounding box of " + pco, mesh);
 
         center = bbox.getCenter();
         geom.setLocalTranslation(center);

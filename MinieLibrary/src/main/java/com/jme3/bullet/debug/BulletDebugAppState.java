@@ -707,7 +707,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 // 2 nodes for each PCO
                 Node parent = new Node(pco.toString());
                 attachChild(parent);
-                node = new Node(pco.toString() + " transformed");
+                node = new Node(pco + " transformed");
                 parent.attachChild(node);
             }
             pcoMap.put(pco, node);
