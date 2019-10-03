@@ -36,7 +36,7 @@ import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
-import jme3utilities.minie.test.mesh.Icosphere;
+import jme3utilities.mesh.Icosphere;
 
 /**
  * A simple example of a soft-soft collision.
