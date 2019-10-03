@@ -79,7 +79,7 @@ abstract public class Constraint extends PhysicsJoint {
     final private static String tagPivotA = "pivotA";
     final private static String tagPivotB = "pivotB";
     // *************************************************************************
-    // fields TODO privatize
+    // fields
 
     /**
      * true IFF bodies A and B are allowed to collide
@@ -124,25 +124,23 @@ abstract public class Constraint extends PhysicsJoint {
 
         switch (bodyEnd) {
             case A:
-                bodyA = body;
-                bodyB = null;
+                setBodyA(body);
                 pivotA = pivotInBody.clone();
                 pivotB = null;
-                bodyA.addJoint(this);
                 break;
 
             case B:
-                bodyA = null;
-                bodyB = body;
+                setBodyB(body);
                 pivotA = null;
                 pivotB = pivotInBody.clone();
-                bodyB.addJoint(this);
                 break;
 
             default:
-                String message = "body end = " + bodyEnd.toString();
+                String message = "body end = " + bodyEnd;
                 throw new IllegalArgumentException(message);
         }
+
+        body.addJoint(this);
     }
 
     /**
@@ -168,25 +166,23 @@ abstract public class Constraint extends PhysicsJoint {
 
         switch (bodyEnd) {
             case A:
-                bodyA = body;
-                bodyB = null;
+                setBodyA(body);
                 pivotA = pivotInBody.clone();
                 pivotB = pivotInWorld.clone();
-                bodyA.addJoint(this);
                 break;
 
             case B:
-                bodyA = null;
-                bodyB = body;
+                setBodyB(body);
                 pivotA = pivotInWorld.clone();
                 pivotB = pivotInBody.clone();
-                bodyB.addJoint(this);
                 break;
 
             default:
-                String message = "body end = " + bodyEnd.toString();
+                String message = "body end = " + bodyEnd;
                 throw new IllegalArgumentException(message);
         }
+
+        body.addJoint(this);
     }
 
     /**
@@ -205,13 +201,15 @@ abstract public class Constraint extends PhysicsJoint {
      */
     protected Constraint(PhysicsBody bodyA, PhysicsBody bodyB,
             Vector3f pivotInA, Vector3f pivotInB) {
+        Validate.nonNull(bodyA, "body A");
+        Validate.nonNull(bodyB, "body B");
         if (bodyA == bodyB) {
             throw new IllegalArgumentException(
                     "The jointed bodies must be distinct.");
         }
 
-        this.bodyA = bodyA;
-        this.bodyB = bodyB;
+        setBodyA(bodyA);
+        setBodyB(bodyB);
         pivotA = pivotInA.clone();
         pivotB = pivotInB.clone();
         bodyA.addJoint(this);
@@ -238,15 +236,19 @@ abstract public class Constraint extends PhysicsJoint {
     }
 
     /**
-     * Access the rigid body at the A end.
+     * Access the rigid body at the A end. TODO re-order methods
      *
      * @return the pre-existing rigid body, or null if none
      */
+    @Override
     public PhysicsRigidBody getBodyA() {
+        PhysicsBody a = super.getBodyA();
+
         PhysicsRigidBody result = null;
-        if (bodyA instanceof PhysicsRigidBody) {
-            result = (PhysicsRigidBody) bodyA;
+        if (a instanceof PhysicsRigidBody) {
+            result = (PhysicsRigidBody) a;
         }
+
         return result;
     }
 
@@ -255,11 +257,15 @@ abstract public class Constraint extends PhysicsJoint {
      *
      * @return the pre-existing body, or null if none
      */
+    @Override
     public PhysicsRigidBody getBodyB() {
+        PhysicsBody b = super.getBodyB();
+
         PhysicsRigidBody result = null;
-        if (bodyB instanceof PhysicsRigidBody) {
-            result = (PhysicsRigidBody) bodyB;
+        if (b instanceof PhysicsRigidBody) {
+            result = (PhysicsRigidBody) b;
         }
+
         return result;
     }
 
@@ -306,7 +312,7 @@ abstract public class Constraint extends PhysicsJoint {
             case B:
                 return getPivotB(storeResult);
             default:
-                throw new IllegalArgumentException("end = " + end.toString());
+                throw new IllegalArgumentException("end = " + end);
         }
     }
 
@@ -319,7 +325,7 @@ abstract public class Constraint extends PhysicsJoint {
      */
     public Vector3f getPivotA(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        if (bodyA == null) {
+        if (getBodyA() == null) {
             throw new IllegalArgumentException("No body at the A end.");
         }
 
@@ -336,7 +342,7 @@ abstract public class Constraint extends PhysicsJoint {
      */
     public Vector3f getPivotB(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        if (bodyB == null) {
+        if (getBodyB() == null) {
             throw new IllegalArgumentException("No body at the B end.");
         }
 

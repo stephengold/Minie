@@ -220,12 +220,13 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
      * Create the configured btSoftBody::LJoint.
      */
     private void createJoint() {
-        assert bodyA instanceof PhysicsSoftBody;
-        long ida = bodyA.getObjectId();
+        PhysicsSoftBody a = getSoftBodyA();
+        long ida = a.getObjectId();
         int cia = clusterIndexA();
         assert cia >= 0 : cia;
-        assert cia < ((PhysicsSoftBody) bodyA).countClusters() : cia;
-        long idb = bodyB.getObjectId();
+        assert cia < a.countClusters() : cia;
+
+        long idb = getBodyB().getObjectId();
         int cib = clusterIndexB();
 
         float erp = getERP();
@@ -238,9 +239,9 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
             jointId = createJointSoftRigid(ida, cia, idb, erp, cfm, split,
                     location);
         } else {
-            assert isSoftSoft();
+            PhysicsSoftBody b = getSoftBodyB();
             assert cib >= 0 : cib;
-            assert cib < ((PhysicsSoftBody) bodyB).countClusters() : cib;
+            assert cib < b.countClusters() : cib;
             jointId = createJointSoftSoft(ida, cia, idb, cib, erp, cfm, split,
                     location);
         }

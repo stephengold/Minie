@@ -66,7 +66,7 @@ abstract public class PhysicsJoint
     final private static String tagNodeA = "nodeA";
     final private static String tagNodeB = "nodeB";
     // *************************************************************************
-    // fields TODO privatize
+    // fields
 
     /**
      * Unique identifier of the btTypedConstraint, btSoftBody::Anchor, or
@@ -78,12 +78,12 @@ abstract public class PhysicsJoint
      * body A specified in the constructor, or null for a single-ended joint
      * with body B only
      */
-    protected PhysicsBody bodyA;
+    private PhysicsBody bodyA = null;
     /**
      * body B specified in the constructor, or null for a single-ended joint
      * with body A only
      */
-    protected PhysicsBody bodyB;
+    private PhysicsBody bodyB = null;
     // *************************************************************************
     // constructors
 
@@ -135,8 +135,26 @@ abstract public class PhysicsJoint
             case B:
                 return bodyB;
             default:
-                throw new IllegalArgumentException("end = " + end.toString());
+                throw new IllegalArgumentException("end = " + end);
         }
+    }
+
+    /**
+     * Access the body at the joint's "A" end.
+     *
+     * @return the pre-existing body, or null if none
+     */
+    public PhysicsBody getBodyA() {
+        return bodyA;
+    }
+
+    /**
+     * Access the body at the joint's "B" end.
+     *
+     * @return the pre-existing body, or null if none
+     */
+    public PhysicsBody getBodyB() {
+        return bodyB;
     }
 
     /**
@@ -158,6 +176,28 @@ abstract public class PhysicsJoint
     abstract public boolean isEnabled();
     // *************************************************************************
     // new protected methods
+
+    /**
+     * Specify the body at the joint's "A" end.
+     *
+     * @param body the desired body (not null, alias created)
+     */
+    final protected void setBodyA(PhysicsBody body) {
+        assert body != null;
+        assert bodyA == null : bodyA;
+        bodyA = body;
+    }
+
+    /**
+     * Specify the body at the joint's "B" end.
+     *
+     * @param body the desired body (not null, alias created)
+     */
+    final protected void setBodyB(PhysicsBody body) {
+        assert body != null;
+        assert bodyB == null : bodyB;
+        bodyB = body;
+    }
 
     /**
      * Initialize the native ID.

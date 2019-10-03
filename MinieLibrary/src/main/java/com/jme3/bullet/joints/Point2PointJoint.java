@@ -287,36 +287,38 @@ public class Point2PointJoint extends Constraint {
      * Create the configured joint in Bullet.
      */
     private void createJoint() {
-        assert bodyA != null;
+        PhysicsRigidBody a = getBodyA();
+        long aId = a.getObjectId();
         assert pivotA != null;
+        PhysicsRigidBody b = getBodyB();
 
         long constraintId;
-        if (bodyB == null) {
+        if (b == null) {
             /*
              * Create a single-ended joint.
              */
             if (pivotB == null) {
-                constraintId = createJoint1(bodyA.getObjectId(), pivotA);
+                constraintId = createJoint1(aId, pivotA);
             } else {
                 /*
                  * Bullet assumes single-ended btPoint2PointConstraints are
                  * satisfied at creation, so we temporarily re-position the body
                  * to satisfy the constraint.
                  */
-                Vector3f saveLocation = bodyA.getPhysicsLocation(null);
+                Vector3f saveLocation = a.getPhysicsLocation(null);
 
                 Transform localToWorld = new Transform();
                 localToWorld.setTranslation(saveLocation);
-                bodyA.getPhysicsRotation(localToWorld.getRotation());
+                a.getPhysicsRotation(localToWorld.getRotation());
 
                 Vector3f pivotAWorld
                         = localToWorld.transformVector(pivotA, null);
                 Vector3f worldOffset = pivotB.subtract(pivotAWorld);
                 Vector3f tempLocation = saveLocation.add(worldOffset);
-                bodyA.setPhysicsLocation(tempLocation);
-                constraintId = createJoint1(bodyA.getObjectId(), pivotA);
+                a.setPhysicsLocation(tempLocation);
+                constraintId = createJoint1(aId, pivotA);
 
-                bodyA.setPhysicsLocation(saveLocation);
+                a.setPhysicsLocation(saveLocation);
             }
 
         } else {
@@ -324,8 +326,8 @@ public class Point2PointJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            constraintId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
-                    pivotA, pivotB);
+            long bId = b.getObjectId();
+            constraintId = createJoint(aId, bId, pivotA, pivotB);
         }
 
         setNativeId(constraintId);

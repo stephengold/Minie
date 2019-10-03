@@ -206,7 +206,7 @@ public class ConeJoint extends Constraint {
                 getFrameOffsetB(constraintId, result);
                 break;
             default:
-                String message = "end = " + end.toString();
+                String message = "end = " + end;
                 throw new IllegalArgumentException(message);
         }
 
@@ -373,18 +373,20 @@ public class ConeJoint extends Constraint {
      * Create the configured joint in Bullet.
      */
     private void createJoint() {
-        assert bodyA != null;
+        PhysicsRigidBody a = getBodyA();
+        long aId = a.getObjectId();
         assert pivotA != null;
         assert rotA != null;
+        PhysicsRigidBody b = getBodyB();
 
         long constraintId;
-        if (bodyB == null) {
+        if (b == null) {
             /*
              * Create a single-ended joint.
              * Bullet assumes single-ended btConeTwistConstraints have
              * rotInWorld=rotInA and pivotInWorld=(0,0,0).
              */
-            constraintId = createJoint1(bodyA.getObjectId(), pivotA, rotA);
+            constraintId = createJoint1(aId, pivotA, rotA);
 
         } else {
             assert pivotB != null;
@@ -392,8 +394,8 @@ public class ConeJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            constraintId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
-                    pivotA, rotA, pivotB, rotB);
+            long bId = b.getObjectId();
+            constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB);
         }
         setNativeId(constraintId);
 
