@@ -236,40 +236,6 @@ abstract public class Constraint extends PhysicsJoint {
     }
 
     /**
-     * Access the rigid body at the A end. TODO re-order methods
-     *
-     * @return the pre-existing rigid body, or null if none
-     */
-    @Override
-    public PhysicsRigidBody getBodyA() {
-        PhysicsBody a = super.getBodyA();
-
-        PhysicsRigidBody result = null;
-        if (a instanceof PhysicsRigidBody) {
-            result = (PhysicsRigidBody) a;
-        }
-
-        return result;
-    }
-
-    /**
-     * Access the rigid body at the B end.
-     *
-     * @return the pre-existing body, or null if none
-     */
-    @Override
-    public PhysicsRigidBody getBodyB() {
-        PhysicsBody b = super.getBodyB();
-
-        PhysicsRigidBody result = null;
-        if (b instanceof PhysicsRigidBody) {
-            result = (PhysicsRigidBody) b;
-        }
-
-        return result;
-    }
-
-    /**
      * Read the breaking impulse threshold.
      *
      * @return the value
@@ -466,7 +432,7 @@ abstract public class Constraint extends PhysicsJoint {
         overrideIterations(numIterations);
     }
     // *************************************************************************
-    // JmeCloneable methods
+    // PhysicsJoint methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
@@ -484,6 +450,40 @@ abstract public class Constraint extends PhysicsJoint {
         pivotA = cloner.clone(pivotA);
         pivotB = cloner.clone(pivotB);
         // Each subclass must create the btTypedConstraint.
+    }
+
+    /**
+     * Access the rigid body at the A end.
+     *
+     * @return the pre-existing rigid body, or null if none
+     */
+    @Override
+    public PhysicsRigidBody getBodyA() {
+        PhysicsBody a = super.getBodyA();
+
+        PhysicsRigidBody result = null;
+        if (a instanceof PhysicsRigidBody) {
+            result = (PhysicsRigidBody) a;
+        }
+
+        return result;
+    }
+
+    /**
+     * Access the rigid body at the B end.
+     *
+     * @return the pre-existing body, or null if none
+     */
+    @Override
+    public PhysicsRigidBody getBodyB() {
+        PhysicsBody b = super.getBodyB();
+
+        PhysicsRigidBody result = null;
+        if (b instanceof PhysicsRigidBody) {
+            result = (PhysicsRigidBody) b;
+        }
+
+        return result;
     }
 
     /**
@@ -513,8 +513,6 @@ abstract public class Constraint extends PhysicsJoint {
             throw new RuntimeException(exception);
         }
     }
-    // *************************************************************************
-    // Savable methods
 
     /**
      * De-serialize this Constraint from the specified importer, for example
