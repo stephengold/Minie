@@ -584,61 +584,6 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
-     * Generate a textual description of a compound shape's children. TODO
-     * re-order methods
-     *
-     * @param compound shape being described (not null, unaffected)
-     * @return description (not null)
-     */
-    private String describeChildShapes(CompoundCollisionShape compound) {
-        StringBuilder result = new StringBuilder(60);
-        result.append('[');
-        ChildCollisionShape[] children = compound.listChildren();
-
-        boolean addSeparators = false;
-        boolean brief = (children.length > 3);
-        for (ChildCollisionShape child : children) {
-            if (addSeparators) {
-                result.append(brief ? " " : "  ");
-            } else {
-                addSeparators = true;
-            }
-
-            String desc;
-            if (brief) {
-                String name = child.getShape().getClass().getSimpleName();
-                if (name.endsWith("CollisionShape")) {
-                    name = MyString.removeSuffix(name, "CollisionShape");
-                }
-                result.append(name);
-
-            } else {
-                desc = describe(child.getShape());
-                result.append(desc);
-
-                Vector3f offset = child.copyOffset(null);
-                if (!MyVector3f.isZero(offset)) {
-                    result.append("@[");
-                    desc = MyVector3f.describe(offset);
-                    result.append(desc);
-                    result.append(']');
-                }
-
-                Quaternion rotation = child.copyRotation(null);
-                if (!MyQuaternion.isRotationIdentity(rotation)) {
-                    result.append("rot[");
-                    desc = MyQuaternion.describe(rotation);
-                    result.append(desc);
-                    result.append(']');
-                }
-            }
-        }
-        result.append(']');
-
-        return result.toString();
-    }
-
-    /**
      * Describe the specified Constraint in the context of a PhysicsSpace.
      *
      * @param constraint the Constraint to describe (not null, unaffected)
@@ -971,6 +916,60 @@ public class PhysicsDescriber extends Describer {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Generate a textual description of a compound shape's children.
+     *
+     * @param compound shape being described (not null, unaffected)
+     * @return description (not null)
+     */
+    private String describeChildShapes(CompoundCollisionShape compound) {
+        StringBuilder result = new StringBuilder(60);
+        result.append('[');
+        ChildCollisionShape[] children = compound.listChildren();
+
+        boolean addSeparators = false;
+        boolean brief = (children.length > 3);
+        for (ChildCollisionShape child : children) {
+            if (addSeparators) {
+                result.append(brief ? " " : "  ");
+            } else {
+                addSeparators = true;
+            }
+
+            String desc;
+            if (brief) {
+                String name = child.getShape().getClass().getSimpleName();
+                if (name.endsWith("CollisionShape")) {
+                    name = MyString.removeSuffix(name, "CollisionShape");
+                }
+                result.append(name);
+
+            } else {
+                desc = describe(child.getShape());
+                result.append(desc);
+
+                Vector3f offset = child.copyOffset(null);
+                if (!MyVector3f.isZero(offset)) {
+                    result.append("@[");
+                    desc = MyVector3f.describe(offset);
+                    result.append(desc);
+                    result.append(']');
+                }
+
+                Quaternion rotation = child.copyRotation(null);
+                if (!MyQuaternion.isRotationIdentity(rotation)) {
+                    result.append("rot[");
+                    desc = MyQuaternion.describe(rotation);
+                    result.append(desc);
+                    result.append(']');
+                }
+            }
+        }
+        result.append(']');
+
+        return result.toString();
+    }
 
     /**
      * Describe the specified half extents.
