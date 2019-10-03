@@ -57,6 +57,7 @@ import java.nio.ShortBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 
 /**
  * A collision object to simulate a soft body, based on Bullet's btSoftBody. It
@@ -342,7 +343,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     public FloatBuffer copyClusterCenters(FloatBuffer storeResult) {
         int numFloats = 3 * countClusters();
-        FloatBuffer result = ensureCapacity(numFloats, storeResult);
+        FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
         if (numFloats != 0) {
             getClustersPositions(objectId, result);
@@ -359,7 +360,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     public FloatBuffer copyClusterMasses(FloatBuffer storeResult) {
         int numFloats = countClusters();
-        FloatBuffer result = ensureCapacity(numFloats, storeResult);
+        FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
         if (numFloats != 0) {
             getClustersMasses(objectId, result);
@@ -422,7 +423,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     public FloatBuffer copyLocations(FloatBuffer storeResult) {
         int numFloats = 3 * countNodes();
-        FloatBuffer result = ensureCapacity(numFloats, storeResult);
+        FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
         if (numFloats != 0) {
             getNodesPositions(objectId, result);
@@ -439,7 +440,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     public FloatBuffer copyMasses(FloatBuffer storeResult) {
         int numFloats = countNodes();
-        FloatBuffer result = ensureCapacity(numFloats, storeResult);
+        FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
         if (numFloats != 0) {
             getMasses(objectId, result);
@@ -456,7 +457,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     public FloatBuffer copyNormals(FloatBuffer storeResult) {
         int numFloats = 3 * countNodes();
-        FloatBuffer result = ensureCapacity(numFloats, storeResult);
+        FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
         if (numFloats != 0) {
             getNodesNormals(objectId, result);
@@ -496,7 +497,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     public FloatBuffer copyVelocities(FloatBuffer storeResult) {
         int numFloats = 3 * countNodes();
-        FloatBuffer result = ensureCapacity(numFloats, storeResult);
+        FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
         if (numFloats != 0) {
             getNodesVelocities(objectId, result);
@@ -1486,32 +1487,47 @@ public class PhysicsSoftBody extends PhysicsBody {
         capsule.write(getPhysicsLocation(), tagPhysicsLocation, null);
 
         FloatBuffer floatBuffer = copyLocations(null);
-        capsule.write(copyToArray(floatBuffer), tagNodeLocations, null);
+        int capacity = floatBuffer.capacity();
+        float[] floatArray = MyBuffer.toFloatArray(floatBuffer, 0, capacity);
+        capsule.write(floatArray, tagNodeLocations, null);
 
         floatBuffer = copyMasses(null);
-        capsule.write(copyToArray(floatBuffer), tagNodeMasses, null);
+        capacity = floatBuffer.capacity();
+        floatArray = MyBuffer.toFloatArray(floatBuffer, 0, capacity);
+        capsule.write(floatArray, tagNodeMasses, null);
 
         floatBuffer = copyNormals(null);
-        capsule.write(copyToArray(floatBuffer), tagNodeNormals, null);
+        capacity = floatBuffer.capacity();
+        floatArray = MyBuffer.toFloatArray(floatBuffer, 0, capacity);
+        capsule.write(floatArray, tagNodeNormals, null);
 
         floatBuffer = copyVelocities(null);
-        capsule.write(copyToArray(floatBuffer), tagNodeVelocities, null);
+        capacity = floatBuffer.capacity();
+        floatArray = MyBuffer.toFloatArray(floatBuffer, 0, capacity);
+        capsule.write(floatArray, tagNodeVelocities, null);
 
         IntBuffer intBuffer = copyFaces(null);
-        capsule.write(copyToArray(intBuffer), tagFaceIndices, null);
+        capacity = intBuffer.capacity();
+        int[] intArray = MyBuffer.toIntArray(intBuffer, 0, capacity);
+        capsule.write(intArray, tagFaceIndices, null);
 
         intBuffer = copyLinks(null);
-        capsule.write(copyToArray(intBuffer), tagLinkIndices, null);
+        capacity = intBuffer.capacity();
+        intArray = MyBuffer.toIntArray(intBuffer, 0, capacity);
+        capsule.write(intArray, tagLinkIndices, null);
 
         intBuffer = copyTetras(null);
-        capsule.write(copyToArray(intBuffer), tagTetraIndices, null);
+        capacity = intBuffer.capacity();
+        intArray = MyBuffer.toIntArray(intBuffer, 0, capacity);
+        capsule.write(intArray, tagTetraIndices, null);
 
         int numClusters = countClusters();
         capsule.write(numClusters, tagNumClusters, 0);
         for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
             intBuffer = listNodesInCluster(clusterIndex, null);
-            capsule.write(copyToArray(intBuffer), tagIndices + clusterIndex,
-                    null);
+            capacity = intBuffer.capacity();
+            intArray = MyBuffer.toIntArray(intBuffer, 0, capacity);
+            capsule.write(intArray, tagIndices + clusterIndex, null);
 
             for (Cluster clusterParameter : Cluster.values()) {
                 float value = get(clusterParameter, clusterIndex);
@@ -1526,74 +1542,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         getSoftMaterial().write(capsule);
 
         writeJoints(capsule);
-    }
-    // *************************************************************************
-    // private methods
-
-    /**
-     * Copy the specified buffer to an array, ignoring the limit. TODO use
-     * MyBuffer
-     *
-     * @param floatBuffer (not null, unaffected)
-     * @return a new array
-     */
-    private static float[] copyToArray(FloatBuffer floatBuffer) {
-        int numFloats = floatBuffer.capacity();
-        float[] result = new float[numFloats];
-        for (int i = 0; i < numFloats; ++i) {
-            result[i] = floatBuffer.get(i);
-        }
-
-        return result;
-    }
-
-    /**
-     * Copy the specified buffer to an array, ignoring the limit. TODO use
-     * MyBuffer
-     *
-     * @param intBuffer (not null, unaffected)
-     * @return a new array
-     */
-    private static int[] copyToArray(IntBuffer intBuffer) {
-        int numInts = intBuffer.capacity();
-        int[] result = new int[numInts];
-        for (int i = 0; i < numInts; ++i) {
-            result[i] = intBuffer.get(i);
-        }
-
-        return result;
-    }
-
-    /**
-     * Reuse the specified FloatBuffer, if it has the desired capacity. If no
-     * buffer is specified, allocate a new one. TODO use MyBuffer
-     *
-     * @param minFloats the desired capacity (in floats, &ge;0)
-     * @param storeResult the buffer to reuse, or null for none
-     * @return a buffer with at least the required capacity (either storeResult
-     * or a new buffer)
-     */
-    private static FloatBuffer ensureCapacity(int minFloats,
-            FloatBuffer storeResult) {
-        Validate.nonNegative(minFloats, "minimum number of elements");
-
-        FloatBuffer result;
-        if (storeResult == null) {
-            result = BufferUtils.createFloatBuffer(minFloats);
-
-        } else {
-            int capacityFloats = storeResult.capacity();
-            if (capacityFloats < minFloats) {
-                logger2.log(Level.SEVERE, "capacity={0}", capacityFloats);
-                String message = String.format(
-                        "Buffer capacity must be greater than or equal to %d.",
-                        minFloats);
-                throw new IllegalArgumentException(message);
-            }
-            result = storeResult;
-        }
-
-        return result;
     }
     // *************************************************************************
     // native methods
