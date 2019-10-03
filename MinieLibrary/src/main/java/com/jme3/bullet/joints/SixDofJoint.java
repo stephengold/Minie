@@ -314,7 +314,7 @@ public class SixDofJoint extends Constraint {
                 getFrameOffsetB(constraintId, result);
                 break;
             default:
-                String message = "end = " + end.toString();
+                String message = "end = " + end;
                 throw new IllegalArgumentException(message);
         }
 
@@ -726,15 +726,17 @@ public class SixDofJoint extends Constraint {
      * Create the configured joint in Bullet.
      */
     private void createJoint() {
+        PhysicsRigidBody a = getBodyA();
         assert pivotA != null;
         assert rotA != null;
+
         PhysicsRigidBody b = getBodyB();
         long bId = b.getObjectId();
         assert pivotB != null;
         assert rotB != null;
 
         long constraintId;
-        if (bodyA == null) {
+        if (a == null) {
             /*
              * Create a single-ended joint.  Bullet assumes single-ended
              * btGeneric6DofConstraints are satisfied at creation, so we
@@ -767,7 +769,7 @@ public class SixDofJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            long aId = bodyA.getObjectId();
+            long aId = a.getObjectId();
             constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB,
                     useLinearReferenceFrameA);
         }

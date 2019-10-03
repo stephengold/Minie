@@ -259,7 +259,7 @@ public class HingeJoint extends Constraint {
                 getFrameOffsetB(constraintId, result);
                 break;
             default:
-                String message = "end = " + end.toString();
+                String message = "end = " + end;
                 throw new IllegalArgumentException(message);
         }
 
@@ -528,14 +528,16 @@ public class HingeJoint extends Constraint {
      */
     private void createJoint() {
         PhysicsRigidBody a = getBodyA();
-        assert a != null;
+        long aId = a.getObjectId();
         assert pivotA != null;
         assert axisA.isUnitVector() : axisA;
+
         assert pivotB != null;
         assert axisB.isUnitVector() : axisB;
+        PhysicsRigidBody b = getBodyB();
 
         long constraintId;
-        if (bodyB == null) {
+        if (b == null) {
             /*
              * Create a single-ended joint.  Bullet assumes single-ended
              * btHingeConstraints are satisfied at creation, so we
@@ -556,8 +558,7 @@ public class HingeJoint extends Constraint {
             Vector3f offset = pivotB.subtract(pivotA);
             a.setPhysicsLocation(offset);
 
-            constraintId = createJoint1(a.getObjectId(), pivotA, axisA,
-                    useReferenceFrameA);
+            constraintId = createJoint1(aId, pivotA, axisA, useReferenceFrameA);
 
             a.setPhysicsLocation(saveLocation);
             a.setPhysicsRotation(saveRotation);
@@ -567,8 +568,8 @@ public class HingeJoint extends Constraint {
              * Create a double-ended joint.
              */
             assert !useReferenceFrameA;
-            constraintId = createJoint(a.getObjectId(), bodyB.getObjectId(),
-                    pivotA, axisA, pivotB, axisB);
+            long bId = b.getObjectId();
+            constraintId = createJoint(aId, bId, pivotA, axisA, pivotB, axisB);
         }
         setNativeId(constraintId);
     }

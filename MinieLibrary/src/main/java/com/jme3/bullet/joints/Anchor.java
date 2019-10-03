@@ -112,17 +112,17 @@ public class Anchor extends PhysicsJoint {
     public Anchor(PhysicsSoftBody softBodyA, int nodeIndexA,
             PhysicsRigidBody rigidBodyB, Vector3f pivotInB,
             boolean allowCollisions) {
-        Validate.nonNull(softBodyA, "soft body A");
         int numNodes = softBodyA.countNodes();
         Validate.inRange(nodeIndexA, "node index", 0, numNodes - 1);
+        Validate.nonNull(rigidBodyB, "rigid body B");
         Validate.finite(pivotInB, "pivot location");
 
-        bodyA = softBodyA;
-        bodyA.addJoint(this);
+        setBodyA(softBodyA);
+        softBodyA.addJoint(this);
         this.nodeIndexA = nodeIndexA;
 
-        bodyB = rigidBodyB;
-        bodyB.addJoint(this);
+        setBodyB(rigidBodyB);
+        rigidBodyB.addJoint(this);
         this.allowCollisions = allowCollisions;
         this.pivotInB = pivotInB.clone();
 
@@ -152,8 +152,10 @@ public class Anchor extends PhysicsJoint {
      * @return the pre-existing body (not null)
      */
     public PhysicsRigidBody getRigidBody() {
-        assert bodyB != null;
-        return (PhysicsRigidBody) bodyB;
+        PhysicsRigidBody result = (PhysicsRigidBody) getBodyB();
+
+        assert result != null;
+        return result;
     }
 
     /**
@@ -162,8 +164,10 @@ public class Anchor extends PhysicsJoint {
      * @return the pre-existing soft body (not null)
      */
     public PhysicsSoftBody getSoftBody() {
-        assert bodyA != null;
-        return (PhysicsSoftBody) bodyA;
+        PhysicsSoftBody result = (PhysicsSoftBody) getBodyA();
+
+        assert result != null;
+        return result;
     }
 
     /**
@@ -299,13 +303,15 @@ public class Anchor extends PhysicsJoint {
      * Create the configured btSoftBody::Anchor.
      */
     private void createAnchor() {
-        assert bodyA instanceof PhysicsSoftBody;
-        long ida = bodyA.getObjectId();
+        PhysicsSoftBody a = getSoftBody();
+        long aId = a.getObjectId();
         assert nodeIndexA >= 0 : nodeIndexA;
-        assert nodeIndexA < ((PhysicsSoftBody) bodyA).countNodes() : nodeIndexA;
-        long idb = bodyB.getObjectId();
+        assert nodeIndexA < a.countNodes() : nodeIndexA;
 
-        long anchorId = createAnchor(ida, nodeIndexA, idb, pivotInB,
+        PhysicsRigidBody b = getRigidBody();
+        long bId = b.getObjectId();
+
+        long anchorId = createAnchor(aId, nodeIndexA, bId, pivotInB,
                 allowCollisions, influence);
         setNativeId(anchorId);
     }

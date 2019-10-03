@@ -295,7 +295,7 @@ public class SliderJoint extends Constraint {
                 getFrameOffsetB(constraintId, result);
                 break;
             default:
-                String message = "end = " + end.toString();
+                String message = "end = " + end;
                 throw new IllegalArgumentException(message);
         }
 
@@ -1052,34 +1052,38 @@ public class SliderJoint extends Constraint {
      * Create the configured joint in Bullet.
      */
     private void createJoint() {
+        PhysicsRigidBody a = getBodyA();
         assert pivotA != null;
         assert rotA != null;
-        assert bodyB != null;
+
+        PhysicsRigidBody b = getBodyB();
+        long bId = b.getObjectId();
         assert pivotB != null;
         assert rotB != null;
 
         long constraintId;
-        if (bodyA == null) {
+        if (a == null) {
             /*
              * Create a single-ended joint.  Bullet assumes single-ended
              * btSliderConstraints are satisfied at creation, so we
              * temporarily re-position the body to satisfy the constraint.
              */
-            Vector3f saveLocation = bodyB.getPhysicsLocation(null);
+            Vector3f saveLocation = b.getPhysicsLocation(null);
 
             Vector3f offset = pivotA.subtract(pivotB);
-            bodyB.setPhysicsLocation(offset);
-            constraintId = createJoint1(bodyB.getObjectId(), pivotB, rotB,
-                    useLinearReferenceFrameA);
+            b.setPhysicsLocation(offset);
+            constraintId
+                    = createJoint1(bId, pivotB, rotB, useLinearReferenceFrameA);
 
-            bodyB.setPhysicsLocation(saveLocation);
+            b.setPhysicsLocation(saveLocation);
 
         } else {
             /*
              * Create a double-ended joint.
              */
-            constraintId = createJoint(bodyA.getObjectId(), bodyB.getObjectId(),
-                    pivotA, rotA, pivotB, rotB, useLinearReferenceFrameA);
+            long aId = a.getObjectId();
+            constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB,
+                    useLinearReferenceFrameA);
         }
         setNativeId(constraintId);
     }
