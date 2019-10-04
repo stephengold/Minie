@@ -123,7 +123,8 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
-     * Find the 1st attached AppState that's an instance of the specified class.
+     * Find the first attached AppState that's an instance of the specified
+     * class.
      *
      * @param <T>
      * @param subclass the kind of AppState to search for (not null)
@@ -492,7 +493,7 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
-     * Initialization performed during the 1st invocation of
+     * Initialization performed during the first invocation of
      * {@link #simpleUpdate(float)}.
      */
     private void startup1() {
