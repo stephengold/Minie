@@ -283,7 +283,7 @@ public class LinksScreen extends GuiScreenController {
     // GuiScreenController methods
 
     /**
-     * Initialize this (disabled) screen prior to its 1st update.
+     * Initialize this (disabled) screen prior to its first update.
      *
      * @param stateManager (not null)
      * @param application (not null)
