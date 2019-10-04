@@ -41,7 +41,7 @@ public enum JointEnd {
     // values
 
     /**
-     * the 1st end
+     * the first end
      */
     A,
     /**

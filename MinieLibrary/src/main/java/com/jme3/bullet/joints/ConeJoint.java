@@ -89,7 +89,7 @@ public class ConeJoint extends Constraint {
      */
     private Matrix3f rotB;
     /**
-     * copy of span of the 1st swing axis (in radians)
+     * copy of span of the first swing axis (in radians)
      */
     private float swingSpan1 = 1e30f;
     /**
@@ -213,7 +213,7 @@ public class ConeJoint extends Constraint {
     }
 
     /**
-     * Read the span of the 1st swing axis.
+     * Read the span of the first swing axis.
      *
      * @return the span (in radians)
      */
@@ -262,7 +262,7 @@ public class ConeJoint extends Constraint {
     /**
      * Alter the angular limits for this joint.
      *
-     * @param swingSpan1 the desired span of the 1st swing axis (in radians)
+     * @param swingSpan1 the desired span of the first swing axis (in radians)
      * @param swingSpan2 the desired span of the 2nd swing axis (in radians)
      * @param twistSpan the desired span of the twist (local X) axis (in
      * radians)

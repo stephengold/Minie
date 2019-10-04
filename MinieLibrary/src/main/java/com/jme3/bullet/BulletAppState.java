@@ -654,8 +654,8 @@ public class BulletAppState
     }
 
     /**
-     * Initialize this state prior to its 1st update. Should be invoked only by
-     * a subclass or by the AppStateManager.
+     * Initialize this state prior to its first update. Should be invoked only
+     * by a subclass or by the AppStateManager.
      *
      * @param stateManager the manager for this state (not null)
      * @param app the application which owns this state (not null)

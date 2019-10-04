@@ -186,7 +186,7 @@ public class SliderJoint extends Constraint {
      * To be effective, the joint must be added to the body's PhysicsSpace and
      * the body must be dynamic.
      *
-     * @param rigidBodyA the 1st body to constrain (not null, alias created)
+     * @param rigidBodyA the first body to constrain (not null, alias created)
      * @param rigidBodyB the 2nd body to constrain (not null, alias created)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)

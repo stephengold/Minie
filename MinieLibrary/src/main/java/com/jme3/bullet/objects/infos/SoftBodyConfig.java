@@ -350,7 +350,7 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     /**
      * Alter the collision flags. Flag values are defined in {@link ConfigFlag}.
      *
-     * @param flag the 1st flag to set, or 0x0 to clear all flags
+     * @param flag the first flag to set, or 0x0 to clear all flags
      * @param additionalFlags ... additional flags to set. Flags are ORed
      * together.
      */

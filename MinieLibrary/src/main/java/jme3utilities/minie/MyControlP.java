@@ -240,7 +240,7 @@ public class MyControlP {
     }
 
     /**
-     * Access the 1st enabled RigidBodyControl added to a spatial.
+     * Access the first enabled RigidBodyControl added to a spatial.
      *
      * @param spatial spatial to search (not null, unaffected)
      * @return the pre-existing control, or null if none found
