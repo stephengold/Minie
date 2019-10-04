@@ -73,10 +73,9 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public SoftAngularJoint() {
+    protected SoftAngularJoint() {
     }
 
     /**

@@ -122,10 +122,9 @@ public class GhostControl
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public GhostControl() {
+    protected GhostControl() {
     }
 
     /**

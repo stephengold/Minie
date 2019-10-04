@@ -118,10 +118,9 @@ public class HingeJoint extends Constraint {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public HingeJoint() {
+    protected HingeJoint() {
     }
 
     /**

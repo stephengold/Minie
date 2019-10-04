@@ -77,10 +77,9 @@ public class SimplexCollisionShape extends CollisionShape {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public SimplexCollisionShape() {
+    protected SimplexCollisionShape() {
     }
 
     /**

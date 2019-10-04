@@ -90,10 +90,9 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public PhysicsGhostObject() {
+    protected PhysicsGhostObject() {
     }
 
     /**

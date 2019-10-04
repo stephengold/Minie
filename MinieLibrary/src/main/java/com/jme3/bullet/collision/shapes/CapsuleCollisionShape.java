@@ -85,10 +85,9 @@ public class CapsuleCollisionShape extends CollisionShape {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public CapsuleCollisionShape() {
+    protected CapsuleCollisionShape() {
     }
 
     /**

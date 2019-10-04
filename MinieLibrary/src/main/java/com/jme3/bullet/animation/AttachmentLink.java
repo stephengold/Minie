@@ -110,10 +110,9 @@ public class AttachmentLink extends PhysicsLink {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public AttachmentLink() {
+    protected AttachmentLink() {
     }
 
     /**

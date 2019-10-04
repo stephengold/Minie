@@ -128,10 +128,9 @@ public class IndexedMesh implements JmeCloneable, Savable {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public IndexedMesh() {
+    protected IndexedMesh() {
     }
 
     /**

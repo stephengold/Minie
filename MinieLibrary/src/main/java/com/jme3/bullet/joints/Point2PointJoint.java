@@ -71,10 +71,9 @@ public class Point2PointJoint extends Constraint {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public Point2PointJoint() {
+    protected Point2PointJoint() {
     }
 
     /**

@@ -74,10 +74,9 @@ public class BoxCollisionShape extends CollisionShape {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public BoxCollisionShape() {
+    protected BoxCollisionShape() {
     }
 
     /**

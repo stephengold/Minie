@@ -91,10 +91,9 @@ public class Anchor extends PhysicsJoint {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public Anchor() {
+    protected Anchor() {
     }
 
     /**

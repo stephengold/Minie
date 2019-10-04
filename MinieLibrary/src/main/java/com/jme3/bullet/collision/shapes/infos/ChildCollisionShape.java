@@ -88,10 +88,9 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public ChildCollisionShape() {
+    protected ChildCollisionShape() {
     }
 
     /**

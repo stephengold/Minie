@@ -130,10 +130,9 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public PhysicsCharacter() {
+    protected PhysicsCharacter() {
     }
 
     /**

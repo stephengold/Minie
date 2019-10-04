@@ -72,10 +72,9 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public SoftLinearJoint() {
+    protected SoftLinearJoint() {
     }
 
     /**

@@ -78,10 +78,9 @@ abstract public class IKController implements JmeCloneable, Savable {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public IKController() {
+    protected IKController() {
     }
 
     /**

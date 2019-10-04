@@ -108,10 +108,9 @@ public class ConeJoint extends Constraint {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public ConeJoint() {
+    protected ConeJoint() {
     }
 
     /**

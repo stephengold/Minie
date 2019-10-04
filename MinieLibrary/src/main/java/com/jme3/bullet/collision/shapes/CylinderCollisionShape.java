@@ -81,10 +81,9 @@ public class CylinderCollisionShape extends CollisionShape {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public CylinderCollisionShape() {
+    protected CylinderCollisionShape() {
     }
 
     /**

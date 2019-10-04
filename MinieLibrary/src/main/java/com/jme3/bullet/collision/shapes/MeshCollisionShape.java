@@ -86,10 +86,9 @@ public class MeshCollisionShape extends CollisionShape {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public MeshCollisionShape() {
+    protected MeshCollisionShape() {
     }
 
     /**

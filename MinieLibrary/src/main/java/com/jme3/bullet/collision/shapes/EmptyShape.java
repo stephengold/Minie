@@ -54,10 +54,9 @@ public class EmptyShape extends CollisionShape {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public EmptyShape() {
+    protected EmptyShape() {
     }
 
     /**

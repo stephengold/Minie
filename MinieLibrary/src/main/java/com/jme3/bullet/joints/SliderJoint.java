@@ -120,10 +120,9 @@ public class SliderJoint extends Constraint {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public SliderJoint() {
+    protected SliderJoint() {
     }
 
     /**

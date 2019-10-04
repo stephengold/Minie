@@ -162,10 +162,9 @@ public class BetterCharacterControl
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public BetterCharacterControl() {
+    protected BetterCharacterControl() {
     }
 
     /**

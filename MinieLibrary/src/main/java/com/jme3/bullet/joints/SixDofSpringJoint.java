@@ -73,10 +73,9 @@ public class SixDofSpringJoint extends SixDofJoint {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public SixDofSpringJoint() {
+    protected SixDofSpringJoint() {
     }
 
     /**

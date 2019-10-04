@@ -125,10 +125,9 @@ public class TorsoLink extends PhysicsLink {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public TorsoLink() {
+    protected TorsoLink() {
     }
 
     /**

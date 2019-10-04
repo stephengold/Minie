@@ -100,10 +100,9 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public MinieCharacterControl() {
+    protected MinieCharacterControl() {
     }
 
     /**

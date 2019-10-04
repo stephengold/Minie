@@ -110,8 +110,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
     protected SoftPhysicsJoint() {
     }
