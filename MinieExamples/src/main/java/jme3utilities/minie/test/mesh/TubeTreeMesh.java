@@ -432,9 +432,9 @@ public class TubeTreeMesh extends Mesh {
     /**
      * Write bone indices and weights for a vertex animated by 2 bones.
      *
-     * @param boneIndex1 the index of the 1st bone (&ge;0)
+     * @param boneIndex1 the index of the first bone (&ge;0)
      * @param boneIndex2 the index of the 2nd bone (&ge;0)
-     * @param weight1 the weight for the 1st bone
+     * @param weight1 the weight for the first bone
      */
     private void putAnimationForVertex(int boneIndex1, int boneIndex2,
             float weight1) {
@@ -485,7 +485,7 @@ public class TubeTreeMesh extends Mesh {
 
         int startBufferOffset = positionBuffer.position();
         /*
-         * Put a triangle for each sample point except the 1st and last.
+         * Put a triangle for each sample point except the first and last.
          */
         for (int triIndex = 1; triIndex < samplesPerLoop - 1; ++triIndex) {
             Vector3f pos1 = circleSamples[0];
@@ -528,7 +528,7 @@ public class TubeTreeMesh extends Mesh {
      * @param buffer the buffer to write to (not null, modified)
      * @param offset the translation to apply (not null, unaffected)
      * @param rotation the rotation to apply (not null, unaffected)
-     * @param v1 the 1st vertex vector to transform (not null, modified)
+     * @param v1 the first vertex vector to transform (not null, modified)
      * @param v2 the 2nd vertex vector to transform (not null, modified)
      * @param v3 the 3rd vertex vector to transform (not null, modified)
      */

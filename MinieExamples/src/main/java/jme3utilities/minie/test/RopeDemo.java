@@ -750,7 +750,7 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Find the index of the 1st vertex in the end cap of the indexed branch.
+     * Find the index of the first vertex in the end cap of the indexed branch.
      *
      * @param branchIndex which branch(&ge;0)
      * @return the vertex index (&ge;0)
@@ -852,7 +852,7 @@ public class RopeDemo extends ActionApplication {
      * @param skeleton the skeleton to pose (not null)
      * @param branchIndex (&ge;0)
      * @param axis (in each bone's local coordinates, not null, not zero)
-     * @param totalAngle the angle between the 1st and last steps (in radians,
+     * @param totalAngle the angle between the first and last steps (in radians,
      * may be negative)
      */
     private void curlBranch(Skeleton skeleton, int branchIndex, Vector3f axis,
