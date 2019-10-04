@@ -148,6 +148,24 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
+     * Apply the inverse of the specified Transform to each child shape.
+     *
+     * @param paTransform the Transform to un-apply, typically one calculated by
+     * {@link #principalAxes(java.nio.FloatBuffer, com.jme3.math.Transform, com.jme3.math.Vector3f)}
+     * (not null, unaffected, scale=1)
+     */
+    public void correctAxes(Transform paTransform) {
+        Transform invTransform = paTransform.clone().invert();
+
+        Transform tmpTransform = new Transform();
+        for (ChildCollisionShape child : children) {
+            child.copyTransform(tmpTransform);
+            tmpTransform.combineWithParent(invTransform);
+            setChildTransform(child.getShape(), tmpTransform);
+        }
+    }
+
+    /**
      * Count the child shapes.
      *
      * @return the count (&ge;0)
@@ -243,17 +261,19 @@ public class CompoundCollisionShape extends CollisionShape {
      * transform's scale is ignored.
      *
      * @param childShape the child's CollisionShape (not null, unaffected)
-     * @param transform the transform to apply (not null, unaffected)
+     * @param transform the desired Transform (not null, unaffected)
      */
     public void setChildTransform(CollisionShape childShape,
             Transform transform) {
         long childId = childShape.getObjectId();
         long parentId = getObjectId();
         Vector3f offset = transform.getTranslation();
+
         int childIndex = findIndex(childShape);
         assert childIndex >= 0 : childIndex;
-        Matrix3f rotation = transform.getRotation().toRotationMatrix();
+        assert childIndex < children.size();
 
+        Matrix3f rotation = transform.getRotation().toRotationMatrix();
         setChildTransform(parentId, childId, offset, rotation);
 
         ChildCollisionShape child = children.get(childIndex);
