@@ -51,13 +51,16 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
+import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -185,6 +188,10 @@ public class DropTest
      * name of shape for new gems
      */
     private String shapeName = "multiSphere";
+    /**
+     * local inverse inertial vector for new gems (or null)
+     */
+    private Vector3f gemInverseInertia = null;
     // *************************************************************************
     // new methods exposed
 
@@ -267,6 +274,8 @@ public class DropTest
         dim.bind("shape box", KeyInput.KEY_F3);
         dim.bind("shape cone", KeyInput.KEY_F4);
         dim.bind("shape cylinder", KeyInput.KEY_F6);
+        dim.bind("shape funnyHammer", KeyInput.KEY_F9);
+        dim.bind("shape hammer", KeyInput.KEY_F10);
         dim.bind("shape hull", KeyInput.KEY_F2);
         dim.bind("shape multiSphere", KeyInput.KEY_F1);
         dim.bind("shape tetrahedron", KeyInput.KEY_F7);
@@ -412,6 +421,7 @@ public class DropTest
             return; // too many gems
         }
 
+        gemInverseInertia = null;
         DebugMeshNormals debugMeshNormals;
         switch (shapeName) {
             case "box":
@@ -426,6 +436,16 @@ public class DropTest
 
             case "cylinder":
                 randomCylinder();
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
+            case "funnyHammer":
+                randomHammer(false);
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
+            case "hammer":
+                randomHammer(true);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -474,6 +494,9 @@ public class DropTest
         body.setFriction(friction);
         body.setPhysicsLocation(startLocation);
         body.setPhysicsRotation(startOrientation);
+        if (gemInverseInertia != null) {
+            body.setInverseInertiaLocal(gemInverseInertia);
+        }
 
         physicsSpace.add(body);
         gems.addLast(body);
@@ -702,6 +725,51 @@ public class DropTest
 
         Vector3f halfExtents = new Vector3f(baseRadius, baseRadius, halfHeight);
         gemShape = new CylinderCollisionShape(halfExtents);
+    }
+
+    /**
+     * Randomly generate a compound shape with 2 cylinders.
+     *
+     * @param correctAxes if true, correct the shape's principal axes
+     */
+    private void randomHammer(boolean correctAxes) {
+        float handleR = 0.1f;
+        float headR = handleR + 0.2f * random.nextFloat();
+        float headHalfLength = headR + 0.2f * random.nextFloat();
+        float handleHalfLength = headHalfLength + 0.5f * random.nextFloat();
+        gemRadius = MyMath.hypotenuse(headHalfLength,
+                2f * handleHalfLength + headR);
+
+        Vector3f hes = new Vector3f(headR, headR, headHalfLength);
+        CollisionShape head = new CylinderCollisionShape(hes);
+
+        hes.set(handleR, handleR, handleHalfLength);
+        CollisionShape handle = new CylinderCollisionShape(hes);
+
+        CompoundCollisionShape compound = new CompoundCollisionShape();
+        gemShape = compound;
+
+        Vector3f offset = new Vector3f(0f, 0f, handleHalfLength);
+        compound.addChildShape(handle, offset);
+
+        offset.set(0f, 0f, 2f * handleHalfLength);
+        Matrix3f rotation = new Matrix3f();
+        rotation.fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
+        compound.addChildShape(head, offset, rotation);
+
+        if (correctAxes) {
+            float handleMass = 0.15f;
+            float headMass = 1f - handleMass;
+            FloatBuffer masses
+                    = BufferUtils.createFloatBuffer(handleMass, headMass);
+
+            Vector3f inertia = new Vector3f();
+            Transform transform = compound.principalAxes(masses, null, inertia);
+            gemInverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
+            compound.correctAxes(transform);
+
+            gemRadius = 2f * handleHalfLength;
+        }
     }
 
     /**
