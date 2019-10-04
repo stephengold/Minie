@@ -145,10 +145,9 @@ public class TubeTreeMesh extends Mesh {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public TubeTreeMesh() {
+    protected TubeTreeMesh() {
     }
 
     /**

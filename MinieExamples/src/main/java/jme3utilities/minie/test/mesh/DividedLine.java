@@ -63,10 +63,9 @@ public class DividedLine extends Mesh {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public DividedLine() {
+    protected DividedLine() {
     }
 
     /**

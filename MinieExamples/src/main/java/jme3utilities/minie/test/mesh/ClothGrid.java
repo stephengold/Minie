@@ -78,10 +78,9 @@ public class ClothGrid extends Mesh {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
-    public ClothGrid() {
+    protected ClothGrid() {
     }
 
     /**
