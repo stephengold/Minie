@@ -41,6 +41,7 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
@@ -158,6 +159,24 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
         } else {
             return storeResult.set(rotation);
         }
+    }
+
+    /**
+     * Copy the Transform relative to the parent shape.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a Transform with scale=1 (either storeResult or a new instance,
+     * not null)
+     */
+    public Transform copyTransform(Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+
+        result.setTranslation(offset);
+        result.getRotation().fromRotationMatrix(rotation);
+        result.setScale(1f);
+
+        return result;
     }
 
     /**
