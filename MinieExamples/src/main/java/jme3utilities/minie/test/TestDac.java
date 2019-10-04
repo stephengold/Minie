@@ -127,7 +127,7 @@ public class TestDac extends ActionApplication {
      */
     final private static String saveAssetPath = "TestDac.j3o";
     /**
-     * 1st asset path for saving XML
+     * first asset path for saving XML
      */
     final private static String saveAssetPath1 = "TestDac_1.xml";
     /**
@@ -524,6 +524,7 @@ public class TestDac extends ActionApplication {
             rotate.mult(orientation, orientation);
             MySpatial.setWorldOrientation(cgModel, orientation);
         }
+
         updateStatusText();
     }
     // *************************************************************************

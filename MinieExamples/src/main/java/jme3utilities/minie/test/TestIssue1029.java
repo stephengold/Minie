@@ -67,7 +67,7 @@ public class TestIssue1029
     // new methods exposed
 
     /**
-     * Main entry point for the application.
+     * Main entry point for the TestIssue1029 application.
      *
      * @param ignored array of command-line arguments (not null)
      */

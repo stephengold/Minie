@@ -738,6 +738,7 @@ public class TestSoftBody
      */
     private void configureDumper() {
         dumper.setEnabled(DumpFlags.MatParams, true);
+        //dumper.setEnabled(DumpFlags.NodesInSofts, true);
         dumper.setEnabled(DumpFlags.ShadowModes, true);
         dumper.setEnabled(DumpFlags.Transforms, true);
     }
