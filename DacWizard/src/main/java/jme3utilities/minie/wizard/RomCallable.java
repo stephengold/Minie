@@ -26,6 +26,11 @@
  */
 package jme3utilities.minie.wizard;
 
+import com.jme3.anim.AnimClip;
+import com.jme3.anim.AnimComposer;
+import com.jme3.anim.Armature;
+import com.jme3.anim.Joint;
+import com.jme3.anim.SkinningControl;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.Animation;
 import com.jme3.animation.Bone;
@@ -45,6 +50,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -152,26 +158,45 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
          * stay in kinematic mode, its masses and ranges of motion
          * don't matter.
          */
-        SkeletonControl skeletonControl
-                = RagUtils.findSkeletonControl(tempModelRoot);
-        Skeleton skeleton = skeletonControl.getSkeleton();
-        tempDac = new DynamicAnimControl() {
-            @Override
-            public void update(float tpf) {
-                applyRandomPose();
-                super.update(tpf);
-            }
-        };
         float mass = 1f;
         RangeOfMotion stiffRom = new RangeOfMotion();
-        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
-            if (model.isBoneLinked(boneIndex)) {
-                Bone bone = skeleton.getBone(boneIndex);
-                String boneName = bone.getName();
-                tempDac.link(boneName, mass, stiffRom);
+        AbstractControl sControl
+                = RagUtils.findSControl(tempModelRoot);
+        if (sControl instanceof SkinningControl) {
+            Armature armature = ((SkinningControl) sControl).getArmature();
+            tempDac = new DynamicAnimControl() {
+                @Override
+                public void update(float tpf) {
+                    applyRandomPose();
+                    super.update(tpf);
+                }
+            };
+            for (int jointIndex = 0; jointIndex < numBones; ++jointIndex) {
+                if (model.isBoneLinked(jointIndex)) {
+                    Joint joint = armature.getJoint(jointIndex);
+                    String boneName = joint.getName();
+                    tempDac.link(boneName, mass, stiffRom);
+                }
+            }
+
+        } else {
+            Skeleton skeleton = ((SkeletonControl) sControl).getSkeleton();
+            tempDac = new DynamicAnimControl() {
+                @Override
+                public void update(float tpf) {
+                    applyRandomPose();
+                    super.update(tpf);
+                }
+            };
+            for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+                if (model.isBoneLinked(boneIndex)) {
+                    Bone bone = skeleton.getBone(boneIndex);
+                    String boneName = bone.getName();
+                    tempDac.link(boneName, mass, stiffRom);
+                }
             }
         }
-        Spatial controlledSpatial = skeletonControl.getSpatial();
+        Spatial controlledSpatial = sControl.getSpatial();
         controlledSpatial.addControl(tempDac);
         /*
          * Disable contact response for all rigid bodies in the ragdoll.
@@ -288,39 +313,67 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
     // private methods
 
     /**
-     * Apply a pseudo-random pose to the skeleton of the temporary C-G model.
+     * Apply a pseudo-random Pose to the Armature or Skeleton of the temporary
+     * C-G model.
      */
+    @SuppressWarnings("unchecked")
     private void applyRandomPose() {
         /*
-         * Choose an AnimControl.
+         * Choose an AnimComposer or AnimControl.
          */
-        List<AnimControl> animControls = MySpatial.listControls(tempModelRoot,
-                AnimControl.class, null);
-        AnimControl animControl = (AnimControl) generator.pick(animControls);
-        if (animControl == null) {
-            return;
-        }
-        /*
-         * Choose an Animation.
-         */
-        Collection<String> nameCollection = animControl.getAnimationNames();
-        int numAnimations = nameCollection.size();
-        String[] nameArray = new String[numAnimations];
-        nameCollection.toArray(nameArray);
-        String animationName = (String) generator.pick(nameArray);
-        if (animationName == null) {
-            return;
-        }
-        Animation animation = animControl.getAnim(animationName);
-        /*
-         * Choose an animation time.
-         */
-        float duration = animation.getLength();
-        float animationTime = duration * generator.nextFloat();
+        List controls = MySpatial.listControls(tempModelRoot, AnimControl.class,
+                null);
+        MySpatial.listControls(tempModelRoot, AnimComposer.class, controls);
+        AbstractControl control = (AbstractControl) generator.pick(controls);
 
-        Skeleton skeleton = tempDac.getSkeleton();
-        Pose pose = new Pose(skeleton);
-        pose.setToAnimation(animation, animationTime, techniques);
-        pose.apply(skeleton);
+        if (control instanceof AnimControl) {
+            AnimControl animControl = (AnimControl) control;
+            /*
+             * Choose an Animation.
+             */
+            Collection<String> nameCollection = animControl.getAnimationNames();
+            int numAnimations = nameCollection.size();
+            String[] nameArray = new String[numAnimations];
+            nameCollection.toArray(nameArray);
+            String animationName = (String) generator.pick(nameArray);
+            if (animationName == null) {
+                return;
+            }
+            Animation animation = animControl.getAnim(animationName);
+            /*
+             * Choose an animation time.
+             */
+            float duration = animation.getLength();
+            float animationTime = duration * generator.nextFloat();
+
+            Skeleton skeleton = tempDac.getSkeleton();
+            Pose pose = new Pose(skeleton);
+            pose.setToAnimation(animation, animationTime, techniques);
+            pose.applyTo(skeleton);
+
+        } else if (control instanceof AnimComposer) {
+            AnimComposer composer = (AnimComposer) control;
+            /*
+             * Choose an AnimClip.
+             */
+            Collection<AnimClip> clips = composer.getAnimClips();
+            int numClips = clips.size();
+            AnimClip[] clipArray = new AnimClip[numClips];
+            clips.toArray(clipArray);
+            AnimClip clip = (AnimClip) generator.pick(clipArray);
+            if (clip == null) {
+                return;
+            }
+            /*
+             * Choose an animation time.
+             */
+            double duration = clip.getLength();
+            double animationTime = duration * generator.nextDouble();
+
+            Armature armature = tempDac.getArmature();
+            Pose pose = new Pose(armature);
+            pose.setToClip(clip, animationTime);
+            pose.applyTo(armature);
+        }
     }
 }
