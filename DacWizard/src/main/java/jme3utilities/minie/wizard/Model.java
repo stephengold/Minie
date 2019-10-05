@@ -52,6 +52,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.InfluenceUtil;
 import jme3utilities.Misc;
 import jme3utilities.MyAnimation;
 import jme3utilities.MySpatial;
@@ -77,11 +78,11 @@ class Model {
     // fields
 
     /**
-     * bones that influence the mesh in any way
+     * bones that influence the Mesh in any way
      */
     private BitSet anyInfluenceBones;
     /**
-     * bones that directly influence the mesh
+     * bones that directly influence the Mesh
      */
     private BitSet directInfluenceBones;
     /**
@@ -89,11 +90,11 @@ class Model {
      */
     private BitSet linkedBones;
     /**
-     * physics control that will be added to the C-G model
+     * PhysicsControl that will be added to the C-G model
      */
     private DynamicAnimControl ragdoll;
     /**
-     * exception that occurred during load
+     * Exception that occurred during load
      */
     private Exception loadException;
     /**
@@ -105,7 +106,7 @@ class Model {
      */
     private int numComponentsInRoot;
     /**
-     * map manager name to a set of vertices
+     * map manager names to sets of vertices
      */
     private Map<String, VectorSet> coordsMap;
     /**
@@ -203,7 +204,7 @@ class Model {
     /**
      * Copy the configured DynamicAnimControl.
      *
-     * @return a new control, or null if no model loaded
+     * @return a new Control, or null if no model loaded
      */
     DynamicAnimControl copyRagdoll() {
         DynamicAnimControl clone = (DynamicAnimControl) Misc.deepCopy(ragdoll);
@@ -264,6 +265,7 @@ class Model {
      */
     int countSkeletonControls() {
         int count = MySpatial.countControls(rootSpatial, SkeletonControl.class);
+
         assert count >= 0 : count;
         return count;
     }
@@ -450,13 +452,15 @@ class Model {
         Skeleton skeleton = findSkeleton();
         if (skeleton != null) {
             anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
-                    skeleton, null);
-            directInfluenceBones
-                    = InfluenceUtil.addDirectInfluencers(rootSpatial, null);
-            int numBones = skeleton.getBoneCount();
-            BitSet set = new BitSet(numBones);
-            setLinkedBones(set);
+                    skeleton);
         }
+
+        int numBones = countBones();
+        directInfluenceBones = new BitSet(numBones);
+        InfluenceUtil.addDirectInfluencers(rootSpatial, directInfluenceBones);
+
+        BitSet set = new BitSet(numBones);
+        setLinkedBones(set);
     }
 
     /**
@@ -655,11 +659,12 @@ class Model {
 
         if (!linkedBones.equals(this.linkedBones)) {
             this.linkedBones = linkedBones;
+            int numBones = countBones();
+            String[] managerMap = new String[numBones];
 
             Skeleton skeleton = findSkeleton();
-            int numBones = skeleton.getBoneCount();
 
-            String[] managerMap = new String[numBones];
+
             for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
                 Bone bone = skeleton.getBone(boneIndex);
                 managerMap[boneIndex] = findManager(bone, skeleton);
@@ -712,10 +717,10 @@ class Model {
     // private methods
 
     /**
-     * Find the manager of the specified bone.
+     * Find the manager of the specified Bone.
      *
-     * @param startBone which bone to analyze (not null, unaffected)
-     * @param skeleton the skeleton containing the bone
+     * @param startBone which Bone to analyze (not null, unaffected)
+     * @param skeleton the Skeleton containing the Bone
      * @return a bone/torso name (not null)
      */
     private String findManager(Bone startBone, Skeleton skeleton) {
@@ -741,7 +746,7 @@ class Model {
     }
 
     /**
-     * Access the model's skeleton, assuming it doesn't have more than one
+     * Access the model's Skeleton, assuming it doesn't have more than one
      * SkeletonControl. A C-G model must be loaded.
      *
      * @return the pre-existing instance, or null if none or multiple
