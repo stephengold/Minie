@@ -68,6 +68,7 @@ import com.jme3.water.SimpleWaterProcessor;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.InfluenceUtil;
 import jme3utilities.Misc;
 import jme3utilities.MySpatial;
 import jme3utilities.debug.SkeletonVisualizer;
