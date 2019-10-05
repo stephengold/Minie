@@ -26,6 +26,11 @@
  */
 package jme3utilities.minie.wizard;
 
+import com.jme3.anim.AnimClip;
+import com.jme3.anim.AnimComposer;
+import com.jme3.anim.Armature;
+import com.jme3.anim.Joint;
+import com.jme3.anim.SkinningControl;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.Animation;
 import com.jme3.animation.Bone;
@@ -52,6 +57,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.InfluenceUtil;
 import jme3utilities.Misc;
 import jme3utilities.MyAnimation;
 import jme3utilities.MySpatial;
@@ -182,9 +188,17 @@ class Model {
             throw new RuntimeException("No model loaded.");
         }
 
+        String result;
         Skeleton skeleton = findSkeleton();
-        Bone bone = skeleton.getBone(boneIndex);
-        String result = bone.getName();
+        if (skeleton == null) {
+            Armature armature = findArmature();
+            Joint joint = armature.getJoint(boneIndex);
+            result = joint.getName();
+
+        } else {
+            Bone bone = skeleton.getBone(boneIndex);
+            result = bone.getName();
+        }
 
         return result;
     }
@@ -224,6 +238,11 @@ class Model {
         Skeleton skeleton = findSkeleton();
         if (skeleton != null) {
             count = skeleton.getBoneCount();
+        } else {
+            Armature armature = findArmature();
+            if (armature != null) {
+                count = armature.getJointCount();
+            }
         }
 
         assert count >= 0 : count;
@@ -243,13 +262,27 @@ class Model {
         }
 
         int count = 0;
+
         Skeleton skeleton = findSkeleton();
-        int numBones = skeleton.getBoneCount();
-        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
-            Bone bone = skeleton.getBone(boneIndex);
-            String name = findManager(bone, skeleton);
-            if (managerName.equals(name)) {
-                ++count;
+        if (skeleton == null) {
+            Armature armature = findArmature();
+            int numJoints = armature.getJointCount();
+            for (int boneIndex = 0; boneIndex < numJoints; ++boneIndex) {
+                Joint joint = armature.getJoint(boneIndex);
+                String name = findManager(joint, armature);
+                if (managerName.equals(name)) {
+                    ++count;
+                }
+            }
+
+        } else {
+            int numBones = skeleton.getBoneCount();
+            for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+                Bone bone = skeleton.getBone(boneIndex);
+                String name = findManager(bone, skeleton);
+                if (managerName.equals(name)) {
+                    ++count;
+                }
             }
         }
 
@@ -264,6 +297,8 @@ class Model {
      */
     int countSkeletonControls() {
         int count = MySpatial.countControls(rootSpatial, SkeletonControl.class);
+        count += MySpatial.countControls(rootSpatial, SkinningControl.class);
+
         assert count >= 0 : count;
         return count;
     }
@@ -281,6 +316,18 @@ class Model {
         }
 
         int count = 0;
+
+        List<AnimComposer> composers
+                = MySpatial.listControls(rootSpatial, AnimComposer.class, null);
+        for (AnimComposer composer : composers) {
+            Collection<String> clipNames = composer.getAnimClipsNames();
+            for (String clipName : clipNames) {
+                AnimClip clip = composer.getAnimClip(clipName);
+                if (MyAnimation.findTransformTrack(clip, boneIndex) != null) {
+                    ++count;
+                }
+            }
+        }
 
         List<AnimControl> animControls
                 = MySpatial.listControls(rootSpatial, AnimControl.class, null);
@@ -379,15 +426,26 @@ class Model {
             throw new RuntimeException("No model loaded.");
         }
 
-        Skeleton skeleton = findSkeleton();
-        Bone child = skeleton.getBone(childName);
-        Bone parent = child.getParent();
-
         String name;
-        if (parent == null) { // the named bone was a root bone
-            name = DacConfiguration.torsoName;
+        Skeleton skeleton = findSkeleton();
+        if (skeleton == null) {
+            Armature armature = findArmature();
+            Joint child = armature.getJoint(childName);
+            Joint parent = child.getParent();
+            if (parent == null) { // the named Joint was a root joint
+                name = DacConfiguration.torsoName;
+            } else {
+                name = findManager(parent, armature);
+            }
+
         } else {
-            name = findManager(parent, skeleton);
+            Bone child = skeleton.getBone(childName);
+            Bone parent = child.getParent();
+            if (parent == null) { // the named Bone was a root bone
+                name = DacConfiguration.torsoName;
+            } else {
+                name = findManager(parent, skeleton);
+            }
         }
 
         return name;
@@ -448,15 +506,22 @@ class Model {
         Locators.restore();
 
         Skeleton skeleton = findSkeleton();
-        if (skeleton != null) {
+        if (skeleton == null) {
+            Armature armature = findArmature();
             anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
-                    skeleton, null);
-            directInfluenceBones
-                    = InfluenceUtil.addDirectInfluencers(rootSpatial, null);
-            int numBones = skeleton.getBoneCount();
-            BitSet set = new BitSet(numBones);
-            setLinkedBones(set);
+                    armature);
+            armature.applyBindPose();
+        } else {
+            anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
+                    skeleton);
         }
+
+        int numBones = countBones();
+        directInfluenceBones = new BitSet(numBones);
+        InfluenceUtil.addDirectInfluencers(rootSpatial, directInfluenceBones);
+
+        BitSet set = new BitSet(numBones);
+        setLinkedBones(set);
     }
 
     /**
@@ -502,15 +567,28 @@ class Model {
             throw new RuntimeException("No model loaded.");
         }
 
-        Skeleton skeleton = findSkeleton();
-        Bone bone = skeleton.getBone(boneIndex);
-        Bone parent = bone.getParent();
-
         int result;
-        if (parent == null) {
-            result = -1;
+        Skeleton skeleton = findSkeleton();
+        if (skeleton == null) {
+            Armature armature = findArmature();
+            Joint joint = armature.getJoint(boneIndex);
+            Joint parent = joint.getParent();
+
+            if (parent == null) {
+                result = -1;
+            } else {
+                result = armature.getJointIndex(parent);
+            }
+
         } else {
-            result = skeleton.getBoneIndex(parent);
+            Bone bone = skeleton.getBone(boneIndex);
+            Bone parent = bone.getParent();
+
+            if (parent == null) {
+                result = -1;
+            } else {
+                result = skeleton.getBoneIndex(parent);
+            }
         }
 
         return result;
@@ -655,14 +733,22 @@ class Model {
 
         if (!linkedBones.equals(this.linkedBones)) {
             this.linkedBones = linkedBones;
+            int numBones = countBones();
+            String[] managerMap = new String[numBones];
 
             Skeleton skeleton = findSkeleton();
-            int numBones = skeleton.getBoneCount();
+            if (skeleton == null) {
+                Armature armature = findArmature();
+                for (int jointIndex = 0; jointIndex < numBones; ++jointIndex) {
+                    Joint joint = armature.getJoint(jointIndex);
+                    managerMap[jointIndex] = findManager(joint, armature);
+                }
 
-            String[] managerMap = new String[numBones];
-            for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
-                Bone bone = skeleton.getBone(boneIndex);
-                managerMap[boneIndex] = findManager(bone, skeleton);
+            } else {
+                for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+                    Bone bone = skeleton.getBone(boneIndex);
+                    managerMap[boneIndex] = findManager(bone, skeleton);
+                }
             }
 
             List<Mesh> targetList
@@ -712,6 +798,29 @@ class Model {
     // private methods
 
     /**
+     * Access the model's Armature, assuming it doesn't have more than one
+     * SkinningControl. A C-G model must be loaded.
+     *
+     * @return the pre-existing instance, or null if none or multiple
+     */
+    private Armature findArmature() {
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
+
+        List<SkinningControl> skinners = MySpatial.listControls(rootSpatial,
+                SkinningControl.class, null);
+
+        Armature result = null;
+        if (skinners.size() == 1) {
+            SkinningControl control = skinners.get(0);
+            result = control.getArmature();
+        }
+
+        return result;
+    }
+
+    /**
      * Find the manager of the specified bone.
      *
      * @param startBone which bone to analyze (not null, unaffected)
@@ -731,6 +840,35 @@ class Model {
             }
             bone = bone.getParent();
             if (bone == null) {
+                managerName = DacConfiguration.torsoName;
+                break;
+            }
+        }
+
+        assert managerName != null;
+        return managerName;
+    }
+
+    /**
+     * Find the manager of the specified Joint.
+     *
+     * @param startJoint which Joint to analyze (not null, unaffected)
+     * @param skeleton the Armature containing the Joint
+     * @return a bone/torso name (not null)
+     */
+    private String findManager(Joint startJoint, Armature skeleton) {
+        assert startJoint != null;
+
+        String managerName;
+        Joint joint = startJoint;
+        while (true) {
+            int jointIndex = skeleton.getJointIndex(joint);
+            if (linkedBones.get(jointIndex)) {
+                managerName = joint.getName();
+                break;
+            }
+            joint = joint.getParent();
+            if (joint == null) {
                 managerName = DacConfiguration.torsoName;
                 break;
             }
