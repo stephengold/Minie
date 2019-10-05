@@ -83,11 +83,11 @@ class Model {
     // fields
 
     /**
-     * bones that influence the mesh in any way
+     * bones that influence the Mesh in any way
      */
     private BitSet anyInfluenceBones;
     /**
-     * bones that directly influence the mesh
+     * bones that directly influence the Mesh
      */
     private BitSet directInfluenceBones;
     /**
@@ -95,11 +95,11 @@ class Model {
      */
     private BitSet linkedBones;
     /**
-     * physics control that will be added to the C-G model
+     * PhysicsControl that will be added to the C-G model
      */
     private DynamicAnimControl ragdoll;
     /**
-     * exception that occurred during load
+     * Exception that occurred during load
      */
     private Exception loadException;
     /**
@@ -111,7 +111,7 @@ class Model {
      */
     private int numComponentsInRoot;
     /**
-     * map manager name to a set of vertices
+     * map manager names to a sets of vertices
      */
     private Map<String, VectorSet> coordsMap;
     /**
@@ -217,7 +217,7 @@ class Model {
     /**
      * Copy the configured DynamicAnimControl.
      *
-     * @return a new control, or null if no model loaded
+     * @return a new Control, or null if no model loaded
      */
     DynamicAnimControl copyRagdoll() {
         DynamicAnimControl clone = (DynamicAnimControl) Misc.deepCopy(ragdoll);
@@ -821,10 +821,10 @@ class Model {
     }
 
     /**
-     * Find the manager of the specified bone.
+     * Find the manager of the specified Bone.
      *
-     * @param startBone which bone to analyze (not null, unaffected)
-     * @param skeleton the skeleton containing the bone
+     * @param startBone which Bone to analyze (not null, unaffected)
+     * @param skeleton the Skeleton containing the Bone
      * @return a bone/torso name (not null)
      */
     private String findManager(Bone startBone, Skeleton skeleton) {
@@ -879,7 +879,7 @@ class Model {
     }
 
     /**
-     * Access the model's skeleton, assuming it doesn't have more than one
+     * Access the model's Skeleton, assuming it doesn't have more than one
      * SkeletonControl. A C-G model must be loaded.
      *
      * @return the pre-existing instance, or null if none or multiple
