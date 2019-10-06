@@ -449,18 +449,13 @@ class Model {
         }
         Locators.restore();
 
-        Skeleton skeleton = findSkeleton();
-        if (skeleton != null) {
-            anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
-                    skeleton);
+        if (rootSpatial != null) {
+            recalculateInfluence();
+
+            int numBones = countBones();
+            BitSet set = new BitSet(numBones);
+            setLinkedBones(set);
         }
-
-        int numBones = countBones();
-        directInfluenceBones = new BitSet(numBones);
-        InfluenceUtil.addDirectInfluencers(rootSpatial, directInfluenceBones);
-
-        BitSet set = new BitSet(numBones);
-        setLinkedBones(set);
     }
 
     /**
@@ -763,5 +758,21 @@ class Model {
         }
 
         return result;
+    }
+
+    /**
+     * Recalculate the influence of each bone.
+     */
+    private void recalculateInfluence() {
+        Skeleton skeleton = findSkeleton();
+        if (skeleton != null) {
+            anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
+                    skeleton);
+        }
+
+        int numBones = countBones();
+        directInfluenceBones = new BitSet(numBones);
+        InfluenceUtil.addDirectInfluencers(rootSpatial,
+                directInfluenceBones);
     }
 }
