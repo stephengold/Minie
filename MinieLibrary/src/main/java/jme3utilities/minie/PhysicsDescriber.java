@@ -58,6 +58,7 @@ import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.objects.VehicleWheel;
 import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
@@ -443,6 +444,49 @@ public class PhysicsDescriber extends Describer {
         } else {
             result.append(" DISABLED");
         }
+
+        return result.toString();
+    }
+
+    /**
+     * Describe the specified VehicleWheel.
+     *
+     * @param wheel the wheel to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describe(VehicleWheel wheel) {
+        StringBuilder result = new StringBuilder(80);
+
+        boolean isFront = wheel.isFrontWheel();
+        if (isFront) {
+            result.append("frnt");
+        } else {
+            result.append("rear");
+        }
+
+        result.append(" r=");
+        float r = wheel.getRadius();
+        result.append(MyString.describe(r));
+
+        result.append(" loc[");
+        Vector3f loc = wheel.getLocation(null);
+        result.append(MyVector3f.describe(loc));
+
+        result.append("] axleDir[");
+        Vector3f axleDir = wheel.getAxle(null);
+        result.append(MyVector3f.describe(axleDir));
+
+        result.append("] suspDown[");
+        Vector3f suspDown = wheel.getDirection(null);
+        result.append(MyVector3f.describe(suspDown));
+
+        result.append("] fSlip=");
+        float fSlip = wheel.getFrictionSlip();
+        result.append(MyString.describe(fSlip));
+
+        result.append(" roll=");
+        float roll = wheel.getRollInfluence();
+        result.append(MyString.describe(roll));
 
         return result.toString();
     }
