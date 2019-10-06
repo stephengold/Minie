@@ -139,7 +139,7 @@ class TestScreen extends GuiScreenController {
 
     /**
      * Update this ScreenController prior to rendering. (Invoked once per
-     * frame.) TODO divide up this method
+     * frame.)
      *
      * @param tpf time interval between frames (in seconds, &ge;0)
      */
@@ -147,7 +147,79 @@ class TestScreen extends GuiScreenController {
     public void update(float tpf) {
         super.update(tpf);
 
+        updateRagdollButton();
+        updateViewButtons();
+
         Model model = DacWizard.getModel();
+        Spatial nextSpatial = model.getRootSpatial();
+        if (nextSpatial != viewedSpatial) {
+            removeGroundPlane();
+            DacWizard wizard = DacWizard.getApplication();
+            wizard.clearScene();
+            viewedSpatial = nextSpatial;
+            if (nextSpatial != null) {
+                Spatial cgModel = (Spatial) Misc.deepCopy(nextSpatial);
+                wizard.makeScene(cgModel);
+
+                AbstractControl control = RagUtils.findSControl(cgModel);
+                Spatial controlledSpatial = control.getSpatial();
+
+                DynamicAnimControl dac = model.copyRagdoll();
+                controlledSpatial.addControl(dac);
+                BulletAppState bulletAppState
+                        = DacWizard.findAppState(BulletAppState.class);
+                PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
+                physicsSpace.add(dac);
+
+                if (groundPlane == null) {
+                    Plane plane = new Plane(Vector3f.UNIT_Y, 0f); // X-Z plane
+                    PlaneCollisionShape shape = new PlaneCollisionShape(plane);
+                    float mass = PhysicsRigidBody.massForStatic;
+                    groundPlane = new PhysicsRigidBody(shape, mass);
+                    physicsSpace.add(groundPlane);
+                }
+            }
+        }
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Remove the ground plane from the physics space.
+     */
+    private void removeGroundPlane() {
+        if (groundPlane != null) {
+            BulletAppState bulletAppState
+                    = DacWizard.findAppState(BulletAppState.class);
+            PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
+            physicsSpace.remove(groundPlane);
+            groundPlane = null;
+        }
+    }
+
+    /**
+     * Update the "Go limp" button.
+     */
+    private void updateRagdollButton() {
+        DacWizard wizard = DacWizard.getApplication();
+        DynamicAnimControl dac = wizard.findDac();
+
+        String ragdollButton = "";
+        if (dac != null && dac.isReady()) {
+            TorsoLink torso = dac.getTorsoLink();
+            if (torso.isKinematic()) {
+                ragdollButton = "Go limp";
+            } else {
+                ragdollButton = "Reset skeleton";
+            }
+        }
+        setButtonText("ragdoll", ragdollButton);
+    }
+
+    /**
+     * Update the buttons that toggle view elements.
+     */
+    private void updateViewButtons() {
         BulletAppState bulletAppState
                 = DacWizard.findAppState(BulletAppState.class);
 
@@ -167,61 +239,5 @@ class TestScreen extends GuiScreenController {
             meshButton = "Hide meshes";
         }
         setButtonText("mesh", meshButton);
-
-        DacWizard wizard = DacWizard.getApplication();
-        DynamicAnimControl dac = wizard.findDac();
-        Spatial nextSpatial = model.getRootSpatial();
-        if (nextSpatial != viewedSpatial) {
-            removeGroundPlane();
-            wizard.clearScene();
-            dac = null;
-            viewedSpatial = nextSpatial;
-            if (nextSpatial != null) {
-                Spatial cgModel = (Spatial) Misc.deepCopy(nextSpatial);
-                wizard.makeScene(cgModel);
-
-                AbstractControl control = RagUtils.findSControl(cgModel);
-                Spatial controlledSpatial = control.getSpatial();
-
-                dac = model.copyRagdoll();
-                controlledSpatial.addControl(dac);
-                PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
-                physicsSpace.add(dac);
-
-                if (groundPlane == null) {
-                    Plane plane = new Plane(Vector3f.UNIT_Y, 0f); // X-Z plane
-                    PlaneCollisionShape shape = new PlaneCollisionShape(plane);
-                    float mass = PhysicsRigidBody.massForStatic;
-                    groundPlane = new PhysicsRigidBody(shape, mass);
-                    physicsSpace.add(groundPlane);
-                }
-            }
-        }
-
-        String ragdollButton = "";
-        if (dac != null && dac.isReady()) {
-            TorsoLink torso = dac.getTorsoLink();
-            if (torso.isKinematic()) {
-                ragdollButton = "Go limp";
-            } else {
-                ragdollButton = "Reset skeleton";
-            }
-        }
-        setButtonText("ragdoll", ragdollButton);
-    }
-    // *************************************************************************
-    // private methods
-
-    /**
-     * Remove the ground plane from the physics space.
-     */
-    private void removeGroundPlane() {
-        if (groundPlane != null) {
-            BulletAppState bulletAppState
-                    = DacWizard.findAppState(BulletAppState.class);
-            PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
-            physicsSpace.remove(groundPlane);
-            groundPlane = null;
-        }
     }
 }
