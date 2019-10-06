@@ -110,7 +110,7 @@ class LoadScreen extends GuiScreenController {
 
     /**
      * Update this ScreenController prior to rendering. (Invoked once per
-     * frame.) TODO divide up this method
+     * frame.)
      *
      * @param tpf time interval between frames (in seconds, &ge;0)
      */
@@ -118,13 +118,35 @@ class LoadScreen extends GuiScreenController {
     public void update(float tpf) {
         super.update(tpf);
 
-        Model model = DacWizard.getModel();
-        String loadException = model.loadExceptionString();
-        Spatial nextSpatial = model.getRootSpatial();
-        int numSkeletonControls = model.countSkeletonControls();
+        updateFeedback();
+        updatePath();
 
-        String loadButton = "";
+        Model model = DacWizard.getModel();
+        Spatial nextSpatial = model.getRootSpatial();
+        if (nextSpatial != viewedSpatial) {
+            DacWizard wizard = DacWizard.getApplication();
+            wizard.clearScene();
+            viewedSpatial = nextSpatial;
+            if (nextSpatial != null) {
+                Spatial cgModel = (Spatial) Misc.deepCopy(nextSpatial);
+                wizard.makeScene(cgModel);
+            }
+        }
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Update the feedback line and the load/next buttons.
+     */
+    private void updateFeedback() {
+        Model model = DacWizard.getModel();
+        int numSkeletonControls = model.countSkeletonControls();
+        Spatial nextSpatial = model.getRootSpatial();
+        String loadException = model.loadExceptionString();
+
         String feedback = "";
+        String loadButton = "";
         if (!loadException.isEmpty()) {
             feedback = loadException;
         } else if (nextSpatial == null) {
@@ -138,6 +160,21 @@ class LoadScreen extends GuiScreenController {
         } else if (model.countBones() < 1) {
             feedback = "The model's skeleton lacks bones.";
         }
+
+        setStatusText("feedback", feedback);
+        setButtonText("load", loadButton);
+        if (feedback.isEmpty()) {
+            nextElement.show();
+        } else {
+            nextElement.hide();
+        }
+    }
+
+    /**
+     * Update the path status and "+" buttons.
+     */
+    private void updatePath() {
+        Model model = DacWizard.getModel();
 
         String assetPath = model.assetPath();
         String assetRoot = model.assetRoot();
@@ -153,27 +190,10 @@ class LoadScreen extends GuiScreenController {
             morePathButton = "+";
         }
 
-        setButtonText("load", loadButton);
         setButtonText("morePath", morePathButton);
         setButtonText("moreRoot", moreRootButton);
 
         setStatusText("assetPath", " " + assetPath);
         setStatusText("assetRoot", " " + assetRoot);
-        setStatusText("feedback", feedback);
-        if (feedback.isEmpty()) {
-            nextElement.show();
-        } else {
-            nextElement.hide();
-        }
-
-        if (nextSpatial != viewedSpatial) {
-            DacWizard wizard = DacWizard.getApplication();
-            wizard.clearScene();
-            viewedSpatial = nextSpatial;
-            if (nextSpatial != null) {
-                Spatial cgModel = (Spatial) Misc.deepCopy(nextSpatial);
-                wizard.makeScene(cgModel);
-            }
-        }
     }
 }
