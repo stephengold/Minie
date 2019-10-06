@@ -3,6 +3,7 @@
 *.so
 /.gradle/
 /.nb-gradle/
+/build/
 /DacWizard/build/
 /DacWizard/private/
 /DacWizard/Written Assets/

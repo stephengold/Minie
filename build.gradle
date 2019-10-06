@@ -11,8 +11,8 @@ task mergedJavadoc(type: Javadoc, description: 'Creates Javadoc from all the pro
     destinationDir = new File(project.buildDir, 'merged-javadoc')
 
     // Note: The closures below are executed lazily.
-    source {
-       subprojects*.sourceSets*.main*.allSource
+    source subprojects.collect {project ->
+        project.sourceSets*.allJava
     }
     classpath.from {
         subprojects*.configurations*.compile*.copyRecursive({ !(it instanceof ProjectDependency); })*.resolve()
