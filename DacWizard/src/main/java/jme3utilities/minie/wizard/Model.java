@@ -508,9 +508,11 @@ class Model {
         Skeleton skeleton = findSkeleton();
         if (skeleton == null) {
             Armature armature = findArmature();
-            anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
-                    armature);
-            armature.applyBindPose();
+            if (armature != null) {
+                anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
+                        armature);
+                armature.applyBindPose();
+            }
         } else {
             anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
                     skeleton);
