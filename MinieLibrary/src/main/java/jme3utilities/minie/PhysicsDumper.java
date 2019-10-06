@@ -53,6 +53,7 @@ import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
+import com.jme3.bullet.objects.VehicleWheel;
 import com.jme3.bullet.objects.infos.Cluster;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.math.Quaternion;
@@ -302,8 +303,12 @@ public class PhysicsDumper extends Dumper {
         stream.print(" with");
         if (body instanceof PhysicsVehicle) {
             int numWheels = ((PhysicsVehicle) body).getNumWheels();
-            stream.printf(" %d wheel%s and", numWheels,
+            stream.printf(" %d wheel%s", numWheels,
                     (numWheels == 1) ? "" : "s");
+            if (numWheels > 0) {
+                dumpWheels((PhysicsVehicle) body, indent, numWheels);
+            }
+            stream.printf(" and");
         }
         int numJoints = body.countJoints();
         stream.printf(" %d joint%s", numJoints, (numJoints == 1) ? "" : "s");
@@ -1078,5 +1083,26 @@ public class PhysicsDumper extends Dumper {
             }
         }
         stream.print(')');
+    }
+
+    /**
+     * Dump wheels in the specified vehicle.
+     *
+     * @param vehicle the vehicle to dump (not null, unaffected)
+     * @param indent (not null)
+     * @param numWheels the number of wheels to dump (&gt;0)
+     */
+    private void dumpWheels(PhysicsVehicle vehicle, String indent,
+            int numWheels) {
+        stream.print(':');
+        PhysicsDescriber describer = getDescriber();
+        String moreIndent = indent + indentIncrement();
+        for (int wheelIndex = 0; wheelIndex < numWheels; ++wheelIndex) {
+            stream.printf("%n%s[%d] ", moreIndent, wheelIndex);
+            VehicleWheel wheel = vehicle.getWheel(wheelIndex);
+            String desc = describer.describe(wheel);
+            stream.print(desc);
+        }
+        stream.printf("%n%s", indent);
     }
 }
