@@ -95,7 +95,7 @@ public class HelloSoftBody extends SimpleApplication {
         rootNode.addLight(sun);
 
         // Add a model to the scene.
-        Spatial cgModel = assetManager.loadModel("Models/Duck/Duck.gltf");
+        Spatial cgModel = assetManager.loadModel("Models/Duck/Duck.j3o");
         rootNode.attachChild(cgModel);
 
         // Add a soft-body control to the model.

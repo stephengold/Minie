@@ -4,7 +4,9 @@
 
 description = 'demos, examples, and tests that do not generate reports'
 
+processResources.dependsOn(':MinieAssets:models')
 processResources.dependsOn(':MinieAssets:textures')
+
 dependencies {
     implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
     implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
@@ -17,7 +19,7 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
     //implementation 'junit:junit:4.12'
-    
+
     //implementation "jme3utilities:Minie:$minieVersion"
     implementation project(':MinieLibrary')
 }
@@ -27,8 +29,10 @@ clean {
     dependsOn 'cleanDLLs'
     dependsOn 'cleanLogs'
     dependsOn 'cleanSOs'
-    dependsOn 'cleanTextures'
     dependsOn 'cleanWrittenAssets'
+
+    dependsOn ':MinieAssets:cleanModels'
+    dependsOn ':MinieAssets:cleanTextures'
 }
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
@@ -38,9 +42,6 @@ task cleanLogs(type: Delete) {
 }
 task cleanSOs(type: Delete) {
     delete fileTree(dir: '.', include: '*.so')
-}
-task cleanTextures(type: Delete) {
-    delete 'src/main/resources/Textures'
 }
 task cleanWrittenAssets(type: Delete) {
     delete 'Written Assets'

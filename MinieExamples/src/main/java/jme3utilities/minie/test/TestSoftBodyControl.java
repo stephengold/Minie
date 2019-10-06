@@ -301,7 +301,7 @@ public class TestSoftBodyControl
      * Add a rubber duck to the scene.
      */
     private void addRubberDuck() {
-        Spatial cgModel = assetManager.loadModel("Models/Duck/Duck.gltf");
+        Spatial cgModel = assetManager.loadModel("Models/Duck/Duck.j3o");
         rootNode.attachChild(cgModel);
 
         SoftBodyControl sbc = new SoftBodyControl();

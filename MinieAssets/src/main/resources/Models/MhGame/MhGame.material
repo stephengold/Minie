@@ -1,0 +1,156 @@
+material mhgame_0_male_generic
+{
+    receive_shadows on
+
+    technique
+    {
+        pass
+        {
+            lighting on
+
+            ambient 0.301961 0.278431 0.278431 1
+            diffuse 1.000000 1.000000 1.000000 1.000000
+            specular 0.027451 0.027451 0.027451 64.000000
+            emissive 0.196078 0.101961 0.101961
+
+            depth_write on
+
+            texture_unit diffuseTexture
+            {
+                texture textures/young_lightskinned_male_diffuse2.png
+            }
+
+            //texture_unit litsphereTexture
+            //{
+            //    texture textures/lit_standard_skin.png
+            //}
+
+        }
+    }
+}
+
+material mhgame_1_low_poly
+{
+    receive_shadows on
+
+    technique
+    {
+        pass
+        {
+            lighting on
+
+            ambient 0.110000 0.110000 0.110000 1
+            diffuse 1.000000 1.000000 1.000000 1.000000
+            specular 1.000000 1.000000 1.000000 128.000000
+            emissive 0.000000 0.000000 0.000000
+
+            depth_write off
+            alpha_rejection greater 128
+
+            texture_unit diffuseTexture
+            {
+                texture textures/brown_eye.png
+            }
+
+            //texture_unit litsphereTexture
+            //{
+            //    texture textures/skinmat_eye.png
+            //}
+
+        }
+    }
+}
+
+material mhgame_2_eyebrow001
+{
+    receive_shadows on
+
+    technique
+    {
+        pass
+        {
+            lighting on
+
+            ambient 1.000000 1.000000 1.000000 1
+            diffuse 1.000000 1.000000 1.000000 1.000000
+            specular 0.000000 0.000000 0.000000 64.000000
+            emissive 0.000000 0.000000 0.000000
+
+            depth_write off
+            alpha_rejection greater 128
+
+            texture_unit diffuseTexture
+            {
+                texture textures/eyebrow001.png
+            }
+
+        }
+    }
+}
+
+material mhgame_3_shoes03
+{
+    receive_shadows on
+
+    technique
+    {
+        pass
+        {
+            lighting on
+
+            ambient 1.000000 1.000000 1.000000 1
+            diffuse 1.000000 1.000000 1.000000 1.000000
+            specular 0.035294 0.031373 0.031373 102.400000
+            emissive 0.000000 0.000000 0.000000
+
+            depth_write on
+
+            texture_unit diffuseTexture
+            {
+                texture textures/shoes03_diffuse.png
+            }
+
+        }
+    }
+}
+
+material mhgame_4_male_worksuit01
+{
+    receive_shadows on
+
+    technique
+    {
+        pass
+        {
+            lighting on
+
+            ambient 1.000000 1.000000 1.000000 1
+            diffuse 1.000000 1.000000 1.000000 1.000000
+            specular 0.027451 0.027451 0.027451 25.100800
+            emissive 0.000000 0.000000 0.000000
+
+            depth_write on
+
+            texture_unit diffuseTexture
+            {
+                texture textures/male_worksuit01_diffuse.png
+            }
+
+            //texture_unit normalMapTexture
+            //{
+            //    texture textures/male_worksuit01_normal.png
+            //}
+
+            //texture_unit aoMapTexture
+            //{
+            //    texture textures/male_worksuit01_ao.png
+            //}
+
+            //texture_unit litsphereTexture
+            //{
+            //    texture textures/lit_matte.png
+            //}
+
+        }
+    }
+}

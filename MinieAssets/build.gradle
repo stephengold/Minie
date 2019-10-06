@@ -4,17 +4,29 @@
 
 description = 'generate assets used in MinieExamples'
 ext {
-    plaid = '../MinieExamples/src/main/resources/Textures/plaid.png'
-    torus = '../MinieExamples/src/main/resources/CollisionShapes/torus.j3o'
+    assets = '../MinieExamples/src/main/resources/'
+
+    duck = assets + 'Models/Duck'
+    elephant = assets + 'Models/Elephant'
+    mhGame = assets + 'Models/MhGame'
+    ninja = assets + 'Models/Ninja'
+    oto = assets + 'Models/Oto'
+    sinbad = assets + 'Models/Sinbad'
+
+    plaid = assets + 'Textures/plaid.png'
+    torus = assets + 'CollisionShapes/torus.j3o'
 }
 
 dependencies {
     implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
-    implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
     implementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"
-    runtimeOnly "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+    implementation "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
+
+    //implementation "jme3utilities:Minie:$minieVersion"
     implementation project(':MinieLibrary')
 }
 
@@ -25,6 +37,18 @@ task collisionShapes {
 task torus(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeTorus'
     outputs.files([torus])
+}
+
+task models(type: JavaExec) {
+    main 'jme3utilities.minie.test.models.ImportCgms'
+    outputs.files([
+            duck + '/Duck.j3o',
+            elephant + '/Elephant.j3o',
+            mhGame + '/MhGame.j3o',
+            ninja + '/Ninja.j3o',
+            oto + '/Oto.j3o',
+            sinbad + '/Sinbad.j3o'
+        ])
 }
 
 task textures {
@@ -40,6 +64,7 @@ task plaid(type: JavaExec) {
 clean {
     dependsOn 'cleanDLLs'
     dependsOn 'cleanLogs'
+    dependsOn 'cleanModels'
     dependsOn 'cleanSOs'
     dependsOn 'cleanTextures'
 }
@@ -48,6 +73,14 @@ task cleanDLLs(type: Delete) {
 }
 task cleanLogs(type: Delete) {
     delete fileTree(dir: '.', include: 'hs_err_pid*.log')
+}
+task cleanModels(type: Delete) {
+    delete fileTree(dir: duck)
+    delete fileTree(dir: elephant)
+    delete fileTree(dir: mhGame)
+    delete fileTree(dir: ninja)
+    delete fileTree(dir: oto, exclude: 'OtoOldAnim.j3o')
+    delete fileTree(dir: sinbad)
 }
 task cleanSOs(type: Delete) {
     delete fileTree(dir: '.', include: '*.so')

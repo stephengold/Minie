@@ -68,8 +68,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.plugins.ogre.MaterialLoader;
-import com.jme3.scene.plugins.ogre.MeshLoader;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
@@ -253,9 +251,6 @@ public class TestDac extends ActionApplication {
      */
     @Override
     public void actionInitializeApplication() {
-        Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
-        Logger.getLogger(MeshLoader.class.getName()).setLevel(Level.SEVERE);
-
         configureCamera();
         configureDumper();
         configurePhysics();
@@ -783,7 +778,7 @@ public class TestDac extends ActionApplication {
     }
 
     /**
-     * Load the CesiumMan model.
+     * Load the CesiumMan model (not included due to licensing issues).
      */
     private void loadCesiumMan() {
         cgModel = (Node) assetManager.loadModel(
@@ -801,8 +796,7 @@ public class TestDac extends ActionApplication {
      * Load the Elephant model.
      */
     private void loadElephant() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/Elephant/Elephant.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Elephant/Elephant.j3o");
         cgModel.rotate(0f, 1.6f, 0f);
         dac = new ElephantControl();
         animationName = "legUp";
@@ -833,8 +827,7 @@ public class TestDac extends ActionApplication {
      * Load the MhGame model.
      */
     private void loadMhGame() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/MhGame/MhGame.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
         dac = new MhGameControl();
         animationName = "expr-lib-pose";
         leftClavicleName = "upperarm_l";
@@ -847,7 +840,7 @@ public class TestDac extends ActionApplication {
      * Load the Ninja model.
      */
     private void loadNinja() {
-        cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
         cgModel.rotate(0f, 3f, 0f);
         dac = new NinjaControl();
         animationName = "Walk";
@@ -861,7 +854,7 @@ public class TestDac extends ActionApplication {
      * Load the Oto model.
      */
     private void loadOto() {
-        cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
         dac = new OtoControl();
         animationName = "Walk";
         leftClavicleName = "uparm.left";
@@ -887,8 +880,7 @@ public class TestDac extends ActionApplication {
      * Load the Sinbad model without attachments.
      */
     private void loadSinbad() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/Sinbad/Sinbad.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         dac = new SinbadControl();
         animationName = "Dance";
         leftClavicleName = "Clavicle.L";
@@ -901,11 +893,9 @@ public class TestDac extends ActionApplication {
      * Load the Sinbad model with an attached sword.
      */
     private void loadSinbadWith1Sword() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/Sinbad/Sinbad.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
 
-        Node sword = (Node) assetManager.loadModel(
-                "Models/Sinbad/Sword.mesh.xml");
+        Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
         List<Spatial> list
                 = MySpatial.listSpatials(sword, Spatial.class, null);
         for (Spatial spatial : list) {
@@ -929,11 +919,9 @@ public class TestDac extends ActionApplication {
      * Load the Sinbad model with 2 attached swords.
      */
     private void loadSinbadWithSwords() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/Sinbad/Sinbad.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
 
-        Node sword = (Node) assetManager.loadModel(
-                "Models/Sinbad/Sword.mesh.xml");
+        Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
         List<Spatial> list
                 = MySpatial.listSpatials(sword, Spatial.class, null);
         for (Spatial spatial : list) {
