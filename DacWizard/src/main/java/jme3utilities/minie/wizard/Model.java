@@ -111,7 +111,7 @@ class Model {
      */
     private int numComponentsInRoot;
     /**
-     * map manager names to a sets of vertices
+     * map manager names to sets of vertices
      */
     private Map<String, VectorSet> coordsMap;
     /**
