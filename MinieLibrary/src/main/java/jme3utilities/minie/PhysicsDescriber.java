@@ -41,6 +41,7 @@ import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
+import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
@@ -61,6 +62,7 @@ import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -187,6 +189,15 @@ public class PhysicsDescriber extends Describer {
                 result.append(MyString.describe(radius));
             }
             result.append(']');
+
+        } else if (shape instanceof PlaneCollisionShape) {
+            Plane plane = ((PlaneCollisionShape) shape).getPlane();
+            result.append(" normal[");
+            Vector3f normal = plane.getNormal();
+            result.append(MyVector3f.describe(normal));
+            result.append("] constant=");
+            float constant = plane.getConstant();
+            result.append(MyString.describe(constant));
 
         } else if (shape instanceof SimplexCollisionShape) {
             int numV = ((SimplexCollisionShape) shape).countMeshVertices();
