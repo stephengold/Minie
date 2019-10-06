@@ -10,7 +10,11 @@ ext {
 
 dependencies {
     implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
+    implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
     implementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+    runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
     implementation project(':MinieLibrary')
 }
 
