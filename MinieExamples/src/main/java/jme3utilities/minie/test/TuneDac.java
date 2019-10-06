@@ -361,7 +361,7 @@ public class TuneDac extends ActionApplication {
     }
 
     /**
-     * Load the CesiumMan model.
+     * Load the CesiumMan model (not included due to licensing issues).
      */
     private void loadCesiumMan() {
         model = (Node) assetManager.loadModel(
@@ -374,8 +374,7 @@ public class TuneDac extends ActionApplication {
      * Load the Elephant model.
      */
     private void loadElephant() {
-        model = (Node) assetManager.loadModel(
-                "Models/Elephant/Elephant.mesh.xml");
+        model = (Node) assetManager.loadModel("Models/Elephant/Elephant.j3o");
         model.rotate(0f, 1.6f, 0f);
         dac = new ElephantControl();
     }
@@ -392,7 +391,7 @@ public class TuneDac extends ActionApplication {
      * Load the MhGame model.
      */
     private void loadMhGame() {
-        model = (Node) assetManager.loadModel("Models/MhGame/MhGame.mesh.xml");
+        model = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
         dac = new MhGameControl();
     }
 
@@ -400,7 +399,7 @@ public class TuneDac extends ActionApplication {
      * Load the Ninja model.
      */
     private void loadNinja() {
-        model = (Node) assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
+        model = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
         model.rotate(0f, 3f, 0f);
         dac = new NinjaControl();
     }
@@ -409,7 +408,7 @@ public class TuneDac extends ActionApplication {
      * Load the Oto model.
      */
     private void loadOto() {
-        model = (Node) assetManager.loadModel("Models/Oto/Oto.mesh.xml");
+        model = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
         dac = new OtoControl();
     }
 
@@ -425,7 +424,7 @@ public class TuneDac extends ActionApplication {
      * Load the Sinbad model.
      */
     private void loadSinbad() {
-        model = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.mesh.xml");
+        model = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         dac = new SinbadControl();
     }
 

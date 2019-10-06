@@ -62,8 +62,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.debug.Grid;
-import com.jme3.scene.plugins.ogre.MaterialLoader;
-import com.jme3.scene.plugins.ogre.MeshLoader;
 import com.jme3.scene.shape.Box;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
@@ -209,9 +207,6 @@ public class WatchDemo extends ActionApplication {
      */
     @Override
     public void actionInitializeApplication() {
-        Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
-        Logger.getLogger(MeshLoader.class.getName()).setLevel(Level.SEVERE);
-
         configureCamera();
         configurePhysics();
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
@@ -659,8 +654,7 @@ public class WatchDemo extends ActionApplication {
      * Load the MhGame model.
      */
     private void loadMhGame() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/MhGame/MhGame.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new MhGameControl();
@@ -673,7 +667,7 @@ public class WatchDemo extends ActionApplication {
      * Load the Ninja model.
      */
     private void loadNinja() {
-        cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
         cgModel.rotate(0f, 1.6f, 0f);
 
         dac = new NinjaControl();
@@ -686,7 +680,7 @@ public class WatchDemo extends ActionApplication {
      * Load the Oto model.
      */
     private void loadOto() {
-        cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new OtoControl();
@@ -712,8 +706,7 @@ public class WatchDemo extends ActionApplication {
      * Load the Sinbad model without attachments.
      */
     private void loadSinbad() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/Sinbad/Sinbad.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new SinbadControl();
@@ -726,12 +719,10 @@ public class WatchDemo extends ActionApplication {
      * Load the Sinbad model with an attached sword.
      */
     private void loadSinbadWith1Sword() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/Sinbad/Sinbad.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
-        Node sword = (Node) assetManager.loadModel(
-                "Models/Sinbad/Sword.mesh.xml");
+        Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
         List<Spatial> list
                 = MySpatial.listSpatials(sword, Spatial.class, null);
         for (Spatial spatial : list) {
@@ -752,12 +743,10 @@ public class WatchDemo extends ActionApplication {
      * Load the Sinbad model with 2 attached swords.
      */
     private void loadSinbadWithSwords() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/Sinbad/Sinbad.mesh.xml");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
-        Node sword = (Node) assetManager.loadModel(
-                "Models/Sinbad/Sword.mesh.xml");
+        Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
         List<Spatial> list
                 = MySpatial.listSpatials(sword, Spatial.class, null);
         for (Spatial spatial : list) {

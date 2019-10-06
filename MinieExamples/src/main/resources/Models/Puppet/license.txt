@@ -1,4 +1,4 @@
-Licensing history for assets in tests/src/main/resources/Models/Puppet
+Licensing history for assets in MinieExamples/src/main/resources/Models/Puppet
 
 The puppet.blend model asset was created by Nathan Vegdahl as part of
 the production of the short film "Sintel" and is
