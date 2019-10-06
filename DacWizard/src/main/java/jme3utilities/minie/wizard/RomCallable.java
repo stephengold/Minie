@@ -144,7 +144,11 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
         DacWizard.getApplication().clearScene();
         Spatial modelRoot = model.getRootSpatial();
         tempModelRoot = (Spatial) Misc.deepCopy(modelRoot);
-        //tempModelRoot.setCullHint(Spatial.CullHint.Always);
+
+        Vector3f[] minMax = MySpatial.findMinMaxCoords(tempModelRoot);
+        float oldHeight = minMax[1].y - minMax[0].y;
+        tempModelRoot.scale(3f / oldHeight);
+        
         Node rootNode = DacWizard.getApplication().getRootNode();
         rootNode.attachChild(tempModelRoot);
         /*
