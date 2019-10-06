@@ -36,6 +36,7 @@ import de.lessvoid.nifty.elements.Element;
 import java.util.BitSet;
 import java.util.List;
 import java.util.logging.Logger;
+import jme3utilities.MyString;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
 
@@ -182,6 +183,16 @@ class BonesScreen extends GuiScreenController {
             feedback = "No bones are linked.";
         } else if (model.countVertices(DacConfiguration.torsoName) == 0) {
             feedback = "No mesh vertices for the torso.";
+        } else {
+            for (int i = 0; i < numBones; ++i) {
+                if (model.isBoneLinked(i)) {
+                    String name = model.boneName(i);
+                    if (model.countVertices(name) == 0) {
+                        feedback = "No mesh vertices for "
+                                + MyString.quote(name);
+                    }
+                }
+            }
         }
 
         setStatusText("feedback", feedback);

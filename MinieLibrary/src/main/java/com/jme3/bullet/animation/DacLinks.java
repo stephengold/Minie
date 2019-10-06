@@ -40,7 +40,6 @@ import com.jme3.animation.SkeletonControl;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -870,8 +869,9 @@ public class DacLinks
         int numLinkedBones = countLinkedBones();
         assert boneLinks.size() == numLinkedBones;
         /*
-         * Add joints to connect each BoneLink rigid body with its parent in the
-         * link hierarchy.  Also initialize the boneLinkList.
+         * Add physics joints to connect each BoneLink rigid body
+         * with its parent in the link hierarchy.
+         * Also initialize the boneLinkList.
          */
         boneLinkList = new ArrayList<>(numLinkedBones);
         addJoints(torsoLink);
@@ -1511,6 +1511,11 @@ public class DacLinks
      * @param vertexLocations the set of vertex locations (not null, not empty)
      */
     private void createBoneLink(String boneName, VectorSet vertexLocations) {
+        if (vertexLocations == null || vertexLocations.numVectors() == 0) {
+            String msg = String.format("No mesh vertices for linked bone %s.",
+                    MyString.quote(boneName));
+            throw new IllegalArgumentException(msg);
+        }
         Bone bone = null;
         Joint joint = null;
         Transform boneToMesh;
@@ -1526,21 +1531,16 @@ public class DacLinks
         /*
          * Create the CollisionShape and locate the center of mass.
          */
-        CollisionShape shape;
         Vector3f center;
-        if (vertexLocations == null || vertexLocations.numVectors() == 0) {
+        CenterHeuristic centerHeuristic = linkConfig.centerHeuristic();
+        if (centerHeuristic == CenterHeuristic.Joint) {
             center = translateIdentity;
-            shape = new EmptyShape(true);
         } else {
-            CenterHeuristic centerHeuristic = linkConfig.centerHeuristic();
-            if (centerHeuristic == CenterHeuristic.Joint) {
-                center = translateIdentity;
-            } else {
-                center = centerHeuristic.center(vertexLocations, null);
-                center.subtractLocal(boneToMesh.getTranslation());
-            }
-            shape = linkConfig.createShape(meshToBone, center, vertexLocations);
+            center = centerHeuristic.center(vertexLocations, null);
+            center.subtractLocal(boneToMesh.getTranslation());
         }
+        CollisionShape shape;
+        shape = linkConfig.createShape(meshToBone, center, vertexLocations);
 
         meshToBone.getTranslation().zero();
         Vector3f offset = meshToBone.transformVector(center, null);
