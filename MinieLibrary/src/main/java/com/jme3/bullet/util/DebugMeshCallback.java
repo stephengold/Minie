@@ -153,10 +153,10 @@ class DebugMeshCallback {
      */
     FloatBuffer getFaceNormals() {
         int numVertices = list.size();
-        int numTriangles = numVertices / 3;
+        int numTriangles = numVertices / vpt;
         assert numTriangles * vpt == numVertices : numVertices;
 
-        int numFloats = 3 * numVertices;
+        int numFloats = numAxes * numVertices;
         FloatBuffer buffer = BufferUtils.createFloatBuffer(numFloats);
 
         Triangle triangle = new Triangle();
@@ -185,7 +185,7 @@ class DebugMeshCallback {
      */
     FloatBuffer getSmoothNormals() {
         int numVertices = list.size();
-        int numTriangles = numVertices / 3;
+        int numTriangles = numVertices / vpt;
         assert numTriangles * vpt == numVertices : numVertices;
 
         Map<Vector3f, Integer> indexMap = new HashMap<>(numVertices);
@@ -238,7 +238,7 @@ class DebugMeshCallback {
             totals[i].normalizeLocal();
         }
 
-        int numFloats = 3 * numVertices;
+        int numFloats = numAxes * numVertices;
         FloatBuffer buffer = BufferUtils.createFloatBuffer(numFloats);
 
         for (Vector3f vertexLocation : list) {
@@ -258,7 +258,7 @@ class DebugMeshCallback {
      * @return a new buffer (not null)
      */
     FloatBuffer getVertices() {
-        int numFloats = 3 * list.size();
+        int numFloats = numAxes * list.size();
         FloatBuffer buffer = BufferUtils.createFloatBuffer(numFloats);
         for (Vector3f location : list) {
             buffer.put(location.x);
@@ -276,7 +276,7 @@ class DebugMeshCallback {
      */
     float volumeConvex() {
         int numVertices = list.size();
-        int numTriangles = numVertices / 3; // TODO vpt
+        int numTriangles = numVertices / vpt;
         assert numTriangles * vpt == numVertices : numVertices;
 
         double total = 0.0;
