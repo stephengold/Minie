@@ -276,18 +276,21 @@ class DebugMeshCallback {
      */
     float volumeConvex() {
         int numVertices = list.size();
-        int numTriangles = numVertices / 3;
+        int numTriangles = numVertices / 3; // TODO vpt
         assert numTriangles * vpt == numVertices : numVertices;
 
         double total = 0.0;
-        Vector3f fixed = list.get(0);
-        for (int triIndex = 0; triIndex < numTriangles; ++triIndex) {
-            int firstVertex = vpt * triIndex;
-            Vector3f pos1 = list.get(firstVertex);
-            Vector3f pos2 = list.get(firstVertex + 1);
-            Vector3f pos3 = list.get(firstVertex + 2);
-            double tVol = MyVolume.tetrahedronVolume(pos1, pos2, pos3, fixed);
-            total += tVol;
+        if (numTriangles > 0) {
+            Vector3f fixed = list.get(0);
+            for (int triIndex = 0; triIndex < numTriangles; ++triIndex) {
+                int firstVertex = vpt * triIndex;
+                Vector3f pos1 = list.get(firstVertex);
+                Vector3f pos2 = list.get(firstVertex + 1);
+                Vector3f pos3 = list.get(firstVertex + 2);
+                double tetraVolume
+                        = MyVolume.tetrahedronVolume(pos1, pos2, pos3, fixed);
+                total += tetraVolume;
+            }
         }
         float volume = (float) total;
 
