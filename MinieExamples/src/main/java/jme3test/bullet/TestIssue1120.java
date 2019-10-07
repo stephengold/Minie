@@ -58,9 +58,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Test demonstrating a GImpactCollisionShape falling through a curved mesh,
- * when using JBullet. Bullet native does not experience this issue at the time
- * this test was created.
+ * Test demonstrating a GImpactCollisionShape falling through a curved mesh, when using JBullet. Bullet native
+ * does not experience this issue at the time this test was created.
  *
  * @author lou
  */
