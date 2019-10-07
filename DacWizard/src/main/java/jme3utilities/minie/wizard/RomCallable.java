@@ -42,8 +42,8 @@ import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.FastMath;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.Collection;
 import java.util.List;
@@ -142,15 +142,11 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
          * to the scene graph.
          */
         DacWizard.getApplication().clearScene();
-        Spatial modelRoot = model.getRootSpatial();
-        tempModelRoot = (Spatial) Misc.deepCopy(modelRoot);
-
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(tempModelRoot);
-        float oldHeight = minMax[1].y - minMax[0].y;
-        tempModelRoot.scale(3f / oldHeight);
-        
-        Node rootNode = DacWizard.getApplication().getRootNode();
-        rootNode.attachChild(tempModelRoot);
+        Spatial cgModel = model.getRootSpatial();
+        tempModelRoot = (Spatial) Misc.deepCopy(cgModel);
+        Transform initTransform = model.copyInitTransform(null);
+        tempModelRoot.setLocalTransform(initTransform);
+        DacWizard.getApplication().makeScene(tempModelRoot);
         /*
          * Add a DynamicAnimControl to the copy.  Since the control will
          * stay in kinematic mode, its masses and ranges of motion
@@ -203,8 +199,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
                 = DacWizard.findAppState(BulletAppState.class);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
-        Node rootNode = DacWizard.getApplication().getRootNode();
-        rootNode.detachChild(tempModelRoot);
+        tempModelRoot.removeFromParent();
         physicsSpace.removeTickListener(this);
         physicsSpace.remove(tempDac);
         assert physicsSpace.isEmpty();

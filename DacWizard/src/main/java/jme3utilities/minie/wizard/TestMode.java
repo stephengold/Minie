@@ -32,8 +32,10 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.KinematicSubmode;
 import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.TorsoLink;
@@ -46,6 +48,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -282,7 +285,16 @@ class TestMode extends InputMode {
         if (torso.isKinematic()) {
             dac.setRagdollMode();
         } else { // reset to bind pose
-            dac.blendToKinematicMode(1f, Transform.IDENTITY);
+            Model model = DacWizard.getModel();
+            Transform initTransform = model.copyInitTransform(null);
+
+            KinematicSubmode bindPose = KinematicSubmode.Bound;
+            float blendInterval = 1f;
+            torso.blendToKinematicMode(bindPose, blendInterval, initTransform);
+            Collection<BoneLink> boneLinks = dac.listLinks(BoneLink.class);
+            for (BoneLink boneLink : boneLinks) {
+                boneLink.blendToKinematicMode(bindPose, blendInterval);
+            }
         }
     }
 

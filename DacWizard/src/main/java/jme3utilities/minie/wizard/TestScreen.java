@@ -37,6 +37,7 @@ import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Plane;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.util.logging.Logger;
@@ -159,6 +160,8 @@ class TestScreen extends GuiScreenController {
             viewedSpatial = nextSpatial;
             if (nextSpatial != null) {
                 Spatial cgModel = (Spatial) Misc.deepCopy(nextSpatial);
+                Transform initTransform = model.copyInitTransform(null);
+                cgModel.setLocalTransform(initTransform);
                 wizard.makeScene(cgModel);
 
                 SkeletonControl control = RagUtils.findSkeletonControl(cgModel);
@@ -210,7 +213,7 @@ class TestScreen extends GuiScreenController {
             if (torso.isKinematic()) {
                 ragdollButton = "Go limp";
             } else {
-                ragdollButton = "Reset skeleton";
+                ragdollButton = "Reset model";
             }
         }
         setButtonText("ragdoll", ragdollButton);

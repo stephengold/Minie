@@ -28,6 +28,7 @@ package jme3utilities.minie.wizard;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.math.Transform;
 import com.jme3.scene.Spatial;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.elements.Element;
@@ -129,6 +130,8 @@ class LoadScreen extends GuiScreenController {
             viewedSpatial = nextSpatial;
             if (nextSpatial != null) {
                 Spatial cgModel = (Spatial) Misc.deepCopy(nextSpatial);
+                Transform initTransform = model.copyInitTransform(null);
+                cgModel.setLocalTransform(initTransform);
                 wizard.makeScene(cgModel);
             }
         }
