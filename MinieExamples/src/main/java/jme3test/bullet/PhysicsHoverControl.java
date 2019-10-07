@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 jMonkeyEngine
+ * Copyright (c) 2009-2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -96,9 +96,10 @@ public class PhysicsHoverControl extends PhysicsVehicle implements PhysicsContro
         createWheels();
     }
 
+    @Deprecated
     @Override
     public Control cloneForSpatial(Spatial spatial) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException();
     }
 
     @Override   
@@ -145,6 +146,7 @@ public class PhysicsHoverControl extends PhysicsVehicle implements PhysicsContro
         Vector3f dir = getForwardVector(tempVect2).multLocal(1, 0, 1).normalizeLocal();
         getLinearVelocity(tempVect3);
         Vector3f linearVelocity = tempVect3.multLocal(1, 0, 1);
+        float groundSpeed = linearVelocity.length();
 
         if (steeringValue != 0) {
             if (rotationVelocity < 1 && rotationVelocity > -1) {
@@ -163,7 +165,7 @@ public class PhysicsHoverControl extends PhysicsVehicle implements PhysicsContro
             // if we are not going where we want to go.
             // this will prevent "drifting" and thus improve control
             // of the vehicle
-            if (linearVelocity.length() > FastMath.ZERO_TOLERANCE) {
+            if (groundSpeed > FastMath.ZERO_TOLERANCE) {
                 float d = dir.dot(linearVelocity.normalize());
                 Vector3f counter = dir.project(linearVelocity).normalizeLocal().negateLocal().multLocal(1 - d);
                 applyForce(counter.multLocal(mass * 10), Vector3f.ZERO);
@@ -174,7 +176,7 @@ public class PhysicsHoverControl extends PhysicsVehicle implements PhysicsContro
             }
         } else {
             // counter the acceleration value
-            if (linearVelocity.length() > FastMath.ZERO_TOLERANCE) {
+            if (groundSpeed > FastMath.ZERO_TOLERANCE) {
                 linearVelocity.normalizeLocal().negateLocal();
                 applyForce(linearVelocity.mult(mass * 10), Vector3f.ZERO);
             }
