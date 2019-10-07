@@ -45,6 +45,7 @@ import com.jme3.bullet.animation.MassHeuristic;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.ShapeHeuristic;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
@@ -61,6 +62,7 @@ import jme3utilities.InfluenceUtil;
 import jme3utilities.Misc;
 import jme3utilities.MyAnimation;
 import jme3utilities.MySpatial;
+import jme3utilities.math.MyVector3f;
 import jme3utilities.math.VectorSet;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Locators;
@@ -130,6 +132,10 @@ class Model {
      * components of the file-system path to the C-G model (not null)
      */
     private String[] filePathComponents = new String[0];
+    /**
+     * initial Transform for visualization
+     */
+    final private Transform initTransform = new Transform();
     // *************************************************************************
     // new methods exposed
 
@@ -212,6 +218,21 @@ class Model {
     LinkConfig config(String boneName) {
         LinkConfig result = ragdoll.config(boneName);
         return result;
+    }
+
+    /**
+     * Copy the initial Transform for visualization.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a Transform relative to world coordinates (either storeResult or
+     * a new instance)
+     */
+    Transform copyInitTransform(Transform storeResult) {
+        if (storeResult == null) {
+            return initTransform.clone();
+        } else {
+            return storeResult.set(initTransform);
+        }
     }
 
     /**
@@ -506,6 +527,7 @@ class Model {
         Locators.restore();
 
         if (rootSpatial != null) {
+            recalculateInitTransform();
             recalculateInfluence();
 
             int numBones = countBones();
@@ -886,6 +908,35 @@ class Model {
         }
 
         return result;
+    }
+
+    /**
+     * Recalculate the initial Transform for visualization.
+     */
+    private void recalculateInitTransform() {
+        Spatial cgmCopy = (Spatial) Misc.deepCopy(rootSpatial);
+        /**
+         * Scale the copy uniformly to a height of 2 world units.
+         */
+        Vector3f[] minMax = MySpatial.findMinMaxCoords(cgmCopy);
+        Vector3f min = minMax[0];
+        Vector3f max = minMax[1];
+        float oldHeight = max.y - min.y;
+        cgmCopy.scale(2f / oldHeight);
+        /**
+         * Translate a copy's center so that it rests on the X-Z plane, and its
+         * center lies on the Y axis.
+         */
+        minMax = MySpatial.findMinMaxCoords(cgmCopy);
+        min = minMax[0];
+        max = minMax[1];
+        Vector3f center = MyVector3f.midpoint(min, max, null);
+        Vector3f offset = new Vector3f(center.x, min.y, center.z);
+        Vector3f location = cgmCopy.getWorldTranslation();
+        location.subtractLocal(offset);
+        MySpatial.setWorldLocation(cgmCopy, location);
+
+        initTransform.set(cgmCopy.getLocalTransform());
     }
 
     /**

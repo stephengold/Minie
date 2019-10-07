@@ -33,7 +33,6 @@ import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.DynamicAnimControl;
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -49,7 +48,7 @@ import jme3utilities.Misc;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
-import jme3utilities.math.MyVector3f;
+import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.nifty.GuiApplication;
 import jme3utilities.nifty.bind.BindScreen;
@@ -63,7 +62,7 @@ import jme3utilities.ui.InputMode;
  * A GuiApplication to configure a DynamicAnimControl for a new C-G model. The
  * application's main entry point is in this class.
  * <p>
- * As seen in the April 2019 walkthru video:
+ * Seen in the April 2019 walkthru video:
  * https://www.youtube.com/watch?v=iWyrzZe45jA
  *
  * @author Stephen Gold sgold@sonic.net
@@ -96,7 +95,7 @@ public class DacWizard extends GuiApplication {
      */
     final private static Model model = new Model();
     /**
-     * dumper for scene dumps
+     * dump debugging information to System.out
      */
     final static PhysicsDumper dumper = new PhysicsDumper();
     // *************************************************************************
@@ -230,9 +229,6 @@ public class DacWizard extends GuiApplication {
         assert cgModel != null;
 
         rootNode.attachChild(cgModel);
-        float height = 2f;
-        setHeight(cgModel, height);
-        center(cgModel);
         resetCamera();
     }
     // *************************************************************************
@@ -265,7 +261,12 @@ public class DacWizard extends GuiApplication {
         DebugKeysAppState debugKeys = findAppState(DebugKeysAppState.class);
         stateManager.detach(debugKeys);
 
+        configureDumper();
+
+        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
+        viewPort.setBackgroundColor(bgColor);
         addLighting();
+
         getSignals().add("orbitLeft");
         getSignals().add("orbitRight");
 
@@ -326,9 +327,6 @@ public class DacWizard extends GuiApplication {
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
         sun.setName("sun");
-
-        ColorRGBA backgroundColor = new ColorRGBA(0.3f, 0.3f, 0.3f, 1f);
-        viewPort.setBackgroundColor(backgroundColor);
     }
 
     /**
@@ -342,7 +340,6 @@ public class DacWizard extends GuiApplication {
 
         success = stateManager.attach(new BulletAppState());
         assert success;
-        CollisionShape.setDefaultMargin(0.001f); // 1-mm margin
 
         success = stateManager.attach(displaySettingsScreen);
         assert success;
@@ -393,17 +390,12 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
-     * Translate a model's center so that the model rests on the X-Z plane, and
-     * its center lies on the Y axis.
+     * Configure the PhysicsDumper during startup.
      */
-    private void center(Spatial model) {
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
-        Vector3f offset = new Vector3f(center.x, minMax[0].y, center.z);
-
-        Vector3f location = model.getWorldTranslation();
-        location.subtractLocal(offset);
-        MySpatial.setWorldLocation(model, location);
+    private void configureDumper() {
+        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
     }
 
     /**
@@ -475,21 +467,6 @@ public class DacWizard extends GuiApplication {
         cam.setName("cam");
         cam.setRotation(new Quaternion(0f, 0.9985813f, -0.05f, 0.0175f));
         MyCamera.setNearFar(cam, 0.02f, 50f);
-    }
-
-    /**
-     * Scale the specified model uniformly so that it has the specified height.
-     *
-     * @param model (not null, modified)
-     * @param height (in world units)
-     */
-    private void setHeight(Spatial model, float height) {
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        Vector3f min = minMax[0];
-        Vector3f max = minMax[1];
-        float oldHeight = max.y - min.y;
-
-        model.scale(height / oldHeight);
     }
 
     /**
