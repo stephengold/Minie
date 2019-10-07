@@ -354,16 +354,12 @@ public class PhysicsTestHelper {
 
     private static float getY(float x, float z, float max) {
         float yMaxHeight = 8;
-        float xv = unInterpolateLinear(FastMath.abs(x - (max / 2)), 0, max) * FastMath.TWO_PI;
-        float zv = unInterpolateLinear(FastMath.abs(z - (max / 2)), 0, max) * FastMath.TWO_PI;
+        float xv = FastMath.unInterpolateLinear(FastMath.abs(x - (max / 2)), 0, max) * FastMath.TWO_PI;
+        float zv = FastMath.unInterpolateLinear(FastMath.abs(z - (max / 2)), 0, max) * FastMath.TWO_PI;
 
         float xComp = (FastMath.sin(xv) + 1) * 0.5f;
         float zComp = (FastMath.sin(zv) + 1) * 0.5f;
 
         return -yMaxHeight * xComp * zComp;
-    }
-
-    private static float unInterpolateLinear(float value, float min, float max) {
-        return (value - min) / (max - min);
     }
 }
