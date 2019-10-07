@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.anim.SkinningControl;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
@@ -482,14 +483,17 @@ public class TrackDemo extends ActionApplication {
         }
         cgModel.setCullHint(Spatial.CullHint.Never);
 
+        sc = RagUtils.findSControl(cgModel);
+        if (sc instanceof SkinningControl) {
+            ((SkinningControl) sc).getArmature().applyBindPose();
+        }
+
         rootNode.attachChild(cgModel);
         float height = 2f;
         setHeight(cgModel, height);
         center(cgModel);
 
-        sc = RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
-
         controlledSpatial.addControl(dac);
         dac.setPhysicsSpace(physicsSpace);
 
