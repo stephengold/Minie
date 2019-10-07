@@ -65,8 +65,7 @@ import com.jme3.util.BufferUtils;
 public class PhysicsTestHelper {
 
     /**
-     * creates a simple physics test world with a floor, an obstacle and some
-     * test boxes
+     * creates a simple physics test world with a floor, an obstacle and some test boxes
      *
      * @param rootNode where lights and geometries should be added
      * @param assetManager for loading assets
@@ -217,8 +216,7 @@ public class PhysicsTestHelper {
     }
 
     /**
-     * creates the necessary inputlistener and action to shoot balls from the
-     * camera
+     * creates the necessary inputlistener and action to shoot balls from the camera
      *
      * @param app the application that's running
      * @param rootNode where ball geometries should be added
@@ -254,10 +252,9 @@ public class PhysicsTestHelper {
     }
 
     /**
-     * Creates a curved "floor" with a GImpactCollisionShape provided as the
-     * RigidBodyControl's collision shape. Surface has four slightly concave
-     * corners to allow for multiple tests and minimize falling off the edge of
-     * the floor.
+     * Creates a curved "floor" with a GImpactCollisionShape provided as the RigidBodyControl's collision
+     * shape. Surface has four slightly concave corners to allow for multiple tests and minimize falling off
+     * the edge of the floor.
      *
      * @param assetManager for loading assets
      * @param floorDimensions width/depth of the "floor" (X/Z)
@@ -272,10 +269,9 @@ public class PhysicsTestHelper {
     }
 
     /**
-     * Creates a curved "floor" with a MeshCollisionShape provided as the
-     * RigidBodyControl's collision shape. Surface has four slightly concave
-     * corners to allow for multiple tests and minimize falling off the edge of
-     * the floor.
+     * Creates a curved "floor" with a MeshCollisionShape provided as the RigidBodyControl's collision shape.
+     * Surface has four slightly concave corners to allow for multiple tests and minimize falling off the edge
+     * of the floor.
      *
      * @param assetManager for loading assets
      * @param floorDimensions width/depth of the "floor" (X/Z)
