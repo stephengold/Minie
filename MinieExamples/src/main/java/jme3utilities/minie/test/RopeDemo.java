@@ -87,7 +87,7 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Simulate ropes using DynamicAnimControl.
+ * Simulate ropes using DynamicAnimControl. TODO use the new animation system
  * <p>
  * Seen in the February 2019 demo video:
  * https://www.youtube.com/watch?v=7PYDAyB5RCE
