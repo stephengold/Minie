@@ -894,6 +894,14 @@ public class RopeDemo extends ActionApplication {
 
             dacs.removeLast();
             shapes.removeLast();
+
+            latestDac = dacs.peekLast();
+            if (latestDac != null) {
+                spatial = latestDac.getSpatial();
+                SkeletonControl skeletonControl
+                        = spatial.getControl(SkeletonControl.class);
+                sv.setSubject(skeletonControl);
+            }
         }
     }
 
