@@ -215,8 +215,8 @@ public class DynamicAnimControl
         Validate.nonNegative(blendInterval, "blend interval");
         verifyAddedToSpatial("change modes");
 
-        getTorsoLink().blendToKinematicMode(KinematicSubmode.Animated, blendInterval,
-                endModelTransform);
+        getTorsoLink().blendToKinematicMode(KinematicSubmode.Animated,
+                blendInterval, endModelTransform);
         for (BoneLink boneLink : getBoneLinks()) {
             boneLink.blendToKinematicMode(KinematicSubmode.Animated,
                     blendInterval);
