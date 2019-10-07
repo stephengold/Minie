@@ -26,7 +26,7 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.audio.openal.ALAudioRenderer;
+import com.jme3.app.Application;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -34,7 +34,6 @@ import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.DebugShapeFactory;
-import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
@@ -97,9 +96,9 @@ public class TestRectangularSolid extends ActionApplication {
     // fields
 
     /**
-     * scene-graph node for displaying user-interface text
+     * status displayed in the upper-left corner of the GUI node
      */
-    private BitmapText uiText;
+    private BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
@@ -108,7 +107,7 @@ public class TestRectangularSolid extends ActionApplication {
      * enhanced pseudo-random generator
      */
     final private Generator random = new Generator();
-    /*
+    /**
      * pseudo-random seed for the current/next trial
      */
     private long trialSeed = 1L;
@@ -137,16 +136,15 @@ public class TestRectangularSolid extends ActionApplication {
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
-        TestRectangularSolid application = new TestRectangularSolid();
+        Application application = new TestRectangularSolid();
         /*
          * Customize the window's title bar.
          */
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
+        settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
@@ -161,16 +159,13 @@ public class TestRectangularSolid extends ActionApplication {
      */
     @Override
     public void actionInitializeApplication() {
-        flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(10f);
+        configureCamera();
         /*
-         * Add a BitmapText in the upper-left corner of the display.
+         * Add the status text to the GUI.
          */
-        BitmapFont font = assetManager.loadFont("Interface/Fonts/Default.fnt");
-        uiText = new BitmapText(font);
-        guiNode.attachChild(uiText);
-        float displayHeight = cam.getHeight();
-        uiText.move(0f, displayHeight, 0f);
+        statusText = new BitmapText(guiFont);
+        statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
+        guiNode.attachChild(statusText);
 
         samplePointMaterial = MyAsset.createWireframeMaterial(assetManager,
                 sampleColor, samplePointSize);
@@ -206,7 +201,7 @@ public class TestRectangularSolid extends ActionApplication {
         dim.bind("toggle help", KeyInput.KEY_H);
 
         float x = 10f;
-        float y = cam.getHeight() - 10f;
+        float y = cam.getHeight() - 40f;
         float width = cam.getWidth() - 20f;
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -247,6 +242,14 @@ public class TestRectangularSolid extends ActionApplication {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Configure the camera during startup.
+     */
+    private void configureCamera() {
+        flyCam.setDragToRotate(true);
+        flyCam.setMoveSpeed(4f);
+    }
 
     /**
      * Perform a new trial after cleaning up from the previous one.
@@ -291,7 +294,7 @@ public class TestRectangularSolid extends ActionApplication {
 
         String msg = String.format("trialSeed=%d", trialSeed);
         System.out.println(msg);
-        uiText.setText(msg);
+        statusText.setText(msg);
         random.setSeed(trialSeed);
         /*
          * Generate a new transform.
