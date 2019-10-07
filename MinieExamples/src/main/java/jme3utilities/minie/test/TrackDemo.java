@@ -148,7 +148,7 @@ public class TrackDemo extends ActionApplication {
      */
     private PhysicsSpace physicsSpace;
     /**
-     * SkeletonControl of the model
+     * SkeletonControl of the loaded model
      */
     private SkeletonControl sc;
     /**
@@ -481,14 +481,14 @@ public class TrackDemo extends ActionApplication {
         }
         cgModel.setCullHint(Spatial.CullHint.Never);
 
+        sc = RagUtils.findSkeletonControl(cgModel);
+
         rootNode.attachChild(cgModel);
         float height = 2f;
         setHeight(cgModel, height);
         center(cgModel);
 
-        sc = RagUtils.findSkeletonControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
-
         controlledSpatial.addControl(dac);
         dac.setPhysicsSpace(physicsSpace);
 
