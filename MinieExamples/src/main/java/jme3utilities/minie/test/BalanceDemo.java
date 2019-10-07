@@ -728,7 +728,7 @@ public class BalanceDemo extends ActionApplication {
         animationName = "pull";
         uprightGain = 8f;
         vaBias = 0f;
-        vaMagnitude = 150f;
+        vaMagnitude = 100f;
         torsoUpDirection = Vector3f.UNIT_Y;
     }
 
