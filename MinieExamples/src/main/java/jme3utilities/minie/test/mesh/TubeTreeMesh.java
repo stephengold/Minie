@@ -63,7 +63,7 @@ public class TubeTreeMesh extends Mesh {
     // constants and loggers
 
     /**
-     * maximum number of bone weights per vertex
+     * maximum number of weights per vertex
      */
     final private static int maxWpv = 4;
     /**
@@ -95,13 +95,13 @@ public class TubeTreeMesh extends Mesh {
      */
     private float radius;
     /**
-     * bone-weight buffer
-     */
-    private FloatBuffer boneWeightBuffer;
-    /**
      * normal buffer
      */
     private FloatBuffer normalBuffer;
+    /**
+     * weight buffer
+     */
+    private FloatBuffer weightBuffer;
     /**
      * position buffer
      */
@@ -123,9 +123,9 @@ public class TubeTreeMesh extends Mesh {
      */
     private int samplesPerLoop;
     /**
-     * bone-index buffer
+     * index buffer
      */
-    private ShortBuffer boneIndexBuffer;
+    private ShortBuffer indexBuffer;
     /**
      * skeleton used to construct the mesh
      */
@@ -269,10 +269,10 @@ public class TubeTreeMesh extends Mesh {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        boneWeightBuffer = cloner.clone(boneWeightBuffer);
+        weightBuffer = cloner.clone(weightBuffer);
         normalBuffer = cloner.clone(normalBuffer);
         positionBuffer = cloner.clone(positionBuffer);
-        boneIndexBuffer = cloner.clone(boneIndexBuffer);
+        indexBuffer = cloner.clone(indexBuffer);
         // skeleton not cloned (read-only)
         assert circleSamples == null : circleSamples;
         reusable = cloner.clone(reusable);
@@ -328,10 +328,10 @@ public class TubeTreeMesh extends Mesh {
     private void allocateBuffers() {
         int weightCount = maxWpv * numVertices;
         // TODO use a ByteBuffer if possible
-        boneIndexBuffer = BufferUtils.createShortBuffer(weightCount);
-        setBuffer(VertexBuffer.Type.BoneIndex, maxWpv, boneIndexBuffer);
-        boneWeightBuffer = BufferUtils.createFloatBuffer(weightCount);
-        setBuffer(VertexBuffer.Type.BoneWeight, maxWpv, boneWeightBuffer);
+        indexBuffer = BufferUtils.createShortBuffer(weightCount);
+        setBuffer(VertexBuffer.Type.BoneIndex, maxWpv, indexBuffer);
+        weightBuffer = BufferUtils.createFloatBuffer(weightCount);
+        setBuffer(VertexBuffer.Type.BoneWeight, maxWpv, weightBuffer);
 
         positionBuffer = BufferUtils.createVector3Buffer(numVertices);
         setBuffer(VertexBuffer.Type.BindPosePosition, numAxes, positionBuffer);
@@ -419,12 +419,12 @@ public class TubeTreeMesh extends Mesh {
         assert boneIndex <= Short.MAX_VALUE : boneIndex;
 
         for (int vertexIndex = 0; vertexIndex < vpt; ++vertexIndex) {
-            boneIndexBuffer.put((short) boneIndex);
-            boneWeightBuffer.put(1f);
+            indexBuffer.put((short) boneIndex);
+            weightBuffer.put(1f);
 
             for (int weightIndex = 1; weightIndex < maxWpv; ++weightIndex) {
-                boneIndexBuffer.put((short) 0);
-                boneWeightBuffer.put(0f);
+                indexBuffer.put((short) 0);
+                weightBuffer.put(0f);
             }
         }
     }
@@ -448,19 +448,19 @@ public class TubeTreeMesh extends Mesh {
 
         int weightIndex;
         if (weight1 != 0f) {
-            boneIndexBuffer.put((short) boneIndex1);
-            boneWeightBuffer.put(weight1);
+            indexBuffer.put((short) boneIndex1);
+            weightBuffer.put(weight1);
             weightIndex = 2;
         } else {
             weightIndex = 1;
         }
 
-        boneIndexBuffer.put((short) boneIndex2);
-        boneWeightBuffer.put(1f - weight1);
+        indexBuffer.put((short) boneIndex2);
+        weightBuffer.put(1f - weight1);
 
         while (weightIndex < maxWpv) {
-            boneIndexBuffer.put((short) 0);
-            boneWeightBuffer.put(0f);
+            indexBuffer.put((short) 0);
+            weightBuffer.put(0f);
             ++weightIndex;
         }
     }
