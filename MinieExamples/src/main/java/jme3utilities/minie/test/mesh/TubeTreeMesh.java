@@ -26,8 +26,8 @@
  */
 package jme3utilities.minie.test.mesh;
 
-import com.jme3.animation.Bone;
-import com.jme3.animation.Skeleton;
+import com.jme3.anim.Armature;
+import com.jme3.anim.Joint;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -52,8 +52,8 @@ import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 
 /**
- * An animated triangle-mode mesh for a branching 3-D shape that conforms to a
- * Skeleton. Can be used to visualize ropes, hoses, snakes, and such. TODO add
+ * An animated triangle-mode mesh for a branching 3-D shape that conforms to an
+ * Armature. Can be used to visualize ropes, hoses, snakes, and such. TODO add
  * texture coordinates
  *
  * @author Stephen Gold sgold@sonic.net
@@ -63,7 +63,7 @@ public class TubeTreeMesh extends Mesh {
     // constants and loggers
 
     /**
-     * maximum number of bone weights per vertex
+     * maximum number of weights per vertex
      */
     final private static int maxWpv = 4;
     /**
@@ -87,7 +87,11 @@ public class TubeTreeMesh extends Mesh {
     // fields
 
     /**
-     * overshoot distance for leaf bones (in mesh units, default=0)
+     * Armature used to construct the Mesh
+     */
+    private Armature armature;
+    /**
+     * overshoot distance for leaf joints (in mesh units, default=0)
      */
     private float leafOvershoot;
     /**
@@ -95,9 +99,9 @@ public class TubeTreeMesh extends Mesh {
      */
     private float radius;
     /**
-     * bone-weight buffer
+     * weight buffer TODO re-order fields
      */
-    private FloatBuffer boneWeightBuffer;
+    private FloatBuffer weightBuffer;
     /**
      * normal buffer
      */
@@ -123,13 +127,9 @@ public class TubeTreeMesh extends Mesh {
      */
     private int samplesPerLoop;
     /**
-     * bone-index buffer
+     * index buffer
      */
-    private ShortBuffer boneIndexBuffer;
-    /**
-     * skeleton used to construct the mesh
-     */
-    private Skeleton skeleton;
+    private ShortBuffer indexBuffer;
     /**
      * cached sample positions for a unit circle in the X-Y plane
      */
@@ -151,36 +151,38 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Instantiate a tube-tree mesh based on the specified skeleton and radius.
+     * Instantiate a tube-tree mesh based on the specified Armature and radius.
      *
-     * @param skeleton (not null, in bind pose, unaffected)
+     * @param armature (not null, in bind pose, unaffected)
      * @param radius the radius of each mesh loop (in mesh units, &gt;0)
      */
-    public TubeTreeMesh(Skeleton skeleton, float radius) {
-        this(skeleton, radius, 0f, 3, 12);
+    public TubeTreeMesh(Armature armature, float radius) {
+        this(armature, radius, 0f, 3, 12);
     }
 
     /**
-     * Instantiate a tube-tree mesh based on the specified skeleton and
+     * Instantiate a tube-tree mesh based on the specified Armature and
      * parameters.
      *
-     * @param skeleton (not null, in bind pose, unaffected)
+     * @param armature (not null, in bind pose, unaffected)
      * @param radius the radius of each mesh loop (in mesh units, &gt;0)
-     * @param leafOvershoot the overshoot distance for leaf bones (in mesh
+     * @param leafOvershoot the overshoot distance for leaf joints (in mesh
      * units)
      * @param loopsPerSegment the number of mesh loops in each tube segment
      * (&ge;1)
      * @param samplesPerLoop the number of samples in each mesh loop (&ge;3)
      */
-    public TubeTreeMesh(Skeleton skeleton, float radius, float leafOvershoot,
+    public TubeTreeMesh(Armature armature, float radius, float leafOvershoot,
             int loopsPerSegment, int samplesPerLoop) {
-        Validate.nonNull(skeleton, "skeleton");
+        Validate.nonNull(armature, "armature");
         Validate.positive(radius, "radius");
         Validate.positive(loopsPerSegment, "loops per segment");
         Validate.inRange(samplesPerLoop, "samples per loop", 3,
                 Integer.MAX_VALUE);
 
-        this.skeleton = (Skeleton) Misc.deepCopy(skeleton);
+        this.armature = (Armature) Misc.deepCopy(armature);
+        this.armature.update();
+
         this.radius = radius;
         this.leafOvershoot = leafOvershoot;
         this.loopsPerSegment = loopsPerSegment;
@@ -193,19 +195,19 @@ public class TubeTreeMesh extends Mesh {
     // new methods exposed
 
     /**
-     * Enumerate the indices of all cap vertices for the named bone.
+     * Enumerate the indices of all cap vertices for the named Joint.
      *
-     * @param boneName the name of the bone
+     * @param jointName the name of the Joint
      * @return a new BitSet of vertex indices (not null)
      */
-    public BitSet listCapVertices(String boneName) {
-        Bone bone = skeleton.getBone(boneName);
-        if (bone == null) {
-            String message = "no such bone: " + MyString.quote(boneName);
+    public BitSet listCapVertices(String jointName) {
+        Joint joint = armature.getJoint(jointName);
+        if (joint == null) {
+            String message = "no such joint: " + MyString.quote(jointName);
             throw new IllegalArgumentException(message);
         }
 
-        int numBones = skeleton.getBoneCount();
+        int numJoints = armature.getJointCount();
         int trianglesPerCap = samplesPerLoop - 2;
         int trianglesPerLoop = 2 * samplesPerLoop;
         int trianglesPerSegment = trianglesPerLoop * loopsPerSegment;
@@ -213,14 +215,14 @@ public class TubeTreeMesh extends Mesh {
         BitSet result = new BitSet(numVertices);
         int triCount = 0;
 
-        for (int childIndex = 0; childIndex < numBones; ++childIndex) {
-            Bone child = skeleton.getBone(childIndex);
-            Bone parent = child.getParent();
+        for (int childIndex = 0; childIndex < numJoints; ++childIndex) {
+            Joint child = armature.getJoint(childIndex);
+            Joint parent = child.getParent();
             if (parent != null) {
                 triCount += trianglesPerSegment;
 
                 if (capChild(child)) {
-                    if (child == bone) {
+                    if (child == joint) {
                         int fromIndex = vpt * triCount;
                         int toIndex = vpt * (triCount + trianglesPerCap);
                         result.set(fromIndex, toIndex);
@@ -229,7 +231,7 @@ public class TubeTreeMesh extends Mesh {
                 }
 
                 if (capParent(parent)) {
-                    if (parent == bone) {
+                    if (parent == joint) {
                         int fromIndex = vpt * triCount;
                         int toIndex = vpt * (triCount + trianglesPerCap);
                         result.set(fromIndex, toIndex);
@@ -268,11 +270,11 @@ public class TubeTreeMesh extends Mesh {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        boneWeightBuffer = cloner.clone(boneWeightBuffer);
+        weightBuffer = cloner.clone(weightBuffer);
         normalBuffer = cloner.clone(normalBuffer);
         positionBuffer = cloner.clone(positionBuffer);
-        boneIndexBuffer = cloner.clone(boneIndexBuffer);
-        // skeleton not cloned (read-only)
+        indexBuffer = cloner.clone(indexBuffer);
+        // armature not cloned (read-only)
         assert circleSamples == null : circleSamples;
         reusable = cloner.clone(reusable);
     }
@@ -293,7 +295,7 @@ public class TubeTreeMesh extends Mesh {
         radius = capsule.readFloat("radius", 1f);
         loopsPerSegment = capsule.readInt("loopsPerSegment", 3);
         samplesPerLoop = capsule.readInt("samplesPerLoop", 12);
-        skeleton = (Skeleton) capsule.readSavable("skeleton", null);
+        armature = (Armature) capsule.readSavable("armature", null);
         /*
          * Recalculate the derived properties.
          */
@@ -316,21 +318,21 @@ public class TubeTreeMesh extends Mesh {
         capsule.write(radius, "radius", 1f);
         capsule.write(loopsPerSegment, "loopsPerSegment", 3);
         capsule.write(samplesPerLoop, "samplesPerLoop", 12);
-        capsule.write(skeleton, "skeleton", null);
+        capsule.write(armature, "armature", null);
     }
     // *************************************************************************
     // private methods
 
-    /*
+    /**
      * Allocate new buffers for mesh data.
      */
     private void allocateBuffers() {
         int weightCount = maxWpv * numVertices;
         // TODO use a ByteBuffer if possible
-        boneIndexBuffer = BufferUtils.createShortBuffer(weightCount);
-        setBuffer(VertexBuffer.Type.BoneIndex, maxWpv, boneIndexBuffer);
-        boneWeightBuffer = BufferUtils.createFloatBuffer(weightCount);
-        setBuffer(VertexBuffer.Type.BoneWeight, maxWpv, boneWeightBuffer);
+        indexBuffer = BufferUtils.createShortBuffer(weightCount);
+        setBuffer(VertexBuffer.Type.BoneIndex, maxWpv, indexBuffer);
+        weightBuffer = BufferUtils.createFloatBuffer(weightCount);
+        setBuffer(VertexBuffer.Type.BoneWeight, maxWpv, weightBuffer);
 
         positionBuffer = BufferUtils.createVector3Buffer(numVertices);
         setBuffer(VertexBuffer.Type.BindPosePosition, numAxes, positionBuffer);
@@ -344,13 +346,13 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Test whether segments having the specified bone as the child should be
+     * Test whether segments having the specified Joint as the child should be
      * capped at the child's end.
      *
-     * @param child the bone to test (not null, unaffected)
+     * @param child the Joint to test (not null, unaffected)
      * @return true if capped, otherwise false
      */
-    private static boolean capChild(Bone child) {
+    private static boolean capChild(Joint child) {
         int numChildren = child.getChildren().size();
         if (numChildren == 1) {
             return false;
@@ -360,14 +362,14 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Test whether segments having the specified bone as the parent should be
+     * Test whether segments having the specified Joint as the parent should be
      * capped at the parent's end.
      *
-     * @param parent the bone to test (not null, unaffected)
+     * @param parent the Joint to test (not null, unaffected)
      * @return true if capped, otherwise false
      */
-    private static boolean capParent(Bone parent) {
-        Bone grandparent = parent.getParent();
+    private static boolean capParent(Joint parent) {
+        Joint grandparent = parent.getParent();
         boolean isCapped;
         if (grandparent == null) {
             isCapped = true; // parent is a root: cap it
@@ -397,69 +399,69 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Test whether the specified bone is a leaf.
+     * Test whether the specified Joint is a leaf.
      *
-     * @param bone the bone to test (not null, unaffected)
+     * @param joint the Joint to test (not null, unaffected)
      * @return
      */
-    private static boolean isLeaf(Bone bone) {
-        boolean result = bone.getChildren().isEmpty();
+    private static boolean isLeaf(Joint joint) {
+        boolean result = joint.getChildren().isEmpty();
         return result;
     }
 
     /**
-     * Write bone indices and weights for a triangle animated entirely by a
-     * single bone.
+     * Write joint indices and weights for a triangle animated entirely by a
+     * single Joint.
      *
-     * @param boneIndex the index of the bone that animates the triangle
+     * @param jointIndex the index of the Joint that animates the triangle
      */
-    private void putAnimationForTriangle(int boneIndex) {
-        assert boneIndex >= 0 : boneIndex;
-        assert boneIndex <= Short.MAX_VALUE : boneIndex;
+    private void putAnimationForTriangle(int jointIndex) {
+        assert jointIndex >= 0 : jointIndex;
+        assert jointIndex <= Short.MAX_VALUE : jointIndex;
 
         for (int vertexIndex = 0; vertexIndex < vpt; ++vertexIndex) {
-            boneIndexBuffer.put((short) boneIndex);
-            boneWeightBuffer.put(1f);
+            indexBuffer.put((short) jointIndex);
+            weightBuffer.put(1f);
 
             for (int weightIndex = 1; weightIndex < maxWpv; ++weightIndex) {
-                boneIndexBuffer.put((short) 0);
-                boneWeightBuffer.put(0f);
+                indexBuffer.put((short) 0);
+                weightBuffer.put(0f);
             }
         }
     }
 
     /**
-     * Write bone indices and weights for a vertex animated by 2 bones.
+     * Write joint indices and weights for a vertex animated by 2 joints.
      *
-     * @param boneIndex1 the index of the first bone (&ge;0)
-     * @param boneIndex2 the index of the 2nd bone (&ge;0)
-     * @param weight1 the weight for the first bone
+     * @param jointIndex1 the index of the first Joint (&ge;0)
+     * @param jointIndex2 the index of the 2nd Joint (&ge;0)
+     * @param weight1 the weight for the first Joint
      */
-    private void putAnimationForVertex(int boneIndex1, int boneIndex2,
+    private void putAnimationForVertex(int jointIndex1, int jointIndex2,
             float weight1) {
-        assert boneIndex1 >= 0 : boneIndex1;
-        assert boneIndex1 <= Short.MAX_VALUE : boneIndex1;
-        assert boneIndex2 >= 0 : boneIndex2;
-        assert boneIndex2 <= Short.MAX_VALUE : boneIndex2;
-        assert boneIndex1 != boneIndex2 : boneIndex1;
+        assert jointIndex1 >= 0 : jointIndex1;
+        assert jointIndex1 <= Short.MAX_VALUE : jointIndex1;
+        assert jointIndex2 >= 0 : jointIndex2;
+        assert jointIndex2 <= Short.MAX_VALUE : jointIndex2;
+        assert jointIndex1 != jointIndex2 : jointIndex1;
 
         weight1 = FastMath.clamp(weight1, 0f, 1f);
 
         int weightIndex;
         if (weight1 != 0f) {
-            boneIndexBuffer.put((short) boneIndex1);
-            boneWeightBuffer.put(weight1);
+            indexBuffer.put((short) jointIndex1);
+            weightBuffer.put(weight1);
             weightIndex = 2;
         } else {
             weightIndex = 1;
         }
 
-        boneIndexBuffer.put((short) boneIndex2);
-        boneWeightBuffer.put(1f - weight1);
+        indexBuffer.put((short) jointIndex2);
+        weightBuffer.put(1f - weight1);
 
         while (weightIndex < maxWpv) {
-            boneIndexBuffer.put((short) 0);
-            boneWeightBuffer.put(0f);
+            indexBuffer.put((short) 0);
+            weightBuffer.put(0f);
             ++weightIndex;
         }
     }
@@ -474,10 +476,10 @@ public class TubeTreeMesh extends Mesh {
      * @param posZ the Z component of the cap position (in local coordinates)
      * @param normalZ the Z component of the normal direction (in local
      * coordinates, +1 or -1)
-     * @param boneIndex (&ge;0)
+     * @param jointIndex (&ge;0)
      */
     private void putCap(Vector3f centerPos, Quaternion orientation, float posZ,
-            float normalZ, int boneIndex) {
+            float normalZ, int jointIndex) {
         Vector3f a = reusable[0];
         Vector3f b = reusable[1];
         Vector3f c = reusable[2];
@@ -514,7 +516,7 @@ public class TubeTreeMesh extends Mesh {
             putTransformedTriangle(normalBuffer, translateIdentity, orientation,
                     a, b, c);
 
-            putAnimationForTriangle(boneIndex);
+            putAnimationForTriangle(jointIndex);
         }
         int numFloats = positionBuffer.position() - startBufferOffset;
         assert numFloats == numAxes * verticesPerCap();
@@ -557,12 +559,12 @@ public class TubeTreeMesh extends Mesh {
      * @param startZ the Z component of the start position (in local
      * coordinates)
      * @param endZ the Z component of the end position (in local coordinates)
-     * @param startBoneIndex (&ge;0)
-     * @param endBoneIndex (&ge;0)
+     * @param startJointIndex (&ge;0)
+     * @param endJointIndex (&ge;0)
      */
     private void putTube(Vector3f origin, Quaternion orientation, float startZ,
-            float endZ, int startBoneIndex, int endBoneIndex) {
-        assert startBoneIndex != endBoneIndex;
+            float endZ, int startJointIndex, int endJointIndex) {
+        assert startJointIndex != endJointIndex;
 
         Vector3f pos11 = reusable[0];
         Vector3f pos12 = reusable[1];
@@ -603,9 +605,9 @@ public class TubeTreeMesh extends Mesh {
                 putTransformedTriangle(normalBuffer, translateIdentity,
                         orientation, norm11, norm21, norm22);
 
-                putAnimationForVertex(endBoneIndex, startBoneIndex, fraction1);
-                putAnimationForVertex(endBoneIndex, startBoneIndex, fraction1);
-                putAnimationForVertex(endBoneIndex, startBoneIndex, fraction2);
+                putAnimationForVertex(endJointIndex, startJointIndex, fraction1);
+                putAnimationForVertex(endJointIndex, startJointIndex, fraction1);
+                putAnimationForVertex(endJointIndex, startJointIndex, fraction2);
                 /*
                  * Put the upper-left triangle.
                  */
@@ -621,9 +623,9 @@ public class TubeTreeMesh extends Mesh {
                 putTransformedTriangle(normalBuffer, translateIdentity,
                         orientation, norm11, norm22, norm12);
 
-                putAnimationForVertex(endBoneIndex, startBoneIndex, fraction1);
-                putAnimationForVertex(endBoneIndex, startBoneIndex, fraction2);
-                putAnimationForVertex(endBoneIndex, startBoneIndex, fraction2);
+                putAnimationForVertex(endJointIndex, startJointIndex, fraction1);
+                putAnimationForVertex(endJointIndex, startJointIndex, fraction2);
+                putAnimationForVertex(endJointIndex, startJointIndex, fraction2);
             }
         }
     }
@@ -644,16 +646,21 @@ public class TubeTreeMesh extends Mesh {
         initCircleSamples();
         allocateBuffers();
 
-        int numBones = skeleton.getBoneCount();
-        for (int childIndex = 0; childIndex < numBones; ++childIndex) {
-            Bone child = skeleton.getBone(childIndex);
-            Bone parent = child.getParent();
-            if (parent != null) { // child is not a root bone
-                int parentIndex = skeleton.getBoneIndex(parent);
-                Vector3f childPosition = child.getModelSpacePosition();
-                Vector3f parentPosition = parent.getModelSpacePosition();
+        int numJoints = armature.getJointCount();
+        for (int childIndex = 0; childIndex < numJoints; ++childIndex) {
+            Joint child = armature.getJoint(childIndex);
+            Joint parent = child.getParent();
+            if (parent != null) { // child is not a root joint
+                int parentIndex = armature.getJointIndex(parent);
+                Vector3f childPosition
+                        = child.getModelTransform().getTranslation();
+                Vector3f parentPosition
+                        = parent.getModelTransform().getTranslation();
                 Vector3f offset = parentPosition.subtract(childPosition);
                 float endZ = offset.length();
+                if (endZ < FastMath.FLT_EPSILON) {
+                    throw new IllegalStateException("Joint with length=0");
+                }
 
                 Vector3f direction = offset.clone();
                 Vector3f axis1 = new Vector3f();
@@ -688,10 +695,10 @@ public class TubeTreeMesh extends Mesh {
     private void updateDerivedProperties() {
         int numSegments = 0;
         int numCaps = 0;
-        int numBones = skeleton.getBoneCount();
-        for (int childIndex = 0; childIndex < numBones; ++childIndex) {
-            Bone child = skeleton.getBone(childIndex);
-            Bone parent = child.getParent();
+        int numJoints = armature.getJointCount();
+        for (int childIndex = 0; childIndex < numJoints; ++childIndex) {
+            Joint child = armature.getJoint(childIndex);
+            Joint parent = child.getParent();
             if (parent != null) {
                 ++numSegments;
                 if (capChild(child)) {

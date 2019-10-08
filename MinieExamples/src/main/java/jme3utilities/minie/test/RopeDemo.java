@@ -26,9 +26,9 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.animation.Bone;
-import com.jme3.animation.Skeleton;
-import com.jme3.animation.SkeletonControl;
+import com.jme3.anim.Armature;
+import com.jme3.anim.Joint;
+import com.jme3.anim.SkinningControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.bullet.BulletAppState;
@@ -87,7 +87,7 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Simulate ropes using DynamicAnimControl. TODO use the new animation system
+ * Simulate ropes using DynamicAnimControl.
  * <p>
  * Seen in the February 2019 demo video:
  * https://www.youtube.com/watch?v=7PYDAyB5RCE
@@ -155,13 +155,13 @@ public class RopeDemo extends ActionApplication {
      */
     final private static int samplesPerLoop = 12;
     /**
-     * link configuration for leaf bones (shunken hull shape)
+     * link configuration for leaf joints (shunken hull shape)
      */
     final private static LinkConfig leafConfig = new LinkConfig(linkMass,
             MassHeuristic.Mass, ShapeHeuristic.VertexHull,
             new Vector3f(0.84f, 0.84f, 0.84f), CenterHeuristic.Mean);
     /**
-     * link configuration for non-leaf bones (stretched capsule shape)
+     * link configuration for non-leaf joints (stretched capsule shape)
      */
     final private static LinkConfig ropeConfig = new LinkConfig(linkMass,
             MassHeuristic.Mass, ShapeHeuristic.TwoSphere,
@@ -232,7 +232,7 @@ public class RopeDemo extends ActionApplication {
      */
     private PhysicsSpace physicsSpace;
     /**
-     * visualizer for the skeleton of the most recently added rope
+     * visualizer for the Armature of the most recently added rope
      */
     private SkeletonVisualizer sv;
     // *************************************************************************
@@ -458,7 +458,7 @@ public class RopeDemo extends ActionApplication {
         DirectionalLightShadowRenderer dlsr
                 = new DirectionalLightShadowRenderer(assetManager, 8_192, 3);
         dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.6f);
+        dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
     }
 
@@ -509,7 +509,7 @@ public class RopeDemo extends ActionApplication {
      */
     private void addRopeCross() {
         /*
-         * Generate a cross-shaped skeleton.
+         * Generate a cross-shaped Armature.
          */
         int[] stepCounts = {5, 5, 5, 5};
         Vector3f[] stepOffsets = {
@@ -518,22 +518,22 @@ public class RopeDemo extends ActionApplication {
             new Vector3f(0f, 0f, stepLength),
             new Vector3f(0f, 0f, -stepLength)
         };
-        Skeleton skeleton = makeSkeleton(stepCounts, stepOffsets);
+        Armature armature = makeArmature(stepCounts, stepOffsets);
 
-        TubeTreeMesh ropeMesh = new TubeTreeMesh(skeleton, ropeRadius,
+        TubeTreeMesh ropeMesh = new TubeTreeMesh(armature, ropeRadius,
                 0f, loopsPerSegment, samplesPerLoop);
 
         String geometryName = geometryNamer.unique("rope cross");
         Geometry geometry = new Geometry(geometryName, ropeMesh);
 
-        addRopeSpatial(skeleton, geometry);
+        addRopeSpatial(armature, geometry);
         /*
          * Curl all branches clockwise to introduce some slack.
          */
-        curlBranch(skeleton, 0, Vector3f.UNIT_Y, 0.2f);
-        curlBranch(skeleton, 1, Vector3f.UNIT_Y, 0.2f);
-        curlBranch(skeleton, 2, Vector3f.UNIT_Y, 0.2f);
-        curlBranch(skeleton, 3, Vector3f.UNIT_Y, 0.2f);
+        curlBranch(armature, 0, Vector3f.UNIT_Y, 0.2f);
+        curlBranch(armature, 1, Vector3f.UNIT_Y, 0.2f);
+        curlBranch(armature, 2, Vector3f.UNIT_Y, 0.2f);
+        curlBranch(armature, 3, Vector3f.UNIT_Y, 0.2f);
     }
 
     /**
@@ -546,7 +546,7 @@ public class RopeDemo extends ActionApplication {
      */
     private void addRopeNoose(boolean kinematicSplice) {
         /*
-         * Generate a Y-shaped skeleton. Branch0 forms the stem of the Y.
+         * Generate a Y-shaped Armature. Branch0 forms the stem of the Y.
          */
         int[] stepCounts = {6, 6, 6};
         float dx = stepLength * FastMath.sqrt(0.5f);
@@ -555,21 +555,21 @@ public class RopeDemo extends ActionApplication {
             new Vector3f(-dx, 0f, -dx),
             new Vector3f(-dx, 0f, dx)
         };
-        Skeleton skeleton = makeSkeleton(stepCounts, stepOffsets);
+        Armature armature = makeArmature(stepCounts, stepOffsets);
 
-        TubeTreeMesh ropeMesh = new TubeTreeMesh(skeleton, ropeRadius,
+        TubeTreeMesh ropeMesh = new TubeTreeMesh(armature, ropeRadius,
                 0f, loopsPerSegment, samplesPerLoop);
         String geometryName = geometryNamer.unique("noose");
         Geometry geometry = new Geometry(geometryName, ropeMesh);
 
-        addRopeSpatial(skeleton, geometry);
+        addRopeSpatial(armature, geometry);
 
         if (kinematicSplice) {
             /*
              * Curl branch1 and branch2 toward one another, 90 degrees each.
              */
-            curlBranch(skeleton, 1, Vector3f.UNIT_Y, FastMath.HALF_PI);
-            curlBranch(skeleton, 2, Vector3f.UNIT_Y, -FastMath.HALF_PI);
+            curlBranch(armature, 1, Vector3f.UNIT_Y, FastMath.HALF_PI);
+            curlBranch(armature, 2, Vector3f.UNIT_Y, -FastMath.HALF_PI);
         }
     }
 
@@ -583,29 +583,29 @@ public class RopeDemo extends ActionApplication {
      */
     private void addRopeRing(boolean kinematicSplice) {
         /*
-         * Generate a double-ended straight-line skeleton.
+         * Generate a double-ended straight-line Armature.
          */
         int[] stepCounts = {8, 8};
         Vector3f[] stepOffsets = {
             new Vector3f(stepLength, 0f, 0f),
             new Vector3f(-stepLength, 0f, 0f)
         };
-        Skeleton skeleton = makeSkeleton(stepCounts, stepOffsets);
+        Armature armature = makeArmature(stepCounts, stepOffsets);
 
-        TubeTreeMesh ropeMesh = new TubeTreeMesh(skeleton, ropeRadius,
+        TubeTreeMesh ropeMesh = new TubeTreeMesh(armature, ropeRadius,
                 0f, loopsPerSegment, samplesPerLoop);
 
         String geometryName = geometryNamer.unique("rope ring");
         Geometry geometry = new Geometry(geometryName, ropeMesh);
 
-        addRopeSpatial(skeleton, geometry);
+        addRopeSpatial(armature, geometry);
 
         if (kinematicSplice) {
             /*
              * Curl branch0 and branch1 toward one another, 180 degrees each.
              */
-            curlBranch(skeleton, 0, Vector3f.UNIT_Y, FastMath.PI);
-            curlBranch(skeleton, 1, Vector3f.UNIT_Y, -FastMath.PI);
+            curlBranch(armature, 0, Vector3f.UNIT_Y, FastMath.PI);
+            curlBranch(armature, 1, Vector3f.UNIT_Y, -FastMath.PI);
         }
     }
 
@@ -617,36 +617,36 @@ public class RopeDemo extends ActionApplication {
      */
     private void addRopeSlackline() {
         /*
-         * Generate a double-ended straight-line skeleton.
+         * Generate a double-ended straight-line Armature.
          */
         int[] stepCounts = {8, 8};
         Vector3f[] stepOffsets = {
             new Vector3f(0f, 0f, stepLength),
             new Vector3f(0f, 0f, -stepLength)
         };
-        Skeleton skeleton = makeSkeleton(stepCounts, stepOffsets);
+        Armature armature = makeArmature(stepCounts, stepOffsets);
 
         float leafOvershoot = 0.8f * ropeRadius;
-        TubeTreeMesh ropeMesh = new TubeTreeMesh(skeleton, ropeRadius,
+        TubeTreeMesh ropeMesh = new TubeTreeMesh(armature, ropeRadius,
                 leafOvershoot, loopsPerSegment, samplesPerLoop);
         String geometryName = geometryNamer.unique("slackline");
         Geometry geometry = new Geometry(geometryName, ropeMesh);
 
-        addRopeSpatial(skeleton, geometry);
+        addRopeSpatial(armature, geometry);
         /*
          * Curl both branches clockwise to introduce some slack.
          */
-        curlBranch(skeleton, 0, Vector3f.UNIT_Y, 0.2f);
-        curlBranch(skeleton, 1, Vector3f.UNIT_Y, 0.2f);
+        curlBranch(armature, 0, Vector3f.UNIT_Y, 0.2f);
+        curlBranch(armature, 1, Vector3f.UNIT_Y, 0.2f);
     }
 
     /**
      * Code for adding a rope that's shared by all shapes.
      *
-     * @param skeleton (not null)
+     * @param armature (not null)
      * @param spatial (not null)
      */
-    private void addRopeSpatial(Skeleton skeleton, Spatial spatial) {
+    private void addRopeSpatial(Armature armature, Spatial spatial) {
         /*
          * Set a random elevation and Y-axis rotation.
          */
@@ -659,22 +659,22 @@ public class RopeDemo extends ActionApplication {
         spatial.setMaterial(ropeMaterial);
         spatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
-        SkeletonControl skeletonControl = new SkeletonControl(skeleton);
-        spatial.addControl(skeletonControl);
-        skeletonControl.setHardwareSkinningPreferred(false);
-        sv.setSubject(skeletonControl);
+        SkinningControl sControl = new SkinningControl(armature);
+        spatial.addControl(sControl);
+        sControl.setHardwareSkinningPreferred(false);
+        sv.setSubject(sControl);
 
         assert stepLength < 2f * minCurlRadius : stepLength;
         float maxAngle = FastMath.acos(stepLength / (2f * minCurlRadius));
         RangeOfMotion rom = new RangeOfMotion(maxAngle);
 
         DynamicAnimControl dac = new DynamicAnimControl();
-        for (Bone bone : MySkeleton.preOrderBones(skeleton)) {
-            if (bone.getParent() != null) {
-                String boneName = bone.getName();
-                boolean isLeafBone = bone.getChildren().isEmpty();
-                LinkConfig linkConfig = isLeafBone ? leafConfig : ropeConfig;
-                dac.link(boneName, linkConfig, rom);
+        for (Joint joint : MySkeleton.preOrderJoints(armature)) {
+            if (joint.getParent() != null) {
+                String jointName = joint.getName();
+                boolean isLeafJoint = joint.getChildren().isEmpty();
+                LinkConfig linkConfig = isLeafJoint ? leafConfig : ropeConfig;
+                dac.link(jointName, linkConfig, rom);
             }
         }
         dac.setConfig(DacConfiguration.torsoName, ropeConfig);
@@ -705,14 +705,15 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Generate the name for the indexed bone in the indexed branch.
+     * Generate the name for the indexed Joint in the indexed branch. TODO
+     * re-order methods
      *
-     * @param branchIndex the index of the branch containing the bone (&ge;0,
+     * @param branchIndex the index of the branch containing the Joint (&ge;0,
      * &lt;numBranches)
-     * @param stepIndex the bone's index in the branch (&ge;0)
+     * @param stepIndex the joint's index in the branch (&ge;0)
      * @return the name (not null, not empty)
      */
-    private String boneName(int branchIndex, int stepIndex) {
+    private String jointName(int branchIndex, int stepIndex) {
         assert branchIndex >= 0 : branchIndex;
         assert stepIndex >= 0 : stepIndex;
 
@@ -759,13 +760,13 @@ public class RopeDemo extends ActionApplication {
         assert branchIndex >= 0 : branchIndex;
 
         DynamicAnimControl latestDac = dacs.peekLast();
-        Skeleton skeleton = latestDac.getSkeleton();
-        int lastStep = countSteps(skeleton, branchIndex) - 1;
-        String endBoneName = boneName(branchIndex, lastStep);
+        Armature armature = latestDac.getArmature();
+        int lastStep = countSteps(armature, branchIndex) - 1;
+        String endJointName = jointName(branchIndex, lastStep);
 
         Geometry geometry = (Geometry) latestDac.getSpatial();
         TubeTreeMesh mesh = (TubeTreeMesh) geometry.getMesh();
-        BitSet bitSet = mesh.listCapVertices(endBoneName);
+        BitSet bitSet = mesh.listCapVertices(endJointName);
         assert bitSet.cardinality() == mesh.verticesPerCap();
         int result = bitSet.nextSetBit(0);
 
@@ -824,18 +825,18 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Count the steps in the indexed branch of the specified skeleton.
+     * Count the steps in the indexed branch of the specified Armature.
      *
-     * @param skeleton which skeleton (not null)
+     * @param armature which Armature (not null)
      * @param branchIndex the index of the branch (&ge;0)
      * @return the count (&ge;0)
      */
-    private int countSteps(Skeleton skeleton, int branchIndex) {
+    private int countSteps(Armature armature, int branchIndex) {
         int numSteps = 0;
 
         while (true) {
-            String boneName = boneName(branchIndex, numSteps);
-            if (skeleton.getBone(boneName) == null) {
+            String jointName = jointName(branchIndex, numSteps);
+            if (armature.getJoint(jointName) == null) {
                 break;
             } else {
                 ++numSteps;
@@ -846,22 +847,22 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Kinematically curl a branch of the specified skeleton around the
+     * Kinematically curl a branch of the specified Armature around the
      * specified axis.
      *
-     * @param skeleton the skeleton to pose (not null)
+     * @param armature the Armature to pose (not null)
      * @param branchIndex (&ge;0)
-     * @param axis (in each bone's local coordinates, not null, not zero)
+     * @param axis (in each joint's local coordinates, not null, not zero)
      * @param totalAngle the angle between the first and last steps (in radians,
      * may be negative)
      */
-    private void curlBranch(Skeleton skeleton, int branchIndex, Vector3f axis,
+    private void curlBranch(Armature armature, int branchIndex, Vector3f axis,
             float totalAngle) {
         assert !MyVector3f.isZero(axis);
         /*
          * Count the steps in this branch.
          */
-        int numSteps = countSteps(skeleton, branchIndex);
+        int numSteps = countSteps(armature, branchIndex);
         assert numSteps > 1 : numSteps;
         /*
          * Calculate local rotation.
@@ -869,13 +870,12 @@ public class RopeDemo extends ActionApplication {
         float turnAngle = totalAngle / (numSteps - 1);
         Quaternion turn = new Quaternion().fromAngleAxis(turnAngle, axis);
         /*
-         * Apply the rotation to each bone.
+         * Apply the rotation to each Joint.
          */
         for (int stepIndex = 0; stepIndex < numSteps; ++stepIndex) {
-            String boneName = boneName(branchIndex, stepIndex);
-            Bone bone = skeleton.getBone(boneName);
-            bone.setUserControl(true);
-            bone.setLocalRotation(turn);
+            String jointName = jointName(branchIndex, stepIndex);
+            Joint joint = armature.getJoint(jointName);
+            joint.setLocalRotation(turn);
         }
     }
 
@@ -898,9 +898,9 @@ public class RopeDemo extends ActionApplication {
             latestDac = dacs.peekLast();
             if (latestDac != null) {
                 spatial = latestDac.getSpatial();
-                SkeletonControl skeletonControl
-                        = spatial.getControl(SkeletonControl.class);
-                sv.setSubject(skeletonControl);
+                SkinningControl sControl
+                        = spatial.getControl(SkinningControl.class);
+                sv.setSubject(sControl);
             }
         }
     }
@@ -928,9 +928,9 @@ public class RopeDemo extends ActionApplication {
          * before invoking DacLinks.findManagerForVertex().
          */
         Spatial spatial = dacs.peekLast().getSpatial();
-        SkeletonControl skeletonControl
-                = spatial.getControl(SkeletonControl.class);
-        skeletonControl.render(renderManager, viewPort);
+        SkinningControl sControl
+                = spatial.getControl(SkinningControl.class);
+        sControl.render(renderManager, viewPort);
 
         RopeShape latestShape = shapes.peekLast();
         switch (latestShape) {
@@ -963,51 +963,50 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Generate a Skeleton composed of straight-line branches originating from
-     * the root bone.
+     * Generate an Armature composed of straight-line branches originating from
+     * the root joint.
      *
-     * @param branchToNumSteps the number of bones in each branch (each &ge;1)
+     * @param branchToNumSteps the number of joints in each branch (each &ge;1)
      * @param branchToStepOffsets the parent-to-child offset in each branch
-     * @return a new Skeleton in bind pose (not null)
+     * @return a new Armature in bind pose (not null)
      */
-    private Skeleton makeSkeleton(int[] branchToNumSteps,
+    private Armature makeArmature(int[] branchToNumSteps,
             Vector3f[] branchToStepOffsets) {
         assert branchToNumSteps.length > 0;
         assert branchToNumSteps.length == branchToStepOffsets.length;
-        int numBones = 1;
+        int numJoints = 1;
         for (int numSteps : branchToNumSteps) {
             assert numSteps >= 1 : numSteps;
-            numBones += numSteps;
+            numJoints += numSteps;
         }
 
-        Bone[] bones = new Bone[numBones];
-        Bone root = new Bone("root bone");
-        bones[0] = root;
+        Joint[] joints = new Joint[numJoints];
+        Joint root = new Joint("root joint");
+        joints[0] = root;
 
-        int nextBoneIndex = 1;
+        int nextJointIndex = 1;
         int numBranches = branchToNumSteps.length;
         for (int branchIndex = 0; branchIndex < numBranches; ++branchIndex) {
-            Bone parent = root;
+            Joint parent = root;
             Vector3f stepOffset = branchToStepOffsets[branchIndex];
             int numSteps = branchToNumSteps[branchIndex];
             for (int stepIndex = 0; stepIndex < numSteps; ++stepIndex) {
-                String boneName = boneName(branchIndex, stepIndex);
-                Bone bone = new Bone(boneName);
-                bone.setUserControl(true);
-                bone.setLocalTranslation(stepOffset);
+                String jointName = jointName(branchIndex, stepIndex);
+                Joint joint = new Joint(jointName);
+                joint.setLocalTranslation(stepOffset);
 
-                bones[nextBoneIndex] = bone;
-                parent.addChild(bone);
-                parent = bone;
-                ++nextBoneIndex;
+                joints[nextJointIndex] = joint;
+                parent.addChild(joint);
+                parent = joint;
+                ++nextJointIndex;
             }
         }
-        assert nextBoneIndex == numBones;
+        assert nextJointIndex == numJoints;
 
-        Skeleton skeleton = new Skeleton(bones);
-        skeleton.setBindingPose();
+        Armature armature = new Armature(joints);
+        armature.saveBindPose();
 
-        return skeleton;
+        return armature;
     }
 
     /**
