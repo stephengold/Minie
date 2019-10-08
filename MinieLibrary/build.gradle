@@ -11,14 +11,14 @@ description = 'the Minie physics-support library for jMonkeyEngine'
 ext {
     libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/2.0.10/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/'
-    
+
     btfLinux32 = 'ReleaseSp'
     btfLinux64 = 'ReleaseSp'
     btfMacOSX32 = 'ReleaseSp'
     btfMacOSX64 = 'ReleaseSp'
     btfWindows32 = 'ReleaseSp'
     btfWindows64 = 'ReleaseSp'
-    
+
     artifact = 'Minie'
     version = minieVersion
     baseName = "$artifact-$version"
@@ -83,36 +83,39 @@ task downloadWindows64(type: MyDownload) {
 }
 
 // cleanup tasks
-clean.dependsOn('cleanDLLs', 'cleanLinux32', 'cleanLinux64',
-    'cleanLogs', 'cleanMacOSX32', 'cleanMacOSX64', 'cleanSOs',
+clean.dependsOn('cleanLinux32', 'cleanLinux64',
+    'cleanMacOSX32', 'cleanMacOSX64',
     'cleanWindows32', 'cleanWindows64'
 )
+clean.dependsOn('cleanDLLs', 'cleanLogs', 'cleanSOs')
+
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
 }
-task cleanLinux32(type: Delete) {
-    delete file(nativeDir + 'linux/x86/libbulletjme.so')
-}
-task cleanLinux64(type: Delete) {
-    delete file(nativeDir + 'linux/x86_64/libbulletjme.so')
+task cleanSOs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.so')
 }
 task cleanLogs(type: Delete) {
     delete fileTree(dir: '.', include: 'hs_err_pid*.log')
 }
+
+task cleanLinux32(type: Delete) {
+    delete nativeDir + 'linux/x86/libbulletjme.so'
+}
+task cleanLinux64(type: Delete) {
+    delete nativeDir + 'linux/x86_64/libbulletjme.so'
+}
 task cleanMacOSX32(type: Delete) {
-    delete file(nativeDir + 'osx/x86/libbulletjme.dylib')
+    delete nativeDir + 'osx/x86/libbulletjme.dylib'
 }
 task cleanMacOSX64(type: Delete) {
-    delete file(nativeDir + 'osx/x86_64/libbulletjme.dylib')
+    delete nativeDir + 'osx/x86_64/libbulletjme.dylib'
 }
 task cleanWindows32(type: Delete) {
-    delete file(nativeDir + 'windows/x86/bulletjme.dll')
+    delete nativeDir + 'windows/x86/bulletjme.dll'
 }
 task cleanWindows64(type: Delete) {
-    delete file(nativeDir + 'windows/x86_64/bulletjme.dll')
-}
-task cleanSOs(type: Delete) {
-    delete fileTree(dir: '.', include: '*.so')
+    delete nativeDir + 'windows/x86_64/bulletjme.dll'
 }
 
 build.dependsOn('pom')

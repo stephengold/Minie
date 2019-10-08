@@ -17,7 +17,7 @@ dependencies {
     runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
-    runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
 
     //implementation "jme3utilities:Minie:$minieVersion"
@@ -28,6 +28,7 @@ jar.manifest.attributes( 'Main-Class': 'jme3utilities.minie.wizard.DacWizard' )
 
 // cleanup tasks
 clean.dependsOn('cleanDLLs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets')
+
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
 }
