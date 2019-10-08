@@ -445,7 +445,7 @@ public class WatchDemo extends ActionApplication {
         DirectionalLightShadowRenderer dlsr
                 = new DirectionalLightShadowRenderer(assetManager, 4_096, 3);
         dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.3f);
+        dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
     }
 
