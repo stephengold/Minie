@@ -99,13 +99,13 @@ public class TubeTreeMesh extends Mesh {
      */
     private float radius;
     /**
-     * weight buffer TODO re-order fields
-     */
-    private FloatBuffer weightBuffer;
-    /**
      * normal buffer
      */
     private FloatBuffer normalBuffer;
+    /**
+     * weight buffer
+     */
+    private FloatBuffer weightBuffer;
     /**
      * position buffer
      */
