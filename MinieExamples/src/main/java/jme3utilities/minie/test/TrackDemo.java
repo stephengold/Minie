@@ -124,13 +124,13 @@ public class TrackDemo extends ActionApplication {
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
-     * control being tested
+     * Control being tested
      */
     private DynamicAnimControl dac;
 
     private int chainLength;
     /**
-     * C-G model on which the control is being tested
+     * root node of the C-G model on which the Control is being tested
      */
     private Node cgModel;
     /**
@@ -141,6 +141,10 @@ public class TrackDemo extends ActionApplication {
      * inverse kinematics joint for the finger/sword tip
      */
     private Constraint tipJoint = null;
+    /**
+     * dump debugging information to System.out
+     */
+    final private PhysicsDumper dumper = new PhysicsDumper();
     private PhysicsLink tipLink;
     private PhysicsRigidBody targetBody;
     /**
@@ -207,6 +211,7 @@ public class TrackDemo extends ActionApplication {
     @Override
     public void actionInitializeApplication() {
         configureCamera();
+        configureDumper();
         configurePhysics();
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
@@ -285,10 +290,10 @@ public class TrackDemo extends ActionApplication {
         if (ongoing) {
             switch (actionString) {
                 case "dump physicsSpace":
-                    dumpPhysicsSpace();
+                    dumper.dump(physicsSpace);
                     return;
                 case "dump scenes":
-                    dumpScenes();
+                    dumper.dump(renderManager);
                     return;
 
                 case "toggle help":
@@ -536,6 +541,15 @@ public class TrackDemo extends ActionApplication {
     }
 
     /**
+     * Configure the PhysicsDumper during startup.
+     */
+    private void configureDumper() {
+        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
@@ -545,25 +559,6 @@ public class TrackDemo extends ActionApplication {
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setAccuracy(1f / 30); // 33.33-msec timestep
         physicsSpace.setSolverNumIterations(15);
-    }
-
-    /**
-     * Process a "dump physicsSpace" action.
-     */
-    private void dumpPhysicsSpace() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.dump(physicsSpace);
-    }
-
-    /**
-     * Process a "dump scenes" action.
-     */
-    private void dumpScenes() {
-        PhysicsDumper dumper = new PhysicsDumper();
-        dumper.setEnabled(DumpFlags.Transforms, true);
-        dumper.dump(renderManager);
     }
 
     /**
