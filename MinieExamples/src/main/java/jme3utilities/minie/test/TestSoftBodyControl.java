@@ -292,7 +292,7 @@ public class TestSoftBodyControl
             DirectionalLightShadowRenderer dlsr
                     = new DirectionalLightShadowRenderer(assetManager, 2048, 3);
             dlsr.setLight(sun);
-            dlsr.setShadowIntensity(0.6f);
+            dlsr.setShadowIntensity(0.5f);
             viewPort.addProcessor(dlsr);
         }
     }
