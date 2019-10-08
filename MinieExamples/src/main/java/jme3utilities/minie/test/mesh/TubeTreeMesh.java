@@ -152,7 +152,7 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Instantiate a tube-tree mesh based on the specified skeleton and radius.
+     * Instantiate a tube-tree mesh based on the specified Skeleton and radius.
      *
      * @param skeleton (not null, in bind pose, unaffected)
      * @param radius the radius of each mesh loop (in mesh units, &gt;0)
@@ -162,7 +162,7 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Instantiate a tube-tree mesh based on the specified skeleton and
+     * Instantiate a tube-tree mesh based on the specified Skeleton and
      * parameters.
      *
      * @param skeleton (not null, in bind pose, unaffected)
@@ -194,9 +194,9 @@ public class TubeTreeMesh extends Mesh {
     // new methods exposed
 
     /**
-     * Enumerate the indices of all cap vertices for the named bone.
+     * Enumerate the indices of all cap vertices for the named Bone.
      *
-     * @param boneName the name of the bone
+     * @param boneName the name of the Bone
      * @return a new BitSet of vertex indices (not null)
      */
     public BitSet listCapVertices(String boneName) {
@@ -322,7 +322,7 @@ public class TubeTreeMesh extends Mesh {
     // *************************************************************************
     // private methods
 
-    /*
+    /**
      * Allocate new buffers for mesh data.
      */
     private void allocateBuffers() {
@@ -345,10 +345,10 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Test whether segments having the specified bone as the child should be
+     * Test whether segments having the specified Bone as the child should be
      * capped at the child's end.
      *
-     * @param child the bone to test (not null, unaffected)
+     * @param child the Bone to test (not null, unaffected)
      * @return true if capped, otherwise false
      */
     private static boolean capChild(Bone child) {
@@ -361,10 +361,10 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Test whether segments having the specified bone as the parent should be
+     * Test whether segments having the specified Bone as the parent should be
      * capped at the parent's end.
      *
-     * @param parent the bone to test (not null, unaffected)
+     * @param parent the Bone to test (not null, unaffected)
      * @return true if capped, otherwise false
      */
     private static boolean capParent(Bone parent) {
@@ -398,9 +398,9 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Test whether the specified bone is a leaf.
+     * Test whether the specified Bone is a leaf.
      *
-     * @param bone the bone to test (not null, unaffected)
+     * @param bone the Bone to test (not null, unaffected)
      * @return
      */
     private static boolean isLeaf(Bone bone) {
@@ -410,7 +410,7 @@ public class TubeTreeMesh extends Mesh {
 
     /**
      * Write bone indices and weights for a triangle animated entirely by a
-     * single bone.
+     * single Bone.
      *
      * @param boneIndex the index of the bone that animates the triangle
      */
