@@ -232,7 +232,7 @@ public class RopeDemo extends ActionApplication {
      */
     private PhysicsSpace physicsSpace;
     /**
-     * visualizer for the skeleton of the most recently added rope
+     * visualizer for the Skeleton of the most recently added rope
      */
     private SkeletonVisualizer sv;
     // *************************************************************************
@@ -458,7 +458,7 @@ public class RopeDemo extends ActionApplication {
         DirectionalLightShadowRenderer dlsr
                 = new DirectionalLightShadowRenderer(assetManager, 8_192, 3);
         dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.6f);
+        dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
     }
 
@@ -509,7 +509,7 @@ public class RopeDemo extends ActionApplication {
      */
     private void addRopeCross() {
         /*
-         * Generate a cross-shaped skeleton.
+         * Generate a cross-shaped Skeleton.
          */
         int[] stepCounts = {5, 5, 5, 5};
         Vector3f[] stepOffsets = {
@@ -546,7 +546,7 @@ public class RopeDemo extends ActionApplication {
      */
     private void addRopeNoose(boolean kinematicSplice) {
         /*
-         * Generate a Y-shaped skeleton. Branch0 forms the stem of the Y.
+         * Generate a Y-shaped Skeleton. Branch0 forms the stem of the Y.
          */
         int[] stepCounts = {6, 6, 6};
         float dx = stepLength * FastMath.sqrt(0.5f);
@@ -583,7 +583,7 @@ public class RopeDemo extends ActionApplication {
      */
     private void addRopeRing(boolean kinematicSplice) {
         /*
-         * Generate a double-ended straight-line skeleton.
+         * Generate a double-ended straight-line Skeleton.
          */
         int[] stepCounts = {8, 8};
         Vector3f[] stepOffsets = {
@@ -617,7 +617,7 @@ public class RopeDemo extends ActionApplication {
      */
     private void addRopeSlackline() {
         /*
-         * Generate a double-ended straight-line skeleton.
+         * Generate a double-ended straight-line Skeleton.
          */
         int[] stepCounts = {8, 8};
         Vector3f[] stepOffsets = {
@@ -705,9 +705,9 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Generate the name for the indexed bone in the indexed branch.
+     * Generate the name for the indexed Bone in the indexed branch.
      *
-     * @param branchIndex the index of the branch containing the bone (&ge;0,
+     * @param branchIndex the index of the branch containing the Bone (&ge;0,
      * &lt;numBranches)
      * @param stepIndex the bone's index in the branch (&ge;0)
      * @return the name (not null, not empty)
@@ -824,9 +824,9 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Count the steps in the indexed branch of the specified skeleton.
+     * Count the steps in the indexed branch of the specified Skeleton.
      *
-     * @param skeleton which skeleton (not null)
+     * @param skeleton which Skeleton (not null)
      * @param branchIndex the index of the branch (&ge;0)
      * @return the count (&ge;0)
      */
@@ -846,10 +846,10 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Kinematically curl a branch of the specified skeleton around the
+     * Kinematically curl a branch of the specified Skeleton around the
      * specified axis.
      *
-     * @param skeleton the skeleton to pose (not null)
+     * @param skeleton the Skeleton to pose (not null)
      * @param branchIndex (&ge;0)
      * @param axis (in each bone's local coordinates, not null, not zero)
      * @param totalAngle the angle between the first and last steps (in radians,
