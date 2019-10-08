@@ -131,6 +131,10 @@ public class TrackDemo extends ActionApplication {
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
+     * inverse kinematics joint for the finger/sword tip
+     */
+    private Constraint tipJoint = null;
+    /**
      * Control being tested
      */
     private DynamicAnimControl dac;
@@ -148,10 +152,6 @@ public class TrackDemo extends ActionApplication {
      * GUI node for displaying hotkey help/hints
      */
     private Node helpNode;
-    /**
-     * inverse kinematics joint for the finger/sword tip TODO re-order fields
-     */
-    private Constraint tipJoint = null;
     /**
      * dump debugging information to System.out
      */
