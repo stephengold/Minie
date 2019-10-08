@@ -705,23 +705,6 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Generate the name for the indexed Joint in the indexed branch. TODO
-     * re-order methods
-     *
-     * @param branchIndex the index of the branch containing the Joint (&ge;0,
-     * &lt;numBranches)
-     * @param stepIndex the joint's index in the branch (&ge;0)
-     * @return the name (not null, not empty)
-     */
-    private String jointName(int branchIndex, int stepIndex) {
-        assert branchIndex >= 0 : branchIndex;
-        assert stepIndex >= 0 : stepIndex;
-
-        String name = String.format("branch%d.bone%d", branchIndex, stepIndex);
-        return name;
-    }
-
-    /**
      * Choose 3 distinct vertices in the end cap of the indexed branch.
      *
      * @param branchIndex which branch (&ge;0)
@@ -960,6 +943,22 @@ public class RopeDemo extends ActionApplication {
             default:
                 throw new IllegalArgumentException(shapes.toString());
         }
+    }
+
+    /**
+     * Generate the name for the indexed Joint in the indexed branch.
+     *
+     * @param branchIndex the index of the branch containing the Joint (&ge;0,
+     * &lt;numBranches)
+     * @param stepIndex the joint's index in the branch (&ge;0)
+     * @return the name (not null, not empty)
+     */
+    private String jointName(int branchIndex, int stepIndex) {
+        assert branchIndex >= 0 : branchIndex;
+        assert stepIndex >= 0 : stepIndex;
+
+        String name = String.format("branch%d.bone%d", branchIndex, stepIndex);
+        return name;
     }
 
     /**
