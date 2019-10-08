@@ -2,7 +2,7 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
-description = 'generate assets used in MinieExamples'
+description = 'Generate assets used in MinieExamples.'
 ext {
     assets = '../MinieExamples/src/main/resources/'
 
@@ -31,8 +31,8 @@ dependencies {
 }
 
 task collisionShapes {
-    dependsOn = ['torus']
-    description 'generate collision-shape assets used in MinieExamples'
+    dependsOn 'torus'
+    description 'Generate collision-shape assets used in MinieExamples.'
 }
 task torus(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeTorus'
@@ -40,6 +40,7 @@ task torus(type: JavaExec) {
 }
 
 task models(type: JavaExec) {
+    description 'Generate model assets used in MinieExamples.'
     main 'jme3utilities.minie.test.models.ImportCgms'
     outputs.files([
             duck + '/Duck.j3o',
@@ -52,8 +53,8 @@ task models(type: JavaExec) {
 }
 
 task textures {
-    dependsOn = ['plaid']
-    description 'generate texture assets used in MinieExamples'
+    dependsOn 'plaid'
+    description 'Generate texture assets used in MinieExamples.'
 }
 task plaid(type: JavaExec) {
     main 'jme3utilities.minie.test.textures.MakePlaid'
@@ -61,30 +62,26 @@ task plaid(type: JavaExec) {
 }
 
 // cleanup tasks
-clean {
-    dependsOn 'cleanDLLs'
-    dependsOn 'cleanLogs'
-    dependsOn 'cleanModels'
-    dependsOn 'cleanSOs'
-    dependsOn 'cleanTextures'
-}
+clean.dependsOn('cleanDLLs', 'cleanLogs', 'cleanSOs', 'cleanTextures')
+clean.dependsOn('cleanModels')
+
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
 }
 task cleanLogs(type: Delete) {
     delete fileTree(dir: '.', include: 'hs_err_pid*.log')
 }
-task cleanModels(type: Delete) {
-    delete fileTree(dir: duck)
-    delete fileTree(dir: elephant)
-    delete fileTree(dir: mhGame)
-    delete fileTree(dir: ninja)
-    delete fileTree(dir: oto, exclude: 'OtoOldAnim.j3o')
-    delete fileTree(dir: sinbad)
-}
 task cleanSOs(type: Delete) {
     delete fileTree(dir: '.', include: '*.so')
 }
 task cleanTextures(type: Delete) {
-    delete plaid
+    delete assets + 'Textures'
+}
+task cleanModels(type: Delete) {
+    delete(duck, elephant, mhGame, ninja, sinbad)
+    dependsOn 'cleanOto'
+    description 'Delete generated model assets.'
+}
+task cleanOto(type: Delete) {
+    delete fileTree(dir: oto, include: 'Oto.*')
 }

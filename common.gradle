@@ -41,13 +41,17 @@ repositories {
     jcenter()
 }
 
-// custom tasks for creating source/javadoc jars
-task sourcesJar(type: Jar, dependsOn: classes, description: 'Create a jar of source files.') {
+// custom tasks for creating source/javadoc JARs
+task sourcesJar(type: Jar) {
     classifier = 'sources'
+    dependsOn 'classes'
+    description 'Create a JAR of source files.'
     from sourceSets.main.allJava
 }
-task javadocJar(type: Jar, dependsOn: javadoc, description: 'Create a jar of javadoc.') {
+task javadocJar(type: Jar) {
     classifier = 'javadoc'
+    dependsOn 'javadoc'
+    description 'Create a JAR of javadoc.'
     from javadoc.destinationDir
 }
 
