@@ -492,14 +492,14 @@ public class WatchDemo extends ActionApplication {
         }
         cgModel.setCullHint(Spatial.CullHint.Never);
 
+        sc = RagUtils.findSkeletonControl(cgModel);
+
         rootNode.attachChild(cgModel);
         float height = 2f;
         setHeight(cgModel, height);
         center(cgModel);
 
-        sc = RagUtils.findSkeletonControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
-
         controlledSpatial.addControl(dac);
         dac.setPhysicsSpace(physicsSpace);
 
