@@ -1,5 +1,79 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 1.0.0for32 released on TBD
+
+ + API changes:
+   + Based `BulletAppState` on `AbstractAppState` (JME issue 1178).
+   + Removed the `extrapolateTransform()` and `getPhysicsScale()` methods
+     from `PhysicsRigidBody`.
+   + Renamed the `getLocation()` and `getRotation()` methods of
+     `ChildCollisionShape`.
+   + Privatized the `objectId` fields of `CollisionShape` and `PhysicsJoint`.
+   + Privatized the `collisionShape` field of `PhysicsCollisionObject`.
+   + Privatized the `bodyA` and `bodyB` fields of `PhysicsJoint`.
+   + Privatized the `cfm`, `erp`, and `split` fields of `SoftPhysicsJoint`.
+   + Finalized the `getObjectId()` methods
+     of `CollisionShape`, `PhysicsCollisionObject`, and `PhysicsJoint`.
+   + Removed the `countDistinctVertices()` method from `DebugMeshCallback`
+ + Fixed bugs:
+   + `DacLinks` attempts to link a bone with no vertices
+   + in `BuoyDemo`, old skeleton visualization persists after model a change
+   + `NullPointerException` while de-serializing an `AbstractPhysicsControl`
+   + NPEs while serializing/de-serializing a `DynamicAnimControl` that's
+     not added to a Spatial
+   + `NullPointerException` while cloning a `SoftBodyControl`
+   + out-of-bounds exception in `DebugMeshCallback` for an empty debug mesh
+   + `SoftBodyDebugControl` doesn't resize debug meshes
+   + `RuntimeException` in `DacWizard` while loading a non-model J3O
+   + `NullPointerException` in `DacWizard` after loading a non-animated model
+   + `RopeDemo` delete key cancels skeleton visualization
+ + Added library features:
+   + `getSquaredSpeed()` and `setEnableSleep()` for `PhysicsRigidBody`
+   + `getActivationState()` for `PhysicsCollisionObject`
+   + `Activation` and `AfMode` classes
+   + `correctAxes()`, `principalAxes()`, and `setChildTransform()`
+     for `CompoundCollisionShape`
+   + `copyRotation()` and `copyTransform() methods for `ChildCollisionShape`
+   + `countMeshTriangles()` for `MeshCollisionShape`
+   + `isConvex()`, `isInfinite()`, `isNonMoving()`, and `isPolyhedral()` methods
+     for `CollisionShape`
+   + `getViewDirection()` for `MinieCharacterControl`
+   + `IndexedMesh` constructors handle `TriangleFan` and
+     `TriangleStrip` mesh types
+   + `SoftBodyControl` handles 4 more mesh types
+   + `NativeSoftBodyUtil` handles 4 more mesh types
+ + Enhancements to `PhysicsDumper`:
+   + shape and group info of a `PhysicsCharacter`
+   + group, orientation, scale, and shape of a `PhysicsGhost`
+   + AABBs, activation state, damping, and friction of a `PhysicsRigidBody`
+   + ID of the `CollisionShape` of a `PhysicsRigidBody`
+   + wheels of a `PhysicsVehicle`
+   + describe a `PlaneCollisionShape`
+   + simplify descriptions of various shapes, especially compounds
+ + Changes to `MultiSphereDemo`:
+   + Renamed to `DropTest`.
+   + Added box, compound, cone, cylinder, simplex, and V-HACD shapes.
+   + Changed the Ins key to add a single gem instead of a shower.
+   + Added a UI to tune damping and friction.
+   + Added a `HeightfieldCollisionShape` platform as an alternative.
+   + Randomized the initial orientation of each dynamic body.
+ + Other improvements:
+   + Implemented `SoftJointDebugControl`.
+   + `MinieAssets` sub-project converts OgreXML and glTF assets to J3O format.
+   + Added the `ForceDemo` app.
+   + Added the `TestCollisionShapeFactory` and `TestPhysicsRayCast`
+     apps from jme3-examples.
+   + Added a "go limp" action to the "puppetInSkirt" test of `TestSoftBody`.
+   + Avoid aliasing in `HeighfieldCollisionShape` constructors.
+   + Added "toggle axes" and "toggle boxes" hotkeys to various demo apps.
+   + Updated the native libraries to version 2.0.10 of `Libbulletjme`.
+   + Based on version 4.1 of the `jme3-utilities-heart` library, version
+     0.7.8 of the `jme3-utilities-ui` library, and version 0.9.10 of the
+     `jme3-utilities-nifty` library.
+   + Upgraded to Gradle v5.6.2 .
+
+
+
 ## Version 0.9.15for32 released on 29 August 2019
 
  + API changes:
