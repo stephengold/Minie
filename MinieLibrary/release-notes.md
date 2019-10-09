@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.0.0for32 released on TBD
+## Version 1.0.0for32 released on 8 October 2019
 
  + API changes:
    + Based `BulletAppState` on `AbstractAppState` (JME issue 1178).
