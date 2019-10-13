@@ -2,11 +2,17 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
+plugins {
+    id 'application'
+}
+
 description = 'application to configure a DynamicAnimControl'
 
+mainClassName = 'jme3utilities.minie.wizard.DacWizard'
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'jme3utilities.minie.wizard.DacWizard'
+    ext.mainClass = mainClassName
 }
+jar.manifest.attributes('Main-Class': mainClassName)
 
 dependencies {
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
@@ -23,8 +29,6 @@ dependencies {
     //implementation "jme3utilities:Minie:$minieVersion"
     implementation project(':MinieLibrary')
 }
-
-jar.manifest.attributes( 'Main-Class': 'jme3utilities.minie.wizard.DacWizard' )
 
 // cleanup tasks
 clean.dependsOn('cleanDLLs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets')
