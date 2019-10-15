@@ -291,6 +291,8 @@ public class TestCloneJoints {
             setHinge((HingeJoint) joint, b);
         } else if (joint instanceof Point2PointJoint) {
             setP2P((Point2PointJoint) joint, b);
+        } else if (joint instanceof SixDofSpringJoint) {
+            setSpring((SixDofSpringJoint) joint, b);
         } else if (joint instanceof SixDofJoint) {
             setSix((SixDofJoint) joint, b);
         } else if (joint instanceof SliderJoint) {
@@ -421,6 +423,24 @@ public class TestCloneJoints {
         slj.setSplit(b + 0.04f);
     }
 
+    private static void setSpring(SixDofSpringJoint spring, float b) {
+        setSix(spring, b);
+
+        spring.setDamping(0, b + 0.251f);
+        spring.setDamping(1, b + 0.252f);
+        spring.setDamping(2, b + 0.253f);
+        spring.setDamping(3, b + 0.254f);
+        spring.setDamping(4, b + 0.255f);
+        spring.setDamping(5, b + 0.256f);
+
+        spring.setStiffness(0, b + 0.261f);
+        spring.setStiffness(1, b + 0.262f);
+        spring.setStiffness(2, b + 0.263f);
+        spring.setStiffness(3, b + 0.264f);
+        spring.setStiffness(4, b + 0.265f);
+        spring.setStiffness(5, b + 0.266f);
+    }
+
     private static void verifyParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
@@ -438,6 +458,8 @@ public class TestCloneJoints {
             verifyHinge((HingeJoint) joint, b);
         } else if (joint instanceof Point2PointJoint) {
             verifyP2P((Point2PointJoint) joint, b);
+        } else if (joint instanceof SixDofSpringJoint) {
+            verifySpring((SixDofSpringJoint) joint, b);
         } else if (joint instanceof SixDofJoint) {
             verifySix((SixDofJoint) joint, b);
         } else if (joint instanceof SliderJoint) {
@@ -644,5 +666,23 @@ public class TestCloneJoints {
         assert slj.getCFM() == b + 0.02f;
         assert slj.getERP() == b + 0.03f;
         assert slj.getSplit() == b + 0.04f;
+    }
+
+    private static void verifySpring(SixDofSpringJoint spring, float b) {
+        verifySix(spring, b);
+
+        assert spring.getDamping(0) == b + 0.251f;
+        assert spring.getDamping(1) == b + 0.252f;
+        assert spring.getDamping(2) == b + 0.253f;
+        assert spring.getDamping(3) == b + 0.254f;
+        assert spring.getDamping(4) == b + 0.255f;
+        assert spring.getDamping(5) == b + 0.256f;
+
+        assert spring.getStiffness(0) == b + 0.261f;
+        assert spring.getStiffness(1) == b + 0.262f;
+        assert spring.getStiffness(2) == b + 0.263f;
+        assert spring.getStiffness(3) == b + 0.264f;
+        assert spring.getStiffness(4) == b + 0.265f;
+        assert spring.getStiffness(5) == b + 0.266f;
     }
 }

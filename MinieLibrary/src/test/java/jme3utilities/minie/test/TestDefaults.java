@@ -49,6 +49,7 @@ import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.joints.SixDofJoint;
+import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
 import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
@@ -59,6 +60,7 @@ import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeLibrary;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.FastMath;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
@@ -132,49 +134,18 @@ public class TestDefaults {
         PhysicsRigidBody rigidB = new PhysicsRigidBody(box);
         SixDofJoint six = new SixDofJoint(rigidA, rigidB, new Vector3f(),
                 new Vector3f(), false);
-        Assert.assertFalse(six.isFeedback());
-        six.setFeedback(true);
+        testSixDofJoint(six);
 
-        Assert.assertEquals(2, six.countEnds());
-        Assert.assertEquals(0f, six.getAppliedImpulse(), 0f);
-
-        float simdInf = NativeLibrary.isDoublePrecision()
-                ? Float.POSITIVE_INFINITY : Float.MAX_VALUE;
-        Assert.assertEquals(simdInf, six.getBreakingImpulseThreshold(), 0f);
-        Assert.assertTrue(six.isCollisionBetweenLinkedBodies());
-        Assert.assertTrue(six.isEnabled());
-
-        RotationalLimitMotor rlm
-                = six.getRotationalLimitMotor(PhysicsSpace.AXIS_X);
-        Assert.assertEquals(0f, rlm.getAccumulatedImpulse(), 0f);
-        Assert.assertEquals(1f, rlm.getDamping(), 0f);
-        Assert.assertFalse(rlm.isEnableMotor());
-        Assert.assertEquals(0.2f, rlm.getERP(), 0f);
-        Assert.assertEquals(0.5f, rlm.getLimitSoftness(), 0f);
-        Assert.assertEquals(1f, rlm.getLowerLimit(), 0f);
-        Assert.assertEquals(300f, rlm.getMaxLimitForce(), 0f);
-        Assert.assertEquals(6f, rlm.getMaxMotorForce(), 0f);
-        Assert.assertEquals(0f, rlm.getNormalCFM(), 0f);
-        Assert.assertEquals(0f, rlm.getRestitution(), 0f);
-        Assert.assertEquals(0f, rlm.getStopCFM(), 0f);
-        Assert.assertEquals(0f, rlm.getTargetVelocity(), 0f);
-        Assert.assertEquals(-1f, rlm.getUpperLimit(), 0f);
-
-        TranslationalLimitMotor tlm = six.getTranslationalLimitMotor();
-        assertEquals(0f, 0f, 0f, tlm.getAccumulatedImpulse(null), 0f);
-        Assert.assertEquals(1f, tlm.getDamping(), 0f);
-        Assert.assertFalse(tlm.isEnabled(0));
-        Assert.assertFalse(tlm.isEnabled(1));
-        Assert.assertFalse(tlm.isEnabled(2));
-        assertEquals(0.2f, 0.2f, 0.2f, tlm.getERP(null), 0f);
-        Assert.assertEquals(0.7f, tlm.getLimitSoftness(), 0f);
-        assertEquals(0f, 0f, 0f, tlm.getLowerLimit(null), 0f);
-        assertEquals(0f, 0f, 0f, tlm.getMaxMotorForce(null), 0f);
-        assertEquals(0f, 0f, 0f, tlm.getNormalCFM(null), 0f);
-        Assert.assertEquals(0f, tlm.getRestitution(), 0.5f);
-        assertEquals(0f, 0f, 0f, tlm.getStopCFM(null), 0f);
-        assertEquals(0f, 0f, 0f, tlm.getTargetVelocity(null), 0f);
-        assertEquals(0f, 0f, 0f, tlm.getUpperLimit(null), 0f);
+        SixDofSpringJoint spring = new SixDofSpringJoint(rigidA, rigidB,
+                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
+                false);
+        testSixDofJoint(spring);
+        for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
+            Assert.assertEquals(1f, spring.getDamping(dofIndex), 0f);
+            Assert.assertEquals(0f, spring.getEquilibriumPoint(dofIndex), 0f);
+            Assert.assertEquals(0f, spring.getStiffness(dofIndex), 0f);
+            Assert.assertFalse(spring.isSpringEnabled(dofIndex));
+        }
 
         PhysicsSoftBody softA = new PhysicsSoftBody();
         testPco(softA);
@@ -483,5 +454,51 @@ public class TestDefaults {
         Assert.assertFalse(sphere.isInfinite());
         Assert.assertFalse(sphere.isNonMoving());
         Assert.assertFalse(sphere.isPolyhedral());
+    }
+
+    private void testSixDofJoint(SixDofJoint six) {
+        Assert.assertFalse(six.isFeedback());
+        six.setFeedback(true);
+
+        Assert.assertEquals(2, six.countEnds());
+        Assert.assertEquals(0f, six.getAppliedImpulse(), 0f);
+
+        float simdInf = NativeLibrary.isDoublePrecision()
+                ? Float.POSITIVE_INFINITY : Float.MAX_VALUE;
+        Assert.assertEquals(simdInf, six.getBreakingImpulseThreshold(), 0f);
+        Assert.assertTrue(six.isCollisionBetweenLinkedBodies());
+        Assert.assertTrue(six.isEnabled());
+
+        RotationalLimitMotor rlm
+                = six.getRotationalLimitMotor(PhysicsSpace.AXIS_X);
+        Assert.assertEquals(0f, rlm.getAccumulatedImpulse(), 0f);
+        Assert.assertEquals(1f, rlm.getDamping(), 0f);
+        Assert.assertFalse(rlm.isEnableMotor());
+        Assert.assertEquals(0.2f, rlm.getERP(), 0f);
+        Assert.assertEquals(0.5f, rlm.getLimitSoftness(), 0f);
+        Assert.assertEquals(1f, rlm.getLowerLimit(), 0f);
+        Assert.assertEquals(300f, rlm.getMaxLimitForce(), 0f);
+        Assert.assertEquals(6f, rlm.getMaxMotorForce(), 0f);
+        Assert.assertEquals(0f, rlm.getNormalCFM(), 0f);
+        Assert.assertEquals(0f, rlm.getRestitution(), 0f);
+        Assert.assertEquals(0f, rlm.getStopCFM(), 0f);
+        Assert.assertEquals(0f, rlm.getTargetVelocity(), 0f);
+        Assert.assertEquals(-1f, rlm.getUpperLimit(), 0f);
+
+        TranslationalLimitMotor tlm = six.getTranslationalLimitMotor();
+        assertEquals(0f, 0f, 0f, tlm.getAccumulatedImpulse(null), 0f);
+        Assert.assertEquals(1f, tlm.getDamping(), 0f);
+        Assert.assertFalse(tlm.isEnabled(0));
+        Assert.assertFalse(tlm.isEnabled(1));
+        Assert.assertFalse(tlm.isEnabled(2));
+        assertEquals(0.2f, 0.2f, 0.2f, tlm.getERP(null), 0f);
+        Assert.assertEquals(0.7f, tlm.getLimitSoftness(), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getLowerLimit(null), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getMaxMotorForce(null), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getNormalCFM(null), 0f);
+        Assert.assertEquals(0f, tlm.getRestitution(), 0.5f);
+        assertEquals(0f, 0f, 0f, tlm.getStopCFM(null), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getTargetVelocity(null), 0f);
+        assertEquals(0f, 0f, 0f, tlm.getUpperLimit(null), 0f);
     }
 }
