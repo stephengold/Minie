@@ -32,8 +32,14 @@
 package com.jme3.bullet.joints;
 
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Vector3f;
+import com.jme3.util.clone.Cloner;
+import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -69,6 +75,12 @@ public class SixDofSpringJoint extends SixDofJoint {
      */
     final public static Logger logger3
             = Logger.getLogger(SixDofSpringJoint.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagDof = "Dof";
+    final private static String tagSpringDamping = "_SpringDamping";
+    final private static String tagStiffness = "_Stiffness";
     // *************************************************************************
     // constructors
 
@@ -133,10 +145,14 @@ public class SixDofSpringJoint extends SixDofJoint {
     // new methods exposed
 
     /**
-     * Enable or disable the spring for the indexed degree of freedom.
+     * Enable or disable the spring for the indexed degree of freedom. Enabling
+     * a spring also enables the corresponding limit motor. Disabling a spring
+     * also disables the corresponding limit motor.
      *
-     * @param dofIndex which degree of freedom (&ge;0, &lt;6)
-     * @param onOff true &rarr; enable, false &rarr; disable
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
+     * @param onOff true &rarr; enable, false &rarr; disable (default=false)
      */
     public void enableSpring(int dofIndex, boolean onOff) {
         Validate.inRange(dofIndex, "DOF index", 0, 5);
@@ -146,9 +162,79 @@ public class SixDofSpringJoint extends SixDofJoint {
     }
 
     /**
+     * Read the damping of the indexed degree of freedom.
+     *
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
+     * @return the viscous damping ratio
+     */
+    public float getDamping(int dofIndex) {
+        Validate.inRange(dofIndex, "DOF index", 0, 5);
+
+        long constraintId = getObjectId();
+        float result = getDamping(constraintId, dofIndex);
+
+        return result;
+    }
+
+    /**
+     * Read the equilibrium point of the indexed degree of freedom.
+     *
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
+     * @return the equilibrium point
+     */
+    public float getEquilibriumPoint(int dofIndex) {
+        Validate.inRange(dofIndex, "DOF index", 0, 5);
+
+        long constraintId = getObjectId();
+        float result = getEquilibriumPoint(constraintId, dofIndex);
+
+        return result;
+    }
+
+    /**
+     * Read the spring stiffness of the indexed degree of freedom.
+     *
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
+     * @return the stiffness
+     */
+    public float getStiffness(int dofIndex) {
+        Validate.inRange(dofIndex, "DOF index", 0, 5);
+
+        long constraintId = getObjectId();
+        float result = getStiffness(constraintId, dofIndex);
+
+        return result;
+    }
+
+    /**
+     * Test whether the spring for the indexed degree of freedom is enabled.
+     *
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
+     * @return true if enabled, otherwise false
+     */
+    public boolean isSpringEnabled(int dofIndex) {
+        Validate.inRange(dofIndex, "DOF index", 0, 5);
+
+        long constraintId = getObjectId();
+        boolean result = isSpringEnabled(constraintId, dofIndex);
+
+        return result;
+    }
+
+    /**
      * Alter the damping for the indexed degree of freedom.
      *
-     * @param dofIndex which degree of freedom (&ge;0, &lt;6)
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
      * @param damping the desired viscous damping ratio (0&rarr;no damping,
      * 1&rarr;critically damped, default=1)
      */
@@ -172,10 +258,13 @@ public class SixDofSpringJoint extends SixDofJoint {
      * Alter the equilibrium point of the indexed degree of freedom, based on
      * the joint's current location/orientation.
      *
-     * @param dofIndex which degree of freedom (&ge;0, &lt;6)
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
      */
     public void setEquilibriumPoint(int dofIndex) {
         Validate.inRange(dofIndex, "DOF index", 0, 5);
+
         long constraintId = getObjectId();
         setEquilibriumPoint(constraintId, dofIndex);
     }
@@ -183,11 +272,14 @@ public class SixDofSpringJoint extends SixDofJoint {
     /**
      * Alter the spring stiffness for the indexed degree of freedom.
      *
-     * @param dofIndex which degree of freedom (&ge;0, &lt;6)
-     * @param stiffness the desired stiffness
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
+     * @param stiffness the desired stiffness (default=0)
      */
     public void setStiffness(int dofIndex, float stiffness) {
         Validate.inRange(dofIndex, "DOF index", 0, 5);
+
         long constraintId = getObjectId();
         setStiffness(constraintId, dofIndex, stiffness);
     }
@@ -231,16 +323,90 @@ public class SixDofSpringJoint extends SixDofJoint {
     @Override
     native protected long createJoint1(long bodyIdB, Vector3f pivotInB,
             Matrix3f rotInB, boolean useLinearReferenceFrameB);
+
+    /**
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned joint into a deep-cloned one, using the specified Cloner
+     * and original to resolve copied fields.
+     *
+     * @param cloner the Cloner that's cloning this joint (not null)
+     * @param original the instance from which this joint was shallow-cloned
+     * (not null, unaffected)
+     */
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        super.cloneFields(cloner, original);
+
+        SixDofSpringJoint old = (SixDofSpringJoint) original;
+
+        for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
+            setDamping(dofIndex, old.getDamping(dofIndex));
+            setStiffness(dofIndex, old.getStiffness(dofIndex));
+            // TODO: enableSpring, equilibrium points
+        }
+    }
+
+    /**
+     * De-serialize this joint from the specified importer, for example when
+     * loading from a J3O file.
+     *
+     * @param importer (not null)
+     * @throws IOException from the importer
+     */
+    @Override
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
+
+        for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
+            String dofTag = tagDof + dofIndex;
+
+            setDamping(dofIndex,
+                    capsule.readFloat(dofTag + tagSpringDamping, 1f));
+            setStiffness(dofIndex,
+                    capsule.readFloat(dofTag + tagStiffness, 0f));
+            // TODO: enableSpring, equilibrium points
+        }
+    }
+
+    /**
+     * Serialize this joint to the specified exporter, for example when saving
+     * to a J3O file.
+     *
+     * @param exporter (not null)
+     * @throws IOException from the exporter
+     */
+    @Override
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
+
+        for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
+            String dofTag = tagDof + dofIndex;
+
+            capsule.write(getDamping(dofIndex), dofTag + tagSpringDamping, 1f);
+            capsule.write(getStiffness(dofIndex), dofTag + tagStiffness, 0f);
+        }
+
+    }
     // *************************************************************************
     // native private methods
 
-    native private void enableSpring(long jointId, int index, boolean onOff);
+    native private void enableSpring(long jointId, int dofIndex, boolean onOff);
 
-    native private void setDamping(long jointId, int index, float damping);
+    native private float getDamping(long jointId, int dofIndex);
+
+    native private float getEquilibriumPoint(long jointId, int dofIndex);
+
+    native private float getStiffness(long jointId, int dofIndex);
+
+    native private boolean isSpringEnabled(long jointId, int dofIndex);
+
+    native private void setDamping(long jointId, int dofIndex, float damping);
 
     native private void setEquilibriumPoint(long jointId);
 
-    native private void setEquilibriumPoint(long jointId, int index);
+    native private void setEquilibriumPoint(long jointId, int dofIndex);
 
-    native private void setStiffness(long jointId, int index, float stiffness);
+    native private void setStiffness(long jointId, int dofIndex, float stiffness);
 }
