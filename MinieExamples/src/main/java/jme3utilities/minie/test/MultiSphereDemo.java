@@ -55,10 +55,8 @@ public class MultiSphereDemo {
     final private static String applicationName
             = MultiSphereDemo.class.getSimpleName();
     // *************************************************************************
-    // fields
-
-    // *************************************************************************
     // new methods exposed
+
     /**
      * Main entry point for the MultiSphereDemo application.
      *
