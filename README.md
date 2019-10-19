@@ -20,12 +20,15 @@ Java source code is provided under
  + [Downloads](#downloads)
  + [Conventions](#conventions)
  + [History](#history)
+ + [Overview and design considerations](#overview)
  + [How to install the SDK and the Minie Project](#install)
  + [How to add Minie to an existing project](#add)
  + [Choosing a collision shape](#shape)
+ + [Dumping a physics simulation](#dump)
  + [An introduction to DynamicAnimControl](#dac)
  + [Collision detection](#detect)
  + [An introduction to soft-body physics](#softbody)
+ + [An overview of the demo applications](#demos)
  + [External links](#links)
  + [Acknowledgments](#acks)
 
@@ -144,7 +147,7 @@ Older releases (v0.1.1 through v0.4.5) can be downloaded from
 [the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
 
 Maven artifacts are available from
-[JFrog Bintray](https://bintray.com/stephengold/jme3utilities).
+[JFrog Bintray](https://bintray.com/stephengold/jme3utilities/Minie).
 
 <a name="conventions"/>
 
@@ -154,7 +157,7 @@ Package names begin with
 `jme3utilities.minie.` (if Stephen Gold holds the copyright) or
 `com.jme3.` (if the jMonkeyEngine Project holds the copyright).
 
-The source code is compatible with JDK 7.
+Both the source code and the pre-built libraries are compatible with JDK 7.
 
 <a name="history"/>
 
@@ -171,6 +174,139 @@ Since November 2018, the Minie Project has been an independent project at
 
 The evolution of Minie is chronicled in
 [its release notes](https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md).
+
+<a name="overview"/>
+
+## Overview and design considerations
+
+### The role of physics simulation in games
+
+Most computer games don't require detailed physics simulation.
+
+ + Canned animations usually suffice to illustrate characters walking,
+   jumping, and fighting.
+ + Detecting when a character enters a fixed zone
+   or comes into range of another character is a simple geometric calculation,
+   provided the zone or range has a box or sphere shape.
+ + For outer-space games, the equations of motion (Newton's 3rd Law) are easily
+   implemented from scratch.
+
+Other games require physics simulation, either because detailed physics is
+integral to gameplay (as in bowling or auto racing) or else to enhance the
+verisimilitude of effects such as collapsing buildings and/or people.
+For such games, a real-time physics library such as Minie should prove useful.
+
+### How Minie works
+
+Minie is based on the Bullet Physics SDK:
+mature, open-source, 3-D, physics-simulation software,
+released under a Zlib license.
+Bullet is written in C++,
+so Minie uses Java Native Interface to access Bullet objects and methods.
+All C++ source code associated with Minie
+(including glue code and a partial snapshot of the Bullet SDK)
+resides in the Libbulletjme repository.
+
+On desktop platforms, JMonkeyEngine automatically loads
+the appropriate native library during `JmeDesktopSystem.initialize()`
+when it detects Minie's `com.jme3.bullet.util.NativeMeshUtil` class.
+
+Physics simulation is organized around collision objects
+(instances of `PhysicsCollisionObject`)
+that interact in the context of a physics space (`PhysicsSpace`).
+Collision objects can be soft (varying shape) or rigid (non-varying shape).
+Rigid objects can be mobile (moving) or static (non-moving).
+And moving objects can be dynamic (moved by forces and torques)
+or kinematic (moved directly by external calculations).
+
+By themselves, collision objects are invisible
+and spatials have no effect on physics.
+To visualize an object, it must be associated
+with one or more scene-graph spatial(s).
+For debugging purposes, Minie can visualize
+collision objects by auto-generating wireframe spatials for them.
+For full-custom visualization, use a physics control to associate
+a collision object with a `Spatial`.
+
+A collision object's location and orientation are described
+in physics-space coordinates.
+These typically correspond to world coordinates of the scene,
+and the built-in debug visualization makes this assumption.
+However, there may be good reasons
+to scale the physics space relative to the scene
+and use physics-space units (psu) that are distinct from world units (wu).
+
+For each physics space, simulation occurs in discrete time steps,
+which need not correspond to rendered frames.
+Each time step consists of 4 phases:
+
+ + forward dynamics part one,
+   to apply known forces
+   and predict the next position of each collision object
+ + broadphase collision detection,
+   to quickly determine (using axis-aligned bounding boxes)
+   which objects (if any) might possibly collide
+ + narrowphase collision detection,
+   to compute actual contacts (if any) between between objects,
+   and
+ + forward dynamics part 2,
+   to solve constraints and update positions.
+
+To simplify the creation and management of physics spaces,
+Minie provides app states.
+`BulletAppState` is the simplest of these; it manages a single
+space without any soft objects.
+Simulation of that space can take place on the render thread
+or else on a dedicated physics thread.
+Either way, the simulation attempts to synchronize to real time
+during every update.
+With `BulletAppState`, debug visualization can be enabled
+(or disabled) by simply invoking `setDebugEnabled()`.
+
+Normal collisions (between collision objects) are reported asynchronously
+to listeners registered at the `PhysicsSpace`.
+For fast-moving objects,
+Minie offers optional continous collision detection (CCD)
+using swept spheres;
+such collisions are reported through those same listeners.
+
+Dynamic collision objects "go to sleep" after 2 seconds of inactivity.
+
+### Computational efficiency
+
+The computational cost of collision detection grows rapidly with
+the number of collision objects and the complexity of their shapes.
+To simulate physics in real time, with modest CPUs,
+it's vital to keep the physics simple:
+
+ + Use approximate shapes (such as boxes and capsules) wherever possible.
+ + Minimize the number of collision objects by
+   merging static objects together and
+   simulating only the most relevant moving objects.
+
+### Scaling the world
+
+For a physics simulation, it might seem natural to choose kilograms and meters
+as the units of mass and distance, respectively.
+However, there are some considerations.
+
+Bullet documentation also recommends that dynamic objects have
+masses as close as possible to 1.
+
+Also, to improve the performance and reliability of collision detection,
+Bullet applies a margin to most collision objects.
+By default, this margin is 0.04 physics-space units (psu).
+While the margin is configurable, Bullet documentation
+recommends against doing so.
+In most cases, margin increases the effective size of the object,
+so it's undesirable to have a collision object
+with any dimension smaller than about 0.2 psu.
+
+Since Minie's debug visualization assumes that physics coordinates are
+equivalent to world coordinates, these recommendations could impact
+model creation and scene-graph design.
+Physics units should therefore be chosen with care,
+preferably early in the game-design process.
 
 <a name="install"/>
 
@@ -479,9 +615,28 @@ instance, to use 20 iterations:
 
         space.setSolverNumIterations(20);
 
-TODO: gravity, ray-test flags, SoftBodyWorldInfo
+Each `PhysicsBody` contains an acceleration vector
+that determines the effect of gravity on that body.
+In addition, each `PhysicsSpace` has a gravity vector,
+which is applied to bodies as they are added to the space.
+To simulate a zero-gravity environment,
+set the gravity of the space to zero:
 
-### Global configuration
+        space.setGravity(Vector3f.ZERO);
+
+To simulate a non-uniform gravity field,
+update the gravity of each body before every physics tick:
+
+        public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+            Collection<PhysicsCollisionObject> pcos = space.getPcoList();
+            for (PhysicsCollisionObject pco : pcos) {
+                if (pco instanceof PhysicsBody) {
+                    updateGravity((PhysicsBody) pco);
+                }
+            }
+        }
+
+### Other global configuration
 
 By default, the native library prints a startup message to `System.out`.
 Once the library is loaded (but not started) you can disable this message:
@@ -495,11 +650,32 @@ To configure a default margin of 0.1 psu:
 
 ### Create physics controls, collision objects, and joints
 
-Section to be written.
+You can create collision objects directly, using the constructors:
 
-### Test and tune
+        float radius = 2f;
+        CollisionShape sphere2 = new SphereCollisionShape(radius);
+        PhysicsGhostObject ghost1 = new PhysicsGhostObject(sphere2);
+        float mass = 1f;
+        PhysicsRigidBody body1 = new PhysicsRigidBody(sphere2, mass);
 
-Section to be written.
+or indirectly, by adding physics controls to scene-graph spatials:
+
+        float radius = 2f;
+        CollisionShape sphere2 = new SphereCollisionShape(radius);
+
+        Node ghostNode1 = new Node("ghostNode1");
+        GhostControl gc1 = new GhostControl(sphere2);
+        ghostNode1.addControl(gc1);
+
+        Node rigidNode1 = new Node("rigidNode1");
+        float mass = 1f;
+        RigidBodyControl rbc1 = new RigidBodyControl(sphere2, mass);
+        rigidNode1.addControl(rbc1);
+
+Either way, the object(s) won't be simulated unless added to a `PhysicsSpace`.
+Also, note that collision shapes can be shared between objects.
+
+To instantiate a static body, specify mass=0.
 
 <a name="shape"/>
 
@@ -514,9 +690,9 @@ convex shapes (such as boxes and spheres) are usually a better choice, even
 if they don't match the model's shape exactly.
 In particular, `CapsuleCollisionShape` is often used with humanoid models.
 
-    if (the object isn't involved in collisions) {
+    if (the object doesn't move and isn't involved in collisions) {
         use an EmptyShape
-    } else if (its shape can be approximated by an infinite plane) {
+    } else if (the object doesn't move and its shape can be approximated by an infinite plane) {
         use a PlaneCollisionShape
     } else if (its shape can be approximated by a triangle or a tetrahedron) {
         use a SimplexCollisionShape
@@ -557,6 +733,58 @@ In particular, `CapsuleCollisionShape` is often used with humanoid models.
     }
 
 (Pseudocode adapted from the flowchart on page 13 of the [Bullet User Manual][manual].)
+
+<a name="dump"/>
+
+## Dumping a physics simulation
+
+When a physics simulation doesn't work as expected, debug visualization
+(configured at the `BulletAppState`) should be enabled to uncover gross issues
+such as incorrect collision shapes, incorrect initial positions,
+bodies that have gone inactive, and objects not added to the `PhysicsSpace`.
+
+If further details are desired, temporary print statements might be added
+at key points.
+To streamline this process, Minie provides a configurable dumper
+for app states, physics spaces, viewports, and scene graphs.
+
+For example, the following temporary statements could be used to dump
+(to `System.out`) all collision objects in a `PhysicsSpace`:
+
+        PhysicsDumper dumper = new PhysicsDumper();
+        dumper.dump(physicsSpace);
+
+Here is sample output for a space containing 2 rigid bodies and nothing else:
+
+    PhysicsSpace with 0 chars, 0 ghosts, 0 joints, 2 rigids, 0 softs, 0 vehicles #5a79eb40
+     bphase=DBVT grav[y=-9.81] timeStep[0.016667 maxSS=4]
+     iters=10 rayTest=SubSimplex
+      Rigid Dyn(mass=1) loc[x=-0.224782 y=1.024931 z=-0.392236] orient[x=-0.185 y=-0.343 z=0.918 w=0.072] fric=0.5 #5a9bdd60
+       v[y=-5.837099] grav[y=-9.81] ccd[mt=1 r=0.31358] damp[ang=0.6 lin=0.6] sleep[lt=0.8 at=1 time=0]
+       MultiSphere r[0.178157,0.135424,0.041451] marg=0.04 #5a342b80
+       with 0 joints
+      Rigid Sta loc[y=-4] fric=0.5 #5aafdaa0
+       Box he[xyz=4] marg=0.04 #5a9a8a00
+       with 0 joints
+
+2-blank indentation indicates the hierarchy of objects.
+Single-blank indentation indicates additional description
+of the foregoing object.
+
+By default, joints are counted in dumps but not enumerated.
+To enumerate joints at the physics-space level of the hierarchy,
+configure the dumper as follows:
+
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+
+To enumerate joints at the collision-object level of the hierarchy,
+configure the dumper like so:
+
+        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+
+Other dump flags can be set, for instance,
+to enumerate the nodes or clusters of each soft body
+or the motors of each `SixDofJoint`.
 
 <a name="dac"/>
 
@@ -855,7 +1083,51 @@ using an iterative algorithm that's built into Bullet:
 
     softBody.generateClusters(k, numIterations);
 
-TODO: describe the demo apps
+<a name="demos"/>
+
+## An overview of the demo applications
+
+Demo applications have been created to showcase certain features of Minie.
+The following demos are found in the `jme3utilities.minie.test` package of
+the MinieExamples sub-project:
+
+  + `BalanceDemo`
+    demonstrates models that balance their weight between 2 feet
+  + `BuoyDemo`
+    demonstrates ragdolls with buoyancy
+  + `DropTest` (also known as `MultiSphereDemo`)
+    demonstrates falling rigid bodies with various shapes
+  + `ForceDemo`
+    demonstrates forces, torques, and impulses applied in zero gravity
+  + `JointDemo`
+    demonstrates a crawling robot made of boxes and 6-DOF joints
+  + `RopeDemo`
+    demonstrates simulation of ropes using `DynamicAnimControl`
+  + `SeJointDemo`
+    demonstrates various single-ended joints
+  + `TestDac`
+    demonstrates `DynamicAnimControl` applied to various models
+  + `TestSoftBody`
+    demonstrates soft-body physics without `SoftBodyControl`
+  + `TestSoftBodyControl`
+    demonstrates soft-body physics with `SoftBodyControl`
+  + `WatchDemo`
+    demonstrates head/eye inverse kinematics for various models
+
+(Not all applications in the package are intended as demos;
+those not listed above are primarily for testing purposes.)
+
+For many of the demos, video walkthrus are available from YouTube.
+
+The demos controlled by primarily by keyboard input.
+At startup, a help node is displayed,
+containing a brief description of each key's function.
+
+For convenience, the mapping of keys to application actions
+is largely standardized.
+For instance, in all 11 demos,
+the "H" key toggles visibility of help node
+and the "O" key dumps the physics space.
 
 <a name="links"/>
 
