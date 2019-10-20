@@ -82,9 +82,10 @@ public class PhysicsRayTestResult {
     /**
      * Access the collision object that was hit.
      *
-     * @return the pre-existing instance
+     * @return the pre-existing instance (not null)
      */
     public PhysicsCollisionObject getCollisionObject() {
+        assert collisionObject != null;
         return collisionObject;
     }
 
@@ -94,6 +95,8 @@ public class PhysicsRayTestResult {
      * @return fraction (from=0, to=1, &ge;0, &le;1)
      */
     public float getHitFraction() {
+        assert hitFraction >= 0f : hitFraction;
+        assert hitFraction <= 1f : hitFraction;
         return hitFraction;
     }
 
