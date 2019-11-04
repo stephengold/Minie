@@ -232,6 +232,15 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
+     * For compatibility with the jme3-bullet library.
+     *
+     * @return a new location vector (in physics-space coordinates, not null)
+     */
+    public Vector3f getCollisionLocation() {
+        return getCollisionLocation(null);
+    }
+
+    /**
      * Copy the location where the wheel touches the ground.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -242,6 +251,15 @@ public class VehicleWheel implements JmeCloneable, Savable {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         getCollisionLocation(vehicleId, wheelIndex, result);
         return result;
+    }
+
+    /**
+     * For compatibility with the jme3-bullet library.
+     *
+     * @return a new unit vector (in physics-space coordinates, not null)
+     */
+    public Vector3f getCollisionNormal() {
+        return getCollisionNormal(null);
     }
 
     /**
@@ -289,6 +307,15 @@ public class VehicleWheel implements JmeCloneable, Savable {
      */
     public float getFrictionSlip() {
         return tuning.getFrictionSlip();
+    }
+
+    /**
+     * For compatibility with the jme3-bullet library.
+     *
+     * @return a new location vector (in physics-space coordinates, not null)
+     */
+    public Vector3f getLocation() {
+        return getLocation(null);
     }
 
     /**
