@@ -1,9 +1,9 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.1.0for33 released on TBD
+## Version 1.1.0for33 released on 4 November 2019
 
  + Added 4 getters to the `SixDofSpringJoint` class.
- + Added 3 compatability methods to the `VehicleWheel` class.
+ + Added 3 compatibility methods to the `VehicleWheel` class.
  + Added some assertions to the `PhysicsRayTestResult` class.
  + Added the "application" Gradle plugin to the `DacWizard` build script.
  + Updated the native libraries to version 2.0.12 of `Libbulletjme`.
@@ -257,7 +257,7 @@
    + After de-serializing a physics control, its `userObject` is null.
    + `TestHeightfield` attached physics control to the root node.
    + `TestHeightfield` used wrong logger.
- + Added a `PhysicsSpace.destroy()` method for compatability with jme3-bullet.
+ + Added a `PhysicsSpace.destroy()` method for compatibility with jme3-bullet.
  + Improved physics dumps.
  + Removed uses of shared mutable "constants".
  + Made various improvements to MinieExamples.
