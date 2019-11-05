@@ -1,5 +1,14 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 1.1.0for32 released on TBD
+
+ + Added 4 getters to the `SixDofSpringJoint` class.
+ + Added 3 compatibility methods to the `VehicleWheel` class.
+ + Added some assertions to the `PhysicsRayTestResult` class.
+ + Added the "application" Gradle plugin to the `DacWizard` build script.
+ + Updated the native libraries to version 2.0.12 of `Libbulletjme`.
+ + Upgraded to Gradle v5.6.4 .
+
 ## Version 1.0.0for32 released on 8 October 2019
 
  + API changes:
