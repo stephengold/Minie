@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.1.0for32 released on TBD
+## Version 1.1.0for32 released on 4 November 2019
 
  + Added 4 getters to the `SixDofSpringJoint` class.
  + Added 3 compatibility methods to the `VehicleWheel` class.
