@@ -783,8 +783,8 @@ Here is sample output for a space containing 2 rigid bodies and nothing else:
        Box he[xyz=4] marg=0.04 #5a9a8a00
        with 0 joints
 
-2-blank indentation indicates the hierarchy of objects.
-Single-blank indentation indicates additional description
+2-space indentation indicates the hierarchy of objects.
+Single-space indentation indicates additional description
 of the foregoing object.
 
 By default, joints are counted in dumps but not enumerated.
