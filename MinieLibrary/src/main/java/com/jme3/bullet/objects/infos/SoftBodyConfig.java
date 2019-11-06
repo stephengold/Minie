@@ -329,7 +329,7 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     /**
      * Alter the aerodynamics model.
      *
-     * @param model the desired aerodynamics model (not null)
+     * @param model the desired aerodynamics model (not null, default=V_Point)
      */
     public void setAerodynamics(Aero model) {
         long bodyId = body.getObjectId();
