@@ -14,6 +14,8 @@ It contains 4 sub-projects:
 Java source code is provided under
 [a FreeBSD license](https://github.com/stephengold/Minie/blob/master/LICENSE).
 
+<a name="toc"/>
+
 ## Contents of this document
 
  + [Why use Minie?](#why)
@@ -136,6 +138,8 @@ Other important differences:
    from the `com.jme3.bullet.collision` package
    to the `com.jme3.bullet.animation` package.
 
+[Jump to table of contents](#toc)
+
 <a name="downloads"/>
 
 ## Downloads
@@ -149,6 +153,8 @@ Older releases (v0.1.1 through v0.4.5) can be downloaded from
 Maven artifacts are available from
 [JFrog Bintray](https://bintray.com/stephengold/jme3utilities/Minie).
 
+[Jump to table of contents](#toc)
+
 <a name="conventions"/>
 
 ## Conventions
@@ -158,6 +164,8 @@ Package names begin with
 `com.jme3.` (if the jMonkeyEngine Project holds the copyright).
 
 Both the source code and the pre-built libraries are compatible with JDK 7.
+
+[Jump to table of contents](#toc)
 
 <a name="history"/>
 
@@ -174,6 +182,8 @@ Since November 2018, the Minie Project has been an independent project at
 
 The evolution of Minie is chronicled in
 [its release notes](https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md).
+
+[Jump to table of contents](#toc)
 
 <a name="overview"/>
 
@@ -308,6 +318,8 @@ model creation and scene-graph design.
 Physics units should therefore be chosen with care,
 preferably early in the game-design process.
 
+[Jump to table of contents](#toc)
+
 <a name="install"/>
 
 ## How to install the SDK and the Minie Project
@@ -365,6 +377,8 @@ Clone the Minie repository using Git:
  1. In the "Projects" window of the IDE,
     right-click on the "Minie [root]" project to select it.
  2. Select "Build".
+
+[Jump to table of contents](#toc)
 
 <a name="add"/>
 
@@ -734,6 +748,8 @@ In particular, `CapsuleCollisionShape` is often used with humanoid models.
 
 (Pseudocode adapted from the flowchart on page 13 of the [Bullet User Manual][manual].)
 
+[Jump to table of contents](#toc)
+
 <a name="dump"/>
 
 ## Dumping a physics simulation
@@ -785,6 +801,8 @@ configure the dumper like so:
 Other dump flags can be set, for instance,
 to enumerate the nodes or clusters of each soft body
 or the motors of each `SixDofJoint`.
+
+[Jump to table of contents](#toc)
 
 <a name="dac"/>
 
@@ -853,6 +871,8 @@ The `TorsoLink` will manage any bones for which no ancestor `Bone` is linked.
 If you link too many bones, the ragdoll may become inflexible or jittery
 due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 
+[Jump to table of contents](#toc)
+
 <a name="detect"/>
 
 ## Collision detection
@@ -870,6 +890,8 @@ Minie provides 4 collision-detection interfaces:
  4. You can invoke `getOverlappingObjects()` on any `PhysicsGhostObject` to
     enumerate all collision objects that overlap with it, based on
     axis-aligned bounding boxes.
+
+[Jump to table of contents](#toc)
 
 <a name="softbody"/>
 
@@ -1083,6 +1105,8 @@ using an iterative algorithm that's built into Bullet:
 
     softBody.generateClusters(k, numIterations);
 
+[Jump to table of contents](#toc)
+
 <a name="demos"/>
 
 ## An overview of the demo applications
@@ -1128,6 +1152,8 @@ is largely standardized.
 For instance, in all 11 demos,
 the "H" key toggles visibility of help node
 and the "O" key dumps the physics space.
+
+[Jump to table of contents](#toc)
 
 <a name="links"/>
 
@@ -1207,6 +1233,8 @@ YouTube videos about Minie:
 [vhacdBindings]: https://github.com/riccardobl/v-hacd-java-bindings "V-HACD Java Bindings Project"
 [winmerge]: http://winmerge.org "WinMerge Project"
 
+[Jump to table of contents](#toc)
+
 <a name="acks"/>
 
 ## Acknowledgments
@@ -1257,3 +1285,5 @@ I'm also grateful to my dear Holly, for keeping me sane.
 
 If I've misattributed anything or left anyone out, please let me know so I can
 correct the situation: sgold@sonic.net
+
+[Jump to table of contents](#toc)
