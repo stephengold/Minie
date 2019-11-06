@@ -54,6 +54,14 @@ public class ConfigFlag {
      */
     final public static int CL_RS = 0x2;
     /**
+     * enable the SDF-based handler for rigid-versus-deformable collisions
+     */
+    final public static int SDF_RD = 0x3;
+    /**
+     * enable the SDF-based handler for rigid-versus-deformable face collisions
+     */
+    final public static int SDF_RDF = 0x4;
+    /**
      * enable the Node-versus-Face handler for soft-versus-soft collisions
      */
     final public static int VF_SS = 0x10;
