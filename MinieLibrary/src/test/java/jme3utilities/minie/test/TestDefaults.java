@@ -56,6 +56,10 @@ import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.objects.infos.Aero;
+import com.jme3.bullet.objects.infos.ConfigFlag;
+import com.jme3.bullet.objects.infos.Sbcp;
+import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeLibrary;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
@@ -157,6 +161,41 @@ public class TestDefaults {
         Assert.assertEquals(0, softA.countTetras());
         Assert.assertEquals(0f, softA.getMass(), 0f);
         Assert.assertEquals(Activation.active, softA.getActivationState());
+
+        SoftBodyConfig config = softA.getSoftConfig();
+        Assert.assertEquals(Aero.V_Point, config.aerodynamics());
+        Assert.assertEquals(4, config.clusterIterations());
+        Assert.assertEquals(
+                ConfigFlag.SDF_RS | ConfigFlag.VF_SS | ConfigFlag.CL_SELF,
+                config.collisionFlags());
+        Assert.assertEquals(0, config.driftIterations());
+        Assert.assertEquals(0.7f, config.get(Sbcp.AnchorHardness), 0f);
+        Assert.assertEquals(1f, config.get(Sbcp.ClusterKineticHardness), 0f);
+        Assert.assertEquals(0.5f, config.get(Sbcp.ClusterKineticSplit), 0f);
+        Assert.assertEquals(0.1f, config.get(Sbcp.ClusterRigidHardness), 0f);
+        Assert.assertEquals(0.5f, config.get(Sbcp.ClusterRigidSplit), 0f);
+        Assert.assertEquals(0.5f, config.get(Sbcp.ClusterSoftHardness), 0f);
+        Assert.assertEquals(0.5f, config.get(Sbcp.ClusterSoftSplit), 0f);
+        Assert.assertEquals(0f, config.get(Sbcp.Damping), 0f);
+        Assert.assertEquals(0f, config.get(Sbcp.Drag), 0f);
+        Assert.assertEquals(0.2f, config.get(Sbcp.DynamicFriction), 0f);
+        Assert.assertEquals(0.1f, config.get(Sbcp.KineticHardness), 0f);
+        Assert.assertEquals(0f, config.get(Sbcp.Lift), 0f);
+        Assert.assertEquals(1f, config.get(Sbcp.MaxVolumeRatio), 0f);
+        Assert.assertEquals(0f, config.get(Sbcp.PoseMatching), 0f);
+        Assert.assertEquals(0f, config.get(Sbcp.Pressure), 0f);
+        Assert.assertEquals(1f, config.get(Sbcp.RigidHardness), 0f);
+        Assert.assertEquals(1f, config.get(Sbcp.SoftHardness), 0f);
+        Assert.assertEquals(1f, config.get(Sbcp.TimeScale), 0f);
+        Assert.assertEquals(1f, config.get(Sbcp.VelocityCorrection), 0f);
+        Assert.assertEquals(0f, config.get(Sbcp.VolumeConservation), 0f);
+        Assert.assertEquals(1, config.positionIterations());
+        Assert.assertEquals(0, config.velocityIterations());
+
+        PhysicsSoftBody.Material mat = softA.getSoftMaterial();
+        Assert.assertEquals(1f, mat.angularStiffness(), 0f);
+        Assert.assertEquals(1f, mat.linearStiffness(), 0f);
+        Assert.assertEquals(1f, mat.volumeStiffness(), 0f);
 
         Mesh wireBox = new WireBox();
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
