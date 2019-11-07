@@ -806,6 +806,28 @@ class Model {
         rootSpatial = null;
         ragdoll = null;
     }
+
+    /**
+     * Validate the loaded C-G model for use with DynamicAnimControl.
+     *
+     * @return a feedback message (not null, not empty) or "" if none
+     */
+    String validationFeedback() {
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
+
+        Skeleton skeleton = findSkeleton();
+        String result = "";
+        try {
+            RagUtils.validate(rootSpatial);
+            RagUtils.validate(skeleton);
+        } catch (IllegalArgumentException exception) {
+            result = exception.getMessage();
+        }
+
+        return result;
+    }
     // *************************************************************************
     // private methods
 
