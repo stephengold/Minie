@@ -53,6 +53,7 @@ import jme3utilities.Misc;
 import jme3utilities.MySpatial;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.wes.AnimationEdit;
 import jme3utilities.wes.Pose;
 import jme3utilities.wes.TweenTransforms;
 
@@ -147,6 +148,19 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
         Transform initTransform = model.copyInitTransform(null);
         tempModelRoot.setLocalTransform(initTransform);
         DacWizard.getApplication().makeScene(tempModelRoot);
+        /*
+         * Normalize all quaternions in the copy's animations,
+         * since Pose.applyTo() is sensitive to such flaws.
+         */
+        List<AnimControl> animControls = MySpatial.listControls(tempModelRoot,
+                AnimControl.class, null);
+        for (AnimControl animControl : animControls) {
+            Collection<String> names = animControl.getAnimationNames();
+            for (String animationName : names) {
+                Animation anim = animControl.getAnim(animationName);
+                AnimationEdit.normalizeQuaternions(anim);
+            }
+        }
         /*
          * Add a DynamicAnimControl to the copy.  Since the control will
          * stay in kinematic mode, its masses and ranges of motion
@@ -320,6 +334,6 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
         Skeleton skeleton = tempDac.getSkeleton();
         Pose pose = new Pose(skeleton);
         pose.setToAnimation(animation, animationTime, techniques);
-        pose.apply(skeleton);
+        pose.applyTo(skeleton);
     }
 }
