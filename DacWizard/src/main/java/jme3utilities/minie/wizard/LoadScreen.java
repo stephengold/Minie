@@ -148,7 +148,7 @@ class LoadScreen extends GuiScreenController {
         Spatial nextSpatial = model.getRootSpatial();
         String loadException = model.loadExceptionString();
 
-        String feedback = "";
+        String feedback;
         String loadButton = "";
         if (!loadException.isEmpty()) {
             feedback = loadException;
@@ -162,6 +162,8 @@ class LoadScreen extends GuiScreenController {
                     numSkeletonControls);
         } else if (model.countBones() < 1) {
             feedback = "The model's skeleton lacks bones.";
+        } else {
+            feedback = model.validationFeedback();
         }
 
         setStatusText("feedback", feedback);
