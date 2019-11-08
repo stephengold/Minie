@@ -19,7 +19,7 @@ dependencies {
     implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
     implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
     implementation 'jme3utilities:jme3-utilities-nifty:0.9.10for32'
-    implementation 'jme3utilities:Wes:0.4.4for32'
+    implementation 'jme3utilities:Wes:0.4.5for32'
     runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"

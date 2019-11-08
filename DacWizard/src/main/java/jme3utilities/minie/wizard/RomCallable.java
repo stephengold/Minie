@@ -158,7 +158,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
             Collection<String> names = animControl.getAnimationNames();
             for (String animationName : names) {
                 Animation anim = animControl.getAnim(animationName);
-                AnimationEdit.normalizeQuaternions(anim);
+                AnimationEdit.normalizeQuaternions(anim, 0.00005f);
             }
         }
         /*
