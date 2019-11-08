@@ -403,13 +403,12 @@ public class TorsoLink extends PhysicsLink {
                  */
                 Transform start = startBoneTransforms[managedIndex];
                 Quaternion startQuat = start.getRotation();
+                startQuat.normalizeLocal();
                 Quaternion endQuat = transform.getRotation();
                 if (startQuat.dot(endQuat) < 0f) {
                     endQuat.multLocal(-1f);
                 }
-                MyMath.slerp(kinematicWeight(),
-                        startBoneTransforms[managedIndex], transform,
-                        transform);
+                MyMath.slerp(kinematicWeight(), start, transform, transform);
                 // TODO smarter sign flipping
             }
             /*
