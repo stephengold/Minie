@@ -330,7 +330,7 @@ Minie currently targets version 3.2.4 of jMonkeyEngine.
 You are welcome to use the Engine without also using the SDK, but I use the SDK,
 and the following installation instructions assume you will too.
 
-The hardware and software requirements of the SDK are documented on
+The hardware and software requirements of the SDK are documented at
 [the JME wiki](https://jmonkeyengine.github.io/wiki/jme3/requirements.html).
 
  1. Download a jMonkeyEngine 3.2 SDK from
