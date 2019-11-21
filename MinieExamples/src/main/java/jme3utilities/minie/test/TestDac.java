@@ -326,7 +326,7 @@ public class TestDac extends ActionApplication {
         dim.bind("raise rightHand", KeyInput.KEY_RSHIFT);
 
         dim.bind("reset model transform", KeyInput.KEY_HOME);
-        dim.bind("save", KeyInput.KEY_K);
+        dim.bind("save", KeyInput.KEY_COMMA);
         dim.bind("set height 1", KeyInput.KEY_1);
         dim.bind("set height 2", KeyInput.KEY_2);
         dim.bind("set height 3", KeyInput.KEY_3);
