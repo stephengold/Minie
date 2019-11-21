@@ -501,8 +501,7 @@ public class WatchDemo extends ActionApplication {
         sc = RagUtils.findSkeletonControl(cgModel);
 
         rootNode.attachChild(cgModel);
-        float height = 2f;
-        setHeight(cgModel, height);
+        setHeight(cgModel, 2f);
         center(cgModel);
 
         Spatial controlledSpatial = sc.getSpatial();

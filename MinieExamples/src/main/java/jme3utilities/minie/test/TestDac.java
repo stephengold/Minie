@@ -656,8 +656,7 @@ public class TestDac extends ActionApplication {
         cgModel.setCullHint(Spatial.CullHint.Never);
 
         rootNode.attachChild(cgModel);
-        float height = 2f;
-        setHeight(cgModel, height);
+        setHeight(cgModel, 2f);
         center(cgModel);
         resetTransform = cgModel.getLocalTransform().clone();
 
