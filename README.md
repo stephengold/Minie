@@ -444,7 +444,7 @@ you must explicitly specify their repository locations:
 
     repositories {
         maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
-        maven { url 'https://dl.bintray.com/riccardo/v-hacd' }
+        maven { url 'https://dl.bintray.com/stephengold/v-hacd' }
         jcenter()
     }
     dependencies {
@@ -457,7 +457,7 @@ For projects built using [Ant][], download the 3 non-standard libraries:
 
  + https://github.com/stephengold/Minie/releases/tag/1.1.0for32
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-4.1.0for32
- + https://bintray.com/riccardo/v-hacd/download_file?file_path=vhacd%2Fvhacd-native%2F1.1.1%2Fvhacd-native-1.1.1.jar
+ + https://bintray.com/stephengold/v-hacd/download_file?file_path=vhacd%2Fvhacd-native%2F1.1.1%2Fvhacd-native-1.1.1.jar
 
 You'll want the class jars
 and probably the `-sources` and `-javadoc` jars as well.
