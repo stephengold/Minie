@@ -4,7 +4,7 @@
 
 plugins {
     id 'java-library'
-    id 'maven'
+    id 'maven-publish'
 }
 
 description = 'the Minie physics-support library for jMonkeyEngine'
@@ -119,21 +119,29 @@ task cleanWindows64(type: Delete) {
 }
 
 build.dependsOn('pom')
-task pom {
-    doLast {
-        pom {
-            project {
-                artifactId project.ext.artifact
+task('pom', type: Copy) {
+    dependsOn 'generatePomFileForMavenPublication'
+    from "${buildDir}/publications/maven/pom-default.xml"
+    into "${buildDir}/libs"
+    rename '.*', baseName + '.pom'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId artifact
+            from components.java
+            pom {
                 licenses {
                     license {
-                        distribution 'repo'
-                        name 'New BSD (3-clause) License'
-                        url 'https://opensource.org/licenses/BSD-3-Clause'
+                        distribution = 'repo'
+                        name = 'New BSD (3-clause) License'
+                        url = 'https://opensource.org/licenses/BSD-3-Clause'
                     }
                 }
-                version project.ext.version
             }
-        }.writeTo("${buildDir}/libs/${project.ext.baseName}.pom")
+            version project.ext.version
+        }
     }
 }
 
