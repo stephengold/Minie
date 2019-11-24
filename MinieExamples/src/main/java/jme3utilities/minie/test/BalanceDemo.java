@@ -32,6 +32,7 @@ import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
+import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.BoneLink;
@@ -261,8 +262,18 @@ public class BalanceDemo extends ActionApplication {
 
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
-        addLighting();
 
+        addLighting();
+        /*
+         * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
+         */
+        ScreenshotAppState screenshotAppState
+                = new ScreenshotAppState("Written Assets/", "screenshot");
+        boolean success = stateManager.attach(screenshotAppState);
+        assert success;
+        /*
+         * Hide the render-statistics overlay.
+         */
         stateManager.getState(StatsAppState.class).toggleStats();
 
         comPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Cyan,
