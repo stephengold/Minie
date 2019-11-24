@@ -31,6 +31,7 @@ import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
+import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
@@ -205,11 +206,21 @@ public class BuoyDemo extends ActionApplication {
     public void actionInitializeApplication() {
         rootNode.attachChild(reflectiblesNode);
         rootNode.attachChild(reflectorsNode);
+
         configureCamera();
         configureDumper();
         configurePhysics();
         addLighting();
-
+        /*
+         * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
+         */
+        ScreenshotAppState screenshotAppState
+                = new ScreenshotAppState("Written Assets/", "screenshot");
+        boolean success = stateManager.attach(screenshotAppState);
+        assert success;
+        /*
+         * Hide the render-statistics overlay.
+         */
         stateManager.getState(StatsAppState.class).toggleStats();
 
         addSurface();

@@ -29,6 +29,7 @@ package jme3utilities.minie.test;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
+import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
@@ -214,11 +215,23 @@ public class WatchDemo extends ActionApplication {
         configureCamera();
         configureDumper();
         configurePhysics();
+
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
-        addLighting();
 
+        addLighting();
+        /*
+         * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
+         */
+        ScreenshotAppState screenshotAppState
+                = new ScreenshotAppState("Written Assets/", "screenshot");
+        boolean success = stateManager.attach(screenshotAppState);
+        assert success;
+        /*
+         * Hide the render-statistics overlay.
+         */
         stateManager.getState(StatsAppState.class).toggleStats();
+
         addAxes();
         addBox();
 
