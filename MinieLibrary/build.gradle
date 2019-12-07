@@ -87,10 +87,13 @@ clean.dependsOn('cleanLinux32', 'cleanLinux64',
     'cleanMacOSX32', 'cleanMacOSX64',
     'cleanWindows32', 'cleanWindows64'
 )
-clean.dependsOn('cleanDLLs', 'cleanLogs', 'cleanSOs')
+clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs')
 
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
+}
+task cleanDyLibs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.dylib')
 }
 task cleanSOs(type: Delete) {
     delete fileTree(dir: '.', include: '*.so')
