@@ -165,9 +165,7 @@ public class TestDefaults {
         SoftBodyConfig config = softA.getSoftConfig();
         Assert.assertEquals(Aero.V_Point, config.aerodynamics());
         Assert.assertEquals(4, config.clusterIterations());
-        Assert.assertEquals(
-                ConfigFlag.SDF_RS | ConfigFlag.VF_SS | ConfigFlag.CL_SELF,
-                config.collisionFlags());
+        Assert.assertEquals(ConfigFlag.SDF_RS, config.collisionFlags());
         Assert.assertEquals(0, config.driftIterations());
         Assert.assertEquals(0.7f, config.get(Sbcp.AnchorHardness), 0f);
         Assert.assertEquals(1f, config.get(Sbcp.ClusterKineticHardness), 0f);
