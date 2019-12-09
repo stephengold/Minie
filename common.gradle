@@ -16,7 +16,6 @@ gradle.projectsEvaluated {
     }
     tasks.withType(JavaExec) { // runtime options:
         classpath sourceSets.main.runtimeClasspath
-        //doFirst { println commandLine }
         enableAssertions true
         //jvmArgs '-verbose:gc'
         //jvmArgs '-Xcheck:jni'
@@ -27,9 +26,9 @@ gradle.projectsEvaluated {
 }
 
 ext { // current versions of the libraries
-    heartVersion = '4.1.0for33'
-    jme3utilitiesuiVersion = '0.7.8for33'
-    jmonkeyengineVersion = '3.3.0-alpha5'
+    heartVersion = '4.2.0for33'
+    jme3utilitiesuiVersion = '0.7.9for33'
+    jmonkeyengineVersion = 'v3.3.0-beta1'
     minieVersion = '1.1.0for33'
 }
 
