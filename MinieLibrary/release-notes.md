@@ -1,5 +1,22 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 1.1.1for33 released on TBD
+
+ + Fixed bugs:
+   + Crash due to a denormalized `Quaternion` in `TorsoLink`.
+   + "K" key doubly mapped in the `TestDac` application.
+ + Added model validation to the `DacWizard` application.
+ + Added screenshot capability to 9 demo apps.
+ + Extended `TestDefaults` to verify defaults for soft-body configs
+   and materials.
+ + Updated the native libraries to version 2.0.14 of `Libbulletjme`.
+ + Based on:
+   + version 3.3.0-beta1 of jMonkeyEngine,
+   + version 4.2 of the  `jme3-utilities-heart` library,
+   + version 0.7.9 of the `jme3-utilities-ui` library, and
+   + version 0.9.11 of the `jme3-utilities-nifty` library.
+ + Upgraded to Gradle v6.0.1 .
+
 ## Version 1.1.0for33 released on 4 November 2019
 
  + Added 4 getters to the `SixDofSpringJoint` class.
