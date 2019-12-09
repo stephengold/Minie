@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.1.1for33 released on TBD
+## Version 1.1.1for33 released on 9 December 2019
 
  + Fixed bugs:
    + Crash due to a denormalized `Quaternion` in `TorsoLink`.
