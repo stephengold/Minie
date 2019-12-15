@@ -317,22 +317,6 @@ public class SixDofJoint extends Constraint {
     }
 
     /**
-     * Copy the joint's pivot offset.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return the relative pivot position on each local axis (in physics-space
-     * units, either storeResult or a new vector, not null)
-     */
-    public Vector3f getPivotOffset(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-
-        long constraintId = getObjectId();
-        getPivotOffset(constraintId, result);
-
-        return result;
-    }
-
-    /**
      * Copy the joint's lower limits for translation on all 3 axes.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -360,6 +344,22 @@ public class SixDofJoint extends Constraint {
         } else {
             return storeResult.set(linearUpperLimit);
         }
+    }
+
+    /**
+     * Copy the joint's pivot offset.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the relative pivot position on each local axis (in physics-space
+     * units, either storeResult or a new vector, not null)
+     */
+    public Vector3f getPivotOffset(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long constraintId = getObjectId();
+        getPivotOffset(constraintId, result);
+
+        return result;
     }
 
     /**
