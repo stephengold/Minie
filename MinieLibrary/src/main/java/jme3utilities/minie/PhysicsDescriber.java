@@ -48,11 +48,13 @@ import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.joints.Anchor;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
+import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.SoftLinearJoint;
 import com.jme3.bullet.joints.SoftPhysicsJoint;
+import com.jme3.bullet.joints.motors.MotorParam;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsBody;
@@ -705,6 +707,99 @@ public class PhysicsDescriber extends Describer {
             result.append(" bit=");
             result.append(MyString.describe(bit));
         }
+
+        return result.toString();
+    }
+
+    /**
+     * Describe the indexed degree of freedom of the specified New6Dof
+     * constraint.
+     *
+     * @param constraint the constraint to describe (not null, unaffected)
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
+     * @return descriptive text (not null, not empty)
+     */
+    public String describeDof(New6Dof constraint, int dofIndex) {
+        StringBuilder result = new StringBuilder(80);
+
+        float lo = constraint.get(MotorParam.LowerLimit, dofIndex);
+        float hi = constraint.get(MotorParam.UpperLimit, dofIndex);
+        if (hi < lo) {
+            result.append(" free");
+        } else if (hi == lo) {
+            result.append(" locked");
+        } else {
+            result.append(" lo=");
+            result.append(MyString.describe(lo));
+            result.append(" hi=");
+            result.append(MyString.describe(hi));
+        }
+
+        result.append(" motor[");
+        if (constraint.isMotorEnabled(dofIndex)) {
+            if (constraint.isServoEnabled(dofIndex)) { // servo motor
+                result.append("servo target=");
+                float target = constraint.get(MotorParam.ServoTarget, dofIndex);
+                result.append(MyString.describe(target));
+                result.append(" ");
+            }
+
+            result.append("tgtV=");
+            float tgtV = constraint.get(MotorParam.TargetVelocity, dofIndex);
+            result.append(MyString.describe(tgtV));
+
+            result.append(" cfm=");
+            float cfm = constraint.get(MotorParam.MotorCfm, dofIndex);
+            result.append(MyString.describe(cfm));
+
+            result.append(" erp=");
+            float erp = constraint.get(MotorParam.MotorErp, dofIndex);
+            result.append(MyString.describe(erp));
+
+            result.append(" maxF=");
+            float maxF = constraint.get(MotorParam.MaxMotorForce, dofIndex);
+            result.append(MyString.describe(maxF));
+
+        } else {
+            result.append("off");
+        }
+        result.append("]");
+
+        if (hi >= lo) { // limits/stops are enabled
+            result.append(" lim[bounce=");
+            float bounce = constraint.get(MotorParam.Bounce, dofIndex);
+            result.append(MyString.describe(bounce));
+
+            result.append(" cfm=");
+            float cfm = constraint.get(MotorParam.StopCfm, dofIndex);
+            result.append(MyString.describe(cfm));
+
+            result.append(" erp=");
+            float erp = constraint.get(MotorParam.StopErp, dofIndex);
+            result.append(MyString.describe(erp));
+
+            result.append(']');
+        }
+
+        result.append(" spring[");
+        if (constraint.isSpringEnabled(dofIndex)) {
+            result.append("eq=");
+            float eq = constraint.get(MotorParam.Equilibrium, dofIndex);
+            result.append(MyString.describe(eq));
+
+            result.append(" stif=");
+            float stif = constraint.get(MotorParam.Stiffness, dofIndex);
+            result.append(MyString.describe(stif));
+
+            result.append(" damp=");
+            float damp = constraint.get(MotorParam.Damping, dofIndex);
+            result.append(MyString.describe(damp));
+        } else {
+            result.append("off");
+        }
+        result.append("]");
 
         return result.toString();
     }
