@@ -287,7 +287,8 @@ public class TranslationMotor {
     }
 
     /**
-     * Enable or disable the indexed servo (m_servoMotor).
+     * Enable or disable the indexed servo (m_servoMotor). This setting has no
+     * effect if the corresponding axis is disabled.
      *
      * @param axisIndex which axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)

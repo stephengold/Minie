@@ -256,7 +256,8 @@ public class RotationMotor {
     }
 
     /**
-     * Enable or disable the servo (m_servoMotor).
+     * Enable or disable the servo (m_servoMotor). This setting has no effect if
+     * the motor is disabled.
      *
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)
      */
