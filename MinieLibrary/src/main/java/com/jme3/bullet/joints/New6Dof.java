@@ -184,8 +184,8 @@ public class New6Dof extends Constraint {
      * null)
      */
     public New6Dof(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
-            Vector3f pivotInA, Vector3f pivotInB, Matrix3f rotInA, Matrix3f rotInB,
-            RotationOrder rotationOrder) {
+            Vector3f pivotInA, Vector3f pivotInB,
+            Matrix3f rotInA, Matrix3f rotInB, RotationOrder rotationOrder) {
         super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
         rotA = rotInA.clone();
@@ -194,7 +194,9 @@ public class New6Dof extends Constraint {
         createConstraint();
     }
     // *************************************************************************
-    // new methods exposed TODO more methods
+    // new methods exposed
+    // TODO checkRotationOrder(), getAxis(), getAngles(), getPivotOffset()
+    // TODO calculateTransforms(), setRotationOrder(), getFrameTransform()
 
     /**
      * Enable or disable the spring for the indexed degree of freedom.
@@ -270,6 +272,78 @@ public class New6Dof extends Constraint {
      */
     public TranslationMotor getTranslationMotor() {
         return translationMotor;
+    }
+
+    /**
+     * Test whether the motor is enabled for the indexed degree of freedom.
+     *
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
+     * @return true if enabled, otherwise false
+     */
+    public boolean isMotorEnabled(int dofIndex) {
+        Validate.inRange(dofIndex, "DOF index", 0, 5);
+
+        boolean result;
+        if (dofIndex >= 3) {
+            int axisIndex = dofIndex - 3;
+            RotationMotor motor = getRotationMotor(axisIndex);
+            result = motor.isMotorEnabled();
+        } else {
+            TranslationMotor motor = getTranslationMotor();
+            result = motor.isMotorEnabled(dofIndex);
+        }
+
+        return result;
+    }
+
+    /**
+     * Test whether the servo is enabled for the indexed degree of freedom.
+     *
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
+     * @return true if enabled, otherwise false
+     */
+    public boolean isServoEnabled(int dofIndex) {
+        Validate.inRange(dofIndex, "DOF index", 0, 5);
+
+        boolean result;
+        if (dofIndex >= 3) {
+            int axisIndex = dofIndex - 3;
+            RotationMotor motor = getRotationMotor(axisIndex);
+            result = motor.isServoEnabled();
+        } else {
+            TranslationMotor motor = getTranslationMotor();
+            result = motor.isServoEnabled(dofIndex);
+        }
+
+        return result;
+    }
+
+    /**
+     * Test whether the spring is enabled for the indexed degree of freedom.
+     *
+     * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
+     * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+     * 5&rarr;Z rotation)
+     * @return true if enabled, otherwise false
+     */
+    public boolean isSpringEnabled(int dofIndex) {
+        Validate.inRange(dofIndex, "DOF index", 0, 5);
+
+        boolean result;
+        if (dofIndex >= 3) {
+            int axisIndex = dofIndex - 3;
+            RotationMotor motor = getRotationMotor(axisIndex);
+            result = motor.isSpringEnabled();
+        } else {
+            TranslationMotor motor = getTranslationMotor();
+            result = motor.isSpringEnabled(dofIndex);
+        }
+
+        return result;
     }
 
     /**
