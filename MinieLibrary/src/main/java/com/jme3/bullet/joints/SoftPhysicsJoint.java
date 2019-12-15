@@ -171,6 +171,20 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     // new methods exposed
 
     /**
+     * Compare Bullet parameters against their the local copies.
+     *
+     * @return true if the local copies are accurate, otherwise false
+     */
+    public boolean checkParameters() {
+        long jointId = getObjectId();
+        boolean result = (cfm == getConstraintForceMixing(jointId))
+                && (erp == getErrorReductionParameter(jointId))
+                && (split == getSplit(jointId));
+
+        return result;
+    }
+
+    /**
      * Read the index of the cluster for the A end.
      *
      * @return the index (&ge;0)
@@ -352,20 +366,6 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
     // *************************************************************************
     // new protected methods
-
-    /**
-     * Compare Bullet parameters against their the local copies.
-     *
-     * @return true if the local copies are accurate, otherwise false
-     */
-    public boolean checkParameters() {
-        long jointId = getObjectId();
-        boolean result = (cfm == getConstraintForceMixing(jointId))
-                && (erp == getErrorReductionParameter(jointId))
-                && (split == getSplit(jointId));
-
-        return result;
-    }
 
     /**
      * Finalize the btTypedConstraint.
