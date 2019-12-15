@@ -30,17 +30,21 @@ import com.jme3.app.Application;
 import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.ConeJoint;
 import com.jme3.bullet.joints.HingeJoint;
 import com.jme3.bullet.joints.JointEnd;
+import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
+import com.jme3.bullet.joints.motors.MotorParam;
+import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -264,6 +268,7 @@ public class SeJointDemo extends ActionApplication {
         dim.bind("test 6dofSpring", KeyInput.KEY_F7);
         dim.bind("test cone", KeyInput.KEY_F3);
         dim.bind("test hinge", KeyInput.KEY_F2);
+        dim.bind("test new6dof", KeyInput.KEY_F8);
         dim.bind("test p2p", KeyInput.KEY_F1);
         dim.bind("test slider", KeyInput.KEY_F4);
 
@@ -318,6 +323,10 @@ public class SeJointDemo extends ActionApplication {
                 case "test hinge":
                     cleanupAfterTest();
                     testName = "hinge";
+                    return;
+                case "test new6dof":
+                    cleanupAfterTest();
+                    testName = "new6dof";
                     return;
                 case "test p2p":
                     cleanupAfterTest();
@@ -408,6 +417,7 @@ public class SeJointDemo extends ActionApplication {
         switch (testName) {
             case "6dof":
             case "6dofSpring":
+            case "new6dof":
                 seedScale.set(3f, 1f, 1f);
                 break;
 
@@ -509,6 +519,27 @@ public class SeJointDemo extends ActionApplication {
                 referenceFrame = JointEnd.A;
                 joint = new HingeJoint(rbc, pivotInSeed, pivotInWorld,
                         axisInSeed, axisInWorld, referenceFrame);
+                break;
+
+            case "new6dof":
+                gravity.zero();
+                pivotInSeed.set(1f, 0f, 0f);
+                rotInSeed.loadIdentity();
+                angle = (groupIndex - 1) * FastMath.HALF_PI;
+                rotInWorld.fromAngleAxis(angle, Vector3f.UNIT_Z);
+                New6Dof nJoint = new New6Dof(rbc,
+                        pivotInSeed, pivotInWorld, rotInSeed, rotInWorld,
+                        RotationOrder.XYZ);
+                RotationMotor x = nJoint.getRotationMotor(PhysicsSpace.AXIS_X);
+                x.set(MotorParam.LowerLimit, 0f);
+                x.set(MotorParam.UpperLimit, 0f);
+                RotationMotor y = nJoint.getRotationMotor(PhysicsSpace.AXIS_Y);
+                y.set(MotorParam.LowerLimit, -1f);
+                y.set(MotorParam.UpperLimit, 1f);
+                RotationMotor z = nJoint.getRotationMotor(PhysicsSpace.AXIS_Z);
+                z.set(MotorParam.LowerLimit, -1f);
+                z.set(MotorParam.UpperLimit, 1f);
+                joint = nJoint;
                 break;
 
             case "p2p":
