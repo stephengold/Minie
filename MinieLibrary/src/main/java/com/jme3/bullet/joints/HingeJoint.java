@@ -397,7 +397,7 @@ public class HingeJoint extends Constraint {
         setLimit(constraintId, low, high, softness, bias, relaxation);
     }
     // *************************************************************************
-    // PhysicsJoint methods
+    // Constraint methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this

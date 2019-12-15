@@ -202,7 +202,7 @@ public class BoneLink extends PhysicsLink {
                 = childToWorld.transformInverseVector(pivotWorld, null);
         Matrix3f rotParent = childToParent.getRotation().toRotationMatrix();
         Matrix3f rotChild = matrixIdentity;
-        // TODO try HingeJoint or ConeJoint
+        // TODO try HingeJoint or ConeJoint or New6Dof
         SixDofJoint joint = new SixDofJoint(parentBody, childBody, pivotParent,
                 pivotChild, rotParent, rotChild, true);
         super.setJoint(joint);

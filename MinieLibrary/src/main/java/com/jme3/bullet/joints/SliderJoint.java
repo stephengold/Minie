@@ -818,7 +818,7 @@ public class SliderJoint extends Constraint {
         setUpperLinLimit(constraintId, upperLinLimit);
     }
     // *************************************************************************
-    // PhysicsJoint methods
+    // Constraint methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
