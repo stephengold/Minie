@@ -196,7 +196,7 @@ public class Point2PointJoint extends Constraint {
         setTau(constraintId, value);
     }
     // *************************************************************************
-    // PhysicsJoint methods
+    // Constraint methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this

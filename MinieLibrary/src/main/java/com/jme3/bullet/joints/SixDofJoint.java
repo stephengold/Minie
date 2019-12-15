@@ -52,21 +52,17 @@ import jme3utilities.Validate;
  * A 6 degree-of-freedom joint based on Bullet's btGeneric6DofConstraint.
  * <p>
  * <i>From the Bullet manual:</i><br>
- * This generic constraint can emulate a variety of standard constraints, by
- * configuring each of the 6 degrees of freedom (dof). The first 3 dof axis are
- * linear axis, which represent translation of rigidbodies, and the latter 3 dof
- * axis represent the angular motion. Each axis can be either locked, free or
- * limited. On construction of a new btGeneric6DofSpring2Constraint, all axis
- * are locked. Afterwards the axis can be reconfigured. Note that several
- * combinations that include free and/or limited angular degrees of freedom are
- * undefined.
  * <p>
  * For each axis:<ul>
  * <li>Lowerlimit = Upperlimit &rarr; axis is locked</li>
  * <li>Lowerlimit &gt; Upperlimit &rarr; axis is free</li>
  * <li>Lowerlimit &lt; Upperlimit &rarr; axis is limited in that range</li>
  * </ul>
+ * <p>
+ * It is recommended to use the btGeneric6DofSpring2Constraint, it has some
+ * improvements over the original btGeneric6Dof(Spring)Constraint.
  *
+ * @see com.jme3.bullet.joints.New6Dof
  * @author normenhansen
  */
 public class SixDofJoint extends Constraint {
@@ -473,7 +469,7 @@ public class SixDofJoint extends Constraint {
     native protected long createJoint1(long bodyIdB, Vector3f pivotInB,
             Matrix3f rotInB, boolean useLinearReferenceFrameB);
     // *************************************************************************
-    // PhysicsJoint methods
+    // Constraint methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this

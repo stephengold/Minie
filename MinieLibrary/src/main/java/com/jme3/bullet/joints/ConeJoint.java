@@ -276,7 +276,7 @@ public class ConeJoint extends Constraint {
         setLimit(constraintId, swingSpan1, swingSpan2, twistSpan);
     }
     // *************************************************************************
-    // PhysicsJoint methods
+    // Constraint methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this

@@ -51,9 +51,10 @@ import jme3utilities.Validate;
  * <li>A single-ended Constraint constrains the motion of a dynamic rigid
  * body.</li>
  * <li>A double-ended Conatraint connects 2 rigid bodies together in the same
- * PhysicsSpace. One of the bodies must be dynamic.</li>
+ * PhysicsSpace. One or both of the bodies must be dynamic.</li>
  * </ul>
- * Subclasses include ConeJoint, HingeJoint, Point2PointJoint, and SixDofJoint.
+ * Subclasses include: ConeJoint, HingeJoint, New6Dof, Point2PointJoint,
+ * SixDofJoint, SixDofSpringJoint, and SliderJoint.
  *
  * @author Stephen Gold sgold@sonic.net
  *
