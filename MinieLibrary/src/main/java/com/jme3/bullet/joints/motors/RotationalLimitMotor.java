@@ -364,7 +364,7 @@ public class RotationalLimitMotor {
 
     native private void setAccumulatedImpulse(long motorId, float vector);
 
-    native private void setBounce(long motorId, float limitSoftness);
+    native private void setBounce(long motorId, float bounce);
 
     native private void setDamping(long motorId, float damping);
 
