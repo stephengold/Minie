@@ -30,11 +30,13 @@ import com.jme3.app.Application;
 import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.joints.SixDofJoint;
-import com.jme3.bullet.joints.motors.RotationalLimitMotor;
+import com.jme3.bullet.joints.New6Dof;
+import com.jme3.bullet.joints.motors.MotorParam;
+import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
@@ -43,6 +45,7 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
@@ -67,7 +70,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Test/demonstrate double-ended 6-DOF joints.
+ * Test/demonstrate double-ended New6Dof joints.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -123,19 +126,19 @@ public class JointDemo extends ActionApplication {
     /**
      * motor to rotate the left-front leg
      */
-    private RotationalLimitMotor lfMotor;
+    private RotationMotor lfMotor;
     /**
      * motor to rotate the left-rear leg
      */
-    private RotationalLimitMotor lrMotor;
+    private RotationMotor lrMotor;
     /**
      * motor to rotate the right-front leg
      */
-    private RotationalLimitMotor rfMotor;
+    private RotationMotor rfMotor;
     /**
      * motor to rotate the right-rear leg
      */
-    private RotationalLimitMotor rrMotor;
+    private RotationMotor rrMotor;
     // *************************************************************************
     // new methods exposed
 
@@ -292,16 +295,16 @@ public class JointDemo extends ActionApplication {
         Signals signals = getSignals();
 
         float lfVelocity = signals.test("turnLF") ? 2f : 0f;
-        lfMotor.setTargetVelocity(lfVelocity);
+        lfMotor.set(MotorParam.TargetVelocity, lfVelocity);
 
         float rfVelocity = signals.test("turnRF") ? 2f : 0f;
-        rfMotor.setTargetVelocity(rfVelocity);
+        rfMotor.set(MotorParam.TargetVelocity, rfVelocity);
 
         float lrVelocity = signals.test("turnLR") ? 2f : 0f;
-        lrMotor.setTargetVelocity(lrVelocity);
+        lrMotor.set(MotorParam.TargetVelocity, lrVelocity);
 
         float rrVelocity = signals.test("turnRR") ? 2f : 0f;
-        rrMotor.setTargetVelocity(rrVelocity);
+        rrMotor.set(MotorParam.TargetVelocity, rrVelocity);
     }
     // *************************************************************************
     // private methods
@@ -342,7 +345,7 @@ public class JointDemo extends ActionApplication {
     /**
      * Add a rectangular leg to the robot chassis.
      */
-    private RotationalLimitMotor addLeg(Geometry legGeom, Vector3f legInWorld,
+    private RotationMotor addLeg(Geometry legGeom, Vector3f legInWorld,
             Vector3f pivotInChassis, Vector3f chassisInWorld,
             RigidBodyControl chassisRbc) {
         solidNode.attachChild(legGeom);
@@ -357,24 +360,29 @@ public class JointDemo extends ActionApplication {
 
         Vector3f pivotInLeg
                 = pivotInChassis.add(chassisInWorld).subtractLocal(legInWorld);
-        SixDofJoint joint = new SixDofJoint(chassisRbc, legRbc, pivotInChassis,
-                pivotInLeg, false);
-
-        joint.setAngularLowerLimit(new Vector3f(0f, 0f, -9e9f));
-        joint.setAngularUpperLimit(new Vector3f(0f, 0f, 9e9f));
+        New6Dof joint = new New6Dof(chassisRbc, legRbc, pivotInChassis,
+                pivotInLeg, new Matrix3f(), new Matrix3f(), RotationOrder.ZYX);
+        /*
+         * Inhibit X- and Y-axis rotations.
+         */
+        RotationMotor xMotor = joint.getRotationMotor(PhysicsSpace.AXIS_X);
+        xMotor.set(MotorParam.UpperLimit, 0f);
+        xMotor.set(MotorParam.LowerLimit, 0f);
+        RotationMotor yMotor = joint.getRotationMotor(PhysicsSpace.AXIS_Y);
+        yMotor.set(MotorParam.UpperLimit, 0f);
+        yMotor.set(MotorParam.LowerLimit, 0f);
         /*
          * Enable the motor for Z-axis rotation and return a reference to it.
          */
-        RotationalLimitMotor motor
-                = joint.getRotationalLimitMotor(PhysicsSpace.AXIS_Z);
-        motor.setEnableMotor(true);
-        motor.setUpperLimit(9e9f);
-        motor.setLowerLimit(-9e9f);
-        motor.setMaxMotorForce(9e9f);
+        RotationMotor zMotor = joint.getRotationMotor(PhysicsSpace.AXIS_Z);
+        zMotor.setMotorEnabled(true);
+        zMotor.set(MotorParam.UpperLimit, 9e9f);
+        zMotor.set(MotorParam.LowerLimit, -9e9f);
+        zMotor.set(MotorParam.MaxMotorForce, 9e9f);
 
         physicsSpace.add(joint);
 
-        return motor;
+        return zMotor;
     }
 
     /**
