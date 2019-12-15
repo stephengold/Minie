@@ -376,8 +376,6 @@ public class JointDemo extends ActionApplication {
          */
         RotationMotor zMotor = joint.getRotationMotor(PhysicsSpace.AXIS_Z);
         zMotor.setMotorEnabled(true);
-        zMotor.set(MotorParam.UpperLimit, 9e9f);
-        zMotor.set(MotorParam.LowerLimit, -9e9f);
         zMotor.set(MotorParam.MaxMotorForce, 9e9f);
 
         physicsSpace.add(joint);
@@ -471,6 +469,7 @@ public class JointDemo extends ActionApplication {
     private void configureDumper() {
         dumper.setEnabled(DumpFlags.JointsInBodies, true);
         dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        dumper.setEnabled(DumpFlags.Motors, true);
         dumper.setEnabled(DumpFlags.ShadowModes, true);
         dumper.setEnabled(DumpFlags.Transforms, true);
     }
