@@ -43,6 +43,7 @@ import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.debug.BulletDebugAppState;
+import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
@@ -987,6 +988,23 @@ public class PhysicsDumper extends Dumper {
                             String axisName = MyString.axisName(axisIndex);
                             stream.printf("%n%stra%s: ", mmIndent, axisName);
                             desc = describer.describe(motor, axisIndex);
+                            stream.print(desc);
+                        }
+                    }
+
+                } else if (joint instanceof New6Dof) {
+                    New6Dof sixDof = (New6Dof) joint;
+
+                    desc = sixDof.getRotationOrder().toString();
+                    stream.printf("%n%s rotOrder=%s", moreIndent, desc);
+
+                    if (dumpMotors) {
+                        for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
+                            int axisIndex = dofIndex % 3;
+                            String dofName = (dofIndex < 3) ? "tra" : "rot";
+                            dofName += MyString.axisName(axisIndex);
+                            stream.printf("%n%s%s: ", mmIndent, dofName);
+                            desc = describer.describeDof(sixDof, dofIndex);
                             stream.print(desc);
                         }
                     }
