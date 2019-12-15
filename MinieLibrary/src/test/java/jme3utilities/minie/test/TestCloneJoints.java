@@ -29,12 +29,14 @@ package jme3utilities.minie.test;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.ConeJoint;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.HingeJoint;
 import com.jme3.bullet.joints.JointEnd;
+import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.joints.SixDofJoint;
@@ -42,7 +44,10 @@ import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
 import com.jme3.bullet.joints.SoftAngularJoint;
 import com.jme3.bullet.joints.SoftLinearJoint;
+import com.jme3.bullet.joints.motors.MotorParam;
+import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
+import com.jme3.bullet.joints.motors.TranslationMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -137,6 +142,22 @@ public class TestCloneJoints {
         verifyParameters(seHinge, 0f);
         HingeJoint seHingeClone = (HingeJoint) Misc.deepCopy(seHinge);
         cloneTest(seHinge, seHingeClone);
+        /*
+         * New6Dof: single- and double-ended
+         */
+        New6Dof deNew6 = new New6Dof(rigidA, rigidB, va, vb,
+                qa.toRotationMatrix(), qb.toRotationMatrix(), RotationOrder.XYZ);
+        setParameters(deNew6, 0f);
+        verifyParameters(deNew6, 0f);
+        New6Dof deNew6Clone = (New6Dof) Misc.deepCopy(deNew6);
+        cloneTest(deNew6, deNew6Clone);
+
+        New6Dof seNew6 = new New6Dof(rigidA, vb, va,
+                qb.toRotationMatrix(), qa.toRotationMatrix(), RotationOrder.XYZ);
+        setParameters(seNew6, 0f);
+        verifyParameters(seNew6, 0f);
+        New6Dof seNew6Clone = (New6Dof) Misc.deepCopy(seNew6);
+        cloneTest(seNew6, seNew6Clone);
         /*
          * Point2PointJoint: single- and double-ended
          */
@@ -289,6 +310,8 @@ public class TestCloneJoints {
             setCone((ConeJoint) joint, b);
         } else if (joint instanceof HingeJoint) {
             setHinge((HingeJoint) joint, b);
+        } else if (joint instanceof New6Dof) {
+            setNew6Dof((New6Dof) joint, b);
         } else if (joint instanceof Point2PointJoint) {
             setP2P((Point2PointJoint) joint, b);
         } else if (joint instanceof SixDofSpringJoint) {
@@ -321,6 +344,34 @@ public class TestCloneJoints {
 
         hinge.enableMotor(flag, b + 0.01f, b + 0.02f);
         hinge.setLimit(b + 0.03f, b + 0.04f, b + 0.05f, b + 0.06f, b + 0.07f);
+    }
+
+    private static void setNew6Dof(New6Dof constraint, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        constraint.setCollisionBetweenLinkedBodies(flag);
+
+        RotationMotor rMotor
+                = constraint.getRotationMotor(PhysicsSpace.AXIS_Z);
+        rMotor.setDampingLimited(flag);
+        rMotor.setMotorEnabled(flag);
+        rMotor.setServoEnabled(!flag);
+        rMotor.setSpringEnabled(flag);
+        rMotor.setStiffnessLimited(!flag);
+
+        TranslationMotor tMotor = constraint.getTranslationMotor();
+        tMotor.setDampingLimited(PhysicsSpace.AXIS_Z, flag);
+        tMotor.setMotorEnabled(PhysicsSpace.AXIS_Y, flag);
+        tMotor.setServoEnabled(PhysicsSpace.AXIS_X, !flag);
+        tMotor.setSpringEnabled(PhysicsSpace.AXIS_Y, !flag);
+        tMotor.setStiffnessLimited(PhysicsSpace.AXIS_Z, !flag);
+
+        for (MotorParam parameter : MotorParam.values()) {
+            int parameterIndex = parameter.ordinal();
+            for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
+                float value = b + dofIndex * 0.001f + parameterIndex * 0.007f;
+                constraint.set(parameter, dofIndex, value);
+            }
+        }
     }
 
     private static void setP2P(Point2PointJoint p2p, float b) {
@@ -456,6 +507,8 @@ public class TestCloneJoints {
             verifyCone((ConeJoint) joint, b);
         } else if (joint instanceof HingeJoint) {
             verifyHinge((HingeJoint) joint, b);
+        } else if (joint instanceof New6Dof) {
+            verifyNew6Dof((New6Dof) joint, b);
         } else if (joint instanceof Point2PointJoint) {
             verifyP2P((Point2PointJoint) joint, b);
         } else if (joint instanceof SixDofSpringJoint) {
@@ -533,6 +586,34 @@ public class TestCloneJoints {
                 hinge.getBiasFactor(), b + 0.06f);
         assert FastMath.approximateEquals(
                 hinge.getRelaxationFactor(), b + 0.07f);
+    }
+
+    private static void verifyNew6Dof(New6Dof constraint, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        constraint.setCollisionBetweenLinkedBodies(flag);
+
+        RotationMotor rMotor
+                = constraint.getRotationMotor(PhysicsSpace.AXIS_Z);
+        assert rMotor.isDampingLimited() == flag;
+        assert rMotor.isMotorEnabled() == flag;
+        assert rMotor.isServoEnabled() == !flag;
+        assert rMotor.isSpringEnabled() == flag;
+        assert rMotor.isStiffnessLimited() == !flag;
+
+        TranslationMotor tMotor = constraint.getTranslationMotor();
+        assert tMotor.isDampingLimited(PhysicsSpace.AXIS_Z) == flag;
+        assert tMotor.isMotorEnabled(PhysicsSpace.AXIS_Y) == flag;
+        assert tMotor.isServoEnabled(PhysicsSpace.AXIS_X) == !flag;
+        assert tMotor.isSpringEnabled(PhysicsSpace.AXIS_Y) == !flag;
+        assert tMotor.isStiffnessLimited(PhysicsSpace.AXIS_Z) == !flag;
+
+        for (MotorParam parameter : MotorParam.values()) {
+            int parameterIndex = parameter.ordinal();
+            for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
+                float value = b + dofIndex * 0.001f + parameterIndex * 0.007f;
+                assert constraint.get(parameter, dofIndex) == value;
+            }
+        }
     }
 
     private static void verifyP2P(Point2PointJoint p2p, float b) {

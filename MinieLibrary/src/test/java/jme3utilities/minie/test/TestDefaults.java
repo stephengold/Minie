@@ -29,6 +29,7 @@ package jme3utilities.minie.test;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.Activation;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -48,11 +49,15 @@ import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
+import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
 import com.jme3.bullet.joints.SoftAngularJoint;
+import com.jme3.bullet.joints.motors.MotorParam;
+import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
+import com.jme3.bullet.joints.motors.TranslationMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
@@ -150,6 +155,16 @@ public class TestDefaults {
             Assert.assertEquals(0f, spring.getStiffness(dofIndex), 0f);
             Assert.assertFalse(spring.isSpringEnabled(dofIndex));
         }
+
+        New6Dof newSe6dof = new New6Dof(rigidB,
+                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
+                RotationOrder.ZYX);
+        testNew6Dof(newSe6dof, 1);
+
+        New6Dof newDe6dof = new New6Dof(rigidA, rigidB,
+                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
+                RotationOrder.XYZ);
+        testNew6Dof(newDe6dof, 2);
 
         PhysicsSoftBody softA = new PhysicsSoftBody();
         testPco(softA);
@@ -250,6 +265,52 @@ public class TestDefaults {
     }
     // *************************************************************************
     // private methods
+
+    private void testNew6Dof(New6Dof constraint, int numEnds) {
+        Assert.assertFalse(constraint.isFeedback());
+        constraint.setFeedback(true);
+
+        Assert.assertEquals(numEnds, constraint.countEnds());
+        Assert.assertEquals(0f, constraint.getAppliedImpulse(), 0f);
+
+        float simdInf = NativeLibrary.isDoublePrecision()
+                ? Float.POSITIVE_INFINITY : Float.MAX_VALUE;
+        Assert.assertEquals(simdInf, constraint.getBreakingImpulseThreshold(), 0f);
+        Assert.assertTrue(constraint.isCollisionBetweenLinkedBodies());
+        Assert.assertTrue(constraint.isEnabled());
+
+        for (int axisIndex = PhysicsSpace.AXIS_X;
+                axisIndex <= PhysicsSpace.AXIS_Z; ++axisIndex) {
+            RotationMotor motor = constraint.getRotationMotor(axisIndex);
+            Assert.assertFalse(motor.isDampingLimited());
+            Assert.assertFalse(motor.isMotorEnabled());
+            Assert.assertFalse(motor.isServoEnabled());
+            Assert.assertFalse(motor.isSpringEnabled());
+            Assert.assertFalse(motor.isStiffnessLimited());
+
+            for (MotorParam param : MotorParam.values()) {
+                float defaultValue = param.defaultForRotationMotor();
+                float value = motor.get(param);
+                Assert.assertEquals(defaultValue, value, 0f);
+            }
+        }
+
+        TranslationMotor motor = constraint.getTranslationMotor();
+        for (int axisIndex = PhysicsSpace.AXIS_X;
+                axisIndex <= PhysicsSpace.AXIS_Z; ++axisIndex) {
+            Assert.assertFalse(motor.isDampingLimited(axisIndex));
+            Assert.assertFalse(motor.isMotorEnabled(axisIndex));
+            Assert.assertFalse(motor.isServoEnabled(axisIndex));
+            Assert.assertFalse(motor.isSpringEnabled(axisIndex));
+            Assert.assertFalse(motor.isStiffnessLimited(axisIndex));
+        }
+
+        for (MotorParam param : MotorParam.values()) {
+            float def = param.defaultForTranslationMotor();
+            Vector3f value = motor.get(param, null);
+            assertEquals(def, def, def, value, 0f);
+        }
+    }
 
     /**
      * Test the defaults that are common to all newly-created collision objects.
