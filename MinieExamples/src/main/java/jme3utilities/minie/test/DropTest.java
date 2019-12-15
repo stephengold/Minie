@@ -87,7 +87,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Demo/testbed for collision shapes.
+ * Test/demonstrate various collision shapes.
  * <p>
  * Seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=OS2zjB01c6E
@@ -358,19 +358,15 @@ public class DropTest
                 case "toggle axes":
                     toggleAxes();
                     return;
-
                 case "toggle boxes":
                     toggleBoxes();
                     return;
-
                 case "toggle help":
                     toggleHelp();
                     return;
-
                 case "toggle pause":
                     togglePause();
                     return;
-
                 case "toggle spheres":
                     toggleSpheres();
                     return;
@@ -601,7 +597,7 @@ public class DropTest
      */
     private void configureCamera() {
         float near = 0.02f;
-        float far = 20f;
+        float far = 100f;
         MyCamera.setNearFar(cam, near, far);
 
         flyCam.setDragToRotate(true);
