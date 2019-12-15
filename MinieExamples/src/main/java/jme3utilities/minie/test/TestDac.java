@@ -293,6 +293,7 @@ public class TestDac extends ActionApplication {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
+        dim.bind("add", KeyInput.KEY_INSERT);
         dim.bind("amputate left elbow", KeyInput.KEY_DELETE);
         dim.bind("blend all to kinematic", KeyInput.KEY_K);
         dim.bind("drop attachments", KeyInput.KEY_PGDN);
@@ -336,7 +337,6 @@ public class TestDac extends ActionApplication {
         dim.bind("signal rotateLeft", KeyInput.KEY_LEFT);
         dim.bind("signal rotateRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
-        dim.bind("signal shower", KeyInput.KEY_INSERT);
 
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
         dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
@@ -368,6 +368,9 @@ public class TestDac extends ActionApplication {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
+                case "add":
+                    addBall();
+                    return;
                 case "amputate left elbow":
                     dac.amputateSubtree(leftUlna, 2f);
                     return;
