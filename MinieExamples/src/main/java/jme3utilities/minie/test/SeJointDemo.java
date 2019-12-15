@@ -45,6 +45,7 @@ import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
 import com.jme3.bullet.joints.motors.MotorParam;
 import com.jme3.bullet.joints.motors.RotationMotor;
+import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -121,6 +122,10 @@ public class SeJointDemo extends ActionApplication {
     // *************************************************************************
     // fields
 
+    /**
+     * status displayed in the upper-left corner of the GUI node
+     */
+    private BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
@@ -245,6 +250,12 @@ public class SeJointDemo extends ActionApplication {
 
         seedNode.setCullHint(Spatial.CullHint.Never);// meshes initially visible
         rootNode.attachChild(seedNode);
+        /*
+         * Add the status text to the GUI.
+         */
+        statusText = new BitmapText(guiFont, false);
+        statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
+        guiNode.attachChild(statusText);
     }
 
     /**
@@ -279,7 +290,7 @@ public class SeJointDemo extends ActionApplication {
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
         float x = 10f;
-        float y = cam.getHeight() - 10f;
+        float y = cam.getHeight() - 40f;
         float width = cam.getWidth() - 20f;
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -371,6 +382,8 @@ public class SeJointDemo extends ActionApplication {
         if (signals.test("shower")) {
             addSeed();
         }
+
+        updateStatusText();
     }
     // *************************************************************************
     // private methods
@@ -706,5 +719,14 @@ public class SeJointDemo extends ActionApplication {
     private void togglePhysicsDebug() {
         boolean enabled = bulletAppState.isDebugEnabled();
         bulletAppState.setDebugEnabled(!enabled);
+    }
+
+    /**
+     * Update the status text in the GUI.
+     */
+    private void updateStatusText() {
+        int numSeeds = seedNode.getChildren().size();
+        String message = String.format("test=%s, count=%d", testName, numSeeds);
+        statusText.setText(message);
     }
 }
