@@ -70,6 +70,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
+import jme3utilities.MyCamera;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.noise.Generator;
@@ -265,6 +266,8 @@ public class SeJointDemo extends ActionApplication {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
+        dim.bind("add", KeyInput.KEY_INSERT);
+
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scene", KeyInput.KEY_P);
 
@@ -273,7 +276,6 @@ public class SeJointDemo extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
-        dim.bind("signal shower", KeyInput.KEY_INSERT);
 
         dim.bind("test 6dof", KeyInput.KEY_F6);
         dim.bind("test 6dofSpring", KeyInput.KEY_F7);
@@ -311,6 +313,10 @@ public class SeJointDemo extends ActionApplication {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
+                case "add":
+                    addSeed();
+                    return;
+
                 case "dump physicsSpace":
                     dumper.dump(physicsSpace);
                     return;
@@ -604,8 +610,13 @@ public class SeJointDemo extends ActionApplication {
      * Configure the camera during startup.
      */
     private void configureCamera() {
+        float near = 0.02f;
+        float far = 100f;
+        MyCamera.setNearFar(cam, near, far);
+
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(4f);
+
         cam.setLocation(new Vector3f(2.65f, 2.42f, 9.37f));
         cam.setRotation(new Quaternion(0f, 0.9759f, -0.04f, -0.2136f));
 
