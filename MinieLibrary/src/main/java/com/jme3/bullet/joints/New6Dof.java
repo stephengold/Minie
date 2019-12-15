@@ -131,7 +131,7 @@ public class New6Dof extends Constraint {
      * No-argument constructor needed by SavableClassUtil. Do not invoke
      * directly!
      */
-    public New6Dof() {
+    protected New6Dof() {
     }
 
     /**
