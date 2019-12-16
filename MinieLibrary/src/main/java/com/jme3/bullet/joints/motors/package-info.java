@@ -30,6 +30,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * Classes that provide access to the motors in a SixDofJoint.
+ * Classes that provide access to the motors in a SixDofJoint or New6Dof.
  */
 package com.jme3.bullet.joints.motors;
