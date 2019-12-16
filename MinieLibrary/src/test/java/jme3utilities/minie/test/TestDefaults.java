@@ -49,6 +49,7 @@ import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
+import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SixDofSpringJoint;
@@ -92,6 +93,8 @@ public class TestDefaults {
     // fields
 
     private CollisionShape box; // initialized by testShapes()
+    private PhysicsRigidBody rigidA;
+    private PhysicsSoftBody softA;
     // *************************************************************************
     // new methods exposed
 
@@ -126,8 +129,11 @@ public class TestDefaults {
         Assert.assertEquals(0f, info.waterOffset(), 0f);
 
         testShapes();
+        // TODO PhysicsCharacter
+        // TODO PhysicsGhostObject
+        // TODO PhysicsVehicle
 
-        PhysicsRigidBody rigidA = new PhysicsRigidBody(box);
+        rigidA = new PhysicsRigidBody(box);
         testPco(rigidA);
         Assert.assertFalse(rigidA.isStatic());
         Assert.assertEquals(0, rigidA.countJoints());
@@ -140,33 +146,7 @@ public class TestDefaults {
         Assert.assertEquals(1f, rigidA.getMass(), 0f);
         Assert.assertEquals(Activation.active, rigidA.getActivationState());
 
-        PhysicsRigidBody rigidB = new PhysicsRigidBody(box);
-        SixDofJoint six = new SixDofJoint(rigidA, rigidB, new Vector3f(),
-                new Vector3f(), false);
-        testSixDofJoint(six);
-
-        SixDofSpringJoint spring = new SixDofSpringJoint(rigidA, rigidB,
-                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
-                false);
-        testSixDofJoint(spring);
-        for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
-            Assert.assertEquals(1f, spring.getDamping(dofIndex), 0f);
-            Assert.assertEquals(0f, spring.getEquilibriumPoint(dofIndex), 0f);
-            Assert.assertEquals(0f, spring.getStiffness(dofIndex), 0f);
-            Assert.assertFalse(spring.isSpringEnabled(dofIndex));
-        }
-
-        New6Dof newSe6dof = new New6Dof(rigidB,
-                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
-                RotationOrder.ZYX);
-        testNew6Dof(newSe6dof, 1);
-
-        New6Dof newDe6dof = new New6Dof(rigidA, rigidB,
-                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
-                RotationOrder.XYZ);
-        testNew6Dof(newDe6dof, 2);
-
-        PhysicsSoftBody softA = new PhysicsSoftBody();
+        softA = new PhysicsSoftBody();
         testPco(softA);
         Assert.assertEquals(0, softA.countClusters());
         Assert.assertEquals(0, softA.countFaces());
@@ -215,46 +195,7 @@ public class TestDefaults {
         softA.generateClusters(2, 999);
         softA.setMass(1f);
 
-        SliderJoint slider = new SliderJoint(rigidA, rigidB,
-                new Vector3f(0f, 0f, 0f), new Vector3f(0f, 0f, 0f), false);
-        Assert.assertEquals(2, slider.countEnds());
-        Assert.assertEquals(0f, slider.getDampingDirAng(), 0f);
-        Assert.assertEquals(0f, slider.getDampingDirLin(), 0f);
-        Assert.assertEquals(1f, slider.getDampingLimAng(), 0f);
-        Assert.assertEquals(1f, slider.getDampingLimLin(), 0f);
-        Assert.assertEquals(1f, slider.getDampingOrthoAng(), 0f);
-        Assert.assertEquals(1f, slider.getDampingOrthoLin(), 0f);
-        Assert.assertEquals(0f, slider.getLowerAngLimit(), 0f);
-        Assert.assertEquals(1f, slider.getLowerLinLimit(), 0f);
-        Assert.assertEquals(0f, slider.getMaxAngMotorForce(), 0f);
-        Assert.assertEquals(0f, slider.getMaxLinMotorForce(), 0f);
-        Assert.assertEquals(0.7f, slider.getRestitutionDirAng(), 0f);
-        Assert.assertEquals(0.7f, slider.getRestitutionDirLin(), 0f);
-        Assert.assertEquals(0.7f, slider.getRestitutionLimAng(), 0f);
-        Assert.assertEquals(0.7f, slider.getRestitutionLimLin(), 0f);
-        Assert.assertEquals(0.7f, slider.getRestitutionOrthoAng(), 0f);
-        Assert.assertEquals(0.7f, slider.getRestitutionOrthoLin(), 0f);
-        Assert.assertEquals(1f, slider.getSoftnessDirAng(), 0f);
-        Assert.assertEquals(1f, slider.getSoftnessDirLin(), 0f);
-        Assert.assertEquals(1f, slider.getSoftnessLimAng(), 0f);
-        Assert.assertEquals(1f, slider.getSoftnessLimLin(), 0f);
-        Assert.assertEquals(1f, slider.getSoftnessOrthoAng(), 0f);
-        Assert.assertEquals(1f, slider.getSoftnessOrthoLin(), 0f);
-        Assert.assertEquals(0f, slider.getTargetAngMotorVelocity(), 0f);
-        Assert.assertEquals(0f, slider.getTargetLinMotorVelocity(), 0f);
-        Assert.assertEquals(0f, slider.getUpperAngLimit(), 0f);
-        Assert.assertEquals(-1f, slider.getUpperLinLimit(), 0f);
-        Assert.assertTrue(slider.isEnabled());
-        Assert.assertFalse(slider.isPoweredAngMotor());
-        Assert.assertFalse(slider.isPoweredLinMotor());
-
-        SoftAngularJoint sraj = new SoftAngularJoint(new Vector3f(0f, 0f, 0f),
-                softA, 0, rigidB);
-        Assert.assertEquals(2, sraj.countEnds());
-        Assert.assertEquals(1f, sraj.getCFM(), 0f);
-        Assert.assertTrue(sraj.isEnabled());
-        Assert.assertEquals(1f, sraj.getERP(), 0f);
-        Assert.assertEquals(1f, sraj.getSplit(), 0f);
+        testJoints();
     }
 
     void assertEquals(float x, float y, float z, Vector3f vector,
@@ -266,18 +207,62 @@ public class TestDefaults {
     // *************************************************************************
     // private methods
 
-    private void testNew6Dof(New6Dof constraint, int numEnds) {
+    private void testConstraint(Constraint constraint) {
         Assert.assertFalse(constraint.isFeedback());
         constraint.setFeedback(true);
 
-        Assert.assertEquals(numEnds, constraint.countEnds());
         Assert.assertEquals(0f, constraint.getAppliedImpulse(), 0f);
 
         float simdInf = NativeLibrary.isDoublePrecision()
                 ? Float.POSITIVE_INFINITY : Float.MAX_VALUE;
-        Assert.assertEquals(simdInf, constraint.getBreakingImpulseThreshold(), 0f);
+        Assert.assertEquals(simdInf, constraint.getBreakingImpulseThreshold(),
+                0f);
         Assert.assertTrue(constraint.isCollisionBetweenLinkedBodies());
         Assert.assertTrue(constraint.isEnabled());
+    }
+
+    private void testJoints() {
+        PhysicsRigidBody rigidB = new PhysicsRigidBody(box);
+
+        // TODO Anchor
+        // TODO ConeJoint
+        // TODO HingeJoint
+        // TODO Point2PointJoint
+        New6Dof seNew6Dof = new New6Dof(rigidB,
+                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
+                RotationOrder.ZYX);
+        testNew6Dof(seNew6Dof, 1);
+
+        New6Dof deNew6Dof = new New6Dof(rigidA, rigidB,
+                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
+                RotationOrder.XYZ);
+        testNew6Dof(deNew6Dof, 2);
+
+        SixDofJoint deSix = new SixDofJoint(rigidA, rigidB, new Vector3f(),
+                new Vector3f(), false);
+        testSixDof(deSix, 2);
+
+        SixDofSpringJoint deSpring = new SixDofSpringJoint(rigidA, rigidB,
+                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
+                false);
+        testSixDof(deSpring, 2);
+
+        SliderJoint deSlider = new SliderJoint(rigidA, rigidB,
+                new Vector3f(0f, 0f, 0f), new Vector3f(0f, 0f, 0f), false);
+        testSlider(deSlider, 2);
+
+        SoftAngularJoint sraj = new SoftAngularJoint(new Vector3f(0f, 0f, 0f),
+                softA, 0, rigidB);
+        Assert.assertEquals(2, sraj.countEnds());
+        Assert.assertEquals(1f, sraj.getCFM(), 0f);
+        Assert.assertTrue(sraj.isEnabled());
+        Assert.assertEquals(1f, sraj.getERP(), 0f);
+        Assert.assertEquals(1f, sraj.getSplit(), 0f);
+    }
+
+    private void testNew6Dof(New6Dof constraint, int numEnds) {
+        Assert.assertEquals(numEnds, constraint.countEnds());
+        testConstraint(constraint);
 
         for (int axisIndex = PhysicsSpace.AXIS_X;
                 axisIndex <= PhysicsSpace.AXIS_Z; ++axisIndex) {
@@ -554,18 +539,9 @@ public class TestDefaults {
         Assert.assertFalse(sphere.isPolyhedral());
     }
 
-    private void testSixDofJoint(SixDofJoint six) {
-        Assert.assertFalse(six.isFeedback());
-        six.setFeedback(true);
-
-        Assert.assertEquals(2, six.countEnds());
-        Assert.assertEquals(0f, six.getAppliedImpulse(), 0f);
-
-        float simdInf = NativeLibrary.isDoublePrecision()
-                ? Float.POSITIVE_INFINITY : Float.MAX_VALUE;
-        Assert.assertEquals(simdInf, six.getBreakingImpulseThreshold(), 0f);
-        Assert.assertTrue(six.isCollisionBetweenLinkedBodies());
-        Assert.assertTrue(six.isEnabled());
+    private void testSixDof(SixDofJoint six, int numEnds) {
+        Assert.assertEquals(numEnds, six.countEnds());
+        testConstraint(six);
 
         RotationalLimitMotor rlm
                 = six.getRotationalLimitMotor(PhysicsSpace.AXIS_X);
@@ -598,5 +574,50 @@ public class TestDefaults {
         assertEquals(0f, 0f, 0f, tlm.getStopCFM(null), 0f);
         assertEquals(0f, 0f, 0f, tlm.getTargetVelocity(null), 0f);
         assertEquals(0f, 0f, 0f, tlm.getUpperLimit(null), 0f);
+
+        if (six instanceof SixDofSpringJoint) {
+            SixDofSpringJoint spring = (SixDofSpringJoint) six;
+            for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
+                Assert.assertEquals(1f, spring.getDamping(dofIndex), 0f);
+                Assert.assertEquals(0f, spring.getEquilibriumPoint(dofIndex),
+                        0f);
+                Assert.assertEquals(0f, spring.getStiffness(dofIndex), 0f);
+                Assert.assertFalse(spring.isSpringEnabled(dofIndex));
+            }
+        }
+    }
+
+    private void testSlider(SliderJoint slider, int numEnds) {
+        Assert.assertEquals(numEnds, slider.countEnds());
+        testConstraint(slider);
+
+        Assert.assertEquals(0f, slider.getDampingDirAng(), 0f);
+        Assert.assertEquals(0f, slider.getDampingDirLin(), 0f);
+        Assert.assertEquals(1f, slider.getDampingLimAng(), 0f);
+        Assert.assertEquals(1f, slider.getDampingLimLin(), 0f);
+        Assert.assertEquals(1f, slider.getDampingOrthoAng(), 0f);
+        Assert.assertEquals(1f, slider.getDampingOrthoLin(), 0f);
+        Assert.assertEquals(0f, slider.getLowerAngLimit(), 0f);
+        Assert.assertEquals(1f, slider.getLowerLinLimit(), 0f);
+        Assert.assertEquals(0f, slider.getMaxAngMotorForce(), 0f);
+        Assert.assertEquals(0f, slider.getMaxLinMotorForce(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionDirAng(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionDirLin(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionLimAng(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionLimLin(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionOrthoAng(), 0f);
+        Assert.assertEquals(0.7f, slider.getRestitutionOrthoLin(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessDirAng(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessDirLin(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessLimAng(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessLimLin(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessOrthoAng(), 0f);
+        Assert.assertEquals(1f, slider.getSoftnessOrthoLin(), 0f);
+        Assert.assertEquals(0f, slider.getTargetAngMotorVelocity(), 0f);
+        Assert.assertEquals(0f, slider.getTargetLinMotorVelocity(), 0f);
+        Assert.assertEquals(0f, slider.getUpperAngLimit(), 0f);
+        Assert.assertEquals(-1f, slider.getUpperLinLimit(), 0f);
+        Assert.assertFalse(slider.isPoweredAngMotor());
+        Assert.assertFalse(slider.isPoweredLinMotor());
     }
 }
