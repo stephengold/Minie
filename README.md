@@ -27,6 +27,7 @@ Java source code is provided under
  + [How to add Minie to an existing project](#add)
  + [Choosing a collision shape](#shape)
  + [Dumping a physics simulation](#dump)
+ + [An introduction to New6Dof](#new6dof)
  + [An introduction to DynamicAnimControl](#dac)
  + [Collision detection](#detect)
  + [An introduction to soft-body physics](#softbody)
@@ -802,6 +803,60 @@ configure the dumper like so:
 Other dump flags can be set, for instance,
 to enumerate the nodes or clusters of each soft body
 or the motors of each joint.
+
+[Jump to table of contents](#toc)
+
+<a name="new6dof"/>
+
+## An introduction to New6Dof
+
+A physics joint connects one physics body to another
+(or to a fixed point in space), constraining how the body(s) can move.
+
+For instance, a door might swing on hinges.
+In simulation, the hinges would be represented by a joint
+with a single degree of freedom (DOF): rotation around the axis of the hinges.
+
+Or a door might slide along a track.
+In that case, the track would be represented by a joint
+that’s free only to translate along the axis of the track.
+
+Or imagine a robot arm mounted on a ball-and-socket:
+it can freely turn and twist to any imaginable orientation,
+but the ball end can’t leave the socket. (This requires 3 degrees of freedom.)
+
+`New6Dof` is a new physics joint intended to replace the older `SixDofJoint`
+and `SixDofSpringJoint` joints found in jme3-bullet and jme3-jbullet.
+
+### Features
+
+`New6Dof` is a versatile physics joint with 3 rotation DOFs
+ and 3 translation DOFs; it can potentially rotate or slide on any axis or axes.
+Locking various DOFs allows it to simulate almost any kind of joint:
+
+ + To simulate a swinging door, you’d lock all 3 translation DOFs
+   and all but one of the rotation DOFs.
+ + To simulate a sliding door, you’d lock all 3 rotation DOFs
+   and all but one of the translation DOFs.
+ + To simulate a ball-and-socket, you’d disable all 3 of the translation DOFs.
+
+In addition to DOF locking, `New6Dof` also implements limits, springs, motors,
+and servos:
+
+ + Using limits, you can prevent a door from sliding or swinging
+   beyond certain points.
+ + Using a spring, you can make a door automatically return
+   to a neutral position when you release it.
+ + Using a motor, you can control the rate at which a door opens and closes.
+ + Using a servo, you can make a robot arm turn smoothly from one
+   orientation to another, as if under remote control.
+
+A `New6Dof` can only join rigid bodies:
+no ghost objects, characters, or soft bodies.
+
+### Coordinate systems and defaults
+
+TODO tutorials and more info
 
 [Jump to table of contents](#toc)
 
