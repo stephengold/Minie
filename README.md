@@ -66,6 +66,7 @@ Summary of added features:
  + Convex decomposition using [Khaled Mamou's V-HACD Library][vhacd].
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `EmptyShape` collision shapes based on `btEmptyShape`
+ + `New6Dof` physics joints based on `btGeneric6DofSpring2Constraint`.
  + debugging aids:
     + dump the contents of a `BulletAppState` or `PhysicsSpace`
     + visualize physics objects in multiple viewports
@@ -174,7 +175,7 @@ Both the source code and the pre-built libraries are compatible with JDK 7.
 Most of Minie was originally forked from `jme3-bullet`,
 a library in the [jMonkeyEngine Game Engine][jme].
 
-From January 2018 to November 2018, Minie was a sub-project of
+From January to November 2018, Minie was a sub-project of
 [the Jme3-utilities Project][utilities].
 
 Since November 2018, the Minie Project has been an independent project at
@@ -448,14 +449,14 @@ you must explicitly specify their repository locations:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:1.1.0for32'
+        compile 'jme3utilities:Minie:1.2.0for32'
     }
 
 #### For Ant projects
 
 For projects built using [Ant][], download the 3 non-standard libraries:
 
- + https://github.com/stephengold/Minie/releases/tag/1.1.0for32
+ + https://github.com/stephengold/Minie/releases/tag/1.2.0for32
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-4.1.0for32
  + https://bintray.com/stephengold/v-hacd/download_file?file_path=vhacd%2Fvhacd-native%2F1.1.1%2Fvhacd-native-1.1.1.jar
 
@@ -800,7 +801,7 @@ configure the dumper like so:
 
 Other dump flags can be set, for instance,
 to enumerate the nodes or clusters of each soft body
-or the motors of each `SixDofJoint`.
+or the motors of each joint.
 
 [Jump to table of contents](#toc)
 
