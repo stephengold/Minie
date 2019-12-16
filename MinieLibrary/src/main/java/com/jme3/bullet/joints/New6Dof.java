@@ -195,8 +195,82 @@ public class New6Dof extends Constraint {
     }
     // *************************************************************************
     // new methods exposed
-    // TODO checkRotationOrder(), getAxis(), getAngles(), getPivotOffset()
-    // TODO calculateTransforms(), setRotationOrder(), getFrameTransform()
+
+    /**
+     * Compare Bullet's rotation order to the local copy.
+     *
+     * @return true if rotation orders are identical, otherwise false
+     */
+    public boolean checkRotationOrder() {
+        long constraintId = getObjectId();
+        int rotOrder = getRotationOrder(constraintId);
+        boolean result = rotOrder == rotationOrder.ordinal();
+
+        return result;
+    }
+
+    /**
+     * Calculate the constraint's rotation angles.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the rotation angle for each local axis (in radians, either
+     * storeResult or a new vector, not null)
+     */
+    public Vector3f getAngles(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long constraintId = getObjectId();
+        getAngles(constraintId, result);
+
+        return result;
+    }
+
+    /**
+     * Calculate the indexed axis of the Constraint.
+     *
+     * @param axisIndex the axis index of the desired motor: 0&rarr;X, 1&rarr;Y,
+     * 2&rarr;Z
+     * @param storeResult storage for the result (modified if not null)
+     * @return the rotation angle for each local axis (in radians, either
+     * storeResult or a new vector, not null)
+     */
+    public Vector3f getAxis(int axisIndex, Vector3f storeResult) {
+        Validate.inRange(axisIndex, "index", PhysicsSpace.AXIS_X,
+                PhysicsSpace.AXIS_Z);
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long constraintId = getObjectId();
+        getAxis(constraintId, axisIndex, result);
+
+        return result;
+    }
+
+    /**
+     * Copy the constraint's frame transform relative to the specified end.
+     *
+     * @param end which end (not null)
+     * @param storeResult storage for the result (modified if not null)
+     * @return the transform of the constraint space relative to the end
+     */
+    public Transform getFrameTransform(JointEnd end, Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+
+        long constraintId = getObjectId();
+        switch (end) {
+            case A:
+                getFrameOffsetA(constraintId, result);
+                break;
+            case B:
+                getFrameOffsetB(constraintId, result);
+                break;
+            default:
+                String message = "end = " + end;
+                throw new IllegalArgumentException(message);
+        }
+
+        return result;
+    }
 
     /**
      * Enable or disable the spring for the indexed degree of freedom.
@@ -240,6 +314,22 @@ public class New6Dof extends Constraint {
     }
 
     /**
+     * Copy the constraint's pivot offset.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the relative pivot position on each local axis (in physics-space
+     * units, either storeResult or a new vector, not null)
+     */
+    public Vector3f getPivotOffset(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long constraintId = getObjectId();
+        getPivotOffset(constraintId, result);
+
+        return result;
+    }
+
+    /**
      * Access the indexed RotationMotor of this constraint, the motor which
      * influences rotation around the indexed axis.
      *
@@ -259,7 +349,7 @@ public class New6Dof extends Constraint {
      * @return an enum value (not null)
      */
     public RotationOrder getRotationOrder() {
-        // TODO verify copy
+        checkRotationOrder();
         assert rotationOrder != null;
         return rotationOrder;
     }
@@ -425,6 +515,17 @@ public class New6Dof extends Constraint {
 
         long constraintId = getObjectId();
         setEquilibriumPoint(constraintId, dofIndex, value);
+    }
+
+    /**
+     * Alter the order in which to apply axis rotations.
+     *
+     * @param rotationOrder the desired order (not null)
+     */
+    public void setRotationOrder(RotationOrder rotationOrder) {
+        long constraintId = getObjectId();
+        int rotOrder = rotationOrder.ordinal();
+        setRotationOrder(constraintId, rotOrder);
     }
 
     /**
@@ -668,6 +769,7 @@ public class New6Dof extends Constraint {
         assert pivotB != null;
         assert rotB != null;
 
+        int rotOrder = rotationOrder.ordinal();
         long constraintId;
         if (a == null) {
             /*
@@ -691,7 +793,7 @@ public class New6Dof extends Constraint {
             b.setPhysicsLocation(bToWorld.getTranslation());
             b.setPhysicsRotation(bToWorld.getRotation());
 
-            constraintId = createSingleEnded(bId, pivotB, rotB, rotationOrder.ordinal());
+            constraintId = createSingleEnded(bId, pivotB, rotB, rotOrder);
 
             b.setPhysicsLocation(saveLocation);
             b.setPhysicsRotation(saveRotation);
@@ -701,8 +803,8 @@ public class New6Dof extends Constraint {
              * Create a double-ended constraint.
              */
             long aId = a.getObjectId();
-            constraintId = createDoubleEnded(aId, bId, pivotA, rotA, pivotB, rotB,
-                    rotationOrder.ordinal());
+            constraintId = createDoubleEnded(aId, bId, pivotA, rotA, pivotB,
+                    rotB, rotOrder);
         }
         setNativeId(constraintId);
 
@@ -737,7 +839,22 @@ public class New6Dof extends Constraint {
     native private void enableSpring(long constraintId, int dofIndex,
             boolean enableFlag);
 
+    native private void getAngles(long constraintId, Vector3f storeVector);
+
+    native private void getAxis(long constraintId, int axisIndex,
+            Vector3f storeVector);
+
+    native private void getFrameOffsetA(long constraintId,
+            Transform storeTransform);
+
+    native private void getFrameOffsetB(long constraintId,
+            Transform storeTransform);
+
+    native private void getPivotOffset(long constraintId, Vector3f storeVector);
+
     native private long getRotationalMotor(long constraintId, int index);
+
+    native private int getRotationOrder(long constraintId);
 
     native private long getTranslationalMotor(long constraintId);
 
@@ -751,6 +868,8 @@ public class New6Dof extends Constraint {
 
     native private void setEquilibriumPointToCurrent(long constraintId,
             int dofIndex);
+
+    native private void setRotationOrder(long constraintId, int rotOrder);
 
     native private void setStiffness(long constraintId, int dofIndex,
             float stiffness, boolean limitIfNeeded);
