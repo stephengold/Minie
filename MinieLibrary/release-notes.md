@@ -1,5 +1,20 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 1.2.0for33 released on TBD
+
+ + Added a `New6Dof` constraint class, to eventually replace both
+   `SixDofJoint` and `SixDofSpringJoint`.  Also added 4 associated classes:
+   `MotorParam`, `RotationOrder`, `RotationMotor`, and `TranslationMotor`.
+ + Added a status line to the `SeJointDemo` application.
+ + Changed the function of the Ins key in `SeJointDemo` and `TestDac`.
+ + Updated the native libraries to version 2.0.17 of `Libbulletjme`.
+ + Based on:
+   + version 3.3.0-alpha5 of jMonkeyEngine,
+   + version 4.1 of the  `jme3-utilities-heart` library,
+   + version 0.7.8 of the `jme3-utilities-ui` library, and
+   + version 0.9.10 of the `jme3-utilities-nifty` library.
+   + version 0.4.5 of the `Wes` library.
+
 ## Version 1.1.1for33 released on 9 December 2019
 
  + Fixed bugs:
@@ -15,6 +30,7 @@
    + version 4.2 of the  `jme3-utilities-heart` library,
    + version 0.7.9 of the `jme3-utilities-ui` library, and
    + version 0.9.11 of the `jme3-utilities-nifty` library.
+   + version 0.4.6 of the `Wes` library.
  + Upgraded to Gradle v6.0.1 .
 
 ## Version 1.1.0for33 released on 4 November 2019
