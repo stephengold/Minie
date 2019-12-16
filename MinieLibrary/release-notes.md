@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.2.0for33 released on TBD
+## Version 1.2.0for33 released on 16 December 2019
 
  + Added a `New6Dof` constraint class, to eventually replace both
    `SixDofJoint` and `SixDofSpringJoint`.  Also added 4 associated classes:
