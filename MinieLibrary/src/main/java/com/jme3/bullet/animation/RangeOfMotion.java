@@ -32,8 +32,13 @@
 package com.jme3.bullet.animation;
 
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.joints.New6Dof;
+import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
+import com.jme3.bullet.joints.motors.MotorParam;
+import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
+import com.jme3.bullet.joints.motors.TranslationMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -263,6 +268,28 @@ public class RangeOfMotion implements Savable {
     }
 
     /**
+     * Apply this preset to the specified constraint, locking the specified
+     * rotational axes at their current angles.
+     *
+     * @param constraint where to apply this preset (not null, modified)
+     * @param lockX true&rarr;prevent the joint from rotating around its local X
+     * axis
+     * @param lockY true&rarr;prevent the joint from rotating around its local Y
+     * axis
+     * @param lockZ true&rarr;prevent the joint from rotating around its local Z
+     * axis
+     */
+    public void setup(PhysicsJoint constraint, boolean lockX, boolean lockY,
+            boolean lockZ) {
+        if (constraint instanceof New6Dof) {
+            setupNew6Dof((New6Dof) constraint, lockX, lockY, lockZ);
+        } else {
+            SixDofJoint joint = (SixDofJoint) constraint;
+            setupJoint(joint, lockX, lockY, lockZ);
+        }
+    }
+
+    /**
      * Apply this preset to the specified joint, locking the specified
      * rotational axes at their current angles.
      *
@@ -332,6 +359,61 @@ public class RangeOfMotion implements Savable {
         tra.setLowerLimit(translateIdentity);
         tra.setMaxMotorForce(maxMotorForces);
         tra.setUpperLimit(translateIdentity);
+    }
+
+    /**
+     * Apply this preset to the specified constraint, locking the specified
+     * rotational axes at their current angles.
+     *
+     * @param constraint where to apply this preset (not null, modified)
+     * @param lockX true&rarr;prevent the joint from rotating around its local X
+     * axis
+     * @param lockY true&rarr;prevent the joint from rotating around its local Y
+     * axis
+     * @param lockZ true&rarr;prevent the joint from rotating around its local Z
+     * axis
+     */
+    public void setupNew6Dof(New6Dof constraint, boolean lockX, boolean lockY,
+            boolean lockZ) {
+        Vector3f current = constraint.getAngles(null);
+        Vector3f lower = new Vector3f(minX, minY, minZ);
+        Vector3f upper = new Vector3f(maxX, maxY, maxZ);
+
+        if (lockX) {
+            lower.x = current.x;
+            upper.x = current.x;
+        }
+        RotationMotor rotX = constraint.getRotationMotor(PhysicsSpace.AXIS_X);
+        rotX.set(MotorParam.LowerLimit, lower.x);
+        rotX.set(MotorParam.UpperLimit, upper.x);
+
+        if (lockY) {
+            lower.y = current.y;
+            upper.y = current.y;
+        }
+        RotationMotor rotY = constraint.getRotationMotor(PhysicsSpace.AXIS_Y);
+        rotY.set(MotorParam.LowerLimit, lower.y);
+        rotY.set(MotorParam.UpperLimit, upper.y);
+
+        if (lockZ) {
+            lower.z = current.z;
+            upper.z = current.z;
+        }
+        RotationMotor rotZ = constraint.getRotationMotor(PhysicsSpace.AXIS_Z);
+        rotZ.set(MotorParam.LowerLimit, lower.z);
+        rotZ.set(MotorParam.UpperLimit, upper.z);
+
+        for (int i = 0; i < MyVector3f.numAxes; ++i) {
+            RotationMotor rot = constraint.getRotationMotor(i);
+            rot.set(MotorParam.MaxMotorForce, maxMotorForces.x);
+        }
+        /*
+         * Prevent the constraint from translating.
+         */
+        TranslationMotor tra = constraint.getTranslationMotor();
+        tra.set(MotorParam.LowerLimit, translateIdentity);
+        tra.set(MotorParam.MaxMotorForce, maxMotorForces);
+        tra.set(MotorParam.UpperLimit, translateIdentity);
     }
     // *************************************************************************
     // Savable methods
