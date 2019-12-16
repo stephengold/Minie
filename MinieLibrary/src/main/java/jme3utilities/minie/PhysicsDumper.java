@@ -997,6 +997,10 @@ public class PhysicsDumper extends Dumper {
 
                     desc = sixDof.getRotationOrder().toString();
                     stream.printf("%n%s rotOrder=%s", moreIndent, desc);
+                    Vector3f angles = sixDof.getAngles(null);
+                    stream.printf(" angles[%s]", MyVector3f.describe(angles));
+                    Vector3f offset = sixDof.getPivotOffset(null);
+                    stream.printf(" offset[%s]", MyVector3f.describe(offset));
 
                     if (dumpMotors) {
                         for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
