@@ -1,5 +1,23 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 1.2.0for32 released on TBD
+
+ + Fixed bugs:
+   + Crash due to a denormalized `Quaternion` in `TorsoLink`.
+   + "K" key doubly mapped in the `TestDac` application.
+ + Added a `New6Dof` constraint class, to eventually replace both
+   `SixDofJoint` and `SixDofSpringJoint`.  Also added 4 associated classes:
+   `MotorParam`, `RotationOrder`, `RotationMotor`, and `TranslationMotor`.
+ + Added model validation to the `DacWizard` application.
+ + Added screenshot capability to 9 demo apps.
+ + Added a status line to the `SeJointDemo` application.
+ + Changed the function of the Ins key in `SeJointDemo` and `TestDac`.
+ + Extended `TestDefaults` to verify defaults for soft-body configs
+   and materials.
+ + Updated the native libraries to version 2.0.17 of `Libbulletjme`.
+ + Based on version 0.4.5 of the `Wes` library.
+ + Upgraded to Gradle v6.0.1 .
+
 ## Version 1.1.0for32 released on 4 November 2019
 
  + Added 4 getters to the `SixDofSpringJoint` class.
@@ -80,8 +98,6 @@
      0.7.8 of the `jme3-utilities-ui` library, and version 0.9.10 of the
      `jme3-utilities-nifty` library.
    + Upgraded to Gradle v5.6.2 .
-
-
 
 ## Version 0.9.15for32 released on 29 August 2019
 
