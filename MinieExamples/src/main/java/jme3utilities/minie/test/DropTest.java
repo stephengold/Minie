@@ -39,6 +39,7 @@ import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
+import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
@@ -54,6 +55,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -283,6 +285,7 @@ public class DropTest
         dim.bind("platform box", KeyInput.KEY_1);
         dim.bind("platform heightfield", KeyInput.KEY_2);
         dim.bind("platform mesh", KeyInput.KEY_3);
+        dim.bind("platform plane", KeyInput.KEY_4);
 
         dim.bind("more damping", KeyInput.KEY_G);
         dim.bind("more friction", KeyInput.KEY_F);
@@ -531,6 +534,10 @@ public class DropTest
                 addMeshPlatform();
                 break;
 
+            case "plane":
+                addPlanePlatform();
+                break;
+
             default:
                 String message
                         = "platformName = " + MyString.quote(platformName);
@@ -613,6 +620,21 @@ public class DropTest
 
         body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setFriction(friction);
+        physicsSpace.add(body);
+    }
+
+    /**
+     * Add a static plane to the scene, to serve as a platform.
+     */
+    private void addPlanePlatform() {
+        Plane plane = new Plane(Vector3f.UNIT_Y, 0f);
+        PlaneCollisionShape shape = new PlaneCollisionShape(plane);
+        float mass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
+        body.setDebugMaterial(greenMaterial);
+        body.setDebugMeshNormals(DebugMeshNormals.Facet);
         body.setFriction(friction);
         physicsSpace.add(body);
     }
