@@ -37,6 +37,7 @@ import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
+import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
@@ -57,6 +58,8 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
@@ -170,6 +173,10 @@ public class DropTest
      */
     private Material greenMaterial;
     /**
+     * mesh-generated shape for a platform
+     */
+    private MeshCollisionShape candyDishShape;
+    /**
      * GUI node for displaying hotkey help/hints
      */
     private Node helpNode;
@@ -233,6 +240,8 @@ public class DropTest
         configureDumper();
         configureMaterials();
         configurePhysics();
+        configureShapes();
+
         ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(sky);
         /*
@@ -244,8 +253,6 @@ public class DropTest
         assert success;
 
         addBox();
-        String torusPath = "CollisionShapes/torus.j3o";
-        torusShape = (CompoundCollisionShape) assetManager.loadAsset(torusPath);
         addAGem();
         /*
          * Add the status text to the GUI.
@@ -275,6 +282,7 @@ public class DropTest
 
         dim.bind("platform box", KeyInput.KEY_1);
         dim.bind("platform heightfield", KeyInput.KEY_2);
+        dim.bind("platform mesh", KeyInput.KEY_3);
 
         dim.bind("more damping", KeyInput.KEY_G);
         dim.bind("more friction", KeyInput.KEY_F);
@@ -519,6 +527,10 @@ public class DropTest
                 addHeightfield();
                 break;
 
+            case "mesh":
+                addMeshPlatform();
+                break;
+
             default:
                 String message
                         = "platformName = " + MyString.quote(platformName);
@@ -593,6 +605,19 @@ public class DropTest
     }
 
     /**
+     * Add a static mesh shape to the scene, to serve as a platform.
+     */
+    private void addMeshPlatform() {
+        float mass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody body = new PhysicsRigidBody(candyDishShape, mass);
+
+        body.setDebugMaterial(greenMaterial);
+        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setFriction(friction);
+        physicsSpace.add(body);
+    }
+
+    /**
      * Configure the camera during startup.
      */
     private void configureCamera() {
@@ -651,6 +676,20 @@ public class DropTest
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
+    }
+
+    /**
+     * Initialize collision shapes during startup.
+     */
+    private void configureShapes() {
+        String candyDishPath = "Models/CandyDish/CandyDish.j3o";
+        Node candyDishNode = (Node) assetManager.loadModel(candyDishPath);
+        Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
+        Mesh candyDishMesh = candyDishGeometry.getMesh();
+        candyDishShape = new MeshCollisionShape(candyDishMesh);
+
+        String torusPath = "CollisionShapes/torus.j3o";
+        torusShape = (CompoundCollisionShape) assetManager.loadAsset(torusPath);
     }
 
     /**
