@@ -4,7 +4,8 @@ jme3utilities software packages Copyright (c) 2013-2019 Stephen Gold
 All rights reserved.
 
 Note: the following license does not apply to certain assets/resources
-(3 files in MinieAssets/src/main/resources/Models/Duck,
+(2 files in MinieAssets/src/main/resources/Models/CandyDish,
+ 3 files in MinieAssets/src/main/resources/Models/Duck,
  3 files in MinieAssets/src/main/resources/Models/MhGame,
  5 files in MinieAssets/src/main/resources/Models/MhGame/textures,
  2 files in MinieExamples/src/main/resources/Models/Puppet)
