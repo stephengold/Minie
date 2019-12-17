@@ -34,22 +34,28 @@ package com.jme3.bullet.util;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
+import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Plane;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.VertexBuffer.Type;
+import com.jme3.scene.VertexBuffer;
+import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A utility class to generate debug meshes for Bullet collision shapes.
@@ -69,10 +75,22 @@ public class DebugShapeFactory {
      */
     public static final int lowResolution = 0;
     /**
+     * number of axes
+     */
+    final private static int numAxes = 3;
+    /**
+     * number of vertices per triangle
+     */
+    final private static int vpt = 3;
+    /**
      * message logger for this class
      */
     final public static Logger logger
             = Logger.getLogger(DebugShapeFactory.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -135,7 +153,7 @@ public class DebugShapeFactory {
         FloatBuffer floatBuffer = callback.getVertices();
 
         Mesh result = new Mesh();
-        result.setBuffer(Type.Position, 3, floatBuffer);
+        result.setBuffer(VertexBuffer.Type.Position, numAxes, floatBuffer);
 
         return result;
     }
@@ -236,7 +254,7 @@ public class DebugShapeFactory {
      * Create a Geometry for visualizing the specified (non-compound) collision
      * shape.
      *
-     * @param shape (not null, unaffected)
+     * @param shape (not null, not compound, unaffected)
      * @param normals which normals to generate (not null)
      * @param resolution how much detail for convex shapes (0=low, 1=high)
      * @return a new Geometry (not null)
@@ -253,7 +271,11 @@ public class DebugShapeFactory {
         DebugMeshKey key = new DebugMeshKey(shape, normals, resolution);
         Mesh mesh = cache.get(key);
         if (mesh == null) {
-            mesh = createMesh(shape, normals, resolution);
+            if (shape instanceof PlaneCollisionShape) {
+                mesh = createPlaneMesh((PlaneCollisionShape) shape, normals);
+            } else {
+                mesh = createMesh(shape, normals, resolution);
+            }
             if (listener != null) {
                 listener.debugMeshInit(mesh);
             }
@@ -267,10 +289,10 @@ public class DebugShapeFactory {
     }
 
     /**
-     * Create a Mesh for visualizing the specified (non-compound) collision
-     * shape.
+     * Create a Mesh for visualizing the specified (non-compound, non-plane)
+     * collision shape.
      *
-     * @param shape (not null, unaffected)
+     * @param shape (not null, not compound, not plane, unaffected)
      * @param normals which normals to generate (not null)
      * @param resolution how much detail for convex shapes (0=low, 1=high)
      * @return a new Mesh (not null)
@@ -282,20 +304,24 @@ public class DebugShapeFactory {
         getVertices2(shapeId, resolution, callback);
 
         Mesh mesh = new Mesh();
-        mesh.setBuffer(Type.Position, 3, callback.getVertices());
+        mesh.setBuffer(VertexBuffer.Type.Position, numAxes, callback.getVertices());
         /*
          * Add a normal buffer, if requested.
          */
         switch (normals) {
             case Facet:
-                mesh.setBuffer(Type.Normal, 3, callback.getFaceNormals());
+                mesh.setBuffer(VertexBuffer.Type.Normal, numAxes,
+                        callback.getFaceNormals());
                 break;
             case None:
                 break;
             case Smooth:
-                mesh.setBuffer(Type.Normal, 3, callback.getSmoothNormals());
+                mesh.setBuffer(VertexBuffer.Type.Normal, numAxes,
+                        callback.getSmoothNormals());
                 break;
         }
+        mesh.updateBound();
+        mesh.setStatic();
 
         return mesh;
     }
@@ -337,7 +363,81 @@ public class DebugShapeFactory {
         node.updateGeometricState();
 
         return node;
+    }
 
+    /**
+     * Create a Mesh for visualizing the specified PlaneCollisionShape.
+     *
+     * @param shape (not null, unaffected)
+     * @param normals which normals to generate (not null)
+     * @return a new Triangles-mode Mesh (not null)
+     */
+    private static Mesh createPlaneMesh(PlaneCollisionShape shape,
+            DebugMeshNormals normals) {
+        /*
+         * Transform from the Y-Z plane to the surface of the shape.
+         */
+        Transform transform = new Transform();
+        transform.setScale(1000f);
+
+        Plane plane = shape.getPlane();
+        plane.getClosestPoint(translateIdentity, transform.getTranslation());
+
+        Vector3f v1 = plane.getNormal();
+        Vector3f v2 = new Vector3f();
+        Vector3f v3 = new Vector3f();
+        MyVector3f.generateBasis(v1, v2, v3);
+        transform.getRotation().fromAxes(v1, v2, v3);
+        /*
+         * Generate mesh positions for a large 2-sided square.
+         */
+        int numVertices = 8; // 4 vertices for each size
+        FloatBuffer posBuffer
+                = BufferUtils.createFloatBuffer(numVertices * numAxes);
+        for (int sideIndex = 0; sideIndex < 2; ++sideIndex) {
+            posBuffer.put(0f).put(0f).put(1f);
+            posBuffer.put(0f).put(1f).put(0f);
+            posBuffer.put(0f).put(0f).put(-1f);
+            posBuffer.put(0f).put(-1f).put(0f);
+        }
+        posBuffer.flip();
+
+        MyBuffer.transform(posBuffer, 0, numVertices * numAxes, transform);
+        /*
+         * Generate vertex indices for the 2-sided square.
+         */
+        int numTriangles = 4;
+        IntBuffer indexBuffer = BufferUtils.createIntBuffer(numTriangles * vpt);
+        indexBuffer.put(2).put(1).put(0);
+        indexBuffer.put(3).put(2).put(0);
+        indexBuffer.put(5).put(6).put(7);
+        indexBuffer.put(4).put(5).put(7);
+        indexBuffer.flip();
+
+        Mesh mesh = new Mesh();
+        mesh.setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
+        mesh.setBuffer(VertexBuffer.Type.Index, vpt, indexBuffer);
+        /*
+         * Add a normal buffer, if requested.
+         */
+        if (normals != DebugMeshNormals.None) {
+            FloatBuffer normBuffer
+                    = BufferUtils.createFloatBuffer(numVertices * numAxes);
+            for (int i = 0; i < 4; ++i) {
+                normBuffer.put(v1.x).put(v1.y).put(v1.z);
+            }
+            for (int i = 0; i < 4; ++i) {
+                normBuffer.put(-v1.x).put(-v1.y).put(-v1.z);
+            }
+            normBuffer.flip();
+
+            mesh.setBuffer(VertexBuffer.Type.Normal, numAxes, normBuffer);
+        }
+
+        mesh.updateBound();
+        mesh.setStatic();
+
+        return mesh;
     }
     // *************************************************************************
     // native methods
