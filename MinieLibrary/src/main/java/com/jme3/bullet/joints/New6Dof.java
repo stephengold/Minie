@@ -60,10 +60,7 @@ import jme3utilities.Validate;
  * configuring each of the 6 degrees of freedom (dof). The first 3 dof axis are
  * linear axis, which represent translation of rigidbodies, and the latter 3 dof
  * axis represent the angular motion. Each axis can be either locked, free or
- * limited. On construction of a new btGeneric6DofSpring2Constraint, all axis
- * are locked. Afterwards the axis can be reconfigured. Note that several
- * combinations that include free and/or limited angular degrees of freedom are
- * undefined.
+ * limited.
  * <p>
  * For each axis:<ul>
  * <li>Lowerlimit = Upperlimit &rarr; axis is locked</li>
@@ -135,7 +132,8 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Instantiate a single-ended New6Dof constraint.
+     * Instantiate a single-ended New6Dof constraint with all rotation DOFs free
+     * and all translation DOFs locked.
      * <p>
      * To be effective, the constraint must be added to the body's PhysicsSpace
      * and the body must be dynamic.
@@ -164,7 +162,8 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Instantiate a double-ended New6Dof constraint.
+     * Instantiate a double-ended New6Dof constraint with all rotation DOFs free
+     * and all translation DOFs locked.
      * <p>
      * To be effective, the constraint must be added to the PhysicsSpace of both
      * bodies. Also, the bodies must be distinct and at least one of them must
