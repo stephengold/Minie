@@ -100,7 +100,7 @@ public class MeshCollisionShape extends CollisionShape {
      */
     public MeshCollisionShape(boolean useCompression,
             IndexedMesh... submeshes) {
-        Validate.nonEmpty(submeshes, "submmeshes");
+        Validate.nonEmpty(submeshes, "submeshes");
 
         this.useCompression = useCompression;
         nativeMesh = new CompoundMesh();
