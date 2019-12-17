@@ -79,7 +79,7 @@ public class ImportCgms extends SimpleApplication {
     /**
      * Import glTF- and OgreXml-format computer-graphics models to the native
      * J3O format for faster loading. Also write out the textures used by those
-     * models.
+     * models. TODO re-order methods
      */
     @Override
     public void simpleInitApp() {
@@ -113,6 +113,13 @@ public class ImportCgms extends SimpleApplication {
         Spatial ninja = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
         writeToJ3O(ninja, "Models/Ninja/Ninja.j3o");
         writeTextures(ninja);
+        /*
+         * Import the CandyDish model (by Stephen Gold)
+         * from src/main/resources:
+         */
+        Spatial candyDish
+                = assetManager.loadModel("Models/CandyDish/CandyDish.glb");
+        writeToJ3O(candyDish, "Models/CandyDish/CandyDish.j3o");
         /*
          * Import the Oto model (by OtoTheCleaner)
          * from jme3-testdata-3.1.0-stable.jar:
