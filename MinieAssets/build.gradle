@@ -6,6 +6,7 @@ description = 'Generate assets used in MinieExamples.'
 ext {
     assets = '../MinieExamples/src/main/resources/'
 
+    candyDish = assets + 'Models/CandyDish'
     duck = assets + 'Models/Duck'
     elephant = assets + 'Models/Elephant'
     mhGame = assets + 'Models/MhGame'
@@ -43,6 +44,7 @@ task models(type: JavaExec) {
     description 'Generate model assets used in MinieExamples.'
     main 'jme3utilities.minie.test.models.ImportCgms'
     outputs.files([
+            candyDish + '/CandyDish.j3o',
             duck + '/Duck.j3o',
             elephant + '/Elephant.j3o',
             mhGame + '/MhGame.j3o',
@@ -62,8 +64,8 @@ task plaid(type: JavaExec) {
 }
 
 // cleanup tasks
-clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs', 'cleanTextures')
-clean.dependsOn('cleanModels')
+clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs')
+clean.dependsOn('cleanModels', 'cleanTextures')
 
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
@@ -81,7 +83,7 @@ task cleanTextures(type: Delete) {
     delete assets + 'Textures'
 }
 task cleanModels(type: Delete) {
-    delete(duck, elephant, mhGame, ninja, sinbad)
+    delete(candyDish, duck, elephant, mhGame, ninja, sinbad)
     dependsOn 'cleanOto'
     description 'Delete generated model assets.'
 }
