@@ -125,8 +125,7 @@ public class New6Dof extends Constraint {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil. Do not invoke
-     * directly!
+     * No-argument constructor needed by SavableClassUtil.
      */
     protected New6Dof() {
     }
