@@ -301,7 +301,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
     // private methods
 
     /**
-     * Apply a pseudo-random pose to the skeleton of the temporary C-G model.
+     * Apply a pseudo-random Pose to the Skeleton of the temporary C-G model.
      */
     private void applyRandomPose() {
         /*

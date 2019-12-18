@@ -367,7 +367,6 @@ public class BalanceDemo extends ActionApplication {
                 case "toggle help":
                     toggleHelp();
                     return;
-
                 case "toggle meshes":
                     toggleMeshes();
                     return;

@@ -313,6 +313,7 @@ public class DynamicAnimControl
                         MyString.quote(fields[2]));
                 throw new IllegalArgumentException(message);
             }
+
         } else { // The vertex is in the controlled model.
             subtree = getSpatial();
             assert subtree != null;

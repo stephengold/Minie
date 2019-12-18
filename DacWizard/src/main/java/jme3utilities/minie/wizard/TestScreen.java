@@ -26,7 +26,6 @@
  */
 package jme3utilities.minie.wizard;
 
-import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
@@ -40,6 +39,7 @@ import com.jme3.math.Plane;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.nifty.GuiScreenController;
@@ -164,7 +164,7 @@ class TestScreen extends GuiScreenController {
                 cgModel.setLocalTransform(initTransform);
                 wizard.makeScene(cgModel);
 
-                SkeletonControl control = RagUtils.findSkeletonControl(cgModel);
+                AbstractControl control = RagUtils.findSkeletonControl(cgModel);
                 Spatial controlledSpatial = control.getSpatial();
 
                 DynamicAnimControl dac = model.copyRagdoll();
