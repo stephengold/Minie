@@ -77,9 +77,41 @@ public class ImportCgms extends SimpleApplication {
     // new methods exposed
 
     /**
+     * Main entry point for the ImportCgms application.
+     *
+     * @param arguments array of command-line arguments (not null)
+     */
+    public static void main(String[] arguments) {
+        /*
+         * Mute the chatty loggers found in some imported packages.
+         */
+        Misc.setLoggingLevels(Level.WARNING);
+        /*
+         * Set the logging level for this class.
+         */
+        //logger.setLevel(Level.INFO);
+        /*
+         * Instantiate the application.
+         */
+        ImportCgms application = new ImportCgms();
+        /*
+         * Log the working directory.
+         */
+        String userDir = System.getProperty("user.dir");
+        logger.log(Level.INFO, "working directory is {0}",
+                MyString.quote(userDir));
+        /*
+         * Import the C-G models.
+         */
+        application.start(JmeContext.Type.Headless);
+    }
+    // *************************************************************************
+    // SimpleApplication methods
+
+    /**
      * Import glTF- and OgreXml-format computer-graphics models to the native
      * J3O format for faster loading. Also write out the textures used by those
-     * models. TODO re-order methods
+     * models.
      */
     @Override
     public void simpleInitApp() {
@@ -142,38 +174,8 @@ public class ImportCgms extends SimpleApplication {
         stop();
     }
 
-    /**
-     * Main entry point for the ImportCgms application.
-     *
-     * @param arguments array of command-line arguments (not null)
-     */
-    public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
-        Misc.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        ImportCgms application = new ImportCgms();
-        /*
-         * Log the working directory.
-         */
-        String userDir = System.getProperty("user.dir");
-        logger.log(Level.INFO, "working directory is {0}",
-                MyString.quote(userDir));
-        /*
-         * Import the C-G models.
-         */
-        application.start(JmeContext.Type.Headless);
-    }
     // *************************************************************************
     // private methods
-
     /**
      * Write the image of a texture to JPG or PNG file.
      */
