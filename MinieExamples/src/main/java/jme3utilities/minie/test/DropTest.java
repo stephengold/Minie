@@ -282,10 +282,10 @@ public class DropTest
         dim.bind("less damping", KeyInput.KEY_B);
         dim.bind("less friction", KeyInput.KEY_V);
 
-        dim.bind("platform box", KeyInput.KEY_1);
-        dim.bind("platform heightfield", KeyInput.KEY_2);
-        dim.bind("platform mesh", KeyInput.KEY_3);
-        dim.bind("platform plane", KeyInput.KEY_4);
+        dim.bind("platform box", KeyInput.KEY_3);
+        dim.bind("platform heightfield", KeyInput.KEY_1);
+        dim.bind("platform mesh", KeyInput.KEY_5);
+        dim.bind("platform plane", KeyInput.KEY_8);
 
         dim.bind("more damping", KeyInput.KEY_G);
         dim.bind("more friction", KeyInput.KEY_F);
