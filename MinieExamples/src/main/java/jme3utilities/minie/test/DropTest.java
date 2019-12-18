@@ -254,7 +254,7 @@ public class DropTest
         boolean success = stateManager.attach(screenshotAppState);
         assert success;
 
-        addBox();
+        addBoxPlatform();
         addAGem();
         /*
          * Add the status text to the GUI.
@@ -429,7 +429,7 @@ public class DropTest
     // private methods
 
     /**
-     * Add a gem (dynamic rigid body) to the scene.
+     * Add a gem (dynamic rigid body) to the PhysicsSpace.
      */
     private void addAGem() {
         if (gems.size() >= maxNumGems) {
@@ -518,16 +518,16 @@ public class DropTest
     }
 
     /**
-     * Add a platform (static rigid body) to the scene.
+     * Add a platform (large, static rigid body) to the PhysicsSpace.
      */
     private void addAPlatform() {
         switch (platformName) {
             case "box":
-                addBox();
+                addBoxPlatform();
                 break;
 
             case "heightfield":
-                addHeightfield();
+                addHeightfieldPlatform();
                 break;
 
             case "mesh":
@@ -546,11 +546,11 @@ public class DropTest
     }
 
     /**
-     * Add a large static box to the scene, to serve as a platform.
+     * Add a large, static box to the PhysicsSpace, to serve as a platform.
      */
-    private void addBox() {
+    private void addBoxPlatform() {
         float halfExtent = 4f;
-        BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
+        CollisionShape shape = new BoxCollisionShape(halfExtent);
         float boxMass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody boxBody = new PhysicsRigidBody(shape, boxMass);
 
@@ -562,9 +562,9 @@ public class DropTest
     }
 
     /**
-     * Add a static heightfield to the scene, to serve as a platform.
+     * Add a static heightfield to the PhysicsSpace, to serve as a platform.
      */
-    private void addHeightfield() {
+    private void addHeightfieldPlatform() {
         int n = 64;
         float halfNm1 = (n - 1) / 2f;
         float[] heightmap = new float[n * n];
@@ -612,7 +612,8 @@ public class DropTest
     }
 
     /**
-     * Add a static mesh shape to the scene, to serve as a platform.
+     * Add a large, static candy dish to the PhysicsSpace, to serve as a
+     * platform.
      */
     private void addMeshPlatform() {
         float mass = PhysicsRigidBody.massForStatic;
@@ -625,7 +626,7 @@ public class DropTest
     }
 
     /**
-     * Add a static plane to the scene, to serve as a platform.
+     * Add a static plane to the PhysicsSpace, to serve as a platform.
      */
     private void addPlanePlatform() {
         Plane plane = new Plane(Vector3f.UNIT_Y, 0f);
@@ -845,7 +846,7 @@ public class DropTest
         VectorSet vertices = new VectorSetUsingBuffer(numVertices);
 
         gemRadius = 0f;
-        vertices.add(new Vector3f(0f, 0f, 0f));
+        vertices.add(Vector3f.ZERO);
         for (int vertexIndex = 1; vertexIndex < numVertices; ++vertexIndex) {
             Vector3f location = random.nextUnitVector3f();
             location.multLocal(0.3f);
