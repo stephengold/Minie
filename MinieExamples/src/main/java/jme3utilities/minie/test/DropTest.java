@@ -110,6 +110,10 @@ public class DropTest
      */
     final private static int maxNumGems = 80;
     /**
+     * number of axes in a vector
+     */
+    final private static int numAxes = 3;
+    /**
      * message logger for this class
      */
     final public static Logger logger
@@ -283,9 +287,14 @@ public class DropTest
         dim.bind("less friction", KeyInput.KEY_V);
 
         dim.bind("platform box", KeyInput.KEY_3);
+        dim.bind("platform compound", KeyInput.KEY_9);
+        dim.bind("platform cone", KeyInput.KEY_4);
+        dim.bind("platform cylinder", KeyInput.KEY_6);
         dim.bind("platform heightfield", KeyInput.KEY_1);
+        dim.bind("platform hull", KeyInput.KEY_2);
         dim.bind("platform mesh", KeyInput.KEY_5);
         dim.bind("platform plane", KeyInput.KEY_8);
+        dim.bind("platform tetrahedron", KeyInput.KEY_7);
 
         dim.bind("more damping", KeyInput.KEY_G);
         dim.bind("more friction", KeyInput.KEY_F);
@@ -526,8 +535,24 @@ public class DropTest
                 addBoxPlatform();
                 break;
 
+            case "compound":
+                addCompoundPlatform();
+                break;
+
+            case "cone":
+                addConePlatform();
+                break;
+
+            case "cylinder":
+                addCylinderPlatform();
+                break;
+
             case "heightfield":
                 addHeightfieldPlatform();
+                break;
+
+            case "hull":
+                addHullPlatform();
                 break;
 
             case "mesh":
@@ -536,6 +561,10 @@ public class DropTest
 
             case "plane":
                 addPlanePlatform();
+                break;
+
+            case "tetrahedron":
+                addTetrahedronPlatform();
                 break;
 
             default:
@@ -559,6 +588,99 @@ public class DropTest
         boxBody.setFriction(friction);
         boxBody.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
         physicsSpace.add(boxBody);
+    }
+
+    /**
+     * Add a large, static compound shape to the PhysicsSpace, to serve as a
+     * platform.
+     */
+    private void addCompoundPlatform() {
+        /*
+         * Start with a box for a base.
+         */
+        float height = 0.3f;
+        float length = 3f;
+        CollisionShape child1 = new BoxCollisionShape(length, height, length);
+        CompoundCollisionShape shape = new CompoundCollisionShape();
+        shape.addChildShape(child1, new Vector3f(0f, -1.95f * height, 0f));
+        /*
+         * Place a tetrahedral deflector in the center.
+         */
+        float size = 0.6f;
+        Vector3f p1 = new Vector3f(0f, size, 0f);
+        Vector3f p2 = new Vector3f(-size, -height, size);
+        Vector3f p3 = new Vector3f(-size, -height, -size);
+        Vector3f p4 = new Vector3f(size * FastMath.sqrt(2f), -height, 0f);
+        CollisionShape child2 = new SimplexCollisionShape(p1, p2, p3, p4);
+        shape.addChildShape(child2, Vector3f.ZERO);
+        /*
+         * Arrange 4 bumpers in a square around the deflector.
+         */
+        float offset = length - height;
+        CollisionShape child3 = new BoxCollisionShape(length, height, height);
+        shape.addChildShape(child3, new Vector3f(0f, 0f, offset));
+
+        CollisionShape child4 = new BoxCollisionShape(length, height, height);
+        shape.addChildShape(child4, new Vector3f(0f, 0f, -offset));
+
+        CollisionShape child5 = new BoxCollisionShape(height, height, length);
+        shape.addChildShape(child5, new Vector3f(offset, 0f, 0f));
+
+        CollisionShape child6 = new BoxCollisionShape(height, height, length);
+        shape.addChildShape(child6, new Vector3f(-offset, 0f, 0f));
+
+        float mass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
+        body.setDebugMaterial(greenMaterial);
+        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setFriction(friction);
+        physicsSpace.add(body);
+    }
+
+    /**
+     * Add a large, downward-pointing, static cone to the PhysicsSpace, to serve
+     * as a platform.
+     */
+    private void addConePlatform() {
+        float radius = 4f;
+        float height = 2f * radius;
+        ConeCollisionShape shape = new ConeCollisionShape(radius, height);
+        float mass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
+        body.setDebugMaterial(greenMaterial);
+        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setDebugMeshResolution(DebugShapeFactory.highResolution);
+        body.setFriction(friction);
+        body.setPhysicsLocation(new Vector3f(0f, -radius, 0f));
+
+        Quaternion orientation = new Quaternion();
+        orientation.fromAngles(FastMath.PI, 0f, 0f);
+        body.setPhysicsRotation(orientation);
+
+        physicsSpace.add(body);
+    }
+
+    /**
+     * Add a large, static cylinder to the PhysicsSpace, to serve as a platform.
+     */
+    private void addCylinderPlatform() {
+        float halfHeight = 0.5f;
+        float radius = 4f;
+        Vector3f heVector = new Vector3f(radius, halfHeight, radius);
+        CylinderCollisionShape shape
+                = new CylinderCollisionShape(heVector, PhysicsSpace.AXIS_Y);
+        float mass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
+        body.setDebugMaterial(greenMaterial);
+        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setDebugMeshResolution(DebugShapeFactory.highResolution);
+        body.setFriction(friction);
+        body.setPhysicsLocation(new Vector3f(0f, -halfHeight, 0f));
+
+        physicsSpace.add(body);
     }
 
     /**
@@ -590,6 +712,32 @@ public class DropTest
     }
 
     /**
+     * Add a large, static petagonal prism shape to the PhysicsSpace, to serve
+     * as a platform.
+     */
+    private void addHullPlatform() {
+        float radius = 4f;
+        FloatBuffer points = BufferUtils.createFloatBuffer(10 * numAxes);
+        for (int i = 0; i < 5; ++i) {
+            float theta = 0.4f * FastMath.PI * i;
+            float x = radius * FastMath.sin(theta);
+            float z = radius * FastMath.cos(theta);
+            points.put(x).put(0f).put(z);
+            points.put(x).put(-1f).put(z);
+        }
+        points.flip();
+
+        HullCollisionShape shape = new HullCollisionShape(points);
+        float mass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
+        body.setDebugMaterial(greenMaterial);
+        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setFriction(friction);
+        physicsSpace.add(body);
+    }
+
+    /**
      * Add lighting and shadows to the specified scene.
      */
     private void addLighting(Spatial rootSpatial) {
@@ -598,7 +746,7 @@ public class DropTest
         rootSpatial.addLight(ambient);
 
         ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
-        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
+        Vector3f direction = new Vector3f(1f, -3f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         rootSpatial.addLight(sun);
 
@@ -637,6 +785,29 @@ public class DropTest
         body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
         body.setFriction(friction);
+        physicsSpace.add(body);
+    }
+
+    /**
+     * Add a large static tetrahedron to the PhysicsSpace, to serve as a
+     * platform.
+     */
+    private void addTetrahedronPlatform() {
+        float he = 4f;
+        float x = he / FastMath.sqrt(2f);
+        Vector3f p1 = new Vector3f(x, 0f, x);
+        Vector3f p2 = new Vector3f(x, 0f, -x);
+        Vector3f p3 = new Vector3f(-he, 0f, 0f);
+        Vector3f p4 = new Vector3f(0f, -2f * he, 0f);
+        SimplexCollisionShape shape
+                = new SimplexCollisionShape(p1, p2, p3, p4);
+        float mass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
+        body.setDebugMaterial(greenMaterial);
+        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setFriction(friction);
+
         physicsSpace.add(body);
     }
 
