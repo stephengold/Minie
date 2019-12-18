@@ -802,13 +802,17 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter the mesh resolution for new debug meshes. Effective only for convex
-     * shapes.
+     * Alter the mesh resolution for new debug meshes. Effective only for
+     * objects with convex shapes.
+     *
+     * @see com.jme3.bullet.collision.shapes.CollisionShape#isConvex()
      *
      * @param newSetting 0=low, 1=high (default=0)
      */
     public void setDebugMeshResolution(int newSetting) {
-        Validate.inRange(newSetting, "new setting", 0, 1);
+        Validate.inRange(newSetting, "new setting",
+                DebugShapeFactory.lowResolution,
+                DebugShapeFactory.highResolution);
         debugMeshResolution = newSetting;
     }
 
