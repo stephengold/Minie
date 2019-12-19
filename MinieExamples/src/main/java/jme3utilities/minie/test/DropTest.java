@@ -31,6 +31,7 @@ import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
+import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
@@ -302,6 +303,7 @@ public class DropTest
         dim.bind("more friction", KeyInput.KEY_F);
 
         dim.bind("shape box", KeyInput.KEY_F3);
+        dim.bind("shape capsule", KeyInput.KEY_F12);
         dim.bind("shape cone", KeyInput.KEY_F4);
         dim.bind("shape cylinder", KeyInput.KEY_F6);
         dim.bind("shape funnyHammer", KeyInput.KEY_F9);
@@ -454,6 +456,11 @@ public class DropTest
             case "box":
                 randomBox();
                 debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
+            case "capsule":
+                randomCapsule();
+                debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
             case "cone":
@@ -941,6 +948,17 @@ public class DropTest
         gemRadius = halfExtents.length();
 
         gemShape = new BoxCollisionShape(halfExtents);
+    }
+
+    /**
+     * Randomly generate a capsule shape.
+     */
+    private void randomCapsule() {
+        float radius = 0.4f + random.nextFloat();
+        float height = 0.4f + random.nextFloat();
+        gemRadius = radius + 0.5f * height;
+
+        gemShape = new CapsuleCollisionShape(radius, height);
     }
 
     /**
