@@ -75,10 +75,9 @@ public class MakeTorus {
          */
         Misc.setLoggingLevels(Level.WARNING);
         /*
-         * Set the logging level for this class and also for writeMap().
+         * Set the logging level for this class.
          */
         //logger.setLevel(Level.INFO);
-        //Logger.getLogger(Misc.class.getName()).setLevel(Level.INFO);
         /*
          * Instantiate the application.
          */
@@ -90,7 +89,7 @@ public class MakeTorus {
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
         /*
-         * Generate collision shape.
+         * Generate the collision shape.
          */
         application.makeTorus();
     }
