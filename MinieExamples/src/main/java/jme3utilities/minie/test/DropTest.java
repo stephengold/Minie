@@ -76,6 +76,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
@@ -143,15 +145,7 @@ public class DropTest
      */
     private CollisionShape gemShape;
     /**
-     * shape for a teapot (generated using V-HACD, by the MakeTeapot app)
-     */
-    private CompoundCollisionShape teapotShape;
-    /**
-     * shape for a torus (generated using V-HACD, by the MakeTorus app)
-     */
-    private CompoundCollisionShape torusShape;
-    /**
-     * added gems, in order of creation
+     * current gems, in order of creation
      */
     final private Deque<PhysicsRigidBody> gems = new ArrayDeque<>(maxNumGems);
     /**
@@ -167,7 +161,7 @@ public class DropTest
      */
     private float damping = 0.6f;
     /**
-     * friction coefficient for all gems (&ge;0)
+     * friction coefficient for all rigid bodies (&ge;0)
      */
     private float friction = 0.5f;
     /**
@@ -183,13 +177,13 @@ public class DropTest
      */
     final private Material gemMaterials[] = new Material[4];
     /**
+     * map names to collision shapes
+     */
+    final private Map<String, CollisionShape> namedShapes = new TreeMap<>();
+    /**
      * single-sided green material to visualize the platform
      */
     private Material greenMaterial;
-    /**
-     * mesh-generated shape for a platform
-     */
-    private MeshCollisionShape candyDishShape;
     /**
      * GUI node for displaying hotkey help/hints
      */
@@ -516,14 +510,14 @@ public class DropTest
                 break;
 
             case "teapot":
-                gemRadius = teapotShape.getScale(null).x;
-                gemShape = teapotShape;
+                gemShape = namedShapes.get("teapot");
+                gemRadius = gemShape.getScale(null).x;
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
             case "torus":
+                gemShape = namedShapes.get("torus");
                 gemRadius = 1.9f;
-                gemShape = torusShape;
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -789,8 +783,9 @@ public class DropTest
      * platform.
      */
     private void addMeshPlatform() {
+        CollisionShape shape = namedShapes.get("candyDish");
         float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(candyDishShape, mass);
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
         makePlatform(body);
     }
@@ -895,17 +890,19 @@ public class DropTest
         Node candyDishNode = (Node) assetManager.loadModel(candyDishPath);
         Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
         Mesh candyDishMesh = candyDishGeometry.getMesh();
-        candyDishShape = new MeshCollisionShape(candyDishMesh);
-        candyDishShape.setScale(new Vector3f(5f, 5f, 5f));
+        CollisionShape shape = new MeshCollisionShape(candyDishMesh);
+        shape.setScale(new Vector3f(5f, 5f, 5f));
+        namedShapes.put("candyDish", shape);
 
         String teapotPath = "CollisionShapes/teapot.j3o";
-        teapotShape
-                = (CompoundCollisionShape) assetManager.loadAsset(teapotPath);
-        teapotShape.setScale(new Vector3f(3f, 3f, 3f));
+        shape = (CollisionShape) assetManager.loadAsset(teapotPath);
+        shape.setScale(new Vector3f(3f, 3f, 3f));
+        namedShapes.put("teapot", shape);
 
         String torusPath = "CollisionShapes/torus.j3o";
-        torusShape = (CompoundCollisionShape) assetManager.loadAsset(torusPath);
-        torusShape.setScale(new Vector3f(5f, 5f, 5f));
+        shape = (CollisionShape) assetManager.loadAsset(torusPath);
+        shape.setScale(new Vector3f(5f, 5f, 5f));
+        namedShapes.put("torus", shape);
     }
 
     /**
