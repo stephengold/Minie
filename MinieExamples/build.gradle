@@ -21,11 +21,10 @@ dependencies {
     implementation project(':MinieLibrary')
 }
 
-processResources.dependsOn(':MinieAssets:models', ':MinieAssets:textures')
-processResources.dependsOn(':MinieAssets:teapot')
+processResources.dependsOn(':MinieAssets:models', ':MinieAssets:shapes', ':MinieAssets:textures')
 
 // cleanup tasks
-clean.dependsOn(':MinieAssets:cleanModels', ':MinieAssets:cleanTextures')
+clean.dependsOn(':MinieAssets:cleanModels', ':MinieAssets:cleanShapes', ':MinieAssets:cleanTextures')
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets')
 
 task cleanDLLs(type: Delete) {
