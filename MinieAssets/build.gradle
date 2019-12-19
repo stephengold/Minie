@@ -14,9 +14,11 @@ ext {
     oto = assets + 'Models/Oto'
     sinbad = assets + 'Models/Sinbad'
 
-    plaid = assets + 'Textures/plaid.png'
+    duckShape = assets + 'CollisionShapes/duck.j3o'
     teapot = assets + 'CollisionShapes/teapot.j3o'
     torus = assets + 'CollisionShapes/torus.j3o'
+
+    plaid = assets + 'Textures/plaid.png'
 }
 
 dependencies {
@@ -30,15 +32,6 @@ dependencies {
 
     //implementation "jme3utilities:Minie:$minieVersion"
     implementation project(':MinieLibrary')
-}
-
-task collisionShapes {
-    dependsOn 'torus'
-    description 'Generate collision-shape assets used in MinieExamples.'
-}
-task torus(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeTorus'
-    outputs.files([torus])
 }
 
 task models(type: JavaExec) {
@@ -55,9 +48,21 @@ task models(type: JavaExec) {
         ])
 }
 
+task shapes {
+    dependsOn 'duckShape', 'teapot'
+    description 'Generate collision-shape assets used in MinieExamples.'
+}
+task duckShape(type: JavaExec) {
+    main 'jme3utilities.minie.test.shapes.MakeDuck'
+    outputs.files([duckShape])
+}
 task teapot(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeTeapot'
     outputs.files([teapot])
+}
+task torus(type: JavaExec) {
+    main 'jme3utilities.minie.test.shapes.MakeTorus'
+    outputs.files([torus])
 }
 
 task textures {
@@ -71,7 +76,7 @@ task plaid(type: JavaExec) {
 
 // cleanup tasks
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs')
-clean.dependsOn('cleanModels', 'cleanTeapot', 'cleanTextures')
+clean.dependsOn('cleanModels', 'cleanShapes', 'cleanTextures')
 
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
@@ -85,12 +90,10 @@ task cleanLogs(type: Delete) {
 task cleanSOs(type: Delete) {
     delete fileTree(dir: '.', include: '*.so')
 }
-task cleanTeapot(type: Delete) {
-    delete(teapot)
-}
 task cleanTextures(type: Delete) {
     delete assets + 'Textures'
 }
+
 task cleanModels(type: Delete) {
     delete(candyDish, duck, elephant, mhGame, ninja, sinbad)
     dependsOn 'cleanOto'
@@ -98,4 +101,15 @@ task cleanModels(type: Delete) {
 }
 task cleanOto(type: Delete) {
     delete fileTree(dir: oto, include: 'Oto.*')
+}
+
+task cleanShapes(type: Delete) {
+    delete(duckShape, teapot)
+    description 'Delete generated shape assets.'
+}
+task cleanDuckShape(type: Delete) {
+    delete(duckShape)
+}
+task cleanTeapot(type: Delete) {
+    delete(teapot)
 }
