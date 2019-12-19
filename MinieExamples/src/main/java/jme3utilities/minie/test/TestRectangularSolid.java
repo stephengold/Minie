@@ -53,6 +53,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
+import jme3utilities.MyCamera;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.PointMesh;
@@ -170,14 +171,9 @@ public class TestRectangularSolid extends ActionApplication {
         samplePointMaterial = MyAsset.createWireframeMaterial(assetManager,
                 sampleColor, samplePointSize);
 
-        CollisionShape.setDefaultMargin(0.0001f);
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setSpeed(0f);
         stateManager.attach(bulletAppState);
-
-        CameraOrbitAppState orbitState
-                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
-        stateManager.attach(orbitState);
 
         trial(true, 4);
     }
@@ -233,6 +229,7 @@ public class TestRectangularSolid extends ActionApplication {
                 case "next trial square":
                     nextTrial(false, 0);
                     return;
+
                 case "toggle help":
                     toggleHelp();
                     return;
@@ -247,8 +244,18 @@ public class TestRectangularSolid extends ActionApplication {
      * Configure the camera during startup.
      */
     private void configureCamera() {
+        float near = 10f;
+        float far = 10000f;
+        MyCamera.setNearFar(cam, near, far);
+
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
+        flyCam.setMoveSpeed(400f);
+
+        cam.setLocation(new Vector3f(0f, 0f, 1000f));
+
+        CameraOrbitAppState orbitState
+                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
+        stateManager.attach(orbitState);
     }
 
     /**
@@ -304,7 +311,7 @@ public class TestRectangularSolid extends ActionApplication {
         transform.setRotation(rotation);
         Vector3f scale = random.nextVector3f();
         scale.addLocal(1.2f, 1.2f, 1.2f);
-        scale.multLocal(2f);
+        scale.multLocal(200f);
         transform.setScale(scale);
         Vector3f translation = random.nextVector3f();
         transform.setTranslation(translation);
