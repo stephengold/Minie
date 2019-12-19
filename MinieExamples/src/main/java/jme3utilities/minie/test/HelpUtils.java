@@ -83,44 +83,32 @@ class HelpUtils {
         Validate.nonNull(font, "font");
 
         Map<String, String> actionToList = mapActions(inputMode);
-        Map<String, String> listToAction = MyString.invert(actionToList);
 
         Node result = new Node("help node");
         float x = bounds.x;
         float y = bounds.y;
-        for (int group = 1; group <= 3; ++group) {
-            for (Map.Entry<String, String> entry : listToAction.entrySet()) {
-                String hotkeyList = entry.getKey();
-                int listGroup;
-                if (hotkeyList.length() == 1) {
-                    listGroup = 1; // single letter key
-                } else if (hotkeyList.matches("^f1?[0-9]$")) {
-                    listGroup = 2; // single function key
-                } else {
-                    listGroup = 3; // miscellaneous
-                }
-                if (listGroup == group) {
-                    BitmapText spatial = new BitmapText(font);
-                    result.attachChild(spatial);
-                    spatial.setSize(font.getCharSet().getRenderedSize());
 
-                    String actionName = entry.getValue();
-                    String string = hotkeyList + ": " + actionName;
-                    spatial.setText(string);
-                    float textWidth = spatial.getLineWidth();
-                    if (x > bounds.x
-                            && x + textWidth > bounds.x + bounds.width) {
-                        // start a new line of text
-                        y -= spatial.getHeight();
-                        x = bounds.x;
-                    }
-                    spatial.setLocalTranslation(x, y, 0f);
-                    x += textWidth + space;
+        for (Map.Entry<String, String> entry : actionToList.entrySet()) {
+            BitmapText spatial = new BitmapText(font);
+            result.attachChild(spatial);
+            spatial.setSize(font.getCharSet().getRenderedSize());
 
-                    if (actionName.equals("toggle help")) {
-                        spatial.setColor(ColorRGBA.Yellow);
-                    }
-                }
+            String actionName = entry.getKey();
+            String hotkeyList = entry.getValue();
+            String string = actionName + ": " + hotkeyList;
+            spatial.setText(string);
+            float textWidth = spatial.getLineWidth();
+            if (x > bounds.x
+                    && x + textWidth > bounds.x + bounds.width) {
+                // start a new line of text
+                y -= spatial.getHeight();
+                x = bounds.x;
+            }
+            spatial.setLocalTranslation(x, y, 0f);
+            x += textWidth + space;
+
+            if (actionName.equals("toggle help")) {
+                spatial.setColor(ColorRGBA.Yellow);
             }
         }
 
