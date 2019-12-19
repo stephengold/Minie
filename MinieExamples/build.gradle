@@ -22,6 +22,7 @@ dependencies {
 }
 
 processResources.dependsOn(':MinieAssets:models', ':MinieAssets:textures')
+processResources.dependsOn(':MinieAssets:teapot')
 
 // cleanup tasks
 clean.dependsOn(':MinieAssets:cleanModels', ':MinieAssets:cleanTextures')
