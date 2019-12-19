@@ -313,7 +313,7 @@ public class DropTest
         dim.bind("shape sphere", KeyInput.KEY_F11);
         dim.bind("shape teapot", KeyInput.KEY_NUMPAD3);
         dim.bind("shape tetrahedron", KeyInput.KEY_F7);
-        dim.bind("shape torus", KeyInput.KEY_F8);
+        dim.bind("shape torus", KeyInput.KEY_NUMPAD0);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
