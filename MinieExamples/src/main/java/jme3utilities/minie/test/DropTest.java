@@ -84,10 +84,9 @@ import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.RectangularSolid;
-import jme3utilities.math.VectorSet;
-import jme3utilities.math.VectorSetUsingBuffer;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
@@ -111,6 +110,10 @@ public class DropTest
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * golden ratio = 1.618...
+     */
+    final public static float phi = (1f + FastMath.sqrt(5f)) / 2f;
     /**
      * upper limit on the number of gems
      */
@@ -1089,21 +1092,58 @@ public class DropTest
      */
     private void randomHull() {
         int numVertices = 5 + random.nextInt(16);
-        VectorSet vertices = new VectorSetUsingBuffer(numVertices);
 
-        gemRadius = 0f;
-        vertices.add(Vector3f.ZERO);
-        for (int vertexIndex = 1; vertexIndex < numVertices; ++vertexIndex) {
-            Vector3f location = random.nextUnitVector3f();
-            location.multLocal(1.5f);
-            vertices.add(location);
-            float distance = location.length();
-            gemRadius = Math.max(gemRadius, distance);
+        FloatBuffer buffer;
+        if (numVertices == 6) {
+            /*
+             * Generate a regular octahedron (6 vertices).
+             */
+            float r = 0.7f + random.nextFloat();
+            buffer = BufferUtils.createFloatBuffer(
+                    r, 0f, 0f,
+                    -r, 0f, 0f,
+                    0f, r, 0f,
+                    0f, -r, 0f,
+                    0f, 0f, r,
+                    0f, 0f, -r);
+
+        } else if (numVertices == 12) {
+            /*
+             * Generate a regular icosahedron (12 vertices).
+             */
+            float a = 0.4f + 0.5f * random.nextFloat();
+            float phiA = phi * a;
+            buffer = BufferUtils.createFloatBuffer(
+                    -a, phiA, 0f,
+                    a, phiA, 0f,
+                    -a, -phiA, 0f,
+                    a, -phiA, 0f,
+                    0f, -a, phiA,
+                    0f, a, phiA,
+                    0f, -a, -phiA,
+                    0f, a, -phiA,
+                    phiA, 0f, -a,
+                    phiA, 0f, a,
+                    -phiA, 0f, -a,
+                    -phiA, 0f, a);
+
+        } else {
+            /*
+             * Generate a hull using the origin plus 4-19 random vertices.
+             */
+            buffer = BufferUtils.createFloatBuffer(numAxes * numVertices);
+            buffer.put(0f).put(0f).put(0f);
+            for (int vertexI = 1; vertexI < numVertices; ++vertexI) {
+                Vector3f location = random.nextUnitVector3f();
+                location.multLocal(1.5f);
+                buffer.put(location.x).put(location.y).put(location.z);
+            }
         }
-        gemRadius += CollisionShape.getDefaultMargin();
 
-        FloatBuffer buffer = vertices.toBuffer();
         gemShape = new HullCollisionShape(buffer);
+
+        gemRadius = MyBuffer.maxLength(buffer, 0, buffer.limit());
+        gemRadius += CollisionShape.getDefaultMargin();
     }
 
     /**
