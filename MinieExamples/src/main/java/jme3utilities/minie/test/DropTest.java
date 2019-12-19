@@ -1091,24 +1091,42 @@ public class DropTest
         int numSpheres = 1 + random.nextInt(4);
         List<Vector3f> centers = new ArrayList<>(numSpheres);
         List<Float> radii = new ArrayList<>(numSpheres);
-
+        /*
+         * The first sphere is always centered.
+         */
         centers.add(Vector3f.ZERO);
-        float mainRadius = 0.5f + random.nextFloat();
+        float mainRadius = 0.8f + 0.6f * random.nextFloat();
         radii.add(mainRadius);
         gemRadius = mainRadius;
 
         for (int sphereIndex = 1; sphereIndex < numSpheres; ++sphereIndex) {
-            Vector3f center = random.nextUnitVector3f();
-            center.multLocal(mainRadius);
-            centers.add(center);
+            /*
+             * Add a smaller sphere, offset from the main one.
+             */
+            Vector3f offset = random.nextUnitVector3f();
+            offset.multLocal(mainRadius);
+            centers.add(offset);
 
             float radius = mainRadius * (0.2f + 0.8f * random.nextFloat());
             radii.add(radius);
-            float extRadius = center.length() + radius;
+            float extRadius = offset.length() + radius;
             gemRadius = Math.max(gemRadius, extRadius);
         }
 
         gemShape = new MultiSphere(centers, radii);
+
+        if (numSpheres == 1) {
+            /*
+             * Scale the sphere to make an ellipsoid.
+             */
+            float xScale = 1f + random.nextFloat();
+            float yScale = 0.6f + random.nextFloat();
+            float zScale = 0.4f + random.nextFloat();
+            gemShape.setScale(new Vector3f(xScale, yScale, zScale));
+
+            float maxScale = MyMath.max(xScale, yScale, zScale);
+            gemRadius *= maxScale;
+        }
     }
 
     /**
