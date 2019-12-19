@@ -260,7 +260,7 @@ public class DropTest
         boolean success = stateManager.attach(screenshotAppState);
         assert success;
 
-        addBoxPlatform();
+        addAPlatform();
         addAGem();
         /*
          * Add the status text to the GUI.
@@ -497,7 +497,7 @@ public class DropTest
                 break;
 
             case "torus":
-                gemRadius = 0.38f;
+                gemRadius = 1.9f;
                 gemShape = torusShape;
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
@@ -508,8 +508,8 @@ public class DropTest
         }
 
         Vector3f startLocation = random.nextVector3f();
-        startLocation.multLocal(0.5f, 1f, 0.5f);
-        startLocation.y += 4f;
+        startLocation.multLocal(2.5f, 5f, 2.5f);
+        startLocation.y += 20f;
 
         Quaternion startOrientation = random.nextQuaternion();
 
@@ -518,7 +518,7 @@ public class DropTest
         float mass = 1f;
         PhysicsRigidBody body = new PhysicsRigidBody(gemShape, mass);
         body.setCcdSweptSphereRadius(gemRadius);
-        body.setCcdMotionThreshold(1f);
+        body.setCcdMotionThreshold(5f);
         body.setDamping(damping, damping);
         body.setDebugMaterial(debugMaterial);
         body.setDebugMeshNormals(debugMeshNormals);
@@ -586,7 +586,7 @@ public class DropTest
      * Add a large, static box to the PhysicsSpace, to serve as a platform.
      */
     private void addBoxPlatform() {
-        float halfExtent = 4f;
+        float halfExtent = 20f;
         CollisionShape shape = new BoxCollisionShape(halfExtent);
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
@@ -604,15 +604,15 @@ public class DropTest
         /*
          * Start with a box for a base.
          */
-        float height = 0.3f;
-        float length = 3f;
+        float height = 1.5f;
+        float length = 15f;
         CollisionShape child1 = new BoxCollisionShape(length, height, length);
         CompoundCollisionShape shape = new CompoundCollisionShape();
         shape.addChildShape(child1, new Vector3f(0f, -1.95f * height, 0f));
         /*
          * Place a tetrahedral deflector in the center.
          */
-        float size = 0.6f;
+        float size = 3f;
         Vector3f p1 = new Vector3f(0f, size, 0f);
         Vector3f p2 = new Vector3f(-size, -height, size);
         Vector3f p3 = new Vector3f(-size, -height, -size);
@@ -646,7 +646,7 @@ public class DropTest
      * as a platform.
      */
     private void addConePlatform() {
-        float radius = 4f;
+        float radius = 20f;
         float height = 2f * radius;
         ConeCollisionShape shape = new ConeCollisionShape(radius, height);
 
@@ -656,7 +656,10 @@ public class DropTest
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
         body.setPhysicsLocation(new Vector3f(0f, -radius, 0f));
-
+        /*
+         * Rotate the cone 180 degrees around the X axis
+         * so that it points downward instead of upward.
+         */
         Quaternion orientation = new Quaternion();
         orientation.fromAngles(FastMath.PI, 0f, 0f);
         body.setPhysicsRotation(orientation);
@@ -668,8 +671,8 @@ public class DropTest
      * Add a large, static cylinder to the PhysicsSpace, to serve as a platform.
      */
     private void addCylinderPlatform() {
-        float halfHeight = 0.5f;
-        float radius = 4f;
+        float halfHeight = 25f;
+        float radius = 20f;
         Vector3f heVector = new Vector3f(radius, halfHeight, radius);
         CylinderCollisionShape shape
                 = new CylinderCollisionShape(heVector, PhysicsSpace.AXIS_Y);
@@ -700,7 +703,7 @@ public class DropTest
                 heightmap[floatIndex] = -0.4f + (r - 0.8f) * (r - 0.8f);
             }
         }
-        Vector3f scale = new Vector3f(4f / halfNm1, 2.5f, 4f / halfNm1);
+        Vector3f scale = new Vector3f(20f / halfNm1, 12.5f, 20f / halfNm1);
         HeightfieldCollisionShape shape
                 = new HeightfieldCollisionShape(heightmap, scale);
 
@@ -715,14 +718,15 @@ public class DropTest
      * as a platform.
      */
     private void addHullPlatform() {
-        float radius = 4f;
+        float radius = 20f;
+        float thickness = 5f;
         FloatBuffer points = BufferUtils.createFloatBuffer(10 * numAxes);
         for (int i = 0; i < 5; ++i) {
-            float theta = 0.4f * FastMath.PI * i;
+            float theta = 0.4f * FastMath.PI * i; // in radians
             float x = radius * FastMath.sin(theta);
             float z = radius * FastMath.cos(theta);
             points.put(x).put(0f).put(z);
-            points.put(x).put(-1f).put(z);
+            points.put(x).put(-thickness).put(z);
         }
         points.flip();
         HullCollisionShape shape = new HullCollisionShape(points);
@@ -784,7 +788,7 @@ public class DropTest
      * platform.
      */
     private void addTetrahedronPlatform() {
-        float he = 4f;
+        float he = 20f;
         float x = he / FastMath.sqrt(2f);
         Vector3f p1 = new Vector3f(x, 0f, x);
         Vector3f p2 = new Vector3f(x, 0f, -x);
@@ -803,14 +807,14 @@ public class DropTest
      * Configure the camera during startup.
      */
     private void configureCamera() {
-        float near = 0.02f;
-        float far = 100f;
+        float near = 0.1f;
+        float far = 500f;
         MyCamera.setNearFar(cam, near, far);
 
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(2f);
+        flyCam.setMoveSpeed(10f);
 
-        cam.setLocation(new Vector3f(0f, 4f, 8f));
+        cam.setLocation(new Vector3f(0f, 20f, 40f));
         cam.setRotation(new Quaternion(0f, 0.9649f, -0.263f, 0f));
 
         CameraOrbitAppState orbitState
@@ -858,6 +862,7 @@ public class DropTest
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace.setGravity(new Vector3f(0f, -30f, 0f));
     }
 
     /**
@@ -869,9 +874,11 @@ public class DropTest
         Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
         Mesh candyDishMesh = candyDishGeometry.getMesh();
         candyDishShape = new MeshCollisionShape(candyDishMesh);
+        candyDishShape.setScale(new Vector3f(5f, 5f, 5f));
 
         String torusPath = "CollisionShapes/torus.j3o";
         torusShape = (CompoundCollisionShape) assetManager.loadAsset(torusPath);
+        torusShape.setScale(new Vector3f(5f, 5f, 5f));
     }
 
     /**
@@ -927,9 +934,9 @@ public class DropTest
      * Generate a box shape with random extents.
      */
     private void randomBox() {
-        float rx = 0.1f + 0.3f * random.nextFloat();
-        float ry = 0.1f + 0.3f * random.nextFloat();
-        float rz = 0.1f + 0.3f * random.nextFloat();
+        float rx = 0.5f + random.nextFloat();
+        float ry = 0.5f + random.nextFloat();
+        float rz = 0.5f + random.nextFloat();
         Vector3f halfExtents = new Vector3f(rx, ry, rz);
         gemRadius = halfExtents.length();
 
@@ -940,8 +947,8 @@ public class DropTest
      * Randomly generate a Y-axis cone shape.
      */
     private void randomCone() {
-        float baseRadius = 0.1f + 0.2f * random.nextFloat();
-        float height = 0.1f + 0.4f * random.nextFloat();
+        float baseRadius = 0.5f + random.nextFloat();
+        float height = 0.5f + 2f * random.nextFloat();
 
         gemRadius = MyMath.hypotenuse(baseRadius, height / 2f);
         gemRadius += CollisionShape.getDefaultMargin();
@@ -953,8 +960,8 @@ public class DropTest
      * Generate a Z-axis cylinder shape with random extents.
      */
     private void randomCylinder() {
-        float baseRadius = 0.1f + 0.2f * random.nextFloat();
-        float halfHeight = 0.1f + 0.3f * random.nextFloat();
+        float baseRadius = 0.5f + random.nextFloat();
+        float halfHeight = 0.5f + 1.5f * random.nextFloat();
         gemRadius = MyMath.hypotenuse(baseRadius, halfHeight);
 
         Vector3f halfExtents = new Vector3f(baseRadius, baseRadius, halfHeight);
@@ -967,10 +974,10 @@ public class DropTest
      * @param correctAxes if true, correct the shape's principal axes
      */
     private void randomHammer(boolean correctAxes) {
-        float handleR = 0.1f;
-        float headR = handleR + 0.2f * random.nextFloat();
-        float headHalfLength = headR + 0.2f * random.nextFloat();
-        float handleHalfLength = headHalfLength + 0.5f * random.nextFloat();
+        float handleR = 0.5f;
+        float headR = handleR + random.nextFloat();
+        float headHalfLength = headR + random.nextFloat();
+        float handleHalfLength = headHalfLength + 2.5f * random.nextFloat();
         gemRadius = MyMath.hypotenuse(headHalfLength,
                 2f * handleHalfLength + headR);
 
@@ -1017,7 +1024,7 @@ public class DropTest
         vertices.add(Vector3f.ZERO);
         for (int vertexIndex = 1; vertexIndex < numVertices; ++vertexIndex) {
             Vector3f location = random.nextUnitVector3f();
-            location.multLocal(0.3f);
+            location.multLocal(1.5f);
             vertices.add(location);
             float distance = location.length();
             gemRadius = Math.max(gemRadius, distance);
@@ -1037,7 +1044,7 @@ public class DropTest
         List<Float> radii = new ArrayList<>(numSpheres);
 
         centers.add(Vector3f.ZERO);
-        float mainRadius = 0.1f + 0.2f * random.nextFloat();
+        float mainRadius = 0.5f + random.nextFloat();
         radii.add(mainRadius);
         gemRadius = mainRadius;
 
@@ -1059,7 +1066,7 @@ public class DropTest
      * Randomly generate a sphere shape.
      */
     private void randomSphere() {
-        gemRadius = 0.1f + 0.2f * random.nextFloat();
+        gemRadius = 0.5f + random.nextFloat();
         gemShape = new SphereCollisionShape(gemRadius);
     }
 
@@ -1067,10 +1074,10 @@ public class DropTest
      * Randomly generate a simplex shape with 4 vertices.
      */
     private void randomTetrahedron() {
-        float r1 = 0.03f + 0.3f * random.nextFloat();
-        float r2 = 0.03f + 0.3f * random.nextFloat();
-        float r3 = 0.03f + 0.3f * random.nextFloat();
-        float r4 = 0.03f + 0.3f * random.nextFloat();
+        float r1 = 0.15f + random.nextFloat();
+        float r2 = 0.15f + random.nextFloat();
+        float r3 = 0.15f + random.nextFloat();
+        float r4 = 0.15f + random.nextFloat();
         gemRadius = FastMath.sqrt(3f) * MyMath.max(r1, r2, Math.max(r3, r4));
 
         Vector3f p1 = new Vector3f(r1, r1, r1);
@@ -1099,7 +1106,7 @@ public class DropTest
      */
     private void toggleAxes() {
         float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
+        bulletAppState.setDebugAxisLength(2.5f - length);
     }
 
     /**
