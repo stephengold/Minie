@@ -302,7 +302,7 @@ For a physics simulation, it might seem natural to choose kilograms and meters
 as the units of mass and distance, respectively.
 However, there are some considerations.
 
-Bullet documentation also recommends that dynamic objects have
+Bullet documentation recommends that dynamic bodies have
 masses as close as possible to 1.
 
 Also, to improve the performance and reliability of collision detection,
@@ -310,9 +310,21 @@ Bullet applies a margin to most collision objects.
 By default, this margin is 0.04 physics-space units (psu).
 While the margin is configurable, Bullet documentation
 recommends against doing so.
-In most cases, margin increases the effective size of the object,
-so it's undesirable to have a collision object
-with any dimension smaller than about 0.2 psu.
+For some collision shapes, margin increases the effective size of the object
+and distorts its effective shape.
+For this reason, it's undesirable to have a collision object
+with any radius smaller than about 0.2 psu.
+
+On the other hand, dynamic bodies should not be made too large.
+Dynamic bodies in forced contact tend to jiggle.
+Jiggling is mostly likely for sharp-edged bodies (such as boxes)
+resting on uneven surfaces under high gravity.
+The higher the gravity (in psu per second squared),
+the shorter the simulation time step (in seconds) needs to be.
+For efficient and realistic simulation of Earth-like gravity (9.8 m/s)
+with the default margin (0.04 psu) and time step (0.0167 seconds),
+the psu should be 0.3 meters or larger.
+This puts a soft upper limit on the size (in psu) of dynamic bodies.
 
 Since Minie's debug visualization assumes that physics coordinates are
 equivalent to world coordinates, these recommendations could impact
