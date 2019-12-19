@@ -302,7 +302,7 @@ public class DropTest
         dim.bind("platform hull", KeyInput.KEY_2);
         dim.bind("platform mesh", KeyInput.KEY_5);
         dim.bind("platform plane", KeyInput.KEY_8);
-        dim.bind("platform tetrahedron", KeyInput.KEY_7);
+        dim.bind("platform triangle", KeyInput.KEY_7);
 
         dim.bind("more damping", KeyInput.KEY_G);
         dim.bind("more friction", KeyInput.KEY_F);
@@ -596,8 +596,8 @@ public class DropTest
                 addPlanePlatform();
                 break;
 
-            case "tetrahedron":
-                addTetrahedronPlatform();
+            case "triangle":
+                addTrianglePlatform();
                 break;
 
             default:
@@ -809,18 +809,15 @@ public class DropTest
     }
 
     /**
-     * Add a large static tetrahedron to the PhysicsSpace, to serve as a
-     * platform.
+     * Add a large static triangle to the PhysicsSpace, to serve as a platform.
      */
-    private void addTetrahedronPlatform() {
+    private void addTrianglePlatform() {
         float he = 20f;
         float x = he / FastMath.sqrt(2f);
         Vector3f p1 = new Vector3f(x, 0f, x);
         Vector3f p2 = new Vector3f(x, 0f, -x);
         Vector3f p3 = new Vector3f(-he, 0f, 0f);
-        Vector3f p4 = new Vector3f(0f, -2f * he, 0f);
-        SimplexCollisionShape shape
-                = new SimplexCollisionShape(p1, p2, p3, p4);
+        SimplexCollisionShape shape = new SimplexCollisionShape(p1, p2, p3);
 
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
