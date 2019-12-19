@@ -669,7 +669,17 @@ update the gravity of each body before every physics tick:
 By default, the native library prints a startup message to `System.out`.
 Once the library is loaded (but not started) you can disable this message:
 
-        DebugTools.setStartupMessageEnabled(false);
+        NativeLibrary.setStartupMessageEnabled(false);
+
+Once the native library is loaded,
+you can test whether it uses double-precision arithmetic:
+
+        boolean doublePrecision = NativeLibrary.isDoublePrecision();
+
+You can also test whether it was built for debugging
+(with assertions enabled and debug information generated):
+
+        boolean debug = NativeLibrary.isDebug();
 
 The default collision margin for new shapes is 0.04 physics-space units.
 To configure a default margin of 0.1 psu:
