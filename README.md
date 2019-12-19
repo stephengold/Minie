@@ -26,7 +26,7 @@ Java source code is provided under
  + [How to build Minie from source](#build)
  + [How to add Minie to an existing project](#add)
  + [Choosing a collision shape](#shape)
- + [Dumping a physics simulation](#dump)
+ + [Debugging physics issues](#debugging)
  + [An introduction to New6Dof](#new6dof)
  + [An introduction to DynamicAnimControl](#dac)
  + [Collision detection](#detect)
@@ -599,67 +599,9 @@ By default, debug visualization is disabled. To enable it, use:
 
         bas.setDebugEnabled(true);
 
-By default, debug visualization renders only to the
-application's main `ViewPort`.
-To specify a different `ViewPort` (or an array of viewports) use:
-
-        bas.setDebugViewPorts(viewPortArray);
-
-By default, debug visualization renders the shape of every
-`PhysicsCollisionObject`, but not its bounding box or swept sphere.
-To override these defaults, set filters to identify which objects
-should render each feature:
-
-        BulletDebugAppState.DebugAppStateFilter all = new FilterAll(true);
-        BulletDebugAppState.DebugAppStateFilter none = new FilterAll(false);
-        bas.setDebugBoundingBoxFilter(all); // all bounding boxes
-        bas.setDebugFilter(none);           // no collision shapes
-        bas.setDebugSweptSphereFilter(all); // all swept spheres
-
-By default, debug visualization doesn't render the local axes of
-collision objects.
-To override this default, set the axis lengths to a positive value:
-
-        bas.setAxisLength(1f);
-
-If local axes are rendered, then by default they are drawn using
-lines one pixel wide.
-You can specify wider lines:
-
-        bas.setDebugAxisLineWidth(3f); // axis arrows 3 pixels wide
-
-or you can specify 3-D arrows:
-
-        bas.setDebugAxisLineWidth(0f); // solid axis arrows
-
-By default, Minie visualizes collision shapes
-using single-sided wireframe materials:
-
- + yellow for any collision object without contact response,
-   which includes any `PhysicsGhostObject`
- + magenta for a `PhysicsRigidBody` (with contact response)
-   that's both dynamic and active
- + blue for a `PhysicsRigidBody` (with contact response) that's either
-   static or kinematic or sleeping
- + pink for a `PhysicsCharacter` (with contact response)
- + red for a `PhysicsSoftBody` with faces
- + orange for a `PhysicsSoftBody` with links but no faces
-
-Wireframe materials don't require lighting.
-However, it's possible to override the default debug materials
-on a per-object basis, and such materials might require lighting.
-`BulletAppState` invokes a callback during initialization that can
-be used to add lighting for debug visualization:
-
-        DebugInitListener callbackObject = new DebugInitListener() {
-            public void bulletDebugInit(Node physicsDebugRootNode) {
-                AmbientLight ambient = new AmbientLight(aColor);
-                physicsDebugRootNode.addLight(ambient);
-                DirectionalLight sun = new DirectionalLight(direction, dColor);
-                physicsDebugRootNode.addLight(sun);
-            }
-        };
-        bas.setDebugInitListener(callbackObject);
+Other `BulletAppState` configurables, used to customize debug visualization,
+are described in the [Debug visualization tips and tricks](#visualization)
+section of this document.
 
 ### Configure the PhysicsSpace
 
@@ -826,9 +768,9 @@ In particular, `CapsuleCollisionShape` is often used with humanoid models.
 
 [Jump to table of contents](#toc)
 
-<a name="dump"/>
+<a name="debugging"/>
 
-## Dumping a physics simulation
+## Debugging physics issues
 
 When a physics simulation doesn't work as expected, debug visualization
 (configured at the `BulletAppState`) should be enabled to uncover gross issues
@@ -839,6 +781,126 @@ If further details are desired, temporary print statements might be added
 at key points.
 To streamline this process, Minie provides a configurable dumper
 for app states, physics spaces, viewports, and scene graphs.
+
+<a name="visualization"/>
+
+### Debug visualization tips and tricks
+
+By default, debug visualization is disabled.
+To enable it, configure the `BulletAppState`:
+
+        bas.setDebugEnabled(true);
+
+By default, debug visualization renders convex collision shapes using meshes
+with no more than 42 vertices.
+It can also generate debug meshes with up 256 vertices.
+To override the low-resolution default on a per-object basis:
+
+        collisionObject.setDebugMeshResolution(DebugShapeFactory.highResolution);
+
+(This setting has no effect on objects with non-convex shapes.)
+
+By default, debug visualization renders only to the
+application's main `ViewPort`.
+To specify a different `ViewPort` (or an array of viewports) use:
+
+        bas.setDebugViewPorts(viewPortArray);
+
+By default, debug visualization renders the shape of every
+`PhysicsCollisionObject`, but not its bounding box or swept sphere.
+To override these defaults, set filters to identify which objects
+should render each feature:
+
+        BulletDebugAppState.DebugAppStateFilter all = new FilterAll(true);
+        BulletDebugAppState.DebugAppStateFilter none = new FilterAll(false);
+        bas.setDebugBoundingBoxFilter(all); // all bounding boxes
+        bas.setDebugFilter(none);           // no collision shapes
+        bas.setDebugSweptSphereFilter(all); // all swept spheres
+
+By default, debug visualization doesn't render the local axes of
+collision objects.
+To override this default, set the axis lengths to a positive value:
+
+        bas.setAxisLength(1f);
+
+If local axes are rendered, then by default they are drawn using
+lines one pixel wide.
+You can specify wider lines:
+
+        bas.setDebugAxisLineWidth(3f); // axis arrows 3 pixels wide
+
+or you can specify 3-D arrows:
+
+        bas.setDebugAxisLineWidth(0f); // solid axis arrows
+
+By default, Minie visualizes collision shapes
+using single-sided wireframe materials:
+
+ + yellow for any collision object without contact response,
+   which includes any `PhysicsGhostObject`
+ + magenta for a `PhysicsRigidBody` (with contact response)
+   that's both dynamic and active
+ + blue for a `PhysicsRigidBody` (with contact response) that's either
+   static or kinematic or sleeping
+ + pink for a `PhysicsCharacter` (with contact response)
+ + red for a `PhysicsSoftBody` with faces
+ + orange for a `PhysicsSoftBody` with links but no faces
+
+Some collision objects are best visualized using double-sided materials.
+You can override the single-sided default on a per-object basis:
+
+        collisionObject.setDebugNumSides(2);
+
+Note that `setDebugNumSides(0)` makes a collision object invisible
+in the debug visualization,
+even if that object is selected by the debug filter of the `BulletAppState`.
+
+If further customization is required, the debug material can be customized
+on a per-object basis:
+
+        collisionObject.setDebugMaterial(myMaterial);
+
+Note that `setDebugNumSides()` has no effect on custom debug materials.
+
+Wireframe materials don't need lighting, mesh normals, or texture coordinates.
+By default, debug visualization doesn't provide these amenities.
+However, a customized debug material might require them.
+
+You can override the no-normals default on a per-object basis:
+
+        collisionObject1.setDebugMeshNormals(DebugMeshNormals.Facet)
+        collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth)
+
+`BulletAppState` invokes a callback during initialization.
+You can use this callback to provide lighting for debug visualization:
+
+        DebugInitListener callbackObject = new DebugInitListener() {
+            public void bulletDebugInit(Node physicsDebugRootNode) {
+                AmbientLight ambient = new AmbientLight(aColor);
+                physicsDebugRootNode.addLight(ambient);
+                DirectionalLight sun = new DirectionalLight(direction, dColor);
+                physicsDebugRootNode.addLight(sun);
+            }
+        };
+        bas.setDebugInitListener(callbackObject);
+
+`BulletAppState` invokes a callback each time it generates a debug mesh.
+You can use this callback to add texture coordinates to the mesh:
+
+        DebugInitListener callbackObject = new DebugMeshInitListener() {
+            public void debugMeshInit(Mesh debugMesh) {
+                VertexBuffer pos = debugMesh.getBuffer(VertexBuffer.Type.Position);
+                int numVertices = pos.getNumElements();
+                FloatBuffer positions = (FloatBuffer) pos.getDataReadOnly();
+                FloatBuffer uvs = BufferUtils.createFloatBuffer(2 * numVertices);
+                // TODO: fill the uvs buffer with data
+                debugMesh.setBuffer(VertexBuffer.Type.TexCoord, 2, uvs);
+                uvs.flip();
+            }
+        };
+        collisionObject.setDebugMeshInitListener(callbackObject);
+
+### An introduction to PhysicsDumper
 
 For example, the following temporary statements could be used to dump
 (to `System.out`) all collision objects in a `PhysicsSpace`:
