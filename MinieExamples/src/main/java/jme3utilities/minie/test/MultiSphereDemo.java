@@ -33,7 +33,8 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 
 /**
- * Demo/testbed for convex collision shapes.
+ * Test/demonstrate various collision shapes. Maintained for historical
+ * continuity, this is now essentially a wrapper for DropTest.
  * <p>
  * Seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=OS2zjB01c6E
