@@ -307,6 +307,7 @@ public class DropTest
         dim.bind("shape capsule", KeyInput.KEY_F12);
         dim.bind("shape cone", KeyInput.KEY_F4);
         dim.bind("shape cylinder", KeyInput.KEY_F6);
+        dim.bind("shape duck", KeyInput.KEY_NUMPAD2);
         dim.bind("shape funnyHammer", KeyInput.KEY_F9);
         dim.bind("shape hammer", KeyInput.KEY_F10);
         dim.bind("shape hull", KeyInput.KEY_F2);
@@ -476,6 +477,12 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
+            case "duck":
+                gemShape = namedShapes.get("duck");
+                gemRadius = 1f;
+                debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
             case "funnyHammer":
                 randomHammer(false);
                 debugMeshNormals = DebugMeshNormals.Smooth;
@@ -515,13 +522,13 @@ public class DropTest
             case "teapot":
                 gemShape = namedShapes.get("teapot");
                 gemRadius = gemShape.getScale(null).x;
-                debugMeshNormals = DebugMeshNormals.Smooth;
+                debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
             case "torus":
                 gemShape = namedShapes.get("torus");
                 gemRadius = 1.9f;
-                debugMeshNormals = DebugMeshNormals.Smooth;
+                debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
             default:
@@ -898,6 +905,11 @@ public class DropTest
         CollisionShape shape = new MeshCollisionShape(candyDishMesh);
         shape.setScale(new Vector3f(5f, 5f, 5f));
         namedShapes.put("candyDish", shape);
+
+        String duckPath = "CollisionShapes/duck.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(duckPath);
+        shape.setScale(new Vector3f(2f, 2f, 2f));
+        namedShapes.put("duck", shape);
 
         CompoundCollisionShape compound = new CompoundCollisionShape();
         float ballRadius = 0.4f;
