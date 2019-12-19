@@ -248,7 +248,6 @@ public class DropTest
         configureDumper();
         configureMaterials();
         configurePhysics();
-        configureShapes();
 
         ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(sky);
@@ -308,6 +307,7 @@ public class DropTest
         dim.bind("shape funnyHammer", KeyInput.KEY_F9);
         dim.bind("shape hammer", KeyInput.KEY_F10);
         dim.bind("shape hull", KeyInput.KEY_F2);
+        dim.bind("shape knucklebone", KeyInput.KEY_NUMPAD6);
         dim.bind("shape multiSphere", KeyInput.KEY_F1);
         dim.bind("shape sphere", KeyInput.KEY_F11);
         dim.bind("shape teapot", KeyInput.KEY_NUMPAD3);
@@ -486,6 +486,12 @@ public class DropTest
             case "hull":
                 randomHull();
                 debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
+            case "knucklebone":
+                gemShape = namedShapes.get("knucklebone");
+                gemRadius = 1.4f;
+                debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
             case "multiSphere":
@@ -874,10 +880,12 @@ public class DropTest
 
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setGravity(new Vector3f(0f, -30f, 0f));
+
+        configureShapes();
     }
 
     /**
-     * Initialize collision shapes during startup.
+     * Initialize the collection of named collision shapes during startup.
      */
     private void configureShapes() {
         String candyDishPath = "Models/CandyDish/CandyDish.j3o";
@@ -887,6 +895,26 @@ public class DropTest
         CollisionShape shape = new MeshCollisionShape(candyDishMesh);
         shape.setScale(new Vector3f(5f, 5f, 5f));
         namedShapes.put("candyDish", shape);
+
+        CompoundCollisionShape compound = new CompoundCollisionShape();
+        float ballRadius = 0.4f;
+        float length = 2f;
+        float radius = 0.2f;
+        shape = new CapsuleCollisionShape(radius, length, PhysicsSpace.AXIS_X);
+        compound.addChildShape(shape, Vector3f.ZERO);
+        shape = new CapsuleCollisionShape(radius, length, PhysicsSpace.AXIS_Y);
+        compound.addChildShape(shape, Vector3f.ZERO);
+        shape = new CapsuleCollisionShape(radius, length, PhysicsSpace.AXIS_Z);
+        compound.addChildShape(shape, Vector3f.ZERO);
+        shape = new SphereCollisionShape(ballRadius);
+        compound.addChildShape(shape, new Vector3f(0.5f * length, 0f, 0f));
+        shape = new SphereCollisionShape(ballRadius);
+        compound.addChildShape(shape, new Vector3f(-0.5f * length, 0f, 0f));
+        shape = new SphereCollisionShape(ballRadius);
+        compound.addChildShape(shape, new Vector3f(0f, 0.5f * length, 0f));
+        shape = new SphereCollisionShape(ballRadius);
+        compound.addChildShape(shape, new Vector3f(0f, -0.5f * length, 0f));
+        namedShapes.put("knucklebone", compound);
 
         String teapotPath = "CollisionShapes/teapot.j3o";
         shape = (CollisionShape) assetManager.loadAsset(teapotPath);
