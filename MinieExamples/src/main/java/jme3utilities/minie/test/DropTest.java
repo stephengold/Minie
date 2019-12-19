@@ -305,7 +305,6 @@ public class DropTest
         dim.bind("shape capsule", KeyInput.KEY_F12);
         dim.bind("shape cone", KeyInput.KEY_F4);
         dim.bind("shape cylinder", KeyInput.KEY_F6);
-        dim.bind("shape fourSphere", KeyInput.KEY_NUMPAD4);
         dim.bind("shape funnyHammer", KeyInput.KEY_F9);
         dim.bind("shape hammer", KeyInput.KEY_F10);
         dim.bind("shape hull", KeyInput.KEY_F2);
@@ -471,11 +470,6 @@ public class DropTest
 
             case "cylinder":
                 randomCylinder();
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "fourSphere":
-                randomFourSphere();
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -1089,6 +1083,11 @@ public class DropTest
      */
     private void randomMultiSphere() {
         int numSpheres = 1 + random.nextInt(4);
+        if (numSpheres == 4) {
+            randomFourSphere();
+            return;
+        }
+
         List<Vector3f> centers = new ArrayList<>(numSpheres);
         List<Float> radii = new ArrayList<>(numSpheres);
         /*
