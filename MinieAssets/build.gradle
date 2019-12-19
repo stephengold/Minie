@@ -15,6 +15,7 @@ ext {
     sinbad = assets + 'Models/Sinbad'
 
     plaid = assets + 'Textures/plaid.png'
+    teapot = assets + 'CollisionShapes/teapot.j3o'
     torus = assets + 'CollisionShapes/torus.j3o'
 }
 
@@ -54,6 +55,11 @@ task models(type: JavaExec) {
         ])
 }
 
+task teapot(type: JavaExec) {
+    main 'jme3utilities.minie.test.shapes.MakeTeapot'
+    outputs.files([teapot])
+}
+
 task textures {
     dependsOn 'plaid'
     description 'Generate texture assets used in MinieExamples.'
@@ -65,7 +71,7 @@ task plaid(type: JavaExec) {
 
 // cleanup tasks
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs')
-clean.dependsOn('cleanModels', 'cleanTextures')
+clean.dependsOn('cleanModels', 'cleanTeapot', 'cleanTextures')
 
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
@@ -78,6 +84,9 @@ task cleanLogs(type: Delete) {
 }
 task cleanSOs(type: Delete) {
     delete fileTree(dir: '.', include: '*.so')
+}
+task cleanTeapot(type: Delete) {
+    delete(teapot)
 }
 task cleanTextures(type: Delete) {
     delete assets + 'Textures'
