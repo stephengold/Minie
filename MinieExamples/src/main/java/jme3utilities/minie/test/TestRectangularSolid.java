@@ -54,6 +54,7 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
+import jme3utilities.MyString;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.PointMesh;
@@ -175,7 +176,7 @@ public class TestRectangularSolid extends ActionApplication {
         bulletAppState.setSpeed(0f);
         stateManager.attach(bulletAppState);
 
-        trial(true, 4);
+        trial("capsule");
     }
 
     /**
@@ -218,21 +219,16 @@ public class TestRectangularSolid extends ActionApplication {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
-                case "next trial capsule":
-                    nextTrial(true, 2);
-                    return;
-
-                case "next trial rounded":
-                    nextTrial(true, 4);
-                    return;
-
-                case "next trial square":
-                    nextTrial(false, 0);
-                    return;
-
                 case "toggle help":
                     toggleHelp();
                     return;
+            }
+
+            if (actionString.startsWith("next trial ")) {
+                String shapeName
+                        = MyString.remainder(actionString, "next trial ");
+                nextTrial(shapeName);
+                return;
             }
         }
         super.onAction(actionString, ongoing, tpf);
@@ -261,18 +257,18 @@ public class TestRectangularSolid extends ActionApplication {
     /**
      * Perform a new trial after cleaning up from the previous one.
      *
-     * @param roundCorners type of collision shape to generate: true &rarr;
-     * MultiSphere with round corners, false &rarr; HullCollisionShape with
-     * square corners
+     * @param shapeName type of collision shape to generate:
+     * "square"&rarr;HullCollisionShape, "capsule"&rarr;MultiSphere with 2
+     * spheres, "rounded"&rarr;MultiSphere with 4 spheres
      */
-    private void nextTrial(boolean roundCorners, int numSpheres) {
+    private void nextTrial(String shapeName) {
         if (trialNode != null) {
             PhysicsSpace space = bulletAppState.getPhysicsSpace();
             space.removeAll(trialNode);
             trialNode.removeFromParent();
             trialNode = null;
         }
-        trial(roundCorners, numSpheres);
+        trial(shapeName);
     }
 
     /**
@@ -289,13 +285,11 @@ public class TestRectangularSolid extends ActionApplication {
     /**
      * Perform a new trial.
      *
-     * @param roundCorners type of collision shape to generate: true &rarr;
-     * MultiSphere with round corners, false &rarr; HullCollisionShape with
-     * square corners
-     * @param numSpheres the number of spheres to use for MultiSphere (either 2
-     * or 4)
+     * @param shapeName type of collision shape to generate:
+     * "square"&rarr;HullCollisionShape, "capsule"&rarr;MultiSphere with 2
+     * spheres, "rounded"&rarr;MultiSphere with 4 spheres
      */
-    private void trial(boolean roundCorners, int numSpheres) {
+    private void trial(String shapeName) {
         trialNode = new Node("trialNode");
         rootNode.attachChild(trialNode);
 
@@ -343,17 +337,22 @@ public class TestRectangularSolid extends ActionApplication {
         RectangularSolid solid = new RectangularSolid(sampleLocations);
         logger.log(Level.INFO, solid.toString());
         /*
-         * Generate a collision shape based on the rectangular solid.
+         * Generate a collision shape.
          */
-        CollisionShape collisionShape = null;
-        if (roundCorners) {
-            if (numSpheres == 2) {
+        CollisionShape collisionShape;
+        switch (shapeName) {
+            case "capsule":
                 collisionShape = new MultiSphere(solid, 0.5f);
-            } else if (numSpheres == 4) {
+                break;
+            case "rounded":
                 collisionShape = new MultiSphere(solid);
-            }
-        } else {
-            collisionShape = new HullCollisionShape(solid);
+                break;
+            case "square":
+                collisionShape = new HullCollisionShape(solid);
+                break;
+            default:
+                String message = "shapeName = " + MyString.quote(shapeName);
+                throw new IllegalArgumentException(message);
         }
         /*
          * Add a rigid-body control with that shape.
