@@ -41,8 +41,10 @@ import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
+import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.font.BitmapText;
@@ -306,6 +308,7 @@ public class DropTest
         dim.bind("shape hammer", KeyInput.KEY_F10);
         dim.bind("shape hull", KeyInput.KEY_F2);
         dim.bind("shape multiSphere", KeyInput.KEY_F1);
+        dim.bind("shape sphere", KeyInput.KEY_F11);
         dim.bind("shape tetrahedron", KeyInput.KEY_F7);
         dim.bind("shape torus", KeyInput.KEY_F8);
 
@@ -483,6 +486,11 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
+            case "sphere":
+                randomSphere();
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
             case "tetrahedron":
                 randomTetrahedron();
                 debugMeshNormals = DebugMeshNormals.Facet;
@@ -580,14 +588,12 @@ public class DropTest
     private void addBoxPlatform() {
         float halfExtent = 4f;
         CollisionShape shape = new BoxCollisionShape(halfExtent);
-        float boxMass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody boxBody = new PhysicsRigidBody(shape, boxMass);
+        float mass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
 
-        boxBody.setDebugMaterial(greenMaterial);
-        boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
-        boxBody.setFriction(friction);
-        boxBody.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
-        physicsSpace.add(boxBody);
+        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
+        makePlatform(body);
     }
 
     /**
@@ -631,11 +637,8 @@ public class DropTest
 
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
-        body.setFriction(friction);
-        physicsSpace.add(body);
+        makePlatform(body);
     }
 
     /**
@@ -646,20 +649,19 @@ public class DropTest
         float radius = 4f;
         float height = 2f * radius;
         ConeCollisionShape shape = new ConeCollisionShape(radius, height);
+
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
 
-        body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        body.setFriction(friction);
         body.setPhysicsLocation(new Vector3f(0f, -radius, 0f));
 
         Quaternion orientation = new Quaternion();
         orientation.fromAngles(FastMath.PI, 0f, 0f);
         body.setPhysicsRotation(orientation);
 
-        physicsSpace.add(body);
+        makePlatform(body);
     }
 
     /**
@@ -671,16 +673,15 @@ public class DropTest
         Vector3f heVector = new Vector3f(radius, halfHeight, radius);
         CylinderCollisionShape shape
                 = new CylinderCollisionShape(heVector, PhysicsSpace.AXIS_Y);
+
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
 
-        body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        body.setFriction(friction);
         body.setPhysicsLocation(new Vector3f(0f, -halfHeight, 0f));
 
-        physicsSpace.add(body);
+        makePlatform(body);
     }
 
     /**
@@ -702,13 +703,11 @@ public class DropTest
         Vector3f scale = new Vector3f(4f / halfNm1, 2.5f, 4f / halfNm1);
         HeightfieldCollisionShape shape
                 = new HeightfieldCollisionShape(heightmap, scale);
+
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
-        body.setFriction(friction);
-        physicsSpace.add(body);
+        makePlatform(body);
     }
 
     /**
@@ -726,15 +725,12 @@ public class DropTest
             points.put(x).put(-1f).put(z);
         }
         points.flip();
-
         HullCollisionShape shape = new HullCollisionShape(points);
+
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
-        body.setFriction(friction);
-        physicsSpace.add(body);
+        makePlatform(body);
     }
 
     /**
@@ -766,11 +762,8 @@ public class DropTest
     private void addMeshPlatform() {
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(candyDishShape, mass);
-
-        body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
-        body.setFriction(friction);
-        physicsSpace.add(body);
+        makePlatform(body);
     }
 
     /**
@@ -779,13 +772,11 @@ public class DropTest
     private void addPlanePlatform() {
         Plane plane = new Plane(Vector3f.UNIT_Y, 0f);
         PlaneCollisionShape shape = new PlaneCollisionShape(plane);
+
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
-        body.setFriction(friction);
-        physicsSpace.add(body);
+        makePlatform(body);
     }
 
     /**
@@ -801,14 +792,11 @@ public class DropTest
         Vector3f p4 = new Vector3f(0f, -2f * he, 0f);
         SimplexCollisionShape shape
                 = new SimplexCollisionShape(p1, p2, p3, p4);
+
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
-        body.setFriction(friction);
-
-        physicsSpace.add(body);
+        makePlatform(body);
     }
 
     /**
@@ -910,6 +898,15 @@ public class DropTest
                 gem.setDamping(damping, damping);
             }
         }
+    }
+
+    /**
+     * Add the specified platform body to the PhysicsSpace.
+     */
+    private void makePlatform(PhysicsBody body) {
+        body.setDebugMaterial(greenMaterial);
+        body.setFriction(friction);
+        physicsSpace.add(body);
     }
 
     /**
@@ -1056,6 +1053,14 @@ public class DropTest
         }
 
         gemShape = new MultiSphere(centers, radii);
+    }
+
+    /**
+     * Randomly generate a sphere shape.
+     */
+    private void randomSphere() {
+        gemRadius = 0.1f + 0.2f * random.nextFloat();
+        gemShape = new SphereCollisionShape(gemRadius);
     }
 
     /**
