@@ -173,9 +173,9 @@ public class ImportCgms extends SimpleApplication {
 
         stop();
     }
-
     // *************************************************************************
     // private methods
+
     /**
      * Write the image of a texture to JPG or PNG file.
      */
