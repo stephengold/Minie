@@ -23,7 +23,7 @@ Java source code is provided under
  + [Conventions](#conventions)
  + [History](#history)
  + [Overview and design considerations](#overview)
- + [How to install the SDK and the Minie Project](#install)
+ + [How to build Minie from source](#build)
  + [How to add Minie to an existing project](#add)
  + [Choosing a collision shape](#shape)
  + [Dumping a physics simulation](#dump)
@@ -334,33 +334,61 @@ preferably early in the game-design process.
 
 [Jump to table of contents](#toc)
 
-<a name="install"/>
+<a name="build"/>
 
-## How to install the SDK and the Minie Project
+## How to build Minie from source
 
-### jMonkeyEngine3 (jME3) Software Development Kit (SDK)
+Minie currently targets Version 3.2.4 of jMonkeyEngine.
+You are welcome to use the Engine without installing
+its Integrated Development Environment (IDE),
+but I use the IDE, so I tend to assume you will too.
 
-Minie currently targets version 3.2.4 of jMonkeyEngine.
-You are welcome to use the Engine without also using the SDK, but I use the SDK,
-and the following installation instructions assume you will too.
+### IDE setup
 
-The hardware and software requirements of the SDK are documented at
+If you already have the IDE installed, skip to step 6.
+
+The hardware and software requirements of the IDE are documented at
 [the JME wiki](https://jmonkeyengine.github.io/wiki/jme3/requirements.html).
 
- 1. Download a jMonkeyEngine 3.2 SDK from
+The hardware and software requirements of the IDE are documented at
+https://jmonkeyengine.github.io/wiki/jme3/requirements.html
+
+ 1. Download a jMonkeyEngine 3.2 Software Development Kit (SDK) from
     [GitHub](https://github.com/jMonkeyEngine/sdk/releases).
  2. Install the SDK, which includes:
     + the engine itself,
-    + an integrated development environment (IDE) based on NetBeans,
-    + various plugins, and
-    + the Blender 3D application.
- 3. To open the Minie project in the IDE (or NetBeans), you will need the
-    `Gradle Support` plugin.  Download and install it before proceeding.
-    If this plugin isn't shown in the IDE's "Plugins" tool,
-    you can download it from
-    [GitHub](https://github.com/kelemen/netbeans-gradle-project/releases).
-    You don't need this plugin if you merely want to use a pre-built Minie
-    release in an Ant project.
+    + an IDE based on [NetBeans][],
+    + various IDE plugins, and
+    + the [Blender 3D][blender] application.
+ 3. Open the IDE.
+ 4. The first time you open the IDE, it prompts you to
+    specify a folder for storing projects:
+    + Fill in the "Folder name" text box.
+    + Click on the "Set Project Folder" button.
+ 5. The first time you open the IDE, you should update
+    all the pre-installed plugins:
+    + Menu bar -> "Tools" -> "Plugins" to open the "Plugins" dialog.
+    + Click on the "Update" button to open the "Plugin Installer" wizard.
+    + Click on the "Next >" button.
+    + After the plugins have downloaded, click "Finish".
+    + The IDE will restart.
+ 6. In order to open the Minie Project in the IDE (or NetBeans),
+    you will need to install the `Gradle Support` plugin:
+    + Menu bar -> "Tools" -> "Plugins" to open the "Plugins" dialog.
+    + Click on the "Available Plugins" tab.
+    + Check the box next to "Gradle Support" in the "Gradle" category.
+     If this plugin isn't shown in the IDE's "Plugins" tool,
+     you can download it from
+     [GitHub](https://github.com/kelemen/netbeans-gradle-project/releases).
+    + Click on the "Install" button to open the "Plugin Installer" wizard.
+    + Click on the "Next >" button.
+    + Check the box next to
+     "I accept the terms in all the license agreements."
+    + Click on the "Install" button.
+    + When the "Verify Certificate" dialog appears,
+     click on the "Continue" button.
+    + Click on the "Finish" button.
+    + The IDE will restart.
 
 ### Source files
 
@@ -391,6 +419,30 @@ Clone the Minie repository using Git:
  1. In the "Projects" window of the IDE,
     right-click on the "Minie [root]" project to select it.
  2. Select "Build".
+
+### How to build Minie without an IDE
+
+ 1. Install build software:
+   + a Java Development Kit and
+   + [Gradle]
+ 2. Download and extract the source code from GitHub:
+   + using Git:
+     + `git clone https://github.com/stephengold/Minie.git`
+     + `cd Minie`
+   + using a web browser:
+     + browse to [https://github.com/stephengold/Minie/releases/latest](https://github.com/stephengold/Minie/releases/latest)
+     + follow the "Source code (zip)" link
+     + save the ZIP file
+     + unzip the saved ZIP file
+     + `cd` to the extracted directory/folder
+ 3. Set the `JAVA_HOME` environment variable:
+   + using Bash:  `export JAVA_HOME="` *path to your JDK* `"`
+   + using Windows Command Prompt:  `set JAVA_HOME="` *path to your JDK* `"`
+ 4. Run the Gradle wrapper:
+   + using Bash:  `./gradlew build`
+   + using Windows Command Prompt:  `.\gradlew build`
+
+After a successful build, new jars will be found in `MinieLibrary/build/libs`.
 
 [Jump to table of contents](#toc)
 
