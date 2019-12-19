@@ -142,6 +142,10 @@ public class DropTest
      */
     private CollisionShape gemShape;
     /**
+     * shape for a teapot (generated using V-HACD, by the MakeTeapot app)
+     */
+    private CompoundCollisionShape teapotShape;
+    /**
      * shape for a torus (generated using V-HACD, by the MakeTorus app)
      */
     private CompoundCollisionShape torusShape;
@@ -311,6 +315,7 @@ public class DropTest
         dim.bind("shape hull", KeyInput.KEY_F2);
         dim.bind("shape multiSphere", KeyInput.KEY_F1);
         dim.bind("shape sphere", KeyInput.KEY_F11);
+        dim.bind("shape teapot", KeyInput.KEY_NUMPAD3);
         dim.bind("shape tetrahedron", KeyInput.KEY_F7);
         dim.bind("shape torus", KeyInput.KEY_F8);
 
@@ -501,6 +506,12 @@ public class DropTest
             case "tetrahedron":
                 randomTetrahedron();
                 debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
+            case "teapot":
+                gemRadius = teapotShape.getScale(null).x;
+                gemShape = teapotShape;
+                debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
             case "torus":
@@ -882,6 +893,11 @@ public class DropTest
         Mesh candyDishMesh = candyDishGeometry.getMesh();
         candyDishShape = new MeshCollisionShape(candyDishMesh);
         candyDishShape.setScale(new Vector3f(5f, 5f, 5f));
+
+        String teapotPath = "CollisionShapes/teapot.j3o";
+        teapotShape
+                = (CompoundCollisionShape) assetManager.loadAsset(teapotPath);
+        teapotShape.setScale(new Vector3f(3f, 3f, 3f));
 
         String torusPath = "CollisionShapes/torus.j3o";
         torusShape = (CompoundCollisionShape) assetManager.loadAsset(torusPath);
