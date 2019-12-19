@@ -175,6 +175,9 @@ public class TestDac extends ActionApplication {
      * enhanced pseudo-random generator
      */
     final private Generator random = new Generator();
+    /**
+     * shiny red material to visualize the falling balls
+     */
     private Material ballMaterial;
     final private Mesh ballMesh = new Sphere(16, 32, ballRadius);
     final private NameGenerator nameGenerator = new NameGenerator();
