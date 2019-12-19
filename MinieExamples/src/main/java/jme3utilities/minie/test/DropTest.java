@@ -83,6 +83,7 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
 import jme3utilities.math.VectorSetUsingBuffer;
 import jme3utilities.math.noise.Generator;
@@ -310,6 +311,7 @@ public class DropTest
         dim.bind("shape capsule", KeyInput.KEY_F12);
         dim.bind("shape cone", KeyInput.KEY_F4);
         dim.bind("shape cylinder", KeyInput.KEY_F6);
+        dim.bind("shape fourSphere", KeyInput.KEY_NUMPAD4);
         dim.bind("shape funnyHammer", KeyInput.KEY_F9);
         dim.bind("shape hammer", KeyInput.KEY_F10);
         dim.bind("shape hull", KeyInput.KEY_F2);
@@ -475,6 +477,11 @@ public class DropTest
 
             case "cylinder":
                 randomCylinder();
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
+            case "fourSphere":
+                randomFourSphere();
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -1000,6 +1007,20 @@ public class DropTest
 
         Vector3f halfExtents = new Vector3f(baseRadius, baseRadius, halfHeight);
         gemShape = new CylinderCollisionShape(halfExtents);
+    }
+
+    /**
+     * Randomly generate a 4-sphere shape, a box with rounded corners.
+     */
+    private void randomFourSphere() {
+        float rx = 0.4f + 0.6f * random.nextFloat();
+        float ry = 1f + random.nextFloat();
+        float rz = 1f + random.nextFloat();
+        Vector3f halfExtents = new Vector3f(rx, ry, rz);
+        gemRadius = halfExtents.length();
+
+        RectangularSolid solid = new RectangularSolid(halfExtents);
+        gemShape = new MultiSphere(solid);
     }
 
     /**
