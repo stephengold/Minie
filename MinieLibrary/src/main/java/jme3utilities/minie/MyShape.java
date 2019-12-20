@@ -238,6 +238,24 @@ public class MyShape {
     }
 
     /**
+     * Attempt to estimate the volume of each child in a CompoundCollisionShape.
+     *
+     * @param shape (not null, unaffected)
+     * @return a new array of volumes (each &ge;0)
+     */
+    public static float[] listVolumes(CompoundCollisionShape shape) {
+        ChildCollisionShape[] children = shape.listChildren();
+        int numChildren = children.length;
+        float[] result = new float[numChildren];
+        for (int i = 0; i < numChildren; ++i) {
+            CollisionShape childShape = children[i].getShape();
+            result[i] = volume(childShape);
+        }
+
+        return result;
+    }
+
+    /**
      * Determine the main axis of the specified shape, provided it's a capsule,
      * cone, or cylinder.
      *
@@ -564,7 +582,7 @@ public class MyShape {
     }
 
     /**
-     * Compute the volume of a closed CollisionShape.
+     * Compute the scaled volume of a closed CollisionShape.
      *
      * @param shape (not null, unaffected)
      * @return the volume (in physics-space units cubed, &ge;0)
