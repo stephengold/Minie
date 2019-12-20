@@ -98,7 +98,7 @@ public class TestSetMargin {
          * Compound
          */
         CompoundCollisionShape compound = new CompoundCollisionShape();
-        compound.addChildShape(capsule, new Vector3f(0f, 1f, 0f));
+        compound.addChildShape(capsule, 0f, 1f, 0f);
         assert compound.getMargin() == 0.04f;
         compound.setMargin(0.13f);
         assert compound.getMargin() == 0.13f;

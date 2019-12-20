@@ -102,7 +102,7 @@ public class TestSetScale {
         assert capsule.getScale(null).equals(uni);
 
         CompoundCollisionShape compound = new CompoundCollisionShape();
-        compound.addChildShape(capsule, new Vector3f(0f, 1f, 0f));
+        compound.addChildShape(capsule, 0f, 1f, 0f);
         assert compound.getScale(null).equals(ident);
         compound.setScale(uni);
         assert compound.getScale(null).equals(uni);

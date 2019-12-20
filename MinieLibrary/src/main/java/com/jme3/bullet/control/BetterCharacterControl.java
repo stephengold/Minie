@@ -843,9 +843,8 @@ public class BetterCharacterControl
                         (getFinalHeight() - (2f * getFinalRadius())));
         CompoundCollisionShape compoundCollisionShape
                 = new CompoundCollisionShape();
-        Vector3f addLocation = new Vector3f(0f, (getFinalHeight() / 2f), 0f);
         compoundCollisionShape.addChildShape(
-                capsuleCollisionShape, addLocation);
+                capsuleCollisionShape, 0f, getFinalHeight() / 2f, 0f);
 
         return compoundCollisionShape;
     }
