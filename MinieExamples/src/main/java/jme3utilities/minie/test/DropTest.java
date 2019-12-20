@@ -479,7 +479,7 @@ public class DropTest
 
             case "duck":
                 gemShape = namedShapes.get("duck");
-                gemRadius = 1f;
+                gemRadius = 2.5f;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -500,7 +500,7 @@ public class DropTest
 
             case "knucklebone":
                 gemShape = namedShapes.get("knucklebone");
-                gemRadius = 1.4f;
+                gemRadius = 1.65f;
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -514,14 +514,14 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
-            case "tetrahedron":
-                randomTetrahedron();
+            case "teapot":
+                gemShape = namedShapes.get("teapot");
+                gemRadius = 1.06f * gemShape.getScale(null).x;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
-            case "teapot":
-                gemShape = namedShapes.get("teapot");
-                gemRadius = gemShape.getScale(null).x;
+            case "tetrahedron":
+                randomTetrahedron();
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -630,14 +630,15 @@ public class DropTest
      * platform.
      */
     private void addCompoundPlatform() {
+        CollisionShape child;
+        CompoundCollisionShape shape = new CompoundCollisionShape();
         /*
          * Start with a box for a base.
          */
         float height = 1.5f;
         float length = 15f;
-        CollisionShape child1 = new BoxCollisionShape(length, height, length);
-        CompoundCollisionShape shape = new CompoundCollisionShape();
-        shape.addChildShape(child1, new Vector3f(0f, -1.95f * height, 0f));
+        child = new BoxCollisionShape(length, height, length);
+        shape.addChildShape(child, 0f, -1.95f * height, 0f);
         /*
          * Place a tetrahedral deflector in the center.
          */
@@ -646,23 +647,19 @@ public class DropTest
         Vector3f p2 = new Vector3f(-size, -height, size);
         Vector3f p3 = new Vector3f(-size, -height, -size);
         Vector3f p4 = new Vector3f(size * FastMath.sqrt(2f), -height, 0f);
-        CollisionShape child2 = new SimplexCollisionShape(p1, p2, p3, p4);
-        shape.addChildShape(child2, Vector3f.ZERO);
+        child = new SimplexCollisionShape(p1, p2, p3, p4);
+        shape.addChildShape(child);
         /*
          * Arrange 4 bumpers in a square around the deflector.
          */
         float offset = length - height;
-        CollisionShape child3 = new BoxCollisionShape(length, height, height);
-        shape.addChildShape(child3, new Vector3f(0f, 0f, offset));
+        child = new BoxCollisionShape(length, height, height);
+        shape.addChildShape(child, 0f, 0f, offset);
+        shape.addChildShape(child, 0f, 0f, -offset);
 
-        CollisionShape child4 = new BoxCollisionShape(length, height, height);
-        shape.addChildShape(child4, new Vector3f(0f, 0f, -offset));
-
-        CollisionShape child5 = new BoxCollisionShape(height, height, length);
-        shape.addChildShape(child5, new Vector3f(offset, 0f, 0f));
-
-        CollisionShape child6 = new BoxCollisionShape(height, height, length);
-        shape.addChildShape(child6, new Vector3f(-offset, 0f, 0f));
+        child = new BoxCollisionShape(height, height, length);
+        shape.addChildShape(child, offset, 0f, 0f);
+        shape.addChildShape(child, -offset, 0f, 0f);
 
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
@@ -898,47 +895,62 @@ public class DropTest
      * Initialize the collection of named collision shapes during startup.
      */
     private void configureShapes() {
+        CollisionShape shape;
+        CompoundCollisionShape compound;
+        /*
+         * "candyDish" using V-HACD
+         */
         String candyDishPath = "Models/CandyDish/CandyDish.j3o";
         Node candyDishNode = (Node) assetManager.loadModel(candyDishPath);
         Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
         Mesh candyDishMesh = candyDishGeometry.getMesh();
-        CollisionShape shape = new MeshCollisionShape(candyDishMesh);
-        shape.setScale(new Vector3f(5f, 5f, 5f));
+        shape = new MeshCollisionShape(candyDishMesh);
+        shape.setScale(5f);
         namedShapes.put("candyDish", shape);
-
+        /*
+         * "duck" using V-HACD
+         */
         String duckPath = "CollisionShapes/duck.j3o";
         shape = (CollisionShape) assetManager.loadAsset(duckPath);
-        shape.setScale(new Vector3f(2f, 2f, 2f));
+        shape.setScale(2f);
         namedShapes.put("duck", shape);
+        /*
+         * "knuclebone" with 4 spherical balls
+         */
+        compound = new CompoundCollisionShape();
+        float stemLength = 2.5f;
+        float stemRadius = 0.25f;
+        shape = new CapsuleCollisionShape(stemRadius, stemLength,
+                PhysicsSpace.AXIS_X);
+        compound.addChildShape(shape);
+        shape = new CapsuleCollisionShape(stemRadius, stemLength,
+                PhysicsSpace.AXIS_Y);
+        compound.addChildShape(shape);
+        shape = new CapsuleCollisionShape(stemRadius, stemLength,
+                PhysicsSpace.AXIS_Z);
+        compound.addChildShape(shape);
 
-        CompoundCollisionShape compound = new CompoundCollisionShape();
         float ballRadius = 0.4f;
-        float length = 2f;
-        float radius = 0.2f;
-        shape = new CapsuleCollisionShape(radius, length, PhysicsSpace.AXIS_X);
-        compound.addChildShape(shape, Vector3f.ZERO);
-        shape = new CapsuleCollisionShape(radius, length, PhysicsSpace.AXIS_Y);
-        compound.addChildShape(shape, Vector3f.ZERO);
-        shape = new CapsuleCollisionShape(radius, length, PhysicsSpace.AXIS_Z);
-        compound.addChildShape(shape, Vector3f.ZERO);
         shape = new SphereCollisionShape(ballRadius);
-        compound.addChildShape(shape, new Vector3f(0.5f * length, 0f, 0f));
-        shape = new SphereCollisionShape(ballRadius);
-        compound.addChildShape(shape, new Vector3f(-0.5f * length, 0f, 0f));
-        shape = new SphereCollisionShape(ballRadius);
-        compound.addChildShape(shape, new Vector3f(0f, 0.5f * length, 0f));
-        shape = new SphereCollisionShape(ballRadius);
-        compound.addChildShape(shape, new Vector3f(0f, -0.5f * length, 0f));
+        float stemHalf = stemLength / 2f;
+        compound.addChildShape(shape, stemHalf, 0f, 0f);
+        compound.addChildShape(shape, -stemHalf, 0f, 0f);
+        compound.addChildShape(shape, 0f, stemHalf, 0f);
+        compound.addChildShape(shape, 0f, -stemHalf, 0f);
         namedShapes.put("knucklebone", compound);
-
+        /*
+         * "teapot" using V-HACD
+         */
         String teapotPath = "CollisionShapes/teapot.j3o";
         shape = (CollisionShape) assetManager.loadAsset(teapotPath);
-        shape.setScale(new Vector3f(3f, 3f, 3f));
+        shape.setScale(3f);
         namedShapes.put("teapot", shape);
-
+        /*
+         * "torus" using V-HACD
+         */
         String torusPath = "CollisionShapes/torus.j3o";
         shape = (CollisionShape) assetManager.loadAsset(torusPath);
-        shape.setScale(new Vector3f(5f, 5f, 5f));
+        shape.setScale(5f);
         namedShapes.put("torus", shape);
     }
 
@@ -1010,7 +1022,7 @@ public class DropTest
     private void randomCapsule() {
         float radius = 0.4f + random.nextFloat();
         float height = 0.4f + random.nextFloat();
-        gemRadius = radius + 0.5f * height;
+        gemRadius = radius + height / 2f;
 
         gemShape = new CapsuleCollisionShape(radius, height);
     }
@@ -1055,7 +1067,7 @@ public class DropTest
     }
 
     /**
-     * Randomly generate a compound shape with 2 cylinders.
+     * Randomly generate an asymmetrical compound shape with 2 cylinders.
      *
      * @param correctAxes if true, correct the shape's principal axes
      */
@@ -1076,10 +1088,9 @@ public class DropTest
         CompoundCollisionShape compound = new CompoundCollisionShape();
         gemShape = compound;
 
-        Vector3f offset = new Vector3f(0f, 0f, handleHalfLength);
-        compound.addChildShape(handle, offset);
+        compound.addChildShape(handle, 0f, 0f, handleHalfLength);
 
-        offset.set(0f, 0f, 2f * handleHalfLength);
+        Vector3f offset = new Vector3f(0f, 0f, 2f * handleHalfLength);
         Matrix3f rotation = new Matrix3f();
         rotation.fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
         compound.addChildShape(head, offset, rotation);
