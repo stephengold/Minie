@@ -119,7 +119,7 @@ public class TestCloneShapes {
          * Compound
          */
         CompoundCollisionShape compound = new CompoundCollisionShape();
-        compound.addChildShape(capsule, new Vector3f(0f, 1f, 0f));
+        compound.addChildShape(capsule, 0f, 1f, 0f);
         setParameters(compound, 0f);
         verifyParameters(compound, 0f);
         CollisionShape compoundClone = (CollisionShape) Misc.deepCopy(compound);

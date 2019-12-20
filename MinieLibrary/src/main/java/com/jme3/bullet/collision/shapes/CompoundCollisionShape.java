@@ -125,6 +125,24 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
+     * Add a child shape with the specified local translation.
+     *
+     * @param childShape the child shape to add (not null, not a compound shape,
+     * alias created)
+     * @param offsetX the local X coordinate of the child shape's center
+     * @param offsetY the local Y coordinate of the child shape's center
+     * @param offsetZ the local Z coordinate of the child shape's center
+     */
+    public void addChildShape(CollisionShape childShape, float offsetX,
+            float offsetY, float offsetZ) {
+        Validate.nonNull(childShape, "child shape");
+
+        Vector3f offset
+                = new Vector3f(offsetX, offsetY, offsetZ); // TODO garbage
+        addChildShape(childShape, offset, matrixIdentity);
+    }
+
+    /**
      * Add a child shape with the specified local translation and orientation.
      *
      * @param childShape the child shape to add (not null, not a compound shape,
