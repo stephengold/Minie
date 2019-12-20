@@ -90,6 +90,7 @@ import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
+import jme3utilities.minie.MyShape;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -211,6 +212,10 @@ public class DropTest
      * local inverse inertial vector for new gems (or null)
      */
     private Vector3f gemInverseInertia = null;
+    /**
+     * local inverse inertial vector for "chair" shape
+     */
+    private Vector3f chairInverseInertia;
     // *************************************************************************
     // new methods exposed
 
@@ -303,8 +308,10 @@ public class DropTest
         dim.bind("more damping", KeyInput.KEY_G);
         dim.bind("more friction", KeyInput.KEY_F);
 
+        dim.bind("shape barbell", KeyInput.KEY_NUMPAD8);
         dim.bind("shape box", KeyInput.KEY_F3);
         dim.bind("shape capsule", KeyInput.KEY_F12);
+        dim.bind("shape chair", KeyInput.KEY_NUMPAD4);
         dim.bind("shape cone", KeyInput.KEY_F4);
         dim.bind("shape cylinder", KeyInput.KEY_F6);
         dim.bind("shape duck", KeyInput.KEY_NUMPAD2);
@@ -312,10 +319,12 @@ public class DropTest
         dim.bind("shape hammer", KeyInput.KEY_F10);
         dim.bind("shape hull", KeyInput.KEY_F2);
         dim.bind("shape knucklebone", KeyInput.KEY_NUMPAD6);
+        dim.bind("shape ladder", KeyInput.KEY_NUMPAD1);
         dim.bind("shape multiSphere", KeyInput.KEY_F1);
         dim.bind("shape sphere", KeyInput.KEY_F11);
         dim.bind("shape teapot", KeyInput.KEY_NUMPAD3);
         dim.bind("shape tetrahedron", KeyInput.KEY_F7);
+        dim.bind("shape top", KeyInput.KEY_NUMPAD7);
         dim.bind("shape torus", KeyInput.KEY_NUMPAD0);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
@@ -457,6 +466,12 @@ public class DropTest
         gemInverseInertia = null;
         DebugMeshNormals debugMeshNormals;
         switch (shapeName) {
+            case "barbell":
+                gemShape = namedShapes.get("barbell");
+                gemRadius = 2.8f;
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
             case "box":
                 randomBox();
                 debugMeshNormals = DebugMeshNormals.Facet;
@@ -465,6 +480,13 @@ public class DropTest
             case "capsule":
                 randomCapsule();
                 debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
+            case "chair":
+                gemShape = namedShapes.get("chair");
+                gemInverseInertia = chairInverseInertia;
+                gemRadius = 3.2f;
+                debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
             case "cone":
@@ -479,7 +501,7 @@ public class DropTest
 
             case "duck":
                 gemShape = namedShapes.get("duck");
-                gemRadius = 2.5f;
+                gemRadius = 1.25f * gemShape.getScale(null).x;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -504,6 +526,12 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
+            case "ladder":
+                gemShape = namedShapes.get("ladder");
+                gemRadius = MyMath.hypotenuse(6f, 1.2f);
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
             case "multiSphere":
                 randomMultiSphere();
                 debugMeshNormals = DebugMeshNormals.Smooth;
@@ -525,9 +553,15 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
+            case "top":
+                gemShape = namedShapes.get("top");
+                gemRadius = 2f;
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
             case "torus":
                 gemShape = namedShapes.get("torus");
-                gemRadius = 1.9f;
+                gemRadius = 0.38f * gemShape.getScale(null).x;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -897,6 +931,23 @@ public class DropTest
     private void configureShapes() {
         CollisionShape shape;
         CompoundCollisionShape compound;
+        final Vector3f halfExtents = new Vector3f();
+        /*
+         * "barbell" with 2 cylindrical plates
+         */
+        compound = new CompoundCollisionShape();
+        float barRadius = 0.2f;
+        float plateOffset = 2f;
+        halfExtents.set(1.4f * plateOffset, barRadius, barRadius);
+        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_X);
+        compound.addChildShape(shape);
+
+        float plateRadius = 1f;
+        halfExtents.set(barRadius, plateRadius, plateRadius);
+        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_X);
+        compound.addChildShape(shape, -plateOffset, 0f, 0f);
+        compound.addChildShape(shape, plateOffset, 0f, 0f);
+        namedShapes.put("barbell", compound);
         /*
          * "candyDish" using V-HACD
          */
@@ -907,6 +958,54 @@ public class DropTest
         shape = new MeshCollisionShape(candyDishMesh);
         shape.setScale(5f);
         namedShapes.put("candyDish", shape);
+        /*
+         * "chair" with 4 cylindrical legs (asymmetrical)
+         */
+        compound = new CompoundCollisionShape();
+        float legOffset = 1f;
+        float legRadius = 0.2f;
+        float seatHalf = legOffset + legRadius;
+        halfExtents.set(seatHalf, 0.2f, seatHalf);
+        RectangularSolid solid = new RectangularSolid(halfExtents);
+        shape = new MultiSphere(solid);
+        compound.addChildShape(shape);
+
+        float frontLength = 2f;
+        float frontHalf = frontLength / 2f;
+        halfExtents.set(legRadius, frontHalf, legRadius);
+        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
+        compound.addChildShape(shape, legOffset, -frontHalf, legOffset);
+        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
+        compound.addChildShape(shape, -legOffset, -frontHalf, legOffset);
+
+        float rearHalf = 2.5f;
+        halfExtents.set(legRadius, rearHalf, legRadius);
+        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
+        float yOffset = rearHalf - frontLength;
+        compound.addChildShape(shape, legOffset, yOffset, -legOffset);
+        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
+        compound.addChildShape(shape, -legOffset, yOffset, -legOffset);
+
+        float backHalf = rearHalf - frontHalf;
+        halfExtents.set(legOffset, backHalf, legRadius);
+        solid = new RectangularSolid(halfExtents);
+        shape = new MultiSphere(solid);
+        compound.addChildShape(shape, 0f, backHalf, -legOffset);
+
+        float[] volumes = MyShape.listVolumes(compound);
+        float sum = 0f;
+        for (float volume : volumes) {
+            sum += volume;
+        }
+        FloatBuffer masses = BufferUtils.createFloatBuffer(volumes.length);
+        for (int i = 0; i < volumes.length; ++i) {
+            masses.put(volumes[i] / sum);
+        }
+        Vector3f inertia = new Vector3f();
+        Transform transform = compound.principalAxes(masses, null, inertia);
+        chairInverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
+        compound.correctAxes(transform);
+        namedShapes.put("chair", compound);
         /*
          * "duck" using V-HACD
          */
@@ -939,12 +1038,55 @@ public class DropTest
         compound.addChildShape(shape, 0f, -stemHalf, 0f);
         namedShapes.put("knucklebone", compound);
         /*
+         * "ladder" with 5 cylindrical rungs
+         */
+        compound = new CompoundCollisionShape();
+        float rungRadius = 0.2f;
+        float rungSpacing = 2f;
+        float rungHalf = 1f;
+        halfExtents.set(rungHalf, rungRadius, rungRadius);
+        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_X);
+        compound.addChildShape(shape, 0f, 2f * rungSpacing, 0f);
+        compound.addChildShape(shape, 0f, rungSpacing, 0f);
+        compound.addChildShape(shape);
+        compound.addChildShape(shape, 0f, -rungSpacing, 0f);
+        compound.addChildShape(shape, 0f, -2f * rungSpacing, 0f);
+
+        float railHalf = 6f;
+        halfExtents.set(rungRadius, railHalf, rungRadius);
+        shape = new BoxCollisionShape(halfExtents);
+        compound.addChildShape(shape, rungHalf, 0f, 0f);
+        compound.addChildShape(shape, -rungHalf, 0f, 0f);
+        namedShapes.put("ladder", compound);
+        /*
          * "teapot" using V-HACD
          */
         String teapotPath = "CollisionShapes/teapot.j3o";
         shape = (CollisionShape) assetManager.loadAsset(teapotPath);
         shape.setScale(3f);
         namedShapes.put("teapot", shape);
+        /*
+         * "top" with a cylindrical body
+         */
+        compound = new CompoundCollisionShape();
+        float bodyRadius = 1.5f;
+        float bodyHeight = 0.3f;
+        halfExtents.set(bodyRadius, bodyHeight, bodyRadius);
+        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
+        compound.addChildShape(shape);
+
+        float coneHeight = 1.5f;
+        shape = new ConeCollisionShape(bodyRadius - 0.06f, coneHeight,
+                PhysicsSpace.AXIS_Y);
+        compound.addChildShape(shape, 0f, coneHeight / 2f + bodyHeight, 0f);
+
+        float handleHeight = 1.5f;
+        float handleRadius = 0.3f;
+        shape = new CapsuleCollisionShape(handleRadius, handleHeight,
+                PhysicsSpace.AXIS_Y);
+        yOffset = -0.48f * (bodyHeight + handleHeight);
+        compound.addChildShape(shape, 0f, yOffset, 0f);
+        namedShapes.put("top", compound);
         /*
          * "torus" using V-HACD
          */
