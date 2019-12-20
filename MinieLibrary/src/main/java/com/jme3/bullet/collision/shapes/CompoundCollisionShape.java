@@ -185,7 +185,8 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
-     * Apply the inverse of the specified Transform to each child shape.
+     * Apply the inverse of the specified Transform to each child shape. Assumes
+     * that no 2 children refer to the same shape! TODO fix this
      *
      * @param paTransform the Transform to un-apply, typically one calculated by
      * {@link #principalAxes(java.nio.FloatBuffer, com.jme3.math.Transform, com.jme3.math.Vector3f)}
