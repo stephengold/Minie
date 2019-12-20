@@ -48,7 +48,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A CollisionShape formed by combining convex child shapes, based on Bullet's
+ * A CollisionShape formed by combining child shapes, based on Bullet's
  * btCompoundShape.
  *
  * @author normenhansen
@@ -74,6 +74,10 @@ public class CompoundCollisionShape extends CollisionShape {
      * field names for serialization
      */
     final private static String tagChildren = "children";
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -95,6 +99,17 @@ public class CompoundCollisionShape extends CollisionShape {
     // new methods exposed
 
     /**
+     * Add a child shape without transforming its coordinates.
+     *
+     * @param childShape the child shape to add (not null, not a compound shape,
+     * alias created)
+     */
+    public void addChildShape(CollisionShape childShape) {
+        Validate.nonNull(childShape, "child shape");
+        addChildShape(childShape, translateIdentity, matrixIdentity);
+    }
+
+    /**
      * Add a child shape with the specified local translation.
      *
      * @param childShape the child shape to add (not null, not a compound shape,
@@ -103,6 +118,9 @@ public class CompoundCollisionShape extends CollisionShape {
      * null, unaffected)
      */
     public void addChildShape(CollisionShape childShape, Vector3f offset) {
+        Validate.nonNull(childShape, "child shape");
+        Validate.nonNull(offset, "offset");
+
         addChildShape(childShape, offset, matrixIdentity);
     }
 
@@ -120,7 +138,8 @@ public class CompoundCollisionShape extends CollisionShape {
             Matrix3f rotation) {
         if (childShape instanceof CompoundCollisionShape) {
             throw new IllegalArgumentException(
-                    "A CompoundCollisionShape cannot have a CompoundCollisionShape child!");
+                    "A CompoundCollisionShape cannot have"
+                    + " a CompoundCollisionShape child!");
         }
         long childId = childShape.getObjectId();
 

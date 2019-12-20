@@ -259,7 +259,7 @@ public class CollisionShapeFactory {
          */
         for (VHACDHull vhacdHull : vhacdHulls) {
             HullCollisionShape hullShape = new HullCollisionShape(vhacdHull);
-            result.addChildShape(hullShape, transformIdentity);
+            result.addChildShape(hullShape);
         }
 
         return result;
