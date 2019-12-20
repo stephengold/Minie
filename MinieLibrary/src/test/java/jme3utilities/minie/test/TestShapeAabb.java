@@ -91,7 +91,7 @@ public class TestShapeAabb {
         empty.boundingBox(location, rotation, aabb);
         checkAabb(-0.11f, 2.89f, 6.89f, 0.11f, 3.11f, 7.11f);
 
-        empty.setScale(new Vector3f(10f, 10f, 10f));
+        empty.setScale(10f);
         empty.boundingBox(location, rotation, aabb);
         checkAabb(-0.11f, 2.89f, 6.89f, 0.11f, 3.11f, 7.11f);
         /*
