@@ -32,7 +32,6 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.GhostControl;
-import com.jme3.math.Vector3f;
 import java.util.logging.Logger;
 
 /**
@@ -94,7 +93,7 @@ public class TestScaleChange extends SimpleApplication {
         physicsSpace = bulletAppState.getPhysicsSpace();
 
         box = new BoxCollisionShape(1f);
-        box.setScale(new Vector3f(scale, scale, scale));
+        box.setScale(scale);
         gc = new GhostControl(box);
         gc.setPhysicsSpace(physicsSpace);
     }
@@ -112,7 +111,7 @@ public class TestScaleChange extends SimpleApplication {
         }
 
         gc.setPhysicsSpace(null);
-        box.setScale(new Vector3f(scale, scale, scale));
+        box.setScale(scale);
         gc.setPhysicsSpace(physicsSpace);
     }
 }

@@ -113,7 +113,7 @@ public class TestCloneShapes {
         CollisionShape capsuleClone = (CollisionShape) Misc.deepCopy(capsule);
         cloneTest(capsule, capsuleClone);
         assert capsuleClone.getScale(null).x == 1f;
-        capsule.setScale(new Vector3f(2f, 2f, 2f));
+        capsule.setScale(2f);
         assert capsuleClone.getScale(null).x == 1f;
         /*
          * Compound
@@ -284,7 +284,7 @@ public class TestCloneShapes {
         CollisionShape sphereClone = (CollisionShape) Misc.deepCopy(sphere);
         cloneTest(sphere, sphereClone);
         assert sphereClone.getScale(null).x == 1f;
-        sphere.setScale(new Vector3f(2f, 2f, 2f));
+        sphere.setScale(2f);
         assert sphereClone.getScale(null).x == 1f;
     }
     // *************************************************************************

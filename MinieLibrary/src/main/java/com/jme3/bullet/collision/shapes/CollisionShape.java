@@ -340,8 +340,25 @@ abstract public class CollisionShape
     }
 
     /**
-     * Alter the scaling factors of this shape. CAUTION: Not all shapes can be
-     * scaled arbitrarily.
+     * Alter the scale of this shape to a uniform factor. CAUTION: Not all
+     * shapes can be scaled.
+     * <p>
+     * Note that if the shape is shared (between collision objects and/or
+     * compound shapes) changes can have unintended consequences.
+     *
+     * @param factor the desired scaling factor for all axes (&ge;0)
+     */
+    public void setScale(float factor) {
+        Validate.nonNegative(factor, "factor");
+
+        Vector3f scaleVector
+                = new Vector3f(factor, factor, factor); // TODO garbage
+        setScale(scaleVector);
+    }
+
+    /**
+     * Alter the scale of this shape. CAUTION: Not all shapes can be scaled
+     * arbitrarily.
      * <p>
      * Note that if the shape is shared (between collision objects and/or
      * compound shapes) changes can have unintended consequences.
