@@ -68,6 +68,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
@@ -814,6 +815,8 @@ public class DropTest
 
         DirectionalLightShadowRenderer dlsr
                 = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
+        dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
+        dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
@@ -1162,8 +1165,8 @@ public class DropTest
      * Randomly generate a capsule shape.
      */
     private void randomCapsule() {
-        float radius = 0.4f + random.nextFloat();
-        float height = 0.4f + random.nextFloat();
+        float radius = 0.2f + random.nextFloat();
+        float height = 0.5f + random.nextFloat();
         gemRadius = radius + height / 2f;
 
         gemShape = new CapsuleCollisionShape(radius, height);
