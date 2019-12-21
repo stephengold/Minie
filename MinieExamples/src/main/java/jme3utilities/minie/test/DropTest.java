@@ -323,6 +323,7 @@ public class DropTest
         dim.bind("shape ladder", KeyInput.KEY_NUMPAD1);
         dim.bind("shape multiSphere", KeyInput.KEY_F1);
         dim.bind("shape sphere", KeyInput.KEY_F11);
+        dim.bind("shape star", KeyInput.KEY_F8);
         dim.bind("shape teapot", KeyInput.KEY_NUMPAD3);
         dim.bind("shape tetrahedron", KeyInput.KEY_F7);
         dim.bind("shape top", KeyInput.KEY_NUMPAD7);
@@ -541,6 +542,11 @@ public class DropTest
             case "sphere":
                 randomSphere();
                 debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
+            case "star":
+                randomStar();
+                debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
             case "teapot":
@@ -1370,6 +1376,42 @@ public class DropTest
     private void randomSphere() {
         gemRadius = 0.5f + random.nextFloat();
         gemShape = new SphereCollisionShape(gemRadius);
+    }
+
+    /**
+     * Randomly generate a star-shaped compound shape.
+     */
+    private void randomStar() {
+        float centerY = 0.3f + 0.3f * random.nextFloat();
+        float outerRadius = 1f + 1.5f * random.nextFloat();
+        gemRadius = Math.max(centerY, outerRadius);
+
+        int numPoints = 4 + random.nextInt(6); // 4 .. 9
+        float radiusRatio = 0.2f + 0.5f * random.nextFloat();
+        float innerXZ = radiusRatio * outerRadius;
+        float innerY = (1f - radiusRatio) * centerY;
+        float theta = FastMath.PI / numPoints; // in radians
+        float x = innerXZ * FastMath.cos(theta);
+        float z = innerXZ * FastMath.sin(theta);
+        FloatBuffer points = BufferUtils.createFloatBuffer(
+                0f, centerY, 0f,
+                0f, -centerY, 0f,
+                x, innerY, z,
+                x, -innerY, z,
+                x, innerY, -z,
+                x, -innerY, -z,
+                outerRadius, 0f, 0f
+        );
+        points.limit(points.capacity());
+        CollisionShape shape = new HullCollisionShape(points);
+
+        CompoundCollisionShape compound = new CompoundCollisionShape();
+        Matrix3f rotate = new Matrix3f();
+        for (int i = 0; i < numPoints; ++i) {
+            rotate.fromAngleAxis(2f * theta * i, Vector3f.UNIT_Y);
+            compound.addChildShape(shape, Vector3f.ZERO, rotate);
+        }
+        gemShape = compound;
     }
 
     /**
