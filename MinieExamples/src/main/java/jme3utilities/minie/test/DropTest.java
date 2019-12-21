@@ -177,13 +177,13 @@ public class DropTest
      */
     final private Generator random = new Generator();
     /**
-     * materials to visualize gems
-     */
-    final private Material gemMaterials[] = new Material[4];
-    /**
      * map names to collision shapes
      */
     final private Map<String, CollisionShape> namedShapes = new TreeMap<>();
+    /**
+     * materials to visualize gems
+     */
+    final private Material gemMaterials[] = new Material[4];
     /**
      * single-sided green material to visualize the platform
      */
