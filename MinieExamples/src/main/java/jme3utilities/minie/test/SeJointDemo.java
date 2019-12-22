@@ -97,7 +97,7 @@ public class SeJointDemo extends ActionApplication {
     /**
      * seed radius (in mesh units)
      */
-    final private static float seedRadius = 0.12f;
+    final private static float seedRadius = 4.8f;
     /**
      * upper limit on the number of seed groups
      */
@@ -398,7 +398,7 @@ public class SeJointDemo extends ActionApplication {
      * Add a visualizer for the axes of the world coordinate system.
      */
     private void addAxes() {
-        float axisLength = 0.8f;
+        float axisLength = 32f;
         AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
         axes.setLineWidth(0f);
 
@@ -473,8 +473,8 @@ public class SeJointDemo extends ActionApplication {
          */
         Vector3f velocity = random.nextVector3f();
         Vector3f location = random.nextVector3f();
-        location.multLocal(0.5f, 1f, 0.5f);
-        location.addLocal(0f, 4f, 0f);
+        location.multLocal(20f, 40f, 20f);
+        location.addLocal(0f, 160f, 0f);
 
         Geometry geometry = new Geometry("seed", seedMesh);
         seedNode.attachChild(geometry);
@@ -494,7 +494,7 @@ public class SeJointDemo extends ActionApplication {
         switch (testName) {
             case "6dof":
                 gravity.zero();
-                pivotInSeed.set(1f, 0f, 0f);
+                pivotInSeed.set(40f, 0f, 0f);
                 rotInSeed.loadIdentity();
                 float angle = (groupIndex - 1) * FastMath.HALF_PI;
                 rotInWorld.fromAngleAxis(angle, Vector3f.UNIT_Z);
@@ -508,7 +508,7 @@ public class SeJointDemo extends ActionApplication {
 
             case "6dofSpring":
                 gravity.zero();
-                pivotInSeed.set(1f, 0f, 0f);
+                pivotInSeed.set(40f, 0f, 0f);
                 rotInSeed.loadIdentity();
                 angle = (groupIndex - 1) * FastMath.HALF_PI;
                 rotInWorld.fromAngleAxis(angle, Vector3f.UNIT_Z);
@@ -523,7 +523,7 @@ public class SeJointDemo extends ActionApplication {
 
             case "cone":
                 gravity.zero();
-                pivotInSeed.set(2f, 0f, 0f);
+                pivotInSeed.set(80f, 0f, 0f);
                 rotInSeed.fromAngleAxis(FastMath.PI, Vector3f.UNIT_Z);
                 ConeJoint coneJoint
                         = new ConeJoint(rbc, pivotInSeed, rotInSeed);
@@ -532,9 +532,9 @@ public class SeJointDemo extends ActionApplication {
                 break;
 
             case "hinge":
-                axisInSeed.set(1f, 1f, 0f).normalizeLocal();
-                gravity.set(0f, -1f, 0f);
-                pivotInSeed.set(0f, 1f, 0f);
+                axisInSeed.set(40f, 40f, 0f).normalizeLocal();
+                gravity.set(0f, -40f, 0f);
+                pivotInSeed.set(0f, 40f, 0f);
                 referenceFrame = JointEnd.A;
                 joint = new HingeJoint(rbc, pivotInSeed, pivotInWorld,
                         axisInSeed, axisInWorld, referenceFrame);
@@ -542,7 +542,7 @@ public class SeJointDemo extends ActionApplication {
 
             case "new6dof":
                 gravity.zero();
-                pivotInSeed.set(1f, 0f, 0f);
+                pivotInSeed.set(40f, 0f, 0f);
                 rotInSeed.loadIdentity();
                 angle = (groupIndex - 1) * FastMath.HALF_PI;
                 rotInWorld.fromAngleAxis(angle, Vector3f.UNIT_Z);
@@ -562,14 +562,14 @@ public class SeJointDemo extends ActionApplication {
                 break;
 
             case "p2p":
-                gravity.set(0f, -1f, 0f);
-                pivotInSeed.set(0.5f, 0f, 0f);
+                gravity.set(0f, -40f, 0f);
+                pivotInSeed.set(20f, 0f, 0f);
                 joint = new Point2PointJoint(rbc, pivotInSeed, pivotInWorld);
                 break;
 
             case "slider":
                 gravity.set(0f, 0f, 0f); // TODO
-                pivotInSeed.set(1f, 0f, 0f);
+                pivotInSeed.set(40f, 0f, 0f);
                 referenceFrame = JointEnd.B;
                 joint = new SliderJoint(rbc, pivotInSeed, pivotInWorld,
                         referenceFrame);
@@ -610,14 +610,14 @@ public class SeJointDemo extends ActionApplication {
      * Configure the camera during startup.
      */
     private void configureCamera() {
-        float near = 0.02f;
-        float far = 100f;
+        float near = 0.8f;
+        float far = 4000f;
         MyCamera.setNearFar(cam, near, far);
 
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
+        flyCam.setMoveSpeed(160f);
 
-        cam.setLocation(new Vector3f(2.65f, 2.42f, 9.37f));
+        cam.setLocation(new Vector3f(106f, 96.8f, 374.8f));
         cam.setRotation(new Quaternion(0f, 0.9759f, -0.04f, -0.2136f));
 
         CameraOrbitAppState orbitState
@@ -653,17 +653,16 @@ public class SeJointDemo extends ActionApplication {
         /*
          * The 4 pivot locations are arranged in a square in the X-Y plane.
          */
-        pivotLocations[0] = new Vector3f(0f, 1.5f, 0f);
-        pivotLocations[1] = new Vector3f(-1.5f, 0f, 0f);
-        pivotLocations[2] = new Vector3f(0f, -1.5f, 0f);
-        pivotLocations[3] = new Vector3f(1.5f, 0f, 0f);
+        pivotLocations[0] = new Vector3f(0f, 60f, 0f);
+        pivotLocations[1] = new Vector3f(-60f, 0f, 0f);
+        pivotLocations[2] = new Vector3f(0f, -60f, 0f);
+        pivotLocations[3] = new Vector3f(60f, 0f, 0f);
     }
 
     /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.001f); // 1-mm margin
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
@@ -675,7 +674,7 @@ public class SeJointDemo extends ActionApplication {
      */
     private void toggleAxes() {
         float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
+        bulletAppState.setDebugAxisLength(20f - length);
     }
 
     /**
