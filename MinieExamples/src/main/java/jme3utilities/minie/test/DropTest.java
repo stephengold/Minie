@@ -93,6 +93,7 @@ import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.MyShape;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.mesh.StarSlice;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -1388,28 +1389,17 @@ public class DropTest
 
         int numPoints = 4 + random.nextInt(6); // 4 .. 9
         float radiusRatio = 0.2f + 0.5f * random.nextFloat();
-        float innerXZ = radiusRatio * outerRadius;
-        float innerY = (1f - radiusRatio) * centerY;
-        float theta = FastMath.PI / numPoints; // in radians
-        float x = innerXZ * FastMath.cos(theta);
-        float z = innerXZ * FastMath.sin(theta);
-        FloatBuffer points = BufferUtils.createFloatBuffer(
-                0f, centerY, 0f,
-                0f, -centerY, 0f,
-                x, innerY, z,
-                x, -innerY, z,
-                x, innerY, -z,
-                x, -innerY, -z,
-                outerRadius, 0f, 0f
-        );
-        points.limit(points.capacity());
-        CollisionShape shape = new HullCollisionShape(points);
+        float innerRadius = radiusRatio * outerRadius;
+        float sliceAngle = FastMath.TWO_PI / numPoints; // in radians
+        StarSlice sliceMesh = new StarSlice(sliceAngle, innerRadius,
+                outerRadius, 2f * centerY);
+        CollisionShape sliceShape = new HullCollisionShape(sliceMesh);
 
         CompoundCollisionShape compound = new CompoundCollisionShape();
         Matrix3f rotate = new Matrix3f();
         for (int i = 0; i < numPoints; ++i) {
-            rotate.fromAngleAxis(2f * theta * i, Vector3f.UNIT_Y);
-            compound.addChildShape(shape, Vector3f.ZERO, rotate);
+            rotate.fromAngleAxis(sliceAngle * i, Vector3f.UNIT_Y);
+            compound.addChildShape(sliceShape, Vector3f.ZERO, rotate);
         }
         gemShape = compound;
     }
