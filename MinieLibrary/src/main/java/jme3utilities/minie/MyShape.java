@@ -46,7 +46,6 @@ import java.util.logging.Logger;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
-import jme3utilities.math.MyVolume;
 
 /**
  * Utility methods for physics collision shapes. All methods should be static.
@@ -582,7 +581,7 @@ public class MyShape {
     }
 
     /**
-     * Compute the scaled volume of a closed CollisionShape.
+     * Estimate the scaled volume of a closed CollisionShape.
      *
      * @param shape (not null, unaffected)
      * @return the volume (in physics-space units cubed, &ge;0)
@@ -593,14 +592,11 @@ public class MyShape {
 
         if (shape instanceof BoxCollisionShape) {
             BoxCollisionShape box = (BoxCollisionShape) shape;
-            Vector3f halfExtents = box.getHalfExtents(null);
-            volume *= MyVolume.boxVolume(halfExtents);
+            volume *= box.unscaledVolume();
 
         } else if (shape instanceof CapsuleCollisionShape) {
             CapsuleCollisionShape capsule = (CapsuleCollisionShape) shape;
-            float height = capsule.getHeight();
-            float radius = capsule.getRadius();
-            volume *= MyVolume.capsuleVolume(radius, height);
+            volume *= capsule.unscaledVolume();
 
         } else if (shape instanceof CompoundCollisionShape) {
             /*
@@ -616,14 +612,11 @@ public class MyShape {
 
         } else if (shape instanceof ConeCollisionShape) {
             ConeCollisionShape cone = (ConeCollisionShape) shape;
-            float radius = cone.getRadius();
-            float height = cone.getHeight();
-            volume *= MyVolume.coneVolume(radius, height);
+            volume *= cone.unscaledVolume();
 
         } else if (shape instanceof CylinderCollisionShape) {
             CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
-            Vector3f halfExtents = cylinder.getHalfExtents(null);
-            volume *= MyVolume.cylinderVolume(halfExtents);
+            volume *= cylinder.unscaledVolume();
 
         } else if (shape instanceof EmptyShape) {
             volume = 0f;
@@ -642,8 +635,7 @@ public class MyShape {
 
         } else if (shape instanceof SphereCollisionShape) {
             SphereCollisionShape sphere = (SphereCollisionShape) shape;
-            float radius = sphere.getRadius();
-            volume *= MyVolume.sphereVolume(radius);
+            volume *= sphere.unscaledVolume();
 
         } else {
             logger.log(Level.SEVERE, "shape={0}", shape.getClass());

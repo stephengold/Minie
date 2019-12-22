@@ -92,7 +92,7 @@ public class TestDefaults {
     // *************************************************************************
     // fields
 
-    private CollisionShape box; // initialized by testShapes()
+    private BoxCollisionShape box; // initialized by testShapes()
     private PhysicsRigidBody rigidA;
     private PhysicsSoftBody softA;
     // *************************************************************************
@@ -359,6 +359,7 @@ public class TestDefaults {
         Assert.assertFalse(box.isInfinite());
         Assert.assertFalse(box.isNonMoving());
         Assert.assertTrue(box.isPolyhedral());
+        Assert.assertEquals(8f, box.unscaledVolume(), 0f);
         /*
          * Capsule
          */
@@ -371,6 +372,8 @@ public class TestDefaults {
         Assert.assertFalse(capsule.isInfinite());
         Assert.assertFalse(capsule.isNonMoving());
         Assert.assertFalse(capsule.isPolyhedral());
+        Assert.assertEquals(7f * FastMath.PI / 3f, capsule.unscaledVolume(),
+                1e-4f);
         /*
          * Compound
          */
@@ -395,6 +398,8 @@ public class TestDefaults {
         Assert.assertFalse(cone.isInfinite());
         Assert.assertFalse(cone.isNonMoving());
         Assert.assertFalse(cone.isPolyhedral());
+        Assert.assertEquals(FastMath.PI / 3f, cone.unscaledVolume(),
+                1e-5f);
         /*
          * Cylinder
          */
@@ -408,6 +413,7 @@ public class TestDefaults {
         Assert.assertFalse(cylinder.isInfinite());
         Assert.assertFalse(cylinder.isNonMoving());
         Assert.assertFalse(cylinder.isPolyhedral());
+        Assert.assertEquals(FastMath.TWO_PI, cylinder.unscaledVolume(), 1e-4f);
         /*
          * Empty
          */
@@ -419,6 +425,7 @@ public class TestDefaults {
         Assert.assertFalse(empty.isInfinite());
         Assert.assertTrue(empty.isNonMoving());
         Assert.assertFalse(empty.isPolyhedral());
+        Assert.assertEquals(0f, empty.unscaledVolume(), 0f);
         /*
          * GImpact
          */
@@ -490,7 +497,7 @@ public class TestDefaults {
         Assert.assertEquals(1, multiSphere.countSpheres());
         Assert.assertEquals(1f, multiSphere.getRadius(0), 0f);
         Assert.assertEquals(4f * FastMath.PI / 3f, multiSphere.scaledVolume(),
-                0.001f);
+                1e-4f);
         Assert.assertFalse(multiSphere.isConcave());
         Assert.assertTrue(multiSphere.isConvex());
         Assert.assertFalse(multiSphere.isInfinite());
@@ -529,7 +536,7 @@ public class TestDefaults {
         /*
          * Sphere
          */
-        CollisionShape sphere = new SphereCollisionShape(1f);
+        SphereCollisionShape sphere = new SphereCollisionShape(1f);
         testShape(sphere);
         Assert.assertEquals(0f, sphere.getMargin(), 0f);
         Assert.assertFalse(sphere.isConcave());
@@ -537,6 +544,8 @@ public class TestDefaults {
         Assert.assertFalse(sphere.isInfinite());
         Assert.assertFalse(sphere.isNonMoving());
         Assert.assertFalse(sphere.isPolyhedral());
+        Assert.assertEquals(4f * FastMath.PI / 3f, sphere.unscaledVolume(),
+                1e-4f);
     }
 
     private void testSixDof(SixDofJoint six, int numEnds) {
