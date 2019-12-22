@@ -69,6 +69,17 @@ public class EmptyShape extends CollisionShape {
         createShape();
     }
     // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Calculate the unscaled volume of the shape.
+     *
+     * @return 0
+     */
+    public float unscaledVolume() {
+        return 0;
+    }
+    // *************************************************************************
     // CollisionShape methods
 
     /**

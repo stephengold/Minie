@@ -43,6 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.MyVolume;
 
 /**
  * A capsule CollisionShape based on Bullet's btCapsuleShapeX, btCapsuleShape,
@@ -130,7 +131,7 @@ public class CapsuleCollisionShape extends CollisionShape {
 
     /**
      * Test whether the specified scaling factors can be applied to this shape.
-     * For capsule shapes, scaling must be uniform.
+     * For capsule shapes, scaling must be uniform. TODO re-order methods
      *
      * @param scale the desired scaling factor for each local axis (may be null,
      * unaffected)
@@ -184,6 +185,18 @@ public class CapsuleCollisionShape extends CollisionShape {
     public float getRadius() {
         assert radius >= 0f : radius;
         return radius;
+    }
+
+    /**
+     * Calculate the unscaled volume of the capsule.
+     *
+     * @return the volume (in shape-space units cubed, &ge;0)
+     */
+    public float unscaledVolume() {
+        float result = MyVolume.capsuleVolume(radius, height);
+
+        assert result >= 0f : result;
+        return result;
     }
     // *************************************************************************
     // CollisionShape methods

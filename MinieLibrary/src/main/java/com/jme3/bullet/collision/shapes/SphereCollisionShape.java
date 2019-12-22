@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.MyVolume;
 
 /**
  * A spherical CollisionShape based on Bullet's btSphereShape. These shapes have
@@ -135,6 +136,18 @@ public class SphereCollisionShape extends CollisionShape {
     public float getRadius() {
         assert radius >= 0f : radius;
         return radius;
+    }
+
+    /**
+     * Calculate the unscaled volume of the sphere.
+     *
+     * @return the volume (in shape-space units cubed, &ge;0)
+     */
+    public float unscaledVolume() {
+        float result = MyVolume.sphereVolume(radius);
+
+        assert result >= 0f : result;
+        return result;
     }
     // *************************************************************************
     // CollisionShape methods

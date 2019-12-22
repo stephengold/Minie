@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.MyVolume;
 
 /**
  * A cylindrical CollisionShape based on Bullet's btCylinderShapeX,
@@ -165,7 +166,7 @@ public class CylinderCollisionShape extends CollisionShape {
         createShape();
     }
     // *************************************************************************
-    // new methods exposed
+    // new methods exposed TODO getHeight()
 
     /**
      * Determine the main (height) axis of the cylinder.
@@ -193,6 +194,18 @@ public class CylinderCollisionShape extends CollisionShape {
         } else {
             return storeResult.set(halfExtents);
         }
+    }
+
+    /**
+     * Calculate the unscaled volume of the cylinder.
+     *
+     * @return the volume (in shape-space units cubed, &ge;0)
+     */
+    public float unscaledVolume() {
+        float result = MyVolume.cylinderVolume(halfExtents);
+
+        assert result >= 0f : result;
+        return result;
     }
     // *************************************************************************
     // CollisionShape methods

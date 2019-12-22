@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.MyVolume;
 
 /**
  * A conical CollisionShape based on Bullet's btConeShapeX, btConeShape, or
@@ -148,13 +149,25 @@ public class ConeCollisionShape extends CollisionShape {
     }
 
     /**
-     * Read the radius of the cone.
+     * Read the radius of the cone's base.
      *
-     * @return radius (&ge;0)
+     * @return the radius (&ge;0)
      */
     public float getRadius() {
         assert radius >= 0f : radius;
         return radius;
+    }
+
+    /**
+     * Calculate the unscaled volume of the cone.
+     *
+     * @return the volume (in shape-space units cubed, &ge;0)
+     */
+    public float unscaledVolume() {
+        float result = MyVolume.coneVolume(radius, height);
+
+        assert result >= 0f : result;
+        return result;
     }
     // *************************************************************************
     // CollisionShape methods
