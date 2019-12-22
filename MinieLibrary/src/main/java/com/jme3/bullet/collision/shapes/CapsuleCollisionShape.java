@@ -129,22 +129,6 @@ public class CapsuleCollisionShape extends CollisionShape {
     // new methods exposed
 
     /**
-     * Test whether the specified scaling factors can be applied to this shape.
-     * For capsule shapes, scaling must be uniform. TODO re-order methods
-     *
-     * @param scale the desired scaling factor for each local axis (may be null,
-     * unaffected)
-     * @return true if applicable, otherwise false
-     */
-    @Override
-    public boolean canScale(Vector3f scale) {
-        boolean canScale = super.canScale(scale)
-                && MyVector3f.isScaleUniform(scale);
-
-        return canScale;
-    }
-
-    /**
      * Determine the main (height) axis of the capsule.
      *
      * @return the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
@@ -164,16 +148,6 @@ public class CapsuleCollisionShape extends CollisionShape {
     public float getHeight() {
         assert height >= 0f : height;
         return height;
-    }
-
-    /**
-     * Read the collision margin for this shape.
-     *
-     * @return the margin distance (in physics-space units, &ge;0)
-     */
-    @Override
-    public float getMargin() {
-        return 0f;
     }
 
     /**
@@ -201,6 +175,22 @@ public class CapsuleCollisionShape extends CollisionShape {
     // CollisionShape methods
 
     /**
+     * Test whether the specified scaling factors can be applied to this shape.
+     * For capsule shapes, scaling must be uniform.
+     *
+     * @param scale the desired scaling factor for each local axis (may be null,
+     * unaffected)
+     * @return true if applicable, otherwise false
+     */
+    @Override
+    public boolean canScale(Vector3f scale) {
+        boolean canScale = super.canScale(scale)
+                && MyVector3f.isScaleUniform(scale);
+
+        return canScale;
+    }
+
+    /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
      * shallow-cloned shape into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
@@ -213,6 +203,16 @@ public class CapsuleCollisionShape extends CollisionShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
         createShape();
+    }
+
+    /**
+     * Read the collision margin for this shape.
+     *
+     * @return the margin distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float getMargin() {
+        return 0f;
     }
 
     /**
