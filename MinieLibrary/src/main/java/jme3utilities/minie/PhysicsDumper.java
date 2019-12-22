@@ -90,6 +90,10 @@ public class PhysicsDumper extends Dumper {
      */
     final public static Logger logger
             = Logger.getLogger(PhysicsDumper.class.getName());
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
+     */
+    final private static Vector3f scaleIdentity = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
     // fields
 
@@ -821,8 +825,8 @@ public class PhysicsDumper extends Dumper {
         String graString = MyVector3f.describe(gravity);
         stream.printf(" grav[%s]", graString);
 
-        stream.print(" ccd[mt=");
-        float ccdMt = rigidBody.getCcdSquareMotionThreshold();
+        stream.print(" ccd[mth=");
+        float ccdMt = rigidBody.getCcdMotionThreshold();
         stream.print(MyString.describe(ccdMt));
         if (ccdMt > 0f) {
             stream.print(" r=");
@@ -832,22 +836,27 @@ public class PhysicsDumper extends Dumper {
 
         float angularDamping = rigidBody.getAngularDamping();
         float linearDamping = rigidBody.getLinearDamping();
-        stream.print("] damp[ang=");
-        stream.print(MyString.describe(angularDamping));
-        stream.print(" lin=");
+        stream.print("] damp[l=");
         stream.print(MyString.describe(linearDamping));
+        stream.print(" a=");
+        stream.print(MyString.describe(angularDamping));
 
         float linearThreshold = rigidBody.getLinearSleepingThreshold();
         float angularThreshold = rigidBody.getAngularSleepingThreshold();
-        stream.print("] sleep[lt=");
+        stream.print("] sleep[lth=");
         stream.print(MyString.describe(linearThreshold));
-        stream.print(" at=");
+        stream.print(" ath=");
         stream.print(MyString.describe(angularThreshold));
         if (rigidBody.isActive()) {
             float deactivationTime = rigidBody.getDeactivationTime();
             stream.print(" time=");
             stream.print(MyString.describe(deactivationTime));
         }
+        stream.print("] moms[");
+
+        Vector3f iiLocal = rigidBody.getInverseInertiaLocal(null);
+        Vector3f moments = scaleIdentity.divide(iiLocal);
+        stream.print(MyVector3f.describe(moments));
         stream.print(']');
     }
 
