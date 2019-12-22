@@ -186,7 +186,7 @@ public class PhysicsDescriber extends Describer {
             int numSpheres = multiSphere.countSpheres();
             for (int sphereIndex = 0; sphereIndex < numSpheres; ++sphereIndex) {
                 if (sphereIndex > 0) {
-                    result.append(',');
+                    result.append(' '); // TODO listSeparator
                 }
                 float radius = multiSphere.getRadius(sphereIndex);
                 result.append(MyString.describe(radius));
@@ -765,7 +765,7 @@ public class PhysicsDescriber extends Describer {
         } else {
             result.append("off");
         }
-        result.append("]");
+        result.append(']');
 
         if (hi >= lo) { // limits/stops are enabled
             result.append(" lim[bounce=");
@@ -799,7 +799,7 @@ public class PhysicsDescriber extends Describer {
         } else {
             result.append("off");
         }
-        result.append("]");
+        result.append(']');
 
         return result.toString();
     }
