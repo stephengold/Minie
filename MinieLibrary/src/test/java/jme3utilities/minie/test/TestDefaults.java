@@ -366,6 +366,7 @@ public class TestDefaults {
         CapsuleCollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         testShape(capsule);
         Assert.assertEquals(PhysicsSpace.AXIS_Y, capsule.getAxis());
+        Assert.assertEquals(1f, capsule.getHeight(), 0f);
         Assert.assertEquals(0f, capsule.getMargin(), 0f);
         Assert.assertFalse(capsule.isConcave());
         Assert.assertTrue(capsule.isConvex());
@@ -392,6 +393,7 @@ public class TestDefaults {
         ConeCollisionShape cone = new ConeCollisionShape(1f, 1f);
         testShape(cone);
         Assert.assertEquals(PhysicsSpace.AXIS_Y, cone.getAxis());
+        Assert.assertEquals(1f, cone.getHeight(), 0f);
         Assert.assertEquals(0.04f, cone.getMargin(), 0f);
         Assert.assertFalse(cone.isConcave());
         Assert.assertTrue(cone.isConvex());
@@ -407,6 +409,7 @@ public class TestDefaults {
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
         testShape(cylinder);
         Assert.assertEquals(PhysicsSpace.AXIS_Z, cylinder.getAxis());
+        Assert.assertEquals(2f, cylinder.getHeight(), 0f);
         Assert.assertEquals(0.04f, cylinder.getMargin(), 0f);
         Assert.assertFalse(cylinder.isConcave());
         Assert.assertTrue(cylinder.isConvex());

@@ -165,7 +165,7 @@ public class CylinderCollisionShape extends CollisionShape {
         createShape();
     }
     // *************************************************************************
-    // new methods exposed TODO getHeight()
+    // new methods exposed
 
     /**
      * Determine the main (height) axis of the cylinder.
@@ -193,6 +193,18 @@ public class CylinderCollisionShape extends CollisionShape {
         } else {
             return storeResult.set(halfExtents);
         }
+    }
+
+    /**
+     * Determine the unscaled height of the cylinder.
+     *
+     * @return the height (in shape-space units, &ge;0)
+     */
+    public float getHeight() {
+        float result = 2f * halfExtents.get(axis);
+
+        assert result >= 0f : result;
+        return result;
     }
 
     /**
