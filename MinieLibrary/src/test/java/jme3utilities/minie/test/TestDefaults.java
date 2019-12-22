@@ -132,6 +132,8 @@ public class TestDefaults {
         // TODO PhysicsCharacter
         // TODO PhysicsGhostObject
         // TODO PhysicsVehicle
+        // TODO RigidBodyControl
+        // TODO VehicleControl
 
         rigidA = new PhysicsRigidBody(box);
         testPco(rigidA);
