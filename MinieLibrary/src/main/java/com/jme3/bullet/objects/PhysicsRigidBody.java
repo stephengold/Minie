@@ -376,8 +376,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * the body's local coordinates.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a vector (in inverse mass units, either storeResult or a new
-     * vector, not null)
+     * @return a vector (either storeResult or a new vector, not null)
      */
     public Vector3f getInverseInertiaLocal(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -389,8 +388,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Compute the inverse inertia tensor in physics-space coordinates.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a matrix (in inverse mass units, either storeResult or a new
-     * matrix, not null)
+     * @return a matrix (either storeResult or a new matrix, not null)
      */
     public Matrix3f getInverseInertiaWorld(Matrix3f storeResult) {
         Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
@@ -681,8 +679,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Alter the principal (diagonal) components of the local inertia tensor in
      * the body's local coordinates.
      *
-     * @param inverseInertia the desired component values (in inverse mass
-     * units, not null, unaffected)
+     * @param inverseInertia the desired component values (not null, unaffected)
      */
     public void setInverseInertiaLocal(Vector3f inverseInertia) {
         Validate.nonNull(inverseInertia, "inverse inertia");

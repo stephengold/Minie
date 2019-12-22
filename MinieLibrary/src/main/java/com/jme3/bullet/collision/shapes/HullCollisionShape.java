@@ -129,7 +129,7 @@ public class HullCollisionShape extends CollisionShape {
     /**
      * Instantiate a shape based on an array containing coordinates. For best
      * performance and stability, the convex hull should have no more than 100
-     * vertices.
+     * vertices. TODO use float...
      *
      * @param points an array of coordinates on which to base the shape (not
      * null, not empty, length a multiple of 3, unaffected)
