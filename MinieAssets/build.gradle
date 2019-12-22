@@ -26,9 +26,12 @@ dependencies {
     runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
     implementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
-    runtimeOnly "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"
     implementation "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
+
+    // select one version of LWJGL (from jcenter or mavenLocal)
+    runtimeOnly "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"  // LWJGL 2.x
+    //runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion" // LWJGL 3.x
 
     //implementation "jme3utilities:Minie:$minieVersion"
     implementation project(':MinieLibrary')
