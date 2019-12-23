@@ -206,7 +206,7 @@ public class NativeSoftBodyUtil {
         int nextMappedIndex = 0;
 
         for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
-            float x = positionBuffer.get(numAxes * vertexIndex);
+            float x = positionBuffer.get(numAxes * vertexIndex); // TODO use MyBuffer
             float y = positionBuffer.get(numAxes * vertexIndex + 1);
             float z = positionBuffer.get(numAxes * vertexIndex + 2);
             Vector3f position = new Vector3f(x, y, z);

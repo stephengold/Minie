@@ -74,7 +74,7 @@ public class SimplexCollisionShape extends CollisionShape {
      */
     private Vector3f vector1, vector2, vector3, vector4;
     // *************************************************************************
-    // constructors - TODO add a Vector3f... constructor
+    // constructors - TODO add Vector3f..., FloatBuffer, LineSegment, and AbstractTriangle constructors
 
     /**
      * No-argument constructor needed by SavableClassUtil.
