@@ -71,16 +71,17 @@ public class StarSlice extends Mesh {
     /**
      * Instantiate a mesh for rotation around its Y axis.
      *
-     * @param sliceAngle the angle between adjacent slices (in radians, &gt;0)
+     * @param sliceAngle the angle between adjacent slices (in radians, &gt;0,
+     * &le;PI)
      * @param innerRadius the distance of the inner edges from the Y axis (in
-     * mesh units, &gt;0)
+     * mesh units, &gt;0, &le;outerRadius)
      * @param outerRadius the distance of the outermost point from the Y axis
      * (in mesh units, &ge;innerRadius)
      * @param thickness the thickness at the center (in mesh units, &gt;0)
      */
     public StarSlice(float sliceAngle, float innerRadius, float outerRadius,
             float thickness) {
-        Validate.positive(sliceAngle, "slice angle");
+        Validate.inRange(sliceAngle, "slice angle", 0, FastMath.PI);
         Validate.positive(innerRadius, "inner radius");
         Validate.inRange(outerRadius, "outer radius", innerRadius,
                 Float.MAX_VALUE);
