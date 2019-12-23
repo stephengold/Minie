@@ -95,16 +95,17 @@ public class ConeCollisionShape extends CollisionShape {
      *
      * @param radius the desired radius (in unscaled units, &ge;0)
      * @param height the desired height (in unscaled units, &ge;0)
-     * @param axis which local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @param axisIndex which local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      */
-    public ConeCollisionShape(float radius, float height, int axis) {
+    public ConeCollisionShape(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
         Validate.nonNegative(height, "height");
-        Validate.inRange(axis, "axis", 0, 2);
+        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
+                PhysicsSpace.AXIS_Z);
 
         this.radius = radius;
         this.height = height;
-        this.axis = axis;
+        this.axis = axisIndex;
         createShape();
     }
 
