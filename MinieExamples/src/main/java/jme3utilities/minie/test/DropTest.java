@@ -91,12 +91,12 @@ import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
-import jme3utilities.minie.MyShape;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.mesh.Icosahedron;
 import jme3utilities.minie.test.mesh.Octahedron;
 import jme3utilities.minie.test.mesh.Prism;
 import jme3utilities.minie.test.mesh.StarSlice;
+import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -217,10 +217,6 @@ public class DropTest
      * local inverse inertial vector for new gems (or null)
      */
     private Vector3f gemInverseInertia = null;
-    /**
-     * local inverse inertial vector for "chair" shape
-     */
-    private Vector3f chairInverseInertia;
     // *************************************************************************
     // new methods exposed
 
@@ -490,7 +486,7 @@ public class DropTest
 
             case "chair":
                 gemShape = namedShapes.get("chair");
-                gemInverseInertia = chairInverseInertia;
+                gemInverseInertia = MinieTestShapes.chairInverseInertia;
                 gemRadius = 3.2f;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
@@ -671,41 +667,11 @@ public class DropTest
     }
 
     /**
-     * Add a large, static compound shape to the PhysicsSpace, to serve as a
+     * Add a large, static "tray" shape to the PhysicsSpace, to serve as a
      * platform.
      */
     private void addCompoundPlatform() {
-        CollisionShape child;
-        CompoundCollisionShape shape = new CompoundCollisionShape();
-        /*
-         * Start with a box for a base.
-         */
-        float height = 1.5f;
-        float length = 15f;
-        child = new BoxCollisionShape(length, height, length);
-        shape.addChildShape(child, 0f, -1.95f * height, 0f);
-        /*
-         * Place a tetrahedral deflector in the center.
-         */
-        float size = 3f;
-        Vector3f p1 = new Vector3f(0f, size, 0f);
-        Vector3f p2 = new Vector3f(-size, -height, size);
-        Vector3f p3 = new Vector3f(-size, -height, -size);
-        Vector3f p4 = new Vector3f(size * FastMath.sqrt(2f), -height, 0f);
-        child = new SimplexCollisionShape(p1, p2, p3, p4);
-        shape.addChildShape(child);
-        /*
-         * Arrange 4 bumpers in a square around the deflector.
-         */
-        float offset = length - height;
-        child = new BoxCollisionShape(length, height, height);
-        shape.addChildShape(child, 0f, 0f, offset);
-        shape.addChildShape(child, 0f, 0f, -offset);
-
-        child = new BoxCollisionShape(height, height, length);
-        shape.addChildShape(child, offset, 0f, 0f);
-        shape.addChildShape(child, -offset, 0f, 0f);
-
+        CollisionShape shape = namedShapes.get("tray");
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
@@ -936,83 +902,20 @@ public class DropTest
      * Initialize the collection of named collision shapes during startup.
      */
     private void configureShapes() {
-        CollisionShape shape;
-        CompoundCollisionShape compound;
-        final Vector3f halfExtents = new Vector3f();
         /*
-         * "barbell" with 2 cylindrical plates
+         * "barbell", "chair", "knucklebone", "ladder", "top", and "tray"
          */
-        compound = new CompoundCollisionShape();
-        float barRadius = 0.2f;
-        float plateOffset = 2f;
-        halfExtents.set(1.4f * plateOffset, barRadius, barRadius);
-        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_X);
-        compound.addChildShape(shape);
-
-        float plateRadius = 1f;
-        halfExtents.set(barRadius, plateRadius, plateRadius);
-        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_X);
-        compound.addChildShape(shape, -plateOffset, 0f, 0f);
-        compound.addChildShape(shape, plateOffset, 0f, 0f);
-        namedShapes.put("barbell", compound);
+        MinieTestShapes.addShapes(namedShapes);
         /*
-         * "candyDish" using V-HACD
+         * "candyDish"
          */
         String candyDishPath = "Models/CandyDish/CandyDish.j3o";
         Node candyDishNode = (Node) assetManager.loadModel(candyDishPath);
         Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
         Mesh candyDishMesh = candyDishGeometry.getMesh();
-        shape = new MeshCollisionShape(candyDishMesh);
+        CollisionShape shape = new MeshCollisionShape(candyDishMesh);
         shape.setScale(5f);
         namedShapes.put("candyDish", shape);
-        /*
-         * "chair" with 4 cylindrical legs (asymmetrical)
-         */
-        compound = new CompoundCollisionShape();
-        float legOffset = 1f;
-        float legRadius = 0.2f;
-        float seatHalf = legOffset + legRadius;
-        halfExtents.set(seatHalf, 0.2f, seatHalf);
-        RectangularSolid solid = new RectangularSolid(halfExtents);
-        shape = new MultiSphere(solid);
-        compound.addChildShape(shape);
-
-        float frontLength = 2f;
-        float frontHalf = frontLength / 2f;
-        halfExtents.set(legRadius, frontHalf, legRadius);
-        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
-        compound.addChildShape(shape, legOffset, -frontHalf, legOffset);
-        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
-        compound.addChildShape(shape, -legOffset, -frontHalf, legOffset);
-
-        float rearHalf = 2.5f;
-        halfExtents.set(legRadius, rearHalf, legRadius);
-        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
-        float yOffset = rearHalf - frontLength;
-        compound.addChildShape(shape, legOffset, yOffset, -legOffset);
-        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
-        compound.addChildShape(shape, -legOffset, yOffset, -legOffset);
-
-        float backHalf = rearHalf - frontHalf;
-        halfExtents.set(legOffset, backHalf, legRadius);
-        solid = new RectangularSolid(halfExtents);
-        shape = new MultiSphere(solid);
-        compound.addChildShape(shape, 0f, backHalf, -legOffset);
-
-        float[] volumes = MyShape.listVolumes(compound);
-        float sum = 0f;
-        for (float volume : volumes) {
-            sum += volume;
-        }
-        FloatBuffer masses = BufferUtils.createFloatBuffer(volumes.length);
-        for (int i = 0; i < volumes.length; ++i) {
-            masses.put(volumes[i] / sum);
-        }
-        Vector3f inertia = new Vector3f();
-        Transform transform = compound.principalAxes(masses, null, inertia);
-        chairInverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
-        compound.correctAxes(transform);
-        namedShapes.put("chair", compound);
         /*
          * "duck" using V-HACD
          */
@@ -1021,79 +924,12 @@ public class DropTest
         shape.setScale(2f);
         namedShapes.put("duck", shape);
         /*
-         * "knuclebone" with 4 spherical balls
-         */
-        compound = new CompoundCollisionShape();
-        float stemLength = 2.5f;
-        float stemRadius = 0.25f;
-        shape = new CapsuleCollisionShape(stemRadius, stemLength,
-                PhysicsSpace.AXIS_X);
-        compound.addChildShape(shape);
-        shape = new CapsuleCollisionShape(stemRadius, stemLength,
-                PhysicsSpace.AXIS_Y);
-        compound.addChildShape(shape);
-        shape = new CapsuleCollisionShape(stemRadius, stemLength,
-                PhysicsSpace.AXIS_Z);
-        compound.addChildShape(shape);
-
-        float ballRadius = 0.4f;
-        shape = new SphereCollisionShape(ballRadius);
-        float stemHalf = stemLength / 2f;
-        compound.addChildShape(shape, stemHalf, 0f, 0f);
-        compound.addChildShape(shape, -stemHalf, 0f, 0f);
-        compound.addChildShape(shape, 0f, stemHalf, 0f);
-        compound.addChildShape(shape, 0f, -stemHalf, 0f);
-        namedShapes.put("knucklebone", compound);
-        /*
-         * "ladder" with 5 cylindrical rungs
-         */
-        compound = new CompoundCollisionShape();
-        float rungRadius = 0.2f;
-        float rungSpacing = 2f;
-        float rungHalf = 1f;
-        halfExtents.set(rungHalf, rungRadius, rungRadius);
-        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_X);
-        compound.addChildShape(shape, 0f, 2f * rungSpacing, 0f);
-        compound.addChildShape(shape, 0f, rungSpacing, 0f);
-        compound.addChildShape(shape);
-        compound.addChildShape(shape, 0f, -rungSpacing, 0f);
-        compound.addChildShape(shape, 0f, -2f * rungSpacing, 0f);
-
-        float railHalf = 6f;
-        halfExtents.set(rungRadius, railHalf, rungRadius);
-        shape = new BoxCollisionShape(halfExtents);
-        compound.addChildShape(shape, rungHalf, 0f, 0f);
-        compound.addChildShape(shape, -rungHalf, 0f, 0f);
-        namedShapes.put("ladder", compound);
-        /*
          * "teapot" using V-HACD
          */
         String teapotPath = "CollisionShapes/teapot.j3o";
         shape = (CollisionShape) assetManager.loadAsset(teapotPath);
         shape.setScale(3f);
         namedShapes.put("teapot", shape);
-        /*
-         * "top" with a cylindrical body
-         */
-        compound = new CompoundCollisionShape();
-        float bodyRadius = 1.5f;
-        float bodyHeight = 0.3f;
-        halfExtents.set(bodyRadius, bodyHeight, bodyRadius);
-        shape = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
-        compound.addChildShape(shape);
-
-        float coneHeight = 1.5f;
-        shape = new ConeCollisionShape(bodyRadius - 0.06f, coneHeight,
-                PhysicsSpace.AXIS_Y);
-        compound.addChildShape(shape, 0f, coneHeight / 2f + bodyHeight, 0f);
-
-        float handleHeight = 1.5f;
-        float handleRadius = 0.3f;
-        shape = new CapsuleCollisionShape(handleRadius, handleHeight,
-                PhysicsSpace.AXIS_Y);
-        yOffset = -0.48f * (bodyHeight + handleHeight);
-        compound.addChildShape(shape, 0f, yOffset, 0f);
-        namedShapes.put("top", compound);
         /*
          * "torus" using V-HACD
          */
