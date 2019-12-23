@@ -470,7 +470,7 @@ public class DropTest
         switch (shapeName) {
             case "barbell":
                 gemShape = namedShapes.get("barbell");
-                gemRadius = 2.8f;
+                gemRadius = MyMath.hypotenuse(1f, 2.2f);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -708,18 +708,17 @@ public class DropTest
      * Add a large, static cylinder to the PhysicsSpace, to serve as a platform.
      */
     private void addCylinderPlatform() {
-        float halfHeight = 25f;
         float radius = 20f;
-        Vector3f heVector = new Vector3f(radius, halfHeight, radius);
-        CylinderCollisionShape shape
-                = new CylinderCollisionShape(heVector, PhysicsSpace.AXIS_Y);
+        float thickness = 50f;
+        CylinderCollisionShape shape = new CylinderCollisionShape(radius,
+                thickness, PhysicsSpace.AXIS_Y);
 
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
 
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        body.setPhysicsLocation(new Vector3f(0f, -halfHeight, 0f));
+        body.setPhysicsLocation(new Vector3f(0f, -0.5f * thickness, 0f));
 
         makePlatform(body);
     }
