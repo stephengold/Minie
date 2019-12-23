@@ -318,6 +318,7 @@ public class DropTest
         dim.bind("shape duck", KeyInput.KEY_NUMPAD2);
         dim.bind("shape funnyHammer", KeyInput.KEY_F9);
         dim.bind("shape hammer", KeyInput.KEY_F10);
+        dim.bind("shape heart", KeyInput.KEY_NUMPAD5);
         dim.bind("shape hull", KeyInput.KEY_F2);
         dim.bind("shape knucklebone", KeyInput.KEY_NUMPAD6);
         dim.bind("shape ladder", KeyInput.KEY_NUMPAD1);
@@ -515,6 +516,12 @@ public class DropTest
             case "hammer":
                 randomHammer(true);
                 debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
+            case "heart":
+                gemShape = namedShapes.get("heart");
+                gemRadius = 1.43f * FastMath.sqr(gemShape.getScale(null).x);
+                debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
             case "hull":
@@ -862,7 +869,7 @@ public class DropTest
     }
 
     /**
-     * Configure materials during startup.
+     * Configure materials during startup. TODO rename generateMaterials()
      */
     private void configureMaterials() {
         ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
@@ -898,7 +905,8 @@ public class DropTest
     }
 
     /**
-     * Initialize the collection of named collision shapes during startup.
+     * Initialize the collection of named collision shapes during startup. TODO
+     * rename generateShapes
      */
     private void configureShapes() {
         /*
@@ -922,6 +930,13 @@ public class DropTest
         shape = (CollisionShape) assetManager.loadAsset(duckPath);
         shape.setScale(2f);
         namedShapes.put("duck", shape);
+        /*
+         * "heart"
+         */
+        String heartPath = "CollisionShapes/heart.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(heartPath);
+        shape.setScale(1.5f);
+        namedShapes.put("heart", shape);
         /*
          * "teapot" using V-HACD
          */
