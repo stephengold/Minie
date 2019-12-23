@@ -255,7 +255,7 @@ public class DropTest
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
-        configureMaterials();
+        generateMaterials();
         configurePhysics();
 
         ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
@@ -869,9 +869,9 @@ public class DropTest
     }
 
     /**
-     * Configure materials during startup. TODO rename generateMaterials()
+     * Configure materials during startup. TODO re-order methods
      */
-    private void configureMaterials() {
+    private void generateMaterials() {
         ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
         greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
         greenMaterial.setName("green");
@@ -901,14 +901,14 @@ public class DropTest
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setGravity(new Vector3f(0f, -30f, 0f));
 
-        configureShapes();
+        generateShapes();
     }
 
     /**
      * Initialize the collection of named collision shapes during startup. TODO
-     * rename generateShapes
+     * re-order methods
      */
-    private void configureShapes() {
+    private void generateShapes() {
         /*
          * "barbell", "chair", "knucklebone", "ladder", "top", and "tray"
          */
