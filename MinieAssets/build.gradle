@@ -15,8 +15,9 @@ ext {
     sinbad = assets + 'Models/Sinbad'
 
     duckShape = assets + 'CollisionShapes/duck.j3o'
-    teapot = assets + 'CollisionShapes/teapot.j3o'
-    torus = assets + 'CollisionShapes/torus.j3o'
+    heartShape = assets + 'CollisionShapes/heart.j3o'
+    teapotShape = assets + 'CollisionShapes/teapot.j3o'
+    torusShape = assets + 'CollisionShapes/torus.j3o'
 
     plaid = assets + 'Textures/plaid.png'
 }
@@ -52,20 +53,24 @@ task models(type: JavaExec) {
 }
 
 task shapes {
-    dependsOn 'duckShape', 'teapot'
+    dependsOn 'duckShape', 'heartShape', 'teapotShape'
     description 'Generate collision-shape assets used in MinieExamples.'
 }
 task duckShape(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeDuck'
     outputs.files([duckShape])
 }
-task teapot(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeTeapot'
-    outputs.files([teapot])
+task heartShape(type: JavaExec) {
+    main 'jme3utilities.minie.test.shapes.MakeHeart'
+    outputs.files([heartShape])
 }
-task torus(type: JavaExec) {
+task teapotShape(type: JavaExec) {
+    main 'jme3utilities.minie.test.shapes.MakeTeapot'
+    outputs.files([teapotShape])
+}
+task torusShape(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeTorus'
-    outputs.files([torus])
+    outputs.files([torusShape])
 }
 
 task textures {
@@ -107,12 +112,15 @@ task cleanOto(type: Delete) {
 }
 
 task cleanShapes(type: Delete) {
-    delete(duckShape, teapot)
+    delete(duckShape, heartShape, teapotShape)
     description 'Delete generated shape assets.'
 }
 task cleanDuckShape(type: Delete) {
     delete(duckShape)
 }
-task cleanTeapot(type: Delete) {
-    delete(teapot)
+task cleanHeartShape(type: Delete) {
+    delete(heartShape)
+}
+task cleanTeapotShape(type: Delete) {
+    delete(teapotShape)
 }
