@@ -67,6 +67,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.VertexBuffer;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
@@ -87,8 +88,10 @@ import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.mesh.DomeMesh;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
@@ -1109,10 +1112,10 @@ public class DropTest
     }
 
     /**
-     * Randomly generate a hull shape based on 5-20 vertices.
+     * Randomly generate a hull shape.
      */
     private void randomHull() {
-        int numVertices = 5 + random.nextInt(16);
+        int numVertices = 5 + random.nextInt(21); // 5 .. 25
 
         if (numVertices == 6) {
             /*
@@ -1129,6 +1132,29 @@ public class DropTest
             gemRadius = 0.6f + random.nextFloat();
             Icosahedron mesh = new Icosahedron(gemRadius);
             gemShape = new HullCollisionShape(mesh);
+
+        } else if (numVertices > 20) {
+            /*
+             * Generate a spherical dome or plano-convex lens (181 vertices).
+             */
+            gemRadius = 0.7f + random.nextFloat();
+            int rimSamples = 20;
+            int quadrantSamples = 10;
+            DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
+            float verticalAngle = 0.7f + 1.3f * random.nextFloat();
+            mesh.setVerticalAngle(verticalAngle);
+            /*
+             * Crudely re-center the mesh.
+             */
+            FloatBuffer pb = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+            int start = 0;
+            int end = pb.limit();
+            Vector3f max = new Vector3f();
+            Vector3f min = new Vector3f();
+            MyBuffer.maxMin(pb, start, end, max, min);
+            Vector3f offset = MyVector3f.midpoint(min, max, null).negateLocal();
+            MyBuffer.translate(pb, start, end, offset);
+            gemShape = new HullCollisionShape(pb);
 
         } else {
             /*
