@@ -43,6 +43,7 @@ import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.Map;
 import java.util.logging.Logger;
+import jme3utilities.Misc;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.minie.MyShape;
 
@@ -74,7 +75,7 @@ public class MinieTestShapes {
      */
     public static Vector3f chairInverseInertia = null;
     // *************************************************************************
-    // new methods exposed
+    // new methods exposed - TODO add makeSnowman(), makeHeart()
 
     /**
      * Add each test shape to the specified collection of named shapes.
@@ -109,19 +110,18 @@ public class MinieTestShapes {
     public static CompoundCollisionShape makeBarbell() {
         float barRadius = 0.2f;
         float plateOffset = 2f;
-        Vector3f halfExtents
-                = new Vector3f(1.4f * plateOffset, barRadius, barRadius);
-        CollisionShape child
-                = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_X);
-
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        result.addChildShape(child);
+        CollisionShape bar = new CylinderCollisionShape(barRadius,
+                2.4f * plateOffset, PhysicsSpace.AXIS_X);
 
         float plateRadius = 1f;
-        halfExtents.set(barRadius, plateRadius, plateRadius);
-        child = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_X);
-        result.addChildShape(child, -plateOffset, 0f, 0f);
-        result.addChildShape(child, plateOffset, 0f, 0f);
+        float plateThickness = 0.4f;
+        CollisionShape plate = new CylinderCollisionShape(plateRadius,
+                plateThickness, PhysicsSpace.AXIS_X);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(bar);
+        result.addChildShape(plate, -plateOffset, 0f, 0f);
+        result.addChildShape(plate, plateOffset, 0f, 0f);
 
         return result;
     }
@@ -138,32 +138,33 @@ public class MinieTestShapes {
         float seatHalf = legOffset + legRadius;
         Vector3f halfExtents = new Vector3f(seatHalf, 0.2f, seatHalf);
         RectangularSolid solid = new RectangularSolid(halfExtents);
-        CollisionShape child = new MultiSphere(solid);
-
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        result.addChildShape(child);
+        CollisionShape seat = new MultiSphere(solid);
 
         float frontLength = 2f;
+        CollisionShape frontLeg = new CylinderCollisionShape(legRadius,
+                frontLength, PhysicsSpace.AXIS_Y);
+
+        float rearLength = 5f;
+        CollisionShape rearLeg = new CylinderCollisionShape(legRadius,
+                rearLength, PhysicsSpace.AXIS_Y);
+
+        float rearHalf = rearLength / 2f;
         float frontHalf = frontLength / 2f;
-        halfExtents.set(legRadius, frontHalf, legRadius);
-        child = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
-        result.addChildShape(child, legOffset, -frontHalf, legOffset);
-        child = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
-        result.addChildShape(child, -legOffset, -frontHalf, legOffset);
-
-        float rearHalf = 2.5f;
-        halfExtents.set(legRadius, rearHalf, legRadius);
-        child = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
-        float yOffset = rearHalf - frontLength;
-        result.addChildShape(child, legOffset, yOffset, -legOffset);
-        child = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
-        result.addChildShape(child, -legOffset, yOffset, -legOffset);
-
         float backHalf = rearHalf - frontHalf;
         halfExtents.set(legOffset, backHalf, legRadius);
         solid = new RectangularSolid(halfExtents);
-        child = new MultiSphere(solid);
-        result.addChildShape(child, 0f, backHalf, -legOffset);
+        CollisionShape back = new MultiSphere(solid);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(seat);
+        result.addChildShape(frontLeg, legOffset, -frontHalf, legOffset);
+        frontLeg = (CollisionShape) Misc.deepCopy(frontLeg);
+        result.addChildShape(frontLeg, -legOffset, -frontHalf, legOffset);
+        float yOffset = rearHalf - frontLength;
+        result.addChildShape(rearLeg, legOffset, yOffset, -legOffset);
+        rearLeg = (CollisionShape) Misc.deepCopy(rearLeg);
+        result.addChildShape(rearLeg, -legOffset, yOffset, -legOffset);
+        result.addChildShape(back, 0f, backHalf, -legOffset);
 
         float[] volumes = MyShape.listVolumes(result);
         float sum = 0f;
@@ -190,27 +191,26 @@ public class MinieTestShapes {
     public static CompoundCollisionShape makeKnucklebone() {
         float stemLength = 2.5f;
         float stemRadius = 0.25f;
-        CollisionShape child = new CapsuleCollisionShape(stemRadius, stemLength,
+        CollisionShape xStem = new CapsuleCollisionShape(stemRadius, stemLength,
                 PhysicsSpace.AXIS_X);
-
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        result.addChildShape(child);
-
-        child = new CapsuleCollisionShape(stemRadius, stemLength,
+        CollisionShape yStem = new CapsuleCollisionShape(stemRadius, stemLength,
                 PhysicsSpace.AXIS_Y);
-        result.addChildShape(child);
-
-        child = new CapsuleCollisionShape(stemRadius, stemLength,
+        CollisionShape zStem = new CapsuleCollisionShape(stemRadius, stemLength,
                 PhysicsSpace.AXIS_Z);
-        result.addChildShape(child);
 
         float ballRadius = 0.4f;
-        child = new SphereCollisionShape(ballRadius);
+        CollisionShape ball = new SphereCollisionShape(ballRadius);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(xStem);
+        result.addChildShape(yStem);
+        result.addChildShape(zStem);
+
         float stemHalf = stemLength / 2f;
-        result.addChildShape(child, stemHalf, 0f, 0f);
-        result.addChildShape(child, -stemHalf, 0f, 0f);
-        result.addChildShape(child, 0f, stemHalf, 0f);
-        result.addChildShape(child, 0f, -stemHalf, 0f);
+        result.addChildShape(ball, stemHalf, 0f, 0f);
+        result.addChildShape(ball, -stemHalf, 0f, 0f);
+        result.addChildShape(ball, 0f, stemHalf, 0f);
+        result.addChildShape(ball, 0f, -stemHalf, 0f);
 
         return result;
     }
@@ -222,24 +222,25 @@ public class MinieTestShapes {
      */
     public static CompoundCollisionShape makeLadder() {
         float rungRadius = 0.2f;
-        float rungSpacing = 2f;
-        float rungHalf = 1f;
-        Vector3f halfExtents = new Vector3f(rungHalf, rungRadius, rungRadius);
-        CollisionShape child
-                = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_X);
-
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        result.addChildShape(child, 0f, 2f * rungSpacing, 0f);
-        result.addChildShape(child, 0f, rungSpacing, 0f);
-        result.addChildShape(child);
-        result.addChildShape(child, 0f, -rungSpacing, 0f);
-        result.addChildShape(child, 0f, -2f * rungSpacing, 0f);
+        float rungLength = 2f;
+        CollisionShape rung = new CylinderCollisionShape(rungRadius,
+                rungLength, PhysicsSpace.AXIS_X);
 
         float railHalf = 6f;
-        halfExtents.set(rungRadius, railHalf, rungRadius);
-        child = new BoxCollisionShape(halfExtents);
-        result.addChildShape(child, rungHalf, 0f, 0f);
-        result.addChildShape(child, -rungHalf, 0f, 0f);
+        CollisionShape rail
+                = new BoxCollisionShape(rungRadius, railHalf, rungRadius);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        float rungSpacing = 2f;
+        result.addChildShape(rung, 0f, 2f * rungSpacing, 0f);
+        result.addChildShape(rung, 0f, rungSpacing, 0f);
+        result.addChildShape(rung);
+        result.addChildShape(rung, 0f, -rungSpacing, 0f);
+        result.addChildShape(rung, 0f, -2f * rungSpacing, 0f);
+
+        float rungHalf = rungLength / 2f;
+        result.addChildShape(rail, rungHalf, 0f, 0f);
+        result.addChildShape(rail, -rungHalf, 0f, 0f);
 
         return result;
     }
@@ -251,25 +252,25 @@ public class MinieTestShapes {
      */
     public static CompoundCollisionShape makeTop() {
         float bodyRadius = 1.5f;
-        float bodyHeight = 0.3f;
-        Vector3f halfExtents = new Vector3f(bodyRadius, bodyHeight, bodyRadius);
-        CollisionShape child
-                = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
-
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        result.addChildShape(child);
+        float bodyHeight = 0.6f;
+        CollisionShape body = new CylinderCollisionShape(bodyRadius,
+                bodyHeight, PhysicsSpace.AXIS_Y);
 
         float coneHeight = 1.5f;
-        child = new ConeCollisionShape(bodyRadius - 0.06f, coneHeight,
-                PhysicsSpace.AXIS_Y);
-        result.addChildShape(child, 0f, coneHeight / 2f + bodyHeight, 0f);
+        CollisionShape cone = new ConeCollisionShape(bodyRadius - 0.06f,
+                coneHeight, PhysicsSpace.AXIS_Y);
 
         float handleHeight = 1.5f;
         float handleRadius = 0.3f;
-        child = new CapsuleCollisionShape(handleRadius, handleHeight,
-                PhysicsSpace.AXIS_Y);
-        float yOffset = -0.48f * (bodyHeight + handleHeight);
-        result.addChildShape(child, 0f, yOffset, 0f);
+        CollisionShape handle = new CapsuleCollisionShape(handleRadius,
+                handleHeight, PhysicsSpace.AXIS_Y);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(body);
+        float yOffset = (coneHeight + bodyHeight) / 2f;
+        result.addChildShape(cone, 0f, yOffset, 0f);
+        yOffset = -0.5f * (handleHeight + bodyHeight);
+        result.addChildShape(handle, 0f, yOffset, 0f);
 
         return result;
     }
