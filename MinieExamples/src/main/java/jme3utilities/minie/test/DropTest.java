@@ -869,7 +869,32 @@ public class DropTest
     }
 
     /**
-     * Configure materials during startup. TODO re-order methods
+     * Configure physics during startup.
+     */
+    private void configurePhysics() {
+        bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugInitListener(this);
+        stateManager.attach(bulletAppState);
+
+        physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace.setGravity(new Vector3f(0f, -30f, 0f));
+
+        generateShapes();
+    }
+
+    /**
+     * Delete the most recently added gem.
+     */
+    private void delete() {
+        PhysicsRigidBody latestGem = gems.peekLast();
+        if (latestGem != null) {
+            physicsSpace.remove(latestGem);
+            gems.removeLast();
+        }
+    }
+
+    /**
+     * Initialize materials during startup.
      */
     private void generateMaterials() {
         ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
@@ -891,22 +916,7 @@ public class DropTest
     }
 
     /**
-     * Configure physics during startup.
-     */
-    private void configurePhysics() {
-        bulletAppState.setDebugEnabled(true);
-        bulletAppState.setDebugInitListener(this);
-        stateManager.attach(bulletAppState);
-
-        physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setGravity(new Vector3f(0f, -30f, 0f));
-
-        generateShapes();
-    }
-
-    /**
-     * Initialize the collection of named collision shapes during startup. TODO
-     * re-order methods
+     * Initialize the collection of named collision shapes during startup.
      */
     private void generateShapes() {
         /*
@@ -951,17 +961,6 @@ public class DropTest
         shape = (CollisionShape) assetManager.loadAsset(torusPath);
         shape.setScale(5f);
         namedShapes.put("torus", shape);
-    }
-
-    /**
-     * Delete the most recently added gem.
-     */
-    private void delete() {
-        PhysicsRigidBody latestGem = gems.peekLast();
-        if (latestGem != null) {
-            physicsSpace.remove(latestGem);
-            gems.removeLast();
-        }
     }
 
     /**
