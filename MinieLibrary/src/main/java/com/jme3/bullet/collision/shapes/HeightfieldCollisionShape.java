@@ -195,7 +195,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
         Validate.nonEmpty(heightmap, "heightmap");
         assert heightmap.length >= stickLength * stickWidth : heightmap.length;
         Validate.nonNegative(scale, "scale");
-        Validate.inRange(upAxis, "up axis", 0, 2);
+        Validate.inRange(upAxis, "up axis", PhysicsSpace.AXIS_X,
+                PhysicsSpace.AXIS_Z);
 
         heightStickLength = stickLength;
         heightStickWidth = stickWidth;
