@@ -95,6 +95,7 @@ import jme3utilities.minie.MyShape;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.mesh.Icosahedron;
 import jme3utilities.minie.test.mesh.Octahedron;
+import jme3utilities.minie.test.mesh.Prism;
 import jme3utilities.minie.test.mesh.StarSlice;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -790,20 +791,14 @@ public class DropTest
     private void addHullPlatform() {
         float radius = 20f;
         float thickness = 5f;
-        FloatBuffer points = BufferUtils.createFloatBuffer(10 * numAxes);
-        for (int i = 0; i < 5; ++i) {
-            float theta = 0.4f * FastMath.PI * i; // in radians
-            float x = radius * FastMath.sin(theta);
-            float z = radius * FastMath.cos(theta);
-            points.put(x).put(0f).put(z);
-            points.put(x).put(-thickness).put(z);
-        }
-        points.flip();
-        HullCollisionShape shape = new HullCollisionShape(points);
+        Mesh mesh = new Prism(5, radius, thickness);
+        HullCollisionShape shape = new HullCollisionShape(mesh);
 
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setPhysicsLocation(new Vector3f(0f, -0.5f * thickness, 0f));
         makePlatform(body);
     }
 
