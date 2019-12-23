@@ -433,15 +433,14 @@ public class TestSoftBody
      * coordinates)
      */
     private void addCylinder(float topY) {
-        float halfHeight = 0.2f;
         float radius = 1f;
-        Vector3f halfExtents = new Vector3f(radius, halfHeight, radius);
-        CollisionShape shape
-                = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
+        float height = 0.4f;
+        CollisionShape shape = new CylinderCollisionShape(radius, height,
+                PhysicsSpace.AXIS_Y);
         float cylMass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody cylinderBody = new PhysicsRigidBody(shape, cylMass);
 
-        Vector3f translation = new Vector3f(0f, topY, 0f);
+        Vector3f translation = new Vector3f(0f, topY - height / 2f, 0f);
         cylinderBody.setPhysicsLocation(translation);
 
         physicsSpace.add(cylinderBody);
@@ -478,11 +477,10 @@ public class TestSoftBody
      * Add a static pole with a rectangular flag.
      */
     private void addPoleAndFlag() {
-        float halfHeight = 2f;
         float radius = 0.06f;
-        Vector3f halfExtents = new Vector3f(radius, halfHeight, radius);
-        CollisionShape shape
-                = new CylinderCollisionShape(halfExtents, PhysicsSpace.AXIS_Y);
+        float height = 4f;
+        CollisionShape shape = new CylinderCollisionShape(radius, height,
+                PhysicsSpace.AXIS_Y);
         float poleMass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody polePrb = new PhysicsRigidBody(shape, poleMass);
 

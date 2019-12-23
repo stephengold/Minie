@@ -79,12 +79,32 @@ public class CylinderCollisionShape extends CollisionShape {
      */
     private Vector3f halfExtents = new Vector3f(0.5f, 0.5f, 0.5f);
     // *************************************************************************
-    // constructors - TODO add radius/height/axisIndex constructor
+    // constructors
 
     /**
      * No-argument constructor needed by SavableClassUtil.
      */
     protected CylinderCollisionShape() {
+    }
+
+    /**
+     * Instantiate a cylinder shape around the specified main (height) axis.
+     *
+     * @param radius the desired radius (in unscaled units, &ge;0)
+     * @param height the desired height (in unscaled units, &ge;0)
+     * @param axisIndex which local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     */
+    public CylinderCollisionShape(float radius, float height, int axisIndex) {
+        Validate.nonNegative(radius, "radius");
+        Validate.nonNegative(height, "height");
+        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
+                PhysicsSpace.AXIS_Z);
+
+        axis = axisIndex;
+        halfExtents.set(radius, radius, radius);
+        halfExtents.set(axisIndex, height / 2f);
+
+        createShape();
     }
 
     /**
@@ -108,28 +128,14 @@ public class CylinderCollisionShape extends CollisionShape {
         Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
                 PhysicsSpace.AXIS_Z);
 
+        axis = axisIndex;
         MyBuffer.maxAbs(buffer, startPosition, endPosition, halfExtents);
+        float halfHeight = halfExtents.get(axisIndex);
 
         float radius = MyBuffer.cylinderRadius(buffer, startPosition,
                 endPosition, axisIndex);
-        switch (axisIndex) {
-            case PhysicsSpace.AXIS_X:
-                halfExtents.y = radius;
-                halfExtents.z = radius;
-                break;
-            case PhysicsSpace.AXIS_Y:
-                halfExtents.x = radius;
-                halfExtents.z = radius;
-                break;
-            case PhysicsSpace.AXIS_Z:
-                halfExtents.x = radius;
-                halfExtents.y = radius;
-                break;
-            default:
-                String message = Integer.toString(axisIndex);
-                throw new RuntimeException(message);
-        }
-        assert MyVector3f.isAllNonNegative(halfExtents) : halfExtents;
+        halfExtents.set(radius, radius, radius);
+        halfExtents.set(axisIndex, halfHeight);
 
         createShape();
     }
