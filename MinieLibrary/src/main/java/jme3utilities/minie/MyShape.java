@@ -480,26 +480,12 @@ public class MyShape {
             result = new ConeCollisionShape(radius, newHeight, axisIndex);
 
         } else if (oldShape instanceof CylinderCollisionShape) {
-            Vector3f halfExtents = halfExtents(oldShape, null);
+            float radius = radius(oldShape);
             int axisIndex = mainAxisIndex(oldShape);
-            switch (axisIndex) {
-                case PhysicsSpace.AXIS_X:
-                    halfExtents.x = newHeight;
-                    break;
-                case PhysicsSpace.AXIS_Y:
-                    halfExtents.y = newHeight;
-                    break;
-                case PhysicsSpace.AXIS_Z:
-                    halfExtents.z = newHeight;
-                    break;
-                default:
-                    String msg = String.format("axisIndex=%d", axisIndex);
-                    throw new IllegalStateException(msg);
-            }
-            result = new CylinderCollisionShape(halfExtents, axisIndex);
+            result = new CylinderCollisionShape(radius, newHeight, axisIndex);
 
         } else if (oldShape instanceof SphereCollisionShape) {
-            result = setHeight(oldShape, newHeight / 2f);
+            result = setRadius(oldShape, newHeight / 2f);
 
         } else {
             result = null;
@@ -542,26 +528,9 @@ public class MyShape {
             result = new ConeCollisionShape(newRadius, height, axisIndex);
 
         } else if (oldShape instanceof CylinderCollisionShape) {
-            Vector3f halfExtents = halfExtents(oldShape, null);
             int axisIndex = mainAxisIndex(oldShape);
-            switch (axisIndex) {
-                case PhysicsSpace.AXIS_X:
-                    halfExtents.y = newRadius;
-                    halfExtents.z = newRadius;
-                    break;
-                case PhysicsSpace.AXIS_Y:
-                    halfExtents.x = newRadius;
-                    halfExtents.z = newRadius;
-                    break;
-                case PhysicsSpace.AXIS_Z:
-                    halfExtents.x = newRadius;
-                    halfExtents.y = newRadius;
-                    break;
-                default:
-                    String msg = String.format("axisIndex=%d", axisIndex);
-                    throw new IllegalStateException(msg);
-            }
-            result = new CylinderCollisionShape(halfExtents, axisIndex);
+            float height = height(oldShape);
+            result = new CylinderCollisionShape(newRadius, height, axisIndex);
 
         } else if (oldShape instanceof SphereCollisionShape) {
             result = new SphereCollisionShape(newRadius);
