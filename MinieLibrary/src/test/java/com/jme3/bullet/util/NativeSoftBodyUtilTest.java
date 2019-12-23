@@ -239,11 +239,11 @@ public class NativeSoftBodyUtilTest {
         Map<Vector3f, Integer> verificationBulletPositions = new HashMap<>();
         for (int i = 0, size = jme2bulletIndexMap.capacity(); i < size; i++) {
             int bulletIndex = jme2bulletIndexMap.get(i);
-            Vector3f bulletPosition = new Vector3f(
+            Vector3f bulletPosition = new Vector3f( // TODO use MyBuffer
                     bulletPositions.get(bulletIndex * 3),
                     bulletPositions.get(bulletIndex * 3 + 1),
                     bulletPositions.get(bulletIndex * 3 + 2));
-            Vector3f jmePosition = new Vector3f(
+            Vector3f jmePosition = new Vector3f( // TODO use MyBuffer
                     jmePositions.get(i * 3),
                     jmePositions.get(i * 3 + 1),
                     jmePositions.get(i * 3 + 2));

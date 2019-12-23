@@ -79,7 +79,7 @@ public class CylinderCollisionShape extends CollisionShape {
      */
     private Vector3f halfExtents = new Vector3f(0.5f, 0.5f, 0.5f);
     // *************************************************************************
-    // constructors
+    // constructors - TODO add radius/height/axisIndex constructor
 
     /**
      * No-argument constructor needed by SavableClassUtil. Do not invoke

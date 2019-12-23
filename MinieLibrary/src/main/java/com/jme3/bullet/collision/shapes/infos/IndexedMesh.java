@@ -347,7 +347,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
             Vector3f tmpVector = new Vector3f();
             for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
                 int position = vertexI * numAxes;
-                tmpVector.x = meshVs.get(position + MyVector3f.xAxis);
+                tmpVector.x = meshVs.get(position + MyVector3f.xAxis); // TODO use MyBuffer
                 tmpVector.y = meshVs.get(position + MyVector3f.yAxis);
                 tmpVector.z = meshVs.get(position + MyVector3f.zAxis);
 

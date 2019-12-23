@@ -888,7 +888,7 @@ public class PhysicsDumper extends Dumper {
      */
     private static String describeVector(FloatBuffer buffer, int vectorIndex) {
         int floatIndex = 3 * vectorIndex;
-        float x = buffer.get(floatIndex);
+        float x = buffer.get(floatIndex); // TODO use MyBuffer
         float y = buffer.get(floatIndex + 1);
         float z = buffer.get(floatIndex + 2);
         Vector3f vector = new Vector3f(x, y, z);
