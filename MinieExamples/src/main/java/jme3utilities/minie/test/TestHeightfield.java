@@ -72,6 +72,7 @@ import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
+import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.mesh.Prism;
 import jme3utilities.ui.ActionApplication;
@@ -80,7 +81,8 @@ import jme3utilities.ui.InputMode;
 
 /**
  * Test rigid-body controls with various shapes and collision margins. Features
- * tested include debug visualization and ray casting. TODO rename TestRBC
+ * tested include bounding boxes, debug visualization, and ray casting. TODO
+ * rename TestRBC
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -121,6 +123,10 @@ public class TestHeightfield extends ActionApplication {
      * height array for a small heightfield
      */
     final private float[] nineHeights = new float[9];
+    /**
+     * filter to control visualization of axis-aligned bounding boxes
+     */
+    private FilterAll bbFilter;
     /**
      * lit green material for scene objects
      */
@@ -244,6 +250,7 @@ public class TestHeightfield extends ActionApplication {
         dim.bind("test Prism", KeyInput.KEY_F3);
         dim.bind("test SmallTerrain", KeyInput.KEY_F2);
 
+        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
@@ -294,14 +301,15 @@ public class TestHeightfield extends ActionApplication {
                     multiplyMargin(2f);
                     return;
 
+                case "toggle boxes":
+                    toggleBoxes();
+                    return;
                 case "toggle help":
                     toggleHelp();
                     return;
-
                 case "toggle meshes":
                     toggleMeshes();
                     return;
-
                 case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
@@ -621,6 +629,19 @@ public class TestHeightfield extends ActionApplication {
     private void restartTest() {
         clearShapes();
         addAShape();
+    }
+
+    /**
+     * Toggle visualization of collision-object bounding boxes.
+     */
+    private void toggleBoxes() {
+        if (bbFilter == null) {
+            bbFilter = new FilterAll(true);
+        } else {
+            bbFilter = null;
+        }
+
+        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
     }
 
     /**
