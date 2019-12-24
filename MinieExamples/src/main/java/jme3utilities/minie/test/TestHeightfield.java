@@ -32,7 +32,10 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
+import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.HullCollisionShape;
+import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.font.BitmapText;
@@ -50,6 +53,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.AbstractBox;
+import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
@@ -66,6 +71,7 @@ import jme3utilities.MyCamera;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.RectangularSolid;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.mesh.Prism;
 import jme3utilities.ui.ActionApplication;
@@ -73,7 +79,8 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Test static rigid bodies with heightfield collision shapes.
+ * Test rigid-body controls with various shapes and collision margins. Features
+ * tested include debug visualization and ray casting. TODO rename TestRBC
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -230,6 +237,9 @@ public class TestHeightfield extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
+        dim.bind("test Box", KeyInput.KEY_F6);
+        dim.bind("test BoxHull", KeyInput.KEY_F7);
+        dim.bind("test FourSphere", KeyInput.KEY_F8);
         dim.bind("test LargeTerrain", KeyInput.KEY_F1);
         dim.bind("test Prism", KeyInput.KEY_F3);
         dim.bind("test SmallTerrain", KeyInput.KEY_F2);
@@ -325,6 +335,12 @@ public class TestHeightfield extends ActionApplication {
      */
     private void addAShape() {
         switch (shapeName) {
+            case "Box":
+            case "BoxHull":
+            case "FourSphere":
+                addBox();
+                break;
+
             case "LargeTerrain":
                 addLargeTerrain();
                 break;
@@ -352,6 +368,43 @@ public class TestHeightfield extends ActionApplication {
 
         rootNode.addControl(axes);
         axes.setEnabled(true);
+    }
+
+    /**
+     * Add a box to the scene and PhysicsSpace.
+     */
+    private void addBox() {
+        float radius = 3f;
+        float halfThickness = 0.5f;
+        AbstractBox mesh = new Box(radius, halfThickness, radius);
+        Geometry geometry = new Geometry("box", mesh);
+        addNode.attachChild(geometry);
+        geometry.setMaterial(wireMaterial);
+
+        switch (shapeName) {
+            case "Box":
+                testShape
+                        = new BoxCollisionShape(radius, halfThickness, radius);
+                break;
+
+            case "BoxHull":
+                RectangularSolid rs = new RectangularSolid(mesh);
+                testShape = new HullCollisionShape(rs);
+                break;
+
+            case "FourSphere":
+                rs = new RectangularSolid(mesh);
+                testShape = new MultiSphere(rs);
+                break;
+
+            default:
+                throw new IllegalArgumentException(shapeName);
+        }
+
+        float massForStatic = 0f;
+        RigidBodyControl rbc = new RigidBodyControl(testShape, massForStatic);
+        rbc.setPhysicsSpace(physicsSpace);
+        geometry.addControl(rbc);
     }
 
     /**
