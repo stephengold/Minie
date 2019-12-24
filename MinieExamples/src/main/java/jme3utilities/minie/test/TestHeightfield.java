@@ -35,6 +35,7 @@ import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -95,19 +96,27 @@ public class TestHeightfield extends ActionApplication {
      */
     private AbstractHeightMap heightMap;
     /**
+     * status displayed in the upper-left corner of the GUI node
+     */
+    private BitmapText statusText;
+    /**
      * AppState to manage the PhysicsSpace
      */
     final private BulletAppState bulletAppState = new BulletAppState();
+    /**
+     * shape currently being tested
+     */
+    private CollisionShape testShape;
     /**
      * height array for a small heightfield
      */
     final private float[] nineHeights = new float[9];
     /**
-     * lit green material to visualize the terrain
+     * lit green material for scene objects
      */
-    private Material terrainMaterial;
+    private Material greenMaterial;
     /**
-     * green wireframe material
+     * green wireframe material for scene objects
      */
     private Material wireMaterial;
     /**
@@ -130,6 +139,10 @@ public class TestHeightfield extends ActionApplication {
      * visualizer for ray intersections
      */
     private PointVisualizer rayPoint;
+    /**
+     * name of shape currently being tested
+     */
+    private String shapeName = "SmallTerrain";
     // *************************************************************************
     // new methods exposed
 
@@ -168,7 +181,7 @@ public class TestHeightfield extends ActionApplication {
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
-        configureMaterials();
+        generateMaterials();
         configurePhysics();
         initializeHeightData();
 
@@ -184,7 +197,13 @@ public class TestHeightfield extends ActionApplication {
 
         rootNode.attachChild(addNode);
 
-        addSmallTerrain();
+        restartTest();
+        /*
+         * Add the status text to the GUI.
+         */
+        statusText = new BitmapText(guiFont, false);
+        statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
+        guiNode.attachChild(statusText);
     }
 
     /**
@@ -193,9 +212,6 @@ public class TestHeightfield extends ActionApplication {
     @Override
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
-
-        dim.bind("add LargeTerrain", KeyInput.KEY_F1);
-        dim.bind("add SmallTerrain", KeyInput.KEY_F2);
 
         dim.bind("cast ray", "RMB");
         dim.bind("clear shapes", KeyInput.KEY_BACK);
@@ -208,12 +224,15 @@ public class TestHeightfield extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
+        dim.bind("test LargeTerrain", KeyInput.KEY_F1);
+        dim.bind("test SmallTerrain", KeyInput.KEY_F2);
+
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
 
         float x = 10f;
-        float y = cam.getHeight() - 10f;
+        float y = cam.getHeight() - 40f;
         float width = cam.getWidth() - 20f;
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -264,15 +283,45 @@ public class TestHeightfield extends ActionApplication {
             }
 
             String[] words = actionString.split(" ");
-            if (words.length >= 2 && "add".equals(words[0])) {
-                addShape(words[1]);
+            if (words.length >= 2 && "test".equals(words[0])) {
+                shapeName = words[1];
+                restartTest();
                 return;
             }
         }
         super.onAction(actionString, ongoing, tpf);
     }
+
+    /**
+     * Callback invoked once per frame.
+     *
+     * @param tpf the time interval between frames (in seconds, &ge;0)
+     */
+    @Override
+    public void simpleUpdate(float tpf) {
+        super.simpleUpdate(tpf);
+        updateStatusText();
+    }
     // *************************************************************************
     // private methods
+
+    /**
+     * Add a shape to the scene and PhysicsSpace.
+     */
+    private void addAShape() {
+        switch (shapeName) {
+            case "SmallTerrain":
+                addSmallTerrain();
+                break;
+
+            case "LargeTerrain":
+                addLargeTerrain();
+                break;
+
+            default:
+                throw new IllegalArgumentException(shapeName);
+        }
+    }
 
     /**
      * Add a visualizer for the axes of the world coordinate system.
@@ -287,7 +336,7 @@ public class TestHeightfield extends ActionApplication {
     }
 
     /**
-     * Add 513x513 terrain to the scene and physics space.
+     * Add 513x513 terrain to the scene and PhysicsSpace.
      */
     private void addLargeTerrain() {
         int patchSize = 33; // in pixels
@@ -298,11 +347,11 @@ public class TestHeightfield extends ActionApplication {
                 = new TerrainQuad("terrain", patchSize, mapSize, heightArray);
         addNode.attachChild(quad);
         quad.setLocalScale(0.01f);
-        quad.setMaterial(terrainMaterial);
+        quad.setMaterial(greenMaterial);
 
-        CollisionShape shape = CollisionShapeFactory.createMeshShape(quad);
+        testShape = CollisionShapeFactory.createMeshShape(quad);
         float massForStatic = 0f;
-        RigidBodyControl rbc = new RigidBodyControl(shape, massForStatic);
+        RigidBodyControl rbc = new RigidBodyControl(testShape, massForStatic);
         rbc.setPhysicsSpace(physicsSpace);
         quad.addControl(rbc);
     }
@@ -321,29 +370,7 @@ public class TestHeightfield extends ActionApplication {
     }
 
     /**
-     * Add a shape to the scene and physics space.
-     *
-     * @param shapeName the name of the shape to add (not null, not empty)
-     */
-    private void addShape(String shapeName) {
-        clearShapes();
-
-        switch (shapeName) {
-            case "SmallTerrain":
-                addSmallTerrain();
-                break;
-
-            case "LargeTerrain":
-                addLargeTerrain();
-                break;
-
-            default:
-                throw new IllegalArgumentException(shapeName);
-        }
-    }
-
-    /**
-     * Add 3x3 terrain to the scene and physics space.
+     * Add 3x3 terrain to the scene and PhysicsSpace.
      */
     private void addSmallTerrain() {
         int patchSize = 3;
@@ -353,9 +380,9 @@ public class TestHeightfield extends ActionApplication {
         addNode.attachChild(quad);
         quad.setMaterial(wireMaterial);
 
-        CollisionShape shape = CollisionShapeFactory.createMeshShape(quad);
+        testShape = CollisionShapeFactory.createMeshShape(quad);
         float massForStatic = 0f;
-        RigidBodyControl rbc = new RigidBodyControl(shape, massForStatic);
+        RigidBodyControl rbc = new RigidBodyControl(testShape, massForStatic);
         rbc.setPhysicsSpace(physicsSpace);
         quad.addControl(rbc);
     }
@@ -429,17 +456,6 @@ public class TestHeightfield extends ActionApplication {
     }
 
     /**
-     * Configure materials during startup.
-     */
-    private void configureMaterials() {
-        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
-        terrainMaterial = MyAsset.createShadedMaterial(assetManager, green);
-        terrainMaterial.setName("terrain");
-
-        wireMaterial = MyAsset.createWireframeMaterial(assetManager, green);
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
@@ -447,6 +463,17 @@ public class TestHeightfield extends ActionApplication {
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
+    }
+
+    /**
+     * Initialize materials during startup.
+     */
+    private void generateMaterials() {
+        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
+        greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
+        greenMaterial.setName("green");
+
+        wireMaterial = MyAsset.createWireframeMaterial(assetManager, green);
     }
 
     /**
@@ -486,6 +513,14 @@ public class TestHeightfield extends ActionApplication {
     }
 
     /**
+     * Start a new test using the named shape.
+     */
+    private void restartTest() {
+        clearShapes();
+        addAShape();
+    }
+
+    /**
      * Toggle visibility of the helpNode.
      */
     private void toggleHelp() {
@@ -516,5 +551,15 @@ public class TestHeightfield extends ActionApplication {
     private void togglePhysicsDebug() {
         boolean enabled = bulletAppState.isDebugEnabled();
         bulletAppState.setDebugEnabled(!enabled);
+    }
+
+    /**
+     * Update the status text in the GUI.
+     */
+    private void updateStatusText() {
+        float margin = testShape.getMargin();
+        String message
+                = String.format("shape=%s, margin=%.3f", shapeName, margin);
+        statusText.setText(message);
     }
 }
