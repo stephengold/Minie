@@ -1154,18 +1154,26 @@ public class DropTest
             DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
             float verticalAngle = 0.7f + 1.3f * random.nextFloat();
             mesh.setVerticalAngle(verticalAngle);
-            /*
-             * Use max-min to re-center the mesh.
-             */
             FloatBuffer pb = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+            /*
+             * Scale mesh positions to the desired radius.
+             */
             int start = 0;
             int end = pb.limit();
+            Transform scaleTransform = new Transform();
+            scaleTransform.setScale(gemRadius);
+            MyBuffer.transform(pb, start, end, scaleTransform);
+            /*
+             * Use max-min to re-center the mesh vertices.
+             */
             Vector3f max = new Vector3f();
             Vector3f min = new Vector3f();
             MyBuffer.maxMin(pb, start, end, max, min);
-            Vector3f offset = MyVector3f.midpoint(min, max, null).negateLocal();
+            Vector3f offset
+                    = MyVector3f.midpoint(min, max, null).negateLocal();
             MyBuffer.translate(pb, start, end, offset);
 
+            gemRadius = MyBuffer.maxLength(pb, start, end);
             gemShape = new HullCollisionShape(pb);
 
         } else {
