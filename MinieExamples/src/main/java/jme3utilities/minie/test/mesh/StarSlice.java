@@ -140,8 +140,8 @@ public class StarSlice extends Mesh {
         assert mesh.getMode() == Mesh.Mode.Triangles;
         assert mesh.getBuffer(VertexBuffer.Type.Index) == null;
 
-        VertexBuffer vpBuffer = mesh.getBuffer(VertexBuffer.Type.Position);
-        FloatBuffer positionBuffer = (FloatBuffer) vpBuffer.getData();
+        FloatBuffer positionBuffer
+                = mesh.getFloatBuffer(VertexBuffer.Type.Position);
         int numFloats = positionBuffer.limit();
 
         FloatBuffer normalBuffer = BufferUtils.createFloatBuffer(numFloats);

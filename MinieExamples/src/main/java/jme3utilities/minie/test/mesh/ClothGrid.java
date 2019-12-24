@@ -180,8 +180,8 @@ public class ClothGrid extends Mesh {
         Validate.inRange(zIndex, "z index", 0, numXLines - 1);
         Validate.nonNull(location, "desired location");
 
-        VertexBuffer pos = getBuffer(VertexBuffer.Type.Position);
-        FloatBuffer positions = (FloatBuffer) pos.getData();
+        FloatBuffer positions
+                = getFloatBuffer(VertexBuffer.Type.Position);
         int vertexIndex = zIndex + numXLines * xIndex;
         int floatIndex = numAxes * vertexIndex;
         positions.put(floatIndex, location.x);

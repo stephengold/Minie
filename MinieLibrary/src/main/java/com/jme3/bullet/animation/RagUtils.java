@@ -443,8 +443,8 @@ public class RagUtils {
         assert numBoneIndices % 4 == 0 : numBoneIndices;
         int numVertices = boneIndexBuffer.remaining() / 4;
 
-        VertexBuffer wBuf = mesh.getBuffer(VertexBuffer.Type.BoneWeight);
-        FloatBuffer weightBuffer = (FloatBuffer) wBuf.getDataReadOnly();
+        FloatBuffer weightBuffer
+                = mesh.getFloatBuffer(VertexBuffer.Type.BoneWeight);
         weightBuffer.rewind();
         int numWeights = weightBuffer.remaining();
         assert numWeights == numVertices * 4 : numWeights;
