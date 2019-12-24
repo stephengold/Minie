@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.collision.shapes;
 
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -54,6 +55,10 @@ public class SimplexCollisionShape extends CollisionShape {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * number of axes in a vector
+     */
+    final private static int numAxes = 3;
     /**
      * message logger for this class
      */
@@ -153,6 +158,25 @@ public class SimplexCollisionShape extends CollisionShape {
 
         Vector3f vertex = getVertex(index);
         result.set(vertex);
+
+        return result;
+    }
+
+    /**
+     * Copy the unscaled vertex locations.
+     *
+     * @return a new array (not null)
+     */
+    public float[] copyVertices() {
+        int numVertices = countMeshVertices();
+        float[] result = new float[numVertices * numAxes];
+        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
+            int floatIndex = vertexIndex * numAxes;
+            Vector3f location = getVertex(vertexIndex);
+            result[floatIndex + PhysicsSpace.AXIS_X] = location.x;
+            result[floatIndex + PhysicsSpace.AXIS_Y] = location.y;
+            result[floatIndex + PhysicsSpace.AXIS_Z] = location.z;
+        }
 
         return result;
     }
