@@ -1133,6 +1133,17 @@ public class DropTest
             Icosahedron mesh = new Icosahedron(gemRadius);
             gemShape = new HullCollisionShape(mesh);
 
+        } else if (numVertices < 15 && numVertices % 2 == 0) {
+            /*
+             * Generate a prism.
+             */
+            float radius = 0.6f + 0.5f * random.nextFloat();
+            float height = 1f + random.nextFloat();
+            gemRadius = (float) Math.hypot(radius, height / 2f);
+            int numSides = numVertices / 2;
+            Prism mesh = new Prism(numSides, radius, height);
+            gemShape = new HullCollisionShape(mesh);
+
         } else if (numVertices > 20) {
             /*
              * Generate a spherical dome or plano-convex lens (181 vertices).
@@ -1144,7 +1155,7 @@ public class DropTest
             float verticalAngle = 0.7f + 1.3f * random.nextFloat();
             mesh.setVerticalAngle(verticalAngle);
             /*
-             * Crudely re-center the mesh.
+             * Use max-min to re-center the mesh.
              */
             FloatBuffer pb = mesh.getFloatBuffer(VertexBuffer.Type.Position);
             int start = 0;
@@ -1154,6 +1165,7 @@ public class DropTest
             MyBuffer.maxMin(pb, start, end, max, min);
             Vector3f offset = MyVector3f.midpoint(min, max, null).negateLocal();
             MyBuffer.translate(pb, start, end, offset);
+
             gemShape = new HullCollisionShape(pb);
 
         } else {
