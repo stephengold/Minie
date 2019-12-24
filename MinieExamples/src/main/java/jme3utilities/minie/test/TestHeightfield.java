@@ -46,6 +46,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
@@ -65,6 +67,7 @@ import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.mesh.Prism;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -219,12 +222,16 @@ public class TestHeightfield extends ActionApplication {
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
 
+        dim.bind("less margin", KeyInput.KEY_V);
+        dim.bind("more margin", KeyInput.KEY_F);
+
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
         dim.bind("test LargeTerrain", KeyInput.KEY_F1);
+        dim.bind("test Prism", KeyInput.KEY_F3);
         dim.bind("test SmallTerrain", KeyInput.KEY_F2);
 
         dim.bind("toggle help", KeyInput.KEY_H);
@@ -269,6 +276,14 @@ public class TestHeightfield extends ActionApplication {
                     dumper.dump(renderManager);
                     return;
 
+                case "less margin":
+                    multiplyMargin(0.5f);
+                    return;
+
+                case "more margin":
+                    multiplyMargin(2f);
+                    return;
+
                 case "toggle help":
                     toggleHelp();
                     return;
@@ -310,12 +325,16 @@ public class TestHeightfield extends ActionApplication {
      */
     private void addAShape() {
         switch (shapeName) {
-            case "SmallTerrain":
-                addSmallTerrain();
-                break;
-
             case "LargeTerrain":
                 addLargeTerrain();
+                break;
+
+            case "Prism":
+                addPrism();
+                break;
+
+            case "SmallTerrain":
+                addSmallTerrain();
                 break;
 
             default:
@@ -367,6 +386,24 @@ public class TestHeightfield extends ActionApplication {
         Vector3f direction = new Vector3f(1f, -2f, -2f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
+    }
+
+    /**
+     * Add a petagonal prism to the scene and PhysicsSpace.
+     */
+    private void addPrism() {
+        float radius = 3f;
+        float thickness = 1f;
+        Mesh mesh = new Prism(5, radius, thickness);
+        Geometry geometry = new Geometry("prism", mesh);
+        addNode.attachChild(geometry);
+        geometry.setMaterial(wireMaterial);
+
+        testShape = CollisionShapeFactory.createDynamicMeshShape(geometry);
+        float massForStatic = 0f;
+        RigidBodyControl rbc = new RigidBodyControl(testShape, massForStatic);
+        rbc.setPhysicsSpace(physicsSpace);
+        geometry.addControl(rbc);
     }
 
     /**
@@ -510,6 +547,19 @@ public class TestHeightfield extends ActionApplication {
         result.load();
 
         return result;
+    }
+
+    /**
+     * Alter the collision margin for the test shape.
+     *
+     * @param factor the factor to increase the margin (&gt;0)
+     */
+    private void multiplyMargin(float factor) {
+        assert factor > 0f : factor;
+
+        float margin = testShape.getMargin();
+        margin *= factor;
+        testShape.setMargin(margin);
     }
 
     /**
