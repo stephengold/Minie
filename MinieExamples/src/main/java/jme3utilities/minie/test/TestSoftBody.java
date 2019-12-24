@@ -107,20 +107,24 @@ public class TestSoftBody
     // constants and loggers
 
     /**
+     * number of axes in a vector
+     */
+    final private static int numAxes = 3;
+    /**
      * add UVs to the debug mesh of a flag
      */
     final private static DebugMeshInitListener flagDmiListener
             = new DebugMeshInitListener() {
         @Override
         public void debugMeshInit(Mesh debugMesh) {
-            VertexBuffer pos = debugMesh.getBuffer(VertexBuffer.Type.Position);
-            int numVertices = pos.getNumElements();
-            FloatBuffer positions = (FloatBuffer) pos.getDataReadOnly();
+            FloatBuffer positions
+                    = debugMesh.getFloatBuffer(VertexBuffer.Type.Position);
+            int numVertices = positions.limit() / numAxes;
             FloatBuffer uvs = BufferUtils.createFloatBuffer(2 * numVertices);
             debugMesh.setBuffer(VertexBuffer.Type.TexCoord, 2, uvs);
             for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
-                float x = positions.get(3 * vertexI);
-                float y = positions.get(3 * vertexI + 1);
+                float x = positions.get(numAxes * vertexI);
+                float y = positions.get(numAxes * vertexI + 1);
                 float u = x - 0.5f;
                 float v = 2f - y;
                 uvs.put(u).put(v);
@@ -135,14 +139,14 @@ public class TestSoftBody
             = new DebugMeshInitListener() {
         @Override
         public void debugMeshInit(Mesh debugMesh) {
-            VertexBuffer pos = debugMesh.getBuffer(VertexBuffer.Type.Position);
-            int numVertices = pos.getNumElements();
-            FloatBuffer positions = (FloatBuffer) pos.getDataReadOnly();
+            FloatBuffer positions
+                    = debugMesh.getFloatBuffer(VertexBuffer.Type.Position);
+            int numVertices = positions.limit() / numAxes;
             FloatBuffer uvs = BufferUtils.createFloatBuffer(2 * numVertices);
             debugMesh.setBuffer(VertexBuffer.Type.TexCoord, 2, uvs);
             for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
-                float x = positions.get(3 * vertexI);
-                float z = positions.get(3 * vertexI + 2);
+                float x = positions.get(numAxes * vertexI);
+                float z = positions.get(numAxes * vertexI + 2);
                 float u = 12f * x;
                 float v = 12f * z;
                 uvs.put(u).put(v);
