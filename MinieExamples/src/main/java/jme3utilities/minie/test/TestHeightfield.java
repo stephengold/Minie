@@ -557,9 +557,7 @@ public class TestHeightfield extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
         stateManager.attach(bulletAppState);
-
         physicsSpace = bulletAppState.getPhysicsSpace();
     }
 
