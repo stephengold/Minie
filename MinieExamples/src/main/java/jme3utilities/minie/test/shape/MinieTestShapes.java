@@ -33,19 +33,29 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.math.FastMath;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Mesh;
+import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
+import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
+import jme3utilities.math.noise.Generator;
+import jme3utilities.mesh.DomeMesh;
 import jme3utilities.minie.MyShape;
+import jme3utilities.minie.test.mesh.Icosahedron;
+import jme3utilities.minie.test.mesh.Octahedron;
+import jme3utilities.minie.test.mesh.Prism;
 
 /**
  * Generate some interesting compound collision shapes for use in MinieExamples.
@@ -56,6 +66,10 @@ public class MinieTestShapes {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * number of axes in a vector
+     */
+    final private static int numAxes = 3;
     /**
      * message logger for this class
      */
@@ -75,7 +89,7 @@ public class MinieTestShapes {
      */
     public static Vector3f chairInverseInertia = null;
     // *************************************************************************
-    // new methods exposed - TODO add makeSnowman(), makeHeart()
+    // new methods exposed - TODO add makeSnowman(), more randomized shapes
 
     /**
      * Add each test shape to the specified collection of named shapes.
@@ -312,6 +326,119 @@ public class MinieTestShapes {
         child = new BoxCollisionShape(height, height, length);
         result.addChildShape(child, offset, 0f, 0f);
         result.addChildShape(child, -offset, 0f, 0f);
+
+        return result;
+    }
+
+    /**
+     * Randomly generate a centered HullCollisionShape.
+     *
+     * @param generate pseudo-random generator (not null, modified)
+     * @return a new shape (not null)
+     */
+    public static HullCollisionShape randomHull(Generator generate) {
+        int numVertices = 5 + generate.nextInt(21); // 5 .. 25
+
+        FloatBuffer buffer;
+        if (numVertices == 6) {
+            /*
+             * Generate a regular octahedron (6 vertices).
+             */
+            float radius = 0.7f + generate.nextFloat();
+            Mesh mesh = new Octahedron(radius);
+            buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+
+        } else if (numVertices == 12) {
+            /*
+             * Generate a regular icosahedron (12 vertices).
+             */
+            float radius = 0.6f + generate.nextFloat();
+            Mesh mesh = new Icosahedron(radius);
+            buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+
+        } else if (numVertices < 15 && numVertices % 2 == 0) {
+            /*
+             * Generate a prism (8, 10, or 14 vertices).
+             */
+            float radius = 0.6f + 0.5f * generate.nextFloat();
+            float height = 1f + generate.nextFloat();
+            int numSides = numVertices / 2;
+            Mesh mesh = new Prism(numSides, radius, height);
+            buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+
+        } else if (numVertices > 20) {
+            /*
+             * Generate a spherical dome or plano-convex lens (181 vertices).
+             */
+            float radius = 0.7f + generate.nextFloat();
+            int rimSamples = 20;
+            int quadrantSamples = 10;
+            DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
+            float verticalAngle = 0.7f + 1.3f * generate.nextFloat();
+            mesh.setVerticalAngle(verticalAngle);
+            buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+            /*
+             * Scale mesh positions to the desired radius.
+             */
+            int start = 0;
+            int end = buffer.limit();
+            Transform scaleTransform = new Transform();
+            scaleTransform.setScale(radius);
+            MyBuffer.transform(buffer, start, end, scaleTransform);
+            /*
+             * Use max-min to center the vertices.
+             */
+            Vector3f max = new Vector3f();
+            Vector3f min = new Vector3f();
+            MyBuffer.maxMin(buffer, start, end, max, min);
+            Vector3f offset
+                    = MyVector3f.midpoint(min, max, null).negateLocal();
+            MyBuffer.translate(buffer, start, end, offset);
+
+        } else {
+            /*
+             * Generate a hull using the origin plus 4-19 random vertices.
+             */
+            buffer = BufferUtils.createFloatBuffer(numAxes * numVertices);
+            buffer.put(0f).put(0f).put(0f);
+            for (int vertexI = 1; vertexI < numVertices; ++vertexI) {
+                Vector3f location = generate.nextUnitVector3f();
+                location.multLocal(1.5f);
+                buffer.put(location.x).put(location.y).put(location.z);
+            }
+            /*
+             * Use arithmetic mean to center the vertices.
+             */
+            int start = 0;
+            int end = buffer.limit();
+            Vector3f offset = MyBuffer.mean(buffer, start, end, null);
+            offset.negateLocal();
+            MyBuffer.translate(buffer, start, end, offset);
+        }
+
+        HullCollisionShape result = new HullCollisionShape(buffer);
+
+        return result;
+    }
+
+    /**
+     * Randomly generate a tetrahedral SimplexCollisionShape.
+     *
+     * @param generate pseudo-random generator (not null, modified)
+     * @return a new shape (not null)
+     */
+    public static SimplexCollisionShape randomTetrahedron(Generator generate) {
+        float r1 = 0.15f + generate.nextFloat();
+        float r2 = 0.15f + generate.nextFloat();
+        float r3 = 0.15f + generate.nextFloat();
+        float r4 = 0.15f + generate.nextFloat();
+
+        Vector3f p1 = new Vector3f(r1, r1, r1);
+        Vector3f p2 = new Vector3f(r2, -r2, -r2);
+        Vector3f p3 = new Vector3f(-r3, -r3, r3);
+        Vector3f p4 = new Vector3f(-r4, r4, -r4);
+        SimplexCollisionShape result
+                = new SimplexCollisionShape(p1, p2, p3, p4);
 
         return result;
     }

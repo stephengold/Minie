@@ -67,7 +67,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.VertexBuffer;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
@@ -88,15 +87,11 @@ import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
-import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
-import jme3utilities.mesh.DomeMesh;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.minie.test.mesh.Icosahedron;
-import jme3utilities.minie.test.mesh.Octahedron;
 import jme3utilities.minie.test.mesh.Prism;
 import jme3utilities.minie.test.mesh.StarSlice;
 import jme3utilities.minie.test.shape.MinieTestShapes;
@@ -106,7 +101,8 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Test/demonstrate various collision shapes.
+ * Test/demonstrate various collision shapes by dropping gems (dynamic rigid
+ * bodies) onto a platform (static rigid body).
  * <p>
  * Seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=OS2zjB01c6E
@@ -119,10 +115,6 @@ public class DropTest
     // *************************************************************************
     // constants and loggers
 
-    /**
-     * golden ratio = 1.618...
-     */
-    final public static float phi = (1f + FastMath.sqrt(5f)) / 2f;
     /**
      * upper limit on the number of gems
      */
@@ -1115,84 +1107,14 @@ public class DropTest
      * Randomly generate a hull shape.
      */
     private void randomHull() {
-        int numVertices = 5 + random.nextInt(21); // 5 .. 25
+        HullCollisionShape hull = MinieTestShapes.randomHull(random);
+        gemShape = hull;
 
-        if (numVertices == 6) {
-            /*
-             * Generate a regular octahedron (6 vertices).
-             */
-            gemRadius = 0.7f + random.nextFloat();
-            Octahedron mesh = new Octahedron(gemRadius);
-            gemShape = new HullCollisionShape(mesh);
-
-        } else if (numVertices == 12) {
-            /*
-             * Generate a regular icosahedron (12 vertices).
-             */
-            gemRadius = 0.6f + random.nextFloat();
-            Icosahedron mesh = new Icosahedron(gemRadius);
-            gemShape = new HullCollisionShape(mesh);
-
-        } else if (numVertices < 15 && numVertices % 2 == 0) {
-            /*
-             * Generate a prism.
-             */
-            float radius = 0.6f + 0.5f * random.nextFloat();
-            float height = 1f + random.nextFloat();
-            gemRadius = (float) Math.hypot(radius, height / 2f);
-            int numSides = numVertices / 2;
-            Prism mesh = new Prism(numSides, radius, height);
-            gemShape = new HullCollisionShape(mesh);
-
-        } else if (numVertices > 20) {
-            /*
-             * Generate a spherical dome or plano-convex lens (181 vertices).
-             */
-            gemRadius = 0.7f + random.nextFloat();
-            int rimSamples = 20;
-            int quadrantSamples = 10;
-            DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
-            float verticalAngle = 0.7f + 1.3f * random.nextFloat();
-            mesh.setVerticalAngle(verticalAngle);
-            FloatBuffer pb = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-            /*
-             * Scale mesh positions to the desired radius.
-             */
-            int start = 0;
-            int end = pb.limit();
-            Transform scaleTransform = new Transform();
-            scaleTransform.setScale(gemRadius);
-            MyBuffer.transform(pb, start, end, scaleTransform);
-            /*
-             * Use max-min to re-center the mesh vertices.
-             */
-            Vector3f max = new Vector3f();
-            Vector3f min = new Vector3f();
-            MyBuffer.maxMin(pb, start, end, max, min);
-            Vector3f offset
-                    = MyVector3f.midpoint(min, max, null).negateLocal();
-            MyBuffer.translate(pb, start, end, offset);
-
-            gemRadius = MyBuffer.maxLength(pb, start, end);
-            gemShape = new HullCollisionShape(pb);
-
-        } else {
-            /*
-             * Generate a hull using the origin plus 4-19 random vertices.
-             */
-            FloatBuffer buffer
-                    = BufferUtils.createFloatBuffer(numAxes * numVertices);
-            buffer.put(0f).put(0f).put(0f);
-            for (int vertexI = 1; vertexI < numVertices; ++vertexI) {
-                Vector3f location = random.nextUnitVector3f();
-                location.multLocal(1.5f);
-                buffer.put(location.x).put(location.y).put(location.z);
-            }
-            gemShape = new HullCollisionShape(buffer);
-            gemRadius = MyBuffer.maxLength(buffer, 0, buffer.limit());
-        }
-
-        gemRadius += gemShape.getMargin();
+        float[] floatArray = hull.copyHullVertices();
+        FloatBuffer vertices = BufferUtils.createFloatBuffer(floatArray);
+        // TODO apply scaling
+        float maxLength = MyBuffer.maxLength(vertices, 0, floatArray.length);
+        gemRadius = maxLength + gemShape.getMargin();
     }
 
     /**
@@ -1282,17 +1204,14 @@ public class DropTest
      * Randomly generate a simplex shape with 4 vertices.
      */
     private void randomTetrahedron() {
-        float r1 = 0.15f + random.nextFloat();
-        float r2 = 0.15f + random.nextFloat();
-        float r3 = 0.15f + random.nextFloat();
-        float r4 = 0.15f + random.nextFloat();
-        gemRadius = FastMath.sqrt(3f) * MyMath.max(r1, r2, Math.max(r3, r4));
+        SimplexCollisionShape simplex
+                = MinieTestShapes.randomTetrahedron(random);
+        gemShape = simplex;
 
-        Vector3f p1 = new Vector3f(r1, r1, r1);
-        Vector3f p2 = new Vector3f(r2, -r2, -r2);
-        Vector3f p3 = new Vector3f(-r3, -r3, r3);
-        Vector3f p4 = new Vector3f(-r4, r4, -r4);
-        gemShape = new SimplexCollisionShape(p1, p2, p3, p4);
+        float[] floatArray = simplex.copyVertices();
+        FloatBuffer vertices = BufferUtils.createFloatBuffer(floatArray);
+        float maxLength = MyBuffer.maxLength(vertices, 0, floatArray.length);
+        gemRadius = maxLength + gemShape.getMargin();
     }
 
     /**
@@ -1363,7 +1282,7 @@ public class DropTest
     }
 
     /**
-     * Update the status text in the GUI.
+     * Update the status text in the GUI. TODO rearrange message
      */
     private void updateStatusText() {
         int numGems = gems.size();
