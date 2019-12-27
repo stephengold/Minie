@@ -54,7 +54,6 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.export.binary.BinaryExporter;
-import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -62,6 +61,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Misc;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -88,7 +88,7 @@ public class TestCloneJoints {
     // new methods exposed
 
     /**
-     * Test cloning physics joints of all types.
+     * Test cloning/saving/loading physics joints of all types.
      */
     @Test
     public void testCloneJoints() {
@@ -295,6 +295,12 @@ public class TestCloneJoints {
         verifyParameters(jointCloneCopy, 0.6f);
     }
 
+    /**
+     * Modify joint parameters based on the specified key value.
+     *
+     * @param control the joint to modify (not null)
+     * @param b the key value
+     */
     private static void setParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
@@ -492,15 +498,24 @@ public class TestCloneJoints {
         spring.setStiffness(5, b + 0.266f);
     }
 
+    /**
+     * Verify that all joint parameters have their expected values for the
+     * specified key value.
+     *
+     * @param joint the joint to verify (not null, unaffected)
+     * @param b the key value
+     */
     private static void verifyParameters(PhysicsJoint joint, float b) {
+        assert joint != null;
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
 
         if (joint instanceof Constraint) {
             Constraint constraint = (Constraint) joint;
-            assert constraint.isEnabled() == flag;
-            assert constraint.getBreakingImpulseThreshold() == b + 0.505f;
-            assert constraint.getOverrideIterations() == index;
+            Assert.assertEquals(flag, constraint.isEnabled());
+            Assert.assertEquals(b + 0.505f,
+                    constraint.getBreakingImpulseThreshold(), 0f);
+            Assert.assertEquals(index, constraint.getOverrideIterations());
         }
 
         if (joint instanceof ConeJoint) {
@@ -548,12 +563,12 @@ public class TestCloneJoints {
         }
 
         boolean flag = (b > 0.15f && b < 0.45f);
-        assert cone.isCollisionBetweenLinkedBodies() == flag;
-        assert cone.isAngularOnly() == !flag;
+        Assert.assertEquals(flag, cone.isCollisionBetweenLinkedBodies());
+        Assert.assertEquals(!flag, cone.isAngularOnly());
 
-        assert cone.getSwingSpan1() == b + 0.01f;
-        assert cone.getSwingSpan2() == b + 0.02f;
-        assert cone.getTwistSpan() == b + 0.03f;
+        Assert.assertEquals(b + 0.01f, cone.getSwingSpan1(), 0f);
+        Assert.assertEquals(b + 0.02f, cone.getSwingSpan2(), 0f);
+        Assert.assertEquals(b + 0.03f, cone.getTwistSpan(), 0f);
     }
 
     private static void verifyHinge(HingeJoint hinge, float b) {
@@ -568,24 +583,16 @@ public class TestCloneJoints {
         assert tb.getTranslation().z == vb.z : tb;
 
         boolean flag = (b > 0.15f && b < 0.45f);
-        assert hinge.isCollisionBetweenLinkedBodies() == flag;
-        assert hinge.isAngularOnly() == !flag;
+        Assert.assertEquals(flag, hinge.isCollisionBetweenLinkedBodies());
+        Assert.assertEquals(!flag, hinge.isAngularOnly());
 
-        assert FastMath.approximateEquals(
-                hinge.getMotorTargetVelocity(), b + 0.01f);
-        assert FastMath.approximateEquals(
-                hinge.getMaxMotorImpulse(), b + 0.02f);
-
-        assert FastMath.approximateEquals(
-                hinge.getLowerLimit(), b + 0.03f);
-        assert FastMath.approximateEquals(
-                hinge.getUpperLimit(), b + 0.04f);
-        assert FastMath.approximateEquals(
-                hinge.getLimitSoftness(), b + 0.05f);
-        assert FastMath.approximateEquals(
-                hinge.getBiasFactor(), b + 0.06f);
-        assert FastMath.approximateEquals(
-                hinge.getRelaxationFactor(), b + 0.07f);
+        Assert.assertEquals(b + 0.01f, hinge.getMotorTargetVelocity(), 1e-6f);
+        Assert.assertEquals(b + 0.02f, hinge.getMaxMotorImpulse(), 1e-6f);
+        Assert.assertEquals(b + 0.03f, hinge.getLowerLimit(), 1e-6f);
+        Assert.assertEquals(b + 0.04f, hinge.getUpperLimit(), 1e-6f);
+        Assert.assertEquals(b + 0.05f, hinge.getLimitSoftness(), 1e-6f);
+        Assert.assertEquals(b + 0.06f, hinge.getBiasFactor(), 1e-6f);
+        Assert.assertEquals(b + 0.07f, hinge.getRelaxationFactor(), 1e-6f);
     }
 
     private static void verifyNew6Dof(New6Dof constraint, float b) {
