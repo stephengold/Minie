@@ -30,12 +30,13 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
 import com.jme3.asset.plugins.ClasspathLocator;
-import com.jme3.asset.plugins.FileLocator;
+import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
@@ -91,8 +92,18 @@ public class TestCloneShapes {
         assetManager.registerLoader(AWTLoader.class, "jpg", "png");
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
-        assetManager.registerLocator(".", FileLocator.class);
         assetManager.registerLocator(null, ClasspathLocator.class);
+        /*
+         * Box2d
+         */
+        CollisionShape box2d = new Box2dShape(1f, 2f);
+        setParameters(box2d, 0f);
+        verifyParameters(box2d, 0f);
+        CollisionShape box2dClone = (CollisionShape) Misc.deepCopy(box2d);
+        cloneTest(box2d, box2dClone);
+        assert box2dClone.getMargin() == 0.04f;
+        box2d.setMargin(0.11f);
+        assert box2dClone.getMargin() == 0.04f;
         /*
          * Box
          */
@@ -138,6 +149,17 @@ public class TestCloneShapes {
         assert coneClone.getMargin() == 0.04f;
         cone.setMargin(0.14f);
         assert coneClone.getMargin() == 0.04f;
+        /*
+         * Convex2d
+         */
+        CollisionShape convex2d = new Convex2dShape(cone);
+        setParameters(convex2d, 0f);
+        verifyParameters(convex2d, 0f);
+        CollisionShape convex2dClone = (CollisionShape) Misc.deepCopy(convex2d);
+        cloneTest(convex2d, convex2dClone);
+        assert convex2dClone.getMargin() == 0.04f;
+        convex2d.setMargin(0.14f);
+        assert convex2dClone.getMargin() == 0.04f;
         /*
          * Cylinder
          */

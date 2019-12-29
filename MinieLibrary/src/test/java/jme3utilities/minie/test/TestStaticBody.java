@@ -32,11 +32,13 @@ import com.jme3.asset.ModelKey;
 import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
@@ -98,7 +100,12 @@ public class TestStaticBody {
                 new Vector3f(-10000f, -10000f, -10000f),
                 new Vector3f(10000f, 10000f, 10000f),
                 PhysicsSpace.BroadphaseType.DBVT);
-
+        /*
+         * Box2d
+         */
+        CollisionShape box2d = new Box2dShape(1f, 2f);
+        PhysicsRigidBody box2dBody = new PhysicsRigidBody(box2d, 0f);
+        space.add(box2dBody);
         /*
          * Box
          */
@@ -124,6 +131,14 @@ public class TestStaticBody {
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
         PhysicsRigidBody coneBody = new PhysicsRigidBody(cone, 0f);
         space.add(coneBody);
+        /*
+         * Box2d
+         */
+        CollisionShape flatCone
+                = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
+        CollisionShape convex2d = new Convex2dShape(flatCone);
+        PhysicsRigidBody convex2dBody = new PhysicsRigidBody(convex2d, 0f);
+        space.add(convex2dBody);
         /*
          * Cylinder
          */

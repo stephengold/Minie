@@ -33,11 +33,13 @@ import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.Activation;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
@@ -343,6 +345,8 @@ public class TestDefaults {
      * @param shape the shape to test (not null, unaffected)
      */
     private void testShape(CollisionShape shape) {
+        Assert.assertNotNull(shape);
+        Assert.assertNotEquals(0, shape.getObjectId());
         assertEquals(1f, 1f, 1f, shape.getScale(null), 0f);
     }
 
@@ -350,6 +354,17 @@ public class TestDefaults {
      * Verify the defaults for all collision shapes.
      */
     private void testShapes() {
+        /*
+         * Box2d
+         */
+        Box2dShape box2d = new Box2dShape(1f, 2f);
+        testShape(box2d);
+        Assert.assertEquals(0.04f, box2d.getMargin(), 0f);
+        Assert.assertFalse(box2d.isConcave());
+        Assert.assertTrue(box2d.isConvex());
+        Assert.assertFalse(box2d.isInfinite());
+        Assert.assertFalse(box2d.isNonMoving());
+        Assert.assertFalse(box2d.isPolyhedral());
         /*
          * Box
          */
@@ -404,6 +419,19 @@ public class TestDefaults {
         Assert.assertFalse(cone.isPolyhedral());
         Assert.assertEquals(FastMath.PI / 3f, cone.unscaledVolume(),
                 1e-5f);
+        /*
+         * Convex2d
+         */
+        ConeCollisionShape flatCone
+                = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
+        Convex2dShape convex2d = new Convex2dShape(flatCone);
+        testShape(convex2d);
+        Assert.assertEquals(0.04f, convex2d.getMargin(), 0f);
+        Assert.assertFalse(convex2d.isConcave());
+        Assert.assertTrue(convex2d.isConvex());
+        Assert.assertFalse(convex2d.isInfinite());
+        Assert.assertFalse(convex2d.isNonMoving());
+        Assert.assertFalse(convex2d.isPolyhedral());
         /*
          * Cylinder
          */

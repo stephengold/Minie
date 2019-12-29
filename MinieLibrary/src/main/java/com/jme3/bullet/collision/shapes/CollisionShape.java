@@ -257,8 +257,9 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape is convex. The only convex shapes are the box,
-     * capsule, cone, cylinder, hull, multi-sphere, simplex, and sphere shapes.
+     * Test whether this shape is convex. The only convex shapes are the box2d,
+     * box, capsule, cone, convex2d, cylinder, hull, multi-sphere, simplex, and
+     * sphere shapes.
      *
      * @return true if convex, false otherwise
      */
@@ -346,7 +347,7 @@ abstract public class CollisionShape
      * Note that if the shape is shared (between collision objects and/or
      * compound shapes) changes can have unintended consequences.
      *
-     * @param factor the desired scaling factor for all axes (&ge;0)
+     * @param factor the desired scaling factor for all axes (&ge;0, default=1)
      */
     public void setScale(float factor) {
         Validate.nonNegative(factor, "factor");
@@ -387,7 +388,7 @@ abstract public class CollisionShape
      * Read the type of this shape.
      *
      * @param shapeId the ID of the btCollisionShape (not zero)
-     * @return the type value
+     * @return the type value (from enum BroadphaseNativeTypes)
      */
     final native protected int getShapeType(long shapeId);
 

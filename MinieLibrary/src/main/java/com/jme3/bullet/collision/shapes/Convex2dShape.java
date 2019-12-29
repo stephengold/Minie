@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2019 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,43 +35,43 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
-import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
-import jme3utilities.math.MyBuffer;
-import jme3utilities.math.MyVector3f;
-import jme3utilities.math.MyVolume;
 
 /**
- * A axis-aligned, rectangular-solid CollisionShape based on Bullet's
- * btBoxShape. For a rectangle, use Box2dShape.
+ * An convex CollisionShape optimized for 2-D, based on Bullet's
+ * btConvex2dShape. For a rectangle, use Box2dShape instead.
  *
- * @author normenhansen
+ * @author Stephen Gold sgold@sonic.net
  */
-public class BoxCollisionShape extends CollisionShape {
+public class Convex2dShape extends CollisionShape {
     // *************************************************************************
     // constants and loggers
 
     /**
+     * number of axes in a vector
+     */
+    final private static int numAxes = 3;
+    /**
      * message logger for this class
      */
     final public static Logger logger2
-            = Logger.getLogger(BoxCollisionShape.class.getName());
+            = Logger.getLogger(Convex2dShape.class.getName());
     /**
-     * field names for serialization
+     * field name for serialization
      */
-    final private static String tagHalfExtents = "halfExtents";
+    final private static String tagBase = "base";
     // *************************************************************************
     // fields
 
     /**
-     * copy of unscaled half extent for each local axis (not null, no negative
-     * component)
+     * shape on which this shape is based, must be convex and lie entirely in
+     * the X-Y plane
      */
-    private Vector3f halfExtents = new Vector3f(1f, 1f, 1f);
+    private CollisionShape base;
     // *************************************************************************
     // constructors
 
@@ -79,106 +79,47 @@ public class BoxCollisionShape extends CollisionShape {
      * No-argument constructor needed by SavableClassUtil. Do not invoke
      * directly!
      */
-    public BoxCollisionShape() {
+    public Convex2dShape() {
     }
 
     /**
-     * Instantiate a cube-shaped box with the specified half extent.
+     * Instantiate a shape based on the specified convex shape.
      *
-     * @param halfExtent the desired unscaled half extent on each local axis
-     * (not negative)
+     * @param base the base shape (not null, convex, alias created)
      */
-    public BoxCollisionShape(float halfExtent) {
-        Validate.nonNegative(halfExtent, "half extent");
-
-        halfExtents.set(halfExtent, halfExtent, halfExtent);
+    public Convex2dShape(CollisionShape base) {
+        assert base.isConvex();
+        this.base = base;
         createShape();
     }
 
     /**
-     * Instantiate a box shape with the specified half extents.
+     * Instantiate a 2-D hull shape based on a flipped buffer containing
+     * coordinates.
      *
-     * @param xHalfExtent the desired unscaled half extent on the local X axis
-     * (not negative)
-     * @param yHalfExtent the desired unscaled half extent on the local Y axis
-     * (not negative)
-     * @param zHalfExtent the desired unscaled half extent on the local Z axis
-     * (not negative)
+     * @param flippedBuffer the coordinates on which to base the shape (not
+     * null, not empty, length a multiple of 3, Z=0, unaffected)
      */
-    public BoxCollisionShape(float xHalfExtent, float yHalfExtent,
-            float zHalfExtent) {
-        Validate.nonNegative(xHalfExtent, "half extent on X");
-        Validate.nonNegative(yHalfExtent, "half extent on Y");
-        Validate.nonNegative(zHalfExtent, "half extent on Z");
+    public Convex2dShape(FloatBuffer flippedBuffer) {
+        Validate.nonNull(flippedBuffer, "flipped buffer");
+        int numFloats = flippedBuffer.limit();
+        assert numFloats > 0 : numFloats;
+        assert numFloats % numAxes == 0 : numFloats;
 
-        halfExtents.set(xHalfExtent, yHalfExtent, zHalfExtent);
-        createShape();
-    }
-
-    /**
-     * Instantiate a box shape that encloses the sample locations in the
-     * specified FloatBuffer range.
-     *
-     * @param buffer the buffer that contains the sample locations (not null,
-     * unaffected)
-     * @param startPosition the position at which the sample locations start
-     * (&ge;0, &le;endPosition)
-     * @param endPosition the position at which the sample locations end
-     * (&ge;startPosition, &le;capacity)
-     */
-    public BoxCollisionShape(FloatBuffer buffer, int startPosition,
-            int endPosition) {
-        Validate.nonNull(buffer, "buffer");
-        Validate.inRange(startPosition, "start position", 0, endPosition);
-        Validate.inRange(endPosition, "end position", startPosition,
-                buffer.capacity());
-
-        MyBuffer.maxAbs(buffer, startPosition, endPosition, halfExtents);
-        createShape();
-    }
-
-    /**
-     * Instantiate a box shape with the specified half extents.
-     *
-     * @param halfExtents the desired unscaled half extents (not null, no
-     * negative component, unaffected)
-     */
-    public BoxCollisionShape(Vector3f halfExtents) {
-        Validate.nonNegative(halfExtents, "half extents");
-
-        this.halfExtents.set(halfExtents);
+        this.base = new HullCollisionShape(flippedBuffer);
         createShape();
     }
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Copy the half extents of the box.
+     * Access the base shape.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return the unscaled half extent for each local axis (either storeResult
-     * or a new vector, not null, no negative component)
+     * @return the pre-existing shape (not null)
      */
-    public Vector3f getHalfExtents(Vector3f storeResult) {
-        assert MyVector3f.isAllNonNegative(halfExtents) : halfExtents;
-
-        if (storeResult == null) {
-            return halfExtents.clone();
-        } else {
-            return storeResult.set(halfExtents);
-        }
-    }
-
-    /**
-     * Calculate the unscaled volume of the box.
-     *
-     * @return the volume (in shape-space units cubed, &ge;0)
-     */
-    public float unscaledVolume() {
-        float result = MyVolume.boxVolume(halfExtents);
-
-        assert result >= 0f : result;
-        return result;
+    public CollisionShape getBaseShape() {
+        assert base != null;
+        return base;
     }
     // *************************************************************************
     // CollisionShape methods
@@ -195,7 +136,7 @@ public class BoxCollisionShape extends CollisionShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        halfExtents = cloner.clone(halfExtents);
+        base = cloner.clone(base);
         createShape();
     }
 
@@ -205,9 +146,9 @@ public class BoxCollisionShape extends CollisionShape {
      * @return a new instance
      */
     @Override
-    public BoxCollisionShape jmeClone() {
+    public Convex2dShape jmeClone() {
         try {
-            BoxCollisionShape clone = (BoxCollisionShape) super.clone();
+            Convex2dShape clone = (Convex2dShape) super.clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
@@ -222,13 +163,12 @@ public class BoxCollisionShape extends CollisionShape {
      * @throws IOException from the importer
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        Vector3f he = (Vector3f) capsule.readSavable(tagHalfExtents,
-                new Vector3f(1f, 1f, 1f));
-        halfExtents.set(he);
+        base = (CollisionShape) capsule.readSavable(tagBase, null);
         createShape();
     }
 
@@ -243,18 +183,17 @@ public class BoxCollisionShape extends CollisionShape {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-        capsule.write(halfExtents, tagHalfExtents, null);
+        capsule.write(base, tagBase, null);
     }
     // *************************************************************************
     // private methods
 
     /**
-     * Instantiate the configured btBoxShape.
+     * Instantiate an empty btConvex2dShape.
      */
     private void createShape() {
-        assert MyVector3f.isAllNonNegative(halfExtents) : halfExtents;
-
-        long shapeId = createShape(halfExtents);
+        long childId = base.getObjectId();
+        long shapeId = createShape(childId);
         setNativeId(shapeId);
 
         setScale(scale);
@@ -263,5 +202,5 @@ public class BoxCollisionShape extends CollisionShape {
     // *************************************************************************
     // native methods
 
-    native private long createShape(Vector3f halfExtents);
+    native private long createShape(long childId);
 }

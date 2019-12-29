@@ -30,11 +30,14 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
 import com.jme3.asset.plugins.ClasspathLocator;
+import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
@@ -86,7 +89,20 @@ public class TestSetScale {
         Vector3f uni = new Vector3f(9f, 9f, 9f);
         Vector3f non = new Vector3f(9f, 9f, 1f);
         Vector3f non2 = new Vector3f(1f, 2f, 3f);
-
+        /*
+         * Box2d
+         */
+        CollisionShape box2d = new Box2dShape(2f);
+        assert box2d.getScale(null).equals(ident);
+        box2d.setScale(uni);
+        assert box2d.getScale(null).equals(uni);
+        box2d.setScale(non);
+        assert box2d.getScale(null).equals(non);
+        box2d.setScale(non2);
+        assert box2d.getScale(null).equals(non2);
+        /*
+         * Box
+         */
         CollisionShape box = new BoxCollisionShape(2f);
         assert box.getScale(null).equals(ident);
         box.setScale(uni);
@@ -95,12 +111,16 @@ public class TestSetScale {
         assert box.getScale(null).equals(non);
         box.setScale(non2);
         assert box.getScale(null).equals(non2);
-
+        /*
+         * Capsule
+         */
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         assert capsule.getScale(null).equals(ident);
         capsule.setScale(uni);
         assert capsule.getScale(null).equals(uni);
-
+        /*
+         * Compound
+         */
         CompoundCollisionShape compound = new CompoundCollisionShape();
         compound.addChildShape(capsule, 0f, 1f, 0f);
         assert compound.getScale(null).equals(ident);
@@ -118,6 +138,20 @@ public class TestSetScale {
         assert cone.getScale(null).equals(ident);
         cone.setScale(uni);
         assert cone.getScale(null).equals(uni);
+        /*
+         * Convex2d
+         */
+        ConeCollisionShape flatCone
+                = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
+        CollisionShape convex2d = new Convex2dShape(flatCone);
+        assert convex2d.getScale(null).equals(ident);
+        convex2d.setScale(uni);
+        assert convex2d.getScale(null).equals(uni);
+        convex2d.setScale(non);
+        assert convex2d.getScale(null).equals(non);
+        convex2d.setScale(non2);
+        assert convex2d.getScale(null).equals(non2);
+        assert flatCone.getScale(null).equals(ident);
         /*
          * Cylinder
          */
