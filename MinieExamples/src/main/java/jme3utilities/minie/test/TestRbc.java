@@ -81,12 +81,11 @@ import jme3utilities.ui.InputMode;
 
 /**
  * Test rigid-body controls with various shapes and collision margins. Features
- * tested include bounding boxes, debug visualization, and ray casting. TODO
- * rename TestRBC
+ * tested include bounding boxes, debug visualization, and ray casting.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestHeightfield extends ActionApplication {
+public class TestRbc extends ActionApplication {
     // *************************************************************************
     // constants and loggers
 
@@ -94,12 +93,12 @@ public class TestHeightfield extends ActionApplication {
      * message logger for this class
      */
     final public static Logger logger
-            = Logger.getLogger(TestHeightfield.class.getName());
+            = Logger.getLogger(TestRbc.class.getName());
     /**
      * application name (for the title bar of the app's window)
      */
     final private static String applicationName
-            = TestHeightfield.class.getSimpleName();
+            = TestRbc.class.getSimpleName();
     // *************************************************************************
     // fields
 
@@ -163,7 +162,7 @@ public class TestHeightfield extends ActionApplication {
     // new methods exposed
 
     /**
-     * Main entry point for the TestHeightField application.
+     * Main entry point for the TestRbc application.
      *
      * @param ignored array of command-line arguments (not null)
      */
@@ -173,7 +172,7 @@ public class TestHeightfield extends ActionApplication {
          */
         Misc.setLoggingLevels(Level.WARNING);
 
-        Application application = new TestHeightfield();
+        Application application = new TestRbc();
         /*
          * Customize the window's title bar.
          */
