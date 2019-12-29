@@ -30,11 +30,14 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
 import com.jme3.asset.plugins.ClasspathLocator;
+import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
@@ -84,12 +87,23 @@ public class TestSetMargin {
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
         assetManager.registerLocator(null, ClasspathLocator.class);
-
+        /*
+         * Box2d
+         */
+        CollisionShape box2d = new Box2dShape(1f, 2f);
+        assert box2d.getMargin() == 0.04f;
+        box2d.setMargin(0.1f);
+        assert box2d.getMargin() == 0.1f;
+        /*
+         * Box
+         */
         CollisionShape box = new BoxCollisionShape(1f);
         assert box.getMargin() == 0.04f;
         box.setMargin(0.11f);
         assert box.getMargin() == 0.11f;
-
+        /*
+         * Capsule
+         */
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         assert capsule.getMargin() == 0f;
         capsule.setMargin(0.12f); // cannot alter margin
@@ -109,6 +123,15 @@ public class TestSetMargin {
         assert cone.getMargin() == 0.04f;
         cone.setMargin(0.14f);
         assert cone.getMargin() == 0.14f;
+        /*
+         * Convex2dShape
+         */
+        ConeCollisionShape flatCone
+                = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
+        Convex2dShape convex2d = new Convex2dShape(flatCone);
+        assert convex2d.getMargin() == 0.04f;
+        convex2d.setMargin(0.145f);
+        assert convex2d.getMargin() == 0.145f;
         /*
          * Cylinder
          */

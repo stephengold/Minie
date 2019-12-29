@@ -30,11 +30,13 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
@@ -113,7 +115,12 @@ public class PhysicsDescriber extends Describer {
         result.append(name);
 
         String desc;
-        if (shape instanceof BoxCollisionShape) {
+        if (shape instanceof Box2dShape) {
+            Vector3f he = ((Box2dShape) shape).getHalfExtents(null);
+            desc = describeHalfExtents(he);
+            result.append(desc);
+
+        } else if (shape instanceof BoxCollisionShape) {
             Vector3f he = ((BoxCollisionShape) shape).getHalfExtents(null);
             desc = describeHalfExtents(he);
             result.append(desc);
@@ -149,6 +156,13 @@ public class PhysicsDescriber extends Describer {
             float radius = cone.getRadius();
             desc = describeHeightAndRadius(height, radius);
             result.append(desc);
+
+        } else if (shape instanceof Convex2dShape) {
+            CollisionShape child = ((Convex2dShape) shape).getBaseShape();
+            desc = describe(child);
+            result.append('[');
+            result.append(desc);
+            result.append(']');
 
         } else if (shape instanceof CylinderCollisionShape) {
             CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
