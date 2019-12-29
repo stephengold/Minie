@@ -166,7 +166,7 @@ public class HullCollisionShape extends CollisionShape {
      * 100 vertices.
      *
      * @param flippedBuffer the coordinates on which to base the shape (not
-     * null, not empty, length a multiple of 3)
+     * null, not empty, length a multiple of 3, unaffected)
      */
     public HullCollisionShape(FloatBuffer flippedBuffer) {
         Validate.nonNull(flippedBuffer, "flipped buffer");
