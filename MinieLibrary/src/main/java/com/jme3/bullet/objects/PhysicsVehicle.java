@@ -160,7 +160,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param force the desired amount of force
      */
     public void accelerate(int wheel, float force) {
-        applyEngineForce(vehicleId, wheel, force);
+        long vid = getVehicleId();
+        applyEngineForce(vid, wheel, force);
     }
 
     /**
@@ -259,7 +260,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param force the desired amount of force
      */
     public void brake(int wheel, float force) {
-        brake(vehicleId, wheel, force);
+        long vid = getVehicleId();
+        brake(vid, wheel, force);
     }
 
     /**
@@ -306,7 +308,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @return speed (in kilometers per hour)
      */
     public float getCurrentVehicleSpeedKmHour() {
-        return getCurrentVehicleSpeedKmHour(vehicleId);
+        long vid = getVehicleId();
+        return getCurrentVehicleSpeedKmHour(vid);
     }
 
     /**
@@ -318,7 +321,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     public Vector3f getForwardVector(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getForwardVector(vehicleId, result);
+        long vid = getVehicleId();
+        getForwardVector(vid, result);
         return result;
     }
 
@@ -426,7 +430,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * Reset this vehicle's suspension.
      */
     public void resetSuspension() {
-        resetSuspension(vehicleId);
+        long vid = getVehicleId();
+        resetSuspension(vid);
     }
 
     /**
@@ -642,7 +647,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param value the desired steering angle (in radians, 0=straight)
      */
     public void steer(int wheel, float value) {
-        steer(vehicleId, wheel, value);
+        long vid = getVehicleId();
+        steer(vid, wheel, value);
     }
 
     /**
