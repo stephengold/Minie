@@ -84,13 +84,13 @@ public class VehicleTuning implements JmeCloneable, Savable {
      */
     private float maxSuspensionTravelCm = 500f;
     /**
-     * suspension damping when expanded (0&rarr;no damping, default=0.88)
-     */
-    private float suspensionDamping = 0.88f;
-    /**
      * suspension damping when compressed (0&rarr;no damping, default=0.83)
      */
     private float suspensionCompression = 0.83f;
+    /**
+     * suspension damping when expanded (0&rarr;no damping, default=0.88)
+     */
+    private float suspensionDamping = 0.88f;
     /**
      * suspension stiffness constant (10&rarr;off-road buggy, 50&rarr;sports
      * car, 200&rarr;Formula-1 race car, default=5.88)
