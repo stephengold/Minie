@@ -62,8 +62,10 @@ import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
+import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
@@ -131,27 +133,20 @@ public class TestDefaults {
         Assert.assertEquals(0f, info.waterOffset(), 0f);
 
         testShapes();
+        // TODO GhostControl
         // TODO PhysicsCharacter
-        // TODO PhysicsGhostObject
-        // TODO PhysicsVehicle
         // TODO RigidBodyControl
         // TODO VehicleControl
+        PhysicsGhostObject ghost = new PhysicsGhostObject(box);
+        testPco(ghost);
+        Assert.assertFalse(ghost.isContactResponse());
 
         rigidA = new PhysicsRigidBody(box);
-        testPco(rigidA);
-        Assert.assertFalse(rigidA.isStatic());
-        Assert.assertEquals(0, rigidA.countJoints());
-        Assert.assertEquals(0f, rigidA.getAngularDamping(), 0f);
-        Assert.assertEquals(1f, rigidA.getAngularFactor(), 0f);
-        Assert.assertEquals(1f, rigidA.getAngularSleepingThreshold(), 0f);
-        assertEquals(0f, 0f, 0f, rigidA.getAngularVelocity(null), 0);
-        assertEquals(0f, 0f, 0f, rigidA.getLinearVelocity(null), 0);
-        Assert.assertFalse(rigidA.isKinematic());
-        Assert.assertEquals(1f, rigidA.getMass(), 0f);
-        Assert.assertEquals(Activation.active, rigidA.getActivationState());
+        testRigidBody(rigidA);
 
         softA = new PhysicsSoftBody();
         testPco(softA);
+        Assert.assertTrue(softA.isContactResponse());
         Assert.assertEquals(0, softA.countClusters());
         Assert.assertEquals(0, softA.countFaces());
         Assert.assertEquals(0, softA.countJoints());
@@ -198,6 +193,21 @@ public class TestDefaults {
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
         softA.generateClusters(2, 999);
         softA.setMass(1f);
+
+        PhysicsVehicle vehicle = new PhysicsVehicle(box);
+        testRigidBody(vehicle);
+        Assert.assertEquals(10.5f, vehicle.getFrictionSlip(), 0f);
+        Assert.assertEquals(6000f, vehicle.getMaxSuspensionForce(), 0f);
+        Assert.assertEquals(500f, vehicle.getMaxSuspensionTravelCm(), 0f);
+        Assert.assertEquals(0, vehicle.getNumWheels());
+        Assert.assertEquals(0.83f, vehicle.getSuspensionCompression(), 0f);
+        Assert.assertEquals(0.88f, vehicle.getSuspensionDamping(), 0f);
+        Assert.assertEquals(5.88f, vehicle.getSuspensionStiffness(), 0f);
+
+        vehicle.createVehicle(space);
+        Assert.assertNotEquals(0L, vehicle.getVehicleId());
+        Assert.assertEquals(0f, vehicle.getCurrentVehicleSpeedKmHour(), 0f);
+        assertEquals(0f, 0f, 1f, vehicle.getForwardVector(null), 0f);
 
         testJoints();
     }
@@ -307,6 +317,7 @@ public class TestDefaults {
      * @param pco the object to test (not null, unaffected)
      */
     private void testPco(PhysicsCollisionObject pco) {
+        Assert.assertNotEquals(0L, pco.getObjectId());
         Assert.assertFalse(pco.isInWorld());
         Assert.assertTrue(pco.isActive());
         assertEquals(1f, 1f, 1f, pco.getAnisotropicFriction(null), 0f);
@@ -324,7 +335,6 @@ public class TestDefaults {
         Assert.assertEquals(largeFloat, pco.getContactProcessingThreshold(), 0f);
         Assert.assertEquals(largeFloat, pco.getContactStiffness(), 0f);
 
-        Assert.assertTrue(pco.isContactResponse());
         Assert.assertEquals(0f, pco.getDeactivationTime(), 0f);
         Assert.assertNull(pco.getDebugMaterial());
         Assert.assertNull(pco.debugMeshInitListener());
@@ -337,6 +347,28 @@ public class TestDefaults {
         Assert.assertEquals(0f, pco.getRollingFriction(), 0f);
         Assert.assertEquals(0f, pco.getSpinningFriction(), 0f);
         Assert.assertNull(pco.getUserObject());
+    }
+
+    /**
+     * Test the defaults that are common to all newly-created rigid bodies.
+     *
+     * @param prb the body to test (not null, unaffected)
+     */
+    private void testRigidBody(PhysicsRigidBody prb) {
+        Assert.assertNotNull(prb);
+        testPco(prb);
+
+        Assert.assertEquals(0, prb.countJoints());
+        Assert.assertEquals(Activation.active, prb.getActivationState());
+        Assert.assertEquals(0f, prb.getAngularDamping(), 0f);
+        Assert.assertEquals(1f, prb.getAngularFactor(), 0f);
+        Assert.assertEquals(1f, prb.getAngularSleepingThreshold(), 0f);
+        assertEquals(0f, 0f, 0f, prb.getAngularVelocity(null), 0);
+        assertEquals(0f, 0f, 0f, prb.getLinearVelocity(null), 0);
+        Assert.assertEquals(1f, prb.getMass(), 0f);
+        Assert.assertTrue(prb.isContactResponse());
+        Assert.assertFalse(prb.isStatic());
+        Assert.assertFalse(prb.isKinematic());
     }
 
     /**
