@@ -174,7 +174,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
             Vector3f axle, float restLength, float radius, boolean frontWheel) {
         Validate.positive(radius, "radius");
 
-        wheelSpatial = spatial;
+        this.wheelSpatial = spatial;
         this.location.set(location);
         this.suspensionDirection.set(direction);
         this.axisDirection.set(axle);
@@ -514,7 +514,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
      * @param frontWheel true&rarr;front wheel, false&rarr;non-front wheel
      */
     public void setFrontWheel(boolean frontWheel) {
-        this.isFront = frontWheel;
+        isFront = frontWheel;
         applyInfo();
     }
 

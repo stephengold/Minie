@@ -80,7 +80,7 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Test rigid-body controls with various shapes and collision margins. Features
+ * Test various shapes and collision margins on a RigidBodyControl. Features
  * tested include bounding boxes, debug visualization, and ray casting.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -97,8 +97,7 @@ public class TestRbc extends ActionApplication {
     /**
      * application name (for the title bar of the app's window)
      */
-    final private static String applicationName
-            = TestRbc.class.getSimpleName();
+    final private static String applicationName = TestRbc.class.getSimpleName();
     // *************************************************************************
     // fields
 

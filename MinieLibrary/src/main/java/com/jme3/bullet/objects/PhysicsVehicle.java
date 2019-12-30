@@ -94,12 +94,13 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     protected ArrayList<VehicleWheel> wheels = new ArrayList<>(6);
     /**
-     * Unique identifier of the ray caster.
+     * Unique identifier of the ray caster. createVehicle() sets this to a
+     * non-zero value. The ID will change if the object gets rebuilt.
      */
     private long rayCasterId = 0L;
     /**
-     * Unique identifier of the btRaycastVehicle. The constructor sets this to a
-     * non-zero value.
+     * Unique identifier of the btRaycastVehicle. createVehicle() sets this to a
+     * non-zero value. The ID will change if the object gets rebuilt.
      */
     private long vehicleId = 0L;
     /**
@@ -144,9 +145,10 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     // new methods exposed
 
     /**
-     * Apply the specified engine force to all wheels. Works continuously.
+     * Apply the specified engine force to all wheels. Works continuously. The
+     * vehicle must be added to a PhysicsSpace.
      *
-     * @param force the desired amount of force
+     * @param force the desired amount of force (may be negative)
      */
     public void accelerate(float force) {
         for (int i = 0; i < wheels.size(); ++i) {
@@ -156,9 +158,11 @@ public class PhysicsVehicle extends PhysicsRigidBody {
 
     /**
      * Apply the given engine force to the indexed wheel. Works continuously.
+     * The vehicle must be added to a PhysicsSpace.
      *
-     * @param wheel the index of the wheel to apply the force to (&ge;0)
-     * @param force the desired amount of force
+     * @param wheel the index of the wheel to apply the force to (&ge;0,
+     * &lt;count)
+     * @param force the desired amount of force (may be negative)
      */
     public void accelerate(int wheel, float force) {
         long vid = getVehicleId();
@@ -244,9 +248,9 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Apply the given brake force to all wheels. Works continuously.
+     * Apply the given brake impulse to all wheels. Works continuously.
      *
-     * @param force the desired amount of force
+     * @param force the desired impulse
      */
     public void brake(float force) {
         for (int i = 0; i < wheels.size(); ++i) {
@@ -255,10 +259,12 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Apply the given brake force to the indexed wheel. Works continuously.
+     * Apply the specified brake impulse to the indexed wheel. Works
+     * continuously. The vehicle must be added to a PhysicsSpace.
      *
-     * @param wheel the index of the wheel to apply the force to (&ge;0)
-     * @param force the desired amount of force
+     * @param wheel the index of the wheel to apply the impulse to (&ge;0,
+     * &lt;count)
+     * @param force the desired impulse
      */
     public void brake(int wheel, float force) {
         long vid = getVehicleId();
@@ -269,7 +275,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * Used internally, creates the btRaycastVehicle when vehicle is added to a
      * PhysicsSpace.
      *
-     * @param space which PhysicsSpace
+     * @param space which PhysicsSpace (not zero)
      */
     public void createVehicle(PhysicsSpace space) {
         physicsSpace = space;
@@ -278,7 +284,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         }
         long spaceId = space.getSpaceId();
         if (spaceId == 0L) {
-            throw new IllegalStateException("Physics space is not initialized!");
+            throw new IllegalStateException(
+                    "Physics space is not initialized!");
         }
         if (rayCasterId != 0L) {
             logger3.log(Level.FINE, "Clearing RayCaster {0}",
@@ -304,9 +311,10 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Read the vehicle's speed in km/h.
+     * Read the vehicle's speed in km/h. The vehicle must be added to a
+     * PhysicsSpace.
      *
-     * @return speed (in kilometers per hour)
+     * @return speed (in kilometers per hour, positive in the forward direction)
      */
     public float getCurrentVehicleSpeedKmHour() {
         long vid = getVehicleId();
@@ -314,7 +322,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Copy the vehicle's forward direction.
+     * Copy the vehicle's forward direction. The vehicle must be added to a
+     * PhysicsSpace.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a direction vector (in physics-space coordinates, either
@@ -418,7 +427,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * Remove a wheel.
      *
-     * @param wheel the index of the wheel to remove (&ge;0)
+     * @param wheel the index of the wheel to remove (&ge;0, &lt;count)
      */
     public void removeWheel(int wheel) {
         Validate.nonNegative(wheel, "wheel");
@@ -428,7 +437,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Reset this vehicle's suspension.
+     * Reset this vehicle's suspension. The vehicle must be added to a
+     * PhysicsSpace.
      */
     public void resetSuspension() {
         long vid = getVehicleId();
@@ -453,7 +463,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * <p>
      * For better handling, increase the friction.
      *
-     * @param wheel the index of the wheel to modify (&ge;0)
+     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
      * @param frictionSlip the desired coefficient of friction between tire and
      * ground (0.8&rarr;realistic car, 10000&rarr;kart racer)
      */
@@ -482,7 +492,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * If the suspension cannot handle the vehicle's weight, increase this
      * limit.
      *
-     * @param wheel the index of the wheel to modify (&ge;0)
+     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
      * @param maxSuspensionForce the desired maximum force per wheel
      * (default=6000)
      */
@@ -505,7 +515,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * Alter the maximum suspension travel distance for the indexed wheel.
      *
-     * @param wheel the index of the wheel to modify (&ge;0)
+     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
      * @param maxSuspensionTravelCm the desired maximum distance the suspension
      * can be compressed (in centimeters)
      */
@@ -525,7 +535,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * reduce this factor to prevent the vehicle from rolling over. You should
      * also try lowering the vehicle's center of mass.
      *
-     * @param wheel the index of the wheel to modify (&ge;0)
+     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
      * @param rollInfluence the desired roll-influence factor (0&rarr;no roll
      * torque, 1&rarr;realistic behavior, default=1)
      */
@@ -561,7 +571,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
      * 0.3 are good values
      *
-     * @param wheel the index of the wheel to modify (&ge;0)
+     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
      * @param suspensionCompression the desired damping coefficient
      */
     public void setSuspensionCompression(int wheel,
@@ -596,7 +606,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
      * 0.3 are good values
      *
-     * @param wheel the index of the wheel to modify (&ge;0)
+     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
      * @param suspensionDamping the desired damping coefficient
      */
     public void setSuspensionDamping(int wheel, float suspensionDamping) {
@@ -619,7 +629,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * Alter the suspension stiffness of the indexed wheel.
      *
-     * @param wheel the index of the wheel to modify (&ge;0)
+     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
      * @param suspensionStiffness the desired stiffness coefficient
      * (10&rarr;off-road buggy, 50&rarr;sports car, 200&rarr;Formula-1 race car,
      * default=5.88)
@@ -629,9 +639,10 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Alter the steering angle of all front wheels.
+     * Alter the steering angle of all front wheels. The vehicle must be added
+     * to a PhysicsSpace.
      *
-     * @param value the desired steering angle (in radians, 0=straight)
+     * @param value the desired angle (in radians, 0=straight, positive=left)
      */
     public void steer(float value) {
         for (int i = 0; i < wheels.size(); ++i) {
@@ -642,10 +653,11 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Alter the steering angle of the indexed wheel.
+     * Alter the steering angle of the indexed wheel. The vehicle must be added
+     * to a PhysicsSpace.
      *
-     * @param wheel the index of the wheel to steer (&ge;0)
-     * @param value the desired steering angle (in radians, 0=straight)
+     * @param wheel the index of the wheel to steer (&ge;0, &lt;count)
+     * @param value the desired angle (in radians, 0=straight, positive=left)
      */
     public void steer(int wheel, float value) {
         long vid = getVehicleId();
@@ -762,6 +774,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         RigidBodyMotionState ms = getMotionState();
         ms.setVehicle(this);
         createVehicle(physicsSpace);
+        // TODO re-create any joints
     }
 
     /**

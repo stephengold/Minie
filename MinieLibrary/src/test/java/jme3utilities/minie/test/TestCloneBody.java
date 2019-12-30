@@ -71,7 +71,8 @@ public class TestCloneBody {
     // new methods exposed
 
     /**
-     * Test cloning/saving/loading on subclasses of PhysicsBody.
+     * Test cloning/saving/loading on subclasses of PhysicsBody. TODO add to
+     * PhysicsSpace, add joints
      */
     @Test
     public void testCloneBody() {
@@ -102,7 +103,7 @@ public class TestCloneBody {
         RigidBodyControl rbcClone = (RigidBodyControl) Misc.deepCopy(rbc);
         cloneTest(rbc, rbcClone);
         /*
-         * PhysicsVehicle
+         * PhysicsVehicle - TODO add wheel
          */
         PhysicsVehicle vehicle = new PhysicsVehicle(shape, 1f);
         setParameters(vehicle, 0f);
@@ -110,7 +111,7 @@ public class TestCloneBody {
         PhysicsVehicle vehicleClone = (PhysicsVehicle) Misc.deepCopy(vehicle);
         cloneTest(vehicle, vehicleClone);
         /*
-         * VehicleControl
+         * VehicleControl - TODO add wheel
          */
         VehicleControl vc = new VehicleControl(shape, 1f);
         setParameters(vc, 0f);
@@ -235,6 +236,9 @@ public class TestCloneBody {
          */
         body.setLinearVelocity(new Vector3f(b + 0.26f, b + 0.27f, b + 0.28f));
         body.setDeactivationTime(b + 0.087f);
+        if (body instanceof PhysicsVehicle) {
+            // TODO
+        }
     }
 
     private void setSoft(PhysicsSoftBody body, float b) {
@@ -351,6 +355,10 @@ public class TestCloneBody {
             assert v.x == b + 0.26f : v;
             assert v.y == b + 0.27f : v;
             assert v.z == b + 0.28f : v;
+        }
+
+        if (body instanceof PhysicsVehicle) {
+            // TODO
         }
     }
 
