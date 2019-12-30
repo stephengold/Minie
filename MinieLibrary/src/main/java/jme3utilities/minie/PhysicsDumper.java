@@ -1134,6 +1134,10 @@ public class PhysicsDumper extends Dumper {
             VehicleWheel wheel = vehicle.getWheel(wheelIndex);
             String desc = describer.describe(wheel);
             stream.print(desc);
+
+            stream.print(" raycast=");
+            float raycast = vehicle.castRay(wheelIndex);
+            stream.print(MyString.describe(raycast));
         }
         stream.printf("%n%s", indent);
     }

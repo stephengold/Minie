@@ -210,6 +210,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
                     wheel.getRestLength(), wheel.getRadius(), tuning,
                     wheel.isFrontWheel());
             wheel.setVehicleId(vehicleId, index);
+            assert wheel.checkCopies();
         }
 
         return wheel;
@@ -276,6 +277,20 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
+     * Compute depth for the indexed wheel by raycasting. The vehicle must be
+     * added to a PhysicsSpace.
+     *
+     * @param wheelIndex the index of the wheel to raycast (&ge;0, &lt;count)
+     * @return the depth value
+     */
+    public float castRay(int wheelIndex) {
+        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size());
+
+        long vid = getVehicleId();
+        return rayCast(vid, wheelIndex);
+    }
+
+    /**
      * Used internally, creates the btRaycastVehicle when vehicle is added to a
      * PhysicsSpace.
      *
@@ -312,6 +327,18 @@ public class PhysicsVehicle extends PhysicsRigidBody {
                     wheel.getAxle(null), wheel.getRestLength(),
                     wheel.getRadius(), tuning, wheel.isFrontWheel()));
         }
+    }
+
+    /**
+     * Read the index of the vehicle's forward axis. The vehicle must be added
+     * to a PhysicsSpace.
+     *
+     * @return the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     */
+    public int forwardAxisIndex() {
+        long vid = getVehicleId();
+        int result = getForwardAxisIndex(vid);
+        return result;
     }
 
     /**
@@ -375,6 +402,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @return count (&ge;0)
      */
     public int getNumWheels() {
+        assert checkNumWheels();
         int count = wheels.size();
         return count;
     }
@@ -447,6 +475,18 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     public void resetSuspension() {
         long vid = getVehicleId();
         resetSuspension(vid);
+    }
+
+    /**
+     * Read the index of the vehicle's right-side axis. The vehicle must be
+     * added to a PhysicsSpace.
+     *
+     * @return the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     */
+    public int rightAxisIndex() {
+        long vid = getVehicleId();
+        int result = getRightAxisIndex(vid);
+        return result;
     }
 
     /**
@@ -674,6 +714,18 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
+     * Read the index of the vehicle's up axis. The vehicle must be added to a
+     * PhysicsSpace.
+     *
+     * @return the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     */
+    public int upAxisIndex() {
+        long vid = getVehicleId();
+        int result = getUpAxisIndex(vid);
+        return result;
+    }
+
+    /**
      * used internally
      */
     public void updateWheels() {
@@ -814,6 +866,24 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         super.write(exporter);
     }
     // *************************************************************************
+    // private methods
+
+    /**
+     * Compare Bullet's wheel count to the local copy.
+     *
+     * @return true if the counts are exactly equal, otherwise false
+     */
+    private boolean checkNumWheels() {
+        boolean result = true;
+        if (vehicleId != 0L) {
+            int size = wheels.size();
+            int count = getNumWheels(vehicleId);
+            result = (size == count);
+        }
+
+        return result;
+    }
+    // *************************************************************************
     // native methods
 
     native private int addWheel(long vehicleId, Vector3f location,
@@ -834,7 +904,17 @@ public class PhysicsVehicle extends PhysicsRigidBody {
 
     native private float getCurrentVehicleSpeedKmHour(long vehicleId);
 
+    native private int getForwardAxisIndex(long vehicleId);
+
     native private void getForwardVector(long vehicleId, Vector3f storeResult);
+
+    native private int getRightAxisIndex(long vehicleId);
+
+    native private int getNumWheels(long vehicleId);
+
+    native private int getUpAxisIndex(long vehicleId);
+
+    native private float rayCast(long vehicleId, int wheelIndex);
 
     native private void resetSuspension(long vehicleId);
 
