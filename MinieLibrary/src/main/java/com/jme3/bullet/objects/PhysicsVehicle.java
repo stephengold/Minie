@@ -150,8 +150,9 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param force the desired amount of force (may be negative)
      */
     public void accelerate(float force) {
+        long vid = getVehicleId();
         for (int wheelIndex = 0; wheelIndex < wheels.size(); ++wheelIndex) {
-            accelerate(wheelIndex, force);
+            applyEngineForce(vid, wheelIndex, force);
         }
     }
 
@@ -164,6 +165,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param force the desired amount of force (may be negative)
      */
     public void accelerate(int wheelIndex, float force) {
+        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size());
+
         long vid = getVehicleId();
         applyEngineForce(vid, wheelIndex, force);
     }
@@ -266,6 +269,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param impulse the desired impulse
      */
     public void brake(int wheelIndex, float impulse) {
+        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size());
+
         long vid = getVehicleId();
         brake(vid, wheelIndex, impulse);
     }
@@ -370,7 +375,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @return count (&ge;0)
      */
     public int getNumWheels() {
-        return wheels.size();
+        int count = wheels.size();
+        return count;
     }
 
     /**
@@ -429,7 +435,6 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param wheelIndex the index of the wheel to remove (&ge;0, &lt;count)
      */
     public void removeWheel(int wheelIndex) {
-        Validate.nonNegative(wheelIndex, "wheel");
         wheels.remove(wheelIndex);
         rebuildRigidBody();
         //Bullet has no API to remove a wheel.
@@ -467,7 +472,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * ground (0.8&rarr;realistic car, 10000&rarr;kart racer)
      */
     public void setFrictionSlip(int wheelIndex, float frictionSlip) {
-        wheels.get(wheelIndex).setFrictionSlip(frictionSlip);
+        VehicleWheel wheel = wheels.get(wheelIndex);
+        wheel.setFrictionSlip(frictionSlip);
     }
 
     /**
@@ -497,7 +503,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     public void setMaxSuspensionForce(int wheelIndex,
             float maxSuspensionForce) {
-        wheels.get(wheelIndex).setMaxSuspensionForce(maxSuspensionForce);
+        VehicleWheel wheel = wheels.get(wheelIndex);
+        wheel.setMaxSuspensionForce(maxSuspensionForce);
     }
 
     /**
@@ -521,7 +528,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     public void setMaxSuspensionTravelCm(int wheelIndex,
             float maxSuspensionTravelCm) {
-        wheels.get(wheelIndex).setMaxSuspensionTravelCm(maxSuspensionTravelCm);
+        VehicleWheel wheel = wheels.get(wheelIndex);
+        wheel.setMaxSuspensionTravelCm(maxSuspensionTravelCm);
     }
 
     /**
@@ -540,7 +548,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * torque, 1&rarr;realistic behavior, default=1)
      */
     public void setRollInfluence(int wheelIndex, float rollInfluence) {
-        wheels.get(wheelIndex).setRollInfluence(rollInfluence);
+        VehicleWheel wheel = wheels.get(wheelIndex);
+        wheel.setRollInfluence(rollInfluence);
     }
 
     /**
@@ -574,8 +583,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param coefficient the desired damping coefficient
      */
     public void setSuspensionCompression(int wheelIndex, float coefficient) {
-        wheels.get(wheelIndex)
-                .setWheelsDampingCompression(coefficient);
+        VehicleWheel wheel = wheels.get(wheelIndex);
+        wheel.setWheelsDampingCompression(coefficient);
     }
 
     /**
@@ -609,7 +618,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param coefficient the desired damping coefficient
      */
     public void setSuspensionDamping(int wheelIndex, float coefficient) {
-        wheels.get(wheelIndex).setWheelsDampingRelaxation(coefficient);
+        VehicleWheel wheel = wheels.get(wheelIndex);
+        wheel.setWheelsDampingRelaxation(coefficient);
     }
 
     /**
@@ -632,7 +642,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * buggy, 50&rarr;sports car, 200&rarr;Formula-1 race car, default=5.88)
      */
     public void setSuspensionStiffness(int wheelIndex, float coefficient) {
-        wheels.get(wheelIndex).setSuspensionStiffness(coefficient);
+        VehicleWheel wheel = wheels.get(wheelIndex);
+        wheel.setSuspensionStiffness(coefficient);
     }
 
     /**
@@ -657,6 +668,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param angle the desired angle (in radians, 0=straight, positive=left)
      */
     public void steer(int wheelIndex, float angle) {
+        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size());
         long vid = getVehicleId();
         steer(vid, wheelIndex, angle);
     }
@@ -668,7 +680,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         if (vehicleId != 0L) {
             for (int wheelIndex = 0; wheelIndex < wheels.size(); ++wheelIndex) {
                 updateWheelTransform(vehicleId, wheelIndex, true);
-                wheels.get(wheelIndex).updatePhysicsState();
+                VehicleWheel wheel = wheels.get(wheelIndex);
+                wheel.updatePhysicsState();
             }
         }
     }
