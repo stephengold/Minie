@@ -294,8 +294,8 @@ public class TestSoftBody
         dim.bind("test squishyBall", KeyInput.KEY_F1);
         dim.bind("test tablecloth", KeyInput.KEY_F2);
 
+        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
 
@@ -369,8 +369,8 @@ public class TestSoftBody
                     toggleAxes();
                     return;
 
-                case "toggle boxes":
-                    toggleBoxes();
+                case "toggle aabb":
+                    toggleAabb();
                     return;
 
                 case "toggle help":
@@ -971,17 +971,9 @@ public class TestSoftBody
     }
 
     /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
-    }
-
-    /**
      * Toggle visualization of collision-object bounding boxes.
      */
-    private void toggleBoxes() {
+    private void toggleAabb() {
         if (bbFilter == null) {
             bbFilter = new FilterAll(true);
         } else {
@@ -989,6 +981,14 @@ public class TestSoftBody
         }
 
         bulletAppState.setDebugBoundingBoxFilter(bbFilter);
+    }
+
+    /**
+     * Toggle visualization of collision-object axes.
+     */
+    private void toggleAxes() {
+        float length = bulletAppState.debugAxisLength();
+        bulletAppState.setDebugAxisLength(0.5f - length);
     }
 
     /**
