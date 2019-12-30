@@ -307,11 +307,12 @@ public class PhysicsDumper extends Dumper {
 
         stream.print(" with");
         if (body instanceof PhysicsVehicle) {
-            int numWheels = ((PhysicsVehicle) body).getNumWheels();
+            PhysicsVehicle vehicle = (PhysicsVehicle) body;
+            int numWheels = vehicle.getNumWheels();
             stream.printf(" %d wheel%s", numWheels,
                     (numWheels == 1) ? "" : "s");
             if (numWheels > 0) {
-                dumpWheels((PhysicsVehicle) body, indent, numWheels);
+                dumpWheels(vehicle, indent, numWheels);
             }
             stream.printf(" and");
         }

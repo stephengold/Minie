@@ -137,8 +137,7 @@ public class TestDac extends ActionApplication {
     /**
      * application name (for the title bar of the app's window)
      */
-    final private static String applicationName
-            = TestDac.class.getSimpleName();
+    final private static String applicationName = TestDac.class.getSimpleName();
     // *************************************************************************
     // fields
 
