@@ -255,10 +255,9 @@ public class TestRbc extends ActionApplication {
         dim.bind("test Prism", KeyInput.KEY_F3);
         dim.bind("test SmallTerrain", KeyInput.KEY_F2);
 
-        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
+        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
-        dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
+        dim.bind("toggle view", KeyInput.KEY_SLASH);
 
         float x = 10f;
         float y = cam.getHeight() - 40f;
@@ -316,16 +315,14 @@ public class TestRbc extends ActionApplication {
                     setScale(0.8f, 0.8f, 0.8f);
                     return;
 
-                case "toggle boxes":
-                    toggleBoxes();
+                case "toggle aabb":
+                    toggleAabb();
                     return;
                 case "toggle help":
                     toggleHelp();
                     return;
-                case "toggle meshes":
+                case "toggle view":
                     toggleMeshes();
-                    return;
-                case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
             }
@@ -656,7 +653,7 @@ public class TestRbc extends ActionApplication {
     /**
      * Toggle visualization of collision-object bounding boxes.
      */
-    private void toggleBoxes() {
+    private void toggleAabb() {
         if (bbFilter == null) {
             bbFilter = new FilterAll(true);
         } else {
@@ -703,10 +700,21 @@ public class TestRbc extends ActionApplication {
      * Update the status text in the GUI.
      */
     private void updateStatusText() {
-        Vector3f scale = controlledSpatial.getLocalScale();
+        String viewName;
+        boolean debug = bulletAppState.isDebugEnabled();
+        if (debug) {
+            viewName = "physics";
+            if (bbFilter != null) {
+                viewName += "+aabb";
+            }
+        } else {
+            viewName = "mesh";
+        }
         float margin = testShape.getMargin();
-        String message = String.format("shape=%s, margin=%.3f, scale=%s",
-                shapeName, margin, scale);
+        Vector3f scale = controlledSpatial.getLocalScale();
+        String message = String.format(
+                "shape=%s, view=%s, margin=%.3f, scale=%s",
+                shapeName, viewName, margin, scale);
         statusText.setText(message);
     }
 }
