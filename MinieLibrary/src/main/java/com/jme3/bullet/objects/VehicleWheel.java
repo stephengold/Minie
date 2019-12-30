@@ -64,9 +64,12 @@ public class VehicleWheel implements JmeCloneable, Savable {
     /**
      * field names for serialization
      */
+    final private static String tagBrake = "brake";
+    final private static String tagEngineForce = "engineForce";
     final private static String tagFrontWheel = "frontWheel";
     final private static String tagRestLength = "restLength";
     final private static String tagRollInfluence = "rollInfluence";
+    final private static String tagSteerAngle = "steerAngle";
     final private static String tagTuning = "tuning";
     final private static String tagWheelAxle = "wheelAxle";
     final private static String tagWheelDirection = "wheelDirection";
@@ -218,6 +221,33 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
+     * Compare Bullet's values to the local copies.
+     *
+     * @return true if the values are exactly equal, otherwise false
+     */
+    boolean checkCopies() {
+        boolean nativeIsFront = isFront(vehicleId, wheelIndex);
+        boolean result = (nativeIsFront == isFront);
+
+        if (result) {
+            float nativeRadius = getRadius(vehicleId, wheelIndex);
+            result = (nativeRadius == radius);
+        }
+
+        if (result) {
+            float nativeRestLength = getRestLength(vehicleId, wheelIndex);
+            result = (nativeRestLength == restLength);
+        }
+
+        if (result) {
+            float nativeRollInfluence = getRollInfluence(vehicleId, wheelIndex);
+            result = (nativeRollInfluence == rollInfluence);
+        }
+
+        return result;
+    }
+
+    /**
      * Copy this wheel's axis direction.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -230,6 +260,16 @@ public class VehicleWheel implements JmeCloneable, Savable {
         } else {
             return storeResult.set(axisDirection);
         }
+    }
+
+    /**
+     * Read this wheel's braking impulse (native field: m_brake).
+     *
+     * @return the amount of impulse
+     */
+    public float getBrake() {
+        float result = getBrake(vehicleId, wheelIndex);
+        return result;
     }
 
     /**
@@ -298,6 +338,16 @@ public class VehicleWheel implements JmeCloneable, Savable {
         } else {
             return storeResult.set(suspensionDirection);
         }
+    }
+
+    /**
+     * Read this wheel's engine force (native field: m_engineForce).
+     *
+     * @return the amount of force (typically negative)
+     */
+    public float getEngineForce() {
+        float result = getEngineForce(vehicleId, wheelIndex);
+        return result;
     }
 
     /**
@@ -391,6 +441,16 @@ public class VehicleWheel implements JmeCloneable, Savable {
      */
     public float getSkidInfo() {
         return getSkidInfo(vehicleId, wheelIndex);
+    }
+
+    /**
+     * Read this wheel's steering angle (native field: m_steering).
+     *
+     * @return angle (in radians, 0=straight, left is positive)
+     */
+    public float getSteerAngle() {
+        float result = getSteerAngle(vehicleId, wheelIndex);
+        return result;
     }
 
     /**
@@ -729,6 +789,10 @@ public class VehicleWheel implements JmeCloneable, Savable {
         rollInfluence = capsule.readFloat(tagRollInfluence, 1f);
         radius = capsule.readFloat(tagWheelRadius, 0.5f);
         restLength = capsule.readFloat(tagRestLength, 1f);
+
+        capsule.readFloat(tagBrake, 0f); // TODO
+        capsule.readFloat(tagEngineForce, 0f);
+        capsule.readFloat(tagSteerAngle, 0f);
     }
 
     /**
@@ -751,6 +815,10 @@ public class VehicleWheel implements JmeCloneable, Savable {
         capsule.write(rollInfluence, tagRollInfluence, 1f);
         capsule.write(radius, tagWheelRadius, 0.5f);
         capsule.write(restLength, tagRestLength, 1f);
+
+        capsule.write(getBrake(), tagBrake, 0f);
+        capsule.write(getEngineForce(), tagEngineForce, 0f);
+        capsule.write(getSteerAngle(), tagSteerAngle, 0f);
     }
     // *************************************************************************
     // private methods
@@ -768,6 +836,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
                     radius,
                     isFront,
                     restLength);
+            assert checkCopies();
         }
     }
     // *************************************************************************
@@ -785,6 +854,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
             boolean frontWheel,
             float suspensionRestLength);
 
+    native private float getBrake(long vehicleId, int wheelIndex);
+
     native private void getCollisionLocation(long vehicleId, int wheelIndex,
             Vector3f vector);
 
@@ -793,11 +864,23 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
     native private float getDeltaRotation(long vehicleId, int wheelIndex);
 
+    native private float getEngineForce(long vehicleId, int wheelIndex);
+
+    native private float getRadius(long vehicleId, int wheelIndex);
+
+    native private float getRestLength(long vehicleId, int wheelIndex);
+
+    native private float getRollInfluence(long vehicleId, int wheelIndex);
+
     native private float getSkidInfo(long vehicleId, int wheelIndex);
+
+    native private float getSteerAngle(long vehicleId, int wheelIndex);
 
     native private void getWheelLocation(long vehicleId, int wheelIndex,
             Vector3f vector);
 
     native private void getWheelRotation(long vehicleId, int wheelIndex,
             Matrix3f matrix);
+
+    native private boolean isFront(long vehicleId, int wheelIndex);
 }
