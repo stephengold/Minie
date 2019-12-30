@@ -150,8 +150,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param force the desired amount of force (may be negative)
      */
     public void accelerate(float force) {
-        for (int i = 0; i < wheels.size(); ++i) {
-            accelerate(i, force);
+        for (int wheelIndex = 0; wheelIndex < wheels.size(); ++wheelIndex) {
+            accelerate(wheelIndex, force);
         }
     }
 
@@ -159,13 +159,13 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * Apply the given engine force to the indexed wheel. Works continuously.
      * The vehicle must be added to a PhysicsSpace.
      *
-     * @param wheel the index of the wheel to apply the force to (&ge;0,
+     * @param wheelIndex the index of the wheel to apply the force to (&ge;0,
      * &lt;count)
      * @param force the desired amount of force (may be negative)
      */
-    public void accelerate(int wheel, float force) {
+    public void accelerate(int wheelIndex, float force) {
         long vid = getVehicleId();
-        applyEngineForce(vid, wheel, force);
+        applyEngineForce(vid, wheelIndex, force);
     }
 
     /**
@@ -249,11 +249,11 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * Apply the given brake impulse to all wheels. Works continuously.
      *
-     * @param force the desired impulse
+     * @param impulse the desired impulse
      */
-    public void brake(float force) {
-        for (int i = 0; i < wheels.size(); ++i) {
-            brake(i, force);
+    public void brake(float impulse) {
+        for (int wheelIndex = 0; wheelIndex < wheels.size(); ++wheelIndex) {
+            brake(wheelIndex, impulse);
         }
     }
 
@@ -261,13 +261,13 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * Apply the specified brake impulse to the indexed wheel. Works
      * continuously. The vehicle must be added to a PhysicsSpace.
      *
-     * @param wheel the index of the wheel to apply the impulse to (&ge;0,
+     * @param wheelIndex the index of the wheel to apply the impulse to (&ge;0,
      * &lt;count)
-     * @param force the desired impulse
+     * @param impulse the desired impulse
      */
-    public void brake(int wheel, float force) {
+    public void brake(int wheelIndex, float impulse) {
         long vid = getVehicleId();
-        brake(vid, wheel, force);
+        brake(vid, wheelIndex, impulse);
     }
 
     /**
@@ -416,21 +416,21 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * Access the indexed wheel of this vehicle.
      *
-     * @param wheel the index of the wheel to access (&ge;0, &lt;count)
+     * @param wheelIndex the index of the wheel to access (&ge;0, &lt;count)
      * @return the pre-existing instance
      */
-    public VehicleWheel getWheel(int wheel) {
-        return wheels.get(wheel);
+    public VehicleWheel getWheel(int wheelIndex) {
+        return wheels.get(wheelIndex);
     }
 
     /**
      * Remove a wheel.
      *
-     * @param wheel the index of the wheel to remove (&ge;0, &lt;count)
+     * @param wheelIndex the index of the wheel to remove (&ge;0, &lt;count)
      */
-    public void removeWheel(int wheel) {
-        Validate.nonNegative(wheel, "wheel");
-        wheels.remove(wheel);
+    public void removeWheel(int wheelIndex) {
+        Validate.nonNegative(wheelIndex, "wheel");
+        wheels.remove(wheelIndex);
         rebuildRigidBody();
         //Bullet has no API to remove a wheel.
     }
@@ -462,12 +462,12 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * <p>
      * For better handling, increase the friction.
      *
-     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
+     * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
      * @param frictionSlip the desired coefficient of friction between tire and
      * ground (0.8&rarr;realistic car, 10000&rarr;kart racer)
      */
-    public void setFrictionSlip(int wheel, float frictionSlip) {
-        wheels.get(wheel).setFrictionSlip(frictionSlip);
+    public void setFrictionSlip(int wheelIndex, float frictionSlip) {
+        wheels.get(wheelIndex).setFrictionSlip(frictionSlip);
     }
 
     /**
@@ -491,12 +491,13 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * If the suspension cannot handle the vehicle's weight, increase this
      * limit.
      *
-     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
+     * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
      * @param maxSuspensionForce the desired maximum force per wheel
      * (default=6000)
      */
-    public void setMaxSuspensionForce(int wheel, float maxSuspensionForce) {
-        wheels.get(wheel).setMaxSuspensionForce(maxSuspensionForce);
+    public void setMaxSuspensionForce(int wheelIndex,
+            float maxSuspensionForce) {
+        wheels.get(wheelIndex).setMaxSuspensionForce(maxSuspensionForce);
     }
 
     /**
@@ -514,13 +515,13 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * Alter the maximum suspension travel distance for the indexed wheel.
      *
-     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
+     * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
      * @param maxSuspensionTravelCm the desired maximum distance the suspension
      * can be compressed (in centimeters)
      */
-    public void setMaxSuspensionTravelCm(int wheel,
+    public void setMaxSuspensionTravelCm(int wheelIndex,
             float maxSuspensionTravelCm) {
-        wheels.get(wheel).setMaxSuspensionTravelCm(maxSuspensionTravelCm);
+        wheels.get(wheelIndex).setMaxSuspensionTravelCm(maxSuspensionTravelCm);
     }
 
     /**
@@ -534,12 +535,12 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * reduce this factor to prevent the vehicle from rolling over. You should
      * also try lowering the vehicle's center of mass.
      *
-     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
+     * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
      * @param rollInfluence the desired roll-influence factor (0&rarr;no roll
      * torque, 1&rarr;realistic behavior, default=1)
      */
-    public void setRollInfluence(int wheel, float rollInfluence) {
-        wheels.get(wheel).setRollInfluence(rollInfluence);
+    public void setRollInfluence(int wheelIndex, float rollInfluence) {
+        wheels.get(wheelIndex).setRollInfluence(rollInfluence);
     }
 
     /**
@@ -553,11 +554,10 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
      * 0.3 are good values
      *
-     * @param suspensionCompression the desired damping coefficient
-     * (default=0.83)
+     * @param coefficient the desired damping coefficient (default=0.83)
      */
-    public void setSuspensionCompression(float suspensionCompression) {
-        tuning.setSuspensionCompression(suspensionCompression);
+    public void setSuspensionCompression(float coefficient) {
+        tuning.setSuspensionCompression(coefficient);
     }
 
     /**
@@ -570,12 +570,12 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
      * 0.3 are good values
      *
-     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
-     * @param suspensionCompression the desired damping coefficient
+     * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
+     * @param coefficient the desired damping coefficient
      */
-    public void setSuspensionCompression(int wheel,
-            float suspensionCompression) {
-        wheels.get(wheel).setWheelsDampingCompression(suspensionCompression);
+    public void setSuspensionCompression(int wheelIndex, float coefficient) {
+        wheels.get(wheelIndex)
+                .setWheelsDampingCompression(coefficient);
     }
 
     /**
@@ -589,10 +589,10 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
      * 0.3 are good values
      *
-     * @param suspensionDamping the desired damping coefficient (default=0.88)
+     * @param coefficient the desired damping coefficient (default=0.88)
      */
-    public void setSuspensionDamping(float suspensionDamping) {
-        tuning.setSuspensionDamping(suspensionDamping);
+    public void setSuspensionDamping(float coefficient) {
+        tuning.setSuspensionDamping(coefficient);
     }
 
     /**
@@ -605,11 +605,11 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
      * 0.3 are good values
      *
-     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
-     * @param suspensionDamping the desired damping coefficient
+     * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
+     * @param coefficient the desired damping coefficient
      */
-    public void setSuspensionDamping(int wheel, float suspensionDamping) {
-        wheels.get(wheel).setWheelsDampingRelaxation(suspensionDamping);
+    public void setSuspensionDamping(int wheelIndex, float coefficient) {
+        wheels.get(wheelIndex).setWheelsDampingRelaxation(coefficient);
     }
 
     /**
@@ -617,36 +617,34 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * before adding wheels. After adding a wheel, use
      * {@link #setSuspensionStiffness(int, float)}.
      *
-     * @param suspensionStiffness the desired stiffness coefficient
-     * (10&rarr;off-road buggy, 50&rarr;sports car, 200&rarr;Formula-1 race car,
-     * default=5.88)
+     * @param coefficient the desired stiffness coefficient (10&rarr;off-road
+     * buggy, 50&rarr;sports car, 200&rarr;Formula-1 race car, default=5.88)
      */
-    public void setSuspensionStiffness(float suspensionStiffness) {
-        tuning.setSuspensionStiffness(suspensionStiffness);
+    public void setSuspensionStiffness(float coefficient) {
+        tuning.setSuspensionStiffness(coefficient);
     }
 
     /**
      * Alter the suspension stiffness of the indexed wheel.
      *
-     * @param wheel the index of the wheel to modify (&ge;0, &lt;count)
-     * @param suspensionStiffness the desired stiffness coefficient
-     * (10&rarr;off-road buggy, 50&rarr;sports car, 200&rarr;Formula-1 race car,
-     * default=5.88)
+     * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
+     * @param coefficient the desired stiffness coefficient (10&rarr;off-road
+     * buggy, 50&rarr;sports car, 200&rarr;Formula-1 race car, default=5.88)
      */
-    public void setSuspensionStiffness(int wheel, float suspensionStiffness) {
-        wheels.get(wheel).setSuspensionStiffness(suspensionStiffness);
+    public void setSuspensionStiffness(int wheelIndex, float coefficient) {
+        wheels.get(wheelIndex).setSuspensionStiffness(coefficient);
     }
 
     /**
      * Alter the steering angle of all front wheels. The vehicle must be added
      * to a PhysicsSpace.
      *
-     * @param value the desired angle (in radians, 0=straight, positive=left)
+     * @param angle the desired angle (in radians, 0=straight, positive=left)
      */
-    public void steer(float value) {
-        for (int i = 0; i < wheels.size(); ++i) {
-            if (getWheel(i).isFrontWheel()) {
-                steer(i, value);
+    public void steer(float angle) {
+        for (int wheelIndex = 0; wheelIndex < wheels.size(); ++wheelIndex) {
+            if (getWheel(wheelIndex).isFrontWheel()) {
+                steer(wheelIndex, angle);
             }
         }
     }
@@ -655,12 +653,12 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * Alter the steering angle of the indexed wheel. The vehicle must be added
      * to a PhysicsSpace.
      *
-     * @param wheel the index of the wheel to steer (&ge;0, &lt;count)
-     * @param value the desired angle (in radians, 0=straight, positive=left)
+     * @param wheelIndex the index of the wheel to steer (&ge;0, &lt;count)
+     * @param angle the desired angle (in radians, 0=straight, positive=left)
      */
-    public void steer(int wheel, float value) {
+    public void steer(int wheelIndex, float angle) {
         long vid = getVehicleId();
-        steer(vid, wheel, value);
+        steer(vid, wheelIndex, angle);
     }
 
     /**
@@ -668,9 +666,9 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     public void updateWheels() {
         if (vehicleId != 0L) {
-            for (int i = 0; i < wheels.size(); ++i) {
-                updateWheelTransform(vehicleId, i, true);
-                wheels.get(i).updatePhysicsState();
+            for (int wheelIndex = 0; wheelIndex < wheels.size(); ++wheelIndex) {
+                updateWheelTransform(vehicleId, wheelIndex, true);
+                wheels.get(wheelIndex).updatePhysicsState();
             }
         }
     }
@@ -805,31 +803,33 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     // *************************************************************************
     // native methods
 
-    native private int addWheel(long objectId, Vector3f location,
+    native private int addWheel(long vehicleId, Vector3f location,
             Vector3f direction, Vector3f axle, float restLength, float radius,
             VehicleTuning tuning, boolean frontWheel);
 
-    native private void applyEngineForce(long vehicleId, int wheel, float force);
+    native private void applyEngineForce(long vehicleId, int wheelIndex,
+            float force);
 
-    native private void brake(long vehicleId, int wheel, float force);
+    native private void brake(long vehicleId, int wheelIndex, float impulse);
 
-    native private long createRaycastVehicle(long objectId, long rayCasterId);
+    native private long createRaycastVehicle(long bodyId, long rayCasterId);
 
-    native private long createVehicleRaycaster(long objectId,
+    native private long createVehicleRaycaster(long unused,
             long physicsSpaceId);
 
-    native private void finalizeNative(long rayCaster, long vehicle);
+    native private void finalizeNative(long rayCasterId, long vehicleId);
 
     native private float getCurrentVehicleSpeedKmHour(long vehicleId);
 
-    native private void getForwardVector(long objectId, Vector3f storeResult);
+    native private void getForwardVector(long vehicleId, Vector3f storeResult);
 
     native private void resetSuspension(long vehicleId);
 
-    native private void setCoordinateSystem(long objectId, int a, int b, int c);
+    native private void setCoordinateSystem(long vehicleId, int rightAxisIndex,
+            int upAxisIndex, int forwardAxisIndex);
 
-    native private void steer(long vehicleId, int wheel, float value);
+    native private void steer(long vehicleId, int wheelIndex, float angle);
 
-    native private void updateWheelTransform(long vehicleId, int wheel,
+    native private void updateWheelTransform(long vehicleId, int wheelIndex,
             boolean interpolated);
 }
