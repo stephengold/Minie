@@ -206,9 +206,13 @@ public class TestDefaults {
         Assert.assertEquals(5.88f, vehicle.getSuspensionStiffness(), 0f);
 
         vehicle.createVehicle(space);
+        Assert.assertEquals(PhysicsSpace.AXIS_Z, vehicle.forwardAxisIndex());
         Assert.assertNotEquals(0L, vehicle.getVehicleId());
         Assert.assertEquals(0f, vehicle.getCurrentVehicleSpeedKmHour(), 0f);
         assertEquals(0f, 0f, 1f, vehicle.getForwardVector(null), 0f);
+        Assert.assertEquals(PhysicsSpace.AXIS_X, vehicle.rightAxisIndex());
+        Assert.assertEquals(PhysicsSpace.AXIS_Y, vehicle.upAxisIndex());
+
         Vector3f connectionPoint = Vector3f.ZERO;
         Vector3f direction = new Vector3f(0f, -1f, 0f);
         Vector3f axle = new Vector3f(-1f, 0f, 0f);
@@ -217,9 +221,12 @@ public class TestDefaults {
         boolean isFrontWheel = true;
         VehicleWheel wheel = vehicle.addWheel(connectionPoint, direction, axle,
                 suspensionRestLength, wheelRadius, isFrontWheel);
+        Assert.assertEquals(0f, wheel.getBrake(), 0f);
+        Assert.assertEquals(0f, wheel.getEngineForce(), 0f);
         Assert.assertEquals(10.5f, wheel.getFrictionSlip(), 0f);
         Assert.assertEquals(500f, wheel.getMaxSuspensionTravelCm(), 0f);
         Assert.assertEquals(1f, wheel.getRollInfluence(), 0f);
+        Assert.assertEquals(0f, wheel.getSteerAngle(), 0f);
         Assert.assertEquals(5.88f, wheel.getSuspensionStiffness(), 0f);
         Assert.assertEquals(0.83f, wheel.getWheelsDampingCompression(), 0f);
         Assert.assertEquals(0.88f, wheel.getWheelsDampingRelaxation(), 0f);
