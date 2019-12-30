@@ -331,8 +331,8 @@ public class DropTest
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
 
+        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle spheres", KeyInput.KEY_L);
@@ -394,8 +394,8 @@ public class DropTest
                 case "toggle axes":
                     toggleAxes();
                     return;
-                case "toggle boxes":
-                    toggleBoxes();
+                case "toggle aabb":
+                    toggleAabb();
                     return;
                 case "toggle help":
                     toggleHelp();
@@ -1229,17 +1229,9 @@ public class DropTest
     }
 
     /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(2.5f - length);
-    }
-
-    /**
      * Toggle visualization of collision-object bounding boxes.
      */
-    private void toggleBoxes() {
+    private void toggleAabb() {
         if (bbFilter == null) {
             bbFilter = new FilterAll(true);
         } else {
@@ -1247,6 +1239,14 @@ public class DropTest
         }
 
         bulletAppState.setDebugBoundingBoxFilter(bbFilter);
+    }
+
+    /**
+     * Toggle visualization of collision-object axes.
+     */
+    private void toggleAxes() {
+        float length = bulletAppState.debugAxisLength();
+        bulletAppState.setDebugAxisLength(2.5f - length);
     }
 
     /**

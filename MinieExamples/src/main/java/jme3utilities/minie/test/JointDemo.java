@@ -219,8 +219,8 @@ public class JointDemo extends ActionApplication {
         dim.bind("signal turnLR", KeyInput.KEY_NUMPAD1);
         dim.bind("signal turnRR", KeyInput.KEY_NUMPAD3);
 
+        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle boxes", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
@@ -257,8 +257,8 @@ public class JointDemo extends ActionApplication {
                 case "toggle axes":
                     toggleAxes();
                     return;
-                case "toggle boxes":
-                    toggleBoxes();
+                case "toggle aabb":
+                    toggleAabb();
                     return;
                 case "toggle help":
                     toggleHelp();
@@ -497,17 +497,9 @@ public class JointDemo extends ActionApplication {
     }
 
     /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
-    }
-
-    /**
      * Toggle visualization of collision-object bounding boxes.
      */
-    private void toggleBoxes() {
+    private void toggleAabb() {
         if (bbFilter == null) {
             bbFilter = new FilterAll(true);
         } else {
@@ -515,6 +507,14 @@ public class JointDemo extends ActionApplication {
         }
 
         bulletAppState.setDebugBoundingBoxFilter(bbFilter);
+    }
+
+    /**
+     * Toggle visualization of collision-object axes.
+     */
+    private void toggleAxes() {
+        float length = bulletAppState.debugAxisLength();
+        bulletAppState.setDebugAxisLength(0.5f - length);
     }
 
     /**
