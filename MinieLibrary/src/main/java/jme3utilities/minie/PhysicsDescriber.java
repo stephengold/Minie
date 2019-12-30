@@ -501,8 +501,8 @@ public class PhysicsDescriber extends Describer {
         result.append(MyString.describe(fSlip));
 
         result.append(" roll=");
-        float roll = wheel.getRollInfluence();
-        result.append(MyString.describe(roll));
+        float rollInf = wheel.getRollInfluence();
+        result.append(MyString.describe(rollInf));
 
         return result.toString();
     }
