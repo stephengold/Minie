@@ -66,6 +66,7 @@ import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
+import com.jme3.bullet.objects.VehicleWheel;
 import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
@@ -208,6 +209,21 @@ public class TestDefaults {
         Assert.assertNotEquals(0L, vehicle.getVehicleId());
         Assert.assertEquals(0f, vehicle.getCurrentVehicleSpeedKmHour(), 0f);
         assertEquals(0f, 0f, 1f, vehicle.getForwardVector(null), 0f);
+        Vector3f connectionPoint = Vector3f.ZERO;
+        Vector3f direction = new Vector3f(0f, -1f, 0f);
+        Vector3f axle = new Vector3f(-1f, 0f, 0f);
+        float suspensionRestLength = 0.1f;
+        float wheelRadius = 1f;
+        boolean isFrontWheel = true;
+        VehicleWheel wheel = vehicle.addWheel(connectionPoint, direction, axle,
+                suspensionRestLength, wheelRadius, isFrontWheel);
+        Assert.assertEquals(10.5f, wheel.getFrictionSlip(), 0f);
+        Assert.assertEquals(500f, wheel.getMaxSuspensionTravelCm(), 0f);
+        Assert.assertEquals(1f, wheel.getRollInfluence(), 0f);
+        Assert.assertEquals(5.88f, wheel.getSuspensionStiffness(), 0f);
+        Assert.assertEquals(0.83f, wheel.getWheelsDampingCompression(), 0f);
+        Assert.assertEquals(0.88f, wheel.getWheelsDampingRelaxation(), 0f);
+        Assert.assertFalse(wheel.isApplyLocal());
 
         testJoints();
     }
