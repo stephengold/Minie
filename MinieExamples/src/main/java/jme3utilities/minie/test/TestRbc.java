@@ -80,8 +80,8 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Test various shapes and collision margins on a RigidBodyControl. Features
- * tested include bounding boxes, debug visualization, and ray casting.
+ * Test various shapes, scales, and collision margins on a DynamicAnimControl.
+ * Features tested include bounding boxes, debug visualization, and ray casting.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -154,7 +154,11 @@ public class TestRbc extends ActionApplication {
      */
     private PointVisualizer rayPoint;
     /**
-     * name of shape currently being tested
+     * Spatial currently being tested
+     */
+    private Spatial controlledSpatial;
+    /**
+     * name of the shape currently being tested
      */
     private String shapeName = "SmallTerrain";
     // *************************************************************************
@@ -235,6 +239,9 @@ public class TestRbc extends ActionApplication {
 
         dim.bind("less margin", KeyInput.KEY_V);
         dim.bind("more margin", KeyInput.KEY_F);
+        dim.bind("scale identity", KeyInput.KEY_I);
+        dim.bind("scale nonuniform", KeyInput.KEY_N);
+        dim.bind("scale uniform", KeyInput.KEY_U);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -297,6 +304,16 @@ public class TestRbc extends ActionApplication {
 
                 case "more margin":
                     multiplyMargin(2f);
+                    return;
+
+                case "scale identity":
+                    setScale(1f, 1f, 1f);
+                    return;
+                case "scale nonuniform":
+                    setScale(0.8f, 1f, 1.3f);
+                    return;
+                case "scale uniform":
+                    setScale(0.8f, 0.8f, 0.8f);
                     return;
 
                 case "toggle boxes":
@@ -383,9 +400,7 @@ public class TestRbc extends ActionApplication {
         float radius = 3f;
         float halfThickness = 0.5f;
         AbstractBox mesh = new Box(radius, halfThickness, radius);
-        Geometry geometry = new Geometry("box", mesh);
-        addNode.attachChild(geometry);
-        geometry.setMaterial(wireMaterial);
+        controlledSpatial = new Geometry("box", mesh);
 
         switch (shapeName) {
             case "Box":
@@ -407,10 +422,7 @@ public class TestRbc extends ActionApplication {
                 throw new IllegalArgumentException(shapeName);
         }
 
-        float massForStatic = 0f;
-        RigidBodyControl rbc = new RigidBodyControl(testShape, massForStatic);
-        rbc.setPhysicsSpace(physicsSpace);
-        geometry.addControl(rbc);
+        makeTestShape();
     }
 
     /**
@@ -421,17 +433,11 @@ public class TestRbc extends ActionApplication {
         int terrainDiameter = heightMap.getSize(); // in pixels
         int mapSize = terrainDiameter + 1; // number of samples on a side
         float[] heightArray = heightMap.getHeightMap();
-        TerrainQuad quad
+        controlledSpatial
                 = new TerrainQuad("terrain", patchSize, mapSize, heightArray);
-        addNode.attachChild(quad);
-        quad.setLocalScale(0.01f);
-        quad.setMaterial(greenMaterial);
-
-        testShape = CollisionShapeFactory.createMeshShape(quad);
-        float massForStatic = 0f;
-        RigidBodyControl rbc = new RigidBodyControl(testShape, massForStatic);
-        rbc.setPhysicsSpace(physicsSpace);
-        quad.addControl(rbc);
+        controlledSpatial.setMaterial(greenMaterial);
+        testShape = CollisionShapeFactory.createMeshShape(controlledSpatial);
+        makeTestShape();
     }
 
     /**
@@ -454,15 +460,10 @@ public class TestRbc extends ActionApplication {
         float radius = 3f;
         float thickness = 1f;
         Mesh mesh = new Prism(5, radius, thickness);
-        Geometry geometry = new Geometry("prism", mesh);
-        addNode.attachChild(geometry);
-        geometry.setMaterial(wireMaterial);
-
-        testShape = CollisionShapeFactory.createDynamicMeshShape(geometry);
-        float massForStatic = 0f;
-        RigidBodyControl rbc = new RigidBodyControl(testShape, massForStatic);
-        rbc.setPhysicsSpace(physicsSpace);
-        geometry.addControl(rbc);
+        controlledSpatial = new Geometry("prism", mesh);
+        testShape = CollisionShapeFactory.createDynamicMeshShape(
+                controlledSpatial);
+        makeTestShape();
     }
 
     /**
@@ -471,16 +472,11 @@ public class TestRbc extends ActionApplication {
     private void addSmallTerrain() {
         int patchSize = 3;
         int mapSize = 3;
-        TerrainQuad quad
+        controlledSpatial
                 = new TerrainQuad("terrain", patchSize, mapSize, nineHeights);
-        addNode.attachChild(quad);
-        quad.setMaterial(wireMaterial);
-
-        testShape = CollisionShapeFactory.createMeshShape(quad);
-        float massForStatic = 0f;
-        RigidBodyControl rbc = new RigidBodyControl(testShape, massForStatic);
-        rbc.setPhysicsSpace(physicsSpace);
-        quad.addControl(rbc);
+        controlledSpatial.setMaterial(wireMaterial);
+        testShape = CollisionShapeFactory.createMeshShape(controlledSpatial);
+        makeTestShape();
     }
 
     /**
@@ -548,7 +544,7 @@ public class TestRbc extends ActionApplication {
      * Configure the PhysicsDumper during startup.
      */
     private void configureDumper() {
-        dumper.setMaxChildren(3);
+        //dumper.setMaxChildren(3);
     }
 
     /**
@@ -607,6 +603,24 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
+     * Turn the test shape into a kinematic RigidBodyControl and add it to the
+     * main scene and the PhysicsSpace.
+     */
+    private void makeTestShape() {
+        addNode.attachChild(controlledSpatial);
+        setScale(1f, 1f, 1f);
+        if (controlledSpatial instanceof Geometry) {
+            controlledSpatial.setMaterial(wireMaterial);
+        }
+
+        RigidBodyControl rbc = new RigidBodyControl(testShape);
+        rbc.setApplyScale(true);
+        rbc.setKinematic(true);
+        rbc.setPhysicsSpace(physicsSpace);
+        controlledSpatial.addControl(rbc);
+    }
+
+    /**
      * Alter the collision margin for the test shape.
      *
      * @param factor the factor to increase the margin (&gt;0)
@@ -625,6 +639,18 @@ public class TestRbc extends ActionApplication {
     private void restartTest() {
         clearShapes();
         addAShape();
+    }
+
+    /**
+     * Alter the scale.
+     */
+    private void setScale(float xScale, float yScale, float zScale) {
+        if (shapeName.equals("LargeTerrain")) {
+            controlledSpatial.setLocalScale(
+                    xScale / 100f, yScale / 100f, zScale / 100f);
+        } else {
+            controlledSpatial.setLocalScale(xScale, yScale, zScale);
+        }
     }
 
     /**
@@ -677,9 +703,10 @@ public class TestRbc extends ActionApplication {
      * Update the status text in the GUI.
      */
     private void updateStatusText() {
+        Vector3f scale = controlledSpatial.getLocalScale();
         float margin = testShape.getMargin();
-        String message
-                = String.format("shape=%s, margin=%.3f", shapeName, margin);
+        String message = String.format("shape=%s, margin=%.3f, scale=%s",
+                shapeName, margin, scale);
         statusText.setText(message);
     }
 }
