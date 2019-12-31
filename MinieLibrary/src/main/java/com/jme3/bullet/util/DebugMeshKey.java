@@ -91,7 +91,11 @@ class DebugMeshKey {
 
         this.normals = normals;
         margin = shape.getMargin();
-        this.resolution = resolution;
+        if (shape.isConvex()) {
+            this.resolution = resolution;
+        } else {
+            this.resolution = DebugShapeFactory.lowResolution;
+        }
         shapeId = shape.getObjectId();
         scale = shape.getScale(null);
     }
