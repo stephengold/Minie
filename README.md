@@ -444,6 +444,10 @@ Clone the Minie repository using Git:
 
 After a successful build, new jars will be found in `MinieLibrary/build/libs`.
 
+You can also install the library artifact to your local Maven cache:
+   + using Bash:  `./gradlew :MinieLibrary:publishToMavenLocal`
+   + using Windows Command Prompt:  `.\gradlew :MinieLibrary:publishToMavenLocal`
+
 [Jump to table of contents](#toc)
 
 <a name="add"/>
@@ -828,12 +832,18 @@ To enable it, configure the `BulletAppState`:
 
 By default, debug visualization renders convex collision shapes using meshes
 with no more than 42 vertices.
-It can also generate debug meshes with up 256 vertices.
+It can also generate debug meshes with up to 256 vertices.
 To override the low-resolution default on a per-object basis:
 
         collisionObject.setDebugMeshResolution(DebugShapeFactory.highResolution);
 
 (This setting has no effect on objects with non-convex shapes.)
+
+Debug visualization caches the mesh
+for each non-compound collision shape it renders.
+To clear this cache:
+
+        DebugShapeFactory.clearCache();
 
 By default, debug visualization renders only to the
 application's main `ViewPort`.
@@ -842,7 +852,7 @@ To specify a different `ViewPort` (or an array of viewports) use:
         bas.setDebugViewPorts(viewPortArray);
 
 By default, debug visualization renders the shape of every
-`PhysicsCollisionObject`, but not its bounding box or swept sphere.
+`PhysicsCollisionObject`, but not its bounding box nor it's swept sphere.
 To override these defaults, set filters to identify which objects
 should render each feature:
 
@@ -866,7 +876,7 @@ You can specify wider lines:
 
 or you can specify 3-D arrows:
 
-        bas.setDebugAxisLineWidth(0f); // solid axis arrows
+        bas.setDebugAxisLineWidth(0f); // solid arrows
 
 By default, Minie visualizes collision shapes
 using single-sided wireframe materials:
