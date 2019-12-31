@@ -36,9 +36,10 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
 
 /**
- * A static, triangle-mode mesh that renders a prism.
+ * A static, triangle-mode mesh without indices that renders a prism.
  *
  * @author Stephen Gold sgold@sonic.net
+ * @see com.jme3.scene.shape.Cylinder
  */
 public class Prism extends Mesh {
     // *************************************************************************
@@ -67,17 +68,18 @@ public class Prism extends Mesh {
     }
 
     /**
-     * Instantiate a right prism with regular ends that lie parallel with the
-     * X-Z plane.
+     * Instantiate a right prism closed with regular polygons. The end polygons
+     * lie parallel with the X-Z plane. All triangles face outward.
      *
      * @param numSides the number of sides for each end (&ge;3)
      * @param radius the radius of each end (in mesh units, &gt;0)
-     * @param height the height of the prism (in mesh units, &gt;0)
+     * @param yHeight the total height of the prism on the Y axis (in mesh
+     * units, &gt;0)
      */
-    public Prism(int numSides, float radius, float height) {
+    public Prism(int numSides, float radius, float yHeight) {
         Validate.inRange(numSides, "number of sides", 3, Integer.MAX_VALUE);
         Validate.positive(radius, "radius");
-        Validate.positive(radius, "height");
+        Validate.positive(yHeight, "height");
 
         int numEndTriangles = 2 * (numSides - 2);
         int numSideTriangles = 2 * numSides;
@@ -86,7 +88,7 @@ public class Prism extends Mesh {
         FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(numFloats);
         setBuffer(VertexBuffer.Type.Position, numAxes, positionBuffer);
 
-        float y = height / 2f;
+        float y = yHeight / 2f;
         float interiorAngle = FastMath.TWO_PI / numSides; // in radians
 
         for (int sideIndex = 0; sideIndex < numSides; ++sideIndex) {
@@ -108,7 +110,7 @@ public class Prism extends Mesh {
             positionBuffer.put(x2).put(-y).put(z2);
 
             if (sideIndex < numSides - 2) {
-                float theta3 = (numSides - 1) * interiorAngle;
+                float theta3 = (numSides - 1) * interiorAngle; // in radians
                 float x3 = radius * FastMath.sin(theta3);
                 float z3 = radius * FastMath.cos(theta3);
 
@@ -124,7 +126,7 @@ public class Prism extends Mesh {
         positionBuffer.flip();
         assert positionBuffer.limit() == positionBuffer.capacity();
 
-        StarSlice.generateNormals(this);
+        StarSlice.generateNormals(this); // TODO use MyMesh
 
         updateBound();
         setStatic();
