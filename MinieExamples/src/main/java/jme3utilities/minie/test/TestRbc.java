@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
+import com.jme3.app.StatsAppState;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -220,6 +221,10 @@ public class TestRbc extends ActionApplication {
         viewPort.setBackgroundColor(bgColor);
         addAxes();
         addLighting();
+        /*
+         * Hide the render-statistics overlay.
+         */
+        stateManager.getState(StatsAppState.class).toggleStats();
 
         rayPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Red,
                 "saltire");
