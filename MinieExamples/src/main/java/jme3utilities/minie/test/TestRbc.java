@@ -35,6 +35,7 @@ import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
@@ -80,6 +81,7 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.mesh.Cone;
 import jme3utilities.minie.test.mesh.Prism;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -258,6 +260,9 @@ public class TestRbc extends ActionApplication {
         dim.bind("test Box", KeyInput.KEY_F6);
         dim.bind("test BoxHull", KeyInput.KEY_F7);
         dim.bind("test BoxMesh", KeyInput.KEY_F9);
+        dim.bind("test Cone", KeyInput.KEY_6);
+        dim.bind("test ConeHull", KeyInput.KEY_7);
+        dim.bind("test ConeMesh", KeyInput.KEY_8);
         dim.bind("test Cylinder", KeyInput.KEY_F10);
         dim.bind("test CylinderHull", KeyInput.KEY_F11);
         dim.bind("test CylinderMesh", KeyInput.KEY_F12);
@@ -378,6 +383,12 @@ public class TestRbc extends ActionApplication {
                 addBox();
                 break;
 
+            case "Cone":
+            case "ConeHull":
+            case "ConeMesh":
+                addCone();
+                break;
+
             case "Cylinder":
             case "CylinderHull":
             case "CylinderMesh":
@@ -457,15 +468,48 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
+     * Add a cone to the scene and PhysicsSpace.
+     */
+    private void addCone() {
+        boolean makePyramid = false;
+        float height = 3f;
+        float radius = 2f;
+        int circularSamples = 64;
+        Mesh mesh = new Cone(circularSamples, radius, height, makePyramid);
+        controlledSpatial = new Geometry("cone", mesh);
+
+        switch (shapeName) {
+            case "Cone":
+                testShape = new ConeCollisionShape(radius, height,
+                        PhysicsSpace.AXIS_Y);
+                break;
+
+            case "ConeHull":
+                testShape = new HullCollisionShape(mesh);
+                break;
+
+            case "ConeMesh":
+                testShape = new MeshCollisionShape(mesh);
+                break;
+
+            default:
+                throw new IllegalArgumentException(shapeName);
+        }
+
+        makeTestShape();
+    }
+
+    /**
      * Add a cylinder to the scene and PhysicsSpace.
      */
     private void addCylinder() {
+        boolean closedFlag = true;
         float height = 1f;
         float radius = 2f;
         int heightSample = 2;
         int circSample = 18;
-        Mesh mesh
-                = new Cylinder(heightSample, circSample, radius, height, true);
+        Mesh mesh = new Cylinder(heightSample, circSample, radius, height,
+                closedFlag);
         controlledSpatial = new Geometry("cylinder", mesh);
 
         switch (shapeName) {
@@ -704,14 +748,14 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Turn the test shape into a kinematic RigidBodyControl and add it to the
-     * main scene and the PhysicsSpace.
+     * Convert the test shape into a kinematic RigidBodyControl and add it to
+     * the main scene and the PhysicsSpace.
      */
     private void makeTestShape() {
         addNode.attachChild(controlledSpatial);
         setScale(1f, 1f, 1f);
         if (controlledSpatial instanceof Geometry) {
-            controlledSpatial.setMaterial(wireMaterial);
+            controlledSpatial.setMaterial(greenMaterial);
         }
 
         RigidBodyControl rbc = new RigidBodyControl(testShape);
