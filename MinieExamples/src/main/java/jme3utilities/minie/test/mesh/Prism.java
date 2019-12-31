@@ -36,7 +36,8 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
 
 /**
- * A static, triangle-mode mesh without indices that renders a prism.
+ * A 3-D, static, Triangles-mode Mesh (with normals but no indices or texture
+ * coordinates) that renders a prism.
  *
  * @author Stephen Gold sgold@sonic.net
  * @see com.jme3.scene.shape.Cylinder
@@ -68,8 +69,10 @@ public class Prism extends Mesh {
     }
 
     /**
-     * Instantiate a right prism closed with regular polygons. The end polygons
-     * lie parallel with the X-Z plane. All triangles face outward.
+     * Instantiate a right prism closed with regular polygons.
+     *
+     * The center is at (0,0,0). The end polygons lie parallel with the X-Z
+     * plane. All triangles face outward.
      *
      * @param numSides the number of sides for each end (&ge;3)
      * @param radius the radius of each end (in mesh units, &gt;0)

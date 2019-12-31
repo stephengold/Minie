@@ -37,8 +37,8 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A 3-D, static, line-mode mesh that renders an evenly subdivided line segment
- * between 2 endpoints.
+ * A 3-D, static, Lines-mode mesh (with indices) that renders a subdivided line
+ * segment.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -70,7 +70,8 @@ public class DividedLine extends Mesh {
     }
 
     /**
-     * Instantiate a subdivided line segment between the specified endpoints.
+     * Instantiate a uniformly subdivided line segment between the specified
+     * endpoints.
      *
      * @param endPoint1 the location of the first endpoint (in mesh coordinates,
      * not null, unaffected)

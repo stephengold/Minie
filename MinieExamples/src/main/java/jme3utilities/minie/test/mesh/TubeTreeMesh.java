@@ -52,9 +52,10 @@ import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 
 /**
- * An animated triangle-mode mesh for a branching 3-D shape that conforms to a
- * Skeleton. Can be used to visualize ropes, hoses, snakes, and such. TODO add
- * texture coordinates
+ * An animated Triangles-mode Mesh (with indices and normals, but no texture
+ * coordinates) for a branching 3-D shape that conforms to an Armature. Can be
+ * used to visualize ropes, hoses, snakes, and such. TODO add texture
+ * coordinates
  *
  * @author Stephen Gold sgold@sonic.net
  */

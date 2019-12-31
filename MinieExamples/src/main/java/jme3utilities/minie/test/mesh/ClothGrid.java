@@ -41,8 +41,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A dynamic, triangle-mode mesh that renders a subdivided rectangle in the X-Z
- * plane.
+ * A dynamic, Triangles-mode Mesh (with indices and normals but no texture
+ * coordinates) that renders a subdivided rectangle.
  *
  * @author Stephen Gold sgold@sonic.net
  */
