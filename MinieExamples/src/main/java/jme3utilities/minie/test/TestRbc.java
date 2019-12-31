@@ -33,9 +33,13 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
+import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
+import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
+import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.font.BitmapText;
@@ -55,6 +59,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.AbstractBox;
 import com.jme3.scene.shape.Box;
+import com.jme3.scene.shape.Cylinder;
+import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
@@ -80,8 +86,9 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Test various shapes, scales, and collision margins on a DynamicAnimControl.
- * Features tested include bounding boxes, debug visualization, and ray casting.
+ * Test various shapes, scales, and collision margins on a kinematic
+ * RigidBodyControl. Features tested include bounding boxes, debug
+ * visualization, and ray casting.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -250,10 +257,19 @@ public class TestRbc extends ActionApplication {
 
         dim.bind("test Box", KeyInput.KEY_F6);
         dim.bind("test BoxHull", KeyInput.KEY_F7);
+        dim.bind("test BoxMesh", KeyInput.KEY_F9);
+        dim.bind("test Cylinder", KeyInput.KEY_F10);
+        dim.bind("test CylinderHull", KeyInput.KEY_F11);
+        dim.bind("test CylinderMesh", KeyInput.KEY_F12);
         dim.bind("test FourSphere", KeyInput.KEY_F8);
         dim.bind("test LargeTerrain", KeyInput.KEY_F1);
         dim.bind("test Prism", KeyInput.KEY_F3);
         dim.bind("test SmallTerrain", KeyInput.KEY_F2);
+        dim.bind("test OneSphere", KeyInput.KEY_1);
+        dim.bind("test Sphere", KeyInput.KEY_2);
+        dim.bind("test SphereCapsule", KeyInput.KEY_3);
+        dim.bind("test SphereHull", KeyInput.KEY_4);
+        dim.bind("test SphereMesh", KeyInput.KEY_5);
 
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle help", KeyInput.KEY_H);
@@ -357,8 +373,15 @@ public class TestRbc extends ActionApplication {
         switch (shapeName) {
             case "Box":
             case "BoxHull":
+            case "BoxMesh":
             case "FourSphere":
                 addBox();
+                break;
+
+            case "Cylinder":
+            case "CylinderHull":
+            case "CylinderMesh":
+                addCylinder();
                 break;
 
             case "LargeTerrain":
@@ -371,6 +394,14 @@ public class TestRbc extends ActionApplication {
 
             case "SmallTerrain":
                 addSmallTerrain();
+                break;
+
+            case "OneSphere":
+            case "Sphere":
+            case "SphereCapsule":
+            case "SphereHull":
+            case "SphereMesh":
+                addSphere();
                 break;
 
             default:
@@ -394,8 +425,8 @@ public class TestRbc extends ActionApplication {
      * Add a box to the scene and PhysicsSpace.
      */
     private void addBox() {
-        float radius = 3f;
         float halfThickness = 0.5f;
+        float radius = 1.9f;
         AbstractBox mesh = new Box(radius, halfThickness, radius);
         controlledSpatial = new Geometry("box", mesh);
 
@@ -406,13 +437,49 @@ public class TestRbc extends ActionApplication {
                 break;
 
             case "BoxHull":
-                RectangularSolid rs = new RectangularSolid(mesh);
-                testShape = new HullCollisionShape(rs);
+                testShape = new HullCollisionShape(mesh);
+                break;
+
+            case "BoxMesh":
+                testShape = new MeshCollisionShape(mesh);
                 break;
 
             case "FourSphere":
-                rs = new RectangularSolid(mesh);
+                RectangularSolid rs = new RectangularSolid(mesh);
                 testShape = new MultiSphere(rs);
+                break;
+
+            default:
+                throw new IllegalArgumentException(shapeName);
+        }
+
+        makeTestShape();
+    }
+
+    /**
+     * Add a cylinder to the scene and PhysicsSpace.
+     */
+    private void addCylinder() {
+        float height = 1f;
+        float radius = 2f;
+        int heightSample = 2;
+        int circSample = 18;
+        Mesh mesh
+                = new Cylinder(heightSample, circSample, radius, height, true);
+        controlledSpatial = new Geometry("cylinder", mesh);
+
+        switch (shapeName) {
+            case "Cylinder":
+                testShape = new CylinderCollisionShape(radius, height,
+                        PhysicsSpace.AXIS_Z);
+                break;
+
+            case "CylinderHull":
+                testShape = new HullCollisionShape(mesh);
+                break;
+
+            case "CylinderMesh":
+                testShape = new MeshCollisionShape(mesh);
                 break;
 
             default:
@@ -454,7 +521,7 @@ public class TestRbc extends ActionApplication {
      * Add a petagonal prism to the scene and PhysicsSpace.
      */
     private void addPrism() {
-        float radius = 3f;
+        float radius = 2.5f;
         float thickness = 1f;
         Mesh mesh = new Prism(5, radius, thickness);
         controlledSpatial = new Geometry("prism", mesh);
@@ -473,6 +540,43 @@ public class TestRbc extends ActionApplication {
                 = new TerrainQuad("terrain", patchSize, mapSize, nineHeights);
         controlledSpatial.setMaterial(wireMaterial);
         testShape = CollisionShapeFactory.createMeshShape(controlledSpatial);
+        makeTestShape();
+    }
+
+    /**
+     * Add a sphere to the scene and PhysicsSpace.
+     */
+    private void addSphere() {
+        float radius = 2.5f;
+        Mesh mesh = new Sphere(16, 32, radius);
+        controlledSpatial = new Geometry("sphere", mesh);
+
+        switch (shapeName) {
+            case "OneSphere":
+                testShape = new MultiSphere(radius);
+                break;
+
+            case "Sphere":
+                testShape = new SphereCollisionShape(radius);
+                break;
+
+            case "SphereCapsule":
+                float height = 0f;
+                testShape = new CapsuleCollisionShape(radius, height);
+                break;
+
+            case "SphereHull":
+                testShape = new HullCollisionShape(mesh);
+                break;
+
+            case "SphereMesh":
+                testShape = new MeshCollisionShape(mesh);
+                break;
+
+            default:
+                throw new IllegalArgumentException(shapeName);
+        }
+
         makeTestShape();
     }
 
