@@ -299,11 +299,11 @@ public class BuoyDemo extends ActionApplication {
                     goFloating();
                     return;
 
-                case "toggle axes":
-                    toggleAxes();
-                    return;
                 case "toggle aabb":
                     toggleAabb();
+                    return;
+                case "toggle axes":
+                    toggleAxes();
                     return;
                 case "toggle help":
                     toggleHelp();

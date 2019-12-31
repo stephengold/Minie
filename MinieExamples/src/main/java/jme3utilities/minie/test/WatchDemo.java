@@ -318,11 +318,11 @@ public class WatchDemo extends ActionApplication {
                     dumper.dump(renderManager);
                     return;
 
-                case "toggle axes":
-                    toggleAxes();
-                    return;
                 case "toggle aabb":
                     toggleAabb();
+                    return;
+                case "toggle axes":
+                    toggleAxes();
                     return;
                 case "toggle help":
                     toggleHelp();
