@@ -115,6 +115,10 @@ public class TestRbc extends ActionApplication {
      */
     private AbstractHeightMap heightMap;
     /**
+     * visualizer for the world axes
+     */
+    private AxesVisualizer axes;
+    /**
      * status displayed in the upper-left corner of the GUI node
      */
     private BitmapText statusText;
@@ -123,7 +127,7 @@ public class TestRbc extends ActionApplication {
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
-     * shape currently being tested
+     * shape being tested
      */
     private CollisionShape testShape;
     /**
@@ -277,6 +281,7 @@ public class TestRbc extends ActionApplication {
         dim.bind("test SphereMesh", KeyInput.KEY_5);
 
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
+        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
@@ -339,6 +344,9 @@ public class TestRbc extends ActionApplication {
                 case "toggle aabb":
                     toggleAabb();
                     return;
+                case "toggle axes":
+                    axes.toggleEnabled();
+                    return;
                 case "toggle help":
                     toggleHelp();
                     return;
@@ -347,7 +355,6 @@ public class TestRbc extends ActionApplication {
                     togglePhysicsDebug();
                     return;
             }
-
             String[] words = actionString.split(" ");
             if (words.length >= 2 && "test".equals(words[0])) {
                 shapeName = words[1];
@@ -425,7 +432,7 @@ public class TestRbc extends ActionApplication {
      */
     private void addAxes() {
         float axisLength = 0.8f;
-        AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
+        axes = new AxesVisualizer(assetManager, axisLength);
         axes.setLineWidth(0f);
 
         rootNode.addControl(axes);
@@ -823,7 +830,7 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Toggle rendering of added geometries on/off.
+     * Toggle rendering of test geometries/terrainQuads.
      */
     private void toggleMeshes() {
         Spatial.CullHint hint = addNode.getLocalCullHint();
