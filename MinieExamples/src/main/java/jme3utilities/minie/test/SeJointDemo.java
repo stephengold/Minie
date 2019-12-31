@@ -354,11 +354,11 @@ public class SeJointDemo extends ActionApplication {
                     testName = "slider";
                     return;
 
-                case "toggle axes":
-                    toggleAxes();
-                    return;
                 case "toggle aabb":
                     toggleAabb();
+                    return;
+                case "toggle axes":
+                    toggleAxes();
                     return;
                 case "toggle help":
                     toggleHelp();

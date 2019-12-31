@@ -391,11 +391,11 @@ public class DropTest
                     multiplyFriction(2f);
                     return;
 
-                case "toggle axes":
-                    toggleAxes();
-                    return;
                 case "toggle aabb":
                     toggleAabb();
+                    return;
+                case "toggle axes":
+                    toggleAxes();
                     return;
                 case "toggle help":
                     toggleHelp();

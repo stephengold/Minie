@@ -479,11 +479,11 @@ public class TestDac extends ActionApplication {
                     setHeight(3f);
                     return;
 
-                case "toggle axes":
-                    toggleAxes();
-                    return;
                 case "toggle aabb":
                     toggleAabb();
+                    return;
+                case "toggle axes":
+                    toggleAxes();
                     return;
                 case "toggle help":
                     toggleHelp();

@@ -365,18 +365,15 @@ public class TestSoftBody
                     addTablecloth(2f);
                     return;
 
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-
                 case "toggle aabb":
                     toggleAabb();
                     return;
-
+                case "toggle axes":
+                    toggleAxes();
+                    return;
                 case "toggle help":
                     toggleHelp();
                     return;
-
                 case "toggle pause":
                     togglePause();
                     return;

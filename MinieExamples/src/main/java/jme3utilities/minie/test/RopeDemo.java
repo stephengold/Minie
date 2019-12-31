@@ -369,14 +369,6 @@ public class RopeDemo extends ActionApplication {
                     dumper.dump(renderManager);
                     return;
 
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-
                 case "go limp":
                     goLimp();
                     return;
@@ -385,22 +377,24 @@ public class RopeDemo extends ActionApplication {
                     pullAPin();
                     return;
 
+                case "toggle aabb":
+                    toggleAabb();
+                    return;
+                case "toggle axes":
+                    toggleAxes();
+                    return;
                 case "toggle help":
                     toggleHelp();
                     return;
-
                 case "toggle meshes":
                     toggleMeshes();
                     return;
-
                 case "toggle pause":
                     togglePause();
                     return;
-
                 case "toggle physics debug":
                     togglePhysicsDebug();
                     return;
-
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
