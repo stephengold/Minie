@@ -35,9 +35,9 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A 3-D, static, line-mode mesh that renders a regular rectangular grid in the
- * X-Z plane. Unlike {@link com.jme3.scene.debug.Grid}, the resulting mesh is
- * centered on the mesh origin and includes a vertex for every crossing.
+ * A 2-D, static, Lines-mode Mesh (with indices) that renders a regular
+ * rectangular grid. Unlike {@link com.jme3.scene.debug.Grid}, the resulting
+ * mesh is centered on the mesh origin and includes a vertex for every crossing.
  *
  * @author Stephen Gold sgold@sonic.net
  */

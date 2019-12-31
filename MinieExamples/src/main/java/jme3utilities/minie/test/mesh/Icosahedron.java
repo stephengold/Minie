@@ -36,9 +36,13 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
 
 /**
- * A static, triangle-mode mesh that renders a regular icosahedron.
+ * A 3-D, static, Triangles-mode mesh (with normals but no indices or texture
+ * coordinates) that renders an icosahedron. (An icosahedron has 12 vertices and
+ * 20 triangular faces.)
  *
  * @author Stephen Gold sgold@sonic.net
+ * @see jme3utilities.mesh.Icosphere
+ * @see jme3utilities.minie.test.mesh.Octahedron
  */
 public class Icosahedron extends Mesh {
     // *************************************************************************
@@ -68,6 +72,8 @@ public class Icosahedron extends Mesh {
 
     /**
      * Instantiate a regular icosahedron with the specified radius.
+     *
+     * The center is at (0,0,0). All triangles face outward.
      *
      * @param radius the distance of the outermost points from the center (in
      * mesh units, &gt;0)
@@ -164,7 +170,7 @@ public class Icosahedron extends Mesh {
         int numFloats = positionBuffer.capacity();
         positionBuffer.limit(numFloats);
 
-        StarSlice.generateNormals(this);
+        StarSlice.generateNormals(this); // TODO use MyMesh
 
         updateBound();
         setStatic();

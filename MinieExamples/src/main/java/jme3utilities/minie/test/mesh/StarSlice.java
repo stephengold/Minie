@@ -38,7 +38,8 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A static, triangle-mode mesh that renders one slice of a 3-D star.
+ * A 3-D, static, Triangles-mode Mesh (with normals but no indices or texture
+ * coordinates) that renders one slice of a 3-D star.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -69,7 +70,9 @@ public class StarSlice extends Mesh {
     }
 
     /**
-     * Instantiate a mesh for rotation around its Y axis.
+     * Instantiate a Mesh for rotation around its Y axis.
+     *
+     * The point of the slice lies on the +X axis. All triangles face outward.
      *
      * @param sliceAngle the angle between adjacent slices (in radians, &gt;0,
      * &le;PI)

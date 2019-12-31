@@ -34,9 +34,12 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A static, triangle-mode mesh that renders a regular octahedron.
+ * A 3-D, static, Triangles-mode Mesh (with normals but no indices or texture
+ * coordinates) that renders an octahedron. (An octahedron has 6 vertices and 8
+ * triangular faces.)
  *
  * @author Stephen Gold sgold@sonic.net
+ * @see jme3utilities.minie.test.mesh.Icosahedron
  */
 public class Octahedron extends Mesh {
     // *************************************************************************
@@ -62,6 +65,9 @@ public class Octahedron extends Mesh {
 
     /**
      * Instantiate a regular octahedron with the specified radius.
+     *
+     * The center is at (0,0,0). All vertices lie on the local axes. All
+     * triangles face outward.
      *
      * @param radius the distance of the outermost points from the center (in
      * mesh units, &gt;0)
@@ -106,7 +112,7 @@ public class Octahedron extends Mesh {
         int numFloats = positionBuffer.capacity();
         positionBuffer.limit(numFloats);
 
-        StarSlice.generateNormals(this);
+        StarSlice.generateNormals(this); // TODO use MyMesh
 
         updateBound();
         setStatic();
