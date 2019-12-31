@@ -81,10 +81,6 @@ public class CollisionShapeFactory {
      */
     final public static Logger logger
             = Logger.getLogger(CollisionShapeFactory.class.getName());
-    /**
-     * local copy of {@link com.jme3.math.Transform#IDENTITY}
-     */
-    final private static Transform transformIdentity = new Transform();
     // *************************************************************************
     // constructors
 
@@ -422,6 +418,7 @@ public class CollisionShapeFactory {
         }
 
         Transform transform = getTransform(geometry, modelRoot);
+        // TODO recognize AbstractBox, Cylinder, Quad, and Sphere from com.jme3.scene.shape package
         HullCollisionShape hullShape = new HullCollisionShape(mesh);
         hullShape.setScale(transform.getScale());
 
@@ -443,6 +440,7 @@ public class CollisionShapeFactory {
         }
 
         Transform transform = getTransform(geometry, modelRoot);
+        // TODO recognize AbstractBox, Cylinder, Quad, and Sphere from com.jme3.scene.shape package
         MeshCollisionShape meshShape = new MeshCollisionShape(mesh);
         meshShape.setScale(transform.getScale());
 
@@ -466,7 +464,7 @@ public class CollisionShapeFactory {
             currentSpatial = currentSpatial.getParent();
         }
         // Include the model root's scale but not its translation or rotation.
-        Transform mrTransform = new Transform();
+        Transform mrTransform = new Transform(); // TODO garbage
         mrTransform.setScale(modelRoot.getLocalScale());
         result.combineWithParent(mrTransform);
 
