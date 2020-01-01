@@ -41,6 +41,7 @@ import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
+import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
@@ -59,6 +60,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.shape.AbstractBox;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Cylinder;
@@ -69,6 +71,7 @@ import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
+import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -78,12 +81,15 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.PointVisualizer;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
+import jme3utilities.math.VectorSet;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.mesh.Cone;
 import jme3utilities.minie.test.mesh.Prism;
+import jme3utilities.minie.test.mesh.Tetrahedron;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -284,6 +290,7 @@ public class TestRbc extends ActionApplication {
         dim.bind("test SphereCapsule", KeyInput.KEY_3);
         dim.bind("test SphereHull", KeyInput.KEY_4);
         dim.bind("test SphereMesh", KeyInput.KEY_5);
+        dim.bind("test Simplex", KeyInput.KEY_9);
 
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
@@ -413,6 +420,12 @@ public class TestRbc extends ActionApplication {
 
             case "Prism":
                 addPrism();
+                break;
+
+            case "Simplex":
+            case "TetraHull":
+            case "TetraMesh":
+                addTetrahedron();
                 break;
 
             case "SmallTerrain":
@@ -627,6 +640,39 @@ public class TestRbc extends ActionApplication {
                 break;
 
             case "SphereMesh":
+                testShape = new MeshCollisionShape(mesh);
+                break;
+
+            default:
+                throw new IllegalArgumentException(shapeName);
+        }
+
+        makeTestShape();
+    }
+
+    /**
+     * Add a regular tetrahedron to the scene and PhysicsSpace.
+     */
+    private void addTetrahedron() {
+        float radius = 2.5f;
+        Mesh mesh = new Tetrahedron(radius, true);
+        controlledSpatial = new Geometry("tetrahedron", mesh);
+
+        switch (shapeName) {
+            case "Simplex":
+                FloatBuffer buffer
+                        = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+                VectorSet vs = MyBuffer.distinct(buffer, 0, buffer.limit());
+                buffer = vs.toBuffer();
+                testShape
+                        = new SimplexCollisionShape(buffer, 0, buffer.limit());
+                break;
+
+            case "TetraHull":
+                testShape = new HullCollisionShape(mesh);
+                break;
+
+            case "TetraMesh":
                 testShape = new MeshCollisionShape(mesh);
                 break;
 
