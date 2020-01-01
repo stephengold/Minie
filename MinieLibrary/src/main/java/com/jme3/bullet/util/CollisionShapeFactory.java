@@ -51,7 +51,6 @@ import com.jme3.terrain.geomipmap.TerrainPatch;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -230,7 +229,8 @@ public class CollisionShapeFactory {
          * Generate a temporary mesh that combines the triangles of
          * all included meshes.
          */
-        IntBuffer indexBuffer = BufferUtils.createIntBuffer(totalIndices);
+        IndexBuffer indexBuffer
+                = IndexBuffer.createIndexBuffer(totalVertices, totalIndices);
         int totalFloats = numAxes * totalVertices;
         FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(totalFloats);
         for (Geometry geometry : includedGeometries) {
@@ -275,7 +275,7 @@ public class CollisionShapeFactory {
      * modified)
      */
     private static void appendTriangles(Geometry geometry, Spatial modelRoot,
-            FloatBuffer addPositions, IntBuffer addIndices) {
+            FloatBuffer addPositions, IndexBuffer addIndices) {
         Mesh jmeMesh = geometry.getMesh();
         /*
          * Append combined-mesh indices to the IntBuffer.
