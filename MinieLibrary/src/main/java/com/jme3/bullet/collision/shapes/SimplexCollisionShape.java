@@ -40,6 +40,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
@@ -139,6 +140,50 @@ public class SimplexCollisionShape extends CollisionShape {
         vector2 = point2.clone();
         vector3 = point3.clone();
         vector4 = point4.clone();
+        createShape();
+    }
+
+    /**
+     * Instantiate a tetrahedral shape based on the specified FloatBuffer range.
+     *
+     * @param buffer the buffer that contains the vertex locations (not null,
+     * unaffected)
+     * @param startPosition the position at which the vertex locations start
+     * (&ge;0, &le;endPosition-3)
+     * @param endPosition the position at which the vertex locations end
+     * (&ge;startPosition+3, &le;capacity)
+     */
+    public SimplexCollisionShape(FloatBuffer buffer, int startPosition,
+            int endPosition) {
+        Validate.nonNull(buffer, "buffer");
+        Validate.inRange(startPosition, "start position", 0,
+                endPosition - numAxes);
+        Validate.inRange(endPosition, "end position", startPosition + numAxes,
+                buffer.capacity());
+        int numFloats = endPosition - startPosition;
+        assert (numFloats % numAxes == 0) : numFloats;
+        int numVertices = numFloats / numAxes;
+
+        switch (numVertices) {
+            case 4:
+                vector4 = new Vector3f();
+                get(buffer, startPosition + 3 * numAxes, vector4);
+            case 3:
+                vector3 = new Vector3f();
+                get(buffer, startPosition + 2 * numAxes, vector3);
+            case 2:
+                vector2 = new Vector3f();
+                get(buffer, startPosition + numAxes, vector2);
+            case 1:
+                vector1 = new Vector3f();
+                get(buffer, startPosition, vector1);
+                break;
+
+            default:
+                String message = Integer.toString(numVertices);
+                throw new RuntimeException(message);
+        }
+
         createShape();
     }
     // *************************************************************************
@@ -369,6 +414,25 @@ public class SimplexCollisionShape extends CollisionShape {
 
         setScale(scale);
         setMargin(margin);
+    }
+
+    /**
+     * Read a Vector3f starting from the given position. Does not alter the
+     * buffer's position. TODO use MyBuffer
+     *
+     * @param buffer the buffer to read from (not null, unaffected)
+     * @param startPosition the position at which to start reading (&ge;0)
+     * @param storeVector storage for the vector (not null, modified)
+     */
+    private static void get(FloatBuffer buffer, int startPosition,
+            Vector3f storeVector) {
+        Validate.nonNull(buffer, "buffer");
+        Validate.nonNegative(startPosition, "start position");
+        Validate.nonNull(storeVector, "store vector");
+
+        storeVector.x = buffer.get(startPosition + MyVector3f.xAxis);
+        storeVector.y = buffer.get(startPosition + MyVector3f.yAxis);
+        storeVector.z = buffer.get(startPosition + MyVector3f.zAxis);
     }
 
     /**
