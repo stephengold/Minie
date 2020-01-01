@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -72,11 +72,11 @@ public class DividedLine extends Mesh {
      * Instantiate a uniformly subdivided line segment between the specified
      * endpoints.
      *
-     * @param endPoint1 the location of the first endpoint (in mesh coordinates,
-     * not null, unaffected)
-     * @param endPoint2 the location of the 2nd endpoint (in mesh coordinates,
-     * not null, unaffected)
-     * @param numSegments the number of sub-segments (&ge;1)
+     * @param endPoint1 the desired location of the first endpoint (in mesh
+     * coordinates, not null, unaffected)
+     * @param endPoint2 the desired location of the 2nd endpoint (in mesh
+     * coordinates, not null, unaffected)
+     * @param numSegments the desired number of sub-segments (&ge;1)
      */
     public DividedLine(Vector3f endPoint1, Vector3f endPoint2, int numSegments) {
         Validate.positive(numSegments, "number of segments");

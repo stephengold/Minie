@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -76,10 +76,10 @@ public class Cone extends Mesh {
      * (0,-height/2,0). The base lies parallel to the X-Z plane. All triangles
      * face outward.
      *
-     * @param numSides the number of sides for the base polygon (&ge;3)
-     * @param radius the radius of the base (in mesh units, &gt;0)
-     * @param yHeight the total height of the cone/pyramid on the Y axis (in
-     * mesh units, &gt;0)
+     * @param numSides the desired number of sides for the base polygon (&ge;3)
+     * @param radius the desired radius of the base (in mesh units, &gt;0)
+     * @param yHeight the desired total height of the cone/pyramid on the Y axis
+     * (in mesh units, &gt;0)
      * @param pyramidFlag true for a pyramid (with flat triangles), false for a
      * cone (with curved triangles)
      */

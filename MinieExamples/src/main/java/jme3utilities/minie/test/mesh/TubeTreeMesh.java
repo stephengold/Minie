@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -155,7 +155,7 @@ public class TubeTreeMesh extends Mesh {
      * Instantiate a tube-tree mesh based on the specified Armature and radius.
      *
      * @param armature (not null, in bind pose, unaffected)
-     * @param radius the radius of each mesh loop (in mesh units, &gt;0)
+     * @param radius the desired radius of each mesh loop (in mesh units, &gt;0)
      */
     public TubeTreeMesh(Armature armature, float radius) {
         this(armature, radius, 0f, 3, 12);
@@ -166,12 +166,13 @@ public class TubeTreeMesh extends Mesh {
      * parameters.
      *
      * @param armature (not null, in bind pose, unaffected)
-     * @param radius the radius of each mesh loop (in mesh units, &gt;0)
-     * @param leafOvershoot the overshoot distance for leaf joints (in mesh
-     * units)
-     * @param loopsPerSegment the number of mesh loops in each tube segment
-     * (&ge;1)
-     * @param samplesPerLoop the number of samples in each mesh loop (&ge;3)
+     * @param radius the desired radius of each mesh loop (in mesh units, &gt;0)
+     * @param leafOvershoot the desired overshoot distance for leaf joints (in
+     * mesh units)
+     * @param loopsPerSegment the desired number of mesh loops in each tube
+     * segment (&ge;1)
+     * @param samplesPerLoop the desired number of samples in each mesh loop
+     * (&ge;3)
      */
     public TubeTreeMesh(Armature armature, float radius, float leafOvershoot,
             int loopsPerSegment, int samplesPerLoop) {

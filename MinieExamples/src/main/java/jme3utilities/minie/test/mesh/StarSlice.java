@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -74,14 +74,14 @@ public class StarSlice extends Mesh {
      *
      * The point of the slice lies on its +X axis. All triangles face outward.
      *
-     * @param sliceAngle the angle between adjacent slices (in radians, &gt;0,
-     * &le;PI)
-     * @param innerRadius the distance of the inner edges from the Y axis (in
-     * mesh units, &gt;0, &le;outerRadius)
-     * @param outerRadius the distance of the outermost point from the Y axis
-     * (in mesh units, &ge;innerRadius)
-     * @param yThickness the total thickness on the Y axis (in mesh units,
-     * &gt;0)
+     * @param sliceAngle the desired angle between adjacent slices (in radians,
+     * &gt;0, &le;PI)
+     * @param innerRadius the desired distance of the inner edges from the Y
+     * axis (in mesh units, &gt;0, &le;outerRadius)
+     * @param outerRadius the desired distance of the outermost point from the Y
+     * axis (in mesh units, &ge;innerRadius)
+     * @param yThickness the desired total thickness at the Y axis (in mesh
+     * units, &gt;0)
      * @param generateNormals true &rarr; generate normals, false &rarr; no
      * normals
      */
