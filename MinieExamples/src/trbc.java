@@ -445,7 +445,7 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Add a box (rectangular solid) to the scene and PhysicsSpace.
+     * Add a box to the scene and PhysicsSpace.
      */
     private void addBox() {
         float halfThickness = 0.5f;
@@ -480,7 +480,7 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Add a right circular cone to the scene and PhysicsSpace.
+     * Add a cone to the scene and PhysicsSpace.
      */
     private void addCone() {
         boolean makePyramid = false;
@@ -512,7 +512,7 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Add a right circular cylinder to the scene and PhysicsSpace.
+     * Add a cylinder to the scene and PhysicsSpace.
      */
     private void addCylinder() {
         boolean closedFlag = true;
@@ -579,8 +579,7 @@ public class TestRbc extends ActionApplication {
     private void addPrism() {
         float radius = 2.5f;
         float thickness = 1f;
-        boolean normals = true;
-        Mesh mesh = new Prism(5, radius, thickness, normals);
+        Mesh mesh = new Prism(5, radius, thickness);
         controlledSpatial = new Geometry("prism", mesh);
         testShape = CollisionShapeFactory.createDynamicMeshShape(
                 controlledSpatial);

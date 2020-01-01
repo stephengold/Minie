@@ -36,9 +36,9 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
 
 /**
- * A 3-D, static, Triangles-mode mesh (with normals but no indices or texture
- * coordinates) that renders an icosahedron. (An icosahedron has 12 vertices and
- * 20 triangular faces.)
+ * A 3-D, static, Triangles-mode mesh (without indices or texture coordinates)
+ * that renders an icosahedron. (An icosahedron has 12 vertices and 20
+ * triangular faces.) TODO move to Heart library
  *
  * @author Stephen Gold sgold@sonic.net
  * @see jme3utilities.mesh.Icosphere
@@ -56,6 +56,10 @@ public class Icosahedron extends Mesh {
      * number of axes in a vector
      */
     final private static int numAxes = 3;
+    /**
+     * number of vertices per triangle
+     */
+    final private static int vpt = 3; // TODO use MyMesh
     /**
      * message logger for this class
      */
@@ -75,10 +79,12 @@ public class Icosahedron extends Mesh {
      *
      * The center is at (0,0,0). All triangles face outward.
      *
-     * @param radius the distance of the outermost points from the center (in
+     * @param radius the desired distance of the vertices from the center (in
      * mesh units, &gt;0)
+     * @param generateNormals true &rarr; generate normals, false &rarr; no
+     * normals
      */
-    public Icosahedron(float radius) {
+    public Icosahedron(float radius, boolean generateNormals) {
         Validate.positive(radius, "radius");
 
         float denom = MyMath.hypotenuse(1f, phi) / radius;
@@ -86,61 +92,61 @@ public class Icosahedron extends Mesh {
         float b = phi / denom; // big offset
 
         FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(
-                -a, b, 0f, // p0
-                -b, 0f, a, // p11
-                0f, a, b, // p5
+                -a, +b, 0f, // p0
+                -b, 0f, +a, // p11
+                0f, +a, +b, // p5
 
-                -a, b, 0f, // p0
-                0f, a, b, // p5
-                a, b, 0f, // p1
+                -a, +b, 0f, // p0
+                0f, +a, +b, // p5
+                +a, +b, 0f, // p1
 
-                -a, b, 0f, // p0
-                a, b, 0f, // p1
-                0f, a, -b, // p7
+                -a, +b, 0f, // p0
+                +a, +b, 0f, // p1
+                0f, +a, -b, // p7
 
-                -a, b, 0f, // p0
-                0f, a, -b, // p7
+                -a, +b, 0f, // p0
+                0f, +a, -b, // p7
                 -b, 0f, -a, // p10
 
-                -a, b, 0f, // p0
+                -a, +b, 0f, // p0
                 -b, 0f, -a, // p10
-                -b, 0f, a, // p11
+                -b, 0f, +a, // p11
 
-                a, b, 0f, // p1
-                0f, a, b, // p5
-                b, 0f, a, // p9
+                +a, +b, 0f, // p1
+                0f, +a, +b, // p5
+                +b, 0f, +a, // p9
 
-                0f, a, b, // p5
-                -b, 0f, a, // p11
-                0f, -a, b, // p4
+                0f, +a, +b, // p5
+                -b, 0f, +a, // p11
+                +0f, -a, +b, // p4
 
-                -b, 0f, a, // p11
+                -b, 0f, +a, // p11
                 -b, 0f, -a, // p10
                 -a, -b, 0f, // p2
 
                 -b, 0f, -a, // p10
-                0f, a, -b, // p7
+                0f, +a, -b, // p7
                 0f, -a, -b, // p6
 
-                0f, a, -b, // p7
-                a, b, 0f, // p1
-                b, 0f, -a, // p8
+                0f, +a, -b, // p7
+                +a, +b, 0f, // p1
+                +b, 0f, -a, // p8
 
-                a, -b, 0f, // p3
-                b, 0f, a, // p9
-                0f, -a, b, // p4
+                +a, -b, 0f, // p3
+                +b, 0f, +a, // p9
+                0f, -a, +b, // p4
 
-                a, -b, 0f, // p3
-                0f, -a, b, // p4
+                +a, -b, 0f, // p3
+                0f, -a, +b, // p4
                 -a, -b, 0f, // p2
 
-                a, -b, 0f, // p3
+                +a, -b, 0f, // p3
                 -a, -b, 0f, // p2
                 0f, -a, -b, // p6
 
-                a, -b, 0f, // p3
+                +a, -b, 0f, // p3
                 0f, -a, -b, // p6
-                b, 0f, -a, // p8
+                +b, 0f, -a, // p8
 
                 a, -b, 0f, // p3
                 b, 0f, -a, // p8
@@ -168,9 +174,12 @@ public class Icosahedron extends Mesh {
         );
         setBuffer(VertexBuffer.Type.Position, numAxes, positionBuffer);
         int numFloats = positionBuffer.capacity();
+        assert numFloats == 20 * vpt * numAxes;
         positionBuffer.limit(numFloats);
 
-        StarSlice.generateNormals(this); // TODO use MyMesh
+        if (generateNormals) {
+            StarSlice.generateNormals(this); // TODO use MyMesh
+        }
 
         updateBound();
         setStatic();

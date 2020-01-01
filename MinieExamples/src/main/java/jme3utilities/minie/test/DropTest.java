@@ -120,10 +120,6 @@ public class DropTest
      */
     final private static int maxNumGems = 80;
     /**
-     * number of axes in a vector
-     */
-    final private static int numAxes = 3;
-    /**
      * message logger for this class
      */
     final public static Logger logger
@@ -758,7 +754,8 @@ public class DropTest
     private void addHullPlatform() {
         float radius = 20f;
         float thickness = 5f;
-        Mesh mesh = new Prism(5, radius, thickness);
+        boolean normals = false;
+        Mesh mesh = new Prism(5, radius, thickness, normals);
         HullCollisionShape shape = new HullCollisionShape(mesh);
 
         float mass = PhysicsRigidBody.massForStatic;
@@ -1187,8 +1184,9 @@ public class DropTest
         float radiusRatio = 0.2f + 0.5f * random.nextFloat();
         float innerRadius = radiusRatio * outerRadius;
         float sliceAngle = FastMath.TWO_PI / numPoints; // in radians
+        boolean normals = false;
         StarSlice sliceMesh = new StarSlice(sliceAngle, innerRadius,
-                outerRadius, 2f * centerY);
+                outerRadius, 2f * centerY, normals);
         CollisionShape sliceShape = new HullCollisionShape(sliceMesh);
 
         CompoundCollisionShape compound = new CompoundCollisionShape();

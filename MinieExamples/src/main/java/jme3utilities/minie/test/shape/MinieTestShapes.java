@@ -340,12 +340,13 @@ public class MinieTestShapes {
         int numVertices = 5 + generate.nextInt(21); // 5 .. 25
 
         FloatBuffer buffer;
+        boolean noNormals = false;
         if (numVertices == 6) {
             /*
              * Generate a regular octahedron (6 vertices).
              */
             float radius = 0.7f + generate.nextFloat();
-            Mesh mesh = new Octahedron(radius);
+            Mesh mesh = new Octahedron(radius, noNormals);
             buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
 
         } else if (numVertices == 12) {
@@ -353,7 +354,7 @@ public class MinieTestShapes {
              * Generate a regular icosahedron (12 vertices).
              */
             float radius = 0.6f + generate.nextFloat();
-            Mesh mesh = new Icosahedron(radius);
+            Mesh mesh = new Icosahedron(radius, noNormals);
             buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
 
         } else if (numVertices < 15 && numVertices % 2 == 0) {
@@ -363,7 +364,7 @@ public class MinieTestShapes {
             float radius = 0.6f + 0.5f * generate.nextFloat();
             float height = 1f + generate.nextFloat();
             int numSides = numVertices / 2;
-            Mesh mesh = new Prism(numSides, radius, height);
+            Mesh mesh = new Prism(numSides, radius, height, noNormals);
             buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
 
         } else if (numVertices > 20) {

@@ -38,8 +38,8 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A 3-D, static, Triangles-mode Mesh (with normals but no indices or texture
- * coordinates) that renders one slice of a 3-D star.
+ * A 3-D, static, Triangles-mode Mesh (without indices or texture coordinates)
+ * that renders one slice of a 3-D star.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -54,7 +54,7 @@ public class StarSlice extends Mesh {
     /**
      * number of vertices per triangle
      */
-    final private static int vpt = 3;
+    final private static int vpt = 3; // TODO use MyMesh
     /**
      * message logger for this class
      */
@@ -72,7 +72,7 @@ public class StarSlice extends Mesh {
     /**
      * Instantiate a Mesh for rotation around its Y axis.
      *
-     * The point of the slice lies on the +X axis. All triangles face outward.
+     * The point of the slice lies on its +X axis. All triangles face outward.
      *
      * @param sliceAngle the angle between adjacent slices (in radians, &gt;0,
      * &le;PI)
@@ -80,17 +80,20 @@ public class StarSlice extends Mesh {
      * mesh units, &gt;0, &le;outerRadius)
      * @param outerRadius the distance of the outermost point from the Y axis
      * (in mesh units, &ge;innerRadius)
-     * @param thickness the thickness at the center (in mesh units, &gt;0)
+     * @param yThickness the total thickness on the Y axis (in mesh units,
+     * &gt;0)
+     * @param generateNormals true &rarr; generate normals, false &rarr; no
+     * normals
      */
     public StarSlice(float sliceAngle, float innerRadius, float outerRadius,
-            float thickness) {
+            float yThickness, boolean generateNormals) {
         Validate.inRange(sliceAngle, "slice angle", 0, FastMath.PI);
         Validate.positive(innerRadius, "inner radius");
         Validate.inRange(outerRadius, "outer radius", innerRadius,
                 Float.MAX_VALUE);
-        Validate.positive(thickness, "thickness");
+        Validate.positive(yThickness, "thickness");
 
-        float centerY = thickness / 2f;
+        float centerY = yThickness / 2f;
         float theta = sliceAngle / 2f;
         float x = innerRadius * FastMath.cos(theta);
         float z = innerRadius * FastMath.sin(theta);
@@ -98,24 +101,24 @@ public class StarSlice extends Mesh {
 
         FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(
                 outerRadius, 0f, 0f, // A
-                x, innerY, -z, // Y
-                x, innerY, z, // X
+                x, +innerY, -z, // Y
+                x, +innerY, z, // X
 
                 outerRadius, 0f, 0f, // A
                 x, -innerY, -z, // Z
-                x, innerY, -z, // Y
+                x, +innerY, -z, // Y
 
                 outerRadius, 0f, 0f, // A
                 x, -innerY, z, // W
                 x, -innerY, -z, // Z
 
                 outerRadius, 0f, 0f, // A
-                x, innerY, z, // X
+                x, +innerY, z, // X
                 x, -innerY, z, // W
 
-                0f, centerY, 0f, // B
-                x, innerY, z, // X
-                x, innerY, -z, // Y
+                0f, +centerY, 0f, // B
+                x, +innerY, z, // X
+                x, +innerY, -z, // Y
 
                 0f, -centerY, 0f, // C
                 x, -innerY, -z, // Z
@@ -125,7 +128,9 @@ public class StarSlice extends Mesh {
         int numFloats = positionBuffer.capacity();
         positionBuffer.limit(numFloats);
 
-        generateNormals(this);
+        if (generateNormals) {
+            StarSlice.generateNormals(this);
+        }
 
         updateBound();
         setStatic();
