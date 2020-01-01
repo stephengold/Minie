@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Transform;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.mesh.IndexBuffer;
@@ -50,7 +49,8 @@ import java.nio.IntBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
-import jme3utilities.math.MyVector3f;
+import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 
 /**
  * An indexed mesh based on Bullet's btIndexedMesh. Immutable except for
@@ -96,13 +96,15 @@ public class IndexedMesh implements JmeCloneable, Savable {
     // fields
 
     /**
-     * configured position data: typically 3 floats per vertex (not null)
+     * configured position data: typically 3 floats per vertex (not null, never
+     * flipped)
      */
     private FloatBuffer vertexPositions;
     /**
-     * configured index data: typically 3 ints per triangle (not null)
+     * configured index data: typically 3 ints per triangle (not null, never
+     * flipped)
      */
-    private IntBuffer indices;
+    private IntBuffer indices; // TODO use an IndexBuffer to conserve memory
     /**
      * configured bytes per triangle in the index buffer (typically 12)
      */
@@ -166,7 +168,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
      * @return the count (&ge;0)
      */
     public int countTriangles() {
-        assert numTriangles >= 0 : numVertices;
+        assert numTriangles >= 0 : numTriangles;
         return numTriangles;
     }
 
@@ -205,7 +207,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
     public void cloneFields(Cloner cloner, Object original) {
         IndexedMesh originalMesh = (IndexedMesh) original;
 
-        int numFloats = vertexPositions.limit();
+        int numFloats = vertexPositions.capacity();
         vertexPositions = BufferUtils.createFloatBuffer(numFloats);
 
         for (int offset = 0; offset < numFloats; ++offset) {
@@ -213,7 +215,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
             vertexPositions.put(tmpFloat);
         }
 
-        int numIndices = indices.limit();
+        int numIndices = indices.capacity();
         indices = BufferUtils.createIntBuffer(numIndices);
         for (int offset = 0; offset < numIndices; ++offset) {
             int tmpIndex = originalMesh.indices.get(offset);
@@ -252,15 +254,17 @@ public class IndexedMesh implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        int[] intArray = capsule.readIntArray(tagIndexInts, new int[0]);
-        indices = BufferUtils.createIntBuffer(intArray);
-
         indexStride = capsule.readInt(tagIndexStride, 12);
         numTriangles = capsule.readInt(tagNumTriangles, 0);
         numVertices = capsule.readInt(tagNumVertices, 0);
         vertexStride = capsule.readInt(tagVertexStride, numAxes * floatSize);
 
+        int[] intArray = capsule.readIntArray(tagIndexInts, new int[0]);
+        assert intArray.length == numTriangles * vpt;
+        indices = BufferUtils.createIntBuffer(intArray);
+
         float[] floatArray = capsule.readFloatArray(tagVertices, new float[0]);
+        assert floatArray.length == numVertices * vpt;
         vertexPositions = BufferUtils.createFloatBuffer(floatArray);
 
         createMesh();
@@ -277,7 +281,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        int numIndices = indices.limit();
+        int numIndices = indices.capacity();
         int[] intArray = new int[numIndices];
         for (int offset = 0; offset < numIndices; ++offset) {
             intArray[offset] = indices.get(offset);
@@ -289,7 +293,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
         capsule.write(numVertices, tagNumVertices, 0);
         capsule.write(vertexStride, tagVertexStride, numAxes * floatSize);
 
-        int numFloats = vertexPositions.limit();
+        int numFloats = vertexPositions.capacity();
         float[] floatArray = new float[numFloats];
         for (int offset = 0; offset < numFloats; ++offset) {
             floatArray[offset] = vertexPositions.get(offset);
@@ -336,26 +340,13 @@ public class IndexedMesh implements JmeCloneable, Savable {
         FloatBuffer meshVs = jmeMesh.getFloatBuffer(VertexBuffer.Type.Position);
         int numFloats = numAxes * numVertices;
         vertexPositions = BufferUtils.createFloatBuffer(numFloats);
-        if (transform == null) {
-            for (int position = 0; position < numFloats; ++position) {
-                float temp = meshVs.get(position);
-                vertexPositions.put(position, temp);
-            }
+        for (int position = 0; position < numFloats; ++position) {
+            float temp = meshVs.get(position);
+            vertexPositions.put(position, temp);
+        }
 
-        } else {
-            Vector3f tmpVector = new Vector3f();
-            for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
-                int position = vertexI * numAxes;
-                tmpVector.x = meshVs.get(position + MyVector3f.xAxis); // TODO use MyBuffer
-                tmpVector.y = meshVs.get(position + MyVector3f.yAxis);
-                tmpVector.z = meshVs.get(position + MyVector3f.zAxis);
-
-                transform.transformVector(tmpVector, tmpVector);
-
-                vertexPositions.put(position + MyVector3f.xAxis, tmpVector.x);
-                vertexPositions.put(position + MyVector3f.yAxis, tmpVector.y);
-                vertexPositions.put(position + MyVector3f.zAxis, tmpVector.z);
-            }
+        if (transform != null && !MyMath.isIdentity(transform)) {
+            MyBuffer.transform(vertexPositions, 0, numFloats, transform);
         }
 
         indexStride = vpt * intSize;
