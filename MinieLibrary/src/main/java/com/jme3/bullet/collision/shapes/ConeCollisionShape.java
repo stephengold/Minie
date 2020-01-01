@@ -95,7 +95,7 @@ public class ConeCollisionShape extends CollisionShape {
      *
      * @param radius the desired radius (in unscaled units, &ge;0)
      * @param height the desired height (in unscaled units, &ge;0)
-     * @param axisIndex which local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @param axisIndex the desired local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      */
     public ConeCollisionShape(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
@@ -110,7 +110,7 @@ public class ConeCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a cone shape oriented along the Y axis.
+     * Instantiate a cone shape, oriented along the Y axis.
      *
      * @param radius the desired radius (in unscaled units, &ge;0)
      * @param height the desired height (in unscaled units, &ge;0)

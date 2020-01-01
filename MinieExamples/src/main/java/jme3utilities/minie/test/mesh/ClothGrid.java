@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -85,12 +85,14 @@ public class ClothGrid extends Mesh {
     }
 
     /**
-     * Instantiate a grid in the X-Z plane, centered on the mesh origin.
+     * Instantiate a grid in the X-Z plane, centered on (0,0,0).
      *
-     * @param xLines the number of grid lines parallel to the X axis (&ge;2)
-     * @param zLines the number of grid lines parallel to the Z axis (&ge;2)
-     * @param lineSpacing the initial distance between adjacent grid lines (in
-     * mesh units, &gt;0)
+     * @param xLines the desired number of grid lines parallel to the X axis
+     * (&ge;2)
+     * @param zLines the desired number of grid lines parallel to the Z axis
+     * (&ge;2)
+     * @param lineSpacing the desired initial distance between adjacent grid
+     * lines (in mesh units, &gt;0)
      */
     public ClothGrid(int xLines, int zLines, float lineSpacing) {
         Validate.inRange(xLines, "X lines", 2, Integer.MAX_VALUE);
