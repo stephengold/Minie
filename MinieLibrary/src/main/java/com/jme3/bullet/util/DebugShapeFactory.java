@@ -48,8 +48,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -392,27 +392,30 @@ public class DebugShapeFactory {
          * Generate mesh positions for a large 2-sided square.
          */
         int numVertices = 8; // 4 vertices for each size
+        int numFloats = numVertices * numAxes;
         FloatBuffer posBuffer
-                = BufferUtils.createFloatBuffer(numVertices * numAxes);
+                = BufferUtils.createFloatBuffer(numFloats);
         for (int sideIndex = 0; sideIndex < 2; ++sideIndex) {
-            posBuffer.put(0f).put(0f).put(1f);
-            posBuffer.put(0f).put(1f).put(0f);
-            posBuffer.put(0f).put(0f).put(-1f);
-            posBuffer.put(0f).put(-1f).put(0f);
+            posBuffer.put(new float[]{
+                0f, 0f, 1f,
+                0f, 1f, 0f,
+                0f, 0f, -1f,
+                0f, -1f, 0f});
         }
+        assert posBuffer.position() == numFloats;
         posBuffer.flip();
 
-        MyBuffer.transform(posBuffer, 0, numVertices * numAxes, transform);
+        MyBuffer.transform(posBuffer, 0, numFloats, transform);
         /*
-         * Generate vertex indices for the 2-sided square.
+         * Generate vertex indices for a 2-sided square.
          */
-        int numTriangles = 4;
-        IntBuffer indexBuffer = BufferUtils.createIntBuffer(numTriangles * vpt);
-        indexBuffer.put(2).put(1).put(0);
-        indexBuffer.put(3).put(2).put(0);
-        indexBuffer.put(5).put(6).put(7);
-        indexBuffer.put(4).put(5).put(7);
-        indexBuffer.flip();
+        ByteBuffer indexBuffer = BufferUtils.createByteBuffer(new byte[]{
+            2, 1, 0,
+            3, 2, 0,
+            5, 6, 7,
+            4, 5, 7});
+        int numBytes = indexBuffer.capacity();
+        indexBuffer.limit(numBytes);
 
         Mesh mesh = new Mesh();
         mesh.setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
@@ -422,7 +425,7 @@ public class DebugShapeFactory {
          */
         if (normals != DebugMeshNormals.None) {
             FloatBuffer normBuffer
-                    = BufferUtils.createFloatBuffer(numVertices * numAxes);
+                    = BufferUtils.createFloatBuffer(numFloats);
             for (int i = 0; i < 4; ++i) {
                 normBuffer.put(v1.x).put(v1.y).put(v1.z);
             }
