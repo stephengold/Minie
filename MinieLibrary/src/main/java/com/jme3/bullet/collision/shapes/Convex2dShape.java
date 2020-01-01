@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * An convex CollisionShape optimized for 2-D, based on Bullet's
@@ -51,10 +52,6 @@ public class Convex2dShape extends CollisionShape {
     // *************************************************************************
     // constants and loggers
 
-    /**
-     * number of axes in a vector
-     */
-    final private static int numAxes = 3;
     /**
      * message logger for this class
      */
@@ -104,7 +101,7 @@ public class Convex2dShape extends CollisionShape {
         Validate.nonNull(flippedBuffer, "flipped buffer");
         int numFloats = flippedBuffer.limit();
         assert numFloats > 0 : numFloats;
-        assert numFloats % numAxes == 0 : numFloats;
+        assert numFloats % MyVector3f.numAxes == 0 : numFloats;
 
         this.base = new HullCollisionShape(flippedBuffer);
         createShape();

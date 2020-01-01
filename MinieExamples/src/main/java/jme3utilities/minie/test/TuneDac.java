@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -80,10 +80,6 @@ public class TuneDac extends ActionApplication {
     // *************************************************************************
     // constants and loggers
 
-    /**
-     * number of axes
-     */
-    final private static int numAxes = 3;
     /**
      * message logger for this class
      */
@@ -448,7 +444,7 @@ public class TuneDac extends ActionApplication {
      */
     private void setWiggleAxis(int axisIndex) {
         assert axisIndex >= 0 : axisIndex;
-        assert axisIndex < numAxes : axisIndex;
+        assert axisIndex < MyVector3f.numAxes : axisIndex;
 
         SixDofJoint joint = (SixDofJoint) wiggleLink.getJoint();
         if (joint == null) {
