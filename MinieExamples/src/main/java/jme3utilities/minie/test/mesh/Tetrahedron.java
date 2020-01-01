@@ -76,9 +76,10 @@ public class Tetrahedron extends Mesh {
      *
      * @param radius the desired distance of the vertices from the center (in
      * mesh units, &gt;0)
-     * @param normalsFlag true &rarr; with normals, false &rarr; no normals
+     * @param generateNormals true &rarr; generate normals, false &rarr; no
+     * normals
      */
-    public Tetrahedron(float radius, boolean normalsFlag) {
+    public Tetrahedron(float radius, boolean generateNormals) {
         Validate.positive(radius, "radius");
 
         float h = radius / FastMath.sqrt(2f);
@@ -102,10 +103,10 @@ public class Tetrahedron extends Mesh {
         );
         setBuffer(VertexBuffer.Type.Position, numAxes, positionBuffer);
         int numFloats = positionBuffer.capacity();
-        assert numFloats == 8 * vpt * numAxes;
+        assert numFloats == 4 * vpt * numAxes;
         positionBuffer.limit(numFloats);
 
-        if (normalsFlag) {
+        if (generateNormals) {
             StarSlice.generateNormals(this); // TODO use MyMesh
         }
 
