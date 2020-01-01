@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -66,10 +66,6 @@ public class MinieTestShapes {
     // *************************************************************************
     // constants and loggers
 
-    /**
-     * number of axes in a vector
-     */
-    final private static int numAxes = 3;
     /**
      * message logger for this class
      */
@@ -400,7 +396,8 @@ public class MinieTestShapes {
             /*
              * Generate a hull using the origin plus 4-19 random vertices.
              */
-            buffer = BufferUtils.createFloatBuffer(numAxes * numVertices);
+            buffer = BufferUtils.createFloatBuffer(
+                    MyVector3f.numAxes * numVertices);
             buffer.put(0f).put(0f).put(0f);
             for (int vertexI = 1; vertexI < numVertices; ++vertexI) {
                 Vector3f location = generate.nextUnitVector3f();
