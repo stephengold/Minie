@@ -36,8 +36,8 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
 
 /**
- * A 3-D, static, Triangles-mode Mesh (with normals but no indices or texture
- * coordinates) that renders a prism.
+ * A 3-D, static, Triangles-mode Mesh (without indices or texture coordinates)
+ * that renders a prism.
  *
  * @author Stephen Gold sgold@sonic.net
  * @see com.jme3.scene.shape.Cylinder
@@ -53,7 +53,7 @@ public class Prism extends Mesh {
     /**
      * number of vertices per triangle
      */
-    final private static int vpt = 3;
+    final private static int vpt = 3; // TODO use MyMesh
     /**
      * message logger for this class
      */
@@ -69,17 +69,20 @@ public class Prism extends Mesh {
     }
 
     /**
-     * Instantiate a right prism closed with regular polygons.
+     * Instantiate a right prism, closed at both ends with regular polygons.
      *
      * The center is at (0,0,0). The end polygons lie parallel with the X-Z
      * plane. All triangles face outward.
      *
-     * @param numSides the number of sides for each end (&ge;3)
-     * @param radius the radius of each end (in mesh units, &gt;0)
-     * @param yHeight the total height of the prism on the Y axis (in mesh
-     * units, &gt;0)
+     * @param numSides the desired number of sides for each end (&ge;3)
+     * @param radius the desired radius of each end (in mesh units, &gt;0)
+     * @param yHeight the desired total height of the prism on the Y axis (in
+     * mesh units, &gt;0)
+     * @param generateNormals true &rarr; generate normals, false &rarr; no
+     * normals
      */
-    public Prism(int numSides, float radius, float yHeight) {
+    public Prism(int numSides, float radius, float yHeight,
+            boolean generateNormals) {
         Validate.inRange(numSides, "number of sides", 3, Integer.MAX_VALUE);
         Validate.positive(radius, "radius");
         Validate.positive(yHeight, "height");
@@ -104,11 +107,11 @@ public class Prism extends Mesh {
             float x2 = radius * FastMath.sin(theta2);
             float z2 = radius * FastMath.cos(theta2);
 
-            positionBuffer.put(x2).put(y).put(z2);
-            positionBuffer.put(x1).put(y).put(z1);
+            positionBuffer.put(x2).put(+y).put(z2);
+            positionBuffer.put(x1).put(+y).put(z1);
             positionBuffer.put(x2).put(-y).put(z2);
 
-            positionBuffer.put(x1).put(y).put(z1);
+            positionBuffer.put(x1).put(+y).put(z1);
             positionBuffer.put(x1).put(-y).put(z1);
             positionBuffer.put(x2).put(-y).put(z2);
 
@@ -117,9 +120,9 @@ public class Prism extends Mesh {
                 float x3 = radius * FastMath.sin(theta3);
                 float z3 = radius * FastMath.cos(theta3);
 
-                positionBuffer.put(x1).put(y).put(z1);
-                positionBuffer.put(x2).put(y).put(z2);
-                positionBuffer.put(x3).put(y).put(z3);
+                positionBuffer.put(x1).put(+y).put(z1);
+                positionBuffer.put(x2).put(+y).put(z2);
+                positionBuffer.put(x3).put(+y).put(z3);
 
                 positionBuffer.put(x3).put(-y).put(z3);
                 positionBuffer.put(x2).put(-y).put(z2);
@@ -129,7 +132,9 @@ public class Prism extends Mesh {
         positionBuffer.flip();
         assert positionBuffer.limit() == positionBuffer.capacity();
 
-        StarSlice.generateNormals(this); // TODO use MyMesh
+        if (generateNormals) {
+            StarSlice.generateNormals(this); // TODO use MyMesh
+        }
 
         updateBound();
         setStatic();

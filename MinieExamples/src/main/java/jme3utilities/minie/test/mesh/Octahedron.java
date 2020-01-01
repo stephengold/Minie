@@ -34,9 +34,9 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A 3-D, static, Triangles-mode Mesh (with normals but no indices or texture
- * coordinates) that renders an octahedron. (An octahedron has 6 vertices and 8
- * triangular faces.)
+ * A 3-D, static, Triangles-mode Mesh (without indices or texture coordinates)
+ * that renders an octahedron. (An octahedron has 6 vertices and 8 triangular
+ * faces.) TODO move to Heart library
  *
  * @author Stephen Gold sgold@sonic.net
  * @see jme3utilities.minie.test.mesh.Icosahedron
@@ -49,6 +49,10 @@ public class Octahedron extends Mesh {
      * number of axes in a vector
      */
     final private static int numAxes = 3;
+    /**
+     * number of vertices per triangle
+     */
+    final private static int vpt = 3; // TODO use MyMesh
     /**
      * message logger for this class
      */
@@ -66,43 +70,45 @@ public class Octahedron extends Mesh {
     /**
      * Instantiate a regular octahedron with the specified radius.
      *
-     * The center is at (0,0,0). All vertices lie on the local axes. All
-     * triangles face outward.
+     * The center is at (0,0,0). All vertices lie on the axes. All triangles
+     * face outward.
      *
-     * @param radius the distance of the outermost points from the center (in
+     * @param radius the desired distance of the vertices from the center (in
      * mesh units, &gt;0)
+     * @param generateNormals true &rarr; generate normals, false &rarr; no
+     * normals
      */
-    public Octahedron(float radius) {
+    public Octahedron(float radius, boolean generateNormals) {
         Validate.positive(radius, "radius");
 
         FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(
                 -radius, 0f, 0f, // A
-                0f, 0f, radius, // Z
-                0f, radius, 0f, // Y
+                0f, 0f, +radius, // Z
+                0f, +radius, 0f, // Y
 
-                radius, 0f, 0f, // X
-                0f, radius, 0f, // Y
-                0f, 0f, radius, // Z
+                +radius, 0f, 0f, // X
+                0f, +radius, 0f, // Y
+                0f, 0f, +radius, // Z
 
                 0f, 0f, -radius, // C
-                0f, radius, 0f, // Y
-                radius, 0f, 0f, // X
+                0f, +radius, 0f, // Y
+                +radius, 0f, 0f, // X
 
                 -radius, 0f, 0f, // A
-                0f, radius, 0f, // Y
+                0f, +radius, 0f, // Y
                 0f, 0f, -radius, // C
 
                 0f, -radius, 0f, // B
                 0f, 0f, -radius, // C
-                radius, 0f, 0f, // X
+                +radius, 0f, 0f, // X
 
                 0f, -radius, 0f, // B
-                radius, 0f, 0f, // X
-                0f, 0f, radius, // Z
+                +radius, 0f, 0f, // X
+                0f, 0f, +radius, // Z
 
                 -radius, 0f, 0f, // A
                 0f, -radius, 0f, // B
-                0f, 0f, radius, // Z
+                0f, 0f, +radius, // Z
 
                 -radius, 0f, 0f, // A
                 0f, 0f, -radius, // C
@@ -110,9 +116,12 @@ public class Octahedron extends Mesh {
         );
         setBuffer(VertexBuffer.Type.Position, numAxes, positionBuffer);
         int numFloats = positionBuffer.capacity();
+        assert numFloats == 8 * vpt * numAxes;
         positionBuffer.limit(numFloats);
 
-        StarSlice.generateNormals(this); // TODO use MyMesh
+        if (generateNormals) {
+            StarSlice.generateNormals(this); // TODO use MyMesh
+        }
 
         updateBound();
         setStatic();
