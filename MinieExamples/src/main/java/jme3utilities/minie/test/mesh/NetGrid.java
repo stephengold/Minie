@@ -28,9 +28,9 @@ package jme3utilities.minie.test.mesh;
 
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -85,8 +85,8 @@ public class NetGrid extends Mesh {
         setMode(Mode.Lines);
 
         int numVertices = xLines * zLines;
-        FloatBuffer posBuffer
-                = BufferUtils.createFloatBuffer(numAxes * numVertices);
+        int numFloats = numAxes * numVertices;
+        FloatBuffer posBuffer = BufferUtils.createFloatBuffer(numFloats);
         setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
         /*
          * Write the vertex locations:
@@ -98,12 +98,14 @@ public class NetGrid extends Mesh {
                 posBuffer.put(x).put(0f).put(z);
             }
         }
-        assert posBuffer.position() == numAxes * numVertices;
+        assert posBuffer.position() == numFloats;
         posBuffer.flip();
 
         int numEdges = xLines * (zLines - 1) + (xLines - 1) * zLines;
-        IntBuffer indexBuffer = BufferUtils.createIntBuffer(vpe * numEdges);
-        setBuffer(VertexBuffer.Type.Index, vpe, indexBuffer);
+        int numIndices = vpe * numEdges;
+        IndexBuffer indexBuffer
+                = IndexBuffer.createIndexBuffer(numVertices, numIndices);
+        ClothGrid.setIndexBuffer(this, vpe, indexBuffer);
         /*
          * Write vertex indices for edges that parallel the X axis:
          */
@@ -124,8 +126,8 @@ public class NetGrid extends Mesh {
                 indexBuffer.put(vi0).put(vi1);
             }
         }
-        assert indexBuffer.position() == vpe * numEdges;
-        indexBuffer.flip();
+        indexBuffer.getBuffer().flip();
+        assert indexBuffer.size() == numIndices;
 
         updateBound();
         setStatic();

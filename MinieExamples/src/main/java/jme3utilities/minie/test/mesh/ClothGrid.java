@@ -33,10 +33,14 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import java.io.IOException;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -133,8 +137,10 @@ public class ClothGrid extends Mesh {
         normBuffer.flip();
 
         int numTriangles = 2 * (xLines - 1) * (zLines - 1);
-        IntBuffer indexBuffer = BufferUtils.createIntBuffer(vpt * numTriangles);
-        setBuffer(VertexBuffer.Type.Index, vpt, indexBuffer);
+        int numIndices = vpt * numTriangles;
+        IndexBuffer indexBuffer
+                = IndexBuffer.createIndexBuffer(numVertices, numIndices);
+        setIndexBuffer(this, vpt, indexBuffer);
         /*
          * Write vertex indices for triangles:
          */
@@ -156,8 +162,8 @@ public class ClothGrid extends Mesh {
                 }
             }
         }
-        assert indexBuffer.position() == vpt * numTriangles;
-        indexBuffer.flip();
+        indexBuffer.getBuffer().flip();
+        assert indexBuffer.size() == numIndices;
 
         updateBound();
         setDynamic();
@@ -188,6 +194,31 @@ public class ClothGrid extends Mesh {
         positions.put(floatIndex, location.x);
         positions.put(floatIndex + 1, location.y);
         positions.put(floatIndex + 2, location.z);
+    }
+
+    /**
+     * Replace the IndexBuffer of the specified Mesh. TODO move to MyMesh
+     *
+     * @param mesh the Mesh to modify (not null)
+     * @param vpe the number of vertices per mesh element (&gt;0)
+     * @param indexBuffer the desired IndexBuffer (not null, alias created)
+     */
+    public static void setIndexBuffer(Mesh mesh, int vpe,
+            IndexBuffer indexBuffer) {
+        Validate.nonNull(mesh, "mesh");
+        Validate.positive(vpe, "vertices per element");
+
+        Buffer buffer = indexBuffer.getBuffer();
+        if (buffer instanceof ByteBuffer) {
+            mesh.setBuffer(VertexBuffer.Type.Index, vpe, (ByteBuffer) buffer);
+        } else if (buffer instanceof IntBuffer) {
+            mesh.setBuffer(VertexBuffer.Type.Index, vpe, (IntBuffer) buffer);
+        } else if (buffer instanceof ShortBuffer) {
+            mesh.setBuffer(VertexBuffer.Type.Index, vpe, (ShortBuffer) buffer);
+        } else {
+            String message = buffer.getClass().getName();
+            throw new IllegalArgumentException(message);
+        }
     }
     // *************************************************************************
     // Mesh methods

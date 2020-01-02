@@ -37,10 +37,14 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.BitSet;
 import java.util.logging.Level;
@@ -112,6 +116,10 @@ public class TubeTreeMesh extends Mesh {
      */
     private FloatBuffer positionBuffer;
     /**
+     * index buffer
+     */
+    private IndexBuffer indexBuffer;
+    /**
      * total number of triangles in the mesh
      */
     private int numTriangles;
@@ -127,10 +135,6 @@ public class TubeTreeMesh extends Mesh {
      * number of sample points per mesh loop (default=12)
      */
     private int samplesPerLoop;
-    /**
-     * index buffer
-     */
-    private ShortBuffer indexBuffer;
     /**
      * cached sample positions for a unit circle in the X-Y plane
      */
@@ -247,6 +251,34 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
+     * Replace the BoneIndexBuffer of the specified Mesh. TODO move to MyMesh
+     *
+     * @param mesh the Mesh to modify (not null)
+     * @param wpv the number of bone weights per vertex (&gt;0)
+     * @param indexBuffer the desired IndexBuffer (not null, alias created)
+     */
+    public static void setBoneIndexBuffer(Mesh mesh, int wpv,
+            IndexBuffer indexBuffer) {
+        Validate.nonNull(mesh, "mesh");
+        Validate.positive(wpv, "weights per vertex");
+
+        Buffer buffer = indexBuffer.getBuffer();
+        if (buffer instanceof ByteBuffer) {
+            mesh.setBuffer(VertexBuffer.Type.BoneIndex, wpv,
+                    (ByteBuffer) buffer);
+        } else if (buffer instanceof IntBuffer) {
+            mesh.setBuffer(VertexBuffer.Type.BoneIndex, wpv,
+                    (IntBuffer) buffer);
+        } else if (buffer instanceof ShortBuffer) {
+            mesh.setBuffer(VertexBuffer.Type.BoneIndex, wpv,
+                    (ShortBuffer) buffer);
+        } else {
+            String message = buffer.getClass().getName();
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    /**
      * Calculate the number of vertices in each cap.
      *
      * @return count (&ge;3)
@@ -330,9 +362,8 @@ public class TubeTreeMesh extends Mesh {
      */
     private void allocateBuffers() {
         int weightCount = maxWpv * numVertices;
-        // TODO use a ByteBuffer if possible
-        indexBuffer = BufferUtils.createShortBuffer(weightCount);
-        setBuffer(VertexBuffer.Type.BoneIndex, maxWpv, indexBuffer);
+        indexBuffer = IndexBuffer.createIndexBuffer(numVertices, weightCount);
+        setBoneIndexBuffer(this, maxWpv, indexBuffer);
         weightBuffer = BufferUtils.createFloatBuffer(weightCount);
         setBuffer(VertexBuffer.Type.BoneWeight, maxWpv, weightBuffer);
 

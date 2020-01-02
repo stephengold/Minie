@@ -29,9 +29,9 @@ package jme3utilities.minie.test.mesh;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
@@ -81,11 +81,11 @@ public class DividedLine extends Mesh {
     public DividedLine(Vector3f endPoint1, Vector3f endPoint2, int numSegments) {
         Validate.positive(numSegments, "number of segments");
 
-        setMode(Mode.Lines);
+        setMode(Mode.Lines); // TODO use LineStrip
 
         int numVertices = numSegments + 1;
-        FloatBuffer posBuffer
-                = BufferUtils.createFloatBuffer(numAxes * numVertices);
+        int numFloats = numAxes * numVertices;
+        FloatBuffer posBuffer = BufferUtils.createFloatBuffer(numFloats);
         setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
         /*
          * Write the locations of all vertices:
@@ -96,19 +96,21 @@ public class DividedLine extends Mesh {
             MyVector3f.lerp(t, endPoint1, endPoint2, temp);
             posBuffer.put(temp.x).put(temp.y).put(temp.z);
         }
-        assert posBuffer.position() == numAxes * numVertices;
+        assert posBuffer.position() == numFloats;
         posBuffer.flip();
 
-        IntBuffer indexBuffer = BufferUtils.createIntBuffer(vpe * numSegments);
-        setBuffer(VertexBuffer.Type.Index, vpe, indexBuffer);
+        int numIndices = vpe * numSegments;
+        IndexBuffer indexBuffer
+                = IndexBuffer.createIndexBuffer(numVertices, numIndices);
+        ClothGrid.setIndexBuffer(this, vpe, indexBuffer);
         /*
          * Write the vertex indices of all edges:
          */
-        for (int sIndex = 0; sIndex < numSegments; ++sIndex) {
-            indexBuffer.put(sIndex).put(sIndex + 1);
+        for (int edgeIndex = 0; edgeIndex < numSegments; ++edgeIndex) {
+            indexBuffer.put(edgeIndex).put(edgeIndex + 1);
         }
-        assert indexBuffer.position() == vpe * numSegments;
-        indexBuffer.flip();
+        indexBuffer.getBuffer().flip();
+        assert indexBuffer.size() == numIndices;
 
         updateBound();
         setStatic();
