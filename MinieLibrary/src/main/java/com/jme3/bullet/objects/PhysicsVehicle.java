@@ -459,7 +459,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Remove a wheel.
+     * Remove a wheel. TODO test this---with joints!
      *
      * @param wheelIndex the index of the wheel to remove (&ge;0, &lt;count)
      */
