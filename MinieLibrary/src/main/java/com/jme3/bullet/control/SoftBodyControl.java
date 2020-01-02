@@ -98,7 +98,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     /**
      * map from mesh-vertex indices to body-node indices, or null for identity
      */
-    private IntBuffer indexMap = null;
+    private IntBuffer indexMap = null; // TODO use an IndexBuffer to save memory
     /**
      * underlying collision object
      */
