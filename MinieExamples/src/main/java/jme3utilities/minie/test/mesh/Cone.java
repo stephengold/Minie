@@ -64,9 +64,10 @@ public class Cone extends Mesh {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil.
+     * No-argument constructor needed by SavableClassUtil. Do not invoke
+     * directly!
      */
-    protected Cone() {
+    public Cone() {
     }
 
     /**
