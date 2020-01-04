@@ -39,7 +39,7 @@ import jme3utilities.math.MyMath;
 
 /**
  * A 3-D, static, Triangles-mode Mesh (with normals but no indices or texture
- * coordinates) that renders a pyramid or cone.
+ * coordinates) that renders a pyramid or cone. TODO use Heart library
  *
  * @author Stephen Gold sgold@sonic.net
  */

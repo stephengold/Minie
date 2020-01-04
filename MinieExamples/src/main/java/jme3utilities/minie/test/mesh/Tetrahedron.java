@@ -37,7 +37,7 @@ import jme3utilities.Validate;
 /**
  * A 3-D, static, Triangles-mode Mesh (without indices or texture coordinates)
  * that renders a tetrahedron. (An tetrahedron has 4 vertices and 4 triangular
- * faces.) TODO move to Heart library
+ * faces.) TODO use Heart library
  *
  * @author Stephen Gold sgold@sonic.net
  * @see jme3utilities.minie.test.mesh.Icosahedron

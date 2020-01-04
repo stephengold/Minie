@@ -37,7 +37,7 @@ import jme3utilities.math.MyMath;
 
 /**
  * A 3-D, static, Triangles-mode Mesh (without indices or texture coordinates)
- * that renders a prism.
+ * that renders a prism. TODO use Heart library
  *
  * @author Stephen Gold sgold@sonic.net
  * @see com.jme3.scene.shape.Cylinder

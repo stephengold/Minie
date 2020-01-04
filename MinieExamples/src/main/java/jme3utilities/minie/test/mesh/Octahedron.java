@@ -36,7 +36,7 @@ import jme3utilities.Validate;
 /**
  * A 3-D, static, Triangles-mode Mesh (without indices or texture coordinates)
  * that renders an octahedron. (An octahedron has 6 vertices and 8 triangular
- * faces.) TODO move to Heart library
+ * faces.) TODO use to Heart library
  *
  * @author Stephen Gold sgold@sonic.net
  * @see jme3utilities.minie.test.mesh.Icosahedron
