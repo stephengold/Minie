@@ -34,6 +34,7 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A 3-D, static, Triangles-mode Mesh (without indices or texture coordinates)
@@ -45,10 +46,6 @@ public class StarSlice extends Mesh {
     // *************************************************************************
     // constants and loggers
 
-    /**
-     * number of axes in a vector
-     */
-    final private static int numAxes = 3;
     /**
      * message logger for this class
      */
@@ -118,7 +115,8 @@ public class StarSlice extends Mesh {
                 x, -innerY, -z, // Z
                 x, -innerY, z // W
         );
-        setBuffer(VertexBuffer.Type.Position, numAxes, positionBuffer);
+        setBuffer(VertexBuffer.Type.Position, MyVector3f.numAxes,
+                positionBuffer);
         int numFloats = positionBuffer.capacity();
         positionBuffer.limit(numFloats);
 

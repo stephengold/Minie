@@ -441,8 +441,7 @@ public class BuoyDemo extends ActionApplication {
                 throw new IllegalArgumentException(modelName);
         }
 
-        List<Spatial> list
-                = MySpatial.listSpatials(cgModel, Spatial.class, null);
+        List<Spatial> list = MySpatial.listSpatials(cgModel);
         for (Spatial spatial : list) {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
@@ -662,8 +661,7 @@ public class BuoyDemo extends ActionApplication {
         cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
 
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
-        List<Spatial> list
-                = MySpatial.listSpatials(sword, Spatial.class, null);
+        List<Spatial> list = MySpatial.listSpatials(sword);
         for (Spatial spatial : list) {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
@@ -684,8 +682,7 @@ public class BuoyDemo extends ActionApplication {
         cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
 
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
-        List<Spatial> list
-                = MySpatial.listSpatials(sword, Spatial.class, null);
+        List<Spatial> list = MySpatial.listSpatials(sword);
         for (Spatial spatial : list) {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }

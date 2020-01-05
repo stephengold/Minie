@@ -379,9 +379,8 @@ public class MinieTestShapes {
              */
             int start = 0;
             int end = buffer.limit();
-            Transform scaleTransform = new Transform();
-            scaleTransform.setScale(radius);
-            MyBuffer.transform(buffer, start, end, scaleTransform);
+            Vector3f scale = new Vector3f(radius, radius, radius);
+            MyBuffer.scale(buffer, start, end, scale);
             /*
              * Use max-min to center the vertices.
              */

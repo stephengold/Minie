@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 
@@ -56,10 +57,6 @@ public class ClothGrid extends Mesh {
      * number of axes in a vector
      */
     final private static int numAxes = 3;
-    /**
-     * number of vertices per triangle
-     */
-    final private static int vpt = 3;
     /**
      * message logger for this class
      */
@@ -135,7 +132,7 @@ public class ClothGrid extends Mesh {
         normBuffer.flip();
 
         int numTriangles = 2 * (xLines - 1) * (zLines - 1);
-        int numIndices = vpt * numTriangles;
+        int numIndices = MyMesh.vpt * numTriangles;
         IndexBuffer indexBuffer
                 = IndexBuffer.createIndexBuffer(numVertices, numIndices);
         VertexBuffer.Format ibFormat = indexBuffer.getFormat();

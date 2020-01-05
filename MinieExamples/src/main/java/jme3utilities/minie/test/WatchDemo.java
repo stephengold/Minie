@@ -507,8 +507,7 @@ public class WatchDemo extends ActionApplication {
                 throw new IllegalArgumentException(modelName);
         }
 
-        List<Spatial> list
-                = MySpatial.listSpatials(cgModel, Spatial.class, null);
+        List<Spatial> list = MySpatial.listSpatials(cgModel);
         for (Spatial spatial : list) {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
@@ -736,8 +735,7 @@ public class WatchDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
-        List<Spatial> list
-                = MySpatial.listSpatials(sword, Spatial.class, null);
+        List<Spatial> list = MySpatial.listSpatials(sword);
         for (Spatial spatial : list) {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
@@ -760,8 +758,7 @@ public class WatchDemo extends ActionApplication {
         cgModel.rotate(0f, -1.6f, 0f);
 
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
-        List<Spatial> list
-                = MySpatial.listSpatials(sword, Spatial.class, null);
+        List<Spatial> list = MySpatial.listSpatials(sword);
         for (Spatial spatial : list) {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
