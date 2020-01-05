@@ -53,6 +53,7 @@ import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
@@ -160,7 +161,7 @@ public class TestRbc extends ActionApplication {
      */
     private Material greenMaterial;
     /**
-     * green wireframe material for scene objects
+     * double-sided green wireframe material for the smallTerrain Spatial
      */
     private Material wireMaterial;
     /**
@@ -800,6 +801,8 @@ public class TestRbc extends ActionApplication {
         greenMaterial.setName("green");
 
         wireMaterial = MyAsset.createWireframeMaterial(assetManager, green);
+        RenderState ars = wireMaterial.getAdditionalRenderState();
+        ars.setFaceCullMode(RenderState.FaceCullMode.Off);
     }
 
     /**
