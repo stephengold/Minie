@@ -241,6 +241,7 @@ public class TestRbc extends ActionApplication {
 
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
+        // TODO ScreenshotAppState
         addAxes();
         addLighting();
         /*
@@ -351,6 +352,9 @@ public class TestRbc extends ActionApplication {
 
                 case "dump physicsSpace":
                     dumper.dump(physicsSpace);
+                    return;
+                case "dump scenes":
+                    dumper.dump(renderManager);
                     return;
                 case "dump viewport":
                     dumper.dump(viewPort);
