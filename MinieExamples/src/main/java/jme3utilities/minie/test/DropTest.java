@@ -283,7 +283,7 @@ public class DropTest
         dim.bind("delete", KeyInput.KEY_DELETE);
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind("dump viewport", KeyInput.KEY_P);
 
         dim.bind("less damping", KeyInput.KEY_B);
         dim.bind("less friction", KeyInput.KEY_V);
@@ -367,9 +367,11 @@ public class DropTest
                 case "dump physicsSpace":
                     dumper.dump(physicsSpace);
                     return;
-
                 case "dump scenes":
                     dumper.dump(renderManager);
+                    return;
+                case "dump viewport":
+                    dumper.dump(viewPort);
                     return;
 
                 case "less damping":
