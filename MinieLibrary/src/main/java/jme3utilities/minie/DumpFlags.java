@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,10 @@ public enum DumpFlags {
     // *************************************************************************
     // values
 
+    /**
+     * world bounds in spatials
+     */
+    BoundsInSpatials,
     /**
      * render buckets in spatials
      */
@@ -90,5 +94,9 @@ public enum DumpFlags {
     /**
      * user data in spatials
      */
-    UserData;
+    UserData,
+    /**
+     * vertex data in geometries
+     */
+    VertexData;
 }

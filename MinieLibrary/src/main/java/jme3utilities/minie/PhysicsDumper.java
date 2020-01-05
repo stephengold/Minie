@@ -607,6 +607,10 @@ public class PhysicsDumper extends Dumper {
         boolean result;
 
         switch (dumpFlag) {
+            case BoundsInSpatials:
+                result = isDumpBounds();
+                break;
+
             case Buckets:
                 result = isDumpBucket();
                 break;
@@ -663,6 +667,10 @@ public class PhysicsDumper extends Dumper {
                 result = isDumpUser();
                 break;
 
+            case VertexData:
+                result = isDumpVertex();
+                break;
+
             default:
                 throw new IllegalArgumentException(dumpFlag.toString());
         }
@@ -679,6 +687,10 @@ public class PhysicsDumper extends Dumper {
      */
     public PhysicsDumper setEnabled(DumpFlags dumpFlag, boolean newValue) {
         switch (dumpFlag) {
+            case BoundsInSpatials:
+                setDumpBounds(newValue);
+                break;
+
             case Buckets:
                 setDumpBucket(newValue);
                 break;
@@ -733,6 +745,10 @@ public class PhysicsDumper extends Dumper {
 
             case UserData:
                 setDumpUser(newValue);
+                break;
+
+            case VertexData:
+                setDumpVertex(newValue);
                 break;
 
             default:
