@@ -33,11 +33,14 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
+import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
@@ -89,6 +92,7 @@ import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
 import jme3utilities.mesh.Cone;
 import jme3utilities.mesh.Prism;
+import jme3utilities.mesh.RectangleMesh;
 import jme3utilities.mesh.Tetrahedron;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
@@ -157,11 +161,11 @@ public class TestRbc extends ActionApplication {
      */
     private JmeCursor missCursor;
     /**
-     * lit green material for scene objects
+     * double-sided, green, shaded material for scene objects
      */
     private Material greenMaterial;
     /**
-     * double-sided green wireframe material for the smallTerrain Spatial
+     * double-sided, green, wireframe material for the smallTerrain Spatial
      */
     private Material wireMaterial;
     /**
@@ -303,6 +307,12 @@ public class TestRbc extends ActionApplication {
         dim.bind("test SphereHull", KeyInput.KEY_4);
         dim.bind("test SphereMesh", KeyInput.KEY_5);
         dim.bind("test Simplex", KeyInput.KEY_9);
+        dim.bind("test Square", KeyInput.KEY_NUMPAD1);
+        dim.bind("test SquareBox", KeyInput.KEY_NUMPAD2);
+        dim.bind("test SquareConvex2d", KeyInput.KEY_NUMPAD3);
+        dim.bind("test SquareHeightfield", KeyInput.KEY_NUMPAD4);
+        dim.bind("test SquareHull", KeyInput.KEY_NUMPAD5);
+        dim.bind("test SquareMesh", KeyInput.KEY_NUMPAD6);
 
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
@@ -463,6 +473,15 @@ public class TestRbc extends ActionApplication {
                 addSphere();
                 break;
 
+            case "Square":
+            case "SquareBox":
+            case "SquareConvex2d":
+            case "SquareHeightfield":
+            case "SquareHull":
+            case "SquareMesh":
+                addSquare();
+                break;
+
             default:
                 throw new IllegalArgumentException(shapeName);
         }
@@ -582,7 +601,7 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Add 513x513 terrain to the scene and PhysicsSpace.
+     * Add a 513x513 terrain to the scene and PhysicsSpace.
      */
     private void addLargeTerrain() {
         int patchSize = 33; // in pixels
@@ -624,7 +643,7 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Add 3x3 terrain to the scene and PhysicsSpace.
+     * Add a 3x3 terrain to the scene and PhysicsSpace.
      */
     private void addSmallTerrain() {
         int patchSize = 3;
@@ -663,6 +682,59 @@ public class TestRbc extends ActionApplication {
                 break;
 
             case "SphereMesh":
+                testShape = new MeshCollisionShape(mesh);
+                break;
+
+            default:
+                throw new IllegalArgumentException(shapeName);
+        }
+
+        makeTestShape();
+    }
+
+    /**
+     * Add a square in the X-Y plane to the scene and PhysicsSpace.
+     */
+    private void addSquare() {
+        float he = 1f;
+        Mesh mesh = new RectangleMesh(-he, +he, -he, +he, 1f);
+        controlledSpatial = new Geometry("square", mesh);
+
+        switch (shapeName) {
+            case "Square":
+                testShape = new Box2dShape(he);
+                break;
+
+            case "SquareBox":
+                testShape = new BoxCollisionShape(he, he, 0.04f);
+                break;
+
+            case "SquareConvex2d":
+                FloatBuffer buffer
+                        = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+                testShape = new Convex2dShape(buffer);
+                break;
+
+            case "SquareHeightfield":
+                int stickLength = 3;
+                int stickWidth = 3;
+                float[] heightmap = new float[stickLength * stickWidth];
+                Vector3f scale = Vector3f.UNIT_XYZ;
+                int upAxis = PhysicsSpace.AXIS_Z;
+                boolean flipQuadEdges = false;
+                boolean flipTriangleWinding = false;
+                boolean useDiamond = false;
+                boolean useZigzag = false;
+                testShape = new HeightfieldCollisionShape(stickLength,
+                        stickWidth, heightmap, scale, upAxis, flipQuadEdges,
+                        flipTriangleWinding, useDiamond, useZigzag);
+                break;
+
+            case "SquareHull":
+                testShape = new HullCollisionShape(mesh);
+                break;
+
+            case "SquareMesh":
                 testShape = new MeshCollisionShape(mesh);
                 break;
 
@@ -799,9 +871,12 @@ public class TestRbc extends ActionApplication {
         ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
         greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
         greenMaterial.setName("green");
+        RenderState ars = greenMaterial.getAdditionalRenderState();
+        ars.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         wireMaterial = MyAsset.createWireframeMaterial(assetManager, green);
-        RenderState ars = wireMaterial.getAdditionalRenderState();
+        wireMaterial.setName("green wire");
+        ars = wireMaterial.getAdditionalRenderState();
         ars.setFaceCullMode(RenderState.FaceCullMode.Off);
     }
 
@@ -856,6 +931,7 @@ public class TestRbc extends ActionApplication {
         rbc.setApplyScale(true);
         rbc.setKinematic(true);
         rbc.setPhysicsSpace(physicsSpace);
+        rbc.setDebugNumSides(2);
         controlledSpatial.addControl(rbc);
     }
 
@@ -881,7 +957,13 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Alter the scale.
+     * Alter the scale of the Spatial controlled by the RigidBodyControl.
+     * Because the control is in kinematic mode with setApplyScale(true), it
+     * will attempt to scale its collision shape accordingly.
+     *
+     * @param xScale desired X-axis scale factor (default=1)
+     * @param yScale desired Y-axis scale factor (default=1)
+     * @param zScale desired Z-axis scale factor (default=1)
      */
     private void setScale(float xScale, float yScale, float zScale) {
         if (shapeName.equals("LargeTerrain")) {
