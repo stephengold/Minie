@@ -275,7 +275,7 @@ public class TestRbc extends ActionApplication {
         dim.bind("clear shapes", KeyInput.KEY_BACK);
         dim.bind("clear shapes", KeyInput.KEY_DELETE);
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind("dump viewport", KeyInput.KEY_P);
 
         dim.bind("less margin", KeyInput.KEY_V);
         dim.bind("more margin", KeyInput.KEY_F);
@@ -352,9 +352,8 @@ public class TestRbc extends ActionApplication {
                 case "dump physicsSpace":
                     dumper.dump(physicsSpace);
                     return;
-
-                case "dump scenes":
-                    dumper.dump(renderManager);
+                case "dump viewport":
+                    dumper.dump(viewPort);
                     return;
 
                 case "less margin":
