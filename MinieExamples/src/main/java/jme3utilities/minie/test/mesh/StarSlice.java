@@ -38,7 +38,7 @@ import jme3utilities.math.MyVector3f;
 
 /**
  * A 3-D, static, Triangles-mode Mesh (without indices or texture coordinates)
- * that renders one slice of a 3-D star.
+ * that renders one slice of a 3-D star. TODO tweak for innerY=0
  *
  * @author Stephen Gold sgold@sonic.net
  */

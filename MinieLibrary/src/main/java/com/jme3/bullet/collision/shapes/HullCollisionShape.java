@@ -83,7 +83,7 @@ public class HullCollisionShape extends CollisionShape {
     // fields
 
     /**
-     * buffer for passing vertices to Bullet
+     * buffer for passing vertices to Bullet TODO use a FloatBuffer
      * <p>
      * A Java reference must persist after createShape() completes, or else the
      * buffer might get garbage collected.
