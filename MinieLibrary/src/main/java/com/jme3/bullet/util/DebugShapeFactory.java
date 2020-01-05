@@ -53,6 +53,7 @@ import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
@@ -78,10 +79,6 @@ public class DebugShapeFactory {
      * number of axes
      */
     final private static int numAxes = 3;
-    /**
-     * number of vertices per triangle
-     */
-    final private static int vpt = 3;
     /**
      * message logger for this class
      */
@@ -304,7 +301,8 @@ public class DebugShapeFactory {
         getVertices2(shapeId, resolution, callback);
 
         Mesh mesh = new Mesh();
-        mesh.setBuffer(VertexBuffer.Type.Position, numAxes, callback.getVertices());
+        mesh.setBuffer(VertexBuffer.Type.Position, numAxes,
+                callback.getVertices());
         /*
          * Add a normal buffer, if requested.
          */
@@ -393,8 +391,7 @@ public class DebugShapeFactory {
          */
         int numVertices = 8; // 4 vertices for each size
         int numFloats = numVertices * numAxes;
-        FloatBuffer posBuffer
-                = BufferUtils.createFloatBuffer(numFloats);
+        FloatBuffer posBuffer = BufferUtils.createFloatBuffer(numFloats);
         for (int sideIndex = 0; sideIndex < 2; ++sideIndex) {
             posBuffer.put(new float[]{
                 0f, 0f, 1f,
@@ -419,13 +416,12 @@ public class DebugShapeFactory {
 
         Mesh mesh = new Mesh();
         mesh.setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
-        mesh.setBuffer(VertexBuffer.Type.Index, vpt, indexBuffer);
+        mesh.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, indexBuffer);
         /*
          * Add a normal buffer, if requested.
          */
         if (normals != DebugMeshNormals.None) {
-            FloatBuffer normBuffer
-                    = BufferUtils.createFloatBuffer(numFloats);
+            FloatBuffer normBuffer = BufferUtils.createFloatBuffer(numFloats);
             for (int i = 0; i < 4; ++i) {
                 normBuffer.put(v1.x).put(v1.y).put(v1.z);
             }
