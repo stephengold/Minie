@@ -27,15 +27,13 @@
 package jme3utilities.minie.test.mesh;
 
 import com.jme3.math.FastMath;
-import com.jme3.math.Triangle;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.Validate;
-import jme3utilities.math.MyVector3f;
 
 /**
  * A 3-D, static, Triangles-mode Mesh (without indices or texture coordinates)
@@ -51,10 +49,6 @@ public class StarSlice extends Mesh {
      * number of axes in a vector
      */
     final private static int numAxes = 3;
-    /**
-     * number of vertices per triangle
-     */
-    final private static int vpt = 3; // TODO use MyMesh
     /**
      * message logger for this class
      */
@@ -129,72 +123,10 @@ public class StarSlice extends Mesh {
         positionBuffer.limit(numFloats);
 
         if (generateNormals) {
-            StarSlice.generateNormals(this);
+            MyMesh.generateNormals(this);
         }
 
         updateBound();
         setStatic();
-    }
-    // *************************************************************************
-    // new methods exposed
-
-    /**
-     * Generate normals on a per-triangle basis for a Triangles-mode mesh
-     * without an index buffer. TODO use MyMesh
-     *
-     * @param mesh (not null)
-     */
-    public static void generateNormals(Mesh mesh) {
-        assert mesh.getMode() == Mesh.Mode.Triangles;
-        assert mesh.getBuffer(VertexBuffer.Type.Index) == null;
-
-        FloatBuffer positionBuffer
-                = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-        int numFloats = positionBuffer.limit();
-
-        FloatBuffer normalBuffer = BufferUtils.createFloatBuffer(numFloats);
-        mesh.setBuffer(VertexBuffer.Type.Normal, numAxes, normalBuffer);
-
-        Triangle triangle = new Triangle();
-        Vector3f pos1 = new Vector3f();
-        Vector3f pos2 = new Vector3f();
-        Vector3f pos3 = new Vector3f();
-
-        int numTriangles = numFloats / vpt / numAxes;
-        for (int triIndex = 0; triIndex < numTriangles; ++triIndex) {
-            int trianglePosition = triIndex * vpt * numAxes;
-            get(positionBuffer, trianglePosition, pos1);
-            get(positionBuffer, trianglePosition + numAxes, pos2);
-            get(positionBuffer, trianglePosition + 2 * numAxes, pos3);
-            triangle.set(pos1, pos2, pos3);
-
-            triangle.setNormal(null); // work around JME issue #957
-            Vector3f normal = triangle.getNormal();
-            for (int j = 0; j < vpt; ++j) {
-                normalBuffer.put(normal.x);
-                normalBuffer.put(normal.y);
-                normalBuffer.put(normal.z);
-            }
-        }
-        normalBuffer.flip();
-    }
-
-    /**
-     * Read a Vector3f starting from the given position. Does not alter the
-     * buffer's position. TODO use MyBuffer
-     *
-     * @param buffer the buffer to read from (not null, unaffected)
-     * @param startPosition the position at which to start reading (&ge;0)
-     * @param storeVector storage for the vector (not null, modified)
-     */
-    public static void get(FloatBuffer buffer, int startPosition,
-            Vector3f storeVector) {
-        Validate.nonNull(buffer, "buffer");
-        Validate.nonNegative(startPosition, "start position");
-        Validate.nonNull(storeVector, "store vector");
-
-        storeVector.x = buffer.get(startPosition + MyVector3f.xAxis);
-        storeVector.y = buffer.get(startPosition + MyVector3f.yAxis);
-        storeVector.z = buffer.get(startPosition + MyVector3f.zAxis);
     }
 }

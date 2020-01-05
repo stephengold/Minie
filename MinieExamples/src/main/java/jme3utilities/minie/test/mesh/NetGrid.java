@@ -30,6 +30,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -105,7 +106,9 @@ public class NetGrid extends Mesh {
         int numIndices = vpe * numEdges;
         IndexBuffer indexBuffer
                 = IndexBuffer.createIndexBuffer(numVertices, numIndices);
-        ClothGrid.setIndexBuffer(this, vpe, indexBuffer);
+        VertexBuffer.Format ibFormat = indexBuffer.getFormat();
+        Buffer ibData = indexBuffer.getBuffer();
+        setBuffer(VertexBuffer.Type.Index, 1, ibFormat, ibData);
         /*
          * Write vertex indices for edges that parallel the X axis:
          */

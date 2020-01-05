@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -119,7 +119,7 @@ public class Box2dShape extends CollisionShape {
      * negative component, unaffected, Z component ignored)
      */
     public Box2dShape(Vector2f halfExtents) {
-        Validate.nonNull(halfExtents, "half extents"); // TODO nonNegative()
+        Validate.nonNegative(halfExtents, "half extents");
 
         halfExtentX = halfExtents.x;
         halfExtentY = halfExtents.y;
