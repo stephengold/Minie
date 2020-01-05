@@ -52,10 +52,10 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.DomeMesh;
+import jme3utilities.mesh.Icosahedron;
+import jme3utilities.mesh.Octahedron;
+import jme3utilities.mesh.Prism;
 import jme3utilities.minie.MyShape;
-import jme3utilities.minie.test.mesh.Icosahedron;
-import jme3utilities.minie.test.mesh.Octahedron;
-import jme3utilities.minie.test.mesh.Prism;
 
 /**
  * Generate some interesting compound collision shapes for use in MinieExamples.

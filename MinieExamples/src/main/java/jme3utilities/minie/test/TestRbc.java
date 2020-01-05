@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -85,13 +85,14 @@ import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
+import jme3utilities.mesh.Cone;
+import jme3utilities.mesh.Prism;
+import jme3utilities.mesh.Tetrahedron;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.minie.test.mesh.Cone;
-import jme3utilities.minie.test.mesh.Prism;
-import jme3utilities.minie.test.mesh.Tetrahedron;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
+import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 
 /**

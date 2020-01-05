@@ -39,6 +39,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 
 /**
  * A dynamic, Triangles-mode Mesh (with indices and normals but no texture
@@ -186,9 +187,7 @@ public class ClothGrid extends Mesh {
                 = getFloatBuffer(VertexBuffer.Type.Position);
         int vertexIndex = zIndex + numXLines * xIndex;
         int floatIndex = numAxes * vertexIndex;
-        positions.put(floatIndex, location.x);
-        positions.put(floatIndex + 1, location.y);
-        positions.put(floatIndex + 2, location.z);
+        MyBuffer.put(positions, floatIndex, location);
     }
     // *************************************************************************
     // Mesh methods

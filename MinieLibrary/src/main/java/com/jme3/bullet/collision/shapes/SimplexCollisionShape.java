@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
@@ -167,16 +168,16 @@ public class SimplexCollisionShape extends CollisionShape {
         switch (numVertices) {
             case 4:
                 vector4 = new Vector3f();
-                get(buffer, startPosition + 3 * numAxes, vector4);
+                MyBuffer.get(buffer, startPosition + 3 * numAxes, vector4);
             case 3:
                 vector3 = new Vector3f();
-                get(buffer, startPosition + 2 * numAxes, vector3);
+                MyBuffer.get(buffer, startPosition + 2 * numAxes, vector3);
             case 2:
                 vector2 = new Vector3f();
-                get(buffer, startPosition + numAxes, vector2);
+                MyBuffer.get(buffer, startPosition + numAxes, vector2);
             case 1:
                 vector1 = new Vector3f();
-                get(buffer, startPosition, vector1);
+                MyBuffer.get(buffer, startPosition, vector1);
                 break;
 
             default:
@@ -414,25 +415,6 @@ public class SimplexCollisionShape extends CollisionShape {
 
         setScale(scale);
         setMargin(margin);
-    }
-
-    /**
-     * Read a Vector3f starting from the given position. Does not alter the
-     * buffer's position. TODO use MyBuffer
-     *
-     * @param buffer the buffer to read from (not null, unaffected)
-     * @param startPosition the position at which to start reading (&ge;0)
-     * @param storeVector storage for the vector (not null, modified)
-     */
-    private static void get(FloatBuffer buffer, int startPosition,
-            Vector3f storeVector) {
-        Validate.nonNull(buffer, "buffer");
-        Validate.nonNegative(startPosition, "start position");
-        Validate.nonNull(storeVector, "store vector");
-
-        storeVector.x = buffer.get(startPosition + MyVector3f.xAxis);
-        storeVector.y = buffer.get(startPosition + MyVector3f.yAxis);
-        storeVector.z = buffer.get(startPosition + MyVector3f.zAxis);
     }
 
     /**

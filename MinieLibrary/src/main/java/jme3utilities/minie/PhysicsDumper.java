@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2019, Stephen Gold
+ Copyright (c) 2013-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -888,11 +888,8 @@ public class PhysicsDumper extends Dumper {
      * @return descriptive text (not null, not empty)
      */
     private static String describeVector(FloatBuffer buffer, int vectorIndex) {
-        int floatIndex = 3 * vectorIndex;
-        float x = buffer.get(floatIndex); // TODO use MyBuffer
-        float y = buffer.get(floatIndex + 1);
-        float z = buffer.get(floatIndex + 2);
-        Vector3f vector = new Vector3f(x, y, z);
+        Vector3f vector = new Vector3f();
+        MyBuffer.get(buffer, MyVector3f.numAxes * vectorIndex, vector);
         String locString = MyVector3f.describe(vector);
 
         return locString;

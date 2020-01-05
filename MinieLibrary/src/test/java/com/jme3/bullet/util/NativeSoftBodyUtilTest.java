@@ -37,6 +37,8 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
+import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyVector3f;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -239,16 +241,14 @@ public class NativeSoftBodyUtilTest {
         Map<Vector3f, Integer> verificationBulletPositions = new HashMap<>();
         for (int i = 0, size = jme2bulletIndexMap.capacity(); i < size; i++) {
             int bulletIndex = jme2bulletIndexMap.get(i);
-            Vector3f bulletPosition = new Vector3f( // TODO use MyBuffer
-                    bulletPositions.get(bulletIndex * 3),
-                    bulletPositions.get(bulletIndex * 3 + 1),
-                    bulletPositions.get(bulletIndex * 3 + 2));
-            Vector3f jmePosition = new Vector3f( // TODO use MyBuffer
-                    jmePositions.get(i * 3),
-                    jmePositions.get(i * 3 + 1),
-                    jmePositions.get(i * 3 + 2));
+            int startPosition = MyVector3f.numAxes * bulletIndex;
+            Vector3f bulletPosition = new Vector3f();
+            MyBuffer.get(bulletPositions, startPosition, bulletPosition);
 
-            // mapped position should be equale
+            Vector3f jmePosition = new Vector3f();
+            MyBuffer.get(jmePositions, MyVector3f.numAxes * i, jmePosition);
+
+            // mapped positions should be equal
             Assert.assertEquals(bulletPosition, jmePosition);
 
             if (verificationBulletPositions.containsKey(bulletPosition)) {
