@@ -45,6 +45,7 @@ import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.cursors.plugins.JmeCursor;
 import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
@@ -54,7 +55,7 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
-import com.jme3.math.Ray;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
@@ -147,6 +148,14 @@ public class TestRbc extends ActionApplication {
      */
     private FilterAll bbFilter;
     /**
+     * cursor shown when the raytest finds a collision object
+     */
+    private JmeCursor hitCursor;
+    /**
+     * cursor shown when the raytest doesn't find a collision object
+     */
+    private JmeCursor missCursor;
+    /**
      * lit green material for scene objects
      */
     private Material greenMaterial;
@@ -220,6 +229,7 @@ public class TestRbc extends ActionApplication {
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
+        generateCursors();
         generateMaterials();
         configurePhysics();
         initializeHeightData();
@@ -386,6 +396,17 @@ public class TestRbc extends ActionApplication {
     @Override
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
+
+        Vector2f screenXY = inputManager.getCursorPosition();
+        Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
+        Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
+        List rayTest = physicsSpace.rayTestRaw(from, to);
+        if (rayTest.size() > 0) {
+            inputManager.setMouseCursor(hitCursor);
+        } else {
+            inputManager.setMouseCursor(missCursor);
+        }
+
         updateStatusText();
     }
     // *************************************************************************
@@ -689,10 +710,9 @@ public class TestRbc extends ActionApplication {
      * nearest intersection.
      */
     private void castRay() {
-        Ray mouseRay = MyCamera.mouseRay(cam, inputManager);
-        Vector3f from = mouseRay.origin;
-        float rayLength = cam.getFrustumFar();
-        Vector3f to = mouseRay.direction.clone().scaleAdd(rayLength, from);
+        Vector2f screenXY = inputManager.getCursorPosition();
+        Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
+        Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
         List<PhysicsRayTestResult> rayTest = physicsSpace.rayTest(from, to);
 
         if (rayTest.size() > 0) {
@@ -758,6 +778,17 @@ public class TestRbc extends ActionApplication {
     private void configurePhysics() {
         stateManager.attach(bulletAppState);
         physicsSpace = bulletAppState.getPhysicsSpace();
+    }
+
+    /**
+     * Initialize cursors during startup.
+     */
+    private void generateCursors() {
+        String hitPath = "Textures/cursors/menu.cur";
+        hitCursor = (JmeCursor) assetManager.loadAsset(hitPath);
+
+        String missPath = "Textures/cursors/default.cur";
+        missCursor = (JmeCursor) assetManager.loadAsset(missPath);
     }
 
     /**
