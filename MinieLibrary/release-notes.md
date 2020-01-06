@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.3.0for33 released on 5 Junuary 2020
+## Version 1.3.0for33 released on 5 January 2020
 
  + Fixed bugs:
    + `PlaneCollisionShape` never visualized.
