@@ -162,8 +162,8 @@ Maven artifacts are available from
 ## Conventions
 
 Package names begin with
-`jme3utilities.minie.` (if Stephen Gold holds the copyright) or
-`com.jme3.` (if the jMonkeyEngine Project holds the copyright).
+`jme3utilities.` (if Stephen Gold holds the copyright) or
+`com.jme3.` or `jme3test.` (if the jMonkeyEngine Project holds the copyright).
 
 Both the source code and the pre-built libraries are compatible with JDK 7.
 
@@ -179,7 +179,7 @@ a library in the [jMonkeyEngine Game Engine][jme].
 From January to November 2018, Minie was a sub-project of
 [the Jme3-utilities Project][utilities].
 
-Since November 2018, the Minie Project has been an independent project at
+Since November 2018, the Minie Project has been a separate project at
 [GitHub][minie].
 
 The evolution of Minie is chronicled in
@@ -350,9 +350,6 @@ If you already have the IDE installed, skip to step 6.
 The hardware and software requirements of the IDE are documented at
 [the JME wiki](https://jmonkeyengine.github.io/wiki/jme3/requirements.html).
 
-The hardware and software requirements of the IDE are documented at
-https://jmonkeyengine.github.io/wiki/jme3/requirements.html
-
  1. Download a jMonkeyEngine 3.2 Software Development Kit (SDK) from
     [GitHub](https://github.com/jMonkeyEngine/sdk/releases).
  2. Install the SDK, which includes:
@@ -410,8 +407,8 @@ Clone the Minie repository using Git:
 10. Click on the "Finish" button.
 11. When the "Clone Completed" dialog appears, click on the "Open Project..."
     button.
-12. Expand the root project node to reveal the sub-projects.
-13. Select both sub-projects using control-click, then click on the
+12. Expand the root project node to reveal the 4 sub-projects.
+13. Select all sub-projects using control-click, then click on the
     "Open" button.
 
 ### Build the project
@@ -429,6 +426,7 @@ Clone the Minie repository using Git:
    + using Git:
      + `git clone https://github.com/stephengold/Minie.git`
      + `cd Minie`
+     + `git checkout 1.3.0for32`
    + using a web browser:
      + browse to [https://github.com/stephengold/Minie/releases/latest](https://github.com/stephengold/Minie/releases/latest)
      + follow the "Source code (zip)" link
@@ -445,8 +443,8 @@ Clone the Minie repository using Git:
 After a successful build, new jars will be found in `MinieLibrary/build/libs`.
 
 You can also install the library artifact to your local Maven cache:
-   + using Bash:  `./gradlew :MinieLibrary:publishToMavenLocal`
-   + using Windows Command Prompt:  `.\gradlew :MinieLibrary:publishToMavenLocal`
+ + using Bash:  `./gradlew :MinieLibrary:publishToMavenLocal`
+ + using Windows Command Prompt:  `.\gradlew :MinieLibrary:publishToMavenLocal`
 
 [Jump to table of contents](#toc)
 
@@ -510,7 +508,7 @@ dependency on the Minie library.  The build tools should automatically
 resolve the remaining dependencies automatically.
 
 Because Minie and the [V-HACD Bindings][vhacdBindings] are not on JCenter yet,
-you must explicitly specify their repository locations:
+you must explicitly specify their repository URLs:
 
     repositories {
         maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
@@ -518,15 +516,15 @@ you must explicitly specify their repository locations:
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:1.2.0for32'
+        compile 'jme3utilities:Minie:1.3.0for32'
     }
 
 #### For Ant projects
 
 For projects built using [Ant][], download the 3 non-standard libraries:
 
- + https://github.com/stephengold/Minie/releases/tag/1.2.0for32
- + https://github.com/stephengold/jme3-utilities/releases/tag/heart-4.1.0for32
+ + https://github.com/stephengold/Minie/releases/tag/1.3.0for32
+ + https://github.com/stephengold/jme3-utilities/releases/tag/heart-4.3.0for32
  + https://bintray.com/stephengold/v-hacd/download_file?file_path=vhacd%2Fvhacd-native%2F1.1.1%2Fvhacd-native-1.1.1.jar
 
 You'll want the class jars
@@ -543,18 +541,18 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Navigate to the "jme3-utilities" project folder.
     + Open the "heart" sub-project folder.
     + Navigate to the "build/libs" folder.
-    + Select the "jme3-utilities-heart-4.1.0for32.jar" file.
+    + Select the "jme3-utilities-heart-4.3.0for32.jar" file.
     + Click on the "Open" button.
  6. (optional) Add jars for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "jme3-utilities-heart-4.1.0for32-javadoc.jar" file.
+    + Select the "jme3-utilities-heart-4.3.0for32-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "jme3-utilities-heart-4.1.0for32-sources.jar" file.
+    + Select the "jme3-utilities-heart-4.3.0for32-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
- 7. Similarly, add the Minie and V-HACD jar(s).
+ 7. Similarly, add the Minie and V-HACD jars.
  8. Click on the "OK" button to exit the "Project Properties" dialog.
 
 ### Create, configure, and attach a BulletAppState
@@ -717,14 +715,16 @@ To instantiate a static body, specify mass=0.
 
 ## Choosing a collision shape
 
-Minie provides more than a dozen `CollisionShape` subclasses:
+Minie provides 16 `CollisionShape` subclasses:
 
+  + `Box2dShape`
   + `BoxCollisionShape` <img height="160" align="middle" src="https://i.imgur.com/My74h2Q.png">
   + `CapsuleCollisionShape` <img height="160" align="middle" src="https://i.imgur.com/R9NMEwc.png">
   + `CompoundCollisionShape`:
     + constructed explicitly <img height="160" align="middle" src="https://i.imgur.com/gL6rgAA.png">
     + auto-generated by V-HACD <img height="160" align="middle" src="https://i.imgur.com/UqzsBvw.png">
   + `ConeCollisionShape` <img height="160" align="middle" src="https://i.imgur.com/jZFVxQd.png">
+  + `Convex2dShape`
   + `CylinderCollisionShape` <img height="160" align="middle" src="https://i.imgur.com/ey249X8.png">
   + `EmptyShape`
   + `GImpactShape` <img height="160" align="middle" src="https://i.imgur.com/TOLRsig.png">
@@ -738,6 +738,21 @@ Minie provides more than a dozen `CollisionShape` subclasses:
      + with 4 vertices <img height="160" align="middle" src="https://i.imgur.com/l1fYSfc.png">
   + `SphereCollisionShape` <img height="160" align="middle" src="https://i.imgur.com/OPYrxRe.png">
 
+Not all shapes are suitable for dynamic rigid bodies.
+In particular, the following shapes are intended ONLY
+for kinematic or static (non-moving) collision objects:
+
+  + `Box2dShape`
+  + `Convex2dShape`
+  + `EmptyShape`
+  + `HeightfieldCollisionShape`
+  + `MeshCollisionShape`
+  + `PlaneCollisionShape`
+  + `SimplexCollisionShape` with 1-3 vertices
+
+Even for dynamic rigid bodies, there are many options.
+In general, use the simplest shape that yields the desired behavior.
+
 Because jMonkeyEngine models are composed of triangular meshes,
 beginners are often tempted to use mesh-based shapes
 (such as `GImpactCollisionShape`) for everything.
@@ -750,7 +765,13 @@ In particular, `CapsuleCollisionShape` is often used with humanoid models.
         use an EmptyShape
     } else if (the object doesn't move and its shape can be approximated by an infinite plane) {
         use a PlaneCollisionShape
-    } else if (its shape can be approximated by a triangle or a tetrahedron) {
+    } else if (the object doesn't move and its shape can be approximated by point, line segment, or triangle) {
+        use a SimplexCollisionShape
+    } else if (the object doesn't move and its shape can be approximated by rectangle) {
+        use a Box2dShape
+    } else if (the object doesn't move and its shape can be approximated by convex polygon) {
+        use a Convex2dShape
+    } else if (its shape can be approximated by a tetrahedron) {
         use a SimplexCollisionShape
     } else if (its shape can be approximated by a centered sphere) {
         use a SphereCollisionShape
@@ -779,7 +800,7 @@ In particular, `CapsuleCollisionShape` is often used with humanoid models.
             use a MeshCollisionShape
         }
     } else { // if the object moves
-        if (its shape can be approximated by the convex hull of a mesh) {
+        if (its shape can be approximated by a convex hull) {
             use a HullCollisionShape
         } else if (its shape can be decomposed into convex hulls) {
             use a compound of hull shapes
@@ -794,7 +815,7 @@ Note that `GimpactCollisionShape` should be your last resort.
 
 Minie has Khaled Mamou's Volumetric-Hierarchical Approximate Convex
 Decomposition (V-HACD) algorithm built in.
-This feature makes it easy to decompose any 3-D model into a
+V-HACD makes it easy to decompose any 3-D model into a
 compound of hull shapes:
 
         VHACDParameters p = new VHACDParameters();
@@ -831,8 +852,8 @@ To enable it, configure the `BulletAppState`:
         bas.setDebugEnabled(true);
 
 By default, debug visualization renders convex collision shapes using meshes
-with no more than 42 vertices.
-It can also generate debug meshes with up to 256 vertices.
+with up to 42 vertex locations.
+It can also generate debug meshes with up to 256 vertex locations.
 To override the low-resolution default on a per-object basis:
 
         collisionObject.setDebugMeshResolution(DebugShapeFactory.highResolution);
@@ -840,7 +861,7 @@ To override the low-resolution default on a per-object basis:
 (This setting has no effect on objects with non-convex shapes.)
 
 Debug visualization caches the mesh
-for each non-compound collision shape it renders.
+for every non-compound collision shape it renders.
 To clear this cache:
 
         DebugShapeFactory.clearCache();
@@ -851,10 +872,12 @@ To specify a different `ViewPort` (or an array of viewports) use:
 
         bas.setDebugViewPorts(viewPortArray);
 
+#### Customizing what is rendered
+
 By default, debug visualization renders the shape of every
-`PhysicsCollisionObject`, but not its bounding box nor it's swept sphere.
-To override these defaults, set filters to identify which objects
-should render each feature:
+`PhysicsCollisionObject`, but not its bounding box nor its swept sphere.
+To override these defaults, set filters to identify for which objects
+each feature should be rendered:
 
         BulletDebugAppState.DebugAppStateFilter all = new FilterAll(true);
         BulletDebugAppState.DebugAppStateFilter none = new FilterAll(false);
@@ -862,14 +885,13 @@ should render each feature:
         bas.setDebugFilter(none);           // no collision shapes
         bas.setDebugSweptSphereFilter(all); // all swept spheres
 
-By default, debug visualization doesn't render the local axes of
+By default, debug visualization doesn't render the centers nor the local axes of
 collision objects.
-To override this default, set the axis lengths to a positive value:
+To override this default, increase the axis length to a positive value:
 
         bas.setAxisLength(1f);
 
-If local axes are rendered, then by default they are drawn using
-lines one pixel wide.
+If local axes are rendered, then by default the arrows are one pixel wide.
 You can specify wider lines:
 
         bas.setDebugAxisLineWidth(3f); // axis arrows 3 pixels wide
@@ -878,7 +900,9 @@ or you can specify 3-D arrows:
 
         bas.setDebugAxisLineWidth(0f); // solid arrows
 
-By default, Minie visualizes collision shapes
+#### Customizing the materials
+
+By default, Minie visualizes the shapes of collision objects
 using single-sided wireframe materials:
 
  + yellow for any collision object without contact response,
@@ -896,9 +920,9 @@ You can override the single-sided default on a per-object basis:
 
         collisionObject.setDebugNumSides(2);
 
-Note that `setDebugNumSides(0)` makes a collision object invisible
+Note that `setDebugNumSides(0)` makes the object's shape invisible
 in the debug visualization,
-even if that object is selected by the debug filter of the `BulletAppState`.
+even if the object is selected by the debug filter.
 
 If further customization is required, the debug material can be customized
 on a per-object basis:
@@ -907,7 +931,9 @@ on a per-object basis:
 
 Note that `setDebugNumSides()` has no effect on custom debug materials.
 
-Wireframe materials don't need lighting, mesh normals, or texture coordinates.
+#### Customizing the meshes
+
+Wireframe materials don't need lighting, normals, or texture coordinates.
 By default, debug visualization doesn't provide these amenities.
 However, a customized debug material might require them.
 
@@ -915,6 +941,23 @@ You can override the no-normals default on a per-object basis:
 
         collisionObject1.setDebugMeshNormals(DebugMeshNormals.Facet)
         collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth)
+
+By default, debug meshes don't include index buffers
+unless the collision shape is a `PlaneCollisionShape`.
+For other shapes, you can reduce the number of rendered vertices
+by telling Minie to generate index buffers:
+
+        DebugShapeFactory.setIndexBuffers(true)
+
+This setting has no effect on debug meshes previously generated.
+To make this setting retroactive, clear the cache.
+
+Also, note that generating index buffers for very large meshes
+can take a long time.
+Do not use this setting when debugging
+large mesh or heightfield shapes.
+
+#### Callbacks for further customization
 
 `BulletAppState` invokes a callback during initialization.
 You can use this callback to provide lighting for debug visualization:
@@ -947,7 +990,7 @@ You can use this callback to add texture coordinates to the mesh:
 
 ### An introduction to PhysicsDumper
 
-For example, the following temporary statements could be used to dump
+The following temporary statements could be used to dump
 (to `System.out`) all collision objects in a `PhysicsSpace`:
 
         PhysicsDumper dumper = new PhysicsDumper();
@@ -977,7 +1020,7 @@ configure the dumper as follows:
         dumper.setEnabled(DumpFlags.JointsInSpaces, true);
 
 To enumerate joints at the collision-object level of the hierarchy,
-configure the dumper like so:
+configure the dumper as follows:
 
         dumper.setEnabled(DumpFlags.JointsInBodies, true);
 
