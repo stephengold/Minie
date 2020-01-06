@@ -92,6 +92,11 @@ public class DebugShapeFactory {
     // fields
 
     /**
+     * true&rarr;generate index buffers for new debug meshes, false&rarr;no
+     * index buffers for new debug meshes (doesn't affect plane shapes)
+     */
+    private static boolean generateIndexBuffers = false;
+    /**
      * map keys to previously generated debug meshes, for reuse
      */
     final private static Map<DebugMeshKey, Mesh> cache = new HashMap<>(100);
@@ -127,7 +132,8 @@ public class DebugShapeFactory {
     public static Vector3f[] footprint(CollisionShape shape,
             Transform shapeToWorld, int meshResolution) {
         assert shape.isConvex();
-        Validate.inRange(meshResolution, "mesh resolution", 0, 1);
+        Validate.inRange(meshResolution, "mesh resolution", lowResolution,
+                highResolution);
 
         long shapeId = shape.getObjectId();
         DebugMeshCallback callback = new DebugMeshCallback();
@@ -162,8 +168,6 @@ public class DebugShapeFactory {
      * @return a new tree of geometries, or null
      */
     public static Spatial getDebugShape(CollisionShape shape) {
-        Validate.nonNull(shape, "shape");
-
         Spatial result;
         DebugMeshInitListener noListener = null;
         if (shape == null) {
@@ -192,8 +196,6 @@ public class DebugShapeFactory {
      * @return a new tree of nodes and geometries, or null
      */
     public static Spatial getDebugShape(PhysicsCollisionObject pco) {
-        Validate.nonNull(pco, "collision object");
-
         CollisionShape shape = pco.getCollisionShape();
         DebugMeshInitListener listener = pco.debugMeshInitListener();
         DebugMeshNormals normals = pco.debugMeshNormals();
@@ -224,6 +226,18 @@ public class DebugShapeFactory {
     }
 
     /**
+     * Alter whether to generate index buffers for new debug meshes. (Doesn't
+     * affect plane shapes.) Index buffers might boost performance if there are
+     * many small meshes; they aren't recommended for very large meshes.
+     *
+     * @param setting true&rarr;generate index buffers, false&rarr;don't
+     * generate them (default=false)
+     */
+    public static void setIndexBuffers(boolean setting) {
+        generateIndexBuffers = setting;
+    }
+
+    /**
      * Calculate the volume of a debug mesh for the specified convex shape. The
      * shape's current scale and margin are taken into account, but not its
      * debug-mesh resolution.
@@ -234,7 +248,8 @@ public class DebugShapeFactory {
      */
     public static float volumeConvex(CollisionShape shape, int meshResolution) {
         assert shape.isConvex();
-        Validate.inRange(meshResolution, "mesh resolution", 0, 1);
+        Validate.inRange(meshResolution, "mesh resolution", lowResolution,
+                highResolution);
 
         long shapeId = shape.getObjectId();
         DebugMeshCallback callback = new DebugMeshCallback();
@@ -296,6 +311,9 @@ public class DebugShapeFactory {
      */
     private static Mesh createMesh(CollisionShape shape,
             DebugMeshNormals normals, int resolution) {
+        assert resolution >= lowResolution : resolution;
+        assert resolution <= highResolution : resolution;
+
         long shapeId = shape.getObjectId();
         DebugMeshCallback callback = new DebugMeshCallback();
         getVertices2(shapeId, resolution, callback);
@@ -318,6 +336,13 @@ public class DebugShapeFactory {
                         callback.getSmoothNormals());
                 break;
         }
+        /*
+         * Generate an index buffer, if requested.
+         */
+        if (generateIndexBuffers) {
+            mesh = MyMesh.addIndices(mesh);
+        }
+
         mesh.updateBound();
         mesh.setStatic();
 
@@ -335,7 +360,6 @@ public class DebugShapeFactory {
     private static Node createNode(CompoundCollisionShape compoundShape,
             DebugMeshInitListener listener, DebugMeshNormals normals,
             int resolution) {
-        assert compoundShape != null;
         assert normals != null;
         assert resolution >= lowResolution : resolution;
         assert resolution <= highResolution : resolution;
@@ -404,7 +428,7 @@ public class DebugShapeFactory {
 
         MyBuffer.transform(posBuffer, 0, numFloats, transform);
         /*
-         * Generate vertex indices for a 2-sided square.
+         * Generate an index buffer for a 2-sided square.
          */
         ByteBuffer indexBuffer = BufferUtils.createByteBuffer(new byte[]{
             2, 1, 0,

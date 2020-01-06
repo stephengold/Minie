@@ -874,6 +874,7 @@ public class DropTest
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setGravity(new Vector3f(0f, -30f, 0f));
 
+        DebugShapeFactory.setIndexBuffers(true);
         generateShapes();
     }
 
