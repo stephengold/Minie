@@ -1,5 +1,59 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 1.3.0for32 released on TBD
+
+ + Fixed bugs:
+   + `PlaneCollisionShape` never visualized.
+   + Buffer limits not set in `IndexedMesh`
+
+ + Added library features:
+   + 2-D collision shapes: `Box2dShape` and `Convex2dShape`
+   + a `setIndexBuffers()` method for the `DebugShapeFactory` class
+   + dump the moments of inertia of dynamic rigid bodies
+   + `castRay()`, `forwardAxisIndex()`, `rightAxisIndex()`, and `upAxisIndex()`
+     methods for the `PhysicsVehicle` class
+   + `getBrake()`, `getEngineForce()`, and `getSteerAngle()`
+     methods for the `VehicleWheel` class
+   + a `copyVertices()` method for the `SimplexCollisionShape` class
+   + construct a `SimplexCollisionShape` from a `FloatBuffer` range
+   + construct a `CylinderCollisionShape` from radius, height, and axis
+   + a `getHeight()` method for the `CylinderCollisionShape` class
+   + a `setScale(float)` method for the `CollisionShape` class
+   + `addChildShape(CollisionShape)` and
+     `addChildShape(CollisionShape, float, float, float)`
+     methods for the `CompoundCollisionShape` class
+   + a `listVolumes()` method for the `MyShape` class
+   + `unscaledVolume()` methods for the `BoxCollisionShape`,
+     `ConeCollisionShape`, `CylinderCollisionShape`, `EmptyCollisionShape`,
+     and `SphereCollisionShape` classes
+   + `DumpFlags` values for `BoundsInSpatials` and `VertexData`
+
+ + Improvements to the `DropTest` demo:
+   + Added 7 platform options (compound, cone, cylinder, hull, mesh, plane,
+     and triangle).
+   + Added 11 gem-shape options (barbell, capsule, chair, duck, heart,
+     knucklebone, ladder, sphere, star, teapot, and top).
+   + Tuned shadow edges.
+
+ + Improvements to the `HeightfieldTest` demo:
+   + Combined the demo with `TestScaleChange` and renamed it to `TestRbc`.
+   + Added many test shapes.
+   + Added a status line.
+   + Vary the collision margin and scale.
+   + Cursor shape indicates whether raytest finds an object.
+   + Visualize Bullet's bounding box.
+   + Added a hotkey to toggle the world axes.
+
+ + Refactored `TestRectangularShape` to make it more similar to the demos.
+ + Extended `TestDefaults` to cover the `PhysicsGhostObject`,
+   `PhysicsVehicle`, and `VehicleWheel` classes.
+ + Updated the native libraries to version 2.0.19 of `Libbulletjme`.
+ + Based on:
+   + v4.3 of the `jme3-utilities-heart` library,
+   + v0.7.10 of the `jme3-utilities-ui` library, and
+   + v0.9.12 of the `jme3-utilities-nifty` library.
+   + v0.4.7 of the `Wes` library.
+
 ## Version 1.2.0for32 released on 16 December 2019
 
  + Fixed bugs:
