@@ -40,6 +40,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
@@ -100,6 +101,7 @@ import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
+import vhacd.VHACDParameters;
 
 /**
  * Test various shapes, scales, and collision margins on a kinematic
@@ -300,20 +302,23 @@ public class TestRbc extends ActionApplication {
         dim.bind("test CylinderMesh", KeyInput.KEY_F12);
         dim.bind("test FourSphere", KeyInput.KEY_F8);
         dim.bind("test LargeTerrain", KeyInput.KEY_F1);
-        dim.bind("test Prism", KeyInput.KEY_F3);
-        dim.bind("test SmallTerrain", KeyInput.KEY_F2);
         dim.bind("test OneSphere", KeyInput.KEY_1);
+        dim.bind("test Prism", KeyInput.KEY_F4);
+        dim.bind("test Simplex", KeyInput.KEY_9);
+        dim.bind("test SmallTerrain", KeyInput.KEY_F2);
+        dim.bind("test SmallTerrainVhacd", KeyInput.KEY_F3);
         dim.bind("test Sphere", KeyInput.KEY_2);
         dim.bind("test SphereCapsule", KeyInput.KEY_3);
         dim.bind("test SphereHull", KeyInput.KEY_4);
         dim.bind("test SphereMesh", KeyInput.KEY_5);
-        dim.bind("test Simplex", KeyInput.KEY_9);
         dim.bind("test Square", KeyInput.KEY_NUMPAD1);
         dim.bind("test SquareBox", KeyInput.KEY_NUMPAD2);
         dim.bind("test SquareConvex2d", KeyInput.KEY_NUMPAD3);
+        dim.bind("test SquareGImpact", KeyInput.KEY_NUMPAD7);
         dim.bind("test SquareHeightfield", KeyInput.KEY_NUMPAD4);
         dim.bind("test SquareHull", KeyInput.KEY_NUMPAD5);
         dim.bind("test SquareMesh", KeyInput.KEY_NUMPAD6);
+        dim.bind("test TetraGImpact", KeyInput.KEY_0);
 
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
@@ -432,6 +437,7 @@ public class TestRbc extends ActionApplication {
     private void addAShape() {
         switch (shapeName) {
             case "Box":
+            case "BoxGImpact":
             case "BoxHull":
             case "BoxMesh":
             case "FourSphere":
@@ -439,12 +445,14 @@ public class TestRbc extends ActionApplication {
                 break;
 
             case "Cone":
+            case "ConeGImpact":
             case "ConeHull":
             case "ConeMesh":
                 addCone();
                 break;
 
             case "Cylinder":
+            case "CylinderGImpact":
             case "CylinderHull":
             case "CylinderMesh":
                 addCylinder();
@@ -459,18 +467,21 @@ public class TestRbc extends ActionApplication {
                 break;
 
             case "Simplex":
+            case "TetraGImpact":
             case "TetraHull":
             case "TetraMesh":
                 addTetrahedron();
                 break;
 
             case "SmallTerrain":
+            case "SmallTerrainVhacd":
                 addSmallTerrain();
                 break;
 
             case "OneSphere":
             case "Sphere":
             case "SphereCapsule":
+            case "SphereGImpact":
             case "SphereHull":
             case "SphereMesh":
                 addSphere();
@@ -479,6 +490,7 @@ public class TestRbc extends ActionApplication {
             case "Square":
             case "SquareBox":
             case "SquareConvex2d":
+            case "SquareGImpact":
             case "SquareHeightfield":
             case "SquareHull":
             case "SquareMesh":
@@ -515,6 +527,10 @@ public class TestRbc extends ActionApplication {
             case "Box":
                 testShape
                         = new BoxCollisionShape(radius, halfThickness, radius);
+                break;
+
+            case "BoxGImpact":
+                testShape = new GImpactCollisionShape(mesh);
                 break;
 
             case "BoxHull":
@@ -554,6 +570,10 @@ public class TestRbc extends ActionApplication {
                         PhysicsSpace.AXIS_Y);
                 break;
 
+            case "ConeGImpact":
+                testShape = new GImpactCollisionShape(mesh);
+                break;
+
             case "ConeHull":
                 testShape = new HullCollisionShape(mesh);
                 break;
@@ -586,6 +606,10 @@ public class TestRbc extends ActionApplication {
             case "Cylinder":
                 testShape = new CylinderCollisionShape(radius, height,
                         PhysicsSpace.AXIS_Z);
+                break;
+
+            case "CylinderGImpact":
+                testShape = new GImpactCollisionShape(mesh);
                 break;
 
             case "CylinderHull":
@@ -654,7 +678,22 @@ public class TestRbc extends ActionApplication {
         controlledSpatial
                 = new TerrainQuad("terrain", patchSize, mapSize, nineHeights);
         controlledSpatial.setMaterial(wireMaterial);
-        testShape = CollisionShapeFactory.createMeshShape(controlledSpatial);
+
+        switch (shapeName) {
+            case "SmallTerrain":
+                testShape = CollisionShapeFactory.createMeshShape(
+                        controlledSpatial);
+                break;
+
+            case "SmallTerrainVhacd":
+                testShape = CollisionShapeFactory.createVhacdShape(
+                        controlledSpatial, new VHACDParameters(), null);
+                break;
+
+            default:
+                throw new IllegalArgumentException(shapeName);
+        }
+
         makeTestShape();
     }
 
@@ -678,6 +717,10 @@ public class TestRbc extends ActionApplication {
             case "SphereCapsule":
                 float height = 0f;
                 testShape = new CapsuleCollisionShape(radius, height);
+                break;
+
+            case "SphereGImpact":
+                testShape = new GImpactCollisionShape(mesh);
                 break;
 
             case "SphereHull":
@@ -716,6 +759,10 @@ public class TestRbc extends ActionApplication {
                 FloatBuffer buffer
                         = mesh.getFloatBuffer(VertexBuffer.Type.Position);
                 testShape = new Convex2dShape(buffer);
+                break;
+
+            case "SquareGImpact":
+                testShape = new GImpactCollisionShape(mesh);
                 break;
 
             case "SquareHeightfield":
@@ -764,6 +811,10 @@ public class TestRbc extends ActionApplication {
                 buffer = vs.toBuffer();
                 testShape
                         = new SimplexCollisionShape(buffer, 0, buffer.limit());
+                break;
+
+            case "TetraGImpact":
+                testShape = new GImpactCollisionShape(mesh);
                 break;
 
             case "TetraHull":
