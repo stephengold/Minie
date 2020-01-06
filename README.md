@@ -811,7 +811,7 @@ In particular, `CapsuleCollisionShape` is often used with humanoid models.
 
 (Pseudocode adapted from the flowchart on page 13 of the [Bullet User Manual][manual].)
 
-Note that `GimpactCollisionShape` should be your last resort.
+Note that `GImpactCollisionShape` should be your last resort.
 
 Minie has Khaled Mamou's Volumetric-Hierarchical Approximate Convex
 Decomposition (V-HACD) algorithm built in.
