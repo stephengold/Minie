@@ -157,6 +157,10 @@ public class TestRbc extends ActionApplication {
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
+     * pre-calculated shape for the SmallTerrainVhacd test
+     */
+    private CollisionShape smallTerrainVhacdShape;
+    /**
      * shape being tested
      */
     private CollisionShape testShape;
@@ -181,7 +185,7 @@ public class TestRbc extends ActionApplication {
      */
     private Material greenMaterial;
     /**
-     * double-sided, green, wireframe material for the smallTerrain Spatial
+     * double-sided, green, wireframe material for the SmallTerrain Spatial
      */
     private Material wireMaterial;
     /**
@@ -250,9 +254,9 @@ public class TestRbc extends ActionApplication {
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
+        configurePhysics();
         generateCursors();
         generateMaterials();
-        configurePhysics();
         initializeHeightData();
 
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
@@ -683,8 +687,8 @@ public class TestRbc extends ActionApplication {
                 break;
 
             case "SmallTerrainVhacd":
-                testShape = CollisionShapeFactory.createVhacdShape(
-                        controlledSpatial, new VHACDParameters(), null);
+                testShape = (CollisionShape) Misc.deepCopy(
+                        smallTerrainVhacdShape);
                 break;
 
             default:
@@ -977,6 +981,13 @@ public class TestRbc extends ActionApplication {
         nineHeights[6] = 1f;
         nineHeights[7] = 0f;
         nineHeights[8] = 1f;
+
+        int patchSize = 3;
+        int mapSize = 3;
+        Spatial spatial
+                = new TerrainQuad("terrain", patchSize, mapSize, nineHeights);
+        smallTerrainVhacdShape = CollisionShapeFactory.createVhacdShape(
+                spatial, new VHACDParameters(), null);
     }
 
     /**
