@@ -1424,15 +1424,30 @@ those not listed above are primarily for testing purposes.)
 
 For many of the demos, video walkthrus are available from YouTube.
 
-The demos controlled by primarily by keyboard input.
+The demos are controlled by primarily by keyboard input.
 At startup, a help node is displayed,
 containing a brief description of each key's function.
 
-For convenience, the mapping of keys to application actions
+For convenience, the mapping of keys to actions
 is largely standardized.
-For instance, in all 11 demos,
-the "H" key toggles visibility of help node
-and the "O" key dumps the physics space.
+For instance, in all 11 demos:
+
+ + the "H" key toggles visibility of help node,
+ + F5 toggles visibility of the render-statistics overlay,
+ + the "O" key dumps the physics space,
+ + the "C" key dumps the camera's position, and
+ + the Escape key ends the application.
+
+For camera contol, all demos use
+the standard `FlyByCamera` with `setDragToRotate(true)`.
+This means you can rotate the camera
+by dragging with the left mouse button (LMB).
+Furthermore:
+
+ + the "W" and "S" keys dolly the camera forward and back, respectively,
+ + the "A" and "D" keys dolly the camera left and right, respectively,
+ + the "Q" and up-arrow keys raise the camera, and
+ + the "Z" and down-arrow keys lower the camera.
 
 [Jump to table of contents](#toc)
 
