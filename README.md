@@ -6,8 +6,8 @@ The [Minie Project][minie] is about improving the integration of
 
 It contains 4 sub-projects:
 
- 1. MinieLibrary: the Minie runtime library (in Java)
- 2. MinieExamples: demos, examples, and test software (in Java)
+ 1. MinieLibrary: the Minie runtime library and its automated tests (in Java)
+ 2. MinieExamples: demos, examples, tutorials, and non-automated test software (in Java)
  3. [DacWizard][]: a GUI application to configure a ragdoll (in Java)
  4. MinieAssets: generate assets used in MinieExamples (in Java)
 
@@ -60,24 +60,25 @@ Summary of added features:
  + `DynamicAnimControl` for ragdoll/rope simulation:
     + set dynamic/kinematic mode per bone
     + understands attachments
-    + highly configurable, with many options for bone mass, center, and shape
+    + highly tunable, with many options for bone mass, center, and shape
     + apply inverse-kinematic controllers and joints
  + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`,
     including anchors and soft-body joints
  + Convex decomposition using [Khaled Mamou's V-HACD Library][vhacd].
- + `MultiSphere` collision shapes based on `btMultiSphereShape`
- + `EmptyShape` collision shapes based on `btEmptyShape`
  + `New6Dof` physics joints based on `btGeneric6DofSpring2Constraint`.
+ + `MultiSphere` collision shapes based on `btMultiSphereShape`
+ + `Box2dShape` collision shapes based on `btBox2dShape`
+ + `Convex2dShape` collision shapes based on `btConvex2dShape`
+ + `EmptyShape` collision shape based on `btEmptyShape`
  + debugging aids:
     + dump the contents of a `BulletAppState` or `PhysicsSpace`
     + visualize physics objects in multiple viewports
     + customize debug material per collision object
     + visualize the local axes, bounding boxes, and/or CCD swept spheres
       of collision objects
-    + optional double-sided debug materials
     + optional high-resolution debug meshes for convex shapes
-    + options to generate debug meshes that include normals (for shading)
-      and/or texture coordinates (for texturing)
+    + options to generate debug meshes that include indices,
+      normals (for shading), and/or texture coordinates (for texturing)
  + all joints, shapes, and collision objects implement the `JmeCloneable`
    and `Comparable` interfaces
  + enable/disable a joint
@@ -617,7 +618,7 @@ you can access immediately:
         PhysicsSoftSpace space = bas.getPhysicsSoftSpace();
 
 Physics simulation can run with a fixed time step or a variable time step.
-The default configuration is a fixed time step of 1/60 second
+The default configuration is a fixed time step of 1/60th of a second
 with up to 4 time steps per frame.
 
 To configure a variable time step with a maximum of 0.25 seconds:
