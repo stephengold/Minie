@@ -191,13 +191,13 @@ public class TestRbc extends ActionApplication {
      */
     private PointVisualizer rayPoint;
     /**
-     * Spatial currently being tested
+     * geometry/terrainQuads being tested
      */
     private Spatial controlledSpatial;
     /**
-     * name of the shape currently being tested
+     * name of the test being run
      */
-    private String shapeName = "SmallTerrain";
+    private String testName = "SmallTerrain";
     // *************************************************************************
     // new methods exposed
 
@@ -399,7 +399,7 @@ public class TestRbc extends ActionApplication {
             }
             String[] words = actionString.split(" ");
             if (words.length >= 2 && "test".equals(words[0])) {
-                shapeName = words[1];
+                testName = words[1];
                 restartTest();
                 return;
             }
@@ -415,7 +415,9 @@ public class TestRbc extends ActionApplication {
     @Override
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
-
+        /*
+         * Set mouse-cursor shape based on a raytest result.
+         */
         Vector2f screenXY = inputManager.getCursorPosition();
         Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
         Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
@@ -435,7 +437,7 @@ public class TestRbc extends ActionApplication {
      * Add a shape to the scene and PhysicsSpace.
      */
     private void addAShape() {
-        switch (shapeName) {
+        switch (testName) {
             case "Box":
             case "BoxGImpact":
             case "BoxHull":
@@ -498,7 +500,7 @@ public class TestRbc extends ActionApplication {
                 break;
 
             default:
-                throw new IllegalArgumentException(shapeName);
+                throw new IllegalArgumentException(testName);
         }
     }
 
@@ -523,7 +525,7 @@ public class TestRbc extends ActionApplication {
         AbstractBox mesh = new Box(radius, halfThickness, radius);
         controlledSpatial = new Geometry("box", mesh);
 
-        switch (shapeName) {
+        switch (testName) {
             case "Box":
                 testShape
                         = new BoxCollisionShape(radius, halfThickness, radius);
@@ -547,7 +549,7 @@ public class TestRbc extends ActionApplication {
                 break;
 
             default:
-                throw new IllegalArgumentException(shapeName);
+                throw new IllegalArgumentException(testName);
         }
 
         makeTestShape();
@@ -564,7 +566,7 @@ public class TestRbc extends ActionApplication {
         Mesh mesh = new Cone(circularSamples, radius, height, makePyramid);
         controlledSpatial = new Geometry("cone", mesh);
 
-        switch (shapeName) {
+        switch (testName) {
             case "Cone":
                 testShape = new ConeCollisionShape(radius, height,
                         PhysicsSpace.AXIS_Y);
@@ -583,7 +585,7 @@ public class TestRbc extends ActionApplication {
                 break;
 
             default:
-                throw new IllegalArgumentException(shapeName);
+                throw new IllegalArgumentException(testName);
         }
 
         makeTestShape();
@@ -602,7 +604,7 @@ public class TestRbc extends ActionApplication {
                 closedFlag);
         controlledSpatial = new Geometry("cylinder", mesh);
 
-        switch (shapeName) {
+        switch (testName) {
             case "Cylinder":
                 testShape = new CylinderCollisionShape(radius, height,
                         PhysicsSpace.AXIS_Z);
@@ -621,7 +623,7 @@ public class TestRbc extends ActionApplication {
                 break;
 
             default:
-                throw new IllegalArgumentException(shapeName);
+                throw new IllegalArgumentException(testName);
         }
 
         makeTestShape();
@@ -638,6 +640,7 @@ public class TestRbc extends ActionApplication {
         controlledSpatial
                 = new TerrainQuad("terrain", patchSize, mapSize, heightArray);
         controlledSpatial.setMaterial(greenMaterial);
+
         testShape = CollisionShapeFactory.createMeshShape(controlledSpatial);
         makeTestShape();
     }
@@ -679,7 +682,7 @@ public class TestRbc extends ActionApplication {
                 = new TerrainQuad("terrain", patchSize, mapSize, nineHeights);
         controlledSpatial.setMaterial(wireMaterial);
 
-        switch (shapeName) {
+        switch (testName) {
             case "SmallTerrain":
                 testShape = CollisionShapeFactory.createMeshShape(
                         controlledSpatial);
@@ -691,7 +694,7 @@ public class TestRbc extends ActionApplication {
                 break;
 
             default:
-                throw new IllegalArgumentException(shapeName);
+                throw new IllegalArgumentException(testName);
         }
 
         makeTestShape();
@@ -705,7 +708,7 @@ public class TestRbc extends ActionApplication {
         Mesh mesh = new Sphere(16, 32, radius);
         controlledSpatial = new Geometry("sphere", mesh);
 
-        switch (shapeName) {
+        switch (testName) {
             case "OneSphere":
                 testShape = new MultiSphere(radius);
                 break;
@@ -732,7 +735,7 @@ public class TestRbc extends ActionApplication {
                 break;
 
             default:
-                throw new IllegalArgumentException(shapeName);
+                throw new IllegalArgumentException(testName);
         }
 
         makeTestShape();
@@ -746,7 +749,7 @@ public class TestRbc extends ActionApplication {
         Mesh mesh = new RectangleMesh(-he, +he, -he, +he, 1f);
         controlledSpatial = new Geometry("square", mesh);
 
-        switch (shapeName) {
+        switch (testName) {
             case "Square":
                 testShape = new Box2dShape(he);
                 break;
@@ -789,7 +792,7 @@ public class TestRbc extends ActionApplication {
                 break;
 
             default:
-                throw new IllegalArgumentException(shapeName);
+                throw new IllegalArgumentException(testName);
         }
 
         makeTestShape();
@@ -803,7 +806,7 @@ public class TestRbc extends ActionApplication {
         Mesh mesh = new Tetrahedron(radius, true);
         controlledSpatial = new Geometry("tetrahedron", mesh);
 
-        switch (shapeName) {
+        switch (testName) {
             case "Simplex":
                 FloatBuffer buffer
                         = mesh.getFloatBuffer(VertexBuffer.Type.Position);
@@ -826,7 +829,7 @@ public class TestRbc extends ActionApplication {
                 break;
 
             default:
-                throw new IllegalArgumentException(shapeName);
+                throw new IllegalArgumentException(testName);
         }
 
         makeTestShape();
@@ -860,7 +863,7 @@ public class TestRbc extends ActionApplication {
     private void clearShapes() {
         rayPoint.setEnabled(false);
         /*
-         * Remove all added shapes from the scene.
+         * Remove any added Spatial from the scene.
          */
         addNode.detachAllChildren();
         /*
@@ -1020,7 +1023,7 @@ public class TestRbc extends ActionApplication {
      * @param zScale desired Z-axis scale factor (default=1)
      */
     private void setScale(float xScale, float yScale, float zScale) {
-        if (shapeName.equals("LargeTerrain")) {
+        if (testName.equals("LargeTerrain")) {
             controlledSpatial.setLocalScale(
                     xScale / 100f, yScale / 100f, zScale / 100f);
         } else {
@@ -1088,11 +1091,12 @@ public class TestRbc extends ActionApplication {
         } else {
             viewName = "mesh";
         }
+
         float margin = testShape.getMargin();
         Vector3f scale = controlledSpatial.getLocalScale();
         String message = String.format(
-                "shape=%s, view=%s, margin=%.3f, scale=%s",
-                shapeName, viewName, margin, scale);
+                "test=%s, view=%s, margin=%.3f, scale=%s",
+                testName, viewName, margin, scale);
         statusText.setText(message);
     }
 }
