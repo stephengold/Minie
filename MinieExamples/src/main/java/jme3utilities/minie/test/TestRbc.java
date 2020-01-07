@@ -181,7 +181,7 @@ public class TestRbc extends ActionApplication {
      */
     private JmeCursor missCursor;
     /**
-     * double-sided, green, shaded material for scene objects
+     * double-sided, green, shaded material for test spatials
      */
     private Material greenMaterial;
     /**
@@ -189,7 +189,7 @@ public class TestRbc extends ActionApplication {
      */
     private Material wireMaterial;
     /**
-     * parent for added geometries
+     * parent for added spatials
      */
     final private Node addNode = new Node("add");
     /**
@@ -209,9 +209,9 @@ public class TestRbc extends ActionApplication {
      */
     private PointVisualizer rayPoint;
     /**
-     * geometry/terrainQuads being tested
+     * geometry/terrainQuad(s) being tested
      */
-    private Spatial controlledSpatial;
+    private Spatial testSpatial;
     /**
      * name of the test being run
      */
@@ -521,7 +521,7 @@ public class TestRbc extends ActionApplication {
         float halfThickness = 0.5f;
         float radius = 1.9f;
         AbstractBox mesh = new Box(radius, halfThickness, radius);
-        controlledSpatial = new Geometry("box", mesh);
+        testSpatial = new Geometry("box", mesh);
 
         switch (testName) {
             case "Box":
@@ -562,7 +562,7 @@ public class TestRbc extends ActionApplication {
         float radius = 2f;
         int circularSamples = 64;
         Mesh mesh = new Cone(circularSamples, radius, height, makePyramid);
-        controlledSpatial = new Geometry("cone", mesh);
+        testSpatial = new Geometry("cone", mesh);
 
         switch (testName) {
             case "Cone":
@@ -600,7 +600,7 @@ public class TestRbc extends ActionApplication {
         int circSample = 18;
         Mesh mesh = new Cylinder(heightSample, circSample, radius, height,
                 closedFlag);
-        controlledSpatial = new Geometry("cylinder", mesh);
+        testSpatial = new Geometry("cylinder", mesh);
 
         switch (testName) {
             case "Cylinder":
@@ -635,11 +635,11 @@ public class TestRbc extends ActionApplication {
         int terrainDiameter = heightMap.getSize(); // in pixels
         int mapSize = terrainDiameter + 1; // number of samples on a side
         float[] heightArray = heightMap.getHeightMap();
-        controlledSpatial
-                = new TerrainQuad("terrain", patchSize, mapSize, heightArray);
-        controlledSpatial.setMaterial(greenMaterial);
+        testSpatial = new TerrainQuad("large terrain", patchSize, mapSize,
+                heightArray);
+        testSpatial.setMaterial(greenMaterial);
 
-        testShape = CollisionShapeFactory.createMeshShape(controlledSpatial);
+        testShape = CollisionShapeFactory.createMeshShape(testSpatial);
         makeTestShape();
     }
 
@@ -650,23 +650,26 @@ public class TestRbc extends ActionApplication {
         ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootNode.addLight(ambient);
+        ambient.setName("ambient");
 
         Vector3f direction = new Vector3f(1f, -2f, -2f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
+        sun.setName("sun");
     }
 
     /**
      * Add a petagonal prism to the scene and PhysicsSpace.
      */
     private void addPrism() {
+        int numSides = 5;
         float radius = 2.5f;
         float thickness = 1f;
         boolean normals = true;
-        Mesh mesh = new Prism(5, radius, thickness, normals);
-        controlledSpatial = new Geometry("prism", mesh);
-        testShape = CollisionShapeFactory.createDynamicMeshShape(
-                controlledSpatial);
+        Mesh mesh = new Prism(numSides, radius, thickness, normals);
+        testSpatial = new Geometry("prism", mesh);
+
+        testShape = CollisionShapeFactory.createDynamicMeshShape(testSpatial);
         makeTestShape();
     }
 
@@ -676,14 +679,13 @@ public class TestRbc extends ActionApplication {
     private void addSmallTerrain() {
         int patchSize = 3;
         int mapSize = 3;
-        controlledSpatial
-                = new TerrainQuad("terrain", patchSize, mapSize, nineHeights);
-        controlledSpatial.setMaterial(wireMaterial);
+        testSpatial = new TerrainQuad("small terrain", patchSize, mapSize,
+                nineHeights);
+        testSpatial.setMaterial(wireMaterial);
 
         switch (testName) {
             case "SmallTerrain":
-                testShape = CollisionShapeFactory.createMeshShape(
-                        controlledSpatial);
+                testShape = CollisionShapeFactory.createMeshShape(testSpatial);
                 break;
 
             case "SmallTerrainVhacd":
@@ -704,7 +706,7 @@ public class TestRbc extends ActionApplication {
     private void addSphere() {
         float radius = 2.5f;
         Mesh mesh = new Sphere(16, 32, radius);
-        controlledSpatial = new Geometry("sphere", mesh);
+        testSpatial = new Geometry("sphere", mesh);
 
         switch (testName) {
             case "OneSphere":
@@ -745,7 +747,7 @@ public class TestRbc extends ActionApplication {
     private void addSquare() {
         float he = 1f;
         Mesh mesh = new RectangleMesh(-he, +he, -he, +he, 1f);
-        controlledSpatial = new Geometry("square", mesh);
+        testSpatial = new Geometry("square", mesh);
 
         switch (testName) {
             case "Square":
@@ -814,7 +816,7 @@ public class TestRbc extends ActionApplication {
     private void addTetrahedron() {
         float radius = 2.5f;
         Mesh mesh = new Tetrahedron(radius, true);
-        controlledSpatial = new Geometry("tetrahedron", mesh);
+        testSpatial = new Geometry("tetrahedron", mesh);
 
         switch (testName) {
             case "Simplex":
@@ -865,8 +867,8 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Cast a physics ray from mouse pointer and move the PointVisualizer to the
-     * nearest intersection.
+     * Cast a physics ray from the mouse pointer and move the PointVisualizer to
+     * the nearest intersection.
      */
     private void castRay() {
         Vector2f screenXY = inputManager.getCursorPosition();
@@ -892,7 +894,7 @@ public class TestRbc extends ActionApplication {
     private void clearShapes() {
         rayPoint.setEnabled(false);
         /*
-         * Remove any added Spatial from the scene.
+         * Remove any added spatials from the scene.
          */
         addNode.detachAllChildren();
         /*
@@ -1014,10 +1016,10 @@ public class TestRbc extends ActionApplication {
      * the main scene and the PhysicsSpace.
      */
     private void makeTestShape() {
-        addNode.attachChild(controlledSpatial);
+        addNode.attachChild(testSpatial);
         setScale(1f, 1f, 1f);
-        if (controlledSpatial instanceof Geometry) {
-            controlledSpatial.setMaterial(greenMaterial);
+        if (testSpatial instanceof Geometry) {
+            testSpatial.setMaterial(greenMaterial);
         }
 
         RigidBodyControl rbc = new RigidBodyControl(testShape);
@@ -1025,7 +1027,7 @@ public class TestRbc extends ActionApplication {
         rbc.setKinematic(true);
         rbc.setPhysicsSpace(physicsSpace);
         rbc.setDebugNumSides(2);
-        controlledSpatial.addControl(rbc);
+        testSpatial.addControl(rbc);
     }
 
     /**
@@ -1060,10 +1062,10 @@ public class TestRbc extends ActionApplication {
      */
     private void setScale(float xScale, float yScale, float zScale) {
         if (testName.equals("LargeTerrain")) {
-            controlledSpatial.setLocalScale(
+            testSpatial.setLocalScale(
                     xScale / 100f, yScale / 100f, zScale / 100f);
         } else {
-            controlledSpatial.setLocalScale(xScale, yScale, zScale);
+            testSpatial.setLocalScale(xScale, yScale, zScale);
         }
     }
 
@@ -1092,7 +1094,7 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Toggle rendering of test geometries/terrainQuads.
+     * Toggle rendering of the test spatial(s).
      */
     private void toggleMeshes() {
         Spatial.CullHint hint = addNode.getLocalCullHint();
@@ -1135,7 +1137,7 @@ public class TestRbc extends ActionApplication {
         }
 
         float margin = testShape.getMargin();
-        Vector3f scale = controlledSpatial.getLocalScale();
+        Vector3f scale = testSpatial.getLocalScale();
         message = String.format("view=%s, margin=%.3f, scale=%s",
                 viewName, margin, scale);
         statusLines[1].setText(message);
