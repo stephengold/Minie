@@ -55,7 +55,8 @@ import jme3utilities.math.RectangularSolid;
 import vhacd.VHACDHull;
 
 /**
- * A convex-hull CollisionShape based on Bullet's btConvexHullShape.
+ * A convex-hull CollisionShape based on Bullet's btConvexHullShape. For a 2-D
+ * convex hull, use Convex2dShape instead.
  */
 public class HullCollisionShape extends CollisionShape {
     // *************************************************************************
