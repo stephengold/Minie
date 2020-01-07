@@ -185,6 +185,10 @@ public class TestRbc extends ActionApplication {
      */
     private Material greenMaterial;
     /**
+     * single-sided, red, unshaded material for projectiles
+     */
+    private Material redMaterial;
+    /**
      * double-sided, green, wireframe material for the SmallTerrain Spatial
      */
     private Material wireMaterial;
@@ -208,6 +212,10 @@ public class TestRbc extends ActionApplication {
      * visualizer for ray intersections
      */
     private PointVisualizer rayPoint;
+    /**
+     * geometry for the projectile, or null if none
+     */
+    private Spatial projectileSpatial;
     /**
      * geometry/terrainQuad(s) being tested
      */
@@ -300,6 +308,8 @@ public class TestRbc extends ActionApplication {
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump viewport", KeyInput.KEY_P);
 
+        dim.bind("launch projectile", KeyInput.KEY_L);
+
         dim.bind("less margin", KeyInput.KEY_V);
         dim.bind("more margin", KeyInput.KEY_F);
 
@@ -360,6 +370,10 @@ public class TestRbc extends ActionApplication {
                     return;
                 case "dump viewport":
                     dumper.dump(viewPort);
+                    return;
+
+                case "launch projectile":
+                    launchProjectile();
                     return;
 
                 case "next test":
@@ -674,6 +688,29 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
+     * Add a dynamic projectile to the scene and PhysicsSpace.
+     */
+    private void addProjectile() {
+        assert projectileSpatial == null;
+
+        float radius = 0.04f;
+        Mesh mesh = new Sphere(16, 32, radius);
+
+        projectileSpatial = new Geometry("projectile", mesh);
+        addNode.attachChild(projectileSpatial);
+        projectileSpatial.setMaterial(redMaterial);
+
+        CollisionShape shape = new SphereCollisionShape(radius);
+        float mass = 0.01f;
+        RigidBodyControl rbc = new RigidBodyControl(shape, mass);
+        physicsSpace.add(rbc);
+        projectileSpatial.addControl(rbc);
+
+        rbc.setCcdMotionThreshold(1e-6f);
+        rbc.setCcdSweptSphereRadius(radius);
+    }
+
+    /**
      * Add a 3x3 terrain to the scene and PhysicsSpace.
      */
     private void addSmallTerrain() {
@@ -897,6 +934,8 @@ public class TestRbc extends ActionApplication {
          * Remove any added spatials from the scene.
          */
         addNode.detachAllChildren();
+        projectileSpatial = null;
+        testSpatial = null;
         /*
          * Remove all collision objects from the physics space,
          * which also removes their debug meshes.
@@ -939,6 +978,7 @@ public class TestRbc extends ActionApplication {
     private void configurePhysics() {
         stateManager.attach(bulletAppState);
         physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace.setGravity(Vector3f.ZERO);
     }
 
     /**
@@ -966,6 +1006,10 @@ public class TestRbc extends ActionApplication {
         wireMaterial.setName("green wire");
         ars = wireMaterial.getAdditionalRenderState();
         ars.setFaceCullMode(RenderState.FaceCullMode.Off);
+
+        redMaterial
+                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Red);
+        redMaterial.setName("red");
     }
 
     /**
@@ -990,6 +1034,28 @@ public class TestRbc extends ActionApplication {
                 = new TerrainQuad("terrain", patchSize, mapSize, nineHeights);
         smallTerrainVhacdShape = CollisionShapeFactory.createVhacdShape(
                 spatial, new VHACDParameters(), null);
+    }
+
+    /**
+     * Launch a projectile from the mouse pointer.
+     */
+    private void launchProjectile() {
+        if (projectileSpatial == null) {
+            addProjectile();
+        }
+        RigidBodyControl rbc
+                = projectileSpatial.getControl(RigidBodyControl.class);
+
+        Vector2f screenXY = inputManager.getCursorPosition();
+        Vector3f origin = cam.getWorldCoordinates(screenXY, 0f);
+        Vector3f target = cam.getWorldCoordinates(screenXY, 1f);
+        Vector3f direction = target.subtract(origin).normalizeLocal();
+        float initialSpeed = 20f;
+        Vector3f initialVelocity = direction.mult(initialSpeed);
+
+        projectileSpatial.setLocalTranslation(origin);
+        rbc.setPhysicsLocation(origin);
+        rbc.setLinearVelocity(initialVelocity);
     }
 
     /**
@@ -1094,7 +1160,7 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Toggle rendering of the test spatial(s).
+     * Toggle rendering of the test/projectile spatial(s).
      */
     private void toggleMeshes() {
         Spatial.CullHint hint = addNode.getLocalCullHint();
