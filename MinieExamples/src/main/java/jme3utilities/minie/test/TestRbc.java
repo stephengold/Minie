@@ -1137,7 +1137,7 @@ public class TestRbc extends ActionApplication {
         }
 
         float margin = testShape.getMargin();
-        Vector3f scale = testSpatial.getLocalScale();
+        Vector3f scale = testShape.getScale(null);
         message = String.format("view=%s, margin=%.3f, scale=%s",
                 viewName, margin, scale);
         statusLines[1].setText(message);
