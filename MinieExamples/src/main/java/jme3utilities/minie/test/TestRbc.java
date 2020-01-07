@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
+import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -243,11 +244,18 @@ public class TestRbc extends ActionApplication {
 
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
-        // TODO ScreenshotAppState
+
         addAxes();
         addLighting();
         /*
-         * Hide the render-statistics overlay.
+         * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
+         */
+        ScreenshotAppState screenshotAppState
+                = new ScreenshotAppState("Written Assets/", "screenshot");
+        boolean success = stateManager.attach(screenshotAppState);
+        assert success;
+        /*
+         * Hide the render-statistics overlay initially.
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
@@ -260,7 +268,7 @@ public class TestRbc extends ActionApplication {
 
         restartTest();
         /*
-         * Add the status text to the GUI.
+         * Add a status text to the GUI.
          */
         statusText = new BitmapText(guiFont, false);
         statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
