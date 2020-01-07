@@ -79,6 +79,7 @@ import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -89,6 +90,7 @@ import jme3utilities.MyCamera;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
@@ -124,6 +126,17 @@ public class TestRbc extends ActionApplication {
      * application name (for the title bar of the app's window)
      */
     final private static String applicationName = TestRbc.class.getSimpleName();
+    /**
+     * list of test names, in ascending lexicographic order
+     */
+    final private static String[] testNames = {
+        "Box", "BoxGImpact", "BoxHull", "BoxMesh", "Cone", "ConeGImpact",
+        "ConeHull", "ConeMesh", "Cylinder", "CylinderGImpact", "CylinderHull",
+        "CylinderMesh", "FourSphere", "LargeTerrain", "OneSphere", "Prism",
+        "Simplex", "SmallTerrain", "SmallTerrainVhacd", "Sphere",
+        "SphereCapsule", "SphereGImpact", "SphereHull", "SphereMesh", "Square",
+        "SquareBox", "SquareConvex2d", "SquareGImpact", "SquareHeightfield",
+        "SquareHull", "SquareMesh", "TetraGImpact", "TetraHull", "TetraMesh"};
     // *************************************************************************
     // fields
 
@@ -136,9 +149,9 @@ public class TestRbc extends ActionApplication {
      */
     private AxesVisualizer axes;
     /**
-     * status displayed in the upper-left corner of the GUI node
+     * text displayed in the upper-left corner of the GUI node
      */
-    private BitmapText statusText;
+    final private BitmapText[] statusLines = new BitmapText[2];
     /**
      * AppState to manage the PhysicsSpace
      */
@@ -247,6 +260,7 @@ public class TestRbc extends ActionApplication {
 
         addAxes();
         addLighting();
+        addStatusLines();
         /*
          * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
          */
@@ -267,12 +281,6 @@ public class TestRbc extends ActionApplication {
         rootNode.attachChild(addNode);
 
         restartTest();
-        /*
-         * Add a status text to the GUI.
-         */
-        statusText = new BitmapText(guiFont, false);
-        statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
-        guiNode.attachChild(statusText);
     }
 
     /**
@@ -290,6 +298,12 @@ public class TestRbc extends ActionApplication {
 
         dim.bind("less margin", KeyInput.KEY_V);
         dim.bind("more margin", KeyInput.KEY_F);
+
+        dim.bind("next test", KeyInput.KEY_EQUALS);
+        dim.bind("next test", KeyInput.KEY_NUMPAD6);
+        dim.bind("previous test", KeyInput.KEY_MINUS);
+        dim.bind("previous test", KeyInput.KEY_NUMPAD4);
+
         dim.bind("scale identity", KeyInput.KEY_I);
         dim.bind("scale nonuniform", KeyInput.KEY_N);
         dim.bind("scale uniform", KeyInput.KEY_U);
@@ -299,42 +313,13 @@ public class TestRbc extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
-        dim.bind("test Box", KeyInput.KEY_F6);
-        dim.bind("test BoxHull", KeyInput.KEY_F7);
-        dim.bind("test BoxMesh", KeyInput.KEY_F9);
-        dim.bind("test Cone", KeyInput.KEY_6);
-        dim.bind("test ConeHull", KeyInput.KEY_7);
-        dim.bind("test ConeMesh", KeyInput.KEY_8);
-        dim.bind("test Cylinder", KeyInput.KEY_F10);
-        dim.bind("test CylinderHull", KeyInput.KEY_F11);
-        dim.bind("test CylinderMesh", KeyInput.KEY_F12);
-        dim.bind("test FourSphere", KeyInput.KEY_F8);
-        dim.bind("test LargeTerrain", KeyInput.KEY_F1);
-        dim.bind("test OneSphere", KeyInput.KEY_1);
-        dim.bind("test Prism", KeyInput.KEY_F4);
-        dim.bind("test Simplex", KeyInput.KEY_9);
-        dim.bind("test SmallTerrain", KeyInput.KEY_F2);
-        dim.bind("test SmallTerrainVhacd", KeyInput.KEY_F3);
-        dim.bind("test Sphere", KeyInput.KEY_2);
-        dim.bind("test SphereCapsule", KeyInput.KEY_3);
-        dim.bind("test SphereHull", KeyInput.KEY_4);
-        dim.bind("test SphereMesh", KeyInput.KEY_5);
-        dim.bind("test Square", KeyInput.KEY_NUMPAD1);
-        dim.bind("test SquareBox", KeyInput.KEY_NUMPAD2);
-        dim.bind("test SquareConvex2d", KeyInput.KEY_NUMPAD3);
-        dim.bind("test SquareGImpact", KeyInput.KEY_NUMPAD7);
-        dim.bind("test SquareHeightfield", KeyInput.KEY_NUMPAD4);
-        dim.bind("test SquareHull", KeyInput.KEY_NUMPAD5);
-        dim.bind("test SquareMesh", KeyInput.KEY_NUMPAD6);
-        dim.bind("test TetraGImpact", KeyInput.KEY_0);
-
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
         float x = 10f;
-        float y = cam.getHeight() - 40f;
+        float y = cam.getHeight() - 60f;
         float width = cam.getWidth() - 20f;
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -373,6 +358,13 @@ public class TestRbc extends ActionApplication {
                     dumper.dump(viewPort);
                     return;
 
+                case "next test":
+                    advanceTest(+1);
+                    return;
+                case "previous test":
+                    advanceTest(-1);
+                    return;
+
                 case "less margin":
                     multiplyMargin(0.5f);
                     return;
@@ -405,12 +397,6 @@ public class TestRbc extends ActionApplication {
                     togglePhysicsDebug();
                     return;
             }
-            String[] words = actionString.split(" ");
-            if (words.length >= 2 && "test".equals(words[0])) {
-                testName = words[1];
-                restartTest();
-                return;
-            }
         }
         super.onAction(actionString, ongoing, tpf);
     }
@@ -436,7 +422,7 @@ public class TestRbc extends ActionApplication {
             inputManager.setMouseCursor(missCursor);
         }
 
-        updateStatusText();
+        updateStatusLines();
     }
     // *************************************************************************
     // private methods
@@ -807,6 +793,18 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
+     * Add status lines to the GUI.
+     */
+    private void addStatusLines() {
+        for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
+            statusLines[lineIndex] = new BitmapText(guiFont, false);
+            float y = cam.getHeight() - 20f * lineIndex;
+            statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
+            guiNode.attachChild(statusLines[lineIndex]);
+        }
+    }
+
+    /**
      * Add a regular tetrahedron to the scene and PhysicsSpace.
      */
     private void addTetrahedron() {
@@ -841,6 +839,25 @@ public class TestRbc extends ActionApplication {
         }
 
         makeTestShape();
+    }
+
+    /**
+     * Advance the test selection by the specified amount and start the selected
+     * test.
+     *
+     * @param amount the number of tests to advance the selection
+     */
+    private void advanceTest(int amount) {
+        int index = Arrays.binarySearch(testNames, testName);
+        if (index < 0) {
+            testName = testNames[0];
+        } else {
+            assert testNames[index].equals(testName);
+            index = MyMath.modulo(index + amount, testNames.length);
+            testName = testNames[index];
+        }
+
+        restartTest();
     }
 
     /**
@@ -1086,9 +1103,15 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Update the status text in the GUI.
+     * Update the status lines in the GUI.
      */
-    private void updateStatusText() {
+    private void updateStatusLines() {
+        int index = 1 + Arrays.binarySearch(testNames, testName);
+        int count = testNames.length;
+        String message
+                = String.format("Test #%d of %d: %s", index, count, testName);
+        statusLines[0].setText(message);
+
         String viewName;
         boolean debug = bulletAppState.isDebugEnabled();
         if (debug) {
@@ -1102,9 +1125,8 @@ public class TestRbc extends ActionApplication {
 
         float margin = testShape.getMargin();
         Vector3f scale = controlledSpatial.getLocalScale();
-        String message = String.format(
-                "test=%s, view=%s, margin=%.3f, scale=%s",
-                testName, viewName, margin, scale);
-        statusText.setText(message);
+        message = String.format("view=%s, margin=%.3f, scale=%s",
+                viewName, margin, scale);
+        statusLines[1].setText(message);
     }
 }
