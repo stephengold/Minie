@@ -52,7 +52,7 @@ import jme3utilities.Validate;
 /**
  * A PhysicsControl to link a PhysicsCharacter to a Spatial. Compare with
  * {@link com.jme3.bullet.control.BetterCharacterControl} and JME's
- * CharacterControl.
+ * CharacterControl. TODO move to com.jme3.bullet.control.CharacterControl
  *
  * @author Stephen Gold sgold@sonic.net
  */

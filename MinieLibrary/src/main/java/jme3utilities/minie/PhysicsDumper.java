@@ -102,7 +102,7 @@ public class PhysicsDumper extends Dumper {
      */
     private boolean dumpClustersInSofts = false;
     /**
-     * enable dumping of joints in rigid bodies
+     * enable dumping of joints in bodies
      */
     private boolean dumpJointsInBodies = false;
     /**

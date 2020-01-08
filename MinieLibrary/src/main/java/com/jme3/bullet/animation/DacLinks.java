@@ -256,8 +256,7 @@ public class DacLinks
     }
 
     /**
-     * Enumerate all physics links of the specified type managed by this
-     * control.
+     * Enumerate physics links of the specified type managed by this control.
      *
      * @param <T> subclass of PhysicsLink
      * @param linkType the subclass of PhysicsLink to search for (not null)
@@ -287,9 +286,9 @@ public class DacLinks
     }
 
     /**
-     * Enumerate all managed bones of the named link, in a pre-order,
-     * depth-first traversal of the skeleton, such that child bones never
-     * precede their ancestors.
+     * Enumerate managed bones of the named link, in a pre-order, depth-first
+     * traversal of the skeleton, such that child bones never precede their
+     * ancestors.
      *
      * @param managerName the name of the managing link (not null)
      * @return a new array of managed bones, including the manager if it is not
@@ -491,7 +490,7 @@ public class DacLinks
     }
 
     /**
-     * Enumerate all attachment links.
+     * Enumerate attachment links.
      *
      * @return a collection view of values in the internal map (not null)
      */
@@ -1140,7 +1139,7 @@ public class DacLinks
     }
 
     /**
-     * Enumerate all immediate child BoneLinks of the specified bone/torso link.
+     * Enumerate immediate child BoneLinks of the specified bone/torso link.
      *
      * @param link the bone/torso link (not null)
      * @return a new list of bone names

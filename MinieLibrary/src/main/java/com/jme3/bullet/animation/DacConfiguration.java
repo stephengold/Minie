@@ -453,7 +453,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Enumerate all bones with attachment links.
+     * Enumerate bones with attachment links.
      *
      * @return a new array of bone names (not null, may be empty)
      */
@@ -467,7 +467,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Enumerate all bones with bone links.
+     * Enumerate bones with bone links.
      *
      * @return a new array of bone names (not null, may be empty)
      */
