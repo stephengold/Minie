@@ -34,8 +34,8 @@ import com.jme3.bullet.objects.PhysicsBody;
 import java.util.logging.Logger;
 
 /**
- * A debug filter to display/dump only objects associated with a specific user
- * object. Instances are immutable.
+ * A simple DebugAppStateFilter to display/dump only physics objects associated
+ * with a specific user object. Instances are immutable.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -63,7 +63,7 @@ public class UserFilter
      * Instantiate a filter for the specified user object.
      *
      * @param userObject the desired user, or null to display/dump objects with
-     * no userObject
+     * no user
      */
     public UserFilter(Object userObject) {
         this.userObject = userObject;

@@ -483,7 +483,7 @@ public class DynamicAnimControl
     }
 
     /**
-     * Enumerate all IK joints managed by this Control.
+     * Enumerate IK joints managed by this Control.
      *
      * @return a new array of pre-existing joints (not null, not empty)
      */

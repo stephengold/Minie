@@ -46,7 +46,7 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
 /**
- * A axis-aligned, rectangular-solid CollisionShape based on Bullet's
+ * An axis-aligned, rectangular-solid CollisionShape based on Bullet's
  * btBoxShape. For a rectangle, use Box2dShape.
  *
  * @author normenhansen

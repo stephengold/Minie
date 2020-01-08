@@ -113,7 +113,7 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
     }
 
     /**
-     * Enumerate all exceptions.
+     * Enumerate the exceptions.
      *
      * @return a new array of pre-existing objects (not null)
      */
@@ -126,7 +126,7 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
     }
 
     /**
-     * Remove a object from the exceptions list.
+     * Remove an object from the exceptions list.
      *
      * @param exception the object to remove (not null, unaffected)
      */

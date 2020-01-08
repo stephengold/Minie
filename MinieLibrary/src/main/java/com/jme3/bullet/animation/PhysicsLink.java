@@ -400,7 +400,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     }
 
     /**
-     * Enumerate all inverse kinematics controllers for this link.
+     * Enumerate inverse-kinematics controllers for this link.
      *
      * @return a new array of pre-existing instances
      */
