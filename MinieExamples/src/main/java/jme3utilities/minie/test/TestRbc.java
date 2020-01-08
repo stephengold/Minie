@@ -169,13 +169,13 @@ public class TestRbc
      */
     private CollisionShape testShape;
     /**
-     * height array for a small heightfield
-     */
-    final private float[] nineHeights = new float[9];
-    /**
      * filter to control visualization of axis-aligned bounding boxes
      */
     private FilterAll bbFilter;
+    /**
+     * height array for a small heightfield
+     */
+    final private float[] nineHeights = new float[9];
     /**
      * cursor shown when the raytest finds a collision object
      */
