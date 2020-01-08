@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2019 jMonkeyEngine
+ * Copyright (c) 2009-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -427,7 +427,7 @@ public class PhysicsSpace {
     }
 
     /**
-     * Test whether the specified joint is added to this space.
+     * Test whether the specified PhysicsJoint is added to this space.
      *
      * @param joint the joint to test (not null, unaffected)
      * @return true if currently added, otherwise false
@@ -437,6 +437,26 @@ public class PhysicsSpace {
         boolean result = physicsJoints.containsKey(jointId);
 
         return result;
+    }
+
+    /**
+     * Count how many collision-group listeners are registered with this space.
+     *
+     * @return the count (&ge;0)
+     */
+    public int countCollisionGroupListeners() {
+        int count = collisionGroupListeners.size();
+        return count;
+    }
+
+    /**
+     * Count how many collision listeners are registered with this space.
+     *
+     * @return the count (&ge;0)
+     */
+    public int countCollisionListeners() {
+        int count = collisionListeners.size();
+        return count;
     }
 
     /**
@@ -1145,6 +1165,11 @@ public class PhysicsSpace {
     // *************************************************************************
     // private Java methods
 
+    /**
+     * Add the specified PhysicsCharacter to this space.
+     *
+     * @param character the character to add (not null, alias created)
+     */
     private void addCharacter(PhysicsCharacter character) {
         if (contains(character)) {
             logger.log(Level.WARNING, "{0} is already added to {1}.",
@@ -1175,6 +1200,11 @@ public class PhysicsSpace {
         }
     }
 
+    /**
+     * Add the specified PhysicsGhostObject to this space.
+     *
+     * @param ghost the object to add (not null, alias created)
+     */
     private void addGhostObject(PhysicsGhostObject ghost) {
         if (contains(ghost)) {
             logger.log(Level.WARNING, "{0} is already added to {1}.",
@@ -1189,6 +1219,11 @@ public class PhysicsSpace {
         addCollisionObject(nativeId, ghostId);
     }
 
+    /**
+     * Add the specified PhysicsJoint to this space.
+     *
+     * @param joint the joint to add (not null, alias created)
+     */
     private void addJoint(PhysicsJoint joint) {
         if (contains(joint)) {
             logger.log(Level.WARNING, "{0} is already added to {1}.",
@@ -1223,10 +1258,12 @@ public class PhysicsSpace {
     }
 
     /**
+     * Add the specified PhysicsRigidBody to this space.
+     * <p>
      * NOTE: When a rigid body is added, its gravity gets set to that of the
      * space.
      *
-     * @param rigidBody the body to add (not null, not already in the space)
+     * @param rigidBody the body to add (not null, alias created)
      */
     private void addRigidBody(PhysicsRigidBody rigidBody) {
         if (contains(rigidBody)) {
@@ -1341,6 +1378,11 @@ public class PhysicsSpace {
         }
     }
 
+    /**
+     * Remove the specified PhysicsCharacter from this space.
+     *
+     * @param character the character to remove (not null)
+     */
     private void removeCharacter(PhysicsCharacter character) {
         long characterId = character.getObjectId();
         if (!physicsCharacters.containsKey(characterId)) {
@@ -1356,6 +1398,11 @@ public class PhysicsSpace {
         removeCharacterObject(nativeId, characterId);
     }
 
+    /**
+     * Remove the specified PhysicsGhostObject from this space.
+     *
+     * @param ghost the object to remove (not null)
+     */
     private void removeGhostObject(PhysicsGhostObject ghost) {
         long ghostId = ghost.getObjectId();
         if (!physicsGhostObjects.containsKey(ghostId)) {
@@ -1370,6 +1417,11 @@ public class PhysicsSpace {
         removeCollisionObject(nativeId, ghostId);
     }
 
+    /**
+     * Remove the specified PhysicsJoint from this space.
+     *
+     * @param joint the joint to remove (not null)
+     */
     private void removeJoint(PhysicsJoint joint) {
         long jointId = joint.getObjectId();
         if (!physicsJoints.containsKey(jointId)) {
@@ -1386,6 +1438,11 @@ public class PhysicsSpace {
         }
     }
 
+    /**
+     * Remove the specified PhysicsRigidBody from this space.
+     *
+     * @param rigidBody the body to remove (not null)
+     */
     private void removeRigidBody(PhysicsRigidBody rigidBody) {
         long rigidBodyId = rigidBody.getObjectId();
         if (!physicsBodies.containsKey(rigidBodyId)) {
