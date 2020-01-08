@@ -25,7 +25,7 @@ Java source code is provided under
  + [Overview and design considerations](#overview)
  + [How to build Minie from source](#build)
  + [How to add Minie to an existing project](#add)
- + [Choosing a collision shape](#shape)
+ + [Choosing collision shapes](#shape)
  + [Debugging physics issues](#debugging)
  + [An introduction to New6Dof](#new6dof)
  + [An introduction to DynamicAnimControl](#dac)
@@ -714,7 +714,7 @@ To instantiate a static body, specify mass=0.
 
 <a name="shape"/>
 
-## Choosing a collision shape
+## Choosing collision shapes
 
 Minie provides 16 `CollisionShape` subclasses:
 
@@ -877,7 +877,7 @@ To specify a different `ViewPort` (or an array of viewports) use:
 
 By default, debug visualization renders the shape of every
 `PhysicsCollisionObject`, but not its bounding box nor its swept sphere.
-To override these defaults, set filters to identify for which objects
+To override these defaults, set filters to identify for which collision objects
 each feature should be rendered:
 
         BulletDebugAppState.DebugAppStateFilter all = new FilterAll(true);
@@ -1014,20 +1014,51 @@ Here is sample output for a space containing 2 rigid bodies and nothing else:
 Single-space indentation indicates additional description
 of the foregoing object.
 
-By default, joints are counted in dumps but not enumerated.
-To enumerate joints at the physics-space level of the hierarchy,
-configure the dumper as follows:
+To dump a `PhysicsSpace` to a text file:
 
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        PrintStream dumpStream = new PrintStream("dump.txt");
+        PhysicsDumper dumper = new PhysicsDumper(dumpStream);
+        dumper.dump(physicsSpace);
 
-To enumerate joints at the collision-object level of the hierarchy,
-configure the dumper as follows:
+#### Customizing what is dumped
 
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
+You can dump an entire `BulletAppState`, including its `PhysicsSpace`:
+
+        dumper.dump(bulletAppState);
+
+You can dump individual collision objects:
+
+        dumper.dump(character);
+        dumper.dump(ghostObject);
+        dumper.dump(rigidBody);
+        dumper.dump(softBody);
+
+When dumping a `PhysicsSpace`,
+the default is to describe every collision object;
+physics joints are counted but not described.
+To describe the joints in each body, configure the dumper like so:
+
+        dumper.setEnabled(DumpFlags.JointsInBodies, true); // default=false
+
+To describe the motors in each joint, configure the dumper like so:
+
+        dumper.setEnabled(DumpFlags.Motors, true); // default=false
+
+To dump just the physics joints (no collision objects):
+
+        dumper.setEnabled(DumpFlags.Pcos, false); // default=true
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true); // default=false
+
+When dumping a `PhysicsSpace`, you can apply a filter
+to restrict which physics objects are listed.
+For instance, to dump only those physics objects that lack a user object:
+
+        String indent = "";
+        BulletDebugAppState.DebugAppStateFilter noUser = new UserFilter(null);
+        dumper.dump(physicsSpace, indent, noUser);
 
 Other dump flags can be set, for instance,
-to enumerate the nodes or clusters of each soft body
-or the motors of each joint.
+to describe the nodes or clusters in each soft body.
 
 [Jump to table of contents](#toc)
 
