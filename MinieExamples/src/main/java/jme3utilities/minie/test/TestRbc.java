@@ -32,6 +32,8 @@ import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.PhysicsCollisionEvent;
+import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.Box2dShape;
@@ -108,12 +110,14 @@ import vhacd.VHACDParameters;
 
 /**
  * Test various shapes, scales, and collision margins on a kinematic
- * RigidBodyControl. Features tested include bounding boxes, debug
- * visualization, and ray casting.
+ * RigidBodyControl. Features tested include bounding boxes, collision
+ * listeners, debug visualization, and ray casting.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestRbc extends ActionApplication {
+public class TestRbc
+        extends ActionApplication
+        implements PhysicsCollisionListener {
     // *************************************************************************
     // constants and loggers
 
@@ -443,10 +447,44 @@ public class TestRbc extends ActionApplication {
         updateStatusLines();
     }
     // *************************************************************************
+    // PhysicsCollisionListener methods
+
+    /**
+     * Callback to report collisions in the PhysicsSpace. Invoked on the render
+     * thread (not the physics thread) during the BulletAppState update.
+     *
+     * @param event the event that occurred (not null, reusable)
+     */
+    @Override
+    public void collision(PhysicsCollisionEvent event) {
+        Spatial userA = event.getNodeA();
+        Spatial userB = event.getNodeB();
+        if (userA == testSpatial && userB == projectileSpatial
+                || userA == projectileSpatial && userB == testSpatial) {
+            /*
+             * Put the projectile's RBC into kinematic mode, so it will stick.
+             */
+            RigidBodyControl rigidBodyControl
+                    = projectileSpatial.getControl(RigidBodyControl.class);
+            rigidBodyControl.setKinematic(true);
+            rigidBodyControl.setKinematicSpatial(true);
+
+            Vector3f location = new Vector3f();
+            if (userA == testSpatial) {
+                event.getPositionWorldOnA(location);
+            } else {
+                event.getPositionWorldOnB(location);
+            }
+            projectileSpatial.setLocalTranslation(location);
+        } else {
+            System.out.println("Unexpected collision!");
+        }
+    }
+    // *************************************************************************
     // private methods
 
     /**
-     * Add a shape to the scene and PhysicsSpace.
+     * Add a test shape to both the scene and PhysicsSpace.
      */
     private void addAShape() {
         switch (testName) {
@@ -688,26 +726,31 @@ public class TestRbc extends ActionApplication {
     }
 
     /**
-     * Add a dynamic projectile to the scene and PhysicsSpace.
+     * Add a dynamic projectile to both the scene and PhysicsSpace.
+     *
+     * @return a new RigidBodyControl (enabled)
      */
-    private void addProjectile() {
+    private RigidBodyControl addProjectile() {
         assert projectileSpatial == null;
 
-        float radius = 0.04f;
-        Mesh mesh = new Sphere(16, 32, radius);
+        float radius = 0.05f;
+        Mesh mesh = new Sphere(6, 12, radius);
 
         projectileSpatial = new Geometry("projectile", mesh);
         addNode.attachChild(projectileSpatial);
         projectileSpatial.setMaterial(redMaterial);
 
-        CollisionShape shape = new SphereCollisionShape(radius);
+        CollisionShape shape = new MultiSphere(radius);
+        // TODO - Why doesn't a SphereCollisionShape work well here?
         float mass = 0.01f;
         RigidBodyControl rbc = new RigidBodyControl(shape, mass);
         physicsSpace.add(rbc);
         projectileSpatial.addControl(rbc);
 
-        rbc.setCcdMotionThreshold(1e-6f);
-        rbc.setCcdSweptSphereRadius(radius);
+        rbc.setCcdMotionThreshold(0.01f);
+        rbc.setCcdSweptSphereRadius(0.04f);
+
+        return rbc;
     }
 
     /**
@@ -978,6 +1021,7 @@ public class TestRbc extends ActionApplication {
     private void configurePhysics() {
         stateManager.attach(bulletAppState);
         physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace.addCollisionListener(this);
         physicsSpace.setGravity(Vector3f.ZERO);
     }
 
@@ -1040,11 +1084,16 @@ public class TestRbc extends ActionApplication {
      * Launch a projectile from the mouse pointer.
      */
     private void launchProjectile() {
+        RigidBodyControl rbc;
         if (projectileSpatial == null) {
-            addProjectile();
+            rbc = addProjectile();
+        } else {
+            // Re-use the previously added projectile.
+            rbc = projectileSpatial.getControl(RigidBodyControl.class);
         }
-        RigidBodyControl rbc
-                = projectileSpatial.getControl(RigidBodyControl.class);
+        rbc.setEnabled(false);
+        rbc.setKinematic(false);
+        rbc.setKinematicSpatial(false);
 
         Vector2f screenXY = inputManager.getCursorPosition();
         Vector3f origin = cam.getWorldCoordinates(screenXY, 0f);
@@ -1054,7 +1103,7 @@ public class TestRbc extends ActionApplication {
         Vector3f initialVelocity = direction.mult(initialSpeed);
 
         projectileSpatial.setLocalTranslation(origin);
-        rbc.setPhysicsLocation(origin);
+        rbc.setEnabled(true);
         rbc.setLinearVelocity(initialVelocity);
     }
 
@@ -1194,12 +1243,12 @@ public class TestRbc extends ActionApplication {
         String viewName;
         boolean debug = bulletAppState.isDebugEnabled();
         if (debug) {
-            viewName = "physics";
+            viewName = "Physics";
             if (bbFilter != null) {
-                viewName += "+aabb";
+                viewName += "+AABB";
             }
         } else {
-            viewName = "mesh";
+            viewName = "Mesh";
         }
 
         float margin = testShape.getMargin();
