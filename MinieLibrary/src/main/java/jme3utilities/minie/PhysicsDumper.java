@@ -491,18 +491,23 @@ public class PhysicsDumper extends Dumper {
         PhysicsSpace.BroadphaseType bphase = space.getBroadphaseType();
         Vector3f gravity = space.getGravity(null);
         String gravString = MyVector3f.describe(gravity);
-        stream.printf("%n%s bphase=%s grav[%s]", indent, bphase, gravString);
+        stream.printf("%n%s bphase=%s grav[%s] timeStep[",
+                indent, bphase, gravString);
 
-        int maxSubSteps = space.maxSubSteps();
-        if (maxSubSteps == 0) {
+        int maxSS = space.maxSubSteps();
+        if (maxSS == 0) {
             float maxTimeStep = space.maxTimeStep();
             String mtsDesc = MyString.describe(maxTimeStep);
-            stream.printf(" timeStep[VAR max=%s]", mtsDesc);
+            stream.printf("VAR max=%s", mtsDesc);
         } else {
             float accuracy = space.getAccuracy();
             String accuDesc = MyString.describe(accuracy);
-            stream.printf(" timeStep[%s maxSS=%d]", accuDesc, maxSubSteps);
+            stream.printf("%s maxSS=%d", accuDesc, maxSS);
         }
+
+        int cCount = space.countCollisionListeners();
+        int cgCount = space.countCollisionGroupListeners();
+        stream.printf("] listeners[c=%d cg=%d]", cCount, cgCount);
         /*
          * 3rd line
          */
