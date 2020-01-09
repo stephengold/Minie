@@ -40,6 +40,7 @@ import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
@@ -89,6 +90,7 @@ import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
+import jme3utilities.MySpatial;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.math.MyBuffer;
@@ -136,7 +138,8 @@ public class TestRbc
     final private static String[] testNames = {
         "Box", "BoxGImpact", "BoxHull", "BoxMesh", "Cone", "ConeGImpact",
         "ConeHull", "ConeMesh", "Cylinder", "CylinderGImpact", "CylinderHull",
-        "CylinderMesh", "FourSphere", "LargeTerrain", "OneSphere", "Prism",
+        "CylinderMesh", "FourSphere", "KissCapsule", "KissHull", "KissMesh",
+        "KissMultiSphere", "KissSphere", "LargeTerrain", "OneSphere", "Prism",
         "Simplex", "SmallTerrain", "SmallTerrainVhacd", "Sphere",
         "SphereCapsule", "SphereGImpact", "SphereHull", "SphereMesh", "Square",
         "SquareBox", "SquareConvex2d", "SquareGImpact", "SquareHeightfield",
@@ -221,7 +224,7 @@ public class TestRbc
      */
     private Spatial projectileSpatial;
     /**
-     * geometry/terrainQuad(s) being tested
+     * spatial(s) being tested
      */
     private Spatial testSpatial;
     /**
@@ -270,6 +273,7 @@ public class TestRbc
         generateCursors();
         generateMaterials();
         initializeHeightData();
+        assert isSorted(testNames);
 
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
@@ -307,8 +311,11 @@ public class TestRbc
         InputMode dim = getDefaultInputMode();
 
         dim.bind("cast ray", "RMB");
+        dim.bind("cast ray", KeyInput.KEY_R);
+
         dim.bind("clear shapes", KeyInput.KEY_BACK);
         dim.bind("clear shapes", KeyInput.KEY_DELETE);
+
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump viewport", KeyInput.KEY_P);
 
@@ -380,19 +387,18 @@ public class TestRbc
                     launchProjectile();
                     return;
 
+                case "less margin":
+                    multiplyMargin(0.5f);
+                    return;
+                case "more margin":
+                    multiplyMargin(2f);
+                    return;
+
                 case "next test":
                     advanceTest(+1);
                     return;
                 case "previous test":
                     advanceTest(-1);
-                    return;
-
-                case "less margin":
-                    multiplyMargin(0.5f);
-                    return;
-
-                case "more margin":
-                    multiplyMargin(2f);
                     return;
 
                 case "scale identity":
@@ -510,19 +516,20 @@ public class TestRbc
                 addCylinder();
                 break;
 
+            case "KissCapsule":
+            case "KissHull":
+            case "KissMesh":
+            case "KissMultiSphere":
+            case "KissSphere":
+                addKiss();
+                break;
+
             case "LargeTerrain":
                 addLargeTerrain();
                 break;
 
             case "Prism":
                 addPrism();
-                break;
-
-            case "Simplex":
-            case "TetraGImpact":
-            case "TetraHull":
-            case "TetraMesh":
-                addTetrahedron();
                 break;
 
             case "SmallTerrain":
@@ -547,6 +554,13 @@ public class TestRbc
             case "SquareHull":
             case "SquareMesh":
                 addSquare();
+                break;
+
+            case "Simplex":
+            case "TetraGImpact":
+            case "TetraHull":
+            case "TetraMesh":
+                addTetrahedron();
                 break;
 
             default:
@@ -670,6 +684,57 @@ public class TestRbc
 
             case "CylinderMesh":
                 testShape = new MeshCollisionShape(mesh);
+                break;
+
+            default:
+                throw new IllegalArgumentException(testName);
+        }
+
+        makeTestShape();
+    }
+
+    /**
+     * Add a pair of kissing spheres to the scene and PhysicsSpace.
+     */
+    private void addKiss() {
+        float radius = 1f;
+        Mesh mesh = new Sphere(16, 32, radius);
+        Spatial g1 = new Geometry("g1", mesh).move(radius, 0f, 0f);
+        Spatial g2 = new Geometry("g2", mesh).move(-radius, 0f, 0f);
+        Node node = new Node("kiss");
+        node.attachChild(g1);
+        node.attachChild(g2);
+        testSpatial = node;
+
+        switch (testName) {
+            case "KissCapsule":
+                testShape = new CapsuleCollisionShape(radius, 2f * radius,
+                        PhysicsSpace.AXIS_X);
+                break;
+
+            case "KissHull":
+                testShape = CollisionShapeFactory.createDynamicMeshShape(
+                        testSpatial);
+                break;
+
+            case "KissMesh":
+                testShape = CollisionShapeFactory.createMeshShape(testSpatial);
+                break;
+
+            case "KissMultiSphere":
+                CollisionShape ms = new MultiSphere(radius);
+                CompoundCollisionShape tms = new CompoundCollisionShape();
+                tms.addChildShape(ms, radius, 0f, 0f);
+                tms.addChildShape(ms, -radius, 0f, 0f);
+                testShape = tms;
+                break;
+
+            case "KissSphere":
+                CollisionShape s = new SphereCollisionShape(radius);
+                CompoundCollisionShape ts = new CompoundCollisionShape();
+                ts.addChildShape(s, radius, 0f, 0f);
+                ts.addChildShape(s, -radius, 0f, 0f);
+                testShape = ts;
                 break;
 
             default:
@@ -968,8 +1033,8 @@ public class TestRbc
     }
 
     /**
-     * Delete all added shapes from the scene and physics space. Also disable
-     * the visualizer for ray intersections.
+     * Delete all added shapes from the scene and PhysicsSpace. Also disable the
+     * visualizer for ray intersections.
      */
     private void clearShapes() {
         rayPoint.setEnabled(false);
@@ -980,7 +1045,7 @@ public class TestRbc
         projectileSpatial = null;
         testSpatial = null;
         /*
-         * Remove all collision objects from the physics space,
+         * Remove all collision objects from the PhysicsSpace,
          * which also removes their debug meshes.
          */
         Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
@@ -1081,6 +1146,23 @@ public class TestRbc
     }
 
     /**
+     * Test whether the specified array is sorted in ascending order with no
+     * duplicates. TODO use MyArray
+     *
+     * @param array the array to analyze (not null, unaffected)
+     * @return true if sorted, otherwise false
+     */
+    @SuppressWarnings("unchecked")
+    private static boolean isSorted(Comparable[] array) {
+        for (int i = 0; i < array.length - 1; ++i) {
+            if (array[i].compareTo(array[i + 1]) >= 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Launch a projectile from the mouse pointer.
      */
     private void launchProjectile() {
@@ -1127,21 +1209,26 @@ public class TestRbc
     }
 
     /**
-     * Convert the test shape into a kinematic RigidBodyControl and add it to
-     * the main scene and the PhysicsSpace.
+     * Convert the test shape and test spatial(s) into a kinematic
+     * RigidBodyControl and add it to the main scene and the PhysicsSpace.
      */
     private void makeTestShape() {
         addNode.attachChild(testSpatial);
         setScale(1f, 1f, 1f);
-        if (testSpatial instanceof Geometry) {
-            testSpatial.setMaterial(greenMaterial);
+
+        if (!(testSpatial instanceof TerrainQuad)) {
+            List<Geometry> list
+                    = MySpatial.listSpatials(testSpatial, Geometry.class, null);
+            for (Geometry g : list) {
+                g.setMaterial(greenMaterial);
+            }
         }
 
         RigidBodyControl rbc = new RigidBodyControl(testShape);
         rbc.setApplyScale(true);
+        rbc.setDebugNumSides(2);
         rbc.setKinematic(true);
         rbc.setPhysicsSpace(physicsSpace);
-        rbc.setDebugNumSides(2);
         testSpatial.addControl(rbc);
     }
 
@@ -1167,9 +1254,9 @@ public class TestRbc
     }
 
     /**
-     * Alter the scale of the Spatial controlled by the RigidBodyControl.
-     * Because the control is in kinematic mode with setApplyScale(true), it
-     * will attempt to scale its collision shape accordingly.
+     * Alter the scale of the test spatial. Because the control is in kinematic
+     * mode with setApplyScale(true), it will attempt to scale the test shape
+     * accordingly.
      *
      * @param xScale desired X-axis scale factor (default=1)
      * @param yScale desired Y-axis scale factor (default=1)
