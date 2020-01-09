@@ -49,6 +49,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.minie.MyShape;
 
 /**
  * The abstract base class for collision shapes based on Bullet's
@@ -548,8 +549,7 @@ abstract public class CollisionShape
      */
     @Override
     public String toString() {
-        String result = getClass().getSimpleName();
-        result = result.replace("Collision", "");
+        String result = MyShape.describeType(this);
         result += "#" + Long.toHexString(nativeId);
 
         return result;

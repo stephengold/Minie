@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@ import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import java.util.logging.Logger;
+import jme3utilities.minie.MyShape;
 
 /**
  * Test case for JME issue #1029: sphere-sphere collisions not reported.
@@ -126,10 +127,10 @@ public class TestIssue1029
      */
     @Override
     public void collision(PhysicsCollisionEvent event) {
-        Class aClass = event.getObjectA().getCollisionShape().getClass();
-        String aShape = aClass.getSimpleName().replace("CollisionShape", "");
-        Class bClass = event.getObjectB().getCollisionShape().getClass();
-        String bShape = bClass.getSimpleName().replace("CollisionShape", "");
+        CollisionShape a = event.getObjectA().getCollisionShape();
+        String aShape = MyShape.describeType(a);
+        CollisionShape b = event.getObjectB().getCollisionShape();
+        String bShape = MyShape.describeType(b);
 
         System.out.printf("%s-%s collision reported at t = %f sec%n",
                 aShape, bShape, elapsedSeconds);
