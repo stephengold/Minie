@@ -108,10 +108,9 @@ public class PhysicsDescriber extends Describer {
 
         StringBuilder result = new StringBuilder(80);
 
-        String name = MyShape.describeType(shape);
-        result.append(name);
+        String desc = MyShape.describeType(shape);
+        result.append(desc);
 
-        String desc;
         if (shape instanceof Box2dShape) {
             Vector3f he = ((Box2dShape) shape).getHalfExtents(null);
             desc = describeHalfExtents(he);

@@ -56,7 +56,7 @@ import vhacd.VHACDHull;
 
 /**
  * A convex-hull CollisionShape based on Bullet's btConvexHullShape. For a 2-D
- * convex hull, use Convex2dShape instead.
+ * convex hull, use Convex2dShape.
  */
 public class HullCollisionShape extends CollisionShape {
     // *************************************************************************

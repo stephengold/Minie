@@ -223,7 +223,7 @@ abstract public class CollisionShape
     }
 
     /**
-     * Read the ID of the btCollisionShape.
+     * Read the native ID of the btCollisionShape.
      *
      * @return the unique identifier (not zero)
      */

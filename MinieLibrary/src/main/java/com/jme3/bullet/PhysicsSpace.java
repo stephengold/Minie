@@ -491,9 +491,9 @@ public class PhysicsSpace {
      */
     public void distributeEvents() {
         while (!collisionEvents.isEmpty()) {
-            PhysicsCollisionEvent physicsCollisionEvent = collisionEvents.pop();
+            PhysicsCollisionEvent event = collisionEvents.pop();
             for (PhysicsCollisionListener listener : collisionListeners) {
-                listener.collision(physicsCollisionEvent);
+                listener.collision(event);
             }
         }
     }
@@ -537,7 +537,8 @@ public class PhysicsSpace {
     }
 
     /**
-     * Read the type of acceleration structure used.
+     * Read the type of acceleration structure used for broadphase collision
+     * detection.
      *
      * @return an enum value (not null)
      */
