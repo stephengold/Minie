@@ -306,7 +306,7 @@ public class MyShape {
      * @param name the input text (not null, not empty, exactly one colon)
      * @return the shape's ID
      *
-     * @deprecated use {@link #parseNativeId()}
+     * @deprecated use {@link #parseNativeId(java.lang.String)}
      */
     @Deprecated
     public static long parseId(String name) {

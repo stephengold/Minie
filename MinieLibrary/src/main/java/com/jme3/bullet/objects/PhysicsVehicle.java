@@ -282,7 +282,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * added to a PhysicsSpace.
      *
      * @param wheelIndex the index of the wheel to raycast (&ge;0, &lt;count)
-     * @return the depth value
+     * @return the depth value, or -1 if the raycast finds no result
      */
     public float castRay(int wheelIndex) {
         Validate.inRange(wheelIndex, "wheel index", 0, wheels.size());

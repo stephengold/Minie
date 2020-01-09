@@ -243,8 +243,10 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Calculate the axis-aligned bounding box for this object, based on its
-     * collision shape.
+     * Calculate an axis-aligned bounding box for this object, based on its
+     * collision shape. Note: the calculated bounds are seldom minimal; they are
+     * typically larger than necessary due to centering constraints and
+     * collision margins.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a bounding box in physics-space coordinates (either storeResult
