@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2019, Stephen Gold
+ Copyright (c) 2013-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -108,10 +108,7 @@ public class PhysicsDescriber extends Describer {
 
         StringBuilder result = new StringBuilder(80);
 
-        String name = shape.getClass().getSimpleName();
-        if (name.endsWith("CollisionShape")) {
-            name = MyString.removeSuffix(name, "CollisionShape");
-        }
+        String name = MyShape.describeType(shape);
         result.append(name);
 
         String desc;
