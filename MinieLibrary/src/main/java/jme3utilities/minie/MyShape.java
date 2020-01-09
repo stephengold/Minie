@@ -285,7 +285,10 @@ public class MyShape {
      *
      * @param shape the shape to name (not null, unaffected)
      * @return the name (not null, not empty)
+     * @deprecated use
+     * {@link com.jme3.bullet.collision.shapes.CollisionShape#toString()}
      */
+    @Deprecated
     public static String name(CollisionShape shape) {
         Validate.nonNull(shape, "shape");
 
@@ -303,14 +306,37 @@ public class MyShape {
      * @param name the input text (not null, not empty, exactly one colon)
      * @return the shape's ID
      *
-     * @see #name(com.jme3.bullet.collision.shapes.CollisionShape)
+     * @deprecated use {@link #parseNativeId()}
      */
+    @Deprecated
     public static long parseId(String name) {
         Validate.nonEmpty(name, "name");
 
         String[] parts = name.split(":");
         if (parts.length != 2) {
             throw new IllegalArgumentException("name=" + MyString.quote(name));
+        }
+        String hexadecimal = parts[1];
+        long result = Long.parseLong(hexadecimal, 16);
+
+        return result;
+    }
+
+    /**
+     * Parse the native ID of a shape from its String representation.
+     *
+     * @param string the input text (not null, exactly one "#")
+     * @return the shape's ID
+     *
+     * @see com.jme3.bullet.collision.shapes.CollisionShape#toString()
+     */
+    public static long parseNativeId(String string) {
+        Validate.nonEmpty(string, "string");
+
+        String[] parts = string.split("#");
+        if (parts.length != 2) {
+            String message = "string=" + MyString.quote(string);
+            throw new IllegalArgumentException(message);
         }
         String hexadecimal = parts[1];
         long result = Long.parseLong(hexadecimal, 16);
