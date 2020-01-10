@@ -354,7 +354,7 @@ public class DebugShapeFactory {
      *
      * @param compoundShape (not null, unaffected)
      * @param normals which normals to generate (not null)
-     * @param resolution how much detail for convex shapes (0=low, 1=high)
+     * @param resolution how much detail for convex child shapes (0=low, 1=high)
      * @return a new Node (not null)
      */
     private static Node createNode(CompoundCollisionShape compoundShape,
@@ -366,19 +366,23 @@ public class DebugShapeFactory {
 
         Node node = new Node("Bullet debug");
 
+        Vector3f scale = compoundShape.getScale(null);
+        Matrix3f tmpRotation = new Matrix3f(); // TODO garbage
+        Vector3f tmpOffset = new Vector3f();
         ChildCollisionShape[] children = compoundShape.listChildren();
         for (ChildCollisionShape child : children) {
-            CollisionShape simpleShape = child.getShape();
-            Geometry geometry = createGeometry(simpleShape, listener, normals,
+            CollisionShape childShape = child.getShape();
+            Geometry geometry = createGeometry(childShape, listener, normals,
                     resolution);
 
-            // apply translation
-            Vector3f translation = child.copyOffset(null);
-            geometry.setLocalTranslation(translation);
+            // apply scaled offset
+            child.copyOffset(tmpOffset);
+            tmpOffset.multLocal(scale);
+            geometry.setLocalTranslation(tmpOffset);
 
             // apply rotation
-            Matrix3f rotation = child.copyRotationMatrix(null);
-            geometry.setLocalRotation(rotation);
+            child.copyRotationMatrix(tmpRotation);
+            geometry.setLocalRotation(tmpRotation);
 
             node.attachChild(geometry);
         }
