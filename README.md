@@ -739,20 +739,96 @@ Minie provides 16 `CollisionShape` subclasses:
      + with 4 vertices <img height="160" align="middle" src="https://i.imgur.com/l1fYSfc.png">
   + `SphereCollisionShape` <img height="160" align="middle" src="https://i.imgur.com/OPYrxRe.png">
 
-Not all shapes are suitable for dynamic rigid bodies.
+In general, use the simplest shape that yields the desired behavior.
+
+### Limitations of particular shapes
+
+#### Dynamic rigid bodies
+
+Not all collision shapes are suitable for dynamic rigid bodies.
 In particular, the following shapes are intended ONLY
-for kinematic or static (non-moving) collision objects:
+for kinematic (unaffected by forces) or static (non-moving) collision objects:
+
+ + `Box2dShape`
+ + `Convex2dShape`
+ + `EmptyShape`
+ + `HeightfieldCollisionShape`
+ + `MeshCollisionShape`
+ + `PlaneCollisionShape`
+ + `SimplexCollisionShape` with 1-3 vertices
+
+(Simplex shapes with 4 vertices are fine for dynamic rigid bodies.)
+
+#### Precision
+
+Most collision shapes incorporate a margin.
+According to the Bullet Manual, the purpose of margin is
+"to improve performance and reliability of the collision detection."
+
+While methods are provided to adjust margins, doing do is not recommended.
+
+For certain shapes, margin increases the effective size of the collision object
+and distorts its effective shape:
+
+ + `ConeCollisionShape`
+ + `Convex2dShape`
+ + `HullCollisionShape`
+ + `SimplexCollisionShape`
+
+Margin also distorts a `CylinderCollisionShape`,
+but its effect on size isn't monotonic.
+
+Distortion due to margin is most noticeable for small shapes.
+
+You can compensate somewhat for margin
+by shrinking the shape's dimensions
+(for a `ConeCollisionShape` or `CylinderCollisionShape`)
+or moving its defining vertices inward
+(for a `SimplexCollisionShape` or `HullCollisionShape`).
+
+Another workaround would be to scale the physics space so that
+the effects of margin become less obvious.
+
+If these workarounds are impractical,
+consider using a shape that isn't distorted by margin:
 
   + `Box2dShape`
-  + `Convex2dShape`
-  + `EmptyShape`
+  + `BoxCollisionShape`
+  + `CapsuleCollisionShape`
+  + `GImpactShape`
   + `HeightfieldCollisionShape`
   + `MeshCollisionShape`
+  + `MultiSphere`
   + `PlaneCollisionShape`
-  + `SimplexCollisionShape` with 1-3 vertices
+  + `SphereCollisionShape`
 
-Even for dynamic rigid bodies, there are many options.
-In general, use the simplest shape that yields the desired behavior.
+#### Scaling
+
+Some applications require collision shapes that are scalable
+(can be dynamically shrunk or enlarged).
+However, not all collision shapes can scale arbitrarily.
+In particular,
+
+ + `SimplexCollisionShape` doesn't support scaling;
+   the only allowed scaling is (1,1,1).
+ + `CapsuleCollisionShape`, `ConeCollisionShape`, and `SphereCollisionShape`
+   support only uniform scaling, where all axes have the same scale factor.
+   For instance, (0.2,0.2,0.2) or (9,9,9).
+ + `CylinderCollisionShape` allows the height and base to scale independently,
+   but the scale factors of both base axes must be equal.
+   In other words, the cross section must remain circular.
+   So (9,9,9) would be allowed for any cylinder,
+   but (9,1,1) would be allowed only for cylinders
+   where the local X axis is the height axis.
+
+You can test at runtime whether a particular scaling
+is applicable to particular shape:
+
+    if (shape.canScale(newScale)) {
+        shape.setScale(newScale);
+    }
+
+### An algorithm for choosing a shape
 
 Because jMonkeyEngine models are composed of triangular meshes,
 beginners are often tempted to use mesh-based shapes
