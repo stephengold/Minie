@@ -538,8 +538,8 @@ abstract public class PhysicsCollisionObject
      * Determine the scale of this object.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the scaling factor for each local axis (either storeResult or a
-     * new vector, not null, no negative component)
+     * @return the scale factor for each local axis (either storeResult or a new
+     * vector, not null, no negative component)
      */
     public Vector3f getScale(Vector3f storeResult) {
         Vector3f result = collisionShape.getScale(storeResult);

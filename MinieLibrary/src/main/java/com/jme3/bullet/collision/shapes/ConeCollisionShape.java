@@ -173,10 +173,10 @@ public class ConeCollisionShape extends CollisionShape {
     // CollisionShape methods
 
     /**
-     * Test whether the specified scaling factors can be applied to this shape.
+     * Test whether the specified scale factors can be applied to this shape.
      * For cone shapes, radial scaling must be uniform.
      *
-     * @param scale the desired scaling factor for each local axis (may be null,
+     * @param scale the desired scale factor for each local axis (may be null,
      * unaffected)
      * @return true if applicable, otherwise false
      */

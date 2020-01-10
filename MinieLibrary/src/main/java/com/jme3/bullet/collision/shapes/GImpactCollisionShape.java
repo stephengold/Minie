@@ -172,12 +172,12 @@ public class GImpactCollisionShape extends CollisionShape {
     }
 
     /**
-     * Alter the scaling factors of this shape.
+     * Alter the scale factors of this shape.
      * <p>
      * Note that if the shape is shared (between collision objects and/or
      * compound shapes) changes can have unintended consequences.
      *
-     * @param scale the desired scaling factor for each local axis (not null, no
+     * @param scale the desired scale factor for each local axis (not null, no
      * negative component, unaffected, default=(1,1,1))
      */
     @Override

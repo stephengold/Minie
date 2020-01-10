@@ -1308,7 +1308,7 @@ public class PhysicsSpace {
      * Compare Bullet's gravity vector to the local copy.
      *
      * @param storeVector caller-allocated temporary storage (not null)
-     * @return true if scaling factors are exactly equal, otherwise false
+     * @return true if scale factors are exactly equal, otherwise false
      */
     private boolean checkGravity(Vector3f storeVector) {
         assert storeVector != null;

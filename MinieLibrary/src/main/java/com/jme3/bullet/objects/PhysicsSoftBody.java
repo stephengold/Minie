@@ -288,7 +288,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Scale this body.
      *
-     * @param factors the scaling factor to apply to each axis (not null,
+     * @param factors the scale factor to apply to each axis (not null,
      * unaffected)
      */
     public void applyScale(Vector3f factors) {
@@ -1308,11 +1308,11 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Determine the scale of this object.
+     * Copy the scale factors of this object.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the scaling factor for each local axis (either storeResult or a
-     * new vector, not null, no negative component)
+     * @return the scale factor for each local axis (either storeResult or a new
+     * vector, not null, no negative component)
      */
     @Override
     public Vector3f getScale(Vector3f storeResult) {

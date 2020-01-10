@@ -782,7 +782,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Rescale this body. Note that if it has joints, their pivot points will
      * not be adjusted.
      *
-     * @param newScale the desired scaling factor for each local axis (not null,
+     * @param newScale the desired scale factor for each local axis (not null,
      * no negative component, unaffected, default=(1,1,1))
      */
     public void setPhysicsScale(Vector3f newScale) {
