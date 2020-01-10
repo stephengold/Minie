@@ -321,6 +321,30 @@ public class CompoundCollisionShape extends CollisionShape {
     // CollisionShape methods
 
     /**
+     * Test whether the specified scale factors can be applied to this shape.
+     *
+     * @param scale the desired scale factor for each local axis (may be null,
+     * unaffected)
+     * @return true if applicable, otherwise false
+     */
+    @Override
+    public boolean canScale(Vector3f scale) {
+        boolean result = super.canScale(scale);
+
+        if (result) {
+            for (ChildCollisionShape child : children) {
+                CollisionShape childShape = child.getShape();
+                if (!childShape.canScale(scale)) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
      * shallow-cloned shape into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
@@ -378,6 +402,29 @@ public class CompoundCollisionShape extends CollisionShape {
     protected void recalculateAabb() {
         long nativeId = getObjectId();
         recalcAabb(nativeId);
+    }
+
+    /**
+     * Alter the scale of this shape and its children. CAUTION: Not all shapes
+     * can be scaled arbitrarily.
+     * <p>
+     * Note that if shapes are shared (between collision objects and/or compound
+     * shapes) changes can have unintended consequences.
+     *
+     * @param scale the desired scale factor for each local axis (not null, no
+     * negative component, unaffected, default=(1,1,1))
+     */
+    @Override
+    public void setScale(Vector3f scale) {
+        super.setScale(scale);
+        /*
+         * Scale the children to keep their copied scale factors
+         * in synch with the native ones.
+         */
+        for (ChildCollisionShape child : children) {
+            CollisionShape childShape = child.getShape();
+            childShape.setScale(scale);
+        }
     }
 
     /**

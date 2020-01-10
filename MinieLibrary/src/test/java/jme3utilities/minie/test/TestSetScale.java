@@ -119,10 +119,11 @@ public class TestSetScale {
         capsule.setScale(uni);
         assert capsule.getScale(null).equals(uni);
         /*
-         * Compound
+         * Compound of a Box
          */
+        CollisionShape childBox = new BoxCollisionShape(1f);
         CompoundCollisionShape compound = new CompoundCollisionShape();
-        compound.addChildShape(capsule, 0f, 1f, 0f);
+        compound.addChildShape(childBox, 0f, 1f, 0f);
         assert compound.getScale(null).equals(ident);
         compound.setScale(uni);
         assert compound.getScale(null).equals(uni);
@@ -130,7 +131,7 @@ public class TestSetScale {
         assert compound.getScale(null).equals(non);
         compound.setScale(non2);
         assert compound.getScale(null).equals(non2);
-        assert capsule.getScale(null).equals(uni);
+        assert box.getScale(null).equals(non2);
         /*
          * Cone
          */
@@ -139,19 +140,19 @@ public class TestSetScale {
         cone.setScale(uni);
         assert cone.getScale(null).equals(uni);
         /*
-         * Convex2d
+         * Convex2d of a Cylinder
          */
-        ConeCollisionShape flatCone
-                = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
-        CollisionShape convex2d = new Convex2dShape(flatCone);
+        float radius = 10f;
+        float height = 0f;
+        CollisionShape flatCylinder = new CylinderCollisionShape(radius, height,
+                PhysicsSpace.AXIS_Z);
+        CollisionShape convex2d = new Convex2dShape(flatCylinder);
         assert convex2d.getScale(null).equals(ident);
         convex2d.setScale(uni);
         assert convex2d.getScale(null).equals(uni);
         convex2d.setScale(non);
         assert convex2d.getScale(null).equals(non);
-        convex2d.setScale(non2);
-        assert convex2d.getScale(null).equals(non2);
-        assert flatCone.getScale(null).equals(ident);
+        assert flatCylinder.getScale(null).equals(non);
         /*
          * Cylinder
          */
