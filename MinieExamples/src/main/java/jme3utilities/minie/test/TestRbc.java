@@ -53,6 +53,7 @@ import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.cursors.plugins.JmeCursor;
 import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
@@ -1230,7 +1231,8 @@ public class TestRbc
 
     /**
      * Convert the test shape and test spatial(s) into a kinematic
-     * RigidBodyControl and add it to the main scene and the PhysicsSpace.
+     * RigidBodyControl and add it to the main scene and also to the
+     * PhysicsSpace.
      */
     private void makeTestShape() {
         addNode.attachChild(testSpatial);
@@ -1250,6 +1252,10 @@ public class TestRbc
         rbc.setKinematic(true);
         rbc.setPhysicsSpace(physicsSpace);
         testSpatial.addControl(rbc);
+
+        if (testShape.isConvex()) {
+            rbc.setDebugMeshResolution(DebugShapeFactory.highResolution);
+        }
     }
 
     /**
