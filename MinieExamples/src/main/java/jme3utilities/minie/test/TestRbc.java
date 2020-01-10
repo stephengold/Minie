@@ -337,7 +337,7 @@ public class TestRbc
         dim.bind("scale uniform", KeyInput.KEY_U);
         dim.bind("scale x-yz", KeyInput.KEY_X);
         dim.bind("scale y-xz", KeyInput.KEY_Y);
-        dim.bind("scale z-xy", KeyInput.KEY_Z);
+        dim.bind("scale z-xy", KeyInput.KEY_T);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
