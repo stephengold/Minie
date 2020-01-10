@@ -79,7 +79,7 @@ public class CompoundMesh implements JmeCloneable, Savable {
      */
     private long nativeId = 0L;
     /**
-     * copy of scaling factors: one for each local axis (default=(1,1,1))
+     * copy of scale factors: one for each local axis (default=(1,1,1))
      */
     protected Vector3f scale = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
@@ -153,11 +153,11 @@ public class CompoundMesh implements JmeCloneable, Savable {
     }
 
     /**
-     * Copy the scaling factors.
+     * Copy the scale factors.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the scaling factor for each local axis (either storeResult or a
-     * new vector, not null)
+     * @return the scale factor for each local axis (either storeResult or a new
+     * vector, not null)
      */
     public Vector3f getScale(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -178,9 +178,9 @@ public class CompoundMesh implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the scaling factors.
+     * Alter the scale factors.
      *
-     * @param scale the desired scaling factor for each local axis (not null, no
+     * @param scale the desired scale factor for each local axis (not null, no
      * negative component, unaffected, default=(1,1,1))
      */
     public void setScale(Vector3f scale) {
@@ -290,10 +290,10 @@ public class CompoundMesh implements JmeCloneable, Savable {
     // private methods
 
     /**
-     * Compare Bullet's scaling factors to the local copy.
+     * Compare Bullet's scale factors to the local copy.
      *
      * @param tempVector caller-allocated temporary storage (not null)
-     * @return true if scaling factors are exactly equal, otherwise false
+     * @return true if scale factors are exactly equal, otherwise false
      */
     private boolean checkScale(Vector3f tempVector) {
         assert tempVector != null;

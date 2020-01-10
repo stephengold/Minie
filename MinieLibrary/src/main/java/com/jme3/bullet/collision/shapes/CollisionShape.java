@@ -104,7 +104,7 @@ abstract public class CollisionShape
      */
     private long nativeId = 0L;
     /**
-     * copy of scaling factors: one for each local axis (default=(1,1,1))
+     * copy of scale factors: one for each local axis (default=(1,1,1))
      */
     protected Vector3f scale = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
@@ -183,9 +183,10 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether the specified scaling factors can be applied to this shape.
+     * Test whether the specified scale factors can be applied to this shape.
+     * Subclasses that restrict scaling should override this method.
      *
-     * @param scale the desired scaling factor for each local axis (may be null,
+     * @param scale the desired scale factor for each local axis (may be null,
      * unaffected)
      * @return true if applicable, otherwise false
      */
@@ -233,11 +234,11 @@ abstract public class CollisionShape
     }
 
     /**
-     * Copy the scaling factors.
+     * Copy the scale factors.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the scaling factor for each local axis (either storeResult or a
-     * new vector, not null, no negative component)
+     * @return the scale factor for each local axis (either storeResult or a new
+     * vector, not null, no negative component)
      */
     public Vector3f getScale(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -348,7 +349,7 @@ abstract public class CollisionShape
      * Note that if the shape is shared (between collision objects and/or
      * compound shapes) changes can have unintended consequences.
      *
-     * @param factor the desired scaling factor for all axes (&ge;0, default=1)
+     * @param factor the desired scale factor for all axes (&ge;0, default=1)
      */
     public void setScale(float factor) {
         Validate.nonNegative(factor, "factor");
@@ -365,7 +366,7 @@ abstract public class CollisionShape
      * Note that if the shape is shared (between collision objects and/or
      * compound shapes) changes can have unintended consequences.
      *
-     * @param scale the desired scaling factor for each local axis (not null, no
+     * @param scale the desired scale factor for each local axis (not null, no
      * negative component, unaffected, default=(1,1,1))
      */
     public void setScale(Vector3f scale) {
@@ -558,10 +559,10 @@ abstract public class CollisionShape
     // private methods
 
     /**
-     * Compare Bullet's scaling factors to the local copy.
+     * Compare Bullet's scale factors to the local copies.
      *
      * @param storeVector caller-allocated temporary storage (not null)
-     * @return true if scaling factors are exactly equal, otherwise false
+     * @return true if Bullet and the local copy match exactly, otherwise false
      */
     private boolean checkScale(Vector3f storeVector) {
         assert storeVector != null;

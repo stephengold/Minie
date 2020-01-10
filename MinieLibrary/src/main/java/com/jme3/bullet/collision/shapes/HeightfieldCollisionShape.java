@@ -161,7 +161,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
      *
      * @param heightmap (not null, length&ge;4, length a perfect square,
      * unaffected)
-     * @param scale the desired scaling factor for each local axis (not null, no
+     * @param scale the desired scale factor for each local axis (not null, no
      * negative component, unaffected, default=(1,1,1))
      */
     public HeightfieldCollisionShape(float[] heightmap, Vector3f scale) {
@@ -178,7 +178,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
      * @param stickLength the number of rows in the heightfield (&gt;1)
      * @param stickWidth number of columns in the heightfield (&gt;1)
      * @param heightmap (not null, length&ge;stickLength*stickWidth, unaffected)
-     * @param scale the desired scaling factor for each local axis (not null, no
+     * @param scale the desired scale factor for each local axis (not null, no
      * negative component, unaffected)
      * @param upAxis the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
      * @param flipQuadEdges true&rarr;reverse the direction of the first
