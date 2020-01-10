@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,7 @@ public class TestSetScale {
      * Test the setScale() function on collision shapes of all types.
      */
     @Test
-    public void testSetMargin() {
+    public void testSetScale() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
         AssetManager assetManager = new DesktopAssetManager();
