@@ -35,6 +35,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -122,6 +123,19 @@ public class Convex2dShape extends CollisionShape {
     // CollisionShape methods
 
     /**
+     * Test whether the specified scale factors can be applied to this shape.
+     *
+     * @param scale the desired scale factor for each local axis (may be null,
+     * unaffected)
+     * @return true if applicable, otherwise false
+     */
+    @Override
+    public boolean canScale(Vector3f scale) {
+        boolean result = base.canScale(scale);
+        return result;
+    }
+
+    /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
      * shallow-cloned shape into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
@@ -167,6 +181,26 @@ public class Convex2dShape extends CollisionShape {
 
         base = (CollisionShape) capsule.readSavable(tagBase, null);
         createShape();
+    }
+
+    /**
+     * Alter the scale of this shape and its base. CAUTION: Not all shapes can
+     * be scaled arbitrarily.
+     * <p>
+     * Note that if shapes are shared (between collision objects and/or compound
+     * shapes) changes can have unintended consequences.
+     *
+     * @param scale the desired scale factor for each local axis (not null, no
+     * negative component, unaffected, default=(1,1,1))
+     */
+    @Override
+    public void setScale(Vector3f scale) {
+        super.setScale(scale);
+        /*
+         * Scale the base also, to keep its copied scale factors
+         * in synch with the native ones.
+         */
+        base.setScale(scale);
     }
 
     /**
