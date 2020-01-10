@@ -143,7 +143,9 @@ public class TestRbc
         "Simplex", "SmallTerrain", "SmallTerrainVhacd", "Sphere",
         "SphereCapsule", "SphereGImpact", "SphereHull", "SphereMesh", "Square",
         "SquareBox", "SquareConvex2d", "SquareGImpact", "SquareHeightfield",
-        "SquareHull", "SquareMesh", "TetraGImpact", "TetraHull", "TetraMesh"};
+        "SquareHull", "SquareMesh", "TetraGImpact", "TetraHull", "TetraMesh",
+        "TwoSphere"
+    };
     // *************************************************************************
     // fields
 
@@ -230,7 +232,7 @@ public class TestRbc
     /**
      * name of the test being run
      */
-    private String testName = "SmallTerrain";
+    private String testName = "Box";
     // *************************************************************************
     // new methods exposed
 
@@ -249,7 +251,8 @@ public class TestRbc
         /*
          * Customize the window's title bar.
          */
-        AppSettings settings = new AppSettings(true);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
         settings.setTitle(applicationName);
 
         settings.setGammaCorrection(true);
@@ -332,6 +335,9 @@ public class TestRbc
         dim.bind("scale identity", KeyInput.KEY_I);
         dim.bind("scale nonuniform", KeyInput.KEY_N);
         dim.bind("scale uniform", KeyInput.KEY_U);
+        dim.bind("scale x-yz", KeyInput.KEY_X);
+        dim.bind("scale y-xz", KeyInput.KEY_Y);
+        dim.bind("scale z-xy", KeyInput.KEY_Z);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -410,7 +416,15 @@ public class TestRbc
                 case "scale uniform":
                     setScale(0.8f, 0.8f, 0.8f);
                     return;
-
+                case "scale x-yz":
+                    setScale(0.8f, 1.3f, 1.3f);
+                    return;
+                case "scale y-xz":
+                    setScale(0.8f, 1.3f, 0.8f);
+                    return;
+                case "scale z-xy":
+                    setScale(0.8f, 0.8f, 1.3f);
+                    return;
                 case "toggle aabb":
                     toggleAabb();
                     return;
@@ -521,6 +535,7 @@ public class TestRbc
             case "KissMesh":
             case "KissMultiSphere":
             case "KissSphere":
+            case "TwoSphere":
                 addKiss();
                 break;
 
@@ -735,6 +750,11 @@ public class TestRbc
                 ts.addChildShape(s, radius, 0f, 0f);
                 ts.addChildShape(s, -radius, 0f, 0f);
                 testShape = ts;
+                break;
+
+            case "TwoSphere":
+                testShape = new MultiSphere(radius, 2f * radius,
+                        PhysicsSpace.AXIS_X);
                 break;
 
             default:
