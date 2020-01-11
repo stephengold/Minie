@@ -104,7 +104,7 @@ abstract public class CollisionShape
      */
     private long nativeId = 0L;
     /**
-     * copy of scale factors: one for each local axis (default=(1,1,1))
+     * copy of the scale factors, one for each local axis (default=(1,1,1))
      */
     protected Vector3f scale = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
@@ -250,10 +250,15 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape is concave. The only concave shapes are the
-     * empty, gimpact, heightfield, mesh, and plane shapes.
+     * Test whether this shape has concave type. In Bullet, "concave" is a
+     * property of <em>types</em> of shapes. Specific <em>instances</em> of
+     * those types might actually be "convex" in the mathematical sense of the
+     * word.
+     * <p>
+     * The only concave types are the empty, gimpact, heightfield, mesh, and
+     * plane shapes. Note that compound shapes are neither concave nor convex.
      *
-     * @return true if concave, false otherwise
+     * @return true if concave type, false otherwise
      */
     public boolean isConcave() {
         boolean result = isConcave(nativeId);
@@ -261,11 +266,16 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape is convex. The only convex shapes are the box2d,
-     * box, capsule, cone, convex2d, cylinder, hull, multi-sphere, simplex, and
-     * sphere shapes.
+     * Test whether this shape has convex type. In Bullet, "convex" is a
+     * property of <em>types</em> of shapes. Specific <em>instances</em> of
+     * non-convex types might still be "convex" in the mathematical sense of the
+     * word.
+     * <p>
+     * The only convex types are the box2d, box, capsule, cone, convex2d,
+     * cylinder, hull, multi-sphere, simplex, and sphere shapes. Note that
+     * compound shapes are neither concave nor convex.
      *
-     * @return true if convex, false otherwise
+     * @return true if convex type, false otherwise
      */
     public boolean isConvex() {
         boolean result = isConvex(nativeId);
@@ -273,8 +283,8 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape is infinite. PlaneCollisionShape is the only
-     * infinite shape.
+     * Test whether this shape's type is infinite. PlaneCollisionShape is the
+     * only type of shape that's infinite.
      *
      * @return true if infinite, false otherwise
      */
@@ -374,7 +384,7 @@ abstract public class CollisionShape
     public void setScale(Vector3f scale) {
         Validate.nonNegative(scale, "scale");
         if (!canScale(scale)) {
-            String typeName = this.getClass().getCanonicalName();
+            String typeName = getClass().getCanonicalName();
             String msg = String.format("%s cannot be scaled to (%s,%s,%s)",
                     typeName, scale.x, scale.y, scale.z);
             throw new IllegalArgumentException(msg);
@@ -397,7 +407,8 @@ abstract public class CollisionShape
     final native protected int getShapeType(long shapeId);
 
     /**
-     * Recalculate this shape's bounding box if necessary.
+     * Recalculate this shape's bounding box if necessary. Meant to be
+     * overridden.
      */
     protected void recalculateAabb() {
         // do nothing
@@ -414,6 +425,13 @@ abstract public class CollisionShape
 
         nativeId = shapeId;
         logger.log(Level.FINE, "Created {0}.", this);
+    }
+
+    /**
+     * Synchronize the copied scale factors with the btCollisionShape.
+     */
+    protected void updateScale() {
+        getLocalScaling(nativeId, scale);
     }
     // *************************************************************************
     // Comparable methods
@@ -571,6 +589,11 @@ abstract public class CollisionShape
 
         getLocalScaling(nativeId, storeVector);
         boolean result = scale.equals(storeVector);
+        if (!result) {
+            logger.log(Level.WARNING,
+                    "mismatch detected: shape={0} copy={1} native={2}",
+                    new Object[]{this, scale, storeVector});
+        }
 
         return result;
     }
