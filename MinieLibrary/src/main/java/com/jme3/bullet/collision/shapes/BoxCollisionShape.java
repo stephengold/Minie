@@ -42,6 +42,7 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
@@ -212,6 +213,21 @@ public class BoxCollisionShape extends CollisionShape {
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    /**
+     * Calculate how far the box extends from its center.
+     *
+     * @return a distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float maxRadius() {
+        double xx = scale.x * halfExtents.x;
+        double yy = scale.y * halfExtents.y;
+        double zz = scale.z * halfExtents.z;
+        float result = (float) MyMath.hypotenuse(xx, yy, zz);
+
+        return result;
     }
 
     /**

@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import vhacd.VHACDHull;
@@ -389,6 +390,34 @@ public class HullCollisionShape extends CollisionShape {
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    /**
+     * Calculate how far this shape extends from its center, including margin.
+     *
+     * @return a distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float maxRadius() {
+        int numHullVertices = countHullVertices();
+        ByteBuffer buffer = BufferUtils.createByteBuffer(
+                numHullVertices * numAxes * floatSize);
+        long shapeId = getObjectId();
+        getHullVertices(shapeId, buffer);
+        double maxSquaredDistance = 0.0;
+
+        for (int vertexI = 0; vertexI < numHullVertices; ++vertexI) {
+            float x = scale.x * buffer.getFloat();
+            float y = scale.y * buffer.getFloat();
+            float z = scale.z * buffer.getFloat();
+            double lengthSquared = MyMath.sumOfSquares(x, y, z);
+            if (lengthSquared > maxSquaredDistance) {
+                maxSquaredDistance = lengthSquared;
+            }
+        }
+        float result = margin + (float) Math.sqrt(maxSquaredDistance);
+
+        return result;
     }
 
     /**

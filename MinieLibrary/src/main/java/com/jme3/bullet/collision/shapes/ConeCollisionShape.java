@@ -41,6 +41,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
@@ -158,6 +159,18 @@ public class ConeCollisionShape extends CollisionShape {
     public float getRadius() {
         assert radius >= 0f : radius;
         return radius;
+    }
+
+    /**
+     * Calculate how far the cone extends from its center.
+     *
+     * @return a distance (in physics-space units, &ge;0)
+     */
+    public float maxRadius() {
+        float result = MyMath.hypotenuse(radius, height / 2f) * scale.x;
+        result += margin;
+
+        return result;
     }
 
     /**

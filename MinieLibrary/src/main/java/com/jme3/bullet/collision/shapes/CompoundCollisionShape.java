@@ -32,6 +32,7 @@
 package com.jme3.bullet.collision.shapes;
 
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
+import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -376,6 +377,31 @@ public class CompoundCollisionShape extends CollisionShape {
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    /**
+     * Estimate how far this shape extends from its center.
+     *
+     * @return a distance estimate (in physics-space units, &ge;0)
+     */
+    @Override
+    public float maxRadius() {
+        float result = 0f;
+        Transform tmpTransform = new Transform();
+
+        for (ChildCollisionShape child : children) {
+            CollisionShape childShape = child.getShape();
+            child.copyOffset(tmpTransform.getTranslation());
+            tmpTransform.getTranslation().multLocal(scale);
+            child.copyRotation(tmpTransform.getRotation());
+            float childRadius = DebugShapeFactory.maxDistance(childShape,
+                    tmpTransform, DebugShapeFactory.lowResolution);
+            if (childRadius > result) {
+                result = childRadius;
+            }
+        }
+
+        return result;
     }
 
     /**

@@ -134,7 +134,7 @@ public class CapsuleCollisionShape extends CollisionShape {
     // new methods exposed
 
     /**
-     * Determine the main (height) axis of the capsule.
+     * Read the main (height) axis of the capsule.
      *
      * @return the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      */
@@ -189,9 +189,8 @@ public class CapsuleCollisionShape extends CollisionShape {
      */
     @Override
     public boolean canScale(Vector3f scale) {
-        boolean canScale = super.canScale(scale)
-                && MyVector3f.isScaleUniform(scale);
-
+        boolean canScale
+                = super.canScale(scale) && MyVector3f.isScaleUniform(scale);
         return canScale;
     }
 
@@ -211,7 +210,7 @@ public class CapsuleCollisionShape extends CollisionShape {
     }
 
     /**
-     * Read the collision margin for this shape.
+     * Determine the collision margin for this shape.
      *
      * @return the margin distance (in physics-space units, &ge;0)
      */
@@ -233,6 +232,17 @@ public class CapsuleCollisionShape extends CollisionShape {
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    /**
+     * Calculate how far the capsule extends from its center.
+     *
+     * @return the distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float maxRadius() {
+        float result = scale.x * (radius + height / 2f);
+        return result;
     }
 
     /**

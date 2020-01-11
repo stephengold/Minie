@@ -120,7 +120,7 @@ public class SphereCollisionShape extends CollisionShape {
     // new methods exposed
 
     /**
-     * Read the collision margin for this shape.
+     * Determine the collision margin for this shape.
      *
      * @return the margin distance (in physics-space units, &ge;0)
      */
@@ -199,6 +199,17 @@ public class SphereCollisionShape extends CollisionShape {
     }
 
     /**
+     * Calculate how far the sphere extends from its center.
+     *
+     * @return the distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float maxRadius() {
+        float result = scale.x * radius;
+        return result;
+    }
+
+    /**
      * De-serialize this shape from the specified importer, for example when
      * loading from a J3O file.
      *
@@ -242,7 +253,7 @@ public class SphereCollisionShape extends CollisionShape {
     // private methods
 
     /**
-     * Instantiate the configured shape in Bullet.
+     * Instantiate the configured btSphereShape.
      */
     private void createShape() {
         assert radius >= 0f : radius;

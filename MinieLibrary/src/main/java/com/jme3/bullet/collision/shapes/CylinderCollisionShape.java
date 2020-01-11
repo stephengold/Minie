@@ -105,7 +105,6 @@ public class CylinderCollisionShape extends CollisionShape {
         axis = axisIndex;
         halfExtents.set(radius, radius, radius);
         halfExtents.set(axisIndex, height / 2f);
-
         createShape();
     }
 
@@ -139,7 +138,6 @@ public class CylinderCollisionShape extends CollisionShape {
                 endPosition, axisIndex);
         halfExtents.set(radius, radius, radius);
         halfExtents.set(axisIndex, halfHeight);
-
         createShape();
     }
 
@@ -177,7 +175,7 @@ public class CylinderCollisionShape extends CollisionShape {
     // new methods exposed
 
     /**
-     * Determine the main (height) axis of the cylinder.
+     * Read the main (height) axis of the cylinder.
      *
      * @return the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      */
@@ -284,6 +282,40 @@ public class CylinderCollisionShape extends CollisionShape {
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    /**
+     * Estimate how far the cylinder extends from its center.
+     *
+     * @return a distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float maxRadius() {
+        double xx = scale.x * halfExtents.x;
+        double yy = scale.y * halfExtents.y;
+        double zz = scale.z * halfExtents.z;
+
+        double halfHeight, bigRadius;
+        switch (axis) {
+            case PhysicsSpace.AXIS_X:
+                halfHeight = xx;
+                bigRadius = Math.max(yy, zz);
+                break;
+            case PhysicsSpace.AXIS_Y:
+                halfHeight = yy;
+                bigRadius = Math.max(xx, zz);
+                break;
+            case PhysicsSpace.AXIS_Z:
+                halfHeight = zz;
+                bigRadius = Math.max(xx, yy);
+                break;
+            default:
+                String message = String.format("axis=%d", axis);
+                throw new IllegalStateException(message);
+        }
+        float result = (float) Math.hypot(halfHeight, bigRadius);
+
+        return result;
     }
 
     /**
