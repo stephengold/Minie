@@ -874,6 +874,9 @@ public class DropTest
             physicsSpace.remove(latestGem);
             gems.removeLast();
         }
+        for (PhysicsRigidBody gem : gems) {
+            gem.activate();
+        }
     }
 
     /**
@@ -1219,13 +1222,20 @@ public class DropTest
     }
 
     /**
-     * Update the status text in the GUI. TODO rearrange message
+     * Update the status text in the GUI.
      */
     private void updateStatusText() {
+        int numActive = 0;
+        for (PhysicsRigidBody gem : gems) {
+            if (gem.isActive()) {
+                ++numActive;
+            }
+        }
+
         int numGems = gems.size();
         String message = String.format(
-                "platform=%s, shape=%s, count=%d, friction=%s, damping=%.1f",
-                platformName, shapeName, numGems, friction, damping);
+                "%s/%s  N=%d  Nactive=%d  friction=%.2f  damping=%.2f",
+                shapeName, platformName, numGems, numActive, friction, damping);
         statusText.setText(message);
     }
 }
