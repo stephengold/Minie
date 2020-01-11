@@ -91,7 +91,7 @@ public class MyShape {
     }
 
     /**
-     * Calculate the un-scaled half extents of the specified shape.
+     * Determine the unscaled half extents of the specified shape.
      *
      * @param shape (not null, unaffected)
      * @param storeResult storage for the result (modified if not null)
@@ -112,7 +112,7 @@ public class MyShape {
             float height = capsule.getHeight();
             float radius = capsule.getRadius();
             float axisHalfExtent = height / 2f + radius;
-            int axisIndex = mainAxisIndex(shape);
+            int axisIndex = capsule.getAxis();
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
                     result.set(axisHalfExtent, radius, radius);
@@ -133,7 +133,7 @@ public class MyShape {
             float height = cone.getHeight();
             float radius = cone.getRadius();
             float axisHalfExtent = height / 2f;
-            int axisIndex = mainAxisIndex(shape);
+            int axisIndex = cone.getAxis();
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
                     result.set(axisHalfExtent, radius, radius);
@@ -185,11 +185,11 @@ public class MyShape {
     }
 
     /**
-     * Calculate the un-scaled height of the specified shape.
+     * Determine the unscaled height of the specified shape.
      *
      * @param shape (not null, unaffected)
-     * @return un-scaled height &ge;0) or NaN if the shape is not a capsule,
-     * cone, cylinder, or sphere
+     * @return the unscaled height (&ge;0) used to create the shape, or NaN if
+     * that height is undefined or unknown
      */
     public static float height(CollisionShape shape) {
         Validate.nonNull(shape, "shape");
@@ -204,22 +204,10 @@ public class MyShape {
             result = cone.getHeight();
 
         } else if (shape instanceof CylinderCollisionShape) {
-            Vector3f halfExtents = halfExtents(shape, null);
-            int axisIndex = mainAxisIndex(shape);
-            switch (axisIndex) {
-                case PhysicsSpace.AXIS_X:
-                    result = halfExtents.x;
-                    break;
-                case PhysicsSpace.AXIS_Y:
-                    result = halfExtents.y;
-                    break;
-                case PhysicsSpace.AXIS_Z:
-                    result = halfExtents.z;
-                    break;
-                default:
-                    String msg = String.format("axisIndex=%d", axisIndex);
-                    throw new IllegalStateException(msg);
-            }
+            CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
+            Vector3f halfExtents = cylinder.getHalfExtents(null);
+            int axisIndex = cylinder.getAxis();
+            result = 2f * halfExtents.get(axisIndex);
 
         } else if (shape instanceof MultiSphere) {
             MultiSphere multiSphere = (MultiSphere) shape;
@@ -237,7 +225,7 @@ public class MyShape {
     }
 
     /**
-     * Attempt to estimate the volume of each child in a CompoundCollisionShape.
+     * Estimate the volume of each child in a CompoundCollisionShape.
      *
      * @param shape (not null, unaffected)
      * @return a new array of volumes (each &ge;0)
@@ -345,11 +333,11 @@ public class MyShape {
     }
 
     /**
-     * Calculate the un-scaled radius of the specified shape.
+     * Determine the unscaled radius of the specified shape.
      *
      * @param shape (not null, unaffected)
-     * @return un-scaled radius (&ge;0) or NaN if the radius is undefined or
-     * unknown
+     * @return the unscaled radius (&ge;0) used to create the shape, or NaN if
+     * that radius is undefined or unknown
      */
     public static float radius(CollisionShape shape) {
         Validate.nonNull(shape, "shape");
@@ -395,8 +383,7 @@ public class MyShape {
             }
 
         } else if (shape instanceof SphereCollisionShape) {
-            SphereCollisionShape sphere = (SphereCollisionShape) shape;
-            result = sphere.getRadius();
+            result = ((SphereCollisionShape) shape).getRadius();
         }
 
         assert Float.isNaN(result) || result >= 0f : result;
@@ -483,7 +470,7 @@ public class MyShape {
      * Copy a shape, altering only its height.
      *
      * @param oldShape input shape (not null, unaffected)
-     * @param newHeight un-scaled height (&ge;0)
+     * @param newHeight the desired unscaled height (&ge;0)
      * @return a new shape
      */
     public static CollisionShape setHeight(CollisionShape oldShape,
@@ -531,7 +518,7 @@ public class MyShape {
      * Copy a shape, altering only its radius.
      *
      * @param oldShape input shape (not null, unaffected)
-     * @param newRadius un-scaled radius (&ge;0)
+     * @param newRadius the desired unscaled radius (&ge;0)
      * @return a new shape
      */
     public static CollisionShape setRadius(CollisionShape oldShape,
@@ -576,7 +563,7 @@ public class MyShape {
     }
 
     /**
-     * Estimate the scaled volume of a closed CollisionShape.
+     * Estimate the scaled volume of a closed shape.
      *
      * @param shape (not null, unaffected)
      * @return the volume (in physics-space units cubed, &ge;0)
@@ -586,17 +573,16 @@ public class MyShape {
         float volume = scale.x * scale.y * scale.z;
 
         if (shape instanceof BoxCollisionShape) {
-            BoxCollisionShape box = (BoxCollisionShape) shape;
-            volume *= box.unscaledVolume();
+            volume *= ((BoxCollisionShape) shape).unscaledVolume();
 
         } else if (shape instanceof CapsuleCollisionShape) {
-            CapsuleCollisionShape capsule = (CapsuleCollisionShape) shape;
-            volume *= capsule.unscaledVolume();
+            volume *= ((CapsuleCollisionShape) shape).unscaledVolume();
 
         } else if (shape instanceof CompoundCollisionShape) {
             /*
-             * CompoundCollisionShape ignores scaling.  This calculation
-             * also ignores any overlaps between the children. TODO test this
+             * Scale factors get applied during calculation of child volumes.
+             * Any overlaps among the children are ignored,
+             * which exaggerates of the estimated volume.
              */
             CompoundCollisionShape compound = (CompoundCollisionShape) shape;
             volume = 0f;
