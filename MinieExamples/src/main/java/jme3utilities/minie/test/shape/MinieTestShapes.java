@@ -38,12 +38,15 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.math.FastMath;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
@@ -56,6 +59,7 @@ import jme3utilities.mesh.Icosahedron;
 import jme3utilities.mesh.Octahedron;
 import jme3utilities.mesh.Prism;
 import jme3utilities.minie.MyShape;
+import jme3utilities.minie.test.mesh.StarSlice;
 
 /**
  * Generate some interesting compound collision shapes for use in MinieExamples.
@@ -327,6 +331,24 @@ public class MinieTestShapes {
     }
 
     /**
+     * Randomly generate a 4-sphere shape, a box with rounded corners.
+     *
+     * @param generate pseudo-random generator (not null, modified)
+     * @return a new shape (not null)
+     */
+    public static MultiSphere randomFourSphere(Generator generate) {
+        float rx = 0.4f + 0.6f * generate.nextFloat();
+        float ry = 1f + generate.nextFloat();
+        float rz = 1f + generate.nextFloat();
+        Vector3f halfExtents = new Vector3f(rx, ry, rz);
+
+        RectangularSolid solid = new RectangularSolid(halfExtents);
+        MultiSphere result = new MultiSphere(solid);
+
+        return result;
+    }
+
+    /**
      * Randomly generate a centered HullCollisionShape.
      *
      * @param generate pseudo-random generator (not null, modified)
@@ -414,6 +436,84 @@ public class MinieTestShapes {
         }
 
         HullCollisionShape result = new HullCollisionShape(buffer);
+
+        return result;
+    }
+
+    /**
+     * Randomly generate a MultiSphere shape with 1-4 spheres.
+     *
+     * @param generate pseudo-random generator (not null, modified)
+     * @return a new shape (not null)
+     */
+    public static MultiSphere randomMultiSphere(Generator generate) {
+        int numSpheres = 1 + generate.nextInt(4);
+        if (numSpheres == 4) {
+            MultiSphere result = randomFourSphere(generate);
+            return result;
+        }
+
+        List<Vector3f> centers = new ArrayList<>(numSpheres);
+        List<Float> radii = new ArrayList<>(numSpheres);
+        /*
+         * The first sphere is always centered.
+         */
+        centers.add(Vector3f.ZERO);
+        float mainRadius = 0.8f + 0.6f * generate.nextFloat();
+        radii.add(mainRadius);
+
+        for (int sphereIndex = 1; sphereIndex < numSpheres; ++sphereIndex) {
+            /*
+             * Add a smaller sphere, offset from the main one.
+             */
+            Vector3f offset = generate.nextUnitVector3f();
+            offset.multLocal(mainRadius);
+            centers.add(offset);
+
+            float radius = mainRadius * (0.2f + 0.8f * generate.nextFloat());
+            radii.add(radius);
+        }
+
+        MultiSphere result = new MultiSphere(centers, radii);
+
+        if (numSpheres == 1) {
+            /*
+             * Scale the sphere to make an ellipsoid.
+             */
+            float xScale = 1f + generate.nextFloat();
+            float yScale = 0.6f + generate.nextFloat();
+            float zScale = 0.4f + generate.nextFloat();
+            result.setScale(new Vector3f(xScale, yScale, zScale));
+        }
+
+        return result;
+    }
+
+    /**
+     * Randomly generate a star-shaped compound shape.
+     *
+     * @param generate pseudo-random generator (not null, modified)
+     * @return a new shape (not null)
+     */
+    public static CompoundCollisionShape randomStar(Generator generate) {
+        float centerY = 0.3f + 0.3f * generate.nextFloat();
+        float outerRadius = 1f + 1.5f * generate.nextFloat();
+
+        int numPoints = 4 + generate.nextInt(6); // 4 .. 9
+        float radiusRatio = 0.2f + 0.5f * generate.nextFloat();
+        float innerRadius = radiusRatio * outerRadius;
+        float sliceAngle = FastMath.TWO_PI / numPoints; // in radians
+        boolean normals = false;
+        StarSlice sliceMesh = new StarSlice(sliceAngle, innerRadius,
+                outerRadius, 2f * centerY, normals);
+        CollisionShape sliceShape = new HullCollisionShape(sliceMesh);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        Matrix3f rotate = new Matrix3f();
+        for (int i = 0; i < numPoints; ++i) {
+            rotate.fromAngleAxis(sliceAngle * i, Vector3f.UNIT_Y);
+            result.addChildShape(sliceShape, Vector3f.ZERO, rotate);
+        }
 
         return result;
     }

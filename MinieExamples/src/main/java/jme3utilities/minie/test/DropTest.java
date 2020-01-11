@@ -39,7 +39,6 @@ import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
-import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
@@ -73,10 +72,8 @@ import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -86,13 +83,11 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
-import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.Prism;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.minie.test.mesh.StarSlice;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -525,7 +520,7 @@ public class DropTest
                 break;
 
             case "multiSphere":
-                randomMultiSphere();
+                gemShape = MinieTestShapes.randomMultiSphere(random);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -535,7 +530,7 @@ public class DropTest
                 break;
 
             case "star":
-                randomStar();
+                gemShape = MinieTestShapes.randomStar(random);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -1027,18 +1022,6 @@ public class DropTest
     }
 
     /**
-     * Randomly generate a 4-sphere shape, a box with rounded corners.
-     */
-    private void randomFourSphere() {
-        float rx = 0.4f + 0.6f * random.nextFloat();
-        float ry = 1f + random.nextFloat();
-        float rz = 1f + random.nextFloat();
-        Vector3f halfExtents = new Vector3f(rx, ry, rz);
-        RectangularSolid solid = new RectangularSolid(halfExtents);
-        gemShape = new MultiSphere(solid);
-    }
-
-    /**
      * Randomly generate an asymmetrical compound shape with 2 cylinders.
      *
      * @param correctAxes if true, correct the shape's principal axes
@@ -1078,80 +1061,11 @@ public class DropTest
     }
 
     /**
-     * Randomly generate a MultiSphere shape with 1-4 spheres.
-     */
-    private void randomMultiSphere() {
-        int numSpheres = 1 + random.nextInt(4);
-        if (numSpheres == 4) {
-            randomFourSphere();
-            return;
-        }
-
-        List<Vector3f> centers = new ArrayList<>(numSpheres);
-        List<Float> radii = new ArrayList<>(numSpheres);
-        /*
-         * The first sphere is always centered.
-         */
-        centers.add(Vector3f.ZERO);
-        float mainRadius = 0.8f + 0.6f * random.nextFloat();
-        radii.add(mainRadius);
-
-        for (int sphereIndex = 1; sphereIndex < numSpheres; ++sphereIndex) {
-            /*
-             * Add a smaller sphere, offset from the main one.
-             */
-            Vector3f offset = random.nextUnitVector3f();
-            offset.multLocal(mainRadius);
-            centers.add(offset);
-
-            float radius = mainRadius * (0.2f + 0.8f * random.nextFloat());
-            radii.add(radius);
-        }
-
-        gemShape = new MultiSphere(centers, radii);
-
-        if (numSpheres == 1) {
-            /*
-             * Scale the sphere to make an ellipsoid.
-             */
-            float xScale = 1f + random.nextFloat();
-            float yScale = 0.6f + random.nextFloat();
-            float zScale = 0.4f + random.nextFloat();
-            gemShape.setScale(new Vector3f(xScale, yScale, zScale));
-        }
-    }
-
-    /**
      * Randomly generate a sphere shape.
      */
     private void randomSphere() {
         float radius = 0.5f + random.nextFloat();
         gemShape = new SphereCollisionShape(radius);
-    }
-
-    /**
-     * Randomly generate a star-shaped compound shape.
-     */
-    private void randomStar() {
-        float centerY = 0.3f + 0.3f * random.nextFloat();
-        float outerRadius = 1f + 1.5f * random.nextFloat();
-
-        int numPoints = 4 + random.nextInt(6); // 4 .. 9
-        float radiusRatio = 0.2f + 0.5f * random.nextFloat();
-        float innerRadius = radiusRatio * outerRadius;
-        float sliceAngle = FastMath.TWO_PI / numPoints; // in radians
-        boolean normals = false;
-        StarSlice sliceMesh = new StarSlice(sliceAngle, innerRadius,
-                outerRadius, 2f * centerY, normals);
-        CollisionShape sliceShape = new HullCollisionShape(sliceMesh);
-
-        CompoundCollisionShape compound = new CompoundCollisionShape();
-        Matrix3f rotate = new Matrix3f();
-        for (int i = 0; i < numPoints; ++i) {
-            rotate.fromAngleAxis(sliceAngle * i, Vector3f.UNIT_Y);
-            compound.addChildShape(sliceShape, Vector3f.ZERO, rotate);
-        }
-        gemShape = compound;
     }
 
     /**
