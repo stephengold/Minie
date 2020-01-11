@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
@@ -91,6 +92,7 @@ class DebugMeshCallback {
         assert meshToWorld != null;
         /*
          * Copy the location list, removing all duplicates in the process.
+         * TODO make this more efficient
          */
         VectorSet distinct = new VectorSetUsingBuffer(list.size());
         for (Vector3f vector : list) {
@@ -267,6 +269,29 @@ class DebugMeshCallback {
         }
 
         return buffer;
+    }
+
+    /**
+     * Estimate how far the debug mesh extends from some origin.
+     *
+     * @param meshToWorld the transform to apply to debug-mesh locations (not
+     * null, unaffected)
+     * @return the maximum length of the transformed locations vectors (&ge;0)
+     */
+    float maxDistance(Transform meshToWorld) {
+        double maxSquaredDistance = 0.0;
+        Vector3f tmpVector = new Vector3f(); // TODO garbage
+        for (Vector3f vertex : list) {
+            tmpVector.set(vertex);
+            meshToWorld.transformVector(vertex, vertex);
+            double lengthSquared = MyVector3f.lengthSquared(vertex);
+            if (lengthSquared > maxSquaredDistance) {
+                maxSquaredDistance = lengthSquared;
+            }
+        }
+        float result = (float) Math.sqrt(maxSquaredDistance);
+
+        return result;
     }
 
     /**
