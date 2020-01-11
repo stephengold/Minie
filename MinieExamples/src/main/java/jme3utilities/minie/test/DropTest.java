@@ -85,7 +85,6 @@ import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
-import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
@@ -165,10 +164,6 @@ public class DropTest
      * friction coefficient for all rigid bodies (&ge;0)
      */
     private float friction = 0.5f;
-    /**
-     * bounding-sphere radius for the new gem
-     */
-    private float gemRadius;
     /**
      * enhanced pseudo-random generator
      */
@@ -465,7 +460,6 @@ public class DropTest
         switch (shapeName) {
             case "barbell":
                 gemShape = namedShapes.get("barbell");
-                gemRadius = MyMath.hypotenuse(1f, 2.2f);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -482,7 +476,6 @@ public class DropTest
             case "chair":
                 gemShape = namedShapes.get("chair");
                 gemInverseInertia = MinieTestShapes.chairInverseInertia;
-                gemRadius = 3.2f;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -498,7 +491,6 @@ public class DropTest
 
             case "duck":
                 gemShape = namedShapes.get("duck");
-                gemRadius = 1.25f * gemShape.getScale(null).x;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -514,24 +506,21 @@ public class DropTest
 
             case "heart":
                 gemShape = namedShapes.get("heart");
-                gemRadius = 1.43f * FastMath.sqr(gemShape.getScale(null).x);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
             case "hull":
-                randomHull();
+                gemShape = MinieTestShapes.randomHull(random);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
             case "knucklebone":
                 gemShape = namedShapes.get("knucklebone");
-                gemRadius = 1.65f;
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
             case "ladder":
                 gemShape = namedShapes.get("ladder");
-                gemRadius = MyMath.hypotenuse(6f, 1.2f);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -552,24 +541,21 @@ public class DropTest
 
             case "teapot":
                 gemShape = namedShapes.get("teapot");
-                gemRadius = 1.06f * gemShape.getScale(null).x;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
             case "tetrahedron":
-                randomTetrahedron();
+                gemShape = MinieTestShapes.randomTetrahedron(random);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
             case "top":
                 gemShape = namedShapes.get("top");
-                gemRadius = 2f;
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
             case "torus":
                 gemShape = namedShapes.get("torus");
-                gemRadius = 0.38f * gemShape.getScale(null).x;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -588,8 +574,9 @@ public class DropTest
 
         float mass = 1f;
         PhysicsRigidBody body = new PhysicsRigidBody(gemShape, mass);
-        body.setCcdSweptSphereRadius(gemRadius);
         body.setCcdMotionThreshold(5f);
+        float gemRadius = gemShape.maxRadius();
+        body.setCcdSweptSphereRadius(gemRadius);
         body.setDamping(damping, damping);
         body.setDebugMaterial(debugMaterial);
         body.setDebugMeshNormals(debugMeshNormals);
@@ -1005,8 +992,6 @@ public class DropTest
         float ry = 0.5f + random.nextFloat();
         float rz = 0.5f + random.nextFloat();
         Vector3f halfExtents = new Vector3f(rx, ry, rz);
-        gemRadius = halfExtents.length();
-
         gemShape = new BoxCollisionShape(halfExtents);
     }
 
@@ -1016,8 +1001,6 @@ public class DropTest
     private void randomCapsule() {
         float radius = 0.2f + random.nextFloat();
         float height = 0.5f + random.nextFloat();
-        gemRadius = radius + height / 2f;
-
         gemShape = new CapsuleCollisionShape(radius, height);
     }
 
@@ -1027,10 +1010,6 @@ public class DropTest
     private void randomCone() {
         float baseRadius = 0.5f + random.nextFloat();
         float height = 0.5f + 2f * random.nextFloat();
-
-        gemRadius = MyMath.hypotenuse(baseRadius, height / 2f);
-        gemRadius += CollisionShape.getDefaultMargin();
-
         gemShape = new ConeCollisionShape(baseRadius, height);
     }
 
@@ -1040,8 +1019,6 @@ public class DropTest
     private void randomCylinder() {
         float baseRadius = 0.5f + random.nextFloat();
         float halfHeight = 0.5f + 1.5f * random.nextFloat();
-        gemRadius = MyMath.hypotenuse(baseRadius, halfHeight);
-
         Vector3f halfExtents = new Vector3f(baseRadius, baseRadius, halfHeight);
         gemShape = new CylinderCollisionShape(halfExtents);
     }
@@ -1054,8 +1031,6 @@ public class DropTest
         float ry = 1f + random.nextFloat();
         float rz = 1f + random.nextFloat();
         Vector3f halfExtents = new Vector3f(rx, ry, rz);
-        gemRadius = halfExtents.length();
-
         RectangularSolid solid = new RectangularSolid(halfExtents);
         gemShape = new MultiSphere(solid);
     }
@@ -1070,9 +1045,6 @@ public class DropTest
         float headR = handleR + random.nextFloat();
         float headHalfLength = headR + random.nextFloat();
         float handleHalfLength = headHalfLength + 2.5f * random.nextFloat();
-        gemRadius = MyMath.hypotenuse(headHalfLength,
-                2f * handleHalfLength + headR);
-
         Vector3f hes = new Vector3f(headR, headR, headHalfLength);
         CollisionShape head = new CylinderCollisionShape(hes);
 
@@ -1099,23 +1071,7 @@ public class DropTest
             Transform transform = compound.principalAxes(masses, null, inertia);
             gemInverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
             compound.correctAxes(transform);
-
-            gemRadius = 2f * handleHalfLength;
         }
-    }
-
-    /**
-     * Randomly generate a hull shape.
-     */
-    private void randomHull() {
-        HullCollisionShape hull = MinieTestShapes.randomHull(random);
-        gemShape = hull;
-
-        float[] floatArray = hull.copyHullVertices();
-        FloatBuffer vertices = BufferUtils.createFloatBuffer(floatArray);
-        // TODO apply scaling
-        float maxLength = MyBuffer.maxLength(vertices, 0, floatArray.length);
-        gemRadius = maxLength + gemShape.getMargin();
     }
 
     /**
@@ -1136,7 +1092,6 @@ public class DropTest
         centers.add(Vector3f.ZERO);
         float mainRadius = 0.8f + 0.6f * random.nextFloat();
         radii.add(mainRadius);
-        gemRadius = mainRadius;
 
         for (int sphereIndex = 1; sphereIndex < numSpheres; ++sphereIndex) {
             /*
@@ -1148,8 +1103,6 @@ public class DropTest
 
             float radius = mainRadius * (0.2f + 0.8f * random.nextFloat());
             radii.add(radius);
-            float extRadius = offset.length() + radius;
-            gemRadius = Math.max(gemRadius, extRadius);
         }
 
         gemShape = new MultiSphere(centers, radii);
@@ -1162,9 +1115,6 @@ public class DropTest
             float yScale = 0.6f + random.nextFloat();
             float zScale = 0.4f + random.nextFloat();
             gemShape.setScale(new Vector3f(xScale, yScale, zScale));
-
-            float maxScale = MyMath.max(xScale, yScale, zScale);
-            gemRadius *= maxScale;
         }
     }
 
@@ -1172,8 +1122,8 @@ public class DropTest
      * Randomly generate a sphere shape.
      */
     private void randomSphere() {
-        gemRadius = 0.5f + random.nextFloat();
-        gemShape = new SphereCollisionShape(gemRadius);
+        float radius = 0.5f + random.nextFloat();
+        gemShape = new SphereCollisionShape(radius);
     }
 
     /**
@@ -1182,7 +1132,6 @@ public class DropTest
     private void randomStar() {
         float centerY = 0.3f + 0.3f * random.nextFloat();
         float outerRadius = 1f + 1.5f * random.nextFloat();
-        gemRadius = Math.max(centerY, outerRadius);
 
         int numPoints = 4 + random.nextInt(6); // 4 .. 9
         float radiusRatio = 0.2f + 0.5f * random.nextFloat();
@@ -1200,20 +1149,6 @@ public class DropTest
             compound.addChildShape(sliceShape, Vector3f.ZERO, rotate);
         }
         gemShape = compound;
-    }
-
-    /**
-     * Randomly generate a simplex shape with 4 vertices.
-     */
-    private void randomTetrahedron() {
-        SimplexCollisionShape simplex
-                = MinieTestShapes.randomTetrahedron(random);
-        gemShape = simplex;
-
-        float[] floatArray = simplex.copyVertices();
-        FloatBuffer vertices = BufferUtils.createFloatBuffer(floatArray);
-        float maxLength = MyBuffer.maxLength(vertices, 0, floatArray.length);
-        gemRadius = maxLength + gemShape.getMargin();
     }
 
     /**
