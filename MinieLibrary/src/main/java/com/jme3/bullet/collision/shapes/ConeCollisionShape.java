@@ -165,6 +165,7 @@ public class ConeCollisionShape extends CollisionShape {
      *
      * @return a distance (in physics-space units, &ge;0)
      */
+    @Override
     public float maxRadius() {
         float result = MyMath.hypotenuse(radius, height / 2f) * scale.x;
         result += margin;
