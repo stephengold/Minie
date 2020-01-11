@@ -765,7 +765,7 @@ Most collision shapes incorporate a margin.
 According to the Bullet Manual, the purpose of margin is
 "to improve performance and reliability of the collision detection."
 
-While methods are provided to adjust margins, doing do is not recommended.
+While methods are provided to adjust margins, doing so is not recommended.
 
 For certain shapes, margin increases the effective size of the collision object
 and distorts its effective shape:
