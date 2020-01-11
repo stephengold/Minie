@@ -119,11 +119,11 @@ public class DebugShapeFactory {
     }
 
     /**
-     * Estimate the footprint of the specified convex shape. The shape's current
-     * scale and margin are taken into account, but not its debug-mesh
-     * resolution.
+     * Estimate the footprint of the specified (non-compound, non-plane) shape.
+     * The shape's scale and margin are taken into account, but not its
+     * debug-mesh resolution.
      *
-     * @param shape (not null, convex, unaffected)
+     * @param shape (not null, not compound, not plane, unaffected)
      * @param shapeToWorld the world transform of the collision object (not
      * null, unaffected)
      * @param meshResolution (0=low, 1=high)
@@ -131,7 +131,9 @@ public class DebugShapeFactory {
      */
     public static Vector3f[] footprint(CollisionShape shape,
             Transform shapeToWorld, int meshResolution) {
-        assert shape.isConvex();
+        assert !(shape instanceof CompoundCollisionShape);
+        assert !(shape instanceof PlaneCollisionShape);
+        Validate.nonNull(shapeToWorld, "shape-to-world");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
@@ -146,7 +148,7 @@ public class DebugShapeFactory {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @param shape (not null, unaffected)
+     * @param shape (not null, not compound, not plane, unaffected)
      * @return a new Mesh (not null)
      */
     public static Mesh getDebugMesh(CollisionShape shape) {
@@ -213,6 +215,33 @@ public class DebugShapeFactory {
     }
 
     /**
+     * Estimate how far the specified (non-compound, non-plane) shape extends
+     * from some origin, based on its debug mesh. The shape's scale and margin
+     * are taken into account, but not its debug-mesh resolution.
+     *
+     * @param shape (not null, not compound, not plane, unaffected)
+     * @param transform the transform to apply to debug-mesh coordinates (not
+     * null, unaffected)
+     * @param meshResolution (0=low, 1=high)
+     * @return the maximum length of the transformed vertex locations (&ge;0)
+     */
+    public static float maxDistance(CollisionShape shape, Transform transform,
+            int meshResolution) {
+        assert !(shape instanceof CompoundCollisionShape);
+        assert !(shape instanceof PlaneCollisionShape);
+        Validate.nonNull(transform, "transform");
+        Validate.inRange(meshResolution, "mesh resolution", lowResolution,
+                highResolution);
+
+        long shapeId = shape.getObjectId();
+        DebugMeshCallback callback = new DebugMeshCallback();
+        getVertices2(shapeId, meshResolution, callback);
+        float result = callback.maxDistance(transform);
+
+        return result;
+    }
+
+    /**
      * Forget all previously generated debug meshes for the identified shape.
      *
      * @param shapeId the ID of the shape to remove
@@ -239,8 +268,8 @@ public class DebugShapeFactory {
 
     /**
      * Calculate the volume of a debug mesh for the specified convex shape. The
-     * shape's current scale and margin are taken into account, but not its
-     * debug-mesh resolution.
+     * shape's scale and margin are taken into account, but not its debug-mesh
+     * resolution.
      *
      * @param shape (not null, convex, unaffected)
      * @param meshResolution (0=low, 1=high)
@@ -469,6 +498,7 @@ public class DebugShapeFactory {
     // *************************************************************************
     // native methods
 
+    // TODO add a method to return vertices only (instead of a triangle mesh)
     native private static void getVertices2(long shapeId, int meshResolution,
             DebugMeshCallback buffer);
 }
