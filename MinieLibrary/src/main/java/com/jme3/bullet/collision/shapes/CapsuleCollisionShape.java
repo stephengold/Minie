@@ -61,27 +61,28 @@ public class CapsuleCollisionShape extends CollisionShape {
      */
     final public static Logger logger2
             = Logger.getLogger(CapsuleCollisionShape.class.getName());
-    // *************************************************************************
-    // fields
-
-    /**
-     * copy of unscaled height of the cylindrical portion (&ge;0)
-     */
-    private float height;
-    /**
-     * copy of unscaled radius (&ge;0)
-     */
-    private float radius;
-    /**
-     * copy of main (height) axis (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
-     */
-    private int axis;
     /**
      * field names for serialization
      */
     final private static String tagAxis = "axis";
     final private static String tagHeight = "height";
     final private static String tagRadius = "radius";
+    // *************************************************************************
+    // fields
+
+    /**
+     * copy of the unscaled height of the cylindrical portion (&ge;0)
+     */
+    private float height;
+    /**
+     * copy of the unscaled radius (&ge;0)
+     */
+    private float radius;
+    /**
+     * copy of the index of the main (height) axis (0&rarr;X, 1&rarr;Y,
+     * 2&rarr;Z)
+     */
+    private int axis;
     // *************************************************************************
     // constructors
 
@@ -94,8 +95,9 @@ public class CapsuleCollisionShape extends CollisionShape {
     /**
      * Instantiate a Y-axis capsule shape with the specified radius and height.
      *
-     * @param radius the desired radius (&ge;0)
-     * @param height the desired height (of the cylindrical portion) (&ge;0)
+     * @param radius the desired unscaled radius (&ge;0)
+     * @param height the desired unscaled height (of the cylindrical portion)
+     * (&ge;0)
      */
     public CapsuleCollisionShape(float radius, float height) {
         Validate.nonNegative(radius, "radius");
@@ -113,7 +115,8 @@ public class CapsuleCollisionShape extends CollisionShape {
      * @param radius the desired unscaled radius (&ge;0)
      * @param height the desired unscaled height (of the cylindrical portion)
      * (&ge;0)
-     * @param axisIndex which local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @param axisIndex which local axis for height: 0&rarr;X, 1&rarr;Y,
+     * 2&rarr;Z
      */
     public CapsuleCollisionShape(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
@@ -144,7 +147,7 @@ public class CapsuleCollisionShape extends CollisionShape {
     /**
      * Read the height (of the cylindrical portion) of the capsule.
      *
-     * @return height (&ge;0)
+     * @return the unscaled height (&ge;0)
      */
     public float getHeight() {
         assert height >= 0f : height;
@@ -154,7 +157,7 @@ public class CapsuleCollisionShape extends CollisionShape {
     /**
      * Read the radius of the capsule.
      *
-     * @return the radius (&ge;0)
+     * @return the unscaled radius (&ge;0)
      */
     public float getRadius() {
         assert radius >= 0f : radius;
@@ -164,7 +167,7 @@ public class CapsuleCollisionShape extends CollisionShape {
     /**
      * Calculate the unscaled volume of the capsule.
      *
-     * @return the volume (in shape-space units cubed, &ge;0)
+     * @return the volume (&ge;0)
      */
     public float unscaledVolume() {
         float result = MyVolume.capsuleVolume(radius, height);
