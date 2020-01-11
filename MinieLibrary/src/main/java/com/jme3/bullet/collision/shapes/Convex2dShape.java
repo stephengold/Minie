@@ -196,10 +196,10 @@ public class Convex2dShape extends CollisionShape {
     public void setScale(Vector3f scale) {
         super.setScale(scale);
         /*
-         * Scale the base also, to keep its copied scale factors
+         * Update the base to keep its copied scale factors
          * in synch with the native ones.
          */
-        base.setScale(scale);
+        base.updateScale();
     }
 
     /**
