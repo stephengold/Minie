@@ -40,6 +40,7 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
@@ -80,6 +81,10 @@ abstract public class CollisionShape
      */
     final private static String tagMargin = "margin";
     final private static String tagScale = "scale";
+    /**
+     * local copy of {@link com.jme3.math.Transform#IDENTITY}
+     */
+    final private static Transform transformIdentity = new Transform();
     /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
@@ -312,6 +317,18 @@ abstract public class CollisionShape
      */
     public boolean isPolyhedral() {
         boolean result = isPolyhedral(nativeId);
+        return result;
+    }
+
+    /**
+     * Estimate how far this shape extends from its center.
+     *
+     * @return a distance estimate (in physics-space units, &ge;0, may be
+     * infinite)
+     */
+    public float maxRadius() {
+        float result = DebugShapeFactory.maxDistance(this, transformIdentity,
+                DebugShapeFactory.lowResolution);
         return result;
     }
 

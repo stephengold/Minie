@@ -41,6 +41,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 
 /**
  * An axis-aligned, rectangular CollisionShape based on Bullet's btBox2dShape.
@@ -186,6 +187,20 @@ public class Box2dShape extends CollisionShape {
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    /**
+     * Calculate how far the box extends from its center.
+     *
+     * @return a distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float maxRadius() {
+        float x = scale.x * halfExtentX;
+        float y = scale.y * halfExtentY;
+        float result = MyMath.hypotenuse(x, y);
+
+        return result;
     }
 
     /**

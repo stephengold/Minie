@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,7 @@ public class EmptyShape extends CollisionShape {
     // new methods exposed
 
     /**
-     * Calculate the unscaled volume of the shape.
+     * Determine the unscaled volume of the shape.
      *
      * @return 0
      */
@@ -109,6 +109,16 @@ public class EmptyShape extends CollisionShape {
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    /**
+     * Determine how far the shape extends from its center.
+     *
+     * @return the distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float maxRadius() {
+        return 0;
     }
 
     /**

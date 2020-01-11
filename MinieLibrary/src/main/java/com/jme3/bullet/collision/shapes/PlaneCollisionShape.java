@@ -63,7 +63,7 @@ public class PlaneCollisionShape extends CollisionShape {
     // fields
 
     /**
-     * description of the plane
+     * defining plane
      */
     private Plane plane;
     // *************************************************************************
@@ -130,6 +130,16 @@ public class PlaneCollisionShape extends CollisionShape {
     }
 
     /**
+     * Determine how far this shape extends from its center.
+     *
+     * @return the distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float maxRadius() {
+        return Float.POSITIVE_INFINITY;
+    }
+
+    /**
      * De-serialize this shape from the specified importer, for example when
      * loading from a J3O file.
      *
@@ -140,7 +150,6 @@ public class PlaneCollisionShape extends CollisionShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-
         plane = (Plane) capsule.readSavable(tagCollisionPlane, new Plane());
         createShape();
     }
@@ -162,7 +171,7 @@ public class PlaneCollisionShape extends CollisionShape {
     // private methods
 
     /**
-     * Instantiate the configured shape in Bullet.
+     * Instantiate the configured btStaticPlaneShape.
      */
     private void createShape() {
         long shapeId = createShape(plane.getNormal(), plane.getConstant());

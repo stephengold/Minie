@@ -349,6 +349,28 @@ public class SimplexCollisionShape extends CollisionShape {
     }
 
     /**
+     * Calculate how far the simplex extends from its center, including margin.
+     *
+     * @return a distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float maxRadius() {
+        int numVertices = countMeshVertices();
+        double maxLengthSquared = 0.0;
+
+        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
+            Vector3f position = getVertex(vertexIndex);
+            double lengthSquared = MyVector3f.lengthSquared(position);
+            if (lengthSquared > maxLengthSquared) {
+                maxLengthSquared = lengthSquared;
+            }
+        }
+        float result = margin + (float) Math.sqrt(maxLengthSquared);
+
+        return result;
+    }
+
+    /**
      * De-serialize this shape from the specified importer, for example when
      * loading from a J3O file.
      *
