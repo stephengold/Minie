@@ -418,12 +418,12 @@ public class CompoundCollisionShape extends CollisionShape {
     public void setScale(Vector3f scale) {
         super.setScale(scale);
         /*
-         * Scale the children to keep their copied scale factors
+         * Update the children to keep their copied scale factors
          * in synch with the native ones.
          */
         for (ChildCollisionShape child : children) {
             CollisionShape childShape = child.getShape();
-            childShape.setScale(scale);
+            childShape.updateScale();
         }
     }
 
@@ -438,7 +438,6 @@ public class CompoundCollisionShape extends CollisionShape {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
-
         capsule.writeSavableArrayList(children, tagChildren, null);
     }
     // *************************************************************************
