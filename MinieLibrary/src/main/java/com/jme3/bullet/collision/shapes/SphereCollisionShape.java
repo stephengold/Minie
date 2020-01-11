@@ -70,7 +70,7 @@ public class SphereCollisionShape extends CollisionShape {
     // fields
 
     /**
-     * copy of radius (in unscaled units, &ge;0)
+     * copy of the unscaled radius (&ge;0)
      */
     private float radius;
     // *************************************************************************
@@ -117,6 +117,7 @@ public class SphereCollisionShape extends CollisionShape {
         createShape();
     }
     // *************************************************************************
+    // new methods exposed
 
     /**
      * Read the collision margin for this shape.
@@ -131,7 +132,7 @@ public class SphereCollisionShape extends CollisionShape {
     /**
      * Read the radius of the sphere.
      *
-     * @return the radius (in unscaled units, &ge;0)
+     * @return the unscaled radius (&ge;0)
      */
     public float getRadius() {
         assert radius >= 0f : radius;
@@ -141,7 +142,7 @@ public class SphereCollisionShape extends CollisionShape {
     /**
      * Calculate the unscaled volume of the sphere.
      *
-     * @return the volume (in shape-space units cubed, &ge;0)
+     * @return the volume (&ge;0)
      */
     public float unscaledVolume() {
         float result = MyVolume.sphereVolume(radius);

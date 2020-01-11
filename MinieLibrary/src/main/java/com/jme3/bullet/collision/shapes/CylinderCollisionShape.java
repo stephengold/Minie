@@ -74,8 +74,8 @@ public class CylinderCollisionShape extends CollisionShape {
      */
     private int axis;
     /**
-     * copy of unscaled half extent for each local axis (not null, no negative
-     * component)
+     * copy of the unscaled half extent for each local axis (not null, no
+     * negative component)
      */
     private Vector3f halfExtents = new Vector3f(0.5f, 0.5f, 0.5f);
     // *************************************************************************
@@ -93,7 +93,8 @@ public class CylinderCollisionShape extends CollisionShape {
      *
      * @param radius the desired radius (in unscaled units, &ge;0)
      * @param height the desired height (in unscaled units, &ge;0)
-     * @param axisIndex which local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @param axisIndex the desired local axis for the height: 0&rarr;X,
+     * 1&rarr;Y, 2&rarr;Z
      */
     public CylinderCollisionShape(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
@@ -118,7 +119,8 @@ public class CylinderCollisionShape extends CollisionShape {
      * (&ge;0, &le;endPosition)
      * @param endPosition the position at which the sample locations end
      * (&ge;startPosition, &le;capacity)
-     * @param axisIndex local axis for height: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @param axisIndex which local axis for height: 0&rarr;X, 1&rarr;Y,
+     * 2&rarr;Z
      */
     public CylinderCollisionShape(FloatBuffer buffer, int startPosition,
             int endPosition, int axisIndex) {
@@ -203,9 +205,9 @@ public class CylinderCollisionShape extends CollisionShape {
     }
 
     /**
-     * Determine the unscaled height of the cylinder.
+     * Determine the height of the cylinder.
      *
-     * @return the height (in shape-space units, &ge;0)
+     * @return the unscaled height (&ge;0)
      */
     public float getHeight() {
         float result = 2f * halfExtents.get(axis);
@@ -217,7 +219,7 @@ public class CylinderCollisionShape extends CollisionShape {
     /**
      * Calculate the unscaled volume of the cylinder.
      *
-     * @return the volume (in shape-space units cubed, &ge;0)
+     * @return the volume (&ge;0)
      */
     public float unscaledVolume() {
         float result = MyVolume.cylinderVolume(halfExtents);
@@ -322,7 +324,7 @@ public class CylinderCollisionShape extends CollisionShape {
     // private methods
 
     /**
-     * Instantiate the configured shape in Bullet.
+     * Instantiate the configured btCollisionShape.
      */
     private void createShape() {
         assert axis == PhysicsSpace.AXIS_X

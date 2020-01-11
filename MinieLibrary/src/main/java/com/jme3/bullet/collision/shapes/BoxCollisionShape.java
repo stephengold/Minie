@@ -172,7 +172,7 @@ public class BoxCollisionShape extends CollisionShape {
     /**
      * Calculate the unscaled volume of the box.
      *
-     * @return the volume (in shape-space units cubed, &ge;0)
+     * @return the volume (&ge;0)
      */
     public float unscaledVolume() {
         float result = MyVolume.boxVolume(halfExtents);
