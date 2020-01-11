@@ -779,7 +779,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Rescale this body. Note that if it has joints, their pivot points will
+     * Rescale this body. Note that if it has joints, their pivot locations will
      * not be adjusted.
      *
      * @param newScale the desired scale factor for each local axis (not null,

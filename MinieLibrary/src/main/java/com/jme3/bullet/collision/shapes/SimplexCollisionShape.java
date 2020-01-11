@@ -283,7 +283,7 @@ public class SimplexCollisionShape extends CollisionShape {
     /**
      * Calculate the unscaled volume of the simplex.
      *
-     * @return the volume (in shape-space units cubed, &ge;0)
+     * @return the volume (&ge;0)
      */
     public float unscaledVolume() {
         float volume = 0f;

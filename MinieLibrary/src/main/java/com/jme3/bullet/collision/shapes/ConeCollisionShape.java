@@ -69,11 +69,11 @@ public class ConeCollisionShape extends CollisionShape {
     // fields
 
     /**
-     * copy of height (in unscaled units, &ge;0)
+     * copy of the unscaled height (&ge;0)
      */
     private float height;
     /**
-     * copy of radius (in unscaled units, &ge;0)
+     * copy of the unscaled radius of the base (&ge;0)
      */
     private float radius;
     /**
@@ -94,7 +94,8 @@ public class ConeCollisionShape extends CollisionShape {
      *
      * @param radius the desired radius (in unscaled units, &ge;0)
      * @param height the desired height (in unscaled units, &ge;0)
-     * @param axisIndex the desired local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @param axisIndex the desired local axis for the height: 0&rarr;X,
+     * 1&rarr;Y, 2&rarr;Z (default=Y)
      */
     public ConeCollisionShape(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
@@ -109,7 +110,7 @@ public class ConeCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a cone shape, oriented along the Y axis.
+     * Instantiate a cone shape, oriented along the local Y axis.
      *
      * @param radius the desired radius (in unscaled units, &ge;0)
      * @param height the desired height (in unscaled units, &ge;0)
@@ -141,7 +142,7 @@ public class ConeCollisionShape extends CollisionShape {
     /**
      * Read the height of the cone.
      *
-     * @return height (&ge;0)
+     * @return the unscaled height (&ge;0)
      */
     public float getHeight() {
         assert height >= 0f : height;
@@ -151,7 +152,7 @@ public class ConeCollisionShape extends CollisionShape {
     /**
      * Read the radius of the cone's base.
      *
-     * @return the radius (&ge;0)
+     * @return the unscaled radius (&ge;0)
      */
     public float getRadius() {
         assert radius >= 0f : radius;
@@ -161,7 +162,7 @@ public class ConeCollisionShape extends CollisionShape {
     /**
      * Calculate the unscaled volume of the cone.
      *
-     * @return the volume (in shape-space units cubed, &ge;0)
+     * @return the volume (&ge;0)
      */
     public float unscaledVolume() {
         float result = MyVolume.coneVolume(radius, height);
@@ -174,7 +175,7 @@ public class ConeCollisionShape extends CollisionShape {
 
     /**
      * Test whether the specified scale factors can be applied to this shape.
-     * For cone shapes, radial scaling must be uniform.
+     * For cone shapes, base scaling must be uniform.
      *
      * @param scale the desired scale factor for each local axis (may be null,
      * unaffected)

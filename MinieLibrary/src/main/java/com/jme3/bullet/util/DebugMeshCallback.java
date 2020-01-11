@@ -276,7 +276,7 @@ class DebugMeshCallback {
      *
      * @param meshToWorld the transform to apply to debug-mesh locations (not
      * null, unaffected)
-     * @return the maximum length of the transformed locations vectors (&ge;0)
+     * @return the maximum length of the transformed location vectors (&ge;0)
      */
     float maxDistance(Transform meshToWorld) {
         double maxSquaredDistance = 0.0;
