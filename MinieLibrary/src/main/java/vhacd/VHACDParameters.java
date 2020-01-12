@@ -42,7 +42,7 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Set maximum number of voxels generated during the voxelization stage
+	 * Set maximum number of voxels generated during the voxelization stage
 	 * @param v  default = 100000, min = 10000, max = 64000000
 	 */
 	public void setVoxelResolution(int v) {
@@ -55,8 +55,8 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Set maximum number of clipping stages. During each split stage, all the model parts (with a concavity higher than the user defined threshold) are clipped according the "best" clipping plane
-	 * @param  default = 20, min = 1, max = 32
+	 * Set maximum number of clipping stages. During each split stage, all the model parts (with a concavity higher than the user defined threshold) are clipped according the "best" clipping plane
+	 * @param v default = 20, min = 1, max = 32
 	 */
 	public void setClippingDepth(int v) {
 		m_depth=v;
@@ -68,8 +68,8 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Set maximum concavity
-	 * @param default = 0.0025, min = 0.0, max = 1.0
+	 * Set maximum concavity
+	 * @param v default = 0.0025, min = 0.0, max = 1.0
 	 */
 	public void setMaxConcavity(double v) {
 		m_concavity=v;
@@ -81,7 +81,7 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Set granularity of the search for the "best" clipping plane
+	 * Set granularity of the search for the "best" clipping plane
 	 * @param v default = 4, min = 1, max = 16
 	 */
 	public void setPlaneDownSampling(int v) {
@@ -94,7 +94,7 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Set precision of the convex-hull generation process during the clipping plane selection stage
+	 * Set precision of the convex-hull generation process during the clipping plane selection stage
 	 * @param v  default = 4, min = 1, max = 16
 	 */
 	public void setConvexHullDownSampling(int v) {
@@ -107,7 +107,7 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Set bias toward clipping along symmetry planes
+	 * Set bias toward clipping along symmetry planes
 	 * @param v default = 0.05, min = 0.0, max = 1.0,
 	 */
 	public void setAlpha(double v) {
@@ -120,7 +120,7 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 	
-	 * @description Set bias toward clipping along revolution axes
+	 * Set bias toward clipping along revolution axes
 	 * @param v default = 0.05, min = 0.0, max = 1.0
 	 */
 	public void setBeta(double v) {
@@ -133,7 +133,7 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Set maximum allowed concavity during the merge stage
+	 * Set maximum allowed concavity during the merge stage
 	 * @param v  default = 0.00125, min = 0.0, max = 1.0
 	 */
 	public void setGamma(double v) {
@@ -146,7 +146,7 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Enable/disable normalizing the mesh before applying the convex decomposition
+	 * Enable/disable normalizing the mesh before applying the convex decomposition
 	 * @param v  default = False
 	 */
 	public void setPCA(boolean v) {
@@ -159,8 +159,8 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Set approximate convex decomposition mode
-	 * @param v  default = VOXEL
+	 * Set approximate convex decomposition mode
+	 * @param mode  default = VOXEL
 	 */
 	public void setACDMode(ACDMode mode) {
 		m_mode=mode.ordinal();
@@ -172,7 +172,7 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Set minimum volume to add vertices to convex-hulls
+	 * Set minimum volume to add vertices to convex-hulls
 	 * @param v  default = 0.0001, min = 0.0, max = 0.01
 	 */
 	public void setMinVolumePerHull(double v) {
@@ -185,7 +185,7 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable{
 
 	/**
 	 * 
-	 * @description Set maximum number of vertices per convex-hull
+	 * Set maximum number of vertices per convex-hull
 	 * @param v  default = 32, min = 4, max = 1024)
 	 */
 	public void setMaxVerticesPerHull(int v) {
