@@ -32,7 +32,8 @@ sourcesJar { archiveBaseName = project.ext.baseName }
 dependencies {
     api "jme3utilities:jme3-utilities-heart:$heartVersion"
     api "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
-    api 'vhacd:vhacd-native:1.1.1'
+    api 'net.java.dev.jna:jna:4.2.2'
+    implementation 'net.java.dev.jna:jna-platform:4.2.2'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
