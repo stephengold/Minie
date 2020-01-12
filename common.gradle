@@ -37,7 +37,6 @@ repositories {
     //mavenLocal()
     maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
     maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for jme3-testdata
-    maven { url 'https://dl.bintray.com/stephengold/v-hacd' } // for v-hacd-java-bindings
     jcenter()
 }
 
