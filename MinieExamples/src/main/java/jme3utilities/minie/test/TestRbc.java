@@ -426,6 +426,7 @@ public class TestRbc
                 case "scale z-xy":
                     setScale(0.8f, 0.8f, 1.3f);
                     return;
+
                 case "toggle aabb":
                     toggleAabb();
                     return;
@@ -1236,26 +1237,24 @@ public class TestRbc
      */
     private void makeTestShape() {
         addNode.attachChild(testSpatial);
-        setScale(1f, 1f, 1f);
 
         if (!(testSpatial instanceof TerrainQuad)) {
             List<Geometry> list
                     = MySpatial.listSpatials(testSpatial, Geometry.class, null);
-            for (Geometry g : list) {
-                g.setMaterial(greenMaterial);
+            for (Geometry geometry : list) {
+                geometry.setMaterial(greenMaterial);
             }
         }
 
         RigidBodyControl rbc = new RigidBodyControl(testShape);
         rbc.setApplyScale(true);
+        rbc.setDebugMeshResolution(DebugShapeFactory.highResolution);
         rbc.setDebugNumSides(2);
         rbc.setKinematic(true);
         rbc.setPhysicsSpace(physicsSpace);
         testSpatial.addControl(rbc);
 
-        if (testShape.isConvex()) {
-            rbc.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        }
+        setScale(1f, 1f, 1f);
     }
 
     /**
