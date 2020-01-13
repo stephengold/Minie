@@ -19,11 +19,28 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.logging.Logger;
 
+/**
+ * Utility class to perform Volumetric-Hierarchical Approximate Convex
+ * Decomposition on an indexed mesh.
+ */
 public class VHACD {
+    // *************************************************************************
+    // constants and loggers
 
+    /**
+     * message logger for this class
+     */
     final public static Logger logger
             = Logger.getLogger(VHACD.class.getName());
+    // *************************************************************************
+    // fields
+
+    /**
+     * list of hulls computed during the latest decomposition
+     */
     private static VHACDResults results;
+    // *************************************************************************
+    // new methods exposed
 
     public static VHACDResults compute(float positions[], int indexes[],
             VHACDParameters params) {
@@ -34,11 +51,20 @@ public class VHACD {
 
         return results;
     }
+    // *************************************************************************
+    // private methods
 
+    /**
+     * Callback to add a hull to the result.
+     * <p>
+     * This method is invoked from native code.
+     */
     private static void addHull(long hullId) {
         VHACDHull hull = new VHACDHull(hullId);
         results.add(hull);
     }
+    // *************************************************************************
+    // native methods
 
     native private static void compute(FloatBuffer positions, IntBuffer indices,
             long paramsId, boolean debugEnabled);

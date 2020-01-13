@@ -23,13 +23,36 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
+/**
+ * A set of tuning parameters for convex decomposition, based on V-HACD's
+ * IVHACD::Parameters.
+ */
 public class VHACDParameters implements Cloneable {
+    // *************************************************************************
+    // constants and loggers
 
+    /**
+     * message logger for this class
+     */
     final public static Logger logger
             = Logger.getLogger(VHACDParameters.class.getName());
-    private boolean DEBUG;
-    private long objectId = 0L;
+    // *************************************************************************
+    // fields
 
+    /**
+     * true&rarr;enable debug output
+     */
+    private boolean DEBUG;
+    /**
+     * unique identifier of the IVHACD::Parameters
+     */
+    private long objectId = 0L;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the default tuning parameters.
+     */
     public VHACDParameters() {
         objectId = create();
 
@@ -37,23 +60,40 @@ public class VHACDParameters implements Cloneable {
         setGamma(objectId, 0.00125);
         setMaxNumVerticesPerCH(objectId, 32);
     }
+    // *************************************************************************
+    // new methods exposed
 
+    /**
+     * Read the ID of the native object.
+     *
+     * @return the unique identifier (not zero)
+     */
     long getId() {
         assert objectId != 0L;
         return objectId;
     }
 
+    /**
+     * Alter whether debug output is enabled.
+     *
+     * @param d true &rarr; enable, false &rarr; disable (default=false)
+     */
     public void setDebugEnabled(boolean d) {
         DEBUG = d;
     }
 
+    /**
+     * Test whether debug output is enabled.
+     *
+     * @return true if enabled, otherwise false
+     */
     public boolean getDebugEnabled() {
         return DEBUG;
     }
 
     /**
-     *
      * Set maximum number of voxels generated during the voxelization stage
+     * (native field: m_resolution).
      *
      * @param v default = 100000, min = 10000, max = 64000000
      */
@@ -62,16 +102,22 @@ public class VHACDParameters implements Cloneable {
         setResolution(objectId, v);
     }
 
+    /**
+     * Read the maximum number of voxels generated during the voxelization stage
+     * (native field: m_resolution).
+     *
+     * @return number (&ge;10000, &le;64000000)
+     */
     public int getVoxelResolution() {
         int result = getResolution(objectId);
         return result;
     }
 
     /**
-     *
      * Set maximum number of clipping stages. During each split stage, all the
      * model parts (with a concavity higher than the user defined threshold) are
      * clipped according the "best" clipping plane
+     * (native field: m_depth).
      *
      * @param v default = 20, min = 1, max = 32
      */
@@ -80,14 +126,19 @@ public class VHACDParameters implements Cloneable {
         setDepth(objectId, v);
     }
 
+    /**
+     * Read the maximum number of clipping stages (native field: m_depth).
+     *
+     * @return number (&ge;1, &le;32)
+     */
     public int getClippingDepth() {
         int result = getDepth(objectId);
         return result;
     }
 
     /**
-     *
      * Set maximum concavity
+     * (native field: m_concavity).
      *
      * @param v default = 0.0025, min = 0.0, max = 1.0
      */
@@ -96,14 +147,19 @@ public class VHACDParameters implements Cloneable {
         setConcavity(objectId, v);
     }
 
+    /**
+     * Read the maximum concavity (native field: m_concavity).
+     *
+     * @return concavity (&ge;0, &le;1)
+     */
     public double getMaxConcavity() {
         double result = getConcavity(objectId);
         return result;
     }
 
     /**
-     *
      * Set granularity of the search for the "best" clipping plane
+     * (native field: m_planeDownsampling).
      *
      * @param v default = 4, min = 1, max = 16
      */
@@ -112,15 +168,20 @@ public class VHACDParameters implements Cloneable {
         setPlaneDownsampling(objectId, v);
     }
 
+    /**
+     * Read the granularity of the search (native field: m_planeDownsampling).
+     *
+     * @return granularity (&ge;1, &le;16)
+     */
     public int getPlaneDownSampling() {
         int result = getPlaneDownsampling(objectId);
         return result;
     }
 
     /**
-     *
      * Set precision of the convex-hull generation process during the clipping
      * plane selection stage
+     * (native field: m_convexhullDownsampling).
      *
      * @param v default = 4, min = 1, max = 16
      */
@@ -129,14 +190,20 @@ public class VHACDParameters implements Cloneable {
         setConvexhullDownsampling(objectId, v);
     }
 
+    /**
+     * Read the precision of the convex-hull generation process (native field:
+     * m_convexhullDownsampling).
+     *
+     * @return precision (&ge;1, &le;16)
+     */
     public int getConvexHullDownSampling() {
         int result = getConvexhullDownsampling(objectId);
         return result;
     }
 
     /**
-     *
      * Set bias toward clipping along symmetry planes
+     * (native field: m_alpha).
      *
      * @param v default = 0.05, min = 0.0, max = 1.0,
      */
@@ -145,13 +212,19 @@ public class VHACDParameters implements Cloneable {
         setAlpha(objectId, v);
     }
 
+    /**
+     * Read the bias toward clipping along symmetry planes. (native field:
+     * m_alpha).
+     *
+     * @return alpha (&ge;0, &le;1)
+     */
     public double getAlpha() {
         return getAlpha(objectId);
     }
 
     /**
-     *
      * Set bias toward clipping along revolution axes
+     * (native field: m_beta).
      *
      * @param v default = 0.05, min = 0.0, max = 1.0
      */
@@ -160,14 +233,20 @@ public class VHACDParameters implements Cloneable {
         setBeta(objectId, v);
     }
 
+    /**
+     * Read the bias toward clipping along revolution axes
+     * (native field: m_beta).
+     *
+     * @return beta (&ge;0, &le;1)
+     */
     public double getBeta() {
         double result = getBeta(objectId);
         return result;
     }
 
     /**
-     *
      * Set maximum allowed concavity during the merge stage
+     * (native field: m_gamma).
      *
      * @param v default = 0.00125, min = 0.0, max = 1.0
      */
@@ -176,15 +255,21 @@ public class VHACDParameters implements Cloneable {
         setGamma(objectId, v);
     }
 
+    /**
+     * Read the maximum allowed concavity during the merge stage (native field:
+     * m_gamma).
+     *
+     * @return gamma (&ge;0, &le;1)
+     */
     public double getGamma() {
         double result = getGamma(objectId);
         return result;
     }
 
     /**
-     *
      * Enable/disable normalizing the mesh before applying the convex
      * decomposition
+     * (native field: m_pca).
      *
      * @param v default = False
      */
@@ -192,14 +277,19 @@ public class VHACDParameters implements Cloneable {
         setPca(objectId, v);
     }
 
+    /**
+     * Test whether to normalize the mesh (native field: m_pca).
+     *
+     * @return true &rarr; normalize, false &rarr; don't normalize
+     */
     public boolean getPCA() {
         boolean result = getPca(objectId);
         return result;
     }
 
     /**
-     *
      * Set approximate convex decomposition mode
+     * (native field: m_mode).
      *
      * @param mode default = VOXEL
      */
@@ -207,6 +297,11 @@ public class VHACDParameters implements Cloneable {
         setMode(objectId, mode.ordinal());
     }
 
+    /**
+     * Read the decomposition mode (native field: m_mode).
+     *
+     * @return an enum value (not null)
+     */
     public ACDMode getACDMode() {
         int ordinal = getMode(objectId);
         ACDMode result = ACDMode.values()[ordinal];
@@ -215,8 +310,8 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     *
      * Set minimum volume to add vertices to convex-hulls
+     * (native field: m_minVolumePerCH).
      *
      * @param v default = 0.0001, min = 0.0, max = 0.01
      */
@@ -225,14 +320,20 @@ public class VHACDParameters implements Cloneable {
         setMinVolumePerCH(objectId, v);
     }
 
+    /**
+     * Read the minimum volume for added vertices (native field:
+     * m_minVolumePerCH).
+     *
+     * @return the volume (&ge;0, &le;0.01)
+     */
     public double getMinVolumePerHull() {
         double result = getMinVolumePerCH(objectId);
         return result;
     }
 
     /**
-     *
      * Set maximum number of vertices per convex-hull
+     * (native field: m_maxNumVerticesPerCH).
      *
      * @param v default = 32, min = 4, max = 1024)
      */
@@ -241,11 +342,23 @@ public class VHACDParameters implements Cloneable {
         setMaxNumVerticesPerCH(objectId, v);
     }
 
+    /**
+     * Read the maximum number of vertices per hull (native field:
+     * m_maxNumVerticesPerCH).
+     *
+     * @return the limit (&ge;4, &le;1024)
+     */
     public int getMaxVerticesPerHull() {
         int result = getMaxNumVerticesPerCH(objectId);
         return result;
     }
 
+    /**
+     * Test for equality.
+     *
+     * @param op2 (may be null, unaffected)
+     * @return true if all parameters are equal, otherwise false
+     */
     @Override
     public boolean equals(Object op2) {
         if (op2 instanceof VHACDParameters) {
@@ -269,6 +382,12 @@ public class VHACDParameters implements Cloneable {
         return false;
     }
 
+    /**
+     * Read selected parameters from an InputStream.
+     *
+     * @param is (not null)
+     * @throws IOException from DataInputStream
+     */
     public void fromInputStream(InputStream is) throws IOException {
         DataInputStream dis = new DataInputStream(is);
 
@@ -289,6 +408,12 @@ public class VHACDParameters implements Cloneable {
         setOclAcceleration(dis.readInt());
     }
 
+    /**
+     * Write selected parameters to an OutputStream.
+     *
+     * @param os (not null)
+     * @throws IOException from DataOutputStream
+     */
     public void toOutputStream(OutputStream os) throws IOException {
         DataOutputStream dos = new DataOutputStream(os);
 
@@ -309,6 +434,11 @@ public class VHACDParameters implements Cloneable {
         dos.writeInt(getOclAcceleration());
     }
 
+    /**
+     * Create a copy of these parameters.
+     *
+     * @return a new instance, equivalent to this one
+     */
     @Override
     public VHACDParameters clone() {
         try {
@@ -333,28 +463,58 @@ public class VHACDParameters implements Cloneable {
         }
     }
 
+    /**
+     * Finalize this instance just before it is destroyed. Should be invoked
+     * only by a subclass or by the garbage collector.
+     *
+     * @throws Throwable ignored by the garbage collector
+     */
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
         logger.log(Level.FINE, "Finalizing {0}.", this);
         finalizeNative(objectId);
     }
+    // *************************************************************************
+    // private methods
 
+    /**
+     * native field: m_convexhullApproximation
+     *
+     * @return the value
+     */
     private int getConvexHullApproximation() {
         return getConvexhullApproximation(objectId);
     }
 
+    /**
+     * native field: m_oclAcceleration
+     *
+     * @return the value
+     */
     private int getOclAcceleration() {
         return getOclAcceleration(objectId);
     }
 
+    /**
+     * native field: m_convexhullApproximation
+     *
+     * @param value the desired value (default=true)
+     */
     private void setConvexHullApproximation(int value) {
         setConvexhullApproximation(objectId, value);
     }
 
+    /**
+     * native field: m_oclAcceleration
+     *
+     * @param value the desired value (default=true)
+     */
     private void setOclAcceleration(int value) {
         setOclAcceleration(objectId, value);
     }
+    // *************************************************************************
+    // native methods
 
     native private static long create();
 
