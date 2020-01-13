@@ -87,6 +87,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
+import vhacd.ACDMode;
+import vhacd.VHACDParameters;
 
 /**
  * Verify the defaults for physics objects.
@@ -233,6 +235,21 @@ public class TestDefaults {
         Assert.assertFalse(wheel.isApplyLocal());
 
         testJoints();
+
+        VHACDParameters parms = new VHACDParameters();
+        Assert.assertEquals(parms.getACDMode(), ACDMode.VOXEL);
+        Assert.assertEquals(0.05, parms.getAlpha(), 0.0);
+        Assert.assertEquals(0.05, parms.getBeta(), 0.0);
+        Assert.assertEquals(20, parms.getClippingDepth());
+        Assert.assertEquals(4, parms.getConvexHullDownSampling());
+        Assert.assertFalse(parms.getDebugEnabled());
+        Assert.assertEquals(0.00125, parms.getGamma(), 0.0);
+        Assert.assertEquals(0.0025, parms.getMaxConcavity(), 0.0);
+        Assert.assertEquals(32, parms.getMaxVerticesPerHull());
+        Assert.assertEquals(0.0001, parms.getMinVolumePerHull(), 0.0);
+        Assert.assertFalse(parms.getPCA());
+        Assert.assertEquals(4, parms.getPlaneDownSampling());
+        Assert.assertEquals(100000, parms.getVoxelResolution());
     }
 
     void assertEquals(float x, float y, float z, Vector3f vector,
