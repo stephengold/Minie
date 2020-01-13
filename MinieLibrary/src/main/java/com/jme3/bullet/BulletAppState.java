@@ -376,6 +376,7 @@ public class BulletAppState
      * next update.
      *
      * @param debugEnabled true &rarr; enable, false &rarr; disable
+     * (default=false)
      */
     public void setDebugEnabled(boolean debugEnabled) {
         this.debugEnabled = debugEnabled;

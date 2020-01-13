@@ -19,11 +19,23 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import jme3utilities.Validate;
 
+/**
+ * An indexed, 3-D convex hull based on V-HACD's ConvexHull.
+ */
 public class VHACDHull {
+    // *************************************************************************
+    // fields
 
     public final float[] positions;
     public final int[] indexes;
+    // *************************************************************************
+    // constructors
 
+    /**
+     * Instantiate a hull based on the identified ConvexHull.
+     *
+     * @param hullId the unique identifier of a ConvexHull (not zero)
+     */
     VHACDHull(long hullId) {
         Validate.nonZero(hullId, "hull ID");
 
@@ -44,10 +56,18 @@ public class VHACDHull {
         }
     }
 
+    /**
+     * Instantiate a hull with the specfied vertex positions and indices.
+     *
+     * @param positions (alias created)
+     * @param indexes (alias created)
+     */
     protected VHACDHull(float[] positions, int[] indexes) {
         this.positions = positions;
         this.indexes = indexes;
     }
+    // *************************************************************************
+    // native methods
 
     native private static void getIndices(long hullId, IntBuffer storeBuffer);
 
