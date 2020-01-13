@@ -14,33 +14,32 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  */
 package vhacd;
 
+import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import vhacd.vhacd_native.VHACDNativeResults;
-import vhacd.vhacd_native.VhacdLibrary;
+import java.util.logging.Logger;
 
 public class VHACD {
 
-    public static VHACDResults compute(float positions[], int indexes[], VHACDParameters params) {
-        int pos_buffer_l = positions.length;
-        int index_buffer_l = indexes.length;
+    final public static Logger logger
+            = Logger.getLogger(VHACD.class.getName());
+    private static VHACDResults results;
 
-        FloatBuffer b_pos = FloatBuffer.wrap(positions);
-        IntBuffer b_ind = IntBuffer.wrap(indexes);
-        b_pos.rewind();
-        b_ind.rewind();
+    public static VHACDResults compute(float positions[], int indexes[],
+            VHACDParameters params) {
+        FloatBuffer b_pos = BufferUtils.createFloatBuffer(positions);
+        IntBuffer b_ind = BufferUtils.createIntBuffer(indexes);
+        results = new VHACDResults();
+        compute(b_pos, b_ind, params.getId(), params.getDebugEnabled());
 
-        VHACDNativeResults r = VhacdLibrary.INSTANCE.compute(
-                b_pos,
-                pos_buffer_l,
-                b_ind,
-                index_buffer_l,
-                params,
-                params.getDebugEnabled() ? (byte) 1 : (byte) 0);
-
-        VHACDResults result = new VHACDResults(r);
-        VhacdLibrary.INSTANCE.release(r);
-
-        return result;
+        return results;
     }
+
+    private static void addHull(long hullId) {
+        VHACDHull hull = new VHACDHull(hullId);
+        results.add(hull);
+    }
+
+    native private static void compute(FloatBuffer positions, IntBuffer indices,
+            long paramsId, boolean debugEnabled);
 }
