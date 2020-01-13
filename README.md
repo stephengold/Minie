@@ -427,7 +427,7 @@ Clone the Minie repository using Git:
    + using Git:
      + `git clone https://github.com/stephengold/Minie.git`
      + `cd Minie`
-     + `git checkout 1.3.0for32`
+     + `git checkout -b latest 1.3.0for32`
    + using a web browser:
      + browse to [https://github.com/stephengold/Minie/releases/latest](https://github.com/stephengold/Minie/releases/latest)
      + follow the "Source code (zip)" link
