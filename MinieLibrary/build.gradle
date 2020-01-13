@@ -9,7 +9,7 @@ plugins {
 
 description = 'the Minie physics-support library for jMonkeyEngine'
 ext {
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/2.0.20/'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/2.0.22/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/'
 
     btfLinux32 = 'ReleaseSp'
@@ -32,8 +32,6 @@ sourcesJar { archiveBaseName = project.ext.baseName }
 dependencies {
     api "jme3utilities:jme3-utilities-heart:$heartVersion"
     api "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
-    api 'net.java.dev.jna:jna:4.2.2'
-    implementation 'net.java.dev.jna:jna-platform:4.2.2'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
