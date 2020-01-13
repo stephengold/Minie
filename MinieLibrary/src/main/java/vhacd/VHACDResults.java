@@ -14,30 +14,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  */
 package vhacd;
 
-import com.sun.jna.Pointer;
 import java.util.ArrayList;
-import vhacd.vhacd_native.VHACDNativeConvexHull;
-import vhacd.vhacd_native.VHACDNativeResults;
 
 public class VHACDResults extends ArrayList<VHACDHull> {
 
     private static final long serialVersionUID = 1L;
-
-    protected VHACDResults(VHACDNativeResults nat) {
-        int nhulls = nat.n_hulls;
-        VHACDNativeConvexHull[] hulls = (VHACDNativeConvexHull[]) nat.hulls.toArray(nhulls);
-
-        for (int i = 0; i < nhulls; i++) {
-            VHACDNativeConvexHull nhull = hulls[i];
-
-            Pointer p_positions = nhull.positions.getPointer();
-            float positions[] = p_positions.getFloatArray(0, nhull.n_positions * 3);
-
-            Pointer p_indexes = nhull.indexes.getPointer();
-            int indexes[] = p_indexes.getIntArray(0, nhull.n_indexes * 3);
-
-            VHACDHull hull = new VHACDHull(positions, indexes);
-            add(hull);
-        }
-    }
 }

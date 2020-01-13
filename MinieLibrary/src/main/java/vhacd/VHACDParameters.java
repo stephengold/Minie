@@ -19,16 +19,28 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import vhacd.vhacd_native.VHACDNativeParameters;
-import vhacd.vhacd_native.VhacdLibrary;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jme3utilities.Validate;
 
-public class VHACDParameters extends VHACDNativeParameters implements Cloneable {
+public class VHACDParameters implements Cloneable {
 
+    final public static Logger logger
+            = Logger.getLogger(VHACDParameters.class.getName());
     private boolean DEBUG;
+    private long objectId = 0L;
 
     public VHACDParameters() {
-        super();
-        VhacdLibrary.INSTANCE.initParams(this);
+        objectId = create();
+
+        setConcavity(objectId, 0.0025);
+        setGamma(objectId, 0.00125);
+        setMaxNumVerticesPerCH(objectId, 32);
+    }
+
+    long getId() {
+        assert objectId != 0L;
+        return objectId;
     }
 
     public void setDebugEnabled(boolean d) {
@@ -46,11 +58,13 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = 100000, min = 10000, max = 64000000
      */
     public void setVoxelResolution(int v) {
-        m_resolution = v;
+        Validate.inRange(v, "maxVoxels", 10_000, 64_000_000);
+        setResolution(objectId, v);
     }
 
     public int getVoxelResolution() {
-        return m_resolution;
+        int result = getResolution(objectId);
+        return result;
     }
 
     /**
@@ -62,11 +76,13 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = 20, min = 1, max = 32
      */
     public void setClippingDepth(int v) {
-        m_depth = v;
+        Validate.inRange(v, "depth", 1, 32);
+        setDepth(objectId, v);
     }
 
     public int getClippingDepth() {
-        return m_depth;
+        int result = getDepth(objectId);
+        return result;
     }
 
     /**
@@ -76,11 +92,13 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = 0.0025, min = 0.0, max = 1.0
      */
     public void setMaxConcavity(double v) {
-        m_concavity = v;
+        Validate.fraction(v, "depth");
+        setConcavity(objectId, v);
     }
 
     public double getMaxConcavity() {
-        return m_concavity;
+        double result = getConcavity(objectId);
+        return result;
     }
 
     /**
@@ -90,11 +108,13 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = 4, min = 1, max = 16
      */
     public void setPlaneDownSampling(int v) {
-        m_planeDownsampling = v;
+        Validate.inRange(v, "granularity", 1, 16);
+        setPlaneDownsampling(objectId, v);
     }
 
     public int getPlaneDownSampling() {
-        return m_planeDownsampling;
+        int result = getPlaneDownsampling(objectId);
+        return result;
     }
 
     /**
@@ -105,11 +125,13 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = 4, min = 1, max = 16
      */
     public void setConvexHullDownSampling(int v) {
-        m_convexhullDownsampling = v;
+        Validate.inRange(v, "precision", 1, 16);
+        setConvexhullDownsampling(objectId, v);
     }
 
     public int getConvexHullDownSampling() {
-        return m_convexhullDownsampling;
+        int result = getConvexhullDownsampling(objectId);
+        return result;
     }
 
     /**
@@ -119,11 +141,12 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = 0.05, min = 0.0, max = 1.0,
      */
     public void setAlpha(double v) {
-        m_alpha = v;
+        Validate.fraction(v, "alpha");
+        setAlpha(objectId, v);
     }
 
     public double getAlpha() {
-        return m_alpha;
+        return getAlpha(objectId);
     }
 
     /**
@@ -133,11 +156,13 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = 0.05, min = 0.0, max = 1.0
      */
     public void setBeta(double v) {
-        m_beta = v;
+        Validate.fraction(v, "beta");
+        setBeta(objectId, v);
     }
 
     public double getBeta() {
-        return m_beta;
+        double result = getBeta(objectId);
+        return result;
     }
 
     /**
@@ -147,11 +172,13 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = 0.00125, min = 0.0, max = 1.0
      */
     public void setGamma(double v) {
-        m_gamma = v;
+        Validate.fraction(v, "gamma");
+        setGamma(objectId, v);
     }
 
     public double getGamma() {
-        return m_gamma;
+        double result = getGamma(objectId);
+        return result;
     }
 
     /**
@@ -162,11 +189,12 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = False
      */
     public void setPCA(boolean v) {
-        m_pca = v ? 1 : 0;
+        setPca(objectId, v);
     }
 
     public boolean getPCA() {
-        return m_pca == 1;
+        boolean result = getPca(objectId);
+        return result;
     }
 
     /**
@@ -176,11 +204,14 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param mode default = VOXEL
      */
     public void setACDMode(ACDMode mode) {
-        m_mode = mode.ordinal();
+        setMode(objectId, mode.ordinal());
     }
 
     public ACDMode getACDMode() {
-        return ACDMode.values()[m_mode];
+        int ordinal = getMode(objectId);
+        ACDMode result = ACDMode.values()[ordinal];
+
+        return result;
     }
 
     /**
@@ -190,11 +221,13 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = 0.0001, min = 0.0, max = 0.01
      */
     public void setMinVolumePerHull(double v) {
-        m_minVolumePerCH = v;
+        Validate.inRange(v, "min volume", 0.0, 0.01);
+        setMinVolumePerCH(objectId, v);
     }
 
     public double getMinVolumePerHull() {
-        return m_minVolumePerCH;
+        double result = getMinVolumePerCH(objectId);
+        return result;
     }
 
     /**
@@ -204,81 +237,186 @@ public class VHACDParameters extends VHACDNativeParameters implements Cloneable 
      * @param v default = 32, min = 4, max = 1024)
      */
     public void setMaxVerticesPerHull(int v) {
-        m_maxNumVerticesPerCH = v;
+        Validate.inRange(v, "max vertices", 4, 1024);
+        setMaxNumVerticesPerCH(objectId, v);
     }
 
     public int getMaxVerticesPerHull() {
-        return m_maxNumVerticesPerCH;
+        int result = getMaxNumVerticesPerCH(objectId);
+        return result;
     }
 
     @Override
     public boolean equals(Object op2) {
         if (op2 instanceof VHACDParameters) {
-            VHACDParameters p2 = (VHACDParameters) op2;
-            return this.m_alpha == p2.m_alpha
-                    && this.m_beta == p2.m_beta
-                    && this.m_concavity == p2.m_concavity
-                    && this.m_convexhullApproximation == p2.m_convexhullApproximation
-                    && this.m_convexhullDownsampling == p2.m_convexhullDownsampling
-                    && this.m_depth == p2.m_depth
-                    && this.m_gamma == p2.m_gamma
-                    && this.m_maxNumVerticesPerCH == p2.m_maxNumVerticesPerCH
-                    && this.m_minVolumePerCH == p2.m_minVolumePerCH
-                    && this.m_mode == p2.m_mode
-                    && this.m_oclAcceleration == p2.m_oclAcceleration
-                    && this.m_pca == p2.m_pca
-                    && this.m_planeDownsampling == p2.m_planeDownsampling
-                    && this.m_resolution == p2.m_resolution;
+            VHACDParameters other = (VHACDParameters) op2;
+            boolean result = getACDMode() == other.getACDMode()
+                    && getAlpha() == other.getAlpha()
+                    && getBeta() == other.getBeta()
+                    && getConvexHullApproximation() == other.getConvexHullApproximation()
+                    && getConvexHullDownSampling() == other.getConvexHullDownSampling()
+                    && getClippingDepth() == other.getClippingDepth()
+                    && getGamma() == other.getGamma()
+                    && getMaxConcavity() == other.getMaxConcavity()
+                    && getMaxVerticesPerHull() == other.getMaxVerticesPerHull()
+                    && getMinVolumePerHull() == other.getMinVolumePerHull()
+                    && getOclAcceleration() == other.getOclAcceleration()
+                    && getPCA() == other.getPCA()
+                    && getPlaneDownSampling() == other.getPlaneDownSampling()
+                    && getVoxelResolution() == other.getVoxelResolution();
+            return result;
         }
         return false;
     }
 
     public void fromInputStream(InputStream is) throws IOException {
         DataInputStream dis = new DataInputStream(is);
-        m_concavity = dis.readDouble();
-        m_alpha = dis.readDouble();
-        m_beta = dis.readDouble();
-        m_gamma = dis.readDouble();
-        m_minVolumePerCH = dis.readDouble();
 
-        m_resolution = dis.readInt();
-        m_maxNumVerticesPerCH = dis.readInt();
-        m_depth = dis.readInt();
-        m_planeDownsampling = dis.readInt();
-        m_convexhullDownsampling = dis.readInt();
-        m_pca = dis.readInt();
-        m_mode = dis.readInt();
-        m_convexhullApproximation = dis.readInt();
-        m_oclAcceleration = dis.readInt();
+        setMaxConcavity(dis.readDouble());
+        setAlpha(dis.readDouble());
+        setBeta(dis.readDouble());
+        setGamma(dis.readDouble());
+        setMinVolumePerHull(dis.readDouble());
+
+        setVoxelResolution(dis.readInt());
+        setMaxVerticesPerHull(dis.readInt());
+        setClippingDepth(dis.readInt());
+        setPlaneDownSampling(dis.readInt());
+        setConvexHullDownSampling(dis.readInt());
+        setPCA(dis.readInt() != 0);
+        setACDMode(ACDMode.values()[dis.readInt()]);
+        setConvexHullApproximation(dis.readInt());
+        setOclAcceleration(dis.readInt());
     }
 
     public void toOutputStream(OutputStream os) throws IOException {
         DataOutputStream dos = new DataOutputStream(os);
 
-        dos.writeDouble(m_concavity);
-        dos.writeDouble(m_alpha);
-        dos.writeDouble(m_beta);
-        dos.writeDouble(m_gamma);
-        dos.writeDouble(m_minVolumePerCH);
+        dos.writeDouble(getMaxConcavity());
+        dos.writeDouble(getAlpha());
+        dos.writeDouble(getBeta());
+        dos.writeDouble(getGamma());
+        dos.writeDouble(getMinVolumePerHull());
 
-        dos.writeInt(m_resolution);
-        dos.writeInt(m_maxNumVerticesPerCH);
-        dos.writeInt(m_depth);
-        dos.writeInt(m_planeDownsampling);
-        dos.writeInt(m_convexhullDownsampling);
-        dos.writeInt(m_pca);
-        dos.writeInt(m_mode);
-        dos.writeInt(m_convexhullApproximation);
-        dos.writeInt(m_oclAcceleration);
-
+        dos.writeInt(getVoxelResolution());
+        dos.writeInt(getMaxVerticesPerHull());
+        dos.writeInt(getClippingDepth());
+        dos.writeInt(getPlaneDownSampling());
+        dos.writeInt(getConvexHullDownSampling());
+        dos.writeInt(getPCA() ? 1 : 0);
+        dos.writeInt(getACDMode().ordinal());
+        dos.writeInt(getConvexHullApproximation());
+        dos.writeInt(getOclAcceleration());
     }
 
     @Override
     public VHACDParameters clone() {
         try {
-            return (VHACDParameters) super.clone();
+            VHACDParameters clone = (VHACDParameters) super.clone();
+            clone.setACDMode(getACDMode());
+            clone.setAlpha(getAlpha());
+            clone.setBeta(getBeta());
+            clone.setClippingDepth(getClippingDepth());
+            clone.setConvexHullApproximation(getConvexHullApproximation());
+            clone.setConvexHullDownSampling(getConvexHullDownSampling());
+            clone.setGamma(getGamma());
+            clone.setMaxConcavity(getMaxConcavity());
+            clone.setMaxVerticesPerHull(getMaxVerticesPerHull());
+            clone.setMinVolumePerHull(getMinVolumePerHull());
+            clone.setOclAcceleration(getOclAcceleration());
+            clone.setPCA(getPCA());
+            clone.setPlaneDownSampling(getPlaneDownSampling());
+            clone.setVoxelResolution(getVoxelResolution());
+            return clone;
         } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        logger.log(Level.FINE, "Finalizing {0}.", this);
+        finalizeNative(objectId);
+    }
+
+    private int getConvexHullApproximation() {
+        return getConvexhullApproximation(objectId);
+    }
+
+    private int getOclAcceleration() {
+        return getOclAcceleration(objectId);
+    }
+
+    private void setConvexHullApproximation(int value) {
+        setConvexhullApproximation(objectId, value);
+    }
+
+    private void setOclAcceleration(int value) {
+        setOclAcceleration(objectId, value);
+    }
+
+    native private static long create();
+
+    native private static void finalizeNative(long objectId);
+
+    native private static double getAlpha(long objectId);
+
+    native private static double getBeta(long objectId);
+
+    native private static double getConcavity(long objectId);
+
+    native private static int getConvexhullApproximation(long objectId);
+
+    native private static int getConvexhullDownsampling(long objectId);
+
+    native private static int getDepth(long objectId);
+
+    native private static double getGamma(long objectId);
+
+    native private static int getMaxNumVerticesPerCH(long objectId);
+
+    native private static double getMinVolumePerCH(long objectId);
+
+    native private static int getMode(long objectId);
+
+    native private static int getOclAcceleration(long objectId);
+
+    native private static boolean getPca(long objectId);
+
+    native private static int getPlaneDownsampling(long objectId);
+
+    native private static int getResolution(long objectId);
+
+    native private static void setAlpha(long objectId, double alpha);
+
+    native private static void setBeta(long objectId, double beta);
+
+    native private static void setConcavity(long objectId, double depth);
+
+    native private static void setConvexhullApproximation(long objectId,
+            int value);
+
+    native private static void setConvexhullDownsampling(long objectId,
+            int precision);
+
+    native private static void setDepth(long objectId, int depth);
+
+    native private static void setGamma(long objectId, double beta);
+
+    native private static void setMaxNumVerticesPerCH(long objectId,
+            int numVertices);
+
+    native private static void setMinVolumePerCH(long objectId, double volume);
+
+    native private static void setMode(long objectId, int ordinal);
+
+    native private static void setOclAcceleration(long objectId, int value);
+
+    native private static void setPca(long objectId, boolean enable);
+
+    native private static void setPlaneDownsampling(long objectId,
+            int granularity);
+
+    native private static void setResolution(long objectId, int maxVoxels);
 }

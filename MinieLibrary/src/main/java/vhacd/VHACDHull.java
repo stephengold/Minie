@@ -14,13 +14,47 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  */
 package vhacd;
 
+import com.jme3.util.BufferUtils;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import jme3utilities.Validate;
+
 public class VHACDHull {
 
     public final float[] positions;
     public final int[] indexes;
 
+    VHACDHull(long hullId) {
+        Validate.nonZero(hullId, "hull ID");
+
+        int numFloats = getNumFloats(hullId);
+        FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(numFloats);
+        getPositions(hullId, floatBuffer);
+        positions = new float[numFloats];
+        for (int floatIndex = 0; floatIndex < numFloats; ++floatIndex) {
+            positions[floatIndex] = floatBuffer.get(floatIndex);
+        }
+
+        int numInts = getNumInts(hullId);
+        IntBuffer intBuffer = BufferUtils.createIntBuffer(numInts);
+        getIndices(hullId, intBuffer);
+        indexes = new int[numInts];
+        for (int intIndex = 0; intIndex < numInts; ++intIndex) {
+            indexes[intIndex] = intBuffer.get(intIndex);
+        }
+    }
+
     protected VHACDHull(float[] positions, int[] indexes) {
         this.positions = positions;
         this.indexes = indexes;
     }
+
+    native private static void getIndices(long hullId, IntBuffer storeBuffer);
+
+    native private static int getNumFloats(long hullId);
+
+    native private static int getNumInts(long hullId);
+
+    native private static void getPositions(long hullId,
+            FloatBuffer storeBuffer);
 }
