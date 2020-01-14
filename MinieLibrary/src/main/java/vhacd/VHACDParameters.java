@@ -57,7 +57,6 @@ public class VHACDParameters implements Cloneable {
         objectId = create();
 
         setConcavity(objectId, 0.0025);
-        setGamma(objectId, 0.00125);
         setMaxNumVerticesPerCH(objectId, 32);
     }
     // *************************************************************************
@@ -114,31 +113,7 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Set maximum number of clipping stages. During each split stage, all the
-     * model parts (with a concavity higher than the user defined threshold) are
-     * clipped according the "best" clipping plane
-     * (native field: m_depth).
-     *
-     * @param v default = 20, min = 1, max = 32
-     */
-    public void setClippingDepth(int v) {
-        Validate.inRange(v, "depth", 1, 32);
-        setDepth(objectId, v);
-    }
-
-    /**
-     * Read the maximum number of clipping stages (native field: m_depth).
-     *
-     * @return number (&ge;1, &le;32)
-     */
-    public int getClippingDepth() {
-        int result = getDepth(objectId);
-        return result;
-    }
-
-    /**
-     * Set maximum concavity
-     * (native field: m_concavity).
+     * Set maximum concavity (native field: m_concavity).
      *
      * @param v default = 0.0025, min = 0.0, max = 1.0
      */
@@ -158,8 +133,8 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Set granularity of the search for the "best" clipping plane
-     * (native field: m_planeDownsampling).
+     * Set granularity of the search for the "best" clipping plane (native
+     * field: m_planeDownsampling).
      *
      * @param v default = 4, min = 1, max = 16
      */
@@ -180,8 +155,7 @@ public class VHACDParameters implements Cloneable {
 
     /**
      * Set precision of the convex-hull generation process during the clipping
-     * plane selection stage
-     * (native field: m_convexhullDownsampling).
+     * plane selection stage (native field: m_convexhullDownsampling).
      *
      * @param v default = 4, min = 1, max = 16
      */
@@ -202,8 +176,7 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Set bias toward clipping along symmetry planes
-     * (native field: m_alpha).
+     * Set bias toward clipping along symmetry planes (native field: m_alpha).
      *
      * @param v default = 0.05, min = 0.0, max = 1.0,
      */
@@ -223,8 +196,7 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Set bias toward clipping along revolution axes
-     * (native field: m_beta).
+     * Set bias toward clipping along revolution axes (native field: m_beta).
      *
      * @param v default = 0.05, min = 0.0, max = 1.0
      */
@@ -234,8 +206,8 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Read the bias toward clipping along revolution axes
-     * (native field: m_beta).
+     * Read the bias toward clipping along revolution axes (native field:
+     * m_beta).
      *
      * @return beta (&ge;0, &le;1)
      */
@@ -245,31 +217,8 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Set maximum allowed concavity during the merge stage
-     * (native field: m_gamma).
-     *
-     * @param v default = 0.00125, min = 0.0, max = 1.0
-     */
-    public void setGamma(double v) {
-        Validate.fraction(v, "gamma");
-        setGamma(objectId, v);
-    }
-
-    /**
-     * Read the maximum allowed concavity during the merge stage (native field:
-     * m_gamma).
-     *
-     * @return gamma (&ge;0, &le;1)
-     */
-    public double getGamma() {
-        double result = getGamma(objectId);
-        return result;
-    }
-
-    /**
      * Enable/disable normalizing the mesh before applying the convex
-     * decomposition
-     * (native field: m_pca).
+     * decomposition (native field: m_pca).
      *
      * @param v default = False
      */
@@ -288,8 +237,7 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Set approximate convex decomposition mode
-     * (native field: m_mode).
+     * Set approximate convex decomposition mode (native field: m_mode).
      *
      * @param mode default = VOXEL
      */
@@ -310,8 +258,8 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Set minimum volume to add vertices to convex-hulls
-     * (native field: m_minVolumePerCH).
+     * Set minimum volume to add vertices to convex-hulls (native field:
+     * m_minVolumePerCH).
      *
      * @param v default = 0.0001, min = 0.0, max = 0.01
      */
@@ -332,8 +280,8 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Set maximum number of vertices per convex-hull
-     * (native field: m_maxNumVerticesPerCH).
+     * Set maximum number of vertices per convex-hull (native field:
+     * m_maxNumVerticesPerCH).
      *
      * @param v default = 32, min = 4, max = 1024)
      */
@@ -368,8 +316,6 @@ public class VHACDParameters implements Cloneable {
                     && getBeta() == other.getBeta()
                     && getConvexHullApproximation() == other.getConvexHullApproximation()
                     && getConvexHullDownSampling() == other.getConvexHullDownSampling()
-                    && getClippingDepth() == other.getClippingDepth()
-                    && getGamma() == other.getGamma()
                     && getMaxConcavity() == other.getMaxConcavity()
                     && getMaxVerticesPerHull() == other.getMaxVerticesPerHull()
                     && getMinVolumePerHull() == other.getMinVolumePerHull()
@@ -394,12 +340,10 @@ public class VHACDParameters implements Cloneable {
         setMaxConcavity(dis.readDouble());
         setAlpha(dis.readDouble());
         setBeta(dis.readDouble());
-        setGamma(dis.readDouble());
         setMinVolumePerHull(dis.readDouble());
 
         setVoxelResolution(dis.readInt());
         setMaxVerticesPerHull(dis.readInt());
-        setClippingDepth(dis.readInt());
         setPlaneDownSampling(dis.readInt());
         setConvexHullDownSampling(dis.readInt());
         setPCA(dis.readInt() != 0);
@@ -420,12 +364,10 @@ public class VHACDParameters implements Cloneable {
         dos.writeDouble(getMaxConcavity());
         dos.writeDouble(getAlpha());
         dos.writeDouble(getBeta());
-        dos.writeDouble(getGamma());
         dos.writeDouble(getMinVolumePerHull());
 
         dos.writeInt(getVoxelResolution());
         dos.writeInt(getMaxVerticesPerHull());
-        dos.writeInt(getClippingDepth());
         dos.writeInt(getPlaneDownSampling());
         dos.writeInt(getConvexHullDownSampling());
         dos.writeInt(getPCA() ? 1 : 0);
@@ -446,10 +388,8 @@ public class VHACDParameters implements Cloneable {
             clone.setACDMode(getACDMode());
             clone.setAlpha(getAlpha());
             clone.setBeta(getBeta());
-            clone.setClippingDepth(getClippingDepth());
             clone.setConvexHullApproximation(getConvexHullApproximation());
             clone.setConvexHullDownSampling(getConvexHullDownSampling());
-            clone.setGamma(getGamma());
             clone.setMaxConcavity(getMaxConcavity());
             clone.setMaxVerticesPerHull(getMaxVerticesPerHull());
             clone.setMinVolumePerHull(getMinVolumePerHull());
@@ -530,10 +470,6 @@ public class VHACDParameters implements Cloneable {
 
     native private static int getConvexhullDownsampling(long objectId);
 
-    native private static int getDepth(long objectId);
-
-    native private static double getGamma(long objectId);
-
     native private static int getMaxNumVerticesPerCH(long objectId);
 
     native private static double getMinVolumePerCH(long objectId);
@@ -559,10 +495,6 @@ public class VHACDParameters implements Cloneable {
 
     native private static void setConvexhullDownsampling(long objectId,
             int precision);
-
-    native private static void setDepth(long objectId, int depth);
-
-    native private static void setGamma(long objectId, double beta);
 
     native private static void setMaxNumVerticesPerCH(long objectId,
             int numVertices);

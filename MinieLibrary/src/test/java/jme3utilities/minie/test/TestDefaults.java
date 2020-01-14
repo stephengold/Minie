@@ -240,10 +240,8 @@ public class TestDefaults {
         Assert.assertEquals(parms.getACDMode(), ACDMode.VOXEL);
         Assert.assertEquals(0.05, parms.getAlpha(), 0.0);
         Assert.assertEquals(0.05, parms.getBeta(), 0.0);
-        Assert.assertEquals(20, parms.getClippingDepth());
         Assert.assertEquals(4, parms.getConvexHullDownSampling());
         Assert.assertFalse(parms.getDebugEnabled());
-        Assert.assertEquals(0.00125, parms.getGamma(), 0.0);
         Assert.assertEquals(0.0025, parms.getMaxConcavity(), 0.0);
         Assert.assertEquals(32, parms.getMaxVerticesPerHull());
         Assert.assertEquals(0.0001, parms.getMinVolumePerHull(), 0.0);
