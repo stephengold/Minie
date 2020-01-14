@@ -256,8 +256,8 @@ public class CompoundCollisionShape extends CollisionShape {
      * transform to each child shape. The resuling moment of inertia is also
      * calculated.
      *
-     * @param masses the mass for each child shape (not null, all elements
-     * &gt;0)
+     * @param masses the mass for each child shape (not null, direct, all
+     * elements &gt;0)
      * @param storeTransform storage for the transform (modified if not null)
      * @param storeInertia storage for the moment of inertia (not null,
      * modified)
@@ -266,6 +266,9 @@ public class CompoundCollisionShape extends CollisionShape {
      */
     public Transform principalAxes(FloatBuffer masses, Transform storeTransform,
             Vector3f storeInertia) {
+        if (!masses.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         Transform result
                 = (storeTransform == null) ? new Transform() : storeTransform;
         Validate.nonNull(storeInertia, "storage for inertia");
