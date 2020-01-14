@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyString;
+import vhacd.VHACD;
 import vhacd.VHACDParameters;
+import vhacd.VHACDProgressListener;
 
 /**
  * Console application to generate the collision-shape asset "torus.j3o".
@@ -111,10 +113,31 @@ public class MakeTorus {
         /*
          * Generate a CollisionShape to approximate the Mesh.
          */
+        VHACD.addProgressListener(new VHACDProgressListener() {
+            String last = "";
+
+            @Override
+            public void update(double overallPercent, double stagePercent,
+                    double operationPercent, String stageName,
+                    String operationName) {
+                String message = String.format(
+                        "MakeTorus  stage=%s  operation=%s",
+                        MyString.quote(stageName),
+                        MyString.quote(operationName));
+                if (!message.equals(last)) {
+                    System.out.println(message);
+                    last = message;
+                }
+            }
+        });
         Geometry geometry = new Geometry("torus", mesh);
         VHACDParameters parms = new VHACDParameters();
         CompoundCollisionShape torusShape
                 = CollisionShapeFactory.createVhacdShape(geometry, parms, null);
+        if (torusShape.countChildren() == 0) {
+            System.err.println("V-HACD failed!");
+            System.exit(-1);
+        }
         /*
          * Write the shape to the asset file.
          */
