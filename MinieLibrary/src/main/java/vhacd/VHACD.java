@@ -15,9 +15,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 package vhacd;
 
 import com.jme3.util.BufferUtils;
+import com.jme3.util.SafeArrayList;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.List;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * Utility class to perform Volumetric-Hierarchical Approximate Convex
@@ -36,11 +39,28 @@ public class VHACD {
     // fields
 
     /**
+     * list of registered progress listeners
+     */
+    final private static List<VHACDProgressListener> progressListeners
+            = new SafeArrayList<>(VHACDProgressListener.class);
+    /**
      * list of hulls computed during the latest decomposition
      */
     private static VHACDResults results;
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Register the specified progress listener.
+     *
+     * @param listener the listener to register (not null, alias created)
+     */
+    public static void addProgressListener(VHACDProgressListener listener) {
+        Validate.nonNull(listener, "listener");
+        assert !progressListeners.contains(listener);
+
+        progressListeners.add(listener);
+    }
 
     public static VHACDResults compute(float positions[], int indexes[],
             VHACDParameters params) {
@@ -51,17 +71,50 @@ public class VHACD {
 
         return results;
     }
+
+    /**
+     * De-register the specified progress listener.
+     *
+     * @param listener the listener to de-register (not null, unaffected)
+     */
+    public static void removeProgressListener(VHACDProgressListener listener) {
+        Validate.nonNull(listener, "listener");
+
+        boolean success = progressListeners.remove(listener);
+        assert success;
+    }
     // *************************************************************************
     // private methods
 
     /**
-     * Callback to add a hull to the result.
+     * Add a hull to the result.
      * <p>
      * This method is invoked from native code.
      */
     private static void addHull(long hullId) {
         VHACDHull hull = new VHACDHull(hullId);
         results.add(hull);
+    }
+
+    /**
+     * Update all progress listeners.
+     * <p>
+     * This method is invoked from native code.
+     *
+     * @param overallPercent an overall completion percentage (&ge;0, &le;100)
+     * @param stagePercent a completion percentage for the current stage (&ge;0,
+     * &le;100)
+     * @param operationPercent a completion percentage for the current operation
+     * (&ge;0, &le;100)
+     * @param stageName the name of the current stage
+     * @param operationName the name of the current operation
+     */
+    private static void update(double overallPercent, double stagePercent,
+            double operationPercent, String stageName, String operationName) {
+        for (VHACDProgressListener listener : progressListeners) {
+            listener.update(overallPercent, stagePercent,
+                    operationPercent, stageName, operationName);
+        }
     }
     // *************************************************************************
     // native methods
