@@ -156,9 +156,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Append faces to this body. A Face is a triangle connecting 3 nodes.
      *
      * @param nodeIndices a face is created for every 3 indices in this buffer
-     * (not null, size a multiple of 3)
+     * (not null, direct, size a multiple of 3)
      */
     public void appendFaces(IndexBuffer nodeIndices) {
+        if (!nodeIndices.getBuffer().isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         if (nodeIndices.size() % 3 != 0) {
             throw new IllegalArgumentException(
                     "The number of indices must be a multiple of 3.");
@@ -183,9 +186,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * nodes.
      *
      * @param nodeIndices a link is created for each pair of indices in this
-     * buffer (not null, size a multiple of 2)
+     * buffer (not null, direct, size a multiple of 2)
      */
     public void appendLinks(IndexBuffer nodeIndices) {
+        if (!nodeIndices.getBuffer().isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         if (nodeIndices.size() % 2 != 0) {
             throw new IllegalArgumentException(
                     "The number of indices must be a multiple of 2.");
@@ -210,9 +216,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * soft body. Each node has its own location, velocity, mass, etcetera.
      *
      * @param nodeLocations a node is created for every 3 floats in this buffer
-     * (not null, limit a multiple of 3)
+     * (not null, direct, limit a multiple of 3)
      */
     public void appendNodes(FloatBuffer nodeLocations) {
+        if (!nodeLocations.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         if (nodeLocations.limit() % 3 != 0) {
             throw new IllegalArgumentException(
                     "The number of floats must be a multiple of 3.");
@@ -227,9 +236,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * nodes.
      *
      * @param tetrahedra a tetrahedron is created for every 4 indices in this
-     * buffer (not null, size a multiple of 4)
+     * buffer (not null, direct, size a multiple of 4)
      */
     public void appendTetras(IndexBuffer tetrahedra) {
+        if (!tetrahedra.getBuffer().isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         if (tetrahedra.size() % 4 != 0) {
             throw new IllegalArgumentException(
                     "The number of indices must be a multiple of 4.");
@@ -337,11 +349,14 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the center-of-mass locations of all clusters in this body.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 3 floats per cluster (in physics-space
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing 3 floats per cluster (in physics-space
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyClusterCenters(FloatBuffer storeResult) {
+        if (storeResult != null && !storeResult.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         int numFloats = 3 * countClusters();
         FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
@@ -354,11 +369,14 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the masses of all clusters in this body.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing a float value per cluster (either storeResult
-     * or a new buffer)
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing a float value per cluster (either
+     * storeResult or a new buffer)
      */
     public FloatBuffer copyClusterMasses(FloatBuffer storeResult) {
+        if (storeResult != null && !storeResult.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         int numFloats = countClusters();
         FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
@@ -371,9 +389,9 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the node indices of all faces in this body.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 3 indices per face (either storeResult or a
-     * new buffer)
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing 3 indices per face (either storeResult
+     * or a new buffer)
      */
     public IntBuffer copyFaces(IntBuffer storeResult) {
         int numInts = 3 * countFaces();
@@ -381,6 +399,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (storeResult == null) {
             result = BufferUtils.createIntBuffer(numInts);
         } else {
+            assert storeResult.isDirect();
             assert storeResult.capacity() == numInts;
             result = storeResult;
         }
@@ -394,9 +413,9 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the node indices of all links in this body.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 2 indices per link (either storeResult or a
-     * new buffer)
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing 2 indices per link (either storeResult
+     * or a new buffer)
      */
     public IntBuffer copyLinks(IntBuffer storeResult) {
         int numInts = 2 * countLinks();
@@ -404,6 +423,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (storeResult == null) {
             result = BufferUtils.createIntBuffer(numInts);
         } else {
+            assert storeResult.isDirect();
             assert storeResult.capacity() == numInts;
             result = storeResult;
         }
@@ -417,11 +437,14 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the locations of all nodes in this body.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 3 floats per node (in physics-space
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing 3 floats per node (in physics-space
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyLocations(FloatBuffer storeResult) {
+        if (storeResult != null && !storeResult.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         int numFloats = 3 * countNodes();
         FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
@@ -434,11 +457,14 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the masses of all nodes in this body.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing a float value per node (either storeResult or
-     * a new buffer)
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing a float value per node (either
+     * storeResult or a new buffer)
      */
     public FloatBuffer copyMasses(FloatBuffer storeResult) {
+        if (storeResult != null && !storeResult.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         int numFloats = countNodes();
         FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
@@ -451,11 +477,14 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the normal vectors of all nodes in this body.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 3 floats per node (in physics-space
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing 3 floats per node (in physics-space
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyNormals(FloatBuffer storeResult) {
+        if (storeResult != null && !storeResult.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         int numFloats = 3 * countNodes();
         FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
@@ -468,9 +497,9 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the node indices of all tetrahedra in this body.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 4 indices per tetrahedron (either storeResult
-     * or a new buffer)
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing 4 indices per tetrahedron (either
+     * storeResult or a new buffer)
      */
     public IntBuffer copyTetras(IntBuffer storeResult) {
         int numInts = 4 * countTetras();
@@ -478,6 +507,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (storeResult == null) {
             result = BufferUtils.createIntBuffer(numInts);
         } else {
+            assert storeResult.isDirect();
             assert storeResult.capacity() == numInts;
             result = storeResult;
         }
@@ -491,11 +521,14 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Copy the velocities of all nodes in this body.
      *
-     * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing 3 floats per node (in physics-space
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing 3 floats per node (in physics-space
      * coordinates, either storeResult or a new buffer)
      */
     public FloatBuffer copyVelocities(FloatBuffer storeResult) {
+        if (storeResult != null && !storeResult.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         int numFloats = 3 * countNodes();
         FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
@@ -723,9 +756,9 @@ public class PhysicsSoftBody extends PhysicsBody {
      * List all nodes in the indexed cluster.
      *
      * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
-     * @param storeResult storage for the result (modified if not null)
-     * @return a buffer containing node indices (either storeResult or a new
-     * buffer)
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing node indices (either storeResult or a
+     * new buffer)
      */
     public IntBuffer listNodesInCluster(int clusterIndex,
             IntBuffer storeResult) {
@@ -736,6 +769,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (storeResult == null) {
             resultBuffer = BufferUtils.createIntBuffer(numNodes);
         } else {
+            assert storeResult.isDirect();
             assert storeResult.capacity() == numNodes;
             resultBuffer = storeResult;
         }
@@ -929,11 +963,15 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Alter the masses of all nodes.
      *
-     * @param masses a buffer containing the desired masses (not null, all
-     * elements &ge;0)
+     * @param masses a direct buffer containing the desired masses (not null,
+     * all elements &ge;0)
      */
     public void setMasses(FloatBuffer masses) {
         Validate.nonNull(masses, "masses");
+        if (!masses.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
+
         setMasses(objectId, masses);
     }
 
@@ -978,11 +1016,14 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Alter the normal vectors of all nodes.
      *
-     * @param normals a buffer containing the desired normals (in physics-space
-     * coordinates, not null, unaffected)
+     * @param normals a direct buffer containing the desired normals (in
+     * physics-space coordinates, not null, unaffected)
      */
     public void setNormals(FloatBuffer normals) {
         Validate.nonNull(normals, "normals");
+        if (!normals.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         setNormals(objectId, normals);
     }
 
@@ -1011,11 +1052,14 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * Alter the velocities of all nodes.
      *
-     * @param velocities a buffer containing the desired velocities (in
+     * @param velocities a direct buffer containing the desired velocities (in
      * physics-space coordinates, not null, unaffected)
      */
     public void setVelocities(FloatBuffer velocities) {
         Validate.nonNull(velocities, "velocities");
+        if (!velocities.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
         setVelocities(objectId, velocities);
     }
 

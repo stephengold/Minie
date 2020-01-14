@@ -85,7 +85,7 @@ public class NativeSoftBodyUtil {
      * body.
      *
      * @param mesh the input JME mesh (not null, unaffected,
-     * mode=Lines/LineLoop/LineStrip)
+     * mode=Lines/LineLoop/LineStrip, position and index buffers must be direct)
      * @param softBody the soft body to which links will be added (not null,
      * modified)
      */
@@ -108,7 +108,8 @@ public class NativeSoftBodyUtil {
      * specified soft body.
      *
      * @param mesh the input JME mesh (not null, unaffected,
-     * mode=Triangles/TriangleFan/TriangleStrip)
+     * mode=Triangles/TriangleFan/TriangleStrip, position and index buffers must
+     * be direct)
      * @param softBody the soft body to which faces and links will be added (not
      * null, modified)
      */
@@ -313,7 +314,8 @@ public class NativeSoftBodyUtil {
      * soft body.
      *
      * @param body the soft body to provide locations (not null, unaffected)
-     * @param store the Mesh to update (not null, modified)
+     * @param store the Mesh to update (not null, position buffer must be
+     * direct, modified)
      * @param meshInLocalSpace if true, transform the cluster locations into the
      * body's local coordinates (relative to its bounding-box center), otherwise
      * use physics-space coordinates
@@ -337,8 +339,10 @@ public class NativeSoftBodyUtil {
      *
      * @param body the soft body to provide locations and normals (not null,
      * unaffected)
-     * @param vertexToNodeMap the index map to apply, or null for identity
-     * @param store the Mesh to update (not null, modified)
+     * @param vertexToNodeMap the index map to apply (must be direct) or null
+     * for identity
+     * @param store the Mesh to update (not null, position, normal, and index
+     * buffers must be direct, modified)
      * @param meshInLocalSpace if true, transform node locations into the body's
      * local coordinates (relative to its bounding-box center), otherwise use
      * physics-space coordinates

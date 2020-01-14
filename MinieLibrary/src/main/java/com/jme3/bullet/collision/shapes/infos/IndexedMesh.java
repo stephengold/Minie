@@ -96,13 +96,13 @@ public class IndexedMesh implements JmeCloneable, Savable {
     // fields
 
     /**
-     * configured position data: typically 3 floats per vertex (not null, never
-     * flipped)
+     * configured position data: typically 3 floats per vertex (not null,
+     * direct, never flipped)
      */
     private FloatBuffer vertexPositions;
     /**
-     * configured index data: typically 3 ints per triangle (not null, never
-     * flipped)
+     * configured index data: typically 3 ints per triangle (not null, direct,
+     * never flipped)
      */
     private IntBuffer indices; // TODO use an IndexBuffer to conserve memory
     /**
