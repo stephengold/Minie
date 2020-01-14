@@ -17,17 +17,22 @@ package vhacd;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import jme3utilities.Validate;
 
 /**
- * An indexed, 3-D convex hull based on V-HACD's ConvexHull.
+ * An indexed, 3-D, convex hull based on V-HACD's ConvexHull.
  */
 public class VHACDHull {
     // *************************************************************************
     // fields
 
-    public final float[] positions;
-    public final int[] indexes;
+    /*
+     * vertex locations (length a multiple of 3)
+     */
+    final public float[] positions;
+    /*
+     * vertex indices for each triangular face (length a multiple of 3)
+     */
+    final public int[] indexes;
     // *************************************************************************
     // constructors
 
@@ -37,7 +42,7 @@ public class VHACDHull {
      * @param hullId the unique identifier of a ConvexHull (not zero)
      */
     VHACDHull(long hullId) {
-        Validate.nonZero(hullId, "hull ID");
+        assert hullId != 0L;
 
         int numFloats = getNumFloats(hullId);
         FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(numFloats);
