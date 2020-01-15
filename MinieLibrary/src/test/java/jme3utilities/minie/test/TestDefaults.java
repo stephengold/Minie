@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -71,6 +71,7 @@ import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.objects.infos.VehicleTuning;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeLibrary;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
@@ -196,6 +197,14 @@ public class TestDefaults {
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
         softA.generateClusters(2, 999);
         softA.setMass(1f);
+
+        VehicleTuning tuning = new VehicleTuning();
+        Assert.assertEquals(10.5f, tuning.getFrictionSlip(), 0f);
+        Assert.assertEquals(6000f, tuning.getMaxSuspensionForce(), 0f);
+        Assert.assertEquals(500f, tuning.getMaxSuspensionTravelCm(), 0f);
+        Assert.assertEquals(0.83f, tuning.getSuspensionCompression(), 0f);
+        Assert.assertEquals(0.88f, tuning.getSuspensionDamping(), 0f);
+        Assert.assertEquals(5.88f, tuning.getSuspensionStiffness(), 0f);
 
         PhysicsVehicle vehicle = new PhysicsVehicle(box);
         testRigidBody(vehicle);
