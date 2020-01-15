@@ -36,8 +36,6 @@ import com.jme3.bullet.collision.Activation;
 import com.jme3.bullet.collision.CollisionFlag;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
-import com.jme3.bullet.collision.shapes.MeshCollisionShape;
-import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.objects.infos.RigidBodyMotionState;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -1113,22 +1111,16 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Validate a shape suitable for a dynamic body.
+     * Validate a shape as suitable for a dynamic body.
      *
      * @param shape (not null, unaffected)
      */
     private static void validateDynamicShape(CollisionShape shape) {
         assert shape != null;
 
-        if (shape instanceof HeightfieldCollisionShape) {
+        if (shape.isNonMoving()) {
             throw new IllegalStateException(
-                    "Dynamic rigid body can't have heightfield shape!");
-        } else if (shape instanceof MeshCollisionShape) {
-            throw new IllegalStateException(
-                    "Dynamic rigid body can't have mesh shape!");
-        } else if (shape instanceof PlaneCollisionShape) {
-            throw new IllegalStateException(
-                    "Dynamic rigid body can't have plane shape!");
+                    "Dynamic rigid body can't have a non-moving shape!");
         }
     }
     // *************************************************************************
