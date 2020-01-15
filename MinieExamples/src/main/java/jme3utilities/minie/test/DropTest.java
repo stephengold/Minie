@@ -458,7 +458,10 @@ public class DropTest
         DebugMeshNormals debugMeshNormals;
         switch (shapeName) {
             case "barbell":
-                gemShape = namedShapes.get("barbell");
+            case "knucklebone":
+            case "ladder":
+            case "top":
+                gemShape = namedShapes.get(shapeName);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -489,7 +492,10 @@ public class DropTest
                 break;
 
             case "duck":
-                gemShape = namedShapes.get("duck");
+            case "heart":
+            case "teapot":
+            case "torus":
+                gemShape = namedShapes.get(shapeName);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -503,24 +509,9 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
-            case "heart":
-                gemShape = namedShapes.get("heart");
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
             case "hull":
                 gemShape = MinieTestShapes.randomHull(random);
                 debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "knucklebone":
-                gemShape = namedShapes.get("knucklebone");
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "ladder":
-                gemShape = namedShapes.get("ladder");
-                debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
             case "multiSphere":
@@ -538,23 +529,8 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
-            case "teapot":
-                gemShape = namedShapes.get("teapot");
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
             case "tetrahedron":
                 gemShape = MinieTestShapes.randomTetrahedron(random);
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "top":
-                gemShape = namedShapes.get("top");
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "torus":
-                gemShape = namedShapes.get("torus");
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
