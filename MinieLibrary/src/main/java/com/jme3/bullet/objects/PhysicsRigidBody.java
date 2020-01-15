@@ -43,6 +43,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
@@ -934,6 +935,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     @Override
     public float getMass() {
+        assert checkMass();
         return mass;
     }
 
@@ -1098,6 +1100,18 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Compare Bullet's mass to the local copy.
+     *
+     * @return true if the masses are approximately equal, otherwise false
+     */
+    private boolean checkMass() {
+        float nativeMass = getMass(objectId);
+        boolean result = FastMath.approximateEquals(nativeMass, mass);
+
+        return result;
+    }
 
     /**
      * Validate a shape suitable for a dynamic body.
