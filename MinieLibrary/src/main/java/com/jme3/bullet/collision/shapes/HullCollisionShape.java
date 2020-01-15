@@ -44,7 +44,6 @@ import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,10 +63,6 @@ public class HullCollisionShape extends CollisionShape {
     // constants and loggers
 
     /**
-     * number of bytes in a float
-     */
-    final private static int floatSize = 4;
-    /**
      * number of axes in a vector
      */
     final private static int numAxes = 3;
@@ -85,12 +80,12 @@ public class HullCollisionShape extends CollisionShape {
     // fields
 
     /**
-     * direct buffer for passing vertices to Bullet TODO use a FloatBuffer
+     * direct buffer for passing vertices to Bullet
      * <p>
      * A Java reference must persist after createShape() completes, or else the
      * buffer might get garbage collected.
      */
-    private ByteBuffer bbuf;
+    private FloatBuffer bbuf;
     /**
      * array of mesh coordinates (not null, not empty, length a multiple of 3)
      */
@@ -277,13 +272,13 @@ public class HullCollisionShape extends CollisionShape {
     public float[] copyHullVertices() {
         long shapeId = getObjectId();
         int numHullVertices = countHullVertices();
-        ByteBuffer buffer = BufferUtils.createByteBuffer(
-                numHullVertices * numAxes * floatSize);
-        getHullVertices(shapeId, buffer);
+        FloatBuffer buffer
+                = BufferUtils.createFloatBuffer(numHullVertices * numAxes);
+        getHullVerticesF(shapeId, buffer);
 
         float[] result = new float[numHullVertices * numAxes];
         for (int floatI = 0; floatI < numHullVertices * numAxes; ++floatI) {
-            result[floatI] = buffer.getFloat();
+            result[floatI] = buffer.get(floatI);
         }
 
         return result;
@@ -399,16 +394,17 @@ public class HullCollisionShape extends CollisionShape {
     @Override
     public float maxRadius() {
         int numHullVertices = countHullVertices();
-        ByteBuffer buffer = BufferUtils.createByteBuffer(
-                numHullVertices * numAxes * floatSize);
+        FloatBuffer buffer
+                = BufferUtils.createFloatBuffer(numHullVertices * numAxes);
         long shapeId = getObjectId();
-        getHullVertices(shapeId, buffer);
+        getHullVerticesF(shapeId, buffer);
         double maxSquaredDistance = 0.0;
 
         for (int vertexI = 0; vertexI < numHullVertices; ++vertexI) {
-            float x = scale.x * buffer.getFloat();
-            float y = scale.y * buffer.getFloat();
-            float z = scale.z * buffer.getFloat();
+            int startOffset = numAxes * vertexI;
+            float x = scale.x * buffer.get(startOffset + PhysicsSpace.AXIS_X);
+            float y = scale.y * buffer.get(startOffset + PhysicsSpace.AXIS_Y);
+            float z = scale.z * buffer.get(startOffset + PhysicsSpace.AXIS_Z);
             double lengthSquared = MyMath.sumOfSquares(x, y, z);
             if (lengthSquared > maxSquaredDistance) {
                 maxSquaredDistance = lengthSquared;
@@ -479,16 +475,16 @@ public class HullCollisionShape extends CollisionShape {
         assert (numFloats % numAxes == 0) : numFloats;
         int numVertices = numFloats / numAxes;
 
-        bbuf = BufferUtils.createByteBuffer(numFloats * floatSize);
+        bbuf = BufferUtils.createFloatBuffer(numFloats);
         for (float f : points) {
             if (!Float.isFinite(f)) {
                 String msg = "illegal coordinate: " + Float.toString(f);
                 throw new IllegalArgumentException(msg);
             }
-            bbuf.putFloat(f);
+            bbuf.put(f);
         }
 
-        long shapeId = createShapeB(bbuf, numVertices);
+        long shapeId = createShapeF(bbuf, numVertices);
         setNativeId(shapeId);
 
         setScale(scale);
@@ -527,9 +523,9 @@ public class HullCollisionShape extends CollisionShape {
 
     native private int countHullVertices(long shapeId);
 
-    native private long createShapeB(ByteBuffer vertices, int numVertices);
+    native private long createShapeF(FloatBuffer vertices, int numVertices);
 
-    native private void getHullVertices(long shapeId, ByteBuffer vertices);
+    native private void getHullVerticesF(long shapeId, FloatBuffer vertices);
 
     native private void recalcAabb(long shapeId);
 }

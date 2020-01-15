@@ -42,7 +42,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
- * Typical tuning parameters for a PhysicsVehicle.
+ * Tuning parameters for a PhysicsVehicle, based on btVehicleTuning.
  *
  * @author normenhansen
  */
@@ -96,11 +96,25 @@ public class VehicleTuning implements JmeCloneable, Savable {
      * car, 200&rarr;Formula-1 race car, default=5.88)
      */
     private float suspensionStiffness = 5.88f;
+    /**
+     * unique identifier of the btVehicleTuning
+     */
+    private long nativeId = 0L;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate an instance with the default parameter values.
+     */
+    public VehicleTuning() {
+        create();
+    }
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Read the friction between tires and ground.
+     * Read the friction between tires and ground (native field:
+     * m_frictionSlip).
      *
      * @return the coefficient of friction
      */
@@ -109,7 +123,8 @@ public class VehicleTuning implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the maximum force exerted by each wheel's suspension.
+     * Read the maximum force exerted by each wheel's suspension (native field:
+     * m_maxSuspensionForce).
      *
      * @return the maximum force
      */
@@ -118,7 +133,8 @@ public class VehicleTuning implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the travel distance for each wheel's suspension.
+     * Read the travel distance for each wheel's suspension (native field:
+     * m_maxSuspensionTravelCm).
      *
      * @return the maximum travel distance (in centimeters)
      */
@@ -127,7 +143,18 @@ public class VehicleTuning implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the suspension damping when compressed.
+     * Read the native ID of the btCollisionShape.
+     *
+     * @return the unique identifier (not zero)
+     */
+    final public long getNativeId() {
+        assert nativeId != 0L;
+        return nativeId;
+    }
+
+    /**
+     * Read the suspension damping when compressed (native field:
+     * m_suspensionCompression).
      *
      * @return the damping amount
      */
@@ -136,7 +163,8 @@ public class VehicleTuning implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the suspension damping when expanded.
+     * Read the suspension damping when expanded (native field:
+     * m_suspensionDamping).
      *
      * @return the damping amount (0&rarr;no damping, default=0.88)
      */
@@ -145,7 +173,7 @@ public class VehicleTuning implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the suspension stiffness.
+     * Read the suspension stiffness (native field: m_suspensionStiffness).
      *
      * @return the stiffness constant
      */
@@ -154,61 +182,73 @@ public class VehicleTuning implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the friction between tires and ground.
+     * Alter the friction between tires and ground (native field:
+     * m_frictionSlip).
      *
      * @param coeff the desired coefficient of friction (0.8&rarr;realistic car,
      * 10000&rarr;kart racer, default=10.5)
      */
     public void setFrictionSlip(float coeff) {
         frictionSlip = coeff;
+        setFrictionSlip(nativeId, coeff);
     }
 
     /**
-     * Alter the force exerted by each wheel's suspension.
+     * Alter the force exerted by each wheel's suspension (native field:
+     * m_maxSuspensionForce).
      *
      * @param maxForce the desired maximum force (default=6000)
      */
     public void setMaxSuspensionForce(float maxForce) {
         maxSuspensionForce = maxForce;
+        setMaxSuspensionForce(nativeId, maxForce);
     }
 
     /**
-     * Alter the travel distance for the suspension.
+     * Alter the travel distance for the suspension (native field:
+     * m_maxSuspensionTravelCm).
      *
      * @param travelCm the desired maximum travel distance (in centimeters,
      * default=500)
      */
     public void setMaxSuspensionTravelCm(float travelCm) {
         maxSuspensionTravelCm = travelCm;
+        setMaxSuspensionTravelCm(nativeId, travelCm);
     }
 
     /**
-     * Alter the suspension damping when compressed.
+     * Alter the suspension damping when compressed (native field:
+     * m_suspensionCompression).
      *
      * @param damping the desired damping amount (0&rarr;no damping,
      * default=0.83)
      */
     public void setSuspensionCompression(float damping) {
         suspensionCompression = damping;
+        setSuspensionCompression(nativeId, damping);
     }
 
     /**
-     * Alter the suspension damping when expanded.
+     * Alter the suspension damping when expanded (native field:
+     * m_suspensionDamping).
      *
      * @param damping the desired damping (0&rarr;no damping, default=0.88)
      */
     public void setSuspensionDamping(float damping) {
         suspensionDamping = damping;
+        setSuspensionDamping(nativeId, damping);
     }
 
     /**
-     * Alter the stiffness of the suspension.
+     * Alter the stiffness of the suspension (native field:
+     * m_suspensionStiffness).
      *
      * @param stiffness the desired stiffness constant (10&rarr;off-road buggy,
      * 50&rarr;sports car, 200&rarr;Formula-1 race car, default=5.88)
      */
     public void setSuspensionStiffness(float stiffness) {
         suspensionStiffness = stiffness;
+        setSuspensionStiffness(nativeId, stiffness);
     }
     // *************************************************************************
     // JmeCloneable methods
@@ -224,7 +264,7 @@ public class VehicleTuning implements JmeCloneable, Savable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        // nothing to do!
+        create();
     }
 
     /**
@@ -264,6 +304,8 @@ public class VehicleTuning implements JmeCloneable, Savable {
         maxSuspensionTravelCm
                 = capsule.readFloat(tagMaxSuspensionTravelCm, 500f);
         maxSuspensionForce = capsule.readFloat(tagMaxSuspensionForce, 6000f);
+
+        create();
     }
 
     /**
@@ -284,4 +326,36 @@ public class VehicleTuning implements JmeCloneable, Savable {
         capsule.write(maxSuspensionTravelCm, tagMaxSuspensionTravelCm, 500f);
         capsule.write(maxSuspensionForce, tagMaxSuspensionForce, 6000f);
     }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Instantiate the configured tuning in Bullet.
+     */
+    private void create() {
+        nativeId = createNative();
+
+        setFrictionSlip(nativeId, frictionSlip);
+        setMaxSuspensionForce(nativeId, maxSuspensionForce);
+        setMaxSuspensionTravelCm(nativeId, maxSuspensionTravelCm);
+        setSuspensionCompression(nativeId, suspensionCompression);
+        setSuspensionDamping(nativeId, suspensionDamping);
+        setSuspensionStiffness(nativeId, suspensionStiffness);
+    }
+    // *************************************************************************
+    // native methods
+
+    native private long createNative();
+
+    native private void setFrictionSlip(long tuningId, float slip);
+
+    native private void setMaxSuspensionForce(long tuningId, float maxForce);
+
+    native private void setMaxSuspensionTravelCm(long tuningId, float travel);
+
+    native private void setSuspensionCompression(long tuningId, float damping);
+
+    native private void setSuspensionDamping(long tuningId, float damping);
+
+    native private void setSuspensionStiffness(long tuningId, float stiff);
 }

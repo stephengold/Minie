@@ -1164,6 +1164,8 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     native private void getLinearVelocity(long objectId, Vector3f storeResult);
 
+    native private float getMass(long objectId);
+
     native private float getSquaredSpeed(long objectId);
 
     native private void setAngularDamping(long objectId, float dampingFraction);
@@ -1203,6 +1205,6 @@ public class PhysicsRigidBody extends PhysicsBody {
     native private void setSleepingThresholds(long objectId, float linear,
             float angular);
 
-    native private long updateMassProps(long objectId, long collisionShapeId,
-            float mass); // TODO should return void
+    native private void updateMassProps(long objectId, long collisionShapeId,
+            float mass);
 }

@@ -1115,8 +1115,7 @@ public class PhysicsSpace {
      */
     protected void create() {
         long spaceId = createPhysicsSpace(worldMin.x, worldMin.y, worldMin.z,
-                worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal(),
-                false);
+                worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal());
         assert spaceId != 0L;
         logger.log(Level.FINE, "Created {0}.", this);
         initThread(spaceId);
@@ -1481,8 +1480,7 @@ public class PhysicsSpace {
     native private void addRigidBody(long spaceId, long rigidBodyId);
 
     native private long createPhysicsSpace(float minX, float minY, float minZ,
-            float maxX, float maxY, float maxZ, int broadphaseType,
-            boolean threading);
+            float maxX, float maxY, float maxZ, int broadphaseType);
 
     native private void finalizeNative(long spaceId);
 
