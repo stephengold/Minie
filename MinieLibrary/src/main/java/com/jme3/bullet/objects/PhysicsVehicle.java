@@ -206,9 +206,10 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         wheels.add(wheel);
 
         if (vehicleId != 0L) {
+            long tuningId = tuning.getNativeId();
             int index = addWheel(vehicleId, wheel.getLocation(null),
                     wheel.getDirection(null), wheel.getAxle(null),
-                    wheel.getRestLength(), wheel.getRadius(), tuning,
+                    wheel.getRestLength(), wheel.getRadius(), tuningId,
                     wheel.isFrontWheel());
             wheel.setVehicleId(vehicleId, index);
             assert wheel.checkCopies();
@@ -314,7 +315,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
                     Long.toHexString(vehicleId));
             finalizeNative(rayCasterId, vehicleId);
         }
-        rayCasterId = createVehicleRaycaster(objectId, spaceId);
+        rayCasterId = createVehicleRaycaster(spaceId);
         logger3.log(Level.FINE, "Created RayCaster {0}",
                 Long.toHexString(rayCasterId));
         vehicleId = createRaycastVehicle(objectId, rayCasterId);
@@ -322,11 +323,13 @@ public class PhysicsVehicle extends PhysicsRigidBody {
                 Long.toHexString(vehicleId));
         setCoordinateSystem(vehicleId, PhysicsSpace.AXIS_X,
                 PhysicsSpace.AXIS_Y, PhysicsSpace.AXIS_Z);
+
+        long tuningId = tuning.getNativeId();
         for (VehicleWheel wheel : wheels) {
             wheel.setVehicleId(vehicleId, addWheel(vehicleId,
                     wheel.getLocation(null), wheel.getDirection(null),
                     wheel.getAxle(null), wheel.getRestLength(),
-                    wheel.getRadius(), tuning, wheel.isFrontWheel()));
+                    wheel.getRadius(), tuningId, wheel.isFrontWheel()));
         }
     }
 
@@ -889,7 +892,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
 
     native private int addWheel(long vehicleId, Vector3f location,
             Vector3f direction, Vector3f axle, float restLength, float radius,
-            VehicleTuning tuning, boolean frontWheel);
+            long tuningId, boolean frontWheel);
 
     native private void applyEngineForce(long vehicleId, int wheelIndex,
             float force);
@@ -898,8 +901,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
 
     native private long createRaycastVehicle(long bodyId, long rayCasterId);
 
-    native private long createVehicleRaycaster(long unused,
-            long physicsSpaceId);
+    native private long createVehicleRaycaster(long physicsSpaceId);
 
     native private void finalizeNative(long rayCasterId, long vehicleId);
 

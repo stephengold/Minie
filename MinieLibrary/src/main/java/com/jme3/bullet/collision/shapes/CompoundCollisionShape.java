@@ -498,8 +498,8 @@ public class CompoundCollisionShape extends CollisionShape {
     // *************************************************************************
     // native methods
 
-    native private long addChildShape(long compoundId, long childShapeId,
-            Vector3f offset, Matrix3f rotation); // TODO should return void
+    native private void addChildShape(long compoundId, long childShapeId,
+            Vector3f offset, Matrix3f rotation);
 
     native private void calculatePrincipalAxisTransform(long shapeId,
             FloatBuffer massBuffer, Transform storeTransform,
@@ -512,8 +512,7 @@ public class CompoundCollisionShape extends CollisionShape {
 
     native private void recalcAabb(long shapeId);
 
-    native private long removeChildShape(long compoundId,
-            long childShapeId); // TODO should return void
+    native private void removeChildShape(long compoundId, long childShapeId);
 
     native private void setChildTransform(long compoundId, long childShapeId,
             Vector3f offset, Matrix3f rotation);
