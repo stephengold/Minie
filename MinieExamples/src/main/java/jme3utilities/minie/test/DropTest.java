@@ -212,6 +212,10 @@ public class DropTest
          * Mute the chatty loggers in certain packages.
          */
         Misc.setLoggingLevels(Level.WARNING);
+        /*
+         * Enable direct-memory tracking.
+         */
+        BufferUtils.setTrackDirectMemoryEnabled(true);
 
         Application application = new DropTest();
         /*
