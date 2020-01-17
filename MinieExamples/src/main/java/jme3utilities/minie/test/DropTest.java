@@ -309,6 +309,7 @@ public class DropTest
         dim.bind("shape hull", KeyInput.KEY_F2);
         dim.bind("shape knucklebone", KeyInput.KEY_NUMPAD6);
         dim.bind("shape ladder", KeyInput.KEY_NUMPAD1);
+        dim.bind("shape letter", KeyInput.KEY_NUMPADENTER);
         dim.bind("shape multiSphere", KeyInput.KEY_F1);
         dim.bind("shape sphere", KeyInput.KEY_F11);
         dim.bind("shape star", KeyInput.KEY_F8);
@@ -513,6 +514,11 @@ public class DropTest
 
             case "hull":
                 gemShape = MinieTestShapes.randomHull(random);
+                debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
+            case "letter":
+                randomLetter();
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -884,9 +890,21 @@ public class DropTest
     private void generateShapes() {
         /*
          * "barbell", "chair", "football", "knucklebone", "ladder",
-         * "top", and "tray"
+         * "top", and "tray" are generated at runtime
          */
         MinieTestShapes.addShapes(namedShapes);
+        /*
+         * letter shapes
+         */
+        CollisionShape shape;
+        for (char character = 'A'; character <= 'Z'; ++character) {
+            char[] array = new char[]{character};
+            String glyphString = new String(array);
+            String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
+                    glyphString);
+            shape = (CollisionShape) assetManager.loadAsset(assetPath);
+            namedShapes.put(glyphString, shape);
+        }
         /*
          * "candyDish"
          */
@@ -894,7 +912,7 @@ public class DropTest
         Node candyDishNode = (Node) assetManager.loadModel(candyDishPath);
         Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
         Mesh candyDishMesh = candyDishGeometry.getMesh();
-        CollisionShape shape = new MeshCollisionShape(candyDishMesh);
+        shape = new MeshCollisionShape(candyDishMesh);
         shape.setScale(5f);
         namedShapes.put("candyDish", shape);
         /*
@@ -1041,6 +1059,16 @@ public class DropTest
             gemInverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
             compound.correctAxes(transform);
         }
+    }
+
+    /**
+     * Randomly generate the shape of an uppercase letter.
+     */
+    private void randomLetter() {
+        char glyphChar = (char) ('A' + random.nextInt(26));
+        char[] array = new char[]{glyphChar};
+        String glyphString = new String(array);
+        gemShape = namedShapes.get(glyphString);
     }
 
     /**

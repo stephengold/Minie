@@ -64,7 +64,7 @@ task duckShape(type: JavaExec) {
 }
 task glyphShapes(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeGlyphs'
-    outputs.files([glyphAssets])
+    outputs.dirs([glyphAssets])
 }
 task heartShape(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeHeart'
