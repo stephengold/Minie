@@ -302,6 +302,7 @@ public class DropTest
         dim.bind("shape cone", KeyInput.KEY_F4);
         dim.bind("shape cylinder", KeyInput.KEY_F6);
         dim.bind("shape duck", KeyInput.KEY_NUMPAD2);
+        dim.bind("shape football", KeyInput.KEY_NUMPAD9);
         dim.bind("shape funnyHammer", KeyInput.KEY_F9);
         dim.bind("shape hammer", KeyInput.KEY_F10);
         dim.bind("shape heart", KeyInput.KEY_NUMPAD5);
@@ -458,6 +459,7 @@ public class DropTest
         DebugMeshNormals debugMeshNormals;
         switch (shapeName) {
             case "barbell":
+            case "football":
             case "knucklebone":
             case "ladder":
             case "top":
@@ -881,7 +883,8 @@ public class DropTest
      */
     private void generateShapes() {
         /*
-         * "barbell", "chair", "knucklebone", "ladder", "top", and "tray"
+         * "barbell", "chair", "football", "knucklebone", "ladder",
+         * "top", and "tray"
          */
         MinieTestShapes.addShapes(namedShapes);
         /*

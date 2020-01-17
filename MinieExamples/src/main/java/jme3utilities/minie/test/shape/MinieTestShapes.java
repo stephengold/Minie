@@ -51,6 +51,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
@@ -102,6 +103,9 @@ public class MinieTestShapes {
 
         CollisionShape chair = makeChair();
         namedShapes.put("chair", chair);
+
+        CollisionShape football = makeFootball();
+        namedShapes.put("football", football);
 
         CollisionShape knucklebone = makeKnucklebone();
         namedShapes.put("knucklebone", knucklebone);
@@ -193,6 +197,39 @@ public class MinieTestShapes {
         Transform transform = result.principalAxes(masses, null, inertia);
         chairInverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
         result.correctAxes(transform);
+
+        return result;
+    }
+
+    /**
+     * Generate a (gridiron) football.
+     *
+     * @return a new MultiSphere shape (not null)
+     */
+    public static MultiSphere makeFootball() {
+        float midRadius = 1f; // radius of the Y-Z cross section at X=0
+        float genRadius = 2f * midRadius; // curvature radius of the generatrix
+        float endRadius = 0.5f * midRadius; // controls pointiness of the ends
+
+        int numSpheres = 9;
+        List<Vector3f> centers = new ArrayList<>(numSpheres);
+        List<Float> radii = new ArrayList<>(numSpheres);
+
+        float centerY = genRadius - midRadius;
+        float maxX = FastMath.sqrt(genRadius * genRadius - centerY * centerY);
+        float lastCenterX = maxX - endRadius;
+
+        float xStep = (2f * lastCenterX) / (numSpheres - 1);
+        for (int sphereI = 0; sphereI < numSpheres; ++sphereI) {
+            float centerX = -lastCenterX + sphereI * xStep;
+            // centerX varies from -lastCenterX to +lastCenterX
+            centers.add(new Vector3f(centerX, 0f, 0f));
+
+            float radius = genRadius - MyMath.hypotenuse(centerX, centerY);
+            radii.add(radius);
+        }
+
+        MultiSphere result = new MultiSphere(centers, radii);
 
         return result;
     }
