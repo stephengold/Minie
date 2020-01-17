@@ -5,6 +5,7 @@
 description = 'Generate assets used in MinieExamples.'
 ext {
     assets = '../MinieExamples/src/main/resources/'
+    glyphAssets = assets + 'CollisionShapes/glyphs/'
 
     candyDish = assets + 'Models/CandyDish'
     duck = assets + 'Models/Duck'
@@ -28,6 +29,7 @@ dependencies {
     implementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
     implementation "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+    implementation 'com.atr:jme-ttf:2.2.2'
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
     // select one version of LWJGL (from jcenter or mavenLocal)
@@ -53,12 +55,16 @@ task models(type: JavaExec) {
 }
 
 task shapes {
-    dependsOn 'duckShape', 'heartShape', 'teapotShape'
+    dependsOn 'duckShape', 'glyphShapes', 'heartShape', 'teapotShape'
     description 'Generate collision-shape assets used in MinieExamples.'
 }
 task duckShape(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeDuck'
     outputs.files([duckShape])
+}
+task glyphShapes(type: JavaExec) {
+    main 'jme3utilities.minie.test.shapes.MakeGlyphs'
+    outputs.files([glyphAssets])
 }
 task heartShape(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeHeart'
@@ -111,12 +117,15 @@ task cleanOto(type: Delete) {
     delete fileTree(dir: oto, include: 'Oto.*')
 }
 
-task cleanShapes(type: Delete) {
-    delete(duckShape, heartShape, teapotShape)
+task cleanShapes {
+    dependsOn 'cleanDuckShape', 'cleanGlyphShapes', 'cleanHeartShape', 'cleanTeapotShape'
     description 'Delete generated shape assets.'
 }
 task cleanDuckShape(type: Delete) {
     delete(duckShape)
+}
+task cleanGlyphShapes(type: Delete) {
+    delete glyphAssets
 }
 task cleanHeartShape(type: Delete) {
     delete(heartShape)
