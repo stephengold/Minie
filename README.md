@@ -1622,6 +1622,7 @@ YouTube videos about Minie:
 [gradle]: https://gradle.org "Gradle Project"
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: http://jmonkeyengine.org  "jMonkeyEngine Project"
+[jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
 [manual]: https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf "Bullet User Manual"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
@@ -1655,14 +1656,15 @@ artists and software developers:
 + Jules (aka "dokthar") for creating the soft-body fork of jMonkeyEngine
   from which Minie's soft-body support is derived
 + Khaled Mamou for creating and licensing the [V-HACD Library][vhacd]
-  for decomposing meshes into convex hulls.
+  for decomposing meshes into convex hulls
 + Riccardo Balbo (aka "riccardo") for creating and licensing
-  the [V-HACD Java Bindings Project][vhacdBindings].
+  the [V-HACD Java Bindings Project][vhacdBindings]
++ Adam T. Ryder (aka "tryder") for creating and licensing
+  the [jME-TTF][] rendering system
 + Paul Speed, for helpful insights
-+ "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down.
-+ [Nathan Vegdahl][vegdahl], for creating the Puppet model (used in
-  the TestDac walkthru video)
-+ Tobias Jung distributing [ProFont][]
++ "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down
++ [Nathan Vegdahl][vegdahl], for creating the Puppet model
++ Tobias Jung, for distributing [ProFont][]
 + plus the creators of (and contributors to) the following software:
     + the [Blender][] 3-D animation suite
     + the [Bullet][] real-time physics library
