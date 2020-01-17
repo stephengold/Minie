@@ -1630,6 +1630,7 @@ YouTube videos about Minie:
 [netbeans]: https://netbeans.org "NetBeans Project"
 [nifty]: http://nifty-gui.github.io/nifty-gui "Nifty GUI Project"
 [obs]: https://obsproject.com "Open Broadcaster Software Project"
+[profont]: http://tobiasjung.name/profont "ProFont Project"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [vegdahl]: http://www.cessen.com "Nathan Vegdahl"
 [vhacd]: https://github.com/kmammou/v-hacd "V-HACD Library"
@@ -1661,6 +1662,7 @@ artists and software developers:
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down.
 + [Nathan Vegdahl][vegdahl], for creating the Puppet model (used in
   the TestDac walkthru video)
++ Tobias Jung distributing [ProFont][]
 + plus the creators of (and contributors to) the following software:
     + the [Blender][] 3-D animation suite
     + the [Bullet][] real-time physics library
@@ -1679,6 +1681,7 @@ artists and software developers:
     + the [Nifty][] graphical user interface library
     + [Open Broadcaster Software Studio][obs]
     + the PMD source-code analyzer
+    + [ProFont][], the programmers' font
     + the [WinMerge][] differencing and merging tool
 
 I am grateful to [JFrog][] and [Github][] for providing free hosting for the
