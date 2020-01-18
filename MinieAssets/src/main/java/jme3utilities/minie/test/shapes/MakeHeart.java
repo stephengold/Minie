@@ -159,7 +159,7 @@ public class MakeHeart {
         rotation.fromAngleAxis(FastMath.PI, Vector3f.UNIT_Z);
         compound.addChildShape(half, Vector3f.ZERO, rotation);
         /*
-         * Phase 5: write the shape to the asset file.
+         * Phase 5: write the shape to the asset file.  TODO use Heart library
          */
         String assetPath = "CollisionShapes/heart.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);

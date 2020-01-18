@@ -65,7 +65,7 @@ import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A headless application to generate collision-shape assets for all 26 letters
+ * A console application to generate collision-shape assets for all 26 letters
  * of the English alphabet in upper case.
  *
  * @author Stephen Gold sgold@sonic.net
