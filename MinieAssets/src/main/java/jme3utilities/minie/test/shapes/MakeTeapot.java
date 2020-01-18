@@ -145,7 +145,7 @@ public class MakeTeapot {
         CompoundCollisionShape shape
                 = CollisionShapeFactory.createVhacdShape(cgmRoot, parms, null);
         /*
-         * Write the shape to the asset file.
+         * Write the shape to the asset file. TODO use Heart library
          */
         String assetPath = "CollisionShapes/teapot.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);

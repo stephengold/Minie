@@ -164,7 +164,7 @@ public class MakeDuck {
             System.exit(-1);
         }
         /*
-         * Write the shape to the asset file.
+         * Write the shape to the asset file.  TODO use Heart library
          */
         String assetPath = "CollisionShapes/duck.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);

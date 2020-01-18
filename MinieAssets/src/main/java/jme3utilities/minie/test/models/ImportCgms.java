@@ -249,7 +249,7 @@ public class ImportCgms extends SimpleApplication {
     }
 
     /**
-     * Write the specified model to a J3O file.
+     * Write the specified model to a J3O file. TODO use Heart library
      */
     private void writeToJ3O(Spatial model, String writeAssetPath) {
         String writeFilePath

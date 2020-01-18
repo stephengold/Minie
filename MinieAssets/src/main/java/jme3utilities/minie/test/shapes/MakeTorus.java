@@ -139,7 +139,7 @@ public class MakeTorus {
             System.exit(-1);
         }
         /*
-         * Write the shape to the asset file.
+         * Write the shape to the asset file. TODO use Heart library
          */
         String assetPath = "CollisionShapes/torus.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
