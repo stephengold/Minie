@@ -72,6 +72,7 @@ import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Map;
@@ -124,19 +125,27 @@ public class DropTest
      */
     final private static String applicationName
             = DropTest.class.getSimpleName();
+    /**
+     * list of gem-shape names, in ascending lexicographic order
+     */
+    final private static String[] gemShapeNames = {"barbell", "box", "capsule",
+        "chair", "cone", "cylinder", "duck", "football", "funnyHammer",
+        "hammer", "heart", "hull", "knucklebone", "ladder", "letter",
+        "multiSphere", "sphere", "star", "teapot", "tetrahedron", "top", "torus"
+    };
     // *************************************************************************
     // fields
 
     /**
-     * status displayed in the upper-left corner of the GUI node
+     * text displayed in the upper-left corner of the GUI node
      */
-    private BitmapText statusText;
+    final private BitmapText[] statusLines = new BitmapText[2];
     /**
      * AppState to manage the PhysicsSpace
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
-     * shape for the new gem
+     * shape for the next gem
      */
     private CollisionShape gemShape;
     /**
@@ -221,7 +230,8 @@ public class DropTest
         /*
          * Customize the window's title bar.
          */
-        AppSettings settings = new AppSettings(true);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
         settings.setTitle(applicationName);
 
         settings.setGammaCorrection(true);
@@ -243,9 +253,12 @@ public class DropTest
         configureDumper();
         generateMaterials();
         configurePhysics();
+        assert isSorted(gemShapeNames);
 
-        ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(sky);
+        ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(bgColor);
+
+        addStatusLines();
         /*
          * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
          */
@@ -256,12 +269,6 @@ public class DropTest
 
         addAPlatform();
         addAGem();
-        /*
-         * Add the status text to the GUI.
-         */
-        statusText = new BitmapText(guiFont, false);
-        statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
-        guiNode.attachChild(statusText);
     }
 
     /**
@@ -295,28 +302,10 @@ public class DropTest
         dim.bind("more damping", KeyInput.KEY_G);
         dim.bind("more friction", KeyInput.KEY_F);
 
-        dim.bind("shape barbell", KeyInput.KEY_NUMPAD8);
-        dim.bind("shape box", KeyInput.KEY_F3);
-        dim.bind("shape capsule", KeyInput.KEY_F12);
-        dim.bind("shape chair", KeyInput.KEY_NUMPAD4);
-        dim.bind("shape cone", KeyInput.KEY_F4);
-        dim.bind("shape cylinder", KeyInput.KEY_F6);
-        dim.bind("shape duck", KeyInput.KEY_NUMPAD2);
-        dim.bind("shape football", KeyInput.KEY_NUMPAD9);
-        dim.bind("shape funnyHammer", KeyInput.KEY_F9);
-        dim.bind("shape hammer", KeyInput.KEY_F10);
-        dim.bind("shape heart", KeyInput.KEY_NUMPAD5);
-        dim.bind("shape hull", KeyInput.KEY_F2);
-        dim.bind("shape knucklebone", KeyInput.KEY_NUMPAD6);
-        dim.bind("shape ladder", KeyInput.KEY_NUMPAD1);
-        dim.bind("shape letter", KeyInput.KEY_NUMPADENTER);
-        dim.bind("shape multiSphere", KeyInput.KEY_F1);
-        dim.bind("shape sphere", KeyInput.KEY_F11);
-        dim.bind("shape star", KeyInput.KEY_F8);
-        dim.bind("shape teapot", KeyInput.KEY_NUMPAD3);
-        dim.bind("shape tetrahedron", KeyInput.KEY_F7);
-        dim.bind("shape top", KeyInput.KEY_NUMPAD7);
-        dim.bind("shape torus", KeyInput.KEY_NUMPAD0);
+        dim.bind("next value", KeyInput.KEY_EQUALS);
+        dim.bind("next value", KeyInput.KEY_NUMPAD6);
+        dim.bind("previous value", KeyInput.KEY_MINUS);
+        dim.bind("previous value", KeyInput.KEY_NUMPAD4);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -331,7 +320,7 @@ public class DropTest
         dim.bind("toggle spheres", KeyInput.KEY_L);
 
         float x = 10f;
-        float y = cam.getHeight() - 40f;
+        float y = cam.getHeight() - 60f;
         float width = cam.getWidth() - 20f;
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -386,6 +375,13 @@ public class DropTest
                     multiplyFriction(2f);
                     return;
 
+                case "next value":
+                    advanceGemShape(+1);
+                    return;
+                case "previous value":
+                    advanceGemShape(-1);
+                    return;
+
                 case "toggle aabb":
                     toggleAabb();
                     return;
@@ -430,7 +426,7 @@ public class DropTest
             addAGem();
         }
 
-        updateStatusText();
+        updateStatusLines();
     }
     // *************************************************************************
     // DebugInitListener methods
@@ -789,6 +785,18 @@ public class DropTest
     }
 
     /**
+     * Add status lines to the GUI.
+     */
+    private void addStatusLines() {
+        for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
+            statusLines[lineIndex] = new BitmapText(guiFont, false);
+            float y = cam.getHeight() - 20f * lineIndex;
+            statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
+            guiNode.attachChild(statusLines[lineIndex]);
+        }
+    }
+
+    /**
      * Add a large static triangle to the PhysicsSpace, to serve as a platform.
      */
     private void addTrianglePlatform() {
@@ -803,6 +811,22 @@ public class DropTest
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
         makePlatform(body);
+    }
+
+    /**
+     * Advance the gem-shape selection by the specified amount.
+     *
+     * @param amount the number of shapes to advance the selection
+     */
+    private void advanceGemShape(int amount) {
+        int index = Arrays.binarySearch(gemShapeNames, shapeName);
+        if (index < 0) {
+            shapeName = gemShapeNames[0];
+        } else {
+            assert gemShapeNames[index].equals(shapeName);
+            index = MyMath.modulo(index + amount, gemShapeNames.length);
+            shapeName = gemShapeNames[index];
+        }
     }
 
     /**
@@ -958,6 +982,23 @@ public class DropTest
                 gem.setDamping(damping, damping);
             }
         }
+    }
+
+    /**
+     * Test whether the specified array is sorted in ascending order with no
+     * duplicates. TODO use MyArray
+     *
+     * @param array the array to analyze (not null, unaffected)
+     * @return true if sorted, otherwise false
+     */
+    @SuppressWarnings("unchecked")
+    private static boolean isSorted(Comparable[] array) {
+        for (int i = 0; i < array.length - 1; ++i) {
+            if (array[i].compareTo(array[i + 1]) >= 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -1146,9 +1187,15 @@ public class DropTest
     }
 
     /**
-     * Update the status text in the GUI.
+     * Update the status lines in the GUI.
      */
-    private void updateStatusText() {
+    private void updateStatusLines() {
+        int index = 1 + Arrays.binarySearch(gemShapeNames, shapeName);
+        int count = gemShapeNames.length;
+        String message = String.format(
+                "Next gem shape #%d of %d: %s", index, count, shapeName);
+        statusLines[1].setText(message);
+
         int numActive = 0;
         for (PhysicsRigidBody gem : gems) {
             if (gem.isActive()) {
@@ -1157,9 +1204,9 @@ public class DropTest
         }
 
         int numGems = gems.size();
-        String message = String.format(
-                "%s/%s  N=%d  Nactive=%d  friction=%.2f  damping=%.2f",
-                shapeName, platformName, numGems, numActive, friction, damping);
-        statusText.setText(message);
+        message = String.format(
+                "%s  N=%d  Nactive=%d  friction=%.2f  damping=%.2f",
+                platformName, numGems, numActive, friction, damping);
+        statusLines[0].setText(message);
     }
 }
