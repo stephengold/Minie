@@ -1062,12 +1062,11 @@ public class DropTest
     }
 
     /**
-     * Randomly generate the shape of an uppercase letter.
+     * Randomly select the shape of an uppercase letter.
      */
     private void randomLetter() {
         char glyphChar = (char) ('A' + random.nextInt(26));
-        char[] array = new char[]{glyphChar};
-        String glyphString = new String(array);
+        String glyphString = Character.toString(glyphChar);
         gemShape = namedShapes.get(glyphString);
     }
 
