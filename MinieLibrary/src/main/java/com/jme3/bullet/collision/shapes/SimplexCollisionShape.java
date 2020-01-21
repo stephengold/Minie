@@ -83,7 +83,7 @@ public class SimplexCollisionShape extends CollisionShape {
      */
     private Vector3f[] locations;
     // *************************************************************************
-    // constructors - TODO add Vector3f... constructor
+    // constructors - TODO Vector3f... constructor
 
     /**
      * No-argument constructor needed by SavableClassUtil. Do not invoke
@@ -219,6 +219,25 @@ public class SimplexCollisionShape extends CollisionShape {
         locations = new Vector3f[2];
         locations[0] = segment.getNegativeEnd(null);
         locations[1] = segment.getPositiveEnd(null);
+
+        createShape();
+    }
+
+    /**
+     * Instantiate a simplex shape based on the specified array.
+     *
+     * @param vertices an array of vertex locations (not null, not empty,
+     * unaffected)
+     */
+    public SimplexCollisionShape(Vector3f[] vertices) {
+        Validate.nonEmpty(vertices, "vertices");
+        int numVertices = vertices.length;
+        assert numVertices <= 4 : numVertices;
+
+        locations = new Vector3f[numVertices];
+        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
+            locations[vertexIndex] = vertices[vertexIndex].clone();
+        }
 
         createShape();
     }
