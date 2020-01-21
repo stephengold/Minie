@@ -33,6 +33,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
@@ -112,6 +113,9 @@ public class MinieTestShapes {
 
         CollisionShape ladder = makeLadder();
         namedShapes.put("ladder", ladder);
+
+        CollisionShape smooth = makeSmoothHeightfield();
+        namedShapes.put("smooth", smooth);
 
         CollisionShape top = makeTop();
         namedShapes.put("top", top);
@@ -293,6 +297,30 @@ public class MinieTestShapes {
         result.addChildShape(rail, rungHalf, 0f, 0f);
         result.addChildShape(rail, -rungHalf, 0f, 0f);
 
+        return result;
+    }
+
+    /**
+     * Generate a smooth 64x64 heightfield shape.
+     *
+     * @return a new heightfield shape (not null)
+     */
+    public static HeightfieldCollisionShape makeSmoothHeightfield() {
+        int n = 64;
+        float halfNm1 = (n - 1) / 2f;
+        float[] heightmap = new float[n * n];
+        for (int i = 0; i < n; ++i) {
+            float x = -1f + i / halfNm1; // -1 .. +1
+            for (int j = 0; j < n; ++j) {
+                float y = -1f + j / halfNm1; // -1 .. +1
+                float r = MyMath.hypotenuse(x, y);
+                int floatIndex = n * i + j;
+                heightmap[floatIndex] = -0.4f + (r - 0.8f) * (r - 0.8f);
+            }
+        }
+        Vector3f scale = new Vector3f(20f / halfNm1, 12.5f, 20f / halfNm1);
+        HeightfieldCollisionShape result
+                = new HeightfieldCollisionShape(heightmap, scale);
         return result;
     }
 
