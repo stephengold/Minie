@@ -77,11 +77,11 @@ public class SimplexCollisionShape extends CollisionShape {
     // fields
 
     /**
-     * vertex locations (may be null)
+     * vertex locations
      */
-    private Vector3f vector1, vector2, vector3, vector4;
+    private Vector3f[] locations;
     // *************************************************************************
-    // constructors - TODO add Vector3f..., FloatBuffer, LineSegment, and AbstractTriangle constructors
+    // constructors - TODO add Vector3f..., LineSegment, and AbstractTriangle constructors
 
     /**
      * No-argument constructor needed by SavableClassUtil. Do not invoke
@@ -91,67 +91,81 @@ public class SimplexCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a point shape based on the specified point.
+     * Instantiate a point shape based on the specified location.
      *
-     * @param point1 the coordinates of the point (not null, unaffected)
+     * @param location the location of the point (in shape coordinates, not
+     * null, unaffected)
      */
-    public SimplexCollisionShape(Vector3f point1) {
-        vector1 = point1.clone();
+    public SimplexCollisionShape(Vector3f location) {
+        locations = new Vector3f[1];
+        locations[0] = location.clone();
         createShape();
     }
 
     /**
-     * Instantiate a line-segment shape based on the specified points.
+     * Instantiate a line-segment shape based on the specified endpoints.
      *
-     * @param point1 the coordinates of 1st point (not null, unaffected)
-     * @param point2 the coordinates of 2nd point (not null, unaffected)
+     * @param point1 the location of first endpoint (in shape coordinates, not
+     * null, unaffected)
+     * @param point2 the location of 2nd endpoint (in shape coordinates, not
+     * null, unaffected)
      */
     public SimplexCollisionShape(Vector3f point1, Vector3f point2) {
-        vector1 = point1.clone();
-        vector2 = point2.clone();
+        locations = new Vector3f[2];
+        locations[0] = point1.clone();
+        locations[1] = point2.clone();
         createShape();
     }
 
     /**
-     * Instantiate a triangular shape based on the specified points.
+     * Instantiate a triangular shape based on the specified vertices.
      *
-     * @param point1 the coordinates of 1st point (not null, unaffected)
-     * @param point2 the coordinates of 2nd point (not null, unaffected)
-     * @param point3 the coordinates of 3rd point (not null, unaffected)
+     * @param vertex1 the location of first vertex (in shape coordinates, not
+     * null, unaffected)
+     * @param vertex2 the location of 2nd vertex (in shape coordinates, not
+     * null, unaffected)
+     * @param vertex3 the location of 3rd vertex (in shape coordinates, not
+     * null, unaffected)
      */
-    public SimplexCollisionShape(Vector3f point1, Vector3f point2,
-            Vector3f point3) {
-        vector1 = point1.clone();
-        vector2 = point2.clone();
-        vector3 = point3.clone();
+    public SimplexCollisionShape(Vector3f vertex1, Vector3f vertex2,
+            Vector3f vertex3) {
+        locations = new Vector3f[3];
+        locations[0] = vertex1.clone();
+        locations[1] = vertex2.clone();
+        locations[2] = vertex3.clone();
         createShape();
     }
 
     /**
-     * Instantiate a tetrahedral shape based on the specified points.
+     * Instantiate a tetrahedral shape based on the specified vertices.
      *
-     * @param point1 the coordinates of 1st point (not null, unaffected)
-     * @param point2 the coordinates of 2nd point (not null, unaffected)
-     * @param point3 the coordinates of 3rd point (not null, unaffected)
-     * @param point4 the coordinates of 4th point (not null, unaffected)
+     * @param vertex1 the location of first vertex (in shape coordinates, not
+     * null, unaffected)
+     * @param vertex2 the location of 2nd vertex shape coordinates, not null,
+     * unaffected)
+     * @param vertex3 the location of 3rd vertex (in shape coordinates, not
+     * null, unaffected)
+     * @param vertex4 the location of 4th vertex (in shape coordinates, not
+     * null, unaffected)
      */
-    public SimplexCollisionShape(Vector3f point1, Vector3f point2,
-            Vector3f point3, Vector3f point4) {
-        vector1 = point1.clone();
-        vector2 = point2.clone();
-        vector3 = point3.clone();
-        vector4 = point4.clone();
+    public SimplexCollisionShape(Vector3f vertex1, Vector3f vertex2,
+            Vector3f vertex3, Vector3f vertex4) {
+        locations = new Vector3f[4];
+        locations[0] = vertex1.clone();
+        locations[1] = vertex2.clone();
+        locations[2] = vertex3.clone();
+        locations[3] = vertex4.clone();
         createShape();
     }
 
     /**
-     * Instantiate a tetrahedral shape based on the specified FloatBuffer range.
+     * Instantiate a simplex shape based on the specified FloatBuffer range.
      *
      * @param buffer the buffer that contains the vertex locations (not null,
      * unaffected)
-     * @param startPosition the position at which the vertex locations start
-     * (&ge;0, &le;endPosition-3)
-     * @param endPosition the position at which the vertex locations end
+     * @param startPosition the buffer position at which the vertex locations
+     * start (&ge;0, &le;endPosition-3)
+     * @param endPosition the buffer position at which the vertex locations end
      * (&ge;startPosition+3, &le;capacity)
      */
     public SimplexCollisionShape(FloatBuffer buffer, int startPosition,
@@ -164,25 +178,14 @@ public class SimplexCollisionShape extends CollisionShape {
         int numFloats = endPosition - startPosition;
         assert (numFloats % numAxes == 0) : numFloats;
         int numVertices = numFloats / numAxes;
+        assert numVertices >= 1 : numVertices;
+        assert numVertices <= 4 : numVertices;
 
-        switch (numVertices) {
-            case 4:
-                vector4 = new Vector3f();
-                MyBuffer.get(buffer, startPosition + 3 * numAxes, vector4);
-            case 3:
-                vector3 = new Vector3f();
-                MyBuffer.get(buffer, startPosition + 2 * numAxes, vector3);
-            case 2:
-                vector2 = new Vector3f();
-                MyBuffer.get(buffer, startPosition + numAxes, vector2);
-            case 1:
-                vector1 = new Vector3f();
-                MyBuffer.get(buffer, startPosition, vector1);
-                break;
-
-            default:
-                String message = Integer.toString(numVertices);
-                throw new RuntimeException(message);
+        locations = new Vector3f[numVertices];
+        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
+            locations[vertexIndex] = new Vector3f();
+            MyBuffer.get(buffer, startPosition + vertexIndex * numAxes,
+                    locations[vertexIndex]);
         }
 
         createShape();
@@ -198,14 +201,14 @@ public class SimplexCollisionShape extends CollisionShape {
      * @return the location of the vertex (either storeResult or a new instance)
      */
     public Vector3f copyVertex(int index, Vector3f storeResult) {
-        int numVertices = countMeshVertices();
+        int numVertices = locations.length;
         Validate.inRange(index, "index", 0, numVertices - 1);
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
-        Vector3f vertex = getVertex(index);
-        result.set(vertex);
-
-        return result;
+        if (storeResult == null) {
+            return locations[index].clone();
+        } else {
+            return storeResult.set(locations[index]);
+        }
     }
 
     /**
@@ -214,11 +217,11 @@ public class SimplexCollisionShape extends CollisionShape {
      * @return a new array (not null)
      */
     public float[] copyVertices() {
-        int numVertices = countMeshVertices();
+        int numVertices = locations.length;
         float[] result = new float[numVertices * numAxes];
         for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
             int floatIndex = vertexIndex * numAxes;
-            Vector3f location = getVertex(vertexIndex);
+            Vector3f location = locations[vertexIndex];
             result[floatIndex + PhysicsSpace.AXIS_X] = location.x;
             result[floatIndex + PhysicsSpace.AXIS_Y] = location.y;
             result[floatIndex + PhysicsSpace.AXIS_Z] = location.z;
@@ -233,16 +236,7 @@ public class SimplexCollisionShape extends CollisionShape {
      * @return the count (&ge;1, &le;4)
      */
     public int countMeshVertices() {
-        int result;
-        if (vector4 != null) {
-            result = 4;
-        } else if (vector3 != null) {
-            result = 3;
-        } else if (vector2 != null) {
-            result = 2;
-        } else {
-            result = 1;
-        }
+        int result = locations.length;
 
         assert result >= 1 : result;
         assert result <= 4 : result;
@@ -260,9 +254,9 @@ public class SimplexCollisionShape extends CollisionShape {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         result.zero();
-        int numMeshVertices = countMeshVertices();
-        for (int i = 0; i < numMeshVertices; ++i) {
-            Vector3f location = getVertex(i);
+        int numVertices = locations.length;
+        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
+            Vector3f location = locations[vertexIndex];
             float x = FastMath.abs(location.x);
             if (x > result.x) {
                 result.x = x;
@@ -288,9 +282,9 @@ public class SimplexCollisionShape extends CollisionShape {
      */
     public float unscaledVolume() {
         float volume = 0f;
-        if (vector4 != null) {
-            volume = (float) MyVolume.tetrahedronVolume(vector1, vector2,
-                    vector3, vector4);
+        if (locations.length > 3) {
+            volume = (float) MyVolume.tetrahedronVolume(locations[0],
+                    locations[1], locations[2], locations[3]);
         }
 
         assert volume >= 0f : volume;
@@ -327,10 +321,7 @@ public class SimplexCollisionShape extends CollisionShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        vector1 = cloner.clone(vector1);
-        vector2 = cloner.clone(vector2);
-        vector3 = cloner.clone(vector3);
-        vector4 = cloner.clone(vector4);
+        locations = cloner.clone(locations);
         createShape();
     }
 
@@ -356,12 +347,12 @@ public class SimplexCollisionShape extends CollisionShape {
      */
     @Override
     public float maxRadius() {
-        int numVertices = countMeshVertices();
+        int numVertices = locations.length;
         double maxLengthSquared = 0.0;
 
         for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
-            Vector3f position = getVertex(vertexIndex);
-            double lengthSquared = MyVector3f.lengthSquared(position);
+            Vector3f location = locations[vertexIndex];
+            double lengthSquared = MyVector3f.lengthSquared(location);
             if (lengthSquared > maxLengthSquared) {
                 maxLengthSquared = lengthSquared;
             }
@@ -383,10 +374,21 @@ public class SimplexCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        vector1 = (Vector3f) capsule.readSavable(tagSimplexPoint1, null);
-        vector2 = (Vector3f) capsule.readSavable(tagSimplexPoint2, null);
-        vector3 = (Vector3f) capsule.readSavable(tagSimplexPoint3, null);
-        vector4 = (Vector3f) capsule.readSavable(tagSimplexPoint4, null);
+        Vector3f v1 = (Vector3f) capsule.readSavable(tagSimplexPoint1, null);
+        Vector3f v2 = (Vector3f) capsule.readSavable(tagSimplexPoint2, null);
+        Vector3f v3 = (Vector3f) capsule.readSavable(tagSimplexPoint3, null);
+        Vector3f v4 = (Vector3f) capsule.readSavable(tagSimplexPoint4, null);
+
+        if (v2 == null) {
+            locations = new Vector3f[]{v1};
+        } else if (v3 == null) {
+            locations = new Vector3f[]{v1, v2};
+        } else if (v4 == null) {
+            locations = new Vector3f[]{v1, v2, v3};
+        } else {
+            locations = new Vector3f[]{v1, v2, v3, v4};
+        }
+
         createShape();
     }
 
@@ -411,10 +413,17 @@ public class SimplexCollisionShape extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(vector1, tagSimplexPoint1, null);
-        capsule.write(vector2, tagSimplexPoint2, null);
-        capsule.write(vector3, tagSimplexPoint3, null);
-        capsule.write(vector4, tagSimplexPoint4, null);
+        capsule.write(locations[0], tagSimplexPoint1, null);
+        int numVertices = locations.length;
+        if (numVertices > 1) {
+            capsule.write(locations[1], tagSimplexPoint2, null);
+        }
+        if (numVertices > 2) {
+            capsule.write(locations[2], tagSimplexPoint3, null);
+        }
+        if (numVertices > 3) {
+            capsule.write(locations[3], tagSimplexPoint4, null);
+        }
     }
     // *************************************************************************
     // private methods
@@ -423,48 +432,30 @@ public class SimplexCollisionShape extends CollisionShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
+        int numVertices = locations.length;
         long shapeId;
-        if (vector4 != null) {
-            shapeId = createShape(vector1, vector2, vector3, vector4);
-        } else if (vector3 != null) {
-            shapeId = createShape(vector1, vector2, vector3);
-        } else if (vector2 != null) {
-            shapeId = createShape(vector1, vector2);
-        } else {
-            shapeId = createShape(vector1);
+        switch (numVertices) {
+            case 1:
+                shapeId = createShape(locations[0]);
+                break;
+            case 2:
+                shapeId = createShape(locations[0], locations[1]);
+                break;
+            case 3:
+                shapeId = createShape(locations[0], locations[1], locations[2]);
+                break;
+            case 4:
+                shapeId = createShape(locations[0], locations[1], locations[2],
+                        locations[3]);
+                break;
+            default:
+                String message = String.format("numVertices=%d", numVertices);
+                throw new IllegalArgumentException(message);
         }
         setNativeId(shapeId);
 
         setScale(scale);
         setMargin(margin);
-    }
-
-    /**
-     * Access the indexed vertex.
-     *
-     * @param index (&ge;0, &lt;4)
-     * @return the pre-existing vector (may be null)
-     */
-    private Vector3f getVertex(int index) {
-        Vector3f result;
-        switch (index) {
-            case 0:
-                result = vector1;
-                break;
-            case 1:
-                result = vector2;
-                break;
-            case 2:
-                result = vector3;
-                break;
-            case 3:
-                result = vector4;
-                break;
-            default:
-                throw new IllegalArgumentException(Integer.toString(index));
-        }
-
-        return result;
     }
     // *************************************************************************
     // native methods
