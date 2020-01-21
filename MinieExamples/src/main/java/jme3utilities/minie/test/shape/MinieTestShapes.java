@@ -128,6 +128,9 @@ public class MinieTestShapes {
 
         CollisionShape tray = makeTray();
         namedShapes.put("tray", tray);
+
+        CollisionShape triangle = makeTriangle();
+        namedShapes.put("triangle", triangle);
     }
 
     /**
@@ -456,6 +459,21 @@ public class MinieTestShapes {
         child = new BoxCollisionShape(height, height, length);
         result.addChildShape(child, offset, 0f, 0f);
         result.addChildShape(child, -offset, 0f, 0f);
+
+        return result;
+    }
+
+    /**
+     * Generate a large isosceles triangle.
+     */
+    public static SimplexCollisionShape makeTriangle() {
+        float radius = 20f;
+
+        float x = radius * MyMath.rootHalf;
+        Vector3f p1 = new Vector3f(x, 0f, x);
+        Vector3f p2 = new Vector3f(x, 0f, -x);
+        Vector3f p3 = new Vector3f(-x, 0f, 0f);
+        SimplexCollisionShape result = new SimplexCollisionShape(p1, p2, p3);
 
         return result;
     }

@@ -41,7 +41,6 @@ import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
-import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
@@ -598,6 +597,7 @@ public class DropTest
         switch (platformName) {
             case "bedOfNails":
             case "tray":
+            case "triangle":
                 addNamedPlatform(DebugMeshNormals.Facet);
                 break;
 
@@ -624,10 +624,6 @@ public class DropTest
 
             case "plane":
                 addPlanePlatform();
-                break;
-
-            case "triangle":
-                addTrianglePlatform();
                 break;
 
             default:
@@ -777,23 +773,6 @@ public class DropTest
     }
 
     /**
-     * Add a large static triangle to the PhysicsSpace, to serve as a platform.
-     */
-    private void addTrianglePlatform() {
-        float he = 20f;
-        float x = he / FastMath.sqrt(2f);
-        Vector3f p1 = new Vector3f(x, 0f, x);
-        Vector3f p2 = new Vector3f(x, 0f, -x);
-        Vector3f p3 = new Vector3f(-he, 0f, 0f);
-        SimplexCollisionShape shape = new SimplexCollisionShape(p1, p2, p3);
-
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
-        makePlatform(body);
-    }
-
-    /**
      * Advance the gem-shape selection by the specified amount.
      *
      * @param amount the number of shapes to advance the selection
@@ -911,8 +890,8 @@ public class DropTest
     private void generateShapes() {
         /*
          * "barbell", "bedOfNails", "chair", "football", "knucklebone",
-         * "ladder", "smooth", "top", "torus", and "tray" are generated
-         * at runtime
+         * "ladder", "smooth", "top", "torus", "tray", and "triangle"
+         * are generated at runtime
          */
         MinieTestShapes.addShapes(namedShapes);
         /*
