@@ -143,7 +143,7 @@ public class DropTest
     /**
      * text displayed in the upper-left corner of the GUI node
      */
-    final private BitmapText[] statusLines = new BitmapText[2];
+    final private BitmapText[] statusLines = new BitmapText[3];
     /**
      * AppState to manage the PhysicsSpace
      */
@@ -332,7 +332,7 @@ public class DropTest
         dim.bind("toggle spheres", KeyInput.KEY_L);
 
         float x = 10f;
-        float y = cam.getHeight() - 60f;
+        float y = cam.getHeight() - 80f;
         float width = cam.getWidth() - 20f;
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -1269,10 +1269,13 @@ public class DropTest
      * Update the status lines in the GUI.
      */
     private void updateStatusLines() {
+        String message = String.format("Platform: %s", platformName);
+        statusLines[0].setText(message);
+
         int index = 1 + Arrays.binarySearch(gemShapeNames, shapeName);
         int count = gemShapeNames.length;
-        String message = String.format(
-                "Next gem shape #%d of %d: %s", index, count, shapeName);
+        message = String.format("Next gem shape #%d of %d: %s", index, count,
+                shapeName);
         statusLines[1].setText(message);
 
         int numActive = 0;
@@ -1283,9 +1286,11 @@ public class DropTest
         }
 
         int numGems = gems.size();
+        boolean isPaused = (speed <= 1e-12f);
         message = String.format(
-                "%s  N=%d  Nactive=%d  friction=%.2f  damping=%.2f",
-                platformName, numGems, numActive, friction, damping);
-        statusLines[0].setText(message);
+                "numGems=%d  numActive=%d  friction=%.2f  damping=%.2f%s",
+                numGems, numActive, friction, damping,
+                isPaused ? "  PAUSED" : "");
+        statusLines[2].setText(message);
     }
 }
