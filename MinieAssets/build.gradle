@@ -18,7 +18,6 @@ ext {
     duckShape = assets + 'CollisionShapes/duck.j3o'
     heartShape = assets + 'CollisionShapes/heart.j3o'
     teapotShape = assets + 'CollisionShapes/teapot.j3o'
-    torusShape = assets + 'CollisionShapes/torus.j3o'
 
     plaid = assets + 'Textures/plaid.png'
 }
@@ -73,10 +72,6 @@ task heartShape(type: JavaExec) {
 task teapotShape(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeTeapot'
     outputs.files([teapotShape])
-}
-task torusShape(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeTorus'
-    outputs.files([torusShape])
 }
 
 task textures {

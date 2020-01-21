@@ -479,6 +479,7 @@ public class DropTest
             case "knucklebone":
             case "ladder":
             case "top":
+            case "torus":
                 gemShape = namedShapes.get(shapeName);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
@@ -512,7 +513,6 @@ public class DropTest
             case "duck":
             case "heart":
             case "teapot":
-            case "torus":
                 gemShape = namedShapes.get(shapeName);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
@@ -910,8 +910,9 @@ public class DropTest
      */
     private void generateShapes() {
         /*
-         * "barbell", "chair", "football", "knucklebone", "ladder",
-         * "smooth", "top", and "tray" are generated at runtime
+         * "barbell", "bedOfNails", "chair", "football", "knucklebone",
+         * "ladder", "smooth", "top", "torus", and "tray" are generated
+         * at runtime
          */
         MinieTestShapes.addShapes(namedShapes);
         /*
@@ -957,13 +958,6 @@ public class DropTest
         shape = (CollisionShape) assetManager.loadAsset(teapotPath);
         shape.setScale(3f);
         namedShapes.put("teapot", shape);
-        /*
-         * "torus" using V-HACD
-         */
-        String torusPath = "CollisionShapes/torus.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(torusPath);
-        shape.setScale(5f);
-        namedShapes.put("torus", shape);
     }
 
     /**
