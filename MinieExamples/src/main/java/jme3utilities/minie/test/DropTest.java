@@ -38,7 +38,6 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
-import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
@@ -714,24 +713,10 @@ public class DropTest
      * Add a static heightfield to the PhysicsSpace, to serve as a platform.
      */
     private void addHeightfieldPlatform() {
-        int n = 64;
-        float halfNm1 = (n - 1) / 2f;
-        float[] heightmap = new float[n * n];
-        for (int i = 0; i < n; ++i) {
-            float x = -1f + i / halfNm1; // -1 .. +1
-            for (int j = 0; j < n; ++j) {
-                float y = -1f + j / halfNm1; // -1 .. +1
-                float r = MyMath.hypotenuse(x, y);
-                int floatIndex = n * i + j;
-                heightmap[floatIndex] = -0.4f + (r - 0.8f) * (r - 0.8f);
-            }
-        }
-        Vector3f scale = new Vector3f(20f / halfNm1, 12.5f, 20f / halfNm1);
-        HeightfieldCollisionShape shape
-                = new HeightfieldCollisionShape(heightmap, scale);
-
+        CollisionShape shape = namedShapes.get("smooth");
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
         makePlatform(body);
     }
@@ -951,7 +936,7 @@ public class DropTest
     private void generateShapes() {
         /*
          * "barbell", "chair", "football", "knucklebone", "ladder",
-         * "top", and "tray" are generated at runtime
+         * "smooth", "top", and "tray" are generated at runtime
          */
         MinieTestShapes.addShapes(namedShapes);
         /*
