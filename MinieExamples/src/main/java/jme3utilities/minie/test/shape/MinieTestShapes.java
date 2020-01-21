@@ -102,6 +102,9 @@ public class MinieTestShapes {
         CollisionShape barbell = makeBarbell();
         namedShapes.put("barbell", barbell);
 
+        CollisionShape bedOfNails = makeBedOfNails();
+        namedShapes.put("bedOfNails", bedOfNails);
+
         CollisionShape chair = makeChair();
         namedShapes.put("chair", chair);
 
@@ -144,6 +147,30 @@ public class MinieTestShapes {
         result.addChildShape(bar);
         result.addChildShape(plate, -plateOffset, 0f, 0f);
         result.addChildShape(plate, plateOffset, 0f, 0f);
+
+        return result;
+    }
+
+    /**
+     * Generate a bed-of-nails heightfield shape.
+     *
+     * @return a new heightfield shape (not null)
+     */
+    public static HeightfieldCollisionShape makeBedOfNails() {
+        int n = 64;
+        float[] heightmap = new float[n * n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int floatIndex = n * i + j;
+                boolean nail = (MyMath.modulo(i + j, 8) == 3
+                        && MyMath.modulo(i - j, 8) == 1);
+                heightmap[floatIndex] = nail ? 1f : 0f;
+            }
+        }
+
+        Vector3f scale = new Vector3f(40f / n, 4f, 40f / n);
+        HeightfieldCollisionShape result
+                = new HeightfieldCollisionShape(heightmap, scale);
 
         return result;
     }
@@ -318,9 +345,11 @@ public class MinieTestShapes {
                 heightmap[floatIndex] = -0.4f + (r - 0.8f) * (r - 0.8f);
             }
         }
+
         Vector3f scale = new Vector3f(20f / halfNm1, 12.5f, 20f / halfNm1);
         HeightfieldCollisionShape result
                 = new HeightfieldCollisionShape(heightmap, scale);
+
         return result;
     }
 
