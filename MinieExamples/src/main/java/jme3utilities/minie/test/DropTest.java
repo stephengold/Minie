@@ -302,14 +302,15 @@ public class DropTest
         dim.bind("next value", KeyInput.KEY_EQUALS);
         dim.bind("next value", KeyInput.KEY_NUMPAD6);
 
+        dim.bind("platform bedOfNails", KeyInput.KEY_0);
         dim.bind("platform box", KeyInput.KEY_3);
-        dim.bind("platform compound", KeyInput.KEY_9);
+        dim.bind("platform candyDish", KeyInput.KEY_5);
         dim.bind("platform cone", KeyInput.KEY_4);
         dim.bind("platform cylinder", KeyInput.KEY_6);
-        dim.bind("platform heightfield", KeyInput.KEY_1);
         dim.bind("platform hull", KeyInput.KEY_2);
-        dim.bind("platform mesh", KeyInput.KEY_5);
         dim.bind("platform plane", KeyInput.KEY_8);
+        dim.bind("platform smooth", KeyInput.KEY_1);
+        dim.bind("platform tray", KeyInput.KEY_9);
         dim.bind("platform triangle", KeyInput.KEY_7);
 
         dim.bind("previous value", KeyInput.KEY_MINUS);
@@ -595,12 +596,18 @@ public class DropTest
      */
     private void addAPlatform() {
         switch (platformName) {
+            case "bedOfNails":
+            case "tray":
+                addNamedPlatform(DebugMeshNormals.Facet);
+                break;
+
             case "box":
                 addBoxPlatform();
                 break;
 
-            case "compound":
-                addCompoundPlatform();
+            case "candyDish":
+            case "smooth":
+                addNamedPlatform(DebugMeshNormals.Smooth);
                 break;
 
             case "cone":
@@ -611,16 +618,8 @@ public class DropTest
                 addCylinderPlatform();
                 break;
 
-            case "heightfield":
-                addHeightfieldPlatform();
-                break;
-
             case "hull":
                 addHullPlatform();
-                break;
-
-            case "mesh":
-                addMeshPlatform();
                 break;
 
             case "plane":
@@ -649,18 +648,6 @@ public class DropTest
 
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
         body.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
-        makePlatform(body);
-    }
-
-    /**
-     * Add a large, static "tray" shape to the PhysicsSpace, to serve as a
-     * platform.
-     */
-    private void addCompoundPlatform() {
-        CollisionShape shape = namedShapes.get("tray");
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
         makePlatform(body);
     }
 
@@ -710,18 +697,6 @@ public class DropTest
     }
 
     /**
-     * Add a static heightfield to the PhysicsSpace, to serve as a platform.
-     */
-    private void addHeightfieldPlatform() {
-        CollisionShape shape = namedShapes.get("smooth");
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
-        makePlatform(body);
-    }
-
-    /**
      * Add a large, static petagonal prism shape to the PhysicsSpace, to serve
      * as a platform.
      */
@@ -765,14 +740,14 @@ public class DropTest
     }
 
     /**
-     * Add a large, static candy dish to the PhysicsSpace, to serve as a
-     * platform.
+     * Add a named static shape to the PhysicsSpace, to serve as a platform.
      */
-    private void addMeshPlatform() {
-        CollisionShape shape = namedShapes.get("candyDish");
+    private void addNamedPlatform(DebugMeshNormals normals) {
+        CollisionShape shape = namedShapes.get(platformName);
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+
+        body.setDebugMeshNormals(normals);
         makePlatform(body);
     }
 
