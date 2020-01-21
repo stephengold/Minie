@@ -308,6 +308,7 @@ public class DropTest
         dim.bind("platform cylinder", KeyInput.KEY_6);
         dim.bind("platform hull", KeyInput.KEY_2);
         dim.bind("platform plane", KeyInput.KEY_8);
+        dim.bind("platform roundedRectangle", KeyInput.KEY_F2);
         dim.bind("platform smooth", KeyInput.KEY_1);
         dim.bind("platform tray", KeyInput.KEY_9);
         dim.bind("platform triangle", KeyInput.KEY_7);
@@ -626,6 +627,10 @@ public class DropTest
                 addPlanePlatform();
                 break;
 
+            case "roundedRectangle":
+                addRoundedRectangle();
+                break;
+
             default:
                 String message
                         = "platformName = " + MyString.quote(platformName);
@@ -756,7 +761,23 @@ public class DropTest
 
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        makePlatform(body);
+    }
+
+    /**
+     * Add a rounded rectangle to the PhysicsSpace, to serve as a platform.
+     */
+    private void addRoundedRectangle() {
+        CollisionShape shape = namedShapes.get(platformName);
+        float mass = PhysicsRigidBody.massForStatic;
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+
+        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        Quaternion rotation = new Quaternion();
+        rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
+        body.setPhysicsRotation(rotation);
         makePlatform(body);
     }
 
@@ -890,8 +911,8 @@ public class DropTest
     private void generateShapes() {
         /*
          * "barbell", "bedOfNails", "chair", "football", "knucklebone",
-         * "ladder", "smooth", "top", "torus", "tray", and "triangle"
-         * are generated at runtime
+         * "ladder", "roundedRectangle", "smooth", "top", "torus", "tray",
+         * and "triangle" are generated at runtime
          */
         MinieTestShapes.addShapes(namedShapes);
         /*
