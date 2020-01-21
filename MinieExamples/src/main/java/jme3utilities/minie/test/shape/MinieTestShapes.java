@@ -123,6 +123,9 @@ public class MinieTestShapes {
         CollisionShape top = makeTop();
         namedShapes.put("top", top);
 
+        CollisionShape torus = makeTorus();
+        namedShapes.put("torus", torus);
+
         CollisionShape tray = makeTray();
         namedShapes.put("tray", tray);
     }
@@ -152,7 +155,8 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a bed-of-nails heightfield shape.
+     * Generate a bed-of-nails heightfield. Not intended for use in a dynamic
+     * body.
      *
      * @return a new heightfield shape (not null)
      */
@@ -328,7 +332,8 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a smooth 64x64 heightfield shape.
+     * Generate a smooth 64x64 heightfield. Not intended for use in a dynamic
+     * body.
      *
      * @return a new heightfield shape (not null)
      */
@@ -379,6 +384,37 @@ public class MinieTestShapes {
         result.addChildShape(cone, 0f, yOffset, 0f);
         yOffset = -0.5f * (handleHeight + bodyHeight);
         result.addChildShape(handle, 0f, yOffset, 0f);
+
+        return result;
+    }
+
+    /**
+     * Approximate a torus using capsules arranged in a circle.
+     *
+     * @return a new compound shape (not null)
+     */
+    public static CompoundCollisionShape makeTorus() {
+        int numCapsules = 20;
+        float minorRadius = 0.24f;
+        float majorRadius = 1.5f;
+
+        float angle = FastMath.TWO_PI / numCapsules;
+        float length = majorRadius * angle;
+        CollisionShape capsule = new CapsuleCollisionShape(minorRadius,
+                length, PhysicsSpace.AXIS_X);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        Vector3f offset = new Vector3f();
+        Matrix3f rotation = new Matrix3f();
+
+        for (int childI = 0; childI < numCapsules; ++childI) {
+            float theta = angle * childI;
+            offset.x = majorRadius * FastMath.sin(theta);
+            offset.y = majorRadius * FastMath.cos(theta);
+            rotation.fromAngleNormalAxis(-theta, Vector3f.UNIT_Z);
+
+            result.addChildShape(capsule, offset, rotation);
+        }
 
         return result;
     }
