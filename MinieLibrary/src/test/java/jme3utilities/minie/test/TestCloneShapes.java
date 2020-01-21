@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -284,19 +284,53 @@ public class TestCloneShapes {
         pcs.setMargin(0.21f);
         assert pcsClone.getMargin() == 0.04f;
         /*
-         * Simplex
+         * Simplex of 1 vertex
          */
         Vector3f p1 = new Vector3f(0f, 1f, 1f);
+        CollisionShape simplex1 = new SimplexCollisionShape(p1);
+        setParameters(simplex1, 0f);
+        verifyParameters(simplex1, 0f);
+        CollisionShape simplex1Clone = (CollisionShape) Misc.deepCopy(simplex1);
+        cloneTest(simplex1, simplex1Clone);
+        assert simplex1Clone.getMargin() == 0.04f;
+        simplex1.setMargin(0.22f);
+        assert simplex1Clone.getMargin() == 0.04f;
+        /*
+         * Simplex of 2 vertices
+         */
         Vector3f p2 = new Vector3f(1f, 0f, 1f);
+        CollisionShape simplex2 = new SimplexCollisionShape(p1, p2);
+        setParameters(simplex2, 0f);
+        verifyParameters(simplex2, 0f);
+        CollisionShape simplex2Clone = (CollisionShape) Misc.deepCopy(simplex2);
+        cloneTest(simplex2, simplex2Clone);
+        assert simplex2Clone.getMargin() == 0.04f;
+        simplex2.setMargin(0.22f);
+        assert simplex2Clone.getMargin() == 0.04f;
+        /*
+         * Simplex of 3 vertices
+         */
         Vector3f p3 = new Vector3f(1f, 1f, 0f);
-        CollisionShape simplex = new SimplexCollisionShape(p1, p2, p3);
-        setParameters(simplex, 0f);
-        verifyParameters(simplex, 0f);
-        CollisionShape simplexClone = (CollisionShape) Misc.deepCopy(simplex);
-        cloneTest(simplex, simplexClone);
-        assert simplexClone.getMargin() == 0.04f;
-        simplex.setMargin(0.22f);
-        assert simplexClone.getMargin() == 0.04f;
+        CollisionShape simplex3 = new SimplexCollisionShape(p1, p2, p3);
+        setParameters(simplex3, 0f);
+        verifyParameters(simplex3, 0f);
+        CollisionShape simplex3Clone = (CollisionShape) Misc.deepCopy(simplex3);
+        cloneTest(simplex3, simplex3Clone);
+        assert simplex3Clone.getMargin() == 0.04f;
+        simplex3.setMargin(0.22f);
+        assert simplex3Clone.getMargin() == 0.04f;
+        /*
+         * Simplex of 4 vertices
+         */
+        Vector3f p4 = new Vector3f(-1f, -1f, -1f);
+        CollisionShape simplex4 = new SimplexCollisionShape(p1, p2, p3, p4);
+        setParameters(simplex4, 0f);
+        verifyParameters(simplex4, 0f);
+        CollisionShape simplex4Clone = (CollisionShape) Misc.deepCopy(simplex4);
+        cloneTest(simplex4, simplex4Clone);
+        assert simplex4Clone.getMargin() == 0.04f;
+        simplex4.setMargin(0.22f);
+        assert simplex4Clone.getMargin() == 0.04f;
         /*
          * Sphere
          */
