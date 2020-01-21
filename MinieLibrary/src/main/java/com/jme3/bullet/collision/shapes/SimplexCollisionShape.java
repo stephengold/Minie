@@ -36,7 +36,9 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.AbstractTriangle;
 import com.jme3.math.FastMath;
+import com.jme3.math.LineSegment;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -81,7 +83,7 @@ public class SimplexCollisionShape extends CollisionShape {
      */
     private Vector3f[] locations;
     // *************************************************************************
-    // constructors - TODO add Vector3f..., LineSegment, and AbstractTriangle constructors
+    // constructors - TODO add Vector3f... constructor
 
     /**
      * No-argument constructor needed by SavableClassUtil. Do not invoke
@@ -159,6 +161,21 @@ public class SimplexCollisionShape extends CollisionShape {
     }
 
     /**
+     * Instantiate a triangular shape based on the specified AbstractTriangle.
+     *
+     * @param triangle the triangle (not null, unaffected)
+     */
+    public SimplexCollisionShape(AbstractTriangle triangle) {
+        Validate.nonNull(triangle, "triangle");
+
+        locations = new Vector3f[3];
+        locations[0] = triangle.get1().clone();
+        locations[1] = triangle.get2().clone();
+        locations[2] = triangle.get3().clone();
+        createShape();
+    }
+
+    /**
      * Instantiate a simplex shape based on the specified FloatBuffer range.
      *
      * @param buffer the buffer that contains the vertex locations (not null,
@@ -187,6 +204,21 @@ public class SimplexCollisionShape extends CollisionShape {
             MyBuffer.get(buffer, startPosition + vertexIndex * numAxes,
                     locations[vertexIndex]);
         }
+
+        createShape();
+    }
+
+    /**
+     * Instantiate a line-segment shape based on the specified LineSegment.
+     *
+     * @param segment the segment (not null, unaffected)
+     */
+    public SimplexCollisionShape(LineSegment segment) {
+        Validate.nonNull(segment, "segment");
+
+        locations = new Vector3f[2];
+        locations[0] = segment.getNegativeEnd(null);
+        locations[1] = segment.getPositiveEnd(null);
 
         createShape();
     }
