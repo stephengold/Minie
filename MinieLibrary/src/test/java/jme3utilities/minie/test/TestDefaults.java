@@ -630,21 +630,58 @@ public class TestDefaults {
         Assert.assertTrue(pcs.isNonMoving());
         Assert.assertFalse(pcs.isPolyhedral());
         /*
-         * Simplex
+         * Simplex of 1 vertex
          */
-        SimplexCollisionShape simplex
+        SimplexCollisionShape simplex1
                 = new SimplexCollisionShape(new Vector3f(0f, 0f, 0f));
-        testShape(simplex);
-        assertEquals(0f, 0f, 0f, simplex.copyVertex(0, null), 0f);
-        Assert.assertEquals(1, simplex.countMeshVertices());
-        assertEquals(0f, 0f, 0f, simplex.getHalfExtents(null), 0f);
-        Assert.assertEquals(0.04f, simplex.getMargin(), 0f);
-        Assert.assertFalse(simplex.isConcave());
-        Assert.assertTrue(simplex.isConvex());
-        Assert.assertFalse(simplex.isInfinite());
-        Assert.assertFalse(simplex.isNonMoving());
-        Assert.assertTrue(simplex.isPolyhedral());
-        Assert.assertEquals(0f, simplex.unscaledVolume(), 0f);
+        testSimplexShape(simplex1);
+        Assert.assertEquals(1, simplex1.countMeshVertices());
+        assertEquals(0f, 0f, 0f, simplex1.copyVertex(0, null), 0f);
+        assertEquals(0f, 0f, 0f, simplex1.getHalfExtents(null), 0f);
+        Assert.assertEquals(0f, simplex1.unscaledVolume(), 0f);
+        /*
+         * Simplex of 2 vertices
+         */
+        SimplexCollisionShape simplex2 = new SimplexCollisionShape(
+                new Vector3f(1f, 0f, 0f), new Vector3f(-1, 0f, 0f));
+        testSimplexShape(simplex2);
+        Assert.assertEquals(2, simplex2.countMeshVertices());
+        assertEquals(1f, 0f, 0f, simplex2.copyVertex(0, null), 0f);
+        assertEquals(-1f, 0f, 0f, simplex2.copyVertex(1, null), 0f);
+        assertEquals(1f, 0f, 0f, simplex2.getHalfExtents(null), 0f);
+        Assert.assertEquals(0f, simplex2.unscaledVolume(), 0f);
+        /*
+         * Simplex of 3 vertices
+         */
+        SimplexCollisionShape simplex3 = new SimplexCollisionShape(
+                new Vector3f(0f, 1f, 1f),
+                new Vector3f(1f, 1f, 0f),
+                new Vector3f(1f, 0f, 1f)
+        );
+        testSimplexShape(simplex3);
+        Assert.assertEquals(3, simplex3.countMeshVertices());
+        assertEquals(0f, 1f, 1f, simplex3.copyVertex(0, null), 0f);
+        assertEquals(1f, 1f, 0f, simplex3.copyVertex(1, null), 0f);
+        assertEquals(1f, 0f, 1f, simplex3.copyVertex(2, null), 0f);
+        assertEquals(1f, 1f, 1f, simplex3.getHalfExtents(null), 0f);
+        Assert.assertEquals(0f, simplex3.unscaledVolume(), 0f);
+        /*
+         * Simplex of 4 vertices
+         */
+        SimplexCollisionShape simplex4 = new SimplexCollisionShape(
+                new Vector3f(0f, 1f, 1f),
+                new Vector3f(0f, 1f, -1f),
+                new Vector3f(1f, -1f, 0f),
+                new Vector3f(-1f, -1f, 0f)
+        );
+        testSimplexShape(simplex4);
+        Assert.assertEquals(4, simplex4.countMeshVertices());
+        assertEquals(0f, 1f, 1f, simplex4.copyVertex(0, null), 0f);
+        assertEquals(0f, 1f, -1f, simplex4.copyVertex(1, null), 0f);
+        assertEquals(1f, -1f, 0f, simplex4.copyVertex(2, null), 0f);
+        assertEquals(-1f, -1f, 0f, simplex4.copyVertex(3, null), 0f);
+        assertEquals(1f, 1f, 1f, simplex4.getHalfExtents(null), 0f);
+        Assert.assertEquals(4f / 3f, simplex4.unscaledVolume(), 1e-6f);
         /*
          * Sphere
          */
@@ -658,6 +695,22 @@ public class TestDefaults {
         Assert.assertFalse(sphere.isPolyhedral());
         Assert.assertEquals(4f * FastMath.PI / 3f, sphere.unscaledVolume(),
                 1e-4f);
+    }
+
+    /**
+     * Test the defaults that are common to all newly-created simplex shapes.
+     *
+     * @param simplex the shape to test (not null, unaffected)
+     */
+    private void testSimplexShape(SimplexCollisionShape simplex) {
+        testShape(simplex);
+        Assert.assertEquals(0.04f, simplex.getMargin(), 0f);
+
+        Assert.assertFalse(simplex.isConcave());
+        Assert.assertTrue(simplex.isConvex());
+        Assert.assertFalse(simplex.isInfinite());
+        Assert.assertFalse(simplex.isNonMoving());
+        Assert.assertTrue(simplex.isPolyhedral());
     }
 
     private void testSixDof(SixDofJoint six, int numEnds) {
