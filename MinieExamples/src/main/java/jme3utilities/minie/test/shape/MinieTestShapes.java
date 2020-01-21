@@ -32,6 +32,7 @@ import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
@@ -60,6 +61,7 @@ import jme3utilities.mesh.DomeMesh;
 import jme3utilities.mesh.Icosahedron;
 import jme3utilities.mesh.Octahedron;
 import jme3utilities.mesh.Prism;
+import jme3utilities.mesh.RoundedRectangle;
 import jme3utilities.minie.MyShape;
 import jme3utilities.minie.test.mesh.StarSlice;
 
@@ -116,6 +118,9 @@ public class MinieTestShapes {
 
         CollisionShape ladder = makeLadder();
         namedShapes.put("ladder", ladder);
+
+        CollisionShape roundedRectangle = makeRoundedRectangle();
+        namedShapes.put("roundedRectangle", roundedRectangle);
 
         CollisionShape smooth = makeSmoothHeightfield();
         namedShapes.put("smooth", smooth);
@@ -330,6 +335,25 @@ public class MinieTestShapes {
         float rungHalf = rungLength / 2f;
         result.addChildShape(rail, rungHalf, 0f, 0f);
         result.addChildShape(rail, -rungHalf, 0f, 0f);
+
+        return result;
+    }
+
+    /**
+     * Generate a large rounded rectangle.
+     */
+    public static Convex2dShape makeRoundedRectangle() {
+        float halfExtent = 20f;
+
+        float x2 = halfExtent;
+        float y2 = halfExtent / Icosahedron.phi;
+        float x1 = -x2;
+        float y1 = -y2;
+        float cornerRadius = 4f;
+        float zNorm = 1f;
+        Mesh mesh = new RoundedRectangle(x1, x2, y1, y2, cornerRadius, zNorm);
+        HullCollisionShape hull = new HullCollisionShape(mesh);
+        Convex2dShape result = new Convex2dShape(hull);
 
         return result;
     }
