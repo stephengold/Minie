@@ -30,6 +30,8 @@ import com.jme3.app.Application;
 import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -60,6 +62,7 @@ import com.jme3.math.Matrix3f;
 import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
@@ -75,6 +78,7 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -193,15 +197,19 @@ public class DropTest
      */
     final private PhysicsDumper dumper = new PhysicsDumper();
     /**
+     * selected gem, or null if none
+     */
+    private PhysicsRigidBody selectedGem = null;
+    /**
      * space for physics simulation
      */
     private PhysicsSpace physicsSpace;
     /**
-     * name of shape for current platform
+     * name of the shape of the platform
      */
     private String platformName = "box";
     /**
-     * name of shape for new gems
+     * name of the shape for the next gem
      */
     private String shapeName = "multiSphere";
     /**
@@ -280,14 +288,20 @@ public class DropTest
 
         dim.bind("add", KeyInput.KEY_INSERT);
 
-        dim.bind("delete", KeyInput.KEY_BACK);
-        dim.bind("delete", KeyInput.KEY_DELETE);
+        dim.bind("delete last", KeyInput.KEY_BACK);
+        dim.bind("delete selected", KeyInput.KEY_DELETE);
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump viewport", KeyInput.KEY_P);
 
         dim.bind("less damping", KeyInput.KEY_B);
         dim.bind("less friction", KeyInput.KEY_V);
+
+        dim.bind("more damping", KeyInput.KEY_G);
+        dim.bind("more friction", KeyInput.KEY_F);
+
+        dim.bind("next value", KeyInput.KEY_EQUALS);
+        dim.bind("next value", KeyInput.KEY_NUMPAD6);
 
         dim.bind("platform box", KeyInput.KEY_3);
         dim.bind("platform compound", KeyInput.KEY_9);
@@ -299,13 +313,11 @@ public class DropTest
         dim.bind("platform plane", KeyInput.KEY_8);
         dim.bind("platform triangle", KeyInput.KEY_7);
 
-        dim.bind("more damping", KeyInput.KEY_G);
-        dim.bind("more friction", KeyInput.KEY_F);
-
-        dim.bind("next value", KeyInput.KEY_EQUALS);
-        dim.bind("next value", KeyInput.KEY_NUMPAD6);
         dim.bind("previous value", KeyInput.KEY_MINUS);
         dim.bind("previous value", KeyInput.KEY_NUMPAD4);
+
+        dim.bind("select gem", "RMB");
+        dim.bind("select gem", KeyInput.KEY_R);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -345,8 +357,11 @@ public class DropTest
                     addAGem();
                     return;
 
-                case "delete":
-                    delete();
+                case "delete last":
+                    deleteLast();
+                    return;
+                case "delete selected":
+                    deleteSelected();
                     return;
 
                 case "dump physicsSpace":
@@ -380,6 +395,10 @@ public class DropTest
                     return;
                 case "previous value":
                     advanceGemShape(-1);
+                    return;
+
+                case "select gem":
+                    pickGem();
                     return;
 
                 case "toggle aabb":
@@ -566,6 +585,7 @@ public class DropTest
         if (gemInverseInertia != null) {
             body.setInverseInertiaLocal(gemInverseInertia);
         }
+        body.setUserObject(debugMaterial);
 
         physicsSpace.add(body);
         gems.addLast(body);
@@ -875,14 +895,31 @@ public class DropTest
     /**
      * Delete the most recently added gem.
      */
-    private void delete() {
+    private void deleteLast() {
         PhysicsRigidBody latestGem = gems.peekLast();
         if (latestGem != null) {
             physicsSpace.remove(latestGem);
+            if (latestGem == selectedGem) {
+                selectGem(null);
+            }
             gems.removeLast();
+            for (PhysicsRigidBody gem : gems) {
+                gem.activate();
+            }
         }
-        for (PhysicsRigidBody gem : gems) {
-            gem.activate();
+    }
+
+    /**
+     * Delete the selected gem, if any.
+     */
+    private void deleteSelected() {
+        if (selectedGem != null) {
+            physicsSpace.remove(selectedGem);
+            selectGem(null);
+            gems.remove(selectedGem);
+            for (PhysicsRigidBody gem : gems) {
+                gem.activate();
+            }
         }
     }
 
@@ -1025,6 +1062,29 @@ public class DropTest
     }
 
     /**
+     * Cast a physics ray from the cursor and select the nearest gem in the
+     * result.
+     */
+    private void pickGem() {
+        Vector2f screenXY = inputManager.getCursorPosition();
+        Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
+        Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
+        List<PhysicsRayTestResult> hits = physicsSpace.rayTest(from, to);
+
+        for (PhysicsRayTestResult hit : hits) {
+            PhysicsCollisionObject pco = hit.getCollisionObject();
+            if (pco instanceof PhysicsRigidBody) {
+                PhysicsRigidBody body = (PhysicsRigidBody) pco;
+                if (gems.contains(body)) {
+                    selectGem(body);
+                    return;
+                }
+            }
+        }
+        selectGem(null);
+    }
+
+    /**
      * Generate a box shape with random extents.
      */
     private void randomBox() {
@@ -1123,6 +1183,7 @@ public class DropTest
      * Start a new test using the named platform.
      */
     private void restartTest() {
+        selectGem(null);
         gems.clear();
 
         Collection<PhysicsRigidBody> bodies = physicsSpace.getRigidBodyList();
@@ -1131,6 +1192,24 @@ public class DropTest
         }
 
         addAPlatform();
+    }
+
+    /**
+     * Alter which gem is selected.
+     *
+     * @param gem the gem to select (or null)
+     */
+    private void selectGem(PhysicsRigidBody gem) {
+        if (gem != selectedGem) {
+            if (selectedGem != null) {
+                Material material = (Material) selectedGem.getUserObject();
+                selectedGem.setDebugMaterial(material);
+            }
+            selectedGem = gem;
+            if (selectedGem != null) {
+                selectedGem.setDebugMaterial(null);
+            }
+        }
     }
 
     /**
