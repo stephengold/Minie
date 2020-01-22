@@ -759,7 +759,7 @@ for kinematic (unaffected by forces) or static (non-moving) collision objects:
 
 (Simplex shapes with 4 vertices are fine for dynamic rigid bodies.)
 
-#### Precision
+#### Precision and margins
 
 Most collision shapes incorporate a margin.
 According to the Bullet Manual, the purpose of margin is
@@ -780,7 +780,7 @@ but its effect on size isn't monotonic.
 
 Distortion due to margin is most noticeable for small shapes.
 
-You can compensate somewhat for margin
+When using imprecise shapes, you can compensate somewhat for margin
 by shrinking the shape's dimensions
 (for a `ConeCollisionShape` or `CylinderCollisionShape`)
 or moving its defining vertices inward
@@ -790,7 +790,7 @@ Another workaround would be to scale the physics space so that
 the effects of margin become less obvious.
 
 If these workarounds are impractical,
-consider using a shape that isn't distorted by margin:
+consider using a precise shape, one that isn't distorted by margin:
 
   + `Box2dShape`
   + `BoxCollisionShape`
@@ -1555,6 +1555,12 @@ Furthermore:
  + the "A" and "D" keys dolly the camera left and right, respectively,
  + the "Q" and up-arrow keys raise the camera, and
  + the "Z" and down-arrow keys lower the camera.
+
+Some of the demos (such as `DropTest`)
+rely entirely on debug visualization to render the physics objects.
+Others (such as `TestDac`) use physics controls.
+When physics controls are in use,
+the "/" key to toggles debug visualization on and off.
 
 [Jump to table of contents](#toc)
 
