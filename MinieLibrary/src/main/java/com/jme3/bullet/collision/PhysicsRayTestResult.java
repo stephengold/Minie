@@ -124,6 +124,7 @@ public class PhysicsRayTestResult {
      *
      * @return true if in world space, otherwise false
      */
+    @Deprecated
     public boolean isNormalInWorldSpace() {
         return true;
     }
