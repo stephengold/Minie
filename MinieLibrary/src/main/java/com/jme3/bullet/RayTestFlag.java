@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,6 +64,10 @@ public class RayTestFlag {
      */
     final public static int GjkRaytest = 0x8;
     /**
+     * disable the heightfield raycast accelerator
+     */
+    final public static int DisableHeightfieldAccelerator = 0x10;
+    /**
      * message logger for this class
      */
     final public static Logger logger
@@ -86,7 +90,7 @@ public class RayTestFlag {
      * @return description (not null, may be empty)
      */
     public static String describe(int flags) {
-        List<String> flagList = new ArrayList<>(4);
+        List<String> flagList = new ArrayList<>(5);
         if ((flags & FilterBackfaces) != 0x0) {
             flagList.add("FilterBackfaces");
         }
@@ -98,6 +102,9 @@ public class RayTestFlag {
         }
         if ((flags & GjkRaytest) != 0x0) {
             flagList.add("Gjk");
+        }
+        if ((flags & DisableHeightfieldAccelerator) == 0x0) {
+            flagList.add("HeightfieldAccel");
         }
 
         StringBuilder result = new StringBuilder(40);
