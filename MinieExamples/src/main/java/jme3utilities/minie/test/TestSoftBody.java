@@ -245,7 +245,8 @@ public class TestSoftBody
         /*
          * Customize the window's title bar.
          */
-        AppSettings settings = new AppSettings(true);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
         settings.setTitle(applicationName);
 
         settings.setGammaCorrection(true);
@@ -329,7 +330,6 @@ public class TestSoftBody
                 case "dump physicsSpace":
                     dumper.dump(physicsSpace);
                     return;
-
                 case "dump scenes":
                     dumper.dump(renderManager);
                     return;
@@ -397,7 +397,8 @@ public class TestSoftBody
      */
     @Override
     public void bulletDebugInit(Node physicsDebugRootNode) {
-        addLighting(physicsDebugRootNode, true);
+        boolean shadowFlag = true;
+        addLighting(physicsDebugRootNode, shadowFlag);
     }
     // *************************************************************************
     // private methods

@@ -42,6 +42,8 @@ import jme3utilities.minie.MyShape;
 /**
  * Test case for JME issue #1029: sphere-sphere collisions not reported.
  * <p>
+ * Collision objects are rendered entirely by debug visualization.
+ * <p>
  * If successful, the app will terminate normally, without a RuntimeException.
  *
  * @author Stephen Gold sgold@sonic.net

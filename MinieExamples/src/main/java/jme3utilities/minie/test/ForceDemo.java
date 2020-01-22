@@ -60,6 +60,8 @@ import jme3utilities.ui.Signals;
 
 /**
  * Test/demonstrate rigid-body forces, torques, and impulses.
+ * <p>
+ * Collision objects are rendered entirely by debug visualization.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -154,6 +156,7 @@ public class ForceDemo extends ActionApplication {
         addLighting();
         /*
          * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
+         * TODO use appstate built into ActionApplication
          */
         ScreenshotAppState screenshotAppState
                 = new ScreenshotAppState("Written Assets/", "screenshot");
