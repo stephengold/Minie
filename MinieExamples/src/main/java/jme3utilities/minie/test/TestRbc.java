@@ -36,6 +36,7 @@ import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
+import com.jme3.bullet.collision.PhysicsSweepTestResult;
 import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -65,6 +66,7 @@ import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -85,6 +87,7 @@ import com.jme3.texture.Texture;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,7 +117,7 @@ import vhacd.VHACDParameters;
 /**
  * Test various shapes, scales, and collision margins on a kinematic
  * RigidBodyControl. Features tested include bounding boxes, collision
- * listeners, debug visualization, and ray casting.
+ * listeners, debug visualization, ray casting, and sweep tests.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -354,6 +357,8 @@ public class TestRbc
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
+        dim.bind("sweep", KeyInput.KEY_K);
+
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
         dim.bind("toggle help", KeyInput.KEY_H);
@@ -434,6 +439,10 @@ public class TestRbc
                     return;
                 case "scale z-xy":
                     setScale(0.8f, 0.8f, 1.3f);
+                    return;
+
+                case "sweep":
+                    sweep();
                     return;
 
                 case "toggle aabb":
@@ -1044,7 +1053,7 @@ public class TestRbc
 
     /**
      * Cast a physics ray from the mouse pointer and move the PointVisualizer to
-     * the nearest intersection.
+     * the nearest hit.
      */
     private void castRay() {
         Vector2f screenXY = inputManager.getCursorPosition();
@@ -1053,13 +1062,15 @@ public class TestRbc
         List<PhysicsRayTestResult> rayTest = physicsSpace.rayTest(from, to);
 
         if (rayTest.size() > 0) {
-            PhysicsRayTestResult intersect = rayTest.get(0);
-            float fraction = intersect.getHitFraction();
+            PhysicsRayTestResult nearestHit = rayTest.get(0);
+            float fraction = nearestHit.getHitFraction();
             Vector3f location = MyVector3f.lerp(fraction, from, to, null);
+
             rayPoint.setLocalTranslation(location);
             rayPoint.setEnabled(true);
-            partIndex = intersect.partIndex();
-            triangleIndex = intersect.triangleIndex();
+
+            partIndex = nearestHit.partIndex();
+            triangleIndex = nearestHit.triangleIndex();
         } else {
             rayPoint.setEnabled(false);
         }
@@ -1306,6 +1317,42 @@ public class TestRbc
                     xScale / 100f, yScale / 100f, zScale / 100f);
         } else {
             testSpatial.setLocalScale(xScale, yScale, zScale);
+        }
+    }
+
+    /**
+     * Sweep a sphere from the mouse pointer and move the PointVisualizer to the
+     * nearest hit.
+     */
+    private void sweep() {
+        float radius = 0.05f;
+        CollisionShape shape = new SphereCollisionShape(radius);
+
+        Vector2f screenXY = inputManager.getCursorPosition();
+        Transform from = new Transform();
+        from.setTranslation(cam.getWorldCoordinates(screenXY, 0f));
+        Transform to = new Transform();
+        to.setTranslation(cam.getWorldCoordinates(screenXY, 1f));
+
+        List<PhysicsSweepTestResult> sweepTest = new LinkedList<>();
+        float penetration = 0f; // physics-space units
+        physicsSpace.sweepTest(shape, from, to, sweepTest, penetration);
+
+        if (sweepTest.size() > 0) {
+            PhysicsSweepTestResult nearestHit = sweepTest.get(0);
+            float fraction = nearestHit.getHitFraction();
+            Vector3f fromLocation = from.getTranslation();
+            Vector3f toLocation = to.getTranslation();
+            Vector3f location = MyVector3f.lerp(fraction, fromLocation,
+                    toLocation, null);
+
+            rayPoint.setLocalTranslation(location);
+            rayPoint.setEnabled(true);
+
+            partIndex = nearestHit.partIndex();
+            triangleIndex = nearestHit.triangleIndex();
+        } else {
+            rayPoint.setEnabled(false);
         }
     }
 
