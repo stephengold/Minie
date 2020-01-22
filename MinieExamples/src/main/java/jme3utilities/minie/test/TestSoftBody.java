@@ -52,6 +52,7 @@ import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
+import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -179,11 +180,15 @@ public class TestSoftBody
     // fields
 
     /**
+     * text displayed in the upper-left corner of the GUI node
+     */
+    final private BitmapText[] statusLines = new BitmapText[1];
+    /**
      * filter to control visualization of axis-aligned bounding boxes
      */
     private FilterAll bbFilter;
     /**
-     * physics objects that are not to be visualized
+     * invisible physics objects
      */
     final private FilterAll hiddenObjects = new FilterAll(true);
     /**
@@ -223,6 +228,10 @@ public class TestSoftBody
      */
     final private SoftPhysicsAppState bulletAppState
             = new SoftPhysicsAppState();
+    /**
+     * name of the current test
+     */
+    private String testName = "puppetInSkirt";
     // *************************************************************************
     // new methods exposed
 
@@ -271,6 +280,8 @@ public class TestSoftBody
 
         ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(bgColor);
+
+        addStatusLines();
         addLighting(rootNode, false);
 
         addBox(0f);
@@ -307,7 +318,7 @@ public class TestSoftBody
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
 
         float x = 10f;
-        float y = cam.getHeight() - 10f;
+        float y = cam.getHeight() - 30f;
         float width = cam.getWidth() - 20f;
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -345,6 +356,7 @@ public class TestSoftBody
                     return;
 
                 case "test poleAndFlag":
+                    testName = "poleAndFlag";
                     cleanupAfterTest();
                     addAxes();
                     addBox(-2f);
@@ -352,6 +364,7 @@ public class TestSoftBody
                     return;
 
                 case "test puppetInSkirt":
+                    testName = "puppetInSkirt";
                     cleanupAfterTest();
                     addBox(0f);
                     DynamicAnimControl dac = addPuppet();
@@ -359,12 +372,14 @@ public class TestSoftBody
                     return;
 
                 case "test squishyBall":
+                    testName = "squishyBall";
                     cleanupAfterTest();
                     addBox(0f);
                     addSquishyBall(1.5f);
                     return;
 
                 case "test tablecloth":
+                    testName = "tablecloth";
                     cleanupAfterTest();
                     addBox(-1f);
                     addCylinder(1.7f);
@@ -386,6 +401,17 @@ public class TestSoftBody
             }
         }
         super.onAction(actionString, ongoing, tpf);
+    }
+
+    /**
+     * Callback invoked once per frame.
+     *
+     * @param tpf the time interval between frames (in seconds, &ge;0)
+     */
+    @Override
+    public void simpleUpdate(float tpf) {
+        super.simpleUpdate(tpf);
+        updateStatusLines();
     }
     // *************************************************************************
     // DebugInitListener methods
@@ -665,6 +691,18 @@ public class TestSoftBody
         ballPsb.applyTranslation(translation);
 
         physicsSpace.add(ballPsb);
+    }
+
+    /**
+     * Add status lines to the GUI.
+     */
+    private void addStatusLines() {
+        for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
+            statusLines[lineIndex] = new BitmapText(guiFont, false);
+            float y = cam.getHeight() - 20f * lineIndex;
+            statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
+            guiNode.attachChild(statusLines[lineIndex]);
+        }
     }
 
     /**
@@ -1012,5 +1050,15 @@ public class TestSoftBody
     private void togglePause() {
         float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
         setSpeed(newSpeed);
+    }
+
+    /**
+     * Update the status lines in the GUI.
+     */
+    private void updateStatusLines() {
+        boolean isPaused = (speed <= 1e-12f);
+        String message = String.format(
+                "Test: %s%s", testName, isPaused ? "  PAUSED" : "");
+        statusLines[0].setText(message);
     }
 }
