@@ -52,21 +52,25 @@ public class PhysicsRayTestResult {
     // fields
 
     /**
-     * true&rarr;need to transform normal into world space
-     */
-    final private boolean normalInWorldSpace = true;
-    /**
      * fraction of the ray's total length (from=0, to=1, &ge;0, &le;1)
      */
     private float hitFraction;
+    /**
+     * index of the shape part (mesh) that was hit, or -1 if unknown
+     */
+    private int partIndex;
+    /**
+     * index of the triangle that was hit, or -1 if unknown
+     */
+    private int triangleIndex;
     /**
      * collision object that was hit
      */
     private PhysicsCollisionObject collisionObject;
     /**
-     * normal vector at the point of contact
+     * normal vector (in physics-space coordinates) at the point of contact
      */
-    private Vector3f hitNormalLocal;
+    private Vector3f normal;
     // *************************************************************************
     // constructors
 
@@ -104,22 +108,41 @@ public class PhysicsRayTestResult {
      * Copy the normal vector at the point of contact.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a unit vector (either storeResult or a new vector, not null)
+     * @return a unit vector (in physics-space coordinates, either storeResult
+     * or a new vector, not null)
      */
     public Vector3f getHitNormalLocal(Vector3f storeResult) {
         if (storeResult == null) {
-            return hitNormalLocal.clone();
+            return normal.clone();
         } else {
-            return storeResult.set(hitNormalLocal);
+            return storeResult.set(normal);
         }
     }
 
     /**
-     * Test whether the normal is in world space.
+     * Test whether the normal is in physics-space coordinates. TODO delete
      *
      * @return true if in world space, otherwise false
      */
     public boolean isNormalInWorldSpace() {
-        return normalInWorldSpace;
+        return true;
+    }
+
+    /**
+     * Read the shape-part (mesh) index at the point of contact.
+     *
+     * @return the index of the part (&ge;0) or -1 if unknown
+     */
+    public int partIndex() {
+        return partIndex;
+    }
+
+    /**
+     * Read the triangle index at the point of contact.
+     *
+     * @return the index of the triangle (&ge;0) or -1 if unknown
+     */
+    public int triangleIndex() {
+        return triangleIndex;
     }
 }
