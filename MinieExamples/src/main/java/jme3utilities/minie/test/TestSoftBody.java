@@ -269,7 +269,7 @@ public class TestSoftBody
         configureMaterials();
         configurePhysics();
 
-        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
+        ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(bgColor);
         addLighting(rootNode, false);
 
@@ -303,6 +303,7 @@ public class TestSoftBody
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
         dim.bind("toggle help", KeyInput.KEY_H);
+        dim.bind("toggle pause", KeyInput.KEY_PAUSE);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
 
         float x = 10f;
