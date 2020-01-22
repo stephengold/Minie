@@ -328,6 +328,7 @@ public class DropTest
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
         dim.bind("toggle help", KeyInput.KEY_H);
+        dim.bind("toggle pause", KeyInput.KEY_PAUSE);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle spheres", KeyInput.KEY_L);
 
