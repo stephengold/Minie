@@ -80,6 +80,14 @@ public class MinieTestShapes {
     final public static Logger logger
             = Logger.getLogger(MinieTestShapes.class.getName());
     // *************************************************************************
+    // fields
+
+    /**
+     * inverse moment-of-inertia vector for "chair" shape (initialized by
+     * makeChair()
+     */
+    public static Vector3f chairInverseInertia = null;
+    // *************************************************************************
     // constructors
 
     /**
@@ -87,11 +95,6 @@ public class MinieTestShapes {
      */
     private MinieTestShapes() {
     }
-    /**
-     * inverse moment-of-inertia vector for "chair" shape (initialized by
-     * makeChair()
-     */
-    public static Vector3f chairInverseInertia = null;
     // *************************************************************************
     // new methods exposed - TODO add makeSnowman(), more randomized shapes
 
@@ -341,6 +344,8 @@ public class MinieTestShapes {
 
     /**
      * Generate a large rounded rectangle.
+     *
+     * @return a new convex 2-D shape (not null)
      */
     public static Convex2dShape makeRoundedRectangle() {
         float halfExtent = 20f;
@@ -489,6 +494,8 @@ public class MinieTestShapes {
 
     /**
      * Generate a large isosceles triangle.
+     *
+     * @return a new simplex shape (not null)
      */
     public static SimplexCollisionShape makeTriangle() {
         float radius = 20f;
@@ -697,10 +704,10 @@ public class MinieTestShapes {
      * @return a new shape (not null)
      */
     public static SimplexCollisionShape randomTetrahedron(Generator generate) {
-        float r1 = 0.15f + generate.nextFloat();
-        float r2 = 0.15f + generate.nextFloat();
-        float r3 = 0.15f + generate.nextFloat();
-        float r4 = 0.15f + generate.nextFloat();
+        float r1 = 0.2f + 1.4f * generate.nextFloat();
+        float r2 = 0.2f + 1.4f * generate.nextFloat();
+        float r3 = 0.2f + 1.4f * generate.nextFloat();
+        float r4 = 0.2f + 1.4f * generate.nextFloat();
 
         Vector3f p1 = new Vector3f(r1, r1, r1);
         Vector3f p2 = new Vector3f(r2, -r2, -r2);
