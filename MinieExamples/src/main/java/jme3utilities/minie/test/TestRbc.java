@@ -186,11 +186,11 @@ public class TestRbc
      */
     final private float[] nineHeights = new float[9];
     /**
-     * part index returned by the most recent ray test
+     * part index returned by the most recent ray/sweep test
      */
     private int partIndex = -1;
     /**
-     * triangle index returned by the most recent ray test
+     * triangle index returned by the most recent ray/sweep test
      */
     private int triangleIndex = -1;
     /**
@@ -230,9 +230,9 @@ public class TestRbc
      */
     private PhysicsSpace physicsSpace;
     /**
-     * visualizer for ray intersections
+     * visualizer for the most recent raytest/sweeptest hit
      */
-    private PointVisualizer rayPoint;
+    private PointVisualizer hitPoint;
     /**
      * geometry for the projectile, or null if none
      */
@@ -309,10 +309,10 @@ public class TestRbc
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        rayPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Red,
+        hitPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Red,
                 "saltire");
-        rootNode.attachChild(rayPoint);
-        rayPoint.setEnabled(false);
+        rootNode.attachChild(hitPoint);
+        hitPoint.setEnabled(false);
 
         rootNode.attachChild(addNode);
 
@@ -1066,22 +1066,22 @@ public class TestRbc
             float fraction = nearestHit.getHitFraction();
             Vector3f location = MyVector3f.lerp(fraction, from, to, null);
 
-            rayPoint.setLocalTranslation(location);
-            rayPoint.setEnabled(true);
+            hitPoint.setLocalTranslation(location);
+            hitPoint.setEnabled(true);
 
             partIndex = nearestHit.partIndex();
             triangleIndex = nearestHit.triangleIndex();
         } else {
-            rayPoint.setEnabled(false);
+            hitPoint.setEnabled(false);
         }
     }
 
     /**
      * Delete all added shapes from the scene and PhysicsSpace. Also disable the
-     * visualizer for ray intersections.
+     * visualizer for hit points.
      */
     private void clearShapes() {
-        rayPoint.setEnabled(false);
+        hitPoint.setEnabled(false);
         partIndex = -1;
         triangleIndex = -1;
         /*
@@ -1346,13 +1346,13 @@ public class TestRbc
             Vector3f location = MyVector3f.lerp(fraction, fromLocation,
                     toLocation, null);
 
-            rayPoint.setLocalTranslation(location);
-            rayPoint.setEnabled(true);
+            hitPoint.setLocalTranslation(location);
+            hitPoint.setEnabled(true);
 
             partIndex = nearestHit.partIndex();
             triangleIndex = nearestHit.triangleIndex();
         } else {
-            rayPoint.setEnabled(false);
+            hitPoint.setEnabled(false);
         }
     }
 
