@@ -44,7 +44,6 @@ import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -136,7 +135,7 @@ public class RopeDemo extends ActionApplication {
     /**
      * cross-section radius for ropes (in mesh units)
      */
-    final private static float ropeRadius = 0.03f;
+    final private static float ropeRadius = 0.4f;
     /**
      * minimum curl radius for ropes (in mesh units)
      */
@@ -435,7 +434,7 @@ public class RopeDemo extends ActionApplication {
      * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox() {
-        float halfExtent = 50f; // mesh units
+        float halfExtent = 650f; // mesh units
         Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
         Geometry geometry = new Geometry("box", mesh);
         rootNode.attachChild(geometry);
@@ -659,7 +658,7 @@ public class RopeDemo extends ActionApplication {
         /*
          * Set a random elevation and Y-axis rotation.
          */
-        float elevation = 1f + random.nextFloat();
+        float elevation = 12f * (1f + random.nextFloat());
         float rotationAngle = FastMath.TWO_PI * random.nextFloat();
         spatial.move(0f, elevation, 0f);
         spatial.rotate(0f, rotationAngle, 0f);
@@ -688,6 +687,7 @@ public class RopeDemo extends ActionApplication {
         }
         dac.setConfig(DacConfiguration.torsoName, ropeConfig);
         dac.setDamping(0.9f);
+        dac.setGravity(new Vector3f(0f, -120f, 0f));
 
         spatial.addControl(dac);
         dac.setPhysicsSpace(physicsSpace);
@@ -787,13 +787,13 @@ public class RopeDemo extends ActionApplication {
      */
     private void configureCamera() {
         float near = 0.1f * ropeRadius;
-        float far = 20f;
+        float far = 250f;
         MyCamera.setNearFar(cam, near, far);
 
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(2f);
+        flyCam.setMoveSpeed(25f);
 
-        cam.setLocation(new Vector3f(0f, 2.5f, 4.2f));
+        cam.setLocation(new Vector3f(0f, 33f, 55f));
         cam.setRotation(new Quaternion(0f, 0.982f, -0.188f, 0f));
 
         CameraOrbitAppState orbitState
@@ -814,7 +814,6 @@ public class RopeDemo extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(ropeRadius / 10f);
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
