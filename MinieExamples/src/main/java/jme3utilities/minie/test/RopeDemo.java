@@ -77,6 +77,7 @@ import jme3utilities.MyCamera;
 import jme3utilities.MySkeleton;
 import jme3utilities.NameGenerator;
 import jme3utilities.debug.SkeletonVisualizer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
@@ -208,7 +209,7 @@ public class RopeDemo extends ActionApplication {
     /**
      * material to visualize the platform box
      */
-    private Material boxMaterial;
+    private Material greenMaterial;
     /**
      * material to visualize ropes
      */
@@ -255,7 +256,8 @@ public class RopeDemo extends ActionApplication {
         /*
          * Customize the window's title bar.
          */
-        AppSettings settings = new AppSettings(true);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
         settings.setTitle(applicationName);
 
         settings.setGammaCorrection(true);
@@ -275,10 +277,10 @@ public class RopeDemo extends ActionApplication {
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
-        configureMaterials();
+        generateMaterials();
         configurePhysics();
 
-        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
+        ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(bgColor);
 
         addLighting();
@@ -332,6 +334,7 @@ public class RopeDemo extends ActionApplication {
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
+        dim.bind("toggle pause", KeyInput.KEY_PAUSE);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
@@ -365,7 +368,6 @@ public class RopeDemo extends ActionApplication {
                 case "dump physicsSpace":
                     dumper.dump(physicsSpace);
                     return;
-
                 case "dump scenes":
                     dumper.dump(renderManager);
                     return;
@@ -439,7 +441,7 @@ public class RopeDemo extends ActionApplication {
         rootNode.attachChild(geometry);
 
         geometry.move(0f, -halfExtent, 0f);
-        geometry.setMaterial(boxMaterial);
+        geometry.setMaterial(greenMaterial);
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
@@ -556,7 +558,7 @@ public class RopeDemo extends ActionApplication {
          * Generate a Y-shaped Skeleton. Branch0 forms the stem of the Y.
          */
         int[] stepCounts = {6, 6, 6};
-        float dx = stepLength * FastMath.sqrt(0.5f);
+        float dx = stepLength * MyMath.rootHalf;
         Vector3f[] stepOffsets = {
             new Vector3f(stepLength, 0f, 0f),
             new Vector3f(-dx, 0f, -dx),
@@ -809,17 +811,6 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Configure materials during startup.
-     */
-    private void configureMaterials() {
-        ColorRGBA darkGreen = new ColorRGBA().setAsSrgb(0.1f, 0.4f, 0.1f, 1f);
-        boxMaterial = MyAsset.createShadedMaterial(assetManager, darkGreen);
-
-        ColorRGBA taupe = new ColorRGBA().setAsSrgb(0.6f, 0.5f, 0.4f, 1f);
-        ropeMaterial = MyAsset.createShadedMaterial(assetManager, taupe);
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
@@ -910,6 +901,18 @@ public class RopeDemo extends ActionApplication {
                 sv.setSubject(skeletonControl);
             }
         }
+    }
+
+    /**
+     * Initialize materials during startup.
+     */
+    private void generateMaterials() {
+        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
+        greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
+        greenMaterial.setName("green");
+
+        ColorRGBA taupe = new ColorRGBA().setAsSrgb(0.6f, 0.5f, 0.4f, 1f);
+        ropeMaterial = MyAsset.createShadedMaterial(assetManager, taupe);
     }
 
     /**
