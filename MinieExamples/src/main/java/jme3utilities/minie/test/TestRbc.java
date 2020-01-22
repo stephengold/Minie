@@ -183,6 +183,14 @@ public class TestRbc
      */
     final private float[] nineHeights = new float[9];
     /**
+     * part index returned by the most recent ray test
+     */
+    private int partIndex = -1;
+    /**
+     * triangle index returned by the most recent ray test
+     */
+    private int triangleIndex = -1;
+    /**
      * cursor shown when the raytest finds a collision object
      */
     private JmeCursor hitCursor;
@@ -287,6 +295,7 @@ public class TestRbc
         addStatusLines();
         /*
          * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
+         * TODO use appstate built into ActionApplication
          */
         ScreenshotAppState screenshotAppState
                 = new ScreenshotAppState("Written Assets/", "screenshot");
@@ -1049,6 +1058,8 @@ public class TestRbc
             Vector3f location = MyVector3f.lerp(fraction, from, to, null);
             rayPoint.setLocalTranslation(location);
             rayPoint.setEnabled(true);
+            partIndex = intersect.partIndex();
+            triangleIndex = intersect.triangleIndex();
         } else {
             rayPoint.setEnabled(false);
         }
@@ -1060,6 +1071,8 @@ public class TestRbc
      */
     private void clearShapes() {
         rayPoint.setEnabled(false);
+        partIndex = -1;
+        triangleIndex = -1;
         /*
          * Remove any added spatials from the scene.
          */
@@ -1362,11 +1375,20 @@ public class TestRbc
         } else {
             viewName = "Mesh";
         }
+        if (axes.isEnabled()) {
+            viewName += "+Axes";
+        }
 
         float margin = testShape.getMargin();
         Vector3f scale = testShape.getScale(null);
         message = String.format("view=%s, margin=%.3f, scale=%s",
                 viewName, margin, scale);
+        if (partIndex >= 0) {
+            message += String.format(", part[%d]", partIndex);
+        }
+        if (triangleIndex >= 0) {
+            message += String.format(", tri[%d]", triangleIndex);
+        }
         statusLines[1].setText(message);
     }
 }
