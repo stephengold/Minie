@@ -223,6 +223,7 @@ public class WatchDemo extends ActionApplication {
         addLighting();
         /*
          * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
+         * TODO use appstate built into ActionApplication
          */
         ScreenshotAppState screenshotAppState
                 = new ScreenshotAppState("Written Assets/", "screenshot");

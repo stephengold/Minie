@@ -391,7 +391,7 @@ public class TubeTreeMesh extends Mesh {
     private void initCircleSamples() {
         circleSamples = new Vector3f[samplesPerLoop + 1];
         for (int sampleI = 0; sampleI <= samplesPerLoop; ++sampleI) {
-            float theta = (2f * FastMath.PI / samplesPerLoop) * sampleI;
+            float theta = (FastMath.TWO_PI / samplesPerLoop) * sampleI;
             float cos = FastMath.cos(theta);
             float sin = FastMath.sin(theta);
             circleSamples[sampleI] = new Vector3f(cos, sin, 0f);

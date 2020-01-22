@@ -75,7 +75,6 @@ public class TestIssue883 extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-
         BulletAppState bulletAppState = new BulletAppState() {
             @Override
             public void physicsTick(PhysicsSpace space, float timeStep) {

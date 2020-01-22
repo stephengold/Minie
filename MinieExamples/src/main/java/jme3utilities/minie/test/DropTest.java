@@ -102,6 +102,8 @@ import jme3utilities.ui.Signals;
  * Test/demonstrate various collision shapes by dropping gems (dynamic rigid
  * bodies) onto a platform (static rigid body).
  * <p>
+ * Collision objects are rendered entirely by debug visualization.
+ * <p>
  * Seen in the November 2018 demo video:
  * https://www.youtube.com/watch?v=OS2zjB01c6E
  *
@@ -267,6 +269,7 @@ public class DropTest
         addStatusLines();
         /*
          * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
+         * TODO use appstate built into ActionApplication
          */
         ScreenshotAppState screenshotAppState
                 = new ScreenshotAppState("Written Assets/", "screenshot");
