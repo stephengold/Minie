@@ -56,11 +56,11 @@ public class PhysicsSweepTestResult {
      */
     private float hitFraction;
     /**
-     * index of the shape part (mesh) that was hit, or -1 if unknown
+     * index of the collision-shape part that was hit, or -1 if undefined
      */
     private int partIndex;
     /**
-     * index of the triangle that was hit, or -1 if unknown
+     * index of the collision-shape triangle that was hit, or -1 if undefined
      */
     private int triangleIndex;
     /**
@@ -131,9 +131,17 @@ public class PhysicsSweepTestResult {
     }
 
     /**
-     * Read the shape-part (mesh) index at the point of contact.
+     * Read the part index at the point of contact.
+     * <p>
+     * If shape that was hit is compound or convex, the index is undefined.
+     * <p>
+     * If the shape is a GImpactCollisionShape or MeshCollisionShape, the index
+     * identifies an IndexedMesh.
+     * <p>
+     * If the shape is a HeightfieldCollisionShape, the index identifies a grid
+     * row.
      *
-     * @return the index of the part (&ge;0) or -1 if unknown
+     * @return the index of the collision-shape part (&ge;0) or -1 if undefined
      */
     public int partIndex() {
         return partIndex;
@@ -141,8 +149,19 @@ public class PhysicsSweepTestResult {
 
     /**
      * Read the triangle index at the point of contact.
+     * <p>
+     * If shape that was hit is convex, the index is undefined.
+     * <p>
+     * If shape is a CompoundCollisionShape, the index identifies a child shape.
+     * <p>
+     * If the shape is a GImpactCollisionShape or MeshCollisionShape, the index
+     * identifies a triangle in an IndexedMesh.
+     * <p>
+     * If the shape is a HeightfieldCollisionShape, the index indicates a grid
+     * column.
      *
-     * @return the index of the triangle (&ge;0) or -1 if unknown
+     * @return the index of the collision-shape triangle (&ge;0) or -1 if
+     * undefined
      */
     public int triangleIndex() {
         return triangleIndex;
