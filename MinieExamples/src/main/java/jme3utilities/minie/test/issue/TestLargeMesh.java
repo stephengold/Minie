@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -24,37 +24,48 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.minie.test;
+package jme3utilities.minie.test.issue;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.control.BetterCharacterControl;
-import com.jme3.bullet.control.GhostControl;
+import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.objects.PhysicsBody;
+import com.jme3.scene.Mesh;
+import com.jme3.scene.VertexBuffer;
+import com.jme3.util.BufferUtils;
+import java.nio.FloatBuffer;
+import java.util.logging.Logger;
+import jme3utilities.math.noise.Generator;
 
 /**
- * Test case for JME issue #889: disabled physics control gets added to a
- * PhysicsSpace.
- * <p>
- * If successful, no debug meshes will be visible.
+ * Generate a collision shape for a very large mesh.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue889 extends SimpleApplication {
+public class TestLargeMesh extends SimpleApplication {
+    // *************************************************************************
+    // constants and loggers
+
+    final private static boolean optimized = false;
+    final private static int numTriangles = 10_000_000;
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestLargeMesh.class.getName());
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Main entry point for the TestIssue889 application.
+     * Main entry point for the TestLargeMesh application.
      *
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
-        TestIssue889 app = new TestIssue889();
+        TestLargeMesh app = new TestLargeMesh();
         app.start();
     }
     // *************************************************************************
@@ -65,31 +76,30 @@ public class TestIssue889 extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        flyCam.setEnabled(false);
+        Generator generator = new Generator();
+
+        int numVertices = 3 * numTriangles;
+        int numFloats = 3 * numVertices;
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(numFloats);
+        for (int floatIndex = 0; floatIndex < numFloats; ++floatIndex) {
+            float coordinate = generator.nextFloat();
+            buffer.put(coordinate);
+        }
+
+        Mesh mesh = new Mesh();
+        mesh.setBuffer(VertexBuffer.Type.Position, 3, buffer);
+        CollisionShape shape = new MeshCollisionShape(mesh, optimized);
+
+        float mass = PhysicsBody.massForStatic;
+        RigidBodyControl rbc = new RigidBodyControl(shape, mass);
 
         BulletAppState bulletAppState = new BulletAppState();
-        bulletAppState.setDebugEnabled(true);
-        bulletAppState.setSpeed(0f);
+        //bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
         PhysicsSpace space = bulletAppState.getPhysicsSpace();
-
-        float radius = 1f;
-        CollisionShape sphere = new SphereCollisionShape(radius);
-        CollisionShape box = new BoxCollisionShape(1f);
-
-        RigidBodyControl rbc = new RigidBodyControl(box);
-        rbc.setEnabled(false);
         rbc.setPhysicsSpace(space);
         rootNode.addControl(rbc);
 
-        BetterCharacterControl bcc = new BetterCharacterControl(radius, 4f, 1f);
-        bcc.setEnabled(false);
-        bcc.setPhysicsSpace(space);
-        rootNode.addControl(bcc);
-
-        GhostControl gc = new GhostControl(sphere);
-        gc.setEnabled(false);
-        gc.setPhysicsSpace(space);
-        rootNode.addControl(gc);
+        stop();
     }
 }

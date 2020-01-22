@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -24,49 +24,48 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.minie.test;
+package jme3utilities.minie.test.issue;
 
+import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
-import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.collision.shapes.MeshCollisionShape;
-import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.objects.PhysicsBody;
-import com.jme3.scene.Mesh;
-import com.jme3.scene.VertexBuffer;
-import com.jme3.util.BufferUtils;
-import java.nio.FloatBuffer;
 import java.util.logging.Logger;
-import jme3utilities.math.noise.Generator;
 
 /**
- * Generate a collision shape for a very large mesh.
+ * Test case for JME issue #883: extra physicsTicks in ThreadingType.PARALLEL.
+ * <p>
+ * If successful, physics time and frame time will advance at the same rate.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestLargeMesh extends SimpleApplication {
+public class TestIssue883 extends SimpleApplication {
     // *************************************************************************
     // constants and loggers
 
-    final private static boolean optimized = false;
-    final private static int numTriangles = 10_000_000;
     /**
      * message logger for this class
      */
     final public static Logger logger
-            = Logger.getLogger(TestLargeMesh.class.getName());
+            = Logger.getLogger(TestIssue883.class.getName());
+    // *************************************************************************
+    // fields
+
+    private boolean firstPrint = true;
+    private float timeToNextPrint = 1f; // in seconds
+    private double frameTime; // in seconds
+    private double physicsTime; // in seconds
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Main entry point for the TestLargeMesh application.
+     * Main entry point for the TestIssue883 application.
      *
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
-        TestLargeMesh app = new TestLargeMesh();
-        app.start();
+        Application application = new TestIssue883();
+        application.start();
     }
     // *************************************************************************
     // SimpleApplication methods
@@ -76,30 +75,40 @@ public class TestLargeMesh extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        Generator generator = new Generator();
+        BulletAppState bulletAppState = new BulletAppState() {
+            @Override
+            public void physicsTick(PhysicsSpace space, float timeStep) {
+                physicsTime += timeStep;
+            }
+        };
+        bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+        stateManager.attach(bulletAppState);
+    }
 
-        int numVertices = 3 * numTriangles;
-        int numFloats = 3 * numVertices;
-        FloatBuffer buffer = BufferUtils.createFloatBuffer(numFloats);
-        for (int floatIndex = 0; floatIndex < numFloats; ++floatIndex) {
-            float coordinate = generator.nextFloat();
-            buffer.put(coordinate);
+    /**
+     * Callback invoked once per frame.
+     *
+     * @param tpf time interval between frame (in seconds, &ge;0)
+     */
+    @Override
+    public void simpleUpdate(float tpf) {
+        super.simpleUpdate(tpf);
+
+        frameTime += tpf;
+
+        if (timeToNextPrint > 0f) {
+            timeToNextPrint -= tpf;
+            return;
         }
 
-        Mesh mesh = new Mesh();
-        mesh.setBuffer(VertexBuffer.Type.Position, 3, buffer);
-        CollisionShape shape = new MeshCollisionShape(mesh, optimized);
+        if (firstPrint) { // synchronize
+            frameTime = 0.;
+            physicsTime = 0.;
+            firstPrint = false;
+        }
 
-        float mass = PhysicsBody.massForStatic;
-        RigidBodyControl rbc = new RigidBodyControl(shape, mass);
-
-        BulletAppState bulletAppState = new BulletAppState();
-        //bulletAppState.setDebugEnabled(true);
-        stateManager.attach(bulletAppState);
-        PhysicsSpace space = bulletAppState.getPhysicsSpace();
-        rbc.setPhysicsSpace(space);
-        rootNode.addControl(rbc);
-
-        stop();
+        System.out.printf(" frameTime= %s   physicsTime= %s%n",
+                frameTime, physicsTime);
+        timeToNextPrint = 1f;
     }
 }
