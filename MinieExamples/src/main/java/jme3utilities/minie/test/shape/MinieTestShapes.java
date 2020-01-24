@@ -44,6 +44,7 @@ import com.jme3.math.Matrix3f;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
+import com.jme3.scene.Mesh.Mode;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
@@ -57,6 +58,7 @@ import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.mesh.Dodecahedron;
 import jme3utilities.mesh.DomeMesh;
 import jme3utilities.mesh.Icosahedron;
 import jme3utilities.mesh.Octahedron;
@@ -516,9 +518,9 @@ public class MinieTestShapes {
      * @return a new shape (not null)
      */
     public static MultiSphere randomFourSphere(Generator generate) {
-        float rx = 0.4f + 0.6f * generate.nextFloat();
-        float ry = 1f + generate.nextFloat();
-        float rz = 1f + generate.nextFloat();
+        float rx = generate.nextFloat(0.4f, 1f);
+        float ry = generate.nextFloat(1f, 2f);
+        float rz = generate.nextFloat(1f, 2f);
         Vector3f halfExtents = new Vector3f(rx, ry, rz);
 
         RectangularSolid solid = new RectangularSolid(halfExtents);
@@ -534,7 +536,7 @@ public class MinieTestShapes {
      * @return a new shape (not null)
      */
     public static HullCollisionShape randomHull(Generator generate) {
-        int numVertices = 5 + generate.nextInt(21); // 5 .. 25
+        int numVertices = generate.nextInt(5, 25);
 
         FloatBuffer buffer;
         boolean noNormals = false;
@@ -542,7 +544,7 @@ public class MinieTestShapes {
             /*
              * Generate a regular octahedron (6 vertices).
              */
-            float radius = 0.7f + generate.nextFloat();
+            float radius = generate.nextFloat(0.7f, 1.7f);
             Mesh mesh = new Octahedron(radius, noNormals);
             buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
 
@@ -550,16 +552,24 @@ public class MinieTestShapes {
             /*
              * Generate a regular icosahedron (12 vertices).
              */
-            float radius = 0.6f + generate.nextFloat();
+            float radius = generate.nextFloat(0.6f, 1.6f);
             Mesh mesh = new Icosahedron(radius, noNormals);
+            buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+
+        } else if (numVertices == 20) {
+            /*
+             * Generate a regular dodecahedron (20 vertices).
+             */
+            float radius = generate.nextFloat(0.6f, 1.6f);
+            Mesh mesh = new Dodecahedron(radius, Mode.Triangles);
             buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
 
         } else if (numVertices < 15 && numVertices % 2 == 0) {
             /*
              * Generate a prism (8, 10, or 14 vertices).
              */
-            float radius = 0.6f + 0.5f * generate.nextFloat();
-            float height = 1f + generate.nextFloat();
+            float radius = generate.nextFloat(0.6f, 1.1f);
+            float height = generate.nextFloat(1f, 2f);
             int numSides = numVertices / 2;
             Mesh mesh = new Prism(numSides, radius, height, noNormals);
             buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
@@ -568,11 +578,11 @@ public class MinieTestShapes {
             /*
              * Generate a spherical dome or plano-convex lens (181 vertices).
              */
-            float radius = 0.7f + generate.nextFloat();
+            float radius = generate.nextFloat(0.7f, 1.7f);
             int rimSamples = 20;
             int quadrantSamples = 10;
             DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
-            float verticalAngle = 0.7f + 1.3f * generate.nextFloat();
+            float verticalAngle = generate.nextFloat(0.7f, 2f);
             mesh.setVerticalAngle(verticalAngle);
             buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
             /*
@@ -594,7 +604,7 @@ public class MinieTestShapes {
 
         } else {
             /*
-             * Generate a hull using the origin plus 4-19 random vertices.
+             * Generate a hull using the origin plus 4-18 random vertices.
              */
             buffer = BufferUtils.createFloatBuffer(
                     MyVector3f.numAxes * numVertices);
@@ -626,7 +636,7 @@ public class MinieTestShapes {
      * @return a new shape (not null)
      */
     public static MultiSphere randomMultiSphere(Generator generate) {
-        int numSpheres = 1 + generate.nextInt(4);
+        int numSpheres = generate.nextInt(1, 4);
         if (numSpheres == 4) {
             MultiSphere result = randomFourSphere(generate);
             return result;
@@ -638,7 +648,7 @@ public class MinieTestShapes {
          * The first sphere is always centered.
          */
         centers.add(Vector3f.ZERO);
-        float mainRadius = 0.8f + 0.6f * generate.nextFloat();
+        float mainRadius = generate.nextFloat(0.8f, 1.4f);
         radii.add(mainRadius);
 
         for (int sphereIndex = 1; sphereIndex < numSpheres; ++sphereIndex) {
@@ -649,7 +659,7 @@ public class MinieTestShapes {
             offset.multLocal(mainRadius);
             centers.add(offset);
 
-            float radius = mainRadius * (0.2f + 0.8f * generate.nextFloat());
+            float radius = mainRadius * generate.nextFloat(0.2f, 1f);
             radii.add(radius);
         }
 
@@ -659,9 +669,9 @@ public class MinieTestShapes {
             /*
              * Scale the sphere to make an ellipsoid.
              */
-            float xScale = 1f + generate.nextFloat();
-            float yScale = 0.6f + generate.nextFloat();
-            float zScale = 0.4f + generate.nextFloat();
+            float xScale = generate.nextFloat(1f, 2f);
+            float yScale = generate.nextFloat(0.6f, 1.6f);
+            float zScale = generate.nextFloat(0.4f, 1.4f);
             result.setScale(new Vector3f(xScale, yScale, zScale));
         }
 
@@ -675,11 +685,11 @@ public class MinieTestShapes {
      * @return a new shape (not null)
      */
     public static CompoundCollisionShape randomStar(Generator generate) {
-        float centerY = 0.3f + 0.3f * generate.nextFloat();
-        float outerRadius = 1f + 1.5f * generate.nextFloat();
+        float centerY = generate.nextFloat(0.3f, 0.6f);
+        float outerRadius = generate.nextFloat(1f, 2.5f);
 
-        int numPoints = 4 + generate.nextInt(6); // 4 .. 9
-        float radiusRatio = 0.2f + 0.5f * generate.nextFloat();
+        int numPoints = generate.nextInt(4, 9);
+        float radiusRatio = generate.nextFloat(0.2f, 0.7f);
         float innerRadius = radiusRatio * outerRadius;
         float sliceAngle = FastMath.TWO_PI / numPoints; // in radians
         boolean normals = false;
@@ -704,10 +714,10 @@ public class MinieTestShapes {
      * @return a new shape (not null)
      */
     public static SimplexCollisionShape randomTetrahedron(Generator generate) {
-        float r1 = 0.2f + 1.4f * generate.nextFloat();
-        float r2 = 0.2f + 1.4f * generate.nextFloat();
-        float r3 = 0.2f + 1.4f * generate.nextFloat();
-        float r4 = 0.2f + 1.4f * generate.nextFloat();
+        float r1 = generate.nextFloat(0.2f, 1.6f);
+        float r2 = generate.nextFloat(0.2f, 1.6f);
+        float r3 = generate.nextFloat(0.2f, 1.6f);
+        float r4 = generate.nextFloat(0.2f, 1.6f);
 
         Vector3f p1 = new Vector3f(r1, r1, r1);
         Vector3f p2 = new Vector3f(r2, -r2, -r2);

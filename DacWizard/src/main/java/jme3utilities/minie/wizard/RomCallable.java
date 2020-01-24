@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -329,7 +329,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
          * Choose an animation time.
          */
         float duration = animation.getLength();
-        float animationTime = duration * generator.nextFloat();
+        float animationTime = generator.nextFloat(0f, duration);
 
         Skeleton skeleton = tempDac.getSkeleton();
         Pose pose = new Pose(skeleton);

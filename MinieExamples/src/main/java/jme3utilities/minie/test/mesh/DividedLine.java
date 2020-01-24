@@ -33,6 +33,7 @@ import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
@@ -50,10 +51,6 @@ public class DividedLine extends Mesh {
      * number of axes in a vector
      */
     final private static int numAxes = 3;
-    /**
-     * number of vertices per edge
-     */
-    final private static int vpe = 2;
     /**
      * message logger for this class
      */
@@ -79,7 +76,8 @@ public class DividedLine extends Mesh {
      * coordinates, not null, unaffected)
      * @param numSegments the desired number of sub-segments (&ge;1)
      */
-    public DividedLine(Vector3f endPoint1, Vector3f endPoint2, int numSegments) {
+    public DividedLine(Vector3f endPoint1, Vector3f endPoint2,
+            int numSegments) {
         Validate.positive(numSegments, "number of segments");
 
         setMode(Mode.Lines);
@@ -100,15 +98,16 @@ public class DividedLine extends Mesh {
         assert posBuffer.position() == numAxes * numVertices;
         posBuffer.flip();
 
-        IntBuffer indexBuffer = BufferUtils.createIntBuffer(vpe * numSegments);
-        setBuffer(VertexBuffer.Type.Index, vpe, indexBuffer);
+        IntBuffer indexBuffer
+                = BufferUtils.createIntBuffer(MyMesh.vpe * numSegments);
+        setBuffer(VertexBuffer.Type.Index, MyMesh.vpe, indexBuffer);
         /*
          * Write the vertex indices of all edges:
          */
         for (int sIndex = 0; sIndex < numSegments; ++sIndex) {
             indexBuffer.put(sIndex).put(sIndex + 1);
         }
-        assert indexBuffer.position() == vpe * numSegments;
+        assert indexBuffer.position() == MyMesh.vpe * numSegments;
         indexBuffer.flip();
 
         updateBound();

@@ -28,7 +28,6 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
-import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -97,6 +96,7 @@ import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.PointVisualizer;
+import jme3utilities.math.MyArray;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
@@ -288,7 +288,7 @@ public class TestRbc
         generateCursors();
         generateMaterials();
         initializeHeightData();
-        assert isSorted(testNames);
+        assert MyArray.isSorted(testNames);
 
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
@@ -296,14 +296,6 @@ public class TestRbc
         addAxes();
         addLighting();
         addStatusLines();
-        /*
-         * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
-         * TODO use appstate built into ActionApplication
-         */
-        ScreenshotAppState screenshotAppState
-                = new ScreenshotAppState("Written Assets/", "screenshot");
-        boolean success = stateManager.attach(screenshotAppState);
-        assert success;
         /*
          * Hide the render-statistics overlay initially.
          */
@@ -1140,7 +1132,7 @@ public class TestRbc
      * Initialize cursors during startup.
      */
     private void generateCursors() {
-        String hitPath = "Textures/cursors/menu.cur";
+        String hitPath = "Textures/cursors/green.cur";
         hitCursor = (JmeCursor) assetManager.loadAsset(hitPath);
 
         String missPath = "Textures/cursors/default.cur";
@@ -1189,23 +1181,6 @@ public class TestRbc
                 = new TerrainQuad("terrain", patchSize, mapSize, nineHeights);
         smallTerrainVhacdShape = CollisionShapeFactory.createVhacdShape(
                 spatial, new VHACDParameters(), null);
-    }
-
-    /**
-     * Test whether the specified array is sorted in ascending order with no
-     * duplicates. TODO use MyArray
-     *
-     * @param array the array to analyze (not null, unaffected)
-     * @return true if sorted, otherwise false
-     */
-    @SuppressWarnings("unchecked")
-    private static boolean isSorted(Comparable[] array) {
-        for (int i = 0; i < array.length - 1; ++i) {
-            if (array[i].compareTo(array[i + 1]) >= 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**

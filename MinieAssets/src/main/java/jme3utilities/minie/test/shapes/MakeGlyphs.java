@@ -36,9 +36,6 @@ import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
-import com.jme3.export.JmeExporter;
-import com.jme3.export.Savable;
-import com.jme3.export.binary.BinaryExporter;
 import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Transform;
@@ -49,8 +46,6 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.system.NativeLibraryLoader;
-import java.io.File;
-import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +55,6 @@ import jme3utilities.Misc;
 import jme3utilities.MyMesh;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
-import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 
@@ -251,28 +245,6 @@ public class MakeGlyphs {
         String assetPath
                 = String.format("CollisionShapes/glyphs/%s.j3o", string);
         String filePath = String.format("%s/%s", assetDirPath, assetPath);
-        writeJ3O(filePath, compoundShape);
-    }
-
-    /**
-     * Write a Savable to a J3O file. TODO use Heart library
-     *
-     * @param filePath (not null, not empty, should end in ".j3o")
-     * @param savable (not null, unaffected)
-     */
-    public void writeJ3O(String filePath, Savable savable) {
-        Validate.nonEmpty(filePath, "file path");
-        Validate.nonNull(savable, "savable");
-
-        JmeExporter exporter = BinaryExporter.getInstance();
-        File file = new File(filePath);
-        try {
-            exporter.save(savable, file);
-        } catch (IOException exception) {
-            logger.log(Level.SEVERE, "write to {0} failed",
-                    MyString.quote(filePath));
-            throw new RuntimeException(exception);
-        }
-        logger.log(Level.INFO, "wrote file {0}", MyString.quote(filePath));
+        Misc.writeJ3O(filePath, compoundShape);
     }
 }

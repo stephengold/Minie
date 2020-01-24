@@ -27,7 +27,6 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
-import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RotationOrder;
@@ -72,7 +71,6 @@ import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.debug.AxesVisualizer;
-import jme3utilities.math.MyMath;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
@@ -237,18 +235,9 @@ public class SeJointDemo extends ActionApplication {
         viewPort.setBackgroundColor(sky);
 
         addLighting();
-        /*
-         * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
-         * TODO use appstate built into ActionApplication
-         */
-        ScreenshotAppState screenshotAppState
-                = new ScreenshotAppState("Written Assets/", "screenshot");
-        boolean success = stateManager.attach(screenshotAppState);
-        assert success;
-
         addAxes();
 
-        seedMesh = new Sphere(16, 32, seedRadius);
+        seedMesh = new Sphere(16, 32, seedRadius); // TODO Icosphere
         seedShape = new MultiSphere(seedRadius);
 
         seedNode.setCullHint(Spatial.CullHint.Never);// meshes initially visible
@@ -467,7 +456,7 @@ public class SeJointDemo extends ActionApplication {
         /*
          * Randomize which group the new seed is in.
          */
-        int groupIndex = MyMath.modulo(random.nextInt(), numGroups);
+        int groupIndex = random.nextInt(0, numGroups - 1);
         Material material = materials[groupIndex];
         Vector3f pivotInWorld = pivotLocations[groupIndex];
         /*

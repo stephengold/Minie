@@ -48,6 +48,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
@@ -330,10 +331,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
      * or null to use untransformed vertex positions
      */
     private void create(Mesh jmeMesh, Transform transform) {
-        Mesh.Mode mode = jmeMesh.getMode();
-        assert mode == Mesh.Mode.Triangles
-                || mode == Mesh.Mode.TriangleStrip
-                || mode == Mesh.Mode.TriangleFan;
+        assert MyMesh.hasTriangles(jmeMesh);
 
         numVertices = jmeMesh.getVertexCount();
         vertexStride = numAxes * floatSize;

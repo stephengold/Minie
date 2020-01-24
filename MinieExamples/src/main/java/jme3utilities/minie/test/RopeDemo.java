@@ -31,7 +31,6 @@ import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
-import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
@@ -283,14 +282,6 @@ public class RopeDemo extends ActionApplication {
         viewPort.setBackgroundColor(bgColor);
 
         addLighting();
-        /*
-         * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
-         * TODO use appstate built into ActionApplication
-         */
-        ScreenshotAppState screenshotAppState
-                = new ScreenshotAppState("Written Assets/", "screenshot");
-        boolean success = stateManager.attach(screenshotAppState);
-        assert success;
         /*
          * Hide the render-statistics overlay.
          */
@@ -659,8 +650,8 @@ public class RopeDemo extends ActionApplication {
         /*
          * Set a random elevation and Y-axis rotation.
          */
-        float elevation = 12f * (1f + random.nextFloat());
-        float rotationAngle = FastMath.TWO_PI * random.nextFloat();
+        float elevation = random.nextFloat(12f, 24f);
+        float rotationAngle = random.nextFloat(0f, FastMath.TWO_PI);
         spatial.move(0f, elevation, 0f);
         spatial.rotate(0f, rotationAngle, 0f);
 

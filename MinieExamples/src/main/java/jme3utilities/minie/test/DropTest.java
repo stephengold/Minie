@@ -27,7 +27,6 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
-import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -85,6 +84,7 @@ import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
+import jme3utilities.math.MyArray;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.Prism;
@@ -261,21 +261,12 @@ public class DropTest
         configureDumper();
         generateMaterials();
         configurePhysics();
-        assert isSorted(gemShapeNames);
+        assert MyArray.isSorted(gemShapeNames);
 
         ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(bgColor);
 
         addStatusLines();
-        /*
-         * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
-         * TODO use appstate built into ActionApplication
-         */
-        ScreenshotAppState screenshotAppState
-                = new ScreenshotAppState("Written Assets/", "screenshot");
-        boolean success = stateManager.attach(screenshotAppState);
-        assert success;
-
         addAPlatform();
         addAGem();
     }
@@ -980,23 +971,6 @@ public class DropTest
     }
 
     /**
-     * Test whether the specified array is sorted in ascending order with no
-     * duplicates. TODO use MyArray
-     *
-     * @param array the array to analyze (not null, unaffected)
-     * @return true if sorted, otherwise false
-     */
-    @SuppressWarnings("unchecked")
-    private static boolean isSorted(Comparable[] array) {
-        for (int i = 0; i < array.length - 1; ++i) {
-            if (array[i].compareTo(array[i + 1]) >= 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Add the specified platform body to the PhysicsSpace.
      */
     private void makePlatform(PhysicsBody body) {
@@ -1046,9 +1020,9 @@ public class DropTest
      * Generate a box shape with random extents.
      */
     private void randomBox() {
-        float rx = 0.5f + random.nextFloat();
-        float ry = 0.5f + random.nextFloat();
-        float rz = 0.5f + random.nextFloat();
+        float rx = random.nextFloat(0.5f, 1.5f);
+        float ry = random.nextFloat(0.5f, 1.5f);
+        float rz = random.nextFloat(0.5f, 1.5f);
         Vector3f halfExtents = new Vector3f(rx, ry, rz);
         gemShape = new BoxCollisionShape(halfExtents);
     }
@@ -1057,8 +1031,8 @@ public class DropTest
      * Randomly generate a capsule shape.
      */
     private void randomCapsule() {
-        float radius = 0.2f + random.nextFloat();
-        float height = 0.5f + random.nextFloat();
+        float radius = random.nextFloat(0.2f, 1.2f);
+        float height = random.nextFloat(0.5f, 1.5f);
         gemShape = new CapsuleCollisionShape(radius, height);
     }
 
@@ -1066,8 +1040,8 @@ public class DropTest
      * Randomly generate a Y-axis cone shape.
      */
     private void randomCone() {
-        float baseRadius = 0.5f + random.nextFloat();
-        float height = 0.5f + 2f * random.nextFloat();
+        float baseRadius = random.nextFloat(0.5f, 1.5f);
+        float height = random.nextFloat(0.5f, 2.5f);
         gemShape = new ConeCollisionShape(baseRadius, height);
     }
 
@@ -1075,8 +1049,8 @@ public class DropTest
      * Generate a Z-axis cylinder shape with random extents.
      */
     private void randomCylinder() {
-        float baseRadius = 0.5f + random.nextFloat();
-        float halfHeight = 0.5f + 1.5f * random.nextFloat();
+        float baseRadius = random.nextFloat(0.5f, 1.5f);
+        float halfHeight = random.nextFloat(0.5f, 2f);
         Vector3f halfExtents = new Vector3f(baseRadius, baseRadius, halfHeight);
         gemShape = new CylinderCollisionShape(halfExtents);
     }
@@ -1090,7 +1064,7 @@ public class DropTest
         float handleR = 0.5f;
         float headR = handleR + random.nextFloat();
         float headHalfLength = headR + random.nextFloat();
-        float handleHalfLength = headHalfLength + 2.5f * random.nextFloat();
+        float handleHalfLength = headHalfLength + random.nextFloat(0f, 2.5f);
         Vector3f hes = new Vector3f(headR, headR, headHalfLength);
         CollisionShape head = new CylinderCollisionShape(hes);
 
@@ -1133,7 +1107,7 @@ public class DropTest
      * Randomly generate a sphere shape.
      */
     private void randomSphere() {
-        float radius = 0.5f + random.nextFloat();
+        float radius = random.nextFloat(0.5f, 1.5f);
         gemShape = new SphereCollisionShape(radius);
     }
 
