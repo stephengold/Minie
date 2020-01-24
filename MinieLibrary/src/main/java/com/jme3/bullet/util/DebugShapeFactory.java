@@ -362,7 +362,8 @@ public class DebugShapeFactory {
                 break;
             case Smooth:
                 mesh.setBuffer(VertexBuffer.Type.Normal, numAxes,
-                        callback.getSmoothNormals());
+                        callback.getFaceNormals());
+                MyMesh.smoothNormals(mesh);
                 break;
         }
         /*

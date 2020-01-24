@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -28,15 +28,11 @@ package jme3utilities.minie.test.shapes;
 
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
-import com.jme3.export.JmeExporter;
-import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import com.jme3.util.BufferUtils;
-import java.io.File;
-import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -159,20 +155,11 @@ public class MakeHeart {
         rotation.fromAngleAxis(FastMath.PI, Vector3f.UNIT_Z);
         compound.addChildShape(half, Vector3f.ZERO, rotation);
         /*
-         * Phase 5: write the shape to the asset file.  TODO use Heart library
+         * Phase 5: write the shape to the asset file.
          */
         String assetPath = "CollisionShapes/heart.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
-        JmeExporter exporter = BinaryExporter.getInstance();
-        File writeFile = new File(writeFilePath);
-        try {
-            exporter.save(compound, writeFile);
-        } catch (IOException exception) {
-            logger.log(Level.SEVERE, "write to {0} failed",
-                    MyString.quote(writeFilePath));
-            throw new RuntimeException(exception);
-        }
-        logger.log(Level.INFO, "wrote file {0}", MyString.quote(writeFilePath));
+        Misc.writeJ3O(writeFilePath, compound);
     }
 
     /**

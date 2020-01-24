@@ -38,8 +38,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
@@ -175,74 +173,6 @@ class DebugMeshCallback {
                 buffer.put(normal.y);
                 buffer.put(normal.z);
             }
-        }
-        buffer.flip();
-
-        return buffer;
-    }
-
-    /**
-     * Calculate smooth normals and store them in a FloatBuffer. TODO delete
-     *
-     * @return a new flipped, direct buffer (not null)
-     */
-    FloatBuffer getSmoothNormals() {
-        int numVertices = list.size();
-        int numTriangles = numVertices / vpt;
-        assert numTriangles * vpt == numVertices : numVertices;
-
-        Map<Vector3f, Integer> map = new HashMap<>(numVertices);
-        int numDistinctPositions = 0;
-        for (Vector3f position : list) {
-            MyVector3f.standardize(position, position);
-            if (!map.containsKey(position)) {
-                map.put(position, numDistinctPositions);
-                ++numDistinctPositions;
-            }
-        }
-        /*
-         * Initialize the normal sum for each distinct position.
-         */
-        Vector3f[] normalSum = new Vector3f[numDistinctPositions];
-        for (int dpid = 0; dpid < numDistinctPositions; ++dpid) {
-            normalSum[dpid] = new Vector3f(0f, 0f, 0f);
-        }
-
-        Triangle triangle = new Triangle();
-        for (int triIndex = 0; triIndex < numTriangles; ++triIndex) {
-            int firstVertex = vpt * triIndex;
-            Vector3f loc1 = list.get(firstVertex);
-            Vector3f loc2 = list.get(firstVertex + 1);
-            Vector3f loc3 = list.get(firstVertex + 2);
-            triangle.set(loc1, loc2, loc3);
-            triangle.setNormal(null); // work around JME issue #957
-            Vector3f faceNormal = triangle.getNormal();
-
-            int i1 = map.get(loc1);
-            normalSum[i1].addLocal(faceNormal);
-
-            int i2 = map.get(loc2);
-            normalSum[i2].addLocal(faceNormal);
-
-            int i3 = map.get(loc3);
-            normalSum[i3].addLocal(faceNormal);
-        }
-        /*
-         * Re-normalize the normal sum for each distinct position.
-         */
-        for (int posId = 0; posId < normalSum.length; ++posId) {
-            normalSum[posId].normalizeLocal();
-        }
-
-        int numFloats = numAxes * numVertices;
-        FloatBuffer buffer = BufferUtils.createFloatBuffer(numFloats);
-
-        for (Vector3f vertexLocation : list) {
-            int vertexIndex = map.get(vertexLocation);
-            Vector3f normal = normalSum[vertexIndex];
-            buffer.put(normal.x);
-            buffer.put(normal.y);
-            buffer.put(normal.z);
         }
         buffer.flip();
 

@@ -33,6 +33,7 @@ import com.jme3.util.BufferUtils;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 
 /**
@@ -50,10 +51,6 @@ public class NetGrid extends Mesh {
      * number of axes in a vector
      */
     final private static int numAxes = 3;
-    /**
-     * number of vertices per edge
-     */
-    final private static int vpe = 2;
     /**
      * message logger for this class
      */
@@ -103,7 +100,7 @@ public class NetGrid extends Mesh {
         posBuffer.flip();
 
         int numEdges = xLines * (zLines - 1) + (xLines - 1) * zLines;
-        int numIndices = vpe * numEdges;
+        int numIndices = MyMesh.vpe * numEdges;
         IndexBuffer indexBuffer
                 = IndexBuffer.createIndexBuffer(numVertices, numIndices);
         VertexBuffer.Format ibFormat = indexBuffer.getFormat();

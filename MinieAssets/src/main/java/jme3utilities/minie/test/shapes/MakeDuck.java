@@ -30,8 +30,6 @@ import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.util.CollisionShapeFactory;
-import com.jme3.export.JmeExporter;
-import com.jme3.export.binary.BinaryExporter;
 import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -41,8 +39,6 @@ import com.jme3.scene.plugins.gltf.BinLoader;
 import com.jme3.scene.plugins.gltf.GltfLoader;
 import com.jme3.system.NativeLibraryLoader;
 import com.jme3.texture.plugins.AWTLoader;
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
@@ -164,19 +160,10 @@ public class MakeDuck {
             System.exit(-1);
         }
         /*
-         * Write the shape to the asset file.  TODO use Heart library
+         * Write the shape to the asset file.
          */
         String assetPath = "CollisionShapes/duck.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
-        JmeExporter exporter = BinaryExporter.getInstance();
-        File writeFile = new File(writeFilePath);
-        try {
-            exporter.save(shape, writeFile);
-        } catch (IOException exception) {
-            logger.log(Level.SEVERE, "write to {0} failed",
-                    MyString.quote(writeFilePath));
-            throw new RuntimeException(exception);
-        }
-        logger.log(Level.INFO, "wrote file {0}", MyString.quote(writeFilePath));
+        Misc.writeJ3O(writeFilePath, shape);
     }
 }

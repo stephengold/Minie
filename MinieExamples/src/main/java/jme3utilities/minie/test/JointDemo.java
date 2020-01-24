@@ -27,7 +27,6 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
-import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RotationOrder;
@@ -185,15 +184,6 @@ public class JointDemo extends ActionApplication {
         viewPort.setBackgroundColor(sky);
 
         addLighting();
-        /*
-         * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
-         * TODO use appstate built into ActionApplication
-         */
-        ScreenshotAppState screenshotAppState
-                = new ScreenshotAppState("Written Assets/", "screenshot");
-        boolean success = stateManager.attach(screenshotAppState);
-        assert success;
-
         addAxes();
         addBox();
         addRobot();

@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
@@ -114,10 +115,7 @@ public class NativeSoftBodyUtil {
      * null, modified)
      */
     public static void appendFromTriMesh(Mesh mesh, PhysicsSoftBody softBody) {
-        Mesh.Mode mode = mesh.getMode();
-        assert mode == Mesh.Mode.Triangles
-                || mode == Mesh.Mode.TriangleFan
-                || mode == Mesh.Mode.TriangleStrip : mode;
+        assert MyMesh.hasTriangles(mesh);
         Validate.nonNull(softBody, "soft body");
 
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);

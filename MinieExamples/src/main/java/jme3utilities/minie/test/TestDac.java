@@ -32,7 +32,6 @@ import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
-import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.asset.AssetNotFoundException;
 import com.jme3.asset.ModelKey;
 import com.jme3.bullet.BulletAppState;
@@ -261,14 +260,6 @@ public class TestDac extends ActionApplication {
         viewPort.setBackgroundColor(bgColor);
 
         addLighting();
-        /*
-         * Capture a screenshot each time KEY_SYSRQ (the PrtSc key) is pressed.
-         * TODO use appstate built into ActionApplication
-         */
-        ScreenshotAppState screenshotAppState
-                = new ScreenshotAppState("Written Assets/", "screenshot");
-        boolean success = stateManager.attach(screenshotAppState);
-        assert success;
         /*
          * Hide the render-statistics overlay.
          */

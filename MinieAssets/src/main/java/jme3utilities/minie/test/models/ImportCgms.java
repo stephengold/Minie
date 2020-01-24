@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -29,8 +29,6 @@ package jme3utilities.minie.test.models;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetInfo;
 import com.jme3.asset.TextureKey;
-import com.jme3.export.JmeExporter;
-import com.jme3.export.binary.BinaryExporter;
 import com.jme3.material.MatParam;
 import com.jme3.material.Material;
 import com.jme3.scene.Spatial;
@@ -249,20 +247,11 @@ public class ImportCgms extends SimpleApplication {
     }
 
     /**
-     * Write the specified model to a J3O file. TODO use Heart library
+     * Write the specified model to a J3O file.
      */
     private void writeToJ3O(Spatial model, String writeAssetPath) {
         String writeFilePath
                 = String.format("%s/%s", assetDirPath, writeAssetPath);
-        JmeExporter exporter = BinaryExporter.getInstance();
-        File writeFile = new File(writeFilePath);
-        try {
-            exporter.save(model, writeFile);
-        } catch (IOException exception) {
-            logger.log(Level.SEVERE, "write to {0} failed",
-                    MyString.quote(writeFilePath));
-            throw new RuntimeException(exception);
-        }
-        logger.log(Level.INFO, "wrote file {0}", MyString.quote(writeFilePath));
+        Misc.writeJ3O(writeFilePath, model);
     }
 }

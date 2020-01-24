@@ -34,6 +34,7 @@ import com.jme3.util.BufferUtils;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
@@ -51,10 +52,6 @@ public class DividedLine extends Mesh {
      * number of axes in a vector
      */
     final private static int numAxes = 3;
-    /**
-     * number of vertices per edge
-     */
-    final private static int vpe = 2;
     /**
      * message logger for this class
      */
@@ -100,7 +97,7 @@ public class DividedLine extends Mesh {
         assert posBuffer.position() == numFloats;
         posBuffer.flip();
 
-        int numIndices = vpe * numSegments;
+        int numIndices = MyMesh.vpe * numSegments;
         IndexBuffer indexBuffer
                 = IndexBuffer.createIndexBuffer(numVertices, numIndices);
         VertexBuffer.Format ibFormat = indexBuffer.getFormat();
