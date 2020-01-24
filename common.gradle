@@ -27,8 +27,8 @@ gradle.projectsEvaluated {
 }
 
 ext { // current versions of the libraries
-    heartVersion = '4.3.0for33'
-    jme3utilitiesuiVersion = '0.7.10for33'
+    heartVersion = '4.4.0for33'
+    jme3utilitiesuiVersion = '0.8.0for33'
     jmonkeyengineVersion = '3.3.0-beta1'
     minieVersion = '1.3.0for33'
 }
