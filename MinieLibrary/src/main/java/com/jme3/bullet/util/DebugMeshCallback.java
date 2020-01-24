@@ -151,7 +151,7 @@ class DebugMeshCallback {
     /**
      * Calculate face normals and store them in a FloatBuffer.
      *
-     * @return a new buffer (not null)
+     * @return a new flipped, direct buffer (not null)
      */
     FloatBuffer getFaceNormals() {
         int numVertices = list.size();
@@ -176,36 +176,36 @@ class DebugMeshCallback {
                 buffer.put(normal.z);
             }
         }
+        buffer.flip();
 
         return buffer;
     }
 
     /**
-     * Calculate smooth normals and store them in a FloatBuffer.
+     * Calculate smooth normals and store them in a FloatBuffer. TODO delete
      *
-     * @return a new buffer (not null)
+     * @return a new flipped, direct buffer (not null)
      */
     FloatBuffer getSmoothNormals() {
         int numVertices = list.size();
         int numTriangles = numVertices / vpt;
         assert numTriangles * vpt == numVertices : numVertices;
 
-        Map<Vector3f, Integer> indexMap = new HashMap<>(numVertices);
-        int numDistinct = 0;
-        for (Vector3f vector : list) {
-            if (!indexMap.containsKey(vector)) {
-                indexMap.put(vector, numDistinct);
-                ++numDistinct;
+        Map<Vector3f, Integer> map = new HashMap<>(numVertices);
+        int numDistinctPositions = 0;
+        for (Vector3f position : list) {
+            MyVector3f.standardize(position, position);
+            if (!map.containsKey(position)) {
+                map.put(position, numDistinctPositions);
+                ++numDistinctPositions;
             }
         }
         /*
-         * Initialize the averaging data for each distinct vertex.
+         * Initialize the normal sum for each distinct position.
          */
-        int[] numFaces = new int[numDistinct];
-        Vector3f[] totals = new Vector3f[numDistinct];
-        for (int i = 0; i < numDistinct; ++i) {
-            numFaces[i] = 0;
-            totals[i] = new Vector3f(0f, 0f, 0f);
+        Vector3f[] normalSum = new Vector3f[numDistinctPositions];
+        for (int dpid = 0; dpid < numDistinctPositions; ++dpid) {
+            normalSum[dpid] = new Vector3f(0f, 0f, 0f);
         }
 
         Triangle triangle = new Triangle();
@@ -218,38 +218,33 @@ class DebugMeshCallback {
             triangle.setNormal(null); // work around JME issue #957
             Vector3f faceNormal = triangle.getNormal();
 
-            int i1 = indexMap.get(loc1);
-            totals[i1].addLocal(faceNormal);
-            ++numFaces[i1];
+            int i1 = map.get(loc1);
+            normalSum[i1].addLocal(faceNormal);
 
-            int i2 = indexMap.get(loc2);
-            totals[i2].addLocal(faceNormal);
-            ++numFaces[i2];
+            int i2 = map.get(loc2);
+            normalSum[i2].addLocal(faceNormal);
 
-            int i3 = indexMap.get(loc3);
-            totals[i3].addLocal(faceNormal);
-            ++numFaces[i3];
+            int i3 = map.get(loc3);
+            normalSum[i3].addLocal(faceNormal);
         }
         /*
-         * Average and re-normalize the face normals for each distinct vertex.
+         * Re-normalize the normal sum for each distinct position.
          */
-        for (int i = 0; i < totals.length; ++i) {
-            assert numFaces[i] > 0 : numFaces[i];
-            float factor = 1f / numFaces[i];
-            totals[i].multLocal(factor);
-            totals[i].normalizeLocal();
+        for (int posId = 0; posId < normalSum.length; ++posId) {
+            normalSum[posId].normalizeLocal();
         }
 
         int numFloats = numAxes * numVertices;
         FloatBuffer buffer = BufferUtils.createFloatBuffer(numFloats);
 
         for (Vector3f vertexLocation : list) {
-            int vertexIndex = indexMap.get(vertexLocation);
-            Vector3f normal = totals[vertexIndex];
+            int vertexIndex = map.get(vertexLocation);
+            Vector3f normal = normalSum[vertexIndex];
             buffer.put(normal.x);
             buffer.put(normal.y);
             buffer.put(normal.z);
         }
+        buffer.flip();
 
         return buffer;
     }
