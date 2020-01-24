@@ -71,7 +71,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.shape.Box;
-import com.jme3.scene.shape.Sphere;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import java.io.File;
@@ -88,6 +87,7 @@ import jme3utilities.NameGenerator;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
@@ -180,7 +180,7 @@ public class TestDac extends ActionApplication {
      * shiny red material to visualize the falling balls
      */
     private Material ballMaterial;
-    final private Mesh ballMesh = new Sphere(16, 32, ballRadius);
+    final private Mesh ballMesh = new Icosphere(2, ballRadius);
     final private NameGenerator nameGenerator = new NameGenerator();
     /**
      * root node of the C-G model on which the Control is being tested
