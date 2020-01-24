@@ -46,7 +46,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
@@ -85,43 +84,45 @@ public class NativeSoftBodyUtil {
      * Append the edges in the specified line-mode Mesh to the specified soft
      * body.
      *
-     * @param mesh the input JME mesh (not null, unaffected,
-     * mode=Lines/LineLoop/LineStrip, position and index buffers must be direct)
+     * @param mesh the input JME mesh (not null, unaffected, mode=Lines,
+     * position and index buffers must be direct)
      * @param softBody the soft body to which links will be added (not null,
      * modified)
      */
     public static void appendFromLineMesh(Mesh mesh, PhysicsSoftBody softBody) {
         Mesh.Mode mode = mesh.getMode();
-        assert mode == Mesh.Mode.Lines
-                || mode == Mesh.Mode.LineLoop
-                || mode == Mesh.Mode.LineStrip : mode;
+        assert mode == Mesh.Mode.Lines : mode;
         Validate.nonNull(softBody, "soft body");
 
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+        assert positions.isDirect();
         softBody.appendNodes(positions);
 
-        IndexBuffer indices = mesh.getIndicesAsList();
-        softBody.appendLinks(indices);
+        IndexBuffer lineIndices = mesh.getIndexBuffer();
+        assert lineIndices.getBuffer().isDirect();
+        softBody.appendLinks(lineIndices);
     }
 
     /**
      * Add the triangles and unique edges in the specified JME mesh to the
      * specified soft body.
      *
-     * @param mesh the input JME mesh (not null, unaffected,
-     * mode=Triangles/TriangleFan/TriangleStrip, position and index buffers must
-     * be direct)
+     * @param mesh the input JME mesh (not null, unaffected, mode=Triangles,
+     * position and index buffers must be direct)
      * @param softBody the soft body to which faces and links will be added (not
      * null, modified)
      */
     public static void appendFromTriMesh(Mesh mesh, PhysicsSoftBody softBody) {
-        assert MyMesh.hasTriangles(mesh);
+        Mesh.Mode mode = mesh.getMode();
+        assert mode == Mesh.Mode.Triangles : mode;
         Validate.nonNull(softBody, "soft body");
 
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+        assert positions.isDirect();
         softBody.appendNodes(positions);
 
-        IndexBuffer triangleIndices = mesh.getIndicesAsList();
+        IndexBuffer triangleIndices = mesh.getIndexBuffer();
+        assert triangleIndices.getBuffer().isDirect();
         softBody.appendFaces(triangleIndices);
         /*
          * Enumerate all unique edges among the triangles.
@@ -175,7 +176,7 @@ public class NativeSoftBodyUtil {
         IndexBuffer newTetras
                 = IndexBuffer.createIndexBuffer(numNodes, 4 * numFaces);
         IntBuffer faceIndices = softBody.copyFaces(null);
-        for (int faceIndex = 0; faceIndex < numFaces; faceIndex += 3) {
+        for (int faceIndex = 0; faceIndex < numFaces; ++faceIndex) {
             int fi0 = faceIndices.get(3 * faceIndex);
             int fi1 = faceIndices.get(3 * faceIndex + 1);
             int fi2 = faceIndices.get(3 * faceIndex + 2);
