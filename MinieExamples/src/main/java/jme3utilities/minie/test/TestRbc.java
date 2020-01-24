@@ -76,7 +76,6 @@ import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.shape.AbstractBox;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Cylinder;
-import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
@@ -103,6 +102,7 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
 import jme3utilities.mesh.Cone;
+import jme3utilities.mesh.Icosphere;
 import jme3utilities.mesh.Prism;
 import jme3utilities.mesh.RectangleMesh;
 import jme3utilities.mesh.Tetrahedron;
@@ -724,8 +724,9 @@ public class TestRbc
      * Add a pair of kissing spheres to the scene and PhysicsSpace.
      */
     private void addKiss() {
+        int numRefineSteps = 2;
         float radius = 1f;
-        Mesh mesh = new Sphere(16, 32, radius);
+        Mesh mesh = new Icosphere(numRefineSteps, radius);
         Spatial g1 = new Geometry("g1", mesh).move(radius, 0f, 0f);
         Spatial g2 = new Geometry("g2", mesh).move(-radius, 0f, 0f);
         Node node = new Node("kiss");
@@ -830,8 +831,9 @@ public class TestRbc
     private RigidBodyControl addProjectile() {
         assert projectileSpatial == null;
 
+        int numRefineSteps = 1;
         float radius = 0.05f;
-        Mesh mesh = new Sphere(6, 12, radius);
+        Mesh mesh = new Icosphere(numRefineSteps, radius);
 
         projectileSpatial = new Geometry("projectile", mesh);
         addNode.attachChild(projectileSpatial);
@@ -881,8 +883,9 @@ public class TestRbc
      * Add a sphere to the scene and PhysicsSpace.
      */
     private void addSphere() {
+        int numRefineSteps = 3;
         float radius = 2.5f;
-        Mesh mesh = new Sphere(16, 32, radius);
+        Mesh mesh = new Icosphere(numRefineSteps, radius);
         testSpatial = new Geometry("sphere", mesh);
 
         switch (testName) {

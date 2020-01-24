@@ -61,7 +61,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
 import java.util.Collection;
 import java.util.List;
@@ -72,6 +71,7 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
@@ -237,7 +237,8 @@ public class SeJointDemo extends ActionApplication {
         addLighting();
         addAxes();
 
-        seedMesh = new Sphere(16, 32, seedRadius); // TODO Icosphere
+        int numRefineSteps = 1;
+        seedMesh = new Icosphere(numRefineSteps, seedRadius);
         seedShape = new MultiSphere(seedRadius);
 
         seedNode.setCullHint(Spatial.CullHint.Never);// meshes initially visible
