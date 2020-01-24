@@ -71,6 +71,18 @@ public class PhysicsSoftBody extends PhysicsBody {
     // constants and loggers
 
     /**
+     * number of axes in the coordinate system
+     */
+    final private static int numAxes = 3;
+    /**
+     * number of vertices per edge
+     */
+    final private static int vpe = 2;
+    /**
+     * number of vertices per triangle
+     */
+    final private static int vpt = 3;
+    /**
      * message logger for this class
      */
     final public static Logger logger2
@@ -162,12 +174,12 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (!nodeIndices.getBuffer().isDirect()) {
             throw new IllegalArgumentException("The buffer must be direct.");
         }
-        if (nodeIndices.size() % 3 != 0) {
+        if (nodeIndices.size() % vpt != 0) {
             throw new IllegalArgumentException(
                     "The number of indices must be a multiple of 3.");
         }
 
-        int numFaces = nodeIndices.size() / 3;
+        int numFaces = nodeIndices.size() / vpt;
         Buffer buffer = nodeIndices.getBuffer();
         if (buffer instanceof ByteBuffer) {
             appendFaces(objectId, numFaces, (ByteBuffer) buffer);
@@ -192,12 +204,12 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (!nodeIndices.getBuffer().isDirect()) {
             throw new IllegalArgumentException("The buffer must be direct.");
         }
-        if (nodeIndices.size() % 2 != 0) {
+        if (nodeIndices.size() % vpe != 0) {
             throw new IllegalArgumentException(
                     "The number of indices must be a multiple of 2.");
         }
 
-        int numLinks = nodeIndices.size() / 2;
+        int numLinks = nodeIndices.size() / vpe;
         Buffer buffer = nodeIndices.getBuffer();
         if (buffer instanceof ByteBuffer) {
             appendLinks(objectId, numLinks, (ByteBuffer) buffer);
@@ -222,12 +234,12 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (!nodeLocations.isDirect()) {
             throw new IllegalArgumentException("The buffer must be direct.");
         }
-        if (nodeLocations.limit() % 3 != 0) {
+        if (nodeLocations.limit() % numAxes != 0) {
             throw new IllegalArgumentException(
                     "The number of floats must be a multiple of 3.");
         }
 
-        int numNodes = nodeLocations.limit() / 3;
+        int numNodes = nodeLocations.limit() / numAxes;
         appendNodes(objectId, numNodes, nodeLocations);
     }
 
@@ -357,7 +369,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (storeResult != null && !storeResult.isDirect()) {
             throw new IllegalArgumentException("The buffer must be direct.");
         }
-        int numFloats = 3 * countClusters();
+        int numFloats = numAxes * countClusters();
         FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
         if (numFloats != 0) {
@@ -394,7 +406,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * or a new buffer)
      */
     public IntBuffer copyFaces(IntBuffer storeResult) {
-        int numInts = 3 * countFaces();
+        int numInts = vpt * countFaces();
         IntBuffer result;
         if (storeResult == null) {
             result = BufferUtils.createIntBuffer(numInts);
@@ -418,7 +430,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * or a new buffer)
      */
     public IntBuffer copyLinks(IntBuffer storeResult) {
-        int numInts = 2 * countLinks();
+        int numInts = vpe * countLinks();
         IntBuffer result;
         if (storeResult == null) {
             result = BufferUtils.createIntBuffer(numInts);
@@ -445,7 +457,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (storeResult != null && !storeResult.isDirect()) {
             throw new IllegalArgumentException("The buffer must be direct.");
         }
-        int numFloats = 3 * countNodes();
+        int numFloats = numAxes * countNodes();
         FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
         if (numFloats != 0) {
@@ -485,7 +497,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (storeResult != null && !storeResult.isDirect()) {
             throw new IllegalArgumentException("The buffer must be direct.");
         }
-        int numFloats = 3 * countNodes();
+        int numFloats = numAxes * countNodes();
         FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
         if (numFloats != 0) {
@@ -529,7 +541,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         if (storeResult != null && !storeResult.isDirect()) {
             throw new IllegalArgumentException("The buffer must be direct.");
         }
-        int numFloats = 3 * countNodes();
+        int numFloats = numAxes * countNodes();
         FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
 
         if (numFloats != 0) {
