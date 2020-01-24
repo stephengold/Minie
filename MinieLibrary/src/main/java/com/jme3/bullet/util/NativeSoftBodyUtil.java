@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
@@ -64,6 +65,10 @@ public class NativeSoftBodyUtil {
      * number of axes in a vector
      */
     final private static int numAxes = 3;
+    /**
+     * number of vertices per triangle
+     */
+    final private static int vpt = 3;
     /**
      * message logger for this class
      */
@@ -128,8 +133,8 @@ public class NativeSoftBodyUtil {
          * Enumerate all unique edges among the triangles.
          */
         int size = triangleIndices.size();
-        Set<MeshEdge> uniqueEdges = new HashSet<>(3 * size);
-        for (int intOffset = 0; intOffset < size; intOffset += 3) {
+        Set<MeshEdge> uniqueEdges = new HashSet<>(vpt * size);
+        for (int intOffset = 0; intOffset < size; intOffset += vpt) {
             int ti0 = triangleIndices.get(intOffset);
             int ti1 = triangleIndices.get(intOffset + 1);
             int ti2 = triangleIndices.get(intOffset + 2);
@@ -141,14 +146,14 @@ public class NativeSoftBodyUtil {
 
         int vertexCount = positions.limit();
         int numUniqueEdges = uniqueEdges.size();
-        int indexCount = 2 * numUniqueEdges;
+        int indexCount = MyMesh.vpe * numUniqueEdges;
         IndexBuffer links
                 = IndexBuffer.createIndexBuffer(vertexCount, indexCount);
         int edgeIndex = 0;
         for (MeshEdge edge : uniqueEdges) {
             links.put(edgeIndex, edge.index1());
             links.put(edgeIndex + 1, edge.index2());
-            edgeIndex += 2;
+            edgeIndex += MyMesh.vpe;
         }
         softBody.appendLinks(links);
     }
@@ -177,9 +182,9 @@ public class NativeSoftBodyUtil {
                 = IndexBuffer.createIndexBuffer(numNodes, 4 * numFaces);
         IntBuffer faceIndices = softBody.copyFaces(null);
         for (int faceIndex = 0; faceIndex < numFaces; ++faceIndex) {
-            int fi0 = faceIndices.get(3 * faceIndex);
-            int fi1 = faceIndices.get(3 * faceIndex + 1);
-            int fi2 = faceIndices.get(3 * faceIndex + 2);
+            int fi0 = faceIndices.get(vpt * faceIndex);
+            int fi1 = faceIndices.get(vpt * faceIndex + 1);
+            int fi2 = faceIndices.get(vpt * faceIndex + 2);
             newTetras.put(4 * faceIndex, fi0);
             newTetras.put(4 * faceIndex + 1, fi1);
             newTetras.put(4 * faceIndex + 2, fi2);
