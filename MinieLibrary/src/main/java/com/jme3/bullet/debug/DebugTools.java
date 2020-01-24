@@ -320,9 +320,12 @@ public class DebugTools {
     // native methods
 
     /**
-     * Alter whether the native library will print a startup message.
+     * Alter whether the native library will print a startup message. TODO delete
      *
      * @param printFlag true &rarr; print a message, false &rarr; no message
+     * @deprecated use
+     * {@link com.jme3.bullet.util.NativeLibrary#setStartupMessageEnabled(boolean)}
      */
+    @Deprecated
     native public static void setStartupMessageEnabled(boolean printFlag);
 }
