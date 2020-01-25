@@ -186,8 +186,15 @@ public class MinieTestShapes {
         }
 
         Vector3f scale = new Vector3f(40f / n, 4f, 40f / n);
+        int upAxis = PhysicsSpace.AXIS_Y;
+        boolean flipQuadEdges = false;
+        boolean flipTriangleWinding = false;
+        boolean useDiamond = true;
+        boolean useZigzag = false;
         HeightfieldCollisionShape result
-                = new HeightfieldCollisionShape(heightmap, scale);
+                = new HeightfieldCollisionShape(n, n, heightmap, scale, upAxis,
+                        flipQuadEdges, flipTriangleWinding, useDiamond,
+                        useZigzag);
 
         return result;
     }
