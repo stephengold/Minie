@@ -49,6 +49,7 @@ import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
+import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
@@ -84,6 +85,10 @@ public class BulletDebugAppState extends AbstractAppState {
      * application's asset manager: set by initialize()
      */
     private AssetManager assetManager;
+    /**
+     * Camera for debug visualization, or null if unknown
+     */
+    private Camera camera;
     /**
      * limit which bounding boxes are visualized, or null to visualize no
      * bounding boxes
@@ -171,14 +176,17 @@ public class BulletDebugAppState extends AbstractAppState {
      * BulletAppState.
      *
      * @param space the PhysicsSpace to visualize (not null, alias created)
-     * @param viewPorts the view ports in which to render (not null, unaffected)
+     * @param viewPorts the view ports in which to render (not null, aliases
+     * created)
      * @param filter the filter to limit which objects are visualized, or null
      * to visualize all objects (may be null, alias created)
      * @param initListener the init listener, or null if none (may be null,
      * alias created)
+     * @param camera the Camera for rendering (may be null, alias created)
      */
     public BulletDebugAppState(PhysicsSpace space, ViewPort[] viewPorts,
-            DebugAppStateFilter filter, DebugInitListener initListener) {
+            DebugAppStateFilter filter, DebugInitListener initListener,
+            Camera camera) {
         Validate.nonNull(space, "space");
         Validate.nonNull(viewPorts, "view ports");
 
@@ -190,12 +198,13 @@ public class BulletDebugAppState extends AbstractAppState {
 
         this.filter = filter;
         this.initListener = initListener;
+        this.camera = camera;
     }
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Read the length of the axis arrows.
+     * Read the length of the axis arrows. For internal use only. TODO deprecate
      *
      * @return length (in shape units, &ge;0)
      */
@@ -205,7 +214,8 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Read the line width for axis arrows.
+     * Read the line width for axis arrows. For internal use only. TODO
+     * deprecate
      *
      * @return width (in pixels, &ge;1) or 0 for solid arrows
      */
@@ -235,6 +245,15 @@ public class BulletDebugAppState extends AbstractAppState {
     Material getBoundingBoxMaterial() {
         assert white != null;
         return white;
+    }
+
+    /**
+     * Access the Camera used for debug visualization.
+     *
+     * @return the pre-existing instance, or null if unknown
+     */
+    Camera getCamera() {
+        return camera;
     }
 
     /**
@@ -310,7 +329,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Alter the length of the axis arrows.
+     * Alter the length of the axis arrows. For internal use only.
      *
      * @param length (in shape units, &ge;0, default=0)
      */
@@ -320,7 +339,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Alter the line width for axis arrows.
+     * Alter the line width for axis arrows. For internal use only.
      *
      * @param width (in pixels, &ge;1) or 0 for solid arrows (default=1)
      */
@@ -330,7 +349,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Alter which bounding boxes are visualized.
+     * Alter which bounding boxes are visualized. For internal use only.
      *
      * @param filter the desired filter, or null to visualize no bounding boxes
      */
@@ -345,7 +364,17 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Alter which objects are visualized.
+     * Alter which Camera is used for debug visualization. For internal use
+     * only.
+     *
+     * @param camera the desired Camera, or null if unknown
+     */
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
+
+    /**
+     * Alter which objects are visualized. For internal use only.
      *
      * @param filter the desired filter, or null to visualize all objects
      */
@@ -354,7 +383,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Alter which swept spheres are visualized.
+     * Alter which swept spheres are visualized. For internal use only.
      *
      * @param filter the desired filter, or null to visualize no swept spheres
      */
@@ -369,7 +398,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Alter the view ports in which to render.
+     * Alter the view ports in which to render. For internal use only.
      *
      * @param viewPorts array of view ports (not null, unaffected)
      */

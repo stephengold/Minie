@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,13 +33,17 @@ package com.jme3.bullet.debug;
 
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.material.Material;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.debug.WireSphere;
 import java.util.logging.Logger;
+import jme3utilities.debug.SphereMeshes;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A physics-debug control used to visualize a sphere used for continuous
@@ -86,11 +90,10 @@ public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
         super(debugAppState);
         this.pco = pco;
 
-        float radius = 1f;
-        WireSphere mesh = new WireSphere(radius);
+        Mesh mesh = updateMesh(null);
         geom = new Geometry("swept sphere of " + pco, mesh);
 
-        radius = pco.getCcdSweptSphereRadius();
+        float radius = pco.getCcdSweptSphereRadius();
         geom.setLocalScale(radius);
 
         center = pco.getPhysicsLocation(null);
@@ -112,11 +115,29 @@ public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     protected void controlUpdate(float tpf) {
+        Mesh oldMesh = geom.getMesh();
+        Mesh newMesh = updateMesh(oldMesh);
+        if (oldMesh != newMesh) {
+            geom.setMesh(newMesh);
+        }
+
         float radius = pco.getCcdSweptSphereRadius();
         geom.setLocalScale(radius);
 
         pco.getPhysicsLocation(center);
         geom.setLocalTranslation(center);
+
+        Camera camera = debugAppState.getCamera();
+        if (camera != null) {
+            Vector3f offset = camera.getLocation().subtract(center);
+            Vector3f axis1 = new Vector3f(); // TODO garbage
+            Vector3f axis2 = new Vector3f();
+            MyVector3f.generateBasis(offset, axis1, axis2);
+
+            Quaternion orientation = new Quaternion(); // TODO garbage
+            orientation.fromAxes(axis2, offset, axis1);
+            geom.setLocalRotation(orientation);
+        }
     }
 
     /**
@@ -136,5 +157,27 @@ public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
             node.detachChild(geom);
         }
         super.setSpatial(spatial);
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Update the Mesh of the debug geometry, based on whether the Camera is
+     * known.
+     */
+    private Mesh updateMesh(Mesh oldMesh) {
+        Camera camera = debugAppState.getCamera();
+        SphereMeshes meshType = (camera == null) ? SphereMeshes.Icosphere
+                : SphereMeshes.LoopMesh;
+
+        Mesh result = oldMesh;
+        if (!meshType.isInstance(result)) {
+            float radius = 1f;
+            boolean wantNormals = false;
+            boolean wantUvs = false;
+            result = meshType.makeSphere(radius, wantNormals, wantUvs);
+        }
+
+        return result;
     }
 }
