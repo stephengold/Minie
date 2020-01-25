@@ -547,33 +547,9 @@ public class MinieTestShapes {
 
         FloatBuffer buffer;
         boolean noNormals = false;
-        if (numVertices == 6) {
+        if (numVertices < 15 && numVertices % 2 == 0) {
             /*
-             * Generate a regular octahedron (6 vertices).
-             */
-            float radius = generate.nextFloat(0.7f, 1.7f);
-            Mesh mesh = new Octahedron(radius, noNormals);
-            buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-
-        } else if (numVertices == 12) {
-            /*
-             * Generate a regular icosahedron (12 vertices).
-             */
-            float radius = generate.nextFloat(0.6f, 1.6f);
-            Mesh mesh = new Icosahedron(radius, noNormals);
-            buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-
-        } else if (numVertices == 20) {
-            /*
-             * Generate a regular dodecahedron (20 vertices).
-             */
-            float radius = generate.nextFloat(0.6f, 1.6f);
-            Mesh mesh = new Dodecahedron(radius, Mode.Triangles);
-            buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-
-        } else if (numVertices < 15 && numVertices % 2 == 0) {
-            /*
-             * Generate a prism (8, 10, or 14 vertices).
+             * Generate a prism (6, 8, 10, 12, or 14 vertices).
              */
             float radius = generate.nextFloat(0.6f, 1.1f);
             float height = generate.nextFloat(1f, 2f);
@@ -611,7 +587,7 @@ public class MinieTestShapes {
 
         } else {
             /*
-             * Generate a hull using the origin plus 4-18 random vertices.
+             * Generate a hull using the origin plus 4-19 random vertices.
              */
             buffer = BufferUtils.createFloatBuffer(
                     MyVector3f.numAxes * numVertices);
@@ -680,6 +656,61 @@ public class MinieTestShapes {
             float yScale = generate.nextFloat(0.6f, 1.6f);
             float zScale = generate.nextFloat(0.4f, 1.4f);
             result.setScale(new Vector3f(xScale, yScale, zScale));
+        }
+
+        return result;
+    }
+
+    /**
+     * Randomly generate a Platonic solid.
+     *
+     * @param generate pseudo-random generator (not null, modified)
+     * @return a new shape (not null)
+     */
+    public static CollisionShape randomPlatonic(Generator generate) {
+        Mesh mesh;
+        float radius;
+        boolean noNormals = false;
+
+        CollisionShape result;
+        int solidType = generate.nextInt(0, 4);
+        switch (solidType) {
+            case 0: // regular tetrahedron
+                radius = 1.55f * generate.nextFloat(0.5f, 1.5f);
+                float he = radius / FastMath.sqrt(3f);
+                Vector3f v0 = new Vector3f(-he, +he, +he);
+                Vector3f v1 = new Vector3f(+he, -he, +he);
+                Vector3f v2 = new Vector3f(+he, +he, -he);
+                Vector3f v3 = new Vector3f(-he, -he, -he);
+                result = new SimplexCollisionShape(v0, v1, v2, v3);
+                break;
+
+            case 1: // cube or regular hexahedron
+                radius = 1.4f * generate.nextFloat(0.5f, 1.5f);
+                float halfExtent = radius / FastMath.sqrt(3f);
+                result = new BoxCollisionShape(halfExtent);
+                break;
+
+            case 2: // regular octahedron
+                radius = 1.4f * generate.nextFloat(0.5f, 1.5f);
+                mesh = new Octahedron(radius, noNormals);
+                result = new HullCollisionShape(mesh);
+                break;
+
+            case 3: // regular dodecahedron
+                radius = 1.1f * generate.nextFloat(0.5f, 1.5f);
+                mesh = new Dodecahedron(radius, Mode.Triangles);
+                result = new HullCollisionShape(mesh);
+                break;
+
+            case 4: // regular icosahedron
+                radius = 1.13f * generate.nextFloat(0.5f, 1.5f);
+                mesh = new Icosahedron(radius, noNormals);
+                result = new HullCollisionShape(mesh);
+                break;
+
+            default:
+                throw new RuntimeException("solidType = " + solidType);
         }
 
         return result;
