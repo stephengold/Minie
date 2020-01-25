@@ -48,7 +48,7 @@ import jme3utilities.math.MyVector3f;
 import vhacd.VHACDParameters;
 
 /**
- * Console application to generate the collision-shape asset "teapot.j3o".
+ * A console application to generate the collision-shape asset "teapot.j3o".
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -140,6 +140,10 @@ public class MakeTeapot {
         VHACDParameters parms = new VHACDParameters();
         CompoundCollisionShape shape
                 = CollisionShapeFactory.createVhacdShape(cgmRoot, parms, null);
+        if (shape.countChildren() == 0) {
+            System.err.println("V-HACD failed!");
+            System.exit(-1);
+        }
         /*
          * Write the shape to the asset file.
          */
