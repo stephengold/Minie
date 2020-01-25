@@ -132,10 +132,11 @@ public class DropTest
     /**
      * list of gem-shape names, in ascending lexicographic order
      */
-    final private static String[] gemShapeNames = {"barbell", "box", "capsule",
-        "chair", "cone", "cylinder", "duck", "football", "funnyHammer",
-        "hammer", "heart", "hull", "knucklebone", "ladder", "letter",
-        "multiSphere", "sphere", "star", "teapot", "tetrahedron", "top", "torus"
+    final private static String[] gemShapeNames = {
+        "barbell", "box", "capsule", "chair", "cone", "cylinder", "duck",
+        "football", "funnyHammer", "hammer", "heart", "hull", "knucklebone",
+        "ladder", "letter", "multiSphere", "sphere", "star", "sword", "teapot",
+        "tetrahedron", "top", "torus"
     };
     // *************************************************************************
     // fields
@@ -507,6 +508,7 @@ public class DropTest
 
             case "duck":
             case "heart":
+            case "sword":
             case "teapot":
                 gemShape = namedShapes.get(shapeName);
                 debugMeshNormals = DebugMeshNormals.Facet;
@@ -946,6 +948,13 @@ public class DropTest
         shape = (CollisionShape) assetManager.loadAsset(heartPath);
         shape.setScale(1.5f);
         namedShapes.put("heart", shape);
+        /*
+         * "sword" using V-HACD
+         */
+        String swordPath = "CollisionShapes/sword.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(swordPath);
+        shape.setScale(5f);
+        namedShapes.put("sword", shape);
         /*
          * "teapot" using V-HACD
          */
