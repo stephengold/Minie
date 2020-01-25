@@ -35,6 +35,7 @@ import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.debug.SoftDebugAppState;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.renderer.ViewPort;
 import java.util.logging.Logger;
 
@@ -98,16 +99,18 @@ public class SoftPhysicsAppState extends BulletAppState {
      * @param viewPorts the view ports in which to render (not null)
      * @param filter the display filter, or null for none
      * @param listener the initialization listener, or null for none
+     * @param camera the Camera for debug visualization (may be null, alias
+     * created)
      * @return a new instance (not null)
      */
     @Override
     protected BulletDebugAppState createDebugAppState(PhysicsSpace space,
             ViewPort[] viewPorts,
             BulletDebugAppState.DebugAppStateFilter filter,
-            DebugInitListener listener) {
+            DebugInitListener listener, Camera camera) {
         PhysicsSoftSpace softSpace = getPhysicsSoftSpace();
         SoftDebugAppState result = new SoftDebugAppState(softSpace,
-                viewPorts, filter, listener);
+                viewPorts, filter, listener, camera);
         result.setClusterFilter(clusterFilter);
 
         return result;

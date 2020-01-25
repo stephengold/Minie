@@ -37,6 +37,7 @@ import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
+import com.jme3.renderer.Camera;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.Control;
@@ -105,12 +106,12 @@ public class SoftDebugAppState extends BulletDebugAppState {
      * to visualize all objects (may be null, alias created)
      * @param initListener the init listener, or null if none (may be null,
      * alias created)
+     * @param camera the camera for rendering, or null if unknown
      */
-    public SoftDebugAppState(PhysicsSoftSpace space,
-            ViewPort[] viewPorts,
+    public SoftDebugAppState(PhysicsSoftSpace space, ViewPort[] viewPorts,
             BulletDebugAppState.DebugAppStateFilter filter,
-            DebugInitListener initListener) {
-        super(space, viewPorts, filter, initListener);
+            DebugInitListener initListener, Camera camera) {
+        super(space, viewPorts, filter, initListener, camera);
     }
     // *************************************************************************
     // new methods exposed
@@ -168,7 +169,7 @@ public class SoftDebugAppState extends BulletDebugAppState {
     }
 
     /**
-     * Alter which soft-body clusters are visualized.
+     * Alter which soft-body clusters are visualized. For internal use only.
      *
      * @param filter the desired filter, or null to visualize no clusters
      */

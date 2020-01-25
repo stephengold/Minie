@@ -38,6 +38,7 @@ import com.jme3.bullet.PhysicsSpace.BroadphaseType;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import java.util.concurrent.Callable;
@@ -131,6 +132,10 @@ public class BulletAppState
             return true;
         }
     };
+    /**
+     * Camera for debug visualization, or null if unknown
+     */
+    private Camera debugCamera;
     /**
      * registered debug init listener, or null if none
      */
@@ -281,6 +286,15 @@ public class BulletAppState
     }
 
     /**
+     * Access the Camera used for debug visualization.
+     *
+     * @return the pre-existing instance, or null if unknown
+     */
+    public Camera getDebugCamera() {
+        return debugCamera;
+    }
+
+    /**
      * Access the PhysicsSpace managed by this state. Normally there is none
      * until the state is attached.
      *
@@ -369,6 +383,19 @@ public class BulletAppState
             debugAppState.setBoundingBoxFilter(filter);
         }
         boundingBoxFilter = filter;
+    }
+
+    /**
+     * Alter which Camera is used for debug visualization.
+     *
+     * @param camera the desired Camera, or null if unknown (defaults to the
+     * application's main camera)
+     */
+    public void setDebugCamera(Camera camera) {
+        if (debugAppState != null) {
+            debugAppState.setCamera(camera);
+        }
+        debugCamera = camera;
     }
 
     /**
@@ -537,13 +564,17 @@ public class BulletAppState
      * @param viewPorts the view ports in which to render (not null)
      * @param filter the display filter, or null for none
      * @param listener the init listener, or null for none
+     * @param camera the camera for debug visualization, or null if unknown
      * @return a new instance (not null)
      */
     protected BulletDebugAppState createDebugAppState(PhysicsSpace space,
             ViewPort[] viewPorts,
             BulletDebugAppState.DebugAppStateFilter filter,
-            DebugInitListener listener) {
-        return new BulletDebugAppState(space, viewPorts, filter, listener);
+            DebugInitListener listener, Camera camera) {
+        BulletDebugAppState appState = new BulletDebugAppState(space, viewPorts,
+                filter, listener, camera);
+
+        return appState;
     }
 
     /**
@@ -665,6 +696,9 @@ public class BulletAppState
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
 
+        if (debugCamera == null) {
+            debugCamera = app.getCamera();
+        }
         if (debugViewPorts == null) {
             debugViewPorts = new ViewPort[1];
             debugViewPorts[0] = app.getViewPort();
@@ -747,7 +781,7 @@ public class BulletAppState
             assert pSpace != null;
             assert debugViewPorts != null;
             debugAppState = createDebugAppState(pSpace, debugViewPorts, filter,
-                    debugInitListener);
+                    debugInitListener, debugCamera);
             debugAppState.setAxisLength(debugAxisLength);
             debugAppState.setAxisLineWidth(debugAxisLineWidth);
             debugAppState.setBoundingBoxFilter(boundingBoxFilter);
