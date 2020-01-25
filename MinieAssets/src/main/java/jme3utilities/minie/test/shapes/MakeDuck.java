@@ -51,7 +51,7 @@ import vhacd.VHACDParameters;
 import vhacd.VHACDProgressListener;
 
 /**
- * Console application to generate the collision-shape asset "duck.j3o".
+ * A console application to generate the collision-shape asset "duck.j3o".
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -106,7 +106,7 @@ public class MakeDuck {
     // private methods
 
     /**
-     * Generate a collision shape for a duck.
+     * Generate a collision shape for a toy duck.
      */
     private void makeDuck() {
         DesktopAssetManager assetManager = new DesktopAssetManager();
@@ -124,7 +124,7 @@ public class MakeDuck {
         parent.setLocalTransform(Transform.IDENTITY);
         Spatial geom = ((Node) parent).getChild(0);
         /*
-         * Translate and scale the model to fit inside a 2x2x2 cube.
+         * Translate and uniformly scale the model to fit inside a 2x2x2 cube.
          */
         Vector3f[] minMax = MySpatial.findMinMaxCoords(geom);
         Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
@@ -152,6 +152,7 @@ public class MakeDuck {
             }
         });
         VHACDParameters parms = new VHACDParameters();
+        parms.setMaxVerticesPerHull(99);
         parms.setVoxelResolution(900_000);
         CompoundCollisionShape shape
                 = CollisionShapeFactory.createVhacdShape(cgmRoot, parms, null);
@@ -159,6 +160,7 @@ public class MakeDuck {
             System.err.println("V-HACD failed!");
             System.exit(-1);
         }
+        //System.out.printf("number of hulls = %d%n", shape.countChildren());
         /*
          * Write the shape to the asset file.
          */
