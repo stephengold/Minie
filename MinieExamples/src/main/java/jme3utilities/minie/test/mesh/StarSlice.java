@@ -38,7 +38,7 @@ import jme3utilities.math.MyVector3f;
 
 /**
  * A 3-D, static, Triangles-mode Mesh (without indices or texture coordinates)
- * that renders one slice of a 3-D star. TODO tweak for innerY=0
+ * that renders one slice of a 3-D star. May contain 4 or 6 triangles.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -75,9 +75,10 @@ public class StarSlice extends Mesh {
      * units, &gt;0)
      * @param generateNormals true &rarr; generate normals, false &rarr; no
      * normals
+     * @param numTriangles the desired number of triangles (4 or 6)
      */
     public StarSlice(float sliceAngle, float innerRadius, float outerRadius,
-            float yThickness, boolean generateNormals) {
+            float yThickness, boolean generateNormals, int numTriangles) {
         Validate.inRange(sliceAngle, "slice angle", 0, FastMath.PI);
         Validate.positive(innerRadius, "inner radius");
         Validate.inRange(outerRadius, "outer radius", innerRadius,
@@ -88,33 +89,61 @@ public class StarSlice extends Mesh {
         float theta = sliceAngle / 2f;
         float x = innerRadius * FastMath.cos(theta);
         float z = innerRadius * FastMath.sin(theta);
-        float innerY = (1f - x / outerRadius) * centerY;
 
-        FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(
-                outerRadius, 0f, 0f, // A
-                x, +innerY, -z, // Y
-                x, +innerY, z, // X
+        FloatBuffer positionBuffer;
+        if (numTriangles == 6) {
+            float innerY = (1f - x / outerRadius) * centerY;
 
-                outerRadius, 0f, 0f, // A
-                x, -innerY, -z, // Z
-                x, +innerY, -z, // Y
+            positionBuffer = BufferUtils.createFloatBuffer(
+                    outerRadius, 0f, 0f, // A
+                    x, +innerY, -z, // Y
+                    x, +innerY, z, // X
 
-                outerRadius, 0f, 0f, // A
-                x, -innerY, z, // W
-                x, -innerY, -z, // Z
+                    outerRadius, 0f, 0f, // A
+                    x, -innerY, -z, // Z
+                    x, +innerY, -z, // Y
 
-                outerRadius, 0f, 0f, // A
-                x, +innerY, z, // X
-                x, -innerY, z, // W
+                    outerRadius, 0f, 0f, // A
+                    x, -innerY, z, // W
+                    x, -innerY, -z, // Z
 
-                0f, +centerY, 0f, // B
-                x, +innerY, z, // X
-                x, +innerY, -z, // Y
+                    outerRadius, 0f, 0f, // A
+                    x, +innerY, z, // X
+                    x, -innerY, z, // W
 
-                0f, -centerY, 0f, // C
-                x, -innerY, -z, // Z
-                x, -innerY, z // W
-        );
+                    0f, +centerY, 0f, // B
+                    x, +innerY, z, // X
+                    x, +innerY, -z, // Y
+
+                    0f, -centerY, 0f, // C
+                    x, -innerY, -z, // Z
+                    x, -innerY, z // W
+            );
+
+        } else if (numTriangles == 4) {
+            positionBuffer = BufferUtils.createFloatBuffer(
+                    outerRadius, 0f, 0f, // A
+                    0f, centerY, 0f, // B
+                    x, 0f, z, // D
+
+                    outerRadius, 0f, 0f, // A
+                    x, 0f, z, // D
+                    0f, -centerY, 0f, // C
+
+                    outerRadius, 0f, 0f, // A
+                    0f, -centerY, 0f, // C
+                    x, 0f, -z, // E
+
+                    outerRadius, 0f, 0f, // A
+                    x, 0f, -z, // E
+                    0f, centerY, 0f // B
+            );
+
+        } else {
+            String message = "numTriangles = " + numTriangles;
+            throw new IllegalArgumentException(message);
+        }
+
         setBuffer(VertexBuffer.Type.Position, MyVector3f.numAxes,
                 positionBuffer);
         int numFloats = positionBuffer.capacity();

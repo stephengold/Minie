@@ -693,8 +693,9 @@ public class MinieTestShapes {
         float innerRadius = radiusRatio * outerRadius;
         float sliceAngle = FastMath.TWO_PI / numPoints; // in radians
         boolean normals = false;
+        int numTriangles = 4 + 2 * generate.nextInt(0, 1);
         StarSlice sliceMesh = new StarSlice(sliceAngle, innerRadius,
-                outerRadius, 2f * centerY, normals);
+                outerRadius, 2f * centerY, normals, numTriangles);
         CollisionShape sliceShape = new HullCollisionShape(sliceMesh);
 
         CompoundCollisionShape result = new CompoundCollisionShape();
