@@ -38,10 +38,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
 import jme3utilities.MyString;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.noise.Generator;
 
 /**
- * Console application to generate the collision-shape asset "heart.j3o".
+ * A console application to generate the collision-shape asset "heart.j3o".
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -148,6 +149,8 @@ public class MakeHeart {
          * Phase 4: combine 2 hulls (one with a 180-degree rotation)
          * to generate a compound shape.
          */
+        Vector3f scale = new Vector3f(1f, 0.5f, 1f);
+        MyBuffer.scale(sampleBuffer, 0, sampleBuffer.limit(), scale);
         HullCollisionShape half = new HullCollisionShape(sampleBuffer);
         CompoundCollisionShape compound = new CompoundCollisionShape();
         compound.addChildShape(half);
@@ -175,7 +178,7 @@ public class MakeHeart {
         double x2 = x * x;
         double y2 = y * y;
         double z2 = z * z;
-        double subExp = x2 + 2.25 * y2 + z2 - 1f;
+        double subExp = x2 + 2.25 * y2 + z2 - 1.0;
         double r3 = subExp * subExp * subExp;
         double z3 = z2 * z;
         double error = r3 - (x2 + 0.045 * y2) * z3;
@@ -185,8 +188,8 @@ public class MakeHeart {
 
     /**
      * Use bisection search to find a value of R for which (R sin gamma, 0, R
-     * cos gamma) is a zero of the parametric function. Always adds 1 sample to
-     * the buffer.
+     * cos gamma) is a zero of the parametric function. Always adds one sample
+     * to the buffer.
      *
      * @param gamma angle from the +Z axis (in radians)
      */
