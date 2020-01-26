@@ -473,7 +473,6 @@ public class DropTest
             case "knucklebone":
             case "ladder":
             case "top":
-            case "torus":
                 gemShape = namedShapes.get(shapeName);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
@@ -497,6 +496,7 @@ public class DropTest
             case "football":
             case "multiSphere":
             case "sphere":
+            case "torus":
                 gemShape = random.nextShape(shapeName);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
@@ -883,9 +883,9 @@ public class DropTest
      */
     private void generateShapes() {
         /*
-         * "barbell", "bedOfNails", "chair", "football", "knucklebone",
-         * "ladder", "roundedRectangle", "smooth", "top", "torus", "tray",
-         * and "triangle" are generated at runtime
+         * "barbell", "bedOfNails", "chair", "knucklebone", "ladder",
+         * "roundedRectangle", "smooth", "top", "tray", and "triangle" are
+         * generated once, at runtime
          */
         MinieTestShapes.addShapes(namedShapes);
         /*
