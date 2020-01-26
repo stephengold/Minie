@@ -32,7 +32,6 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
@@ -40,7 +39,6 @@ import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
-import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
@@ -86,12 +84,12 @@ import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyMath;
-import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.Prism;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.shape.MinieTestShapes;
+import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.HelpUtils;
@@ -177,7 +175,7 @@ public class DropTest
     /**
      * enhanced pseudo-random generator
      */
-    final private Generator random = new Generator();
+    final private ShapeGenerator random = new ShapeGenerator();
     /**
      * map names to collision shapes
      */
@@ -482,12 +480,23 @@ public class DropTest
                 break;
 
             case "box":
-                randomBox();
+            case "frame":
+            case "hull":
+            case "platonic":
+            case "prism":
+            case "pyramid":
+            case "star":
+            case "tetrahedron":
+                gemShape = random.nextShape(shapeName);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
             case "capsule":
-                randomCapsule();
+            case "cone":
+            case "cylinder":
+            case "multiSphere":
+            case "sphere":
+                gemShape = random.nextShape(shapeName);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -497,26 +506,11 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
-            case "cone":
-                randomCone();
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "cylinder":
-                randomCylinder();
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
             case "duck":
             case "heart":
             case "sword":
             case "teapot":
                 gemShape = namedShapes.get(shapeName);
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "frame":
-                gemShape = MinieTestShapes.randomFrame(random);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -530,48 +524,8 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
-            case "hull":
-                gemShape = MinieTestShapes.randomHull(random);
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
             case "letter":
                 randomLetter();
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "multiSphere":
-                gemShape = MinieTestShapes.randomMultiSphere(random);
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "platonic":
-                gemShape = MinieTestShapes.randomPlatonic(random);
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "prism":
-                gemShape = MinieTestShapes.randomPrism(random);
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "pyramid":
-                gemShape = MinieTestShapes.randomPyramid(random);
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "sphere":
-                randomSphere();
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "star":
-                gemShape = MinieTestShapes.randomStar(random);
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "tetrahedron":
-                gemShape = MinieTestShapes.randomTetrahedron(random);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -1047,45 +1001,6 @@ public class DropTest
     }
 
     /**
-     * Generate a box shape with random extents.
-     */
-    private void randomBox() {
-        float rx = random.nextFloat(0.5f, 1.5f);
-        float ry = random.nextFloat(0.5f, 1.5f);
-        float rz = random.nextFloat(0.5f, 1.5f);
-        Vector3f halfExtents = new Vector3f(rx, ry, rz);
-        gemShape = new BoxCollisionShape(halfExtents);
-    }
-
-    /**
-     * Randomly generate a capsule shape.
-     */
-    private void randomCapsule() {
-        float radius = random.nextFloat(0.2f, 1.2f);
-        float height = random.nextFloat(0.5f, 1.5f);
-        gemShape = new CapsuleCollisionShape(radius, height);
-    }
-
-    /**
-     * Randomly generate a Y-axis cone shape.
-     */
-    private void randomCone() {
-        float baseRadius = random.nextFloat(0.5f, 1.5f);
-        float height = random.nextFloat(0.5f, 2.5f);
-        gemShape = new ConeCollisionShape(baseRadius, height);
-    }
-
-    /**
-     * Generate a Z-axis cylinder shape with random extents.
-     */
-    private void randomCylinder() {
-        float baseRadius = random.nextFloat(0.5f, 1.5f);
-        float halfHeight = random.nextFloat(0.5f, 2f);
-        Vector3f halfExtents = new Vector3f(baseRadius, baseRadius, halfHeight);
-        gemShape = new CylinderCollisionShape(halfExtents);
-    }
-
-    /**
      * Randomly generate an asymmetrical compound shape with 2 cylinders.
      *
      * @param correctAxes if true, correct the shape's principal axes
@@ -1131,14 +1046,6 @@ public class DropTest
         char glyphChar = (char) ('A' + random.nextInt(26));
         String glyphString = Character.toString(glyphChar);
         gemShape = namedShapes.get(glyphString);
-    }
-
-    /**
-     * Randomly generate a sphere shape.
-     */
-    private void randomSphere() {
-        float radius = random.nextFloat(0.5f, 1.5f);
-        gemShape = new SphereCollisionShape(radius);
     }
 
     /**
@@ -1231,7 +1138,7 @@ public class DropTest
      * Update the status lines in the GUI.
      */
     private void updateStatusLines() {
-        String message = String.format("Platform: %s", platformName);
+        String message = "Platform: " + platformName;
         statusLines[0].setText(message);
 
         int index = 1 + Arrays.binarySearch(gemShapeNames, shapeName);
