@@ -63,6 +63,7 @@ import java.util.logging.Logger;
 import jme3utilities.MyAsset;
 import jme3utilities.Validate;
 import jme3utilities.debug.AxesVisualizer;
+import jme3utilities.math.MyMath;
 
 /**
  * An AppState to manage debug visualization of a PhysicsSpace.
@@ -78,6 +79,10 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     final public static Logger logger
             = Logger.getLogger(BulletDebugAppState.class.getName());
+    /**
+     * fake Material to indicate child coloring of a CompoundCollisionShape
+     */
+    final public static Material enableChildColoring = new Material();
     // *************************************************************************
     // fields
 
@@ -129,6 +134,10 @@ public class BulletDebugAppState extends AbstractAppState {
      * static or kinematic or inactive
      */
     final private Material[] blues = new Material[3];
+    /**
+     * materials for child coloring of compound shapes
+     */
+    final private Material[] childMaterials = new Material[10];
     /**
      * Material for joints (their A ends)
      */
@@ -266,6 +275,22 @@ public class BulletDebugAppState extends AbstractAppState {
     Material getCharacterMaterial(int numSides) {
         Material result = pink[numSides];
         assert result != null;
+        return result;
+    }
+
+    /**
+     * Access a Material for coloring the indexed child of a
+     * CompoundCollisionShape.
+     *
+     * @param childIndex the child's position in the list of children (&ge;0)
+     * @return the pre-existing Material for that position (not null)
+     */
+    Material getChildMaterial(int childIndex) {
+        assert childIndex >= 0 : childIndex;
+
+        int materialIndex = MyMath.modulo(childIndex, childMaterials.length);
+        Material result = childMaterials[materialIndex];
+
         return result;
     }
 
@@ -446,6 +471,30 @@ public class BulletDebugAppState extends AbstractAppState {
         blues[2].setName("debug blue ds");
         RenderState renderState = blues[2].getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+
+        childMaterials[0]
+                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.White);
+        childMaterials[1]
+                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Red);
+        childMaterials[2]
+                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Green);
+        childMaterials[3]
+                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Blue);
+        childMaterials[4] = MyAsset.createUnshadedMaterial(assetManager,
+                ColorRGBA.Yellow);
+        childMaterials[5] = MyAsset.createUnshadedMaterial(assetManager,
+                ColorRGBA.Cyan);
+        childMaterials[6] = MyAsset.createUnshadedMaterial(assetManager,
+                ColorRGBA.Orange);
+        childMaterials[7] = MyAsset.createUnshadedMaterial(assetManager,
+                ColorRGBA.Magenta);
+        childMaterials[8]
+                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Pink);
+        childMaterials[9]
+                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Brown);
+        for (int childI = 0; childI < childMaterials.length; ++childI) {
+            childMaterials[childI].setName("debug child " + childI);
+        }
 
         green = MyAsset.createWireframeMaterial(am, ColorRGBA.Green);
         green.setName("debug green");
