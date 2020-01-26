@@ -79,7 +79,7 @@ public class DividedLine extends Mesh {
     public DividedLine(Vector3f endPoint1, Vector3f endPoint2, int numSegments) {
         Validate.positive(numSegments, "number of segments");
 
-        setMode(Mode.Lines); // TODO use LineStrip
+        setMode(Mode.Lines);
 
         int numVertices = numSegments + 1;
         int numFloats = numAxes * numVertices;

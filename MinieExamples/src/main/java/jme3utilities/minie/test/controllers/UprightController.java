@@ -43,8 +43,8 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A IK controller to keep the controlled link upright. If the model oscillates,
- * try reducing the gain factors.
+ * An IK controller to keep the controlled link upright. If the model
+ * oscillates, try reducing the gain factors.
  *
  * @author Stephen Gold sgold@sonic.net
  */

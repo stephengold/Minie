@@ -130,7 +130,7 @@ public class NativeSoftBodyUtil {
         assert triangleIndices.getBuffer().isDirect();
         softBody.appendFaces(triangleIndices);
         /*
-         * Enumerate all unique edges among the triangles.
+         * Enumerate all unique edges among the triangles. TODO use IntPair
          */
         int size = triangleIndices.size();
         Set<MeshEdge> uniqueEdges = new HashSet<>(vpt * size);

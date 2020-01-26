@@ -43,7 +43,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A IK controller to track a target body (keep the controlled link
+ * An IK controller to track a target body (keep the controlled link
  * aimed/looking/pointed at it). If the model oscillates, try reducing the gain
  * factors.
  *

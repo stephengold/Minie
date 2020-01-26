@@ -194,7 +194,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Append links to this body. A link is a interaction (or force) between 2
+     * Append links to this body. A link is an interaction (or force) between 2
      * nodes.
      *
      * @param nodeIndices a link is created for each pair of indices in this
