@@ -428,6 +428,10 @@ public class ShapeGenerator extends Generator {
                 result = nextTetrahedron();
                 break;
 
+            case "torus":
+                result = nextTorus();
+                break;
+
             default:
                 String message = "shapeName = " + MyString.quote(shapeName);
                 throw new RuntimeException(message);
@@ -482,6 +486,20 @@ public class ShapeGenerator extends Generator {
         Vector3f p4 = new Vector3f(-r4, r4, -r4);
         SimplexCollisionShape result
                 = new SimplexCollisionShape(p1, p2, p3, p4);
+
+        return result;
+    }
+
+    /**
+     * Generate a torus or donut.
+     *
+     * @return a new shape
+     */
+    public CompoundCollisionShape nextTorus() {
+        float majorRadius = nextFloat(1f, 1.5f);
+        float minorRadius = nextFloat(0.2f, 0.6f);
+        CompoundCollisionShape result
+                = MinieTestShapes.makeTorus(majorRadius, minorRadius);
 
         return result;
     }

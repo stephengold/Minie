@@ -126,9 +126,6 @@ public class MinieTestShapes {
         CollisionShape top = makeTop();
         namedShapes.put("top", top);
 
-        CollisionShape torus = makeTorus();
-        namedShapes.put("torus", torus);
-
         CollisionShape tray = makeTray();
         namedShapes.put("tray", tray);
 
@@ -288,7 +285,8 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a (gridiron) football.
+     * Generate a (gridiron) football using overlapping spheres arranged in a
+     * row.
      *
      * @param midRadius the radius of the Y-Z cross section at X=0 (&ge;0)
      * @return a new MultiSphere shape (not null)
@@ -531,15 +529,20 @@ public class MinieTestShapes {
     }
 
     /**
-     * Approximate a torus using capsules arranged in a circle.
+     * Approximate a torus or donut using capsules arranged in a circle.
      *
-     * @return a new compound shape (not null)
+     * @param majorRadius (in unscaled shape units, &gt;minorRadius)
+     * @param minorRadius (in unscaled shape units, &gt;0, &lt;majorRadius)
+     * @return a new shape
      */
-    public static CompoundCollisionShape makeTorus() {
-        int numCapsules = 20;
-        float minorRadius = 0.24f;
-        float majorRadius = 1.5f;
+    public static CompoundCollisionShape makeTorus(float majorRadius,
+            float minorRadius) {
+        Validate.inRange(majorRadius, "major radius", minorRadius,
+                Float.MAX_VALUE);
+        Validate.inRange(minorRadius, "minor radius", Float.MIN_VALUE,
+                majorRadius);
 
+        int numCapsules = 20;
         float angle = FastMath.TWO_PI / numCapsules;
         float length = majorRadius * angle;
         CollisionShape capsule = new CapsuleCollisionShape(minorRadius,
