@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2009-2016 jMonkeyEngine
  * All rights reserved.
-*
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
@@ -124,7 +124,7 @@ class MeshEdge {
     }
 
     /**
-     * Generate the hash code for this LinkConfig.
+     * Generate the hash code for this MeshEdge.
      *
      * @return the value to use for hashing
      */

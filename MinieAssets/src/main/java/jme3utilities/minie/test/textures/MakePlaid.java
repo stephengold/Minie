@@ -36,7 +36,7 @@ import jme3utilities.Misc;
 import jme3utilities.MyString;
 
 /**
- * Console application to generate the texture "plaid.png".
+ * A console application to generate the texture "plaid.png".
  *
  * @author Stephen Gold sgold@sonic.net
  */

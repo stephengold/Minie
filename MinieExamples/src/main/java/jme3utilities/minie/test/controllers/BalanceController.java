@@ -42,7 +42,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A IK controller for balancing a model (keeping its center of mass directly
+ * An IK controller for balancing a model (keeping its center of mass directly
  * above its center of support). If the model oscillates, try reducing the gain
  * factors.
  *

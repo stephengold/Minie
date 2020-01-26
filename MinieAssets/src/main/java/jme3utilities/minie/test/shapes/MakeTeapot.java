@@ -118,7 +118,7 @@ public class MakeTeapot {
         String objAssetPath = "Models/Teapot/Teapot.obj";
         Spatial geom = assetManager.loadModel(objAssetPath);
         /*
-         * Translate and scale the model to fit inside a 2x2x2 cube.
+         * Translate and uniformly scale the model to fit inside a 2x2x2 cube.
          */
         geom.setLocalTransform(Transform.IDENTITY);
         Vector3f[] minMax = MySpatial.findMinMaxCoords(geom);
@@ -144,6 +144,7 @@ public class MakeTeapot {
             System.err.println("V-HACD failed!");
             System.exit(-1);
         }
+        //System.out.printf("number of hulls = %d%n", shape.countChildren());
         /*
          * Write the shape to the asset file.
          */

@@ -229,7 +229,7 @@ public class TestSoftBody
     final private SoftPhysicsAppState bulletAppState
             = new SoftPhysicsAppState();
     /**
-     * name of the current test
+     * name of the test being run
      */
     private String testName = "puppetInSkirt";
     // *************************************************************************
