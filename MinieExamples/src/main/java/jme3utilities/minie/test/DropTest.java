@@ -40,6 +40,7 @@ import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
+import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -144,6 +145,10 @@ public class DropTest
      * text displayed in the upper-left corner of the GUI node
      */
     final private BitmapText[] statusLines = new BitmapText[3];
+    /**
+     * flag to enable child coloring for new gems with compound shapes
+     */
+    private boolean isChildColoring = false;
     /**
      * AppState to manage the PhysicsSpace
      */
@@ -321,6 +326,7 @@ public class DropTest
 
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
+        dim.bind("toggle childColoring", KeyInput.KEY_COMMA);
         dim.bind("toggle help", KeyInput.KEY_H);
         dim.bind("toggle pause", KeyInput.KEY_PAUSE);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
@@ -401,6 +407,9 @@ public class DropTest
                     return;
                 case "toggle axes":
                     toggleAxes();
+                    return;
+                case "toggle childColoring":
+                    isChildColoring = !isChildColoring;
                     return;
                 case "toggle help":
                     toggleHelp();
@@ -541,7 +550,12 @@ public class DropTest
 
         Quaternion startOrientation = random.nextQuaternion();
 
-        Material debugMaterial = (Material) random.pick(gemMaterials);
+        Material debugMaterial;
+        if (isChildColoring && gemShape instanceof CompoundCollisionShape) {
+            debugMaterial = BulletDebugAppState.enableChildColoring;
+        } else {
+            debugMaterial = (Material) random.pick(gemMaterials);
+        }
 
         float mass = 1f;
         PhysicsRigidBody body = new PhysicsRigidBody(gemShape, mass);
@@ -1140,13 +1154,13 @@ public class DropTest
      */
     private void updateStatusLines() {
         String message = "Platform: " + platformName;
-        statusLines[0].setText(message);
+        statusLines[1].setText(message);
 
         int index = 1 + Arrays.binarySearch(gemShapeNames, shapeName);
         int count = gemShapeNames.length;
         message = String.format("Next gem shape #%d of %d: %s", index, count,
                 shapeName);
-        statusLines[1].setText(message);
+        statusLines[2].setText(message);
 
         int numActive = 0;
         for (PhysicsRigidBody gem : gems) {
@@ -1157,10 +1171,10 @@ public class DropTest
 
         int numGems = gems.size();
         boolean isPaused = (speed <= 1e-12f);
-        message = String.format(
-                "numGems=%d  numActive=%d  friction=%.2f  damping=%.2f%s",
-                numGems, numActive, friction, damping,
+        message = String.format("numGems=%d  numActive=%d  childColoring=%s  "
+                + "friction=%.2f  damping=%.2f%s",
+                numGems, numActive, isChildColoring, friction, damping,
                 isPaused ? "  PAUSED" : "");
-        statusLines[2].setText(message);
+        statusLines[0].setText(message);
     }
 }
