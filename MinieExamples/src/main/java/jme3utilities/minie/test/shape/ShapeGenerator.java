@@ -145,6 +145,18 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
+     * Generate a (gridiron) football.
+     *
+     * @return a new shape
+     */
+    public MultiSphere nextFootball() {
+        float midRadius = nextFloat(0.5f, 1.5f);
+        MultiSphere result = MinieTestShapes.makeFootball(midRadius);
+
+        return result;
+    }
+
+    /**
      * Generate a 4-sphere shape, a box with rounded corners.
      *
      * @return a new shape (not null)
@@ -374,6 +386,10 @@ public class ShapeGenerator extends Generator {
 
             case "dome":
                 result = nextDome();
+                break;
+
+            case "football":
+                result = nextFootball();
                 break;
 
             case "frame":
