@@ -65,19 +65,19 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
-     * shape for which geom was generated (not null)
+     * shape for which debugSpatial was generated (not null)
      */
     private CollisionShape myShape;
     /**
-     * debug-mesh normals option for which geom was generated
+     * debug-mesh normals option for which debugSpatial was generated
      */
     private DebugMeshNormals oldNormals;
     /**
-     * collision-shape margin for which geom was generated
+     * collision-shape margin for which debugSpatial was generated
      */
     private float oldMargin;
     /**
-     * debug-mesh resolution for which geom was generated
+     * debug-mesh resolution for which debugSpatial was generated
      */
     private int oldResolution;
     /**
@@ -85,9 +85,9 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
      */
     final private PhysicsCharacter character;
     /**
-     * geometry to visualize myShape (not null)
+     * Spatial to visualize myShape (not null)
      */
-    private Spatial geom;
+    private Spatial debugSpatial;
     /**
      * temporary storage for one vector per thread
      */
@@ -99,7 +99,7 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
         }
     };
     /**
-     * physics scale for which geom was generated
+     * physics scale for which debugSpatial was generated
      */
     final private Vector3f oldScale = new Vector3f();
     // *************************************************************************
@@ -122,8 +122,8 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
         oldResolution = character.debugMeshResolution();
         myShape.getScale(oldScale);
 
-        geom = DebugShapeFactory.getDebugShape(character);
-        geom.setName(ch.toString());
+        debugSpatial = DebugShapeFactory.getDebugShape(character);
+        debugSpatial.setName(ch.toString());
         updateMaterial();
     }
     // *************************************************************************
@@ -169,12 +169,12 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
             oldScale.set(newScale);
 
             Node node = (Node) spatial;
-            node.detachChild(geom);
+            node.detachChild(debugSpatial);
 
-            geom = DebugShapeFactory.getDebugShape(character);
-            geom.setName(character.toString());
+            debugSpatial = DebugShapeFactory.getDebugShape(character);
+            debugSpatial.setName(character.toString());
 
-            node.attachChild(geom);
+            node.attachChild(debugSpatial);
         }
 
         updateMaterial();
@@ -195,10 +195,10 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
     public void setSpatial(Spatial spatial) {
         if (spatial instanceof Node) {
             Node node = (Node) spatial;
-            node.attachChild(geom);
+            node.attachChild(debugSpatial);
         } else if (spatial == null && this.spatial != null) {
             Node node = (Node) this.spatial;
-            node.detachChild(geom);
+            node.detachChild(debugSpatial);
         }
         super.setSpatial(spatial);
     }
@@ -206,8 +206,8 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
     // private methods
 
     /**
-     * Update the Material applied to the debug geometry, based on properties of
-     * the character.
+     * Update the Material applied to the debug geometries, based on properties
+     * of the character.
      */
     private void updateMaterial() {
         Material material = character.getDebugMaterial();
@@ -219,6 +219,6 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
                 material = debugAppState.getGhostMaterial(numSides);
             }
         }
-        geom.setMaterial(material);
+        debugSpatial.setMaterial(material);
     }
 }
