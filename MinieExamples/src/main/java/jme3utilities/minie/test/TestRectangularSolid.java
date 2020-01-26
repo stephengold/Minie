@@ -294,9 +294,9 @@ public class TestRectangularSolid extends ActionApplication {
         trialNode = new Node("trialNode");
         rootNode.attachChild(trialNode);
 
-        String msg = String.format("trialSeed=%d", trialSeed);
-        System.out.println(msg);
-        statusText.setText(msg);
+        String message = "trialSeed = " + trialSeed;
+        System.out.println(message);
+        statusText.setText(message);
         random.setSeed(trialSeed);
         /*
          * Generate a new transform.
@@ -352,7 +352,7 @@ public class TestRectangularSolid extends ActionApplication {
                 collisionShape = new HullCollisionShape(solid);
                 break;
             default:
-                String message = "shapeName = " + MyString.quote(shapeName);
+                message = "shapeName = " + MyString.quote(shapeName);
                 throw new IllegalArgumentException(message);
         }
         /*

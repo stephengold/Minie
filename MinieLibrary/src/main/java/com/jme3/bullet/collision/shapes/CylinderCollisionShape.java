@@ -310,8 +310,7 @@ public class CylinderCollisionShape extends CollisionShape {
                 bigRadius = Math.max(xx, yy);
                 break;
             default:
-                String message = String.format("axis=%d", axis);
-                throw new IllegalStateException(message);
+                throw new IllegalStateException("axis = " + axis);
         }
         float result = (float) Math.hypot(halfHeight, bigRadius);
 

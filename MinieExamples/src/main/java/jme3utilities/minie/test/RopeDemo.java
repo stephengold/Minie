@@ -743,8 +743,8 @@ public class RopeDemo extends ActionApplication {
             result[1] = String.format("%d/%s", capVertex0 + 7, geometryName);
             result[2] = String.format("%d/%s", capVertex0 + 19, geometryName);
         } else {
-            String msg = String.format("samplesPerLoop = %d", samplesPerLoop);
-            throw new IllegalStateException(msg);
+            String message = "samplesPerLoop = " + samplesPerLoop;
+            throw new IllegalStateException(message);
         }
 
         return result;

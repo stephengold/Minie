@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -206,8 +206,7 @@ public class RangeOfMotion implements Savable {
                 minZ = -1f;
                 break;
             default:
-                String msg = String.format("axisIndex=%d", axisIndex);
-                throw new IllegalArgumentException(msg);
+                throw new IllegalArgumentException("axisIndex = " + axisIndex);
         }
     }
     // *************************************************************************
@@ -233,8 +232,7 @@ public class RangeOfMotion implements Savable {
                 result = maxZ;
                 break;
             default:
-                String msg = String.format("axisIndex=%d", axisIndex);
-                throw new IllegalArgumentException(msg);
+                throw new IllegalArgumentException("axisIndex = " + axisIndex);
         }
 
         return result;
@@ -260,8 +258,8 @@ public class RangeOfMotion implements Savable {
                 result = minZ;
                 break;
             default:
-                String msg = String.format("axisIndex=%d", axisIndex);
-                throw new IllegalArgumentException(msg);
+                String message = "axisIndex = " + axisIndex;
+                throw new IllegalArgumentException(message);
         }
 
         return result;

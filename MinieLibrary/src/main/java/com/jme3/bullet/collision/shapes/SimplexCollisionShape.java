@@ -500,7 +500,7 @@ public class SimplexCollisionShape extends CollisionShape {
                         locations[3]);
                 break;
             default:
-                String message = String.format("numVertices=%d", numVertices);
+                String message = "numVertices = " + numVertices;
                 throw new IllegalArgumentException(message);
         }
         setNativeId(shapeId);
