@@ -470,7 +470,6 @@ public class DropTest
         DebugMeshNormals debugMeshNormals;
         switch (shapeName) {
             case "barbell":
-            case "football":
             case "knucklebone":
             case "ladder":
             case "top":
@@ -493,8 +492,9 @@ public class DropTest
 
             case "capsule":
             case "cone":
-            case "dome":
             case "cylinder":
+            case "dome":
+            case "football":
             case "multiSphere":
             case "sphere":
                 gemShape = random.nextShape(shapeName);

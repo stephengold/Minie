@@ -111,9 +111,6 @@ public class MinieTestShapes {
         CollisionShape chair = makeChair();
         namedShapes.put("chair", chair);
 
-        CollisionShape football = makeFootball();
-        namedShapes.put("football", football);
-
         CollisionShape knucklebone = makeKnucklebone();
         namedShapes.put("knucklebone", knucklebone);
 
@@ -293,10 +290,10 @@ public class MinieTestShapes {
     /**
      * Generate a (gridiron) football.
      *
+     * @param midRadius the radius of the Y-Z cross section at X=0 (&ge;0)
      * @return a new MultiSphere shape (not null)
      */
-    public static MultiSphere makeFootball() {
-        float midRadius = 1f; // radius of the Y-Z cross section at X=0
+    public static MultiSphere makeFootball(float midRadius) {
         float genRadius = 2f * midRadius; // curvature radius of the generatrix
         float endRadius = 0.5f * midRadius; // controls pointiness of the ends
 
