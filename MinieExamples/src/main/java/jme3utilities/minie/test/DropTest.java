@@ -131,8 +131,8 @@ public class DropTest
      * list of gem-shape names, in ascending lexicographic order
      */
     final private static String[] gemShapeNames = {
-        "barbell", "box", "capsule", "chair", "cone", "cylinder", "duck",
-        "football", "frame", "funnyHammer", "hammer", "heart", "hull",
+        "barbell", "box", "capsule", "chair", "cone", "cylinder", "dome",
+        "duck", "football", "frame", "funnyHammer", "hammer", "heart", "hull",
         "knucklebone", "ladder", "letter", "multiSphere", "platonic", "prism",
         "pyramid", "sphere", "star", "sword", "teapot", "tetrahedron", "top",
         "torus"
@@ -493,6 +493,7 @@ public class DropTest
 
             case "capsule":
             case "cone":
+            case "dome":
             case "cylinder":
             case "multiSphere":
             case "sphere":
