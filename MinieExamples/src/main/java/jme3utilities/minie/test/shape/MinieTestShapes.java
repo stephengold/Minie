@@ -51,11 +51,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.Misc;
+import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.mesh.Icosahedron;
 import jme3utilities.mesh.RoundedRectangle;
 import jme3utilities.minie.MyShape;
+import jme3utilities.minie.test.mesh.StarSlice;
 
 /**
  * Generate some interesting collision shapes for use in MinieExamples.
@@ -280,6 +282,39 @@ public class MinieTestShapes {
     }
 
     /**
+     * Generate a rectangular frame.
+     *
+     * @param ihHeight half of the internal height (&gt;0)
+     * @param ihWidth half of the internal width (&gt;0)
+     * @param halfDepth half of the (external) depth (&gt;0)
+     * @param halfThickness half the thickness (&gt;0)
+     * @return a new shape
+     */
+    public static CompoundCollisionShape makeFrame(float ihHeight,
+            float ihWidth, float halfDepth, float halfThickness) {
+        Validate.positive(ihHeight, "half height");
+        Validate.positive(ihWidth, "half width");
+        Validate.positive(halfDepth, "half depth");
+        Validate.positive(halfThickness, "half thickness");
+
+        float mhHeight = ihHeight + halfThickness;
+        float mhWidth = ihWidth + halfThickness;
+
+        CollisionShape horizontal
+                = new BoxCollisionShape(mhWidth, halfThickness, halfDepth);
+        CollisionShape vertical
+                = new BoxCollisionShape(halfThickness, mhHeight, halfDepth);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(horizontal, halfThickness, -mhHeight, 0f);
+        result.addChildShape(horizontal, -halfThickness, mhHeight, 0f);
+        result.addChildShape(vertical, mhWidth, halfThickness, 0f);
+        result.addChildShape(vertical, -mhWidth, -halfThickness, 0f);
+
+        return result;
+    }
+
+    /**
      * Generate a knuclebone with 4 spherical balls.
      *
      * @return a new compound shape (not null)
@@ -385,6 +420,43 @@ public class MinieTestShapes {
         Vector3f scale = new Vector3f(20f / halfNm1, 12.5f, 20f / halfNm1);
         HeightfieldCollisionShape result
                 = new HeightfieldCollisionShape(heightmap, scale);
+
+        return result;
+    }
+
+    /**
+     * Generate a star shape.
+     *
+     * @param numPoints the number of points (&ge;2)
+     * @param outerRadius the outer radius (in unscaled shape units, &gt;0)
+     * @param centerY the half thickness at the center (&gt;0)
+     * @param radiusRatio the inner radius divided by the outer radius (&gt;0,
+     * &lt;1)
+     * @param trianglesPerSlide the number of mesh triangles per slice (4 or 6)
+     * @return a new shape
+     */
+    public static CompoundCollisionShape makeStar(int numPoints,
+            float outerRadius, float centerY, float radiusRatio,
+            int trianglesPerSlide) {
+        Validate.inRange(numPoints, "number of points", 2, Integer.MAX_VALUE);
+        Validate.positive(outerRadius, "outer radius");
+        Validate.positive(centerY, "center Y");
+        Validate.fraction(radiusRatio, "radius ratio");
+        Validate.inRange(trianglesPerSlide, "triangles per slice", 4, 6);
+
+        float innerRadius = radiusRatio * outerRadius;
+        float sliceAngle = FastMath.TWO_PI / numPoints; // in radians
+        boolean normals = false;
+        StarSlice sliceMesh = new StarSlice(sliceAngle, innerRadius,
+                outerRadius, 2f * centerY, normals, trianglesPerSlide);
+        CollisionShape sliceShape = new HullCollisionShape(sliceMesh);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        Matrix3f rotate = new Matrix3f();
+        for (int pointIndex = 0; pointIndex < numPoints; ++pointIndex) {
+            rotate.fromAngleAxis(sliceAngle * pointIndex, Vector3f.UNIT_Y);
+            result.addChildShape(sliceShape, Vector3f.ZERO, rotate);
+        }
 
         return result;
     }

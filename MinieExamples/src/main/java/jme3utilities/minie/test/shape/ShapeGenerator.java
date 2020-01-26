@@ -37,7 +37,6 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.math.FastMath;
-import com.jme3.math.Matrix3f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Mesh.Mode;
@@ -59,7 +58,6 @@ import jme3utilities.mesh.DomeMesh;
 import jme3utilities.mesh.Icosahedron;
 import jme3utilities.mesh.Octahedron;
 import jme3utilities.mesh.Prism;
-import jme3utilities.minie.test.mesh.StarSlice;
 
 /**
  * Generate pseudo-random collision shapes for use in MinieExamples.
@@ -154,30 +152,18 @@ public class ShapeGenerator extends Generator {
     /**
      * Generate a rectangular frame.
      *
-     * @return a new shape (not null)
+     * @return a new shape
      */
     public CompoundCollisionShape nextFrame() {
         /*
          * Select the internal half extents.
          */
+        float halfDepth = nextFloat(0.1f, 0.5f);
         float ihHeight = nextFloat(0.7f, 2f);
         float ihWidth = 1.6f * ihHeight;
-        float halfDepth = nextFloat(0.1f, 0.5f);
-
         float halfThickness = ihHeight * nextFloat(0.1f, 0.2f);
-        float mhHeight = ihHeight + halfThickness;
-        float mhWidth = ihWidth + halfThickness;
-
-        CollisionShape horizontal
-                = new BoxCollisionShape(mhWidth, halfThickness, halfDepth);
-        CollisionShape vertical
-                = new BoxCollisionShape(halfThickness, mhHeight, halfDepth);
-
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        result.addChildShape(horizontal, halfThickness, -mhHeight, 0f);
-        result.addChildShape(horizontal, -halfThickness, mhHeight, 0f);
-        result.addChildShape(vertical, mhWidth, halfThickness, 0f);
-        result.addChildShape(vertical, -mhWidth, -halfThickness, 0f);
+        CompoundCollisionShape result = MinieTestShapes.makeFrame(ihHeight,
+                ihWidth, halfDepth, halfThickness);
 
         return result;
     }
@@ -470,23 +456,11 @@ public class ShapeGenerator extends Generator {
     public CompoundCollisionShape nextStar() {
         float centerY = nextFloat(0.3f, 0.6f);
         float outerRadius = nextFloat(1f, 2.5f);
-
         int numPoints = nextInt(4, 9);
         float radiusRatio = nextFloat(0.2f, 0.7f);
-        float innerRadius = radiusRatio * outerRadius;
-        float sliceAngle = FastMath.TWO_PI / numPoints; // in radians
-        boolean normals = false;
         int numTriangles = 4 + 2 * nextInt(0, 1);
-        StarSlice sliceMesh = new StarSlice(sliceAngle, innerRadius,
-                outerRadius, 2f * centerY, normals, numTriangles);
-        CollisionShape sliceShape = new HullCollisionShape(sliceMesh);
-
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        Matrix3f rotate = new Matrix3f();
-        for (int i = 0; i < numPoints; ++i) {
-            rotate.fromAngleAxis(sliceAngle * i, Vector3f.UNIT_Y);
-            result.addChildShape(sliceShape, Vector3f.ZERO, rotate);
-        }
+        CompoundCollisionShape result = MinieTestShapes.makeStar(numPoints,
+                outerRadius, centerY, radiusRatio, numTriangles);
 
         return result;
     }
