@@ -41,6 +41,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -203,6 +204,24 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
      */
     private void updateMaterial() {
         Material material = ghost.getDebugMaterial();
+
+        if (material == BulletDebugAppState.enableChildColoring) {
+            if (debugSpatial instanceof Node) {
+                /*
+                 * Color each child of the CompoundCollisionShape.
+                 */
+                List<Spatial> children = ((Node) debugSpatial).getChildren();
+                int numChildren = children.size();
+                for (int childI = 0; childI < numChildren; ++childI) {
+                    Spatial child = children.get(childI);
+                    material = debugAppState.getChildMaterial(childI);
+                    child.setMaterial(material);
+                }
+                return;
+            }
+            material = null;
+        }
+
         if (material == null) { // apply one of the default materials
             int numSides = ghost.debugNumSides();
             material = debugAppState.getGhostMaterial(numSides);
