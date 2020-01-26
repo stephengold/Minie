@@ -40,7 +40,6 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Mesh.Mode;
-import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -54,7 +53,6 @@ import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.Cone;
 import jme3utilities.mesh.Dodecahedron;
-import jme3utilities.mesh.DomeMesh;
 import jme3utilities.mesh.Icosahedron;
 import jme3utilities.mesh.Octahedron;
 import jme3utilities.mesh.Prism;
@@ -140,29 +138,8 @@ public class ShapeGenerator extends Generator {
     public HullCollisionShape nextDome() {
         float radius = nextFloat(0.7f, 1.7f);
         float verticalAngle = nextFloat(0.7f, 2f);
-
-        int rimSamples = 20;
-        int quadrantSamples = 10;
-        DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
-        mesh.setVerticalAngle(verticalAngle);
-        FloatBuffer buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-        /*
-         * Scale mesh positions to the desired radius.
-         */
-        int start = 0;
-        int end = buffer.limit();
-        Vector3f scale = new Vector3f(radius, radius, radius);
-        MyBuffer.scale(buffer, start, end, scale);
-        /*
-         * Use max-min to center the vertices.
-         */
-        Vector3f max = new Vector3f();
-        Vector3f min = new Vector3f();
-        MyBuffer.maxMin(buffer, start, end, max, min);
-        Vector3f offset = MyVector3f.midpoint(min, max, null).negateLocal();
-        MyBuffer.translate(buffer, start, end, offset);
-
-        HullCollisionShape result = new HullCollisionShape(buffer);
+        HullCollisionShape result
+                = MinieTestShapes.makeDome(radius, verticalAngle);
 
         return result;
     }
