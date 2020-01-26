@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -242,8 +242,7 @@ public class DacWizard extends GuiApplication {
         logger.info("");
 
         if (!Misc.areAssertionsEnabled()) {
-            String message = "Assertions are disabled!";
-            logger.warning(message);
+            logger.warning("Assertions are disabled!");
         }
         /*
          * Log the jMonkeyEngine version string.

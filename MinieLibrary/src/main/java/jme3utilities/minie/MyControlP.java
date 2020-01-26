@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2019, Stephen Gold
+ Copyright (c) 2013-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -291,9 +291,8 @@ public class MyControlP {
 
         } else {
             String typeName = sgc.getClass().getCanonicalName();
-            String msg = String.format("%s does not support local physics.",
-                    typeName);
-            throw new IllegalArgumentException(msg);
+            String message = typeName + " does not support local physics.";
+            throw new IllegalArgumentException(message);
         }
 
         return result;
@@ -397,8 +396,7 @@ public class MyControlP {
 
         } else {
             String typeName = sgc.getClass().getCanonicalName();
-            String msg = String.format("%s does not support local physics.",
-                    typeName);
+            String msg = typeName + " does not support local physics.";
             throw new IllegalArgumentException(msg);
         }
     }

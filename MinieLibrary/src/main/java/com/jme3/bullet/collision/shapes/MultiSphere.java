@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -165,8 +165,7 @@ public class MultiSphere extends CollisionShape {
                 centers[1] = new Vector3f(0f, 0f, -halfHeight);
                 break;
             default:
-                String msg = String.format("axisIndex=%d", axisIndex);
-                throw new IllegalArgumentException(msg);
+                throw new IllegalArgumentException("axisIndex = " + axisIndex);
         }
 
         radii = new float[2];

@@ -124,8 +124,8 @@ public class MyShape {
                     result.set(radius, radius, axisHalfExtent);
                     break;
                 default:
-                    String msg = String.format("axisIndex=%d", axisIndex);
-                    throw new IllegalStateException(msg);
+                    String message = "axisIndex = " + axisIndex;
+                    throw new IllegalArgumentException(message);
             }
 
         } else if (shape instanceof ConeCollisionShape) {
@@ -145,8 +145,8 @@ public class MyShape {
                     result.set(radius, radius, axisHalfExtent);
                     break;
                 default:
-                    String msg = String.format("axisIndex=%d", axisIndex);
-                    throw new IllegalStateException(msg);
+                    String message = "axisIndex = " + axisIndex;
+                    throw new IllegalArgumentException(message);
             }
 
         } else if (shape instanceof CylinderCollisionShape) {
@@ -175,8 +175,8 @@ public class MyShape {
 
         } else { // TODO handle more shapes
             String typeName = shape.getClass().getCanonicalName();
-            String msg = String.format("%s lacks half extents.", typeName);
-            throw new IllegalArgumentException(msg);
+            String message = typeName + " lacks half extents.";
+            throw new IllegalArgumentException(message);
         }
 
         assert MyVector3f.isAllNonNegative(result) : result;
@@ -323,7 +323,7 @@ public class MyShape {
 
         String[] parts = string.split("#");
         if (parts.length != 2) {
-            String message = "string=" + MyString.quote(string);
+            String message = "string = " + MyString.quote(string);
             throw new IllegalArgumentException(message);
         }
         String hexadecimal = parts[1];
@@ -369,8 +369,8 @@ public class MyShape {
                     r2 = halfExtents.y;
                     break;
                 default:
-                    String msg = String.format("axisIndex=%d", axisIndex);
-                    throw new IllegalStateException(msg);
+                    String message = "axisIndex = " + axisIndex;
+                    throw new IllegalArgumentException(message);
             }
             if (r1 == r2) {
                 result = r1;
@@ -427,8 +427,8 @@ public class MyShape {
                     radius2 = newHalfExtents.y;
                     break;
                 default:
-                    String msg = String.format("axisIndex=%d", axisIndex);
-                    throw new IllegalStateException(msg);
+                    String message = "axisIndex = " + axisIndex;
+                    throw new IllegalArgumentException(message);
             }
             if (radius1 != radius2) {
                 result = null;
