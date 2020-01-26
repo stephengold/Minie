@@ -537,6 +537,38 @@ public class MinieTestShapes {
     }
 
     /**
+     * Randomly generate a rectangular frame.
+     *
+     * @param generate pseudo-random generator (not null, modified)
+     * @return a new shape (not null)
+     */
+    public static CompoundCollisionShape randomFrame(Generator generate) {
+        /*
+         * Select the internal half extents.
+         */
+        float ihHeight = generate.nextFloat(0.7f, 2f);
+        float ihWidth = 1.6f * ihHeight;
+        float halfDepth = generate.nextFloat(0.1f, 0.5f);
+
+        float halfThickness = ihHeight * generate.nextFloat(0.1f, 0.2f);
+        float mhHeight = ihHeight + halfThickness;
+        float mhWidth = ihWidth + halfThickness;
+
+        CollisionShape horizontal
+                = new BoxCollisionShape(mhWidth, halfThickness, halfDepth);
+        CollisionShape vertical
+                = new BoxCollisionShape(halfThickness, mhHeight, halfDepth);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(horizontal, halfThickness, -mhHeight, 0f);
+        result.addChildShape(horizontal, -halfThickness, mhHeight, 0f);
+        result.addChildShape(vertical, mhWidth, halfThickness, 0f);
+        result.addChildShape(vertical, -mhWidth, -halfThickness, 0f);
+
+        return result;
+    }
+
+    /**
      * Randomly generate a centered HullCollisionShape.
      *
      * @param generate pseudo-random generator (not null, modified)
@@ -546,18 +578,7 @@ public class MinieTestShapes {
         int numVertices = generate.nextInt(5, 25);
 
         FloatBuffer buffer;
-        boolean noNormals = false;
-        if (numVertices < 15 && numVertices % 2 == 0) {
-            /*
-             * Generate a prism (6, 8, 10, 12, or 14 vertices).
-             */
-            float radius = generate.nextFloat(0.6f, 1.1f);
-            float height = generate.nextFloat(1f, 2f);
-            int numSides = numVertices / 2;
-            Mesh mesh = new Prism(numSides, radius, height, noNormals);
-            buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-
-        } else if (numVertices > 20) {
+        if (numVertices > 20) {
             /*
              * Generate a spherical dome or plano-convex lens (181 vertices).
              */
@@ -712,6 +733,23 @@ public class MinieTestShapes {
             default:
                 throw new RuntimeException("solidType = " + solidType);
         }
+
+        return result;
+    }
+
+    /**
+     * Randomly generate a prism.
+     *
+     * @param generate pseudo-random generator (not null, modified)
+     * @return a new shape (not null)
+     */
+    public static HullCollisionShape randomPrism(Generator generate) {
+        int numSides = generate.nextInt(3, 9);
+        float radius = generate.nextFloat(0.6f, 2f);
+        float height = generate.nextFloat(0.6f, 1.6f);
+        boolean noNormals = false;
+        Mesh mesh = new Prism(numSides, radius, height, noNormals);
+        HullCollisionShape result = new HullCollisionShape(mesh);
 
         return result;
     }

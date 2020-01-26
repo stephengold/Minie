@@ -134,9 +134,9 @@ public class DropTest
      */
     final private static String[] gemShapeNames = {
         "barbell", "box", "capsule", "chair", "cone", "cylinder", "duck",
-        "football", "funnyHammer", "hammer", "heart", "hull", "knucklebone",
-        "ladder", "letter", "multiSphere", "platonic", "sphere", "star",
-        "sword", "teapot", "tetrahedron", "top", "torus"
+        "football", "frame", "funnyHammer", "hammer", "heart", "hull",
+        "knucklebone", "ladder", "letter", "multiSphere", "platonic", "prism",
+        "sphere", "star", "sword", "teapot", "tetrahedron", "top", "torus"
     };
     // *************************************************************************
     // fields
@@ -514,6 +514,11 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
+            case "frame":
+                gemShape = MinieTestShapes.randomFrame(random);
+                debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
             case "funnyHammer":
                 randomHammer(false);
                 debugMeshNormals = DebugMeshNormals.Smooth;
@@ -541,6 +546,11 @@ public class DropTest
 
             case "platonic":
                 gemShape = MinieTestShapes.randomPlatonic(random);
+                debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
+            case "prism":
+                gemShape = MinieTestShapes.randomPrism(random);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
