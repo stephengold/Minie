@@ -133,6 +133,41 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
+     * Generate a spherical dome or plano-convex lens.
+     *
+     * @return a new shape
+     */
+    public HullCollisionShape nextDome() {
+        float radius = nextFloat(0.7f, 1.7f);
+        float verticalAngle = nextFloat(0.7f, 2f);
+
+        int rimSamples = 20;
+        int quadrantSamples = 10;
+        DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
+        mesh.setVerticalAngle(verticalAngle);
+        FloatBuffer buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+        /*
+         * Scale mesh positions to the desired radius.
+         */
+        int start = 0;
+        int end = buffer.limit();
+        Vector3f scale = new Vector3f(radius, radius, radius);
+        MyBuffer.scale(buffer, start, end, scale);
+        /*
+         * Use max-min to center the vertices.
+         */
+        Vector3f max = new Vector3f();
+        Vector3f min = new Vector3f();
+        MyBuffer.maxMin(buffer, start, end, max, min);
+        Vector3f offset = MyVector3f.midpoint(min, max, null).negateLocal();
+        MyBuffer.translate(buffer, start, end, offset);
+
+        HullCollisionShape result = new HullCollisionShape(buffer);
+
+        return result;
+    }
+
+    /**
      * Generate a 4-sphere shape, a box with rounded corners.
      *
      * @return a new shape (not null)
@@ -169,62 +204,30 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
-     * Generate a centered HullCollisionShape.
+     * Generate a centered HullCollisionShape, using the origin plus 4-19
+     * pseudo-random vertices.
      *
-     * @return a new shape (not null)
+     * @return a new shape
      */
     public HullCollisionShape nextHull() {
-        int numVertices = nextInt(5, 25);
+        int numVertices = nextInt(5, 20);
 
-        FloatBuffer buffer;
-        if (numVertices > 20) {
-            /*
-             * Generate a spherical dome or plano-convex lens (181 vertices).
-             */
-            float radius = nextFloat(0.7f, 1.7f);
-            int rimSamples = 20;
-            int quadrantSamples = 10;
-            DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
-            float verticalAngle = nextFloat(0.7f, 2f);
-            mesh.setVerticalAngle(verticalAngle);
-            buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-            /*
-             * Scale mesh positions to the desired radius.
-             */
-            int start = 0;
-            int end = buffer.limit();
-            Vector3f scale = new Vector3f(radius, radius, radius);
-            MyBuffer.scale(buffer, start, end, scale);
-            /*
-             * Use max-min to center the vertices.
-             */
-            Vector3f max = new Vector3f();
-            Vector3f min = new Vector3f();
-            MyBuffer.maxMin(buffer, start, end, max, min);
-            Vector3f offset = MyVector3f.midpoint(min, max, null).negateLocal();
-            MyBuffer.translate(buffer, start, end, offset);
-
-        } else {
-            /*
-             * Generate a hull using origin plus 4-19 pseudo-random vertices.
-             */
-            buffer = BufferUtils.createFloatBuffer(
-                    MyVector3f.numAxes * numVertices);
-            buffer.put(0f).put(0f).put(0f);
-            for (int vertexI = 1; vertexI < numVertices; ++vertexI) {
-                Vector3f location = nextUnitVector3f();
-                location.multLocal(1.5f);
-                buffer.put(location.x).put(location.y).put(location.z);
-            }
-            /*
-             * Use arithmetic mean to center the vertices.
-             */
-            int start = 0;
-            int end = buffer.limit();
-            Vector3f offset = MyBuffer.mean(buffer, start, end, null);
-            offset.negateLocal();
-            MyBuffer.translate(buffer, start, end, offset);
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(
+                MyVector3f.numAxes * numVertices);
+        buffer.put(0f).put(0f).put(0f);
+        for (int vertexI = 1; vertexI < numVertices; ++vertexI) {
+            Vector3f location = nextUnitVector3f();
+            location.multLocal(1.5f);
+            buffer.put(location.x).put(location.y).put(location.z);
         }
+        /*
+         * Use arithmetic mean to center the vertices.
+         */
+        int start = 0;
+        int end = buffer.limit();
+        Vector3f offset = MyBuffer.mean(buffer, start, end, null);
+        offset.negateLocal();
+        MyBuffer.translate(buffer, start, end, offset);
 
         HullCollisionShape result = new HullCollisionShape(buffer);
 
@@ -390,6 +393,10 @@ public class ShapeGenerator extends Generator {
 
             case "cylinder":
                 result = nextCylinder();
+                break;
+
+            case "dome":
+                result = nextDome();
                 break;
 
             case "frame":
