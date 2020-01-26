@@ -58,6 +58,7 @@ import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.mesh.Cone;
 import jme3utilities.mesh.Dodecahedron;
 import jme3utilities.mesh.DomeMesh;
 import jme3utilities.mesh.Icosahedron;
@@ -749,6 +750,23 @@ public class MinieTestShapes {
         float height = generate.nextFloat(0.6f, 1.6f);
         boolean noNormals = false;
         Mesh mesh = new Prism(numSides, radius, height, noNormals);
+        HullCollisionShape result = new HullCollisionShape(mesh);
+
+        return result;
+    }
+
+    /**
+     * Randomly generate a pyramid.
+     *
+     * @param generate pseudo-random generator (not null, modified)
+     * @return a new shape (not null)
+     */
+    public static HullCollisionShape randomPyramid(Generator generate) {
+        int numSides = generate.nextInt(3, 9);
+        float baseRadius = generate.nextFloat(0.8f, 1.8f);
+        float yHeight = generate.nextFloat(1f, 2.5f);
+        boolean generatePyramid = true;
+        Mesh mesh = new Cone(numSides, baseRadius, yHeight, generatePyramid);
         HullCollisionShape result = new HullCollisionShape(mesh);
 
         return result;

@@ -136,7 +136,8 @@ public class DropTest
         "barbell", "box", "capsule", "chair", "cone", "cylinder", "duck",
         "football", "frame", "funnyHammer", "hammer", "heart", "hull",
         "knucklebone", "ladder", "letter", "multiSphere", "platonic", "prism",
-        "sphere", "star", "sword", "teapot", "tetrahedron", "top", "torus"
+        "pyramid", "sphere", "star", "sword", "teapot", "tetrahedron", "top",
+        "torus"
     };
     // *************************************************************************
     // fields
@@ -551,6 +552,11 @@ public class DropTest
 
             case "prism":
                 gemShape = MinieTestShapes.randomPrism(random);
+                debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
+            case "pyramid":
+                gemShape = MinieTestShapes.randomPyramid(random);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
