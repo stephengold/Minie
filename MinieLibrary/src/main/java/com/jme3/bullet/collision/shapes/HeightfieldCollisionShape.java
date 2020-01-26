@@ -120,7 +120,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
      * A Java reference must persist after createShape() completes, or else the
      * buffer might get garbage collected.
      */
-    private FloatBuffer bbuf;
+    private FloatBuffer directBuffer;
     /**
      * copy of number of columns in the heightfield (&gt;1)
      */
@@ -241,7 +241,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        // bbuf not cloned
+        // directBuffer not cloned
         // heightfieldData not cloned
         createShape();
     }
@@ -389,14 +389,17 @@ public class HeightfieldCollisionShape extends CollisionShape {
      * Instantiate the configured btHeightfieldTerrainShape.
      */
     private void createShape() {
-        bbuf = BufferUtils.createFloatBuffer(heightfieldData.length);
+        directBuffer = BufferUtils.createFloatBuffer(heightfieldData.length);
         for (float height : heightfieldData) {
-            bbuf.put(height);
+            if (!Float.isFinite(height)) {
+                throw new IllegalArgumentException("illegal height: " + height);
+            }
+            directBuffer.put(height);
         }
 
-        long shapeId = createShape2(heightStickWidth, heightStickLength, bbuf,
-                heightScale, minHeight, maxHeight, upAxis, flipQuadEdges,
-                flipTriangleWinding, useDiamond, useZigzag);
+        long shapeId = createShape2(heightStickWidth, heightStickLength,
+                directBuffer, heightScale, minHeight, maxHeight, upAxis,
+                flipQuadEdges, flipTriangleWinding, useDiamond, useZigzag);
         setNativeId(shapeId);
 
         setScale(scale);
