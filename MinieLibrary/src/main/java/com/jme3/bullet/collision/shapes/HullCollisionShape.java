@@ -85,7 +85,7 @@ public class HullCollisionShape extends CollisionShape {
      * A Java reference must persist after createShape() completes, or else the
      * buffer might get garbage collected.
      */
-    private FloatBuffer bbuf;
+    private FloatBuffer directBuffer;
     /**
      * array of mesh coordinates (not null, not empty, length a multiple of 3)
      */
@@ -367,7 +367,7 @@ public class HullCollisionShape extends CollisionShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        bbuf = null; // bbuf not cloned
+        directBuffer = null; // directBuffer not cloned
         points = cloner.clone(points);
         createShape();
     }
@@ -469,23 +469,22 @@ public class HullCollisionShape extends CollisionShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
-        assert bbuf == null : bbuf;
+        assert directBuffer == null : directBuffer;
 
         int numFloats = points.length;
         assert numFloats != 0;
         assert (numFloats % numAxes == 0) : numFloats;
         int numVertices = numFloats / numAxes;
 
-        bbuf = BufferUtils.createFloatBuffer(numFloats);
+        directBuffer = BufferUtils.createFloatBuffer(numFloats);
         for (float f : points) {
             if (!Float.isFinite(f)) {
-                String msg = "illegal coordinate: " + Float.toString(f);
-                throw new IllegalArgumentException(msg);
+                throw new IllegalArgumentException("illegal coordinate: " + f);
             }
-            bbuf.put(f);
+            directBuffer.put(f);
         }
 
-        long shapeId = createShapeF(bbuf, numVertices);
+        long shapeId = createShapeF(directBuffer, numVertices);
         setNativeId(shapeId);
 
         setScale(scale);
