@@ -45,7 +45,6 @@ import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
-import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -71,7 +70,6 @@ import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
@@ -83,8 +81,6 @@ import jme3utilities.Misc;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
-import jme3utilities.math.MyArray;
-import jme3utilities.math.MyMath;
 import jme3utilities.mesh.Prism;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
@@ -128,27 +124,9 @@ public class DropTest
      */
     final private static String applicationName
             = DropTest.class.getSimpleName();
-    /**
-     * list of drop names, in ascending lexicographic order
-     */
-    final private static String[] dropNames = {
-        "barbell", "box", "capsule", "chair", "cone", "cylinder", "dome",
-        "duck", "football", "frame", "funnyHammer", "halfPipe", "hammer",
-        "heart", "hull", "knucklebone", "ladder", "letter", "multiSphere",
-        "platonic", "prism", "pyramid", "sphere", "star", "sword", "teapot",
-        "tetrahedron", "top", "torus"
-    };
     // *************************************************************************
     // fields
 
-    /**
-     * text displayed in the upper-left corner of the GUI node
-     */
-    final private BitmapText[] statusLines = new BitmapText[3];
-    /**
-     * flag to enable child coloring for new drop with a compound shape
-     */
-    private boolean isChildColoring = false;
     /**
      * AppState to manage the PhysicsSpace
      */
@@ -162,6 +140,10 @@ public class DropTest
      */
     final private Deque<PhysicsRigidBody> drops = new ArrayDeque<>(maxNumDrops);
     /**
+     * AppState to manage the status overlay
+     */
+    private DropTestStatus status;
+    /**
      * filter to control visualization of axis-aligned bounding boxes
      */
     private FilterAll bbFilter;
@@ -169,14 +151,6 @@ public class DropTest
      * filter to control visualization of swept spheres
      */
     private FilterAll ssFilter;
-    /**
-     * damping fraction for all drops (&ge;0, &le;1)
-     */
-    private float damping = 0.6f;
-    /**
-     * friction coefficient for all rigid bodies (&ge;0)
-     */
-    private float friction = 0.5f;
     /**
      * enhanced pseudo-random generator
      */
@@ -210,19 +184,33 @@ public class DropTest
      */
     private PhysicsSpace physicsSpace;
     /**
-     * name of the shape of the platform
-     */
-    private String platformName = "box";
-    /**
-     * name of the next drop
-     */
-    private String dropName = "multiSphere";
-    /**
      * local inverse inertial vector for the current drop (or null)
      */
     private Vector3f inverseInertia = null;
     // *************************************************************************
     // new methods exposed
+
+    /**
+     *
+     */
+    int countActive() {
+        int result = 0;
+        for (PhysicsRigidBody drop : drops) {
+            if (drop.isActive()) {
+                ++result;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     */
+    int countDrops() {
+        int result = drops.size();
+        return result;
+    }
 
     /**
      * Main entry point for the DropTest application.
@@ -254,6 +242,48 @@ public class DropTest
 
         application.start();
     }
+
+    /**
+     * Start a new test.
+     */
+    void restartTest() {
+        selectDrop(null);
+        drops.clear();
+
+        Collection<PhysicsRigidBody> bodies = physicsSpace.getRigidBodyList();
+        for (PhysicsRigidBody body : bodies) {
+            physicsSpace.remove(body);
+        }
+
+        addAPlatform();
+    }
+
+    /**
+     * Alter the damping fractions for all drops.
+     *
+     * @param fraction the desired fraction (&ge;0, &le;1)
+     */
+    void setDamping(float fraction) {
+        assert fraction >= 0f : fraction;
+        assert fraction <= 1f : fraction;
+
+        for (PhysicsRigidBody drop : drops) {
+            drop.setDamping(fraction, fraction);
+        }
+    }
+
+    /**
+     * Alter the friction coefficients for all rigid bodies.
+     *
+     * @param coefficient the desired coefficient (&ge;0)
+     */
+    void setFriction(float coefficient) {
+        assert coefficient >= 0f : coefficient;
+
+        for (PhysicsRigidBody body : physicsSpace.getRigidBodyList()) {
+            body.setFriction(coefficient);
+        }
+    }
     // *************************************************************************
     // ActionApplication methods
 
@@ -266,12 +296,14 @@ public class DropTest
         configureDumper();
         generateMaterials();
         configurePhysics();
-        assert MyArray.isSorted(dropNames);
 
         ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(bgColor);
 
-        addStatusLines();
+        status = new DropTestStatus();
+        boolean success = stateManager.attach(status);
+        assert success;
+
         addAPlatform();
         addADrop();
     }
@@ -283,6 +315,7 @@ public class DropTest
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
+        dim.bind("add", KeyInput.KEY_RETURN);
         dim.bind("add", KeyInput.KEY_INSERT);
 
         dim.bind("delete last", KeyInput.KEY_BACK);
@@ -291,32 +324,18 @@ public class DropTest
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump viewport", KeyInput.KEY_P);
 
-        dim.bind("less damping", KeyInput.KEY_B);
-        dim.bind("less friction", KeyInput.KEY_V);
-
-        dim.bind("more damping", KeyInput.KEY_G);
-        dim.bind("more friction", KeyInput.KEY_F);
-
+        dim.bind("next statusLine", KeyInput.KEY_NUMPAD2);
         dim.bind("next value", KeyInput.KEY_EQUALS);
         dim.bind("next value", KeyInput.KEY_NUMPAD6);
 
-        dim.bind("platform bedOfNails", KeyInput.KEY_0);
-        dim.bind("platform box", KeyInput.KEY_3);
-        dim.bind("platform candyDish", KeyInput.KEY_5);
-        dim.bind("platform cone", KeyInput.KEY_4);
-        dim.bind("platform cylinder", KeyInput.KEY_6);
-        dim.bind("platform hull", KeyInput.KEY_2);
-        dim.bind("platform plane", KeyInput.KEY_8);
-        dim.bind("platform roundedRectangle", KeyInput.KEY_F2);
-        dim.bind("platform smooth", KeyInput.KEY_1);
-        dim.bind("platform tray", KeyInput.KEY_9);
-        dim.bind("platform triangle", KeyInput.KEY_7);
+        dim.bind("pick", "RMB");
+        dim.bind("pick", KeyInput.KEY_R);
 
+        dim.bind("previous statusLine", KeyInput.KEY_NUMPAD8);
         dim.bind("previous value", KeyInput.KEY_MINUS);
         dim.bind("previous value", KeyInput.KEY_NUMPAD4);
 
-        dim.bind("select drop", "RMB");
-        dim.bind("select drop", KeyInput.KEY_R);
+        dim.bind("restart test", KeyInput.KEY_NUMPAD5);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -331,16 +350,10 @@ public class DropTest
         dim.bind("toggle pause", KeyInput.KEY_PAUSE);
         dim.bind("toggle pause", KeyInput.KEY_PERIOD);
         dim.bind("toggle spheres", KeyInput.KEY_L);
-
-        float x = 10f;
-        float y = cam.getHeight() - 80f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
-
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        /*
+         * The help node can't be created until all hotkeys are bound.
+         */
+        addHelp();
     }
 
     /**
@@ -375,31 +388,26 @@ public class DropTest
                     dumper.dump(viewPort);
                     return;
 
-                case "less damping":
-                    incrementDamping(-0.1f);
+                case "next statusLine":
+                    status.advanceSelectedField(+1);
                     return;
-
-                case "less friction":
-                    multiplyFriction(0.5f);
-                    return;
-
-                case "more damping":
-                    incrementDamping(0.1f);
-                    return;
-
-                case "more friction":
-                    multiplyFriction(2f);
-                    return;
-
                 case "next value":
-                    advanceDropName(+1);
+                    status.advanceValue(+1);
+                    return;
+
+                case "pick":
+                    pick();
+                    return;
+
+                case "previous statusLine":
+                    status.advanceSelectedField(-1);
                     return;
                 case "previous value":
-                    advanceDropName(-1);
+                    status.advanceValue(-1);
                     return;
 
-                case "select drop":
-                    pickDrop();
+                case "restart test":
+                    restartTest();
                     return;
 
                 case "toggle aabb":
@@ -407,9 +415,6 @@ public class DropTest
                     return;
                 case "toggle axes":
                     toggleAxes();
-                    return;
-                case "toggle childColoring":
-                    isChildColoring = !isChildColoring;
                     return;
                 case "toggle help":
                     toggleHelp();
@@ -420,16 +425,6 @@ public class DropTest
                 case "toggle spheres":
                     toggleSpheres();
                     return;
-            }
-
-            String[] words = actionString.split(" ");
-            if (words.length >= 2 && "platform".equals(words[0])) {
-                platformName = words[1];
-                restartTest();
-                return;
-            } else if (words.length >= 2 && "shape".equals(words[0])) {
-                dropName = words[1];
-                return;
             }
         }
         super.onAction(actionString, ongoing, tpf);
@@ -448,8 +443,6 @@ public class DropTest
         if (signals.test("shower")) {
             addADrop();
         }
-
-        updateStatusLines();
     }
     // *************************************************************************
     // DebugInitListener methods
@@ -471,11 +464,12 @@ public class DropTest
      * Add a drop (dynamic rigid body) to the PhysicsSpace.
      */
     private void addADrop() {
-        if (drops.size() >= maxNumDrops) {
+        if (countDrops() >= maxNumDrops) {
             return; // too many drops
         }
 
         inverseInertia = null;
+        String dropName = status.nextDropType();
         DebugMeshNormals debugMeshNormals;
         switch (dropName) {
             case "barbell":
@@ -552,7 +546,8 @@ public class DropTest
         Quaternion startOrientation = random.nextQuaternion();
 
         Material debugMaterial;
-        if (isChildColoring && dropShape instanceof CompoundCollisionShape) {
+        if (status.isChildColoring()
+                && dropShape instanceof CompoundCollisionShape) {
             debugMaterial = BulletDebugAppState.enableChildColoring;
         } else {
             debugMaterial = (Material) random.pick(dropMaterials);
@@ -563,10 +558,12 @@ public class DropTest
         body.setCcdMotionThreshold(5f);
         float sweptSphereRadius = dropShape.maxRadius();
         body.setCcdSweptSphereRadius(sweptSphereRadius);
+        float damping = status.damping();
         body.setDamping(damping, damping);
         body.setDebugMaterial(debugMaterial);
         body.setDebugMeshNormals(debugMeshNormals);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
+        float friction = status.friction();
         body.setFriction(friction);
         body.setPhysicsLocation(startLocation);
         body.setPhysicsRotation(startOrientation);
@@ -583,11 +580,12 @@ public class DropTest
      * Add a platform (large, static rigid body) to the PhysicsSpace.
      */
     private void addAPlatform() {
+        String platformName = status.platformType();
         switch (platformName) {
             case "bedOfNails":
             case "tray":
             case "triangle":
-                addNamedPlatform(DebugMeshNormals.Facet);
+                addNamedPlatform(platformName, DebugMeshNormals.Facet);
                 break;
 
             case "box":
@@ -596,7 +594,7 @@ public class DropTest
 
             case "candyDish":
             case "smooth":
-                addNamedPlatform(DebugMeshNormals.Smooth);
+                addNamedPlatform(platformName, DebugMeshNormals.Smooth);
                 break;
 
             case "cone":
@@ -686,6 +684,22 @@ public class DropTest
     }
 
     /**
+     * Attach a Node to display hotkey help/hints.
+     */
+    private void addHelp() {
+        float width = 360f;
+        float y = cam.getHeight() - 30f;
+        float x = cam.getWidth() - width - 10f;
+        float height = cam.getHeight() - 20f;
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        InputMode dim = getDefaultInputMode();
+        float space = 20f;
+        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
+        guiNode.attachChild(helpNode);
+    }
+
+    /**
      * Add a large, static petagonal prism shape to the PhysicsSpace, to serve
      * as a platform.
      */
@@ -729,10 +743,11 @@ public class DropTest
     }
 
     /**
-     * Add a named static shape to the PhysicsSpace, to serve as a platform.
+     * Add a static rigid body with the named shape to the PhysicsSpace, to
+     * serve as a platform.
      */
-    private void addNamedPlatform(DebugMeshNormals normals) {
-        CollisionShape shape = namedShapes.get(platformName);
+    private void addNamedPlatform(String shapeName, DebugMeshNormals normals) {
+        CollisionShape shape = namedShapes.get(shapeName);
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
 
@@ -758,7 +773,7 @@ public class DropTest
      * Add a rounded rectangle to the PhysicsSpace, to serve as a platform.
      */
     private void addRoundedRectangle() {
-        CollisionShape shape = namedShapes.get(platformName);
+        CollisionShape shape = namedShapes.get("roundedRectangle");
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
 
@@ -767,34 +782,6 @@ public class DropTest
         rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
         body.setPhysicsRotation(rotation);
         makePlatform(body);
-    }
-
-    /**
-     * Add status lines to the GUI.
-     */
-    private void addStatusLines() {
-        for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
-            statusLines[lineIndex] = new BitmapText(guiFont, false);
-            float y = cam.getHeight() - 20f * lineIndex;
-            statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
-            guiNode.attachChild(statusLines[lineIndex]);
-        }
-    }
-
-    /**
-     * Advance the drop-name selection by the specified amount.
-     *
-     * @param amount the number of names to advance the selection
-     */
-    private void advanceDropName(int amount) {
-        int index = Arrays.binarySearch(dropNames, dropName);
-        if (index < 0) {
-            dropName = dropNames[0];
-        } else {
-            assert dropNames[index].equals(dropName);
-            index = MyMath.modulo(index + amount, dropNames.length);
-            dropName = dropNames[index];
-        }
     }
 
     /**
@@ -956,48 +943,20 @@ public class DropTest
     }
 
     /**
-     * Alter the damping fractions for all drops.
-     *
-     * @param increment the amount to increase the fraction (may be negative)
-     */
-    private void incrementDamping(float increment) {
-        float newDamping = FastMath.clamp(damping + increment, 0f, 1f);
-        if (newDamping != damping) {
-            damping = newDamping;
-            for (PhysicsRigidBody drop : drops) {
-                drop.setDamping(damping, damping);
-            }
-        }
-    }
-
-    /**
      * Add the specified platform body to the PhysicsSpace.
      */
     private void makePlatform(PhysicsBody body) {
         body.setDebugMaterial(greenMaterial);
+        float friction = status.friction();
         body.setFriction(friction);
         physicsSpace.add(body);
-    }
-
-    /**
-     * Alter the friction coefficients for all rigid bodies.
-     *
-     * @param factor the factor to increase the coefficient (&gt;0)
-     */
-    private void multiplyFriction(float factor) {
-        assert factor > 0f : factor;
-
-        friction *= factor;
-        for (PhysicsRigidBody body : physicsSpace.getRigidBodyList()) {
-            body.setFriction(friction);
-        }
     }
 
     /**
      * Cast a physics ray from the cursor and select the nearest drop in the
      * result.
      */
-    private void pickDrop() {
+    private void pick() {
         Vector2f screenXY = inputManager.getCursorPosition();
         Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
         Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
@@ -1062,21 +1021,6 @@ public class DropTest
         char glyphChar = (char) ('A' + random.nextInt(26));
         String glyphString = Character.toString(glyphChar);
         dropShape = namedShapes.get(glyphString);
-    }
-
-    /**
-     * Start a new test using the named platform.
-     */
-    private void restartTest() {
-        selectDrop(null);
-        drops.clear();
-
-        Collection<PhysicsRigidBody> bodies = physicsSpace.getRigidBodyList();
-        for (PhysicsRigidBody body : bodies) {
-            physicsSpace.remove(body);
-        }
-
-        addAPlatform();
     }
 
     /**
@@ -1148,34 +1092,5 @@ public class DropTest
         }
 
         bulletAppState.setDebugSweptSphereFilter(ssFilter);
-    }
-
-    /**
-     * Update the status lines in the GUI.
-     */
-    private void updateStatusLines() {
-        String message = "Platform: " + platformName;
-        statusLines[1].setText(message);
-
-        int index = 1 + Arrays.binarySearch(dropNames, dropName);
-        int count = dropNames.length;
-        message = String.format("Next drop #%d of %d: %s", index, count,
-                dropName);
-        statusLines[2].setText(message);
-
-        int numActive = 0;
-        for (PhysicsRigidBody drop : drops) {
-            if (drop.isActive()) {
-                ++numActive;
-            }
-        }
-
-        int numDrops = drops.size();
-        boolean isPaused = (speed <= 1e-12f);
-        message = String.format("numDrops=%d  numActive=%d  childColoring=%s  "
-                + "friction=%.2f  damping=%.2f%s",
-                numDrops, numActive, isChildColoring, friction, damping,
-                isPaused ? "  PAUSED" : "");
-        statusLines[0].setText(message);
     }
 }
