@@ -193,6 +193,23 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
+     * Generate a Z-axis half-pipe shape.
+     *
+     * @return a new shape
+     */
+    public CompoundCollisionShape nextHalfPipe() {
+        float innerRadius = nextFloat(0.5f, 1.5f);
+        float thickness = nextFloat(0.2f, 0.5f);
+        float length = nextFloat(1f, 4f);
+        int numChildren = 20;
+
+        CompoundCollisionShape result = MinieTestShapes.makeHalfPipe(
+                innerRadius, thickness, length, numChildren);
+
+        return result;
+    }
+
+    /**
      * Generate a centered HullCollisionShape, using the origin plus 4-19
      * pseudo-random vertices.
      *
@@ -394,6 +411,10 @@ public class ShapeGenerator extends Generator {
 
             case "frame":
                 result = nextFrame();
+                break;
+
+            case "halfPipe":
+                result = nextHalfPipe();
                 break;
 
             case "hull":

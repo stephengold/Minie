@@ -352,6 +352,57 @@ public class MinieTestShapes {
     }
 
     /**
+     * Generate a Z-axis half-pipe shape.
+     *
+     * @param innerR the inner radius of an X-Y cross section (in unscaled shape
+     * units, &gt;0)
+     * @param thickness the thickness of the pipe (in unscaled shape units,
+     * &gt;0)
+     * @param zLength the total length of the pipe along the Z axis (in unscaled
+     * shape units, &gt;0)
+     * @param numChildren the number of child shapes to create (&ge;2)
+     * @return a new compound shape
+     */
+    public static CompoundCollisionShape makeHalfPipe(float innerR,
+            float thickness, float zLength, int numChildren) {
+        Validate.positive(innerR, "inner radius");
+        Validate.positive(thickness, "thickness");
+        Validate.positive(zLength, "length");
+        Validate.inRange(numChildren, "number of children",
+                2, Integer.MAX_VALUE);
+
+        float halfLength = zLength / 2f;
+        float outerR = innerR + thickness;
+        float yOff = outerR / 2f;
+        float segmentAngle = FastMath.PI / (float) numChildren;
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        for (int segmentI = 0; segmentI < numChildren; ++segmentI) {
+            float theta1 = segmentI * segmentAngle;
+            float theta2 = (segmentI + 1) * segmentAngle;
+            float cos1 = FastMath.cos(theta1);
+            float cos2 = FastMath.cos(theta2);
+            float sin1 = FastMath.sin(theta1);
+            float sin2 = FastMath.sin(theta2);
+
+            FloatBuffer buffer = BufferUtils.createFloatBuffer(
+                    innerR * cos1, innerR * sin1 - yOff, halfLength,
+                    innerR * cos2, innerR * sin2 - yOff, halfLength,
+                    outerR * cos1, outerR * sin1 - yOff, halfLength,
+                    outerR * cos2, outerR * sin2 - yOff, halfLength,
+                    innerR * cos1, innerR * sin1 - yOff, -halfLength,
+                    innerR * cos2, innerR * sin2 - yOff, -halfLength,
+                    outerR * cos1, outerR * sin1 - yOff, -halfLength,
+                    outerR * cos2, outerR * sin2 - yOff, -halfLength
+            );
+            HullCollisionShape child = new HullCollisionShape(buffer);
+            result.addChildShape(child);
+        }
+
+        return result;
+    }
+
+    /**
      * Generate a knuclebone with 4 spherical balls.
      *
      * @return a new compound shape (not null)

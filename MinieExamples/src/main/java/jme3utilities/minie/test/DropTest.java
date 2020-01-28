@@ -133,10 +133,10 @@ public class DropTest
      */
     final private static String[] gemShapeNames = {
         "barbell", "box", "capsule", "chair", "cone", "cylinder", "dome",
-        "duck", "football", "frame", "funnyHammer", "hammer", "heart", "hull",
-        "knucklebone", "ladder", "letter", "multiSphere", "platonic", "prism",
-        "pyramid", "sphere", "star", "sword", "teapot", "tetrahedron", "top",
-        "torus"
+        "duck", "football", "frame", "funnyHammer", "halfPipe", "hammer",
+        "heart", "hull", "knucklebone", "ladder", "letter", "multiSphere",
+        "platonic", "prism", "pyramid", "sphere", "star", "sword", "teapot",
+        "tetrahedron", "top", "torus"
     };
     // *************************************************************************
     // fields
@@ -488,6 +488,7 @@ public class DropTest
 
             case "box":
             case "frame":
+            case "halfPipe":
             case "hull":
             case "platonic":
             case "prism":
