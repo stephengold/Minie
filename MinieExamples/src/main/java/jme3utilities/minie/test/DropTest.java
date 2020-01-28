@@ -98,8 +98,8 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Test/demonstrate various collision shapes by dropping gems (dynamic rigid
- * bodies) onto a platform (static rigid body).
+ * Test/demonstrate various collision shapes by dropping dynamic rigid bodies
+ * onto a platform (static rigid body).
  * <p>
  * Collision objects are rendered entirely by debug visualization.
  * <p>
@@ -115,9 +115,9 @@ public class DropTest
     // constants and loggers
 
     /**
-     * upper limit on the number of gems
+     * upper limit on the number of drops
      */
-    final private static int maxNumGems = 80;
+    final private static int maxNumDrops = 80;
     /**
      * message logger for this class
      */
@@ -129,9 +129,9 @@ public class DropTest
     final private static String applicationName
             = DropTest.class.getSimpleName();
     /**
-     * list of gem-shape names, in ascending lexicographic order
+     * list of drop names, in ascending lexicographic order
      */
-    final private static String[] gemShapeNames = {
+    final private static String[] dropNames = {
         "barbell", "box", "capsule", "chair", "cone", "cylinder", "dome",
         "duck", "football", "frame", "funnyHammer", "halfPipe", "hammer",
         "heart", "hull", "knucklebone", "ladder", "letter", "multiSphere",
@@ -146,7 +146,7 @@ public class DropTest
      */
     final private BitmapText[] statusLines = new BitmapText[3];
     /**
-     * flag to enable child coloring for new gems with compound shapes
+     * flag to enable child coloring for new drop with a compound shape
      */
     private boolean isChildColoring = false;
     /**
@@ -154,13 +154,13 @@ public class DropTest
      */
     final private BulletAppState bulletAppState = new BulletAppState();
     /**
-     * shape for the next gem
+     * shape for the next drop
      */
-    private CollisionShape gemShape;
+    private CollisionShape dropShape;
     /**
-     * current gems, in order of creation
+     * current drops, in order of creation
      */
-    final private Deque<PhysicsRigidBody> gems = new ArrayDeque<>(maxNumGems);
+    final private Deque<PhysicsRigidBody> drops = new ArrayDeque<>(maxNumDrops);
     /**
      * filter to control visualization of axis-aligned bounding boxes
      */
@@ -170,7 +170,7 @@ public class DropTest
      */
     private FilterAll ssFilter;
     /**
-     * damping fraction for all gems (&ge;0, &le;1)
+     * damping fraction for all drops (&ge;0, &le;1)
      */
     private float damping = 0.6f;
     /**
@@ -186,9 +186,9 @@ public class DropTest
      */
     final private Map<String, CollisionShape> namedShapes = new TreeMap<>();
     /**
-     * materials to visualize gems
+     * materials to visualize drops
      */
-    final private Material gemMaterials[] = new Material[4];
+    final private Material dropMaterials[] = new Material[4];
     /**
      * single-sided green material to visualize the platform
      */
@@ -202,9 +202,9 @@ public class DropTest
      */
     final private PhysicsDumper dumper = new PhysicsDumper();
     /**
-     * selected gem, or null if none
+     * selected drop, or null if none
      */
-    private PhysicsRigidBody selectedGem = null;
+    private PhysicsRigidBody selectedDrop = null;
     /**
      * space for physics simulation
      */
@@ -214,13 +214,13 @@ public class DropTest
      */
     private String platformName = "box";
     /**
-     * name of the shape for the next gem
+     * name of the next drop
      */
-    private String shapeName = "multiSphere";
+    private String dropName = "multiSphere";
     /**
-     * local inverse inertial vector for new gems (or null)
+     * local inverse inertial vector for the current drop (or null)
      */
-    private Vector3f gemInverseInertia = null;
+    private Vector3f inverseInertia = null;
     // *************************************************************************
     // new methods exposed
 
@@ -266,14 +266,14 @@ public class DropTest
         configureDumper();
         generateMaterials();
         configurePhysics();
-        assert MyArray.isSorted(gemShapeNames);
+        assert MyArray.isSorted(dropNames);
 
         ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(bgColor);
 
         addStatusLines();
         addAPlatform();
-        addAGem();
+        addADrop();
     }
 
     /**
@@ -315,8 +315,8 @@ public class DropTest
         dim.bind("previous value", KeyInput.KEY_MINUS);
         dim.bind("previous value", KeyInput.KEY_NUMPAD4);
 
-        dim.bind("select gem", "RMB");
-        dim.bind("select gem", KeyInput.KEY_R);
+        dim.bind("select drop", "RMB");
+        dim.bind("select drop", KeyInput.KEY_R);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -355,11 +355,11 @@ public class DropTest
         if (ongoing) {
             switch (actionString) {
                 case "add":
-                    addAGem();
+                    addADrop();
                     return;
 
                 case "delete last":
-                    deleteLast();
+                    deleteLastDrop();
                     return;
                 case "delete selected":
                     deleteSelected();
@@ -392,14 +392,14 @@ public class DropTest
                     return;
 
                 case "next value":
-                    advanceGemShape(+1);
+                    advanceDropName(+1);
                     return;
                 case "previous value":
-                    advanceGemShape(-1);
+                    advanceDropName(-1);
                     return;
 
-                case "select gem":
-                    pickGem();
+                case "select drop":
+                    pickDrop();
                     return;
 
                 case "toggle aabb":
@@ -428,7 +428,7 @@ public class DropTest
                 restartTest();
                 return;
             } else if (words.length >= 2 && "shape".equals(words[0])) {
-                shapeName = words[1];
+                dropName = words[1];
                 return;
             }
         }
@@ -446,7 +446,7 @@ public class DropTest
 
         Signals signals = getSignals();
         if (signals.test("shower")) {
-            addAGem();
+            addADrop();
         }
 
         updateStatusLines();
@@ -468,21 +468,21 @@ public class DropTest
     // private methods
 
     /**
-     * Add a gem (dynamic rigid body) to the PhysicsSpace.
+     * Add a drop (dynamic rigid body) to the PhysicsSpace.
      */
-    private void addAGem() {
-        if (gems.size() >= maxNumGems) {
-            return; // too many gems
+    private void addADrop() {
+        if (drops.size() >= maxNumDrops) {
+            return; // too many drops
         }
 
-        gemInverseInertia = null;
+        inverseInertia = null;
         DebugMeshNormals debugMeshNormals;
-        switch (shapeName) {
+        switch (dropName) {
             case "barbell":
             case "knucklebone":
             case "ladder":
             case "top":
-                gemShape = namedShapes.get(shapeName);
+                dropShape = namedShapes.get(dropName);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -495,7 +495,7 @@ public class DropTest
             case "pyramid":
             case "star":
             case "tetrahedron":
-                gemShape = random.nextShape(shapeName);
+                dropShape = random.nextShape(dropName);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -507,13 +507,13 @@ public class DropTest
             case "multiSphere":
             case "sphere":
             case "torus":
-                gemShape = random.nextShape(shapeName);
+                dropShape = random.nextShape(dropName);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
             case "chair":
-                gemShape = namedShapes.get("chair");
-                gemInverseInertia = MinieTestShapes.chairInverseInertia;
+                dropShape = namedShapes.get("chair");
+                inverseInertia = MinieTestShapes.chairInverseInertia;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -521,7 +521,7 @@ public class DropTest
             case "heart":
             case "sword":
             case "teapot":
-                gemShape = namedShapes.get(shapeName);
+                dropShape = namedShapes.get(dropName);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -541,7 +541,7 @@ public class DropTest
                 break;
 
             default:
-                String message = "shapeName = " + MyString.quote(shapeName);
+                String message = "shapeName = " + MyString.quote(dropName);
                 throw new RuntimeException(message);
         }
 
@@ -552,17 +552,17 @@ public class DropTest
         Quaternion startOrientation = random.nextQuaternion();
 
         Material debugMaterial;
-        if (isChildColoring && gemShape instanceof CompoundCollisionShape) {
+        if (isChildColoring && dropShape instanceof CompoundCollisionShape) {
             debugMaterial = BulletDebugAppState.enableChildColoring;
         } else {
-            debugMaterial = (Material) random.pick(gemMaterials);
+            debugMaterial = (Material) random.pick(dropMaterials);
         }
 
         float mass = 1f;
-        PhysicsRigidBody body = new PhysicsRigidBody(gemShape, mass);
+        PhysicsRigidBody body = new PhysicsRigidBody(dropShape, mass);
         body.setCcdMotionThreshold(5f);
-        float gemRadius = gemShape.maxRadius();
-        body.setCcdSweptSphereRadius(gemRadius);
+        float sweptSphereRadius = dropShape.maxRadius();
+        body.setCcdSweptSphereRadius(sweptSphereRadius);
         body.setDamping(damping, damping);
         body.setDebugMaterial(debugMaterial);
         body.setDebugMeshNormals(debugMeshNormals);
@@ -570,13 +570,13 @@ public class DropTest
         body.setFriction(friction);
         body.setPhysicsLocation(startLocation);
         body.setPhysicsRotation(startOrientation);
-        if (gemInverseInertia != null) {
-            body.setInverseInertiaLocal(gemInverseInertia);
+        if (inverseInertia != null) {
+            body.setInverseInertiaLocal(inverseInertia);
         }
         body.setUserObject(debugMaterial);
 
         physicsSpace.add(body);
-        gems.addLast(body);
+        drops.addLast(body);
     }
 
     /**
@@ -782,18 +782,18 @@ public class DropTest
     }
 
     /**
-     * Advance the gem-shape selection by the specified amount.
+     * Advance the drop-name selection by the specified amount.
      *
-     * @param amount the number of shapes to advance the selection
+     * @param amount the number of names to advance the selection
      */
-    private void advanceGemShape(int amount) {
-        int index = Arrays.binarySearch(gemShapeNames, shapeName);
+    private void advanceDropName(int amount) {
+        int index = Arrays.binarySearch(dropNames, dropName);
         if (index < 0) {
-            shapeName = gemShapeNames[0];
+            dropName = dropNames[0];
         } else {
-            assert gemShapeNames[index].equals(shapeName);
-            index = MyMath.modulo(index + amount, gemShapeNames.length);
-            shapeName = gemShapeNames[index];
+            assert dropNames[index].equals(dropName);
+            index = MyMath.modulo(index + amount, dropNames.length);
+            dropName = dropNames[index];
         }
     }
 
@@ -841,32 +841,32 @@ public class DropTest
     }
 
     /**
-     * Delete the most recently added gem.
+     * Delete the most recently added drop.
      */
-    private void deleteLast() {
-        PhysicsRigidBody latestGem = gems.peekLast();
-        if (latestGem != null) {
-            physicsSpace.remove(latestGem);
-            if (latestGem == selectedGem) {
-                selectGem(null);
+    private void deleteLastDrop() {
+        PhysicsRigidBody lastDrop = drops.peekLast();
+        if (lastDrop != null) {
+            physicsSpace.remove(lastDrop);
+            if (lastDrop == selectedDrop) {
+                selectDrop(null);
             }
-            gems.removeLast();
-            for (PhysicsRigidBody gem : gems) {
-                gem.activate();
+            drops.removeLast();
+            for (PhysicsRigidBody drop : drops) {
+                drop.activate();
             }
         }
     }
 
     /**
-     * Delete the selected gem, if any.
+     * Delete the selected drop, if any.
      */
     private void deleteSelected() {
-        if (selectedGem != null) {
-            physicsSpace.remove(selectedGem);
-            selectGem(null);
-            gems.remove(selectedGem);
-            for (PhysicsRigidBody gem : gems) {
-                gem.activate();
+        if (selectedDrop != null) {
+            physicsSpace.remove(selectedDrop);
+            selectDrop(null);
+            drops.remove(selectedDrop);
+            for (PhysicsRigidBody drop : drops) {
+                drop.activate();
             }
         }
     }
@@ -879,17 +879,17 @@ public class DropTest
         greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
         greenMaterial.setName("green");
 
-        ColorRGBA gemColors[] = new ColorRGBA[gemMaterials.length];
-        gemColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
-        gemColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
-        gemColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire
-        gemColors[3] = new ColorRGBA(0.2f, 0.1f, 0f, 1f); // topaz
+        ColorRGBA dropColors[] = new ColorRGBA[dropMaterials.length];
+        dropColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
+        dropColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
+        dropColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire
+        dropColors[3] = new ColorRGBA(0.2f, 0.1f, 0f, 1f); // topaz
 
-        for (int i = 0; i < gemMaterials.length; ++i) {
-            ColorRGBA color = gemColors[i];
-            gemMaterials[i]
+        for (int i = 0; i < dropMaterials.length; ++i) {
+            ColorRGBA color = dropColors[i];
+            dropMaterials[i]
                     = MyAsset.createShinyMaterial(assetManager, color);
-            gemMaterials[i].setFloat("Shininess", 15f);
+            dropMaterials[i].setFloat("Shininess", 15f);
         }
     }
 
@@ -956,7 +956,7 @@ public class DropTest
     }
 
     /**
-     * Alter the damping fractions for all gems.
+     * Alter the damping fractions for all drops.
      *
      * @param increment the amount to increase the fraction (may be negative)
      */
@@ -964,8 +964,8 @@ public class DropTest
         float newDamping = FastMath.clamp(damping + increment, 0f, 1f);
         if (newDamping != damping) {
             damping = newDamping;
-            for (PhysicsRigidBody gem : gems) {
-                gem.setDamping(damping, damping);
+            for (PhysicsRigidBody drop : drops) {
+                drop.setDamping(damping, damping);
             }
         }
     }
@@ -994,10 +994,10 @@ public class DropTest
     }
 
     /**
-     * Cast a physics ray from the cursor and select the nearest gem in the
+     * Cast a physics ray from the cursor and select the nearest drop in the
      * result.
      */
-    private void pickGem() {
+    private void pickDrop() {
         Vector2f screenXY = inputManager.getCursorPosition();
         Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
         Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
@@ -1007,13 +1007,13 @@ public class DropTest
             PhysicsCollisionObject pco = hit.getCollisionObject();
             if (pco instanceof PhysicsRigidBody) {
                 PhysicsRigidBody body = (PhysicsRigidBody) pco;
-                if (gems.contains(body)) {
-                    selectGem(body);
+                if (drops.contains(body)) {
+                    selectDrop(body);
                     return;
                 }
             }
         }
-        selectGem(null);
+        selectDrop(null);
     }
 
     /**
@@ -1033,7 +1033,7 @@ public class DropTest
         CollisionShape handle = new CylinderCollisionShape(hes);
 
         CompoundCollisionShape compound = new CompoundCollisionShape();
-        gemShape = compound;
+        dropShape = compound;
 
         compound.addChildShape(handle, 0f, 0f, handleHalfLength);
 
@@ -1050,7 +1050,7 @@ public class DropTest
 
             Vector3f inertia = new Vector3f();
             Transform transform = compound.principalAxes(masses, null, inertia);
-            gemInverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
+            inverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
             compound.correctAxes(transform);
         }
     }
@@ -1061,15 +1061,15 @@ public class DropTest
     private void randomLetter() {
         char glyphChar = (char) ('A' + random.nextInt(26));
         String glyphString = Character.toString(glyphChar);
-        gemShape = namedShapes.get(glyphString);
+        dropShape = namedShapes.get(glyphString);
     }
 
     /**
      * Start a new test using the named platform.
      */
     private void restartTest() {
-        selectGem(null);
-        gems.clear();
+        selectDrop(null);
+        drops.clear();
 
         Collection<PhysicsRigidBody> bodies = physicsSpace.getRigidBodyList();
         for (PhysicsRigidBody body : bodies) {
@@ -1080,19 +1080,19 @@ public class DropTest
     }
 
     /**
-     * Alter which gem is selected.
+     * Alter which drop is selected.
      *
-     * @param gem the gem to select (or null)
+     * @param drop the drop to select (or null)
      */
-    private void selectGem(PhysicsRigidBody gem) {
-        if (gem != selectedGem) {
-            if (selectedGem != null) {
-                Material material = (Material) selectedGem.getUserObject();
-                selectedGem.setDebugMaterial(material);
+    private void selectDrop(PhysicsRigidBody drop) {
+        if (drop != selectedDrop) {
+            if (selectedDrop != null) {
+                Material material = (Material) selectedDrop.getUserObject();
+                selectedDrop.setDebugMaterial(material);
             }
-            selectedGem = gem;
-            if (selectedGem != null) {
-                selectedGem.setDebugMaterial(null);
+            selectedDrop = drop;
+            if (selectedDrop != null) {
+                selectedDrop.setDebugMaterial(null);
             }
         }
     }
@@ -1157,24 +1157,24 @@ public class DropTest
         String message = "Platform: " + platformName;
         statusLines[1].setText(message);
 
-        int index = 1 + Arrays.binarySearch(gemShapeNames, shapeName);
-        int count = gemShapeNames.length;
-        message = String.format("Next gem shape #%d of %d: %s", index, count,
-                shapeName);
+        int index = 1 + Arrays.binarySearch(dropNames, dropName);
+        int count = dropNames.length;
+        message = String.format("Next drop #%d of %d: %s", index, count,
+                dropName);
         statusLines[2].setText(message);
 
         int numActive = 0;
-        for (PhysicsRigidBody gem : gems) {
-            if (gem.isActive()) {
+        for (PhysicsRigidBody drop : drops) {
+            if (drop.isActive()) {
                 ++numActive;
             }
         }
 
-        int numGems = gems.size();
+        int numDrops = drops.size();
         boolean isPaused = (speed <= 1e-12f);
-        message = String.format("numGems=%d  numActive=%d  childColoring=%s  "
+        message = String.format("numDrops=%d  numActive=%d  childColoring=%s  "
                 + "friction=%.2f  damping=%.2f%s",
-                numGems, numActive, isChildColoring, friction, damping,
+                numDrops, numActive, isChildColoring, friction, damping,
                 isPaused ? "  PAUSED" : "");
         statusLines[0].setText(message);
     }
