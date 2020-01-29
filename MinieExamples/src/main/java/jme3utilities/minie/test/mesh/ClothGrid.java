@@ -123,10 +123,8 @@ public class ClothGrid extends Mesh {
         /*
          * Write the normals:
          */
-        for (int xIndex = 0; xIndex < zLines; ++xIndex) {
-            for (int zIndex = 0; zIndex < xLines; ++zIndex) {
-                normBuffer.put(0f).put(1f).put(0f);
-            }
+        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
+            normBuffer.put(0f).put(1f).put(0f);
         }
         assert normBuffer.position() == numAxes * numVertices;
         normBuffer.flip();
