@@ -28,6 +28,7 @@ package jme3utilities.minie.test.terrain;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.TextureKey;
+import com.jme3.math.FastMath;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.HeightMap;
@@ -35,9 +36,12 @@ import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 
 /**
- * Generate some interesting terrains for use in MinieExamples.
+ * Generate some interesting height arrays and terrains for use in
+ * MinieExamples.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -46,7 +50,7 @@ public class MinieTestTerrains {
     // constants and loggers
 
     /**
-     * height array for a 3x3 heightfield
+     * 3x3 height array
      */
     final private static float[] nineHeights = new float[]{
         1f, 0f, 1f,
@@ -81,6 +85,69 @@ public class MinieTestTerrains {
     // new methods exposed
 
     /**
+     * Generate a square height array for a bed of nails.
+     *
+     * @param size the desired size (in rows or columns, &ge;2)
+     * @return a new array
+     */
+    public static float[] bedOfNailsArray(int size) {
+        Validate.inRange(size, "size", 2, Integer.MAX_VALUE);
+
+        float[] result = new float[size * size];
+        for (int rowIndex = 0; rowIndex < size; ++rowIndex) {
+            for (int columnIndex = 0; columnIndex < size; ++columnIndex) {
+                boolean nail = (MyMath.modulo(rowIndex + columnIndex, 8) == 3
+                        && MyMath.modulo(rowIndex - columnIndex, 8) == 1);
+
+                int floatIndex = size * rowIndex + columnIndex;
+                result[floatIndex] = nail ? 1f : 0f;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Generate a square height array for a dimpled surface.
+     *
+     * @param size the desired size (in rows or columns, &ge;2)
+     * @return a new array
+     */
+    public static float[] dimplesArray(int size) {
+        Validate.inRange(size, "size", 2, Integer.MAX_VALUE);
+
+        float dimpleDepth = 3f;
+        float sphereRadius = 20f;
+        int halfSpacing = 16;
+
+        float sphereR2 = sphereRadius * sphereRadius;
+        float hThreshold = sphereRadius - dimpleDepth;
+        float[] result = new float[size * size];
+        int spacing = 2 * halfSpacing; // between dimples
+
+        for (int rowIndex = 0; rowIndex < size; ++rowIndex) {
+            float x = MyMath.modulo(rowIndex, spacing) - halfSpacing;
+            for (int columnIndex = 0; columnIndex < size; ++columnIndex) {
+                float y = MyMath.modulo(columnIndex, spacing) - halfSpacing;
+                float xy2 = x * x + y * y;
+
+                float height = 0f;
+                if (xy2 < sphereR2) {
+                    float h = FastMath.sqrt(sphereR2 - xy2);
+                    if (h > hThreshold) {
+                        height = hThreshold - h;
+                    }
+                }
+
+                int floatIndex = size * rowIndex + columnIndex;
+                result[floatIndex] = height;
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Initialize the terrain quads during startup.
      *
      * @param assetManager (not null)
@@ -101,7 +168,7 @@ public class MinieTestTerrains {
     }
 
     /**
-     * Load a simple height map from a texture asset.
+     * Load a 513x513 height map from a texture asset.
      *
      * @param assetManager (not null)
      * @return a new instance
@@ -116,6 +183,32 @@ public class MinieTestTerrains {
         float heightScale = 1f;
         AbstractHeightMap result = new ImageBasedHeightMap(image, heightScale);
         result.load();
+
+        return result;
+    }
+
+    /**
+     * Generate a square height array for a quadratic surface of revolution.
+     *
+     * @param size the desired size (in rows or columns, &ge;2)
+     * @return a new array
+     */
+    public static float[] quadraticArray(int size) {
+        Validate.inRange(size, "size", 2, Integer.MAX_VALUE);
+
+        float halfNm1 = (size - 1) / 2f;
+        float[] result = new float[size * size];
+        for (int rowIndex = 0; rowIndex < size; ++rowIndex) {
+            float x = -1f + rowIndex / halfNm1; // -1 .. +1
+            for (int columnIndex = 0; columnIndex < size; ++columnIndex) {
+                float y = -1f + columnIndex / halfNm1; // -1 .. +1
+                float r = MyMath.hypotenuse(x, y);
+                float height = -0.4f + (r - 0.8f) * (r - 0.8f);
+
+                int floatIndex = size * rowIndex + columnIndex;
+                result[floatIndex] = height;
+            }
+        }
 
         return result;
     }

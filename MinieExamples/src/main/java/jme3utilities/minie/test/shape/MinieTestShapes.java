@@ -62,6 +62,7 @@ import jme3utilities.mesh.Icosahedron;
 import jme3utilities.mesh.RoundedRectangle;
 import jme3utilities.minie.MyShape;
 import jme3utilities.minie.test.mesh.StarSlice;
+import jme3utilities.minie.test.terrain.MinieTestTerrains;
 
 /**
  * Generate some interesting collision shapes for use in MinieExamples.
@@ -168,15 +169,7 @@ public class MinieTestShapes {
      */
     public static HeightfieldCollisionShape makeBedOfNails() {
         int n = 64;
-        float[] heightmap = new float[n * n];
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                int floatIndex = n * i + j;
-                boolean nail = (MyMath.modulo(i + j, 8) == 3
-                        && MyMath.modulo(i - j, 8) == 1);
-                heightmap[floatIndex] = nail ? 1f : 0f;
-            }
-        }
+        float[] array = MinieTestTerrains.bedOfNailsArray(n);
 
         Vector3f scale = new Vector3f(40f / n, 4f, 40f / n);
         int upAxis = PhysicsSpace.AXIS_Y;
@@ -185,7 +178,7 @@ public class MinieTestShapes {
         boolean useDiamond = true;
         boolean useZigzag = false;
         HeightfieldCollisionShape result
-                = new HeightfieldCollisionShape(n, n, heightmap, scale, upAxis,
+                = new HeightfieldCollisionShape(n, n, array, scale, upAxis,
                         flipQuadEdges, flipTriangleWinding, useDiamond,
                         useZigzag);
 
@@ -256,28 +249,11 @@ public class MinieTestShapes {
      */
     public static HeightfieldCollisionShape makeDimples() {
         int n = 128;
-        float[] heightmap = new float[n * n];
-        for (int rowI = 0; rowI < n; ++rowI) {
-            float ii = MyMath.modulo(rowI, 32) - 16;
-            for (int columnI = 0; columnI < n; ++columnI) {
-                float jj = MyMath.modulo(columnI, 32) - 16;
-                float xz2 = ii * ii + jj * jj;
-                float depth = 0f;
-                if (xz2 < 400f) {
-                    float y = FastMath.sqrt(400f - xz2);
-                    if (y > 17f) {
-                        depth = 17f - y;
-                    }
-                }
-
-                int floatIndex = n * rowI + columnI;
-                heightmap[floatIndex] = depth;
-            }
-        }
+        float[] array = MinieTestTerrains.dimplesArray(n);
 
         Vector3f scale = new Vector3f(40f / n, 1f, 40f / n);
         HeightfieldCollisionShape result
-                = new HeightfieldCollisionShape(heightmap, scale);
+                = new HeightfieldCollisionShape(array, scale);
 
         return result;
     }
@@ -529,21 +505,11 @@ public class MinieTestShapes {
      */
     public static HeightfieldCollisionShape makeSmoothHeightfield() {
         int n = 64;
-        float halfNm1 = (n - 1) / 2f;
-        float[] heightmap = new float[n * n];
-        for (int i = 0; i < n; ++i) {
-            float x = -1f + i / halfNm1; // -1 .. +1
-            for (int j = 0; j < n; ++j) {
-                float y = -1f + j / halfNm1; // -1 .. +1
-                float r = MyMath.hypotenuse(x, y);
-                int floatIndex = n * i + j;
-                heightmap[floatIndex] = -0.4f + (r - 0.8f) * (r - 0.8f);
-            }
-        }
+        float[] array = MinieTestTerrains.quadraticArray(n);
 
-        Vector3f scale = new Vector3f(20f / halfNm1, 12.5f, 20f / halfNm1);
+        Vector3f scale = new Vector3f(40f / n, 12.5f, 40f / n);
         HeightfieldCollisionShape result
-                = new HeightfieldCollisionShape(heightmap, scale);
+                = new HeightfieldCollisionShape(array, scale);
 
         return result;
     }
