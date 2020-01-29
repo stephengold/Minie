@@ -28,7 +28,6 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
-import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
@@ -78,10 +77,6 @@ import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Cylinder;
 import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
-import com.jme3.terrain.heightmap.AbstractHeightMap;
-import com.jme3.terrain.heightmap.ImageBasedHeightMap;
-import com.jme3.texture.Image;
-import com.jme3.texture.Texture;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.Collection;
@@ -108,6 +103,7 @@ import jme3utilities.mesh.RectangleMesh;
 import jme3utilities.mesh.Tetrahedron;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.terrain.MinieTestTerrains;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.HelpUtils;
@@ -154,10 +150,6 @@ public class TestRbc
     // fields
 
     /**
-     * height map for a large heightfield
-     */
-    private AbstractHeightMap heightMap;
-    /**
      * visualizer for the world axes
      */
     private AxesVisualizer axes;
@@ -181,10 +173,6 @@ public class TestRbc
      * filter to control visualization of axis-aligned bounding boxes
      */
     private FilterAll bbFilter;
-    /**
-     * height array for a small heightfield
-     */
-    final private float[] nineHeights = new float[9];
     /**
      * part index returned by the most recent ray/sweep test
      */
@@ -282,13 +270,15 @@ public class TestRbc
      */
     @Override
     public void actionInitializeApplication() {
+        MinieTestTerrains.initialize(assetManager);
+        assert MyArray.isSorted(testNames);
+
         configureCamera();
         configureDumper();
         configurePhysics();
         generateCursors();
         generateMaterials();
-        initializeHeightData();
-        assert MyArray.isSorted(testNames);
+        generateShapes();
 
         ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
         viewPort.setBackgroundColor(bgColor);
@@ -781,12 +771,9 @@ public class TestRbc
      * Add a 513x513 terrain to the scene and PhysicsSpace.
      */
     private void addLargeTerrain() {
-        int patchSize = 33; // in pixels
-        int terrainDiameter = heightMap.getSize(); // in pixels
-        int mapSize = terrainDiameter + 1; // number of samples on a side
-        float[] heightArray = heightMap.getHeightMap();
-        testSpatial = new TerrainQuad("large terrain", patchSize, mapSize,
-                heightArray);
+        testSpatial = MinieTestTerrains.largeQuad;
+        testShape = CollisionShapeFactory.createMeshShape(testSpatial);
+        makeTestShape();
         testSpatial.setMaterial(greenMaterial);
 
         testShape = CollisionShapeFactory.createMeshShape(testSpatial);
@@ -856,10 +843,7 @@ public class TestRbc
      * Add a 3x3 terrain to the scene and PhysicsSpace.
      */
     private void addSmallTerrain() {
-        int patchSize = 3;
-        int mapSize = 3;
-        testSpatial = new TerrainQuad("small terrain", patchSize, mapSize,
-                nineHeights);
+        testSpatial = MinieTestTerrains.smallQuad;
         testSpatial.setMaterial(wireMaterial);
 
         switch (testName) {
@@ -1163,27 +1147,11 @@ public class TestRbc
     }
 
     /**
-     * Initialize the height data during startup.
+     * Initialize V-HACD shapes during startup.
      */
-    private void initializeHeightData() {
-        heightMap = loadHeightMap();
-
-        nineHeights[0] = 1f;
-        nineHeights[1] = 0f;
-        nineHeights[2] = 1f;
-        nineHeights[3] = 0f;
-        nineHeights[4] = 0.5f;
-        nineHeights[5] = 0f;
-        nineHeights[6] = 1f;
-        nineHeights[7] = 0f;
-        nineHeights[8] = 1f;
-
-        int patchSize = 3;
-        int mapSize = 3;
-        Spatial spatial
-                = new TerrainQuad("terrain", patchSize, mapSize, nineHeights);
+    private void generateShapes() {
         smallTerrainVhacdShape = CollisionShapeFactory.createVhacdShape(
-                spatial, new VHACDParameters(), null);
+                MinieTestTerrains.smallQuad, new VHACDParameters(), null);
     }
 
     /**
@@ -1211,25 +1179,6 @@ public class TestRbc
         projectileSpatial.setLocalTranslation(origin);
         rbc.setEnabled(true);
         rbc.setLinearVelocity(initialVelocity);
-    }
-
-    /**
-     * Load a simple height map from a texture asset.
-     *
-     * @return a new instance (not null)
-     */
-    private AbstractHeightMap loadHeightMap() {
-        boolean flipY = false;
-        TextureKey key = new TextureKey(
-                "Textures/BumpMapTest/Simple_height.png", flipY);
-        Texture texture = assetManager.loadTexture(key);
-        Image image = texture.getImage();
-
-        float heightScale = 1f;
-        AbstractHeightMap result = new ImageBasedHeightMap(image, heightScale);
-        result.load();
-
-        return result;
     }
 
     /**
