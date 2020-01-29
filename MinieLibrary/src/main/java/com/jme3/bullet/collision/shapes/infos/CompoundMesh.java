@@ -79,7 +79,8 @@ public class CompoundMesh implements JmeCloneable, Savable {
      */
     private long nativeId = 0L;
     /**
-     * copy of scale factors: one for each local axis (default=(1,1,1))
+     * copy of scale factors: one for each local axis (default=(1,1,1)) TODO
+     * privatize
      */
     protected Vector3f scale = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
