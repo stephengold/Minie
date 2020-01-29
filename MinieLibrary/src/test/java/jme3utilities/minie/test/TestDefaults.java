@@ -256,7 +256,7 @@ public class TestDefaults {
         Assert.assertEquals(0.0001, parms.getMinVolumePerHull(), 0.0);
         Assert.assertFalse(parms.getPCA());
         Assert.assertEquals(4, parms.getPlaneDownSampling());
-        Assert.assertEquals(100000, parms.getVoxelResolution());
+        Assert.assertEquals(100_000, parms.getVoxelResolution());
     }
 
     void assertEquals(float x, float y, float z, Vector3f vector,
