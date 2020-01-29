@@ -602,6 +602,7 @@ public class DropTest
                 break;
 
             case "candyDish":
+            case "dimples":
             case "smooth":
                 addNamedPlatform(platformName, DebugMeshNormals.Smooth);
                 break;
@@ -832,7 +833,6 @@ public class DropTest
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setGravity(new Vector3f(0f, -30f, 0f));
 
-        DebugShapeFactory.setIndexBuffers(true);
         generateShapes();
     }
 
@@ -894,7 +894,7 @@ public class DropTest
      */
     private void generateShapes() {
         /*
-         * "barbell", "bedOfNails", "chair", "knucklebone", "ladder",
+         * "barbell", "bedOfNails", "chair", "dimples", "knucklebone", "ladder",
          * "roundedRectangle", "smooth", "top", "tray", and "triangle" are
          * generated once, at runtime
          */
