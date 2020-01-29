@@ -235,7 +235,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
         /*
          * Accumulate joint-angle statistics for 10 seconds.
          */
-        Thread.sleep(10000);
+        Thread.sleep(10_000);
         /*
          * Convert the statistics into ranges of motion.
          */
