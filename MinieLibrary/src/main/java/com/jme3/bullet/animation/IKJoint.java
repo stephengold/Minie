@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,8 +61,8 @@ public class IKJoint implements JmeCloneable, Savable {
     /**
      * field names for serialization
      */
+    final private static String tagConstraint = "joint";
     final private static String tagDisableForRagdoll = "disableForRagdoll";
-    final private static String tagJoint = "joint";
     // *************************************************************************
     // fields
 
@@ -74,7 +74,7 @@ public class IKJoint implements JmeCloneable, Savable {
     /**
      * underlying Constraint
      */
-    private Constraint joint;
+    private Constraint constraint;
     // *************************************************************************
     // constructors
 
@@ -87,14 +87,14 @@ public class IKJoint implements JmeCloneable, Savable {
     /**
      * Instantiate a new IK joint.
      *
-     * @param joint the underlying Constraint (not null, alias created)
+     * @param constraint the underlying Constraint (not null, alias created)
      * @param disableForRagdoll true&rarr;disable the Constraint when entering
      * ragdoll mode, false&rarr;unaffected by ragdoll mode
      */
-    public IKJoint(Constraint joint, boolean disableForRagdoll) {
-        Validate.nonNull(joint, "joint");
+    public IKJoint(Constraint constraint, boolean disableForRagdoll) {
+        Validate.nonNull(constraint, "constraint");
 
-        this.joint = joint;
+        this.constraint = constraint;
         this.disableForRagdoll = disableForRagdoll;
     }
     // *************************************************************************
@@ -106,7 +106,7 @@ public class IKJoint implements JmeCloneable, Savable {
      * @return the pre-existing joint (not null)
      */
     public Constraint getPhysicsJoint() {
-        return joint;
+        return constraint;
     }
 
     /**
@@ -132,7 +132,6 @@ public class IKJoint implements JmeCloneable, Savable {
      */
     void setRagdollMode() {
         if (disableForRagdoll) {
-            Constraint constraint = (Constraint) joint;
             constraint.setEnabled(false);
         }
     }
@@ -150,7 +149,7 @@ public class IKJoint implements JmeCloneable, Savable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        joint = cloner.clone(joint);
+        constraint = cloner.clone(constraint);
     }
 
     /**
@@ -182,7 +181,7 @@ public class IKJoint implements JmeCloneable, Savable {
         InputCapsule capsule = importer.getCapsule(this);
 
         disableForRagdoll = capsule.readBoolean(tagDisableForRagdoll, true);
-        joint = (Constraint) capsule.readSavable(tagJoint, null);
+        constraint = (Constraint) capsule.readSavable(tagConstraint, null);
     }
 
     /**
@@ -197,6 +196,6 @@ public class IKJoint implements JmeCloneable, Savable {
         OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(disableForRagdoll, tagDisableForRagdoll, true);
-        capsule.write(joint, tagJoint, null);
+        capsule.write(constraint, tagConstraint, null);
     }
 }
