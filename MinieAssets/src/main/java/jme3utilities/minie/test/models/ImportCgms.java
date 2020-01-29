@@ -228,7 +228,7 @@ public class ImportCgms extends SimpleApplication {
         /*
          * Collect all unique 2-D textures used in the model.
          */
-        Set<TextureKey> textureKeys = new HashSet<>();
+        Set<TextureKey> textureKeys = new HashSet<>(20);
         for (Material materials : MySpatial.listMaterials(model, null)) {
             for (MatParam matParam : materials.getParams()) {
                 if (matParam.getVarType() == VarType.Texture2D) {
