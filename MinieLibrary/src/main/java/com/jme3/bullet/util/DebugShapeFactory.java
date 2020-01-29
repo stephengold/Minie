@@ -92,10 +92,10 @@ public class DebugShapeFactory {
     // fields
 
     /**
-     * true&rarr;generate index buffers for new debug meshes, false&rarr;no
-     * index buffers for new debug meshes (doesn't affect plane shapes)
+     * largest debug mesh to index (doesn't affect plane shapes, 0&rarr;never
+     * index, MAX_VALUE&rarr;always index, default=6000 vertices)
      */
-    private static boolean generateIndexBuffers = false;
+    private static int maxVerticesToIndex = 6_000;
     /**
      * map keys to previously generated debug meshes, for reuse
      */
@@ -255,15 +255,26 @@ public class DebugShapeFactory {
     }
 
     /**
-     * Alter whether to generate index buffers for new debug meshes. (Doesn't
-     * affect plane shapes.) Index buffers might boost performance if there are
-     * many small meshes; they aren't recommended for very large meshes.
+     * Alter whether to index new debug meshes. (Doesn't affect cached meshes or
+     * plane shapes.) Indexing might boost performance when there are many small
+     * meshes; it isn't recommended for very large meshes.
      *
-     * @param setting true&rarr;generate index buffers, false&rarr;don't
-     * generate them (default=false)
+     * @param setting true&rarr;always index, false&rarr;never index
      */
     public static void setIndexBuffers(boolean setting) {
-        generateIndexBuffers = setting;
+        maxVerticesToIndex = setting ? Integer.MAX_VALUE : -1;
+    }
+
+    /**
+     * Alter whether to index new debug meshes. (Doesn't affect cached meshes or
+     * plane shapes.) Indexing might boost performance when there are many small
+     * meshes; it isn't recommended for very large meshes.
+     *
+     * @param maxVertices the largest mesh to be indexed (vertex count, &ge;-1)
+     */
+    public static void setIndexBuffers(int maxVertices) {
+        Validate.inRange(maxVertices, "maxVertices", -1, Integer.MAX_VALUE);
+        maxVerticesToIndex = maxVertices;
     }
 
     /**
@@ -367,9 +378,9 @@ public class DebugShapeFactory {
                 break;
         }
         /*
-         * Generate an index buffer, if requested.
+         * If the mesh is not too big, generate an index buffer.
          */
-        if (generateIndexBuffers) {
+        if (mesh.getVertexCount() <= maxVerticesToIndex) {
             mesh = MyMesh.addIndices(mesh);
         }
 
