@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * DynamicAnimControl tunings for animated models used in the TestDac
- * application.
+ * DynamicAnimControl tunings for animated models used in the MinieExamples
+ * subproject.
  */
 package jme3utilities.minie.test.tunings;

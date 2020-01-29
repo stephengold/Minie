@@ -270,7 +270,8 @@ public class DebugShapeFactory {
      * plane shapes.) Indexing might boost performance when there are many small
      * meshes; it isn't recommended for very large meshes.
      *
-     * @param maxVertices the largest mesh to be indexed (vertex count, &ge;-1)
+     * @param maxVertices the largest mesh to be indexed (vertex count, &ge;-1,
+     * default=6000)
      */
     public static void setIndexBuffers(int maxVertices) {
         Validate.inRange(maxVertices, "maxVertices", -1, Integer.MAX_VALUE);
