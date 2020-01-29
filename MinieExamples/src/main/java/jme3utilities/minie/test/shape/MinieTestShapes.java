@@ -94,7 +94,7 @@ public class MinieTestShapes {
     private MinieTestShapes() {
     }
     // *************************************************************************
-    // new methods exposed - TODO add makeSnowman(), more randomized shapes
+    // new methods exposed - TODO add makeSnowman()
 
     /**
      * Add each test shape to the specified collection of named shapes.
@@ -110,6 +110,9 @@ public class MinieTestShapes {
 
         CollisionShape chair = makeChair();
         namedShapes.put("chair", chair);
+
+        CollisionShape dimples = makeDimples();
+        namedShapes.put("dimples", dimples);
 
         CollisionShape knucklebone = makeKnucklebone();
         namedShapes.put("knucklebone", knucklebone);
@@ -242,6 +245,39 @@ public class MinieTestShapes {
         Transform transform = result.principalAxes(masses, null, inertia);
         chairInverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
         result.correctAxes(transform);
+
+        return result;
+    }
+
+    /**
+     * Generate a dimpled heightfield. Not intended for use in a dynamic body.
+     *
+     * @return a new heightfield shape (not null)
+     */
+    public static HeightfieldCollisionShape makeDimples() {
+        int n = 128;
+        float[] heightmap = new float[n * n];
+        for (int rowI = 0; rowI < n; ++rowI) {
+            float ii = MyMath.modulo(rowI, 32) - 16;
+            for (int columnI = 0; columnI < n; ++columnI) {
+                float jj = MyMath.modulo(columnI, 32) - 16;
+                float xz2 = ii * ii + jj * jj;
+                float depth = 0f;
+                if (xz2 < 400f) {
+                    float y = FastMath.sqrt(400f - xz2);
+                    if (y > 17f) {
+                        depth = 17f - y;
+                    }
+                }
+
+                int floatIndex = n * rowI + columnI;
+                heightmap[floatIndex] = depth;
+            }
+        }
+
+        Vector3f scale = new Vector3f(40f / n, 1f, 40f / n);
+        HeightfieldCollisionShape result
+                = new HeightfieldCollisionShape(heightmap, scale);
 
         return result;
     }
