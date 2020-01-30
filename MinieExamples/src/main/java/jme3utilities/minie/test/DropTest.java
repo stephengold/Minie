@@ -346,6 +346,7 @@ public class DropTest
         dim.bind("delete selected", KeyInput.KEY_DELETE);
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
+        dim.bind("dump selectedDrop", KeyInput.KEY_LBRACKET);
         dim.bind("dump viewport", KeyInput.KEY_P);
 
         dim.bind("next statusLine", KeyInput.KEY_NUMPAD2);
@@ -412,6 +413,9 @@ public class DropTest
                     return;
                 case "dump scenes":
                     dumper.dump(renderManager);
+                    return;
+                case "dump selectedDrop":
+                    dumpSelectedDrop();
                     return;
                 case "dump viewport":
                     dumper.dump(viewPort);
@@ -564,7 +568,7 @@ public class DropTest
                 break;
 
             default:
-                String message = "shapeName = " + MyString.quote(dropName);
+                String message = "dropName = " + MyString.quote(dropName);
                 throw new RuntimeException(message);
         }
 
@@ -918,6 +922,17 @@ public class DropTest
             for (PhysicsRigidBody drop : drops) {
                 drop.activate();
             }
+        }
+    }
+
+    /**
+     * Dump the selected drop.
+     */
+    private void dumpSelectedDrop() {
+        if (selectedDrop == null) {
+            System.out.printf("%nNo drop selected.");
+        } else {
+            dumper.dump(selectedDrop, "");
         }
     }
 
