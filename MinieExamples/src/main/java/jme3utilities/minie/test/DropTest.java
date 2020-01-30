@@ -327,8 +327,11 @@ public class DropTest
 
         dim.bind("add", KeyInput.KEY_RETURN);
         dim.bind("add", KeyInput.KEY_INSERT);
+        dim.bind("add", KeyInput.KEY_NUMPAD0);
 
         dim.bind("delete last", KeyInput.KEY_BACK);
+        dim.bind("delete last", KeyInput.KEY_SUBTRACT);
+        dim.bind("delete selected", KeyInput.KEY_DECIMAL);
         dim.bind("delete selected", KeyInput.KEY_DELETE);
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
@@ -351,6 +354,7 @@ public class DropTest
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bind("signal shower", KeyInput.KEY_ADD);
         dim.bind("signal shower", KeyInput.KEY_I);
 
         dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
