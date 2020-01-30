@@ -172,7 +172,7 @@ public class DropTest
     /**
      * single-sided lit green material to visualize platforms
      */
-    private Material greenMaterial;
+    private Material platformMaterial;
     /**
      * GUI node for displaying hotkey help/hints
      */
@@ -915,8 +915,8 @@ public class DropTest
      */
     private void generateMaterials() {
         ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
-        greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
-        greenMaterial.setName("green");
+        platformMaterial = MyAsset.createShadedMaterial(assetManager, green);
+        platformMaterial.setName("green");
 
         ColorRGBA dropColors[] = new ColorRGBA[dropMaterials.length];
         dropColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
@@ -998,7 +998,7 @@ public class DropTest
      * Add the specified platform body to the PhysicsSpace.
      */
     private void makePlatform(PhysicsBody body) {
-        body.setDebugMaterial(greenMaterial);
+        body.setDebugMaterial(platformMaterial);
         float friction = status.friction();
         body.setFriction(friction);
         physicsSpace.add(body);
