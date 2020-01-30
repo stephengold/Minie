@@ -452,6 +452,42 @@ public class MinieTestShapes {
     }
 
     /**
+     * Generate a mad mallet by compounding 2 cylinders.
+     *
+     * @param handleR the radius of the handle (in unscaled shape units, &gt;0)
+     * @param headR the radius of the head (in unscaled shape units, &gt;0)
+     * @param handleHalfLength half the length of the handle (in unscaled shape
+     * units, &gt;0)
+     * @param headHalfLength half the length of the head (in unscaled shape
+     * units, &gt;0)
+     * @return a new compound shape
+     */
+    public static CompoundCollisionShape makeMadMallet(float handleR,
+            float headR, float handleHalfLength, float headHalfLength) {
+        Validate.positive(handleR, "handle radius");
+        Validate.positive(headR, "head radius");
+        Validate.positive(handleHalfLength, "handle half length");
+        Validate.positive(headHalfLength, "head half length");
+
+        Vector3f hes = new Vector3f(headR, headR, headHalfLength);
+        CollisionShape head = new CylinderCollisionShape(hes);
+
+        hes.set(handleR, handleR, handleHalfLength);
+        CollisionShape handle = new CylinderCollisionShape(hes);
+
+        CompoundCollisionShape compound = new CompoundCollisionShape();
+
+        compound.addChildShape(handle, 0f, 0f, handleHalfLength);
+
+        Vector3f offset = new Vector3f(0f, 0f, 2f * handleHalfLength);
+        Matrix3f rotation = new Matrix3f();
+        rotation.fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
+        compound.addChildShape(head, offset, rotation);
+
+        return compound;
+    }
+
+    /**
      * Generate a ladder with 5 cylindrical rungs.
      *
      * @return a new compound shape (not null)
