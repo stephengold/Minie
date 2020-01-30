@@ -92,10 +92,10 @@ public class DropTestStatus extends SimpleAppState {
      */
     final private static String[] dropNames = {
         "barbell", "box", "capsule", "chair", "cone", "cylinder", "dome",
-        "duck", "football", "frame", "funnyHammer", "halfPipe", "hammer",
-        "heart", "hull", "knucklebone", "ladder", "letter", "multiSphere",
-        "platonic", "prism", "pyramid", "sphere", "star", "sword", "teapot",
-        "tetrahedron", "top", "torus"
+        "duck", "football", "frame", "halfPipe", "heart", "hull", "knucklebone",
+        "ladder", "letter", "madMallet", "mallet", "multiSphere", "platonic",
+        "prism", "pyramid", "sphere", "star", "sword", "teapot", "tetrahedron",
+        "top", "torus"
     };
     /**
      * list of platform names, in ascending lexicographic order

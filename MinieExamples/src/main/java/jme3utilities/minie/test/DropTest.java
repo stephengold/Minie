@@ -539,19 +539,19 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
-            case "funnyHammer":
-                randomHammer(false);
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "hammer":
-                randomHammer(true);
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
             case "letter":
                 randomLetter();
                 debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
+            case "madMallet":
+                randomMallet(false);
+                debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
+            case "mallet":
+                randomMallet(true);
+                debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
             default:
@@ -1030,11 +1030,20 @@ public class DropTest
     }
 
     /**
+     * Randomly select the shape of an uppercase letter.
+     */
+    private void randomLetter() {
+        char glyphChar = (char) ('A' + random.nextInt(26));
+        String glyphString = Character.toString(glyphChar);
+        dropShape = namedShapes.get(glyphString);
+    }
+
+    /**
      * Randomly generate an asymmetrical compound shape with 2 cylinders.
      *
      * @param correctAxes if true, correct the shape's principal axes
      */
-    private void randomHammer(boolean correctAxes) {
+    private void randomMallet(boolean correctAxes) {
         float handleR = 0.5f;
         float headR = handleR + random.nextFloat();
         float headHalfLength = headR + random.nextFloat();
@@ -1066,15 +1075,6 @@ public class DropTest
             inverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
             compound.correctAxes(transform);
         }
-    }
-
-    /**
-     * Randomly select the shape of an uppercase letter.
-     */
-    private void randomLetter() {
-        char glyphChar = (char) ('A' + random.nextInt(26));
-        String glyphString = Character.toString(glyphChar);
-        dropShape = namedShapes.get(glyphString);
     }
 
     /**
