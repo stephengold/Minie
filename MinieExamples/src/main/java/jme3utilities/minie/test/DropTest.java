@@ -57,7 +57,6 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
-import com.jme3.math.Matrix3f;
 import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
@@ -1039,34 +1038,27 @@ public class DropTest
     }
 
     /**
-     * Randomly generate an asymmetrical compound shape with 2 cylinders.
+     * Randomly generate an asymmetrical compound shape consisting of 2
+     * cylinders.
      *
-     * @param correctAxes if true, correct the shape's principal axes
+     * @param correctAxes if true, correct the shape's center of mass and
+     * principal axes
      */
     private void randomMallet(boolean correctAxes) {
         float handleR = 0.5f;
         float headR = handleR + random.nextFloat();
         float headHalfLength = headR + random.nextFloat();
         float handleHalfLength = headHalfLength + random.nextFloat(0f, 2.5f);
-        Vector3f hes = new Vector3f(headR, headR, headHalfLength);
-        CollisionShape head = new CylinderCollisionShape(hes);
-
-        hes.set(handleR, handleR, handleHalfLength);
-        CollisionShape handle = new CylinderCollisionShape(hes);
-
-        CompoundCollisionShape compound = new CompoundCollisionShape();
+        CompoundCollisionShape compound = MinieTestShapes.makeMadMallet(handleR,
+                headR, handleHalfLength, headHalfLength);
         dropShape = compound;
-
-        compound.addChildShape(handle, 0f, 0f, handleHalfLength);
-
-        Vector3f offset = new Vector3f(0f, 0f, 2f * handleHalfLength);
-        Matrix3f rotation = new Matrix3f();
-        rotation.fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
-        compound.addChildShape(head, offset, rotation);
-
+        /*
+         * At this point, the shape's center of mass lies at the bare end
+         * of the handle:  a "mad" mallet that prefers to stand upright.
+         */
         if (correctAxes) {
             float handleMass = 0.15f;
-            float headMass = 1f - handleMass;
+            float headMass = 1f - handleMass; // Put 85% of mass in the head.
             FloatBuffer masses
                     = BufferUtils.createFloatBuffer(handleMass, headMass);
 
