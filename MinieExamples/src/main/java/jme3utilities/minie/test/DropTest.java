@@ -338,6 +338,8 @@ public class DropTest
         dim.bind("add", KeyInput.KEY_INSERT);
         dim.bind("add", KeyInput.KEY_NUMPAD0);
 
+        dim.bind("collect garbage", KeyInput.KEY_G);
+
         dim.bind("delete last", KeyInput.KEY_BACK);
         dim.bind("delete last", KeyInput.KEY_SUBTRACT);
         dim.bind("delete selected", KeyInput.KEY_DECIMAL);
@@ -392,6 +394,10 @@ public class DropTest
             switch (actionString) {
                 case "add":
                     addADrop();
+                    return;
+
+                case "collect garbage":
+                    System.gc();
                     return;
 
                 case "delete last":
