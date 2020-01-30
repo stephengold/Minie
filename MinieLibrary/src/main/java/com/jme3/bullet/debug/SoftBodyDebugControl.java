@@ -213,7 +213,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         if (spatial instanceof Node) {
             assert this.spatial == null;
             spatial.setCullHint(Spatial.CullHint.Never);
-            spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
 
             Node node = (Node) spatial;
             if (clustersGeometry != null) {
