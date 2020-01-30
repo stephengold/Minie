@@ -37,10 +37,12 @@ import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
+import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Plane;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
@@ -123,6 +125,9 @@ public class MinieTestShapes {
 
         CollisionShape roundedRectangle = makeRoundedRectangle();
         namedShapes.put("roundedRectangle", roundedRectangle);
+
+        CollisionShape sieve = makeSieve();
+        namedShapes.put("sieve", sieve);
 
         CollisionShape smooth = makeSmoothHeightfield();
         namedShapes.put("smooth", smooth);
@@ -493,6 +498,53 @@ public class MinieTestShapes {
         Mesh mesh = new RoundedRectangle(x1, x2, y1, y2, cornerRadius, zNorm);
         HullCollisionShape hull = new HullCollisionShape(mesh);
         Convex2dShape result = new Convex2dShape(hull);
+
+        return result;
+    }
+
+    /**
+     * Generate a wire sieve, backed by a horizontal plane. Not intended for use
+     * in a dynamic body.
+     *
+     * @return a new compound shape
+     */
+    public static CompoundCollisionShape makeSieve() {
+        float wireSpacing = 2f;
+        float yHeight = 7f;
+        int numXWires = 16;
+        int numZWires = 16;
+
+        float xHalfExtent = (numZWires - 1) * wireSpacing / 2f;
+        float zHalfExtent = (numXWires - 1) * wireSpacing / 2f;
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        /*
+         * Add numXWires wires parallel to the X axis.
+         */
+        Vector3f p0 = new Vector3f(-xHalfExtent, 0f, 0f);
+        Vector3f p1 = new Vector3f(xHalfExtent, 0f, 0f);
+        SimplexCollisionShape xWire = new SimplexCollisionShape(p0, p1);
+
+        for (int zIndex = 0; zIndex < numXWires; ++zIndex) {
+            float z = -zHalfExtent + wireSpacing * zIndex;
+            result.addChildShape(xWire, 0f, yHeight, z);
+        }
+        /*
+         * Add numZWires wires parallel to the Z axis.
+         */
+        p0.set(0f, 0f, -zHalfExtent);
+        p1.set(0f, 0f, zHalfExtent);
+        SimplexCollisionShape zWire = new SimplexCollisionShape(p0, p1);
+
+        for (int xIndex = 0; xIndex < numZWires; ++xIndex) {
+            float x = -xHalfExtent + wireSpacing * xIndex;
+            result.addChildShape(zWire, x, yHeight, 0f);
+        }
+        /*
+         * Add a plane to catch any drops that pass through the sieve.
+         */
+        Plane plane = new Plane(Vector3f.UNIT_Y, 0f);
+        PlaneCollisionShape pcs = new PlaneCollisionShape(plane);
+        result.addChildShape(pcs);
 
         return result;
     }

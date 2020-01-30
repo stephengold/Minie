@@ -603,6 +603,7 @@ public class DropTest
         String platformName = status.platformType();
         switch (platformName) {
             case "bedOfNails":
+            case "sieve":
             case "tray":
             case "triangle":
                 addNamedPlatform(platformName, DebugMeshNormals.Facet);
@@ -773,6 +774,7 @@ public class DropTest
      */
     private void addNamedPlatform(String shapeName, DebugMeshNormals normals) {
         CollisionShape shape = namedShapes.get(shapeName);
+        assert shape != null : shapeName;
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
 
@@ -938,8 +940,8 @@ public class DropTest
     private void generateShapes() {
         /*
          * "barbell", "bedOfNails", "chair", "dimples", "knucklebone", "ladder",
-         * "roundedRectangle", "smooth", "top", "tray", and "triangle" are
-         * generated once, at runtime
+         * "roundedRectangle", "sieve", "smooth", "top", "tray", and "triangle"
+         * are each generated once, during startup
          */
         MinieTestShapes.addShapes(namedShapes);
         /*
