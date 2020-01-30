@@ -94,8 +94,8 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Test/demonstrate various collision shapes by dropping dynamic rigid bodies
- * onto a platform (static rigid body).
+ * Test/demonstrate various collision shapes by dropping drops
+ * (small/dynamic/rigid bodies) onto a platform (large/fixed/horizontal body).
  * <p>
  * Collision objects are rendered entirely by debug visualization.
  * <p>
@@ -160,11 +160,11 @@ public class DropTest
      */
     final private Map<String, CollisionShape> namedShapes = new TreeMap<>();
     /**
-     * materials to visualize drops
+     * shiny, lit materials to visualize drops
      */
     final private Material dropMaterials[] = new Material[4];
     /**
-     * single-sided green material to visualize the platform
+     * single-sided lit green material to visualize platforms
      */
     private Material greenMaterial;
     /**
@@ -191,7 +191,7 @@ public class DropTest
     // new methods exposed
 
     /**
-     *
+     * Count how many drops are active.
      */
     int countActive() {
         int result = 0;
@@ -205,7 +205,7 @@ public class DropTest
     }
 
     /**
-     *
+     * Count how many drops are in the PhysicsSpace.
      */
     int countDrops() {
         int result = drops.size();
@@ -577,7 +577,7 @@ public class DropTest
     }
 
     /**
-     * Add a platform (large, static rigid body) to the PhysicsSpace.
+     * Add a platform to the PhysicsSpace.
      */
     private void addAPlatform() {
         String platformName = status.platformType();
