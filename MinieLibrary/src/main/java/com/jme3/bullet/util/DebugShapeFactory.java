@@ -50,8 +50,8 @@ import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
@@ -99,7 +99,7 @@ public class DebugShapeFactory {
     /**
      * map keys to previously generated debug meshes, for reuse
      */
-    final private static Map<DebugMeshKey, Mesh> cache = new HashMap<>(100);
+    final private static Map<DebugMeshKey, Mesh> cache = new WeakHashMap<>(200);
     // *************************************************************************
     // constructors
 
