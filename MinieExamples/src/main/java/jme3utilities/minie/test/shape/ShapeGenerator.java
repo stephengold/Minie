@@ -496,10 +496,10 @@ public class ShapeGenerator extends Generator {
      * @return a new shape (not null)
      */
     public SimplexCollisionShape nextTetrahedron() {
-        float r1 = nextFloat(0.2f, 1.6f);
-        float r2 = nextFloat(0.2f, 1.6f);
-        float r3 = nextFloat(0.2f, 1.6f);
-        float r4 = nextFloat(0.2f, 1.6f);
+        float r1 = nextFloat(0.4f, 1.6f);
+        float r2 = nextFloat(0.4f, 1.6f);
+        float r3 = nextFloat(0.4f, 1.6f);
+        float r4 = nextFloat(0.4f, 1.6f);
 
         Vector3f p1 = new Vector3f(r1, r1, r1);
         Vector3f p2 = new Vector3f(r2, -r2, -r2);
