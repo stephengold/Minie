@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
@@ -302,9 +303,10 @@ public class DropTestStatus extends SimpleAppState {
 
         int numActive = appInstance.countActive();
         int numDrops = appInstance.countDrops();
+        int numCached = DebugShapeFactory.countCachedMeshes();
         boolean isPaused = (appInstance.getSpeed() <= 1e-12f);
-        String message = String.format("numDrops=%d  numActive=%d  %s",
-                numDrops, numActive, isPaused ? "  PAUSED" : "");
+        String message = String.format("numDrops=%d  numActive=%d  numCached=%d%s",
+                numDrops, numActive, numCached, isPaused ? "  PAUSED" : "");
         statusLines[0].setText(message);
 
         message = "Child coloring:  "
