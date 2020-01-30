@@ -119,6 +119,16 @@ public class DebugShapeFactory {
     }
 
     /**
+     * Count how many debug meshes are cached.
+     *
+     * @return the count (&ge;0)
+     */
+    public static int countCachedMeshes() {
+        int result = cache.size();
+        return result;
+    }
+
+    /**
      * Estimate the footprint of the specified (non-compound, non-plane) shape.
      * The shape's scale and margin are taken into account, but not its
      * debug-mesh resolution.
