@@ -52,7 +52,7 @@ public class DropTestStatus extends SimpleAppState {
      * list of damping fractions, in ascending order TODO use float[]
      */
     final private static Float[] dampingValues
-            = {0f, 0.1f, 0.3f, 0.6f, 0.9f, 1f};
+            = {0f, 0.1f, 0.3f, 0.6f, 0.9f, 0.99f};
     /**
      * list of friction coefficients, in ascending order
      */
@@ -312,7 +312,7 @@ public class DropTestStatus extends SimpleAppState {
 
         int index = 1 + Arrays.binarySearch(dampingValues, damping);
         int count = dampingValues.length;
-        message = String.format("Damping #%d of %d: %.1f", index,
+        message = String.format("Damping #%d of %d: %.2f", index,
                 count, damping);
         updateStatusLine(dampingStatusLine, message);
 
