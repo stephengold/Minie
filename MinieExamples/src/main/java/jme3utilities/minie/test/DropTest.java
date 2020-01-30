@@ -27,8 +27,9 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
-import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
@@ -44,7 +45,10 @@ import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.DebugShapeFactory;
+import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -85,6 +89,7 @@ import jme3utilities.mesh.Prism;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.mesh.ClothHexagon;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.ActionApplication;
@@ -130,7 +135,8 @@ public class DropTest
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
+    final private SoftPhysicsAppState bulletAppState
+            = new SoftPhysicsAppState();
     /**
      * shape for the next drop
      */
@@ -182,7 +188,7 @@ public class DropTest
     /**
      * space for physics simulation
      */
-    private PhysicsSpace physicsSpace;
+    private PhysicsSoftSpace physicsSpace;
     /**
      * local inverse inertial vector for the current drop (or null)
      */
@@ -250,8 +256,13 @@ public class DropTest
         selectDrop(null);
         drops.clear();
 
-        Collection<PhysicsRigidBody> bodies = physicsSpace.getRigidBodyList();
-        for (PhysicsRigidBody body : bodies) {
+        Collection<PhysicsRigidBody> rigids = physicsSpace.getRigidBodyList();
+        for (PhysicsRigidBody body : rigids) {
+            physicsSpace.remove(body);
+        }
+
+        Collection<PhysicsSoftBody> softs = physicsSpace.getSoftBodyList();
+        for (PhysicsSoftBody body : softs) {
             physicsSpace.remove(body);
         }
 
@@ -618,6 +629,10 @@ public class DropTest
                 addRoundedRectangle();
                 break;
 
+            case "trampoline":
+                addTrampoline();
+                break;
+
             default:
                 String message
                         = "platformName = " + MyString.quote(platformName);
@@ -786,6 +801,34 @@ public class DropTest
     }
 
     /**
+     * Add a hexagonal trampoline to the PhysicsSpace, to serve as a platform.
+     */
+    private void addTrampoline() {
+        int numRings = 9;
+        float vertexSpacing = 2f;
+        Mesh mesh = new ClothHexagon(numRings, vertexSpacing);
+        PhysicsSoftBody softBody = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
+        /*
+         * Pin every node on the perimeter.
+         */
+        int numNodes = mesh.getVertexCount();
+        int numInteriorNodes = 1 + 3 * numRings * (numRings - 1);
+        for (int nodeI = numInteriorNodes; nodeI < numNodes; ++nodeI) {
+            softBody.setNodeMass(nodeI, PhysicsBody.massForStatic);
+        }
+
+        softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        softBody.setMargin(1f);
+        softBody.setMass(100f);
+
+        SoftBodyConfig config = softBody.getSoftConfig();
+        config.setPositionIterations(3);
+
+        makePlatform(softBody);
+    }
+
+    /**
      * Configure the camera during startup.
      */
     private void configureCamera() {
@@ -821,7 +864,7 @@ public class DropTest
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
 
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace = bulletAppState.getPhysicsSoftSpace();
         physicsSpace.setGravity(new Vector3f(0f, -30f, 0f));
 
         generateShapes();
