@@ -1,0 +1,38 @@
+// Note: "common.gradle" in the root project contains additional initialization
+//   for this project. This initialization is applied in the "build.gradle"
+//   of the root project.
+
+description = 'sample applications adapted from the jme3-examples sub-project'
+
+dependencies {
+    runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    implementation "org.jmonkeyengine:jme3-effects:$jmonkeyengineVersion"
+    implementation "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+    runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
+
+    // select one version of LWJGL (from jcenter or mavenLocal)
+    runtimeOnly "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"  // LWJGL 2.x
+    //runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion" // LWJGL 3.x
+
+    //implementation "jme3utilities:Minie:$minieVersion"
+    implementation project(':MinieLibrary')
+}
+
+// cleanup tasks
+clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets')
+
+task cleanDLLs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.dll')
+}
+task cleanDyLibs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.dylib')
+}
+task cleanLogs(type: Delete) {
+    delete fileTree(dir: '.', include: 'hs_err_pid*.log')
+}
+task cleanSOs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.so')
+}
+task cleanWrittenAssets(type: Delete) {
+    delete 'Written Assets'
+}
