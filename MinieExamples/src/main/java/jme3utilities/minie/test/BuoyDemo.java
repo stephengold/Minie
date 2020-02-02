@@ -68,8 +68,8 @@ import com.jme3.water.SimpleWaterProcessor;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.Heart;
 import jme3utilities.InfluenceUtil;
-import jme3utilities.Misc;
 import jme3utilities.MySpatial;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyVector3f;
@@ -183,7 +183,7 @@ public class BuoyDemo extends ActionApplication {
         /*
          * Mute the chatty loggers in certain packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
 
         Application application = new BuoyDemo();
         /*

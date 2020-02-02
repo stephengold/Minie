@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.system.NativeLibraryLoader;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import org.junit.Test;
 
 /**
@@ -84,7 +84,7 @@ public class TestCloneBody {
         PhysicsRigidBody body0 = new PhysicsRigidBody(shape, 0f);
         setParameters(body0, 0f);
         verifyParameters(body0, 0f);
-        PhysicsRigidBody body0Clone = (PhysicsRigidBody) Misc.deepCopy(body0);
+        PhysicsRigidBody body0Clone = (PhysicsRigidBody) Heart.deepCopy(body0);
         cloneTest(body0, body0Clone);
         /*
          * PhysicsRigidBody with mass=1
@@ -92,7 +92,7 @@ public class TestCloneBody {
         PhysicsRigidBody body = new PhysicsRigidBody(shape, 1f);
         setParameters(body, 0f);
         verifyParameters(body, 0f);
-        PhysicsRigidBody bodyClone = (PhysicsRigidBody) Misc.deepCopy(body);
+        PhysicsRigidBody bodyClone = (PhysicsRigidBody) Heart.deepCopy(body);
         cloneTest(body, bodyClone);
         /*
          * RigidBodyControl
@@ -100,7 +100,7 @@ public class TestCloneBody {
         RigidBodyControl rbc = new RigidBodyControl(shape, 1f);
         setParameters(rbc, 0f);
         verifyParameters(rbc, 0f);
-        RigidBodyControl rbcClone = (RigidBodyControl) Misc.deepCopy(rbc);
+        RigidBodyControl rbcClone = (RigidBodyControl) Heart.deepCopy(rbc);
         cloneTest(rbc, rbcClone);
         /*
          * PhysicsVehicle - TODO add wheel
@@ -108,7 +108,7 @@ public class TestCloneBody {
         PhysicsVehicle vehicle = new PhysicsVehicle(shape, 1f);
         setParameters(vehicle, 0f);
         verifyParameters(vehicle, 0f);
-        PhysicsVehicle vehicleClone = (PhysicsVehicle) Misc.deepCopy(vehicle);
+        PhysicsVehicle vehicleClone = (PhysicsVehicle) Heart.deepCopy(vehicle);
         cloneTest(vehicle, vehicleClone);
         /*
          * VehicleControl - TODO add wheel
@@ -116,7 +116,7 @@ public class TestCloneBody {
         VehicleControl vc = new VehicleControl(shape, 1f);
         setParameters(vc, 0f);
         verifyParameters(vc, 0f);
-        VehicleControl vcClone = (VehicleControl) Misc.deepCopy(vc);
+        VehicleControl vcClone = (VehicleControl) Heart.deepCopy(vc);
         cloneTest(vc, vcClone);
         /*
          * PhysicsSoftBody (empty)
@@ -124,7 +124,7 @@ public class TestCloneBody {
         PhysicsSoftBody soft = new PhysicsSoftBody();
         setParameters(soft, 0f);
         verifyParameters(soft, 0f);
-        PhysicsSoftBody softClone = (PhysicsSoftBody) Misc.deepCopy(soft);
+        PhysicsSoftBody softClone = (PhysicsSoftBody) Heart.deepCopy(soft);
         cloneTest(soft, softClone);
         /*
          * PhysicsSoftBody (non-empty)
@@ -134,7 +134,7 @@ public class TestCloneBody {
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, soft2);
         setParameters(soft2, 0f);
         verifyParameters(soft2, 0f);
-        PhysicsSoftBody soft2Clone = (PhysicsSoftBody) Misc.deepCopy(soft2);
+        PhysicsSoftBody soft2Clone = (PhysicsSoftBody) Heart.deepCopy(soft2);
         cloneTest(soft2, soft2Clone);
         /*
          * SoftBodyControl
@@ -149,7 +149,7 @@ public class TestCloneBody {
         PhysicsSoftBody soft3 = sbc.getBody();
         setParameters(soft3, 0f);
         verifyParameters(soft3, 0f);
-        Geometry sbcGeomClone = (Geometry) Misc.deepCopy(sbcGeom);
+        Geometry sbcGeomClone = (Geometry) Heart.deepCopy(sbcGeom);
         SoftBodyControl sbcClone = (SoftBodyControl) sbcGeomClone.getControl(0);
         PhysicsSoftBody soft3Clone = sbcClone.getBody();
         cloneTest(soft3, soft3Clone);

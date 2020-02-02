@@ -49,7 +49,7 @@ import java.nio.ShortBuffer;
 import java.util.BitSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
@@ -186,7 +186,7 @@ public class TubeTreeMesh extends Mesh {
         Validate.inRange(samplesPerLoop, "samples per loop", 3,
                 Integer.MAX_VALUE);
 
-        this.armature = (Armature) Misc.deepCopy(armature);
+        this.armature = (Armature) Heart.deepCopy(armature);
         this.armature.update();
 
         this.radius = radius;
@@ -251,7 +251,7 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Replace the BoneIndexBuffer of the specified Mesh. TODO move to MyMesh
+     * Replace the BoneIndexBuffer of the specified Mesh. TODO use MyMesh
      *
      * @param mesh the Mesh to modify (not null)
      * @param wpv the number of bone weights per vertex (&gt;0)

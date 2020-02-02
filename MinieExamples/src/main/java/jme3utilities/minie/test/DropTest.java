@@ -80,7 +80,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
@@ -226,7 +226,7 @@ public class DropTest
         /*
          * Mute the chatty loggers in certain packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
         /*
          * Enable direct-memory tracking.
          */

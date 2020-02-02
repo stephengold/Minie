@@ -84,7 +84,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
@@ -245,7 +245,7 @@ public class TestRbc
         /*
          * Mute the chatty loggers in certain packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
 
         Application application = new TestRbc();
         /*
@@ -852,7 +852,7 @@ public class TestRbc
                 break;
 
             case "SmallTerrainVhacd":
-                testShape = (CollisionShape) Misc.deepCopy(
+                testShape = (CollisionShape) Heart.deepCopy(
                         smallTerrainVhacdShape);
                 break;
 

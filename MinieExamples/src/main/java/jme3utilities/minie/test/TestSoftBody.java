@@ -79,7 +79,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
@@ -244,7 +244,7 @@ public class TestSoftBody
         /*
          * Mute the chatty loggers in certain packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
         /*
          * Enable direct-memory tracking.
          */
