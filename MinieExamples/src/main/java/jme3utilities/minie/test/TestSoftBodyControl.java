@@ -57,7 +57,7 @@ import com.jme3.system.AppSettings;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.debug.AxesVisualizer;
@@ -125,7 +125,7 @@ public class TestSoftBodyControl
         /*
          * Mute the chatty loggers in certain packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
 
         Application application = new TestSoftBodyControl();
         /*

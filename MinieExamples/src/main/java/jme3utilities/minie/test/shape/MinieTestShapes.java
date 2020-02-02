@@ -53,7 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
@@ -222,11 +222,11 @@ public class MinieTestShapes {
         CompoundCollisionShape result = new CompoundCollisionShape();
         result.addChildShape(seat);
         result.addChildShape(frontLeg, legOffset, -frontHalf, legOffset);
-        frontLeg = (CollisionShape) Misc.deepCopy(frontLeg);
+        frontLeg = (CollisionShape) Heart.deepCopy(frontLeg);
         result.addChildShape(frontLeg, -legOffset, -frontHalf, legOffset);
         float yOffset = rearHalf - frontLength;
         result.addChildShape(rearLeg, legOffset, yOffset, -legOffset);
-        rearLeg = (CollisionShape) Misc.deepCopy(rearLeg);
+        rearLeg = (CollisionShape) Heart.deepCopy(rearLeg);
         result.addChildShape(rearLeg, -legOffset, yOffset, -legOffset);
         result.addChildShape(back, 0f, backHalf, -legOffset);
 

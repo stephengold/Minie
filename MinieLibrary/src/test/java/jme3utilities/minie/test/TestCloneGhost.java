@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@ import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import org.junit.Test;
 
 /**
@@ -70,7 +70,7 @@ public class TestCloneGhost {
         PhysicsGhostObject pgo = new PhysicsGhostObject(shape);
         setParameters(pgo, 0f);
         verifyParameters(pgo, 0f);
-        PhysicsGhostObject pgoClone = (PhysicsGhostObject) Misc.deepCopy(pgo);
+        PhysicsGhostObject pgoClone = (PhysicsGhostObject) Heart.deepCopy(pgo);
         cloneTest(pgo, pgoClone);
         /*
          * GhostControl (a subclass of PhysicsGhostObject)
@@ -78,7 +78,7 @@ public class TestCloneGhost {
         GhostControl gc = new GhostControl(shape);
         setParameters(gc, 0f);
         verifyParameters(gc, 0f);
-        GhostControl gcClone = (GhostControl) Misc.deepCopy(gc);
+        GhostControl gcClone = (GhostControl) Heart.deepCopy(gc);
         cloneTest(gc, gcClone);
     }
     // *************************************************************************

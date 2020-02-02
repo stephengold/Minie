@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -53,8 +53,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.Heart;
 import jme3utilities.InfluenceUtil;
-import jme3utilities.Misc;
 import jme3utilities.MyAnimation;
 import jme3utilities.MySpatial;
 import jme3utilities.math.MyVector3f;
@@ -228,7 +228,7 @@ class Model {
      * @return a new Control, or null if no model loaded
      */
     DynamicAnimControl copyRagdoll() {
-        DynamicAnimControl clone = (DynamicAnimControl) Misc.deepCopy(ragdoll);
+        DynamicAnimControl clone = (DynamicAnimControl) Heart.deepCopy(ragdoll);
         return clone;
     }
 
@@ -807,7 +807,7 @@ class Model {
      * Recalculate the initial Transform for visualization.
      */
     private void recalculateInitTransform() {
-        Spatial cgmCopy = (Spatial) Misc.deepCopy(rootSpatial);
+        Spatial cgmCopy = (Spatial) Heart.deepCopy(rootSpatial);
         /**
          * Scale the copy uniformly to a height of 2 world units.
          */

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@ import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import org.junit.Test;
 
 /**
@@ -66,7 +66,7 @@ public class TestCloneCharacter {
         setParameters(ch, 0f);
         verifyParameters(ch, 0f);
 
-        PhysicsCharacter chClone = (PhysicsCharacter) Misc.deepCopy(ch);
+        PhysicsCharacter chClone = (PhysicsCharacter) Heart.deepCopy(ch);
         cloneTest(ch, chClone);
     }
     // *************************************************************************

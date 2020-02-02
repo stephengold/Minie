@@ -46,7 +46,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 
@@ -83,7 +83,7 @@ public class ImportCgms extends SimpleApplication {
         /*
          * Mute the chatty loggers found in some imported packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
          */
@@ -252,6 +252,6 @@ public class ImportCgms extends SimpleApplication {
     private void writeToJ3O(Spatial model, String writeAssetPath) {
         String writeFilePath
                 = String.format("%s/%s", assetDirPath, writeAssetPath);
-        Misc.writeJ3O(writeFilePath, model);
+        Heart.writeJ3O(writeFilePath, model);
     }
 }

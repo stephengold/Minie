@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
 
@@ -159,7 +159,7 @@ class TestScreen extends GuiScreenController {
             wizard.clearScene();
             viewedSpatial = nextSpatial;
             if (nextSpatial != null) {
-                Spatial cgModel = (Spatial) Misc.deepCopy(nextSpatial);
+                Spatial cgModel = (Spatial) Heart.deepCopy(nextSpatial);
                 Transform initTransform = model.copyInitTransform(null);
                 cgModel.setLocalTransform(initTransform);
                 wizard.makeScene(cgModel);

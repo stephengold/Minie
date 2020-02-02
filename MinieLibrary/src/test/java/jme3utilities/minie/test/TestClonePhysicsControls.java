@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@ import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.minie.MinieCharacterControl;
 import org.junit.Test;
 
@@ -75,7 +75,7 @@ public class TestClonePhysicsControls {
         setParameters(bcc, 0f);
         verifyParameters(bcc, 0f);
         BetterCharacterControl bccClone
-                = (BetterCharacterControl) Misc.deepCopy(bcc);
+                = (BetterCharacterControl) Heart.deepCopy(bcc);
         cloneTest(bcc, bccClone);
         /*
          * DynamicAnimControl
@@ -83,7 +83,7 @@ public class TestClonePhysicsControls {
         DynamicAnimControl dac = new DynamicAnimControl();
         setParameters(dac, 0f);
         verifyParameters(dac, 0f);
-        DynamicAnimControl dacClone = (DynamicAnimControl) Misc.deepCopy(dac);
+        DynamicAnimControl dacClone = (DynamicAnimControl) Heart.deepCopy(dac);
         cloneTest(dac, dacClone);
         /*
          * MinieCharacterControl
@@ -93,7 +93,7 @@ public class TestClonePhysicsControls {
         setParameters(mcc, 0f);
         verifyParameters(mcc, 0f);
         MinieCharacterControl mccClone
-                = (MinieCharacterControl) Misc.deepCopy(mcc);
+                = (MinieCharacterControl) Heart.deepCopy(mcc);
         cloneTest(mcc, mccClone);
         /*
          * SoftBodyControl
@@ -101,7 +101,7 @@ public class TestClonePhysicsControls {
         SoftBodyControl sbc = new SoftBodyControl();
         setParameters(sbc, 0f);
         verifyParameters(sbc, 0f);
-        SoftBodyControl sbcClone = (SoftBodyControl) Misc.deepCopy(sbc);
+        SoftBodyControl sbcClone = (SoftBodyControl) Heart.deepCopy(sbc);
         cloneTest(sbc, sbcClone);
 
         // TODO test cloning/saving/loading abstract physics controls

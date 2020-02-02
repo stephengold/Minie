@@ -45,7 +45,7 @@ import java.nio.ShortBuffer;
 import java.util.BitSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
@@ -182,7 +182,7 @@ public class TubeTreeMesh extends Mesh {
         Validate.inRange(samplesPerLoop, "samples per loop", 3,
                 Integer.MAX_VALUE);
 
-        this.skeleton = (Skeleton) Misc.deepCopy(skeleton);
+        this.skeleton = (Skeleton) Heart.deepCopy(skeleton);
         this.radius = radius;
         this.leafOvershoot = leafOvershoot;
         this.loopsPerSegment = loopsPerSegment;

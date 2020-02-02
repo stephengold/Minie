@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MySkeleton;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
@@ -411,7 +411,7 @@ public class AttachmentLink extends PhysicsLink {
             setRigidBody(oldBody);
         }
         endModelTransform
-                = (Transform) Misc.deepCopy(oldLink.endModelTransform);
+                = (Transform) Heart.deepCopy(oldLink.endModelTransform);
         startModelTransform.set(oldLink.startModelTransform);
     }
 

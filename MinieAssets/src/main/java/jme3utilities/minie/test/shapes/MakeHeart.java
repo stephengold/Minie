@@ -36,7 +36,7 @@ import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyString;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.noise.Generator;
@@ -93,7 +93,7 @@ public class MakeHeart {
         /*
          * Mute the chatty loggers found in some imported packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
          */
@@ -162,7 +162,7 @@ public class MakeHeart {
          */
         String assetPath = "CollisionShapes/heart.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
-        Misc.writeJ3O(writeFilePath, compound);
+        Heart.writeJ3O(writeFilePath, compound);
     }
 
     /**

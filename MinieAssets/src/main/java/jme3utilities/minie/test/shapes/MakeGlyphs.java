@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyMesh;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
@@ -108,7 +108,7 @@ public class MakeGlyphs {
         /*
          * Mute the chatty loggers found in some imported packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
          */
@@ -245,6 +245,6 @@ public class MakeGlyphs {
         String assetPath
                 = String.format("CollisionShapes/glyphs/%s.j3o", string);
         String filePath = String.format("%s/%s", assetDirPath, assetPath);
-        Misc.writeJ3O(filePath, compoundShape);
+        Heart.writeJ3O(filePath, compoundShape);
     }
 }

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.system.NativeLibraryLoader;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -118,13 +118,13 @@ public class TestCloneJoints {
                         qb.toRotationMatrix());
         setParameters(cone, 0f);
         verifyParameters(cone, 0f);
-        ConeJoint coneClone = (ConeJoint) Misc.deepCopy(cone);
+        ConeJoint coneClone = (ConeJoint) Heart.deepCopy(cone);
         cloneTest(cone, coneClone);
 
         ConeJoint seCone = new ConeJoint(rigidA, va, qa.toRotationMatrix());
         setParameters(seCone, 0f);
         verifyParameters(seCone, 0f);
-        ConeJoint seConeClone = (ConeJoint) Misc.deepCopy(seCone);
+        ConeJoint seConeClone = (ConeJoint) Heart.deepCopy(seCone);
         cloneTest(seCone, seConeClone);
         /*
          * HingeJoint: single- and double-ended
@@ -133,14 +133,14 @@ public class TestCloneJoints {
                 new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f));
         setParameters(hinge, 0f);
         verifyParameters(hinge, 0f);
-        HingeJoint hingeClone = (HingeJoint) Misc.deepCopy(hinge);
+        HingeJoint hingeClone = (HingeJoint) Heart.deepCopy(hinge);
         cloneTest(hinge, hingeClone);
 
         HingeJoint seHinge = new HingeJoint(rigidA, va, vb,
                 new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f), JointEnd.A);
         setParameters(seHinge, 0f);
         verifyParameters(seHinge, 0f);
-        HingeJoint seHingeClone = (HingeJoint) Misc.deepCopy(seHinge);
+        HingeJoint seHingeClone = (HingeJoint) Heart.deepCopy(seHinge);
         cloneTest(seHinge, seHingeClone);
         /*
          * New6Dof: single- and double-ended
@@ -149,14 +149,14 @@ public class TestCloneJoints {
                 qa.toRotationMatrix(), qb.toRotationMatrix(), RotationOrder.XYZ);
         setParameters(deNew6, 0f);
         verifyParameters(deNew6, 0f);
-        New6Dof deNew6Clone = (New6Dof) Misc.deepCopy(deNew6);
+        New6Dof deNew6Clone = (New6Dof) Heart.deepCopy(deNew6);
         cloneTest(deNew6, deNew6Clone);
 
         New6Dof seNew6 = new New6Dof(rigidA, vb, va,
                 qb.toRotationMatrix(), qa.toRotationMatrix(), RotationOrder.XYZ);
         setParameters(seNew6, 0f);
         verifyParameters(seNew6, 0f);
-        New6Dof seNew6Clone = (New6Dof) Misc.deepCopy(seNew6);
+        New6Dof seNew6Clone = (New6Dof) Heart.deepCopy(seNew6);
         cloneTest(seNew6, seNew6Clone);
         /*
          * Point2PointJoint: single- and double-ended
@@ -164,14 +164,14 @@ public class TestCloneJoints {
         Point2PointJoint p2p = new Point2PointJoint(rigidA, rigidB, va, vb);
         setParameters(p2p, 0f);
         verifyParameters(p2p, 0f);
-        Point2PointJoint p2pClone = (Point2PointJoint) Misc.deepCopy(p2p);
+        Point2PointJoint p2pClone = (Point2PointJoint) Heart.deepCopy(p2p);
         cloneTest(p2p, p2pClone);
 
         Point2PointJoint sep2p
                 = new Point2PointJoint(rigidA, va, vb);
         setParameters(sep2p, 0f);
         verifyParameters(sep2p, 0f);
-        Point2PointJoint sep2pClone = (Point2PointJoint) Misc.deepCopy(sep2p);
+        Point2PointJoint sep2pClone = (Point2PointJoint) Heart.deepCopy(sep2p);
         cloneTest(sep2p, sep2pClone);
         /*
          * SixDofJoint: single- and double-ended
@@ -180,14 +180,14 @@ public class TestCloneJoints {
                 qa.toRotationMatrix(), qb.toRotationMatrix(), false);
         setParameters(six, 0f);
         verifyParameters(six, 0f);
-        SixDofJoint sixClone = (SixDofJoint) Misc.deepCopy(six);
+        SixDofJoint sixClone = (SixDofJoint) Heart.deepCopy(six);
         cloneTest(six, sixClone);
 
         SixDofJoint seSix = new SixDofJoint(rigidA, vb, va,
                 qb.toRotationMatrix(), qa.toRotationMatrix(), JointEnd.A);
         setParameters(seSix, 0f);
         verifyParameters(seSix, 0f);
-        SixDofJoint seSixClone = (SixDofJoint) Misc.deepCopy(seSix);
+        SixDofJoint seSixClone = (SixDofJoint) Heart.deepCopy(seSix);
         cloneTest(seSix, seSixClone);
         /*
          * SixDofSpringJoint: single- and double-ended
@@ -197,7 +197,7 @@ public class TestCloneJoints {
         setParameters(spring, 0f);
         verifyParameters(spring, 0f);
         SixDofSpringJoint springClone
-                = (SixDofSpringJoint) Misc.deepCopy(spring);
+                = (SixDofSpringJoint) Heart.deepCopy(spring);
         cloneTest(spring, springClone);
 
         SixDofSpringJoint seSpring = new SixDofSpringJoint(rigidA, vb, va,
@@ -205,7 +205,7 @@ public class TestCloneJoints {
         setParameters(seSpring, 0f);
         verifyParameters(seSpring, 0f);
         SixDofSpringJoint seSpringClone
-                = (SixDofSpringJoint) Misc.deepCopy(seSpring);
+                = (SixDofSpringJoint) Heart.deepCopy(seSpring);
         cloneTest(seSpring, seSpringClone);
         /*
          * SliderJoint: single- and double-ended
@@ -214,13 +214,13 @@ public class TestCloneJoints {
                 qa.toRotationMatrix(), qb.toRotationMatrix(), false);
         setParameters(slide, 0f);
         verifyParameters(slide, 0f);
-        SliderJoint slideClone = (SliderJoint) Misc.deepCopy(slide);
+        SliderJoint slideClone = (SliderJoint) Heart.deepCopy(slide);
         cloneTest(slide, slideClone);
 
         SliderJoint seSlide = new SliderJoint(rigidB, vb, va, JointEnd.B);
         setParameters(seSlide, 0f);
         verifyParameters(seSlide, 0f);
-        SliderJoint seSlideClone = (SliderJoint) Misc.deepCopy(seSlide);
+        SliderJoint seSlideClone = (SliderJoint) Heart.deepCopy(seSlide);
         cloneTest(seSlide, seSlideClone);
         /*
          * SoftAngularJoint: soft-soft and soft-rigid
@@ -228,13 +228,13 @@ public class TestCloneJoints {
         SoftAngularJoint ssaj = new SoftAngularJoint(va, softA, 0, softB, 0);
         setParameters(ssaj, 0f);
         verifyParameters(ssaj, 0f);
-        SoftAngularJoint ssajClone = (SoftAngularJoint) Misc.deepCopy(ssaj);
+        SoftAngularJoint ssajClone = (SoftAngularJoint) Heart.deepCopy(ssaj);
         cloneTest(ssaj, ssajClone);
 
         SoftAngularJoint sraj = new SoftAngularJoint(va, softA, 0, rigidB);
         setParameters(sraj, 0f);
         verifyParameters(sraj, 0f);
-        SoftAngularJoint srajClone = (SoftAngularJoint) Misc.deepCopy(sraj);
+        SoftAngularJoint srajClone = (SoftAngularJoint) Heart.deepCopy(sraj);
         cloneTest(sraj, srajClone);
         /*
          * SoftLinearJoint: soft-soft and soft-rigid
@@ -242,13 +242,13 @@ public class TestCloneJoints {
         SoftLinearJoint sslj = new SoftLinearJoint(va, softA, 0, softB, 0);
         setParameters(sslj, 0f);
         verifyParameters(sslj, 0f);
-        SoftLinearJoint ssljClone = (SoftLinearJoint) Misc.deepCopy(sslj);
+        SoftLinearJoint ssljClone = (SoftLinearJoint) Heart.deepCopy(sslj);
         cloneTest(sslj, ssljClone);
 
         SoftLinearJoint srlj = new SoftLinearJoint(va, softA, 0, rigidB);
         setParameters(srlj, 0f);
         verifyParameters(srlj, 0f);
-        SoftLinearJoint srljClone = (SoftLinearJoint) Misc.deepCopy(srlj);
+        SoftLinearJoint srljClone = (SoftLinearJoint) Heart.deepCopy(srlj);
         cloneTest(srlj, srljClone);
     }
     // *************************************************************************

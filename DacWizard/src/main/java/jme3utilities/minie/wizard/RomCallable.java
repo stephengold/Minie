@@ -49,7 +49,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MySpatial;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
@@ -144,7 +144,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
          */
         DacWizard.getApplication().clearScene();
         Spatial cgModel = model.getRootSpatial();
-        tempModelRoot = (Spatial) Misc.deepCopy(cgModel);
+        tempModelRoot = (Spatial) Heart.deepCopy(cgModel);
         Transform initTransform = model.copyInitTransform(null);
         tempModelRoot.setLocalTransform(initTransform);
         DacWizard.getApplication().makeScene(tempModelRoot);

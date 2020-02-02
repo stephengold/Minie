@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyString;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.nifty.PopupMenuBuilder;
@@ -84,7 +84,7 @@ class FilePathScreen extends GuiScreenController {
      * Handle a "browse" action to begin browsing the file system.
      */
     void browse() {
-        Map<String, File> fileMap = Misc.driveMap();
+        Map<String, File> fileMap = Heart.driveMap();
         /*
          * Add the current working directory to the file map.
          */

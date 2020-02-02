@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyMesh;
 import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
@@ -1185,7 +1185,7 @@ public class DacLinks
          * Collect the location of every mesh vertex in the attached model.
          */
         Spatial attachModel = getAttachmentModel(boneName);
-        attachModel = (Spatial) Misc.deepCopy(attachModel);
+        attachModel = (Spatial) Heart.deepCopy(attachModel);
         VectorSet vertexLocations
                 = MyMesh.listVertexLocations(attachModel, null);
         /*

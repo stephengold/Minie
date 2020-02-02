@@ -40,7 +40,7 @@ import com.jme3.system.NativeLibraryLoader;
 import com.jme3.texture.plugins.AWTLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
@@ -79,7 +79,7 @@ public class MakeSword {
         /*
          * Mute the chatty loggers found in some imported packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
          */
@@ -150,6 +150,6 @@ public class MakeSword {
          */
         String assetPath = "CollisionShapes/sword.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
-        Misc.writeJ3O(writeFilePath, shape);
+        Heart.writeJ3O(writeFilePath, shape);
     }
 }

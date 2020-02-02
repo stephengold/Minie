@@ -44,7 +44,7 @@ import com.jme3.system.JmeVersion;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
@@ -184,7 +184,7 @@ public class DacWizard extends GuiApplication {
         /*
          * Mute the chatty loggers found in certain packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
         Logger.getLogger(ALAudioRenderer.class.getName())
                 .setLevel(Level.SEVERE);
 
@@ -207,7 +207,7 @@ public class DacWizard extends GuiApplication {
 
                 case "-v":
                 case "--verbose":
-                    Misc.setLoggingLevels(Level.INFO);
+                    Heart.setLoggingLevels(Level.INFO);
                     break;
 
                 default:
@@ -241,7 +241,7 @@ public class DacWizard extends GuiApplication {
     public void guiInitializeApplication() {
         logger.info("");
 
-        if (!Misc.areAssertionsEnabled()) {
+        if (!Heart.areAssertionsEnabled()) {
             logger.warning("Assertions are disabled!");
         }
         /*
@@ -250,10 +250,10 @@ public class DacWizard extends GuiApplication {
         logger.log(Level.INFO, "jme3-core version is {0}",
                 MyString.quote(JmeVersion.FULL_NAME));
         /*
-         * Log the jme3-utilities-heart version string.
+         * Log the Heart version string.
          */
-        logger.log(Level.INFO, "jme3-utilities-heart version is {0}",
-                MyString.quote(Misc.versionShort()));
+        logger.log(Level.INFO, "Heart version is {0}",
+                MyString.quote(Heart.versionShort()));
         /*
          * Detach an app state created by SimpleApplication.
          */

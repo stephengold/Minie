@@ -46,7 +46,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.Misc;
+import jme3utilities.Heart;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
@@ -121,7 +121,7 @@ public class ForceDemo extends ActionApplication {
         /*
          * Mute the chatty loggers in certain packages.
          */
-        Misc.setLoggingLevels(Level.WARNING);
+        Heart.setLoggingLevels(Level.WARNING);
 
         Application application = new ForceDemo();
         /*
