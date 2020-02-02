@@ -24,7 +24,7 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.minie.test;
+package jme3utilities.minie.test.issue;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;

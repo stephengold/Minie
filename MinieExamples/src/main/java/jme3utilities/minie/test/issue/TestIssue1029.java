@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -24,22 +24,33 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.minie.test;
+package jme3utilities.minie.test.issue;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.PhysicsCollisionEvent;
+import com.jme3.bullet.collision.PhysicsCollisionListener;
+import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.bullet.objects.PhysicsGhostObject;
+import com.jme3.bullet.objects.PhysicsRigidBody;
 import java.util.logging.Logger;
+import jme3utilities.minie.MyShape;
 
 /**
- * Test case for JME issue #883: extra physicsTicks in ThreadingType.PARALLEL.
+ * Test case for JME issue #1029: sphere-sphere collisions not reported.
  * <p>
- * If successful, physics time and frame time will advance at the same rate.
+ * Collision objects are rendered entirely by debug visualization.
+ * <p>
+ * If successful, the app will terminate normally, without a RuntimeException.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue883 extends SimpleApplication {
+public class TestIssue1029
+        extends SimpleApplication
+        implements PhysicsCollisionListener {
     // *************************************************************************
     // constants and loggers
 
@@ -47,24 +58,24 @@ public class TestIssue883 extends SimpleApplication {
      * message logger for this class
      */
     final public static Logger logger
-            = Logger.getLogger(TestIssue883.class.getName());
+            = Logger.getLogger(TestIssue1029.class.getName());
     // *************************************************************************
     // fields
 
-    private boolean firstPrint = true;
-    private float timeToNextPrint = 1f; // in seconds
-    private double frameTime; // in seconds
-    private double physicsTime; // in seconds
+    /**
+     * track elapsed time (in seconds) for the timeout
+     */
+    private double elapsedSeconds = 0.0;
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Main entry point for the TestIssue883 application.
+     * Main entry point for the TestIssue1029 application.
      *
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
-        Application application = new TestIssue883();
+        Application application = new TestIssue1029();
         application.start();
     }
     // *************************************************************************
@@ -75,14 +86,22 @@ public class TestIssue883 extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        BulletAppState bulletAppState = new BulletAppState() {
-            @Override
-            public void physicsTick(PhysicsSpace space, float timeStep) {
-                physicsTime += timeStep;
-            }
-        };
-        bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+        BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
+        bulletAppState.setDebugEnabled(true);
+
+        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace.addCollisionListener(this);
+
+        CollisionShape shape;
+        shape = new SphereCollisionShape(1f);
+        //shape = new BoxCollisionShape(new Vector3f(1f, 1f, 1f));
+
+        PhysicsRigidBody staticBody = new PhysicsRigidBody(shape, 0f);
+        physicsSpace.add(staticBody);
+
+        PhysicsGhostObject ghost = new PhysicsGhostObject(shape);
+        physicsSpace.add(ghost);
     }
 
     /**
@@ -94,21 +113,29 @@ public class TestIssue883 extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
 
-        frameTime += tpf;
-
-        if (timeToNextPrint > 0f) {
-            timeToNextPrint -= tpf;
-            return;
+        elapsedSeconds += tpf;
+        if (elapsedSeconds > 1.0) {
+            throw new RuntimeException("No collisions reported!");
         }
+    }
+    // *************************************************************************
+    // PhysicsCollisionListener methods
 
-        if (firstPrint) { // synchronize
-            frameTime = 0.;
-            physicsTime = 0.;
-            firstPrint = false;
-        }
+    /**
+     * The collision listener, invoked multiple times for each collision that
+     * occurs in the PhysicsSpace.
+     *
+     * @param event the event that occurred (not null, reusable)
+     */
+    @Override
+    public void collision(PhysicsCollisionEvent event) {
+        CollisionShape a = event.getObjectA().getCollisionShape();
+        String aShape = MyShape.describeType(a);
+        CollisionShape b = event.getObjectB().getCollisionShape();
+        String bShape = MyShape.describeType(b);
 
-        System.out.printf(" frameTime= %s   physicsTime= %s%n",
-                frameTime, physicsTime);
-        timeToNextPrint = 1f;
+        System.out.printf("%s-%s collision reported at t = %f sec%n",
+                aShape, bShape, elapsedSeconds);
+        stop();
     }
 }
