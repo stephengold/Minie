@@ -224,7 +224,7 @@ public class BoxCollisionShape extends CollisionShape {
         double xx = scale.x * halfExtents.x;
         double yy = scale.y * halfExtents.y;
         double zz = scale.z * halfExtents.z;
-        float result = (float) MyMath.hypotenuse(xx, yy, zz);
+        float result = (float) MyMath.hypotenuseDouble(xx, yy, zz);
 
         return result;
     }

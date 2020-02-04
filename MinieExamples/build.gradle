@@ -5,7 +5,7 @@
 description = 'demos, examples, and tests that do not generate reports'
 
 dependencies {
-    implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
+    implementation 'com.github.stephengold:Heart:' + heartVersion
     implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
     runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     implementation "org.jmonkeyengine:jme3-effects:$jmonkeyengineVersion"

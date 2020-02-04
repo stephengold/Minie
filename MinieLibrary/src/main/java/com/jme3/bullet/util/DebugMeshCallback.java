@@ -92,7 +92,7 @@ class DebugMeshCallback {
          * Copy the location list, removing all duplicates in the process.
          * TODO make this more efficient
          */
-        VectorSet distinct = new VectorSetUsingBuffer(list.size());
+        VectorSet distinct = new VectorSetUsingBuffer(list.size(), false);
         for (Vector3f vector : list) {
             distinct.add(vector);
         }

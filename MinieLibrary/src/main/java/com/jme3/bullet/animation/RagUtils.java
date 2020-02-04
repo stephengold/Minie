@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -122,7 +122,7 @@ public class RagUtils {
                         managerMap);
                 VectorSet set = coordsMap.get(managerName);
                 if (set == null) {
-                    set = new VectorSetUsingBuffer(1);
+                    set = new VectorSetUsingBuffer(1, false);
                     coordsMap.put(managerName, set);
                 }
                 MyMesh.vertexVector3f(mesh, VertexBuffer.Type.BindPosePosition,

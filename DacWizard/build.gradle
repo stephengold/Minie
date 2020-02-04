@@ -16,7 +16,7 @@ jar.manifest.attributes('Main-Class': mainClassName)
 
 dependencies {
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
-    implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
+    implementation 'com.github.stephengold:Heart:' + heartVersion
     implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
     implementation 'jme3utilities:jme3-utilities-nifty:0.9.12for33'
     implementation 'jme3utilities:Wes:0.4.7for33'

@@ -35,7 +35,7 @@ javadocJar { archiveBaseName = project.ext.baseName }
 sourcesJar { archiveBaseName = project.ext.baseName }
 
 dependencies {
-    api "jme3utilities:jme3-utilities-heart:$heartVersion"
+    api 'com.github.stephengold:Heart:' + heartVersion
     api "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
 
     testImplementation 'junit:junit:4.12'
