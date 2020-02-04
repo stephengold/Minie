@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.MySpatial;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A PhysicsControl to link a PhysicsGhostObject to a Spatial.
@@ -340,7 +341,7 @@ public class GhostControl
                 newScale.set(factor, factor, factor);
             }
             Vector3f oldScale = shape.getScale(null);
-            if (!oldScale.equals(newScale) && shape.canScale(newScale)) {
+            if (MyVector3f.ne(oldScale, newScale) && shape.canScale(newScale)) {
                 shape.setScale(newScale);
                 setCollisionShape(shape);
             }
