@@ -24,7 +24,7 @@ ext {
 }
 
 dependencies {
-    implementation "jme3utilities:jme3-utilities-heart:$heartVersion"
+    implementation 'com.github.stephengold:Heart:' + heartVersion
     runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
     implementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
