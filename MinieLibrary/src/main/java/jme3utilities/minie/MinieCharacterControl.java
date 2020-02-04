@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Stephen Gold
+ * Copyright (c) 2019-2020 Stephen Gold
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,6 +48,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A PhysicsControl to link a PhysicsCharacter to a Spatial. Compare with
@@ -213,7 +214,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
         Validate.nonZero(direction, "direction");
 
         viewDirection.set(direction);
-        viewDirection.normalizeLocal();
+        MyVector3f.normalizeLocal(viewDirection);
     }
 
     /**
