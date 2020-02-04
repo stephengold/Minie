@@ -600,6 +600,15 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Count the pinned nodes in this body.
+     *
+     * @return the number of pinned nodes (&ge;0)
+     */
+    final public int countPinnedNodes() {
+        return getNbPinnedNodes(objectId);
+    }
+
+    /**
      * Count the tetrahedra in this body.
      *
      * @return the number of tetrahedra (&ge;0)
@@ -1711,6 +1720,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     native private int getNbLinks(long bodyId);
 
     native private int getNbNodes(long bodyId);
+
+    native private int getNbPinnedNodes(long bodyId);
 
     native private int getNbTetras(long bodyId);
 

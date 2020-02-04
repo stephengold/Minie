@@ -408,7 +408,9 @@ public class PhysicsDumper extends Dumper {
          */
         desc = describer.describeGroups(body);
         stream.printf("%n%s%s", indent, desc);
-
+        /*
+         * physics joints in the soft body
+         */
         int numJoints = body.countJoints();
         stream.printf(" with %d joint%s", numJoints,
                 (numJoints == 1) ? "" : "s");
@@ -418,7 +420,9 @@ public class PhysicsDumper extends Dumper {
         } else {
             stream.print(',');
         }
-
+        /*
+         * clusters in the soft body
+         */
         int numClusters = body.countClusters();
         stream.printf(" %d cluster%s", numClusters,
                 (numClusters == 1) ? "" : "s");
@@ -427,9 +431,15 @@ public class PhysicsDumper extends Dumper {
         } else {
             stream.print(',');
         }
-
+        /*
+         * nodes in the soft body
+         */
         int numNodes = body.countNodes();
         stream.printf(" %d node%s", numNodes, (numNodes == 1) ? "" : "s");
+        int numPinned = body.countPinnedNodes();
+        if (numPinned > 0) {
+            stream.printf(" (%d pinned)", numPinned);
+        }
         if (dumpNodesInSofts && numNodes > 0) {
             dumpNodes(body, indent);
         }
