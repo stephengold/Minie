@@ -12,7 +12,7 @@ It contains 4 sub-projects:
  4. MinieAssets: generate assets used in MinieExamples (in Java)
 
 Java source code is provided under
-[a FreeBSD license](https://github.com/stephengold/Minie/blob/master/LICENSE).
+[a BSD license](https://github.com/stephengold/Minie/blob/master/LICENSE).
 
 <a name="toc"/>
 
@@ -429,7 +429,7 @@ Clone the Minie repository using Git:
      + `cd Minie`
      + `git checkout -b latest 1.3.0for32`
    + using a web browser:
-     + browse to [https://github.com/stephengold/Minie/releases/latest](https://github.com/stephengold/Minie/releases/latest)
+     + browse to [https://github.com/stephengold/Minie/releases/tag/1.3.0for32](https://github.com/stephengold/Minie/releases//tag/1.3.0for32)
      + follow the "Source code (zip)" link
      + save the ZIP file
      + unzip the saved ZIP file
@@ -1623,9 +1623,11 @@ YouTube videos about Minie:
 [dacwizard]: https://github.com/stephengold/Minie/tree/master/DacWizard "DacWizard Application"
 [elements]: http://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
 [findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
+[firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
 [git]: https://git-scm.com "Git"
 [github]: https://github.com "GitHub"
 [gradle]: https://gradle.org "Gradle Project"
+[heart]: https://github.com/stephengold/Heart "Heart Project"
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: http://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
@@ -1642,6 +1644,7 @@ YouTube videos about Minie:
 [vegdahl]: http://www.cessen.com "Nathan Vegdahl"
 [vhacd]: https://github.com/kmammou/v-hacd "V-HACD Library"
 [vhacdBindings]: https://github.com/riccardobl/v-hacd-java-bindings "V-HACD Java Bindings Project"
+[wes]: https://github.com/stephengold/Wes "Wes Project"
 [winmerge]: http://winmerge.org "WinMerge Project"
 
 [Jump to table of contents](#toc)
@@ -1676,7 +1679,7 @@ artists and software developers:
     + the [Bullet][] real-time physics library
     + the [FindBugs][] source-code analyzer
     + the [Git][] revision-control system and GitK commit viewer
-    + the [Google Chrome web browser][chrome]
+    + the [Firefox][] and [Google Chrome][chrome] web browsers
     + the [Gradle][] build tool
     + the Java compiler, standard doclet, and runtime environment
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
