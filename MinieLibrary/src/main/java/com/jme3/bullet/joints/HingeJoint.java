@@ -43,6 +43,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A single degree-of-freedom joint based on Bullet's btHingeConstraint.
@@ -550,7 +551,7 @@ public class HingeJoint extends Constraint {
             float sinAngle = cross.length();
             float cosAngle = axisB.dot(axisA);
             float angle = FastMath.atan2(sinAngle, cosAngle);
-            cross.normalizeLocal();
+            MyVector3f.normalizeLocal(cross);
             Quaternion rotation = new Quaternion();
             rotation.fromAngleNormalAxis(angle, cross);
             a.setPhysicsRotation(rotation);

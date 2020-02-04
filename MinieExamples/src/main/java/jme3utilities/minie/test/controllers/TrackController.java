@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -205,7 +205,7 @@ public class TrackController extends IKController {
         Vector3f pivotInWorld
                 = localToWorld.transformVector(pivotInLinkBody, null);
         desired.subtractLocal(pivotInWorld);
-        desired.normalizeLocal();
+        MyVector3f.normalizeLocal(desired);
         /*
          * error = actual X desired
          */
