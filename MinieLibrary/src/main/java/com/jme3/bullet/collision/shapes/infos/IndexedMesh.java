@@ -37,6 +37,7 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Transform;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.mesh.IndexBuffer;
@@ -138,8 +139,8 @@ public class IndexedMesh implements JmeCloneable, Savable {
     }
 
     /**
-     * Instantiate based on the specified JME mesh, without transforming
-     * coordinates.
+     * Instantiate an IndexedMesh based on the specified JME mesh, without
+     * transforming coordinates.
      *
      * @param jmeMesh the input JME mesh (not null, unaffected,
      * mode=Triangles/TriangleFan/TriangleStrip)
@@ -150,7 +151,8 @@ public class IndexedMesh implements JmeCloneable, Savable {
     }
 
     /**
-     * Instantiate based on the specified JME mesh and coordinate transform.
+     * Instantiate an IndexedMesh based on the specified JME mesh and coordinate
+     * transform.
      *
      * @param jmeMesh the input JME mesh (not null, unaffected,
      * mode=Triangles/TriangleFan/TriangleStrip)
@@ -159,7 +161,29 @@ public class IndexedMesh implements JmeCloneable, Savable {
      */
     public IndexedMesh(Mesh jmeMesh, Transform transform) {
         Validate.nonNull(jmeMesh, "JME mesh");
+        Validate.nonNull(transform, "transform");
+
         create(jmeMesh, transform);
+    }
+
+    /**
+     * Instantiate an IndexedMesh based on the specified positions and indices.
+     *
+     * @param positionArray (not null, unaffected)
+     * @param indexArray (not null, unaffected, length a multiple of 3)
+     */
+    public IndexedMesh(Vector3f[] positionArray, int[] indexArray) {
+        Validate.nonNull(positionArray, "position array");
+        Validate.nonNull(indexArray, "index array");
+
+        vertexPositions = BufferUtils.createFloatBuffer(positionArray);
+        indices = BufferUtils.createIntBuffer(indexArray);
+        indexStride = vpt * intSize;
+        numTriangles = indexArray.length / vpt;
+        numVertices = positionArray.length;
+        vertexStride = numAxes * floatSize;
+
+        createMesh();
     }
     // *************************************************************************
     // new methods exposed
