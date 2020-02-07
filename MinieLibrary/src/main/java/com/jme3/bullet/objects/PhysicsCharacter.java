@@ -719,7 +719,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         if (objectId == 0L) {
             objectId = createGhostObject();
             assert objectId != 0L;
-            assert getInternalType(objectId) == 4 : getInternalType(objectId);
+            assert getInternalType(objectId) == 4 : getInternalType(objectId); // TODO constant
             logger2.log(Level.FINE, "Creating {0}.", this);
             initUserPointer();
         }

@@ -850,7 +850,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     protected void rebuildRigidBody() {
         boolean removed = false;
         if (objectId != 0L) {
-            if (isInWorld()) {
+            if (isInWorld()) { // TODO bad assumption:
                 PhysicsSpace.getPhysicsSpace().remove(this);
                 removed = true;
             }
@@ -864,10 +864,10 @@ public class PhysicsRigidBody extends PhysicsBody {
                 shape.getObjectId());
         logger2.log(Level.FINE, "Created {0}.", this);
         assert objectId != 0L;
-        assert getInternalType(objectId) == 2 : getInternalType(objectId);
+        assert getInternalType(objectId) == 2 : getInternalType(objectId); // TODO constant
         postRebuild();
 
-        if (removed) {
+        if (removed) { // TODO bad assumption:
             PhysicsSpace.getPhysicsSpace().add(this);
         }
     }

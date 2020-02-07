@@ -282,7 +282,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
             objectId = createGhostObject();
             logger2.log(Level.FINE, "Created {0}.", this);
             assert objectId != 0L;
-            assert getInternalType(objectId) == 4 : getInternalType(objectId);
+            assert getInternalType(objectId) == 4 : getInternalType(objectId); // TODO constant
             setGhostFlags(objectId);
             initUserPointer();
         }
