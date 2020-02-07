@@ -6,15 +6,15 @@ description = 'demos, examples, and tests that do not generate reports'
 
 dependencies {
     implementation 'com.github.stephengold:Heart:' + heartVersion
-    implementation "jme3utilities:jme3-utilities-ui:$jme3utilitiesuiVersion"
-    runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
-    implementation "org.jmonkeyengine:jme3-effects:$jmonkeyengineVersion"
-    implementation "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+    implementation 'com.github.stephengold:jme3-utilities-ui:' + jme3utilitiesuiVersion
+    runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
+    implementation 'org.jmonkeyengine:jme3-effects:' + jmonkeyengineVersion
+    implementation 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
     // select one version of LWJGL (from jcenter or mavenLocal)
-    runtimeOnly "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"  // LWJGL 2.x
-    //runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion" // LWJGL 3.x
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmonkeyengineVersion  // LWJGL 2.x
+    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmonkeyengineVersion // LWJGL 3.x
 
     // MinieExamples doesn't use jme3-blender or jme3-jogg
     //  -- they are included solely to avoid warnings from AssetConfig
