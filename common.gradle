@@ -2,7 +2,7 @@
 
 apply plugin: 'java'
 
-group = 'jme3utilities'
+group = 'com.github.stephengold'
 
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
@@ -26,17 +26,17 @@ gradle.projectsEvaluated {
     }
 }
 
-ext { // current versions of various libraries
+ext {
+    // current versions of various libraries
     heartVersion = '5.0.0for32'
-    jme3utilitiesuiVersion = '0.8.0for32'
+    jme3utilitiesuiVersion = '0.8.1for32'
     jmonkeyengineVersion = '3.2.4-stable'
     minieVersion = '1.3.0for32'
 }
 
 repositories {
     //mavenLocal()
-    //maven { url 'https://dl.bintray.com/stephengold/com.github.stephengold' }
-    maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
+    maven { url 'https://dl.bintray.com/stephengold/com.github.stephengold' }
     maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for jme3-testdata
     jcenter()
 }
