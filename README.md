@@ -11,8 +11,8 @@ It contains 4 sub-projects:
  3. [DacWizard][]: a GUI application to configure a ragdoll (in Java)
  4. MinieAssets: generate assets used in MinieExamples (in Java)
 
-Java source code is provided under
-[a BSD license](https://github.com/stephengold/Minie/blob/master/LICENSE).
+Complete source code (in Java) is provided under
+[a BSD license][license].
 
 <a name="toc"/>
 
@@ -65,7 +65,7 @@ Summary of added features:
  + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`,
     including anchors and soft-body joints
  + Convex decomposition using [Khaled Mamou's V-HACD Library][vhacd].
- + `New6Dof` physics joints based on `btGeneric6DofSpring2Constraint`.
+ + `New6Dof` physics joints based on `btGeneric6DofSpring2Constraint`
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `Box2dShape` collision shapes based on `btBox2dShape`
  + `Convex2dShape` collision shapes based on `btConvex2dShape`
@@ -331,13 +331,13 @@ but I use the IDE, so I tend to assume you will too.
 If you already have the IDE installed, skip to step 6.
 
 The hardware and software requirements of the IDE are documented at
-[the JME wiki](https://jmonkeyengine.github.io/wiki/jme3/requirements.html).
+[the jMonkeyEngine wiki](https://jmonkeyengine.github.io/wiki/jme3/requirements.html).
 
  1. Download a jMonkeyEngine 3.2 Software Development Kit (SDK) from
     [GitHub](https://github.com/jMonkeyEngine/sdk/releases).
  2. Install the SDK, which includes:
     + the engine itself,
-    + an IDE based on [NetBeans][],
+    + an IDE based on [NetBeans],
     + various IDE plugins, and
     + the [Blender 3D][blender] application.
  3. Open the IDE.
@@ -411,7 +411,7 @@ Clone the Minie repository using Git:
      + `cd Minie`
      + `git checkout -b latest 1.3.0for32`
    + using a web browser:
-     + browse to [https://github.com/stephengold/Minie/releases/tag/1.3.0for32](https://github.com/stephengold/Minie/releases//tag/1.3.0for32)
+     + browse to [https://github.com/stephengold/Minie/releases/tag/1.3.0for32][latest]
      + follow the "Source code (zip)" link
      + save the ZIP file
      + unzip the saved ZIP file
@@ -423,9 +423,10 @@ Clone the Minie repository using Git:
    + using Bash:  `./gradlew build`
    + using Windows Command Prompt:  `.\gradlew build`
 
-After a successful build, new jars will be found in `MinieLibrary/build/libs`.
+After a successful build,
+Maven artifacts will be found in `MinieLibrary/build/libs`.
 
-You can also install the library artifact to your local Maven cache:
+You can install the Maven artifacts to your local cache:
  + using Bash:  `./gradlew :MinieLibrary:publishToMavenLocal`
  + using Windows Command Prompt:  `.\gradlew :MinieLibrary:publishToMavenLocal`
 
@@ -480,14 +481,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 ### Add libraries to the classpath
 
 Minie comes pre-built as a single library that includes both Java classes
-and native libraries.  The Minie library depends on the
+and native libraries.
+The Minie library depends on the
 jme3-utilities-heart library, which in turn depends on
 the standard jme3-core library from jMonkeyEngine.
 
 #### For Gradle projects
 
 For projects built using Maven or Gradle, it is sufficient to specify the
-dependency on the Minie library.  The build tools should automatically
+dependency on the Minie Library.  The build tools should automatically
 resolve the remaining dependencies automatically.
 
 Because Minie and the [V-HACD Bindings][vhacdBindings] are not on JCenter yet,
@@ -504,7 +506,8 @@ you must explicitly specify their repository URLs:
 
 #### For Ant projects
 
-For projects built using [Ant][], download the 3 non-standard libraries:
+For projects built using [Ant], download the 3 non-standard
+libraries from GitHub:
 
  + https://github.com/stephengold/Minie/releases/tag/1.3.0for32
  + https://github.com/stephengold/jme3-utilities/releases/tag/heart-4.3.0for32
@@ -521,9 +524,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
  4. Click on the "Compile" tab.
  5. Add the `jme3-utilities-heart` class jar:
     + Click on the "Add JAR/Folder" button.
-    + Navigate to the "jme3-utilities" project folder.
-    + Open the "heart" sub-project folder.
-    + Navigate to the "build/libs" folder.
+    + Navigate to the download folder.
     + Select the "jme3-utilities-heart-4.3.0for32.jar" file.
     + Click on the "Open" button.
  6. (optional) Add jars for javadoc and sources:
@@ -1611,8 +1612,11 @@ YouTube videos about Minie:
 [gradle]: https://gradle.org "Gradle Project"
 [heart]: https://github.com/stephengold/Heart "Heart Project"
 [jfrog]: https://www.jfrog.com "JFrog"
-[jme]: http://jmonkeyengine.org  "jMonkeyEngine Project"
+[jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
+[latest]: https://github.com/stephengold/Minie/releases/tag/1.3.0for32 "latest release"
+[license]: https://github.com/stephengold/Minie/blob/for_jME3.2/LICENSE "Minie license"
+[log]: https://github.com/stephengold/Minie/blob/for_jME3.2/MinieLibrary/release-notes.md "release log"
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
 [manual]: https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf "Bullet User Manual"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
@@ -1635,17 +1639,16 @@ YouTube videos about Minie:
 
 ## History
 
+The evolution of the project is chronicled in [its release log][log].
+
 Most of Minie was originally forked from `jme3-bullet`,
 a library in the [jMonkeyEngine Game Engine][jme].
 
 From January to November 2018, Minie was a sub-project of
 [the Jme3-utilities Project][utilities].
 
-Since November 2018, the Minie Project has been a separate project at
+Since November 2018, Minie has been a separate project at
 [GitHub][minie].
-
-The evolution of Minie is chronicled in
-[its release notes](https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md).
 
 [Jump to table of contents](#toc)
 
@@ -1685,18 +1688,19 @@ artists and software developers:
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
     + the [Linux Mint][mint] operating system
     + LWJGL, the Lightweight Java Game Library
-    + the [MakeHuman][] Community
-    + the [Markdown][] document conversion tool
+    + the [MakeHuman] Community
+    + the [Markdown] document-conversion tool
     + Microsoft Windows
-    + the [NetBeans][] integrated development environment
-    + the [Nifty][] graphical user interface library
+    + the [NetBeans] integrated development environment
+    + the [Nifty] graphical user interface library
     + [Open Broadcaster Software Studio][obs]
     + the PMD source-code analyzer
-    + [ProFont][], the programmers' font
-    + the [WinMerge][] differencing and merging tool
+    + [ProFont], the programmers' font
+    + the [WinMerge] differencing and merging tool
 
-I am grateful to [JFrog][] and [Github][] for providing free hosting for the
-Minie Project and many other open-source projects.
+I am grateful to [JFrog] and [Github]
+for providing free hosting for this project
+and many other open-source projects.
 
 I'm also grateful to my dear Holly, for keeping me sane.
 
