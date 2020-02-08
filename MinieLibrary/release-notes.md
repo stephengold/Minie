@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.4.0for33 released on TBD
+## Version 1.4.0for33 released on 7 February 2020
 
  + Fixed bugs:
    + scaling bugs in `CompoundShape` and `Convex2dShape`
@@ -28,7 +28,7 @@
    + `RayTestFlag` value to disable the heightfield accelerator
    + dump the listener counts of a `PhysicsSpace`
 
- + Improvements to the `DropTest` application:
+ + Improvements to the `DropTest` demo:
    + redesigned the user interface:  use fewer keys and also display
      a pause indicator and counts of active bodies and cached meshes
    + added platforms:  bed of nails, dimpled sheet, rounded rectangle,
