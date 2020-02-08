@@ -21,7 +21,6 @@ Java source code is provided under
  + [Why use Minie?](#why)
  + [Downloads](#downloads)
  + [Conventions](#conventions)
- + [History](#history)
  + [Overview and design considerations](#overview)
  + [How to build Minie from source](#build)
  + [How to add Minie to an existing project](#add)
@@ -33,6 +32,7 @@ Java source code is provided under
  + [An introduction to soft-body physics](#softbody)
  + [An overview of the demo applications](#demos)
  + [External links](#links)
+ + [History](#history)
  + [Acknowledgments](#acks)
 
 <a name="why"/>
@@ -167,24 +167,6 @@ Package names begin with
 `com.jme3.` or `jme3test.` (if the jMonkeyEngine Project holds the copyright).
 
 Both the source code and the pre-built libraries are compatible with JDK 7.
-
-[Jump to table of contents](#toc)
-
-<a name="history"/>
-
-## History
-
-Most of Minie was originally forked from `jme3-bullet`,
-a library in the [jMonkeyEngine Game Engine][jme].
-
-From January to November 2018, Minie was a sub-project of
-[the Jme3-utilities Project][utilities].
-
-Since November 2018, the Minie Project has been a separate project at
-[GitHub][minie].
-
-The evolution of Minie is chronicled in
-[its release notes](https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md).
 
 [Jump to table of contents](#toc)
 
@@ -1646,6 +1628,24 @@ YouTube videos about Minie:
 [vhacdBindings]: https://github.com/riccardobl/v-hacd-java-bindings "V-HACD Java Bindings Project"
 [wes]: https://github.com/stephengold/Wes "Wes Project"
 [winmerge]: http://winmerge.org "WinMerge Project"
+
+[Jump to table of contents](#toc)
+
+<a name="history"/>
+
+## History
+
+Most of Minie was originally forked from `jme3-bullet`,
+a library in the [jMonkeyEngine Game Engine][jme].
+
+From January to November 2018, Minie was a sub-project of
+[the Jme3-utilities Project][utilities].
+
+Since November 2018, the Minie Project has been a separate project at
+[GitHub][minie].
+
+The evolution of Minie is chronicled in
+[its release notes](https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md).
 
 [Jump to table of contents](#toc)
 
