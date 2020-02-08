@@ -817,7 +817,7 @@ class Model {
             throw new RuntimeException("No model loaded.");
         }
 
-        Skeleton skeleton = findSkeleton();
+        Skeleton skeleton = findSkeleton(); // TODO handle armature
         String result = "";
         try {
             RagUtils.validate(rootSpatial);

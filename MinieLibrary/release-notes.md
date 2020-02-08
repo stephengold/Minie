@@ -1,10 +1,58 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
+## Version 1.4.0for33 released on TBD
+
+ + Fixed bugs:
+   + scaling bugs in `CompoundShape` and `Convex2dShape`
+   + `MyShape.height()` returns wrong value for a `CylinderCollisionShape`
+   + `DebugShapeFactory` cache should use a `WeakHashMap` for better garbage
+     collection
+   + issues with `NativeSoftBodyUtil`
+   + soft-body debug geometries can't receive shadows
+
+ + Added library features:
+   + a V-HACD interface with progress listeners, based on JNI
+     (eliminates the dependency on v-hacd-java-bindings)
+   + array-based constructor for `IndexedMesh`
+   + ray tests and sweep tests return a part index and/or triangle index
+     for many collision shapes
+   + `maxRadius()` methods for collision shapes
+   + cleaner debug visualization of swept spheres
+   + a debug visualization option to color the children of a compound shape
+   + `countCollisionListeners()` and `countCollisionGroupListeners()` methods
+      for the `PhysicsSpace` class
+   + a `countPinnedNodes()` method for `PhysicsSoftBody`
+   + a `parseNativeId()` method for the `MyShape` class, to replace `parseId()`
+   + `countCachedMeshes()` and `maxDistance()` methods
+     for the `DebugShapeFactory` class
+   + `RayTestFlag` value to disable the heightfield accelerator
+   + dump the listener counts of a `PhysicsSpace`
+
+ + Improvements to the `DropTest` application:
+   + redesigned the user interface:  use fewer keys and also display
+     a pause indicator and counts of active bodies and cached meshes
+   + added platforms:  bed of nails, dimpled sheet, rounded rectangle,
+     sieve, trampoline
+   + added drop (gem) shapes:  dome, (gridiron) football, frame, half pipe,
+     letters of the alphabet, prism, pyramid, sword
+   + select a drop with RMB, delete or dump the selected drop
+   + after deleting a drop, activate any that were asleep
+
+ + changed the Maven groupId to "com.github.stephengold"
+ + moved issue-oriented tests to a new package
+ + moved the `jme3test` package to a new `Jme3Tests` sub-project
+ + Updated the native libraries to version 3.0.4 of `Libbulletjme`.
+ + Based on:
+   + v5.0 of the `Heart` library,
+   + v0.8.1 of the `jme3-utilities-ui` library, and
+   + v0.4.8 of the `Wes` library.
+ + Upgraded to Gradle v6.1.1 .
+
 ## Version 1.3.0for33 released on 5 January 2020
 
  + Fixed bugs:
    + `PlaneCollisionShape` never visualized.
-   + Buffer limits not set in `IndexedMesh`
+   + Buffer limits not set in `IndexedMesh`.
 
  + Added library features:
    + 2-D collision shapes: `Box2dShape` and `Convex2dShape`
