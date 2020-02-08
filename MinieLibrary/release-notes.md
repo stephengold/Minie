@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.4.0for32 released on TBD
+## Version 1.4.0for32 released on 7 February 2020
 
  + Fixed bugs:
    + scaling bugs in `CompoundShape` and `Convex2dShape`
