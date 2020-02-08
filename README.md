@@ -8,7 +8,7 @@ It contains 4 sub-projects:
 
  1. MinieLibrary: the Minie runtime library and its automated tests (in Java)
  2. MinieExamples: demos, examples, tutorials, and non-automated test software (in Java)
- 3. [DacWizard][]: a GUI application to configure a ragdoll (in Java)
+ 3. [DacWizard]: a GUI application to configure a ragdoll (in Java)
  4. MinieAssets: generate assets used in MinieExamples (in Java)
 
 Complete source code (in Java) is provided under
@@ -153,7 +153,10 @@ Newer releases (since v0.5.0) can be downloaded from
 Older releases (v0.1.1 through v0.4.5) can be downloaded from
 [the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
 
-Maven artifacts are available from
+Newer Maven artifacts (since v1.4.0) are available from
+[JCenter](https://bintray.com/stephengold/com.github.stephengold/Minie).
+
+Older Maven artifacts (v0.1.2 through v1.3.0) are available from
 [JFrog Bintray](https://bintray.com/stephengold/jme3utilities/Minie).
 
 [Jump to table of contents](#toc)
@@ -409,9 +412,9 @@ Clone the Minie repository using Git:
    + using Git:
      + `git clone https://github.com/stephengold/Minie.git`
      + `cd Minie`
-     + `git checkout -b latest 1.3.0for32`
+     + `git checkout -b latest 1.4.0for32`
    + using a web browser:
-     + browse to [https://github.com/stephengold/Minie/releases/tag/1.3.0for32][latest]
+     + browse to [https://github.com/stephengold/Minie/releases/tag/1.4.0for32][latest]
      + follow the "Source code (zip)" link
      + save the ZIP file
      + unzip the saved ZIP file
@@ -483,7 +486,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 Minie comes pre-built as a single library that includes both Java classes
 and native libraries.
 The Minie library depends on the
-jme3-utilities-heart library, which in turn depends on
+Heart library, which in turn depends on
 the standard jme3-core library from jMonkeyEngine.
 
 #### For Gradle projects
@@ -492,28 +495,22 @@ For projects built using Maven or Gradle, it is sufficient to specify the
 dependency on the Minie Library.  The build tools should automatically
 resolve the remaining dependencies automatically.
 
-Because Minie and the [V-HACD Bindings][vhacdBindings] are not on JCenter yet,
-you must explicitly specify their repository URLs:
-
     repositories {
-        maven { url 'https://dl.bintray.com/stephengold/jme3utilities' }
-        maven { url 'https://dl.bintray.com/stephengold/v-hacd' }
         jcenter()
     }
     dependencies {
-        compile 'jme3utilities:Minie:1.3.0for32'
+        compile 'com.github.stephengold:Minie:1.4.0for32'
     }
 
 #### For Ant projects
 
-For projects built using [Ant], download the 3 non-standard
+For projects built using [Ant], download the Minie and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/1.3.0for32
- + https://github.com/stephengold/jme3-utilities/releases/tag/heart-4.3.0for32
- + https://bintray.com/stephengold/v-hacd/download_file?file_path=vhacd%2Fvhacd-native%2F1.1.1%2Fvhacd-native-1.1.1.jar
+ + https://github.com/stephengold/Minie/releases/tag/1.4.0for32
+ + https://github.com/stephengold/Heart/releases/tag/heart-5.0.0for32
 
-You'll want the class jars
+You'll want both class jars
 and probably the `-sources` and `-javadoc` jars as well.
 
 Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
@@ -522,21 +519,21 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
  2. Select "Properties to open the "Project Properties" dialog.
  3. Under "Categories:" select "Libraries".
  4. Click on the "Compile" tab.
- 5. Add the `jme3-utilities-heart` class jar:
+ 5. Add the `Heart` class jar:
     + Click on the "Add JAR/Folder" button.
     + Navigate to the download folder.
-    + Select the "jme3-utilities-heart-4.3.0for32.jar" file.
+    + Select the "Heart-5.0.0for32.jar" file.
     + Click on the "Open" button.
  6. (optional) Add jars for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "jme3-utilities-heart-4.3.0for32-javadoc.jar" file.
+    + Select the "Heart-5.0.0for32-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "jme3-utilities-heart-4.3.0for32-sources.jar" file.
+    + Select the "Heart-5.0.0for32-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
- 7. Similarly, add the Minie and V-HACD jars.
+ 7. Similarly, add the `Minie` jar(s).
  8. Click on the "OK" button to exit the "Project Properties" dialog.
 
 ### Create, configure, and attach a BulletAppState
@@ -1614,7 +1611,7 @@ YouTube videos about Minie:
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
-[latest]: https://github.com/stephengold/Minie/releases/tag/1.3.0for32 "latest release"
+[latest]: https://github.com/stephengold/Minie/releases/tag/1.4.0for32 "latest release"
 [license]: https://github.com/stephengold/Minie/blob/for_jME3.2/LICENSE "Minie license"
 [log]: https://github.com/stephengold/Minie/blob/for_jME3.2/MinieLibrary/release-notes.md "release log"
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
@@ -1672,18 +1669,18 @@ artists and software developers:
 + Riccardo Balbo (aka "riccardo") for creating and licensing
   the [V-HACD Java Bindings Project][vhacdBindings]
 + Adam T. Ryder (aka "tryder") for creating and licensing
-  the [jME-TTF][] rendering system
+  the [jME-TTF] rendering system
 + Paul Speed, for helpful insights
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down
 + [Nathan Vegdahl][vegdahl], for creating the Puppet model
-+ Tobias Jung, for distributing [ProFont][]
++ Tobias Jung, for distributing [ProFont]
 + plus the creators of (and contributors to) the following software:
-    + the [Blender][] 3-D animation suite
-    + the [Bullet][] real-time physics library
-    + the [FindBugs][] source-code analyzer
-    + the [Git][] revision-control system and GitK commit viewer
-    + the [Firefox][] and [Google Chrome][chrome] web browsers
-    + the [Gradle][] build tool
+    + the [Blender] 3-D animation suite
+    + the [Bullet] real-time physics library
+    + the [FindBugs] source-code analyzer
+    + the [Git] revision-control system and GitK commit viewer
+    + the [Firefox] and [Google Chrome][chrome] web browsers
+    + the [Gradle] build tool
     + the Java compiler, standard doclet, and runtime environment
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
     + the [Linux Mint][mint] operating system
