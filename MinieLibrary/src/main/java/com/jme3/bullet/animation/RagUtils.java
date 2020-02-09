@@ -448,7 +448,7 @@ public class RagUtils {
      *
      * @param armature the Armature to validate (not null, unaffected)
      */
-    static void validate(Armature armature) {
+    public static void validate(Armature armature) {
         int numJoints = armature.getJointCount();
         if (numJoints < 0) {
             throw new IllegalArgumentException("Joint count is negative!");
