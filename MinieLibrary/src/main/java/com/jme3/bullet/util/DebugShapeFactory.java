@@ -158,18 +158,43 @@ public class DebugShapeFactory {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @param shape (not null, not compound, not plane, unaffected)
-     * @return a new Mesh (not null)
+     * @param shape the shape to visualize (not null, not compound, not plane,
+     * unaffected)
+     * @return a new Triangles-mode Mesh (no indices, no normals)
      */
     public static Mesh getDebugMesh(CollisionShape shape) {
-        long shapeId = shape.getObjectId();
-        DebugMeshCallback callback = new DebugMeshCallback();
-        getVertices2(shapeId, lowResolution, callback);
-        FloatBuffer floatBuffer = callback.getVertices();
+        Validate.nonNull(shape, "shape");
 
+        FloatBuffer floatBuffer = getDebugMeshVertices(shape, lowResolution);
         Mesh result = new Mesh();
         result.setBuffer(VertexBuffer.Type.Position, numAxes, floatBuffer);
 
+        return result;
+    }
+
+    /**
+     * Generate vertex locations for triangles to visualize the specified
+     * collision shape.
+     *
+     * @param shape the shape to visualize (not null, not compound, not plane,
+     * unaffected)
+     * @param meshResolution (0=low, 1=high)
+     * @return a new direct buffer containing scaled shape coordinates (capacity
+     * a multiple of 9)
+     */
+    public static FloatBuffer getDebugMeshVertices(CollisionShape shape,
+            int meshResolution) {
+        assert !(shape instanceof CompoundCollisionShape);
+        assert !(shape instanceof PlaneCollisionShape);
+        Validate.inRange(meshResolution, "mesh resolution", lowResolution,
+                highResolution);
+
+        long shapeId = shape.getObjectId();
+        DebugMeshCallback callback = new DebugMeshCallback();
+        getVertices2(shapeId, meshResolution, callback);
+        FloatBuffer result = callback.getVertices();
+
+        assert (result.capacity() % 9) == 0 : result.capacity();
         return result;
     }
 
