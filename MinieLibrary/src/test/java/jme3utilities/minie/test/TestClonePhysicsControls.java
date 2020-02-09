@@ -33,13 +33,13 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.AbstractPhysicsControl;
 import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.SoftBodyControl;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Heart;
-import jme3utilities.minie.MinieCharacterControl;
 import org.junit.Test;
 
 /**
@@ -89,11 +89,11 @@ public class TestClonePhysicsControls {
          * MinieCharacterControl
          */
         CollisionShape shape = new SphereCollisionShape(2f);
-        MinieCharacterControl mcc = new MinieCharacterControl(shape, 0.5f);
+        CharacterControl mcc = new CharacterControl(shape, 0.5f);
         setParameters(mcc, 0f);
         verifyParameters(mcc, 0f);
-        MinieCharacterControl mccClone
-                = (MinieCharacterControl) Heart.deepCopy(mcc);
+        CharacterControl mccClone
+                = (CharacterControl) Heart.deepCopy(mcc);
         cloneTest(mcc, mccClone);
         /*
          * SoftBodyControl
@@ -143,8 +143,8 @@ public class TestClonePhysicsControls {
             setBcc((BetterCharacterControl) control, b);
         } else if (control instanceof DynamicAnimControl) {
             setDac((DynamicAnimControl) control, b);
-        } else if (control instanceof MinieCharacterControl) {
-            setMcc((MinieCharacterControl) control, b);
+        } else if (control instanceof CharacterControl) {
+            setMcc((CharacterControl) control, b);
         } else if (control instanceof SoftBodyControl) {
             setSbc((SoftBodyControl) control, b);
         } else {
@@ -174,7 +174,7 @@ public class TestClonePhysicsControls {
         dac.setGravity(new Vector3f(b + 0.03f, b + 0.04f, b + 0.05f));
     }
 
-    private void setMcc(MinieCharacterControl mcc, float b) {
+    private void setMcc(CharacterControl mcc, float b) {
         PhysicsCharacter pc = mcc.getCharacter();
         pc.setJumpSpeed(b + 0.01f);
         pc.setLinearDamping(b + 0.02f);
@@ -198,8 +198,8 @@ public class TestClonePhysicsControls {
             verifyBcc((BetterCharacterControl) control, b);
         } else if (control instanceof DynamicAnimControl) {
             verifyDac((DynamicAnimControl) control, b);
-        } else if (control instanceof MinieCharacterControl) {
-            verifyMcc((MinieCharacterControl) control, b);
+        } else if (control instanceof CharacterControl) {
+            verifyMcc((CharacterControl) control, b);
         } else if (control instanceof SoftBodyControl) {
             verifySbc((SoftBodyControl) control, b);
         } else {
@@ -244,7 +244,7 @@ public class TestClonePhysicsControls {
         assert g.z == b + 0.05f : g;
     }
 
-    private void verifyMcc(MinieCharacterControl mcc, float b) {
+    private void verifyMcc(CharacterControl mcc, float b) {
         PhysicsCharacter pc = mcc.getCharacter();
         assert pc.getJumpSpeed() == b + 0.01f;
         assert pc.getLinearDamping() == b + 0.02f;
