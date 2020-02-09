@@ -817,13 +817,24 @@ class Model {
             throw new RuntimeException("No model loaded.");
         }
 
-        Skeleton skeleton = findSkeleton(); // TODO handle armature
         String result = "";
-        try {
-            RagUtils.validate(rootSpatial);
-            RagUtils.validate(skeleton);
-        } catch (IllegalArgumentException exception) {
-            result = exception.getMessage();
+        Skeleton skeleton = findSkeleton();
+        if (skeleton == null) {
+            Armature armature = findArmature();
+            try {
+                RagUtils.validate(rootSpatial);
+                RagUtils.validate(armature);
+            } catch (IllegalArgumentException exception) {
+                result = exception.getMessage();
+            }
+
+        } else {
+            try {
+                RagUtils.validate(rootSpatial);
+                RagUtils.validate(skeleton);
+            } catch (IllegalArgumentException exception) {
+                result = exception.getMessage();
+            }
         }
 
         return result;
