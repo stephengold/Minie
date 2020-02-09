@@ -1,15 +1,16 @@
 <img height="150" src="https://i.imgur.com/YEPFEcx.png">
 
 The [Minie Project][minie] is about improving the integration of
-[Bullet Real-Time Physics][bullet] into the
-[jMonkeyEngine Game Engine][jme].
+[Bullet real-time physics simulation][bullet]
+and [Khaled Mamou's V-HACD Library][vhacd]
+into the [jMonkeyEngine game engine][jme].
 
 It contains 4 sub-projects:
 
- 1. MinieLibrary: the Minie runtime library and its automated tests (in Java)
- 2. MinieExamples: demos, examples, tutorials, and non-automated test software (in Java)
- 3. [DacWizard]: a GUI application to configure a ragdoll (in Java)
- 4. MinieAssets: generate assets used in MinieExamples (in Java)
+ 1. MinieLibrary: the Minie runtime library and its automated tests
+ 2. MinieExamples: demos, examples, tutorials, and non-automated test software
+ 3. [DacWizard]: a GUI application to configure a ragdoll
+ 4. MinieAssets: generate assets used in MinieExamples
 
 Complete source code (in Java) is provided under
 [a BSD license][license].
@@ -39,7 +40,7 @@ Complete source code (in Java) is provided under
 
 ## Why use Minie?
 
-jMonkeyEngine comes with 2 Bullet integration libraries.
+[jMonkeyEngine][jme] comes with 2 Bullet integration libraries.
 Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
 
  + Minie has many more features. (See the feature list below.)
@@ -47,7 +48,7 @@ Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
    (See the fix list below.)
  + Due to its shorter release cycle, future features and bug fixes
    will probably appear first in Minie.
- + Minie has automated tests that reduce the risk of regressions and new bugs.
+ + Minie uses automated testing that reduce the risk of regressions and new bugs.
  + Minie's classes are better encapsulated, with fewer public/protected fields
    and less aliasing of small objects like vectors.  This reduces the risk
    of accidentally corrupting its internal data structures.
@@ -64,7 +65,8 @@ Summary of added features:
     + apply inverse-kinematic controllers and joints
  + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`,
     including anchors and soft-body joints
- + Convex decomposition using [Khaled Mamou's V-HACD Library][vhacd].
+ + Convex decomposition of meshes using [Khaled Mamou's V-HACD Library][vhacd],
+   including progress listeners
  + `New6Dof` physics joints based on `btGeneric6DofSpring2Constraint`
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `Box2dShape` collision shapes based on `btBox2dShape`
@@ -76,6 +78,7 @@ Summary of added features:
     + customize debug material per collision object
     + visualize the local axes, bounding boxes, and/or CCD swept spheres
       of collision objects
+    + visualize the children of compound collision shapes
     + optional high-resolution debug meshes for convex shapes
     + options to generate debug meshes that include indices,
       normals (for shading), and/or texture coordinates (for texturing)
@@ -196,14 +199,14 @@ For such games, a real-time physics library such as Minie should prove useful.
 
 ### How Minie works
 
-Minie is based on the Bullet Physics SDK:
+Minie is based on the [Bullet Physics SDK][bullet]:
 mature, open-source, 3-D, physics-simulation software,
 released under a Zlib license.
 Bullet is written in C++,
 so Minie uses Java Native Interface to access Bullet objects and methods.
 All C++ source code associated with Minie
 (including glue code and a partial snapshot of the Bullet SDK)
-resides in the Libbulletjme repository.
+resides in the [Libbulletjme] repository.
 
 On desktop platforms, JMonkeyEngine automatically loads
 the appropriate native library during `JmeDesktopSystem.initialize()`
@@ -222,7 +225,7 @@ and spatials have no effect on physics.
 To visualize an object, it must be associated
 with one or more scene-graph spatial(s).
 For debugging purposes, Minie can visualize
-collision objects by auto-generating wireframe spatials for them.
+collision objects by auto-generating spatials for them.
 For full-custom visualization, use a physics control to associate
 a collision object with a `Spatial`.
 
@@ -316,7 +319,7 @@ Since Minie's debug visualization assumes that physics coordinates are
 equivalent to world coordinates, these recommendations could impact
 model creation and scene-graph design.
 Physics units should therefore be chosen with care,
-preferably early in the game-design process.
+preferably early in the development process.
 
 [Jump to table of contents](#toc)
 
@@ -1548,6 +1551,8 @@ the "/" key to toggles debug visualization on and off.
 
 ## External links
 
+  + [the Minie Physics Library page](https://jmonkeystore.com/38308161-c3cf-4e23-8754-528ca8387c11) 
+    at [JmonkeyStore](https://jmonkeystore.com/)
   + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
   + [The Physics section of the JME Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
 
@@ -1612,6 +1617,7 @@ YouTube videos about Minie:
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
 [latest]: https://github.com/stephengold/Minie/releases/tag/1.4.0for32 "latest release"
+[libbulletjme]: https://github.com/stephengold/Libbulletjme "Libbulletjme Project"
 [license]: https://github.com/stephengold/Minie/blob/for_jME3.2/LICENSE "Minie license"
 [log]: https://github.com/stephengold/Minie/blob/for_jME3.2/MinieLibrary/release-notes.md "release log"
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
