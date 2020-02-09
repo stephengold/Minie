@@ -5,12 +5,13 @@ The [Minie Project][minie] is about improving the integration of
 and [Khaled Mamou's V-HACD Library][vhacd]
 into the [jMonkeyEngine game engine][jme].
 
-It contains 4 sub-projects:
+It contains 5 sub-projects:
 
  1. MinieLibrary: the Minie runtime library and its automated tests
- 2. MinieExamples: demos, examples, tutorials, and non-automated test software
- 3. [DacWizard]: a GUI application to configure a ragdoll
- 4. MinieAssets: generate assets used in MinieExamples
+ 2. [DacWizard]: a GUI application to configure a ragdoll
+ 3. MinieExamples: demos, examples, tutorials, and non-automated test software
+ 4. Jme3Examples: suggested changes to run the physics examples in jme3-examples
+ 5. MinieAssets: generate assets used in MinieExamples
 
 Complete source code (in Java) is provided under
 [a BSD license][license].
@@ -396,7 +397,7 @@ Clone the Minie repository using Git:
 10. Click on the "Finish" button.
 11. When the "Clone Completed" dialog appears, click on the "Open Project..."
     button.
-12. Expand the root project node to reveal the 4 sub-projects.
+12. Expand the root project node to reveal the 5 sub-projects.
 13. Select all sub-projects using control-click, then click on the
     "Open" button.
 
@@ -1551,7 +1552,7 @@ the "/" key to toggles debug visualization on and off.
 
 ## External links
 
-  + [the Minie Physics Library page](https://jmonkeystore.com/38308161-c3cf-4e23-8754-528ca8387c11) 
+  + [the Minie Physics Library page](https://jmonkeystore.com/38308161-c3cf-4e23-8754-528ca8387c11)
     at [JmonkeyStore](https://jmonkeystore.com/)
   + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
   + [The Physics section of the JME Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
