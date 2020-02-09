@@ -1613,6 +1613,7 @@ YouTube videos about Minie:
 [github]: https://github.com "GitHub"
 [gradle]: https://gradle.org "Gradle Project"
 [heart]: https://github.com/stephengold/Heart "Heart Project"
+[imgur]: https://imgur.com/ "Imgur"
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
@@ -1701,7 +1702,7 @@ artists and software developers:
     + [ProFont], the programmers' font
     + the [WinMerge] differencing and merging tool
 
-I am grateful to [JFrog] and [Github]
+I am grateful to [Github], [JFrog], and [Imgur]
 for providing free hosting for this project
 and many other open-source projects.
 
