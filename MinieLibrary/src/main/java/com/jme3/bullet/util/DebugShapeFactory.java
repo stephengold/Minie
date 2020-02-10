@@ -165,7 +165,7 @@ public class DebugShapeFactory {
     public static Mesh getDebugMesh(CollisionShape shape) {
         Validate.nonNull(shape, "shape");
 
-        FloatBuffer floatBuffer = getDebugMeshVertices(shape, lowResolution);
+        FloatBuffer floatBuffer = getDebugTriangles(shape, lowResolution);
         Mesh result = new Mesh();
         result.setBuffer(VertexBuffer.Type.Position, numAxes, floatBuffer);
 
@@ -174,25 +174,28 @@ public class DebugShapeFactory {
 
     /**
      * Generate vertex locations for triangles to visualize the specified
-     * collision shape.
+     * collision shape. TODO re-order methods
      *
-     * @param shape the shape to visualize (not null, not compound, not plane,
-     * unaffected)
+     * @param shape the shape to visualize (not null, not compound, unaffected)
      * @param meshResolution (0=low, 1=high)
      * @return a new direct buffer containing scaled shape coordinates (capacity
      * a multiple of 9)
      */
-    public static FloatBuffer getDebugMeshVertices(CollisionShape shape,
+    public static FloatBuffer getDebugTriangles(CollisionShape shape,
             int meshResolution) {
         assert !(shape instanceof CompoundCollisionShape);
-        assert !(shape instanceof PlaneCollisionShape);
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
-        long shapeId = shape.getObjectId();
-        DebugMeshCallback callback = new DebugMeshCallback();
-        getVertices2(shapeId, meshResolution, callback);
-        FloatBuffer result = callback.getVertices();
+        FloatBuffer result;
+        if (shape instanceof PlaneCollisionShape) {
+            result = createPlaneTriangles((PlaneCollisionShape) shape, 1000f);
+        } else {
+            long shapeId = shape.getObjectId();
+            DebugMeshCallback callback = new DebugMeshCallback();
+            getVertices2(shapeId, meshResolution, callback);
+            result = callback.getVertices();
+        }
 
         assert (result.capacity() % 9) == 0 : result.capacity();
         return result;
@@ -360,7 +363,9 @@ public class DebugShapeFactory {
         Mesh mesh = cache.get(key);
         if (mesh == null) {
             if (shape instanceof PlaneCollisionShape) {
-                mesh = createPlaneMesh((PlaneCollisionShape) shape, normals);
+                float halfExtent = 1000f;
+                mesh = createPlaneMesh((PlaneCollisionShape) shape, halfExtent,
+                        normals);
             } else {
                 mesh = createMesh(shape, normals, resolution);
             }
@@ -472,25 +477,13 @@ public class DebugShapeFactory {
      * Create a Mesh for visualizing the specified PlaneCollisionShape.
      *
      * @param shape (not null, unaffected)
+     * @param halfExtent the desired half extent for the result (in scaled shape
+     * units, &gt;0)
      * @param normals which normals to generate (not null)
-     * @return a new Triangles-mode Mesh (not null)
+     * @return a new, indexed, Triangles-mode Mesh
      */
     private static Mesh createPlaneMesh(PlaneCollisionShape shape,
-            DebugMeshNormals normals) {
-        /*
-         * Transform from the Y-Z plane to the surface of the shape.
-         */
-        Transform transform = new Transform();
-        transform.setScale(1000f);
-
-        Plane plane = shape.getPlane();
-        plane.getClosestPoint(translateIdentity, transform.getTranslation());
-
-        Vector3f v1 = plane.getNormal();
-        Vector3f v2 = new Vector3f();
-        Vector3f v3 = new Vector3f();
-        MyVector3f.generateBasis(v1, v2, v3);
-        transform.getRotation().fromAxes(v1, v2, v3);
+            float halfExtent, DebugMeshNormals normals) {
         /*
          * Generate mesh positions for a large 2-sided square.
          */
@@ -506,7 +499,11 @@ public class DebugShapeFactory {
         }
         assert posBuffer.position() == numFloats;
         posBuffer.flip();
-
+        /*
+         * Transform positions to the surface of the shape.
+         */
+        Transform transform = planeTransform(shape);
+        transform.setScale(halfExtent);
         MyBuffer.transform(posBuffer, 0, numFloats, transform);
         /*
          * Generate an index buffer for a 2-sided square.
@@ -519,13 +516,16 @@ public class DebugShapeFactory {
         int numBytes = indexBuffer.capacity();
         indexBuffer.limit(numBytes);
 
-        Mesh mesh = new Mesh();
-        mesh.setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
-        mesh.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, indexBuffer);
+        Mesh result = new Mesh();
+        result.setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
+        result.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, indexBuffer);
         /*
          * Add a normal buffer, if requested.
          */
         if (normals != DebugMeshNormals.None) {
+            Plane plane = shape.getPlane();
+            Vector3f v1 = plane.getNormal();
+
             FloatBuffer normBuffer = BufferUtils.createFloatBuffer(numFloats);
             for (int i = 0; i < 4; ++i) {
                 normBuffer.put(v1.x).put(v1.y).put(v1.z);
@@ -535,13 +535,71 @@ public class DebugShapeFactory {
             }
             normBuffer.flip();
 
-            mesh.setBuffer(VertexBuffer.Type.Normal, numAxes, normBuffer);
+            result.setBuffer(VertexBuffer.Type.Normal, numAxes, normBuffer);
         }
 
-        mesh.updateBound();
-        mesh.setStatic();
+        result.updateBound();
+        result.setStatic();
 
-        return mesh;
+        return result;
+    }
+
+    /**
+     * Generate vertex locations for triangles to visualize the specified
+     * PlaneCollisionShape.
+     *
+     * @param shape (not null, unaffected)
+     * @param halfExtent the desired half extent for the result (in scaled shape
+     * units, &gt;0)
+     * @return a new, flipped direct buffer containing scaled shape coordinates
+     * (capacity a multiple of 9)
+     */
+    private static FloatBuffer createPlaneTriangles(PlaneCollisionShape shape,
+            float halfExtent) {
+        assert halfExtent > 0f : halfExtent;
+        /*
+         * Generate vertex locations for a large square in the Y-Z plane.
+         */
+        FloatBuffer result = BufferUtils.createFloatBuffer(new float[]{
+            0f, 0f, -1f,
+            0f, 1f, 0f,
+            0f, 0f, 1f,
+            0f, -1f, 0f,
+            0f, 0f, -1f,
+            0f, 0f, 1f
+        });
+        int numFloats = result.capacity();
+        result.limit(numFloats);
+        /*
+         * Transform vertex locations to the surface of the shape.
+         */
+        Transform transform = planeTransform(shape);
+        transform.setScale(halfExtent);
+        MyBuffer.transform(result, 0, numFloats, transform);
+
+        return result;
+    }
+
+    /**
+     * Generate a Transform that maps the Y-Z plane to the surface of the
+     * specified PlaneCollisionShape.
+     *
+     * @param shape (not null, unaffected) units, &gt;0)
+     * @return a new Transform with scale=1
+     */
+    private static Transform planeTransform(PlaneCollisionShape shape) {
+        Transform result = new Transform();
+
+        Plane plane = shape.getPlane();
+        plane.getClosestPoint(translateIdentity, result.getTranslation());
+
+        Vector3f v1 = plane.getNormal();
+        Vector3f v2 = new Vector3f();
+        Vector3f v3 = new Vector3f();
+        MyVector3f.generateBasis(v1, v2, v3);
+        result.getRotation().fromAxes(v1, v2, v3);
+
+        return result;
     }
     // *************************************************************************
     // native methods
