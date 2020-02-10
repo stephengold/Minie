@@ -225,22 +225,28 @@ public class DebugShapeFactory {
 
     /**
      * Generate vertex locations for triangles to visualize the specified
-     * collision shape.
+     * collision shape. Note: recursive!
      *
-     * @param shape the shape to visualize (not null, not compound, unaffected)
+     * @param shape the shape to visualize (not null, unaffected)
      * @param meshResolution (0=low, 1=high)
-     * @return a new direct buffer containing scaled shape coordinates (capacity
-     * a multiple of 9)
+     * @return a new, unflipped, direct buffer full of scaled shape coordinates
+     * (capacity a multiple of 9)
      */
     public static FloatBuffer getDebugTriangles(CollisionShape shape,
             int meshResolution) {
-        assert !(shape instanceof CompoundCollisionShape);
+        Validate.nonNull(shape, "shape");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
         FloatBuffer result;
-        if (shape instanceof PlaneCollisionShape) {
-            result = createPlaneTriangles((PlaneCollisionShape) shape, 1000f);
+        if (shape instanceof CompoundCollisionShape) {
+            CompoundCollisionShape ccs = (CompoundCollisionShape) shape;
+            result = createCompoundTriangles(ccs, meshResolution);
+
+        } else if (shape instanceof PlaneCollisionShape) {
+            float halfExt = 1000f;
+            result = createPlaneTriangles((PlaneCollisionShape) shape, halfExt);
+
         } else {
             long shapeId = shape.getObjectId();
             DebugMeshCallback callback = new DebugMeshCallback();
@@ -340,6 +346,49 @@ public class DebugShapeFactory {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Generate vertex locations for triangles to visualize the specified
+     * CompoundCollisionShape.
+     *
+     * @param compoundShape (not null, unaffected)
+     * @param meshResolution (0=low, 1=high)
+     *
+     * @return a new, unflipped, direct buffer full of scaled shape coordinates
+     * (capacity a multiple of 9)
+     */
+    private static FloatBuffer createCompoundTriangles(
+            CompoundCollisionShape compoundShape, int meshResolution) {
+        ChildCollisionShape[] children = compoundShape.listChildren();
+        int numChildren = children.length;
+
+        FloatBuffer[] bufferArray = new FloatBuffer[numChildren];
+        Transform tmpTransform = new Transform();
+        int totalFloats = 0;
+
+        for (int childIndex = 0; childIndex < numChildren; ++childIndex) {
+            ChildCollisionShape childShape = children[childIndex];
+            CollisionShape shape = childShape.getShape();
+            childShape.copyTransform(tmpTransform);
+            FloatBuffer buffer = getDebugTriangles(shape, meshResolution);
+
+            int numFloats = buffer.capacity();
+            MyBuffer.transform(buffer, 0, numFloats, tmpTransform);
+            bufferArray[childIndex] = buffer;
+            totalFloats += numFloats;
+        }
+
+        FloatBuffer result = BufferUtils.createFloatBuffer(totalFloats);
+        for (FloatBuffer buffer : bufferArray) {
+            for (int position = 0; position < buffer.capacity(); ++position) {
+                float value = buffer.get(position);
+                result.put(value);
+            }
+        }
+        assert result.position() == result.capacity();
+
+        return result;
+    }
 
     /**
      * Create a Geometry for visualizing the specified (non-compound) collision
@@ -551,11 +600,12 @@ public class DebugShapeFactory {
      * @param shape (not null, unaffected)
      * @param halfExtent the desired half extent for the result (in scaled shape
      * units, &gt;0)
-     * @return a new, flipped direct buffer containing scaled shape coordinates
+     * @return a new, unflipped, direct buffer full of scaled shape coordinates
      * (capacity a multiple of 9)
      */
     private static FloatBuffer createPlaneTriangles(PlaneCollisionShape shape,
             float halfExtent) {
+        assert shape != null;
         assert halfExtent > 0f : halfExtent;
         /*
          * Generate vertex locations for a large square in the Y-Z plane.
@@ -569,7 +619,6 @@ public class DebugShapeFactory {
             0f, 0f, 1f
         });
         int numFloats = result.capacity();
-        result.limit(numFloats);
         /*
          * Transform vertex locations to the surface of the shape.
          */
@@ -604,7 +653,7 @@ public class DebugShapeFactory {
     // *************************************************************************
     // native methods
 
-    // TODO add a method to return vertices only (instead of a triangle mesh)
+    // TODO add a method to return vertices only (instead of triangles)
     native private static void getVertices2(long shapeId, int meshResolution,
             DebugMeshCallback buffer);
 }
