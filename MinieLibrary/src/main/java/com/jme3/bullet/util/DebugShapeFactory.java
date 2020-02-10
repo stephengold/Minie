@@ -173,35 +173,6 @@ public class DebugShapeFactory {
     }
 
     /**
-     * Generate vertex locations for triangles to visualize the specified
-     * collision shape. TODO re-order methods
-     *
-     * @param shape the shape to visualize (not null, not compound, unaffected)
-     * @param meshResolution (0=low, 1=high)
-     * @return a new direct buffer containing scaled shape coordinates (capacity
-     * a multiple of 9)
-     */
-    public static FloatBuffer getDebugTriangles(CollisionShape shape,
-            int meshResolution) {
-        assert !(shape instanceof CompoundCollisionShape);
-        Validate.inRange(meshResolution, "mesh resolution", lowResolution,
-                highResolution);
-
-        FloatBuffer result;
-        if (shape instanceof PlaneCollisionShape) {
-            result = createPlaneTriangles((PlaneCollisionShape) shape, 1000f);
-        } else {
-            long shapeId = shape.getObjectId();
-            DebugMeshCallback callback = new DebugMeshCallback();
-            getVertices2(shapeId, meshResolution, callback);
-            result = callback.getVertices();
-        }
-
-        assert (result.capacity() % 9) == 0 : result.capacity();
-        return result;
-    }
-
-    /**
      * For compatibility with the jme3-bullet library.
      *
      * @param shape the shape to visualize (may be null, unaffected)
@@ -249,6 +220,35 @@ public class DebugShapeFactory {
             result = createGeometry(shape, listener, normals, resolution);
         }
 
+        return result;
+    }
+
+    /**
+     * Generate vertex locations for triangles to visualize the specified
+     * collision shape.
+     *
+     * @param shape the shape to visualize (not null, not compound, unaffected)
+     * @param meshResolution (0=low, 1=high)
+     * @return a new direct buffer containing scaled shape coordinates (capacity
+     * a multiple of 9)
+     */
+    public static FloatBuffer getDebugTriangles(CollisionShape shape,
+            int meshResolution) {
+        assert !(shape instanceof CompoundCollisionShape);
+        Validate.inRange(meshResolution, "mesh resolution", lowResolution,
+                highResolution);
+
+        FloatBuffer result;
+        if (shape instanceof PlaneCollisionShape) {
+            result = createPlaneTriangles((PlaneCollisionShape) shape, 1000f);
+        } else {
+            long shapeId = shape.getObjectId();
+            DebugMeshCallback callback = new DebugMeshCallback();
+            getVertices2(shapeId, meshResolution, callback);
+            result = callback.getVertices();
+        }
+
+        assert (result.capacity() % 9) == 0 : result.capacity();
         return result;
     }
 
