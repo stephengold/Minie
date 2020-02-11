@@ -70,7 +70,7 @@ import jme3utilities.Validate;
  * <p>
  * When you add the Control to a Spatial, it generates a ragdoll consisting of a
  * rigid body for the torso and another for each linked bone. It also creates a
- * SixDofJoint connecting each rigid body to its parent in the link hierarchy.
+ * PhysicsJoint connecting each rigid body to its parent in the link hierarchy.
  * The mass of each rigid body and the range-of-motion of each joint can be
  * reconfigured on the fly.
  * <p>

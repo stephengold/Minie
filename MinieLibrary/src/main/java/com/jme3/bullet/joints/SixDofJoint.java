@@ -50,7 +50,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A 6 degree-of-freedom joint based on Bullet's btGeneric6DofConstraint.
+ * A 6 degree-of-freedom joint based on Bullet's btGeneric6DofConstraint. Axis
+ * rotations are applied in XYZ order.
  * <p>
  * <i>From the Bullet manual:</i><br>
  * <p>
