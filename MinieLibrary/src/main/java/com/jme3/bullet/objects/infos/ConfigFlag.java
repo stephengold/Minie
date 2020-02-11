@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,6 +73,10 @@ public class ConfigFlag {
      * enable self collisions for clusters
      */
     final public static int CL_SELF = 0x40;
+    /**
+     * enable the Vertex-versus-Face handler for soft-versus-soft collisions
+     */
+    final public static int VF_DD = 0x50;
     /**
      * message logger for this class
      */
