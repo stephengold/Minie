@@ -149,7 +149,7 @@ class DebugMeshCallback {
     /**
      * Calculate face normals and store them in a FloatBuffer.
      *
-     * @return a new flipped, direct buffer (not null)
+     * @return a new direct buffer (flipped, limit a multiple of 9)
      */
     FloatBuffer getFaceNormals() {
         int numVertices = list.size();
@@ -182,7 +182,8 @@ class DebugMeshCallback {
     /**
      * Copy the vertex locations to a FloatBuffer.
      *
-     * @return a new buffer (not null)
+     * @return a new direct buffer containing scaled shape coordinates (not
+     * flipped, capacity a multiple of 9)
      */
     FloatBuffer getVertices() {
         int numFloats = numAxes * list.size();
