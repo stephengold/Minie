@@ -11,14 +11,15 @@ description = 'the Minie physics-support library for jMonkeyEngine'
 ext {
     // Select the URL from which native libraries should be copied:
 
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/3.0.4/'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/3.0.5/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/'
 
-    // Specify the buildType + flavor of the native library for each platform:
+    // Specify the BTF (buildType + flavor) of native library for each platform:
     // (Specify '' for no native library.)
 
     btfLinux32 = 'ReleaseSp'
     btfLinux64 = 'ReleaseSp'
+    btfLinux_ARM64 = ''
     btfMacOSX32 = 'ReleaseSp'
     btfMacOSX64 = 'ReleaseSp'
     btfWindows32 = 'ReleaseSp'
@@ -55,6 +56,7 @@ test {
 
 processResources.dependsOn((btfLinux32 == '' ? 'clean' : 'download') + 'Linux32')
 processResources.dependsOn((btfLinux64 == '' ? 'clean' : 'download') + 'Linux64')
+processResources.dependsOn((btfLinux_ARM64 == '' ? 'clean' : 'download') + 'Linux_ARM64')
 processResources.dependsOn((btfMacOSX32 == '' ? 'clean' : 'download') + 'MacOSX32')
 processResources.dependsOn((btfMacOSX64 == '' ? 'clean' : 'download') + 'MacOSX64')
 processResources.dependsOn((btfWindows32 == '' ? 'clean' : 'download') + 'Windows32')
@@ -68,6 +70,10 @@ task downloadLinux32(type: MyDownload) {
 task downloadLinux64(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "Linux64${btfLinux64}_libbulletjme.so"
     target = file(nativeDir + 'linux/x86_64/libbulletjme.so')
+}
+task downloadLinux_ARM64(type: MyDownload) {
+    sourceUrl = libbulletjmeUrl + "Linux_ARM64${btfLinux_ARM64}_libbulletjme.so"
+    target = file(nativeDir + 'linux/arm64/libbulletjme.so')
 }
 task downloadMacOSX32(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "MacOSX32${btfMacOSX32}_libbulletjme.dylib"
@@ -87,7 +93,7 @@ task downloadWindows64(type: MyDownload) {
 }
 
 // cleanup tasks
-clean.dependsOn('cleanLinux32', 'cleanLinux64',
+clean.dependsOn('cleanLinux32', 'cleanLinux64', 'cleanLinux_ARM64',
     'cleanMacOSX32', 'cleanMacOSX64',
     'cleanWindows32', 'cleanWindows64'
 )
@@ -111,6 +117,9 @@ task cleanLinux32(type: Delete) {
 }
 task cleanLinux64(type: Delete) {
     delete nativeDir + 'linux/x86_64/libbulletjme.so'
+}
+task cleanLinux_ARM64(type: Delete) {
+    delete nativeDir + 'linux/arm64/libbulletjme.so'
 }
 task cleanMacOSX32(type: Delete) {
     delete nativeDir + 'osx/x86/libbulletjme.dylib'
