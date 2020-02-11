@@ -1,0 +1,9 @@
+language: java
+
+matrix:
+  include:
+  - os: osx
+  - os: linux
+
+script:
+ - ./gradlew build --console=plain --no-daemon
