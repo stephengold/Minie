@@ -33,7 +33,10 @@ package com.jme3.bullet.animation;
 
 import com.jme3.animation.Bone;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.joints.Constraint;
+import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -161,14 +164,21 @@ public class AttachmentLink extends PhysicsLink {
         Matrix3f rotManager = attachToManager.getRotation().toRotationMatrix();
         Matrix3f rot = matrixIdentity;
 
-        SixDofJoint joint = new SixDofJoint(managerBody, getRigidBody(),
-                pivotManager, pivot, rotManager, rot, true);
-        setJoint(joint);
+        Constraint constraint;
+        RotationOrder rotationOrder = linkConfig.rotationOrder();
+        if (rotationOrder == null) {
+            constraint = new SixDofJoint(managerBody, getRigidBody(),
+                    pivotManager, pivot, rotManager, rot, true);
+        } else {
+            constraint = new New6Dof(managerBody, getRigidBody(),
+                    pivotManager, pivot, rotManager, rot, rotationOrder);
+        }
+        setJoint(constraint);
 
         RangeOfMotion rangeOfMotion = new RangeOfMotion();
-        rangeOfMotion.setupJoint(joint, false, false, false);
+        rangeOfMotion.setup(constraint, false, false, false);
 
-        joint.setCollisionBetweenLinkedBodies(false);
+        constraint.setCollisionBetweenLinkedBodies(false);
     }
     // *************************************************************************
     // new methods exposed
