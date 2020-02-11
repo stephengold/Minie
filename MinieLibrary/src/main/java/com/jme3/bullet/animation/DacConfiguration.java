@@ -660,7 +660,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
 
     /**
      * Add unlinked descendants of the specified Bone to the specified
-     * collection. Note: recursive.
+     * collection. Note: recursive!
      *
      * @param startBone the starting Bone (not null, aliases created)
      * @param addResult the collection of skeleton bones to append to (not null,
