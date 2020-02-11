@@ -41,7 +41,6 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
-import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -1174,8 +1173,8 @@ public class DacLinks
 
         if (getSpatial() != null) {
             BoneLink boneLink = findBoneLink(boneName);
-            SixDofJoint joint = (SixDofJoint) boneLink.getJoint();
-            rom.setupJoint(joint, false, false, false);
+            PhysicsJoint joint = boneLink.getJoint();
+            rom.setup(joint, false, false, false);
         }
     }
 

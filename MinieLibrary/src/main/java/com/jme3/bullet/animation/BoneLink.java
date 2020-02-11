@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,10 @@ package com.jme3.bullet.animation;
 import com.jme3.anim.Joint;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.joints.Constraint;
+import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
@@ -161,7 +164,7 @@ public class BoneLink extends PhysicsLink {
     // new methods exposed
 
     /**
-     * Add a physics joint to this link and configure its range of motion. Also
+     * Add a PhysicsJoint to this link and configure its range of motion. Also
      * initialize the link's parent and its array of managed bones or armature
      * joints.
      *
@@ -202,16 +205,24 @@ public class BoneLink extends PhysicsLink {
                 = childToWorld.transformInverseVector(pivotWorld, null);
         Matrix3f rotParent = childToParent.getRotation().toRotationMatrix();
         Matrix3f rotChild = matrixIdentity;
-        // TODO try HingeJoint or ConeJoint or New6Dof
-        SixDofJoint joint = new SixDofJoint(parentBody, childBody, pivotParent,
-                pivotChild, rotParent, rotChild, true);
-        super.setJoint(joint);
 
+        Constraint constraint;
         String name = boneName();
-        RangeOfMotion rangeOfMotion = getControl().getJointLimits(name);
-        rangeOfMotion.setupJoint(joint, false, false, false);
+        RotationOrder rotationOrder = getControl().config(name).rotationOrder();
+        if (rotationOrder == null) {
+            // TODO try HingeJoint or ConeJoint
+            constraint = new SixDofJoint(parentBody, childBody, pivotParent,
+                    pivotChild, rotParent, rotChild, true);
+        } else {
+            constraint = new New6Dof(parentBody, childBody, pivotParent, pivotChild,
+                    rotParent, rotChild, rotationOrder);
+        }
+        super.setJoint(constraint);
 
-        joint.setCollisionBetweenLinkedBodies(false);
+        RangeOfMotion rangeOfMotion = getControl().getJointLimits(name);
+        rangeOfMotion.setup(constraint, false, false, false);
+
+        constraint.setCollisionBetweenLinkedBodies(false);
 
         assert managedBones == null;
         assert managedArmatureJoints == null;
@@ -321,7 +332,7 @@ public class BoneLink extends PhysicsLink {
 
         String name = boneName();
         RangeOfMotion preset = getControl().getJointLimits(name);
-        preset.setupJoint((SixDofJoint) getJoint(), lockX, lockY, lockZ);
+        preset.setup(getJoint(), lockX, lockY, lockZ);
         setUserControl(true);
     }
 
