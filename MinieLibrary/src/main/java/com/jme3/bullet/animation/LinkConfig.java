@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
@@ -76,6 +77,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     final private static String tagCenterHeuristic = "centerHeuristic";
     final private static String tagMassHeuristic = "massHeuristic";
     final private static String tagMassParameter = "massParameter";
+    final private static String tagRotationOrder = "rotationOrder";
     final private static String tagShapeHeuristic = "shapeHeuristic";
     final private static String tagShapeScale = "shapeScale";
     // *************************************************************************
@@ -93,6 +95,10 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
      * which mass heuristic to use
      */
     private MassHeuristic massHeuristic;
+    /**
+     * rotation order for New6Dof axes, or null for a SixDofJoint
+     */
+    private RotationOrder rotationOrder;
     /**
      * which shaping heuristic to use
      */
@@ -114,6 +120,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         centerHeuristic = CenterHeuristic.Mean;
         massParameter = 1f;
         massHeuristic = MassHeuristic.Mass;
+        rotationOrder = null;
         shapeHeuristic = ShapeHeuristic.VertexHull;
         shapeScale = new Vector3f(1f, 1f, 1f);
     }
@@ -131,6 +138,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         centerHeuristic = CenterHeuristic.Mean;
         massParameter = mass;
         massHeuristic = MassHeuristic.Mass;
+        rotationOrder = null;
         shapeHeuristic = ShapeHeuristic.VertexHull;
         shapeScale = new Vector3f(1f, 1f, 1f);
     }
@@ -149,12 +157,13 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         centerHeuristic = oldConfig.centerHeuristic();
         massParameter = mass;
         massHeuristic = MassHeuristic.Mass;
+        rotationOrder = null;
         shapeHeuristic = oldConfig.shapeHeuristic();
         shapeScale = oldConfig.shapeScale(null);
     }
 
     /**
-     * Instantiate a configuration for a fully custom link.
+     * Instantiate a custom configuration with no RotationOrder.
      *
      * @param massParm parameter to use to determine the mass (&gt;0)
      * @param massH which mass heuristic to use (not null)
@@ -174,6 +183,36 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         centerHeuristic = centerH;
         massParameter = massParm;
         massHeuristic = massH;
+        rotationOrder = null;
+        shapeHeuristic = shapeH;
+        shapeScale = sScale.clone();
+    }
+
+    /**
+     * Instantiate a custom configuration with a RotationOrder.
+     *
+     * @param massParm parameter to use to determine the mass (&gt;0)
+     * @param massH which mass heuristic to use (not null)
+     * @param shapeH which shaping heuristic to use (not null)
+     * @param sScale used to adjust the size of the shape (not null, no negative
+     * component, unaffected)
+     * @param centerH which centering heuristic to use (not null)
+     * @param axisOrder the rotation order for New6Dof axes, or null for a
+     * SixDofJoint
+     */
+    public LinkConfig(float massParm, MassHeuristic massH,
+            ShapeHeuristic shapeH, Vector3f sScale, CenterHeuristic centerH,
+            RotationOrder axisOrder) {
+        Validate.positive(massParm, "mass parameter");
+        Validate.nonNull(massH, "mass heruristic");
+        Validate.nonNull(shapeH, "shape heuristic");
+        Validate.nonNegative(sScale, "shape scale");
+        Validate.nonNull(centerH, "center heuristic");
+
+        centerHeuristic = centerH;
+        massParameter = massParm;
+        massHeuristic = massH;
+        rotationOrder = axisOrder;
         shapeHeuristic = shapeH;
         shapeScale = sScale.clone();
     }
@@ -357,6 +396,15 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     }
 
     /**
+     * Read the order in which axis rotations will be applied.
+     *
+     * @return the enum value or null
+     */
+    public RotationOrder rotationOrder() {
+        return rotationOrder;
+    }
+
+    /**
      * Read which shape heuristic to use.
      *
      * @return the enum value (not null)
@@ -402,6 +450,10 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         if (result != 0) {
             return result;
         }
+        result = rotationOrder.compareTo(other.rotationOrder);
+        if (result != 0) {
+            return result;
+        }
         result = shapeHeuristic.compareTo(other.shapeHeuristic);
         if (result != 0) {
             return result;
@@ -437,6 +489,8 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         massParameter = capsule.readFloat(tagMassParameter, 1f);
         massHeuristic = capsule.readEnum(tagMassHeuristic, MassHeuristic.class,
                 MassHeuristic.Mass);
+        rotationOrder = capsule.readEnum(tagRotationOrder, RotationOrder.class,
+                null);
         shapeHeuristic = capsule.readEnum(tagShapeHeuristic,
                 ShapeHeuristic.class, ShapeHeuristic.VertexHull);
         shapeScale = (Vector3f) capsule.readSavable(tagShapeScale, null);
@@ -457,6 +511,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
                 CenterHeuristic.Mean);
         capsule.write(massParameter, tagMassParameter, 1f);
         capsule.write(massHeuristic, tagMassHeuristic, MassHeuristic.Mass);
+        capsule.write(rotationOrder, tagRotationOrder, null);
         capsule.write(shapeHeuristic, tagShapeHeuristic,
                 ShapeHeuristic.VertexHull);
         capsule.write(shapeScale, tagShapeScale, null);
@@ -480,6 +535,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
             result = centerHeuristic == other.centerHeuristic
                     && Float.compare(massParameter, other.massParameter) == 0
                     && massHeuristic == other.massHeuristic
+                    && rotationOrder == other.rotationOrder
                     && shapeHeuristic == other.shapeHeuristic
                     && shapeScale.equals(other.shapeScale);
         }
@@ -497,6 +553,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         int hash = 17 + Objects.hashCode(centerHeuristic);
         hash = 11 * hash + Float.floatToIntBits(massParameter);
         hash = 11 * hash + Objects.hashCode(massHeuristic);
+        hash = 11 * hash + Objects.hashCode(rotationOrder);
         hash = 11 * hash + Objects.hashCode(shapeHeuristic);
         hash = 11 * hash + Objects.hashCode(shapeScale);
 
