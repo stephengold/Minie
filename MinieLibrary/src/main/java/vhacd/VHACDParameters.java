@@ -393,6 +393,7 @@ public class VHACDParameters implements Cloneable {
                     && getBeta() == other.getBeta()
                     && getConvexHullApproximation() == other.getConvexHullApproximation()
                     && getConvexHullDownSampling() == other.getConvexHullDownSampling()
+                    && getDebugEnabled() == other.getDebugEnabled()
                     && getMaxConcavity() == other.getMaxConcavity()
                     && getMaxVerticesPerHull() == other.getMaxVerticesPerHull()
                     && getMinVolumePerHull() == other.getMinVolumePerHull()
@@ -403,6 +404,31 @@ public class VHACDParameters implements Cloneable {
             return result;
         }
         return false;
+    }
+
+    /**
+     * Generate the hash code for this object.
+     *
+     * @return value for use in hashing
+     */
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + (this.DEBUG ? 1 : 0);
+        hash = 83 * hash + getACDMode().hashCode();
+        hash = 83 * hash + Double.hashCode(getAlpha());
+        hash = 83 * hash + Double.hashCode(getBeta());
+        hash = 83 * hash + getConvexHullApproximation();
+        hash = 83 * hash + getConvexHullDownSampling();
+        hash = 83 * hash + Double.hashCode(getMaxConcavity());
+        hash = 83 * hash + getMaxVerticesPerHull();
+        hash = 83 * hash + Double.hashCode(getMinVolumePerHull());
+        hash = 83 * hash + getOclAcceleration();
+        hash = 83 * hash + Boolean.hashCode(getPCA());
+        hash = 83 * hash + getPlaneDownSampling();
+        hash = 83 * hash + getVoxelResolution();
+
+        return hash;
     }
 
     /**
