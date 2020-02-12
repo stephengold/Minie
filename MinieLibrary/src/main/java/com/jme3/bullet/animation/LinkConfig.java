@@ -522,22 +522,25 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     /**
      * Test for exact equivalence with another Object.
      *
-     * @param otherObject the object to compare to (may be null)
+     * @param otherObject the object to compare to (may be null, unaffected)
      * @return true if the objects are equivalent, otherwise false
      */
     @Override
     public boolean equals(Object otherObject) {
-        boolean result = false;
+        boolean result;
         if (otherObject == this) {
             result = true;
-        } else if (otherObject instanceof LinkConfig) {
+        } else if (otherObject != null
+                && otherObject.getClass() == getClass()) {
             LinkConfig other = (LinkConfig) otherObject;
-            result = centerHeuristic == other.centerHeuristic
-                    && Float.compare(massParameter, other.massParameter) == 0
-                    && massHeuristic == other.massHeuristic
-                    && rotationOrder == other.rotationOrder
-                    && shapeHeuristic == other.shapeHeuristic
+            result = (centerHeuristic == other.centerHeuristic)
+                    && (Float.compare(massParameter, other.massParameter) == 0)
+                    && (massHeuristic == other.massHeuristic)
+                    && (rotationOrder == other.rotationOrder)
+                    && (shapeHeuristic == other.shapeHeuristic)
                     && shapeScale.equals(other.shapeScale);
+        } else {
+            result = false;
         }
 
         return result;

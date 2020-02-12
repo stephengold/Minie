@@ -1160,17 +1160,17 @@ abstract public class PhysicsCollisionObject
     /**
      * Test for ID equality.
      *
-     * @param otherObject (may be null)
+     * @param otherObject the object to compare to (may be null, unaffected)
      * @return true if the collision objects have the same ID, otherwise false
      */
     @Override
     public boolean equals(Object otherObject) {
         boolean result;
-        if (this == otherObject) {
+        if (otherObject == this) {
             result = true;
-        } else if (otherObject instanceof PhysicsCollisionObject) {
-            PhysicsCollisionObject other = (PhysicsCollisionObject) otherObject;
-            long otherId = other.getObjectId();
+        } else if (otherObject != null
+                && otherObject.getClass() == getClass()) {
+            long otherId = ((PhysicsCollisionObject) otherObject).getObjectId();
             result = (objectId == otherId);
         } else {
             result = false;

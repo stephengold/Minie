@@ -106,18 +106,21 @@ class MeshEdge {
     /**
      * Test for exact equivalence with another Object.
      *
-     * @param otherObject the object to compare to (may be null)
+     * @param otherObject the object to compare to (may be null, unaffected)
      * @return true if the objects are equivalent, otherwise false
      */
     @Override
     public boolean equals(Object otherObject) {
-        boolean result = false;
+        boolean result;
         if (otherObject == this) {
             result = true;
-        } else if (otherObject instanceof MeshEdge) {
+        } else if (otherObject != null
+                && otherObject.getClass() == getClass()) {
             MeshEdge otherEdge = (MeshEdge) otherObject;
-            result = otherEdge.index1 == index1
-                    && otherEdge.index2 == index2;
+            result = (otherEdge.index1 == index1)
+                    && (otherEdge.index2 == index2);
+        } else {
+            result = false;
         }
 
         return result;

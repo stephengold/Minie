@@ -537,19 +537,22 @@ abstract public class CollisionShape
     // Object methods
 
     /**
-     * Test whether this shape is identical to another.
+     * Test for ID equality.
      *
-     * @param otherObject (may be null, unaffected)
+     * @param otherObject the object to compare to (may be null, unaffected)
      * @return true if the shapes have the same ID, otherwise false
      */
     @Override
     public boolean equals(Object otherObject) {
-        boolean result = false;
-        if (otherObject instanceof CollisionShape) {
+        boolean result;
+        if (otherObject == this) {
+            result = true;
+        } else if (otherObject != null
+                && otherObject.getClass() == getClass()) {
             long otherId = ((CollisionShape) otherObject).getObjectId();
-            if (nativeId == otherId) {
-                result = true;
-            }
+            result = (nativeId == otherId);
+        } else {
+            result = false;
         }
 
         return result;
