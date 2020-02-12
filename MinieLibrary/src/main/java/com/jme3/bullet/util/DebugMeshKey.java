@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -116,29 +116,27 @@ class DebugMeshKey {
     /**
      * Test for exact equivalence with another Object.
      *
-     * @param otherObject (may be null)
+     * @param otherObject the object to compare to (may be null, unaffected)
      * @return true if the objects are equivalent, otherwise false
      */
     @Override
     public boolean equals(Object otherObject) {
-        if (this == otherObject) {
-            return true;
-        } else if (otherObject instanceof DebugMeshKey) {
+        boolean result;
+        if (otherObject == this) {
+            result = true;
+        } else if (otherObject != null
+                && otherObject.getClass() == getClass()) {
             DebugMeshKey otherKey = (DebugMeshKey) otherObject;
-            if (shapeId != otherKey.shapeId) {
-                return false;
-            } else if (!scale.equals(otherKey.scale)) {
-                return false;
-            } else if (margin != otherKey.margin) {
-                return false;
-            } else if (normals != otherKey.normals) {
-                return false;
-            } else {
-                return resolution == otherKey.resolution;
-            }
+            result = (shapeId == otherKey.shapeId)
+                    && scale.equals(otherKey.scale)
+                    && (Float.compare(margin, otherKey.margin) == 0)
+                    && (normals == otherKey.normals)
+                    && (resolution == otherKey.resolution);
         } else {
-            return false;
+            result = false;
         }
+
+        return result;
     }
 
     /**

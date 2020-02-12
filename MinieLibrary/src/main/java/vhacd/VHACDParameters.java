@@ -379,31 +379,37 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Test for equality.
+     * Test for exact equivalence with another Object.
      *
-     * @param op2 (may be null, unaffected)
-     * @return true if all parameters are equal, otherwise false
+     * @param otherObject (may be null, unaffected)
+     * @return true if the objects are equivalent, otherwise false
      */
     @Override
-    public boolean equals(Object op2) {
-        if (op2 instanceof VHACDParameters) {
-            VHACDParameters other = (VHACDParameters) op2;
-            boolean result = getACDMode() == other.getACDMode()
-                    && getAlpha() == other.getAlpha()
-                    && getBeta() == other.getBeta()
+    public boolean equals(Object otherObject) {
+        boolean result;
+        if (otherObject == this) {
+            result = true;
+        } else if (otherObject != null
+                && otherObject.getClass() == getClass()) {
+            VHACDParameters other = (VHACDParameters) otherObject;
+            result = getACDMode() == other.getACDMode()
+                    && (Double.compare(getAlpha(), other.getAlpha()) == 0)
+                    && (Double.compare(getBeta(), other.getBeta()) == 0)
                     && getConvexHullApproximation() == other.getConvexHullApproximation()
                     && getConvexHullDownSampling() == other.getConvexHullDownSampling()
                     && getDebugEnabled() == other.getDebugEnabled()
-                    && getMaxConcavity() == other.getMaxConcavity()
+                    && (Double.compare(getMaxConcavity(), other.getMaxConcavity()) == 0)
                     && getMaxVerticesPerHull() == other.getMaxVerticesPerHull()
-                    && getMinVolumePerHull() == other.getMinVolumePerHull()
+                    && (Double.compare(getMinVolumePerHull(), other.getMinVolumePerHull()) == 0)
                     && getOclAcceleration() == other.getOclAcceleration()
                     && getPCA() == other.getPCA()
                     && getPlaneDownSampling() == other.getPlaneDownSampling()
                     && getVoxelResolution() == other.getVoxelResolution();
-            return result;
+        } else {
+            result = false;
         }
-        return false;
+
+        return result;
     }
 
     /**

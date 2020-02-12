@@ -1921,19 +1921,22 @@ public class PhysicsSoftBody extends PhysicsBody {
         // Object methods
 
         /**
-         * Test for exact equivalence with another Object.
+         * Test for ID equality.
          *
-         * @param otherObject the object to compare to (may be null)
-         * @return true if the objects are equivalent, otherwise false
+         * @param otherObject the object to compare to (may be null, unaffected)
+         * @return true if the materials have the same ID, otherwise false
          */
         @Override
         public boolean equals(Object otherObject) {
-            boolean result = false;
+            boolean result;
             if (otherObject == this) {
                 result = true;
-            } else if (otherObject instanceof Material) {
+            } else if (otherObject != null
+                    && otherObject.getClass() == getClass()) {
                 Material otherMaterial = (Material) otherObject;
                 result = (otherMaterial.materialId == materialId);
+            } else {
+                result = false;
             }
 
             return result;

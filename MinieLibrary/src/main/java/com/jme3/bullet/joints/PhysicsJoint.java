@@ -308,17 +308,18 @@ abstract public class PhysicsJoint
     /**
      * Test for ID equality.
      *
-     * @param otherObject (may be null)
+     * @param otherObject the object to compare to (may be null, unaffected)
      * @return true if the joints have the same ID, otherwise false
      */
     @Override
     public boolean equals(Object otherObject) {
         boolean result;
-        if (this == otherObject) {
+        if (otherObject == this) {
             result = true;
-        } else if (otherObject instanceof PhysicsJoint) {
-            PhysicsJoint other = (PhysicsJoint) otherObject;
-            long otherId = other.getObjectId();
+        } else if (otherObject != null
+                && otherObject.getClass() == getClass()) {
+            PhysicsJoint otherJoint = (PhysicsJoint) otherObject;
+            long otherId = otherJoint.getObjectId();
             result = (objectId == otherId);
         } else {
             result = false;
