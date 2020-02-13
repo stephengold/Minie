@@ -53,7 +53,7 @@ import jme3utilities.math.MyVolume;
  * @author normenhansen
  * @see MultiSphere
  */
-public class SphereCollisionShape extends CollisionShape {
+public class SphereCollisionShape extends ConvexShape {
     // *************************************************************************
     // constants and loggers
 

@@ -140,7 +140,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * Instantiate a responsive character with the specified CollisionShape and
      * step height.
      *
-     * @param shape the desired shape (not null, convex, alias created)
+     * @param shape the desired shape (not null, convex, alias created) TODO declare as ConvexShape
      * @param stepHeight the maximum amount of vertical movement without jumping
      * or falling (in physics-space units)
      */
