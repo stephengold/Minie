@@ -127,6 +127,7 @@ Some `jme3-bullet` bugs that have been fixed in Minie:
  + 1141 `TestAttachGhostObject` fails on Linux
  + 1157 can't enable `TranslationalLimitMotor`
  + 1178 `BulletAppState` violates the `isInitialized()` contract
+ + 1283 CCD ignores collision groups
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
@@ -416,9 +417,9 @@ Clone the Minie repository using Git:
    + using Git:
      + `git clone https://github.com/stephengold/Minie.git`
      + `cd Minie`
-     + `git checkout -b latest 1.4.0for32`
+     + `git checkout -b latest 1.4.1for32`
    + using a web browser:
-     + browse to [https://github.com/stephengold/Minie/releases/tag/1.4.0for32][latest]
+     + browse to [https://github.com/stephengold/Minie/releases/tag/1.4.1for32][latest]
      + follow the "Source code (zip)" link
      + save the ZIP file
      + unzip the saved ZIP file
@@ -503,7 +504,7 @@ resolve the remaining dependencies automatically.
         jcenter()
     }
     dependencies {
-        compile 'com.github.stephengold:Minie:1.4.0for32'
+        compile 'com.github.stephengold:Minie:1.4.1for32'
     }
 
 #### For Ant projects
@@ -511,7 +512,7 @@ resolve the remaining dependencies automatically.
 For projects built using [Ant], download the Minie and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/1.4.0for32
+ + https://github.com/stephengold/Minie/releases/tag/1.4.1for32
  + https://github.com/stephengold/Heart/releases/tag/heart-5.0.0for32
 
 You'll want both class jars
@@ -1618,7 +1619,7 @@ YouTube videos about Minie:
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
-[latest]: https://github.com/stephengold/Minie/releases/tag/1.4.0for32 "latest release"
+[latest]: https://github.com/stephengold/Minie/releases/tag/1.4.1for32 "latest release"
 [libbulletjme]: https://github.com/stephengold/Libbulletjme "Libbulletjme Project"
 [license]: https://github.com/stephengold/Minie/blob/for_jME3.2/LICENSE "Minie license"
 [log]: https://github.com/stephengold/Minie/blob/for_jME3.2/MinieLibrary/release-notes.md "release log"
