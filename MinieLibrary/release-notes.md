@@ -1,6 +1,6 @@
 # release notes for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.4.1for32 released on TBD
+## Version 1.4.1for32 released on 12 February 2020
 
 Fixed JME issue 1283 (CCD doesn't respect collision groups)
 
