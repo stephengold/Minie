@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test.tunings;
 
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DynamicAnimControl;
@@ -62,10 +63,10 @@ public class MhGameControl
         super();
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
-                CenterHeuristic.Mean);
+                CenterHeuristic.Mean, RotationOrder.XYZ);
         LinkConfig simplified = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.FourSphere, new Vector3f(1f, 1f, 1f),
-                CenterHeuristic.Mean);
+                CenterHeuristic.Mean, RotationOrder.XYZ);
 
         super.setConfig(torsoName, hull);
 
