@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Stephen Gold
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,11 +29,10 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.minie;
+package com.jme3.bullet.control;
 
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.control.AbstractPhysicsControl;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -54,10 +53,8 @@ import jme3utilities.math.MyVector3f;
  * A PhysicsControl to link a PhysicsCharacter to a Spatial.
  *
  * @author Stephen Gold sgold@sonic.net
- * @deprecated use {@link com.jme3.bullet.control.CharacterControl}
  */
-@Deprecated
-public class MinieCharacterControl extends AbstractPhysicsControl {
+public class CharacterControl extends AbstractPhysicsControl {
     // *************************************************************************
     // constants and loggers
 
@@ -65,7 +62,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * message logger for this class
      */
     final public static Logger logger2
-            = Logger.getLogger(MinieCharacterControl.class.getName());
+            = Logger.getLogger(CharacterControl.class.getName());
     /**
      * field names for serialization
      */
@@ -104,7 +101,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * No-argument constructor needed by SavableClassUtil. Do not invoke
      * directly!
      */
-    public MinieCharacterControl() {
+    public CharacterControl() {
     }
 
     /**
@@ -115,7 +112,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * @param stepHeight the maximum amount of normal vertical movement (in
      * physics-space units)
      */
-    public MinieCharacterControl(CollisionShape shape, float stepHeight) {
+    public CharacterControl(CollisionShape shape, float stepHeight) {
         character = new PhysicsCharacter(shape, stepHeight);
     }
     // *************************************************************************
@@ -277,10 +274,10 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * @return a new Control (not null)
      */
     @Override
-    public MinieCharacterControl jmeClone() {
+    public CharacterControl jmeClone() {
         try {
-            MinieCharacterControl clone
-                    = (MinieCharacterControl) super.clone();
+            CharacterControl clone
+                    = (CharacterControl) super.clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
