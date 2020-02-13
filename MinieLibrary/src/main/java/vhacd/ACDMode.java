@@ -14,7 +14,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  */
 package vhacd;
 
+/**
+ * Enumerate the legal values for the m_mode field of IVHACD::Parameters.
+ *
+ * @author Riccardo Balbo
+ */
 public enum ACDMode {
+    /**
+     * m_mode = 0: use voxels
+     */
     VOXEL,
+    /**
+     * m_mode = 1: use tetrahedra
+     */
     TETRAHEDRON
 }
