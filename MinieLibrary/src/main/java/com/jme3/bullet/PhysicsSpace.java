@@ -1093,10 +1093,9 @@ public class PhysicsSpace {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * Update this space.
      *
-     * @param timeInterval the time interval since the previous simulation step
-     * (in seconds, &ge;0)
+     * @param timeInterval the time interval to simulate (in seconds, &ge;0)
      * @param maxSteps the maximum number of steps of size accuracy (&ge;1) or 0
      * for a single step of size timeInterval
      */
