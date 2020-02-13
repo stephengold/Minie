@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -82,7 +82,7 @@ public class PuppetControl
         super.link("upper_arm.1.R", hull,
                 new RangeOfMotion(1.5f, -0.5f, 1.5f, -0.5f, 1f, -1f));
         super.link("forearm.1.R", hull,
-                new RangeOfMotion(0f, 0f, 2f, 0f, 1f, -1f));
+                new RangeOfMotion(0f, 0f, 1.5f, 0f, 1f, -1f));
         super.link("hand.R", hull,
                 new RangeOfMotion(0.8f, 0.1f, 0f));
 
@@ -91,7 +91,7 @@ public class PuppetControl
         super.link("upper_arm.1.L", hull,
                 new RangeOfMotion(0.5f, -1.5f, 1.5f, -0.5f, 1f, -1f));
         super.link("forearm.1.L", hull,
-                new RangeOfMotion(0f, 0f, 2f, 0f, 1f, -1f));
+                new RangeOfMotion(0f, 0f, 1.5f, 0f, 1f, -1f));
         super.link("hand.L", hull,
                 new RangeOfMotion(0.8f, 0.1f, 0f));
 
