@@ -56,9 +56,9 @@ import jme3utilities.minie.MyShape;
  * The abstract base class for collision shapes based on Bullet's
  * btCollisionShape.
  * <p>
- * Subclasses include BoxCollisionShape and CapsuleCollisionShape. As suggested
- * in the Bullet manual, a single CollisionShape can be shared among multiple
- * collision objects.
+ * Subclasses include ConvexShape and MeshCollisionShape. As suggested in the
+ * Bullet manual, a single CollisionShape can be shared among multiple collision
+ * objects.
  *
  * @author normenhansen
  */

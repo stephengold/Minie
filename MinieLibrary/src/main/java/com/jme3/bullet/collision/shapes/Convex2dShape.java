@@ -49,7 +49,7 @@ import jme3utilities.math.MyVector3f;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class Convex2dShape extends CollisionShape {
+public class Convex2dShape extends ConvexShape {
     // *************************************************************************
     // constants and loggers
 
@@ -82,7 +82,8 @@ public class Convex2dShape extends CollisionShape {
     /**
      * Instantiate a shape based on the specified convex shape.
      *
-     * @param base the base shape (not null, convex, alias created)
+     * @param base the base shape (not null, convex, alias created) TODO declare
+     * as ConvexShape
      */
     public Convex2dShape(CollisionShape base) {
         assert base.isConvex();

@@ -1049,7 +1049,8 @@ public class PhysicsSpace {
      * A sweep test will miss a collision if it starts inside an object and
      * sweeps away from the object's center.
      *
-     * @param shape the shape to sweep (not null, convex, unaffected)
+     * @param shape the shape to sweep (not null, convex, unaffected) TODO
+     * declare as ConvexShape
      * @param start the starting physics-space transform (not null, unaffected)
      * @param end the ending physics-space transform (not null, unaffected)
      * @param results the list to hold results (not null, modified)

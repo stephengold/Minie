@@ -52,7 +52,7 @@ import jme3utilities.math.MyVolume;
  *
  * @author normenhansen
  */
-public class BoxCollisionShape extends CollisionShape {
+public class BoxCollisionShape extends ConvexShape {
     // *************************************************************************
     // constants and loggers
 
