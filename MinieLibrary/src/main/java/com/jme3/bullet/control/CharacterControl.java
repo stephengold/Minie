@@ -172,7 +172,7 @@ public class CharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Alter the character's fall speed.
+     * Alter this character's maximum fall speed (terminal velocity).
      *
      * @param speed the desired speed (in physics-space units per second,
      * default=55)
