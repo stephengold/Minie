@@ -422,6 +422,9 @@ public class CompoundCollisionShape extends CollisionShape {
 
         children = capsule.readSavableArrayList(tagChildren, null);
         loadChildren();
+
+        setScale(scale);
+        setMargin(margin);
     }
 
     /**
