@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -85,6 +85,7 @@ public class TestCloneDumper {
     private void setParameters(PhysicsDumper du, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         du.setEnabled(DumpFlags.Buckets, flag);
+        du.setEnabled(DumpFlags.ChildShapes, !flag);
         du.setEnabled(DumpFlags.ClustersInSofts, !flag);
         du.setEnabled(DumpFlags.CullHints, flag);
         du.setEnabled(DumpFlags.JointsInBodies, !flag);
@@ -115,6 +116,7 @@ public class TestCloneDumper {
     private void verifyParameters(PhysicsDumper du, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert du.isEnabled(DumpFlags.Buckets) == flag : flag;
+        assert du.isEnabled(DumpFlags.ChildShapes) == !flag : flag;
         assert du.isEnabled(DumpFlags.ClustersInSofts) == !flag : flag;
         assert du.isEnabled(DumpFlags.CullHints) == flag : flag;
         assert du.isEnabled(DumpFlags.JointsInBodies) == !flag : flag;
