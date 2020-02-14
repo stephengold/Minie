@@ -149,7 +149,7 @@ public class MakeHeart {
          * Phase 4: combine 2 hulls (one with a 180-degree rotation)
          * to generate a compound shape.
          */
-        Vector3f scale = new Vector3f(1f, 0.5f, 1f);
+        Vector3f scale = new Vector3f(1f, 0.7f, 1f);
         MyBuffer.scale(sampleBuffer, 0, sampleBuffer.limit(), scale);
         HullCollisionShape half = new HullCollisionShape(sampleBuffer);
         CompoundCollisionShape compound = new CompoundCollisionShape();

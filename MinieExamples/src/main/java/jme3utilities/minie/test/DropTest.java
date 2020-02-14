@@ -1002,7 +1002,7 @@ public class DropTest
          */
         String heartPath = "CollisionShapes/heart.j3o";
         shape = (CollisionShape) assetManager.loadAsset(heartPath);
-        shape.setScale(1.5f);
+        shape.setScale(1.2f);
         namedShapes.put("heart", shape);
         /*
          * "sword" using V-HACD
