@@ -11,8 +11,10 @@ DST=/home/sgold/Git/Minie/Jme3Examples/src/main/java/jme3test
 cd $SRC
 
 cp --no-clobber --recursive bullet $DST
-rm $DST/bullet/TestBoneRagdoll.java \
+rm --force \
+   $DST/bullet/TestBoneRagdoll.java \
    $DST/bullet/TestIK.java \
+   $DST/bullet/TestIssue931.java \
    $DST/bullet/TestIssue1004.java \
    $DST/bullet/TestRagdollCharacter.java
 
