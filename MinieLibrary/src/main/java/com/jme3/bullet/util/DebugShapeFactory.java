@@ -168,6 +168,7 @@ public class DebugShapeFactory {
         FloatBuffer floatBuffer = getDebugTriangles(shape, lowResolution);
         Mesh result = new Mesh();
         result.setBuffer(VertexBuffer.Type.Position, numAxes, floatBuffer);
+        result.updateBound();
 
         return result;
     }
