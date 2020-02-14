@@ -367,13 +367,19 @@ public class TestCloneShapes {
         verifyParameters(shape, 0.3f);
         verifyParameters(shapeClone, 0.6f);
 
+        CollisionShape.setDefaultMargin(1f);
+
         CollisionShape shapeCopy
                 = BinaryExporter.saveAndLoad(assetManager, shape);
         verifyParameters(shapeCopy, 0.3f);
+        assert shapeCopy.getMargin() == shape.getMargin();
 
         CollisionShape shapeCloneCopy
                 = BinaryExporter.saveAndLoad(assetManager, shapeClone);
         verifyParameters(shapeCloneCopy, 0.6f);
+        assert shapeCloneCopy.getMargin() == shapeClone.getMargin();
+
+        CollisionShape.setDefaultMargin(0.04f);
     }
 
     /**
