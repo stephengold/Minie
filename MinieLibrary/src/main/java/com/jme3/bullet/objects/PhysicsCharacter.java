@@ -197,7 +197,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Read this character's fall speed.
+     * Read this character's maximum fall speed (terminal velocity).
      *
      * @return the speed (in physics-space units per second)
      */
@@ -409,7 +409,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter this character's fall speed.
+     * Alter this character's maximum fall speed (terminal velocity).
      *
      * @param fallSpeed the desired speed (in physics-space units per second,
      * default=55)
