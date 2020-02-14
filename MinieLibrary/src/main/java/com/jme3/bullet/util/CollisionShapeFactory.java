@@ -50,14 +50,15 @@ import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.terrain.geomipmap.TerrainPatch;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.util.BufferUtils;
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import vhacd.VHACD;
 import vhacd.VHACDHull;
 import vhacd.VHACDParameters;
@@ -141,6 +142,24 @@ public class CollisionShapeFactory {
 
     /**
      * Create a shape for an immovable object, based on the specified Spatial.
+     * This version ignores terrain.
+     *
+     * @param subtree the scene-graph subtree on which to base the shape (not
+     * null, unaffected)
+     * @return a new MeshCollisionShape
+     */
+    public static MeshCollisionShape createMergedMeshShape(Spatial subtree) {
+        Validate.nonNull(subtree, "subtree");
+
+        Mesh combinedMesh = makeMergedMesh(subtree);
+        MeshCollisionShape result = new MeshCollisionShape(combinedMesh);
+
+        return result;
+    }
+
+    /**
+     * Create a shape for an immovable object, based on the specified Spatial.
+     * This version handles terrain.
      *
      * @param subtree the Spatial on which to base the shape (not null,
      * unaffected)
@@ -192,57 +211,19 @@ public class CollisionShapeFactory {
             result = addResult;
         }
 
-        List<Geometry> allGeometries
-                = MySpatial.listSpatials(subtree, Geometry.class, null);
-
-        List<Geometry> includedGeometries
-                = new ArrayList<>(allGeometries.size());
-        int totalVertices = 0;
-        int totalIndices = 0;
-        for (Geometry geometry : allGeometries) {
-            /*
-             * Exclude any Geometry tagged with "JmePhysicsIgnore"
-             * or having a null/empty mesh.
-             */
-            Boolean ignore = geometry.getUserData(UserData.JME_PHYSICSIGNORE);
-            if (ignore != null && ignore) {
-                continue;
-            }
-            Mesh jmeMesh = geometry.getMesh();
-            if (jmeMesh == null) {
-                continue;
-            }
-            IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
-            int numIndices = indexBuffer.size();
-            if (numIndices == 0) {
-                continue;
-            }
-            int numVertices = jmeMesh.getVertexCount();
-            if (numVertices == 0) {
-                continue;
-            }
-
-            includedGeometries.add(geometry);
-            totalIndices += numIndices;
-            totalVertices += numVertices;
-        }
-        /*
-         * Generate a temporary mesh that combines the triangles of
-         * all included meshes.
-         */
-        IntBuffer indexBuffer = BufferUtils.createIntBuffer(totalIndices);
-        int totalFloats = numAxes * totalVertices;
-        FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(totalFloats);
-        for (Geometry geometry : includedGeometries) {
-            appendTriangles(geometry, subtree, positionBuffer, indexBuffer);
-        }
-        float[] positionArray = new float[totalFloats];
-        for (int offset = 0; offset < totalFloats; ++offset) {
-            positionArray[offset] = positionBuffer.get(offset);
-        }
-        int[] indexArray = new int[totalIndices];
-        for (int offset = 0; offset < totalIndices; ++offset) {
+        Mesh combinedMesh = makeMergedMesh(subtree);
+        IndexBuffer indexBuffer = combinedMesh.getIndicesAsList();
+        int numIndices = indexBuffer.size();
+        int[] indexArray = new int[numIndices];
+        for (int offset = 0; offset < numIndices; ++offset) {
             indexArray[offset] = indexBuffer.get(offset);
+        }
+        FloatBuffer positionBuffer
+                = combinedMesh.getFloatBuffer(VertexBuffer.Type.Position);
+        int numFloats = positionBuffer.limit();
+        float[] positionArray = new float[numFloats];
+        for (int offset = 0; offset < numFloats; ++offset) {
+            positionArray[offset] = positionBuffer.get(offset);
         }
         /*
          * Use the V-HACD algorithm to generate a list of hulls.
@@ -275,10 +256,10 @@ public class CollisionShapeFactory {
      * modified)
      */
     private static void appendTriangles(Geometry geometry, Spatial modelRoot,
-            FloatBuffer addPositions, IntBuffer addIndices) {
+            FloatBuffer addPositions, IndexBuffer addIndices) {
         Mesh jmeMesh = geometry.getMesh();
         /*
-         * Append combined-mesh indices to the IntBuffer.
+         * Append combined-mesh indices to the IndexBuffer.
          */
         int indexBase = addPositions.position() / numAxes;
         IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
@@ -286,7 +267,7 @@ public class CollisionShapeFactory {
         for (int offset = 0; offset < numIndices; ++offset) {
             int indexInGeometry = indexBuffer.get(offset);
             int indexInCombinedMesh = indexBase + indexInGeometry;
-            addIndices.put(indexInCombinedMesh);
+            MyBuffer.putRelative(addIndices, indexInCombinedMesh);
         }
         /*
          * Append transformed vertex locations to the FloatBuffer.
@@ -467,6 +448,67 @@ public class CollisionShapeFactory {
         Transform mrTransform = new Transform(); // TODO garbage
         mrTransform.setScale(modelRoot.getLocalScale());
         result.combineWithParent(mrTransform);
+
+        return result;
+    }
+
+    /**
+     * Generate a Mesh that combines the triangles of non-empty geometries not
+     * tagged with "JmePhysicsIgnore".
+     *
+     * @param subtree the scene-graph subtree on which to base the Mesh (not
+     * null, unaffected)
+     * @return a new, indexed Mesh in Triangles mode, its bounds not set
+     */
+    private static Mesh makeMergedMesh(Spatial subtree) {
+        List<Geometry> allGeometries
+                = MySpatial.listSpatials(subtree, Geometry.class, null);
+        List<Geometry> includedGeometries
+                = new ArrayList<>(allGeometries.size());
+        int totalIndices = 0;
+        int totalVertices = 0;
+        for (Geometry geometry : allGeometries) {
+            /*
+             * Exclude any Geometry tagged with "JmePhysicsIgnore"
+             * or having a null/empty mesh.
+             */
+            Boolean ignore = geometry.getUserData(UserData.JME_PHYSICSIGNORE);
+            if (ignore != null && ignore) {
+                continue;
+            }
+            Mesh jmeMesh = geometry.getMesh();
+            if (jmeMesh == null) {
+                continue;
+            }
+            IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
+            int numIndices = indexBuffer.size();
+            if (numIndices == 0) {
+                continue;
+            }
+            int numVertices = jmeMesh.getVertexCount();
+            if (numVertices == 0) {
+                continue;
+            }
+
+            includedGeometries.add(geometry);
+            totalIndices += numIndices;
+            totalVertices += numVertices;
+        }
+
+        IndexBuffer indexBuffer
+                = IndexBuffer.createIndexBuffer(totalVertices, totalIndices);
+        int totalFloats = numAxes * totalVertices;
+        FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(totalFloats);
+
+        for (Geometry geometry : includedGeometries) {
+            appendTriangles(geometry, subtree, positionBuffer, indexBuffer);
+        }
+
+        VertexBuffer.Format ibFormat = MyBuffer.getFormat(indexBuffer);
+        Buffer ibData = indexBuffer.getBuffer();
+        Mesh result = new Mesh();
+        result.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, ibFormat, ibData);
+        result.setBuffer(VertexBuffer.Type.Position, numAxes, positionBuffer);
 
         return result;
     }
