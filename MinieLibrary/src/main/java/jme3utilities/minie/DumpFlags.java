@@ -44,6 +44,10 @@ public enum DumpFlags {
      */
     Buckets,
     /**
+     * children in compound collision shapes
+     */
+    ChildShapes,
+    /**
      * clusters in soft bodies
      */
     ClustersInSofts,

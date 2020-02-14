@@ -42,6 +42,7 @@ import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
+import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.PhysicsJoint;
@@ -97,6 +98,10 @@ public class PhysicsDumper extends Dumper {
     // *************************************************************************
     // fields
 
+    /**
+     * enable dumping of children in compound collision shapes
+     */
+    private boolean dumpChildShapes = false;
     /**
      * enable dumping of clusters in soft bodies
      */
@@ -282,15 +287,21 @@ public class PhysicsDumper extends Dumper {
          */
         stream.printf("%n%s", indent);
         addShapeAndScale(body);
-        objectId = body.getCollisionShape().getObjectId();
+        CollisionShape shape = body.getCollisionShape();
+        objectId = shape.getObjectId();
         stream.print(" #");
         stream.print(Long.toHexString(objectId));
+        /*
+         * Zero or more lines have child shapes.
+         */
+        if (dumpChildShapes && shape instanceof CompoundCollisionShape) {
+            dumpChildren((CompoundCollisionShape) shape, indent + "   ");
+        }
         /*
          * The next line has the bounding box, group info, number of wheels,
          * and number of joints.
          */
         stream.printf("%n%s", indent);
-        CollisionShape shape = body.getCollisionShape();
         if (shape instanceof CompoundCollisionShape
                 || shape instanceof GImpactCollisionShape
                 || shape instanceof HeightfieldCollisionShape
@@ -630,6 +641,10 @@ public class PhysicsDumper extends Dumper {
                 result = isDumpBucket();
                 break;
 
+            case ChildShapes:
+                result = dumpChildShapes;
+                break;
+
             case ClustersInSofts:
                 result = dumpClustersInSofts;
                 break;
@@ -708,6 +723,10 @@ public class PhysicsDumper extends Dumper {
 
             case Buckets:
                 setDumpBucket(newValue);
+                break;
+
+            case ChildShapes:
+                dumpChildShapes = newValue;
                 break;
 
             case ClustersInSofts:
@@ -924,6 +943,47 @@ public class PhysicsDumper extends Dumper {
         String locString = MyVector3f.describe(vector);
 
         return locString;
+    }
+
+    /**
+     * Dump all children of the specified CompoundCollisionShape.
+     *
+     * @param parent the shape to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    private void dumpChildren(CompoundCollisionShape parent, String indent) {
+        PhysicsDescriber describer = getDescriber();
+        ChildCollisionShape[] children = parent.listChildren();
+        for (ChildCollisionShape child : children) {
+            stream.printf("%n%s", indent);
+            CollisionShape shape = child.getShape();
+            String desc = describer.describe(shape);
+            stream.print(desc);
+
+            Vector3f offset = child.copyOffset(null);
+            if (!MyVector3f.isZero(offset)) {
+                stream.print(" offset[");
+                desc = MyVector3f.describe(offset);
+                stream.print(desc);
+                stream.print(']');
+            }
+
+            Quaternion rot = child.copyRotation(null);
+            if (!MyQuaternion.isRotationIdentity(rot)) {
+                stream.print(" rot[");
+                desc = MyQuaternion.describe(rot);
+                stream.print(desc);
+                stream.print(']');
+            }
+
+            Vector3f scale = shape.getScale(null);
+            desc = describer.describeScale(scale);
+            addDescription(desc);
+
+            long objectId = shape.getObjectId();
+            stream.print(" #");
+            stream.print(Long.toHexString(objectId));
+        }
     }
 
     /**
