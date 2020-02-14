@@ -1123,7 +1123,7 @@ public class PhysicsDescriber extends Describer {
 
                 Vector3f offset = child.copyOffset(null);
                 if (!MyVector3f.isZero(offset)) {
-                    result.append("@[");
+                    result.append(" offset[");
                     desc = MyVector3f.describe(offset);
                     result.append(desc);
                     result.append(']');
@@ -1131,7 +1131,7 @@ public class PhysicsDescriber extends Describer {
 
                 Quaternion rotation = child.copyRotation(null);
                 if (!MyQuaternion.isRotationIdentity(rotation)) {
-                    result.append("rot[");
+                    result.append(" rot[");
                     desc = MyQuaternion.describe(rotation);
                     result.append(desc);
                     result.append(']');
