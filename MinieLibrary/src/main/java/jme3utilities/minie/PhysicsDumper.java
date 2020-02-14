@@ -184,12 +184,70 @@ public class PhysicsDumper extends Dumper {
         String locString = MyVector3f.describe(location);
         stream.printf(" loc[%s]", locString);
 
-        addShapeAndScale(character);
+        Vector3f walk = character.getWalkDirection(null);
+        stream.printf(" walk[%s]", MyVector3f.describeDirection(walk));
+
+        Vector3f lin = character.getLinearVelocity(null);
+        stream.printf(" v[%s]", MyVector3f.describe(lin));
+
+        Vector3f ang = character.getAngularVelocity(null);
+        stream.printf(" angV[%s]", MyVector3f.describe(ang));
+
+        long objectId = character.getObjectId();
+        stream.print(" #");
+        stream.print(Long.toHexString(objectId));
+
+        stream.printf("%n%s", indent);
+        Vector3f grav = character.getGravity(null);
+        stream.printf(" grav[%s]", MyVector3f.describe(grav));
+
+        Vector3f up = character.getUpDirection(null);
+        stream.printf(" up[%s]", MyVector3f.describeDirection(up));
+
+        stream.print(" stepHt=");
+        float stepHeight = character.getStepHeight();
+        stream.print(MyString.describe(stepHeight));
+
+        stream.print(" speed[fall=");
+        float fall = character.getFallSpeed();
+        stream.print(MyString.describe(fall));
+        stream.print(" jump=");
+        float jump = character.getJumpSpeed();
+        stream.print(MyString.describe(jump));
+        stream.print(']');
+
+        float angularDamping = character.getAngularDamping();
+        float linearDamping = character.getLinearDamping();
+        stream.print(" damp[l=");
+        stream.print(MyString.describe(linearDamping));
+        stream.print(" a=");
+        stream.print(MyString.describe(angularDamping));
+        stream.print(']');
+
+        float maxPen = character.getMaxPenetrationDepth();
+        float maxSlope = character.getMaxSlope();
+        stream.print(" max[pen=");
+        stream.print(MyString.describe(maxPen));
+        stream.print(" slope=");
+        stream.print(MyString.describe(maxSlope));
+        stream.print(']');
+
+        stream.print(' ');
+        boolean useGst = character.isUsingGhostSweepTest();
+        if (!useGst) {
+            stream.print("NO");
+        }
+        stream.print("gst");
 
         desc = describer.describeGroups(character);
         stream.print(desc);
-
-        long objectId = character.getObjectId();
+        /*
+         * The 2nd line has the shape and scale.
+         */
+        stream.printf("%n%s", indent);
+        addShapeAndScale(character);
+        CollisionShape shape = character.getCollisionShape();
+        objectId = shape.getObjectId();
         stream.print(" #");
         stream.print(Long.toHexString(objectId));
     }
@@ -871,6 +929,7 @@ public class PhysicsDumper extends Dumper {
         Vector3f velocity = rigidBody.getLinearVelocity(null);
         String velString = MyVector3f.describe(velocity);
         stream.printf(" v[%s]", velString);
+        // TODO angularVelocity
 
         Vector3f gravity = rigidBody.getGravity(null);
         String graString = MyVector3f.describe(gravity);
