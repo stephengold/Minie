@@ -875,6 +875,7 @@ public class DropTest
      * Configure the PhysicsDumper during startup.
      */
     private void configureDumper() {
+        dumper.setEnabled(DumpFlags.ChildShapes, true);
         dumper.setEnabled(DumpFlags.MatParams, true);
         dumper.setEnabled(DumpFlags.ShadowModes, true);
         dumper.setEnabled(DumpFlags.Transforms, true);

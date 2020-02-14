@@ -101,6 +101,7 @@ import jme3utilities.mesh.Icosphere;
 import jme3utilities.mesh.Prism;
 import jme3utilities.mesh.RectangleMesh;
 import jme3utilities.mesh.Tetrahedron;
+import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.terrain.MinieTestTerrains;
@@ -1102,6 +1103,7 @@ public class TestRbc
      * Configure the PhysicsDumper during startup.
      */
     private void configureDumper() {
+        dumper.setEnabled(DumpFlags.ChildShapes, true);
         //dumper.setMaxChildren(3);
     }
 
