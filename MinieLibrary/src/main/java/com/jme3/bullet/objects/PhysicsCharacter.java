@@ -92,6 +92,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
     final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_Y}
+     */
+    final private static Vector3f unitY = new Vector3f(0f, 1f, 0f);
     // *************************************************************************
     // fields
 
@@ -157,6 +161,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
          * So override the default.
          */
         setGravity(defaultGravity);
+        setUp(unitY);
 
         assert isContactResponse();
     }
@@ -529,7 +534,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * vector.
      *
      * @param direction the desired direction (not null, not zero, unaffected,
-     * default=(0,0,1))
+     * default=(0,1,0))
      */
     public void setUp(Vector3f direction) {
         Validate.nonZero(direction, "direction");
