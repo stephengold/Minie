@@ -62,6 +62,7 @@ import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
+import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
@@ -137,10 +138,27 @@ public class TestDefaults {
         Assert.assertEquals(0f, info.waterOffset(), 0f);
 
         testShapes();
-        // TODO GhostControl
-        // TODO PhysicsCharacter
-        // TODO RigidBodyControl
-        // TODO VehicleControl
+        // TODO GhostControl, CharacterControl, RigidBodyControl, VehicleControl
+
+        PhysicsCharacter character = new PhysicsCharacter(box, 1f);
+        testPco(character);
+        Assert.assertEquals(Activation.active, character.getActivationState());
+        Assert.assertEquals(0f, character.getAngularDamping(), 0f);
+        assertEquals(0f, 0f, 0f, character.getAngularVelocity(null), 0);
+        Assert.assertEquals(55f, character.getFallSpeed(), 0f);
+        assertEquals(0f, -29.4f, 0f, character.getGravity(null), 0f);
+        Assert.assertEquals(10f, character.getJumpSpeed(), 0f);
+        Assert.assertEquals(0f, character.getLinearDamping(), 0f);
+        assertEquals(0f, 0f, 0f, character.getLinearVelocity(null), 0);
+        Assert.assertEquals(0.2f, character.getMaxPenetrationDepth(), 0f);
+        Assert.assertEquals(FastMath.QUARTER_PI, character.getMaxSlope(), 0f);
+        assertEquals(0f, 0f, 0f, character.getPhysicsLocation(null), 0);
+        assertEquals(0f, 1f, 0f, character.getUpDirection(null), 0f);
+        assertEquals(0f, 0f, 0f, character.getWalkDirection(null), 0);
+        Assert.assertTrue(character.isContactResponse());
+        Assert.assertFalse(character.isStatic());
+        Assert.assertTrue(character.isUsingGhostSweepTest());
+
         PhysicsGhostObject ghost = new PhysicsGhostObject(box);
         testPco(ghost);
         Assert.assertFalse(ghost.isContactResponse());
