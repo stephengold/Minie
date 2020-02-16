@@ -2,8 +2,11 @@ language: java
 
 matrix:
   include:
-  - os: osx
   - os: linux
+  - os: osx
 
 script:
  - ./gradlew build --console=plain --no-daemon
+
+after_failure:
+ - cat MinieLibrary/build/reports/tests/test/classes/jme3utilities.minie.test.TestDefaults.html
