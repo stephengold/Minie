@@ -33,10 +33,10 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.binary.BinaryExporter;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Heart;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -56,7 +56,7 @@ public class TestCloneCharacter {
     // new methods exposed
 
     /**
-     * Test cloning/saving/loading on PhysicsCharacter.
+     * Test cloning/saving/loading of a PhysicsCharacter.
      */
     @Test
     public void testCloneCharacter() {
@@ -71,6 +71,24 @@ public class TestCloneCharacter {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Verify that 2 vectors are equal to within some tolerance.
+     */
+    void assertEquals(float x, float y, float z, Vector3f actual,
+            float tolerance) {
+        Assert.assertEquals(x, actual.x, tolerance);
+        Assert.assertEquals(y, actual.y, tolerance);
+        Assert.assertEquals(z, actual.z, tolerance);
+    }
+
+    /**
+     * Verify that 2 vectors are equal to within some tolerance.
+     */
+    private void assertEquals(Vector3f expected, Vector3f actual,
+            float tolerance) {
+        assertEquals(expected.x, expected.y, expected.z, actual, tolerance);
+    }
 
     private void cloneTest(PhysicsCharacter ch, PhysicsCharacter chClone) {
         assert chClone.getObjectId() != ch.getObjectId();
@@ -103,32 +121,34 @@ public class TestCloneCharacter {
      */
     private void setParameters(PhysicsCharacter ch, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        ch.setContactResponse(flag);
-        ch.setSweepTest(!flag);
-
-        int afMode = Math.round(b / 0.3f);
-        ch.setAnisotropicFriction(
-                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), afMode);
+        int index = Math.round(b / 0.3f);
+        Vector3f gravity = new Vector3f(b - 0.2f, b + 0.8f, b - 0.3f);
+        /*
+         * "up" direction must oppose gravity vector
+         */
+        Vector3f up = gravity.normalize().negateLocal();
+        /*
+         * walk offset must be perpendicular to "up" direction
+         */
+        Vector3f walkOffset
+                = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f).cross(up);
 
         ch.setAngularDamping(b + 0.01f);
         ch.setAngularVelocity(new Vector3f(b + 0.04f, b + 0.05f, b + 0.06f));
+        ch.setAnisotropicFriction(
+                new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), index);
         ch.setCcdMotionThreshold(b + 0.07f);
         ch.setCcdSweptSphereRadius(b + 0.08f);
         ch.setContactDamping(b + 0.084f);
         ch.setContactProcessingThreshold(b + 0.0845f);
+        ch.setContactResponse(flag);
         ch.setContactStiffness(b + 0.085f);
         ch.setDeactivationTime(b + 0.087f);
         ch.setFallSpeed(b + 0.09f);
         ch.setFriction(b + 0.095f);
-        ch.setGravity(new Vector3f(b + 0.10f, b + 0.11f, b + 0.12f));
+        ch.setGravity(gravity);
         ch.setJumpSpeed(b + 0.125f);
         ch.setLinearDamping(b + 0.13f);
-        /*
-         * Walk direction affects linear velocity, so set it first!
-         */
-        ch.setWalkDirection(new Vector3f(b + 0.291f, b + 0.292f, b + 0.293f));
-        ch.setLinearVelocity(new Vector3f(b + 0.26f, b + 0.27f, b + 0.28f));
-
         ch.setMaxPenetrationDepth(b + 0.281f);
         ch.setMaxSlope(b + 0.282f);
         ch.setPhysicsLocation(new Vector3f(b + 0.18f, b + 0.19f, b + 0.20f));
@@ -136,6 +156,9 @@ public class TestCloneCharacter {
         ch.setRollingFriction(b + 0.26f);
         ch.setSpinningFriction(b + 0.27f);
         ch.setStepHeight(b + 0.29f);
+        ch.setSweepTest(!flag);
+        ch.setUp(up);
+        ch.setWalkDirection(walkOffset);
     }
 
     /**
@@ -147,65 +170,52 @@ public class TestCloneCharacter {
      */
     private void verifyParameters(PhysicsCharacter ch, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        assert ch.isContactResponse() == flag;
-        assert ch.isUsingGhostSweepTest() == !flag;
-
         int index = Math.round(b / 0.3f);
+        Vector3f gravity = new Vector3f(b - 0.2f, b + 0.8f, b - 0.3f);
+        /*
+         * "up" direction must oppose gravity vector
+         */
+        Vector3f up = gravity.normalize().negateLocal();
+        /*
+         * walk offset must be perpendicular to "up" direction
+         */
+        Vector3f walkOffset
+                = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f).cross(up);
+
+        assert ch.getAngularDamping() == b + 0.01f;
+        assertEquals(b + 0.04f, b + 0.05f, b + 0.06f,
+                ch.getAngularVelocity(null), 0f);
+
         if (index == 0) {
             assert !ch.hasAnisotropicFriction(AfMode.either);
         } else {
             assert ch.hasAnisotropicFriction(index);
-            Vector3f c = ch.getAnisotropicFriction(null);
-            assert c.x == b + 0.004f : c;
-            assert c.y == b + 0.005f : c;
-            assert c.z == b + 0.006f : c;
+            assertEquals(b + 0.004f, b + 0.005f, b + 0.006f,
+                    ch.getAnisotropicFriction(null), 0f);
         }
-
-        assert ch.getAngularDamping() == b + 0.01f;
-
-        Vector3f w = ch.getAngularVelocity(null);
-        assert w.x == b + 0.04f : w;
-        assert w.y == b + 0.05f : w;
-        assert w.z == b + 0.06f : w;
 
         assert ch.getCcdMotionThreshold() == b + 0.07f;
         assert ch.getCcdSweptSphereRadius() == b + 0.08f;
         assert ch.getContactDamping() == b + 0.084f;
         assert ch.getContactProcessingThreshold() == b + 0.0845f;
+        assert ch.isContactResponse() == flag;
         assert ch.getContactStiffness() == b + 0.085f;
         assert ch.getDeactivationTime() == b + 0.087f;
         assert ch.getFallSpeed() == b + 0.09f;
         assert ch.getFriction() == b + 0.095f;
-
-        Vector3f g = ch.getGravity(null);
-        assert FastMath.approximateEquals(g.x, b + 0.10f) : g;
-        assert FastMath.approximateEquals(g.y, b + 0.11f) : g;
-        assert FastMath.approximateEquals(g.z, b + 0.12f) : g;
-
+        assertEquals(gravity, ch.getGravity(null), 1e-5f);
         assert ch.getJumpSpeed() == b + 0.125f;
         assert ch.getLinearDamping() == b + 0.13f;
-
-        Vector3f v = ch.getLinearVelocity(null);
-        assert FastMath.approximateEquals(v.x, b + 0.26f) : v;
-        assert FastMath.approximateEquals(v.y, b + 0.27f) : v;
-        assert FastMath.approximateEquals(v.z, b + 0.28f) : v;
-
         assert ch.getMaxPenetrationDepth() == b + 0.281f;
         assert ch.getMaxSlope() == b + 0.282f;
-
-        Vector3f x = ch.getPhysicsLocation(null);
-        assert x.x == b + 0.18f : x;
-        assert x.y == b + 0.19f : x;
-        assert x.z == b + 0.20f : x;
-
+        assertEquals(b + 0.18f, b + 0.19f, b + 0.20f,
+                ch.getPhysicsLocation(null), 0f);
         assert ch.getRestitution() == b + 0.25f;
         assert ch.getRollingFriction() == b + 0.26f;
         assert ch.getSpinningFriction() == b + 0.27f;
         assert ch.getStepHeight() == b + 0.29f;
-
-        Vector3f d = ch.getWalkDirection(null);
-        assert d.x == b + 0.291f : d;
-        assert d.y == b + 0.292f : d;
-        assert d.z == b + 0.293f : d;
+        assert ch.isUsingGhostSweepTest() == !flag;
+        assertEquals(up, ch.getUpDirection(null), 1e-5f);
+        assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
     }
 }
