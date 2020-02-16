@@ -153,7 +153,7 @@ public class TestDefaults {
         Assert.assertEquals(0.2f, character.getMaxPenetrationDepth(), 0f);
         Assert.assertEquals(FastMath.QUARTER_PI, character.getMaxSlope(), 0f);
         assertEquals(0f, 0f, 0f, character.getPhysicsLocation(null), 0);
-        assertEquals(0f, 1f, 0f, character.getUpDirection(null), 0f);
+        assertEquals(0f, 1f, 0f, character.getUpDirection(null),  1e-4f);
         assertEquals(0f, 0f, 0f, character.getWalkDirection(null), 0);
         Assert.assertTrue(character.isContactResponse());
         Assert.assertFalse(character.isStatic());
