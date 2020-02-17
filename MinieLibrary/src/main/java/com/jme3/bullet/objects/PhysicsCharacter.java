@@ -100,10 +100,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     // fields
 
     /**
-     * which convexSweepTest to use
-     */
-    private boolean isUsingGhostSweepTest = true;
-    /**
      * copy of the maximum amount of vertical movement without jumping or
      * falling (in physics-space units)
      */
@@ -125,11 +121,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
             return new Vector3f();
         }
     };
-    /**
-     * location change for each physics tick (in physics-space coordinates,
-     * default=(0,0,0))
-     */
-    private Vector3f walkOffset = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -216,8 +207,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      *
      * @param storeResult storage for the result (modified if not null)
      * @return an acceleration vector (in physics-space units per second
-     * squared, in the direction opposite the "up" vector, either storeResult or
-     * a new vector, not null)
+     * squared, direction opposite the "up" vector, either storeResult or a new
+     * vector, not null)
      */
     public Vector3f getGravity(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -281,6 +272,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * falling (in physics-space units)
      */
     public float getStepHeight() {
+        assert stepHeight == getStepHeight(characterId);
         return stepHeight;
     }
 
@@ -305,11 +297,9 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @return an offset vector (either storeResult or a new vector, not null)
      */
     public Vector3f getWalkDirection(Vector3f storeResult) {
-        if (storeResult == null) {
-            return walkOffset.clone();
-        } else {
-            return storeResult.set(walkOffset);
-        }
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        getWalkOffset(characterId, result);
+        return result;
     }
 
     /**
@@ -318,7 +308,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @return true if using the ghost's test, otherwise false
      */
     public boolean isUsingGhostSweepTest() {
-        return isUsingGhostSweepTest;
+        return isUsingGhostSweepTest(characterId);
     }
 
     /**
@@ -425,8 +415,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter the character's gravitational acceleration. For compatibility with
-     * the jme3-bullet library.
+     * Alter the character's gravitational acceleration without altering its
+     * "up" vector.
      *
      * @param downwardAcceleration the desired downward acceleration (in
      * physics-space units per second squared, not null, unaffected,
@@ -526,7 +516,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * world's test (default=true)
      */
     public void setSweepTest(boolean useGhostSweepTest) {
-        this.isUsingGhostSweepTest = useGhostSweepTest;
         setUseGhostSweepTest(characterId, useGhostSweepTest);
     }
 
@@ -543,14 +532,13 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Alter the walk offset. The offset will continue to be applied until
-     * altered again.
+     * Alter this character's walk offset. The offset must be perpendicular to
+     * the "up" direction. It will continue to be applied until altered again.
      *
      * @param offset the desired location increment for each physics tick (in
      * physics-space coordinates, not null, unaffected, default=(0,0,0))
      */
     public void setWalkDirection(Vector3f offset) {
-        walkOffset.set(offset);
         setWalkDirection(characterId, offset);
     }
 
@@ -579,7 +567,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         super.cloneFields(cloner, original);
         characterId = 0L;
         buildObject();
-        walkOffset = cloner.clone(walkOffset);
 
         PhysicsCharacter old = (PhysicsCharacter) original;
         copyPcoProperties(old);
@@ -777,7 +764,13 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
 
     native private float getMaxSlope(long controllerId);
 
+    native private float getStepHeight(long controllerId);
+
     native private void getUpDirection(long controllerId, Vector3f storeVector);
+
+    native private void getWalkOffset(long controllerId, Vector3f storeVector);
+
+    native private boolean isUsingGhostSweepTest(long controllerId);
 
     native private void jump(long controllerId, Vector3f direction);
 
