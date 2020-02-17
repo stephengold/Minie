@@ -188,8 +188,7 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
      * Alter the character's gravitational acceleration.
      *
      * @param downwardAcceleration the desired downward acceleration (in
-     * physics-space units per second squared, not null, unaffected,
-     * default=29.4)
+     * physics-space units per second squared, not null, default=29.4)
      */
     public void setGravity(float downwardAcceleration) {
         character.setGravity(downwardAcceleration);
@@ -219,8 +218,8 @@ public class MinieCharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Alter the character's walk offset. The offset will continue to be applied
-     * until altered again.
+     * Alter the character's walk offset. The offset must be perpendicular to
+     * the "up" direction. It will continue to be applied until altered again.
      *
      * @param offset the desired position increment for each physics tick (in
      * physics-space coordinates, not null, unaffected)

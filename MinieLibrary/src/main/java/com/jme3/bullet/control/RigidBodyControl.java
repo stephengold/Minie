@@ -530,7 +530,7 @@ public class RigidBodyControl
      * Update whichever scale vector corresponds to the shape scale.
      */
     private void applySpatialScale() {
-        Vector3f scale = getScale(null);
+        Vector3f scale = getScale(null); // TODO garbage
         if (!isApplyPhysicsLocal()) {
             Node parent = spatial.getParent();
             if (parent != null) {
