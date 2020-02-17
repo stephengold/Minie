@@ -233,40 +233,39 @@ public class PhysicsDumper extends Dumper {
         Vector3f up = character.getUpDirection(null);
         stream.printf(" up[%s]", MyVector3f.describeDirection(up));
 
-        stream.print(" stepHt=");
-        float stepHeight = character.getStepHeight();
-        stream.print(MyString.describe(stepHeight));
-
-        stream.print(" speed[fall=");
-        float fall = character.getFallSpeed();
-        stream.print(MyString.describe(fall));
-        stream.print(" jump=");
+        stream.print(" jumpSp=");
         float jump = character.getJumpSpeed();
         stream.print(MyString.describe(jump));
-        stream.print(']');
 
         float angularDamping = character.getAngularDamping();
         float linearDamping = character.getLinearDamping();
-        stream.print(" damp[l=");
+        stream.print("] damp[l=");
         stream.print(MyString.describe(linearDamping));
         stream.print(" a=");
         stream.print(MyString.describe(angularDamping));
-        stream.print(']');
 
+        stream.print("] max[fallSp=");
+        float fall = character.getFallSpeed();
+        stream.print(MyString.describe(fall));
+
+        stream.print(" pen=");
         float maxPen = character.getMaxPenetrationDepth();
-        float maxSlope = character.getMaxSlope();
-        stream.print(" max[pen=");
         stream.print(MyString.describe(maxPen));
-        stream.print(" slope=");
-        stream.print(MyString.describe(maxSlope));
-        stream.print(']');
 
-        stream.print(' ');
+        stream.print(" slope=");
+        float maxSlope = character.getMaxSlope();
+        stream.print(MyString.describe(maxSlope));
+
+        stream.print(" stepHt=");
+        float stepHeight = character.getStepHeight();
+        stream.print(MyString.describe(stepHeight));
+        stream.print("] ");
+
         boolean useGst = character.isUsingGhostSweepTest();
         if (!useGst) {
             stream.print("NO");
         }
-        stream.print("gst");
+        stream.print("gsTest");
 
         desc = describer.describeGroups(character);
         stream.print(desc);
@@ -421,6 +420,7 @@ public class PhysicsDumper extends Dumper {
      * @param indent (not null)
      */
     public void dump(PhysicsSoftBody body, String indent) {
+        Validate.nonNull(body, "body");
         Validate.nonNull(indent, "indent");
 
         stream.printf("%n%sSoft ", indent);
