@@ -34,7 +34,6 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.Activation;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
@@ -166,6 +165,36 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
+     * Dump the specified CollisionShape.
+     *
+     * @param shape the shape to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    public void dump(CollisionShape shape, String indent) {
+        Validate.nonNull(shape, "shape");
+        Validate.nonNull(indent, "indent");
+
+        stream.printf("%n%s", indent);
+
+        PhysicsDescriber describer = getDescriber();
+        String desc = describer.describe(shape);
+        stream.print(desc);
+
+        Vector3f scale = shape.getScale(null);
+        desc = describer.describeScale(scale);
+        addDescription(desc);
+
+        long objectId = shape.getObjectId();
+        stream.print(" #");
+        stream.print(Long.toHexString(objectId));
+
+        if (dumpChildShapes && shape instanceof CompoundCollisionShape) {
+            String moreIndent = indent + indentIncrement();
+            dumpChildren((CompoundCollisionShape) shape, moreIndent);
+        }
+    }
+
+    /**
      * Dump the specified PhysicsCharacter.
      *
      * @param character the character to dump (not null, unaffected)
@@ -243,13 +272,10 @@ public class PhysicsDumper extends Dumper {
         stream.print(desc);
         /*
          * The 2nd line has the shape and scale.
+         * There may be additional lines for child shapes.
          */
-        stream.printf("%n%s", indent);
-        addShapeAndScale(character);
         CollisionShape shape = character.getCollisionShape();
-        objectId = shape.getObjectId();
-        stream.print(" #");
-        stream.print(Long.toHexString(objectId));
+        dump(shape, indent + " ");
     }
 
     /**
@@ -277,16 +303,18 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" orient[%s]", orientText);
         }
         long objectId = ghost.getObjectId();
-        stream.print(" #");
-        stream.print(Long.toHexString(objectId));
-        /*
-         * 2nd line has the shape, scale, and group info.
-         */
-        stream.printf("%n%s", indent);
-        addShapeAndScale(ghost);
 
         desc = describer.describeGroups(ghost);
         stream.print(desc);
+
+        stream.print(" #");
+        stream.print(Long.toHexString(objectId));
+        /*
+         * The 2nd line has the shape and scale.
+         * There may be additional lines for child shapes.
+         */
+        CollisionShape shape = ghost.getCollisionShape();
+        dump(shape, indent + " ");
     }
 
     /**
@@ -342,19 +370,10 @@ public class PhysicsDumper extends Dumper {
         }
         /*
          * The next line has the shape and scale.
+         * There may be additional lines for child shapes.
          */
-        stream.printf("%n%s", indent);
-        addShapeAndScale(body);
         CollisionShape shape = body.getCollisionShape();
-        objectId = shape.getObjectId();
-        stream.print(" #");
-        stream.print(Long.toHexString(objectId));
-        /*
-         * Zero or more lines have child shapes.
-         */
-        if (dumpChildShapes && shape instanceof CompoundCollisionShape) {
-            dumpChildren((CompoundCollisionShape) shape, indent + "   ");
-        }
+        dump(shape, indent + " ");
         /*
          * The next line has the bounding box, group info, number of wheels,
          * and number of joints.
@@ -968,24 +987,6 @@ public class PhysicsDumper extends Dumper {
         Vector3f moments = scaleIdentity.divide(iiLocal);
         stream.print(MyVector3f.describe(moments));
         stream.print(']');
-    }
-
-    /**
-     * Print the shape and scale the specified collision object.
-     *
-     * @param pco (not null, unaffected)
-     */
-    private void addShapeAndScale(PhysicsCollisionObject pco) {
-        PhysicsDescriber describer = getDescriber();
-        CollisionShape shape = pco.getCollisionShape();
-
-        stream.print(' ');
-        String desc = describer.describe(shape);
-        stream.print(desc);
-
-        Vector3f scale = shape.getScale(null);
-        desc = describer.describeScale(scale);
-        addDescription(desc);
     }
 
     /**
