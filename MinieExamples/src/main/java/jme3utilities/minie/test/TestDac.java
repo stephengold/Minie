@@ -177,10 +177,16 @@ public class TestDac extends ActionApplication {
      */
     final private Generator random = new Generator();
     /**
-     * shiny red material to visualize the falling balls
+     * shiny red Material for the falling balls
      */
     private Material ballMaterial;
+    /**
+     * Mesh for falling balls
+     */
     final private Mesh ballMesh = new Icosphere(2, ballRadius);
+    /**
+     * generate names for falling balls
+     */
     final private NameGenerator nameGenerator = new NameGenerator();
     /**
      * root node of the C-G model on which the Control is being tested
@@ -558,9 +564,10 @@ public class TestDac extends ActionApplication {
         rbc.setApplyScale(true);
         rbc.setLinearVelocity(new Vector3f(0f, -1f, 0f));
         rbc.setKinematic(false);
+        rbc.setFriction(10f);
 
         rbc.setPhysicsSpace(physicsSpace);
-        rbc.setGravity(new Vector3f(0f, -1f, 0f));
+        rbc.setGravity(new Vector3f(0f, -0.3f, 0f));
 
         geometry.addControl(rbc);
     }
@@ -1084,6 +1091,11 @@ public class TestDac extends ActionApplication {
             hint = Spatial.CullHint.Never;
         }
         cgModel.setCullHint(hint);
+        for (Spatial s : rootNode.getChildren()) {
+            if (s.getName().startsWith("ball")) {
+                s.setCullHint(hint);
+            }
+        }
     }
 
     /**
