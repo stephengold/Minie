@@ -40,6 +40,8 @@ import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Heart;
+import jme3utilities.minie.MinieCharacterControl;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -78,6 +80,15 @@ public class TestClonePhysicsControls {
                 = (BetterCharacterControl) Heart.deepCopy(bcc);
         cloneTest(bcc, bccClone);
         /*
+         * CharacterControl
+         */
+        CollisionShape shape = new SphereCollisionShape(2f);
+        CharacterControl cc = new CharacterControl(shape, 0.5f);
+        setParameters(cc, 0f);
+        verifyParameters(cc, 0f);
+        CharacterControl ccClone = (CharacterControl) Heart.deepCopy(cc);
+        cloneTest(cc, ccClone);
+        /*
          * DynamicAnimControl
          */
         DynamicAnimControl dac = new DynamicAnimControl();
@@ -88,12 +99,11 @@ public class TestClonePhysicsControls {
         /*
          * MinieCharacterControl
          */
-        CollisionShape shape = new SphereCollisionShape(2f);
-        CharacterControl mcc = new CharacterControl(shape, 0.5f);
+        MinieCharacterControl mcc = new MinieCharacterControl(shape, 0.5f);
         setParameters(mcc, 0f);
         verifyParameters(mcc, 0f);
-        CharacterControl mccClone
-                = (CharacterControl) Heart.deepCopy(mcc);
+        MinieCharacterControl mccClone
+                = (MinieCharacterControl) Heart.deepCopy(mcc);
         cloneTest(mcc, mccClone);
         /*
          * SoftBodyControl
@@ -109,6 +119,24 @@ public class TestClonePhysicsControls {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Verify that 2 vectors are equal to within some tolerance.
+     */
+    void assertEquals(float x, float y, float z, Vector3f actual,
+            float tolerance) {
+        Assert.assertEquals(x, actual.x, tolerance);
+        Assert.assertEquals(y, actual.y, tolerance);
+        Assert.assertEquals(z, actual.z, tolerance);
+    }
+
+    /**
+     * Verify that 2 vectors are equal to within some tolerance.
+     */
+    private void assertEquals(Vector3f expected, Vector3f actual,
+            float tolerance) {
+        assertEquals(expected.x, expected.y, expected.z, actual, tolerance);
+    }
 
     private void cloneTest(AbstractPhysicsControl control,
             AbstractPhysicsControl controlClone) {
@@ -141,10 +169,12 @@ public class TestClonePhysicsControls {
 
         if (control instanceof BetterCharacterControl) {
             setBcc((BetterCharacterControl) control, b);
+        } else if (control instanceof CharacterControl) {
+            setCc((CharacterControl) control, b);
         } else if (control instanceof DynamicAnimControl) {
             setDac((DynamicAnimControl) control, b);
-        } else if (control instanceof CharacterControl) {
-            setMcc((CharacterControl) control, b);
+        } else if (control instanceof MinieCharacterControl) {
+            setMcc((MinieCharacterControl) control, b);
         } else if (control instanceof SoftBodyControl) {
             setSbc((SoftBodyControl) control, b);
         } else {
@@ -161,11 +191,48 @@ public class TestClonePhysicsControls {
      */
     private void setBcc(BetterCharacterControl bcc, float b) {
         bcc.setDuckedFactor(b + 0.01f);
-        bcc.setPhysicsDamping(b + 0.08f);
-
         bcc.setJumpForce(new Vector3f(b + 0.05f, b + 0.06f, b + 0.07f));
+        bcc.setPhysicsDamping(b + 0.08f);
         bcc.setViewDirection(new Vector3f(b + 0.10f, b + 0.11f, b + 0.12f));
         bcc.setWalkDirection(new Vector3f(b + 0.13f, b + 0.14f, b + 0.15f));
+    }
+
+    private void setCc(CharacterControl cc, float b) {
+        Vector3f upDirection
+                = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
+        Vector3f viewDirection
+                = new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f).normalizeLocal();
+        /*
+         * walk offset must be perpendicular to "up" direction
+         */
+        Vector3f walkOffset = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f)
+                .cross(upDirection);
+
+        PhysicsCharacter ch = cc.getCharacter();
+
+        ch.setAngularDamping(b + 0.01f);
+        ch.setAngularVelocity(new Vector3f(b + 0.04f, b + 0.05f, b + 0.06f));
+        ch.setCcdMotionThreshold(b + 0.07f);
+        ch.setCcdSweptSphereRadius(b + 0.08f);
+        ch.setContactDamping(b + 0.084f);
+        ch.setContactProcessingThreshold(b + 0.0845f);
+        ch.setContactStiffness(b + 0.085f);
+        ch.setDeactivationTime(b + 0.087f);
+        cc.setFallSpeed(b + 0.01f);
+        ch.setFriction(b + 0.095f);
+        cc.setGravity(b + 0.015f);
+        cc.setJumpSpeed(b + 0.02f);
+        ch.setLinearDamping(b + 0.03f);
+        ch.setMaxPenetrationDepth(b + 0.281f);
+        ch.setMaxSlope(b + 0.282f);
+        ch.setPhysicsLocation(new Vector3f(b + 0.18f, b + 0.19f, b + 0.20f));
+        ch.setRestitution(b + 0.25f);
+        ch.setRollingFriction(b + 0.26f);
+        ch.setSpinningFriction(b + 0.27f);
+        ch.setStepHeight(b + 0.29f);
+        ch.setUp(upDirection);
+        cc.setViewDirection(viewDirection);
+        cc.setWalkDirection(walkOffset);
     }
 
     private void setDac(DynamicAnimControl dac, float b) {
@@ -174,13 +241,42 @@ public class TestClonePhysicsControls {
         dac.setGravity(new Vector3f(b + 0.03f, b + 0.04f, b + 0.05f));
     }
 
-    private void setMcc(CharacterControl mcc, float b) {
-        PhysicsCharacter pc = mcc.getCharacter();
-        pc.setJumpSpeed(b + 0.01f);
-        pc.setLinearDamping(b + 0.02f);
-        pc.setWalkDirection(new Vector3f(b + 0.03f, b + 0.04f, b + 0.05f));
+    private void setMcc(MinieCharacterControl mcc, float b) {
+        Vector3f upDirection
+                = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
+        Vector3f viewDirection
+                = new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f).normalizeLocal();
+        /*
+         * walk offset must be perpendicular to "up" direction
+         */
+        Vector3f walkOffset = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f)
+                .cross(upDirection);
 
-        mcc.setViewDirection(new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f));
+        PhysicsCharacter ch = mcc.getCharacter();
+
+        ch.setAngularDamping(b + 0.01f);
+        ch.setAngularVelocity(new Vector3f(b + 0.04f, b + 0.05f, b + 0.06f));
+        ch.setCcdMotionThreshold(b + 0.07f);
+        ch.setCcdSweptSphereRadius(b + 0.08f);
+        ch.setContactDamping(b + 0.084f);
+        ch.setContactProcessingThreshold(b + 0.0845f);
+        ch.setContactStiffness(b + 0.085f);
+        ch.setDeactivationTime(b + 0.087f);
+        mcc.setFallSpeed(b + 0.01f);
+        ch.setFriction(b + 0.095f);
+        mcc.setGravity(b + 0.015f);
+        mcc.setJumpSpeed(b + 0.02f);
+        ch.setLinearDamping(b + 0.03f);
+        ch.setMaxPenetrationDepth(b + 0.281f);
+        ch.setMaxSlope(b + 0.282f);
+        ch.setPhysicsLocation(new Vector3f(b + 0.18f, b + 0.19f, b + 0.20f));
+        ch.setRestitution(b + 0.25f);
+        ch.setRollingFriction(b + 0.26f);
+        ch.setSpinningFriction(b + 0.27f);
+        ch.setStepHeight(b + 0.29f);
+        ch.setUp(upDirection);
+        mcc.setViewDirection(viewDirection);
+        mcc.setWalkDirection(walkOffset);
     }
 
     private void setSbc(SoftBodyControl sbc, float b) {
@@ -196,10 +292,12 @@ public class TestClonePhysicsControls {
 
         if (control instanceof BetterCharacterControl) {
             verifyBcc((BetterCharacterControl) control, b);
+        } else if (control instanceof CharacterControl) {
+            verifyCc((CharacterControl) control, b);
         } else if (control instanceof DynamicAnimControl) {
             verifyDac((DynamicAnimControl) control, b);
-        } else if (control instanceof CharacterControl) {
-            verifyMcc((CharacterControl) control, b);
+        } else if (control instanceof MinieCharacterControl) {
+            verifyMcc((MinieCharacterControl) control, b);
         } else if (control instanceof SoftBodyControl) {
             verifySbc((SoftBodyControl) control, b);
         } else {
@@ -216,50 +314,102 @@ public class TestClonePhysicsControls {
      */
     private void verifyBcc(BetterCharacterControl bcc, float b) {
         assert bcc.getDuckedFactor() == b + 0.01f;
+        assertEquals(b + 0.05f, b + 0.06f, b + 0.07f,
+                bcc.getJumpForce(null), 0f);
         assert bcc.getPhysicsDamping() == b + 0.08f;
+        assertEquals(b + 0.10f, b + 0.11f, b + 0.12f,
+                bcc.getViewDirection(null), 0f);
+        assertEquals(b + 0.13f, b + 0.14f, b + 0.15f,
+                bcc.getWalkDirection(null), 0f);
+    }
 
-        Vector3f f = bcc.getJumpForce(null);
-        assert f.x == b + 0.05f : f;
-        assert f.y == b + 0.06f : f;
-        assert f.z == b + 0.07f : f;
+    private void verifyCc(CharacterControl cc, float b) {
+        Vector3f upDirection
+                = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
+        Vector3f viewDirection
+                = new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f).normalizeLocal();
+        /*
+         * walk offset must be perpendicular to "up" direction
+         */
+        Vector3f walkOffset = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f)
+                .cross(upDirection);
 
-        Vector3f v = bcc.getViewDirection(null);
-        assert v.x == b + 0.10f : v;
-        assert v.y == b + 0.11f : v;
-        assert v.z == b + 0.12f : v;
+        PhysicsCharacter ch = cc.getCharacter();
 
-        Vector3f w = bcc.getWalkDirection(null);
-        assert w.x == b + 0.13f : w;
-        assert w.y == b + 0.14f : w;
-        assert w.z == b + 0.15f : w;
+        Assert.assertEquals(b + 0.01f, ch.getAngularDamping(), 0f);
+        assertEquals(b + 0.04f, b + 0.05f, b + 0.06f,
+                ch.getAngularVelocity(null), 0f);
+        Assert.assertEquals(b + 0.07f, ch.getCcdMotionThreshold(), 0f);
+        Assert.assertEquals(b + 0.08f, ch.getCcdSweptSphereRadius(), 0f);
+        Assert.assertEquals(b + 0.084f, ch.getContactDamping(), 0f);
+        Assert.assertEquals(b + 0.0845f, ch.getContactProcessingThreshold(),
+                0f);
+        Assert.assertEquals(b + 0.085f, ch.getContactStiffness(), 0f);
+        Assert.assertEquals(b + 0.087f, ch.getDeactivationTime(), 0f);
+        Assert.assertEquals(b + 0.01f, ch.getFallSpeed(), 0f);
+        Assert.assertEquals(b + 0.095f, ch.getFriction(), 0f);
+        Assert.assertEquals(b + 0.015f, ch.getGravity(null).length(), 1e-5f);
+        Assert.assertEquals(b + 0.02f, ch.getJumpSpeed(), 0f);
+        Assert.assertEquals(b + 0.03f, ch.getLinearDamping(), 0f);
+        Assert.assertEquals(b + 0.281f, ch.getMaxPenetrationDepth(), 0f);
+        Assert.assertEquals(b + 0.282f, ch.getMaxSlope(), 0f);
+        assertEquals(b + 0.18f, b + 0.19f, b + 0.20f,
+                ch.getPhysicsLocation(null), 0f);
+        Assert.assertEquals(b + 0.25f, ch.getRestitution(), 0f);
+        Assert.assertEquals(b + 0.26f, ch.getRollingFriction(), 0f);
+        Assert.assertEquals(b + 0.27f, ch.getSpinningFriction(), 0f);
+        Assert.assertEquals(b + 0.29f, ch.getStepHeight(), 0f);
+        assertEquals(upDirection, ch.getUpDirection(null), 1e-5f);
+        assertEquals(viewDirection, cc.getViewDirection(null), 0f);
+        assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
     }
 
     private void verifyDac(DynamicAnimControl dac, float b) {
         assert dac.damping() == b + 0.01f;
         assert dac.eventDispatchImpulseThreshold() == b + 0.02f;
-
-        Vector3f g = dac.gravity(null);
-        assert g.x == b + 0.03f : g;
-        assert g.y == b + 0.04f : g;
-        assert g.z == b + 0.05f : g;
+        assertEquals(b + 0.03f, b + 0.04f, b + 0.05f,
+                dac.gravity(null), 0f);
     }
 
-    private void verifyMcc(CharacterControl mcc, float b) {
-        PhysicsCharacter pc = mcc.getCharacter();
-        assert pc.getJumpSpeed() == b + 0.01f;
-        assert pc.getLinearDamping() == b + 0.02f;
-
-        Vector3f w = pc.getWalkDirection(null);
-        assert w.x == b + 0.03f : w;
-        assert w.y == b + 0.04f : w;
-        assert w.z == b + 0.05f : w;
-
-        Vector3f norm
+    private void verifyMcc(MinieCharacterControl mcc, float b) {
+        Vector3f upDirection
+                = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
+        Vector3f viewDirection
                 = new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f).normalizeLocal();
-        Vector3f v = mcc.getViewDirection(null);
-        assert v.x == norm.x : v;
-        assert v.y == norm.y : v;
-        assert v.z == norm.z : v;
+        /*
+         * walk offset must be perpendicular to "up" direction
+         */
+        Vector3f walkOffset = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f)
+                .cross(upDirection);
+
+        PhysicsCharacter ch = mcc.getCharacter();
+
+        Assert.assertEquals(b + 0.01f, ch.getAngularDamping(), 0f);
+        assertEquals(b + 0.04f, b + 0.05f, b + 0.06f,
+                ch.getAngularVelocity(null), 0f);
+        Assert.assertEquals(b + 0.07f, ch.getCcdMotionThreshold(), 0f);
+        Assert.assertEquals(b + 0.08f, ch.getCcdSweptSphereRadius(), 0f);
+        Assert.assertEquals(b + 0.084f, ch.getContactDamping(), 0f);
+        Assert.assertEquals(b + 0.0845f, ch.getContactProcessingThreshold(),
+                0f);
+        Assert.assertEquals(b + 0.085f, ch.getContactStiffness(), 0f);
+        Assert.assertEquals(b + 0.087f, ch.getDeactivationTime(), 0f);
+        Assert.assertEquals(b + 0.01f, ch.getFallSpeed(), 0f);
+        Assert.assertEquals(b + 0.095f, ch.getFriction(), 0f);
+        Assert.assertEquals(b + 0.015f, ch.getGravity(null).length(), 1e-5f);
+        Assert.assertEquals(b + 0.02f, ch.getJumpSpeed(), 0f);
+        Assert.assertEquals(b + 0.03f, ch.getLinearDamping(), 0f);
+        Assert.assertEquals(b + 0.281f, ch.getMaxPenetrationDepth(), 0f);
+        Assert.assertEquals(b + 0.282f, ch.getMaxSlope(), 0f);
+        assertEquals(b + 0.18f, b + 0.19f, b + 0.20f,
+                ch.getPhysicsLocation(null), 0f);
+        Assert.assertEquals(b + 0.25f, ch.getRestitution(), 0f);
+        Assert.assertEquals(b + 0.26f, ch.getRollingFriction(), 0f);
+        Assert.assertEquals(b + 0.27f, ch.getSpinningFriction(), 0f);
+        Assert.assertEquals(b + 0.29f, ch.getStepHeight(), 0f);
+        assertEquals(upDirection, ch.getUpDirection(null), 1e-5f);
+        assertEquals(viewDirection, mcc.getViewDirection(null), 0f);
+        assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
     }
 
     private void verifySbc(SoftBodyControl sbc, float b) {
