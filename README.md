@@ -410,7 +410,7 @@ Clone the Minie repository using Git:
 
 ### How to build Minie without an IDE
 
- 1. Install build software:
+ 1. Install the build tools:
    + a Java Development Kit and
    + [Gradle]
  2. Download and extract the source code from GitHub:
@@ -1696,9 +1696,10 @@ artists and software developers:
     + LWJGL, the Lightweight Java Game Library
     + the [MakeHuman] Community
     + the [Markdown] document-conversion tool
+    + the [Meld] visual merge tool
     + Microsoft Windows
     + the [NetBeans] integrated development environment
-    + the [Nifty] graphical user interface library
+    + the [Nifty] graphical user-interface library
     + [Open Broadcaster Software Studio][obs]
     + the PMD source-code analyzer
     + [ProFont], the programmers' font
