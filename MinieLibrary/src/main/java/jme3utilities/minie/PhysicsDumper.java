@@ -779,7 +779,7 @@ public class PhysicsDumper extends Dumper {
                 break;
 
             default:
-                throw new IllegalArgumentException(dumpFlag.toString());
+                throw new IllegalArgumentException("dumpFlag = " + dumpFlag);
         }
 
         return result;
@@ -863,7 +863,7 @@ public class PhysicsDumper extends Dumper {
                 break;
 
             default:
-                throw new IllegalArgumentException(dumpFlag.toString());
+                throw new IllegalArgumentException("dumpFlag = " + dumpFlag);
         }
 
         return this;
