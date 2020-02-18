@@ -147,7 +147,7 @@ public class TestDefaults {
         assertEquals(0f, 0f, 0f, character.getAngularVelocity(null), 0);
         Assert.assertEquals(55f, character.getFallSpeed(), 0f);
         assertEquals(0f, -29.4f, 0f, character.getGravity(null), 1e-4f);
-        Assert.assertEquals(29.4f, character.getGravity(null).length(), 0f);
+        Assert.assertEquals(29.4f, character.getGravity(null).length(), 1e-4f);
         Assert.assertEquals(10f, character.getJumpSpeed(), 0f);
         Assert.assertEquals(0f, character.getLinearDamping(), 0f);
         assertEquals(0f, 0f, 0f, character.getLinearVelocity(null), 0);
