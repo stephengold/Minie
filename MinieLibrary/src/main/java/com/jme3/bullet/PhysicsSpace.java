@@ -481,6 +481,16 @@ public class PhysicsSpace {
     }
 
     /**
+     * Count how many tick listeners are registered with this space.
+     *
+     * @return the count (&ge;0)
+     */
+    public int countTickListeners() {
+        int count = tickListeners.size();
+        return count;
+    }
+
+    /**
      * For compatibility with the jme3-bullet library.
      */
     public void destroy() {
