@@ -46,7 +46,6 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.joints.Anchor;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
@@ -68,7 +67,6 @@ import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.math.Plane;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
@@ -76,7 +74,6 @@ import java.util.logging.Logger;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.debug.Describer;
-import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -135,11 +132,7 @@ public class PhysicsDescriber extends Describer {
         } else if (shape instanceof CompoundCollisionShape) {
             CompoundCollisionShape compound = (CompoundCollisionShape) shape;
             int numChildren = compound.countChildren();
-            if (compound.countChildren() > 9) {
-                desc = String.format("[%d]", numChildren);
-            } else {
-                desc = describeChildShapes(compound);
-            }
+            desc = String.format("[%d]", numChildren);
             result.append(desc);
 
         } else if (shape instanceof ConeCollisionShape) {
@@ -1088,60 +1081,6 @@ public class PhysicsDescriber extends Describer {
     }
     // *************************************************************************
     // private methods
-
-    /**
-     * Generate a textual description of a compound shape's children.
-     *
-     * @param compound shape being described (not null, unaffected)
-     * @return description (not null)
-     */
-    private String describeChildShapes(CompoundCollisionShape compound) {
-        StringBuilder result = new StringBuilder(60);
-        result.append('[');
-        ChildCollisionShape[] children = compound.listChildren();
-
-        boolean addSeparators = false;
-        boolean brief = (children.length > 3);
-        for (ChildCollisionShape child : children) {
-            if (addSeparators) {
-                result.append(brief ? " " : "  ");
-            } else {
-                addSeparators = true;
-            }
-
-            String desc;
-            if (brief) {
-                String name = child.getShape().getClass().getSimpleName();
-                if (name.endsWith("CollisionShape")) {
-                    name = MyString.removeSuffix(name, "CollisionShape");
-                }
-                result.append(name);
-
-            } else {
-                desc = describe(child.getShape());
-                result.append(desc);
-
-                Vector3f offset = child.copyOffset(null);
-                if (!MyVector3f.isZero(offset)) {
-                    result.append(" offset[");
-                    desc = MyVector3f.describe(offset);
-                    result.append(desc);
-                    result.append(']');
-                }
-
-                Quaternion rotation = child.copyRotation(null);
-                if (!MyQuaternion.isRotationIdentity(rotation)) {
-                    result.append(" rot[");
-                    desc = MyQuaternion.describe(rotation);
-                    result.append(desc);
-                    result.append(']');
-                }
-            }
-        }
-        result.append(']');
-
-        return result.toString();
-    }
 
     /**
      * Describe the specified half extents.
