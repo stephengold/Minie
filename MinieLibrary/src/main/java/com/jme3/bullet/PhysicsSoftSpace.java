@@ -192,6 +192,9 @@ public class PhysicsSoftSpace extends PhysicsSpace {
                 getWorldMax(null), getBroadphaseType().ordinal(), false);
         assert nativeId != 0L;
         logger2.log(Level.FINE, "Created {0}.", this);
+
+        assert getWorldType(nativeId) == 4 // BT_SOFT_RIGID_DYNAMICS_WORLD
+                : getWorldType(nativeId);
         initThread(nativeId);
     }
 

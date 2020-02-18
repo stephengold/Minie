@@ -118,9 +118,13 @@ public class TestDefaults {
                 new Vector3f(-10000f, -10000f, -10000f),
                 new Vector3f(10000f, 10000f, 10000f),
                 PhysicsSpace.BroadphaseType.DBVT);
+        Assert.assertEquals(0, space.countCollisionGroupListeners());
+        Assert.assertEquals(0, space.countCollisionListeners());
+        Assert.assertEquals(0, space.countCollisionObjects());
         Assert.assertEquals(0, space.countJoints());
         Assert.assertEquals(0, space.countRigidBodies());
         Assert.assertEquals(0, space.countSoftBodies());
+        Assert.assertEquals(0, space.countTickListeners());
         Assert.assertEquals(1 / 60f, space.getAccuracy(), 0f);
         assertEquals(0f, -9.81f, 0f, space.getGravity(null), 0f);
         Assert.assertEquals(4, space.maxSubSteps());
