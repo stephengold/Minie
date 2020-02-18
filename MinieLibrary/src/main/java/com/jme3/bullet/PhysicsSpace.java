@@ -460,6 +460,16 @@ public class PhysicsSpace {
     }
 
     /**
+     * Count the collision objects in this space.
+     *
+     * @return the count (&ge;0)
+     */
+    public int countCollisionObjects() {
+        int count = getNumCollisionObjects(nativeId);
+        return count;
+    }
+
+    /**
      * Count the joints in this space.
      *
      * @return count (&ge;0)
@@ -1128,8 +1138,13 @@ public class PhysicsSpace {
                 worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal());
         assert spaceId != 0L;
         logger.log(Level.FINE, "Created {0}.", this);
+
+        assert getWorldType(spaceId) == 2 // BT_DISCRETE_DYNAMICS_WORLD
+                : getWorldType(spaceId);
         initThread(spaceId);
     }
+
+    native protected int getWorldType(long spaceId);
 
     /**
      * Must be invoked on the designated physics thread.
@@ -1495,6 +1510,8 @@ public class PhysicsSpace {
     native private void finalizeNative(long spaceId);
 
     native private void getGravity(long spaceId, Vector3f storeVector);
+
+    native private int getNumCollisionObjects(long spaceId);
 
     native private int getNumConstraints(long spaceId);
 
