@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -194,7 +194,7 @@ public enum Sbcp {
                 break;
 
             default:
-                throw new IllegalArgumentException(toString());
+                throw new IllegalArgumentException("parameter = " + this);
         }
 
         return result;
@@ -232,7 +232,7 @@ public enum Sbcp {
                 return Float.MAX_VALUE;
 
             default:
-                throw new IllegalArgumentException(toString());
+                throw new IllegalArgumentException("parameter = " + this);
         }
     }
 
@@ -268,7 +268,7 @@ public enum Sbcp {
                 return 0f;
 
             default:
-                throw new IllegalArgumentException(toString());
+                throw new IllegalArgumentException("parameter = " + this);
         }
     }
 }
