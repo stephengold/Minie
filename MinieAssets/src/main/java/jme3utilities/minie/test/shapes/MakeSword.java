@@ -103,7 +103,7 @@ public class MakeSword {
     // private methods
 
     /**
-     * Generate a collision shape for a Sinbad's scimitar.
+     * Generate a collision shape for Sinbad's scimitar.
      */
     private void makeSword() {
         DesktopAssetManager assetManager = new DesktopAssetManager();
@@ -113,7 +113,7 @@ public class MakeSword {
         assetManager.registerLoader(MeshLoader.class, "mesh.xml");
         assetManager.registerLocator(null, ClasspathLocator.class);
         /*
-         * Import Sinbad's sword model (by Zi Ye)
+         * Import Sinbad's scimitar model (by Zi Ye)
          * from jme3-testdata-3.1.0-stable.jar:
          */
         Spatial parent

@@ -55,8 +55,8 @@ import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 
 /**
- * An indexed mesh based on Bullet's btIndexedMesh. Immutable except for
- * {@link #read(com.jme3.export.JmeImporter)}.
+ * An indexed triangle mesh based on Bullet's btIndexedMesh. Immutable except
+ * for {@link #read(com.jme3.export.JmeImporter)}.
  *
  * @author Stephen Gold sgold@sonic.net
  */
