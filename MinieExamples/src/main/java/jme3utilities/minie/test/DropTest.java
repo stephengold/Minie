@@ -544,6 +544,11 @@ public class DropTest
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
+            case "digit":
+                randomDigit();
+                debugMeshNormals = DebugMeshNormals.Facet;
+                break;
+
             case "duck":
             case "heart":
             case "sword":
@@ -982,6 +987,17 @@ public class DropTest
             namedShapes.put(glyphString, shape);
         }
         /*
+         * digit shapes
+         */
+        for (char character = '0'; character <= '9'; ++character) {
+            char[] array = new char[]{character};
+            String glyphString = new String(array);
+            String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
+                    glyphString);
+            shape = (CollisionShape) assetManager.loadAsset(assetPath);
+            namedShapes.put(glyphString, shape);
+        }
+        /*
          * "candyDish"
          */
         String candyDishPath = "Models/CandyDish/CandyDish.j3o";
@@ -1052,6 +1068,15 @@ public class DropTest
             }
         }
         selectDrop(null);
+    }
+
+    /**
+     * Randomly select the shape of a decimal digit.
+     */
+    private void randomDigit() {
+        char glyphChar = (char) ('0' + random.nextInt(10));
+        String glyphString = Character.toString(glyphChar);
+        dropShape = namedShapes.get(glyphString);
     }
 
     /**

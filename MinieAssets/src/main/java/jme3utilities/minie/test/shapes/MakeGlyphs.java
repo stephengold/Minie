@@ -179,6 +179,9 @@ public class MakeGlyphs {
         for (char letter = 'A'; letter <= 'Z'; ++letter) {
             makeGlyphShape(font, letter, transformA, transformB);
         }
+        for (char letter = '0'; letter <= '9'; ++letter) {
+            makeGlyphShape(font, letter, transformA, transformB);
+        }
     }
 
     /**
