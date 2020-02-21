@@ -63,6 +63,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -303,27 +304,27 @@ public class PhysicsSpace {
     /**
      * Add the specified object to this space.
      *
-     * @param obj the PhysicsControl, Spatial-with-PhysicsControl,
-     * PhysicsCollisionObject, or PhysicsJoint to add (not null, modified)
+     * @param object the PhysicsControl, Spatial-with-PhysicsControl,
+     * PhysicsCollisionObject, or PhysicsJoint to add (not null)
      */
-    public void add(Object obj) {
-        Validate.nonNull(obj, "obj");
+    public void add(Object object) {
+        Validate.nonNull(object, "object");
 
-        if (obj instanceof PhysicsControl) {
-            ((PhysicsControl) obj).setPhysicsSpace(this);
-        } else if (obj instanceof Spatial) {
-            Spatial node = (Spatial) obj;
+        if (object instanceof PhysicsControl) {
+            ((PhysicsControl) object).setPhysicsSpace(this);
+        } else if (object instanceof Spatial) {
+            Spatial node = (Spatial) object;
             for (int i = 0; i < node.getNumControls(); ++i) {
                 if (node.getControl(i) instanceof PhysicsControl) {
                     add(node.getControl(i));
                 }
             }
-        } else if (obj instanceof PhysicsCollisionObject) {
-            addCollisionObject((PhysicsCollisionObject) obj);
-        } else if (obj instanceof PhysicsJoint) {
-            addJoint((PhysicsJoint) obj);
+        } else if (object instanceof PhysicsCollisionObject) {
+            addCollisionObject((PhysicsCollisionObject) object);
+        } else if (object instanceof PhysicsJoint) {
+            addJoint((PhysicsJoint) object);
         } else {
-            String typeName = obj.getClass().getCanonicalName();
+            String typeName = object.getClass().getCanonicalName();
             String msg = "Cannot add a " + typeName + " to a physics space.";
             throw new IllegalArgumentException(msg);
         }
@@ -387,19 +388,19 @@ public class PhysicsSpace {
     /**
      * Add the specified collision object to this space.
      *
-     * @param obj the PhysicsCollisionObject to add (not null, modified)
+     * @param pco the collision object to add (not null)
      */
-    public void addCollisionObject(PhysicsCollisionObject obj) {
-        Validate.nonNull(obj, "object");
+    public void addCollisionObject(PhysicsCollisionObject pco) {
+        Validate.nonNull(pco, "collision object");
 
-        if (obj instanceof PhysicsGhostObject) {
-            addGhostObject((PhysicsGhostObject) obj);
-        } else if (obj instanceof PhysicsRigidBody) {
-            addRigidBody((PhysicsRigidBody) obj);
-        } else if (obj instanceof PhysicsCharacter) {
-            addCharacter((PhysicsCharacter) obj);
+        if (pco instanceof PhysicsGhostObject) {
+            addGhostObject((PhysicsGhostObject) pco);
+        } else if (pco instanceof PhysicsRigidBody) {
+            addRigidBody((PhysicsRigidBody) pco);
+        } else if (pco instanceof PhysicsCharacter) {
+            addCharacter((PhysicsCharacter) pco);
         } else {
-            String typeName = obj.getClass().getCanonicalName();
+            String typeName = pco.getClass().getCanonicalName();
             String msg = "Unknown type of collision object: " + typeName;
             throw new IllegalArgumentException(msg);
         }
@@ -594,7 +595,10 @@ public class PhysicsSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsCharacter> getCharacterList() {
-        return new TreeSet<>(physicsCharacters.values());
+        TreeSet<PhysicsCharacter> result = new TreeSet<>();
+        result.addAll(physicsCharacters.values());
+
+        return result;
     }
 
     /**
@@ -604,7 +608,10 @@ public class PhysicsSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsGhostObject> getGhostObjectList() {
-        return new TreeSet<>(physicsGhostObjects.values());
+        Set<PhysicsGhostObject> result = new TreeSet<>();
+        result.addAll(physicsGhostObjects.values());
+
+        return result;
     }
 
     /**
@@ -629,7 +636,10 @@ public class PhysicsSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsJoint> getJointList() {
-        return new TreeSet<>(physicsJoints.values());
+        TreeSet<PhysicsJoint> result = new TreeSet<>();
+        result.addAll(physicsJoints.values());
+
+        return result;
     }
 
     /**
@@ -638,9 +648,8 @@ public class PhysicsSpace {
      *
      * @return a new collection of pre-existing instances (not null)
      */
-    @SuppressWarnings("unchecked")
     public Collection<PhysicsCollisionObject> getPcoList() {
-        TreeSet result = new TreeSet<>();
+        TreeSet<PhysicsCollisionObject> result = new TreeSet<>();
         result.addAll(physicsBodies.values());
         result.addAll(physicsCharacters.values());
         result.addAll(physicsGhostObjects.values());
@@ -747,7 +756,7 @@ public class PhysicsSpace {
                 && physicsCharacters.isEmpty()
                 && physicsBodies.isEmpty()
                 && physicsJoints.isEmpty()
-                && physicsVehicles.isEmpty();
+                && physicsVehicles.isEmpty(); // TODO unnecessary
 
         return result;
     }
@@ -848,28 +857,28 @@ public class PhysicsSpace {
     /**
      * Remove the specified object from this space.
      *
-     * @param obj the PhysicsControl, Spatial-with-PhysicsControl,
-     * PhysicsCollisionObject, or PhysicsJoint to remove (modified if not null)
+     * @param object the PhysicsControl, Spatial-with-PhysicsControl,
+     * PhysicsCollisionObject, or PhysicsJoint to remove, or null
      */
-    public void remove(Object obj) {
-        if (obj == null) {
+    public void remove(Object object) {
+        if (object == null) {
             return;
         }
-        if (obj instanceof PhysicsControl) {
-            ((PhysicsControl) obj).setPhysicsSpace(null);
-        } else if (obj instanceof Spatial) {
-            Spatial node = (Spatial) obj;
+        if (object instanceof PhysicsControl) {
+            ((PhysicsControl) object).setPhysicsSpace(null);
+        } else if (object instanceof Spatial) {
+            Spatial node = (Spatial) object;
             for (int i = 0; i < node.getNumControls(); ++i) {
                 if (node.getControl(i) instanceof PhysicsControl) {
                     remove((node.getControl(i)));
                 }
             }
-        } else if (obj instanceof PhysicsCollisionObject) {
-            removeCollisionObject((PhysicsCollisionObject) obj);
-        } else if (obj instanceof PhysicsJoint) {
-            removeJoint((PhysicsJoint) obj);
+        } else if (object instanceof PhysicsCollisionObject) {
+            removeCollisionObject((PhysicsCollisionObject) object);
+        } else if (object instanceof PhysicsJoint) {
+            removeJoint((PhysicsJoint) object);
         } else {
-            String typeName = obj.getClass().getCanonicalName();
+            String typeName = object.getClass().getCanonicalName();
             String msg
                     = "Cannot remove a " + typeName + " from a physics space.";
             throw new IllegalArgumentException(msg);
@@ -930,17 +939,19 @@ public class PhysicsSpace {
     /**
      * Remove the specified collision object from this space.
      *
-     * @param obj the PhysicsControl or Spatial with PhysicsControl to remove
+     * @param pco the collision object to remove (not null)
      */
-    public void removeCollisionObject(PhysicsCollisionObject obj) {
-        if (obj instanceof PhysicsGhostObject) {
-            removeGhostObject((PhysicsGhostObject) obj);
-        } else if (obj instanceof PhysicsRigidBody) {
-            removeRigidBody((PhysicsRigidBody) obj);
-        } else if (obj instanceof PhysicsCharacter) {
-            removeCharacter((PhysicsCharacter) obj);
+    public void removeCollisionObject(PhysicsCollisionObject pco) {
+        Validate.nonNull(pco, "collision object");
+
+        if (pco instanceof PhysicsGhostObject) {
+            removeGhostObject((PhysicsGhostObject) pco);
+        } else if (pco instanceof PhysicsRigidBody) {
+            removeRigidBody((PhysicsRigidBody) pco);
+        } else if (pco instanceof PhysicsCharacter) {
+            removeCharacter((PhysicsCharacter) pco);
         } else {
-            String typeName = obj.getClass().getCanonicalName();
+            String typeName = pco.getClass().getCanonicalName();
             String msg = "Unknown type of collision object: " + typeName;
             throw new IllegalArgumentException(msg);
         }
@@ -1165,6 +1176,12 @@ public class PhysicsSpace {
         initThread(spaceId);
     }
 
+    /**
+     * Determine the type of the underlying btDynamicsWorld.
+     *
+     * @param spaceId the Bullet identifier for this space (non-zero)
+     * @return 2 (for a discrete world) or 4 (for a soft-rigid world)
+     */
     native protected int getWorldType(long spaceId);
 
     /**
