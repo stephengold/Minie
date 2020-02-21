@@ -142,21 +142,21 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     /**
      * Add the specified collision object to this space.
      *
-     * @param obj the PhysicsCollisionObject to add (not null, modified)
+     * @param pco the collision object to add (not null)
      */
     @Override
-    public void addCollisionObject(PhysicsCollisionObject obj) {
-        if (obj instanceof PhysicsSoftBody) {
-            addSoftBody((PhysicsSoftBody) obj);
+    public void addCollisionObject(PhysicsCollisionObject pco) {
+        if (pco instanceof PhysicsSoftBody) {
+            addSoftBody((PhysicsSoftBody) pco);
         } else {
-            super.addCollisionObject(obj);
+            super.addCollisionObject(pco);
         }
     }
 
     /**
      * Test whether the specified collision object is added to this space.
      *
-     * @param pco the object to test (not null)
+     * @param pco the object to test (not null, unaffected)
      * @return true if currently added, otherwise false
      */
     @Override
@@ -229,14 +229,14 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     /**
      * Remove the specified collision object from this space.
      *
-     * @param obj the PhysicsControl or Spatial with PhysicsControl to remove
+     * @param pco the collision object to remove (not null)
      */
     @Override
-    public void removeCollisionObject(PhysicsCollisionObject obj) {
-        if (obj instanceof PhysicsSoftBody) {
-            removeSoftBody((PhysicsSoftBody) obj);
+    public void removeCollisionObject(PhysicsCollisionObject pco) {
+        if (pco instanceof PhysicsSoftBody) {
+            removeSoftBody((PhysicsSoftBody) pco);
         } else {
-            super.removeCollisionObject(obj);
+            super.removeCollisionObject(pco);
         }
     }
 

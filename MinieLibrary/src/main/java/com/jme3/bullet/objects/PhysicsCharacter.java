@@ -374,7 +374,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * character gets rebuilt on the physics side.
      *
      * @param collisionShape the shape to apply (not null, convex, alias
-     * created) TODO declare as ConvexShape
+     * created)
      */
     @Override
     public void setCollisionShape(CollisionShape collisionShape) {
