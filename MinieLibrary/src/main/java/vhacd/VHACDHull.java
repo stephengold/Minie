@@ -73,6 +73,21 @@ public class VHACDHull {
         this.indexes = indexes;
     }
     // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Copy the vertex positions to a new array.
+     *
+     * @return the new array
+     */
+    public float[] clonePositions() {
+        int numFloats = positions.length;
+        float[] result = new float[numFloats];
+        System.arraycopy(positions, 0, result, 0, numFloats);
+
+        return result;
+    }
+    // *************************************************************************
     // native methods
 
     native private static void getIndices(long hullId, IntBuffer storeBuffer);
