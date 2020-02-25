@@ -44,7 +44,8 @@ import java.util.logging.Logger;
 
 /**
  * Debugging aids. Aside from setStartupMessageEnabled(), this class exists
- * solely for compatibility with the jme3-bullet library.
+ * solely for compatibility with the jme3-bullet library. TODO make more
+ * compatible
  *
  * @author normenhansen
  */
@@ -58,6 +59,10 @@ public class DebugTools {
     final public static Logger logger
             = Logger.getLogger(DebugTools.class.getName());
     /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
+     */
+    final private static Vector3f UNIT_XYZ_CHECK = new Vector3f(1f, 1f, 1f);
+    /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_X}
      */
     final private static Vector3f UNIT_X_CHECK = new Vector3f(1f, 0f, 0f);
@@ -70,33 +75,70 @@ public class DebugTools {
      */
     final private static Vector3f UNIT_Z_CHECK = new Vector3f(0f, 0f, 1f);
     /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
-     */
-    final private static Vector3f UNIT_XYZ_CHECK = new Vector3f(1f, 1f, 1f);
-    /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
     final private static Vector3f ZERO_CHECK = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
+    /**
+     * mesh for the blue arrow
+     */
+    public Arrow arrowBlue = new Arrow(Vector3f.ZERO);
+    /**
+     * mesh for the green arrow
+     */
+    public Arrow arrowGreen = new Arrow(Vector3f.ZERO);
+    /**
+     * mesh for the magenta arrow
+     */
+    public Arrow arrowMagenta = new Arrow(Vector3f.ZERO);
+    /**
+     * mesh for the pink arrow
+     */
+    public Arrow arrowPink = new Arrow(Vector3f.ZERO);
+    /**
+     * mesh for the red arrow
+     */
+    public Arrow arrowRed = new Arrow(Vector3f.ZERO);
+    /**
+     * mesh for the yellow arrow
+     */
+    public Arrow arrowYellow = new Arrow(Vector3f.ZERO);
     final private AssetManager manager;
+    /**
+     * geometry for the blue arrow
+     */
+    public Geometry arrowBlueGeom = new Geometry("Blue Arrow", arrowBlue);
+    /**
+     * geometry for the green arrow
+     */
+    public Geometry arrowGreenGeom = new Geometry("Green Arrow", arrowGreen);
+    /**
+     * geometry for the magenta arrow
+     */
+    public Geometry arrowMagentaGeom = new Geometry("Magenta Arrow",
+            arrowMagenta);
+    /**
+     * geometry for the pink arrow
+     */
+    public Geometry arrowPinkGeom = new Geometry("Pink Arrow", arrowPink);
+    /**
+     * geometry for the red arrow
+     */
+    public Geometry arrowRedGeom = new Geometry("Red Arrow", arrowRed);
+    /**
+     * geometry for the yellow arrow
+     */
+    public Geometry arrowYellowGeom = new Geometry("Yellow Arrow", arrowYellow);
     /**
      * unshaded blue material
      */
     public Material DEBUG_BLUE;
     /**
-     * unshaded red material
-     */
-    public Material DEBUG_RED;
-    /**
      * unshaded green material
      */
     public Material DEBUG_GREEN;
-    /**
-     * unshaded yellow material
-     */
-    public Material DEBUG_YELLOW;
     /**
      * unshaded magenta material
      */
@@ -106,58 +148,17 @@ public class DebugTools {
      */
     public Material DEBUG_PINK;
     /**
+     * unshaded red material
+     */
+    public Material DEBUG_RED;
+    /**
+     * unshaded yellow material
+     */
+    public Material DEBUG_YELLOW;
+    /**
      * node for attaching debug geometries
      */
     public Node debugNode = new Node("Debug Node");
-    /**
-     * mesh for the blue arrow
-     */
-    public Arrow arrowBlue = new Arrow(Vector3f.ZERO);
-    /**
-     * geometry for the blue arrow
-     */
-    public Geometry arrowBlueGeom = new Geometry("Blue Arrow", arrowBlue);
-    /**
-     * mesh for the green arrow
-     */
-    public Arrow arrowGreen = new Arrow(Vector3f.ZERO);
-    /**
-     * geometry for the green arrow
-     */
-    public Geometry arrowGreenGeom = new Geometry("Green Arrow", arrowGreen);
-    /**
-     * mesh for the red arrow
-     */
-    public Arrow arrowRed = new Arrow(Vector3f.ZERO);
-    /**
-     * geometry for the red arrow
-     */
-    public Geometry arrowRedGeom = new Geometry("Red Arrow", arrowRed);
-    /**
-     * mesh for the magenta arrow
-     */
-    public Arrow arrowMagenta = new Arrow(Vector3f.ZERO);
-    /**
-     * geometry for the magenta arrow
-     */
-    public Geometry arrowMagentaGeom = new Geometry("Magenta Arrow",
-            arrowMagenta);
-    /**
-     * mesh for the yellow arrow
-     */
-    public Arrow arrowYellow = new Arrow(Vector3f.ZERO);
-    /**
-     * geometry for the yellow arrow
-     */
-    public Geometry arrowYellowGeom = new Geometry("Yellow Arrow", arrowYellow);
-    /**
-     * mesh for the pink arrow
-     */
-    public Arrow arrowPink = new Arrow(Vector3f.ZERO);
-    /**
-     * geometry for the pink arrow
-     */
-    public Geometry arrowPinkGeom = new Geometry("Pink Arrow", arrowPink);
     // *************************************************************************
     // constructors
 
@@ -320,7 +321,8 @@ public class DebugTools {
     // native methods
 
     /**
-     * Alter whether the native library will print a startup message. TODO delete
+     * Alter whether the native library will print a startup message. TODO
+     * delete
      *
      * @param printFlag true &rarr; print a message, false &rarr; no message
      * @deprecated use
