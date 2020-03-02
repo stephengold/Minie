@@ -48,6 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
+import jme3utilities.math.IntPair;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 
@@ -130,18 +131,18 @@ public class NativeSoftBodyUtil {
         assert triangleIndices.getBuffer().isDirect();
         softBody.appendFaces(triangleIndices);
         /*
-         * Enumerate all unique edges among the triangles. TODO use IntPair
+         * Enumerate all unique edges among the triangles.
          */
         int size = triangleIndices.size();
-        Set<MeshEdge> uniqueEdges = new HashSet<>(vpt * size);
+        Set<IntPair> uniqueEdges = new HashSet<>(vpt * size);
         for (int intOffset = 0; intOffset < size; intOffset += vpt) {
             int ti0 = triangleIndices.get(intOffset);
             int ti1 = triangleIndices.get(intOffset + 1);
             int ti2 = triangleIndices.get(intOffset + 2);
 
-            uniqueEdges.add(new MeshEdge(ti0, ti1));
-            uniqueEdges.add(new MeshEdge(ti1, ti2));
-            uniqueEdges.add(new MeshEdge(ti0, ti2));
+            uniqueEdges.add(new IntPair(ti0, ti1));
+            uniqueEdges.add(new IntPair(ti1, ti2));
+            uniqueEdges.add(new IntPair(ti0, ti2));
         }
 
         int vertexCount = positions.limit();
@@ -150,9 +151,9 @@ public class NativeSoftBodyUtil {
         IndexBuffer links
                 = IndexBuffer.createIndexBuffer(vertexCount, indexCount);
         int edgeIndex = 0;
-        for (MeshEdge edge : uniqueEdges) {
-            links.put(edgeIndex, edge.index1());
-            links.put(edgeIndex + 1, edge.index2());
+        for (IntPair edge : uniqueEdges) {
+            links.put(edgeIndex, edge.smaller());
+            links.put(edgeIndex + 1, edge.larger());
             edgeIndex += MyMesh.vpe;
         }
         softBody.appendLinks(links);
