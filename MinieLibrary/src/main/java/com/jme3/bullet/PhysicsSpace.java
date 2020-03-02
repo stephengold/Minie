@@ -178,11 +178,6 @@ public class PhysicsSpace extends CollisionSpace {
     final protected Queue<AppTask<?>> pQueue
             = new ConcurrentLinkedQueue<>();
     /**
-     * physics-space reference for each thread
-     */
-    final protected static ThreadLocal<PhysicsSpace> physicsSpaceTL
-            = new ThreadLocal<PhysicsSpace>();
-    /**
      * first-in/first-out (FIFO) queue of physics tasks for each thread
      */
     final protected static ThreadLocal<Queue<AppTask<?>>> pQueueTL
