@@ -5,7 +5,7 @@
 
 set -e
 
-SRC=/home/sgold/Git/ext/jmonkeyengine/jme3-examples/src/main/java/jme3test
+SRC=/home/sgold/Git/jmonkeyengine/jme3-examples/src/main/java/jme3test
 DST=/home/sgold/Git/Minie/Jme3Examples/src/main/java/jme3test
 
 cd $SRC
