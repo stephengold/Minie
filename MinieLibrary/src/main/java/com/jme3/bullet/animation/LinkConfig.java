@@ -450,10 +450,18 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         if (result != 0) {
             return result;
         }
-        result = rotationOrder.compareTo(other.rotationOrder);
-        if (result != 0) {
-            return result;
+
+        if (rotationOrder == null && other.rotationOrder != null) {
+            return 1;
+        } else if (other.rotationOrder == null && rotationOrder != null) {
+            return -1;
+        } else if (rotationOrder != null && other.rotationOrder != null) {
+            result = rotationOrder.compareTo(other.rotationOrder);
+            if (result != 0) {
+                return result;
+            }
         }
+
         result = shapeHeuristic.compareTo(other.shapeHeuristic);
         if (result != 0) {
             return result;
