@@ -28,12 +28,14 @@ package jme3utilities.minie.test.mesh;
 
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 
 /**
  * A 2-D, static, Lines-mode Mesh (with indices) that renders a regular
@@ -100,9 +102,12 @@ public class NetGrid extends Mesh {
         posBuffer.flip();
 
         int numEdges = xLines * (zLines - 1) + (xLines - 1) * zLines;
-        IntBuffer indexBuffer
-                = BufferUtils.createIntBuffer(MyMesh.vpe * numEdges);
-        setBuffer(VertexBuffer.Type.Index, MyMesh.vpe, indexBuffer);
+        int numIndices = MyMesh.vpe * numEdges;
+        IndexBuffer indexBuffer
+                = IndexBuffer.createIndexBuffer(numVertices, numIndices);
+        VertexBuffer.Format ibFormat = MyBuffer.getFormat(indexBuffer);
+        Buffer ibData = indexBuffer.getBuffer();
+        setBuffer(VertexBuffer.Type.Index, 1, ibFormat, ibData);
         /*
          * Write vertex indices for edges that parallel the X axis:
          */
@@ -110,7 +115,8 @@ public class NetGrid extends Mesh {
             for (int xIndex = 0; xIndex < zLines - 1; ++xIndex) {
                 int vi0 = zIndex + xLines * xIndex;
                 int vi1 = vi0 + xLines;
-                indexBuffer.put(vi0).put(vi1);
+                MyBuffer.putRelative(indexBuffer, vi0);
+                MyBuffer.putRelative(indexBuffer, vi1);
             }
         }
         /*
@@ -120,11 +126,12 @@ public class NetGrid extends Mesh {
             for (int zIndex = 0; zIndex < xLines - 1; ++zIndex) {
                 int vi0 = zIndex + xLines * xIndex;
                 int vi1 = vi0 + 1;
-                indexBuffer.put(vi0).put(vi1);
+                MyBuffer.putRelative(indexBuffer, vi0);
+                MyBuffer.putRelative(indexBuffer, vi1);
             }
         }
-        assert indexBuffer.position() == MyMesh.vpe * numEdges;
-        indexBuffer.flip();
+        assert ibData.position() == MyMesh.vpe * numEdges;
+        ibData.flip();
 
         updateBound();
         setStatic();

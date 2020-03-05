@@ -29,12 +29,14 @@ package jme3utilities.minie.test.mesh;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -98,17 +100,21 @@ public class DividedLine extends Mesh {
         assert posBuffer.position() == numAxes * numVertices;
         posBuffer.flip();
 
-        IntBuffer indexBuffer
-                = BufferUtils.createIntBuffer(MyMesh.vpe * numSegments);
-        setBuffer(VertexBuffer.Type.Index, MyMesh.vpe, indexBuffer);
+        int numIndices = MyMesh.vpe * numSegments;
+        IndexBuffer indexBuffer
+                = IndexBuffer.createIndexBuffer(numVertices, numIndices);
+        VertexBuffer.Format ibFormat = MyBuffer.getFormat(indexBuffer);
+        Buffer ibData = indexBuffer.getBuffer();
+        setBuffer(VertexBuffer.Type.Index, 1, ibFormat, ibData);
         /*
          * Write the vertex indices of all edges:
          */
-        for (int sIndex = 0; sIndex < numSegments; ++sIndex) {
-            indexBuffer.put(sIndex).put(sIndex + 1);
+        for (int edgeIndex = 0; edgeIndex < numSegments; ++edgeIndex) {
+            MyBuffer.putRelative(indexBuffer, edgeIndex);
+            MyBuffer.putRelative(indexBuffer, edgeIndex + 1);
         }
-        assert indexBuffer.position() == MyMesh.vpe * numSegments;
-        indexBuffer.flip();
+        assert ibData.position() == MyMesh.vpe * numSegments;
+        ibData.flip();
 
         updateBound();
         setStatic();

@@ -37,17 +37,19 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 import java.util.BitSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.MyMesh;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 
@@ -126,7 +128,7 @@ public class TubeTreeMesh extends Mesh {
     /**
      * index buffer
      */
-    private ShortBuffer indexBuffer;
+    private IndexBuffer indexBuffer;
     /**
      * skeleton used to construct the mesh
      */
@@ -328,9 +330,8 @@ public class TubeTreeMesh extends Mesh {
      */
     private void allocateBuffers() {
         int weightCount = maxWpv * numVertices;
-        // TODO use a ByteBuffer if possible
-        indexBuffer = BufferUtils.createShortBuffer(weightCount);
-        setBuffer(VertexBuffer.Type.BoneIndex, maxWpv, indexBuffer);
+        indexBuffer = IndexBuffer.createIndexBuffer(numVertices, weightCount);
+        MyMesh.setBoneIndexBuffer(this, maxWpv, indexBuffer);
         weightBuffer = BufferUtils.createFloatBuffer(weightCount);
         setBuffer(VertexBuffer.Type.BoneWeight, maxWpv, weightBuffer);
 
@@ -415,16 +416,13 @@ public class TubeTreeMesh extends Mesh {
      *
      * @param boneIndex the index of the bone that animates the triangle
      */
-    private void putAnimationForTriangle(int boneIndex) {
-        assert boneIndex >= 0 : boneIndex;
-        assert boneIndex <= Short.MAX_VALUE : boneIndex;
-
+    private void putAnimationForTriangle(int jointIndex) {
         for (int vertexIndex = 0; vertexIndex < vpt; ++vertexIndex) {
-            indexBuffer.put((short) boneIndex);
+            MyBuffer.putRelative(indexBuffer, jointIndex);
             weightBuffer.put(1f);
 
             for (int weightIndex = 1; weightIndex < maxWpv; ++weightIndex) {
-                indexBuffer.put((short) 0);
+                MyBuffer.putRelative(indexBuffer, 0);
                 weightBuffer.put(0f);
             }
         }
@@ -449,18 +447,18 @@ public class TubeTreeMesh extends Mesh {
 
         int weightIndex;
         if (weight1 != 0f) {
-            indexBuffer.put((short) boneIndex1);
+            MyBuffer.putRelative(indexBuffer, boneIndex1);
             weightBuffer.put(weight1);
             weightIndex = 2;
         } else {
             weightIndex = 1;
         }
 
-        indexBuffer.put((short) boneIndex2);
+        MyBuffer.putRelative(indexBuffer, boneIndex2);
         weightBuffer.put(1f - weight1);
 
         while (weightIndex < maxWpv) {
-            indexBuffer.put((short) 0);
+            MyBuffer.putRelative(indexBuffer, 0);
             weightBuffer.put(0f);
             ++weightIndex;
         }

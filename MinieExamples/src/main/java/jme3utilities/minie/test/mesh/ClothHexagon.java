@@ -28,12 +28,14 @@ package jme3utilities.minie.test.mesh;
 
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 
 /**
@@ -130,9 +132,11 @@ public class ClothHexagon extends Mesh {
 
         int numTriangles = numSides * numRings * numRings;
         int numIndices = MyMesh.vpt * numTriangles;
-        IntBuffer indexBuffer = BufferUtils.createIntBuffer(numIndices);
-        setBuffer(VertexBuffer.Type.Index, MyMesh.vpt,
-                VertexBuffer.Format.UnsignedInt, indexBuffer);
+        IndexBuffer indexBuffer
+                = IndexBuffer.createIndexBuffer(numVertices, numIndices);
+        VertexBuffer.Format ibFormat = MyBuffer.getFormat(indexBuffer);
+        Buffer ibData = indexBuffer.getBuffer();
+        setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, ibFormat, ibData);
         /*
          * Write vertex indices for triangles:
          */
@@ -143,8 +147,13 @@ public class ClothHexagon extends Mesh {
             int startOvi = ovi;
             for (int sideIndex = 0; sideIndex < numSides; ++sideIndex) {
                 for (int stepI = 0; stepI < ringIndex - 1; ++stepI) {
-                    indexBuffer.put(ovi).put(ivi).put(ovi + 1);
-                    indexBuffer.put(ivi).put(ivi + 1).put(ovi + 1);
+                    MyBuffer.putRelative(indexBuffer, ovi);
+                    MyBuffer.putRelative(indexBuffer, ivi);
+                    MyBuffer.putRelative(indexBuffer, ovi + 1);
+
+                    MyBuffer.putRelative(indexBuffer, ivi);
+                    MyBuffer.putRelative(indexBuffer, ivi + 1);
+                    MyBuffer.putRelative(indexBuffer, ovi + 1);
                     ++ivi;
                     ++ovi;
                 }
@@ -152,20 +161,27 @@ public class ClothHexagon extends Mesh {
                 int nivi = startIvi + nextSide * ringIndex;
                 int novi = startOvi + nextSide * (ringIndex + 1);
                 if (ringIndex > 0) {
-                    indexBuffer.put(ovi).put(ivi).put(ovi + 1);
-                    indexBuffer.put(ivi).put(nivi).put(ovi + 1);
+                    MyBuffer.putRelative(indexBuffer, ovi);
+                    MyBuffer.putRelative(indexBuffer, ivi);
+                    MyBuffer.putRelative(indexBuffer, ovi + 1);
+
+                    MyBuffer.putRelative(indexBuffer, ivi);
+                    MyBuffer.putRelative(indexBuffer, nivi);
+                    MyBuffer.putRelative(indexBuffer, ovi + 1);
                     ++ivi;
                     ++ovi;
                 }
-                indexBuffer.put(ovi).put(nivi).put(novi);
+                MyBuffer.putRelative(indexBuffer, ovi);
+                MyBuffer.putRelative(indexBuffer, nivi);
+                MyBuffer.putRelative(indexBuffer, novi);
                 ++ovi;
             }
             if (ringIndex == 0) {
                 ++ivi;
             }
         }
-        indexBuffer.flip();
-        assert indexBuffer.limit() == numIndices;
+        ibData.flip();
+        assert ibData.limit() == numIndices;
 
         updateBound();
         setDynamic();
