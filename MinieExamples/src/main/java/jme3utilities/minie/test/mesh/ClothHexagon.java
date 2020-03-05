@@ -35,6 +35,7 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 
 /**
@@ -133,7 +134,7 @@ public class ClothHexagon extends Mesh {
         int numIndices = MyMesh.vpt * numTriangles;
         IndexBuffer indexBuffer
                 = IndexBuffer.createIndexBuffer(numVertices, numIndices);
-        VertexBuffer.Format ibFormat = indexBuffer.getFormat();
+        VertexBuffer.Format ibFormat = MyBuffer.getFormat(indexBuffer);
         Buffer ibData = indexBuffer.getBuffer();
         setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, ibFormat, ibData);
         /*
@@ -146,8 +147,13 @@ public class ClothHexagon extends Mesh {
             int startOvi = ovi;
             for (int sideIndex = 0; sideIndex < numSides; ++sideIndex) {
                 for (int stepI = 0; stepI < ringIndex - 1; ++stepI) {
-                    indexBuffer.put(ovi).put(ivi).put(ovi + 1);
-                    indexBuffer.put(ivi).put(ivi + 1).put(ovi + 1);
+                    MyBuffer.putRelative(indexBuffer, ovi);
+                    MyBuffer.putRelative(indexBuffer, ivi);
+                    MyBuffer.putRelative(indexBuffer, ovi + 1);
+
+                    MyBuffer.putRelative(indexBuffer, ivi);
+                    MyBuffer.putRelative(indexBuffer, ivi + 1);
+                    MyBuffer.putRelative(indexBuffer, ovi + 1);
                     ++ivi;
                     ++ovi;
                 }
@@ -155,12 +161,19 @@ public class ClothHexagon extends Mesh {
                 int nivi = startIvi + nextSide * ringIndex;
                 int novi = startOvi + nextSide * (ringIndex + 1);
                 if (ringIndex > 0) {
-                    indexBuffer.put(ovi).put(ivi).put(ovi + 1);
-                    indexBuffer.put(ivi).put(nivi).put(ovi + 1);
+                    MyBuffer.putRelative(indexBuffer, ovi);
+                    MyBuffer.putRelative(indexBuffer, ivi);
+                    MyBuffer.putRelative(indexBuffer, ovi + 1);
+
+                    MyBuffer.putRelative(indexBuffer, ivi);
+                    MyBuffer.putRelative(indexBuffer, nivi);
+                    MyBuffer.putRelative(indexBuffer, ovi + 1);
                     ++ivi;
                     ++ovi;
                 }
-                indexBuffer.put(ovi).put(nivi).put(novi);
+                MyBuffer.putRelative(indexBuffer, ovi);
+                MyBuffer.putRelative(indexBuffer, nivi);
+                MyBuffer.putRelative(indexBuffer, novi);
                 ++ovi;
             }
             if (ringIndex == 0) {

@@ -41,17 +41,15 @@ import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 import java.util.BitSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.MyMesh;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 
@@ -251,34 +249,6 @@ public class TubeTreeMesh extends Mesh {
     }
 
     /**
-     * Replace the BoneIndexBuffer of the specified Mesh. TODO use MyMesh
-     *
-     * @param mesh the Mesh to modify (not null)
-     * @param wpv the number of bone weights per vertex (&gt;0)
-     * @param indexBuffer the desired IndexBuffer (not null, alias created)
-     */
-    public static void setBoneIndexBuffer(Mesh mesh, int wpv,
-            IndexBuffer indexBuffer) {
-        Validate.nonNull(mesh, "mesh");
-        Validate.positive(wpv, "weights per vertex");
-
-        Buffer buffer = indexBuffer.getBuffer();
-        if (buffer instanceof ByteBuffer) {
-            mesh.setBuffer(VertexBuffer.Type.BoneIndex, wpv,
-                    (ByteBuffer) buffer);
-        } else if (buffer instanceof IntBuffer) {
-            mesh.setBuffer(VertexBuffer.Type.BoneIndex, wpv,
-                    (IntBuffer) buffer);
-        } else if (buffer instanceof ShortBuffer) {
-            mesh.setBuffer(VertexBuffer.Type.BoneIndex, wpv,
-                    (ShortBuffer) buffer);
-        } else {
-            String message = buffer.getClass().getName();
-            throw new IllegalArgumentException(message);
-        }
-    }
-
-    /**
      * Calculate the number of vertices in each cap.
      *
      * @return count (&ge;3)
@@ -363,7 +333,7 @@ public class TubeTreeMesh extends Mesh {
     private void allocateBuffers() {
         int weightCount = maxWpv * numVertices;
         indexBuffer = IndexBuffer.createIndexBuffer(numVertices, weightCount);
-        setBoneIndexBuffer(this, maxWpv, indexBuffer);
+        MyMesh.setBoneIndexBuffer(this, maxWpv, indexBuffer);
         weightBuffer = BufferUtils.createFloatBuffer(weightCount);
         setBuffer(VertexBuffer.Type.BoneWeight, maxWpv, weightBuffer);
 
@@ -449,15 +419,12 @@ public class TubeTreeMesh extends Mesh {
      * @param jointIndex the index of the Joint that animates the triangle
      */
     private void putAnimationForTriangle(int jointIndex) {
-        assert jointIndex >= 0 : jointIndex;
-        assert jointIndex <= Short.MAX_VALUE : jointIndex;
-
         for (int vertexIndex = 0; vertexIndex < vpt; ++vertexIndex) {
-            indexBuffer.put((short) jointIndex);
+            MyBuffer.putRelative(indexBuffer, jointIndex);
             weightBuffer.put(1f);
 
             for (int weightIndex = 1; weightIndex < maxWpv; ++weightIndex) {
-                indexBuffer.put((short) 0);
+                MyBuffer.putRelative(indexBuffer, 0);
                 weightBuffer.put(0f);
             }
         }
@@ -472,28 +439,22 @@ public class TubeTreeMesh extends Mesh {
      */
     private void putAnimationForVertex(int jointIndex1, int jointIndex2,
             float weight1) {
-        assert jointIndex1 >= 0 : jointIndex1;
-        assert jointIndex1 <= Short.MAX_VALUE : jointIndex1;
-        assert jointIndex2 >= 0 : jointIndex2;
-        assert jointIndex2 <= Short.MAX_VALUE : jointIndex2;
-        assert jointIndex1 != jointIndex2 : jointIndex1;
-
         weight1 = FastMath.clamp(weight1, 0f, 1f);
 
         int weightIndex;
         if (weight1 != 0f) {
-            indexBuffer.put((short) jointIndex1);
+            MyBuffer.putRelative(indexBuffer, jointIndex1);
             weightBuffer.put(weight1);
             weightIndex = 2;
         } else {
             weightIndex = 1;
         }
 
-        indexBuffer.put((short) jointIndex2);
+        MyBuffer.putRelative(indexBuffer, jointIndex2);
         weightBuffer.put(1f - weight1);
 
         while (weightIndex < maxWpv) {
-            indexBuffer.put((short) 0);
+            MyBuffer.putRelative(indexBuffer, 0);
             weightBuffer.put(0f);
             ++weightIndex;
         }

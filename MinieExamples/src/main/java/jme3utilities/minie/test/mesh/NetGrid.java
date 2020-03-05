@@ -35,6 +35,7 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 
 /**
  * A 2-D, static, Lines-mode Mesh (with indices) that renders a regular
@@ -103,7 +104,7 @@ public class NetGrid extends Mesh {
         int numIndices = MyMesh.vpe * numEdges;
         IndexBuffer indexBuffer
                 = IndexBuffer.createIndexBuffer(numVertices, numIndices);
-        VertexBuffer.Format ibFormat = indexBuffer.getFormat();
+        VertexBuffer.Format ibFormat = MyBuffer.getFormat(indexBuffer);
         Buffer ibData = indexBuffer.getBuffer();
         setBuffer(VertexBuffer.Type.Index, 1, ibFormat, ibData);
         /*
@@ -113,7 +114,8 @@ public class NetGrid extends Mesh {
             for (int xIndex = 0; xIndex < zLines - 1; ++xIndex) {
                 int vi0 = zIndex + xLines * xIndex;
                 int vi1 = vi0 + xLines;
-                indexBuffer.put(vi0).put(vi1);
+                MyBuffer.putRelative(indexBuffer, vi0);
+                MyBuffer.putRelative(indexBuffer, vi1);
             }
         }
         /*
@@ -123,7 +125,8 @@ public class NetGrid extends Mesh {
             for (int zIndex = 0; zIndex < xLines - 1; ++zIndex) {
                 int vi0 = zIndex + xLines * xIndex;
                 int vi1 = vi0 + 1;
-                indexBuffer.put(vi0).put(vi1);
+                MyBuffer.putRelative(indexBuffer, vi0);
+                MyBuffer.putRelative(indexBuffer, vi1);
             }
         }
         indexBuffer.getBuffer().flip();

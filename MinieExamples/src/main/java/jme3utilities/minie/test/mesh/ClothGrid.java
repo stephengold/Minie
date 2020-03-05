@@ -133,7 +133,7 @@ public class ClothGrid extends Mesh {
         int numIndices = MyMesh.vpt * numTriangles;
         IndexBuffer indexBuffer
                 = IndexBuffer.createIndexBuffer(numVertices, numIndices);
-        VertexBuffer.Format ibFormat = indexBuffer.getFormat();
+        VertexBuffer.Format ibFormat = MyBuffer.getFormat(indexBuffer);
         Buffer ibData = indexBuffer.getBuffer();
         setBuffer(VertexBuffer.Type.Index, 1, ibFormat, ibData);
         /*
@@ -148,12 +148,22 @@ public class ClothGrid extends Mesh {
                 int vi3 = vi1 + xLines;
                 if ((xIndex + zIndex) % 2 == 0) {
                     // major diagonal: joins vi1 to vi2
-                    indexBuffer.put(vi0).put(vi1).put(vi2);
-                    indexBuffer.put(vi3).put(vi2).put(vi1);
+                    MyBuffer.putRelative(indexBuffer, vi0);
+                    MyBuffer.putRelative(indexBuffer, vi1);
+                    MyBuffer.putRelative(indexBuffer, vi2);
+
+                    MyBuffer.putRelative(indexBuffer, vi3);
+                    MyBuffer.putRelative(indexBuffer, vi2);
+                    MyBuffer.putRelative(indexBuffer, vi1);
                 } else {
                     // minor diagonal: joins vi0 to vi3
-                    indexBuffer.put(vi0).put(vi1).put(vi3);
-                    indexBuffer.put(vi3).put(vi2).put(vi0);
+                    MyBuffer.putRelative(indexBuffer, vi0);
+                    MyBuffer.putRelative(indexBuffer, vi1);
+                    MyBuffer.putRelative(indexBuffer, vi3);
+
+                    MyBuffer.putRelative(indexBuffer, vi3);
+                    MyBuffer.putRelative(indexBuffer, vi2);
+                    MyBuffer.putRelative(indexBuffer, vi0);
                 }
             }
         }

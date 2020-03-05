@@ -58,6 +58,7 @@ import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import vhacd.VHACD;
 import vhacd.VHACDHull;
 import vhacd.VHACDParameters;
@@ -268,7 +269,7 @@ public class CollisionShapeFactory {
         for (int offset = 0; offset < numIndices; ++offset) {
             int indexInGeometry = indexBuffer.get(offset);
             int indexInCombinedMesh = indexBase + indexInGeometry;
-            addIndices.put(indexInCombinedMesh);
+            MyBuffer.putRelative(addIndices, indexInCombinedMesh);
         }
         /*
          * Append transformed vertex locations to the FloatBuffer.
@@ -505,7 +506,7 @@ public class CollisionShapeFactory {
             appendTriangles(geometry, subtree, positionBuffer, indexBuffer);
         }
 
-        VertexBuffer.Format ibFormat = indexBuffer.getFormat();
+        VertexBuffer.Format ibFormat = MyBuffer.getFormat(indexBuffer);
         Buffer ibData = indexBuffer.getBuffer();
         Mesh result = new Mesh();
         result.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, ibFormat, ibData);
