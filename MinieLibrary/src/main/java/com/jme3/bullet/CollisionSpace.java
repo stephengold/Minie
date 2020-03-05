@@ -101,7 +101,7 @@ public class CollisionSpace {
     final private Map<Integer, PhysicsCollisionGroupListener> collisionGroupListeners
             = new ConcurrentHashMap<>(20);
     /**
-     * map ghost IDs to added objects
+     * map ghost IDs to added objects TODO rename
      */
     final private Map<Long, PhysicsGhostObject> physicsGhostObjects
             = new ConcurrentHashMap<>(64);

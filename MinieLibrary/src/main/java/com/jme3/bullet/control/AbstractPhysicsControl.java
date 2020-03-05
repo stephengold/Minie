@@ -93,7 +93,8 @@ abstract public class AbstractPhysicsControl
      */
     private boolean localPhysics = false;
     /**
-     * space to which the physics object is (or would be) added
+     * space to which the physics object is (or would be) added TODO
+     * CollisionSpace
      */
     private PhysicsSpace space = null;
     /**
