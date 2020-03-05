@@ -174,7 +174,7 @@ public class PhysicsDumper extends Dumper {
         Validate.nonNull(shape, "shape");
         Validate.nonNull(indent, "indent");
 
-        stream.printf("%n%s", indent);
+        addLine(indent);
 
         PhysicsDescriber describer = getDescriber();
         String desc = describer.describe(shape);
@@ -226,7 +226,7 @@ public class PhysicsDumper extends Dumper {
         stream.print(" #");
         stream.print(Long.toHexString(objectId));
 
-        stream.printf("%n%s", indent);
+        addLine(indent);
         Vector3f grav = character.getGravity(null);
         stream.printf(" grav[%s]", MyVector3f.describe(grav));
 
@@ -326,7 +326,7 @@ public class PhysicsDumper extends Dumper {
         Validate.nonNull(body, "body");
         Validate.nonNull(indent, "indent");
 
-        stream.printf("%n%s", indent);
+        addLine(indent);
         if (body instanceof PhysicsVehicle) {
             stream.print("Vehicle ");
         } else {
@@ -364,7 +364,7 @@ public class PhysicsDumper extends Dumper {
             /*
              * The 2nd line has the dynamic info.
              */
-            stream.printf("%n%s", indent);
+            addLine(indent);
             addDynamicProperties(body);
         }
         /*
@@ -377,7 +377,7 @@ public class PhysicsDumper extends Dumper {
          * The next line has the bounding box, group info, number of wheels,
          * and number of joints.
          */
-        stream.printf("%n%s", indent);
+        addLine(indent);
         if (shape instanceof CompoundCollisionShape
                 || shape instanceof GImpactCollisionShape
                 || shape instanceof HeightfieldCollisionShape
@@ -504,7 +504,7 @@ public class PhysicsDumper extends Dumper {
                 (numJoints == 1) ? "" : "s");
         if (dumpJointsInBodies && numJoints > 0) {
             dumpJoints(body, indent);
-            stream.printf("%n%s", indent);
+            addLine(indent);
         } else {
             stream.print(',');
         }
@@ -1015,7 +1015,7 @@ public class PhysicsDumper extends Dumper {
         PhysicsDescriber describer = getDescriber();
         ChildCollisionShape[] children = parent.listChildren();
         for (ChildCollisionShape child : children) {
-            stream.printf("%n%s", indent);
+            addLine(indent);
             CollisionShape shape = child.getShape();
             String desc = describer.describe(shape);
             stream.print(desc);
@@ -1100,7 +1100,7 @@ public class PhysicsDumper extends Dumper {
                 dumpNodesInCluster(softBody, clusterIndex);
             }
         }
-        stream.printf("%n%s", indent);
+        addLine(indent);
     }
 
     /**
@@ -1287,6 +1287,6 @@ public class PhysicsDumper extends Dumper {
             float raycast = vehicle.castRay(wheelIndex);
             stream.print(MyString.describe(raycast));
         }
-        stream.printf("%n%s", indent);
+        addLine(indent);
     }
 }
