@@ -420,7 +420,7 @@ public class VHACDParameters implements Cloneable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 83 * hash + (this.DEBUG ? 1 : 0);
+        hash = 83 * hash + (DEBUG ? 1 : 0);
         hash = 83 * hash + getACDMode().hashCode();
         hash = 83 * hash + Double.hashCode(getAlpha());
         hash = 83 * hash + Double.hashCode(getBeta());
