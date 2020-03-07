@@ -29,7 +29,6 @@ package jme3utilities.minie.test;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.bullet.collision.AfMode;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -185,7 +184,7 @@ public class TestCloneBody {
         verifyParameters(bodyCloneCopy, 0.6f);
     }
 
-    private void setParameters(PhysicsCollisionObject pco, float b) {
+    private void setParameters(PhysicsBody pco, float b) {
         if (pco instanceof PhysicsRigidBody) {
             setRigid((PhysicsRigidBody) pco, b);
         } else if (pco instanceof PhysicsSoftBody) {
@@ -270,7 +269,7 @@ public class TestCloneBody {
         material.setVolumeStiffness(b + 0.042f);
     }
 
-    private void verifyParameters(PhysicsCollisionObject pco, float b) {
+    private void verifyParameters(PhysicsBody pco, float b) {
         if (pco instanceof PhysicsRigidBody) {
             verifyRigid((PhysicsRigidBody) pco, b);
         } else if (pco instanceof PhysicsSoftBody) {
