@@ -155,7 +155,7 @@ public class PhysicsSpace extends CollisionSpace {
     /**
      * map character IDs to added objects
      */
-    final private Map<Long, PhysicsCharacter> characters
+    final private Map<Long, PhysicsCharacter> characterMap
             = new ConcurrentHashMap<>(64);
     /**
      * map joint IDs to added objects
@@ -165,12 +165,12 @@ public class PhysicsSpace extends CollisionSpace {
     /**
      * map rigid-body IDs to added objects (including vehicles)
      */
-    final private Map<Long, PhysicsRigidBody> rigidBodies
+    final private Map<Long, PhysicsRigidBody> rigidMap
             = new ConcurrentHashMap<>(64);
     /**
      * map vehicle IDs to added objects
      */
-    final private Map<Long, PhysicsVehicle> vehicles
+    final private Map<Long, PhysicsVehicle> vehicleMap
             = new ConcurrentHashMap<>(64);
     /**
      * first-in/first-out (FIFO) queue of physics tasks
@@ -330,7 +330,7 @@ public class PhysicsSpace extends CollisionSpace {
      * @return count (&ge;0)
      */
     public int countRigidBodies() {
-        int count = rigidBodies.size();
+        int count = rigidMap.size();
         return count;
     }
 
@@ -408,7 +408,7 @@ public class PhysicsSpace extends CollisionSpace {
      */
     public Collection<PhysicsCharacter> getCharacterList() {
         TreeSet<PhysicsCharacter> result = new TreeSet<>();
-        result.addAll(characters.values());
+        result.addAll(characterMap.values());
 
         return result;
     }
@@ -470,7 +470,7 @@ public class PhysicsSpace extends CollisionSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsRigidBody> getRigidBodyList() {
-        return new TreeSet<>(rigidBodies.values());
+        return new TreeSet<>(rigidMap.values());
     }
 
     /**
@@ -490,7 +490,7 @@ public class PhysicsSpace extends CollisionSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsVehicle> getVehicleList() {
-        return new TreeSet<>(vehicles.values());
+        return new TreeSet<>(vehicleMap.values());
     }
 
     /**
@@ -750,9 +750,9 @@ public class PhysicsSpace extends CollisionSpace {
         boolean result;
         long pcoId = pco.getObjectId();
         if (pco instanceof PhysicsRigidBody) {
-            result = rigidBodies.containsKey(pcoId);
+            result = rigidMap.containsKey(pcoId);
         } else if (pco instanceof PhysicsCharacter) {
-            result = characters.containsKey(pcoId);
+            result = characterMap.containsKey(pcoId);
         } else {
             result = super.contains(pco);
         }
@@ -787,8 +787,8 @@ public class PhysicsSpace extends CollisionSpace {
     @Override
     public Collection<PhysicsCollisionObject> getPcoList() {
         Collection<PhysicsCollisionObject> result = super.getPcoList();
-        result.addAll(rigidBodies.values());
-        result.addAll(characters.values());
+        result.addAll(rigidMap.values());
+        result.addAll(characterMap.values());
 
         return result;
     }
@@ -801,10 +801,10 @@ public class PhysicsSpace extends CollisionSpace {
     @Override
     public boolean isEmpty() {
         boolean result = super.isEmpty()
-                && characters.isEmpty()
-                && rigidBodies.isEmpty()
+                && characterMap.isEmpty()
+                && rigidMap.isEmpty()
                 && physicsJoints.isEmpty()
-                && vehicles.isEmpty(); // TODO unnecessary
+                && vehicleMap.isEmpty(); // TODO unnecessary
 
         return result;
     }
@@ -873,7 +873,7 @@ public class PhysicsSpace extends CollisionSpace {
 
         long spaceId = getSpaceId();
         long characterId = character.getObjectId();
-        characters.put(characterId, character);
+        characterMap.put(characterId, character);
         addCharacterObject(spaceId, characterId);
 
         long actionId = character.getControllerId();
@@ -949,7 +949,7 @@ public class PhysicsSpace extends CollisionSpace {
         logger.log(Level.FINE, "Adding {0} to {1}.",
                 new Object[]{rigidBody, this});
         long rigidBodyId = rigidBody.getObjectId();
-        rigidBodies.put(rigidBodyId, rigidBody);
+        rigidMap.put(rigidBodyId, rigidBody);
 
         //Workaround
         //It seems that adding a Kinematic RigidBody to the dynamicWorld
@@ -973,7 +973,7 @@ public class PhysicsSpace extends CollisionSpace {
 
             vehicle.createVehicle(this);
             long actionId = vehicle.getVehicleId();
-            vehicles.put(actionId, vehicle);
+            vehicleMap.put(actionId, vehicle);
             addAction(spaceId, actionId);
         }
     }
@@ -1039,13 +1039,13 @@ public class PhysicsSpace extends CollisionSpace {
      */
     private void removeCharacter(PhysicsCharacter character) {
         long characterId = character.getObjectId();
-        if (!characters.containsKey(characterId)) {
+        if (!characterMap.containsKey(characterId)) {
             logger.log(Level.WARNING, "{0} does not exist in {1}.",
                     new Object[]{character, this});
             return;
         }
 
-        characters.remove(characterId);
+        characterMap.remove(characterId);
         logger.log(Level.FINE, "Removing {0} from {1}.",
                 new Object[]{character, this});
         long spaceId = getSpaceId();
@@ -1082,7 +1082,7 @@ public class PhysicsSpace extends CollisionSpace {
      */
     private void removeRigidBody(PhysicsRigidBody rigidBody) {
         long rigidBodyId = rigidBody.getObjectId();
-        if (!rigidBodies.containsKey(rigidBodyId)) {
+        if (!rigidMap.containsKey(rigidBodyId)) {
             logger.log(Level.WARNING, "{0} does not exist in {1}.",
                     new Object[]{rigidBody, this});
             return;
@@ -1094,13 +1094,13 @@ public class PhysicsSpace extends CollisionSpace {
             long vehicleId = vehicle.getVehicleId();
             logger.log(Level.FINE, "Removing action for {0} from {1}.",
                     new Object[]{vehicle, this});
-            vehicles.remove(vehicleId);
+            vehicleMap.remove(vehicleId);
             removeAction(spaceId, vehicleId);
         }
 
         logger.log(Level.FINE, "Removing {0} from {1}.",
                 new Object[]{rigidBody, this});
-        rigidBodies.remove(rigidBodyId);
+        rigidMap.remove(rigidBodyId);
         removeRigidBody(spaceId, rigidBodyId);
     }
     // *************************************************************************
