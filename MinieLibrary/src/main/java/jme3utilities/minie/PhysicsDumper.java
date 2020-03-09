@@ -118,6 +118,10 @@ public class PhysicsDumper extends Dumper {
      */
     private boolean dumpMotors = false;
     /**
+     * enable dumping native IDs of physics objects
+     */
+    private boolean dumpNativeIDs = false;
+    /**
      * enable dumping of nodes in clusters
      */
     private boolean dumpNodesInClusters = false;
@@ -185,8 +189,7 @@ public class PhysicsDumper extends Dumper {
         addDescription(desc);
 
         long objectId = shape.getObjectId();
-        stream.print(" #");
-        stream.print(Long.toHexString(objectId));
+        addNativeId(objectId);
 
         if (dumpChildShapes && shape instanceof CompoundCollisionShape) {
             String moreIndent = indent + indentIncrement();
@@ -223,9 +226,10 @@ public class PhysicsDumper extends Dumper {
         stream.printf(" angV[%s]", MyVector3f.describe(ang));
 
         long objectId = character.getObjectId();
-        stream.print(" #");
-        stream.print(Long.toHexString(objectId));
-
+        addNativeId(objectId);
+        /*
+         * The 2nd line has the character's configuration.
+         */
         addLine(indent);
         Vector3f grav = character.getGravity(null);
         stream.printf(" grav[%s]", MyVector3f.describe(grav));
@@ -257,12 +261,12 @@ public class PhysicsDumper extends Dumper {
         stream.print(MyString.describe(maxSlope));
 
         stream.print(" stepHt=");
-        float stepHeight = character.getStepHeight();
-        stream.print(MyString.describe(stepHeight));
+        float maxStepHt = character.getStepHeight();
+        stream.print(MyString.describe(maxStepHt));
         stream.print("] ");
 
-        boolean useGst = character.isUsingGhostSweepTest();
-        if (!useGst) {
+        boolean gsTest = character.isUsingGhostSweepTest();
+        if (!gsTest) {
             stream.print("NO");
         }
         stream.print("gsTest");
@@ -270,7 +274,7 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describeGroups(character);
         stream.print(desc);
         /*
-         * The 2nd line has the shape and scale.
+         * The 3rd line has the shape and scale.
          * There may be additional lines for child shapes.
          */
         CollisionShape shape = character.getCollisionShape();
@@ -301,13 +305,11 @@ public class PhysicsDumper extends Dumper {
             String orientText = MyQuaternion.describe(orientation);
             stream.printf(" orient[%s]", orientText);
         }
-        long objectId = ghost.getObjectId();
 
         desc = describer.describeGroups(ghost);
         stream.print(desc);
-
-        stream.print(" #");
-        stream.print(Long.toHexString(objectId));
+        long objectId = ghost.getObjectId();
+        addNativeId(objectId);
         /*
          * The 2nd line has the shape and scale.
          * There may be additional lines for child shapes.
@@ -355,10 +357,8 @@ public class PhysicsDumper extends Dumper {
         stream.print(MyString.describe(friction));
 
         addActivationState(body);
-
         long objectId = body.getObjectId();
-        stream.print(" #");
-        stream.print(Long.toHexString(objectId));
+        addNativeId(objectId);
 
         if (body.isDynamic()) {
             /*
@@ -440,9 +440,8 @@ public class PhysicsDumper extends Dumper {
         desc = MyString.describe(margin);
         stream.print(desc);
 
-        stream.print(" #");
         long objectId = body.getObjectId();
-        stream.print(Long.toHexString(objectId));
+        addNativeId(objectId);
 
         stream.printf("%n%s  vol=", indent);
         float volume = body.volume();
@@ -543,7 +542,8 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Dump the specified PhysicsSpace with the specified filter.
+     * Dump the specified PhysicsSpace with the specified filter. TODO dump a
+     * CollisionSpace
      *
      * @param space the PhysicsSpace to dump (not null, unaffected)
      * @param indent (not null, may be empty)
@@ -569,29 +569,30 @@ public class PhysicsDumper extends Dumper {
 
         Collection<PhysicsRigidBody> rigidBodies = space.getRigidBodyList();
         int numRigids = rigidBodies.size();
+        stream.printf("%d rigid%s, ", numRigids, (numRigids == 1) ? "" : "s");
+
         Collection<PhysicsSoftBody> softBodies = new ArrayList<>(0);
         if (space instanceof PhysicsSoftSpace) {
             softBodies = ((PhysicsSoftSpace) space).getSoftBodyList();
+            int numSofts = softBodies.size();
+            stream.printf("%d soft%s, ", numSofts, (numSofts == 1) ? "" : "s");
         }
-        int numSofts = softBodies.size();
-        Collection<PhysicsVehicle> vehicles = space.getVehicleList();
-        int numVehicles = vehicles.size();
-        stream.printf("%d rigid%s, %d soft%s, %d vehicle%s",
-                numRigids, (numRigids == 1) ? "" : "s",
-                numSofts, (numSofts == 1) ? "" : "s",
-                numVehicles, (numVehicles == 1) ? "" : "s");
+
+        int numVehicles = space.getVehicleList().size();
+        stream.printf("%d vehicle%s", numVehicles,
+                (numVehicles == 1) ? "" : "s");
 
         long spaceId = space.getSpaceId();
-        stream.printf(" #%s", Long.toHexString(spaceId));
+        addNativeId(spaceId);
         /*
          * 2nd line
          */
+        addLine(indent);
         PhysicsSpace.BroadphaseType bphase = space.getBroadphaseType();
-        Vector3f gravity = space.getGravity(null);
-        String gravString = MyVector3f.describe(gravity);
-        stream.printf("%n%s bphase=%s grav[%s] timeStep[",
-                indent, bphase, gravString);
+        stream.printf(" bphase=%s", bphase);
 
+        Vector3f grav = space.getGravity(null);
+        stream.printf(" grav[%s] timeStep[", MyVector3f.describe(grav));
         int maxSS = space.maxSubSteps();
         if (maxSS == 0) {
             float maxTimeStep = space.maxTimeStep();
@@ -609,19 +610,21 @@ public class PhysicsDumper extends Dumper {
         /*
          * 3rd line
          */
-        int numIterations = space.getSolverNumIterations();
+        addLine(indent);
+        int iters = space.getSolverNumIterations();
+        float cfm = space.getGlobalCfm();
+        String cfmDesc = MyString.describe(cfm);
         int rayTestFlags = space.getRayTestFlags();
-        String rayTestText = RayTestFlag.describe(rayTestFlags);
-        stream.printf("%n%s iters=%d rayTest=%s", indent, numIterations,
-                rayTestText);
+        String rayTest = RayTestFlag.describe(rayTestFlags);
+        stream.printf(" iters=%d cfm=%s rayTest=%s", iters, cfmDesc, rayTest);
 
         if (bphase == PhysicsSpace.BroadphaseType.AXIS_SWEEP_3
                 || bphase == PhysicsSpace.BroadphaseType.AXIS_SWEEP_3_32) {
             Vector3f worldMin = space.getWorldMin(null);
-            String minString = MyVector3f.describe(worldMin);
+            String minDesc = MyVector3f.describe(worldMin);
             Vector3f worldMax = space.getWorldMax(null);
-            String maxString = MyVector3f.describe(worldMax);
-            stream.printf(" worldMin[%s] worldMax[%s]", minString, maxString);
+            String maxDesc = MyVector3f.describe(worldMax);
+            stream.printf(" worldMin[%s] worldMax[%s]", minDesc, maxDesc);
         }
         /*
          * For soft spaces, 4th line has the world info.
@@ -746,6 +749,10 @@ public class PhysicsDumper extends Dumper {
                 result = dumpMotors;
                 break;
 
+            case NativeIDs:
+                result = dumpNativeIDs;
+                break;
+
             case NodesInClusters:
                 result = dumpNodesInClusters;
                 break;
@@ -828,6 +835,10 @@ public class PhysicsDumper extends Dumper {
 
             case Motors:
                 dumpMotors = newValue;
+                break;
+
+            case NativeIDs:
+                dumpNativeIDs = newValue;
                 break;
 
             case NodesInClusters:
@@ -990,6 +1001,19 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
+     * Add a native ID, if the flag is set.
+     *
+     * @param id the unique identifier (not zero)
+     */
+    private void addNativeId(long id) {
+        if (dumpNativeIDs) {
+            stream.print(" #");
+            String hex = Long.toHexString(id);
+            stream.print(hex);
+        }
+    }
+
+    /**
      * Generate a textual description of the indexed vector in the specified
      * FloatBuffer.
      *
@@ -1041,8 +1065,7 @@ public class PhysicsDumper extends Dumper {
             addDescription(desc);
 
             long objectId = shape.getObjectId();
-            stream.print(" #");
-            stream.print(Long.toHexString(objectId));
+            addNativeId(objectId);
         }
     }
 
@@ -1119,8 +1142,9 @@ public class PhysicsDumper extends Dumper {
 
         for (PhysicsJoint joint : joints) {
             if (filter == null || filter.displayObject(joint)) {
+                addLine(moreIndent);
                 String desc = describer.describeJointInSpace(joint);
-                stream.printf("%n%s%s", moreIndent, desc);
+                stream.print(desc);
 
                 if (joint instanceof SixDofJoint) {
                     SixDofJoint sixDof = (SixDofJoint) joint;
