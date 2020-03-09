@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie;
 
+import com.jme3.bullet.MultiBody;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.animation.PhysicsLink;
@@ -258,10 +259,6 @@ public class PhysicsDescriber extends Describer {
         }
         result.append(type);
 
-        result.append(" #");
-        long jointId = joint.getObjectId();
-        result.append(Long.toHexString(jointId));
-
         if (!joint.isEnabled()) {
             result.append(" DISABLED");
         }
@@ -323,12 +320,12 @@ public class PhysicsDescriber extends Describer {
                 result.append(MyString.describe(maxMF));
 
                 result.append(" rest=");
-                float restit = motor.getRestitution();
-                result.append(MyString.describe(restit));
+                float rest = motor.getRestitution();
+                result.append(MyString.describe(rest));
 
                 result.append(" soft=");
-                float softness = motor.getLimitSoftness();
-                result.append(MyString.describe(softness));
+                float soft = motor.getLimitSoftness();
+                result.append(MyString.describe(soft));
                 result.append(']');
             }
         } else {
@@ -348,38 +345,34 @@ public class PhysicsDescriber extends Describer {
         StringBuilder result = new StringBuilder(40);
 
         result.append("SbwInfo grav[");
-        Vector3f gravity = info.copyGravity(null);
-        String description = MyVector3f.describe(gravity);
+        Vector3f grav = info.copyGravity(null);
+        String description = MyVector3f.describe(grav);
         result.append(description);
 
         result.append("] offset=");
-        float waterOffset = info.waterOffset();
-        description = MyString.describe(waterOffset);
+        float offset = info.waterOffset();
+        description = MyString.describe(offset);
         result.append(description);
 
         result.append(" norm[");
-        Vector3f waterNormal = info.copyWaterNormal(null);
-        description = MyVector3f.describe(waterNormal);
+        Vector3f norm = info.copyWaterNormal(null);
+        description = MyVector3f.describe(norm);
         result.append(description);
 
         result.append("] water=");
-        float waterDensity = info.waterDensity();
-        description = MyString.describe(waterDensity);
+        float water = info.waterDensity();
+        description = MyString.describe(water);
         result.append(description);
 
         result.append(" air=");
-        float airDensity = info.airDensity();
-        description = MyString.describe(airDensity);
+        float air = info.airDensity();
+        description = MyString.describe(air);
         result.append(description);
 
         result.append(" maxDisp=");
-        float maxDisplacement = info.maxDisplacement();
-        description = MyString.describe(maxDisplacement);
+        float maxDisp = info.maxDisplacement();
+        description = MyString.describe(maxDisp);
         result.append(description);
-
-        result.append(" #");
-        long nativeId = info.nativeId();
-        result.append(Long.toHexString(nativeId));
 
         return result.toString();
     }
@@ -815,6 +808,31 @@ public class PhysicsDescriber extends Describer {
             result.append("off");
         }
         result.append(']');
+
+        return result.toString();
+    }
+
+    /**
+     * Briefly describe the collision group and collide-with groups of the
+     * specified MultiBody.
+     *
+     * @param multiBody the object to describe (not null, unaffected)
+     * @return descriptive text (not null, may be empty)
+     */
+    String describeGroups(MultiBody multiBody) {
+        StringBuilder result = new StringBuilder(40);
+
+        int group = multiBody.collisionGroup();
+        if (group != PhysicsCollisionObject.COLLISION_GROUP_01) {
+            result.append(" group=0x");
+            result.append(Integer.toString(group, 16));
+        }
+
+        int groupMask = multiBody.collideWithGroups();
+        if (groupMask != PhysicsCollisionObject.COLLISION_GROUP_01) {
+            result.append(" gMask=0x");
+            result.append(Integer.toString(groupMask, 16));
+        }
 
         return result.toString();
     }
