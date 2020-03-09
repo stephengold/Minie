@@ -57,8 +57,7 @@ import jme3utilities.Validate;
  * The abstract base class for collision objects based on Bullet's
  * btCollisionObject.
  * <p>
- * Subclasses include PhysicsCharacter, PhysicsRigidBody, and
- * PhysicsGhostObject.
+ * Subclasses include PhysicsBody, PhysicsCharacter, and PhysicsGhostObject.
  *
  * @author normenhansen
  */
@@ -375,6 +374,7 @@ abstract public class PhysicsCollisionObject
      * @return bit mask
      */
     public int getCollideWithGroups() {
+        assert collideWithGroups == getCollideWithGroups(objectId);
         return collideWithGroups;
     }
 
@@ -384,6 +384,8 @@ abstract public class PhysicsCollisionObject
      * @return the collision group (bit mask with exactly one bit set)
      */
     public int getCollisionGroup() {
+        assert collisionGroup == getCollisionGroup(objectId);
+        assert Integer.bitCount(collisionGroup) == 1 : collisionGroup;
         return collisionGroup;
     }
 
@@ -670,7 +672,7 @@ abstract public class PhysicsCollisionObject
      * Alter the amount of motion required to trigger continuous collision
      * detection (CCD).
      * <p>
-     * This addresses the issue of fast objects passing through other objects
+     * CCD addresses the issue of fast objects passing through other objects
      * with no collision detected.
      *
      * @param threshold the desired minimum distance per timestep to trigger CCD
@@ -698,30 +700,27 @@ abstract public class PhysicsCollisionObject
      */
     public void setCollideWithGroups(int collisionGroups) {
         collideWithGroups = collisionGroups;
-        if (objectId != 0L) {
-            setCollideWithGroups(objectId, collideWithGroups);
-        }
+        setCollideWithGroups(objectId, collideWithGroups);
     }
 
     /**
      * Alter which collision group this object belongs to.
      * <p>
-     * Groups are represented by integer bit masks with exactly 1 bit set.
-     * Pre-made variables are available in PhysicsCollisionObject.
+     * Groups are represented by bit masks with exactly one bit set. Manifest
+     * constants are defined in PhysicsCollisionObject.
      * <p>
      * Two objects can collide only if one of them has the collisionGroup of the
      * other in its collideWithGroups set.
      *
      * @param collisionGroup the collisionGroup to apply (bit mask with exactly
-     * 1 bit set, default=COLLISION_GROUP_01)
+     * one bit set, default=COLLISION_GROUP_01)
      */
     public void setCollisionGroup(int collisionGroup) {
-        assert Integer.bitCount(collisionGroup) == 1 : collisionGroup;
+        Validate.require(Integer.bitCount(collisionGroup) == 1,
+                "exactly one bit set");
 
         this.collisionGroup = collisionGroup;
-        if (objectId != 0L) {
-            setCollisionGroup(objectId, collisionGroup);
-        }
+        setCollisionGroup(objectId, collisionGroup);
     }
 
     /**
@@ -892,12 +891,13 @@ abstract public class PhysicsCollisionObject
 
     /**
      * Copy common properties from another PhysicsCollisionObject. Used during
-     * cloning.
+     * cloning. TODO re-order methods
      *
      * @param old (not null, unaffected)
      */
-    final protected void copyPcoProperties(PhysicsCollisionObject old) {
+    final public void copyPcoProperties(PhysicsCollisionObject old) {
         assert old.objectId != 0L;
+        assert old.objectId != objectId;
 
         setCcdMotionThreshold(old.getCcdMotionThreshold());
         setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
@@ -927,7 +927,7 @@ abstract public class PhysicsCollisionObject
 
     /**
      * Read the collision flags of this object. Subclasses are responsible for
-     * cloning/loading/saving these flags. Flags are defined in
+     * cloning/loading/saving these flags. Flag values are defined in
      * {@link com.jme3.bullet.collision.CollisionFlag}.
      *
      * @param objectId the ID of the btCollisionObject (not zero)
@@ -1233,6 +1233,10 @@ abstract public class PhysicsCollisionObject
     native private float getCcdMotionThreshold(long objectId);
 
     native private float getCcdSweptSphereRadius(long objectId);
+
+    native private int getCollideWithGroups(long objectId);
+
+    native private int getCollisionGroup(long objectId);
 
     native private float getContactDamping(long objectId);
 
