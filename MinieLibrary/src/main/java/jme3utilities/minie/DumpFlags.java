@@ -76,6 +76,10 @@ public enum DumpFlags {
      */
     NodesInClusters,
     /**
+     * native IDs of physics objects
+     */
+    NativeIDs,
+    /**
      * nodes in soft bodies
      */
     NodesInSofts,
