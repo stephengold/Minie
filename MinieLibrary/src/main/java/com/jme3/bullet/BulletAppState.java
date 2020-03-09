@@ -332,6 +332,16 @@ public class BulletAppState
     }
 
     /**
+     * Test whether the physics simulation is running (started but not yet
+     * stopped).
+     *
+     * @return true if running, otherwise false
+     */
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    /**
      * Alter the broadphase type the PhysicsSpace will use. Not allowed after
      * attaching the app state.
      *
