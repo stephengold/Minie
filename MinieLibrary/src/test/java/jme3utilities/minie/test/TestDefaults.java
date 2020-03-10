@@ -26,6 +26,8 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.bullet.MultiBody;
+import com.jme3.bullet.MultiBodyLink;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
@@ -62,6 +64,7 @@ import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
+import com.jme3.bullet.objects.MultiBodyCollider;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -79,6 +82,7 @@ import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Plane;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
@@ -266,6 +270,7 @@ public class TestDefaults {
         Assert.assertEquals(0.88f, wheel.getWheelsDampingRelaxation(), 0f);
         Assert.assertFalse(wheel.isApplyLocal());
 
+        testMultiBody();
         testJoints();
 
         VHACDParameters parms = new VHACDParameters();
@@ -280,6 +285,14 @@ public class TestDefaults {
         Assert.assertFalse(parms.getPCA());
         Assert.assertEquals(4, parms.getPlaneDownSampling());
         Assert.assertEquals(100_000, parms.getVoxelResolution());
+    }
+
+    void assertEquals(float x, float y, float z, float w, Quaternion quaternion,
+            float tolerance) {
+        Assert.assertEquals(x, quaternion.getX(), tolerance);
+        Assert.assertEquals(y, quaternion.getY(), tolerance);
+        Assert.assertEquals(z, quaternion.getZ(), tolerance);
+        Assert.assertEquals(w, quaternion.getW(), tolerance);
     }
 
     void assertEquals(float x, float y, float z, Vector3f vector,
@@ -342,6 +355,57 @@ public class TestDefaults {
         Assert.assertTrue(sraj.isEnabled());
         Assert.assertEquals(1f, sraj.getERP(), 0f);
         Assert.assertEquals(1f, sraj.getSplit(), 0f);
+    }
+
+    private void testMultiBody() {
+        int numLinks = 1;
+        float mass = 1f;
+        Vector3f inertia = new Vector3f(1f, 1f, 1f);
+        boolean fixedBase = false;
+        boolean canSleep = true;
+        MultiBody mb = new MultiBody(numLinks, mass, inertia, fixedBase,
+                canSleep);
+        mb.addBaseCollider(box);
+        MultiBodyLink parent = null;
+        Quaternion orientation = new Quaternion();
+        Vector3f parent2Pivot = new Vector3f(1f, 0f, 0f);
+        Vector3f pivot2Link = new Vector3f(0f, 0f, 1f);
+        boolean disableCollision = true;
+        MultiBodyLink link = mb.configureSphericalLink(mass, inertia, parent,
+                orientation, parent2Pivot, pivot2Link, disableCollision);
+        link.addCollider(box);
+
+        Assert.assertEquals(0.04f, mb.angularDamping(), 0f);
+        assertEquals(0f, 0f, 0f, mb.angularMomentum(null), 0f);
+        assertEquals(0f, 0f, 0f, mb.baseAngularVelocity(null), 0f);
+        assertEquals(0f, 0f, 0f, mb.baseForce(null), 0f);
+        assertEquals(0f, 0f, 0f, mb.baseLocation(null), 0f);
+        assertEquals(0f, 0f, 0f, 1f, mb.baseOrientation(null), 0f);
+        assertEquals(0f, 0f, 0f, mb.baseTorque(null), 0f);
+        assertEquals(0f, 0f, 0f, mb.baseVelocity(null), 0f);
+        Assert.assertTrue(mb.canWakeup());
+        Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
+                mb.collideWithGroups());
+        Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
+                mb.collisionGroup());
+        Assert.assertEquals(1, mb.countConfiguredLinks());
+        Assert.assertEquals(3, mb.countDofs());
+        Assert.assertEquals(4, mb.countPositionVariables());
+        Assert.assertFalse(mb.isUsingGlobalVelocities());
+        Assert.assertTrue(mb.isUsingGyroTerm());
+        Assert.assertFalse(mb.isUsingRK4());
+        Assert.assertEquals(0f, mb.kineticEnergy(), 0f);
+        Assert.assertEquals(0.04f, mb.linearDamping(), 0f);
+        Assert.assertEquals(1000f, mb.maxAppliedImpulse(), 0f);
+        Assert.assertEquals(100f, mb.maxCoordinateVelocity(), 0f);
+
+        MultiBodyCollider baseCollider = mb.getBaseCollider();
+        assertEquals(0f, 0f, 0f, 1f, baseCollider.getPhysicsRotation(null), 0f);
+        testPco(baseCollider);
+
+        MultiBodyCollider linkCollider = link.getCollider();
+        assertEquals(0f, 0f, 0f, 1f, linkCollider.getPhysicsRotation(null), 0f);
+        testPco(linkCollider);
     }
 
     private void testNew6Dof(New6Dof constraint, int numEnds) {
@@ -413,6 +477,7 @@ public class TestDefaults {
                 pco.debugMeshResolution());
         Assert.assertEquals(1, pco.debugNumSides());
         Assert.assertEquals(0.5f, pco.getFriction(), 0f);
+        assertEquals(0f, 0f, 0f, pco.getPhysicsLocation(null), 0f);
         Assert.assertEquals(0f, pco.getRestitution(), 0f);
         Assert.assertEquals(0f, pco.getRollingFriction(), 0f);
         Assert.assertEquals(0f, pco.getSpinningFriction(), 0f);
