@@ -57,7 +57,8 @@ import jme3utilities.Validate;
  * The abstract base class for collision objects based on Bullet's
  * btCollisionObject.
  * <p>
- * Subclasses include PhysicsBody, PhysicsCharacter, and PhysicsGhostObject.
+ * Subclasses include MultiBodyCollider, PhysicsBody, PhysicsCharacter, and
+ * PhysicsGhostObject.
  *
  * @author normenhansen
  */
@@ -260,6 +261,35 @@ abstract public class PhysicsCollisionObject
         collisionShape.boundingBox(translation, rotation, result);
 
         return result;
+    }
+
+    /**
+     * Copy common properties from another PhysicsCollisionObject. Used during
+     * cloning.
+     *
+     * @param old (not null, unaffected)
+     */
+    final public void copyPcoProperties(PhysicsCollisionObject old) {
+        assert old.objectId != 0L;
+        assert old.objectId != objectId;
+
+        setCcdMotionThreshold(old.getCcdMotionThreshold());
+        setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
+        setContactDamping(old.getContactDamping());
+        setContactProcessingThreshold(old.getContactProcessingThreshold());
+        setContactStiffness(old.getContactStiffness());
+        setFriction(old.getFriction());
+        setRestitution(old.getRestitution());
+        setRollingFriction(old.getRollingFriction());
+        setSpinningFriction(old.getSpinningFriction());
+
+        if (old.hasAnisotropicFriction(AfMode.basic)) {
+            setAnisotropicFriction(old.getAnisotropicFriction(null),
+                    AfMode.basic);
+        } else if (old.hasAnisotropicFriction(AfMode.rolling)) {
+            setAnisotropicFriction(old.getAnisotropicFriction(null),
+                    AfMode.rolling);
+        }
     }
 
     /**
@@ -888,35 +918,6 @@ abstract public class PhysicsCollisionObject
      */
     native protected void attachCollisionShape(long objectId,
             long collisionShapeId);
-
-    /**
-     * Copy common properties from another PhysicsCollisionObject. Used during
-     * cloning. TODO re-order methods
-     *
-     * @param old (not null, unaffected)
-     */
-    final public void copyPcoProperties(PhysicsCollisionObject old) {
-        assert old.objectId != 0L;
-        assert old.objectId != objectId;
-
-        setCcdMotionThreshold(old.getCcdMotionThreshold());
-        setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
-        setContactDamping(old.getContactDamping());
-        setContactProcessingThreshold(old.getContactProcessingThreshold());
-        setContactStiffness(old.getContactStiffness());
-        setFriction(old.getFriction());
-        setRestitution(old.getRestitution());
-        setRollingFriction(old.getRollingFriction());
-        setSpinningFriction(old.getSpinningFriction());
-
-        if (old.hasAnisotropicFriction(AfMode.basic)) {
-            setAnisotropicFriction(old.getAnisotropicFriction(null),
-                    AfMode.basic);
-        } else if (old.hasAnisotropicFriction(AfMode.rolling)) {
-            setAnisotropicFriction(old.getAnisotropicFriction(null),
-                    AfMode.rolling);
-        }
-    }
 
     /**
      * Finalize the identified btCollisionObject. Native method.
