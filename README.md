@@ -1626,6 +1626,7 @@ YouTube videos about Minie:
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
 [manual]: https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf "Bullet User Manual"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
+[meld]: http://meldmerge.org/ "Meld Tool"
 [minie]: https://github.com/stephengold/Minie "Minie Project"
 [mint]: https://linuxmint.com "Linux Mint Project"
 [netbeans]: https://netbeans.org "NetBeans Project"
@@ -1690,7 +1691,7 @@ artists and software developers:
     + the [Git] revision-control system and GitK commit viewer
     + the [Firefox] and [Google Chrome][chrome] web browsers
     + the [Gradle] build tool
-    + the Java compiler, standard doclet, and runtime environment
+    + the Java compiler, standard doclet, and virtual machine
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
     + the [Linux Mint][mint] operating system
     + LWJGL, the Lightweight Java Game Library
