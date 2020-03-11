@@ -129,6 +129,41 @@ public class DebugShapeFactory {
     }
 
     /**
+     * Determine vertex locations for the specified collision shape. Note:
+     * recursive!
+     *
+     * @param shape the input shape (not null, unaffected)
+     * @param meshResolution (0=low, 1=high)
+     * @return a new, unflipped, direct buffer full of scaled shape coordinates
+     * (capacity a multiple of 3)
+     */
+    public static FloatBuffer debugVertices(CollisionShape shape,
+            int meshResolution) {
+        Validate.nonNull(shape, "shape");
+        Validate.inRange(meshResolution, "mesh resolution", lowResolution,
+                highResolution);
+
+        FloatBuffer result;
+        if (shape instanceof CompoundCollisionShape) {
+            CompoundCollisionShape ccs = (CompoundCollisionShape) shape;
+            result = createCompoundVertices(ccs, meshResolution);
+
+        } else if (shape instanceof PlaneCollisionShape) {
+            float halfExt = 1000f;
+            result = createPlaneVertices((PlaneCollisionShape) shape, halfExt);
+
+        } else {
+            long shapeId = shape.getObjectId();
+            DebugMeshCallback callback = new DebugMeshCallback();
+            getVertices(shapeId, meshResolution, callback);
+            result = callback.getVertices();
+        }
+
+        assert (result.capacity() % numAxes) == 0 : result.capacity();
+        return result;
+    }
+
+    /**
      * Estimate the footprint of the specified (non-compound, non-plane) shape.
      * The shape's scale and margin are taken into account, but not its
      * debug-mesh resolution.
@@ -149,7 +184,7 @@ public class DebugShapeFactory {
 
         long shapeId = shape.getObjectId();
         DebugMeshCallback callback = new DebugMeshCallback();
-        getVertices2(shapeId, meshResolution, callback);
+        getVertices(shapeId, meshResolution, callback);
         Vector3f[] cornerLocations = callback.footprint(shapeToWorld);
 
         return cornerLocations;
@@ -251,7 +286,7 @@ public class DebugShapeFactory {
         } else {
             long shapeId = shape.getObjectId();
             DebugMeshCallback callback = new DebugMeshCallback();
-            getVertices2(shapeId, meshResolution, callback);
+            getTriangles(shapeId, meshResolution, callback);
             result = callback.getVertices();
         }
 
@@ -280,7 +315,7 @@ public class DebugShapeFactory {
 
         long shapeId = shape.getObjectId();
         DebugMeshCallback callback = new DebugMeshCallback();
-        getVertices2(shapeId, meshResolution, callback);
+        getVertices(shapeId, meshResolution, callback);
         float result = callback.maxDistance(transform);
 
         return result;
@@ -339,7 +374,7 @@ public class DebugShapeFactory {
 
         long shapeId = shape.getObjectId();
         DebugMeshCallback callback = new DebugMeshCallback();
-        getVertices2(shapeId, meshResolution, callback);
+        getTriangles(shapeId, meshResolution, callback);
         float volume = callback.volumeConvex();
 
         assert volume >= 0f : volume;
@@ -372,6 +407,48 @@ public class DebugShapeFactory {
             CollisionShape shape = childShape.getShape();
             childShape.copyTransform(tmpTransform);
             FloatBuffer buffer = getDebugTriangles(shape, meshResolution);
+
+            int numFloats = buffer.capacity();
+            MyBuffer.transform(buffer, 0, numFloats, tmpTransform);
+            bufferArray[childIndex] = buffer;
+            totalFloats += numFloats;
+        }
+
+        FloatBuffer result = BufferUtils.createFloatBuffer(totalFloats);
+        for (FloatBuffer buffer : bufferArray) {
+            for (int position = 0; position < buffer.capacity(); ++position) {
+                float value = buffer.get(position);
+                result.put(value);
+            }
+        }
+        assert result.position() == result.capacity();
+
+        return result;
+    }
+
+    /**
+     * Determine vertex locations for the specified CompoundCollisionShape.
+     *
+     * @param compoundShape (not null, unaffected)
+     * @param meshResolution (0=low, 1=high)
+     *
+     * @return a new, unflipped, direct buffer full of scaled shape coordinates
+     * (capacity a multiple of 3)
+     */
+    private static FloatBuffer createCompoundVertices(
+            CompoundCollisionShape compoundShape, int meshResolution) {
+        ChildCollisionShape[] children = compoundShape.listChildren();
+        int numChildren = children.length;
+
+        FloatBuffer[] bufferArray = new FloatBuffer[numChildren];
+        Transform tmpTransform = new Transform();
+        int totalFloats = 0;
+
+        for (int childIndex = 0; childIndex < numChildren; ++childIndex) {
+            ChildCollisionShape childShape = children[childIndex];
+            CollisionShape shape = childShape.getShape();
+            childShape.copyTransform(tmpTransform);
+            FloatBuffer buffer = debugVertices(shape, meshResolution);
 
             int numFloats = buffer.capacity();
             MyBuffer.transform(buffer, 0, numFloats, tmpTransform);
@@ -447,7 +524,7 @@ public class DebugShapeFactory {
 
         long shapeId = shape.getObjectId();
         DebugMeshCallback callback = new DebugMeshCallback();
-        getVertices2(shapeId, resolution, callback);
+        getTriangles(shapeId, resolution, callback);
 
         Mesh mesh = new Mesh();
         mesh.setBuffer(VertexBuffer.Type.Position, numAxes,
@@ -631,6 +708,39 @@ public class DebugShapeFactory {
     }
 
     /**
+     * Generate vertex locations for the specified PlaneCollisionShape.
+     *
+     * @param shape (not null, unaffected)
+     * @param halfExtent the desired half extent for the result (in scaled shape
+     * units, &gt;0)
+     * @return a new, unflipped, direct buffer full of scaled shape coordinates
+     * (capacity a multiple of 3)
+     */
+    private static FloatBuffer createPlaneVertices(PlaneCollisionShape shape,
+            float halfExtent) {
+        assert shape != null;
+        assert halfExtent > 0f : halfExtent;
+        /*
+         * Generate vertex locations for a large square in the Y-Z plane.
+         */
+        FloatBuffer result = BufferUtils.createFloatBuffer(new float[]{
+            0f, 0f, -1f,
+            0f, 1f, 0f,
+            0f, 0f, 1f,
+            0f, -1f, 0f
+        });
+        int numFloats = result.capacity();
+        /*
+         * Transform vertex locations to the surface of the shape.
+         */
+        Transform transform = planeTransform(shape);
+        transform.setScale(halfExtent);
+        MyBuffer.transform(result, 0, numFloats, transform);
+
+        return result;
+    }
+
+    /**
      * Generate a Transform that maps the Y-Z plane to the surface of the
      * specified PlaneCollisionShape.
      *
@@ -654,7 +764,9 @@ public class DebugShapeFactory {
     // *************************************************************************
     // native methods
 
-    // TODO add a method to return vertices only (instead of triangles)
-    native private static void getVertices2(long shapeId, int meshResolution,
+    native private static void getTriangles(long shapeId, int meshResolution,
+            DebugMeshCallback buffer);
+
+    native private static void getVertices(long shapeId, int meshResolution,
             DebugMeshCallback buffer);
 }

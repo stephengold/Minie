@@ -29,10 +29,17 @@ package jme3utilities.minie;
 import com.jme3.app.state.AppState;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.MultiBody;
+import com.jme3.bullet.MultiBodyJointType;
+import com.jme3.bullet.MultiBodyLink;
+import com.jme3.bullet.MultiBodySpace;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.SoftBodyWorldInfo;
+import com.jme3.bullet.SolverInfo;
+import com.jme3.bullet.SolverMode;
+import com.jme3.bullet.SolverType;
 import com.jme3.bullet.collision.Activation;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
@@ -48,6 +55,7 @@ import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
+import com.jme3.bullet.objects.MultiBodyCollider;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
@@ -195,6 +203,55 @@ public class PhysicsDumper extends Dumper {
             String moreIndent = indent + indentIncrement();
             dumpChildren((CompoundCollisionShape) shape, moreIndent);
         }
+    }
+
+    /**
+     * Dump the specified MultiBodyCollider.
+     *
+     * @param collider the collider to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    public void dump(MultiBodyCollider collider, String indent) {
+        Validate.nonNull(collider, "collider");
+        Validate.nonNull(indent, "indent");
+
+        addLine(indent);
+        stream.print("Collider");
+        PhysicsDescriber describer = getDescriber();
+        String desc = describer.describeUser(collider);
+        stream.print(desc);
+
+        if (!collider.isActive()) {
+            stream.print("/inactive");
+        }
+        if (!collider.isContactResponse()) {
+            stream.print("/NOresponse");
+        }
+        if (!collider.isInWorld()) {
+            stream.print("/NOspace");
+        }
+
+        float mass = collider.mass();
+        String massText = MyString.describe(mass);
+        stream.printf(" mass=%s", massText);
+
+        desc = describer.describeUser(collider);
+        stream.print(desc);
+
+        Vector3f loc = collider.getPhysicsLocation();
+        stream.printf(" loc[%s]", MyVector3f.describe(loc));
+
+        desc = describer.describeGroups(collider);
+        stream.print(desc);
+
+        long objectId = collider.getObjectId();
+        addNativeId(objectId);
+        /*
+         * The 2nd line has the shape and scale.
+         * There may be additional lines for child shapes.
+         */
+        CollisionShape shape = collider.getCollisionShape();
+        dump(shape, indent + " ");
     }
 
     /**
@@ -567,6 +624,14 @@ public class PhysicsDumper extends Dumper {
         int numJoints = joints.size();
         stream.printf("%d joint%s, ", numJoints, (numJoints == 1) ? "" : "s");
 
+        Collection<MultiBody> multibodies = new ArrayList<>(0);
+        if (space instanceof MultiBodySpace) {
+            multibodies = ((MultiBodySpace) space).getMultiBodyList();
+            int numMultis = multibodies.size();
+            stream.printf("%d multi%s, ", numMultis,
+                    (numMultis == 1) ? "" : "s");
+        }
+
         Collection<PhysicsRigidBody> rigidBodies = space.getRigidBodyList();
         int numRigids = rigidBodies.size();
         stream.printf("%d rigid%s, ", numRigids, (numRigids == 1) ? "" : "s");
@@ -608,15 +673,25 @@ public class PhysicsDumper extends Dumper {
         int cgCount = space.countCollisionGroupListeners();
         stream.printf("] listeners[c=%d cg=%d]", cCount, cgCount);
         /*
-         * 3rd line
+         * 3rd line: solver type and info
          */
         addLine(indent);
-        int iters = space.getSolverNumIterations();
-        float cfm = space.getGlobalCfm();
-        String cfmDesc = MyString.describe(cfm);
+        SolverType solverType = space.getSolverType();
+        SolverInfo solverInfo = space.getSolverInfo();
+        int iters = solverInfo.numIterations();
+        float cfm = solverInfo.globalCfm();
+        int batch = solverInfo.minBatch();
+        int mode = solverInfo.mode();
+        String modeDesc = SolverMode.describe(mode);
+        stream.printf(" solver[%s iters=%d cfm=%s batch=%d mode=%s]",
+                solverType, iters, MyString.describe(cfm), batch, modeDesc);
+        /*
+         * 4th line: raytest flags and world extent
+         */
+        addLine(indent);
         int rayTestFlags = space.getRayTestFlags();
         String rayTest = RayTestFlag.describe(rayTestFlags);
-        stream.printf(" iters=%d cfm=%s rayTest=%s", iters, cfmDesc, rayTest);
+        stream.printf(" rayTest=%s", rayTest);
 
         if (bphase == PhysicsSpace.BroadphaseType.AXIS_SWEEP_3
                 || bphase == PhysicsSpace.BroadphaseType.AXIS_SWEEP_3_32) {
@@ -627,7 +702,7 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" worldMin[%s] worldMax[%s]", minDesc, maxDesc);
         }
         /*
-         * For soft spaces, 4th line has the world info.
+         * For soft spaces, 5th line has the world info.
          */
         PhysicsDescriber describer = getDescriber();
         if (space instanceof PhysicsSoftSpace) {
@@ -647,6 +722,9 @@ public class PhysicsDumper extends Dumper {
                 if (filter == null || filter.displayObject(ghost)) {
                     dump(ghost, moreIndent);
                 }
+            }
+            for (MultiBody multibody : multibodies) {
+                dumpMultiBody(multibody, moreIndent, filter);
             }
             for (PhysicsRigidBody rigid : rigidBodies) {
                 if (filter == null || filter.displayObject(rigid)) {
@@ -1213,6 +1291,107 @@ public class PhysicsDumper extends Dumper {
         for (PhysicsJoint joint : joints) {
             String desc = describer.describeJointInBody(joint, body);
             stream.printf("%n%s%s", moreIndent, desc);
+        }
+    }
+
+    /**
+     * Dump the specified MultiBodyLink.
+     *
+     * @param link the link to dump (not null, unaffected)
+     * @param indent (not null)
+     * @param filter for colliders (may be null, unaffected)
+     */
+    private void dumpLink(MultiBodyLink link, String indent,
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        addLine(indent);
+        int index = link.index();
+        MultiBodyJointType jointType = link.jointType();
+        stream.printf("Link[%d] %s->", index, jointType);
+
+        MultiBodyLink parent = link.getParentLink();
+        if (parent == null) {
+            stream.print("base");
+        } else {
+            int parentIndex = parent.index();
+            stream.print(Integer.toString(parentIndex));
+        }
+
+        long objectId = link.nativeId();
+        addNativeId(objectId);
+
+        MultiBodyCollider collider = link.getCollider();
+        if (collider != null) {
+            if (filter == null || filter.displayObject(collider)) {
+                dump(collider, indent + indentIncrement());
+            }
+        }
+    }
+
+    /**
+     * Dump the specified MultiBody.
+     *
+     * @param multibody the multibody to dump (not null, unaffected)
+     * @param indent (not null)
+     * @param filter for colliders (may be null, unaffected)
+     */
+    private void dumpMultiBody(MultiBody multibody, String indent,
+            BulletDebugAppState.DebugAppStateFilter filter) {
+
+        addLine(indent);
+        stream.print("MultiBody");
+        PhysicsDescriber describer = getDescriber();
+        String desc = describer.describeGroups(multibody);
+        stream.print(desc);
+
+        if (multibody.hasFixedBase()) {
+            stream.print("/fixed");
+        }
+        if (!multibody.isUsingGyroTerm()) {
+            stream.print("/NOgyro");
+        }
+        if (!multibody.canSleep()) {
+            stream.print("/NOsleep");
+        }
+        if (multibody.isUsingRK4()) {
+            stream.print("/RK4");
+        }
+
+        int numColliders = multibody.listColliders().size();
+        int numLinks = multibody.countConfiguredLinks();
+        stream.printf(" with %d collider%s, %d link%s",
+                numColliders, (numColliders == 1) ? "" : "s",
+                numLinks, (numLinks == 1) ? "" : "s");
+
+        long objectId = multibody.nativeId();
+        addNativeId(objectId);
+
+        addLine(indent);
+        float angularDamping = multibody.angularDamping();
+        float linearDamping = multibody.linearDamping();
+        stream.print(" damp[l=");
+        stream.print(MyString.describe(linearDamping));
+        stream.print(" a=");
+        stream.print(MyString.describe(angularDamping));
+        stream.print(']');
+
+        float maxImp = multibody.maxAppliedImpulse();
+        float maxV = multibody.maxCoordinateVelocity();
+        stream.print(" max[imp=");
+        stream.print(MyString.describe(maxImp));
+        stream.printf(" v=");
+        stream.print(MyString.describe(maxV));
+        stream.print(']');
+
+        String moreIndent = indent + indentIncrement();
+        MultiBodyCollider collider = multibody.getBaseCollider();
+        if (collider != null) {
+            if (filter == null || filter.displayObject(collider)) {
+                dump(collider, moreIndent);
+            }
+        }
+        for (int linkIndex = 0; linkIndex < numLinks; ++linkIndex) {
+            MultiBodyLink link = multibody.getLink(linkIndex);
+            dumpLink(link, moreIndent, filter);
         }
     }
 

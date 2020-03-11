@@ -172,6 +172,10 @@ public class BulletAppState
      */
     private ScheduledThreadPoolExecutor executor;
     /**
+     * constraint solver for the PhysicsSpace to use (not null)
+     */
+    private SolverType solverType = SolverType.SI;
+    /**
      * threading mode to use (not null, default=SEQUENTIAL)
      */
     private ThreadingType threadingType = ThreadingType.SEQUENTIAL;
@@ -302,6 +306,16 @@ public class BulletAppState
      */
     public PhysicsSpace getPhysicsSpace() {
         return pSpace;
+    }
+
+    /**
+     * Determine which constraint solver the PhysicsSpace will use.
+     *
+     * @return enum value (not null)
+     */
+    public SolverType getSolverType() {
+        assert solverType != null;
+        return solverType;
     }
 
     /**
@@ -470,6 +484,19 @@ public class BulletAppState
     }
 
     /**
+     * Alter which constraint solver the PhysicsSpace will use. Not allowed
+     * after attaching the AppState.
+     *
+     * @param solver an enum value (not null, default=SI)
+     */
+    public void setSolverType(SolverType solver) {
+        Validate.nonNull(solver, "solver");
+        assert !isRunning();
+
+        this.solverType = solver;
+    }
+
+    /**
      * Alter the physics simulation speed.
      *
      * @param speed the desired speedup factor (&ge;0, default=1)
@@ -597,7 +624,7 @@ public class BulletAppState
      */
     protected PhysicsSpace createPhysicsSpace(Vector3f min, Vector3f max,
             BroadphaseType type) {
-        return new PhysicsSpace(min, max, type);
+        return new PhysicsSpace(min, max, type, solverType);
     }
 
     /**
