@@ -63,7 +63,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A CollisionSpace to simulate dynamic physics, with its own btDynamicsWorld.
+ * A CollisionSpace to simulate dynamic physics, with its own
+ * btDiscreteDynamicsWorld.
  *
  * @author normenhansen
  */
@@ -138,11 +139,6 @@ public class PhysicsSpace extends CollisionSpace {
      */
     private int maxSubSteps = 4;
     /**
-     * copy of number of iterations used by the contact-and-constraint solver
-     * (default=10)
-     */
-    private int solverNumIterations = 10;
-    /**
      * list of registered collision listeners
      */
     final private List<PhysicsCollisionListener> collisionListeners
@@ -177,6 +173,14 @@ public class PhysicsSpace extends CollisionSpace {
      */
     final protected Queue<AppTask<?>> pQueue
             = new ConcurrentLinkedQueue<>();
+    /**
+     * parameters used by the contact-and-constraint solver
+     */
+    private SolverInfo solverInfo;
+    /**
+     * type of contact-and-constraint solver (not null)
+     */
+    private SolverType solverType = SolverType.SI;
     /**
      * first-in/first-out (FIFO) queue of physics tasks for each thread
      */
@@ -232,6 +236,28 @@ public class PhysicsSpace extends CollisionSpace {
     public PhysicsSpace(Vector3f worldMin, Vector3f worldMax,
             BroadphaseType broadphaseType) {
         super(worldMin, worldMax, broadphaseType);
+    }
+
+    /**
+     * Instantiate a PhysicsSpace. Must be invoked on the designated physics
+     * thread.
+     *
+     * @param worldMin the desired minimum coordinates values (not null,
+     * unaffected, default=-10k,-10k,-10k)
+     * @param worldMax the desired minimum coordinates values (not null,
+     * unaffected, default=10k,10k,10k)
+     * @param broadphaseType which broadphase accelerator to use (not null)
+     * @param solverType the desired constraint solver (not null)
+     */
+    public PhysicsSpace(Vector3f worldMin, Vector3f worldMax,
+            BroadphaseType broadphaseType, SolverType solverType) {
+        super(worldMin, worldMax, broadphaseType);
+        Validate.nonNull(solverType, "solver type");
+
+        if (this.solverType != solverType) {
+            this.solverType = solverType;
+            updateSolver();
+        }
     }
     // *************************************************************************
     // new methods exposed
@@ -315,7 +341,7 @@ public class PhysicsSpace extends CollisionSpace {
     /**
      * Count the joints in this space.
      *
-     * @return count (&ge;0)
+     * @return the count (&ge;0)
      */
     public int countJoints() {
         long spaceId = getSpaceId();
@@ -414,18 +440,6 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Determine the global CFM for this space.
-     *
-     * @return the CFM value
-     */
-    public float getGlobalCfm() {
-        long spaceId = getSpaceId();
-        float result = getGlobalCfm(spaceId);
-
-        return result;
-    }
-
-    /**
      * Copy the gravitational acceleration for newly-added bodies.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -474,13 +488,30 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Read the number of iterations used by the contact-and-constraint solver
-     * (native field: m_numIterations).
+     * Access parameters used by the contact-and-constraint solver.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    public SolverInfo getSolverInfo() {
+        return solverInfo;
+    }
+
+    /**
+     * Read the number of iterations used by the contact-and-constraint solver. TODO deprecate
      *
      * @return the number of iterations used (&ge;1)
      */
     public int getSolverNumIterations() {
-        return solverNumIterations;
+        return solverInfo.numIterations();
+    }
+
+    /**
+     * Determine the type of solver.
+     *
+     * @return an enum value (not null)
+     */
+    public SolverType getSolverType() {
+        return solverType;
     }
 
     /**
@@ -575,16 +606,6 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Alter the global CFM for this space.
-     *
-     * @param cfm the desired value (default=0)
-     */
-    public void setGlobalCfm(float cfm) {
-        long spaceId = getSpaceId();
-        setGlobalCfm(spaceId, cfm);
-    }
-
-    /**
      * Alter the gravitational acceleration acting on newly-added bodies.
      * <p>
      * Whenever a rigid body is added to a space, the body's gravity gets set to
@@ -632,7 +653,7 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Alter the number of iterations used by the contact-and-constraint solver.
+     * Alter the number of iterations used by the contact-and-constraint solver. TODO deprecate
      * <p>
      * Use 4 for low quality, 20 for high quality.
      *
@@ -640,10 +661,7 @@ public class PhysicsSpace extends CollisionSpace {
      */
     public void setSolverNumIterations(int numIterations) {
         Validate.positive(numIterations, "number of iterations");
-
-        this.solverNumIterations = numIterations;
-        long spaceId = getSpaceId();
-        setSolverNumIterations(spaceId, numIterations);
+        solverInfo.setNumIterations(numIterations);
     }
 
     /**
@@ -692,6 +710,25 @@ public class PhysicsSpace extends CollisionSpace {
      * @return 2 (for a discrete world) or 4 (for a soft-rigid world)
      */
     native protected int getWorldType(long spaceId);
+
+    /**
+     * Initialize the solverInfo field during create().
+     */
+    protected void initSolverInfo() {
+        long spaceId = getSpaceId();
+        long solverInfoId = getSolverInfo(spaceId);
+        solverInfo = new SolverInfo(solverInfoId);
+    }
+
+    /**
+     * Replace the existing contact-and-constraint solver with a new one of the
+     * correct type.
+     */
+    protected void updateSolver() {
+        long spaceId = getSpaceId();
+        int ordinal = solverType.ordinal();
+        setSolverType(spaceId, ordinal);
+    }
     // *************************************************************************
     // CollisionSpace methods
 
@@ -776,6 +813,7 @@ public class PhysicsSpace extends CollisionSpace {
         assert getWorldType(spaceId) == 2 // BT_DISCRETE_DYNAMICS_WORLD
                 : getWorldType(spaceId);
         initThread(spaceId);
+        initSolverInfo();
     }
 
     /**
@@ -803,8 +841,7 @@ public class PhysicsSpace extends CollisionSpace {
         boolean result = super.isEmpty()
                 && characterMap.isEmpty()
                 && rigidMap.isEmpty()
-                && physicsJoints.isEmpty()
-                && vehicleMap.isEmpty(); // TODO unnecessary
+                && physicsJoints.isEmpty();
 
         return result;
     }
@@ -818,9 +855,8 @@ public class PhysicsSpace extends CollisionSpace {
     @Override
     public void remove(Object object) {
         if (object == null) {
-            return;
-        }
-        if (object instanceof PhysicsControl) {
+            // do nothing
+        } else if (object instanceof PhysicsControl) {
             ((PhysicsControl) object).setPhysicsSpace(null);
         } else if (object instanceof Spatial) {
             Spatial node = (Spatial) object;
@@ -1118,11 +1154,11 @@ public class PhysicsSpace extends CollisionSpace {
     native private long createPhysicsSpace(float minX, float minY, float minZ,
             float maxX, float maxY, float maxZ, int broadphaseType);
 
-    native private float getGlobalCfm(long spaceId);
-
     native private void getGravity(long spaceId, Vector3f storeVector);
 
     native private int getNumConstraints(long spaceId);
+
+    native private long getSolverInfo(long spaceId);
 
     native private void removeAction(long spaceId, long actionId);
 
@@ -1132,12 +1168,9 @@ public class PhysicsSpace extends CollisionSpace {
 
     native private void removeRigidBody(long spaceId, long rigidBodyId);
 
-    native private void setGlobalCfm(long spaceId, float cfm);
-
     native private void setGravity(long spaceId, Vector3f gravityVector);
 
-    native private void setSolverNumIterations(long spaceId,
-            int numIterations);
+    native private void setSolverType(long spaceId, int solverType);
 
     native private void stepSimulation(long spaceId, float timeInterval,
             int maxSubSteps, float accuracy);

@@ -11,7 +11,7 @@ description = 'the Minie physics-support library for jMonkeyEngine'
 ext {
     // Select the URL from which native libraries should be copied:
 
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/4.2.0/'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/5.0.0/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/'
 
     // Specify the BTF (buildType + flavor) of native library for each platform:
