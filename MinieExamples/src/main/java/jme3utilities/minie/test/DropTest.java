@@ -132,11 +132,6 @@ public class DropTest
     // fields
 
     /**
-     * AppState to manage the PhysicsSpace
-     */
-    final private SoftPhysicsAppState bulletAppState
-            = new SoftPhysicsAppState();
-    /**
      * shape for the next drop
      */
     private CollisionShape dropShape;
@@ -156,10 +151,6 @@ public class DropTest
      * filter to control visualization of swept spheres
      */
     private FilterAll ssFilter;
-    /**
-     * enhanced pseudo-random generator
-     */
-    final private ShapeGenerator random = new ShapeGenerator();
     /**
      * map names to collision shapes
      */
@@ -188,6 +179,15 @@ public class DropTest
      * space for physics simulation
      */
     private PhysicsSoftSpace physicsSpace;
+    /**
+     * enhanced pseudo-random generator
+     */
+    final private ShapeGenerator random = new ShapeGenerator();
+    /**
+     * AppState to manage the PhysicsSpace
+     */
+    final private SoftPhysicsAppState bulletAppState
+            = new SoftPhysicsAppState();
     /**
      * local inverse inertial vector for the current drop (or null)
      */
