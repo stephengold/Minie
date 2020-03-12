@@ -544,6 +544,12 @@ public class DebugShapeFactory {
                         callback.getFaceNormals());
                 MyMesh.smoothNormals(mesh);
                 break;
+            case Sphere:
+                MyMesh.addSphereNormals(mesh);
+                break;
+            default:
+                String message = "normals = " + normals;
+                throw new IllegalArgumentException(message);
         }
         /*
          * If the mesh is not too big, generate an index buffer.
