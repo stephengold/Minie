@@ -763,7 +763,7 @@ public class TestDac extends ActionApplication {
 
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setAccuracy(0.01f); // 10-msec timestep
-        physicsSpace.setSolverNumIterations(15);
+        physicsSpace.getSolverInfo().setNumIterations(15);
     }
 
     /**
