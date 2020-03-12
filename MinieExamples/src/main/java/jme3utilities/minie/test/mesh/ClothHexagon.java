@@ -68,10 +68,11 @@ public class ClothHexagon extends Mesh {
     // *************************************************************************
     // constructors
 
-    /**
-     * No-argument constructor needed by SavableClassUtil.
+     /**
+     * No-argument constructor needed by SavableClassUtil. Do not invoke
+     * directly!
      */
-    protected ClothHexagon() {
+    public ClothHexagon() {
     }
 
     /**
@@ -181,7 +182,7 @@ public class ClothHexagon extends Mesh {
             }
         }
         ibData.flip();
-        assert ibData.limit() == numIndices;
+        assert indexBuffer.size() == numIndices;
 
         updateBound();
         setDynamic();
