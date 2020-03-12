@@ -497,10 +497,12 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Read the number of iterations used by the contact-and-constraint solver. TODO deprecate
+     * Read the number of iterations used by the contact-and-constraint solver.
      *
      * @return the number of iterations used (&ge;1)
+     * @deprecated use getSolverInfo().numIterations()
      */
+    @Deprecated
     public int getSolverNumIterations() {
         return solverInfo.numIterations();
     }
@@ -653,12 +655,14 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Alter the number of iterations used by the contact-and-constraint solver. TODO deprecate
+     * Alter the number of iterations used by the contact-and-constraint solver.
      * <p>
      * Use 4 for low quality, 20 for high quality.
      *
      * @param numIterations the desired number of iterations (&ge;1, default=10)
+     * @deprecated use getSolverInfo().setNumIterations()
      */
+    @Deprecated
     public void setSolverNumIterations(int numIterations) {
         Validate.positive(numIterations, "number of iterations");
         solverInfo.setNumIterations(numIterations);
