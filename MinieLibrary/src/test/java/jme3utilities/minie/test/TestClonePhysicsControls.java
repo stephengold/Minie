@@ -40,7 +40,6 @@ import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Heart;
-import jme3utilities.minie.MinieCharacterControl;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -96,15 +95,6 @@ public class TestClonePhysicsControls {
         verifyParameters(dac, 0f);
         DynamicAnimControl dacClone = (DynamicAnimControl) Heart.deepCopy(dac);
         cloneTest(dac, dacClone);
-        /*
-         * MinieCharacterControl
-         */
-        MinieCharacterControl mcc = new MinieCharacterControl(shape, 0.5f);
-        setParameters(mcc, 0f);
-        verifyParameters(mcc, 0f);
-        MinieCharacterControl mccClone
-                = (MinieCharacterControl) Heart.deepCopy(mcc);
-        cloneTest(mcc, mccClone);
         /*
          * SoftBodyControl
          */
@@ -173,8 +163,6 @@ public class TestClonePhysicsControls {
             setCc((CharacterControl) control, b);
         } else if (control instanceof DynamicAnimControl) {
             setDac((DynamicAnimControl) control, b);
-        } else if (control instanceof MinieCharacterControl) {
-            setMcc((MinieCharacterControl) control, b);
         } else if (control instanceof SoftBodyControl) {
             setSbc((SoftBodyControl) control, b);
         } else {
@@ -241,44 +229,6 @@ public class TestClonePhysicsControls {
         dac.setGravity(new Vector3f(b + 0.03f, b + 0.04f, b + 0.05f));
     }
 
-    private void setMcc(MinieCharacterControl mcc, float b) {
-        Vector3f upDirection
-                = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
-        Vector3f viewDirection
-                = new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f).normalizeLocal();
-        /*
-         * walk offset must be perpendicular to "up" direction
-         */
-        Vector3f walkOffset = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f)
-                .cross(upDirection);
-
-        PhysicsCharacter ch = mcc.getCharacter();
-
-        ch.setAngularDamping(b + 0.01f);
-        ch.setAngularVelocity(new Vector3f(b + 0.04f, b + 0.05f, b + 0.06f));
-        ch.setCcdMotionThreshold(b + 0.07f);
-        ch.setCcdSweptSphereRadius(b + 0.08f);
-        ch.setContactDamping(b + 0.084f);
-        ch.setContactProcessingThreshold(b + 0.0845f);
-        ch.setContactStiffness(b + 0.085f);
-        ch.setDeactivationTime(b + 0.087f);
-        mcc.setFallSpeed(b + 0.01f);
-        ch.setFriction(b + 0.095f);
-        mcc.setGravity(b + 0.015f);
-        mcc.setJumpSpeed(b + 0.02f);
-        ch.setLinearDamping(b + 0.03f);
-        ch.setMaxPenetrationDepth(b + 0.281f);
-        ch.setMaxSlope(b + 0.282f);
-        ch.setPhysicsLocation(new Vector3f(b + 0.18f, b + 0.19f, b + 0.20f));
-        ch.setRestitution(b + 0.25f);
-        ch.setRollingFriction(b + 0.26f);
-        ch.setSpinningFriction(b + 0.27f);
-        ch.setStepHeight(b + 0.29f);
-        ch.setUp(upDirection);
-        mcc.setViewDirection(viewDirection);
-        mcc.setWalkDirection(walkOffset);
-    }
-
     private void setSbc(SoftBodyControl sbc, float b) {
         // TODO
     }
@@ -296,8 +246,6 @@ public class TestClonePhysicsControls {
             verifyCc((CharacterControl) control, b);
         } else if (control instanceof DynamicAnimControl) {
             verifyDac((DynamicAnimControl) control, b);
-        } else if (control instanceof MinieCharacterControl) {
-            verifyMcc((MinieCharacterControl) control, b);
         } else if (control instanceof SoftBodyControl) {
             verifySbc((SoftBodyControl) control, b);
         } else {
@@ -369,47 +317,6 @@ public class TestClonePhysicsControls {
         assert dac.eventDispatchImpulseThreshold() == b + 0.02f;
         assertEquals(b + 0.03f, b + 0.04f, b + 0.05f,
                 dac.gravity(null), 0f);
-    }
-
-    private void verifyMcc(MinieCharacterControl mcc, float b) {
-        Vector3f upDirection
-                = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
-        Vector3f viewDirection
-                = new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f).normalizeLocal();
-        /*
-         * walk offset must be perpendicular to "up" direction
-         */
-        Vector3f walkOffset = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f)
-                .cross(upDirection);
-
-        PhysicsCharacter ch = mcc.getCharacter();
-
-        Assert.assertEquals(b + 0.01f, ch.getAngularDamping(), 0f);
-        assertEquals(b + 0.04f, b + 0.05f, b + 0.06f,
-                ch.getAngularVelocity(null), 0f);
-        Assert.assertEquals(b + 0.07f, ch.getCcdMotionThreshold(), 0f);
-        Assert.assertEquals(b + 0.08f, ch.getCcdSweptSphereRadius(), 0f);
-        Assert.assertEquals(b + 0.084f, ch.getContactDamping(), 0f);
-        Assert.assertEquals(b + 0.0845f, ch.getContactProcessingThreshold(),
-                0f);
-        Assert.assertEquals(b + 0.085f, ch.getContactStiffness(), 0f);
-        Assert.assertEquals(b + 0.087f, ch.getDeactivationTime(), 0f);
-        Assert.assertEquals(b + 0.01f, ch.getFallSpeed(), 0f);
-        Assert.assertEquals(b + 0.095f, ch.getFriction(), 0f);
-        Assert.assertEquals(b + 0.015f, ch.getGravity(null).length(), 1e-5f);
-        Assert.assertEquals(b + 0.02f, ch.getJumpSpeed(), 0f);
-        Assert.assertEquals(b + 0.03f, ch.getLinearDamping(), 0f);
-        Assert.assertEquals(b + 0.281f, ch.getMaxPenetrationDepth(), 0f);
-        Assert.assertEquals(b + 0.282f, ch.getMaxSlope(), 0f);
-        assertEquals(b + 0.18f, b + 0.19f, b + 0.20f,
-                ch.getPhysicsLocation(null), 0f);
-        Assert.assertEquals(b + 0.25f, ch.getRestitution(), 0f);
-        Assert.assertEquals(b + 0.26f, ch.getRollingFriction(), 0f);
-        Assert.assertEquals(b + 0.27f, ch.getSpinningFriction(), 0f);
-        Assert.assertEquals(b + 0.29f, ch.getStepHeight(), 0f);
-        assertEquals(upDirection, ch.getUpDirection(null), 1e-5f);
-        assertEquals(viewDirection, mcc.getViewDirection(null), 0f);
-        assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
     }
 
     private void verifySbc(SoftBodyControl sbc, float b) {
