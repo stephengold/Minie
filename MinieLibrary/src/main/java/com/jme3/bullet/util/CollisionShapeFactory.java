@@ -212,18 +212,20 @@ public class CollisionShapeFactory {
         }
 
         Mesh combinedMesh = makeMergedMesh(subtree);
-        IndexBuffer indexBuffer = combinedMesh.getIndicesAsList();
-        int numIndices = indexBuffer.size();
-        int[] indexArray = new int[numIndices];
-        for (int offset = 0; offset < numIndices; ++offset) {
-            indexArray[offset] = indexBuffer.get(offset);
-        }
+
         FloatBuffer positionBuffer
                 = combinedMesh.getFloatBuffer(VertexBuffer.Type.Position);
         int numFloats = positionBuffer.limit();
         float[] positionArray = new float[numFloats];
         for (int offset = 0; offset < numFloats; ++offset) {
             positionArray[offset] = positionBuffer.get(offset);
+        }
+
+        IndexBuffer indexBuffer = combinedMesh.getIndicesAsList();
+        int numIndices = indexBuffer.size();
+        int[] indexArray = new int[numIndices];
+        for (int offset = 0; offset < numIndices; ++offset) {
+            indexArray[offset] = indexBuffer.get(offset);
         }
         /*
          * Use the V-HACD algorithm to generate a list of hulls.
