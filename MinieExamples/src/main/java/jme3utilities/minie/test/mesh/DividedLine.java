@@ -77,7 +77,8 @@ public class DividedLine extends Mesh {
      * coordinates, not null, unaffected)
      * @param numSegments the desired number of sub-segments (&ge;1)
      */
-    public DividedLine(Vector3f endPoint1, Vector3f endPoint2, int numSegments) {
+    public DividedLine(Vector3f endPoint1, Vector3f endPoint2,
+            int numSegments) {
         Validate.positive(numSegments, "number of segments");
 
         setMode(Mode.Lines);

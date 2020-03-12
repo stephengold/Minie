@@ -261,7 +261,7 @@ public class CollisionShapeFactory {
             FloatBuffer addPositions, IndexBuffer addIndices) {
         Mesh jmeMesh = geometry.getMesh();
         /*
-         * Append combined-mesh indices to the IntBuffer.
+         * Append combined-mesh indices to the IndexBuffer.
          */
         int indexBase = addPositions.position() / numAxes;
         IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
