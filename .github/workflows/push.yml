@@ -1,0 +1,35 @@
+# GitHub workflow for push commits
+name: CI at GitHub
+on: [push]
+
+jobs:
+  Java8-Linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - uses: gradle/wrapper-validation-action@v1
+    - run: sudo apt-get install -y g++-multilib
+    - run: ./gradlew build --console=plain --no-daemon
+
+  Java8-MacOSX64:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - uses: gradle/wrapper-validation-action@v1
+    - run: ./gradlew build --console=plain --no-daemon
+
+  Java8-Windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - uses: gradle/wrapper-validation-action@v1
+    - run: ./gradlew build --console=plain --no-daemon
