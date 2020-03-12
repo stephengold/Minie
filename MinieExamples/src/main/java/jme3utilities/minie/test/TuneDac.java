@@ -141,7 +141,7 @@ public class TuneDac extends ActionApplication {
 
         CollisionShape.setDefaultMargin(0.005f); // 5 mm
         PhysicsSpace ps = bulletAppState.getPhysicsSpace();
-        ps.setSolverNumIterations(30);
+        ps.getSolverInfo().setNumIterations(30);
         addModel();
 
         SkeletonControl sc = RagUtils.findSkeletonControl(model);

@@ -793,7 +793,7 @@ public class RopeDemo extends ActionApplication {
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setSolverNumIterations(8);
+        physicsSpace.getSolverInfo().setNumIterations(8);
     }
 
     /**
