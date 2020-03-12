@@ -110,6 +110,10 @@ public class TubeTreeMesh extends Mesh {
      */
     private FloatBuffer positionBuffer;
     /**
+     * index buffer
+     */
+    private IndexBuffer indexBuffer;
+    /**
      * total number of triangles in the mesh
      */
     private int numTriangles;
@@ -125,10 +129,6 @@ public class TubeTreeMesh extends Mesh {
      * number of sample points per mesh loop (default=12)
      */
     private int samplesPerLoop;
-    /**
-     * index buffer
-     */
-    private IndexBuffer indexBuffer;
     /**
      * skeleton used to construct the mesh
      */
@@ -169,12 +169,13 @@ public class TubeTreeMesh extends Mesh {
      * parameters.
      *
      * @param skeleton (not null, in bind pose, unaffected)
-     * @param radius the radius of each mesh loop (in mesh units, &gt;0)
-     * @param leafOvershoot the overshoot distance for leaf bones (in mesh
-     * units)
-     * @param loopsPerSegment the number of mesh loops in each tube segment
-     * (&ge;1)
-     * @param samplesPerLoop the number of samples in each mesh loop (&ge;3)
+     * @param radius the desired radius of each mesh loop (in mesh units, &gt;0)
+     * @param leafOvershoot the desired overshoot distance for leaf bones (in
+     * mesh units)
+     * @param loopsPerSegment the desired number of mesh loops in each tube
+     * segment (&ge;1)
+     * @param samplesPerLoop the desired number of samples in each mesh loop
+     * (&ge;3)
      */
     public TubeTreeMesh(Skeleton skeleton, float radius, float leafOvershoot,
             int loopsPerSegment, int samplesPerLoop) {
@@ -437,12 +438,6 @@ public class TubeTreeMesh extends Mesh {
      */
     private void putAnimationForVertex(int boneIndex1, int boneIndex2,
             float weight1) {
-        assert boneIndex1 >= 0 : boneIndex1;
-        assert boneIndex1 <= Short.MAX_VALUE : boneIndex1;
-        assert boneIndex2 >= 0 : boneIndex2;
-        assert boneIndex2 <= Short.MAX_VALUE : boneIndex2;
-        assert boneIndex1 != boneIndex2 : boneIndex1;
-
         weight1 = FastMath.clamp(weight1, 0f, 1f);
 
         int weightIndex;
@@ -654,6 +649,9 @@ public class TubeTreeMesh extends Mesh {
                 Vector3f parentPosition = parent.getModelSpacePosition();
                 Vector3f offset = parentPosition.subtract(childPosition);
                 float endZ = offset.length();
+                if (endZ < FastMath.FLT_EPSILON) {
+                    throw new IllegalStateException("Bone with length=0");
+                }
 
                 Vector3f direction = offset.clone();
                 Vector3f axis1 = new Vector3f();
