@@ -71,19 +71,21 @@ public class CollisionSpace {
     // fields
 
     /**
-     * copy of the type of acceleration structure used
+     * type of acceleration structure
      */
     private PhysicsSpace.BroadphaseType broadphaseType
             = PhysicsSpace.BroadphaseType.DBVT;
     /**
-     * comparitor for raytest results
+     * comparator for raytest results
      */
     final private static Comparator<PhysicsRayTestResult> hitFractionComparator
             = new Comparator<PhysicsRayTestResult>() {
         @Override
         public int compare(PhysicsRayTestResult r1, PhysicsRayTestResult r2) {
-            float comp = r1.getHitFraction() - r2.getHitFraction();
-            return comp > 0 ? 1 : -1;
+            float r1Fraction = r1.getHitFraction();
+            float r2Fraction = r2.getHitFraction();
+            int result = Float.compare(r1Fraction, r2Fraction);
+            return result;
         }
     };
     /**
@@ -101,9 +103,9 @@ public class CollisionSpace {
     final private Map<Integer, PhysicsCollisionGroupListener> collisionGroupListeners
             = new ConcurrentHashMap<>(20);
     /**
-     * map ghost IDs to added objects TODO rename
+     * map ghost IDs to added objects
      */
-    final private Map<Long, PhysicsGhostObject> physicsGhostObjects
+    final private Map<Long, PhysicsGhostObject> ghostMap
             = new ConcurrentHashMap<>(64);
     /**
      * physics-space reference for each thread
@@ -179,8 +181,9 @@ public class CollisionSpace {
     public void addCollisionGroupListener(
             PhysicsCollisionGroupListener listener, int collisionGroup) {
         Validate.nonNull(listener, "listener");
-        assert collisionGroupListeners.get(collisionGroup) == null;
-        assert Integer.bitCount(collisionGroup) == 1 : collisionGroup;
+        assert !collisionGroupListeners.containsKey(collisionGroup);
+        Validate.require(Integer.bitCount(collisionGroup) == 1,
+                "exactly one bit set");
 
         collisionGroupListeners.put(collisionGroup, listener);
     }
@@ -212,7 +215,7 @@ public class CollisionSpace {
         boolean result;
         long pcoId = pco.getObjectId();
         if (pco instanceof PhysicsGhostObject) {
-            result = physicsGhostObjects.containsKey(pcoId);
+            result = ghostMap.containsKey(pcoId);
         } else {
             String typeName = pco.getClass().getCanonicalName();
             String msg = "Unknown type of collision object: " + typeName;
@@ -269,7 +272,7 @@ public class CollisionSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsGhostObject> getGhostObjectList() {
-        return new TreeSet<>(physicsGhostObjects.values());
+        return new TreeSet<>(ghostMap.values());
     }
 
     /**
@@ -280,14 +283,13 @@ public class CollisionSpace {
      */
     public Collection<PhysicsCollisionObject> getPcoList() {
         Set<PhysicsCollisionObject> result = new TreeSet<>();
-        result.addAll(physicsGhostObjects.values());
+        result.addAll(ghostMap.values());
 
         return result;
     }
 
     /**
-     * Read the flags used in ray tests (native field: m_flags). TODO native
-     * method
+     * Read the flags used in ray tests (native field: m_flags).
      *
      * @return which flags are used
      * @see com.jme3.bullet.RayTestFlag
@@ -342,7 +344,7 @@ public class CollisionSpace {
      * @return true if empty, otherwise false
      */
     public boolean isEmpty() {
-        boolean result = physicsGhostObjects.isEmpty();
+        boolean result = ghostMap.isEmpty();
         return result;
     }
 
@@ -448,8 +450,9 @@ public class CollisionSpace {
      * with exactly one bit set)
      */
     public void removeCollisionGroupListener(int collisionGroup) {
-        assert collisionGroupListeners.get(collisionGroup) != null;
-        assert Integer.bitCount(collisionGroup) == 1 : collisionGroup;
+        assert collisionGroupListeners.containsKey(collisionGroup);
+        Validate.require(Integer.bitCount(collisionGroup) == 1,
+                "exactly one bit set");
 
         collisionGroupListeners.remove(collisionGroup);
     }
@@ -628,7 +631,7 @@ public class CollisionSpace {
                 new Object[]{ghost, this});
 
         long ghostId = ghost.getObjectId();
-        physicsGhostObjects.put(ghostId, ghost);
+        ghostMap.put(ghostId, ghost);
         assert nativeId != 0L;
         addCollisionObject(nativeId, ghostId);
     }
@@ -662,13 +665,13 @@ public class CollisionSpace {
      */
     private void removeGhostObject(PhysicsGhostObject ghost) {
         long ghostId = ghost.getObjectId();
-        if (!physicsGhostObjects.containsKey(ghostId)) {
+        if (!ghostMap.containsKey(ghostId)) {
             loggerC.log(Level.WARNING, "{0} does not exist in {1}.",
                     new Object[]{ghost, this});
             return;
         }
 
-        physicsGhostObjects.remove(ghostId);
+        ghostMap.remove(ghostId);
         loggerC.log(Level.FINE, "Removing {0} from {1}.",
                 new Object[]{ghost, this});
         removeCollisionObject(nativeId, ghostId);
