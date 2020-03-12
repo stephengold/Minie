@@ -85,8 +85,8 @@ public class DividedLine extends Mesh {
         setMode(Mode.Lines);
 
         int numVertices = numSegments + 1;
-        FloatBuffer posBuffer
-                = BufferUtils.createFloatBuffer(numAxes * numVertices);
+        int numFloats = numAxes * numVertices;
+        FloatBuffer posBuffer = BufferUtils.createFloatBuffer(numFloats);
         setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
         /*
          * Write the locations of all vertices:
@@ -97,7 +97,7 @@ public class DividedLine extends Mesh {
             MyVector3f.lerp(t, endPoint1, endPoint2, temp);
             posBuffer.put(temp.x).put(temp.y).put(temp.z);
         }
-        assert posBuffer.position() == numAxes * numVertices;
+        assert posBuffer.position() == numFloats;
         posBuffer.flip();
 
         int numIndices = MyMesh.vpe * numSegments;
@@ -113,8 +113,8 @@ public class DividedLine extends Mesh {
             MyBuffer.putRelative(indexBuffer, edgeIndex);
             MyBuffer.putRelative(indexBuffer, edgeIndex + 1);
         }
-        assert ibData.position() == MyMesh.vpe * numSegments;
         ibData.flip();
+        assert indexBuffer.size() == numIndices;
 
         updateBound();
         setStatic();

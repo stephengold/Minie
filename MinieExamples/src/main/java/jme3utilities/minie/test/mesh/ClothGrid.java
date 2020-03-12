@@ -58,10 +58,6 @@ public class ClothGrid extends Mesh {
      */
     final private static int numAxes = 3;
     /**
-     * number of vertices per triangle
-     */
-    final private static int vpt = 3;
-    /**
      * message logger for this class
      */
     final public static Logger logger
@@ -172,8 +168,8 @@ public class ClothGrid extends Mesh {
                 }
             }
         }
-        assert ibData.position() == vpt * numTriangles;
         ibData.flip();
+        assert indexBuffer.size() == numIndices;
 
         updateBound();
         setDynamic();

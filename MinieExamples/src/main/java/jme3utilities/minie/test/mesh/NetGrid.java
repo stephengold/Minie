@@ -85,8 +85,8 @@ public class NetGrid extends Mesh {
         setMode(Mode.Lines);
 
         int numVertices = xLines * zLines;
-        FloatBuffer posBuffer
-                = BufferUtils.createFloatBuffer(numAxes * numVertices);
+        int numFloats = numAxes * numVertices;
+        FloatBuffer posBuffer = BufferUtils.createFloatBuffer(numFloats);
         setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
         /*
          * Write the vertex locations:
@@ -98,7 +98,7 @@ public class NetGrid extends Mesh {
                 posBuffer.put(x).put(0f).put(z);
             }
         }
-        assert posBuffer.position() == numAxes * numVertices;
+        assert posBuffer.position() == numFloats;
         posBuffer.flip();
 
         int numEdges = xLines * (zLines - 1) + (xLines - 1) * zLines;
@@ -130,8 +130,8 @@ public class NetGrid extends Mesh {
                 MyBuffer.putRelative(indexBuffer, vi1);
             }
         }
-        assert ibData.position() == MyMesh.vpe * numEdges;
         ibData.flip();
+        assert indexBuffer.size() == numIndices;
 
         updateBound();
         setStatic();
