@@ -33,6 +33,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.SoftBodyWorldInfo;
+import com.jme3.bullet.SolverInfo;
 import com.jme3.bullet.collision.Activation;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.Box2dShape;
@@ -135,7 +136,12 @@ public class TestDefaults {
         Assert.assertEquals(0.1f, space.maxTimeStep(), 0f);
         Assert.assertEquals(RayTestFlag.SubSimplexRaytest,
                 space.getRayTestFlags());
-        Assert.assertEquals(10, space.getSolverNumIterations());
+
+        SolverInfo solverInfo = space.getSolverInfo();
+        Assert.assertNotNull(solverInfo);
+        Assert.assertNotEquals(0L, solverInfo.nativeId());
+        Assert.assertEquals(0f, solverInfo.globalCfm(), 0f);
+        Assert.assertEquals(128, solverInfo.minBatch());
 
         SoftBodyWorldInfo info = new SoftBodyWorldInfo();
         Assert.assertEquals(1.2f, info.airDensity(), 0f);
