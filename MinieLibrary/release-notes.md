@@ -1,4 +1,43 @@
-# release notes for the Minie library, DacWizard, and MinieExamples
+# release log for the Minie library, DacWizard, and MinieExamples
+
+## Version 1.5.0for32 released on TBD
+
+ + Fixed bugs:
+   + `NullPointerException` in the `DacWizard` application
+   + compound shapes read from J3O assets always get the default margin
+   + meshes returned by `DebugShapeFactory.getDebugMesh()` have incorrect bounds
+   + Minie issue #3: `btAssert()` crash at the peak of a character's jump
+     (only with a debug library)
+
+ + Added library features:
+   + `CharacterControl` class (for compatibility with jme3-bullet)
+   + 2 more `PhysicsSpace` constructors (for compatibility with jme3-bullet)
+   + new option for physics links: use `New6Dof` instead of `SixDofJoint`
+   + `CollisionSpace` class (for collision detection without dynamics)
+   + 4 more contact-and-constraint solvers for `PhysicsSpace`
+   + 3 more solver parameters: global CFM, minimum batch, and mode flags
+   + (experimental) support for multibody physics objects
+   + `ConvexShape` abstract subclass of `CollisionShape`
+   + new option for debug-mesh normals: sphere (radial) normals
+   + new option to dump child collision shapes in detail
+   + native IDs are now optional in physics dumps
+   + dump a single `CollisionShape`
+   + miscelaneous methods:
+     + `BulletAppState.isRunning()`
+     + `CollisionShapeFactory.createMergedMeshShape()`
+     + `DebugShapeFactory.getDebugTriangles()`
+     + `PhysicsSpace.countCollisionListeners()`
+     + `PhysicsSpace.countTickListeners()`
+     + `RagUtils.validate(Armature)`
+     + `VHACDHull.clonePositions()`
+     + `VHACDParameters.hashCode()`
+
+ + Added more detail to `PhysicsCharacter` dumps.
+ + Added validation for the angular limits of a `SixDofJoint`.
+ + Updated the native libraries to version 5.0.0 of `Libbulletjme`.
+ + Based on version 5.1 of the `Heart` library.
+ + Upgraded to Gradle v6.2.2 .
+ + Continous integration at TravisCI and GitHub.
 
 ## Version 1.4.1for32 released on 12 February 2020
 
