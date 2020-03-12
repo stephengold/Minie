@@ -72,7 +72,7 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
     // fields
 
     /**
-     * index of the link (&ge;0) or -1 for the base of the MultiBody
+     * index of the link (&ge;0) or -1 for the base (of the MultiBody)
      */
     private int linkIndex;
     /**
