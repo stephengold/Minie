@@ -1,6 +1,6 @@
 # release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.5.0for33 released on TBD
+## Version 1.5.0for33 released on 12 March 2020
 
  + Fixed bugs:
    + `NullPointerException` in the `DacWizard` application
@@ -22,7 +22,7 @@
    + new option to dump child collision shapes in detail
    + native IDs are now optional in physics dumps
    + dump a single `CollisionShape`
-   + miscelaneous methods:
+   + miscellaneous methods:
      + `BulletAppState.isRunning()`
      + `CollisionShapeFactory.createMergedMeshShape()`
      + `DebugShapeFactory.getDebugTriangles()`
@@ -37,7 +37,7 @@
  + Updated the native libraries to version 5.0.0 of `Libbulletjme`.
  + Based on version 5.1 of the `Heart` library.
  + Upgraded to Gradle v6.2.2 .
- + Continous integration at TravisCI and GitHub.
+ + Continuous integration at TravisCI and GitHub.
 
 ## Version 1.4.1for33 released on 12 February 2020
 
