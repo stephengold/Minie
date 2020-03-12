@@ -1477,13 +1477,15 @@ public class PhysicsSoftBody extends PhysicsBody {
     @Override
     public void setDebugMeshNormals(DebugMeshNormals newSetting) {
         Validate.nonNull(newSetting, "new setting");
+
         switch (newSetting) {
             case None:
             case Smooth:
                 super.setDebugMeshNormals(newSetting);
                 break;
             default:
-                throw new IllegalArgumentException(newSetting.toString());
+                String message = "normals = " + newSetting;
+                throw new IllegalArgumentException(message);
         }
     }
 
