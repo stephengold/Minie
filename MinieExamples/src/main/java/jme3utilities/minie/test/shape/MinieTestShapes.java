@@ -391,7 +391,7 @@ public class MinieTestShapes {
         float halfLength = zLength / 2f;
         float outerR = innerR + thickness;
         float yOff = outerR / 2f;
-        float segmentAngle = FastMath.PI / (float) numChildren;
+        float segmentAngle = FastMath.PI / numChildren;
 
         CompoundCollisionShape result = new CompoundCollisionShape();
         for (int segmentI = 0; segmentI < numChildren; ++segmentI) {
