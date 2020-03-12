@@ -106,9 +106,10 @@ public class MultiBodyLink implements JmeCloneable, Savable {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil.
+     * No-argument constructor needed by SavableClassUtil. Do not invoke
+     * directly!
      */
-    protected MultiBodyLink() {
+    public MultiBodyLink() {
     }
 
     /**

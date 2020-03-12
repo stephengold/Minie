@@ -83,9 +83,10 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil.
+     * No-argument constructor needed by SavableClassUtil. Do not invoke
+     * directly!
      */
-    protected MultiBodyCollider() {
+    public MultiBodyCollider() {
     }
 
     /**

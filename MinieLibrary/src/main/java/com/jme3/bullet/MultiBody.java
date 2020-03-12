@@ -109,9 +109,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil.
+     * No-argument constructor needed by SavableClassUtil. Do not invoke
+     * directly!
      */
-    protected MultiBody() {
+    public MultiBody() {
     }
 
     /**
