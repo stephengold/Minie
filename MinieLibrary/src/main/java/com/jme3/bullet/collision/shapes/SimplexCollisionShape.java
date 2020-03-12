@@ -192,7 +192,7 @@ public class SimplexCollisionShape extends ConvexShape {
         Validate.inRange(endPosition, "end position", startPosition + numAxes,
                 buffer.capacity());
         int numFloats = endPosition - startPosition;
-        assert (numFloats % numAxes == 0) : numFloats;
+        Validate.require(numFloats % numAxes == 0, "range a multiple of 3");
         int numVertices = numFloats / numAxes;
         assert numVertices >= 1 : numVertices;
         assert numVertices <= 4 : numVertices;
