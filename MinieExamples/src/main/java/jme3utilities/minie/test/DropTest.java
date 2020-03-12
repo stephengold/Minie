@@ -523,7 +523,6 @@ public class DropTest
             case "dome":
             case "football":
             case "multiSphere":
-            case "sphere":
             case "torus":
                 dropShape = random.nextShape(dropName);
                 debugMeshNormals = DebugMeshNormals.Smooth;
@@ -561,6 +560,11 @@ public class DropTest
             case "mallet":
                 randomMallet(true);
                 debugMeshNormals = DebugMeshNormals.Smooth;
+                break;
+
+            case "sphere":
+                dropShape = random.nextShape(dropName);
+                debugMeshNormals = DebugMeshNormals.Sphere;
                 break;
 
             default:

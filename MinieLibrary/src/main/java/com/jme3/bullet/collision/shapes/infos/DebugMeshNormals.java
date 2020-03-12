@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,5 +51,9 @@ public enum DebugMeshNormals {
     /**
      * smoothed normals (for shaded materials)
      */
-    Smooth;
+    Smooth,
+    /**
+     * sphere normals (for shaded materials)
+     */
+    Sphere;
 }
