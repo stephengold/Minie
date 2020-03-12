@@ -167,7 +167,7 @@ public class ClothGrid extends Mesh {
                 }
             }
         }
-        indexBuffer.getBuffer().flip();
+        ibData.flip();
         assert indexBuffer.size() == numIndices;
 
         updateBound();

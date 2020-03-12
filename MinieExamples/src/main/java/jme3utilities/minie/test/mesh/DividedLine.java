@@ -112,7 +112,7 @@ public class DividedLine extends Mesh {
             MyBuffer.putRelative(indexBuffer, edgeIndex);
             MyBuffer.putRelative(indexBuffer, edgeIndex + 1);
         }
-        indexBuffer.getBuffer().flip();
+        ibData.flip();
         assert indexBuffer.size() == numIndices;
 
         updateBound();

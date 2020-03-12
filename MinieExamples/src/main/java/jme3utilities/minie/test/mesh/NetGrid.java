@@ -129,7 +129,7 @@ public class NetGrid extends Mesh {
                 MyBuffer.putRelative(indexBuffer, vi1);
             }
         }
-        indexBuffer.getBuffer().flip();
+        ibData.flip();
         assert indexBuffer.size() == numIndices;
 
         updateBound();
