@@ -252,7 +252,7 @@ class DebugMeshCallback {
     // private methods
 
     /**
-     * Add a vertex to the mesh under construction.
+     * Add a vertex to the list under construction.
      * <p>
      * This method is invoked from native code.
      *
