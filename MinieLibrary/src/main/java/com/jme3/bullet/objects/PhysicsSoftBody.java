@@ -231,13 +231,10 @@ public class PhysicsSoftBody extends PhysicsBody {
      * (not null, direct, limit a multiple of 3)
      */
     public void appendNodes(FloatBuffer nodeLocations) {
-        if (!nodeLocations.isDirect()) {
-            throw new IllegalArgumentException("The buffer must be direct.");
-        }
-        if (nodeLocations.limit() % numAxes != 0) {
-            throw new IllegalArgumentException(
-                    "The number of floats must be a multiple of 3.");
-        }
+        Validate.nonNull(nodeLocations, "node locations");
+        Validate.require(nodeLocations.isDirect(), "direct buffer");
+        Validate.require(nodeLocations.limit() % numAxes == 0,
+                "limit a multiple of 3");
 
         int numNodes = nodeLocations.limit() / numAxes;
         appendNodes(objectId, numNodes, nodeLocations);
