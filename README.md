@@ -10,8 +10,8 @@ It contains 5 sub-projects:
  1. MinieLibrary: the Minie runtime library and its automated tests
  2. [DacWizard]: a GUI application to configure a ragdoll
  3. MinieExamples: demos, examples, tutorials, and non-automated test software
- 4. Jme3Examples: suggested changes to run the physics examples in jme3-examples
- 5. MinieAssets: generate assets used in MinieExamples
+ 4. MinieAssets: generate assets used in MinieExamples
+ 5. Jme3Examples: suggested changes to run the physics examples in jme3-examples
 
 Complete source code (in Java) is provided under
 [a BSD license][license].
@@ -49,7 +49,7 @@ Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
    (See the fix list below.)
  + Due to its shorter release cycle, future features and bug fixes
    will probably appear first in Minie.
- + Minie uses automated testing that reduce the risk of regressions and new bugs.
+ + Minie uses automated testing to reduce the risk of regressions and new bugs.
  + Minie's classes are better encapsulated, with fewer public/protected fields
    and less aliasing of small objects like vectors.  This reduces the risk
    of accidentally corrupting its internal data structures.
@@ -66,9 +66,12 @@ Summary of added features:
     + apply inverse-kinematic controllers and joints
  + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`,
     including anchors and soft-body joints
+ + Multi-body simulation based on `btMultiBody` and `btMultiBodyDynamicsWorld`
  + Convex decomposition of meshes using [Khaled Mamou's V-HACD Library][vhacd],
    including progress listeners
  + `New6Dof` physics joints based on `btGeneric6DofSpring2Constraint`
+ + Alternative contact-and-constraint solvers based on `btDantzigSolver`,
+   `btLemkeSolver`, `btSolveProjectedGaussSeidel`, and `btNNCGConstraintSolver`
  + `MultiSphere` collision shapes based on `btMultiSphereShape`
  + `Box2dShape` collision shapes based on `btBox2dShape`
  + `Convex2dShape` collision shapes based on `btConvex2dShape`
@@ -83,8 +86,8 @@ Summary of added features:
     + optional high-resolution debug meshes for convex shapes
     + options to generate debug meshes that include indices,
       normals (for shading), and/or texture coordinates (for texturing)
- + all joints, shapes, and collision objects implement the `JmeCloneable`
-   and `Comparable` interfaces
+ + all joints, shapes, collision objects, and multibodies
+   implement the `JmeCloneable` and `Comparable` interfaces
  + enable/disable a joint
  + single-ended joints
  + settable global default for collision margin
@@ -131,8 +134,6 @@ Some `jme3-bullet` bugs that have been fixed in Minie:
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
- + `CharacterControl`: use `MinieCharacterControl` or `BetterCharacterControl`
-   instead, or else use `PhysicsCharacter` directly
  + `KinematicRagdollControl`, `HumanoidRagdollPreset`, and `RagdollPreset`:
    use `DynamicAnimControl` instead
  + `RagdollUtils`: not needed
@@ -145,6 +146,7 @@ Other important differences:
  + `RagdollCollisionListener` interface changed and moved
    from the `com.jme3.bullet.collision` package
    to the `com.jme3.bullet.animation` package.
+ + Minie doesn't support ARM platforms yet.
 
 [Jump to table of contents](#toc)
 
@@ -253,18 +255,18 @@ Each time step consists of 4 phases:
    to compute actual contacts (if any) between between objects,
    and
  + forward dynamics part 2,
-   to solve constraints and update positions.
+   to apply contact forces, solve constraints, and update positions.
 
 To simplify the creation and management of physics spaces,
 Minie provides app states.
 `BulletAppState` is the simplest of these; it manages a single
-space without any soft objects.
+space without any soft objects or multibodies.
 Simulation of that space can take place on the render thread
 or else on a dedicated physics thread.
 Either way, the simulation attempts to synchronize to real time
-during every update.
+after every rendered frame.
 With `BulletAppState`, debug visualization can be enabled
-(or disabled) by simply invoking `setDebugEnabled()`.
+(or disabled) by invoking `setDebugEnabled()`.
 
 Normal collisions (between collision objects) are reported asynchronously
 to listeners registered at the `PhysicsSpace`.
@@ -417,9 +419,9 @@ Clone the Minie repository using Git:
    + using Git:
      + `git clone https://github.com/stephengold/Minie.git`
      + `cd Minie`
-     + `git checkout -b latest 1.4.1for32`
+     + `git checkout -b latest 1.5.0for32`
    + using a web browser:
-     + browse to [https://github.com/stephengold/Minie/releases/tag/1.4.1for32][latest]
+     + browse to [https://github.com/stephengold/Minie/releases/tag/1.5.0for32][latest]
      + follow the "Source code (zip)" link
      + save the ZIP file
      + unzip the saved ZIP file
@@ -504,7 +506,7 @@ resolve the remaining dependencies automatically.
         jcenter()
     }
     dependencies {
-        compile 'com.github.stephengold:Minie:1.4.1for32'
+        compile 'com.github.stephengold:Minie:1.5.0for32'
     }
 
 #### For Ant projects
@@ -512,8 +514,8 @@ resolve the remaining dependencies automatically.
 For projects built using [Ant], download the Minie and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/1.4.1for32
- + https://github.com/stephengold/Heart/releases/tag/heart-5.0.0for32
+ + https://github.com/stephengold/Minie/releases/tag/1.5.0for32
+ + https://github.com/stephengold/Heart/releases/tag/heart-5.1.0for32
 
 You'll want both class jars
 and probably the `-sources` and `-javadoc` jars as well.
@@ -527,15 +529,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
  5. Add the `Heart` class jar:
     + Click on the "Add JAR/Folder" button.
     + Navigate to the download folder.
-    + Select the "Heart-5.0.0for32.jar" file.
+    + Select the "Heart-5.1.0for32.jar" file.
     + Click on the "Open" button.
  6. (optional) Add jars for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "Heart-5.0.0for32-javadoc.jar" file.
+    + Select the "Heart-5.1.0for32-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "Heart-5.0.0for32-sources.jar" file.
+    + Select the "Heart-5.1.0for32-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the `Minie` jar(s).
@@ -561,13 +563,22 @@ If you don't need soft bodies, you can instantiate a `BulletAppState` directly:
         stateManager.attach(bas);
         PhysicsSpace physicsSpace = bas.getPhysicsSpace();
 
+Or if you need multibodies, instantiate a `MultiBodyAppState`:
+
+        MultiBodyAppState bas = new MultiBodyAppState();
+        stateManager.attach(bas);
+        MultiBodySpace physicsSpace = bas.getMultiBodySpace();
+
+(Minie doesn't support combining soft bodies and multibodies in
+a single `PhysicsSpace` yet.)
+
 By default, the physics simulation executes on the render thread.
 To execute it on a dedicated thread, use:
 
         bas.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
 
 By default, simulation advances based on the time per frame (tpf)
-calculated by the renderer.
+reported by the renderer.
 To advance the physics simulation at a different rate, use:
 
         bas.setSpeed(0.5f); // simulate physics at half speed
@@ -582,6 +593,18 @@ To specify a different data structure, use `setBroadphaseType()`:
         bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
         stateManager.attach(bas);
         PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();
+
+By default, a Sequential Impulse (SI) solver is
+used to resolve contacts and constraints.
+To specify a different type of solver, invoke `setSolverType()`
+before attaching the AppState:
+
+        bas.setSolverType(SolverType.Dantzig);
+
+Caveats:
+
+ 1. For soft-body simulations, SI is the only supported solver type.
+ 2. The NNCG solver doesn't support multibodies.
 
 By default, debug visualization is disabled. To enable it, use:
 
@@ -602,6 +625,10 @@ you can access immediately:
 
         PhysicsSoftSpace space = bas.getPhysicsSoftSpace();
 
+and `MultiBodyAppState` instantiates a `MultiBodySpace`:
+
+        MultiBodySpace space = bas.getMultiBodySpace();
+
 Physics simulation can run with a fixed time step or a variable time step.
 The default configuration is a fixed time step of 1/60th of a second
 with up to 4 time steps per frame.
@@ -619,7 +646,7 @@ To configure a fixed time step of 0.01 second with up to 6 time steps per frame:
 Note that `setAccuracy()` has no effect when `maxSubSteps==0`,
 whereas `setMaxTimeStep()` has no effect when `maxSubSteps>0`.
 
-Bullet's contact solver performs a fixed number of iterations per time step,
+The contact solver performs a fixed number of iterations per time step,
 by default, 10.  For higher-quality simualtion, increase this number.  For
 instance, to use 20 iterations:
 
@@ -667,6 +694,8 @@ The default collision margin for new shapes is 0.04 physics-space units.
 To configure a default margin of 0.1 psu:
 
         CollisionShape.setDefaultMargin(0.1f);
+
+Note that the Bullet Manual advises against changing the default margin.
 
 ### Create physics controls, collision objects, and joints
 
@@ -731,7 +760,7 @@ In general, use the simplest shape that yields the desired behavior.
 #### Dynamic rigid bodies
 
 Not all collision shapes are suitable for dynamic rigid bodies.
-In particular, the following shapes are intended ONLY
+In particular, the following shapes are suitable ONLY
 for kinematic (unaffected by forces) or static (non-moving) collision objects:
 
  + `Box2dShape`
@@ -794,7 +823,7 @@ Some applications require collision shapes that are scalable
 However, not all collision shapes can scale arbitrarily.
 In particular,
 
- + `SimplexCollisionShape` doesn't support scaling;
+ + `SimplexCollisionShape` doesn't support scaling at all;
    the only allowed scaling is (1,1,1).
  + `CapsuleCollisionShape`, `ConeCollisionShape`, and `SphereCollisionShape`
    support only uniform scaling, where all axes have the same scale factor.
@@ -884,8 +913,9 @@ compound of hull shapes:
         CollisionShape shape
                 = CollisionShapeFactory.createVhacdShape(modelRoot, p, null);
 
-The V-HACD algorithm may be costly to run.
-For physics simulation, however, the resulting shape is far more efficient
+The V-HACD algorithm may be costly to run, but in many applications it can
+be run during the build process.
+At runtime, the resulting shape will be far more efficient
 than a comparable `GImpactCollisionShape`.
 
 [Jump to table of contents](#toc)
@@ -969,10 +999,10 @@ using single-sided wireframe materials:
 
  + yellow for any collision object without contact response,
    which includes any `PhysicsGhostObject`
- + magenta for a `PhysicsRigidBody` (with contact response)
-   that's both dynamic and active
- + blue for a `PhysicsRigidBody` (with contact response) that's either
-   static or kinematic or sleeping
+ + magenta for a `PhysicsRigidBody` or `MultiBodyCollider`
+   (with contact response) that's both dynamic and active
+ + blue for a `PhysicsRigidBody` or `MultiBodyCollider`
+   (with contact response) that's either static or kinematic or sleeping
  + pink for a `PhysicsCharacter` (with contact response)
  + red for a `PhysicsSoftBody` with faces
  + orange for a `PhysicsSoftBody` with links but no faces
@@ -983,7 +1013,7 @@ You can override the single-sided default on a per-object basis:
         collisionObject.setDebugNumSides(2);
 
 Note that `setDebugNumSides(0)` makes the object's shape invisible
-in the debug visualization,
+in debug visualization,
 even if the object is selected by the debug filter.
 
 If further customization is required, the debug material can be customized
@@ -1001,20 +1031,21 @@ However, a customized debug material might require them.
 
 You can override the no-normals default on a per-object basis:
 
-        collisionObject1.setDebugMeshNormals(DebugMeshNormals.Facet)
-        collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth)
+        collisionObject1.setDebugMeshNormals(DebugMeshNormals.Facet);
+        collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        collisionObject2.setDebugMeshNormals(DebugMeshNormals.Sphere);
 
 By default, debug meshes don't include index buffers
-unless the collision shape is a `PlaneCollisionShape`.
+unless the shape is a `PlaneCollisionShape`.
 For other shapes, you can reduce the number of rendered vertices
-by telling Minie to generate index buffers:
+by generating index buffers:
 
         DebugShapeFactory.setIndexBuffers(true)
 
 This setting has no effect on debug meshes previously generated.
 To make this setting retroactive, clear the cache.
 
-Also, note that generating index buffers for very large meshes
+Also, note that generating index buffers for large meshes
 can take a long time.
 Do not use this setting when debugging
 large mesh or heightfield shapes.
@@ -1060,18 +1091,20 @@ The following temporary statements could be used to dump
 
 Here is sample output for a space containing 2 rigid bodies and nothing else:
 
-    PhysicsSpace with 0 chars, 0 ghosts, 0 joints, 2 rigids, 0 softs, 0 vehicles #5a79eb40
-     bphase=DBVT grav[y=-9.81] timeStep[0.016667 maxSS=4]
-     iters=10 rayTest=SubSimplex
-      Rigid Dyn(mass=1) loc[x=-0.224782 y=1.024931 z=-0.392236] orient[x=-0.185 y=-0.343 z=0.918 w=0.072] fric=0.5 #5a9bdd60
-       v[y=-5.837099] grav[y=-9.81] ccd[mt=1 r=0.31358] damp[ang=0.6 lin=0.6] sleep[lt=0.8 at=1 time=0]
-       MultiSphere r[0.178157,0.135424,0.041451] marg=0.04 #5a342b80
+    PhysicsSoftSpace with 0 chars, 0 ghosts, 0 joints, 2 rigids, 0 softs, 0 vehicles
+     bphase=DBVT grav[y=-30] timeStep[0.0166667 maxSS=4] listeners[c=0 cg=0]
+     solver[SI iters=10 cfm=0 batch=128 mode=WarmStart,VelocityDependent,SIMD,Cone]
+     rayTest=SubSimplex,HeightfieldAccel
+     SbwInfo grav[y=-30] offset=0 norm[xyz=0] water=0 air=1.2 maxDisp=1000
+      Rigid Sta loc[y=-20] fric=0.5
+       Box he[xyz=20] marg=0.04
        with 0 joints
-      Rigid Sta loc[y=-4] fric=0.5 #5aafdaa0
-       Box he[xyz=4] marg=0.04 #5a9a8a00
+      Rigid Dyn(mass=1) user=Material loc[x=-0.471014 y=1.36183 z=2.04568] orient[x=-0.256 y=-0.13 z=0.129 w=0.949] fric=0.5
+       v[x=-0.000977291 y=-0.00901186 z=0.0153094] grav[y=-30] ccd[mth=5 r=1.92562] damp[l=0.6 a=0.6] sleep[lth=0.8 ath=1 time=1.73333] moms[x=1.49771 y=1.49771 z=1.23676]
+       MultiSphere r[1.36204 0.580434] marg=0.04
        with 0 joints
 
-2-space indentation indicates the hierarchy of objects.
+2-space indentation indicates the hierarchy of spaces/objects/joints.
 Single-space indentation indicates additional description
 of the foregoing object.
 
@@ -1090,9 +1123,14 @@ You can dump an entire `BulletAppState`, including its `PhysicsSpace`:
 You can dump individual collision objects:
 
         dumper.dump(character);
+        dumper.dump(collider);
         dumper.dump(ghostObject);
         dumper.dump(rigidBody);
         dumper.dump(softBody);
+
+You can dump individual collision shapes:
+
+        dumper.dump(collisionShape, "");
 
 When dumping a `PhysicsSpace`,
 the default is to describe every collision object;
@@ -1119,7 +1157,8 @@ For instance, to dump only those physics objects that lack a user object:
         dumper.dump(physicsSpace, indent, noUser);
 
 Other dump flags can be set, for instance,
-to describe the nodes or clusters in each soft body.
+to describe the nodes or clusters in each soft body
+or the child shapes in each compound collision shape.
 
 [Jump to table of contents](#toc)
 
@@ -1169,7 +1208,7 @@ and servos:
    orientation to another, as if under remote control.
 
 A `New6Dof` can only join rigid bodies:
-no ghost objects, characters, or soft bodies.
+no ghost objects, characters, multibodies, or soft bodies.
 
 ### Coordinate systems and defaults
 
@@ -1184,6 +1223,7 @@ TODO tutorials and more info
 The centerpiece of Minie is `DynamicAnimControl`, a new `PhysicsControl`.
 Adding a `DynamicAnimControl` to an animated model provides ragdoll physics and
 inverse kinematics.
+`DynamicAnimControl` can also be used to simulate ropes.
 
 Configuration of `DynamicAnimControl` mostly takes place before the `Control`
 is added to a model `Spatial`.  Adding the `Control` to a `Spatial`
@@ -1198,7 +1238,7 @@ For a very simple example, see
 
 A model's ragdoll is composed of rigid bodies joined by 6-DOF joints.
 Within the `Control`, each `PhysicsRigidBody` is represented by
-a `PhysicsLink`, and the links are organized into a tree hierarchy.
+a `PhysicsLink`, and the links are organized in a tree hierarchy.
 
 `PhysicsLink` has 3 subclasses:
 
@@ -1228,12 +1268,12 @@ For a simple example, see
 
 When you run `HelloBoneLink`, press the space bar to put the control into
 dynamic mode.
-You'll see the linked bones go limp while the remainder of the ninja model
+You'll see the linked bones go limp while the remainder of the Ninja model
 stays rigid.
 
 As an alternative to hand-coding the control configuration,
 you can generate configuration code for a specific model using
-the [DacWizard application][dacwizard], which uses animation data to estimate
+the [DacWizard application][dacwizard], which uses animation tracks to estimate
 the range of motion for each linked bone.
 
 You probably don't want to link every `Bone` in the model's `Skeleton`.
@@ -1263,6 +1303,8 @@ Minie provides 4 collision-detection interfaces:
  4. You can invoke `getOverlappingObjects()` on any `PhysicsGhostObject` to
     enumerate all collision objects that overlap with it, based on
     axis-aligned bounding boxes.
+
+Minie also provides ray tests and sweep tests.
 
 [Jump to table of contents](#toc)
 
@@ -1297,7 +1339,7 @@ of `PhysicsJoint`.
 ### A comparison of soft bodies and rigid bodies
 
 Unlike a rigid body, a soft body doesn't have a `CollisionShape` or
-a physics transform.
+an orientation.
 Instead, it is composed of point masses (called "nodes") whose locations
 are specified in physics-space coordinates.
 A soft body's shape, structure, mass distribution, and position are all defined
@@ -1308,7 +1350,7 @@ by its mesh of nodes:
  + To simulate foam rubber, nodes can be connected to form tetrahedra (also
    called "tetras").
 
-(Soft-body nodes are unrelated to `com.jme3.scene.Node`,
+(Soft-body nodes are entirely unrelated to `com.jme3.scene.Node`,
 the kind of node found in the scene graph.)
 
 Unlike a rigid body, the physics location of a soft body is not its center
@@ -1322,6 +1364,7 @@ different accessors are used:
     softBody.setMargin(0.1f);
 
 Soft bodies lack many other features of rigid bodies, including:
+
  + motion state (for extrapolating between time steps),
  + deactivation/sleeping (for efficient simulation), and
  + continuous collision detection (CCD) (for fast-moving objects).
@@ -1343,7 +1386,7 @@ or joints) that isn't added to any physics space.
 
 Methods are provided to append nodes, links, and faces to a soft body.
 However, it's often more convenient to generate a `com.jme3.scene.Mesh`
-(the same kind of mesh used to create geometries)
+(the same kind of mesh used in scene-graph geometries)
 with the desired shape and topology and append it to the body
 using a utility method:
 
@@ -1352,7 +1395,7 @@ using a utility method:
  + `NativeSoftBodyUtil.appendFromLineMesh()`
    to append nodes and links from a mesh with Mode.Lines
 
-Be aware that meshes intended for graphics rendering may prove
+Be aware that meshes intended for graphics rendering often prove
 unsuitable for soft-body simulation.
 For instance, they may define multiple vertices at the same position
 or their edges/faces may be insufficiently subdivided.
@@ -1366,7 +1409,7 @@ and add it to a `Geometry`:
 Access the newly-constructed `PhysicsSoftBody` using `sbc.getBody()`.
 
 If you add the control to a scene-graph `Node` instead of a `Geometry`,
-it will traverse the node's subtree and use the first Geometry it finds.
+it will traverse the node's subtree and use the first `Geometry` it finds.
 
 ### Soft-body configuration and pose matching
 
@@ -1378,7 +1421,7 @@ Soft bodies and configuration objects are one-to-one.
 Configuration properties with `float` values are enumerated
 by the `Sbcp` ("soft-body configuration parameter") enum.
 For instance, a soft body can have a preferred shape (called its "default pose")
-that it tends to return to if deformed.
+that it tends to return to when deformed.
 The strength of this tendency depends on the configuration object's
 "pose matching" parameter, which defaults to zero.
 
@@ -1472,7 +1515,7 @@ Clusters can overlap, but they can't span multiple bodies.
 In other words, a single node can belong to multiple clusters,
 but a single cluster can't contain nodes from multiple bodies.
 
-When a soft body is created, it contains no clusters.
+When a soft body is created, it doesn't have any clusters.
 Once nodes are appended to a body, clusters can be generated automatically,
 using an iterative algorithm that's built into Bullet:
 
@@ -1530,7 +1573,7 @@ For instance, in all 11 demos:
  + the "C" key dumps the camera's position, and
  + the Escape key ends the application.
 
-For camera contol, all demos use
+For camera control, all demos use
 the standard `FlyByCamera` with `setDragToRotate(true)`.
 This means you can rotate the camera
 by dragging with the left mouse button (LMB).
@@ -1554,7 +1597,7 @@ the "/" key to toggles debug visualization on and off.
 ## External links
 
   + [the Minie Physics Library page](https://jmonkeystore.com/38308161-c3cf-4e23-8754-528ca8387c11)
-    at [JmonkeyStore](https://jmonkeystore.com/)
+    at [the JmonkeyStore](https://jmonkeystore.com/)
   + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
   + [The Physics section of the JME Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
 
@@ -1619,7 +1662,7 @@ YouTube videos about Minie:
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
-[latest]: https://github.com/stephengold/Minie/releases/tag/1.4.1for32 "latest release"
+[latest]: https://github.com/stephengold/Minie/releases/tag/1.5.0for32 "latest release"
 [libbulletjme]: https://github.com/stephengold/Libbulletjme "Libbulletjme Project"
 [license]: https://github.com/stephengold/Minie/blob/for_jME3.2/LICENSE "Minie license"
 [log]: https://github.com/stephengold/Minie/blob/for_jME3.2/MinieLibrary/release-notes.md "release log"
