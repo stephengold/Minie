@@ -206,9 +206,9 @@ public class DynamicAnimControl
      *
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
-     * @param endModelTransform the desired local transform for the controlled
+     * @param endModelTransform the desired local Transform for the controlled
      * spatial when the transition completes, or null for no change to local
-     * transform (unaffected)
+     * Transform (unaffected)
      */
     public void blendToKinematicMode(float blendInterval,
             Transform endModelTransform) {
@@ -718,7 +718,8 @@ public class DynamicAnimControl
     }
 
     /**
-     * Immediately put all links into purely kinematic mode.
+     * Immediately put all links into purely kinematic mode. The model's
+     * Transform is unaffected.
      * <p>
      * Allowed only when the Control IS added to a Spatial.
      */
