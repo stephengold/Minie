@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -649,7 +649,8 @@ public class DynamicAnimControl
      * Immediately put the specified link and all its ancestors (excluding the
      * torso) into dynamic mode. Note: recursive!
      * <p>
-     * Allowed only when the Control IS added to a Spatial.
+     * Allowed only when the Control IS added to a Spatial and all links are
+     * "ready".
      *
      * @param startLink the start of the chain to modify (not null)
      * @param chainLength the maximum number of links to modify (&ge;0)
@@ -665,7 +666,7 @@ public class DynamicAnimControl
         Validate.positive(chainLength, "chain length");
         Validate.nonNull(startLink, "start link");
         Validate.finite(uniformAcceleration, "uniform acceleration");
-        verifyAddedToSpatial("change modes");
+        verifyReadyForDynamicMode("put links into dynamic mode");
 
         if (startLink instanceof BoneLink) {
             BoneLink boneLink = (BoneLink) startLink;
