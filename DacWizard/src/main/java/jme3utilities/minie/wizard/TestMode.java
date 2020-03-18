@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -40,12 +40,16 @@ import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.cursors.plugins.JmeCursor;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.binary.BinaryExporter;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Calendar;
 import java.util.Collection;
@@ -152,7 +156,12 @@ class TestMode extends InputMode {
                     break;
 
                 case Action.save:
-                    save();
+                    saveJava();
+                    handled = true;
+                    break;
+
+                case Action.saveJ3o:
+                    saveJ3o();
                     handled = true;
                     break;
 
@@ -202,7 +211,7 @@ class TestMode extends InputMode {
      *
      * @param config (not null, unaffected)
      */
-    private String format(LinkConfig config) {
+    private static String format(LinkConfig config) {
         Vector3f scale = config.shapeScale(null);
         String scaleXString = MyString.describe(scale.x);
         String scaleYString = MyString.describe(scale.y);
@@ -225,6 +234,21 @@ class TestMode extends InputMode {
     }
 
     /**
+     * Generate a timestamp.
+     *
+     * @return the timestamp value
+     */
+    private static String hhmmss() {
+        Calendar rightNow = Calendar.getInstance();
+        int hours = rightNow.get(Calendar.HOUR_OF_DAY);
+        int minutes = rightNow.get(Calendar.MINUTE);
+        int seconds = rightNow.get(Calendar.SECOND);
+        String result = String.format("%02d%02d%02d", hours, minutes, seconds);
+
+        return result;
+    }
+
+    /**
      * Go back to the previous screen.
      */
     private void previousScreen() {
@@ -234,14 +258,46 @@ class TestMode extends InputMode {
     }
 
     /**
+     * Write the model to a file, along with a configured control.
+     */
+    private void saveJ3o() {
+        Model model = DacWizard.getModel();
+
+        String originalPath = model.filePath();
+        File originalFile = new File(originalPath);
+        String modelName = originalFile.getName();
+        if (modelName.endsWith(".j3o")) {
+            modelName = MyString.removeSuffix(modelName, ".j3o");
+        }
+        String hhmmss = hhmmss();
+        String outputFileName = String.format("%s-%s.j3o", modelName, hhmmss);
+        String outputFilePath = DacWizard.filePath(outputFileName);
+
+        TestScreen screen = DacWizard.findAppState(TestScreen.class);
+        Spatial modelRoot = model.getRootSpatial();
+
+        JmeExporter exporter = BinaryExporter.getInstance();
+        File outputFile = new File(outputFilePath);
+        try {
+            exporter.save(modelRoot, outputFile);
+        } catch (IOException exception) {
+            screen.showInfoDialog("Exception", exception.toString());
+            return;
+        }
+        /*
+         * Display a confirmation dialog.
+         */
+        String message = String.format(
+                "The model and configured control have been written to%n%s.",
+                MyString.quote(outputFilePath));
+        screen.showInfoDialog("Success", message);
+    }
+
+    /**
      * Write the control configuration to a file.
      */
-    private void save() {
-        Calendar rightNow = Calendar.getInstance();
-        int hours = rightNow.get(Calendar.HOUR_OF_DAY);
-        int minutes = rightNow.get(Calendar.MINUTE);
-        int seconds = rightNow.get(Calendar.SECOND);
-        String hhmmss = String.format("%02d%02d%02d", hours, minutes, seconds);
+    private void saveJava() {
+        String hhmmss = hhmmss();
         String fileName = String.format("configure%s.java", hhmmss);
 
         DacWizard wizard = DacWizard.getApplication();

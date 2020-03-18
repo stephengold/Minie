@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -67,10 +67,16 @@ Nifty XML to lay out the GUI for the "test" screen of DacWizard.
                     <interact onRelease="perform(toggle mesh)"/>
                 </control>
                 <control name="label" text="  "/>
-                <control name="button" label="Save configuration"
+                <control name="button" label="Save Java"
                          id="id6ToAvoidNiftyWarning"
                          width="120px">
                     <interact onRelease="perform(save)"/>
+                </control>
+                <control name="label" text="  "/>
+                <control name="button" label="Save J3O"
+                         id="id8ToAvoidNiftyWarning"
+                         width="120px">
+                    <interact onRelease="perform(saveJ3o)"/>
                 </control>
                 <panel/>
                 <control name="button" label="Exit"
