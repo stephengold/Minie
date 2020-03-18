@@ -82,7 +82,8 @@ public class BoneLink extends PhysicsLink {
     /**
      * field names for serialization
      */
-    final private static String tagManagedArmatureJoints = "managedArmatureJoints";
+    final private static String tagManagedArmatureJoints
+            = "managedArmatureJoints";
     final private static String tagManagedBones = "managedBones";
     final private static String tagPrevBoneTransforms = "prevBoneTransforms";
     final private static String tagStartBoneTransforms = "startBoneTransforms";
