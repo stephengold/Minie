@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -64,6 +64,7 @@ class Action {
     final static String previousScreen = "previous screen";
     final static String nextMassHeuristic = "next massHeuristic";
     final static String save = "save";
+    final static String saveJ3o = "saveJ3o";
     final static String selectCenterHeuristic = "select centerHeuristic";
     final static String selectShapeHeuristic = "select shapeHeuristic";
     final static String setMassParameter = "set massParameter";
