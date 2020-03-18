@@ -37,6 +37,7 @@ import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.KinematicSubmode;
 import com.jme3.bullet.animation.LinkConfig;
+import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.cursors.plugins.JmeCursor;
@@ -47,6 +48,7 @@ import com.jme3.input.KeyInput;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -57,6 +59,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.Heart;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.ui.InputMode;
@@ -273,11 +276,16 @@ class TestMode extends InputMode {
         String outputFileName = String.format("%s-%s.j3o", modelName, hhmmss);
         String outputFilePath = DacWizard.filePath(outputFileName);
 
-        TestScreen screen = DacWizard.findAppState(TestScreen.class);
         Spatial modelRoot = model.getRootSpatial();
+        modelRoot = (Spatial) Heart.deepCopy(modelRoot);
+        AbstractControl control = RagUtils.findSkeletonControl(modelRoot);
+        Spatial controlledSpatial = control.getSpatial();
+        DynamicAnimControl dac = model.copyRagdoll();
+        controlledSpatial.addControl(dac);
 
         JmeExporter exporter = BinaryExporter.getInstance();
         File outputFile = new File(outputFilePath);
+        TestScreen screen = DacWizard.findAppState(TestScreen.class);
         try {
             exporter.save(modelRoot, outputFile);
         } catch (IOException exception) {
