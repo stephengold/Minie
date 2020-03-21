@@ -262,7 +262,7 @@ public class DacWizard extends GuiApplication {
 
         configureDumper();
 
-        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
+        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
         viewPort.setBackgroundColor(bgColor);
         addLighting();
 
