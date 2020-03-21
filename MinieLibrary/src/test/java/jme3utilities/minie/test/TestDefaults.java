@@ -270,6 +270,7 @@ public class TestDefaults {
         Assert.assertEquals(10.5f, wheel.getFrictionSlip(), 0f);
         Assert.assertEquals(500f, wheel.getMaxSuspensionTravelCm(), 0f);
         Assert.assertEquals(1f, wheel.getRollInfluence(), 0f);
+        Assert.assertEquals(0f, wheel.getRotationAngle(), 0f);
         Assert.assertEquals(0f, wheel.getSteerAngle(), 0f);
         Assert.assertEquals(5.88f, wheel.getSuspensionStiffness(), 0f);
         Assert.assertEquals(0.83f, wheel.getWheelsDampingCompression(), 0f);
