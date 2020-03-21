@@ -69,6 +69,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     final private static String tagFrontWheel = "frontWheel";
     final private static String tagRestLength = "restLength";
     final private static String tagRollInfluence = "rollInfluence";
+    final private static String tagRotationAngle = "rotationAngle";
     final private static String tagSteerAngle = "steerAngle";
     final private static String tagTuning = "tuning";
     final private static String tagWheelAxle = "wheelAxle";
@@ -432,6 +433,16 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
+     * Read the total rotation of this wheel (native field: m_rotation).
+     *
+     * @return the angle (in radians)
+     */
+    public float getRotationAngle() {
+        float result = getRotationAngle(vehicleId, wheelIndex);
+        return result;
+    }
+
+    /**
      * Calculate to what extent the wheel is skidding (for skid sounds/smoke
      * etc.)
      *
@@ -449,6 +460,17 @@ public class VehicleWheel implements JmeCloneable, Savable {
      */
     public float getSteerAngle() {
         float result = getSteerAngle(vehicleId, wheelIndex);
+        return result;
+    }
+
+    /**
+     * Read the length of this wheel's suspension (native field:
+     * m_suspensionLength).
+     *
+     * @return the length (in physics-space units)
+     */
+    public float getSuspensionLength() {
+        float result = getSuspensionLength(vehicleId, wheelIndex);
         return result;
     }
 
@@ -645,6 +667,15 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
+     * Alter the total rotation of this wheel (native field: m_rotation).
+     *
+     * @param angle the desired angle (in radians)
+     */
+    public void setRotationAngle(float angle) {
+        setRotationAngle(vehicleId, wheelIndex, angle);
+    }
+
+    /**
      * Alter the stiffness of this wheel's suspension (native field:
      * m_suspensionStiffness).
      *
@@ -745,6 +776,9 @@ public class VehicleWheel implements JmeCloneable, Savable {
         wheelSpatial = cloner.clone(wheelSpatial);
         tmp_Matrix = cloner.clone(tmp_Matrix);
         tmp_inverseWorldRotation = cloner.clone(tmp_inverseWorldRotation);
+
+        VehicleWheel originalWheel = (VehicleWheel) original;
+        setRotationAngle(originalWheel.getRotationAngle());
     }
 
     /**
@@ -789,6 +823,9 @@ public class VehicleWheel implements JmeCloneable, Savable {
         radius = capsule.readFloat(tagWheelRadius, 0.5f);
         restLength = capsule.readFloat(tagRestLength, 1f);
 
+        float angle = capsule.readFloat(tagRotationAngle, 0f);
+        setRotationAngle(angle);
+
         capsule.readFloat(tagBrake, 0f); // TODO
         capsule.readFloat(tagEngineForce, 0f);
         capsule.readFloat(tagSteerAngle, 0f);
@@ -817,6 +854,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
         capsule.write(getBrake(), tagBrake, 0f);
         capsule.write(getEngineForce(), tagEngineForce, 0f);
+        capsule.write(getRotationAngle(), tagRotationAngle, 0f);
         capsule.write(getSteerAngle(), tagSteerAngle, 0f);
     }
     // *************************************************************************
@@ -871,9 +909,13 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
     native private float getRollInfluence(long vehicleId, int wheelIndex);
 
+    native private float getRotationAngle(long vehicleId, int wheelIndex);
+
     native private float getSkidInfo(long vehicleId, int wheelIndex);
 
     native private float getSteerAngle(long vehicleId, int wheelIndex);
+
+    native private float getSuspensionLength(long vehicleId, int wheelIndex);
 
     native private void getWheelLocation(long vehicleId, int wheelIndex,
             Vector3f vector);
@@ -882,4 +924,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
             Matrix3f matrix);
 
     native private boolean isFront(long vehicleId, int wheelIndex);
+
+    native private void setRotationAngle(long vehicleId, int wheelIndex,
+            float angle);
 }
