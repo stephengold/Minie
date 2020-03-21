@@ -129,15 +129,6 @@ public class RigidBodyMotionState implements JmeCloneable {
     }
 
     /**
-     * Read the unique ID of the native object.
-     *
-     * @return ID (not zero)
-     */
-    public long getObjectId() {
-        return motionStateId;
-    }
-
-    /**
      * Copy the location from this motion state.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -150,6 +141,15 @@ public class RigidBodyMotionState implements JmeCloneable {
 
         assert Vector3f.isValidVector(result);
         return result;
+    }
+
+    /**
+     * Read the unique ID of the native object.
+     *
+     * @return ID (not zero)
+     */
+    public long getObjectId() {
+        return motionStateId;
     }
 
     /**
