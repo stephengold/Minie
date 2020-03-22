@@ -256,8 +256,8 @@ class TestMode extends InputMode {
      */
     private void previousScreen() {
         setEnabled(false);
-        InputMode bones = InputMode.findMode("links");
-        bones.setEnabled(true);
+        InputMode links = InputMode.findMode("links");
+        links.setEnabled(true);
     }
 
     /**
