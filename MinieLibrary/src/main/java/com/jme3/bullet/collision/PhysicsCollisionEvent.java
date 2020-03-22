@@ -270,16 +270,6 @@ public class PhysicsCollisionEvent extends EventObject {
     }
 
     /**
-     * Test whether the collision's lateral friction is initialized. TODO
-     * re-order, deprecate and delete
-     *
-     * @return true
-     */
-    public boolean isLateralFrictionInitialized() {
-        return true;
-    }
-
-    /**
      * Read the collision's lifetime (native name: m_lifeTime).
      *
      * @return the duration (in ticks, &ge;0)
@@ -389,6 +379,16 @@ public class PhysicsCollisionEvent extends EventObject {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         getPositionWorldOnB(manifoldPointObjectId, result);
         return result;
+    }
+
+    /**
+     * Test whether the collision's lateral friction is initialized. TODO
+     * deprecate and delete
+     *
+     * @return true
+     */
+    public boolean isLateralFrictionInitialized() {
+        return true;
     }
     // *************************************************************************
     // native methods - TODO shorten arg names
