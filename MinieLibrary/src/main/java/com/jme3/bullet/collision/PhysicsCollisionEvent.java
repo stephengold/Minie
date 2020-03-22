@@ -273,10 +273,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * Test whether the collision's lateral friction is initialized. TODO
      * re-order, deprecate and delete
      *
-     * @return true if initialized, otherwise false
+     * @return true
      */
     public boolean isLateralFrictionInitialized() {
-        return isLateralFrictionInitialized(manifoldPointObjectId);
+        return true;
     }
 
     /**
@@ -414,9 +414,6 @@ public class PhysicsCollisionEvent extends EventObject {
 
     native private void getLateralFrictionDir2(long manifoldPointObjectId,
             Vector3f lateralFrictionDir2);
-
-    native private boolean isLateralFrictionInitialized(
-            long manifoldPointObjectId); // TODO deleted
 
     native private int getLifeTime(long manifoldPointObjectId);
 
