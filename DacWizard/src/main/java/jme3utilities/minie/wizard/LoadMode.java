@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -168,8 +168,8 @@ class LoadMode extends InputMode {
      */
     private void nextScreen() {
         setEnabled(false);
-        InputMode test = InputMode.findMode("bones");
-        test.setEnabled(true);
+        InputMode bones = InputMode.findMode("bones");
+        bones.setEnabled(true);
     }
 
     /**
@@ -177,7 +177,7 @@ class LoadMode extends InputMode {
      */
     private void previousScreen() {
         setEnabled(false);
-        InputMode bones = InputMode.findMode("filePath");
-        bones.setEnabled(true);
+        InputMode filePath = InputMode.findMode("filePath");
+        filePath.setEnabled(true);
     }
 }
