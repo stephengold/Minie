@@ -382,11 +382,11 @@ public class PhysicsCollisionEvent extends EventObject {
     }
 
     /**
-     * Test whether the collision's lateral friction is initialized. TODO
-     * deprecate and delete
+     * Test whether the collision's lateral friction is initialized. TODO delete
      *
      * @return true
      */
+    @Deprecated
     public boolean isLateralFrictionInitialized() {
         return true;
     }
