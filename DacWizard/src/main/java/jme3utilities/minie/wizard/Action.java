@@ -57,6 +57,7 @@ class Action {
     final static String dumpRenderer = "dump renderer";
     final static String editBindings = "edit bindings";
     final static String editDisplaySettings = "edit displaySettings";
+    final static String editLinks = "edit links";
     final static String load = "load";
     final static String morePath = "more path";
     final static String moreRoot = "more root";

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,11 @@ class BonesScreen extends GuiScreenController {
     // fields
 
     /**
-     * element of GUI button to proceed to the next Screen
+     * element of the GUI button to proceed to the Links screen
+     */
+    private Element linksElement;
+    /**
+     * element of the GUI button to proceed to range-of-motion estimation
      */
     private Element nextElement;
     /**
@@ -101,6 +105,12 @@ class BonesScreen extends GuiScreenController {
     @SuppressWarnings("unchecked")
     public void onStartScreen() {
         super.onStartScreen();
+
+        Button linksButton = getButton("links");
+        if (linksButton == null) {
+            throw new RuntimeException("missing GUI control: linksButton");
+        }
+        linksElement = linksButton.getElement();
 
         Button nextButton = getButton("next");
         if (nextButton == null) {
@@ -200,6 +210,16 @@ class BonesScreen extends GuiScreenController {
             nextElement.show();
         } else {
             nextElement.hide();
+        }
+        /*
+         * If there's a ragdoll already configured, allow the user to
+         * bypass range-of-motion estimation.
+         */
+        boolean hasRagdoll = model.hasConfiguredRagdoll();
+        if (hasRagdoll) {
+            linksElement.show();
+        } else {
+            linksElement.hide();
         }
     }
 }
