@@ -46,7 +46,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A mesh CollisionShape based on Bullet's btBvhTriangleMeshShape. TODO add
+ * A mesh CollisionShape that uses a Bounding Value Hierarchy (BVH), based on
+ * Bullet's btBvhTriangleMeshShape. Not for use in dynamic bodies. TODO add a
  * shape based on btScaledBvhTriangleMeshShape
  *
  * @author normenhansen
@@ -79,7 +80,8 @@ public class MeshCollisionShape extends CollisionShape {
      */
     private CompoundMesh nativeMesh;
     /**
-     * unique identifier of the native BVH data
+     * unique identifier of the native buffer that holds the BVH - TODO rename
+     * bvhBufferId
      */
     private long nativeBVHBuffer = 0L;
     // *************************************************************************
@@ -94,9 +96,9 @@ public class MeshCollisionShape extends CollisionShape {
     /**
      * Instantiate a shape based on the specified native mesh(es).
      *
+     * @param useCompression true to use quantized AABB compression
      * @param submeshes the mesh(es) on which to base the shape (not null, not
      * empty)
-     * @param useCompression true to use quantized AABB compression
      */
     public MeshCollisionShape(boolean useCompression,
             IndexedMesh... submeshes) {
@@ -159,6 +161,17 @@ public class MeshCollisionShape extends CollisionShape {
     public int countMeshVertices() {
         int numVertices = nativeMesh.countVertices();
         return numVertices;
+    }
+
+    /**
+     * Serialize the BVH to a byte array.
+     *
+     * @return a new array containing a serialized version of the BVH
+     */
+    public byte[] serializeBvh() {
+        long shapeId = getObjectId();
+        byte[] result = saveBVH(shapeId);
+        return result;
     }
     // *************************************************************************
     // CollisionShape methods
@@ -272,7 +285,7 @@ public class MeshCollisionShape extends CollisionShape {
     /**
      * Instantiate the configured btBvhTriangleMeshShape.
      *
-     * @param bvh built BVH data, or null if the BVH needs to be built
+     * @param bvh serialized BVH, or null to build the BVH from scratch
      */
     private void createShape(byte bvh[]) {
         boolean buildBvh = (bvh == null || bvh.length == 0);
@@ -302,7 +315,7 @@ public class MeshCollisionShape extends CollisionShape {
 
     /**
      * Read the ID of the native buffer used by the in-place de-serialized
-     * shape. The buffer must be explicitly freed when no longer needed.
+     * shape. The buffer should be explicitly freed when no longer needed.
      */
     native private long setBVH(byte[] buffer, long objectid);
 }
