@@ -75,19 +75,19 @@ public class PhysicsCollisionEvent extends EventObject {
     /**
      * Instantiate a collision event.
      *
-     * @param nodeA 1st involved object (not null, alias created)
-     * @param nodeB 2nd involved object (not null, alias created)
-     * @param manifoldPointId Bullet identifier of the btManifoldPoint (not 0)
+     * @param pcoA the first involved object (not null, alias created)
+     * @param pcoB the 2nd involved object (not null, alias created)
+     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
      */
-    public PhysicsCollisionEvent(PhysicsCollisionObject nodeA,
-            PhysicsCollisionObject nodeB, long manifoldPointId) {
-        super(nodeA);
-        Validate.nonNull(nodeA, "node A");
-        Validate.nonNull(nodeB, "node B");
+    public PhysicsCollisionEvent(PhysicsCollisionObject pcoA,
+            PhysicsCollisionObject pcoB, long manifoldPointId) {
+        super(pcoA);
+        Validate.nonNull(pcoA, "object A");
+        Validate.nonNull(pcoB, "object B");
         Validate.nonZero(manifoldPointId, "manifold point ID");
 
-        this.pcoA = nodeA;
-        this.pcoB = nodeB;
+        this.pcoA = pcoA;
+        this.pcoB = pcoB;
         nativeId = manifoldPointId;
     }
     // *************************************************************************
@@ -195,7 +195,7 @@ public class PhysicsCollisionEvent extends EventObject {
     /**
      * Read the collision's distance #1 (native field: m_distance1).
      *
-     * @return distance (in physics-space units)
+     * @return the distance (in physics-space units)
      */
     public float getDistance1() {
         return getDistance1(nativeId);
@@ -332,7 +332,7 @@ public class PhysicsCollisionEvent extends EventObject {
      * Read the part index from the shape of collision object A at the point of
      * contact (native field: m_partId0).
      * <p>
-     * If shape that was hit is compound or convex, the index is undefined.
+     * If the shape is compound or convex, the index is undefined.
      * <p>
      * If the shape is a GImpactCollisionShape or MeshCollisionShape, the index
      * identifies an IndexedMesh.
@@ -350,7 +350,7 @@ public class PhysicsCollisionEvent extends EventObject {
      * Read the part index from the shape of collision object B at the point of
      * contact (native field: m_partId1).
      * <p>
-     * If shape that was hit is compound or convex, the index is undefined.
+     * If the shape is compound or convex, the index is undefined.
      * <p>
      * If the shape is a GImpactCollisionShape or MeshCollisionShape, the index
      * identifies an IndexedMesh.
@@ -391,7 +391,8 @@ public class PhysicsCollisionEvent extends EventObject {
     }
 
     /**
-     * Test whether the collision's lateral friction is initialized. TODO delete
+     * Test whether the collision's lateral friction is initialized. For
+     * compatibility with jme3-bullet.
      *
      * @return true if initialized, otherwise false
      */
