@@ -1,6 +1,6 @@
 language: java
 
-matrix:
+jobs:
   include:
   - os: linux
   - os: osx
