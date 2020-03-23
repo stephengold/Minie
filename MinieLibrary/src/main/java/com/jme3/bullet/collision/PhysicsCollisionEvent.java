@@ -202,6 +202,15 @@ public class PhysicsCollisionEvent extends EventObject {
     }
 
     /**
+     * Read the contact-point flags (native field: m_contactPointFlags).
+     *
+     * @return a bitmask
+     */
+    public int getFlags() {
+        return getFlags(nativeId);
+    }
+
+    /**
      * Read the triangle index from the shape of collision object A at the point
      * of contact (native field: m_index0).
      * <p>
@@ -384,11 +393,13 @@ public class PhysicsCollisionEvent extends EventObject {
     /**
      * Test whether the collision's lateral friction is initialized. TODO delete
      *
-     * @return true
+     * @return true if initialized, otherwise false
      */
-    @Deprecated
     public boolean isLateralFrictionInitialized() {
-        return true;
+        int flags = getFlags();
+        boolean result = (flags & ContactPointFlag.LATERAL_FRICTION) != 0x0;
+
+        return result;
     }
     // *************************************************************************
     // native methods
@@ -404,6 +415,8 @@ public class PhysicsCollisionEvent extends EventObject {
     native private float getCombinedRestitution(long manifoldPointId);
 
     native private float getDistance1(long manifoldPointId);
+
+    native private int getFlags(long manifoldPointId);
 
     native private int getIndex0(long manifoldPointId);
 
