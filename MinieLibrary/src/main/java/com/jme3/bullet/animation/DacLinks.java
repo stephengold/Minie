@@ -846,7 +846,7 @@ public class DacLinks
          * Don't invoke getTargets() here, since the SkinningControl or
          * SkeletonControl might not be initialized yet.
          */
-        List<Mesh> targetList = MySpatial.listAnimatedMeshes(spatial, null);
+        List<Mesh> targetList = RagUtils.listDacMeshes(spatial, null);
         Mesh[] targets = new Mesh[targetList.size()];
         targetList.toArray(targets);
         transformer = MySpatial.findAnimatedGeometry(spatial);
