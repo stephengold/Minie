@@ -71,6 +71,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     final private static String tagRollInfluence = "rollInfluence";
     final private static String tagRotationAngle = "rotationAngle";
     final private static String tagSteerAngle = "steerAngle";
+    final private static String tagSuspensionLength = "suspensionLength";
     final private static String tagTuning = "tuning";
     final private static String tagWheelAxle = "wheelAxle";
     final private static String tagWheelDirection = "wheelDirection";
@@ -399,7 +400,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
      * Read the travel distance for this wheel's suspension (native field:
      * m_maxSuspensionTravelCm).
      *
-     * @return the maximum travel distance (in centimeters)
+     * @return the maximum travel distance (in hundredths of a physics-space
+     * unit)
      */
     public float getMaxSuspensionTravelCm() {
         return tuning.getMaxSuspensionTravelCm();
@@ -618,8 +620,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
      * Alter the travel distance for this wheel's suspension (native field:
      * m_maxSuspensionTravelCm).
      *
-     * @param travelCm the desired maximum travel distance (in centimetres,
-     * default=500)
+     * @param travelCm the desired maximum travel distance (in hundredeths of a
+     * physics-space unit, default=500)
      */
     public void setMaxSuspensionTravelCm(float travelCm) {
         tuning.setMaxSuspensionTravelCm(travelCm);
@@ -674,6 +676,16 @@ public class VehicleWheel implements JmeCloneable, Savable {
      */
     public void setRotationAngle(float angle) {
         setRotationAngle(vehicleId, wheelIndex, angle);
+    }
+
+    /**
+     * Alter the length of this wheel's suspension (native field:
+     * m_suspensionLength). Bullet updates the length on every physics tick.
+     *
+     * @param length the desired length (in physics-space units)
+     */
+    public void setSuspensionLength(float length) {
+        setSuspensionLength(vehicleId, wheelIndex, length);
     }
 
     /**
@@ -780,6 +792,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
         VehicleWheel originalWheel = (VehicleWheel) original;
         setRotationAngle(originalWheel.getRotationAngle());
+        setSuspensionLength(originalWheel.getSuspensionLength());
     }
 
     /**
@@ -826,6 +839,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
         float angle = capsule.readFloat(tagRotationAngle, 0f);
         setRotationAngle(angle);
+        float length = capsule.readFloat(tagSuspensionLength, 0f);
+        setSuspensionLength(length);
 
         capsule.readFloat(tagBrake, 0f); // TODO
         capsule.readFloat(tagEngineForce, 0f);
@@ -857,6 +872,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
         capsule.write(getEngineForce(), tagEngineForce, 0f);
         capsule.write(getRotationAngle(), tagRotationAngle, 0f);
         capsule.write(getSteerAngle(), tagSteerAngle, 0f);
+        capsule.write(getSuspensionLength(), tagSuspensionLength, 0f);
     }
     // *************************************************************************
     // private methods
@@ -928,4 +944,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
     native private void setRotationAngle(long vehicleId, int wheelIndex,
             float angle);
+
+    native private void setSuspensionLength(long vehicleId, int wheelIndex,
+            float length);
 }
