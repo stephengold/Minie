@@ -278,7 +278,7 @@ class TestMode extends InputMode {
 
         Spatial modelRoot = model.getRootSpatial();
         modelRoot = (Spatial) Heart.deepCopy(modelRoot);
-        AbstractControl control = RagUtils.findSkeletonControl(modelRoot);
+        AbstractControl control = RagUtils.findSControl(modelRoot);
         Spatial controlledSpatial = control.getSpatial();
         DynamicAnimControl dac = model.copyRagdoll();
         controlledSpatial.addControl(dac);
