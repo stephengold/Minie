@@ -46,10 +46,12 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.UserData;
 import com.jme3.scene.VertexBuffer;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -217,6 +219,45 @@ public class RagUtils {
         }
 
         return result;
+    }
+
+    /**
+     * Enumerate all animated meshes in the specified subtree of a scene graph,
+     * skipping spatials tagged with "JmePhysicsIgnore". Note: recursive!
+     *
+     * @param subtree the subtree to analyze (may be null, aliases created)
+     * @param storeResult storage for results (added to if not null)
+     * @return an expanded List (either storeResult or a new List)
+     */
+    public static List<Mesh> listDacMeshes(Spatial subtree,
+            List<Mesh> storeResult) {
+        if (storeResult == null) {
+            storeResult = new ArrayList<>(10);
+        }
+
+        if (subtree != null) {
+            Boolean ignore = subtree.getUserData(UserData.JME_PHYSICSIGNORE);
+            if (ignore != null && ignore) {
+                return storeResult;
+            }
+        }
+
+        if (subtree instanceof Geometry) {
+            Geometry geometry = (Geometry) subtree;
+            Mesh mesh = geometry.getMesh();
+            if (MyMesh.isAnimated(mesh) && !storeResult.contains(mesh)) {
+                storeResult.add(mesh);
+            }
+
+        } else if (subtree instanceof Node) {
+            Node node = (Node) subtree;
+            List<Spatial> children = node.getChildren();
+            for (Spatial child : children) {
+                listDacMeshes(child, storeResult);
+            }
+        }
+
+        return storeResult;
     }
 
     /**
