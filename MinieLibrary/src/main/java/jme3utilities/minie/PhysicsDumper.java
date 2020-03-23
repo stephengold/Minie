@@ -671,7 +671,8 @@ public class PhysicsDumper extends Dumper {
 
         int cCount = space.countCollisionListeners();
         int cgCount = space.countCollisionGroupListeners();
-        stream.printf("] listeners[c=%d cg=%d]", cCount, cgCount);
+        int tCount = space.countTickListeners();
+        stream.printf("] listeners[c=%d cg=%d t=%d]", cCount, cgCount, tCount);
         /*
          * 3rd line: solver type and info
          */
