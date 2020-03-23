@@ -98,7 +98,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
 
     /**
      * Instantiate a ghost object with the specified CollisionShape. The new
-     * object is not added to any PhysicsSpace.
+     * object is not added to any CollisionSpace.
      *
      * @param shape the desired shape (not null, alias created)
      */
@@ -214,7 +214,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
 
     /**
      * Apply the specified CollisionShape to this object. Note that the object
-     * should not be in any PhysicsSpace while changing shape; the object gets
+     * should not be in any CollisionSpace while changing shape; the object gets
      * rebuilt on the physics side.
      *
      * @param collisionShape the shape to apply (not null, alias created)
