@@ -69,6 +69,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.UserData;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.shape.Box;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
@@ -901,6 +902,10 @@ public class TestDac extends ActionApplication {
      */
     private void loadSinbad() {
         cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+
+        // Exclude Sinbad's sheaths from the ragdoll:
+        cgModel.getChild(4).setUserData(UserData.JME_PHYSICSIGNORE, true);
+
         dac = new SinbadControl();
         animationName = "Dance";
         leftClavicleName = "Clavicle.L";
@@ -914,6 +919,9 @@ public class TestDac extends ActionApplication {
      */
     private void loadSinbadWith1Sword() {
         cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+
+        // Exclude Sinbad's sheaths from the ragdoll:
+        cgModel.getChild(4).setUserData(UserData.JME_PHYSICSIGNORE, true);
 
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
         List<Spatial> list = MySpatial.listSpatials(sword);
@@ -939,6 +947,9 @@ public class TestDac extends ActionApplication {
      */
     private void loadSinbadWithSwords() {
         cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+
+        // Exclude Sinbad's sheaths from the ragdoll:
+        cgModel.getChild(4).setUserData(UserData.JME_PHYSICSIGNORE, true);
 
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
         List<Spatial> list = MySpatial.listSpatials(sword);
