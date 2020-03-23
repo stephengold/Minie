@@ -271,6 +271,19 @@ class Model {
     }
 
     /**
+     * Count how many dynamic anim controls are in the model.
+     *
+     * @return the count (&ge;0) or 0 if no model loaded
+     */
+    int countDacs() {
+        int count = MySpatial.countControls(rootSpatial,
+                DynamicAnimControl.class);
+
+        assert count >= 0 : count;
+        return count;
+    }
+
+    /**
      * Count how many bones are managed by the specified bone/torso link. A C-G
      * model must be loaded.
      *
@@ -423,6 +436,31 @@ class Model {
     }
 
     /**
+     * Test whether there's a pre-existing DynamicAnimControl with the exact
+     * same set of linked bones.
+     *
+     * @return true if a matching Control exists, otherwise false
+     */
+    boolean hasConfiguredRagdoll() {
+        if (ragdoll == null) {
+            return false;
+        }
+
+        int numBones = countBones();
+        boolean result = true;
+        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+            String name = boneName(boneIndex);
+            boolean isLinked = ragdoll.hasBoneLink(name);
+            if (isLinked != linkedBones.get(boneIndex)) {
+                result = false;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Test whether the indexed bone will be linked.
      *
      * @param boneIndex which bone (&ge;0)
@@ -499,8 +537,8 @@ class Model {
 
     /**
      * Attempt to load a C-G model. The file-system path must have been
-     * previously set. If successful, rootSpatial is set. Otherwise,
-     * loadException is set.
+     * previously set. If successful, rootSpatial and linkedBones are
+     * initialized. Otherwise, rootSpatial==null and loadException is set.
      */
     void load() {
         int numComponents = filePathComponents.length;
@@ -527,12 +565,21 @@ class Model {
         Locators.restore();
 
         if (rootSpatial != null) {
+            ragdoll = removeDac();
             recalculateInitTransform();
             recalculateInfluence();
 
             int numBones = countBones();
-            BitSet set = new BitSet(numBones);
-            setLinkedBones(set);
+            BitSet bitset = new BitSet(numBones); // empty set
+            if (ragdoll != null) {
+                for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+                    String name = boneName(boneIndex);
+                    if (ragdoll.hasBoneLink(name)) {
+                        bitset.set(boneIndex);
+                    }
+                }
+            }
+            setLinkedBones(bitset);
         }
     }
 
@@ -643,8 +690,8 @@ class Model {
         }
 
         selectLink(DacConfiguration.torsoName);
-        InputMode test = InputMode.findMode("links");
-        test.setEnabled(true);
+        InputMode links = InputMode.findMode("links");
+        links.setEnabled(true);
     }
 
     /**
@@ -762,8 +809,7 @@ class Model {
                 }
             }
 
-            List<Mesh> targetList
-                    = MySpatial.listAnimatedMeshes(rootSpatial, null);
+            List<Mesh> targetList = RagUtils.listDacMeshes(rootSpatial, null);
             Mesh[] targets = new Mesh[targetList.size()];
             targetList.toArray(targets);
             /*
@@ -972,7 +1018,7 @@ class Model {
     }
 
     /**
-     * Recalculate the influence of each bone.
+     * Recalculate the influence of each bone. TODO re-order methods
      */
     private void recalculateInfluence() {
         Skeleton skeleton = findSkeleton();
@@ -990,7 +1036,25 @@ class Model {
 
         int numBones = countBones();
         directInfluenceBones = new BitSet(numBones);
-        InfluenceUtil.addDirectInfluencers(rootSpatial,
-                directInfluenceBones);
+        InfluenceUtil.addDirectInfluencers(rootSpatial, directInfluenceBones);
+    }
+
+    /**
+     * Remove any DynamicAnimControl from the C-G model.
+     *
+     * @return the pre-existing control that was removed, or null if none
+     */
+    private DynamicAnimControl removeDac() {
+        List<DynamicAnimControl> list = MySpatial.listControls(rootSpatial,
+                DynamicAnimControl.class, null);
+        DynamicAnimControl result = null;
+        if (!list.isEmpty()) {
+            assert list.size() == 1 : list.size();
+            result = list.get(0);
+            Spatial controlled = result.getSpatial();
+            controlled.removeControl(result);
+        }
+
+        return result;
     }
 }
