@@ -144,6 +144,7 @@ class LoadScreen extends GuiScreenController {
      */
     private void updateFeedback() {
         Model model = DacWizard.getModel();
+        int numDacs = model.countDacs();
         int numSkeletonControls = model.countSkeletonControls();
         Spatial nextSpatial = model.getRootSpatial();
         String loadException = model.loadExceptionString();
@@ -162,6 +163,8 @@ class LoadScreen extends GuiScreenController {
                     numSkeletonControls);
         } else if (model.countBones() < 1) {
             feedback = "The model's skeleton lacks bones.";
+        } else if (numDacs > 1) {
+            feedback = String.format("The model has %d DACs.", numDacs);
         } else {
             feedback = model.validationFeedback();
         }
