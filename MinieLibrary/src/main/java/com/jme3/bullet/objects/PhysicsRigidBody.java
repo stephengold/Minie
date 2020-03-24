@@ -34,6 +34,7 @@ package com.jme3.bullet.objects;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.Activation;
 import com.jme3.bullet.collision.CollisionFlag;
+import com.jme3.bullet.collision.PcoType;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.objects.infos.RigidBodyMotionState;
@@ -864,7 +865,8 @@ public class PhysicsRigidBody extends PhysicsBody {
                 shape.getObjectId());
         logger2.log(Level.FINE, "Created {0}.", this);
         assert objectId != 0L;
-        assert getInternalType(objectId) == 2 : getInternalType(objectId); // TODO constant
+        assert getInternalType(objectId) == PcoType.rigid :
+                getInternalType(objectId);
         postRebuild();
 
         if (removed) { // TODO bad assumption:
