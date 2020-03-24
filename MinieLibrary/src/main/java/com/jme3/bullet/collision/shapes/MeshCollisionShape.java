@@ -113,6 +113,26 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
+     * Instantiate a shape based on the specified native mesh(es) and serialized
+     * BVH. The submeshes must be equivalent to those used to generate the BVH.
+     *
+     * @param bvhData the serialized BVH (not null)
+     * @param submeshes the mesh(es) on which to base the shape (not null, not
+     * empty)
+     */
+    public MeshCollisionShape(byte[] bvhData, IndexedMesh... submeshes) {
+        Validate.nonNull(bvhData, "BVH data");
+        Validate.nonEmpty(submeshes, "submeshes");
+
+        useCompression = true;
+        nativeMesh = new CompoundMesh();
+        for (IndexedMesh submesh : submeshes) {
+            nativeMesh.add(submesh);
+        }
+        createShape(bvhData);
+    }
+
+    /**
      * Instantiate a shape based on the specified JME mesh(es), using quantized
      * AABB compression.
      *
