@@ -19,7 +19,7 @@ ext {
 
     btfLinux32 = 'ReleaseSp'
     btfLinux64 = 'ReleaseSp'
-    btfLinux_ARM64 = ''
+    btfLinux_ARM64 = 'ReleaseSp'
     btfMacOSX32 = 'ReleaseSp'
     btfMacOSX64 = 'ReleaseSp'
     btfWindows32 = 'ReleaseSp'
