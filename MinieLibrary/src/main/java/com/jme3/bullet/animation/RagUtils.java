@@ -523,6 +523,7 @@ public class RagUtils {
      * Validate a model for use with DynamicAnimControl.
      *
      * @param model the model to validate (not null, unaffected)
+     * @throws IllegalArgumentException for an invalid model
      */
     public static void validate(Spatial model) {
         Validate.nonNull(model, "model");

@@ -628,10 +628,9 @@ class Model {
 
         ragdoll = new DynamicAnimControl();
         float massParameter = 1f;
-        LinkConfig linkConfig = new LinkConfig(
-                massParameter, MassHeuristic.Density,
-                ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
-                CenterHeuristic.Mean);
+        LinkConfig linkConfig = new LinkConfig(massParameter,
+                MassHeuristic.Density, ShapeHeuristic.VertexHull,
+                new Vector3f(1f, 1f, 1f), CenterHeuristic.Mean);
 
         ragdoll.setConfig(DacConfiguration.torsoName, linkConfig);
 
