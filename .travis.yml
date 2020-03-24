@@ -3,6 +3,14 @@ language: java
 jobs:
   include:
   - os: linux
+    arch: amd64
+  - os: linux
+    arch: arm64
+    addons:
+      apt:
+        packages:
+        - default-jre
+        update: true
   - os: osx
 
 script:
