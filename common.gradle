@@ -21,8 +21,8 @@ gradle.projectsEvaluated {
         //jvmArgs '-verbose:gc'
         //jvmArgs '-Xcheck:jni'
         jvmArgs '-Xms1024m', '-Xmx1024m'
-        jvmArgs '-XX:+UseConcMarkSweepGC'
-        //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
+        //jvmArgs '-XX:+UseConcMarkSweepGC'
+        jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
     }
 }
 
