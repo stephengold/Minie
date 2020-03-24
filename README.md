@@ -408,7 +408,7 @@ Clone the Minie repository using Git:
 
  1. In the "Projects" window of the IDE,
     right-click on the "Minie [root]" project to select it.
- 2. Select "Build".
+ 2. Select "Clean and Build".
 
 ### How to build Minie without an IDE
 
