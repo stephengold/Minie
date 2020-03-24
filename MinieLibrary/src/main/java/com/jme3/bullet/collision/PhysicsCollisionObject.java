@@ -420,7 +420,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Access the collision shape of this object.
+     * Access the CollisionShape of this object.
      *
      * @return the pre-existing instance, or null if none
      */
@@ -651,7 +651,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether this object is added to a PhysicsSpace.
+     * Test whether this object is added to a CollisionSpace.
      *
      * @return true&rarr;in a space, false&rarr;not in a space
      */
@@ -941,6 +941,7 @@ abstract public class PhysicsCollisionObject
      *
      * @param objectId the ID of the btCollisionObject (not zero)
      * @return the type value
+     * @see PcoType
      */
     final native protected int getInternalType(long objectId);
 

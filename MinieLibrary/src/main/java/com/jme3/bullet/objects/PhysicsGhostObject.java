@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.objects;
 
+import com.jme3.bullet.collision.PcoType;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.export.InputCapsule;
@@ -281,7 +282,8 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
             objectId = createGhostObject();
             logger2.log(Level.FINE, "Created {0}.", this);
             assert objectId != 0L;
-            assert getInternalType(objectId) == 4 : getInternalType(objectId); // TODO constant
+            assert getInternalType(objectId) == PcoType.ghost :
+                    getInternalType(objectId);
             setGhostFlags(objectId);
             initUserPointer();
         }

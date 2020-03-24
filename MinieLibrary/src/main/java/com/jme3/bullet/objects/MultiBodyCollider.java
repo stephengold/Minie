@@ -32,6 +32,7 @@
 package com.jme3.bullet.objects;
 
 import com.jme3.bullet.MultiBody;
+import com.jme3.bullet.collision.PcoType;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.export.InputCapsule;
@@ -273,7 +274,8 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
         objectId = createCollider(multiBodyId, linkIndex);
         logger2.log(Level.FINE, "Created {0}.", this);
         assert objectId != 0L;
-        assert getInternalType(objectId) == 64 : getInternalType(objectId);
+        assert getInternalType(objectId) == PcoType.collider :
+                getInternalType(objectId);
 
         super.initUserPointer();
     }
