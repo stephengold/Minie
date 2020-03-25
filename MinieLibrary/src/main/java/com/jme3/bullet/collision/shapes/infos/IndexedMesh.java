@@ -67,7 +67,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
     /**
      * number of bytes in a float
      */
-    final private static int floatSize = 4;
+    final private static int floatBytes = 4;
     /**
      * number of bytes in an int
      */
@@ -98,17 +98,16 @@ public class IndexedMesh implements JmeCloneable, Savable {
     // fields
 
     /**
-     * configured position data: typically 3 floats per vertex (not null,
-     * direct, never flipped)
+     * configured position data: 3 floats per vertex (not null, direct, never
+     * flipped)
      */
     private FloatBuffer vertexPositions;
     /**
-     * configured index data: typically 3 ints per triangle (not null, direct,
-     * never flipped)
+     * configured index data (not null, direct, never flipped)
      */
     private IntBuffer indices; // TODO use an IndexBuffer to conserve memory
     /**
-     * configured bytes per triangle in the index buffer (typically 12)
+     * configured bytes per triangle in the index buffer (12)
      */
     private int indexStride;
     /**
@@ -120,7 +119,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
      */
     private int numVertices;
     /**
-     * configured bytes per vertex in the position buffer (typically 12)
+     * configured bytes per vertex in the position buffer (12)
      */
     private int vertexStride;
     /**
@@ -174,13 +173,16 @@ public class IndexedMesh implements JmeCloneable, Savable {
     public IndexedMesh(Vector3f[] positionArray, int[] indexArray) {
         Validate.nonNull(positionArray, "position array");
         Validate.nonNull(indexArray, "index array");
+        int numIndices = indexArray.length;
+        Validate.require(numIndices % vpt == 0, "length a multiple of 3");
 
+        numVertices = positionArray.length;
         vertexPositions = BufferUtils.createFloatBuffer(positionArray);
+        vertexStride = numAxes * floatBytes;
+
+        numTriangles = numIndices / vpt;
         indices = BufferUtils.createIntBuffer(indexArray);
         indexStride = vpt * intSize;
-        numTriangles = indexArray.length / vpt;
-        numVertices = positionArray.length;
-        vertexStride = numAxes * floatSize;
 
         createMesh();
     }
@@ -234,17 +236,16 @@ public class IndexedMesh implements JmeCloneable, Savable {
 
         int numFloats = vertexPositions.capacity();
         vertexPositions = BufferUtils.createFloatBuffer(numFloats);
-
         for (int offset = 0; offset < numFloats; ++offset) {
             float tmpFloat = originalMesh.vertexPositions.get(offset);
-            vertexPositions.put(tmpFloat);
+            vertexPositions.put(offset, tmpFloat);
         }
 
         int numIndices = indices.capacity();
         indices = BufferUtils.createIntBuffer(numIndices);
         for (int offset = 0; offset < numIndices; ++offset) {
             int tmpIndex = originalMesh.indices.get(offset);
-            indices.put(tmpIndex);
+            indices.put(offset, tmpIndex);
         }
 
         nativeId = 0L;
@@ -280,16 +281,23 @@ public class IndexedMesh implements JmeCloneable, Savable {
         InputCapsule capsule = importer.getCapsule(this);
 
         indexStride = capsule.readInt(tagIndexStride, 12);
+        assert indexStride == vpt * intSize : indexStride;
         numTriangles = capsule.readInt(tagNumTriangles, 0);
         numVertices = capsule.readInt(tagNumVertices, 0);
-        vertexStride = capsule.readInt(tagVertexStride, numAxes * floatSize);
+        vertexStride = capsule.readInt(tagVertexStride, 12);
+        assert vertexStride == numAxes * floatBytes : vertexStride;
 
         int[] intArray = capsule.readIntArray(tagIndexInts, new int[0]);
-        assert intArray.length == numTriangles * vpt;
-        indices = BufferUtils.createIntBuffer(intArray);
+        int numIndices = intArray.length;
+        assert numIndices == numTriangles * vpt;
+        indices = BufferUtils.createIntBuffer(numIndices);
+        for (int offset = 0; offset < numIndices; ++offset) {
+            int tmpIndex = intArray[offset];
+            indices.put(offset, tmpIndex);
+        }
 
         float[] floatArray = capsule.readFloatArray(tagVertices, new float[0]);
-        assert floatArray.length == numVertices * vpt;
+        assert floatArray.length == numVertices * numAxes;
         vertexPositions = BufferUtils.createFloatBuffer(floatArray);
 
         createMesh();
@@ -306,7 +314,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        int numIndices = indices.capacity();
+        int numIndices = numTriangles * vpt;
         int[] intArray = new int[numIndices];
         for (int offset = 0; offset < numIndices; ++offset) {
             intArray[offset] = indices.get(offset);
@@ -316,7 +324,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
         capsule.write(indexStride, tagIndexStride, 12);
         capsule.write(numTriangles, tagNumTriangles, 0);
         capsule.write(numVertices, tagNumVertices, 0);
-        capsule.write(vertexStride, tagVertexStride, numAxes * floatSize);
+        capsule.write(vertexStride, tagVertexStride, 12);
 
         int numFloats = vertexPositions.capacity();
         float[] floatArray = new float[numFloats];
@@ -357,33 +365,33 @@ public class IndexedMesh implements JmeCloneable, Savable {
         assert MyMesh.hasTriangles(jmeMesh);
 
         numVertices = jmeMesh.getVertexCount();
-        vertexStride = numAxes * floatSize;
 
         FloatBuffer meshVs = jmeMesh.getFloatBuffer(VertexBuffer.Type.Position);
         int numFloats = numAxes * numVertices;
         vertexPositions = BufferUtils.createFloatBuffer(numFloats);
-        for (int position = 0; position < numFloats; ++position) {
-            float temp = meshVs.get(position);
-            vertexPositions.put(position, temp);
+        for (int offset = 0; offset < numFloats; ++offset) {
+            float temp = meshVs.get(offset);
+            vertexPositions.put(offset, temp);
         }
+        vertexStride = numAxes * floatBytes;
 
         if (transform != null && !MyMath.isIdentity(transform)) {
             MyBuffer.transform(vertexPositions, 0, numFloats, transform);
         }
 
-        indexStride = vpt * intSize;
         numTriangles = jmeMesh.getTriangleCount();
-
         int numIndices = vpt * numTriangles;
+
         indices = BufferUtils.createIntBuffer(numIndices);
 
         IndexBuffer triangleIndices = jmeMesh.getIndicesAsList();
-        for (int position = 0; position < numIndices; ++position) {
-            int index = triangleIndices.get(position);
+        for (int offset = 0; offset < numIndices; ++offset) {
+            int index = triangleIndices.get(offset);
             assert index >= 0 : index;
             assert index < numVertices : index;
-            indices.put(position, index);
+            indices.put(offset, index);
         }
+        indexStride = vpt * intSize;
 
         createMesh();
     }
@@ -393,9 +401,12 @@ public class IndexedMesh implements JmeCloneable, Savable {
      */
     private void createMesh() {
         assert nativeId == 0L;
+        assert vertexStride == 12 : vertexStride;
+        assert indexStride == 12 : indexStride;
 
         nativeId = createInt(indices, vertexPositions, numTriangles,
                 numVertices, vertexStride, indexStride);
+
         assert nativeId != 0L;
         logger.log(Level.FINE, "Created IndexedMesh {0}",
                 Long.toHexString(nativeId));
