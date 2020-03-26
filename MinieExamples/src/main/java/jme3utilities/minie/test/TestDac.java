@@ -172,7 +172,7 @@ public class TestDac extends ActionApplication {
      * filter to control visualization of axis-aligned bounding boxes
      */
     private FilterAll bbFilter;
-    final private float ballRadius = 0.2f; // mesh units
+    final private float ballRadius = 1f; // mesh units
     /**
      * enhanced pseudo-random generator
      */
@@ -418,13 +418,13 @@ public class TestDac extends ActionApplication {
                 case "limp left arm":
                     if (dac.isReady()) {
                         dac.setDynamicSubtree(leftClavicle,
-                                new Vector3f(0f, -30f, 0f), false);
+                                new Vector3f(0f, -150f, 0f), false);
                     }
                     return;
                 case "limp right arm":
                     if (dac.isReady()) {
                         dac.setDynamicSubtree(rightClavicle,
-                                new Vector3f(0f, -30f, 0f), false);
+                                new Vector3f(0f, -150f, 0f), false);
                     }
                     return;
 
@@ -438,25 +438,25 @@ public class TestDac extends ActionApplication {
                 case "raise leftFoot":
                     if (dac.isReady()) {
                         dac.setDynamicSubtree(leftFemur,
-                                new Vector3f(0f, 20f, 0f), false);
+                                new Vector3f(0f, 100f, 0f), false);
                     }
                     return;
                 case "raise leftHand":
                     if (dac.isReady()) {
                         dac.setDynamicSubtree(leftClavicle,
-                                new Vector3f(0f, 20f, 0f), false);
+                                new Vector3f(0f, 100f, 0f), false);
                     }
                     return;
                 case "raise rightFoot":
                     if (dac.isReady()) {
                         dac.setDynamicSubtree(rightFemur,
-                                new Vector3f(0f, 20f, 0f), false);
+                                new Vector3f(0f, 100f, 0f), false);
                     }
                     return;
                 case "raise rightHand":
                     if (dac.isReady()) {
                         dac.setDynamicSubtree(rightClavicle,
-                                new Vector3f(0f, 20f, 0f), false);
+                                new Vector3f(0f, 100f, 0f), false);
                     }
                     return;
 
@@ -468,13 +468,13 @@ public class TestDac extends ActionApplication {
                     save(cgModel, saveAssetPath1);
                     return;
                 case "set height 1":
-                    setHeight(1f);
+                    setHeight(5f);
                     return;
                 case "set height 2":
-                    setHeight(2f);
+                    setHeight(10f);
                     return;
                 case "set height 3":
-                    setHeight(3f);
+                    setHeight(15f);
                     return;
 
                 case "toggle aabb":
@@ -554,21 +554,21 @@ public class TestDac extends ActionApplication {
         geometry.setMaterial(ballMaterial);
         geometry.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         Vector3f location = random.nextVector3f();
-        location.multLocal(0.5f, 1f, 0.5f);
-        location.y += 4f;
+        location.multLocal(2.5f, 5f, 2.5f);
+        location.y += 20f;
         geometry.move(location);
 
         Vector3f worldScale = geometry.getWorldScale();
         ballShape.setScale(worldScale);
-        float mass = 0.1f;
+        float mass = 12f;
         RigidBodyControl rbc = new RigidBodyControl(ballShape, mass);
         rbc.setApplyScale(true);
-        rbc.setLinearVelocity(new Vector3f(0f, -1f, 0f));
+        rbc.setLinearVelocity(new Vector3f(0f, -5f, 0f));
         rbc.setKinematic(false);
         rbc.setFriction(10f);
 
         rbc.setPhysicsSpace(physicsSpace);
-        rbc.setGravity(new Vector3f(0f, -0.3f, 0f));
+        rbc.setGravity(new Vector3f(0f, -1.5f, 0f));
 
         geometry.addControl(rbc);
     }
@@ -577,7 +577,7 @@ public class TestDac extends ActionApplication {
      * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox() {
-        float halfExtent = 50f; // mesh units
+        float halfExtent = 250f; // mesh units
         Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
         Geometry geometry = new Geometry("box", mesh);
         rootNode.attachChild(geometry);
@@ -671,7 +671,7 @@ public class TestDac extends ActionApplication {
         cgModel.setCullHint(Spatial.CullHint.Never);
 
         rootNode.attachChild(cgModel);
-        setHeight(cgModel, 2f);
+        setHeight(cgModel, 10f);
         center(cgModel);
         resetTransform = cgModel.getLocalTransform().clone();
 
@@ -679,6 +679,7 @@ public class TestDac extends ActionApplication {
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);
+        dac.setGravity(new Vector3f(0f, -50f, 0f));
         dac.setPhysicsSpace(physicsSpace);
 
         leftClavicle = dac.findBoneLink(leftClavicleName);
@@ -746,9 +747,9 @@ public class TestDac extends ActionApplication {
      */
     private void configureCamera() {
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
+        flyCam.setMoveSpeed(20f);
 
-        cam.setLocation(new Vector3f(0f, 1.2f, 5f));
+        cam.setLocation(new Vector3f(0f, 6f, 25f));
     }
 
     /**
@@ -764,7 +765,6 @@ public class TestDac extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
@@ -1076,7 +1076,7 @@ public class TestDac extends ActionApplication {
      */
     private void toggleAxes() {
         float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
+        bulletAppState.setDebugAxisLength(2f - length);
     }
 
     /**
