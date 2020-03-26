@@ -41,7 +41,6 @@ import com.jme3.bullet.animation.MassHeuristic;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.ShapeHeuristic;
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -367,7 +366,7 @@ public class BuoyDemo extends ActionApplication {
 
         processor = new SimpleWaterProcessor(assetManager);
         viewPort.addProcessor(processor);
-        processor.setLightPosition(direction.mult(200f));
+        processor.setLightPosition(direction.mult(1000f));
         Plane surface = new Plane(Vector3f.UNIT_Y, surfaceElevation);
         processor.setPlane(surface);
         processor.setReflectionScene(reflectiblesNode);
@@ -440,13 +439,14 @@ public class BuoyDemo extends ActionApplication {
         cgModel.setCullHint(Spatial.CullHint.Never);
 
         reflectiblesNode.attachChild(cgModel);
-        setHeight(cgModel, 2f);
+        setHeight(cgModel, 10f);
         center(cgModel);
 
         sc = RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);
+        dac.setGravity(new Vector3f(0f, -50f, 0f));
         dac.setPhysicsSpace(physicsSpace);
         /*
          * Add buoyancy to each BoneLink.
@@ -496,7 +496,7 @@ public class BuoyDemo extends ActionApplication {
      * Add a large Quad to represent the surface of the water.
      */
     private void addSurface() {
-        float diameter = 400f;
+        float diameter = 2000f;
         Mesh mesh = new Quad(diameter, diameter);
         mesh.scaleTextureCoordinates(new Vector2f(80f, 80f));
 
@@ -530,10 +530,10 @@ public class BuoyDemo extends ActionApplication {
      */
     private void configureCamera() {
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
+        flyCam.setMoveSpeed(20f);
 
-        cam.setLocation(new Vector3f(-0.8f, 3f, 6f));
-        cam.setRotation(new Quaternion(0.008f, 0.9874f, -0.1482f, 0.055f));
+        cam.setLocation(new Vector3f(-3f, 12f, 20f));
+        cam.setRotation(new Quaternion(0.01f, 0.97587f, -0.2125f, 0.049f));
     }
 
     /**
@@ -549,7 +549,6 @@ public class BuoyDemo extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
@@ -720,7 +719,7 @@ public class BuoyDemo extends ActionApplication {
      */
     private void toggleAxes() {
         float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
+        bulletAppState.setDebugAxisLength(2f - length);
     }
 
     /**
