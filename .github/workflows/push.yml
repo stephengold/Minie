@@ -11,8 +11,7 @@ jobs:
       with:
         java-version: 1.8
     - uses: gradle/wrapper-validation-action@v1
-    - run: sudo apt-get install -y g++-multilib
-    - run: ./gradlew build --console=plain --no-daemon
+    - run: ./gradlew build -Pdebug --console=plain --no-daemon
 
   Java8-MacOSX64:
     runs-on: macOS-latest
@@ -22,7 +21,7 @@ jobs:
       with:
         java-version: 1.8
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build --console=plain --no-daemon
+    - run: ./gradlew build -Pdebug --console=plain --no-daemon
 
   Java8-Windows:
     runs-on: windows-latest
@@ -32,4 +31,4 @@ jobs:
       with:
         java-version: 1.8
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build --console=plain --no-daemon
+    - run: ./gradlew build -Pdebug --console=plain --no-daemon
