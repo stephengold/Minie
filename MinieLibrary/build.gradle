@@ -17,30 +17,56 @@ ext {
     // Specify the BTF (buildType + flavor) of native library for each platform:
     // (Specify '' for no native library.)
 
-    btfLinux32 = 'ReleaseSp'
-    btfLinux64 = 'ReleaseSp'
-    btfLinux_ARM64 = 'ReleaseSp'
-    btfMacOSX32 = 'ReleaseSp'
-    btfMacOSX64 = 'ReleaseSp'
-    btfWindows32 = 'ReleaseSp'
-    btfWindows64 = 'ReleaseSp'
+    if (gradle.rootProject.hasProperty('debug')) {
+        // -Pdebug specified on the command line
+        btfLinux32 = 'DebugSp'
+        btfLinux64 = 'DebugSp'
+        btfLinux_ARM64 = 'DebugSp'
+        btfMacOSX32 = 'DebugSp'
+        btfMacOSX64 = 'DebugSp'
+        btfWindows32 = 'DebugSp'
+        btfWindows64 = 'DebugSp'
+        metadata = 'debug' + jmeTarget
+    } else { // -Pdebug not specified
+        btfLinux32 = 'ReleaseSp'
+        btfLinux64 = 'ReleaseSp'
+        btfLinux_ARM64 = 'ReleaseSp'
+        btfMacOSX32 = 'ReleaseSp'
+        btfMacOSX64 = 'ReleaseSp'
+        btfWindows32 = 'ReleaseSp'
+        btfWindows64 = 'ReleaseSp'
+        metadata = jmeTarget
+    }
 
     artifact = 'Minie'
-    version = minieVersion
-    baseName = "$artifact-$version"
+
+    if (metadata.equals('')) {
+        version = minieVersion
+    } else {
+        version = "$minieVersion+$metadata"
+    }
+    baseName = "${artifact}-${version}" // for POM and class JAR
+
+    if (jmeTarget.equals('')) {
+        srcVersion = minieVersion
+    } else {
+        srcVersion = "$minieVersion+$jmeTarget"
+    }
+    srcBaseName = "${artifact}-${srcVersion}" // for javadoc JAR and sources JAR
+
     nativeDir = 'src/main/resources/native/'
 }
 
 jar { archiveBaseName = project.ext.baseName }
-javadocJar { archiveBaseName = project.ext.baseName }
-sourcesJar { archiveBaseName = project.ext.baseName }
+javadocJar { archiveBaseName = project.ext.srcBaseName }
+sourcesJar { archiveBaseName = project.ext.srcBaseName }
 
 dependencies {
     api 'com.github.stephengold:Heart:' + heartVersion
-    api "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
+    api 'org.jmonkeyengine:jme3-terrain:' + jmonkeyengineVersion
 
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    testImplementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
     testRuntimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 }
 
