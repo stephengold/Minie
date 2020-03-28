@@ -566,7 +566,6 @@ public class BetterCharacterControl
     @Override
     protected void removeSpatialData(Spatial spatial) {
         rigidBody.setUserObject(null);
-        rigidBody = null;
     }
 
     /**
