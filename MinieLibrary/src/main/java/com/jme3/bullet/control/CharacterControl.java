@@ -322,7 +322,6 @@ public class CharacterControl extends AbstractPhysicsControl {
     @Override
     protected void removeSpatialData(Spatial spatial) {
         character.setUserObject(null);
-        character = null;
     }
 
     /**
