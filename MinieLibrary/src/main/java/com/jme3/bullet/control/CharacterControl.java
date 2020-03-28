@@ -274,8 +274,7 @@ public class CharacterControl extends AbstractPhysicsControl {
     @Override
     public CharacterControl jmeClone() {
         try {
-            CharacterControl clone
-                    = (CharacterControl) super.clone();
+            CharacterControl clone = (CharacterControl) super.clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
