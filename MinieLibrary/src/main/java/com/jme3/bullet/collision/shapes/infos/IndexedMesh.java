@@ -190,6 +190,38 @@ public class IndexedMesh implements JmeCloneable, Savable {
     // new methods exposed
 
     /**
+     * Copy the triangle indices.
+     *
+     * @return a new, direct, unflipped buffer
+     */
+    public IntBuffer copyIndices() {
+        int numInts = indices.size();
+        IntBuffer result = BufferUtils.createIntBuffer(numInts);
+        for (int bufPos = 0; bufPos < numInts; ++bufPos) {
+            int tmpIndex = indices.get(bufPos);
+            result.put(tmpIndex);
+        }
+
+        return result;
+    }
+
+    /**
+     * Copy the vertex positions to a new buffer.
+     *
+     * @return a new, direct, unflipped buffer
+     */
+    public FloatBuffer copyVertexPositions() {
+        int numFloats = vertexPositions.capacity();
+        FloatBuffer result = BufferUtils.createFloatBuffer(numFloats);
+        for (int bufPos = 0; bufPos < numFloats; ++bufPos) {
+            float tmpFloat = vertexPositions.get(bufPos);
+            result.put(tmpFloat);
+        }
+
+        return result;
+    }
+
+    /**
      * Count how many triangles are in this mesh.
      *
      * @return the count (&ge;0)
