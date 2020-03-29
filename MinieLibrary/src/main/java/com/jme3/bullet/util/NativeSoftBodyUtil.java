@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.util;
 
+import com.jme3.bullet.collision.shapes.infos.IndexedMesh;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -107,6 +108,54 @@ public class NativeSoftBodyUtil {
         IndexBuffer lineIndices = mesh.getIndexBuffer();
         assert lineIndices.getBuffer().isDirect();
         softBody.appendLinks(lineIndices);
+    }
+
+    /**
+     * Add the triangles and unique edges in the specified native mesh to the
+     * specified soft body.
+     *
+     * @param mesh the input native mesh (not null)
+     * @param softBody the soft body to which faces and links will be added (not
+     * null, modified)
+     */
+    public static void appendFromNativeMesh(IndexedMesh mesh,
+            PhysicsSoftBody softBody) {
+        Validate.nonNull(softBody, "soft body");
+
+        FloatBuffer positions = mesh.copyVertexPositions();
+        assert positions.isDirect();
+        softBody.appendNodes(positions);
+
+        IntBuffer triangleIndices = mesh.copyIndices();
+        assert triangleIndices.isDirect();
+        IndexBuffer indexBuffer = IndexBuffer.wrapIndexBuffer(triangleIndices);
+        softBody.appendFaces(indexBuffer);
+        /*
+         * Enumerate all unique edges among the triangles.
+         */
+        int size = triangleIndices.capacity();
+        Set<IntPair> uniqueEdges = new HashSet<>(vpt * size);
+        for (int intOffset = 0; intOffset < size; intOffset += vpt) {
+            int ti0 = triangleIndices.get(intOffset);
+            int ti1 = triangleIndices.get(intOffset + 1);
+            int ti2 = triangleIndices.get(intOffset + 2);
+
+            uniqueEdges.add(new IntPair(ti0, ti1));
+            uniqueEdges.add(new IntPair(ti1, ti2));
+            uniqueEdges.add(new IntPair(ti0, ti2));
+        }
+
+        int numUniqueEdges = uniqueEdges.size();
+        int indexCount = MyMesh.vpe * numUniqueEdges;
+        IntBuffer links = BufferUtils.createIntBuffer(indexCount);
+        int edgeIndex = 0;
+        for (IntPair edge : uniqueEdges) {
+            links.put(edgeIndex, edge.smaller());
+            links.put(edgeIndex + 1, edge.larger());
+            edgeIndex += MyMesh.vpe;
+        }
+        indexBuffer = IndexBuffer.wrapIndexBuffer(links);
+        softBody.appendLinks(indexBuffer);
     }
 
     /**
