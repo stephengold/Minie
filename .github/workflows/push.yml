@@ -42,3 +42,24 @@ jobs:
         java-version: 11
     - uses: gradle/wrapper-validation-action@v1
     - run: ./gradlew build -Pdebug --console=plain --no-daemon
+
+  Java11-MacOSX64:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - uses: gradle/wrapper-validation-action@v1
+    - run: ./gradlew build -Pdebug --console=plain --no-daemon
+
+  Java11-Windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - uses: gradle/wrapper-validation-action@v1
+    - run: ./gradlew build -Pdebug --console=plain --no-daemon
+
