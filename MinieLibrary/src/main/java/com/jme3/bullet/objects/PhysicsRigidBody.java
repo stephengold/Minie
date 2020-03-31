@@ -848,11 +848,11 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Build/rebuild this body after parameters have changed.
      */
     protected void rebuildRigidBody() {
-        boolean removed = false;
+        PhysicsSpace removedFrom = null;
         if (objectId != 0L) {
-            if (isInWorld()) { // TODO bad assumption:
-                PhysicsSpace.getPhysicsSpace().remove(this);
-                removed = true;
+            removedFrom = (PhysicsSpace) getCollisionSpace();
+            if (removedFrom != null) {
+                removedFrom.remove(this);
             }
             logger2.log(Level.FINE, "Clearing {0}.", this);
             finalizeNative(objectId);
@@ -868,8 +868,8 @@ public class PhysicsRigidBody extends PhysicsBody {
                 getInternalType(objectId);
         postRebuild();
 
-        if (removed) { // TODO bad assumption:
-            PhysicsSpace.getPhysicsSpace().add(this);
+        if (removedFrom != null) {
+            removedFrom.add(this);
         }
     }
     // *************************************************************************
