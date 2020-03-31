@@ -989,6 +989,28 @@ class Model {
     }
 
     /**
+     * Recalculate the influence of each bone.
+     */
+    private void recalculateInfluence() {
+        Skeleton skeleton = findSkeleton();
+        if (skeleton == null) {
+            Armature armature = findArmature();
+            if (armature != null) {
+                anyInfluenceBones = InfluenceUtil.addAllInfluencers(
+                        rootSpatial, armature);
+                armature.applyBindPose();
+            }
+        } else {
+            anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
+                    skeleton);
+        }
+
+        int numBones = countBones();
+        directInfluenceBones = new BitSet(numBones);
+        InfluenceUtil.addDirectInfluencers(rootSpatial, directInfluenceBones);
+    }
+
+    /**
      * Recalculate the initial Transform for visualization.
      */
     private void recalculateInitTransform() {
@@ -1015,28 +1037,6 @@ class Model {
         MySpatial.setWorldLocation(cgmCopy, location);
 
         initTransform.set(cgmCopy.getLocalTransform());
-    }
-
-    /**
-     * Recalculate the influence of each bone. TODO re-order methods
-     */
-    private void recalculateInfluence() {
-        Skeleton skeleton = findSkeleton();
-        if (skeleton == null) {
-            Armature armature = findArmature();
-            if (armature != null) {
-                anyInfluenceBones = InfluenceUtil.addAllInfluencers(
-                        rootSpatial, armature);
-                armature.applyBindPose();
-            }
-        } else {
-            anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
-                    skeleton);
-        }
-
-        int numBones = countBones();
-        directInfluenceBones = new BitSet(numBones);
-        InfluenceUtil.addDirectInfluencers(rootSpatial, directInfluenceBones);
     }
 
     /**
