@@ -223,6 +223,10 @@ public class TestDac extends ActionApplication {
     private String rightClavicleName;
     private String upperBodyName;
     /**
+     * name of the test that's currently running
+     */
+    private String testName = "";
+    /**
      * C-G model's local transform when initially loaded
      */
     private Transform resetTransform;
@@ -665,6 +669,8 @@ public class TestDac extends ActionApplication {
             default:
                 throw new IllegalArgumentException(modelName);
         }
+
+        testName = modelName;
 
         List<Spatial> list = MySpatial.listSpatials(cgModel);
         for (Spatial spatial : list) {
@@ -1132,10 +1138,28 @@ public class TestDac extends ActionApplication {
      * Update the status text in the GUI.
      */
     private void updateStatusText() {
+        String message = "Test: " + testName + "  View: ";
+
+        Spatial.CullHint cull = cgModel.getLocalCullHint();
+        message += (cull == Spatial.CullHint.Always) ? "NOmeshes" : "Meshes";
+
+        boolean debug = bulletAppState.isDebugEnabled();
+        if (debug) {
+            message += "+Physics";
+            if (bbFilter != null) {
+                message += "+AABB";
+            }
+            if (bulletAppState.debugAxisLength() > 0f) {
+                message += "+Axes";
+            }
+        }
+
+        message += sv.isEnabled() ? "+Skeleton" : "";
+        message += (speed <= 1e-12f) ? "  PAUSED" : "";
+
         double energy = dac.kineticEnergy();
-        String message = "";
         if (Double.isFinite(energy)) {
-            message = String.format("KE=%f", energy);
+            message += String.format("  KE=%f", energy);
         }
         statusText.setText(message);
     }
