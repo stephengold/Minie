@@ -240,7 +240,7 @@ public class WatchDemo extends ActionApplication {
         /*
          * Add a target rigid body, to be moved by dragging RMB.
          */
-        CollisionShape shape = new SphereCollisionShape(0.02f);
+        CollisionShape shape = new SphereCollisionShape(0.1f);
         targetBody = new PhysicsRigidBody(shape);
         targetBody.setKinematic(true);
         physicsSpace.add(targetBody);
@@ -369,7 +369,7 @@ public class WatchDemo extends ActionApplication {
      * Add a visualizer for the axes of the world coordinate system.
      */
     private void addAxes() {
-        float axisLength = 0.8f;
+        float axisLength = 4f;
         AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
         axes.setLineWidth(0f);
 
@@ -381,7 +381,7 @@ public class WatchDemo extends ActionApplication {
      * Add a large static box to the scene, to serve as a platform.
      */
     private void addBox() {
-        float halfExtent = 50f; // mesh units
+        float halfExtent = 250f; // mesh units
         Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
         Geometry geometry = new Geometry("box", mesh);
         rootNode.attachChild(geometry);
@@ -399,7 +399,6 @@ public class WatchDemo extends ActionApplication {
         geometry.addControl(boxBody);
         boxBody.setApplyScale(true);
         boxBody.setPhysicsSpace(physicsSpace);
-        boxBody.setFriction(0.1f);
     }
 
     /**
@@ -511,7 +510,7 @@ public class WatchDemo extends ActionApplication {
         }
 
         rootNode.attachChild(cgModel);
-        setHeight(cgModel, 2f);
+        setHeight(cgModel, 10f);
         center(cgModel);
 
         Spatial controlledSpatial = sc.getSpatial();
@@ -551,10 +550,10 @@ public class WatchDemo extends ActionApplication {
      */
     private void configureCamera() {
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
+        flyCam.setMoveSpeed(20f);
 
-        MyCamera.setNearFar(cam, 0.02f, 20f);
-        cam.setLocation(new Vector3f(-2.6f, 1.8f, 0f));
+        MyCamera.setNearFar(cam, 0.1f, 100f);
+        cam.setLocation(new Vector3f(-13f, 9f, 0f));
         cam.setRotation(new Quaternion(0.055f, 0.705f, -0.055f, 0.705f));
 
         CameraOrbitAppState orbitState
@@ -575,7 +574,6 @@ public class WatchDemo extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSpace();
@@ -650,8 +648,8 @@ public class WatchDemo extends ActionApplication {
 
         dac = new JaimeControl();
 
-        gridBottomLeft.set(-1.2f, 1.1f, -0.5f);
-        gridBottomRight.set(-1.2f, 1.1f, 0.5f);
+        gridBottomLeft.set(-6f, 5.5f, -2.5f);
+        gridBottomRight.set(-6f, 5.5f, 2.5f);
     }
 
     /**
@@ -663,8 +661,8 @@ public class WatchDemo extends ActionApplication {
 
         dac = new MhGameControl();
 
-        gridBottomLeft.set(-0.5f, 1.3f, -0.5f);
-        gridBottomRight.set(-0.5f, 1.3f, 0.5f);
+        gridBottomLeft.set(-2.5f, 6.5f, -2.5f);
+        gridBottomRight.set(-2.5f, 6.5f, 2.5f);
     }
 
     /**
@@ -676,8 +674,8 @@ public class WatchDemo extends ActionApplication {
 
         dac = new NinjaControl();
 
-        gridBottomLeft.set(-0.2f, 1.3f, -0.5f);
-        gridBottomRight.set(-0.2f, 1.3f, 0.5f);
+        gridBottomLeft.set(-1f, 6.5f, -2.5f);
+        gridBottomRight.set(-1f, 6.5f, 2.5f);
     }
 
     /**
@@ -689,8 +687,8 @@ public class WatchDemo extends ActionApplication {
 
         dac = new OtoControl();
 
-        gridBottomLeft.set(-0.5f, 1.3f, -0.5f);
-        gridBottomRight.set(-0.5f, 1.3f, 0.5f);
+        gridBottomLeft.set(-2.5f, 6.5f, -2.5f);
+        gridBottomRight.set(-2.5f, 6.5f, 2.5f);
     }
 
     /**
@@ -702,8 +700,8 @@ public class WatchDemo extends ActionApplication {
 
         dac = new PuppetControl();
 
-        gridBottomLeft.set(-0.5f, 1.3f, -0.5f);
-        gridBottomRight.set(-0.5f, 1.3f, 0.5f);
+        gridBottomLeft.set(-2.5f, 6.5f, -2.5f);
+        gridBottomRight.set(-2.5f, 6.5f, 2.5f);
     }
 
     /**
@@ -715,8 +713,8 @@ public class WatchDemo extends ActionApplication {
 
         dac = new SinbadControl();
 
-        gridBottomLeft.set(-0.8f, 1.3f, -0.5f);
-        gridBottomRight.set(-0.8f, 1.3f, 0.5f);
+        gridBottomLeft.set(-4f, 6.5f, -2.5f);
+        gridBottomRight.set(-4f, 6.5f, 2.5f);
     }
 
     /**
@@ -738,8 +736,8 @@ public class WatchDemo extends ActionApplication {
         dac = new SinbadControl();
         dac.attach("Handle.R", swordConfig, sword);
 
-        gridBottomLeft.set(-0.8f, 1.3f, -0.5f);
-        gridBottomRight.set(-0.8f, 1.3f, 0.5f);
+        gridBottomLeft.set(-4f, 6.5f, -2.5f);
+        gridBottomRight.set(-4f, 6.5f, 2.5f);
     }
 
     /**
@@ -762,8 +760,8 @@ public class WatchDemo extends ActionApplication {
         dac.attach("Handle.L", swordConfig, sword);
         dac.attach("Handle.R", swordConfig, sword);
 
-        gridBottomLeft.set(-0.8f, 1.3f, -0.5f);
-        gridBottomRight.set(-0.8f, 1.3f, 0.5f);
+        gridBottomLeft.set(-4f, 6.5f, -2.5f);
+        gridBottomRight.set(-4f, 6.5f, 2.5f);
     }
 
     /**
@@ -797,7 +795,7 @@ public class WatchDemo extends ActionApplication {
      */
     private void toggleAxes() {
         float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
+        bulletAppState.setDebugAxisLength(2.5f - length);
     }
 
     /**
