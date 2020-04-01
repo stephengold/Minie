@@ -178,6 +178,9 @@ Package names begin with
 
 Both the source code and the pre-built libraries are compatible with JDK 7.
 
+The pre-built native libraries for Linux depend on CXXABI_1.3.8
+(in other words, having dynamic libraries installed for GCC 4.9.0 or higher).
+
 [Jump to table of contents](#toc)
 
 <a name="overview"/>
@@ -338,7 +341,13 @@ but I use the IDE, so I tend to assume you will too.
 
 ### IDE setup
 
-If you already have the IDE installed, skip to step 6.
+ + The setup instructions in this section are for jMonkeyEngine 3.2 SDKs
+   (which are based on the NetBeans 8 IDE)
+   and aren't expected to work with jMonkeyEngine 3.3 SDKs
+   (which are based on the NetBeans 11 IDE).
+ + It's easy to develop jMonkeyEngine 3.3 applications on a
+   jMonkeyEngine 3.2 SDK, provided you use Gradle instead of Ant.
+ + If you already have a jMonkeyEngine 3.2 SDK installed, skip to step 6.
 
 The hardware and software requirements of the IDE are documented at
 [the jMonkeyEngine wiki](https://jmonkeyengine.github.io/wiki/jme3/requirements.html).
