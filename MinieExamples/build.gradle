@@ -2,7 +2,7 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
-description = 'demos, examples, and tests that do not generate reports'
+description = 'demos, examples, tutorial apps, and non-automated tests'
 
 dependencies {
     implementation 'com.github.stephengold:Heart:' + heartVersion
@@ -13,17 +13,17 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
     // select one version of LWJGL (from jcenter or mavenLocal)
-    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmonkeyengineVersion  // LWJGL 2.x
-    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmonkeyengineVersion  // LWJGL 3.x
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmonkeyengineVersion // LWJGL 2.x
+    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmonkeyengineVersion // LWJGL 3.x
 
-    // MinieExamples doesn't use jme3-blender or jme3-jogg
-    //  -- they are included solely to avoid warnings from AssetConfig
-    runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
-    runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
+    // MinieExamples doesn't use jme3-blender or jme3-jogg.
+    // They are included solely to avoid warnings from AssetConfig.
+    runtimeOnly 'org.jmonkeyengine:jme3-blender:' + jmonkeyengineVersion
+    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmonkeyengineVersion
 
     //implementation 'junit:junit:4.12'
 
-    //implementation "jme3utilities:Minie:$minieVersion"
+    //implementation 'jme3utilities:Minie:' + minieVersion
     implementation project(':MinieLibrary')
 }
 

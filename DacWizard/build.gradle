@@ -17,19 +17,22 @@ jar.manifest.attributes('Main-Class': mainClassName)
 dependencies {
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
     implementation 'com.github.stephengold:Heart:' + heartVersion
+    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.13' + jmeTarget
     implementation 'com.github.stephengold:jme3-utilities-ui:' + jme3utilitiesuiVersion
-    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.13for32'
-    implementation 'com.github.stephengold:Wes:0.4.8for32'
-    runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
+    implementation 'com.github.stephengold:Wes:0.4.8' + jmeTarget
     runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
-    runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
-    runtimeOnly "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
 
     // select one version of LWJGL (from jcenter or mavenLocal)
-    runtimeOnly "org.jmonkeyengine:jme3-lwjgl:$jmonkeyengineVersion"  // LWJGL 2.x
-    //runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion" // LWJGL 3.x
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmonkeyengineVersion // LWJGL 2.x
+    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmonkeyengineVersion // LWJGL 3.x
 
-    //implementation "jme3utilities:Minie:$minieVersion"
+    // MinieExamples doesn't use jme3-blender, jme3-jogg, or jme3-plugins.
+    // They are included solely to avoid warnings from AssetConfig.
+    runtimeOnly 'org.jmonkeyengine:jme3-blender:' + jmonkeyengineVersion
+    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmonkeyengineVersion
+    runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
+
+    //implementation 'jme3utilities:Minie:' + minieVersion
     implementation project(':MinieLibrary')
 }
 
@@ -39,7 +42,8 @@ task runForceDialog(type: JavaExec) {
 }
 
 // cleanup tasks
-clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets')
+clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs')
+clean.dependsOn('cleanWrittenAssets')
 
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
