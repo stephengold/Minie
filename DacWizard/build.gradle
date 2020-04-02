@@ -17,9 +17,9 @@ jar.manifest.attributes('Main-Class': mainClassName)
 dependencies {
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
     implementation 'com.github.stephengold:Heart:' + heartVersion
-    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.13' + jmeTarget
+    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.14' + jmeTarget
     implementation 'com.github.stephengold:jme3-utilities-ui:' + jme3utilitiesuiVersion
-    implementation 'com.github.stephengold:Wes:0.4.8' + jmeTarget
+    implementation 'com.github.stephengold:Wes:0.4.9' + jmeTarget
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
 
     // select one version of LWJGL (from jcenter or mavenLocal)
