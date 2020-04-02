@@ -1660,6 +1660,7 @@ YouTube videos about Minie:
 [bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
 [chrome]: https://www.google.com/chrome "Chrome"
 [dacwizard]: https://github.com/stephengold/Minie/tree/master/DacWizard "DacWizard Application"
+[dokthar]: https://github.com/dokthar/jmonkeyengine "Dokthar's fork of JMonkeyEngine"
 [elements]: http://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
 [findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
 [firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
@@ -1724,7 +1725,7 @@ artists and software developers:
 + Rémy Bouquet (aka "nehon") for co-creating
   `KinematicRagdollControl` (on which `DynamicAnimControl` is based)
   and also for many helpful insights
-+ Jules (aka "dokthar") for creating the soft-body fork of jMonkeyEngine
++ Jules (aka "dokthar") for creating [the soft-body fork of jMonkeyEngine][dokthar]
   from which Minie's soft-body support is derived
 + Khaled Mamou for creating and licensing the [V-HACD Library][vhacd]
   for decomposing meshes into convex hulls
