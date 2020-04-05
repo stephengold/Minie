@@ -449,6 +449,61 @@ You can install the Maven artifacts to your local cache:
  + using Bash:  `./gradlew :MinieLibrary:publishToMavenLocal`
  + using Windows Command Prompt:  `.\gradlew :MinieLibrary:publishToMavenLocal`
 
+### Customizing Minie
+
+By default, Minie's class JAR includes native libraries
+for all the platforms Minie supports.
+While this is convenient, it results in a large JAR
+and (potentially) a bloated application.
+If you build Minie from source,
+you can customize it to include native libraries only for specific platforms.
+
+To configure which native libraries will be included in the JAR,
+edit the MinieLibrary/build.gradle script.
+Look for the section where the `btf` variables are set.
+It should look something like this:
+```
+        btfLinux32 = 'ReleaseSp'
+        btfLinux64 = 'ReleaseSp'
+        btfMacOSX32 = 'ReleaseSp'
+        btfMacOSX64 = 'ReleaseSp'
+        btfWindows32 = 'ReleaseSp'
+        btfWindows64 = 'ReleaseSp'
+```
+
+For example, to include only the 64-bit Linux native library,
+change the other `btf` variables to `''` and rebuild:
+```
+        btfLinux32 = ''
+        btfLinux64 = 'ReleaseSp'
+        btfMacOSX32 = ''
+        btfMacOSX64 = ''
+        btfWindows32 = ''
+        btfWindows64 = ''
+```
+
+You can also customize Minie to include Debug-enabled native libraries
+for specific platforms:
+```
+        btfLinux32 = ''
+        btfLinux64 = ''
+        btfMacOSX32 = ''
+        btfMacOSX64 = ''
+        btfWindows32 = ''
+        btfWindows64 = 'DebugSp'
+```
+
+Similarly, you can specify double-precision (Dp-flavored) native libraries
+for specific platforms:
+```
+        btfLinux32 = ''
+        btfLinux64 = 'ReleaseDp'
+        btfMacOSX32 = ''
+        btfMacOSX64 = 'ReleaseDp'
+        btfWindows32 = ''
+        btfWindows64 = 'ReleaseDp'
+```
+
 [Jump to table of contents](#toc)
 
 <a name="add"/>
