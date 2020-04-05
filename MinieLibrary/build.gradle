@@ -11,7 +11,7 @@ description = 'the Minie physics library for jMonkeyEngine'
 ext {
     // Select the URL from which native libraries should be copied:
 
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/5.5.1/'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/5.5.3/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/'
 
     // Specify the BTF (buildType + flavor) of native library for each platform:
@@ -19,6 +19,10 @@ ext {
 
     if (gradle.rootProject.hasProperty('debug')) {
         // -Pdebug specified on the command line
+        btfAndroid_ARM7 = 'DebugSp'
+        btfAndroid_ARM8 = 'DebugSp'
+        btfAndroid_X86 = 'DebugSp'
+        btfAndroid_X86_64 = 'DebugSp'
         btfLinux32 = 'DebugSp'
         btfLinux64 = 'DebugSp'
         btfLinux_ARM64 = 'DebugSp'
@@ -28,6 +32,10 @@ ext {
         btfWindows64 = 'DebugSp'
         metadata = 'debug' + jmeTarget
     } else { // -Pdebug not specified
+        btfAndroid_ARM7 = 'ReleaseSp'
+        btfAndroid_ARM8 = 'ReleaseSp'
+        btfAndroid_X86 = 'ReleaseSp'
+        btfAndroid_X86_64 = 'ReleaseSp'
         btfLinux32 = 'ReleaseSp'
         btfLinux64 = 'ReleaseSp'
         btfLinux_ARM64 = 'ReleaseSp'
@@ -54,7 +62,8 @@ ext {
     }
     srcBaseName = "${artifact}-${srcVersion}" // for javadoc JAR and sources JAR
 
-    nativeDir = 'src/main/resources/native/'
+    resourcesDir = 'src/main/resources/'
+    nativeDir = resourcesDir + 'native/'
 }
 
 jar { archiveBaseName = project.ext.baseName }
@@ -80,6 +89,10 @@ test {
     }
 }
 
+processResources.dependsOn((btfAndroid_ARM7 == '' ? 'clean' : 'download') + 'Android_ARM7')
+processResources.dependsOn((btfAndroid_ARM8 == '' ? 'clean' : 'download') + 'Android_ARM8')
+processResources.dependsOn((btfAndroid_X86 == '' ? 'clean' : 'download') + 'Android_X86')
+processResources.dependsOn((btfAndroid_X86_64 == '' ? 'clean' : 'download') + 'Android_X86_64')
 processResources.dependsOn((btfLinux32 == '' ? 'clean' : 'download') + 'Linux32')
 processResources.dependsOn((btfLinux64 == '' ? 'clean' : 'download') + 'Linux64')
 processResources.dependsOn((btfLinux_ARM64 == '' ? 'clean' : 'download') + 'Linux_ARM64')
@@ -88,7 +101,23 @@ processResources.dependsOn((btfMacOSX64 == '' ? 'clean' : 'download') + 'MacOSX6
 processResources.dependsOn((btfWindows32 == '' ? 'clean' : 'download') + 'Windows32')
 processResources.dependsOn((btfWindows64 == '' ? 'clean' : 'download') + 'Windows64')
 
-// tasks to download native libraries from GitHub
+// tasks to download native libraries (typically from GitHub)
+task downloadAndroid_ARM7(type: MyDownload) {
+    sourceUrl = libbulletjmeUrl + "Android_ARM7${btfAndroid_ARM7}_libbulletjme.so"
+    target = file(resourcesDir + 'armeabi-v7a/libbulletjme.so')
+}
+task downloadAndroid_ARM8(type: MyDownload) {
+    sourceUrl = libbulletjmeUrl + "Android_ARM8${btfAndroid_ARM8}_libbulletjme.so"
+    target = file(resourcesDir + 'arm64-v8a/libbulletjme.so')
+}
+task downloadAndroid_X86(type: MyDownload) {
+    sourceUrl = libbulletjmeUrl + "Android_X86${btfAndroid_X86}_libbulletjme.so"
+    target = file(resourcesDir + 'x86/libbulletjme.so')
+}
+task downloadAndroid_X86_64(type: MyDownload) {
+    sourceUrl = libbulletjmeUrl + "Android_X86_64${btfAndroid_X86_64}_libbulletjme.so"
+    target = file(resourcesDir + 'x86_64/libbulletjme.so')
+}
 task downloadLinux32(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "Linux32${btfLinux32}_libbulletjme.so"
     target = file(nativeDir + 'linux/x86/libbulletjme.so')
@@ -119,11 +148,10 @@ task downloadWindows64(type: MyDownload) {
 }
 
 // cleanup tasks
-clean.dependsOn('cleanLinux32', 'cleanLinux64', 'cleanLinux_ARM64',
-    'cleanMacOSX32', 'cleanMacOSX64',
-    'cleanWindows32', 'cleanWindows64'
-)
-clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs')
+clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanSOs', 'cleanLogs',
+    'cleanAndroid_ARM7', 'cleanAndroid_ARM8', 'cleanAndroid_X86',
+    'cleanAndroid_X86_64', 'cleanLinux32', 'cleanLinux64', 'cleanLinux_ARM64',
+    'cleanMacOSX32', 'cleanMacOSX64', 'cleanWindows32', 'cleanWindows64')
 
 task cleanDLLs(type: Delete) {
     delete fileTree(dir: '.', include: '*.dll')
@@ -134,10 +162,23 @@ task cleanDyLibs(type: Delete) {
 task cleanSOs(type: Delete) {
     delete fileTree(dir: '.', include: '*.so')
 }
+
 task cleanLogs(type: Delete) {
     delete fileTree(dir: '.', include: 'hs_err_pid*.log')
 }
 
+task cleanAndroid_ARM7(type: Delete) {
+    delete resourcesDir + 'armeabi-v7a/libbulletjme.so'
+}
+task cleanAndroid_ARM8(type: Delete) {
+    delete resourcesDir + 'arm64-v8a/libbulletjme.so'
+}
+task cleanAndroid_X86(type: Delete) {
+    delete resourcesDir + 'x86/libbulletjme.so'
+}
+task cleanAndroid_X86_64(type: Delete) {
+    delete resourcesDir + 'x86_64/libbulletjme.so'
+}
 task cleanLinux32(type: Delete) {
     delete nativeDir + 'linux/x86/libbulletjme.so'
 }
