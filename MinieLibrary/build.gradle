@@ -63,6 +63,7 @@ ext {
     srcBaseName = "${artifact}-${srcVersion}" // for javadoc JAR and sources JAR
 
     resourcesDir = 'src/main/resources/'
+    libDir = resourcesDir + 'lib/'
     nativeDir = resourcesDir + 'native/'
 }
 
@@ -104,19 +105,19 @@ processResources.dependsOn((btfWindows64 == '' ? 'clean' : 'download') + 'Window
 // tasks to download native libraries (typically from GitHub)
 task downloadAndroid_ARM7(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "Android_ARM7${btfAndroid_ARM7}_libbulletjme.so"
-    target = file(resourcesDir + 'armeabi-v7a/libbulletjme.so')
+    target = file(libDir + 'armeabi-v7a/libbulletjme.so')
 }
 task downloadAndroid_ARM8(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "Android_ARM8${btfAndroid_ARM8}_libbulletjme.so"
-    target = file(resourcesDir + 'arm64-v8a/libbulletjme.so')
+    target = file(libDir + 'arm64-v8a/libbulletjme.so')
 }
 task downloadAndroid_X86(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "Android_X86${btfAndroid_X86}_libbulletjme.so"
-    target = file(resourcesDir + 'x86/libbulletjme.so')
+    target = file(libDir + 'x86/libbulletjme.so')
 }
 task downloadAndroid_X86_64(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "Android_X86_64${btfAndroid_X86_64}_libbulletjme.so"
-    target = file(resourcesDir + 'x86_64/libbulletjme.so')
+    target = file(libDir + 'x86_64/libbulletjme.so')
 }
 task downloadLinux32(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "Linux32${btfLinux32}_libbulletjme.so"
