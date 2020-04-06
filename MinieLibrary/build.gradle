@@ -9,29 +9,35 @@ plugins {
 
 description = 'the Minie physics library for jMonkeyEngine'
 ext {
-    // Select the URL from which native libraries should be copied:
+    // Specify the URL from which native libraries should be copied:
 
     libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/5.5.4/'
-    //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/'
+    //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // test an unreleased build
 
     // Specify the BTF (buildType + flavor) of native library for each platform:
     // (Specify '' for no native library.)
 
     if (gradle.rootProject.hasProperty('debug')) {
         // -Pdebug specified on the command line
-        btfAndroid_ARM7 = 'DebugSp'
-        btfAndroid_ARM8 = 'DebugSp'
-        btfAndroid_X86 = 'DebugSp'
-        btfAndroid_X86_64 = 'DebugSp'
-        btfLinux32 = 'DebugSp'
-        btfLinux64 = 'DebugSp'
-        btfLinux_ARM64 = 'DebugSp'
-        btfMacOSX32 = 'DebugSp'
-        btfMacOSX64 = 'DebugSp'
-        btfWindows32 = 'DebugSp'
-        btfWindows64 = 'DebugSp'
-        metadata = 'debug' + jmeTarget
-    } else { // -Pdebug not specified
+        if (gradle.rootProject.hasProperty('dp')) {
+            // both -Pdebug and -Pdp specified
+            configureAndroidBtfs('')
+            configureDesktopBtfs('DebugDp')
+            metadata = 'debugdp' + jmeTarget
+
+        } else { // -Pdebug specified, but not -Pdp
+            configureAndroidBtfs('DebugSp')
+            configureDesktopBtfs('DebugSp')
+            metadata = 'debug' + jmeTarget
+        }
+
+    } else if (gradle.rootProject.hasProperty('dp')) {
+        // -Pdp specified, but not -Pdebug
+        configureAndroidBtfs('')
+        configureDesktopBtfs('ReleaseDp')
+        metadata = 'dp' + jmeTarget
+
+    } else { // neither -Pdebug nor -Pdp specified
         btfAndroid_ARM7 = 'ReleaseSp'
         btfAndroid_ARM8 = 'ReleaseSp'
         btfAndroid_X86 = 'ReleaseSp'
@@ -102,7 +108,8 @@ processResources.dependsOn((btfMacOSX64 == '' ? 'clean' : 'download') + 'MacOSX6
 processResources.dependsOn((btfWindows32 == '' ? 'clean' : 'download') + 'Windows32')
 processResources.dependsOn((btfWindows64 == '' ? 'clean' : 'download') + 'Windows64')
 
-// tasks to download native libraries (typically from GitHub)
+// tasks to download native libraries (from GitHub, typically)
+
 task downloadAndroid_ARM7(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "Android_ARM7${btfAndroid_ARM7}_libbulletjme.so"
     target = file(libDir + 'armeabi-v7a/libbulletjme.so')
@@ -240,5 +247,25 @@ class MyDownload extends DefaultTask {
     @TaskAction
     void download() {
         ant.get(src: sourceUrl, dest: target)
+        println sourceUrl
     }
+}
+
+// helper methods to configure native libraries
+
+void configureAndroidBtfs(String btfValue) {
+    project.ext.btfAndroid_ARM7 = btfValue
+    project.ext.btfAndroid_ARM8 = btfValue
+    project.ext.btfAndroid_X86 = btfValue
+    project.ext.btfAndroid_X86_64 = btfValue
+}
+
+void configureDesktopBtfs(String btfValue) {
+    project.ext.btfLinux32 = btfValue
+    project.ext.btfLinux64 = btfValue
+    project.ext.btfLinux_ARM64 = btfValue
+    project.ext.btfMacOSX32 = btfValue
+    project.ext.btfMacOSX64 = btfValue
+    project.ext.btfWindows32 = btfValue
+    project.ext.btfWindows64 = btfValue
 }
