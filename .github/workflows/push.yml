@@ -11,7 +11,7 @@ jobs:
       with:
         java-version: 8
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 
   Java8-MacOS:
     runs-on: macOS-latest
@@ -21,7 +21,7 @@ jobs:
       with:
         java-version: 8
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 
   Java8-Windows:
     runs-on: windows-2016
@@ -31,7 +31,7 @@ jobs:
       with:
         java-version: 8
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 
   Java11-Linux:
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
       with:
         java-version: 11
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 
   Java11-MacOS:
     runs-on: macOS-latest
@@ -51,7 +51,7 @@ jobs:
       with:
         java-version: 11
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 
   Java11-Windows:
     runs-on: windows-latest
@@ -61,5 +61,5 @@ jobs:
       with:
         java-version: 11
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 

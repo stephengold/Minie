@@ -17,27 +17,27 @@ ext {
     // Specify the BTF (buildType + flavor) of native library for each platform:
     // (Specify '' for no native library.)
 
-    if (gradle.rootProject.hasProperty('debug')) {
-        // -Pdebug specified on the command line
+    if (gradle.rootProject.hasProperty('btdebug')) {
+        // -Pbtdebug specified on the command line
         if (gradle.rootProject.hasProperty('dp')) {
-            // both -Pdebug and -Pdp specified
+            // both -Pbtdebug and -Pdp specified
             configureAndroidBtfs('')
             configureDesktopBtfs('DebugDp')
             metadata = 'debugdp' + jmeTarget
 
-        } else { // -Pdebug specified, but not -Pdp
+        } else { // -Pbtdebug specified, but not -Pdp
             configureAndroidBtfs('DebugSp')
             configureDesktopBtfs('DebugSp')
             metadata = 'debug' + jmeTarget
         }
 
     } else if (gradle.rootProject.hasProperty('dp')) {
-        // -Pdp specified, but not -Pdebug
+        // -Pdp specified, but not -Pbtdebug
         configureAndroidBtfs('')
         configureDesktopBtfs('ReleaseDp')
         metadata = 'dp' + jmeTarget
 
-    } else { // neither -Pdebug nor -Pdp specified
+    } else { // neither -Pbtdebug nor -Pdp specified
         btfAndroid_ARM7 = 'ReleaseSp'
         btfAndroid_ARM8 = 'ReleaseSp'
         btfAndroid_X86 = 'ReleaseSp'
