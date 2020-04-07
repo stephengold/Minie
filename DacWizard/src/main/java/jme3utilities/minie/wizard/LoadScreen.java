@@ -34,6 +34,7 @@ import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.elements.Element;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
 
@@ -121,6 +122,7 @@ class LoadScreen extends GuiScreenController {
 
         updateFeedback();
         updatePath();
+        updateToggleButton();
 
         Model model = DacWizard.getModel();
         Spatial nextSpatial = model.getRootSpatial();
@@ -203,5 +205,24 @@ class LoadScreen extends GuiScreenController {
 
         setStatusText("assetPath", " " + assetPath);
         setStatusText("assetRoot", " " + assetRoot);
+    }
+
+    /**
+     * Update the button to toggle skeleton visualization.
+     */
+    private void updateToggleButton() {
+        String buttonText = "";
+
+        DacWizard app = DacWizard.getApplication();
+        SkeletonVisualizer sv = app.findSkeletonVisualizer();
+        if (sv != null) {
+            if (sv.isEnabled()) {
+                buttonText = "Hide skeleton";
+            } else {
+                buttonText = "Show skeleton";
+            }
+        }
+
+        setButtonText("skeleton", buttonText);
     }
 }

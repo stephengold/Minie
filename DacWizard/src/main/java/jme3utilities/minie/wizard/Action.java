@@ -73,6 +73,7 @@ class Action {
     final static String toggleMesh = "toggle mesh";
     final static String togglePhysicsDebug = "toggle physicsDebug";
     final static String toggleRagdoll = "toggle ragdoll";
+    final static String toggleSkeleton = "toggle skeleton";
     // *************************************************************************
     // constructors
 
