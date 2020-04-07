@@ -89,6 +89,7 @@ class LoadMode extends InputMode {
 
         bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_Z);
         bind(SimpleApplication.INPUT_MAPPING_CAMERA_POS, KeyInput.KEY_C);
+        bind(Action.toggleSkeleton, KeyInput.KEY_V);
     }
 
     /**
@@ -127,33 +128,36 @@ class LoadMode extends InputMode {
         boolean handled = false;
         if (ongoing) {
             Model model = DacWizard.getModel();
-
+            handled = true;
             switch (actionString) {
                 case Action.load:
                     model.load();
-                    handled = true;
                     break;
 
                 case Action.morePath:
                     model.morePath();
-                    handled = true;
                     break;
 
                 case Action.moreRoot:
                     model.moreRoot();
-                    handled = true;
                     break;
 
                 case Action.nextScreen:
                     nextScreen();
-                    handled = true;
                     break;
 
                 case Action.previousScreen:
                     model.unload();
                     previousScreen();
-                    handled = true;
                     break;
+
+                case Action.toggleSkeleton:
+                    DacWizard app = DacWizard.getApplication();
+                    app.toggleSkeletonVisualizer();
+                    break;
+
+                default:
+                    handled = false;
             }
         }
         if (!handled) {

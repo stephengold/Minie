@@ -42,6 +42,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
 
@@ -78,20 +79,6 @@ class TestScreen extends GuiScreenController {
      */
     TestScreen() {
         super("test", "Interface/Nifty/screens/wizard/test.xml", false);
-    }
-    // *************************************************************************
-    // new methods exposed
-
-    /**
-     * Toggle mesh rendering.
-     */
-    void toggleMesh() {
-        Spatial.CullHint cull = rootNode.getLocalCullHint();
-        if (cull == Spatial.CullHint.Always) {
-            rootNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            rootNode.setCullHint(Spatial.CullHint.Always);
-        }
     }
     // *************************************************************************
     // GuiScreenController methods
@@ -228,19 +215,30 @@ class TestScreen extends GuiScreenController {
 
         String debugButton;
         if (bulletAppState.isDebugEnabled()) {
-            debugButton = "Debug off";
+            debugButton = "Hide debug";
         } else {
-            debugButton = "Debug on";
+            debugButton = "Show debug";
         }
         setButtonText("debug", debugButton);
 
-        Spatial.CullHint cull = rootNode.getCullHint();
+        DacWizard app = DacWizard.getApplication();
         String meshButton;
-        if (cull == Spatial.CullHint.Always) {
-            meshButton = "Render meshes";
+        if (app.areMeshesHidden()) {
+            meshButton = "Show meshes";
         } else {
             meshButton = "Hide meshes";
         }
         setButtonText("mesh", meshButton);
+
+        String skeletonText = "";
+        SkeletonVisualizer sv = app.findSkeletonVisualizer();
+        if (sv != null) {
+            if (sv.isEnabled()) {
+                skeletonText = "Hide skeleton";
+            } else {
+                skeletonText = "Show skeleton";
+            }
+        }
+        setButtonText("skeleton", skeletonText);
     }
 }

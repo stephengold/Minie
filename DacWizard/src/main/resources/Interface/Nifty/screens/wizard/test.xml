@@ -51,6 +51,7 @@ Nifty XML to lay out the GUI for the "test" screen of DacWizard.
                          width="60px">
                     <interact onRelease="perform(previous screen)"/>
                 </control>
+                <panel/>
                 <control name="label" text="  "/>
                 <control name="button" id="ragdollButton"
                          width="90px">
@@ -58,14 +59,22 @@ Nifty XML to lay out the GUI for the "test" screen of DacWizard.
                 </control>
                 <control name="label" text="  "/>
                 <control name="button" id="debugButton"
-                         width="60px">
+                         width="90px">
                     <interact onRelease="perform(toggle physicsDebug)"/>
                 </control>
                 <control name="label" text="  "/>
+                <control name="button" id="skeletonButton"
+                         width="100px">
+                    <interact onRelease="perform(toggle skeleton)"/>
+                </control>
+                <control name="label" text="  "/>
                 <control name="button" id="meshButton"
-                         width="110px">
+                         width="95px">
                     <interact onRelease="perform(toggle mesh)"/>
                 </control>
+                <control name="label" text="  "/>
+            </panel>
+            <panel childLayout="horizontal" backgroundColor="#aaaf" height="28px">
                 <control name="label" text="  "/>
                 <control name="button" label="Save Java"
                          id="id6ToAvoidNiftyWarning"

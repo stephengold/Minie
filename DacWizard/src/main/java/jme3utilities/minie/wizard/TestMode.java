@@ -115,6 +115,7 @@ class TestMode extends InputMode {
         bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_Z);
         bind(SimpleApplication.INPUT_MAPPING_CAMERA_POS, KeyInput.KEY_C);
         bind(Action.togglePhysicsDebug, KeyInput.KEY_SLASH);
+        bind(Action.toggleSkeleton, KeyInput.KEY_V);
     }
 
     /**
@@ -152,38 +153,39 @@ class TestMode extends InputMode {
 
         boolean handled = false;
         if (ongoing) {
+            handled = true;
+            DacWizard app = DacWizard.getApplication();
             switch (actionString) {
                 case Action.previousScreen:
                     previousScreen();
-                    handled = true;
                     break;
 
                 case Action.save:
                     saveJava();
-                    handled = true;
                     break;
 
                 case Action.saveJ3o:
                     saveJ3o();
-                    handled = true;
                     break;
 
                 case Action.toggleMesh:
-                    TestScreen screen
-                            = DacWizard.findAppState(TestScreen.class);
-                    screen.toggleMesh();
-                    handled = true;
+                    app.toggleMesh();
                     break;
 
                 case Action.togglePhysicsDebug:
                     togglePhysicsDebug();
-                    handled = true;
                     break;
 
                 case Action.toggleRagdoll:
                     toggleRagdoll();
-                    handled = true;
                     break;
+
+                case Action.toggleSkeleton:
+                    app.toggleSkeletonVisualizer();
+                    break;
+
+                default:
+                    handled = false;
             }
         }
         if (!handled) {

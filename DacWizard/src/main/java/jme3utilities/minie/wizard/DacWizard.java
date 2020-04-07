@@ -26,6 +26,8 @@
  */
 package jme3utilities.minie.wizard;
 
+import com.jme3.anim.SkinningControl;
+import com.jme3.animation.SkeletonControl;
 import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.state.AppState;
 import com.jme3.app.state.AppStateManager;
@@ -33,21 +35,27 @@ import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.RagUtils;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
+import com.jme3.scene.control.Control;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeVersion;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.InfluenceUtil;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
+import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.nifty.GuiApplication;
@@ -95,11 +103,30 @@ public class DacWizard extends GuiApplication {
      */
     final private static Model model = new Model();
     /**
+     * parent of the loaded C-G model in the scene
+     */
+    private Node cgmParent = null;
+    /**
      * dump debugging information to System.out
      */
     final static PhysicsDumper dumper = new PhysicsDumper();
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Test whether mesh rendering is disabled.
+     */
+    boolean areMeshesHidden() {
+        boolean result = true;
+        if (cgmParent != null) {
+            Spatial.CullHint cull = cgmParent.getLocalCullHint();
+            if (cull != Spatial.CullHint.Always) {
+                result = false;
+            }
+        }
+
+        return result;
+    }
 
     /**
      * Clear the scene.
@@ -114,10 +141,19 @@ public class DacWizard extends GuiApplication {
         }
         assert physicsSpace.isEmpty();
 
-        rootNode.setCullHint(Spatial.CullHint.Never);
+        int numControls = rootNode.getNumControls();
+        for (int controlI = numControls - 1; controlI >= 0; controlI--) {
+            Control control = rootNode.getControl(controlI);
+            rootNode.removeControl(control);
+        }
+
         List<Spatial> children = rootNode.getChildren();
         for (Spatial child : children) {
             child.removeFromParent();
+        }
+
+        if (cgmParent != null) {
+            cgmParent = null;
         }
     }
 
@@ -144,12 +180,28 @@ public class DacWizard extends GuiApplication {
      */
     DynamicAnimControl findDac() {
         DynamicAnimControl result = null;
-        if (rootNode != null) {
+        if (cgmParent != null) {
             List<DynamicAnimControl> controls = MySpatial.listControls(
-                    rootNode, DynamicAnimControl.class, null);
+                    cgmParent, DynamicAnimControl.class, null);
             if (controls.size() == 1) {
                 result = controls.get(0);
             }
+        }
+
+        return result;
+    }
+
+    /**
+     * Find the SkeletonVisualizer in the scene.
+     *
+     * @return the pre-existing control, or null if none/multiple
+     */
+    SkeletonVisualizer findSkeletonVisualizer() {
+        SkeletonVisualizer result = null;
+        List<SkeletonVisualizer> controls = MySpatial.listControls(
+                rootNode, SkeletonVisualizer.class, null);
+        if (controls.size() == 1) {
+            result = controls.get(0);
         }
 
         return result;
@@ -227,9 +279,54 @@ public class DacWizard extends GuiApplication {
      */
     void makeScene(Spatial cgModel) {
         assert cgModel != null;
+        assert cgmParent == null;
 
-        rootNode.attachChild(cgModel);
+        cgmParent = new Node("cgmParent");
+        rootNode.attachChild(cgmParent);
+        cgmParent.attachChild(cgModel);
+
+        AbstractControl sc = RagUtils.findSControl(cgModel);
+        if (sc != null && findSkeletonVisualizer() == null) {
+            /*
+             * Add a SkeletonVisualizer.
+             */
+            SkeletonVisualizer sv = new SkeletonVisualizer(assetManager, sc);
+            sv.setLineColor(ColorRGBA.Yellow);
+            if (sc instanceof SkeletonControl) {
+                InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
+            } else {
+                InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
+            }
+            rootNode.addControl(sv);
+        }
+
         resetCamera();
+    }
+
+    /**
+     * Toggle mesh rendering on/off.
+     */
+    void toggleMesh() {
+        if (cgmParent != null) {
+            Spatial.CullHint cull = cgmParent.getLocalCullHint();
+            if (cull == Spatial.CullHint.Always) {
+                cgmParent.setCullHint(Spatial.CullHint.Never);
+            } else {
+                cgmParent.setCullHint(Spatial.CullHint.Always);
+            }
+        }
+    }
+
+    /**
+     * Toggle the skeleton visualizer on/off.
+     */
+    void toggleSkeletonVisualizer() {
+        DacWizard app = DacWizard.getApplication();
+        SkeletonVisualizer sv = app.findSkeletonVisualizer();
+        if (sv != null) {
+            boolean newState = !sv.isEnabled();
+            sv.setEnabled(newState);
+        }
     }
     // *************************************************************************
     // GuiApplication methods
