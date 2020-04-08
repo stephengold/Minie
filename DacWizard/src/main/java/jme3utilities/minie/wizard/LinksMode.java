@@ -221,8 +221,10 @@ class LinksMode extends InputMode {
 
         } else if (actionString.startsWith("set shapeScale ")) {
             arg = MyString.remainder(actionString, "set shapeScale ");
-            Vector3f scaleFactors = MyVector3f.parse(arg);
-            screen.setShapeScale(scaleFactors);
+            Vector3f factors = MyVector3f.parse(arg);
+            if (factors != null && MyVector3f.isAllPositive(factors)) {
+                screen.setShapeScale(factors);
+            }
 
         } else {
             handled = false;
