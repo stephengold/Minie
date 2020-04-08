@@ -433,7 +433,8 @@ public class LinksScreen extends GuiScreenController {
         String centerHeuristicButton = config.centerHeuristic().toString();
         setButtonText("centerHeuristic", centerHeuristicButton);
 
-        String massHeuristicButton = config.massHeuristic().toString();
+        MassHeuristic massHeuristic = config.massHeuristic();
+        String massHeuristicButton = massHeuristic.toString().toLowerCase();
         setButtonText("massHeuristic", massHeuristicButton);
 
         float massParameter = config.massParameter();
