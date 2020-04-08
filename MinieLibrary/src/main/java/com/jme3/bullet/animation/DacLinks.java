@@ -339,45 +339,6 @@ public class DacLinks
     }
 
     /**
-     * Enumerate managed bones of the named link, in a pre-order, depth-first
-     * traversal of the skeleton, such that child bones never precede their
-     * ancestors.
-     *
-     * @param managerName the name of the managing link (not null)
-     * @return a new array of managed bones, including the manager if it is not
-     * the torso
-     */
-    Bone[] listManagedBones(String managerName) {
-        List<Bone> list = new ArrayList<>(8);
-
-        if (torsoName.equals(managerName)) {
-            Bone[] roots = skeleton.getRoots();
-            for (Bone rootBone : roots) {
-                list.add(rootBone);
-                addUnlinkedDescendants(rootBone, list);
-            }
-
-        } else {
-            BoneLink manager = findBoneLink(managerName);
-            if (manager == null) {
-                String msg = "No link named " + MyString.quote(managerName);
-                throw new IllegalArgumentException(msg);
-            }
-            Bone managerBone = manager.getBone();
-            list.add(managerBone);
-            addUnlinkedDescendants(managerBone, list);
-        }
-        /*
-         * Convert the list to an array.
-         */
-        int numManaged = list.size();
-        Bone[] array = new Bone[numManaged];
-        list.toArray(array);
-
-        return array;
-    }
-
-    /**
      * Enumerate managed armature joints of the named link, in a pre-order,
      * depth-first traversal of the Armature, such that child joints never
      * precede their ancestors.
@@ -411,6 +372,45 @@ public class DacLinks
          */
         int numManagedJoints = list.size();
         Joint[] array = new Joint[numManagedJoints];
+        list.toArray(array);
+
+        return array;
+    }
+
+    /**
+     * Enumerate managed bones of the named link, in a pre-order, depth-first
+     * traversal of the skeleton, such that child bones never precede their
+     * ancestors.
+     *
+     * @param managerName the name of the managing link (not null)
+     * @return a new array of managed bones, including the manager if it is not
+     * the torso
+     */
+    Bone[] listManagedBones(String managerName) {
+        List<Bone> list = new ArrayList<>(8);
+
+        if (torsoName.equals(managerName)) {
+            Bone[] roots = skeleton.getRoots();
+            for (Bone rootBone : roots) {
+                list.add(rootBone);
+                addUnlinkedDescendants(rootBone, list);
+            }
+
+        } else {
+            BoneLink manager = findBoneLink(managerName);
+            if (manager == null) {
+                String msg = "No link named " + MyString.quote(managerName);
+                throw new IllegalArgumentException(msg);
+            }
+            Bone managerBone = manager.getBone();
+            list.add(managerBone);
+            addUnlinkedDescendants(managerBone, list);
+        }
+        /*
+         * Convert the list to an array.
+         */
+        int numManaged = list.size();
+        Bone[] array = new Bone[numManaged];
         list.toArray(array);
 
         return array;
