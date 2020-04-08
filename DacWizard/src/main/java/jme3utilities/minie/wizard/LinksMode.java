@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -83,6 +83,9 @@ class LinksMode extends InputMode {
 
         bind(Action.dumpPhysicsSpace, KeyInput.KEY_O);
         bind(Action.dumpRenderer, KeyInput.KEY_P);
+
+        bind(Action.previousScreen, KeyInput.KEY_B);
+        bind(Action.nextScreen, KeyInput.KEY_N);
     }
 
     /**
@@ -169,12 +172,16 @@ class LinksMode extends InputMode {
     // private methods
 
     /**
-     * Advance to the TestScreen.
+     * Advance to the TestScreen if possible.
      */
     private void nextScreen() {
-        setEnabled(false);
-        InputMode test = InputMode.findMode("test");
-        test.setEnabled(true);
+        LinksScreen screen = DacWizard.findAppState(LinksScreen.class);
+        String feedback = screen.feedback();
+        if (feedback.isEmpty()) {
+            setEnabled(false);
+            InputMode test = InputMode.findMode("test");
+            test.setEnabled(true);
+        }
     }
 
     /**

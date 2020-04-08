@@ -73,6 +73,41 @@ class LoadScreen extends GuiScreenController {
         super("load", "Interface/Nifty/screens/wizard/load.xml", false);
     }
     // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Determine user feedback (if any) regarding the "next screen" action.
+     *
+     * @return "" if ready to proceed, otherwise an explanatory message
+     */
+    String feedback() {
+        Model model = DacWizard.getModel();
+        int numDacs = model.countDacs();
+        int numSkeletonControls = model.countSkeletonControls();
+        Spatial nextSpatial = model.getRootSpatial();
+        String loadException = model.loadExceptionString();
+
+        String result;
+        if (!loadException.isEmpty()) {
+            result = loadException;
+        } else if (nextSpatial == null) {
+            result = "The model hasn't been loaded yet.";
+        } else if (numSkeletonControls == 0) {
+            result = "The model lacks a skeleton control.";
+        } else if (numSkeletonControls > 1) {
+            result = String.format("The model has %d skeleton controls.",
+                    numSkeletonControls);
+        } else if (model.countBones() < 1) {
+            result = "The model's skeleton lacks bones.";
+        } else if (numDacs > 1) {
+            result = String.format("The model has %d DACs.", numDacs);
+        } else {
+            result = model.validationFeedback();
+        }
+
+        return result;
+    }
+    // *************************************************************************
     // GuiScreenController methods
 
     /**
@@ -120,6 +155,10 @@ class LoadScreen extends GuiScreenController {
     public void update(float tpf) {
         super.update(tpf);
 
+        if (!hasStarted()) {
+            return;
+        }
+
         updateFeedback();
         updatePath();
         updateToggleButton();
@@ -146,33 +185,17 @@ class LoadScreen extends GuiScreenController {
      */
     private void updateFeedback() {
         Model model = DacWizard.getModel();
-        int numDacs = model.countDacs();
-        int numSkeletonControls = model.countSkeletonControls();
         Spatial nextSpatial = model.getRootSpatial();
         String loadException = model.loadExceptionString();
 
-        String feedback;
         String loadButton = "";
-        if (!loadException.isEmpty()) {
-            feedback = loadException;
-        } else if (nextSpatial == null) {
-            feedback = "The model hasn't been loaded yet.";
+        if (loadException.isEmpty() && nextSpatial == null) {
             loadButton = "Load and preview";
-        } else if (numSkeletonControls == 0) {
-            feedback = "The model lacks a skeleton control.";
-        } else if (numSkeletonControls > 1) {
-            feedback = String.format("The model has %d skeleton controls.",
-                    numSkeletonControls);
-        } else if (model.countBones() < 1) {
-            feedback = "The model's skeleton lacks bones.";
-        } else if (numDacs > 1) {
-            feedback = String.format("The model has %d DACs.", numDacs);
-        } else {
-            feedback = model.validationFeedback();
         }
-
-        setStatusText("feedback", feedback);
         setButtonText("load", loadButton);
+
+        String feedback = feedback();
+        setStatusText("feedback", feedback);
         if (feedback.isEmpty()) {
             nextElement.show();
         } else {

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -83,6 +83,8 @@ class FilePathMode extends InputMode {
 
         bind(Action.dumpPhysicsSpace, KeyInput.KEY_O);
         bind(Action.dumpRenderer, KeyInput.KEY_P);
+
+        bind(Action.nextScreen, KeyInput.KEY_N);
     }
 
     /**
@@ -146,11 +148,15 @@ class FilePathMode extends InputMode {
     // private methods
 
     /**
-     * Advance to the LoadScreen.
+     * Advance to the LoadScreen if possible.
      */
     private void nextScreen() {
-        setEnabled(false);
-        InputMode test = InputMode.findMode("load");
-        test.setEnabled(true);
+        FilePathScreen screen = DacWizard.findAppState(FilePathScreen.class);
+        String feedback = screen.feedback();
+        if (feedback.isEmpty()) {
+            setEnabled(false);
+            InputMode load = InputMode.findMode("load");
+            load.setEnabled(true);
+        }
     }
 }

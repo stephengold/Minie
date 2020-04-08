@@ -117,8 +117,9 @@ class TestMode extends InputMode {
 
         bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_Z);
         bind(SimpleApplication.INPUT_MAPPING_CAMERA_POS, KeyInput.KEY_C);
-        bind(Action.togglePhysicsDebug, KeyInput.KEY_SLASH);
         bind(Action.toggleSkeleton, KeyInput.KEY_V);
+        bind(Action.previousScreen, KeyInput.KEY_B);
+        bind(Action.togglePhysicsDebug, KeyInput.KEY_SLASH);
     }
 
     /**

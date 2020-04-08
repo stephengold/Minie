@@ -90,6 +90,8 @@ class LoadMode extends InputMode {
         bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_Z);
         bind(SimpleApplication.INPUT_MAPPING_CAMERA_POS, KeyInput.KEY_C);
         bind(Action.toggleSkeleton, KeyInput.KEY_V);
+        bind(Action.previousScreen, KeyInput.KEY_B);
+        bind(Action.nextScreen, KeyInput.KEY_N);
     }
 
     /**
@@ -168,12 +170,16 @@ class LoadMode extends InputMode {
     // private methods
 
     /**
-     * Advance to the BonesScreen.
+     * Advance to the BonesScreen if possible.
      */
     private void nextScreen() {
-        setEnabled(false);
-        InputMode bones = InputMode.findMode("bones");
-        bones.setEnabled(true);
+        LoadScreen screen = DacWizard.findAppState(LoadScreen.class);
+        String feedback = screen.feedback();
+        if (feedback.isEmpty()) {
+            setEnabled(false);
+            InputMode bones = InputMode.findMode("bones");
+            bones.setEnabled(true);
+        }
     }
 
     /**

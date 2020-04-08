@@ -79,6 +79,37 @@ class BonesScreen extends GuiScreenController {
         super("bones", "Interface/Nifty/screens/wizard/bones.xml", false);
     }
     // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Determine user feedback (if any) regarding the "next screen" action.
+     *
+     * @return "" if ready to proceed, otherwise an explanatory message
+     */
+    String feedback() {
+        Model model = DacWizard.getModel();
+        int numBones = model.countBones();
+
+        String result = "";
+        if (model.listLinkedBones().length == 0) {
+            result = "No bones are linked.";
+        } else if (model.countVertices(DacConfiguration.torsoName) == 0) {
+            result = "No mesh vertices for the torso.";
+        } else {
+            for (int i = 0; i < numBones; ++i) {
+                if (model.isBoneLinked(i)) {
+                    String name = model.boneName(i);
+                    if (model.countVertices(name) == 0) {
+                        result = "No mesh vertices for "
+                                + MyString.quote(name);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+    // *************************************************************************
     // GuiScreenController methods
 
     /**
@@ -170,6 +201,10 @@ class BonesScreen extends GuiScreenController {
     public void update(float tpf) {
         super.update(tpf);
 
+        if (!hasStarted()) {
+            return;
+        }
+
         List<TreeItem<BoneValue>> selectedBones = treeBox.getSelection();
         int numSelected = selectedBones.size();
 
@@ -188,23 +223,7 @@ class BonesScreen extends GuiScreenController {
         }
         model.setLinkedBones(linkedBones);
 
-        String feedback = "";
-        if (model.listLinkedBones().length == 0) {
-            feedback = "No bones are linked.";
-        } else if (model.countVertices(DacConfiguration.torsoName) == 0) {
-            feedback = "No mesh vertices for the torso.";
-        } else {
-            for (int i = 0; i < numBones; ++i) {
-                if (model.isBoneLinked(i)) {
-                    String name = model.boneName(i);
-                    if (model.countVertices(name) == 0) {
-                        feedback = "No mesh vertices for "
-                                + MyString.quote(name);
-                    }
-                }
-            }
-        }
-
+        String feedback = feedback();
         setStatusText("feedback", feedback);
         if (feedback.isEmpty()) {
             nextElement.show();

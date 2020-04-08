@@ -131,6 +131,7 @@ class TestScreen extends GuiScreenController {
     public void onStartScreen() {
         super.onStartScreen();
 
+        removeGroundPlane();
         DacWizard wizard = DacWizard.getApplication();
         wizard.clearScene();
         viewedSpatial = null;
@@ -149,6 +150,10 @@ class TestScreen extends GuiScreenController {
     @Override
     public void update(float tpf) {
         super.update(tpf);
+
+        if (!hasStarted()) {
+            return;
+        }
 
         updateMarginButton();
         updateRagdollButton();

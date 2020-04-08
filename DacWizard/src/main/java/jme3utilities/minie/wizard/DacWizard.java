@@ -137,6 +137,9 @@ public class DacWizard extends GuiApplication {
         if (ragdoll != null) {
             physicsSpace.remove(ragdoll);
         }
+        if (!physicsSpace.isEmpty()) {
+            DacWizard.dumper.dump(physicsSpace);
+        }
         assert physicsSpace.isEmpty();
 
         int numControls = rootNode.getNumControls();

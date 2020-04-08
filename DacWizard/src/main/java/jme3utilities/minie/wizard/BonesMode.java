@@ -80,6 +80,9 @@ class BonesMode extends InputMode {
 
         bind(Action.dumpPhysicsSpace, KeyInput.KEY_O);
         bind(Action.dumpRenderer, KeyInput.KEY_P);
+
+        bind(Action.previousScreen, KeyInput.KEY_B);
+        bind(Action.nextScreen, KeyInput.KEY_N);
     }
 
     /**
@@ -153,12 +156,17 @@ class BonesMode extends InputMode {
     }
 
     /**
-     * Initiate range-of-motion estimation before advancing to the LinksScreen.
+     * If possible, initiate range-of-motion estimation before advancing to the
+     * LinksScreen.
      */
     private void nextScreen() {
-        setEnabled(false);
-        Model model = DacWizard.getModel();
-        model.startRomTask();
+        BonesScreen screen = DacWizard.findAppState(BonesScreen.class);
+        String feedback = screen.feedback();
+        if (feedback.isEmpty()) {
+            setEnabled(false);
+            Model model = DacWizard.getModel();
+            model.startRomTask();
+        }
     }
 
     /**
