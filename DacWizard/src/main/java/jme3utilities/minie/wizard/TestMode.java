@@ -40,6 +40,8 @@ import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.TorsoLink;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.cursors.plugins.JmeCursor;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
@@ -62,6 +64,7 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.nifty.dialog.FloatDialog;
 import jme3utilities.ui.InputMode;
 
 /**
@@ -168,6 +171,10 @@ class TestMode extends InputMode {
                     saveJ3o();
                     break;
 
+                case Action.setMargin:
+                    setMargin();
+                    break;
+
                 case Action.toggleMesh:
                     app.toggleMesh();
                     break;
@@ -186,6 +193,15 @@ class TestMode extends InputMode {
 
                 default:
                     handled = false;
+            }
+        }
+        if (!handled) {
+            if (actionString.startsWith(Action.setMargin + " ")) {
+                String arg = MyString.remainder(actionString,
+                        Action.setMargin + " ");
+                float newMargin = Float.valueOf(arg);
+                setMargin(newMargin);
+                handled = true;
             }
         }
         if (!handled) {
@@ -329,6 +345,38 @@ class TestMode extends InputMode {
                 "The configuration has been written to%n%s.",
                 MyString.quote(path));
         screen.showInfoDialog("Success", message);
+    }
+
+    /**
+     * Open a dialog box to change the collision margin.
+     */
+    private void setMargin() {
+        float oldValue = CollisionShape.getDefaultMargin();
+        String defaultValue = Float.toString(oldValue);
+        FloatDialog controller = new FloatDialog("Set", Float.MIN_VALUE,
+                Float.MAX_VALUE, false);
+
+        TestScreen screen = DacWizard.findAppState(TestScreen.class);
+        screen.closeAllPopups();
+        screen.showTextEntryDialog("Enter new margin:",
+                defaultValue, Action.setMargin + " ", controller);
+    }
+
+    /**
+     * Alter the default collision margin and also the margin of every shape.
+     *
+     * @param newMargin the desired value (&gt;0)
+     */
+    private void setMargin(float newMargin) {
+        CollisionShape.setDefaultMargin(newMargin);
+        BulletAppState bulletAppState
+                = DacWizard.findAppState(BulletAppState.class);
+        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
+        Collection<PhysicsCollisionObject> list
+                = physicsSpace.getPcoList();
+        for (PhysicsCollisionObject pco : list) {
+            pco.getCollisionShape().setMargin(newMargin);
+        }
     }
 
     /**

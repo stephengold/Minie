@@ -33,6 +33,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.TorsoLink;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Plane;
@@ -135,6 +136,7 @@ class TestScreen extends GuiScreenController {
     public void update(float tpf) {
         super.update(tpf);
 
+        updateMarginButton();
         updateRagdollButton();
         updateViewButtons();
 
@@ -185,6 +187,15 @@ class TestScreen extends GuiScreenController {
             physicsSpace.remove(groundPlane);
             groundPlane = null;
         }
+    }
+
+    /**
+     * Update the collision-margin button.
+     */
+    private void updateMarginButton() {
+        float margin = CollisionShape.getDefaultMargin();
+        String marginButton = Float.toString(margin);
+        setButtonText("margin", marginButton);
     }
 
     /**

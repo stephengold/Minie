@@ -72,7 +72,13 @@ Nifty XML to lay out the GUI for the "test" screen of DacWizard.
                          width="95px">
                     <interact onRelease="perform(toggle mesh)"/>
                 </control>
-                <control name="label" text="  "/>
+                <control name="label" text="    Margin:  "
+                         color="#000f"/>
+                <control name="button" id="marginButton"
+                         width="99px">
+                    <interact onRelease="perform(set margin)"/>
+                </control>
+                <panel/>
             </panel>
             <panel childLayout="horizontal" backgroundColor="#aaaf" height="28px">
                 <control name="label" text="  "/>
