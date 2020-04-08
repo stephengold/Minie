@@ -29,6 +29,7 @@ package jme3utilities.minie.wizard;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.LinkConfig;
@@ -135,9 +136,10 @@ public class LinksScreen extends GuiScreenController {
         ShapeHeuristic shapeHeuristic = config.shapeHeuristic();
         Vector3f shapeScale = config.shapeScale(null);
         CenterHeuristic centerHeuristic = config.centerHeuristic();
+        RotationOrder axisOrder = config.rotationOrder();
 
         config = new LinkConfig(massParameter, massHeuristic, shapeHeuristic,
-                shapeScale, centerHeuristic);
+                shapeScale, centerHeuristic, axisOrder);
         setConfig(config);
     }
 
@@ -173,9 +175,10 @@ public class LinksScreen extends GuiScreenController {
         MassHeuristic massHeuristic = config.massHeuristic();
         ShapeHeuristic shapeHeuristic = config.shapeHeuristic();
         Vector3f shapeScale = config.shapeScale(null);
+        RotationOrder axisOrder = config.rotationOrder();
 
         config = new LinkConfig(massParameter, massHeuristic, shapeHeuristic,
-                shapeScale, heuristic);
+                shapeScale, heuristic, axisOrder);
         setConfig(config);
     }
 
@@ -195,6 +198,45 @@ public class LinksScreen extends GuiScreenController {
         }
 
         return result;
+    }
+
+    /**
+     * Handle a "select rotationOrder" action without an argument.
+     */
+    void selectRotationOrder() {
+        PopupMenuBuilder builder = new PopupMenuBuilder();
+
+        LinkConfig config = config();
+        RotationOrder selected = config.rotationOrder();
+        if (selected != null) {
+            builder.add("sixdof");
+        }
+        for (RotationOrder axisOrder : RotationOrder.values()) {
+            if (axisOrder != selected) {
+                String name = axisOrder.toString();
+                builder.add(name);
+            }
+        }
+
+        showPopupMenu("select rotationOrder ", builder);
+    }
+
+    /**
+     * Handle a "select rotationOrder" action with an argument.
+     *
+     * @param axisOrder may be null
+     */
+    void selectRotationOrder(RotationOrder axisOrder) {
+        LinkConfig config = config();
+        float massParameter = config.massParameter();
+        MassHeuristic massHeuristic = config.massHeuristic();
+        ShapeHeuristic shapeHeuristic = config.shapeHeuristic();
+        Vector3f shapeScale = config.shapeScale(null);
+        CenterHeuristic centerHeuristic = config.centerHeuristic();
+
+        config = new LinkConfig(massParameter, massHeuristic, shapeHeuristic,
+                shapeScale, centerHeuristic, axisOrder);
+        setConfig(config);
     }
 
     /**
@@ -224,9 +266,10 @@ public class LinksScreen extends GuiScreenController {
         MassHeuristic massHeuristic = config.massHeuristic();
         Vector3f shapeScale = config.shapeScale(null);
         CenterHeuristic centerHeuristic = config.centerHeuristic();
+        RotationOrder axisOrder = config.rotationOrder();
 
         config = new LinkConfig(massParameter, massHeuristic, heuristic,
-                shapeScale, centerHeuristic);
+                shapeScale, centerHeuristic, axisOrder);
         setConfig(config);
     }
 
@@ -254,9 +297,10 @@ public class LinksScreen extends GuiScreenController {
         ShapeHeuristic shapeHeuristic = config.shapeHeuristic();
         Vector3f shapeScale = config.shapeScale(null);
         CenterHeuristic centerHeuristic = config.centerHeuristic();
+        RotationOrder axisOrder = config.rotationOrder();
 
         config = new LinkConfig(value, massHeuristic, shapeHeuristic,
-                shapeScale, centerHeuristic);
+                shapeScale, centerHeuristic, axisOrder);
         setConfig(config);
     }
 
@@ -283,9 +327,10 @@ public class LinksScreen extends GuiScreenController {
         float massParameter = config.massParameter();
         ShapeHeuristic shapeHeuristic = config.shapeHeuristic();
         CenterHeuristic centerHeuristic = config.centerHeuristic();
+        RotationOrder axisOrder = config.rotationOrder();
 
         config = new LinkConfig(massParameter, massHeuristic, shapeHeuristic,
-                scaleFactors, centerHeuristic);
+                scaleFactors, centerHeuristic, axisOrder);
         setConfig(config);
     }
     // *************************************************************************
@@ -447,6 +492,15 @@ public class LinksScreen extends GuiScreenController {
         Vector3f shapeScale = config.shapeScale(null);
         String shapeScaleButton = MyVector3f.describe(shapeScale);
         setButtonText("shapeScale", shapeScaleButton);
+
+        RotationOrder order = config.rotationOrder();
+        String rotationOrderButtonText;
+        if (order == null) {
+            rotationOrderButtonText = "sixdof";
+        } else {
+            rotationOrderButtonText = order.toString();
+        }
+        setButtonText("rotationOrder", rotationOrderButtonText);
 
         String feedback = feedback();
         setStatusText("feedback", feedback);

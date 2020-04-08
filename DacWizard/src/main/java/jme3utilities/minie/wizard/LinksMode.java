@@ -30,6 +30,7 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.cursors.plugins.JmeCursor;
@@ -145,6 +146,11 @@ class LinksMode extends InputMode {
                     handled = true;
                     break;
 
+                case Action.selectRotationOrder:
+                    screen.selectRotationOrder();
+                    handled = true;
+                    break;
+
                 case Action.selectShapeHeuristic:
                     screen.selectShapeHeuristic();
                     handled = true;
@@ -208,6 +214,16 @@ class LinksMode extends InputMode {
             arg = MyString.remainder(actionString, "select centerHeuristic ");
             CenterHeuristic heuristic = CenterHeuristic.valueOf(arg);
             screen.selectCenterHeuristic(heuristic);
+
+        } else if (actionString.startsWith("select rotationOrder ")) {
+            arg = MyString.remainder(actionString, "select rotationOrder ");
+            RotationOrder axisOrder;
+            if (arg.equals("sixdof")) {
+                axisOrder = null;
+            } else {
+                axisOrder = RotationOrder.valueOf(arg);
+            }
+            screen.selectRotationOrder(axisOrder);
 
         } else if (actionString.startsWith("select shapeHeuristic ")) {
             arg = MyString.remainder(actionString, "select shapeHeuristic ");

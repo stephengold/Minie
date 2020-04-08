@@ -67,6 +67,7 @@ class Action {
     final static String save = "save";
     final static String saveJ3o = "saveJ3o";
     final static String selectCenterHeuristic = "select centerHeuristic";
+    final static String selectRotationOrder = "select rotationOrder";
     final static String selectShapeHeuristic = "select shapeHeuristic";
     final static String setMargin = "set margin";
     final static String setMassParameter = "set massParameter";
