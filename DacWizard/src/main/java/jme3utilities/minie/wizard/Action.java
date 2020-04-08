@@ -61,9 +61,9 @@ class Action {
     final static String load = "load";
     final static String morePath = "more path";
     final static String moreRoot = "more root";
+    final static String nextMassHeuristic = "next massHeuristic";
     final static String nextScreen = "next screen";
     final static String previousScreen = "previous screen";
-    final static String nextMassHeuristic = "next massHeuristic";
     final static String save = "save";
     final static String saveJ3o = "saveJ3o";
     final static String selectCenterHeuristic = "select centerHeuristic";
