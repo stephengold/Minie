@@ -125,6 +125,23 @@ class FilePathScreen extends GuiScreenController {
     }
 
     /**
+     * Determine user feedback (if any) regarding the "next screen" action.
+     *
+     * @return "" if ready to proceed, otherwise an explanatory message
+     */
+    String feedback() {
+        Model model = DacWizard.getModel();
+        String filePath = model.filePath();
+
+        String result = "";
+        if (!filePath.contains("/")) {
+            result = "No model is selected yet.";
+        }
+
+        return result;
+    }
+
+    /**
      * Handle a "set pathPrefix" action.
      *
      * @param pathPrefix the user-selected filesystem-path prefix (not null, not
@@ -213,12 +230,9 @@ class FilePathScreen extends GuiScreenController {
 
         Model model = DacWizard.getModel();
         String filePath = model.filePath();
-        String feedback = "";
-        if (!filePath.contains("/")) {
-            feedback = "No model is selected yet.";
-        }
-
         setStatusText("filePath", " " + filePath);
+
+        String feedback = feedback();
         setStatusText("feedback", feedback);
         if (feedback.isEmpty()) {
             nextElement.show();

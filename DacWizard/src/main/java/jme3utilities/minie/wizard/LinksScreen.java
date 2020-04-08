@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -92,6 +92,15 @@ public class LinksScreen extends GuiScreenController {
     }
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Determine user feedback (if any) regarding the "next screen" action.
+     *
+     * @return "" if ready to proceed, otherwise an explanatory message
+     */
+    String feedback() {
+        return "";
+    }
 
     /**
      * Callback handler that Nifty invokes after a slider changes.
@@ -380,6 +389,10 @@ public class LinksScreen extends GuiScreenController {
     public void update(float tpf) {
         super.update(tpf);
 
+        if (!hasStarted()) {
+            return;
+        }
+
         Model model = DacWizard.getModel();
         List<TreeItem<LinkValue>> selectedLinks = treeBox.getSelection();
         String boneName;
@@ -434,7 +447,7 @@ public class LinksScreen extends GuiScreenController {
         String shapeScaleButton = MyVector3f.describe(shapeScale);
         setButtonText("shapeScale", shapeScaleButton);
 
-        String feedback = "";
+        String feedback = feedback();
         setStatusText("feedback", feedback);
         if (feedback.isEmpty()) {
             nextElement.show();
