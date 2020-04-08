@@ -30,12 +30,16 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Plane;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -43,6 +47,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.MyAsset;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
@@ -63,6 +68,10 @@ class TestScreen extends GuiScreenController {
     // *************************************************************************
     // fields
 
+    /**
+     * debug material for the selected PhysicsLink
+     */
+    private Material selectMaterial;
     /**
      * horizontal plane added to physics space, or null if not added
      */
@@ -99,6 +108,11 @@ class TestScreen extends GuiScreenController {
         assert inputMode != null;
         setListener(inputMode);
         inputMode.influence(this);
+
+        if (selectMaterial == null) {
+            selectMaterial = MyAsset.createWireframeMaterial(assetManager,
+                    ColorRGBA.Red);
+        }
     }
 
     /**
@@ -158,6 +172,17 @@ class TestScreen extends GuiScreenController {
 
                 DynamicAnimControl dac = model.copyRagdoll();
                 controlledSpatial.addControl(dac);
+
+                PhysicsLink selectedLink;
+                String btName = model.selectedLink();
+                if (btName.equals(DacConfiguration.torsoName)) {
+                    selectedLink = dac.getTorsoLink();
+                } else {
+                    selectedLink = dac.findBoneLink(btName);
+                }
+                PhysicsRigidBody selectedBody = selectedLink.getRigidBody();
+                selectedBody.setDebugMaterial(selectMaterial);
+
                 BulletAppState bulletAppState
                         = DacWizard.findAppState(BulletAppState.class);
                 PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
