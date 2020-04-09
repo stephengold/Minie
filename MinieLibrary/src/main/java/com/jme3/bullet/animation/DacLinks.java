@@ -417,7 +417,7 @@ public class DacLinks
     }
 
     /**
-     * Enumerate rigid bodies managed by this control.
+     * Enumerate all rigid bodies managed by this control.
      * <p>
      * Allowed only when the control IS added to a spatial.
      *
