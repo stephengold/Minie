@@ -71,7 +71,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
    + `RayTestFlag` value to disable the heightfield accelerator
    + dump the listener counts of a `PhysicsSpace`
 
- + Improvements to the `DropTest` application:
+ + Improvements to the `DropTest` demo:
    + redesigned the user interface:  use fewer keys and also display
      a pause indicator and counts of active bodies and cached meshes
    + added platforms:  bed of nails, dimpled sheet, rounded rectangle,

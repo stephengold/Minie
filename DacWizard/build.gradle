@@ -20,7 +20,7 @@ dependencies {
     implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.13' + jmeTarget
     implementation 'com.github.stephengold:jme3-utilities-ui:' + jme3utilitiesuiVersion
     implementation 'com.github.stephengold:Wes:0.4.8' + jmeTarget
-    runtimeOnly "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
 
     // select one version of LWJGL (from jcenter or mavenLocal)
     runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmonkeyengineVersion // LWJGL 2.x
