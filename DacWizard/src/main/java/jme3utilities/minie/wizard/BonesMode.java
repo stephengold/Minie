@@ -78,8 +78,11 @@ class BonesMode extends InputMode {
         bind(Action.editBindings, KeyInput.KEY_F1);
         bind(Action.editDisplaySettings, KeyInput.KEY_F2);
 
+        bind(Action.previousScreen, KeyInput.KEY_PGUP);
+
         bind(Action.dumpPhysicsSpace, KeyInput.KEY_O);
         bind(Action.dumpRenderer, KeyInput.KEY_P);
+        bind(Action.nextScreen, KeyInput.KEY_PGDN);
 
         bind(Action.previousScreen, KeyInput.KEY_B);
         bind(Action.nextScreen, KeyInput.KEY_N);
