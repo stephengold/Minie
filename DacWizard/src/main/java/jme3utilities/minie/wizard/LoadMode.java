@@ -78,10 +78,13 @@ class LoadMode extends InputMode {
         bind(Action.editBindings, KeyInput.KEY_F1);
         bind(Action.editDisplaySettings, KeyInput.KEY_F2);
 
+        bind(Action.previousScreen, KeyInput.KEY_PGUP);
+
         bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_Q);
         bind("signal " + CameraInput.FLYCAM_FORWARD, KeyInput.KEY_W);
         bind(Action.dumpPhysicsSpace, KeyInput.KEY_O);
         bind(Action.dumpRenderer, KeyInput.KEY_P);
+        bind(Action.nextScreen, KeyInput.KEY_PGDN);
 
         bind("signal orbitLeft", KeyInput.KEY_A);
         bind("signal " + CameraInput.FLYCAM_BACKWARD, KeyInput.KEY_S);

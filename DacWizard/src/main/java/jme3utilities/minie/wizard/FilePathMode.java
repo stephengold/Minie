@@ -83,6 +83,7 @@ class FilePathMode extends InputMode {
 
         bind(Action.dumpPhysicsSpace, KeyInput.KEY_O);
         bind(Action.dumpRenderer, KeyInput.KEY_P);
+        bind(Action.nextScreen, KeyInput.KEY_PGDN);
 
         bind(Action.nextScreen, KeyInput.KEY_N);
     }
