@@ -596,6 +596,24 @@ public class TestCloneJoints {
     }
 
     private static void verifyNew6Dof(New6Dof constraint, float b) {
+        Transform ta = constraint.getFrameTransform(JointEnd.A, null);
+        assert ta.getTranslation().x == va.x : ta;
+        assert ta.getTranslation().y == va.y : ta;
+        assert ta.getTranslation().z == va.z : ta;
+        assert ta.getRotation().getX() == qa.getX() : ta;
+        assert ta.getRotation().getY() == qa.getY() : ta;
+        assert ta.getRotation().getZ() == qa.getZ() : ta;
+        assert ta.getRotation().getW() == qa.getW() : ta;
+
+        Transform tb = constraint.getFrameTransform(JointEnd.B, null);
+        assert tb.getTranslation().x == vb.x : tb;
+        assert tb.getTranslation().y == vb.y : tb;
+        assert tb.getTranslation().z == vb.z : tb;
+        assert tb.getRotation().getX() == qb.getX() : tb;
+        assert tb.getRotation().getY() == qb.getY() : tb;
+        assert tb.getRotation().getZ() == qb.getZ() : tb;
+        assert tb.getRotation().getW() == qb.getW() : tb;
+
         boolean flag = (b > 0.15f && b < 0.45f);
         constraint.setCollisionBetweenLinkedBodies(flag);
 
