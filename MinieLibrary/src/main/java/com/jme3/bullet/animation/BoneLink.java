@@ -166,8 +166,12 @@ public class BoneLink extends PhysicsLink {
 
     /**
      * Add a PhysicsJoint to this link and configure its range of motion. Also
-     * initialize the link's parent and its array of managed bones or armature
-     * joints.
+     * initialize the link's parent and its array of managed bones (or armature
+     * joints).
+     * <p>
+     * The new joint will be either a SixDofJoint or a New6Dof, depending on how
+     * the bone is configured. Its "A" end will be the parent's rigid body, and
+     * its "B" end will be this link's rigid body.
      *
      * @param parentLink (not null, alias created)
      */
@@ -215,8 +219,8 @@ public class BoneLink extends PhysicsLink {
             constraint = new SixDofJoint(parentBody, childBody, pivotParent,
                     pivotChild, rotParent, rotChild, true);
         } else {
-            constraint = new New6Dof(parentBody, childBody, pivotParent, pivotChild,
-                    rotParent, rotChild, rotationOrder);
+            constraint = new New6Dof(parentBody, childBody, pivotParent,
+                    pivotChild, rotParent, rotChild, rotationOrder);
         }
         super.setJoint(constraint);
 

@@ -1333,7 +1333,7 @@ public class DacLinks
     // private methods
 
     /**
-     * Add joints to connect the named bone/torso link with each of its
+     * Add physics joints to connect the named bone/torso link with each of its
      * children. Also fill in the boneLinkList. Note: recursive!
      *
      * @param parentName the parent bone/torso link (not null)
@@ -1342,7 +1342,7 @@ public class DacLinks
         List<String> childNames = childNames(parentLink);
         for (String childName : childNames) {
             /*
-             * Add the joint and configure its range of motion.
+             * Add the PhysicsJoint and configure its range of motion.
              * Also initialize the BoneLink's parent and its array
              * of managed bones.
              */
@@ -1521,6 +1521,7 @@ public class DacLinks
                     MyString.quote(boneName));
             throw new IllegalArgumentException(msg);
         }
+
         Bone bone = null;
         Joint joint = null;
         Transform boneToMesh;
