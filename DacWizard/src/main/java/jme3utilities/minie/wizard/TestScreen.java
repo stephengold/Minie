@@ -260,11 +260,16 @@ class TestScreen extends GuiScreenController {
     private void updateAxes() {
         DacWizard wizard = DacWizard.getApplication();
         AxesVisualizer axesVisualizer = wizard.findAxesVisualizer();
+
         Model model = DacWizard.getModel();
+        boolean showingAxes = model.isShowingAxes();
         String btName = model.selectedLink();
 
-        if (viewedSpatial == null || btName.equals(DacLinks.torsoName)) {
+        if (!showingAxes
+                || viewedSpatial == null
+                || btName.equals(DacLinks.torsoName)) {
             axesVisualizer.setEnabled(false);
+
         } else {
             /*
              * Align the visualizer axes with the PhysicsJoint.
@@ -274,6 +279,7 @@ class TestScreen extends GuiScreenController {
             Constraint constraint = (Constraint) selectedLink.getJoint();
             Spatial axesNode = axesVisualizer.getSpatial();
             applyTransform(constraint, axesNode);
+
             axesVisualizer.setEnabled(true);
         }
     }
@@ -370,5 +376,9 @@ class TestScreen extends GuiScreenController {
             }
         }
         setButtonText("skeleton", skeletonText);
+
+        Model model = DacWizard.getModel();
+        String axesText = model.isShowingAxes() ? "Hide axes" : "Show axes";
+        setButtonText("axes", axesText);
     }
 }
