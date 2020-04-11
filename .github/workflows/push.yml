@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   Java8-Linux:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-16.04
     steps:
     - uses: actions/checkout@v2
@@ -14,6 +15,7 @@ jobs:
     - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 
   Java8-MacOS:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
@@ -24,6 +26,7 @@ jobs:
     - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 
   Java8-Windows:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-2016
     steps:
     - uses: actions/checkout@v2
@@ -34,6 +37,7 @@ jobs:
     - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 
   Java11-Linux:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -44,6 +48,7 @@ jobs:
     - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 
   Java11-MacOS:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
@@ -54,6 +59,7 @@ jobs:
     - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
 
   Java11-Windows:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
