@@ -31,12 +31,17 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.DacConfiguration;
+import com.jme3.bullet.animation.DacLinks;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
+import com.jme3.bullet.joints.Constraint;
+import com.jme3.bullet.joints.JointEnd;
+import com.jme3.bullet.joints.New6Dof;
+import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -48,6 +53,7 @@ import com.jme3.scene.control.AbstractControl;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
+import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
@@ -159,14 +165,15 @@ class TestScreen extends GuiScreenController {
         updateRagdollButton();
         updateViewButtons();
 
+        DacWizard wizard = DacWizard.getApplication();
         Model model = DacWizard.getModel();
         Spatial nextSpatial = model.getRootSpatial();
+        String btName = model.selectedLink();
         if (nextSpatial != viewedSpatial) {
             removeGroundPlane();
-            DacWizard wizard = DacWizard.getApplication();
             wizard.clearScene();
             viewedSpatial = nextSpatial;
-            if (nextSpatial != null) {
+            if (nextSpatial != null) { // move to a new private method
                 Spatial cgModel = (Spatial) Heart.deepCopy(nextSpatial);
                 Transform initTransform = model.copyInitTransform(null);
                 cgModel.setLocalTransform(initTransform);
@@ -179,7 +186,6 @@ class TestScreen extends GuiScreenController {
                 controlledSpatial.addControl(dac);
 
                 PhysicsLink selectedLink;
-                String btName = model.selectedLink();
                 if (btName.equals(DacConfiguration.torsoName)) {
                     selectedLink = dac.getTorsoLink();
                 } else {
@@ -193,7 +199,7 @@ class TestScreen extends GuiScreenController {
                 PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
                 physicsSpace.add(dac);
 
-                if (groundPlane == null) {
+                if (groundPlane == null) { // move to a new private method
                     Plane plane = new Plane(Vector3f.UNIT_Y, 0f); // X-Z plane
                     PlaneCollisionShape shape = new PlaneCollisionShape(plane);
                     float mass = PhysicsRigidBody.massForStatic;
@@ -202,9 +208,46 @@ class TestScreen extends GuiScreenController {
                 }
             }
         }
+
+        AxesVisualizer axesVisualizer = wizard.findAxesVisualizer();
+        if (nextSpatial == null || btName.equals(DacLinks.torsoName)) {
+            axesVisualizer.setEnabled(false);
+        } else {
+            /*
+             * Align the visualizer axes with the PhysicsJoint.
+             */
+            DynamicAnimControl dac = wizard.findDac();
+            PhysicsLink selectedLink = dac.findBoneLink(btName);
+            Constraint constraint = (Constraint) selectedLink.getJoint();
+            Spatial axesNode = axesVisualizer.getSpatial();
+            applyTransform(constraint, axesNode);
+            axesVisualizer.setEnabled(true);
+        }
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Apply the pivot-to-PhysicsSpace transform of the specified Constraint to
+     * the specified Spatial.
+     */
+    private void applyTransform(Constraint constraint, Spatial spatial) {
+        Transform frame = new Transform(); // TODO garbage
+        if (constraint instanceof New6Dof) {
+            New6Dof new6dof = (New6Dof) constraint;
+            new6dof.getFrameTransform(JointEnd.A, frame);
+        } else {
+            SixDofJoint sixDof = (SixDofJoint) constraint;
+            sixDof.getFrameTransform(JointEnd.A, frame);
+        }
+
+        PhysicsRigidBody bodyA = constraint.getBodyA();
+        Transform bodyTransform = bodyA.getTransform(null);
+        bodyTransform.setScale(1f);
+        frame.combineWithParent(bodyTransform);
+
+        spatial.setLocalTransform(frame);
+    }
 
     /**
      * Remove the ground plane from the physics space.
