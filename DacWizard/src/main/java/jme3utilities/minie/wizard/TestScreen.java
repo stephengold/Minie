@@ -30,6 +30,7 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.DacLinks;
 import com.jme3.bullet.animation.DynamicAnimControl;
@@ -50,6 +51,7 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
+import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
@@ -117,7 +119,7 @@ class TestScreen extends GuiScreenController {
 
         if (selectMaterial == null) {
             selectMaterial = MyAsset.createWireframeMaterial(assetManager,
-                    ColorRGBA.Red);
+                    ColorRGBA.White);
         }
     }
 
@@ -185,15 +187,6 @@ class TestScreen extends GuiScreenController {
                 DynamicAnimControl dac = model.copyRagdoll();
                 controlledSpatial.addControl(dac);
 
-                PhysicsLink selectedLink;
-                if (btName.equals(DacConfiguration.torsoName)) {
-                    selectedLink = dac.getTorsoLink();
-                } else {
-                    selectedLink = dac.findBoneLink(btName);
-                }
-                PhysicsRigidBody selectedBody = selectedLink.getRigidBody();
-                selectedBody.setDebugMaterial(selectMaterial);
-
                 BulletAppState bulletAppState
                         = DacWizard.findAppState(BulletAppState.class);
                 PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
@@ -223,6 +216,8 @@ class TestScreen extends GuiScreenController {
             applyTransform(constraint, axesNode);
             axesVisualizer.setEnabled(true);
         }
+
+        updateSelectedLink();
     }
     // *************************************************************************
     // private methods
@@ -259,6 +254,36 @@ class TestScreen extends GuiScreenController {
             PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
             physicsSpace.remove(groundPlane);
             groundPlane = null;
+        }
+    }
+
+    /**
+     * Update the custom materials of the DAC's bodies.
+     */
+    private void updateSelectedLink() {
+        DacWizard wizard = DacWizard.getApplication();
+        DynamicAnimControl dac = wizard.findDac();
+        if (dac != null) {
+            Model model = DacWizard.getModel();
+            String selectedBtName = model.selectedLink();
+
+            List<BoneLink> boneLinks = dac.listLinks(BoneLink.class);
+            for (BoneLink link : boneLinks) {
+                String boneName = link.boneName();
+                PhysicsRigidBody body = link.getRigidBody();
+                if (boneName.equals(selectedBtName)) {
+                    body.setDebugMaterial(selectMaterial);
+                } else {
+                    body.setDebugMaterial(null);
+                }
+            }
+            TorsoLink link = dac.getTorsoLink();
+            PhysicsRigidBody body = link.getRigidBody();
+            if (selectedBtName.equals(DacConfiguration.torsoName)) {
+                body.setDebugMaterial(selectMaterial);
+            } else {
+                body.setDebugMaterial(null);
+            }
         }
     }
 
