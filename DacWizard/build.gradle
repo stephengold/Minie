@@ -32,7 +32,7 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmonkeyengineVersion
     runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
 
-    //implementation 'jme3utilities:Minie:' + minieVersion
+    //implementation 'com.github.stephengold:Minie:' + minieVersion
     implementation project(':MinieLibrary')
 }
 
