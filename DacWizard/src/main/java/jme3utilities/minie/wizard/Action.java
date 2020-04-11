@@ -73,6 +73,7 @@ class Action {
     final static String setMargin = "set margin";
     final static String setMassParameter = "set massParameter";
     final static String setShapeScale = "set shapeScale";
+    final static String toggleAxes = "toggle axes";
     final static String toggleMesh = "toggle mesh";
     final static String togglePhysicsDebug = "toggle physicsDebug";
     final static String toggleRagdoll = "toggle ragdoll";

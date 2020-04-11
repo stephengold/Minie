@@ -189,6 +189,11 @@ class TestMode extends InputMode {
                     setMargin();
                     break;
 
+                case Action.toggleAxes:
+                    Model model = DacWizard.getModel();
+                    model.toggleShowingAxes();
+                    break;
+
                 case Action.toggleMesh:
                     app.toggleMesh();
                     break;

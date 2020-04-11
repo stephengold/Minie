@@ -97,6 +97,10 @@ class Model {
      */
     private BitSet linkedBones;
     /**
+     * whether to show PhysicsJoint axes in the TestScreen
+     */
+    private boolean isShowingAxes = false;
+    /**
      * PhysicsControl that will be added to the C-G model
      */
     private DynamicAnimControl ragdoll;
@@ -472,6 +476,15 @@ class Model {
     }
 
     /**
+     * Test whether the PhysicsJoint axes will be rendered.
+     *
+     * @return true if rendered, otherwise false
+     */
+    boolean isShowingAxes() {
+        return isShowingAxes;
+    }
+
+    /**
      * Determine the parent (in the link hierarchy) of the named linked bone. A
      * C-G model must be loaded.
      *
@@ -842,6 +855,13 @@ class Model {
         romTask = new FutureTask<>(romCallable);
         Thread romThread = new Thread(romTask);
         romThread.start();
+    }
+
+    /**
+     * Toggle the visibility of PhysicsJoint axes in TestScreen.
+     */
+    void toggleShowingAxes() {
+        isShowingAxes = !isShowingAxes;
     }
 
     /**
