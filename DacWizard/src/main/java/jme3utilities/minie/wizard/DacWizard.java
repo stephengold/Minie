@@ -53,6 +53,7 @@ import jme3utilities.InfluenceUtil;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
+import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
@@ -65,8 +66,9 @@ import jme3utilities.ui.DisplaySizeLimits;
 import jme3utilities.ui.InputMode;
 
 /**
- * A GuiApplication to configure a DynamicAnimControl for a new C-G model. The
- * application's main entry point is in this class.
+ * A GuiApplication to configure a DynamicAnimControl for a C-G model. The
+ * application's main entry point is in this class. The scene graph is also
+ * managed here.
  * <p>
  * Seen in the April 2019 walkthru video:
  * https://www.youtube.com/watch?v=iWyrzZe45jA
@@ -100,6 +102,10 @@ public class DacWizard extends GuiApplication {
      * subject computer-graphics model
      */
     final private static Model model = new Model();
+    /**
+     * node controlled by the AxesVisualizer
+     */
+    private Node axesNode = null;
     /**
      * parent of the loaded C-G model in the scene
      */
@@ -153,6 +159,9 @@ public class DacWizard extends GuiApplication {
             child.removeFromParent();
         }
 
+        if (axesNode != null) {
+            axesNode = null;
+        }
         if (cgmParent != null) {
             cgmParent = null;
         }
@@ -175,9 +184,27 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
+     * Find the AxesVisualizer in the scene.
+     *
+     * @return the pre-existing Control, or null if none/multiple
+     */
+    AxesVisualizer findAxesVisualizer() {
+        AxesVisualizer result = null;
+        if (axesNode != null) {
+            List<AxesVisualizer> controls = MySpatial.listControls(axesNode,
+                    AxesVisualizer.class, null);
+            if (controls.size() == 1) {
+                result = controls.get(0);
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Find the DynamicAnimControl in the scene.
      *
-     * @return the pre-existing control, or null if none/multiple
+     * @return the pre-existing Control, or null if none/multiple
      */
     DynamicAnimControl findDac() {
         DynamicAnimControl result = null;
@@ -274,14 +301,25 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
-     * Add a C-G model to the scene and reset the camera.
+     * Add a C-G model to the (cleared) scene and reset the camera.
      *
      * @param cgModel (not null, alias created)
      */
     void makeScene(Spatial cgModel) {
         assert cgModel != null;
+        assert axesNode == null;
         assert cgmParent == null;
-
+        /*
+         * Add a disabled visualizer for axes, with its own controlled Node.
+         */
+        axesNode = new Node("axesNode");
+        rootNode.attachChild(axesNode);
+        float length = 0.5f;
+        AxesVisualizer axes = new AxesVisualizer(assetManager, length);
+        axesNode.addControl(axes);
+        /*
+         * Add the C-G model, with its own parent Node.
+         */
         cgmParent = new Node("cgmParent");
         rootNode.attachChild(cgmParent);
         cgmParent.attachChild(cgModel);
