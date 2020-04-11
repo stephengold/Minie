@@ -35,6 +35,7 @@ import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.material.Material;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
@@ -68,14 +69,6 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
-     * mesh to visualize the A end
-     */
-    final private Arrow arrowA;
-    /**
-     * mesh to visualize the B end
-     */
-    final private Arrow arrowB;
-    /**
      * Constraint to visualize (not null)
      */
     final private Constraint constraint;
@@ -88,13 +81,15 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
      */
     final private Geometry geomB;
     /**
-     * Transform of the A end
+     * temporary storage for one Transform per thread
      */
-    final private Transform a = new Transform();
-    /**
-     * Transform of the B end
-     */
-    final private Transform b = new Transform();
+    final private static ThreadLocal<Transform> threadTmpTransform
+            = new ThreadLocal<Transform>() {
+        @Override
+        protected Transform initialValue() {
+            return new Transform();
+        }
+    };
     // *************************************************************************
     // constructors
 
@@ -110,14 +105,14 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
         this.constraint = constraint;
 
         geomA = new Geometry(constraint.toString());
-        arrowA = new Arrow(translateIdentity);
+        Arrow arrowA = new Arrow(translateIdentity);
         geomA.setMesh(arrowA);
         Material materialA = debugAppState.getJointMaterial(JointEnd.A);
         geomA.setMaterial(materialA);
         geomA.setShadowMode(RenderQueue.ShadowMode.Off);
 
         geomB = new Geometry(constraint.toString());
-        arrowB = new Arrow(translateIdentity);
+        Arrow arrowB = new Arrow(translateIdentity);
         geomB.setMesh(arrowB);
         Material materialB = debugAppState.getJointMaterial(JointEnd.B);
         geomB.setMaterial(materialB);
@@ -136,26 +131,38 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
     @Override
     protected void controlUpdate(float tpf) {
         if (constraint.isEnabled()) {
+            Transform transform = threadTmpTransform.get();
+            Vector3f vector = transform.getTranslation(); // note: alias
+            Quaternion rotation = transform.getRotation(); // note: alias
+
             PhysicsRigidBody bodyA = constraint.getBodyA();
             if (bodyA == null) {
                 geomA.setCullHint(Spatial.CullHint.Always);
             } else {
-                bodyA.getPhysicsLocation(a.getTranslation());
-                bodyA.getPhysicsRotation(a.getRotation());
-                geomA.setLocalTransform(a);
+                bodyA.getPhysicsLocation(vector);
+                bodyA.getPhysicsRotation(rotation);
+                geomA.setLocalTransform(transform);
+
                 geomA.setCullHint(Spatial.CullHint.Never); // TODO dynamic
-                arrowA.setArrowExtent(constraint.getPivotA(null));
+
+                Arrow arrow = (Arrow) geomA.getMesh();
+                constraint.getPivotA(vector);
+                arrow.setArrowExtent(vector);
             }
 
             PhysicsRigidBody bodyB = constraint.getBodyB();
             if (bodyB == null) {
                 geomB.setCullHint(Spatial.CullHint.Always);
             } else {
-                bodyB.getPhysicsLocation(b.getTranslation());
-                bodyB.getPhysicsRotation(b.getRotation());
-                geomB.setLocalTransform(b);
+                bodyB.getPhysicsLocation(vector);
+                bodyB.getPhysicsRotation(rotation);
+                geomB.setLocalTransform(transform);
+
                 geomB.setCullHint(Spatial.CullHint.Never);
-                arrowB.setArrowExtent(constraint.getPivotB(null));
+
+                Arrow arrow = (Arrow) geomB.getMesh();
+                constraint.getPivotB(vector);
+                arrow.setArrowExtent(vector);
             }
 
         } else {
@@ -178,11 +185,13 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
             Node node = (Node) spatial;
             node.attachChild(geomA);
             node.attachChild(geomB);
+
         } else if (spatial == null && this.spatial != null) {
             Node node = (Node) this.spatial;
             node.detachChild(geomA);
             node.detachChild(geomB);
         }
+
         super.setSpatial(spatial);
     }
 }
