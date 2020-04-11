@@ -167,19 +167,21 @@ class TestScreen extends GuiScreenController {
         updateRagdollButton();
         updateViewButtons();
 
-        DacWizard wizard = DacWizard.getApplication();
         Model model = DacWizard.getModel();
         Spatial nextSpatial = model.getRootSpatial();
-        String btName = model.selectedLink();
         if (nextSpatial != viewedSpatial) {
+            DacWizard wizard = DacWizard.getApplication();
+
             removeGroundPlane();
             wizard.clearScene();
+
             viewedSpatial = nextSpatial;
-            if (nextSpatial != null) { // move to a new private method
+            if (nextSpatial != null) {
                 Spatial cgModel = (Spatial) Heart.deepCopy(nextSpatial);
                 Transform initTransform = model.copyInitTransform(null);
                 cgModel.setLocalTransform(initTransform);
                 wizard.makeScene(cgModel);
+                addGroundPlane();
 
                 AbstractControl control = RagUtils.findSkeletonControl(cgModel);
                 Spatial controlledSpatial = control.getSpatial();
@@ -191,36 +193,31 @@ class TestScreen extends GuiScreenController {
                         = DacWizard.findAppState(BulletAppState.class);
                 PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
                 physicsSpace.add(dac);
-
-                if (groundPlane == null) { // move to a new private method
-                    Plane plane = new Plane(Vector3f.UNIT_Y, 0f); // X-Z plane
-                    PlaneCollisionShape shape = new PlaneCollisionShape(plane);
-                    float mass = PhysicsRigidBody.massForStatic;
-                    groundPlane = new PhysicsRigidBody(shape, mass);
-                    physicsSpace.add(groundPlane);
-                }
             }
         }
 
-        AxesVisualizer axesVisualizer = wizard.findAxesVisualizer();
-        if (nextSpatial == null || btName.equals(DacLinks.torsoName)) {
-            axesVisualizer.setEnabled(false);
-        } else {
-            /*
-             * Align the visualizer axes with the PhysicsJoint.
-             */
-            DynamicAnimControl dac = wizard.findDac();
-            PhysicsLink selectedLink = dac.findBoneLink(btName);
-            Constraint constraint = (Constraint) selectedLink.getJoint();
-            Spatial axesNode = axesVisualizer.getSpatial();
-            applyTransform(constraint, axesNode);
-            axesVisualizer.setEnabled(true);
-        }
-
+        updateAxes();
         updateSelectedLink();
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * If there isn't a ground plane, create one and add it to the PhysicsSpace.
+     */
+    private void addGroundPlane() {
+        if (groundPlane == null) {
+            Plane xzPlane = new Plane(Vector3f.UNIT_Y, 0f);
+            PlaneCollisionShape shape = new PlaneCollisionShape(xzPlane);
+            float mass = PhysicsRigidBody.massForStatic;
+            groundPlane = new PhysicsRigidBody(shape, mass);
+
+            BulletAppState bulletAppState
+                    = DacWizard.findAppState(BulletAppState.class);
+            PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
+            physicsSpace.add(groundPlane);
+        }
+    }
 
     /**
      * Apply the pivot-to-PhysicsSpace transform of the specified Constraint to
@@ -245,7 +242,7 @@ class TestScreen extends GuiScreenController {
     }
 
     /**
-     * Remove the ground plane from the physics space.
+     * Remove the ground plane (if any) from the PhysicsSpace.
      */
     private void removeGroundPlane() {
         if (groundPlane != null) {
@@ -254,6 +251,30 @@ class TestScreen extends GuiScreenController {
             PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
             physicsSpace.remove(groundPlane);
             groundPlane = null;
+        }
+    }
+
+    /**
+     * Update the AxesVisualizer.
+     */
+    private void updateAxes() {
+        DacWizard wizard = DacWizard.getApplication();
+        AxesVisualizer axesVisualizer = wizard.findAxesVisualizer();
+        Model model = DacWizard.getModel();
+        String btName = model.selectedLink();
+
+        if (viewedSpatial == null || btName.equals(DacLinks.torsoName)) {
+            axesVisualizer.setEnabled(false);
+        } else {
+            /*
+             * Align the visualizer axes with the PhysicsJoint.
+             */
+            DynamicAnimControl dac = wizard.findDac();
+            PhysicsLink selectedLink = dac.findBoneLink(btName);
+            Constraint constraint = (Constraint) selectedLink.getJoint();
+            Spatial axesNode = axesVisualizer.getSpatial();
+            applyTransform(constraint, axesNode);
+            axesVisualizer.setEnabled(true);
         }
     }
 
