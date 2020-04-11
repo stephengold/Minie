@@ -34,13 +34,16 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DacConfiguration;
+import com.jme3.bullet.animation.DacLinks;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.KinematicSubmode;
 import com.jme3.bullet.animation.LinkConfig;
+import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.cursors.plugins.JmeCursor;
 import com.jme3.export.JmeExporter;
@@ -48,6 +51,7 @@ import com.jme3.export.binary.BinaryExporter;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.math.Transform;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
@@ -57,6 +61,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -122,6 +127,8 @@ class TestMode extends InputMode {
         bind(Action.toggleSkeleton, KeyInput.KEY_V);
         bind(Action.previousScreen, KeyInput.KEY_B);
         bind(Action.togglePhysicsDebug, KeyInput.KEY_SLASH);
+
+        bind(Action.pickLink, "RMB");
     }
 
     /**
@@ -162,6 +169,10 @@ class TestMode extends InputMode {
             handled = true;
             DacWizard app = DacWizard.getApplication();
             switch (actionString) {
+                case Action.pickLink:
+                    pickLink();
+                    break;
+
                 case Action.previousScreen:
                     previousScreen();
                     break;
@@ -273,6 +284,39 @@ class TestMode extends InputMode {
     }
 
     /**
+     * Cast a physics ray from the mouse pointer. If the nearest hit is a
+     * PhysicsLink, select that link.
+     */
+    private void pickLink() {
+        Vector2f screenXY = inputManager.getCursorPosition();
+        Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
+        Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
+
+        BulletAppState bulletAppState
+                = DacWizard.findAppState(BulletAppState.class);
+        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
+
+        List<PhysicsRayTestResult> rayTest = physicsSpace.rayTest(from, to);
+        if (rayTest.size() > 0) {
+            PhysicsRayTestResult nearestHit = rayTest.get(0);
+            PhysicsCollisionObject pco = nearestHit.getCollisionObject();
+            Object user = pco.getUserObject();
+            if (user instanceof PhysicsLink) {
+                PhysicsLink link = (PhysicsLink) user;
+                Model model = DacWizard.getModel();
+
+                if (link instanceof BoneLink) {
+                    String boneName = link.boneName();
+                    model.selectLink(boneName);
+                } else {
+                    assert link instanceof TorsoLink;
+                    model.selectLink(DacLinks.torsoName);
+                }
+            }
+        }
+    }
+
+    /**
      * Go back to the previous screen.
      */
     private void previousScreen() {
@@ -372,6 +416,7 @@ class TestMode extends InputMode {
      */
     private void setMargin(float newMargin) {
         CollisionShape.setDefaultMargin(newMargin);
+
         BulletAppState bulletAppState
                 = DacWizard.findAppState(BulletAppState.class);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();

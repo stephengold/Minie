@@ -63,6 +63,7 @@ class Action {
     final static String moreRoot = "more root";
     final static String nextMassHeuristic = "next massHeuristic";
     final static String nextScreen = "next screen";
+    final static String pickLink = "pick link";
     final static String previousScreen = "previous screen";
     final static String save = "save";
     final static String saveJ3o = "saveJ3o";
