@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -63,19 +63,22 @@ public class MhGameControl
         super();
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
-                CenterHeuristic.Mean, RotationOrder.XYZ);
+                CenterHeuristic.Mean, RotationOrder.XZY);
+        /*
+         * Generate FourSphere shapes for links with > 1,000 mesh vertices.
+         */
         LinkConfig simplified = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.FourSphere, new Vector3f(1f, 1f, 1f),
-                CenterHeuristic.Mean, RotationOrder.XYZ);
+                CenterHeuristic.Mean, RotationOrder.XZY);
 
         super.setConfig(torsoName, hull);
 
         super.link("spine_03", simplified,
-                new RangeOfMotion(0.8f, 0.5f, 0.5f));
+                new RangeOfMotion(0.8f, 0.5f, 0.5f)); // 2,047 vertices
         super.link("neck_01", hull,
                 new RangeOfMotion(0.5f, 0.5f, 0.3f));
-        super.link("head", simplified, // the "head" bone has too many vertices!
-                new RangeOfMotion(0.4f, 0.6f, 0.2f));
+        super.link("head", simplified,
+                new RangeOfMotion(0.4f, 0.6f, 0.2f)); // 4,288 vertices
 
         super.link("clavicle_r", hull,
                 new RangeOfMotion(0.4f, 0f, 0.2f));
@@ -84,7 +87,7 @@ public class MhGameControl
         super.link("lowerarm_r", hull,
                 new RangeOfMotion(0.8f, -1.3f, 0f, 0f, 0f, 0f));
         super.link("hand_r", simplified,
-                new RangeOfMotion(0.7f, 0f, 0.2f));
+                new RangeOfMotion(0.7f, 0f, 0.2f)); // 1,596 vertices
 
         super.link("clavicle_l", hull,
                 new RangeOfMotion(0.4f, 0f, 0.2f));
@@ -93,21 +96,21 @@ public class MhGameControl
         super.link("lowerarm_l", hull,
                 new RangeOfMotion(0.8f, -1.3f, 0f, 0f, 0f, 0f));
         super.link("hand_l", simplified,
-                new RangeOfMotion(0.7f, 0f, 0.2f));
+                new RangeOfMotion(0.7f, 0f, 0.2f)); // 1,596 vertices
 
         super.link("thigh_r", hull,
                 new RangeOfMotion(1f, -0.2f, 0.1f, -0.2f, 0.1f, -0.4f));
         super.link("calf_r", hull,
                 new RangeOfMotion(0f, -2.2f, 0f, 0f, 0f, 0f));
         super.link("foot_r", simplified,
-                new RangeOfMotion(1f, 0.3f, 0.5f));
+                new RangeOfMotion(1f, 0.3f, 0.5f)); // 1,090 vertices
 
         super.link("thigh_l", hull,
                 new RangeOfMotion(1f, -0.2f, 0.2f, -0.1f, 0.4f, -0.1f));
         super.link("calf_l", hull,
                 new RangeOfMotion(0f, -2.2f, 0f, 0f, 0f, 0f));
         super.link("foot_l", simplified,
-                new RangeOfMotion(1f, 0.3f, 0.5f));
+                new RangeOfMotion(1f, 0.3f, 0.5f)); // 1,090 vertices
     }
     // *************************************************************************
     // Biped methods
