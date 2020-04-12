@@ -292,33 +292,32 @@ public class RagUtils {
      */
     public static List<Mesh> listDacMeshes(Spatial subtree,
             List<Mesh> storeResult) {
-        if (storeResult == null) {
-            storeResult = new ArrayList<>(10);
-        }
+        List<Mesh> result = (storeResult == null)
+                ? new ArrayList<Mesh>(10) : storeResult;
 
         if (subtree != null) {
             Boolean ignore = subtree.getUserData(UserData.JME_PHYSICSIGNORE);
             if (ignore != null && ignore) {
-                return storeResult;
+                return result;
             }
         }
 
         if (subtree instanceof Geometry) {
             Geometry geometry = (Geometry) subtree;
             Mesh mesh = geometry.getMesh();
-            if (MyMesh.isAnimated(mesh) && !storeResult.contains(mesh)) {
-                storeResult.add(mesh);
+            if (MyMesh.isAnimated(mesh) && !result.contains(mesh)) {
+                result.add(mesh);
             }
 
         } else if (subtree instanceof Node) {
             Node node = (Node) subtree;
             List<Spatial> children = node.getChildren();
             for (Spatial child : children) {
-                listDacMeshes(child, storeResult);
+                listDacMeshes(child, result);
             }
         }
 
-        return storeResult;
+        return result;
     }
 
     /**
