@@ -446,6 +446,35 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
+     * Create the specified wireframe material.
+     *
+     * @param assetManager the application's AssetManager (not null)
+     * @param color the desired color (not null, unaffected)
+     * @param name the desired name (unaffected)
+     * @param numSides the desired number of sides (1 or 2)
+     * @return a new instance
+     */
+    protected static Material createWireMaterial(AssetManager assetManager,
+            ColorRGBA color, String name, int numSides) {
+        Validate.nonNull(assetManager, "asset manager");
+        Validate.nonNull(color, "color");
+        Validate.inRange(numSides, "number of sides", 1, 2);
+
+        Material result = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        result.setColor("Color", color.clone());
+        result.setName(name);
+
+        RenderState renderState = result.getAdditionalRenderState();
+        if (numSides > 1) {
+            renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        }
+        renderState.setWireframe(true);
+
+        return result;
+    }
+
+    /**
      * Access the PhysicsSpace that's being visualized.
      *
      * @return the pre-existing instance (not null)
@@ -465,13 +494,10 @@ public class BulletDebugAppState extends AbstractAppState {
 
         Material invisible = MyAsset.createInvisibleMaterial(am);
         blues[0] = invisible;
-        blues[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
+        blues[1] = createWireMaterial(am, ColorRGBA.Blue, "debug blue ss", 1);
         blues[1].getAdditionalRenderState().setWireframe(true);
         blues[1].setName("debug blue ss");
-        blues[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
-        blues[2].setName("debug blue ds");
-        RenderState renderState = blues[2].getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        blues[2] = createWireMaterial(am, ColorRGBA.Blue, "debug blue ds", 2);
 
         childMaterials[0]
                 = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.White);
@@ -497,46 +523,27 @@ public class BulletDebugAppState extends AbstractAppState {
             childMaterials[childI].setName("debug child " + childI);
         }
 
-        green = MyAsset.createWireframeMaterial(am, ColorRGBA.Green);
-        green.setName("debug green");
-        renderState = green.getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        green = createWireMaterial(am, ColorRGBA.Green, "debug green", 2);
 
         magentas[0] = invisible;
-        magentas[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Magenta);
-        magentas[1].getAdditionalRenderState().setWireframe(true);
-        magentas[1].setName("debug magenta ss");
-        magentas[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Magenta);
-        magentas[2].setName("debug magenta ds");
-        renderState = magentas[2].getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        magentas[1] = createWireMaterial(am, ColorRGBA.Magenta,
+                "debug magenta ss", 1);
+        magentas[2] = createWireMaterial(am, ColorRGBA.Magenta,
+                "debug magenta ds", 2);
 
         pink[0] = invisible;
-        pink[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Pink);
-        pink[1].setName("debug pink ss");
-        pink[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Pink);
-        pink[2].setName("debug pink ds");
-        renderState = pink[2].getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        pink[1] = createWireMaterial(am, ColorRGBA.Pink, "debug pink ss", 1);
+        pink[2] = createWireMaterial(am, ColorRGBA.Pink, "debug pink ds", 2);
 
-        red = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
-        red.setName("debug red");
-        renderState = red.getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        red = createWireMaterial(am, ColorRGBA.Red, "debug red", 2);
 
-        white = MyAsset.createWireframeMaterial(am, ColorRGBA.White);
-        white.setName("debug white");
-        renderState = white.getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        white = createWireMaterial(am, ColorRGBA.White, "debug white", 2);
 
         yellows[0] = invisible;
-        yellows[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
-        yellows[1].getAdditionalRenderState().setWireframe(true);
-        yellows[1].setName("debug yellow ss");
-        yellows[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
-        yellows[2].setName("debug yellow ds");
-        renderState = yellows[2].getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        yellows[1] = createWireMaterial(am, ColorRGBA.Yellow,
+                "debug yellow ss", 1);
+        yellows[2] = createWireMaterial(am, ColorRGBA.Yellow,
+                "debug yellow ds", 2);
     }
 
     /**
