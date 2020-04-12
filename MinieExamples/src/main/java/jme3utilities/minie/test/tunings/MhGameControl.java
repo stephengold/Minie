@@ -99,14 +99,14 @@ public class MhGameControl
                 new RangeOfMotion(0.7f, 0f, 0.2f)); // 1,596 vertices
 
         super.link("thigh_r", hull,
-                new RangeOfMotion(1f, -0.2f, 0.1f, -0.2f, 0.1f, -0.4f));
+                new RangeOfMotion(1f, -0.2f, 0.1f, -0.2f, 0.1f, -0.2f));
         super.link("calf_r", hull,
                 new RangeOfMotion(0f, -2.2f, 0f, 0f, 0f, 0f));
         super.link("foot_r", simplified,
                 new RangeOfMotion(1f, 0.3f, 0.5f)); // 1,090 vertices
 
         super.link("thigh_l", hull,
-                new RangeOfMotion(1f, -0.2f, 0.2f, -0.1f, 0.4f, -0.1f));
+                new RangeOfMotion(1f, -0.2f, 0.2f, -0.1f, 0.2f, -0.1f));
         super.link("calf_l", hull,
                 new RangeOfMotion(0f, -2.2f, 0f, 0f, 0f, 0f));
         super.link("foot_l", simplified,
