@@ -81,7 +81,6 @@ import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.controllers.BalanceController;
 import jme3utilities.minie.test.controllers.UprightController;
 import jme3utilities.minie.test.tunings.Biped;
-import jme3utilities.minie.test.tunings.CesiumManControl;
 import jme3utilities.minie.test.tunings.JaimeControl;
 import jme3utilities.minie.test.tunings.MhGameControl;
 import jme3utilities.minie.test.tunings.NinjaControl;
@@ -286,7 +285,6 @@ public class BalanceDemo extends ActionApplication {
         dim.bind("dump scenes", KeyInput.KEY_P);
         dim.bind("go limp", KeyInput.KEY_SPACE);
 
-        //dim.bind("load CesiumMan", KeyInput.KEY_F12);
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);
         dim.bind("load Ninja", KeyInput.KEY_F7);
@@ -479,9 +477,6 @@ public class BalanceDemo extends ActionApplication {
         }
 
         switch (modelName) {
-            case "CesiumMan":
-                loadCesiumMan();
-                break;
             case "Jaime":
                 loadJaime();
                 break;
@@ -654,21 +649,6 @@ public class BalanceDemo extends ActionApplication {
          * Start playing a canned animation.
          */
         animChannel.setAnim(animationName);
-    }
-
-    /**
-     * Load the CesiumMan model (not included due to licensing issues).
-     */
-    private void loadCesiumMan() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/CesiumMan/glTF-Binary/CesiumMan.glb");
-        cgModel.rotate(0f, -3.14f, 0f);
-        dac = new CesiumManControl();
-        animationName = "anim_0";
-        uprightGain = 10f;
-        vaBias = 0f;
-        vaMagnitude = 0f;
-        torsoUpDirection = Vector3f.UNIT_Z;
     }
 
     /**

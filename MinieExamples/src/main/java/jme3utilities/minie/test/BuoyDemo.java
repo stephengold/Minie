@@ -74,7 +74,6 @@ import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.controllers.BuoyController;
-import jme3utilities.minie.test.tunings.CesiumManControl;
 import jme3utilities.minie.test.tunings.ElephantControl;
 import jme3utilities.minie.test.tunings.JaimeControl;
 import jme3utilities.minie.test.tunings.MhGameControl;
@@ -232,7 +231,6 @@ public class BuoyDemo extends ActionApplication {
         dim.bind("go floating", KeyInput.KEY_0);
         dim.bind("go floating", KeyInput.KEY_SPACE);
 
-        //dim.bind("load CesiumMan", KeyInput.KEY_F12);
         dim.bind("load Elephant", KeyInput.KEY_F3);
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);
@@ -396,9 +394,6 @@ public class BuoyDemo extends ActionApplication {
         }
 
         switch (modelName) {
-            case "CesiumMan":
-                loadCesiumMan();
-                break;
             case "Elephant":
                 loadElephant();
                 break;
@@ -555,17 +550,6 @@ public class BuoyDemo extends ActionApplication {
         if (dac.isReady()) {
             dac.setRagdollMode();
         }
-    }
-
-    /**
-     * Load the CesiumMan model (not included due to licensing issues).
-     */
-    private void loadCesiumMan() {
-        cgModel = (Node) assetManager.loadModel(
-                "Models/CesiumMan/glTF-Binary/CesiumMan.glb");
-        cgModel.rotate(0f, -1.6f, 0f);
-        dac = new CesiumManControl();
-        animationName = "anim_0";
     }
 
     /**
