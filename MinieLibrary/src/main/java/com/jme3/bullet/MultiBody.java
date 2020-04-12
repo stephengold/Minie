@@ -1030,7 +1030,7 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         int numLinks = links.length;
         Savable[] savableLinks = new Savable[numLinks];
         for (int i = 0; i < numLinks; ++i) {
-            savableLinks[i] = (Savable) links[i];
+            savableLinks[i] = links[i];
         }
         capsule.write(savableLinks, tagLinks, null);
 
