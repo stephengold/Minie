@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ public class SinbadControl
         super();
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
-                CenterHeuristic.Mean, RotationOrder.XYZ);
+                CenterHeuristic.Mean, RotationOrder.XZY);
 
         super.setConfig(torsoName, hull);
 
