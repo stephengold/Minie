@@ -285,14 +285,21 @@ class TestScreen extends GuiScreenController {
     }
 
     /**
-     * Update the custom materials of the DAC's bodies.
+     * Update the linkNameStatus and the custom materials of the DAC's bodies.
      */
     private void updateSelectedLink() {
         DacWizard wizard = DacWizard.getApplication();
         DynamicAnimControl dac = wizard.findDac();
+        String linkName = "";
         if (dac != null) {
             Model model = DacWizard.getModel();
             String selectedBtName = model.selectedLink();
+
+            if (selectedBtName.equals(DacConfiguration.torsoName)) {
+                linkName = "Torso:";
+            } else {
+                linkName = "Bone:" + selectedBtName;
+            }
 
             List<BoneLink> boneLinks = dac.listLinks(BoneLink.class);
             for (BoneLink link : boneLinks) {
@@ -312,6 +319,7 @@ class TestScreen extends GuiScreenController {
                 body.setDebugMaterial(null);
             }
         }
+        setStatusText("linkNameStatus", linkName);
     }
 
     /**
