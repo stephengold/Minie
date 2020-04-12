@@ -681,10 +681,11 @@ public class PhysicsSpace extends CollisionSpace {
         long spaceId = getSpaceId();
         assert maxSubSteps >= 0 : maxSubSteps;
         assert accuracy > 0f : accuracy;
+        float interval = timeInterval;
         if (maxSubSteps == 0) {
-            timeInterval = Math.min(timeInterval, maxTimeStep);
+            interval = Math.min(interval, maxTimeStep);
         }
-        stepSimulation(spaceId, timeInterval, maxSubSteps, accuracy);
+        stepSimulation(spaceId, interval, maxSubSteps, accuracy);
     }
 
     /**
