@@ -80,13 +80,18 @@ Nifty XML to lay out the GUI for the "test" screen of DacWizard.
                 <panel/>
             </panel>
             <panel childLayout="horizontal" backgroundColor="#aaaf" height="28px">
+                <control name="label" text="  "/>
+                <control name="label" id="linkNameStatus"
+                         backgroundColor="#ffff"
+                         color="#000f"
+                         width="*"/>
                 <control name="label" text="  Margin:  "
                          color="#000f"/>
                 <control name="button" id="marginButton"
                          width="99px">
                     <interact onRelease="perform(set margin)"/>
                 </control>
-                <panel/>
+                <panel width="50px"/>
                 <control name="button" label="Save Java"
                          id="id6ToAvoidNiftyWarning"
                          width="70px">
@@ -98,7 +103,7 @@ Nifty XML to lay out the GUI for the "test" screen of DacWizard.
                          width="70px">
                     <interact onRelease="perform(saveJ3o)"/>
                 </control>
-                <panel/>
+                <panel width="50px"/>
                 <control name="button" label="Exit"
                          id="id7ToAvoidNiftyWarning"
                          width="60px">
