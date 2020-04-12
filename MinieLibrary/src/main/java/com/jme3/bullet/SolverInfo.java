@@ -55,7 +55,7 @@ public class SolverInfo {
     /**
      * unique identifier of the btContactSolverInfo (not zero)
      */
-    private long nativeId;
+    final private long nativeId;
     // *************************************************************************
     // constructors
 
