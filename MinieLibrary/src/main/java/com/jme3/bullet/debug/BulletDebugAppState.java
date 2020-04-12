@@ -466,6 +466,7 @@ public class BulletDebugAppState extends AbstractAppState {
         Material invisible = MyAsset.createInvisibleMaterial(am);
         blues[0] = invisible;
         blues[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
+        blues[1].getAdditionalRenderState().setWireframe(true);
         blues[1].setName("debug blue ss");
         blues[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Blue);
         blues[2].setName("debug blue ds");
@@ -503,6 +504,7 @@ public class BulletDebugAppState extends AbstractAppState {
 
         magentas[0] = invisible;
         magentas[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Magenta);
+        magentas[1].getAdditionalRenderState().setWireframe(true);
         magentas[1].setName("debug magenta ss");
         magentas[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Magenta);
         magentas[2].setName("debug magenta ds");
@@ -529,6 +531,7 @@ public class BulletDebugAppState extends AbstractAppState {
 
         yellows[0] = invisible;
         yellows[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
+        yellows[1].getAdditionalRenderState().setWireframe(true);
         yellows[1].setName("debug yellow ss");
         yellows[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Yellow);
         yellows[2].setName("debug yellow ds");
