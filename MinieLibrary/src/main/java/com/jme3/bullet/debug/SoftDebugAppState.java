@@ -190,8 +190,8 @@ public class SoftDebugAppState extends BulletDebugAppState {
         assert am != null;
         super.setupMaterials(am);
 
-        anchorMaterial = MyAsset.createWireframeMaterial(am, ColorRGBA.Green);
-        anchorMaterial.setName("anchorMaterial");
+        anchorMaterial
+                = createWireMaterial(am, ColorRGBA.Green, "anchorMaterial", 1);
 
         String matDefPath = "MatDefs/wireframe/multicolor2.j3md";
         clusterMaterial = new Material(am, matDefPath);
@@ -209,15 +209,13 @@ public class SoftDebugAppState extends BulletDebugAppState {
         renderState.setDepthTest(false);
 
         faceMaterials[0] = MyAsset.createInvisibleMaterial(am);
-        faceMaterials[1] = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
-        faceMaterials[1].setName("debug red ss");
-        faceMaterials[2] = MyAsset.createWireframeMaterial(am, ColorRGBA.Red);
-        faceMaterials[2].setName("debug red ds");
-        renderState = faceMaterials[2].getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        faceMaterials[1]
+                = createWireMaterial(am, ColorRGBA.Red, "debug red ss", 1);
+        faceMaterials[2]
+                = createWireMaterial(am, ColorRGBA.Red, "debug red ds", 2);
 
-        linkMaterial = MyAsset.createWireframeMaterial(am, ColorRGBA.Orange);
-        linkMaterial.setName("linkMaterial");
+        linkMaterial
+                = createWireMaterial(am, ColorRGBA.Orange, "linkMaterial", 1);
     }
 
     /**
