@@ -460,16 +460,13 @@ public class BulletDebugAppState extends AbstractAppState {
         Validate.nonNull(color, "color");
         Validate.inRange(numSides, "number of sides", 1, 2);
 
-        Material result = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        result.setColor("Color", color.clone());
+        Material result = MyAsset.createWireframeMaterial(assetManager, color);
         result.setName(name);
 
         RenderState renderState = result.getAdditionalRenderState();
         if (numSides > 1) {
             renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
         }
-        renderState.setWireframe(true);
 
         return result;
     }
