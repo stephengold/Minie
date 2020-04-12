@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,10 @@ public class JaimeControl
         super();
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
-                CenterHeuristic.Mean, RotationOrder.XYZ);
+                CenterHeuristic.Mean, RotationOrder.XZY);
+        LinkConfig hullZxy = new LinkConfig(1f, MassHeuristic.Density,
+                ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
+                CenterHeuristic.Mean, RotationOrder.ZXY);
 
         super.setConfig(torsoName, hull);
 
@@ -95,7 +98,7 @@ public class JaimeControl
 
         super.link("shoulder.R", hull,
                 new RangeOfMotion(0.8f, -1.6f, 0f, 0f, 0.3f, -0.6f));
-        super.link("upper_arm.R", hull,
+        super.link("upper_arm.R", hullZxy,
                 new RangeOfMotion(0.8f, -1.6f, 1f, -1f, 1.6f, -1.8f));
         super.link("forearm.R", hull,
                 new RangeOfMotion(0f, -2f, 1f, -1f, 0f, 0f));
@@ -104,7 +107,7 @@ public class JaimeControl
 
         super.link("shoulder.L", hull,
                 new RangeOfMotion(1.6f, -0.8f, 0f, 0f, 0.6f, -0.3f));
-        super.link("upper_arm.L", hull,
+        super.link("upper_arm.L", hullZxy,
                 new RangeOfMotion(0.8f, -1.6f, 1f, -1f, 1.6f, -1.8f));
         super.link("forearm.L", hull,
                 new RangeOfMotion(0f, -2f, 1f, -1f, 0f, 0f));
@@ -113,14 +116,14 @@ public class JaimeControl
 
         super.link("thigh.R", hull,
                 new RangeOfMotion(1f, -0.4f, 0.4f, -0.4f, 0.5f, -0.5f));
-        super.link("shin.R", hull,
+        super.link("shin.R", hullZxy,
                 new RangeOfMotion(0f, 0f, 0f, 0f, 2f, 0f));
         super.link("foot.R", hull,
                 new RangeOfMotion(0.6f, 0.2f, 0f));
 
         super.link("thigh.L", hull,
                 new RangeOfMotion(1f, -0.4f, 0.4f, -0.4f, 0.5f, -0.5f));
-        super.link("shin.L", hull,
+        super.link("shin.L", hullZxy,
                 new RangeOfMotion(0f, 0f, 0f, 0f, 0f, -2f));
         super.link("foot.L", hull,
                 new RangeOfMotion(0.6f, 0.2f, 0f));
