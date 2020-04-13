@@ -1,6 +1,8 @@
 # release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.6.0+for32 released on TBD
+## Version 1.6.0+for32 released on 12 April 2020
+
+This is intended to be the final Minie release for JMonkeyEngine 3.2 .
 
  + Fixed bugs:
    + `UnsatisfiedLinkError` on older Linux systems
@@ -10,7 +12,7 @@
    + `rebuildRigidBody()` relied on static per-thread references to determine
      the body's `PhysicsSpace`
    + `NullPointerException` in `DacWizard` while editing the shape scale
-     of a link
+     of a `PhysicsLink`
 
  + Added library features:
    + support for 4 Android platforms (arm64-v8a, armeabi-v7a, x86, and x86_64)
