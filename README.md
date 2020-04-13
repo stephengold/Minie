@@ -11,7 +11,7 @@ It contains 5 sub-projects:
  2. [DacWizard]: a GUI application to configure a ragdoll
  3. MinieExamples: demos, examples, tutorials, and non-automated test software
  4. MinieAssets: generate assets used in MinieExamples
- 5. Jme3Examples: suggested changes to run the physics examples in jme3-examples
+ 5. Jme3Examples: physics examples from jme3-examples
 
 Complete source code (in Java) is provided under
 [a BSD license][license].
@@ -46,7 +46,6 @@ Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
 
  + Minie has many more features. (See the feature list below.)
  + Minie fixes many bugs found in the jMonkeyEngine libraries.
-   (See the fix list below.)
  + Due to its shorter release cycle, future features and bug fixes
    will probably appear first in Minie.
  + Minie uses automated testing to reduce the risk of regressions and new bugs.
@@ -59,11 +58,7 @@ Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
 
 Summary of added features:
 
- + `DynamicAnimControl` for ragdoll/rope simulation:
-    + set dynamic/kinematic mode per bone
-    + understands attachments
-    + highly tunable, with many options for bone mass, center, and shape
-    + apply inverse-kinematic controllers and joints
+ + Extensions to `DynamicAnimControl`
  + Soft-body simulation based on `btSoftBody` and `btSoftRigidDynamicsWorld`,
     including anchors and soft-body joints
  + Multi-body simulation based on `btMultiBody` and `btMultiBodyDynamicsWorld`
@@ -77,7 +72,8 @@ Summary of added features:
  + `Convex2dShape` collision shapes based on `btConvex2dShape`
  + `EmptyShape` collision shape based on `btEmptyShape`
  + debugging aids:
-    + dump the contents of a `BulletAppState` or `PhysicsSpace`
+    + dump the contents of a `BulletAppState`, `PhysicsSpace`,
+      `CollisionShape`, or `MultiBody`
     + visualize physics objects in multiple viewports
     + customize debug material per collision object
     + visualize the local axes, bounding boxes, and/or CCD swept spheres
@@ -88,49 +84,10 @@ Summary of added features:
       normals (for shading), and/or texture coordinates (for texturing)
  + all joints, shapes, collision objects, and multibodies
    implement the `JmeCloneable` and `Comparable` interfaces
- + enable/disable a joint
- + single-ended joints
- + settable global default for collision margin
- + access more parameters of rigid bodies:
-    + anisotropic friction
-    + contact damping
-    + contact stiffness
-    + contact-processing threshold
-    + deactivation time
-    + linear factor
-    + rolling friction
-    + spinning friction
+ + enable/disable a `PhysicsJoint`
+ + single-ended physics joints
+ + access more parameters of rigid bodies, vehicles, characters, etcetera
  + option to apply scaling with a `RigidBodyControl`
-
-Some `jme3-bullet` bugs that have been fixed in Minie:
-
- + 772 scale of a physics shape is applied 2x
- + 877 physics joints don't work unless both bodies are dynamic
- + 883 extra `physicsTick()` callbacks
- + 887 debug mesh ignores scaling of `CollisionShape`
- + 889 disabled physics control gets added to a physics space
- + 894 `setRestitutionOrthoLin()` sets wrong joint parameter
- + 901 collision margin initialized to 0
- + 911 sleeping-threshold setters have unexpected side effects
- + 913 missing implementation of `PhysicsJoint.finalizeNative()`
- + 917 `HingeJoint.read()` fails
- + 918 `getImpulseClamp()` returns the wrong value
- + 919 `UnsatisfiedLinkError` in `getLimitSoftness()`
- + 928 crash caused by too many parallel threads
- + 969 linear factors not cloned
- + 1029 sphere-sphere collisions not reported
- + 1037 performance issue with `HullCollisionShape`
- + 1043 `TestCCD` fails
- + 1058 crash while removing body from `BroadphaseType.SIMPLE` `PhysicsSpace`
- + 1060 doesn't implement `bt32BitAxisSweep3`
- + 1120 scaled GImpact shapes fall through floor
- + 1125 heightfield collision shapes don't match `TerrainQuad`
- + 1134 missing collisions for some rotations of a `GImpactCollisionShape`
- + 1135 `ConeJoint` causes rigid body to disappear on Linux
- + 1141 `TestAttachGhostObject` fails on Linux
- + 1157 can't enable `TranslationalLimitMotor`
- + 1178 `BulletAppState` violates the `isInitialized()` contract
- + 1283 CCD ignores collision groups
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
@@ -140,13 +97,11 @@ Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
 
 Other important differences:
 
- + The default collision margin increased from 0 to 0.04 .
  + `PhysicsSpace.addAll()` and `PhysicsSpace.removeAll()` add/remove collision
    objects only; they do not add/remove joints.
  + `RagdollCollisionListener` interface changed and moved
    from the `com.jme3.bullet.collision` package
    to the `com.jme3.bullet.animation` package.
- + Minie doesn't support ARM platforms yet.
 
 [Jump to table of contents](#toc)
 
@@ -177,9 +132,6 @@ Package names begin with
 `com.jme3.` or `jme3test.` (if the jMonkeyEngine Project holds the copyright).
 
 Both the source code and the pre-built libraries are compatible with JDK 7.
-
-The pre-built native libraries for Linux depend on CXXABI_1.3.8
-(in other words, having dynamic libraries installed for GCC 4.9.0 or higher).
 
 [Jump to table of contents](#toc)
 
@@ -218,6 +170,9 @@ resides in the [Libbulletjme] repository.
 On desktop platforms, JMonkeyEngine automatically loads
 the appropriate native library during `JmeDesktopSystem.initialize()`
 when it detects Minie's `com.jme3.bullet.util.NativeMeshUtil` class.
+On Android platforms, JMonkeyEngine tries to load
+the appropriate native library
+during static initialization of the `JmeAndroidSystem` class.
 
 Physics simulation is organized around collision objects
 (instances of `PhysicsCollisionObject`)
@@ -233,7 +188,7 @@ To visualize an object, it must be associated
 with one or more scene-graph spatial(s).
 For debugging purposes, Minie can visualize
 collision objects by auto-generating spatials for them.
-For full-custom visualization, use a physics control to associate
+For full-custom visualization, use a `PhysicsControl` to associate
 a collision object with a `Spatial`.
 
 A collision object's location and orientation are described
@@ -278,7 +233,7 @@ Minie offers optional continous collision detection (CCD)
 using swept spheres;
 such collisions are reported through those same listeners.
 
-Dynamic collision objects "go to sleep" after 2 seconds of inactivity.
+Dynamic rigid bodies "go to sleep" after 2 seconds of inactivity.
 
 ### Computational efficiency
 
@@ -287,16 +242,19 @@ the number of collision objects and the complexity of their shapes.
 To simulate physics in real time, with modest CPUs,
 it's vital to keep the physics simple:
 
- + Use approximate shapes (such as boxes and capsules) wherever possible.
+ + Use very simple collision shapes (such as boxes, capsules, and spheres)
+   wherever possible.
  + Minimize the number of collision objects by
    merging static objects together and
    simulating only the most relevant moving objects.
+ + Minimize the number of nodes in each soft body.
 
 ### Scaling the world
 
 For a physics simulation, it might seem natural to choose kilograms and meters
 as the units of mass and distance, respectively.
-However, there are some considerations.
+However, this is not a requirement, and for many games,
+MKS units are not the best choice.
 
 Bullet documentation recommends that dynamic bodies have
 masses as close as possible to 1.
@@ -313,8 +271,8 @@ with any radius smaller than about 0.2 psu.
 
 On the other hand, dynamic bodies should not be made too large.
 Dynamic bodies in forced contact tend to jiggle.
-Jiggling is mostly likely for sharp-edged bodies (such as boxes)
-resting on uneven surfaces under high gravity.
+Jiggling is mostly noticeable for sharp-edged bodies (such as boxes)
+resting on uneven surfaces, under high gravity.
 The higher the gravity (in psu per second squared),
 the shorter the simulation time step (in seconds) needs to be.
 For efficient and realistic simulation of Earth-like gravity (9.8 m/s)
@@ -334,93 +292,6 @@ preferably early in the development process.
 
 ## How to build Minie from source
 
-Minie currently targets Version 3.2.4 of jMonkeyEngine.
-You are welcome to use the Engine without installing
-its Integrated Development Environment (IDE),
-but I use the IDE, so I tend to assume you will too.
-
-### IDE setup
-
- + The setup instructions in this section are for jMonkeyEngine 3.2 SDKs
-   (which are based on the NetBeans 8 IDE)
-   and aren't expected to work with jMonkeyEngine 3.3 SDKs
-   (which are based on the NetBeans 11 IDE).
- + It's easy to develop jMonkeyEngine 3.3 applications on a
-   jMonkeyEngine 3.2 SDK, provided you use Gradle instead of Ant.
- + If you already have a jMonkeyEngine 3.2 SDK installed, skip to step 6.
-
-The hardware and software requirements of the IDE are documented at
-[the jMonkeyEngine wiki](https://jmonkeyengine.github.io/wiki/jme3/requirements.html).
-
- 1. Download a jMonkeyEngine 3.2 Software Development Kit (SDK) from
-    [GitHub](https://github.com/jMonkeyEngine/sdk/releases).
- 2. Install the SDK, which includes:
-    + the engine itself,
-    + an IDE based on [NetBeans],
-    + various IDE plugins, and
-    + the [Blender 3D][blender] application.
- 3. Open the IDE.
- 4. The first time you open the IDE, it prompts you to
-    specify a folder for storing projects:
-    + Fill in the "Folder name" text box.
-    + Click on the "Set Project Folder" button.
- 5. The first time you open the IDE, you should update
-    all the pre-installed plugins:
-    + Menu bar -> "Tools" -> "Plugins" to open the "Plugins" dialog.
-    + Click on the "Update" button to open the "Plugin Installer" wizard.
-    + Click on the "Next >" button.
-    + After the plugins have downloaded, click "Finish".
-    + The IDE will restart.
- 6. In order to open the Minie Project in the IDE (or NetBeans),
-    you will need to install the `Gradle Support` plugin:
-    + Menu bar -> "Tools" -> "Plugins" to open the "Plugins" dialog.
-    + Click on the "Available Plugins" tab.
-    + Check the box next to "Gradle Support" in the "Gradle" category.
-     If this plugin isn't shown in the IDE's "Plugins" tool,
-     you can download it from
-     [GitHub](https://github.com/kelemen/netbeans-gradle-project/releases).
-    + Click on the "Install" button to open the "Plugin Installer" wizard.
-    + Click on the "Next >" button.
-    + Check the box next to
-     "I accept the terms in all the license agreements."
-    + Click on the "Install" button.
-    + When the "Verify Certificate" dialog appears,
-     click on the "Continue" button.
-    + Click on the "Finish" button.
-    + The IDE will restart.
-
-### Source files
-
-Clone the Minie repository using Git:
-
- 1. Open the "Clone Repository" wizard in the IDE:
-     + Menu bar -> "Team" -> "Git" -> "Clone..." or
-     + Menu bar -> "Team" -> "Remote" -> "Clone..."
- 2. For "Repository URL:" specify
-    `https://github.com/stephengold/Minie.git`
- 3. Clear the "User:" and "Password:" text boxes.
- 4. For "Clone into:" specify a writable folder (on a local filesystem)
-    that doesn't already contain "Minie".
- 5. Click on the "Next >" button.
- 6. Make sure the "master" remote branch is checked.
- 7. Click on the "Next >" button again.
- 8. Make sure the Checkout Branch is set to "master".
- 9. Make sure the "Scan for NetBeans Projects after Clone" box is checked.
-10. Click on the "Finish" button.
-11. When the "Clone Completed" dialog appears, click on the "Open Project..."
-    button.
-12. Expand the root project node to reveal the 5 sub-projects.
-13. Select all sub-projects using control-click, then click on the
-    "Open" button.
-
-### Build the project
-
- 1. In the "Projects" window of the IDE,
-    right-click on the "Minie [root]" project to select it.
- 2. Select "Clean and Build".
-
-### How to build Minie without an IDE
-
  1. Install the build tools:
    + a Java Development Kit and
    + [Gradle]
@@ -428,9 +299,9 @@ Clone the Minie repository using Git:
    + using Git:
      + `git clone https://github.com/stephengold/Minie.git`
      + `cd Minie`
-     + `git checkout -b latest 1.5.0for32`
+     + `git checkout -b latest 1.6.0`
    + using a web browser:
-     + browse to [https://github.com/stephengold/Minie/releases/tag/1.5.0for32][latest]
+     + browse to [https://github.com/stephengold/Minie/releases/tag/1.6.0][latest]
      + follow the "Source code (zip)" link
      + save the ZIP file
      + unzip the saved ZIP file
@@ -462,47 +333,63 @@ To configure which native libraries will be included in the JAR,
 edit the MinieLibrary/build.gradle script.
 Look for the section where the `btf` variables are set.
 It should look something like this:
-```
+
+        btfAndroid_ARM7 = 'ReleaseSp'
+        btfAndroid_ARM8 = 'ReleaseSp'
+        btfAndroid_X86 = 'ReleaseSp'
+        btfAndroid_X86_64 = 'ReleaseSp'
         btfLinux32 = 'ReleaseSp'
         btfLinux64 = 'ReleaseSp'
+        btfLinux_ARM64 = 'ReleaseSp'
         btfMacOSX32 = 'ReleaseSp'
         btfMacOSX64 = 'ReleaseSp'
         btfWindows32 = 'ReleaseSp'
         btfWindows64 = 'ReleaseSp'
-```
 
 For example, to include only the 64-bit Linux native library,
 change the other `btf` variables to `''` and rebuild:
-```
+
+        btfAndroid_ARM7 = ''
+        btfAndroid_ARM8 = ''
+        btfAndroid_X86 = ''
+        btfAndroid_X86_64 = ''
         btfLinux32 = ''
         btfLinux64 = 'ReleaseSp'
+        btfLinux_ARM64 = ''
         btfMacOSX32 = ''
         btfMacOSX64 = ''
         btfWindows32 = ''
         btfWindows64 = ''
-```
 
-You can also customize Minie to include Debug-enabled native libraries
+You can also customize Minie to include debug-enabled native libraries
 for specific platforms:
-```
+
+        btfAndroid_ARM7 = ''
+        btfAndroid_ARM8 = ''
+        btfAndroid_X86 = ''
+        btfAndroid_X86_64 = ''
         btfLinux32 = ''
         btfLinux64 = ''
+        btfLinux_ARM64 = ''
         btfMacOSX32 = ''
         btfMacOSX64 = ''
         btfWindows32 = ''
         btfWindows64 = 'DebugSp'
-```
 
 Similarly, you can specify double-precision (Dp-flavored) native libraries
 for specific platforms:
-```
+
+        btfAndroid_ARM7 = ''
+        btfAndroid_ARM8 = ''
+        btfAndroid_X86 = ''
+        btfAndroid_X86_64 = ''
         btfLinux32 = ''
         btfLinux64 = 'ReleaseDp'
+        btfLinux_ARM64 = ''
         btfMacOSX32 = ''
         btfMacOSX64 = 'ReleaseDp'
         btfWindows32 = ''
         btfWindows64 = 'ReleaseDp'
-```
 
 [Jump to table of contents](#toc)
 
@@ -510,7 +397,7 @@ for specific platforms:
 
 ## How to add Minie to an existing project
 
-Adding Minie to an existing JME3 project should be a simple 6-step process:
+Adding Minie to an existing JME3 project is a 6-step process:
 
  1. Remove any existing physics libraries which might interfere with Minie.
  2. Add libraries to the classpath.
@@ -530,6 +417,7 @@ jMonkeyEngine libraries:
 
  + `jme3-bullet`
  + `jme3-bullet-native`
+ + `jme3-bullet-native-android`
  + `jme3-jbullet`
 
 Before adding Minie, you should remove these libraries from your project so
@@ -557,6 +445,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 Minie comes pre-built as a single library that includes both Java classes
 and native libraries.
 The Minie library depends on the
+standard jme3-terrain library and the
 Heart library, which in turn depends on
 the standard jme3-core library from jMonkeyEngine.
 
@@ -570,7 +459,7 @@ resolve the remaining dependencies automatically.
         jcenter()
     }
     dependencies {
-        compile 'com.github.stephengold:Minie:1.5.0for32'
+        compile 'com.github.stephengold:Minie:1.6.0'
     }
 
 #### For Ant projects
@@ -578,8 +467,8 @@ resolve the remaining dependencies automatically.
 For projects built using [Ant], download the Minie and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/1.5.0for32
- + https://github.com/stephengold/Heart/releases/tag/heart-5.1.0for32
+ + https://github.com/stephengold/Minie/releases/tag/1.6.0
+ + https://github.com/stephengold/Heart/releases/tag/5.2.1
 
 You'll want both class jars
 and probably the `-sources` and `-javadoc` jars as well.
@@ -593,15 +482,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
  5. Add the `Heart` class jar:
     + Click on the "Add JAR/Folder" button.
     + Navigate to the download folder.
-    + Select the "Heart-5.1.0for32.jar" file.
+    + Select the "Heart-5.2.1.jar" file.
     + Click on the "Open" button.
  6. (optional) Add jars for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "Heart-5.1.0for32-javadoc.jar" file.
+    + Select the "Heart-5.2.1-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "Heart-5.1.0for32-sources.jar" file.
+    + Select the "Heart-5.2.1-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the `Minie` jar(s).
@@ -708,7 +597,7 @@ To configure a fixed time step of 0.01 second with up to 6 time steps per frame:
         space.setMaxSubSteps(6);
 
 Note that `setAccuracy()` has no effect when `maxSubSteps==0`,
-whereas `setMaxTimeStep()` has no effect when `maxSubSteps>0`.
+while `setMaxTimeStep()` has no effect when `maxSubSteps>0`.
 
 The contact solver performs a fixed number of iterations per time step,
 by default, 10.  For higher-quality simualtion, increase this number.  For
@@ -726,7 +615,7 @@ set the gravity of the space to zero:
         space.setGravity(Vector3f.ZERO);
 
 To simulate a non-uniform gravity field,
-update the gravity of each body before every physics tick:
+update the gravity of each body before each physics tick:
 
         public void prePhysicsTick(PhysicsSpace space, float timeStep) {
             Collection<PhysicsCollisionObject> pcos = space.getPcoList();
@@ -750,7 +639,8 @@ you can test whether it uses double-precision arithmetic:
         boolean doublePrecision = NativeLibrary.isDoublePrecision();
 
 You can also test whether it was built for debugging
-(with assertions enabled and debug information generated):
+(with assertions enabled, symbols not stripped,
+and debug information generated):
 
         boolean debug = NativeLibrary.isDebug();
 
@@ -978,7 +868,7 @@ compound of hull shapes:
                 = CollisionShapeFactory.createVhacdShape(modelRoot, p, null);
 
 The V-HACD algorithm may be costly to run, but in many applications it can
-be run during the build process.
+be run during the build process and stored in J3O format.
 At runtime, the resulting shape will be far more efficient
 than a comparable `GImpactCollisionShape`.
 
@@ -996,7 +886,8 @@ bodies that have gone inactive, and objects not added to the `PhysicsSpace`.
 If further details are desired, temporary print statements might be added
 at key points.
 To streamline this process, Minie provides a configurable dumper
-for app states, physics spaces, viewports, and scene graphs.
+for app states, physics spaces, collision shapes, multibodies,
+viewports, and scene graphs.
 
 <a name="visualization"/>
 
@@ -1027,6 +918,9 @@ application's main `ViewPort`.
 To specify a different `ViewPort` (or an array of viewports) use:
 
         bas.setDebugViewPorts(viewPortArray);
+
+For a very simple example, see
+[TestDebugToPost](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestDebugToPost.java).
 
 #### Customizing what is rendered
 
@@ -1071,6 +965,9 @@ using single-sided wireframe materials:
  + red for a `PhysicsSoftBody` with faces
  + orange for a `PhysicsSoftBody` with links but no faces
 
+Note that on Android platforms,
+the default debug materials are solid colors instead of wireframes.
+
 Some collision objects are best visualized using double-sided materials.
 You can override the single-sided default on a per-object basis:
 
@@ -1089,7 +986,8 @@ Note that `setDebugNumSides()` has no effect on custom debug materials.
 
 #### Customizing the meshes
 
-Wireframe materials don't need lighting, normals, or texture coordinates.
+The default debug materials
+don't need lighting, normals, or texture coordinates.
 By default, debug visualization doesn't provide these amenities.
 However, a customized debug material might require them.
 
@@ -1099,20 +997,18 @@ You can override the no-normals default on a per-object basis:
         collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth);
         collisionObject2.setDebugMeshNormals(DebugMeshNormals.Sphere);
 
-By default, debug meshes don't include index buffers
-unless the shape is a `PlaneCollisionShape`.
-For other shapes, you can reduce the number of rendered vertices
-by generating index buffers:
+Generating index buffers for meshes usually reduces
+the number of vertices that must be rendered.
+However, generating index buffers for large meshes can take a long time.
+By default, Minie doesn't generate index buffers for debug meshes
+that have more than 6,000 vertices.
 
-        DebugShapeFactory.setIndexBuffers(true)
+You can tune this threshold:
 
-This setting has no effect on debug meshes previously generated.
+        DebugShapeFactorysetIndexBuffers(1000);
+
+The threshold has no effect on debug meshes previously generated.
 To make this setting retroactive, clear the cache.
-
-Also, note that generating index buffers for large meshes
-can take a long time.
-Do not use this setting when debugging
-large mesh or heightfield shapes.
 
 #### Callbacks for further customization
 
@@ -1155,18 +1051,20 @@ The following temporary statements could be used to dump
 
 Here is sample output for a space containing 2 rigid bodies and nothing else:
 
-    PhysicsSoftSpace with 0 chars, 0 ghosts, 0 joints, 2 rigids, 0 softs, 0 vehicles
-     bphase=DBVT grav[y=-30] timeStep[0.0166667 maxSS=4] listeners[c=0 cg=0]
-     solver[SI iters=10 cfm=0 batch=128 mode=WarmStart,VelocityDependent,SIMD,Cone]
-     rayTest=SubSimplex,HeightfieldAccel
-     SbwInfo grav[y=-30] offset=0 norm[xyz=0] water=0 air=1.2 maxDisp=1000
-      Rigid Sta loc[y=-20] fric=0.5
-       Box he[xyz=20] marg=0.04
-       with 0 joints
-      Rigid Dyn(mass=1) user=Material loc[x=-0.471014 y=1.36183 z=2.04568] orient[x=-0.256 y=-0.13 z=0.129 w=0.949] fric=0.5
-       v[x=-0.000977291 y=-0.00901186 z=0.0153094] grav[y=-30] ccd[mth=5 r=1.92562] damp[l=0.6 a=0.6] sleep[lth=0.8 ath=1 time=1.73333] moms[x=1.49771 y=1.49771 z=1.23676]
-       MultiSphere r[1.36204 0.580434] marg=0.04
-       with 0 joints
+```text
+PhysicsSoftSpace with 0 chars, 0 ghosts, 0 joints, 2 rigids, 0 softs, 0 vehicles
+ bphase=DBVT grav[y=-30] timeStep[0.0166667 maxSS=4] listeners[c=0 cg=0 t=1]
+ solver[SI iters=10 cfm=0 batch=128 mode=WarmStart,VelocityDependent,SIMD,Cone]
+ rayTest=SubSimplex,HeightfieldAccel
+ SbwInfo grav[y=-30] offset=0 norm[xyz=0] water=0 air=1.2 maxDisp=1000
+  Rigid Sta loc[y=-20] fric=0.5
+   Box he[xyz=20] marg=0.04
+   with 0 joints
+  Rigid Dyn(mass=1) user=Material loc[x=1.2788 y=1.17978 z=1.0783] orient[x=-0.251 y=-0.578 z=0.649 w=-0.426] fric=0.5
+   v[x=-0.252605 y=0.232249 z=-0.550773] grav[y=-30] ccd[mth=5 r=2.02997] damp[l=0.6 a=0.6] sleep[lth=0.8 ath=1 time=0.0666667] moms[x=0.95612 y=1.8819 z=1.99822]
+   MultiSphere r[1.09406] marg=0.04 scale[x=1.91423 y=1.15929 z=1.02588]
+   with 0 joints
+```
 
 2-space indentation indicates the hierarchy of spaces/objects/joints.
 Single-space indentation indicates additional description
@@ -1230,7 +1128,7 @@ or the child shapes in each compound collision shape.
 
 ## An introduction to New6Dof
 
-A physics joint connects one physics body to another
+A `PhysicsJoint` connects one physics body to another
 (or to a fixed point in space), constraining how the body(s) can move.
 
 For instance, a door might swing on hinges.
@@ -1284,7 +1182,7 @@ TODO tutorials and more info
 
 ## An introduction to DynamicAnimControl
 
-The centerpiece of Minie is `DynamicAnimControl`, a new `PhysicsControl`.
+The centerpiece of Minie is `DynamicAnimControl`, a kind of `PhysicsControl`.
 Adding a `DynamicAnimControl` to an animated model provides ragdoll physics and
 inverse kinematics.
 `DynamicAnimControl` can also be used to simulate ropes.
@@ -1300,7 +1198,7 @@ Usually this is the model's root `Spatial`, but not always.
 For a very simple example, see
 [HelloDac.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloDac.java).
 
-A model's ragdoll is composed of rigid bodies joined by 6-DOF joints.
+A model's ragdoll is composed of rigid bodies joined by physics joints.
 Within the `Control`, each `PhysicsRigidBody` is represented by
 a `PhysicsLink`, and the links are organized in a tree hierarchy.
 
@@ -1727,10 +1625,10 @@ YouTube videos about Minie:
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
-[latest]: https://github.com/stephengold/Minie/releases/tag/1.5.0for32 "latest release"
+[latest]: https://github.com/stephengold/Minie/releases/tag/1.6.0 "latest release"
 [libbulletjme]: https://github.com/stephengold/Libbulletjme "Libbulletjme Project"
-[license]: https://github.com/stephengold/Minie/blob/for_jME3.2/LICENSE "Minie license"
-[log]: https://github.com/stephengold/Minie/blob/for_jME3.2/MinieLibrary/release-notes.md "release log"
+[license]: https://github.com/stephengold/Minie/blob/master/LICENSE "Minie license"
+[log]: https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md "release log"
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
 [manual]: https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf "Bullet User Manual"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
@@ -1786,6 +1684,7 @@ artists and software developers:
   for decomposing meshes into convex hulls
 + Riccardo Balbo (aka "riccardo") for creating and licensing
   the [V-HACD Java Bindings Project][vhacdBindings]
++ "ndebruyn" for early testing of Minie on Android platforms
 + Adam T. Ryder (aka "tryder") for creating and licensing
   the [jME-TTF] rendering system
 + Paul Speed, for helpful insights
