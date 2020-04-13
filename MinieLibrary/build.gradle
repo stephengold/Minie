@@ -156,24 +156,9 @@ task downloadWindows64(type: MyDownload) {
 }
 
 // cleanup tasks
-clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanSOs', 'cleanLogs',
-    'cleanAndroid_ARM7', 'cleanAndroid_ARM8', 'cleanAndroid_X86',
+clean.dependsOn('cleanAndroid_ARM7', 'cleanAndroid_ARM8', 'cleanAndroid_X86',
     'cleanAndroid_X86_64', 'cleanLinux32', 'cleanLinux64', 'cleanLinux_ARM64',
     'cleanMacOSX32', 'cleanMacOSX64', 'cleanWindows32', 'cleanWindows64')
-
-task cleanDLLs(type: Delete) {
-    delete fileTree(dir: '.', include: '*.dll')
-}
-task cleanDyLibs(type: Delete) {
-    delete fileTree(dir: '.', include: '*.dylib')
-}
-task cleanSOs(type: Delete) {
-    delete fileTree(dir: '.', include: '*.so')
-}
-
-task cleanLogs(type: Delete) {
-    delete fileTree(dir: '.', include: 'hs_err_pid*.log')
-}
 
 task cleanAndroid_ARM7(type: Delete) {
     delete libDir + 'armeabi-v7a/libbulletjme.so'

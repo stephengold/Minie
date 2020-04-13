@@ -89,24 +89,7 @@ task plaid(type: JavaExec) {
 }
 
 // cleanup tasks
-clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs')
 clean.dependsOn('cleanModels', 'cleanShapes', 'cleanTextures')
-
-task cleanDLLs(type: Delete) {
-    delete fileTree(dir: '.', include: '*.dll')
-}
-task cleanDyLibs(type: Delete) {
-    delete fileTree(dir: '.', include: '*.dylib')
-}
-task cleanLogs(type: Delete) {
-    delete fileTree(dir: '.', include: 'hs_err_pid*.log')
-}
-task cleanSOs(type: Delete) {
-    delete fileTree(dir: '.', include: '*.so')
-}
-task cleanTextures(type: Delete) {
-    delete assets + 'Textures'
-}
 
 task cleanModels(type: Delete) {
     delete(candyDish, duck, elephant, mhGame, ninja, sinbad)
