@@ -5,6 +5,8 @@
  + Fixed bugs:
    + `UnsatisfiedLinkError` on older Linux systems
      "libstdc++.so.6: version `CXXABI_1.3.8’ not found"
+   + issue #2: certain soft-body methods cause access violations
+     under Java 9+ on Windows systems
    + `NullPointerException` when re-adding a `PhysicsControl` that's already
      added to a `Spatial`
    + `rebuildRigidBody()` relied on static per-thread references to determine
