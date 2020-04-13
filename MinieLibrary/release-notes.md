@@ -1,6 +1,63 @@
 # release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.5.0for32 released on 12 March 2020
+## Version 1.6.0+for32 released on TBD
+
+ + Fixed bugs:
+   + `UnsatisfiedLinkError` on older Linux systems
+     "libstdc++.so.6: version `CXXABI_1.3.8’ not found"
+   + `NullPointerException` when re-adding a `PhysicsControl` that's already
+     added to a `Spatial`
+   + `rebuildRigidBody()` relied on static per-thread references to determine
+     the body's `PhysicsSpace`
+   + `NullPointerException` in `DacWizard` while editing the shape scale
+     of a link
+
+ + Added library features:
+   + support for 4 Android platforms (arm64-v8a, armeabi-v7a, x86, and x86_64)
+   + `DynamicAnimControl` ignores spatials tagged with "JmePhysicsIgnore"
+   + `getCollisionSpace()` and `spaceId()` methods
+     to the `PhysicsCollisionObject` class
+   + `getRotationAngle()`, `setRotationAngle()`, `getSuspensionLength()`,
+     and `setSuspensionLength()` methods to the `VehicleWheel` class
+   + a `listDacMeshes()` method to the `RagUtils` class
+   + an `appendFromNativeMesh()` method to the `NativeSoftBodyUtil` class
+   + a `PcoType` class
+   + a `getFlags()` method to the `PhysicsCollisionEvent` class
+     and also a `ContactPointFlag` class
+   + `copyIndices()` and `copyVertexPositions()` methods
+     to the `IndexedMesh` class
+   + a `serializeBvh()` method to the `MeshCollisionShape` class and also a
+     constructor that takes serialized BVH
+
+ + Improvements to the `DacWizard` application:
+   + highlight the selected `PhysicsLink' in the Test screen
+   + click RMB to pick a `PhysicsLink` in the Test screen
+   + button in the Test screen to visualize the axes of the selected `BoneLink`
+   + button in the Test screen to save the model to a J3O file
+   + button in the Links screen to configure the `RotationOrder` of a `BoneLink`
+   + button in the Bones screen to bypass RoM estimation if the model already
+     has a DAC with the exact same linked bones
+   + dialog in the Test screen to adjust collision margins
+   + the "B"/PgUp and "N"/PgDn keys navigate between screens
+   + buttons in the Load and Test screens to visualize skeletons
+   + warn if there are multiple DACs in the model
+   + dark grey background
+
+ + Added most of the physics examples from `jme3-examples`
+   to the Jme3Examples subproject.
+ + Added a `TestDebugToPost` application to the MinieExamples subproject.
+ + Added build-command options for double-precision and debug-ready versions
+   of the library.
+ + Reduced memory usage by reimplementing `IndexedMesh` using an `IndexBuffer`.
+ + Customized the `RotationOrder` parameters of the sample DAC tunings.
+ + Eliminated some non-standard collision margins
+   from the MinieExamples subproject.
+ + Removed all references to the CesiumMan model.
+ + Updated the native libraries to version 5.5.7 of `Libbulletjme`.
+ + Based on v5.2 of the `Heart` library.
+ + Upgraded to Gradle v6.3 .
+
+## Version 1.5.0for33 released on 12 March 2020
 
  + Fixed bugs:
    + `NullPointerException` in the `DacWizard` application

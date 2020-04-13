@@ -33,7 +33,7 @@ ext {
     heartVersion = '5.2.0' + jmeTarget
     jme3utilitiesuiVersion = '0.8.1' + jmeTarget
     jmonkeyengineVersion = '3.2.4-stable'
-    minieVersion = '1.5.0' + jmeTarget
+    minieVersion = '1.6.0'
 }
 
 repositories {
