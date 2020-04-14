@@ -813,7 +813,7 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
     }
 
     /**
-     * Directly alter the collision groups with which this multibody can
+     * Directly alter the collision groups with which this MultiBody can
      * collide.
      *
      * @param groups desired groups, ORed together (bit mask,
@@ -824,7 +824,7 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
     }
 
     /**
-     * Alter which collision group this multibody belongs to.
+     * Alter which collision group this MultiBody belongs to.
      * <p>
      * Groups are represented by integer bit masks with exactly one bit set.
      * Pre-made variables are available in PhysicsCollisionObject.
@@ -841,7 +841,7 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
     }
 
     /**
-     * Determine the ID of the PhysicsSpace to which this multibody is added.
+     * Determine the ID of the MultiBodySpace to which this MultiBody is added.
      *
      * @return the ID, or zero if not in any space
      */
