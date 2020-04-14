@@ -50,14 +50,14 @@ public class DropTestStatus extends SimpleAppState {
     // constants and loggers
 
     /**
-     * list of damping fractions, in ascending order TODO use float[]
+     * list of damping fractions, in ascending order
      */
-    final private static Float[] dampingValues
+    final private static float[] dampingValues
             = {0f, 0.1f, 0.3f, 0.6f, 0.9f, 0.99f};
     /**
      * list of friction coefficients, in ascending order
      */
-    final private static Float[] frictionValues
+    final private static float[] frictionValues
             = {0f, 0.1f, 0.2f, 0.5f, 1f, 2f, 4f};
     /**
      * index of the status line for the child-coloring flag
@@ -76,13 +76,13 @@ public class DropTestStatus extends SimpleAppState {
      */
     final private static int frictionStatusLine = 4;
     /**
-     * index of the status line for the platform name
-     */
-    final private static int platformStatusLine = 1;
-    /**
      * number of lines of text in the overlay
      */
     final private static int numStatusLines = 6;
+    /**
+     * index of the status line for the platform name
+     */
+    final private static int platformStatusLine = 1;
     /**
      * message logger for this class
      */
