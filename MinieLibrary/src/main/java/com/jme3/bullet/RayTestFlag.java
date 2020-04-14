@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  * https://github.com/bulletphysics/bullet3/blob/master/src/BulletCollision/NarrowPhaseCollision/btRaycastCallback.h
  *
  * @author Stephen Gold sgold@sonic.net
- * @see com.jme3.bullet.PhysicsSpace#getRayTestFlags()
+ * @see com.jme3.bullet.CollisionSpace#getRayTestFlags()
  */
 public class RayTestFlag {
     // *************************************************************************
