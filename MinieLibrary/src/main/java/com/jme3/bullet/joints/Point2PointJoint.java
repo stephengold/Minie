@@ -84,11 +84,11 @@ public class Point2PointJoint extends Constraint {
      * the body must be dynamic.
      *
      * @param rigidBodyA the body to constrain (not null, alias created)
-     * @param pivotInWorld the pivot location in physics-space coordinates (not
-     * null, unaffected)
+     * @param pivotInA the pivot location in the body's scaled local coordinates
+     * (not null, unaffected)
      */
-    public Point2PointJoint(PhysicsRigidBody rigidBodyA, Vector3f pivotInWorld) {
-        super(rigidBodyA, JointEnd.A, pivotInWorld);
+    public Point2PointJoint(PhysicsRigidBody rigidBodyA, Vector3f pivotInA) {
+        super(rigidBodyA, JointEnd.A, pivotInA);
         createJoint();
     }
 
