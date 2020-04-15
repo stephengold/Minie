@@ -681,11 +681,21 @@ public class PhysicsDumper extends Dumper {
         SolverInfo solverInfo = space.getSolverInfo();
         int iters = solverInfo.numIterations();
         float cfm = solverInfo.globalCfm();
+        stream.printf(" solver[%s iters=%d cfm=%s",
+                solverType, iters, MyString.describe(cfm));
         int batch = solverInfo.minBatch();
+        stream.printf(" batch=%d splitImp[th=", batch);
+        boolean enabledGlobally = solverInfo.isSplitImpulseEnabled();
+        if (enabledGlobally) {
+            stream.print("global");
+        } else {
+            float th = solverInfo.splitImpulseThreshold();
+            stream.print(MyString.describe(th));
+        }
+        float erp = solverInfo.splitImpulseErp();
+        stream.printf(" erp=%s]", MyString.describe(erp));
         int mode = solverInfo.mode();
-        String modeDesc = SolverMode.describe(mode);
-        stream.printf(" solver[%s iters=%d cfm=%s batch=%d mode=%s]",
-                solverType, iters, MyString.describe(cfm), batch, modeDesc);
+        stream.printf(" mode=%s]", SolverMode.describe(mode));
         /*
          * 4th line: raytest flags and world extent
          */
