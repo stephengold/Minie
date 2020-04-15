@@ -26,8 +26,10 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.bullet.CollisionSpace;
 import com.jme3.bullet.MultiBody;
 import com.jme3.bullet.MultiBodyLink;
+import com.jme3.bullet.MultiBodySpace;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RayTestFlag;
@@ -119,37 +121,17 @@ public class TestDefaults {
     public void testDefaults() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
+        MultiBodySpace mbSpace = new MultiBodySpace(
+                new Vector3f(-10000f, -10000f, -10000f),
+                new Vector3f(10000f, 10000f, 10000f),
+                PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+        testPhysicsSpace(mbSpace);
+
         PhysicsSoftSpace space = new PhysicsSoftSpace(
                 new Vector3f(-10000f, -10000f, -10000f),
                 new Vector3f(10000f, 10000f, 10000f),
                 PhysicsSpace.BroadphaseType.DBVT);
-        Assert.assertEquals(0, space.countCollisionGroupListeners());
-        Assert.assertEquals(0, space.countCollisionListeners());
-        Assert.assertEquals(0, space.countCollisionObjects());
-        Assert.assertEquals(0, space.countJoints());
-        Assert.assertEquals(0, space.countRigidBodies());
-        Assert.assertEquals(0, space.countSoftBodies());
-        Assert.assertEquals(0, space.countTickListeners());
-        Assert.assertEquals(1 / 60f, space.getAccuracy(), 0f);
-        assertEquals(0f, -9.81f, 0f, space.getGravity(null), 0f);
-        Assert.assertEquals(4, space.maxSubSteps());
-        Assert.assertEquals(0.1f, space.maxTimeStep(), 0f);
-        Assert.assertEquals(RayTestFlag.SubSimplexRaytest,
-                space.getRayTestFlags());
-
-        SolverInfo solverInfo = space.getSolverInfo();
-        Assert.assertNotNull(solverInfo);
-        Assert.assertNotEquals(0L, solverInfo.nativeId());
-        Assert.assertEquals(0f, solverInfo.globalCfm(), 0f);
-        Assert.assertEquals(128, solverInfo.minBatch());
-
-        SoftBodyWorldInfo info = new SoftBodyWorldInfo();
-        Assert.assertEquals(1.2f, info.airDensity(), 0f);
-        assertEquals(0f, -10f, 0f, info.copyGravity(null), 0f);
-        Assert.assertEquals(1000f, info.maxDisplacement(), 0f);
-        Assert.assertEquals(0f, info.waterDensity(), 0f);
-        assertEquals(0f, 0f, 0f, info.copyWaterNormal(null), 0f);
-        Assert.assertEquals(0f, info.waterOffset(), 0f);
+        testPhysicsSpace(space);
 
         testShapes();
         // TODO GhostControl, CharacterControl, RigidBodyControl, VehicleControl
@@ -311,6 +293,19 @@ public class TestDefaults {
     // *************************************************************************
     // private methods
 
+    /**
+     * Verify defaults common to all newly-created collision spaces.
+     *
+     * @param space the space to test (not null, unaffected)
+     */
+    private void testCollisionSpace(CollisionSpace space) {
+        Assert.assertNotNull(space);
+        Assert.assertTrue(space.isEmpty());
+        Assert.assertEquals(0, space.countCollisionObjects());
+        Assert.assertEquals(RayTestFlag.SubSimplexRaytest,
+                space.getRayTestFlags());
+    }
+
     private void testConstraint(Constraint constraint) {
         Assert.assertFalse(constraint.isFeedback());
         constraint.setFeedback(true);
@@ -370,8 +365,8 @@ public class TestDefaults {
         Vector3f inertia = new Vector3f(1f, 1f, 1f);
         boolean fixedBase = false;
         boolean canSleep = true;
-        MultiBody mb = new MultiBody(numLinks, mass, inertia, fixedBase,
-                canSleep);
+        MultiBody mb
+                = new MultiBody(numLinks, mass, inertia, fixedBase, canSleep);
         mb.addBaseCollider(box);
         MultiBodyLink parent = null;
         Quaternion orientation = new Quaternion();
@@ -489,6 +484,58 @@ public class TestDefaults {
         Assert.assertEquals(0f, pco.getRollingFriction(), 0f);
         Assert.assertEquals(0f, pco.getSpinningFriction(), 0f);
         Assert.assertNull(pco.getUserObject());
+    }
+
+    /**
+     * Verify defaults common to all newly-created physics spaces.
+     *
+     * @param space the space to test (not null, unaffected)
+     */
+    private void testPhysicsSpace(PhysicsSpace space) {
+        testCollisionSpace(space);
+
+        Assert.assertEquals(0, space.countCollisionGroupListeners());
+        Assert.assertEquals(0, space.countCollisionListeners());
+        Assert.assertEquals(0, space.countJoints());
+        Assert.assertEquals(0, space.countRigidBodies());
+        Assert.assertEquals(0, space.countTickListeners());
+
+        Assert.assertEquals(1 / 60f, space.getAccuracy(), 0f);
+        assertEquals(0f, -9.81f, 0f, space.getGravity(null), 0f);
+        Assert.assertEquals(4, space.maxSubSteps());
+        Assert.assertEquals(0.1f, space.maxTimeStep(), 0f);
+
+        SolverInfo info = space.getSolverInfo();
+        Assert.assertNotNull(info);
+        Assert.assertNotEquals(0L, info.nativeId());
+        Assert.assertEquals(0f, info.globalCfm(), 0f);
+        Assert.assertEquals(128, info.minBatch());
+
+        String className = space.getClass().getSimpleName();
+        int expectedMode = (className.equals("MultiBodySpace")) ? 0x114 : 0x104;
+        Assert.assertEquals(expectedMode, info.mode());
+
+        Assert.assertEquals(10, info.numIterations());
+        Assert.assertTrue(info.isSplitImpulseEnabled());
+        Assert.assertEquals(0.1, info.splitImpulseErp(), 1e-6f);
+        Assert.assertEquals(-0.04, info.splitImpulseThreshold(), 1e-7f);
+
+        if (space instanceof MultiBodySpace) {
+            MultiBodySpace mbSpace = (MultiBodySpace) space;
+            Assert.assertEquals(0, mbSpace.countMultiBodies());
+
+        } else if (space instanceof PhysicsSoftSpace) {
+            PhysicsSoftSpace softSpace = (PhysicsSoftSpace) space;
+            Assert.assertEquals(0, softSpace.countSoftBodies());
+
+            SoftBodyWorldInfo sbwi = new SoftBodyWorldInfo();
+            Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
+            assertEquals(0f, -10f, 0f, sbwi.copyGravity(null), 0f);
+            Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
+            Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
+            assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
+            Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
+        }
     }
 
     /**
