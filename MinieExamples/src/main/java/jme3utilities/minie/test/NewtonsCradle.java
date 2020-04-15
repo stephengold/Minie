@@ -319,6 +319,7 @@ public class NewtonsCradle
         ball.setDebugMaterial(ballMaterial);
         ball.setDebugMeshNormals(DebugMeshNormals.Sphere);
         ball.setDebugMeshResolution(DebugShapeFactory.highResolution);
+        ball.setFriction(0f);
         ball.setPhysicsLocation(location);
         ball.setRestitution(1f);
         physicsSpace.add(ball);
