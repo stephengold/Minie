@@ -95,6 +95,17 @@ public class SolverInfo {
     }
 
     /**
+     * Test whether split impulse is enabled globally (native field:
+     * m_splitImpulse).
+     *
+     * @return true if using split impulse, otherwise false
+     */
+    public boolean isSplitImpulseEnabled() {
+        boolean result = isSplitImpulseEnabled(nativeId);
+        return result;
+    }
+
+    /**
      * Determine the minimum batch size (native field:
      * m_minimumSolverBatchSize).
      *
@@ -180,6 +191,61 @@ public class SolverInfo {
         Validate.positive(numIterations, "number of iterations");
         setNumIterations(nativeId, numIterations);
     }
+
+    /**
+     * Alter whether split impulse is enabled globally (native field:
+     * m_splitImpulse).
+     *
+     * @param setting the desired setting (default=true)
+     */
+    public void setSplitImpulseEnabled(boolean setting) {
+        setSplitImpulseEnabled(nativeId, setting);
+    }
+
+    /**
+     * Alter the error reduction parameter (ERP) used with split impulse (native
+     * field: m_splitImpulseTurnErp).
+     *
+     * @param erp the parameter (default=0.1)
+     */
+    public void setSplitImpulseErp(float erp) {
+        setSplitImpulseErp(nativeId, erp);
+    }
+
+    /**
+     * Alter the degree of penetration at which split impulse will be used. This
+     * setting no effect while split impulse is enabled globally (native field:
+     * m_splitImpulsePenetrationThreshold).
+     *
+     * @param penetration the penetration threshold (in physics-space units,
+     * default=-0.04)
+     */
+    public void setSplitImpulseThreshold(float penetration) {
+        setSplitImpulseThreshold(nativeId, penetration);
+    }
+
+    /**
+     * Determine the error reduction parameter (ERP) used with split impulse
+     * (native field: m_splitImpulseTurnErp).
+     *
+     * @return the parameter value
+     */
+    public float splitImpulseErp() {
+        float result = getSplitImpulseErp(nativeId);
+        return result;
+    }
+
+    /**
+     * Determine the minimum degree of penetration at which split impulse would
+     * be used, assuming it's not enabled globally (native field:
+     * m_splitImpulsePenetrationThreshold).
+     *
+     * @return the parameter value
+     */
+    public float splitImpulseThreshold() {
+        float result = getSplitImpulseThreshold(nativeId);
+        return result;
+    }
     // *************************************************************************
     // native methods
 
@@ -193,6 +259,12 @@ public class SolverInfo {
 
     native private int getNumIterations(long infoId);
 
+    native private float getSplitImpulseErp(long infoId);
+
+    native private float getSplitImpulseThreshold(long infoId);
+
+    native private boolean isSplitImpulseEnabled(long infoId);
+
     native private void setGlobalCfm(long infoId, float cfm);
 
     native private void setMinBatch(long infoId, int numConstraints);
@@ -200,4 +272,11 @@ public class SolverInfo {
     native private void setMode(long infoId, int flags);
 
     native private void setNumIterations(long infoId, int numIterations);
+
+    native private void setSplitImpulseEnabled(long infoId, boolean enable);
+
+    native private void setSplitImpulseErp(long infoId, float erp);
+
+    native private void setSplitImpulseThreshold(long infoId,
+            float penetration);
 }
