@@ -884,8 +884,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter this object's restitution (bounciness). For best performance, keep
-     * restitution=0.
+     * Alter this object's restitution (bounciness). For perfect elasticity, set
+     * restitution=1.
      *
      * @param restitution the desired value (default=0)
      */
