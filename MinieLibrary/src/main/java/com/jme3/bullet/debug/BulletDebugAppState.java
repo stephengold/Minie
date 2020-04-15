@@ -122,6 +122,10 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     private float axisLineWidth = 1f;
     /**
+     * line width for PhysicsJoint arrows (in pixels, &ge;1)
+     */
+    private float jointLineWidth = 1f;
+    /**
      * map collision objects to transformed visualization nodes
      */
     private HashMap<PhysicsCollisionObject, Node> pcoMap = new HashMap<>(64);
@@ -139,9 +143,13 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     final private Material[] childMaterials = new Material[10];
     /**
-     * Material for joints (their A ends)
+     * Material for PhysicsJoint arrows (their A ends)
      */
-    private Material green;
+    private Material jointMaterialA;
+    /**
+     * Material for PhysicsJoint arrows (their B ends)
+     */
+    private Material jointMaterialB;
     /**
      * materials for rigid bodies (and vehicles) that are responsive, dynamic,
      * and active
@@ -151,10 +159,6 @@ public class BulletDebugAppState extends AbstractAppState {
      * materials for responsive physics characters
      */
     final private Material[] pink = new Material[3];
-    /**
-     * Material for joints (their B ends)
-     */
-    private Material red;
     /**
      * Material for bounding boxes and swept spheres
      */
@@ -321,7 +325,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Access a Material for visualizing joints and soft-body anchors.
+     * Access a Material for visualizing PhysicsJoints.
      *
      * @param end which end to visualize (not null)
      * @return the pre-existing Material (not null)
@@ -330,10 +334,10 @@ public class BulletDebugAppState extends AbstractAppState {
         Material result;
         switch (end) {
             case A:
-                result = green;
+                result = jointMaterialA;
                 break;
             case B:
-                result = red;
+                result = jointMaterialB;
                 break;
             default:
                 throw new IllegalArgumentException(end.toString());
@@ -405,6 +409,24 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     public void setFilter(DebugAppStateFilter filter) {
         this.filter = filter;
+    }
+
+    /**
+     * Alter the line width for PhysicsJoint arrows. For internal use only.
+     *
+     * @param width (in pixels, &ge;1, default=1)
+     */
+    public void setJointLineWidth(float width) {
+        Validate.inRange(width, "width", 1f, Float.MAX_VALUE);
+
+        jointLineWidth = width;
+        if (jointMaterialA != null) {
+            RenderState rs = jointMaterialA.getAdditionalRenderState();
+            rs.setLineWidth(jointLineWidth);
+
+            rs = jointMaterialB.getAdditionalRenderState();
+            rs.setLineWidth(jointLineWidth);
+        }
     }
 
     /**
@@ -496,31 +518,28 @@ public class BulletDebugAppState extends AbstractAppState {
         blues[1].setName("debug blue ss");
         blues[2] = createWireMaterial(am, ColorRGBA.Blue, "debug blue ds", 2);
 
-        childMaterials[0]
-                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.White);
-        childMaterials[1]
-                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Red);
-        childMaterials[2]
-                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Green);
-        childMaterials[3]
-                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Blue);
-        childMaterials[4] = MyAsset.createUnshadedMaterial(assetManager,
-                ColorRGBA.Yellow);
-        childMaterials[5] = MyAsset.createUnshadedMaterial(assetManager,
-                ColorRGBA.Cyan);
-        childMaterials[6] = MyAsset.createUnshadedMaterial(assetManager,
-                ColorRGBA.Orange);
-        childMaterials[7] = MyAsset.createUnshadedMaterial(assetManager,
-                ColorRGBA.Magenta);
-        childMaterials[8]
-                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Pink);
-        childMaterials[9]
-                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Brown);
+        childMaterials[0] = MyAsset.createUnshadedMaterial(am, ColorRGBA.White);
+        childMaterials[1] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Red);
+        childMaterials[2] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Green);
+        childMaterials[3] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Blue);
+        childMaterials[4]
+                = MyAsset.createUnshadedMaterial(am, ColorRGBA.Yellow);
+        childMaterials[5] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Cyan);
+        childMaterials[6]
+                = MyAsset.createUnshadedMaterial(am, ColorRGBA.Orange);
+        childMaterials[7]
+                = MyAsset.createUnshadedMaterial(am, ColorRGBA.Magenta);
+        childMaterials[8] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Pink);
+        childMaterials[9] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Brown);
         for (int childI = 0; childI < childMaterials.length; ++childI) {
             childMaterials[childI].setName("debug child " + childI);
         }
 
-        green = createWireMaterial(am, ColorRGBA.Green, "debug green", 2);
+        jointMaterialA = createWireMaterial(am, ColorRGBA.Green,
+                "debug joint A wire", 2);
+        jointMaterialB = createWireMaterial(am, ColorRGBA.Red,
+                "debug joint B wire", 2);
+        setJointLineWidth(jointLineWidth);
 
         magentas[0] = invisible;
         magentas[1] = createWireMaterial(am, ColorRGBA.Magenta,
@@ -531,8 +550,6 @@ public class BulletDebugAppState extends AbstractAppState {
         pink[0] = invisible;
         pink[1] = createWireMaterial(am, ColorRGBA.Pink, "debug pink ss", 1);
         pink[2] = createWireMaterial(am, ColorRGBA.Pink, "debug pink ds", 2);
-
-        red = createWireMaterial(am, ColorRGBA.Red, "debug red", 2);
 
         white = createWireMaterial(am, ColorRGBA.White, "debug white", 2);
 

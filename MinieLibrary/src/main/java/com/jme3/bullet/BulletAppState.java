@@ -151,6 +151,10 @@ public class BulletAppState
      */
     private float debugAxisLineWidth = 1f;
     /**
+     * line width for PhysicsJoint debug arrows (in pixels, &ge;1)
+     */
+    private float debugJointLineWidth = 1f;
+    /**
      * simulation speed multiplier (default=1, paused=0)
      */
     private float speed = 1f;
@@ -420,6 +424,20 @@ public class BulletAppState
             debugAppState.setCamera(camera);
         }
         debugCamera = camera;
+    }
+
+    /**
+     * Alter the line width for PhysicsJoint debug arrows.
+     *
+     * @param width (in pixels, &ge;1, default=1)
+     */
+    public void setDebugJointLineWidth(float width) {
+        Validate.inRange(width, "width", 1f, Float.MAX_VALUE);
+
+        if (debugAppState != null) {
+            debugAppState.setJointLineWidth(width);
+        }
+        debugJointLineWidth = width;
     }
 
     /**
@@ -822,6 +840,7 @@ public class BulletAppState
             debugAppState.setAxisLength(debugAxisLength);
             debugAppState.setAxisLineWidth(debugAxisLineWidth);
             debugAppState.setBoundingBoxFilter(boundingBoxFilter);
+            debugAppState.setJointLineWidth(debugJointLineWidth);
             debugAppState.setSweptSphereFilter(sweptSphereFilter);
             stateManager.attach(debugAppState);
 
