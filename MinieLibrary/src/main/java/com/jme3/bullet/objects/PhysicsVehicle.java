@@ -770,13 +770,15 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      */
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-
-        logger3.log(Level.FINE, "Finalizing RayCaster {0}",
-                Long.toHexString(rayCasterId));
-        logger3.log(Level.FINE, "Finalizing Vehicle {0}",
-                Long.toHexString(vehicleId));
-        finalizeNative(rayCasterId, vehicleId);
+        try {
+            logger3.log(Level.FINE, "Finalizing RayCaster {0}",
+                    Long.toHexString(rayCasterId));
+            logger3.log(Level.FINE, "Finalizing Vehicle {0}",
+                    Long.toHexString(vehicleId));
+            finalizeNative(rayCasterId, vehicleId);
+        } finally {
+            super.finalize();
+        }
     }
 
     /**

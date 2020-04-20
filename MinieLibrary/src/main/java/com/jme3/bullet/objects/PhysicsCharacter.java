@@ -702,8 +702,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-        finalizeNativeCharacter(characterId);
+        try {
+            finalizeNativeCharacter(characterId);
+        } finally {
+            super.finalize();
+        }
     }
     // *************************************************************************
     // private methods
