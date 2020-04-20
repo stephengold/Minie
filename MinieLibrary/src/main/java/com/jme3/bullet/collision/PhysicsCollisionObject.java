@@ -1217,6 +1217,12 @@ abstract public class PhysicsCollisionObject
     protected void finalize() throws Throwable {
         super.finalize();
         logger.log(Level.FINE, "Finalizing {0}.", this);
+
+        CollisionSpace space = getCollisionSpace();
+        if (space != null) {
+            space.removeCollisionObject(this);
+        }
+
         finalizeNative(objectId);
     }
 
