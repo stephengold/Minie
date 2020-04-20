@@ -221,9 +221,12 @@ public class MeshCollisionShape extends CollisionShape {
      */
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-        if (bvhBufferId != 0L) {
-            finalizeBVH(bvhBufferId);
+        try {
+            if (bvhBufferId != 0L) {
+                finalizeBVH(bvhBufferId);
+            }
+        } finally {
+            super.finalize();
         }
     }
 

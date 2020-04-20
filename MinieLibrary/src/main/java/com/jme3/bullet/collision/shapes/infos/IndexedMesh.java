@@ -392,10 +392,13 @@ public class IndexedMesh implements JmeCloneable, Savable {
      */
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-        logger.log(Level.FINE, "Finalizing IndexedMesh {0}",
-                Long.toHexString(nativeId));
-        finalizeNative(nativeId);
+        try {
+            logger.log(Level.FINE, "Finalizing IndexedMesh {0}",
+                    Long.toHexString(nativeId));
+            finalizeNative(nativeId);
+        } finally {
+            super.finalize();
+        }
     }
     // *************************************************************************
     // private methods

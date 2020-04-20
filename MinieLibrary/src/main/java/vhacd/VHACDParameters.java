@@ -445,9 +445,12 @@ public class VHACDParameters implements Cloneable {
      */
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-        logger.log(Level.FINE, "Finalizing {0}.", this);
-        finalizeNative(objectId);
+        try {
+            logger.log(Level.FINE, "Finalizing {0}.", this);
+            finalizeNative(objectId);
+        } finally {
+            super.finalize();
+        }
     }
     // *************************************************************************
     // private methods

@@ -567,11 +567,13 @@ abstract public class Constraint extends PhysicsJoint {
      */
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-        logger.log(Level.FINE, "Finalizing {0}.", this);
-
-        long constraintId = getObjectId();
-        finalizeNative(constraintId);
+        try {
+            logger.log(Level.FINE, "Finalizing {0}.", this);
+            long constraintId = getObjectId();
+            finalizeNative(constraintId);
+        } finally {
+            super.finalize();
+        }
     }
     // *************************************************************************
     // native private methods

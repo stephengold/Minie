@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -282,10 +282,13 @@ public class CompoundMesh implements JmeCloneable, Savable {
      */
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-        logger.log(Level.FINE, "Finalizing CompoundMesh {0}",
-                Long.toHexString(nativeId));
-        finalizeNative(nativeId);
+        try {
+            logger.log(Level.FINE, "Finalizing CompoundMesh {0}",
+                    Long.toHexString(nativeId));
+            finalizeNative(nativeId);
+        } finally {
+            super.finalize();
+        }
     }
     // *************************************************************************
     // private methods

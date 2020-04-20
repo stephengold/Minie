@@ -1048,9 +1048,12 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-        logger.log(Level.FINE, "Finalizing {0}.", this);
-        finalizeNative(nativeId);
+        try {
+            logger.log(Level.FINE, "Finalizing {0}.", this);
+            finalizeNative(nativeId);
+        } finally {
+            super.finalize();
+        }
     }
 
     /**
