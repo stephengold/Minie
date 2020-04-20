@@ -273,6 +273,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
                     new Object[]{softBody, this});
             return;
         }
+        assert !softBody.isInWorld();
 
         softBodyMap.put(softBodyId, softBody);
         logger2.log(Level.FINE, "Adding {0} to {1}.",

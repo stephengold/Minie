@@ -906,6 +906,7 @@ public class PhysicsSpace extends CollisionSpace {
                     new Object[]{character, this});
             return;
         }
+        assert !character.isInWorld();
 
         logger.log(Level.FINE, "Adding {0} to {1}.",
                 new Object[]{character, this});
@@ -984,6 +985,7 @@ public class PhysicsSpace extends CollisionSpace {
                     new Object[]{rigidBody, this});
             return;
         }
+        assert !rigidBody.isInWorld();
 
         logger.log(Level.FINE, "Adding {0} to {1}.",
                 new Object[]{rigidBody, this});

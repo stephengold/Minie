@@ -632,6 +632,7 @@ public class CollisionSpace {
                     new Object[]{ghost, this});
             return;
         }
+        assert !ghost.isInWorld();
 
         loggerC.log(Level.FINE, "Adding {0} to {1}.",
                 new Object[]{ghost, this});
