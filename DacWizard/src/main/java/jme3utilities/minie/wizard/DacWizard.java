@@ -279,7 +279,7 @@ public class DacWizard extends GuiApplication {
             switch (arg) {
                 case "-3":
                 case "--openGL3":
-                    renderer = AppSettings.LWJGL_OPENGL3;
+                    renderer = AppSettings.LWJGL_OPENGL33;
                     break;
 
                 case "-f":
