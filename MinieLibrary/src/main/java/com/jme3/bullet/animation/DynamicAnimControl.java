@@ -153,12 +153,15 @@ public class DynamicAnimControl
      * Begin blending the specified BoneLink and all its descendants into an
      * amputated state. This has the effect of hiding those links.
      *
-     * @param rootLink the root of the subtree to amputate (not null)
+     * @param rootLink the root of the subtree to amputate (not null, belongs to
+     * this control)
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
      */
     public void amputateSubtree(BoneLink rootLink, float blendInterval) {
         Validate.nonNull(rootLink, "root link");
+        Validate.require(rootLink.getControl() == this,
+                "link belongs to this control");
         Validate.nonNegative(blendInterval, "blend interval");
         verifyAddedToSpatial("change modes");
 
@@ -171,12 +174,15 @@ public class DynamicAnimControl
      * Begin blending the specified link and all its descendants to kinematic
      * animation.
      *
-     * @param rootLink the root of the subtree to bind (not null)
+     * @param rootLink the root of the subtree to bind (not null, belongs to
+     * this control)
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
      */
     public void animateSubtree(PhysicsLink rootLink, float blendInterval) {
         Validate.nonNull(rootLink, "root link");
+        Validate.require(rootLink.getControl() == this,
+                "link belongs to this control");
         Validate.nonNegative(blendInterval, "blend interval");
         verifyAddedToSpatial("change modes");
 
@@ -186,12 +192,15 @@ public class DynamicAnimControl
     /**
      * Begin blending the specified link and all its descendants into bind pose.
      *
-     * @param rootLink the root of the subtree to bind (not null)
+     * @param rootLink the root of the subtree to bind (not null, belongs to
+     * this control)
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
      */
     public void bindSubtree(PhysicsLink rootLink, float blendInterval) {
         Validate.nonNull(rootLink, "root link");
+        Validate.require(rootLink.getControl() == this,
+                "link belongs to this control");
         Validate.nonNegative(blendInterval, "blend interval");
         verifyAddedToSpatial("change modes");
 
@@ -414,12 +423,15 @@ public class DynamicAnimControl
      * <p>
      * Allowed only when the Control IS added to a Spatial.
      *
-     * @param rootLink the root of the subtree to freeze (not null)
+     * @param rootLink the root of the subtree to freeze (not null, belongs to
+     * this control)
      * @param forceKinematic true&rarr;force link to kinematic mode,
      * false&rarr;preserve link modes
      */
     public void freezeSubtree(PhysicsLink rootLink, boolean forceKinematic) {
         Validate.nonNull(rootLink, "root link");
+        Validate.require(rootLink.getControl() == this,
+                "link belongs to this control");
         verifyAddedToSpatial("change modes");
 
         rootLink.freeze(forceKinematic);
@@ -562,7 +574,7 @@ public class DynamicAnimControl
      * Allowed only when the Control IS added to a Spatial and all links are
      * "ready".
      *
-     * @param linkA the 1st link to pin (not null)
+     * @param linkA the first link to pin (not null)
      * @param linkB the 2nd link to pin (not null)
      * @param pivotInA the pivot location in the A's scaled local coordinates
      * (not null, unaffected)
@@ -625,13 +637,16 @@ public class DynamicAnimControl
      * <p>
      * Allowed only when the Control IS added to a Spatial.
      *
-     * @param rootLink the root of the subtree to modify (not null)
+     * @param rootLink the root of the subtree to modify (not null, belongs to
+     * this control)
      * @param desiredResponse true for the usual rigid-body response, false for
      * ghost-like response
      */
     public void setContactResponseSubtree(PhysicsLink rootLink,
             boolean desiredResponse) {
         Validate.nonNull(rootLink, "root link");
+        Validate.require(rootLink.getControl() == this,
+                "link belongs to this control");
         verifyAddedToSpatial("change modes");
 
         if (!rootLink.isReleased()) {
@@ -689,7 +704,8 @@ public class DynamicAnimControl
      * <p>
      * Allowed only when the Control IS added to a Spatial.
      *
-     * @param rootLink the root of the subtree to modify (not null)
+     * @param rootLink the root of the subtree to modify (not null, belongs to
+     * this control)
      * @param uniformAcceleration the uniform acceleration vector (in
      * physics-space coordinates, not null, unaffected)
      * @param lockAll true to lock all axes of links (except the torso)
@@ -697,6 +713,8 @@ public class DynamicAnimControl
     public void setDynamicSubtree(PhysicsLink rootLink,
             Vector3f uniformAcceleration, boolean lockAll) {
         Validate.nonNull(rootLink, "root link");
+        Validate.require(rootLink.getControl() == this,
+                "link belongs to this control");
         Validate.nonNull(uniformAcceleration, "uniform acceleration");
         verifyAddedToSpatial("change modes");
 
@@ -931,7 +949,8 @@ public class DynamicAnimControl
      * Begin blending the descendents of the specified link to the specified
      * kinematic submode. Note: recursive!
      *
-     * @param rootLink the root of the subtree to blend (not null)
+     * @param rootLink the root of the subtree to blend (not null, belongs to
+     * this control)
      * @param submode an enum value (not null)
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
@@ -961,7 +980,8 @@ public class DynamicAnimControl
      * Begin blending the specified link and all its descendants to the
      * specified kinematic submode.
      *
-     * @param rootLink the root of the subtree to blend (not null)
+     * @param rootLink the root of the subtree to blend (not null, belongs to
+     * this control)
      * @param submode the desired submode (not null)
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
