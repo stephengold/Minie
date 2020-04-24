@@ -26,12 +26,18 @@
  */
 package jme3utilities.minie.test.models;
 
+import com.jme3.animation.Bone;
+import com.jme3.animation.Skeleton;
+import com.jme3.animation.SkeletonControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetInfo;
+import com.jme3.asset.BlenderKey;
 import com.jme3.asset.TextureKey;
+import com.jme3.bullet.animation.RagUtils;
 import com.jme3.material.MatParam;
 import com.jme3.material.Material;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.plugins.blender.meshes.TemporalMesh;
 import com.jme3.scene.plugins.ogre.MaterialLoader;
 import com.jme3.scene.plugins.ogre.MeshLoader;
 import com.jme3.shader.VarType;
@@ -47,6 +53,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import jme3utilities.Heart;
+import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 
@@ -107,14 +114,29 @@ public class ImportCgms extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Import glTF- and OgreXml-format computer-graphics models to the native
-     * J3O format for faster loading. Also write out the textures used by those
-     * models.
+     * Import non-J3O format computer-graphics models to J3O format for faster
+     * loading. Also write out the textures used by those models.
      */
     @Override
     public void simpleInitApp() {
         Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
         Logger.getLogger(MeshLoader.class.getName()).setLevel(Level.SEVERE);
+        Logger.getLogger(TemporalMesh.class.getName()).setLevel(Level.SEVERE);
+        /*
+         * Import the BaseMesh model from jme3-testdata-3.1.0-stable.jar:
+         */
+        BlenderKey blendKey = new BlenderKey("Blender/2.4x/BaseMesh_249.blend");
+        Spatial baseMesh = assetManager.loadModel(blendKey);
+        SkeletonControl sControl = RagUtils.findSkeletonControl(baseMesh);
+        Skeleton skeleton = sControl.getSkeleton();
+        int numBones = skeleton.getBoneCount();
+        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+            Bone bone = skeleton.getBone(boneIndex);
+            if (bone.getName().isEmpty()) {
+                MySkeleton.setName(bone, "bone_" + boneIndex);
+            }
+        }
+        writeToJ3O(baseMesh, "Models/BaseMesh/BaseMesh.j3o");
         /*
          * Import the Duck model (by Sony Computer Entertainment Inc.)
          * from src/main/resources:

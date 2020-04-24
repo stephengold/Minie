@@ -7,6 +7,7 @@ ext {
     assets = '../MinieExamples/src/main/resources/'
     glyphAssets = assets + 'CollisionShapes/glyphs/'
 
+    baseMesh = assets + 'Models/BaseMesh'
     candyDish = assets + 'Models/CandyDish'
     duck = assets + 'Models/Duck'
     elephant = assets + 'Models/Elephant'
@@ -26,7 +27,7 @@ ext {
 dependencies {
     implementation 'com.atr:jme-ttf:2.2.2'
     implementation 'com.github.stephengold:Heart:' + heartVersion
-    runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
+    implementation "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
     implementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmonkeyengineVersion
     implementation 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
@@ -44,6 +45,7 @@ task models(type: JavaExec) {
     description 'Generate model assets used in MinieExamples.'
     main 'jme3utilities.minie.test.models.ImportCgms'
     outputs.files([
+            baseMesh + '/BaseMesh.j3o',
             candyDish + '/CandyDish.j3o',
             duck + '/Duck.j3o',
             elephant + '/Elephant.j3o',
@@ -92,7 +94,7 @@ task plaid(type: JavaExec) {
 clean.dependsOn('cleanModels', 'cleanShapes', 'cleanTextures')
 
 task cleanModels(type: Delete) {
-    delete(candyDish, duck, elephant, mhGame, ninja, sinbad)
+    delete(baseMesh, candyDish, duck, elephant, mhGame, ninja, sinbad)
     dependsOn 'cleanOto'
     description 'Delete generated model assets.'
 }
