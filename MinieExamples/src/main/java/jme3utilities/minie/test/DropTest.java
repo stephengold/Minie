@@ -294,6 +294,24 @@ public class DropTest
             body.setFriction(coefficient);
         }
     }
+
+    /**
+     * Alter the gravity vectors of the space and all bodies in it.
+     *
+     * @param gravity the desired magnitude (&ge;0)
+     */
+    void setGravity(float gravity) {
+        assert gravity >= 0f : gravity;
+
+        Vector3f gravityVector = new Vector3f(0f, -gravity, 0f);
+        physicsSpace.setGravity(gravityVector);
+        for (PhysicsCollisionObject pco : physicsSpace.getPcoList()) {
+            if (pco instanceof PhysicsBody) {
+                PhysicsBody body = (PhysicsBody) pco;
+                body.setGravity(gravityVector);
+            }
+        }
+    }
     // *************************************************************************
     // ActionApplication methods
 
@@ -302,6 +320,10 @@ public class DropTest
      */
     @Override
     public void actionInitializeApplication() {
+        status = new DropTestStatus();
+        boolean success = stateManager.attach(status);
+        assert success;
+
         configureCamera();
         configureDumper();
         generateMaterials();
@@ -309,10 +331,6 @@ public class DropTest
 
         ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(bgColor);
-
-        status = new DropTestStatus();
-        boolean success = stateManager.attach(status);
-        assert success;
 
         addAPlatform();
         addADrop();
@@ -890,7 +908,9 @@ public class DropTest
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
-        physicsSpace.setGravity(new Vector3f(0f, -30f, 0f));
+        float gravity = status.gravity();
+        Vector3f gravityVector = new Vector3f(0f, -gravity, 0f);
+        physicsSpace.setGravity(gravityVector);
 
         generateShapes();
     }

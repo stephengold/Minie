@@ -60,6 +60,11 @@ public class DropTestStatus extends SimpleAppState {
     final private static float[] frictionValues
             = {0f, 0.1f, 0.2f, 0.5f, 1f, 2f, 4f};
     /**
+     * list of gravity magnitudes, in ascending order
+     */
+    final private static float[] gravityValues
+            = {1f, 2f, 5f, 10f, 20f, 30f, 50f};
+    /**
      * index of the status line for the child-coloring flag
      */
     final private static int coloringStatusLine = 5;
@@ -76,9 +81,13 @@ public class DropTestStatus extends SimpleAppState {
      */
     final private static int frictionStatusLine = 4;
     /**
+     * index of the status line for the gravity magnitude
+     */
+    final private static int gravityStatusLine = 6;
+    /**
      * number of lines of text in the overlay
      */
-    final private static int numStatusLines = 6;
+    final private static int numStatusLines = 7;
     /**
      * index of the status line for the platform name
      */
@@ -130,6 +139,10 @@ public class DropTestStatus extends SimpleAppState {
      * friction coefficient for all rigid bodies (&ge;0)
      */
     private float friction = 0.5f;
+    /**
+     * gravity magnitude for all drops (&ge;0)
+     */
+    private float gravity = 30f;
     /**
      * index of the line being edited (&ge;1)
      */
@@ -185,6 +198,9 @@ public class DropTestStatus extends SimpleAppState {
             case frictionStatusLine:
                 advanceFriction(amount);
                 break;
+            case gravityStatusLine:
+                advanceGravity(amount);
+                break;
             case platformStatusLine:
                 advancePlatform(amount);
                 break;
@@ -212,6 +228,16 @@ public class DropTestStatus extends SimpleAppState {
     float friction() {
         assert friction >= 0f : friction;
         return friction;
+    }
+
+    /**
+     * Determine the gravity magnitude for all rigid bodies.
+     *
+     * @return the acceleration (&ge;0)
+     */
+    float gravity() {
+        assert gravity >= 0f : gravity;
+        return gravity;
     }
 
     /**
@@ -287,6 +313,7 @@ public class DropTestStatus extends SimpleAppState {
 
         assert MyArray.isSorted(dampingValues);
         assert MyArray.isSorted(frictionValues);
+        assert MyArray.isSorted(gravityValues);
         assert MyArray.isSorted(dropNames);
         assert MyArray.isSorted(platformNames);
     }
@@ -324,6 +351,12 @@ public class DropTestStatus extends SimpleAppState {
         message = String.format("Friction #%d of %d: %.1f", index,
                 count, friction);
         updateStatusLine(frictionStatusLine, message);
+
+        index = 1 + Arrays.binarySearch(gravityValues, gravity);
+        count = gravityValues.length;
+        message = String.format("Gravity #%d of %d: %.1f", index,
+                count, gravity);
+        updateStatusLine(gravityStatusLine, message);
 
         index = 1 + Arrays.binarySearch(dropNames, nextDropType);
         count = dropNames.length;
@@ -390,6 +423,24 @@ public class DropTestStatus extends SimpleAppState {
         }
 
         appInstance.setFriction(friction);
+    }
+
+    /**
+     * Advance the gravity selection by the specified amount.
+     *
+     * @param amount the number of values to advance
+     */
+    private void advanceGravity(int amount) {
+        int index = Arrays.binarySearch(gravityValues, gravity);
+        if (index < 0) {
+            gravity = gravityValues[0];
+        } else {
+            assert gravityValues[index] == gravity;
+            index = MyMath.modulo(index + amount, gravityValues.length);
+            gravity = gravityValues[index];
+        }
+
+        appInstance.setGravity(gravity);
     }
 
     /**
