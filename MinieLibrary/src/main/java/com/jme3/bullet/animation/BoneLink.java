@@ -331,7 +331,8 @@ public class BoneLink extends PhysicsLink {
     public void setDynamic(Vector3f uniformAcceleration, boolean lockX,
             boolean lockY, boolean lockZ) {
         Validate.finite(uniformAcceleration, "uniform acceleration");
-        getControl().verifyReadyForDynamicMode("put link into dynamic mode");
+        String desiredAction = "put " + name() + " into dynamic mode";
+        getControl().verifyReadyForDynamicMode(desiredAction);
 
         super.setDynamic(uniformAcceleration);
 

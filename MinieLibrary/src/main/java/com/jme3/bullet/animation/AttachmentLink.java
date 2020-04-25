@@ -520,7 +520,8 @@ public class AttachmentLink extends PhysicsLink {
      */
     @Override
     public void setRagdollMode() {
-        getControl().verifyReadyForDynamicMode("put link into ragdoll mode");
+        String desiredAction = "put " + name() + " into ragdoll mode";
+        getControl().verifyReadyForDynamicMode(desiredAction);
 
         Vector3f gravity = getControl().gravity(null);
         setDynamic(gravity);

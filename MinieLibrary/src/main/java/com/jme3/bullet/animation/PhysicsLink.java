@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -503,7 +503,8 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      */
     public void setDynamic(Vector3f uniformAcceleration) {
         Validate.finite(uniformAcceleration, "uniform acceleration");
-        control.verifyReadyForDynamicMode("put link into dynamic mode");
+        String desiredAction = "put " + name() + " into dynamic mode";
+        control.verifyReadyForDynamicMode(desiredAction);
 
         setKinematicWeight(0f);
         rigidBody.setGravity(uniformAcceleration);
