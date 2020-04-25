@@ -45,7 +45,7 @@ public interface PhysicsCollisionListener {
      * Typically invoked 2x for each cached contact point, so expect many
      * invocations per collision -- up to 8 per contact manifold.
      * <p>
-     * Collisions will be reported only if the collision-group mask of the 1st
+     * Collisions will be reported only if the collision-group mask of the first
      * collision object intersects with the collide-with group mask of the 2nd.
      * <p>
      * Do not retain the event object, as it may be reused after the collision()

@@ -119,7 +119,7 @@ public class DacLinks
      */
     private Armature armature = null;
     /**
-     * false until the 1st physics tick, true thereafter, indicating that all
+     * false until the first physics tick, true thereafter, indicating that all
      * links are ready for dynamic mode
      */
     private boolean isReady = false;
