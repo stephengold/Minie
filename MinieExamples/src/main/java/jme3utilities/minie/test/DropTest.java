@@ -560,7 +560,9 @@ public class DropTest
             case "duck":
             case "heart":
             case "sword":
+            case "table":
             case "teapot":
+            case "thumbTack":
                 dropShape = namedShapes.get(dropName);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
