@@ -36,7 +36,9 @@ import com.jme3.asset.TextureKey;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.material.MatParam;
 import com.jme3.material.Material;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.UserData;
 import com.jme3.scene.plugins.blender.meshes.TemporalMesh;
 import com.jme3.scene.plugins.ogre.MaterialLoader;
 import com.jme3.scene.plugins.ogre.MeshLoader;
@@ -114,7 +116,7 @@ public class ImportCgms extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Import non-J3O format computer-graphics models to J3O format for faster
+     * Convert non-J3O format computer-graphics models to J3O format for faster
      * loading. Also write out the textures used by those models.
      */
     @Override
@@ -183,10 +185,12 @@ public class ImportCgms extends SimpleApplication {
          * Import the Sinbad model (by Zi Ye)
          * from jme3-testdata-3.1.0-stable.jar:
          */
-        Spatial sinbad
-                = assetManager.loadModel("Models/Sinbad/Sinbad.mesh.xml");
+        Node sinbad = (Node) assetManager.loadModel(
+                "Models/Sinbad/Sinbad.mesh.xml");
+        sinbad.getChild(4).setUserData(UserData.JME_PHYSICSIGNORE, true);
         writeToJ3O(sinbad, "Models/Sinbad/Sinbad.j3o");
         writeTextures(sinbad);
+
         Spatial sword = assetManager.loadModel("Models/Sinbad/Sword.mesh.xml");
         writeToJ3O(sword, "Models/Sinbad/Sword.j3o");
         writeTextures(sword);
