@@ -92,6 +92,7 @@ import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.tunings.BaseMeshControl;
 import jme3utilities.minie.test.tunings.Biped;
 import jme3utilities.minie.test.tunings.ElephantControl;
 import jme3utilities.minie.test.tunings.JaimeControl;
@@ -314,6 +315,7 @@ public class TestDac extends ActionApplication {
         dim.bind("limp right arm", KeyInput.KEY_RBRACKET);
         dim.bind("load", KeyInput.KEY_L);
 
+        dim.bind("load BaseMesh", KeyInput.KEY_F11);
         dim.bind("load Elephant", KeyInput.KEY_F3);
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);
@@ -632,6 +634,9 @@ public class TestDac extends ActionApplication {
         }
 
         switch (modelName) {
+            case "BaseMesh":
+                loadBaseMesh();
+                break;
             case "Elephant":
                 loadElephant();
                 break;
@@ -797,6 +802,19 @@ public class TestDac extends ActionApplication {
         });
 
         save(loadedScene, saveAssetPath2);
+    }
+
+    /**
+     * Load the BaseMesh model.
+     */
+    private void loadBaseMesh() {
+        cgModel = (Node) assetManager.loadModel("Models/BaseMesh/BaseMesh.j3o");
+        dac = new BaseMeshControl();
+        animationName = "run_01";
+        leftClavicleName = "spine2_L.001";
+        leftUlnaName = "spine2_L.002";
+        rightClavicleName = "spine2_R.001";
+        upperBodyName = "spine2";
     }
 
     /**
