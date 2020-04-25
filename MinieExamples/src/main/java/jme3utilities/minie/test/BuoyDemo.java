@@ -76,6 +76,7 @@ import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.controllers.BuoyController;
+import jme3utilities.minie.test.tunings.BaseMeshControl;
 import jme3utilities.minie.test.tunings.ElephantControl;
 import jme3utilities.minie.test.tunings.JaimeControl;
 import jme3utilities.minie.test.tunings.MhGameControl;
@@ -233,6 +234,7 @@ public class BuoyDemo extends ActionApplication {
         dim.bind("go floating", KeyInput.KEY_0);
         dim.bind("go floating", KeyInput.KEY_SPACE);
 
+        dim.bind("load BaseMesh", KeyInput.KEY_F11);
         dim.bind("load Elephant", KeyInput.KEY_F3);
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);
@@ -311,6 +313,7 @@ public class BuoyDemo extends ActionApplication {
                     toggleSkeleton();
                     return;
             }
+
             String[] words = actionString.split(" ");
             if (words.length == 2 && "load".equals(words[0])) {
                 addModel(words[1]);
@@ -396,6 +399,9 @@ public class BuoyDemo extends ActionApplication {
         }
 
         switch (modelName) {
+            case "BaseMesh":
+                loadBaseMesh();
+                break;
             case "Elephant":
                 loadElephant();
                 break;
@@ -558,6 +564,17 @@ public class BuoyDemo extends ActionApplication {
         if (dac.isReady()) {
             dac.setRagdollMode();
         }
+    }
+
+    /**
+     * Load the BaseMesh model.
+     */
+    private void loadBaseMesh() {
+        cgModel = (Node) assetManager.loadModel("Models/BaseMesh/BaseMesh.j3o");
+        //cgModel.rotate(0f, -1.6f, 0f);
+
+        dac = new BaseMeshControl();
+        animationName = "run_01";
     }
 
     /**
