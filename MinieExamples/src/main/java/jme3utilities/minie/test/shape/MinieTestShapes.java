@@ -132,6 +132,12 @@ public class MinieTestShapes {
         CollisionShape smooth = makeSmoothHeightfield();
         namedShapes.put("smooth", smooth);
 
+        CollisionShape table = makeTable();
+        namedShapes.put("table", table);
+
+        CollisionShape thumbTack = makeThumbTack();
+        namedShapes.put("thumbTack", thumbTack);
+
         CollisionShape top = makeTop();
         namedShapes.put("top", top);
 
@@ -635,6 +641,61 @@ public class MinieTestShapes {
             rotate.fromAngleAxis(sliceAngle * pointIndex, Vector3f.UNIT_Y);
             result.addChildShape(sliceShape, Vector3f.ZERO, rotate);
         }
+
+        return result;
+    }
+
+    /**
+     * Generate a round pedestal table.
+     *
+     * @return a new compound shape (not null)
+     */
+    public static CompoundCollisionShape makeTable() {
+        float thickness = 0.4f;
+        CollisionShape foot = new BoxCollisionShape(thickness / 2, 0.25f, 2f);
+
+        float pedestalRadius = 0.3f;
+        float pedestalHeight = 4f;
+        CollisionShape pedestal = new CylinderCollisionShape(pedestalRadius,
+                pedestalHeight, PhysicsSpace.AXIS_Y);
+
+        float topRadius = 3f;
+        CollisionShape top = new CylinderCollisionShape(topRadius, thickness,
+                PhysicsSpace.AXIS_Y);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(pedestal, 0f, -1f, 0f);
+        result.addChildShape(top, 0f, 1.2f, 0f);
+
+        Vector3f footOffset = new Vector3f(0f, -2.75f, 0f);
+        result.addChildShape(foot, footOffset);
+
+        Matrix3f rotY90 = new Matrix3f();
+        rotY90.fromAngleAxis(FastMath.HALF_PI, new Vector3f(0f, 1f, 0f));
+        result.addChildShape(foot, footOffset, rotY90);
+
+        return result;
+    }
+
+    /**
+     * Generate a thumb tack (drawing pin) with a round, flat head.
+     *
+     * @return a new compound shape (not null)
+     */
+    public static CompoundCollisionShape makeThumbTack() {
+        float headRadius = 2f;
+        float headThickness = 0.4f;
+        CollisionShape head = new CylinderCollisionShape(headRadius,
+                headThickness, PhysicsSpace.AXIS_Y);
+
+        float spikeHeight = 3f;
+        float spikeRadius = 0.2f;
+        CollisionShape spike = new ConeCollisionShape(spikeRadius, spikeHeight,
+                PhysicsSpace.AXIS_Y);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(head, 0f, -0.5f, 0f);
+        result.addChildShape(spike, 0f, 1f, 0f);
 
         return result;
     }
