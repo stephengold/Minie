@@ -814,7 +814,7 @@ public class WatchDemo extends ActionApplication {
      */
     private void toggleAxes() {
         float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(2.5f - length);
+        bulletAppState.setDebugAxisLength(2f - length);
     }
 
     /**
