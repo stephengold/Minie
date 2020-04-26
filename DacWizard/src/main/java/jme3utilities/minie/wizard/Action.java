@@ -155,7 +155,6 @@ class Action {
     private static void dumpRenderer() {
         DacWizard app = DacWizard.getApplication();
         RenderManager renderManager = app.getRenderManager();
-        DacWizard.dumper.setDumpCull(true);
         DacWizard.dumper.dump(renderManager);
     }
 
