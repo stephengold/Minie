@@ -1,5 +1,9 @@
 # release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 1.6.1 released on TBD
+
+Fixed JME issue 1351 (crash during garbage collection)
+
 ## Version 1.6.0 released on 12 April 2020
 
  + Fixed bugs:
