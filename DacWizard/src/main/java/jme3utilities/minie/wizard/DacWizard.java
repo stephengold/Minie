@@ -101,7 +101,7 @@ public class DacWizard extends GuiApplication {
      */
     private static DsScreen displaySettingsScreen;
     /**
-     * subject computer-graphics model
+     * state information
      */
     final private static Model model = new Model();
     /**
@@ -204,6 +204,21 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
+     * Find the root Spatial of the C-G model that's loaded into the scene.
+     *
+     * @return the pre-existing Spatial, or null if none/multiple
+     */
+    Spatial findCgmRoot() {
+        Spatial result = null;
+        if (cgmParent != null) {
+            List<Spatial> children = cgmParent.getChildren();
+            result = Heart.first(children);
+        }
+
+        return result;
+    }
+
+    /**
      * Find the DynamicAnimControl in the scene.
      *
      * @return the pre-existing Control, or null if none/multiple
@@ -248,7 +263,7 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
-     * Access the subject C-G model.
+     * Access the state information.
      *
      * @return the pre-existing instance (not null)
      */
@@ -339,6 +354,16 @@ public class DacWizard extends GuiApplication {
                 InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
             }
             rootNode.addControl(sv);
+        }
+
+        DynamicAnimControl dac = findDac();
+        if (dac != null) {
+            /*
+             * Configure the DAC.
+             */
+            float gravity = 6f * Model.cgmHeight;
+            Vector3f gravityVector = new Vector3f(0f, -gravity, 0f);
+            dac.setGravity(gravityVector);
         }
 
         resetCamera();
@@ -599,12 +624,12 @@ public class DacWizard extends GuiApplication {
      */
     private void resetCamera() {
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(4f);
+        flyCam.setMoveSpeed(20f);
 
-        cam.setLocation(new Vector3f(0f, 1.8f, 5f));
+        cam.setLocation(new Vector3f(0f, 9f, 25f));
         cam.setName("cam");
         cam.setRotation(new Quaternion(0f, 0.9985813f, -0.05f, 0.0175f));
-        MyCamera.setNearFar(cam, 0.02f, 50f);
+        MyCamera.setNearFar(cam, 0.1f, 250f);
     }
 
     /**

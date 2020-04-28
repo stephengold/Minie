@@ -89,6 +89,11 @@ class TestMode extends InputMode {
      * asset path to the cursor for this mode
      */
     final private static String assetPath = "Textures/cursors/default.cur";
+    /**
+     * local transform of the controlled spatial when entering/exiting ragdoll
+     * mode
+     */
+    final private Transform resetTransform = new Transform();
     // *************************************************************************
     // constructors
 
@@ -450,14 +455,15 @@ class TestMode extends InputMode {
         DynamicAnimControl dac = wizard.findDac();
         TorsoLink torso = dac.getTorsoLink();
         if (torso.isKinematic()) {
+            Spatial controlledSpatial = dac.getSpatial();
+            Transform local = controlledSpatial.getLocalTransform();
+            resetTransform.set(local);
             dac.setRagdollMode();
-        } else { // reset to bind pose
-            Model model = DacWizard.getModel();
-            Transform initTransform = model.copyInitTransform(null);
 
+        } else { // reset to bind pose
             KinematicSubmode bindPose = KinematicSubmode.Bound;
-            float blendInterval = 1f;
-            torso.blendToKinematicMode(bindPose, blendInterval, initTransform);
+            float blendInterval = 1f; // in seconds
+            torso.blendToKinematicMode(bindPose, blendInterval, resetTransform);
             Collection<BoneLink> boneLinks = dac.listLinks(BoneLink.class);
             for (BoneLink boneLink : boneLinks) {
                 boneLink.blendToKinematicMode(bindPose, blendInterval);

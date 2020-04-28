@@ -68,7 +68,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Locators;
 
 /**
- * The subject C-G model in the DacWizard application.
+ * State information in the DacWizard application.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -76,6 +76,10 @@ class Model {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * desired height of the C-G model (for visualization, in world units)
+     */
+    final public static float cgmHeight = 10f;
     /**
      * message logger for this class
      */
@@ -1036,13 +1040,16 @@ class Model {
     private void recalculateInitTransform() {
         Spatial cgmCopy = (Spatial) Heart.deepCopy(rootSpatial);
         /**
-         * Scale the copy uniformly to a height of 2 world units.
+         * Scale the copy uniformly to the desired height, assuming Y-up
+         * orientation.
          */
         Vector3f[] minMax = MySpatial.findMinMaxCoords(cgmCopy);
         Vector3f min = minMax[0];
         Vector3f max = minMax[1];
         float oldHeight = max.y - min.y;
-        cgmCopy.scale(2f / oldHeight);
+        if (oldHeight > 0f) {
+            cgmCopy.scale(cgmHeight / oldHeight);
+        }
         /**
          * Translate a copy's center so that it rests on the X-Z plane, and its
          * center lies on the Y axis.
