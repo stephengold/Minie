@@ -83,6 +83,7 @@ import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.controllers.TrackController;
+import jme3utilities.minie.test.tunings.BaseMeshControl;
 import jme3utilities.minie.test.tunings.Binocular;
 import jme3utilities.minie.test.tunings.Face;
 import jme3utilities.minie.test.tunings.JaimeControl;
@@ -254,6 +255,8 @@ public class TrackDemo extends ActionApplication {
 
         dim.bind("dump physicsSpace", KeyInput.KEY_O);
         dim.bind("dump scenes", KeyInput.KEY_P);
+        
+        dim.bind("load BaseMesh", KeyInput.KEY_F11);
         dim.bind("load Jaime", KeyInput.KEY_F2);
         dim.bind("load MhGame", KeyInput.KEY_F9);
         dim.bind("load Ninja", KeyInput.KEY_F7);
@@ -467,6 +470,9 @@ public class TrackDemo extends ActionApplication {
         chainLength = 6; // constant?
 
         switch (modelName) {
+            case "BaseMesh":
+                loadBaseMesh();
+                break;
             case "Jaime":
                 loadJaime();
                 break;
@@ -639,6 +645,17 @@ public class TrackDemo extends ActionApplication {
             rightWatch.setEnabled(false);
             rightWatch.setErrorGainFactor(1f);
         }
+    }
+
+    /**
+     * Load the BaseMesh model.
+     */
+    private void loadBaseMesh() {
+        cgModel = (Node) assetManager.loadModel("Models/BaseMesh/BaseMesh.j3o");
+        cgModel.rotate(0f, -1.6f, 0f);
+
+        dac = new BaseMeshControl();
+        tipSpec = "4914/BaseMesh_011"; // tip of right index finger
     }
 
     /**
