@@ -41,7 +41,7 @@ import jme3utilities.Validate;
  * Describe a collision between 2 collision objects in a PhysicsSpace.
  * <p>
  * Even though this class inherits the java.io.Serializable interface, it isn't
- * serializable.
+ * serializable. TODO extend PhysicsNativeObject
  *
  * @author normenhansen
  */

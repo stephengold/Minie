@@ -68,7 +68,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Locators;
 
 /**
- * State information in the DacWizard application.
+ * State information (MVC model) in the DacWizard application.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -141,7 +141,8 @@ class Model {
      */
     private String[] filePathComponents = new String[0];
     /**
-     * initial Transform for visualization
+     * initial local transform of the C-G model's root spatial, for
+     * visualization
      */
     final private Transform initTransform = new Transform();
     // *************************************************************************

@@ -56,7 +56,7 @@ import jme3utilities.Validate;
 
 /**
  * The abstract base class for collision objects based on Bullet's
- * btCollisionObject.
+ * btCollisionObject. TODO extend PhysicsNativeObject
  * <p>
  * Subclasses include MultiBodyCollider, PhysicsBody, PhysicsCharacter, and
  * PhysicsGhostObject.
@@ -204,7 +204,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Unique identifier of the btCollisionObject. Constructors are responsible
      * for setting this to a non-zero value. The ID might change if the object
-     * gets rebuilt. TODO privatize and rename nativeId
+     * gets rebuilt.
      */
     protected long objectId = 0L;
     /**

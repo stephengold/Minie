@@ -146,7 +146,7 @@ class TestMode extends InputMode {
     public void initialize(AppStateManager stateManager,
             Application application) {
         /*
-         * Set the mouse cursor for this mode.
+         * Configure the GUI cursor.
          */
         AssetManager manager = application.getAssetManager();
         JmeCursor cursor = (JmeCursor) manager.loadAsset(assetPath);

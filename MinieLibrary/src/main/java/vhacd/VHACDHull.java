@@ -40,7 +40,7 @@ public class VHACDHull {
     /**
      * Instantiate a hull based on the identified ConvexHull.
      *
-     * @param hullId the unique identifier of a ConvexHull (not zero)
+     * @param hullId the native ID of a ConvexHull (not zero)
      */
     VHACDHull(long hullId) {
         assert hullId != 0L;
