@@ -31,6 +31,8 @@
  */
 package com.jme3.bullet.collision.shapes.infos;
 
+import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -132,6 +134,31 @@ public class IndexedMesh implements JmeCloneable, Savable {
      * No-argument constructor needed by SavableClassUtil.
      */
     protected IndexedMesh() {
+    }
+
+    /**
+     * Instantiate an IndexedMesh from the debug mesh of the specified
+     * CollisionShape.
+     *
+     * @param shape the input shape (not null, unaffected)
+     * @param resolution ignored for concave shapes (0=low, 1=high)
+     * @param dedup true&rarr;deduplicate vertices, false&rarr;don't deduplicate
+     */
+    public IndexedMesh(CollisionShape shape, int resolution, boolean dedup) {
+        Validate.nonNull(shape, "shape");
+        Validate.inRange(resolution, "resolution",
+                DebugShapeFactory.lowResolution,
+                DebugShapeFactory.highResolution);
+
+        FloatBuffer positionBuffer
+                = DebugShapeFactory.getDebugTriangles(shape, resolution);
+        Mesh jmeMesh = new Mesh();
+        jmeMesh.setBuffer(VertexBuffer.Type.Position, numAxes, positionBuffer);
+
+        if (dedup) {
+            jmeMesh = MyMesh.addIndices(jmeMesh);
+        }
+        create(jmeMesh, null);
     }
 
     /**
