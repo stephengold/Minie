@@ -515,6 +515,7 @@ public class DropTest
         DebugMeshNormals debugMeshNormals;
         switch (dropName) {
             case "barbell":
+            case "barrel":
             case "knucklebone":
             case "ladder":
             case "top":
@@ -1014,6 +1015,13 @@ public class DropTest
             shape = (CollisionShape) assetManager.loadAsset(assetPath);
             namedShapes.put(glyphString, shape);
         }
+        /*
+         * "barrel"
+         */
+        String barrelPath = "CollisionShapes/barrel.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(barrelPath);
+        shape.setScale(3f);
+        namedShapes.put("barrel", shape);
         /*
          * "candyDish"
          */
