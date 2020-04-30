@@ -29,11 +29,11 @@ gradle.projectsEvaluated {
 ext {
     jmeTarget = ''
 
-    // current versions of various libraries
-    heartVersion = '5.2.1' + jmeTarget
-    jme3utilitiesuiVersion = '0.8.2' + jmeTarget
-    jmonkeyengineVersion = '3.3.0-stable'
-    minieVersion = '1.6.0' + jmeTarget
+    // current releases of various libraries
+    heartVersion = '5.3.0' + jmeTarget
+    jme3utilitiesuiVersion = '0.8.3' + jmeTarget
+    jmonkeyengineVersion = '3.3.2-stable'
+    minieVersion = '1.6.1' + jmeTarget
 }
 
 repositories {
