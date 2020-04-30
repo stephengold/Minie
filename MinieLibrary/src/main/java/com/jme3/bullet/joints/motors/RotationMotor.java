@@ -122,10 +122,12 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Read the ID of the btRotationalLimitMotor2. TODO remove this method
+     * Read the ID of the btRotationalLimitMotor2.
      *
      * @return the native identifier (not zero)
+     * @deprecated use {@link #nativeId()}
      */
+    @Deprecated
     public long getMotor() {
         long motorId = nativeId();
         return motorId;
