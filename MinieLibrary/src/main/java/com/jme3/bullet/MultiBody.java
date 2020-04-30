@@ -57,7 +57,9 @@ import jme3utilities.Validate;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
+public class MultiBody
+        extends NativePhysicsObject
+        implements Comparable<MultiBody>, JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -94,10 +96,6 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     private int numConfigured = 0;
     /**
-     * unique identifier of the btMultiBody
-     */
-    private long nativeId;
-    /**
      * collider for the base, or null if none
      */
     private MultiBodyCollider baseCollider = null;
@@ -132,8 +130,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         Validate.positive(baseMass, "base mass");
         Validate.positive(baseInertia, "base inertia");
 
-        nativeId = create(numLinks, baseMass, baseInertia, fixedBase, canSleep);
-        assert nativeId != 0L;
+        long nativeId
+                = create(numLinks, baseMass, baseInertia, fixedBase, canSleep);
+        super.setNativeId(nativeId);
         assert getNumLinks(nativeId) == numLinks;
         finalizeMultiDof(nativeId);
 
@@ -153,11 +152,12 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         assert baseCollider == null : baseCollider;
 
         baseCollider = new MultiBodyCollider(this, -1);
+        long multiBodyId = nativeId();
         long colliderId = baseCollider.getObjectId();
-        setBaseCollider(nativeId, colliderId);
+        setBaseCollider(multiBodyId, colliderId);
 
         baseCollider.attachShape(shape);
-        assert getBaseCollider(nativeId) == colliderId;
+        assert getBaseCollider(multiBodyId) == colliderId;
 
         return baseCollider;
     }
@@ -170,7 +170,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public void addBaseForce(Vector3f force) {
         Validate.finite(force, "force");
-        addBaseForce(nativeId, force);
+
+        long multiBodyId = nativeId();
+        addBaseForce(multiBodyId, force);
     }
 
     /**
@@ -181,7 +183,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public void addBaseTorque(Vector3f torque) {
         Validate.finite(torque, "torque");
-        addBaseTorque(nativeId, torque);
+
+        long multiBodyId = nativeId();
+        addBaseTorque(multiBodyId, torque);
     }
 
     /**
@@ -190,7 +194,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the damping
      */
     public float angularDamping() {
-        float result = getAngularDamping(nativeId);
+        long multiBodyId = nativeId();
+        float result = getAngularDamping(multiBodyId);
+
         return result;
     }
 
@@ -203,7 +209,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public Vector3f angularMomentum(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getAngularMomentum(nativeId, result);
+
+        long multiBodyId = nativeId();
+        getAngularMomentum(multiBodyId, result);
+
         return result;
     }
 
@@ -216,7 +225,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public Vector3f baseAngularVelocity(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getBaseOmega(nativeId, result);
+
+        long multiBodyId = nativeId();
+        getBaseOmega(multiBodyId, result);
+
         return result;
     }
 
@@ -228,7 +240,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public Vector3f baseForce(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getBaseForce(nativeId, result);
+
+        long multiBodyId = nativeId();
+        getBaseForce(multiBodyId, result);
+
         return result;
     }
 
@@ -241,7 +256,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public Vector3f baseInertia(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getBaseInertia(nativeId, result);
+
+        long multiBodyId = nativeId();
+        getBaseInertia(multiBodyId, result);
+
         return result;
     }
 
@@ -254,7 +272,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public Vector3f baseLocation(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getBasePos(nativeId, result);
+
+        long multiBodyId = nativeId();
+        getBasePos(multiBodyId, result);
+
         return result;
     }
 
@@ -264,7 +285,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the mass (in physics-space units, &gt;0)
      */
     public float baseMass() {
-        float result = getBaseMass(nativeId);
+        long multiBodyId = nativeId();
+        float result = getBaseMass(multiBodyId);
+
         return result;
     }
 
@@ -277,7 +300,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
     public Quaternion baseOrientation(Quaternion storeResult) {
         Quaternion result
                 = (storeResult == null) ? new Quaternion() : storeResult;
-        getWorldToBaseRot(nativeId, result);
+
+        long multiBodyId = nativeId();
+        getWorldToBaseRot(multiBodyId, result);
+
         return result;
     }
 
@@ -289,7 +315,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public Vector3f baseTorque(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getBaseTorque(nativeId, result);
+
+        long multiBodyId = nativeId();
+        getBaseTorque(multiBodyId, result);
+
         return result;
     }
 
@@ -303,7 +332,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
     public Transform baseTransform(Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
-        getBaseWorldTransform(nativeId, result);
+
+        long multiBodyId = nativeId();
+        getBaseWorldTransform(multiBodyId, result);
+
         return result;
     }
 
@@ -316,7 +348,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public Vector3f baseVelocity(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getBaseVel(nativeId, result);
+
+        long multiBodyId = nativeId();
+        getBaseVel(multiBodyId, result);
+
         return result;
     }
 
@@ -326,7 +361,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return true if it can sleep, otherwise false
      */
     public boolean canSleep() {
-        boolean result = getCanSleep(nativeId);
+        long multiBodyId = nativeId();
+        boolean result = getCanSleep(multiBodyId);
+
         return result;
     }
 
@@ -336,7 +373,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return true if it can wake up, otherwise false
      */
     public boolean canWakeup() {
-        boolean result = getCanWakeup(nativeId);
+        long multiBodyId = nativeId();
+        boolean result = getCanWakeup(multiBodyId);
+
         return result;
     }
 
@@ -344,21 +383,24 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * Clear all constraint forces.
      */
     public void clearConstraintForces() {
-        clearConstraintForces(nativeId);
+        long multiBodyId = nativeId();
+        clearConstraintForces(multiBodyId);
     }
 
     /**
      * Clear all external forces and torques.
      */
     public void clearForcesAndTorques() {
-        clearForcesAndTorques(nativeId);
+        long multiBodyId = nativeId();
+        clearForcesAndTorques(multiBodyId);
     }
 
     /**
      * Zero out all velocities.
      */
     public void clearVelocities() {
-        clearVelocities(nativeId);
+        long multiBodyId = nativeId();
+        clearVelocities(multiBodyId);
     }
 
     /**
@@ -367,7 +409,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return bit mask
      */
     public int collideWithGroups() {
-        int result = getCollideWithGroups(nativeId);
+        long multiBodyId = nativeId();
+        int result = getCollideWithGroups(multiBodyId);
+
         return result;
     }
 
@@ -377,7 +421,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the collision group (bit mask with exactly one bit set)
      */
     public int collisionGroup() {
-        int result = getCollisionGroup(nativeId);
+        long multiBodyId = nativeId();
+        int result = getCollisionGroup(multiBodyId);
+
         assert Integer.bitCount(result) == 1 : result;
         return result;
     }
@@ -407,8 +453,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         Validate.nonNull(pivot2Link, "pivot to link offset");
         assert numConfigured < links.length;
 
+        long multiBodyId = nativeId();
         int parentIndex = (parent == null) ? -1 : parent.index();
-        setupFixed(nativeId, numConfigured, mass, inertia, parentIndex,
+        setupFixed(multiBodyId, numConfigured, mass, inertia, parentIndex,
                 orientation, parent2Pivot, pivot2Link);
         MultiBodyLink result = configureLink();
 
@@ -442,8 +489,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         Validate.nonNull(parent2Link, "parent to link offset");
         assert numConfigured < links.length;
 
+        long multiBodyId = nativeId();
         int parentIndex = (parent == null) ? -1 : parent.index();
-        setupPlanar(nativeId, numConfigured, mass, inertia, parentIndex,
+        setupPlanar(multiBodyId, numConfigured, mass, inertia, parentIndex,
                 orientation, axis, parent2Link, disableCollision);
         MultiBodyLink result = configureLink();
 
@@ -480,8 +528,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         Validate.nonNull(pivot2Link, "pivot to link offset");
         assert numConfigured < links.length;
 
+        long multiBodyId = nativeId();
         int parentIndex = (parent == null) ? -1 : parent.index();
-        setupPrismatic(nativeId, numConfigured, mass, inertia, parentIndex,
+        setupPrismatic(multiBodyId, numConfigured, mass, inertia, parentIndex,
                 orientation, axis, parent2Pivot, pivot2Link, disableCollision);
         MultiBodyLink result = configureLink();
 
@@ -518,8 +567,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         Validate.nonNull(pivot2Link, "pivot to link offset");
         assert numConfigured < links.length;
 
+        long multiBodyId = nativeId();
         int parentIndex = (parent == null) ? -1 : parent.index();
-        setupRevolute(nativeId, numConfigured, mass, inertia, parentIndex,
+        setupRevolute(multiBodyId, numConfigured, mass, inertia, parentIndex,
                 orientation, axis, parent2Pivot, pivot2Link, disableCollision);
         MultiBodyLink result = configureLink();
 
@@ -553,8 +603,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         Validate.nonNull(pivot2Link, "pivot to link offset");
         assert numConfigured < links.length;
 
+        long multiBodyId = nativeId();
         int parentIndex = (parent == null) ? -1 : parent.index();
-        setupSpherical(nativeId, numConfigured, mass, inertia, parentIndex,
+        setupSpherical(multiBodyId, numConfigured, mass, inertia, parentIndex,
                 orientation, parent2Pivot, pivot2Link, disableCollision);
         MultiBodyLink result = configureLink();
 
@@ -600,7 +651,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the count (&ge;0)
      */
     public int countDofs() {
-        int result = getNumDofs(nativeId);
+        long multiBodyId = nativeId();
+        int result = getNumDofs(multiBodyId);
+
         return result;
     }
 
@@ -610,7 +663,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the count (&ge;0)
      */
     public int countPositionVariables() {
-        int result = getNumPosVars(nativeId);
+        long multiBodyId = nativeId();
+        int result = getNumPosVars(multiBodyId);
+
         return result;
     }
 
@@ -620,11 +675,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the pre-existing instance, or null if none
      */
     public MultiBodyCollider getBaseCollider() {
-        if (baseCollider == null) {
-            assert getBaseCollider(nativeId) == 0L;
-        } else {
-            assert getBaseCollider(nativeId) == baseCollider.getObjectId();
-        }
+        assert baseCollider == null
+                ? getBaseCollider(nativeId()) == 0L
+                : getBaseCollider(nativeId()) == baseCollider.getObjectId();
 
         return baseCollider;
     }
@@ -649,7 +702,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return true &rarr; fixed, false &rarr; movable
      */
     public boolean hasFixedBase() {
-        boolean result = hasFixedBase(nativeId);
+        long multiBodyId = nativeId();
+        boolean result = hasFixedBase(multiBodyId);
+
         return result;
     }
 
@@ -659,7 +714,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return true if using global variables, otherwise false
      */
     public boolean isUsingGlobalVelocities() {
-        boolean result = isUsingGlobalVelocities(nativeId);
+        long multiBodyId = nativeId();
+        boolean result = isUsingGlobalVelocities(multiBodyId);
+
         return result;
     }
 
@@ -669,7 +726,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return true if using the gyro term, otherwise false
      */
     public boolean isUsingGyroTerm() {
-        boolean result = getUseGyroTerm(nativeId);
+        long multiBodyId = nativeId();
+        boolean result = getUseGyroTerm(multiBodyId);
+
         return result;
     }
 
@@ -679,7 +738,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return true if using RK4, otherwise false
      */
     public boolean isUsingRK4() {
-        boolean result = isUsingRK4Integration(nativeId);
+        long multiBodyId = nativeId();
+        boolean result = isUsingRK4Integration(multiBodyId);
+
         return result;
     }
 
@@ -689,7 +750,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the energy (&ge;0)
      */
     public float kineticEnergy() {
-        float result = getKineticEnergy(nativeId);
+        long multiBodyId = nativeId();
+        float result = getKineticEnergy(multiBodyId);
+
         return result;
     }
 
@@ -699,7 +762,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the damping
      */
     public float linearDamping() {
-        float result = getLinearDamping(nativeId);
+        long multiBodyId = nativeId();
+        float result = getLinearDamping(multiBodyId);
+
         return result;
     }
 
@@ -733,7 +798,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the impulse
      */
     public float maxAppliedImpulse() {
-        float result = getMaxAppliedImpulse(nativeId);
+        long multiBodyId = nativeId();
+        float result = getMaxAppliedImpulse(multiBodyId);
+
         return result;
     }
 
@@ -743,18 +810,10 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the velocity
      */
     public float maxCoordinateVelocity() {
-        float result = getMaxCoordinateVelocity(nativeId);
-        return result;
-    }
+        long multiBodyId = nativeId();
+        float result = getMaxCoordinateVelocity(multiBodyId);
 
-    /**
-     * Determine the unique identifier of the native object.
-     *
-     * @return the ID (not zero)
-     */
-    final public long nativeId() {
-        assert nativeId != 0L;
-        return nativeId;
+        return result;
     }
 
     /**
@@ -765,7 +824,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public void setBaseAngularVelocity(Vector3f angularVelocity) {
         Validate.finite(angularVelocity, "angular velocity");
-        setBaseOmega(nativeId, angularVelocity);
+
+        long multiBodyId = nativeId();
+        setBaseOmega(multiBodyId, angularVelocity);
     }
 
     /**
@@ -776,7 +837,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public void setBaseLocation(Vector3f location) {
         Validate.finite(location, "location");
-        setBasePos(nativeId, location);
+
+        long multiBodyId = nativeId();
+        setBasePos(multiBodyId, location);
     }
 
     /**
@@ -787,7 +850,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public void setBaseOrientation(Quaternion orientation) {
         Validate.nonNull(orientation, "orientation");
-        setWorldToBaseRot(nativeId, orientation);
+
+        long multiBodyId = nativeId();
+        setWorldToBaseRot(multiBodyId, orientation);
     }
 
     /**
@@ -798,7 +863,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public void setBaseTransform(Transform transform) {
         Validate.nonNull(transform, "transform");
-        setBaseWorldTransform(nativeId, transform);
+
+        long multiBodyId = nativeId();
+        setBaseWorldTransform(multiBodyId, transform);
     }
 
     /**
@@ -809,7 +876,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public void setBaseVelocity(Vector3f velocity) {
         Validate.finite(velocity, "velocity");
-        setBaseVel(nativeId, velocity);
+
+        long multiBodyId = nativeId();
+        setBaseVel(multiBodyId, velocity);
     }
 
     /**
@@ -820,7 +889,8 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * default=COLLISION_GROUP_01)
      */
     public void setCollideWithGroups(int groups) {
-        setCollideWithGroups(nativeId, groups);
+        long multiBodyId = nativeId();
+        setCollideWithGroups(multiBodyId, groups);
     }
 
     /**
@@ -837,7 +907,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     public void setCollisionGroup(int group) {
         Validate.require(Integer.bitCount(group) == 1, "exactly one bit set");
-        setCollisionGroup(nativeId, group);
+
+        long multiBodyId = nativeId();
+        setCollisionGroup(multiBodyId, group);
     }
 
     /**
@@ -846,7 +918,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @return the ID, or zero if not in any space
      */
     public long spaceId() {
-        long spaceId = getSpace(nativeId);
+        long multiBodyId = nativeId();
+        long spaceId = getSpace(multiBodyId);
+
         return spaceId;
     }
 
@@ -856,7 +930,8 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @param setting true to use global velocities (default=false)
      */
     public void useGlobalVelocities(boolean setting) {
-        useGlobalVelocities(nativeId, setting);
+        long multiBodyId = nativeId();
+        useGlobalVelocities(multiBodyId, setting);
     }
 
     /**
@@ -865,7 +940,8 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      * @param setting true to use RK4 (default=false)
      */
     public void useRK4(boolean setting) {
-        useRK4Integration(nativeId, setting);
+        long multiBodyId = nativeId();
+        useRK4Integration(multiBodyId, setting);
     }
     // *************************************************************************
     // Comparable methods
@@ -879,8 +955,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
      */
     @Override
     public int compareTo(MultiBody other) {
+        long thisId = nativeId();
         long otherId = other.nativeId();
-        int result = Long.compare(nativeId, otherId);
+        int result = Long.compare(thisId, otherId);
 
         return result;
     }
@@ -903,9 +980,11 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         Vector3f baseInertia = baseInertia(null);
         boolean fixedBase = hasFixedBase();
         boolean canSleep = canSleep();
-        nativeId = create(numLinks, baseMass, baseInertia, fixedBase, canSleep);
-        assert nativeId != 0L;
-        assert getNumLinks(nativeId) == numLinks;
+        long multiBodyId
+                = create(numLinks, baseMass, baseInertia, fixedBase, canSleep);
+        reassignNativeId(multiBodyId);
+
+        assert getNumLinks(multiBodyId) == numLinks;
         MultiBody old = (MultiBody) original;
 
         if (baseCollider != null) {
@@ -913,7 +992,7 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
             baseCollider = null;
             baseShape = cloner.clone(baseShape);
             addBaseCollider(baseShape);
-            assert getBaseCollider(nativeId) == baseCollider.getObjectId();
+            assert getBaseCollider(multiBodyId) == baseCollider.getObjectId();
             baseCollider.copyPcoProperties(old.baseCollider);
         }
 
@@ -922,7 +1001,7 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         for (int i = 0; i < numLinks; ++i) {
             links[i] = configureClonedLink(old.links[i]);
         }
-        finalizeMultiDof(nativeId);
+        finalizeMultiDof(multiBodyId);
 
         setCollideWithGroups(old.collideWithGroups());
         setCollisionGroup(old.collisionGroup());
@@ -963,7 +1042,9 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         boolean canSleep = capsule.readBoolean(tagCanSleep, true);
         boolean fixedBase = capsule.readBoolean(tagFixedBase, false);
         int numLinks = capsule.readInt(tagNumLinks, 0);
-        nativeId = create(numLinks, baseMass, baseInertia, fixedBase, canSleep);
+        long multiBodyId
+                = create(numLinks, baseMass, baseInertia, fixedBase, canSleep);
+        setNativeId(multiBodyId);
 
         if (baseCollider != null) {
             CollisionShape baseShape = baseCollider.getCollisionShape();
@@ -977,7 +1058,7 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         for (int i = 0; i < numConfigured; ++i) {
             configureClonedLink(originalLinks[i]);
         }
-        finalizeMultiDof(nativeId);
+        finalizeMultiDof(multiBodyId);
 
         int collisionGroup = capsule.readInt(tagCollisionGroup,
                 PhysicsCollisionObject.COLLISION_GROUP_01);
@@ -1038,7 +1119,7 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         capsule.write(isUsingRK4(), tagRK4, false);
     }
     // *************************************************************************
-    // Object methods
+    // NativePhysicsObject methods
 
     /**
      * Finalize this MultiBody just before it is destroyed. Should be invoked
@@ -1050,23 +1131,11 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
     protected void finalize() throws Throwable {
         try {
             logger.log(Level.FINE, "Finalizing {0}.", this);
-            finalizeNative(nativeId);
+            long multiBodyId = nativeId();
+            finalizeNative(multiBodyId);
         } finally {
             super.finalize();
         }
-    }
-
-    /**
-     * Represent this MultiBody as a String.
-     *
-     * @return a descriptive string of text (not null, not empty)
-     */
-    @Override
-    public String toString() {
-        String result = getClass().getSimpleName();
-        result += "#" + Long.toHexString(nativeId);
-
-        return result;
     }
     // *************************************************************************
     // private Java methods
@@ -1080,7 +1149,8 @@ public class MultiBody implements Comparable<MultiBody>, JmeCloneable, Savable {
         int linkIndex = numConfigured;
         ++numConfigured;
 
-        finalizeMultiDof(nativeId);
+        long multiBodyId = nativeId();
+        finalizeMultiDof(multiBodyId);
 
         MultiBodyLink result = new MultiBodyLink(this, linkIndex);
         links[linkIndex] = result;
