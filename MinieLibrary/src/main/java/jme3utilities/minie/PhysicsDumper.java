@@ -1040,7 +1040,7 @@ public class PhysicsDumper extends Dumper {
 
     /**
      * Print dynamic properties of the specified rigid body: velocity, gravity,
-     * CCD, damping, and sleeping.
+     * CCD, damping, sleeping, moment of inertia, and angular velocity.
      *
      * @param rigidBody (not null, unaffected)
      */
@@ -1048,7 +1048,6 @@ public class PhysicsDumper extends Dumper {
         Vector3f velocity = rigidBody.getLinearVelocity(null);
         String velString = MyVector3f.describe(velocity);
         stream.printf(" v[%s]", velString);
-        // TODO angularVelocity
 
         Vector3f gravity = rigidBody.getGravity(null);
         String graString = MyVector3f.describe(gravity);
@@ -1087,6 +1086,9 @@ public class PhysicsDumper extends Dumper {
         Vector3f moments = scaleIdentity.divide(iiLocal);
         stream.print(MyVector3f.describe(moments));
         stream.print(']');
+
+        Vector3f angularVelocity = rigidBody.getAngularVelocity(null);
+        stream.printf(" w[%s]", MyVector3f.describe(angularVelocity));
     }
 
     /**
