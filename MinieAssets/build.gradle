@@ -32,7 +32,7 @@ dependencies {
     implementation 'com.atr:jme-ttf:2.2.2'
     implementation 'com.github.stephengold:Heart:' + heartVersion
     implementation 'org.jmonkeyengine:jme3-blender:' + jmonkeyengineVersion
-    implementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
+    runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
     implementation 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
