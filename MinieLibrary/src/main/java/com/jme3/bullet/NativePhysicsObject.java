@@ -120,6 +120,40 @@ abstract public class NativePhysicsObject {
     // Object methods
 
     /**
+     * Test for ID equality with another object.
+     *
+     * @param otherObject the object to compare to (may be null, unaffected)
+     * @return true if the objects have the same ID, otherwise false
+     */
+    @Override
+    public boolean equals(Object otherObject) {
+        boolean result;
+        if (otherObject == this) {
+            result = true;
+        } else if (otherObject != null
+                && otherObject.getClass() == getClass()) {
+            NativePhysicsObject otherJoint = (NativePhysicsObject) otherObject;
+            long otherId = otherJoint.nativeId();
+            result = (id == otherId);
+        } else {
+            result = false;
+        }
+
+        return result;
+    }
+
+    /**
+     * Generate the hash code for this instance.
+     *
+     * @return a 32-bit value for use in hashing
+     */
+    @Override
+    public int hashCode() {
+        int hash = (int) (id >> 4);
+        return hash;
+    }
+
+    /**
      * Represent this instance as a String.
      *
      * @return a descriptive string of text (not null, not empty)
