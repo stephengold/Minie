@@ -344,7 +344,7 @@ public class VHACDParameters
      * Set maximum number of voxels generated during the voxelization stage
      * (native field: m_resolution).
      *
-     * @param v default = 100000, min = 10000, max = 64000000
+     * @param v default = 100_000, min = 10_000, max = 64_000_000
      */
     public void setVoxelResolution(int v) {
         Validate.inRange(v, "maxVoxels", 10_000, 64_000_000);
