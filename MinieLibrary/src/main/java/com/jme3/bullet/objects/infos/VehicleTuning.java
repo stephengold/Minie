@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.objects.infos;
 
+import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -46,7 +47,9 @@ import java.util.logging.Logger;
  *
  * @author normenhansen
  */
-public class VehicleTuning implements JmeCloneable, Savable {
+public class VehicleTuning
+        extends NativePhysicsObject
+        implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -96,10 +99,6 @@ public class VehicleTuning implements JmeCloneable, Savable {
      * car, 200&rarr;Formula-1 race car, default=5.88)
      */
     private float suspensionStiffness = 5.88f;
-    /**
-     * unique identifier of the btVehicleTuning
-     */
-    private long nativeId = 0L;
     // *************************************************************************
     // constructors
 
@@ -143,12 +142,12 @@ public class VehicleTuning implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the native ID of the btCollisionShape.
+     * Read the ID of the btCollisionShape. TODO delete this method
      *
-     * @return the unique identifier (not zero)
+     * @return the native identifier (not zero)
      */
     final public long getNativeId() {
-        assert nativeId != 0L;
+        long nativeId = nativeId();
         return nativeId;
     }
 
@@ -190,7 +189,8 @@ public class VehicleTuning implements JmeCloneable, Savable {
      */
     public void setFrictionSlip(float coeff) {
         frictionSlip = coeff;
-        setFrictionSlip(nativeId, coeff);
+        long tuningId = nativeId();
+        setFrictionSlip(tuningId, coeff);
     }
 
     /**
@@ -201,7 +201,8 @@ public class VehicleTuning implements JmeCloneable, Savable {
      */
     public void setMaxSuspensionForce(float maxForce) {
         maxSuspensionForce = maxForce;
-        setMaxSuspensionForce(nativeId, maxForce);
+        long tuningId = nativeId();
+        setMaxSuspensionForce(tuningId, maxForce);
     }
 
     /**
@@ -213,7 +214,8 @@ public class VehicleTuning implements JmeCloneable, Savable {
      */
     public void setMaxSuspensionTravelCm(float travelCm) {
         maxSuspensionTravelCm = travelCm;
-        setMaxSuspensionTravelCm(nativeId, travelCm);
+        long tuningId = nativeId();
+        setMaxSuspensionTravelCm(tuningId, travelCm);
     }
 
     /**
@@ -225,7 +227,8 @@ public class VehicleTuning implements JmeCloneable, Savable {
      */
     public void setSuspensionCompression(float damping) {
         suspensionCompression = damping;
-        setSuspensionCompression(nativeId, damping);
+        long tuningId = nativeId();
+        setSuspensionCompression(tuningId, damping);
     }
 
     /**
@@ -236,7 +239,8 @@ public class VehicleTuning implements JmeCloneable, Savable {
      */
     public void setSuspensionDamping(float damping) {
         suspensionDamping = damping;
-        setSuspensionDamping(nativeId, damping);
+        long tuningId = nativeId();
+        setSuspensionDamping(tuningId, damping);
     }
 
     /**
@@ -248,7 +252,8 @@ public class VehicleTuning implements JmeCloneable, Savable {
      */
     public void setSuspensionStiffness(float stiffness) {
         suspensionStiffness = stiffness;
-        setSuspensionStiffness(nativeId, stiffness);
+        long tuningId = nativeId();
+        setSuspensionStiffness(tuningId, stiffness);
     }
     // *************************************************************************
     // JmeCloneable methods
@@ -264,6 +269,7 @@ public class VehicleTuning implements JmeCloneable, Savable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        unassignNativeObject();
         create();
     }
 
@@ -333,14 +339,15 @@ public class VehicleTuning implements JmeCloneable, Savable {
      * Instantiate the configured tuning in Bullet.
      */
     private void create() {
-        nativeId = createNative();
+        long tuningId = createNative();
+        setNativeId(tuningId);
 
-        setFrictionSlip(nativeId, frictionSlip);
-        setMaxSuspensionForce(nativeId, maxSuspensionForce);
-        setMaxSuspensionTravelCm(nativeId, maxSuspensionTravelCm);
-        setSuspensionCompression(nativeId, suspensionCompression);
-        setSuspensionDamping(nativeId, suspensionDamping);
-        setSuspensionStiffness(nativeId, suspensionStiffness);
+        setFrictionSlip(tuningId, frictionSlip);
+        setMaxSuspensionForce(tuningId, maxSuspensionForce);
+        setMaxSuspensionTravelCm(tuningId, maxSuspensionTravelCm);
+        setSuspensionCompression(tuningId, suspensionCompression);
+        setSuspensionDamping(tuningId, suspensionDamping);
+        setSuspensionStiffness(tuningId, suspensionStiffness);
     }
     // *************************************************************************
     // native methods

@@ -52,7 +52,9 @@ import jme3utilities.Validate;
  *
  * @author dokthar
  */
-public class SoftBodyWorldInfo implements Savable {
+public class SoftBodyWorldInfo
+        extends NativePhysicsObject
+        implements Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -71,36 +73,26 @@ public class SoftBodyWorldInfo implements Savable {
     final private static String tagWaterNormal = "waterNormal";
     final private static String tagWaterOffset = "waterOffset";
     // *************************************************************************
-    // fields
-
-    /**
-     * unique identifier of the btSoftBodyWorldInfo (not zero)
-     * <p>
-     * Multiple instances can refer to the same btSoftBodyWorldInfo.
-     */
-    final private long nativeId;
-    // *************************************************************************
     // constructors
 
     /**
-     * Instantiate an info that refers to a new native object with the default
-     * parameters.
+     * Instantiate an info that refers to a new btSoftBodyWorldInfo with the
+     * default parameters.
      */
     public SoftBodyWorldInfo() {
-        nativeId = createSoftBodyWorldInfo();
-        assert nativeId != 0L;
+        long infoId = createSoftBodyWorldInfo();
+        super.setNativeId(infoId);
     }
 
     /**
      * Instantiate an info that refers to the identified native object. Used
      * internally.
      *
-     * @param nativeId the pre-existing btSoftBodyWorldInfo to refer to (not
-     * zero)
+     * @param nativeId the ID of a pre-existing btSoftBodyWorldInfo (not zero)
      */
     public SoftBodyWorldInfo(long nativeId) {
         Validate.nonZero(nativeId, "native ID");
-        this.nativeId = nativeId;
+        super.setNativeId(nativeId);
     }
     // *************************************************************************
     // new methods exposed
@@ -111,7 +103,10 @@ public class SoftBodyWorldInfo implements Savable {
      * @return the density
      */
     public float airDensity() {
-        return getAirDensity(nativeId);
+        long infoId = nativeId();
+        float result = getAirDensity(infoId);
+
+        return result;
     }
 
     /**
@@ -120,8 +115,9 @@ public class SoftBodyWorldInfo implements Savable {
      * @param source the info to copy from (not null, unaffected)
      */
     public void copyAll(SoftBodyWorldInfo source) {
+        long thisId = nativeId();
         long sourceId = source.nativeId();
-        setSoftBodyWorldInfo(nativeId, sourceId);
+        setSoftBodyWorldInfo(thisId, sourceId);
     }
 
     /**
@@ -133,7 +129,10 @@ public class SoftBodyWorldInfo implements Savable {
      */
     public Vector3f copyGravity(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getGravity(nativeId, result);
+
+        long infoId = nativeId();
+        getGravity(infoId, result);
+
         return result;
     }
 
@@ -146,27 +145,23 @@ public class SoftBodyWorldInfo implements Savable {
      */
     public Vector3f copyWaterNormal(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getWaterNormal(nativeId, result);
+
+        long infoId = nativeId();
+        getWaterNormal(infoId, result);
+
         return result;
     }
 
     /**
      * Read the maximum distance a node can travel per time step.
      *
-     * @return the displacement
+     * @return the displacement (in physics-space units)
      */
     public float maxDisplacement() {
-        return getMaxDisplacement(nativeId);
-    }
+        long infoId = nativeId();
+        float result = getMaxDisplacement(infoId);
 
-    /**
-     * Read the unique identifier of the btSoftBodyWorldInfo.
-     *
-     * @return the identifier (not zero)
-     */
-    public long nativeId() {
-        assert nativeId != 0L;
-        return nativeId;
+        return result;
     }
 
     /**
@@ -175,7 +170,8 @@ public class SoftBodyWorldInfo implements Savable {
      * @param density the desired density (default=1.2)
      */
     public void setAirDensity(float density) {
-        setAirDensity(nativeId, density);
+        long infoId = nativeId();
+        setAirDensity(infoId, density);
     }
 
     /**
@@ -185,7 +181,8 @@ public class SoftBodyWorldInfo implements Savable {
      * coordinates, not null, unaffected, default=(0,-10,0))
      */
     public void setGravity(Vector3f acceleration) {
-        setGravity(nativeId, acceleration);
+        long infoId = nativeId();
+        setGravity(infoId, acceleration);
     }
 
     /**
@@ -195,7 +192,9 @@ public class SoftBodyWorldInfo implements Savable {
      */
     public void setMaxDisplacement(float maxDisplacement) {
         Validate.positive(maxDisplacement, "max displacement");
-        setMaxDisplacement(nativeId, maxDisplacement);
+
+        long infoId = nativeId();
+        setMaxDisplacement(infoId, maxDisplacement);
     }
 
     /**
@@ -204,7 +203,8 @@ public class SoftBodyWorldInfo implements Savable {
      * @param density the desired density (default=0)
      */
     public void setWaterDensity(float density) {
-        setWaterDensity(nativeId, density);
+        long infoId = nativeId();
+        setWaterDensity(infoId, density);
     }
 
     /**
@@ -214,7 +214,8 @@ public class SoftBodyWorldInfo implements Savable {
      * unaffected, default=(0,0,0))
      */
     public void setWaterNormal(Vector3f normalDirection) {
-        setWaterNormal(nativeId, normalDirection);
+        long infoId = nativeId();
+        setWaterNormal(infoId, normalDirection);
     }
 
     /**
@@ -224,7 +225,8 @@ public class SoftBodyWorldInfo implements Savable {
      * default=0)
      */
     public void setWaterOffset(float offset) {
-        setWaterOffset(nativeId, offset);
+        long infoId = nativeId();
+        setWaterOffset(infoId, offset);
     }
 
     /**
@@ -233,7 +235,10 @@ public class SoftBodyWorldInfo implements Savable {
      * @return the density
      */
     public float waterDensity() {
-        return getWaterDensity(nativeId);
+        long infoId = nativeId();
+        float result = getWaterDensity(infoId);
+
+        return result;
     }
 
     /**
@@ -242,7 +247,8 @@ public class SoftBodyWorldInfo implements Savable {
      * @return the offset distance (in physics-space units)
      */
     public float waterOffset() {
-        return getWaterOffset(nativeId);
+        long infoId = nativeId();
+        return getWaterOffset(infoId);
     }
     // *************************************************************************
     // Savable methods

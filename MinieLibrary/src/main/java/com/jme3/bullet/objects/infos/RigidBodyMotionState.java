@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.objects.infos;
 
+import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
@@ -47,7 +48,9 @@ import java.util.logging.Logger;
  *
  * @author normenhansen
  */
-public class RigidBodyMotionState implements JmeCloneable {
+public class RigidBodyMotionState
+        extends NativePhysicsObject
+        implements JmeCloneable {
     // *************************************************************************
     // constants and loggers
 
@@ -65,11 +68,6 @@ public class RigidBodyMotionState implements JmeCloneable {
      */
     private boolean applyPhysicsLocal = false;
     /**
-     * Unique identifier of the native object. Constructors are responsible for
-     * setting this to a non-zero value. After that, the ID never changes.
-     */
-    private long motionStateId;
-    /**
      * vehicle reference, or null if the rigid body is a vehicle
      */
     private PhysicsVehicle vehicle = null;
@@ -84,10 +82,9 @@ public class RigidBodyMotionState implements JmeCloneable {
      * Instantiate a motion state.
      */
     public RigidBodyMotionState() {
-        motionStateId = createMotionState();
-        assert motionStateId != 0L;
-        logger.log(Level.FINE, "Created MotionState {0}",
-                Long.toHexString(motionStateId));
+        long motionStateId = createMotionState();
+        super.setNativeId(motionStateId);
+        logger.log(Level.FINE, "Created {0}", this);
     }
     // *************************************************************************
     // new methods exposed
@@ -100,6 +97,7 @@ public class RigidBodyMotionState implements JmeCloneable {
      * @return true if changed
      */
     public boolean applyTransform(Spatial spatial) {
+        long motionStateId = nativeId();
         Vector3f localLocation = spatial.getLocalTranslation();
         Quaternion localRotationQuat = spatial.getLocalRotation();
         boolean physicsLocationDirty = applyTransform(motionStateId,
@@ -137,6 +135,8 @@ public class RigidBodyMotionState implements JmeCloneable {
      */
     public Vector3f getLocation(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long motionStateId = nativeId();
         getWorldLocation(motionStateId, result);
 
         assert Vector3f.isValidVector(result);
@@ -144,11 +144,13 @@ public class RigidBodyMotionState implements JmeCloneable {
     }
 
     /**
-     * Read the unique ID of the native object.
+     * Read the ID of the native object. For compatibility with the jme3-bullet
+     * library.
      *
-     * @return ID (not zero)
+     * @return the native ID (not zero)
      */
     public long getObjectId() {
+        long motionStateId = nativeId();
         return motionStateId;
     }
 
@@ -161,7 +163,10 @@ public class RigidBodyMotionState implements JmeCloneable {
      */
     public Matrix3f getOrientation(Matrix3f storeResult) {
         Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
+
+        long motionStateId = nativeId();
         getWorldRotation(motionStateId, result);
+
         return result;
     }
 
@@ -175,7 +180,10 @@ public class RigidBodyMotionState implements JmeCloneable {
     public Quaternion getOrientation(Quaternion storeResult) {
         Quaternion result
                 = (storeResult == null) ? new Quaternion() : storeResult;
+
+        long motionStateId = nativeId();
         getWorldRotationQuat(motionStateId, result);
+
         return result;
     }
 
@@ -205,6 +213,7 @@ public class RigidBodyMotionState implements JmeCloneable {
             transform = storeResult.setScale(1f);
         }
 
+        long motionStateId = nativeId();
         getWorldLocation(motionStateId, transform.getTranslation());
         getWorldRotationQuat(motionStateId, transform.getRotation());
 
@@ -243,8 +252,8 @@ public class RigidBodyMotionState implements JmeCloneable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        motionStateId = createMotionState();
-        assert motionStateId != 0L;
+        long motionStateId = createMotionState();
+        reassignNativeId(motionStateId);
 
         tmp_inverseWorldRotation = cloner.clone(tmp_inverseWorldRotation);
         vehicle = cloner.clone(vehicle);
@@ -276,8 +285,9 @@ public class RigidBodyMotionState implements JmeCloneable {
     @Override
     protected void finalize() throws Throwable {
         try {
-            logger.log(Level.FINE, "Finalizing MotionState {0}",
-                    Long.toHexString(motionStateId));
+            logger.log(Level.FINE, "Finalizing {0}", this);
+
+            long motionStateId = nativeId();
             finalizeNative(motionStateId);
         } finally {
             super.finalize();

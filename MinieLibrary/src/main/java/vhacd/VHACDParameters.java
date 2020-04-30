@@ -14,6 +14,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  */
 package vhacd;
 
+import com.jme3.bullet.NativePhysicsObject;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -27,7 +28,9 @@ import jme3utilities.Validate;
  * A set of tuning parameters for convex decomposition, based on V-HACD's
  * IVHACD::Parameters.
  */
-public class VHACDParameters implements Cloneable {
+public class VHACDParameters
+        extends NativePhysicsObject
+        implements Cloneable {
     // *************************************************************************
     // constants and loggers
 
@@ -43,10 +46,6 @@ public class VHACDParameters implements Cloneable {
      * true&rarr;enable debug output
      */
     private boolean DEBUG;
-    /**
-     * unique identifier of the IVHACD::Parameters
-     */
-    private long objectId = 0L;
     // *************************************************************************
     // constructors
 
@@ -54,7 +53,8 @@ public class VHACDParameters implements Cloneable {
      * Instantiate the default tuning parameters.
      */
     public VHACDParameters() {
-        objectId = create();
+        long objectId = create();
+        super.setNativeId(objectId);
 
         setConcavity(objectId, 0.0025);
         setMaxNumVerticesPerCH(objectId, 32);
@@ -92,6 +92,7 @@ public class VHACDParameters implements Cloneable {
      * @return an enum value (not null)
      */
     public ACDMode getACDMode() {
+        long objectId = nativeId();
         int ordinal = getMode(objectId);
         ACDMode result = ACDMode.values()[ordinal];
 
@@ -105,7 +106,10 @@ public class VHACDParameters implements Cloneable {
      * @return alpha (&ge;0, &le;1)
      */
     public double getAlpha() {
-        return getAlpha(objectId);
+        long objectId = nativeId();
+        double result = getAlpha(objectId);
+
+        return result;
     }
 
     /**
@@ -115,7 +119,9 @@ public class VHACDParameters implements Cloneable {
      * @return beta (&ge;0, &le;1)
      */
     public double getBeta() {
+        long objectId = nativeId();
         double result = getBeta(objectId);
+
         return result;
     }
 
@@ -126,7 +132,9 @@ public class VHACDParameters implements Cloneable {
      * @return precision (&ge;1, &le;16)
      */
     public int getConvexHullDownSampling() {
+        long objectId = nativeId();
         int result = getConvexhullDownsampling(objectId);
+
         return result;
     }
 
@@ -140,12 +148,12 @@ public class VHACDParameters implements Cloneable {
     }
 
     /**
-     * Read the ID of the native object.
+     * Read the ID of the native object. TODO delete
      *
      * @return the unique identifier (not zero)
      */
     long getId() {
-        assert objectId != 0L;
+        long objectId = nativeId();
         return objectId;
     }
 
@@ -155,7 +163,9 @@ public class VHACDParameters implements Cloneable {
      * @return concavity (&ge;0, &le;1)
      */
     public double getMaxConcavity() {
+        long objectId = nativeId();
         double result = getConcavity(objectId);
+
         return result;
     }
 
@@ -166,7 +176,9 @@ public class VHACDParameters implements Cloneable {
      * @return the limit (&ge;4, &le;1024)
      */
     public int getMaxVerticesPerHull() {
+        long objectId = nativeId();
         int result = getMaxNumVerticesPerCH(objectId);
+
         return result;
     }
 
@@ -177,7 +189,9 @@ public class VHACDParameters implements Cloneable {
      * @return the volume (&ge;0, &le;0.01)
      */
     public double getMinVolumePerHull() {
+        long objectId = nativeId();
         double result = getMinVolumePerCH(objectId);
+
         return result;
     }
 
@@ -187,7 +201,9 @@ public class VHACDParameters implements Cloneable {
      * @return true &rarr; normalize, false &rarr; don't normalize
      */
     public boolean getPCA() {
+        long objectId = nativeId();
         boolean result = getPca(objectId);
+
         return result;
     }
 
@@ -197,7 +213,9 @@ public class VHACDParameters implements Cloneable {
      * @return granularity (&ge;1, &le;16)
      */
     public int getPlaneDownSampling() {
+        long objectId = nativeId();
         int result = getPlaneDownsampling(objectId);
+
         return result;
     }
 
@@ -208,7 +226,9 @@ public class VHACDParameters implements Cloneable {
      * @return number (&ge;10000, &le;64000000)
      */
     public int getVoxelResolution() {
+        long objectId = nativeId();
         int result = getResolution(objectId);
+
         return result;
     }
 
@@ -218,6 +238,7 @@ public class VHACDParameters implements Cloneable {
      * @param mode default = VOXEL
      */
     public void setACDMode(ACDMode mode) {
+        long objectId = nativeId();
         setMode(objectId, mode.ordinal());
     }
 
@@ -228,6 +249,8 @@ public class VHACDParameters implements Cloneable {
      */
     public void setAlpha(double v) {
         Validate.fraction(v, "alpha");
+
+        long objectId = nativeId();
         setAlpha(objectId, v);
     }
 
@@ -238,6 +261,8 @@ public class VHACDParameters implements Cloneable {
      */
     public void setBeta(double v) {
         Validate.fraction(v, "beta");
+
+        long objectId = nativeId();
         setBeta(objectId, v);
     }
 
@@ -249,6 +274,8 @@ public class VHACDParameters implements Cloneable {
      */
     public void setConvexHullDownSampling(int v) {
         Validate.inRange(v, "precision", 1, 16);
+
+        long objectId = nativeId();
         setConvexhullDownsampling(objectId, v);
     }
 
@@ -268,6 +295,8 @@ public class VHACDParameters implements Cloneable {
      */
     public void setMaxConcavity(double v) {
         Validate.fraction(v, "depth");
+
+        long objectId = nativeId();
         setConcavity(objectId, v);
     }
 
@@ -279,6 +308,8 @@ public class VHACDParameters implements Cloneable {
      */
     public void setMaxVerticesPerHull(int v) {
         Validate.inRange(v, "max vertices", 4, 1024);
+
+        long objectId = nativeId();
         setMaxNumVerticesPerCH(objectId, v);
     }
 
@@ -290,6 +321,8 @@ public class VHACDParameters implements Cloneable {
      */
     public void setMinVolumePerHull(double v) {
         Validate.inRange(v, "min volume", 0.0, 0.01);
+
+        long objectId = nativeId();
         setMinVolumePerCH(objectId, v);
     }
 
@@ -300,6 +333,7 @@ public class VHACDParameters implements Cloneable {
      * @param v default = False
      */
     public void setPCA(boolean v) {
+        long objectId = nativeId();
         setPca(objectId, v);
     }
 
@@ -311,6 +345,8 @@ public class VHACDParameters implements Cloneable {
      */
     public void setPlaneDownSampling(int v) {
         Validate.inRange(v, "granularity", 1, 16);
+
+        long objectId = nativeId();
         setPlaneDownsampling(objectId, v);
     }
 
@@ -322,6 +358,8 @@ public class VHACDParameters implements Cloneable {
      */
     public void setVoxelResolution(int v) {
         Validate.inRange(v, "maxVoxels", 10_000, 64_000_000);
+
+        long objectId = nativeId();
         setResolution(objectId, v);
     }
 
@@ -349,7 +387,7 @@ public class VHACDParameters implements Cloneable {
         dos.writeInt(getOclAcceleration());
     }
     // *************************************************************************
-    // Object methods
+    // NativePhysicsObject methods
 
     /**
      * Create a copy of these parameters.
@@ -360,6 +398,9 @@ public class VHACDParameters implements Cloneable {
     public VHACDParameters clone() {
         try {
             VHACDParameters clone = (VHACDParameters) super.clone();
+            long objectId = create();
+            clone.reassignNativeId(objectId);
+
             clone.setACDMode(getACDMode());
             clone.setAlpha(getAlpha());
             clone.setBeta(getBeta());
@@ -373,6 +414,7 @@ public class VHACDParameters implements Cloneable {
             clone.setPlaneDownSampling(getPlaneDownSampling());
             clone.setVoxelResolution(getVoxelResolution());
             return clone;
+
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
@@ -447,13 +489,14 @@ public class VHACDParameters implements Cloneable {
     protected void finalize() throws Throwable {
         try {
             logger.log(Level.FINE, "Finalizing {0}.", this);
-            finalizeNative(objectId);
+            long nativeId = nativeId();
+            finalizeNative(nativeId);
         } finally {
             super.finalize();
         }
     }
     // *************************************************************************
-    // private methods
+    // private Java methods
 
     /**
      * native field: m_convexhullApproximation
@@ -461,6 +504,7 @@ public class VHACDParameters implements Cloneable {
      * @return the value
      */
     private int getConvexHullApproximation() {
+        long objectId = nativeId();
         return getConvexhullApproximation(objectId);
     }
 
@@ -470,6 +514,7 @@ public class VHACDParameters implements Cloneable {
      * @return the value
      */
     private int getOclAcceleration() {
+        long objectId = nativeId();
         return getOclAcceleration(objectId);
     }
 
@@ -479,6 +524,7 @@ public class VHACDParameters implements Cloneable {
      * @param value the desired value (default=true)
      */
     private void setConvexHullApproximation(int value) {
+        long objectId = nativeId();
         setConvexhullApproximation(objectId, value);
     }
 
@@ -488,6 +534,7 @@ public class VHACDParameters implements Cloneable {
      * @param value the desired value (default=true)
      */
     private void setOclAcceleration(int value) {
+        long objectId = nativeId();
         setOclAcceleration(objectId, value);
     }
     // *************************************************************************

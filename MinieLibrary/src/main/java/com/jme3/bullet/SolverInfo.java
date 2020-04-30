@@ -40,7 +40,7 @@ import jme3utilities.Validate;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class SolverInfo {
+public class SolverInfo extends NativePhysicsObject {
     // *************************************************************************
     // constants and loggers
 
@@ -50,25 +50,17 @@ public class SolverInfo {
     final public static Logger logger
             = Logger.getLogger(SolverInfo.class.getName());
     // *************************************************************************
-    // fields
-
-    /**
-     * unique identifier of the btContactSolverInfo (not zero)
-     */
-    final private long nativeId;
-    // *************************************************************************
     // constructors
 
     /**
      * Instantiate an info that refers to the identified native object. Used
      * internally.
      *
-     * @param nativeId the pre-existing btContactSolverInfo to refer to (not
-     * zero)
+     * @param nativeId the ID of a pre-existing btContactSolverInfo (not zero)
      */
     SolverInfo(long nativeId) {
-        assert nativeId != 0L;
-        this.nativeId = nativeId;
+        Validate.nonZero(nativeId, "native ID");
+        super.setNativeId(nativeId);
     }
     // *************************************************************************
     // new methods exposed
@@ -79,8 +71,9 @@ public class SolverInfo {
      * @param source the info to copy from (not null, unaffected)
      */
     public void copyAll(SolverInfo source) {
+        long thisId = nativeId();
         long sourceId = source.nativeId();
-        copyAllParameters(nativeId, sourceId);
+        copyAllParameters(thisId, sourceId);
     }
 
     /**
@@ -90,7 +83,9 @@ public class SolverInfo {
      * @return the parameter value (&ge;0)
      */
     public float globalCfm() {
-        float result = getGlobalCfm(nativeId);
+        long infoId = nativeId();
+        float result = getGlobalCfm(infoId);
+
         return result;
     }
 
@@ -101,7 +96,9 @@ public class SolverInfo {
      * @return true if using split impulse, otherwise false
      */
     public boolean isSplitImpulseEnabled() {
-        boolean result = isSplitImpulseEnabled(nativeId);
+        long infoId = nativeId();
+        boolean result = isSplitImpulseEnabled(infoId);
+
         return result;
     }
 
@@ -112,7 +109,9 @@ public class SolverInfo {
      * @return the number of constraints in a batch (&ge;1)
      */
     public int minBatch() {
-        int result = getMinBatch(nativeId);
+        long infoId = nativeId();
+        int result = getMinBatch(infoId);
+
         return result;
     }
 
@@ -123,18 +122,10 @@ public class SolverInfo {
      * @see com.jme3.bullet.SolverMode
      */
     public int mode() {
-        int result = getMode(nativeId);
-        return result;
-    }
+        long infoId = nativeId();
+        int result = getMode(infoId);
 
-    /**
-     * Determine the unique ID of the btContactSolverInfo.
-     *
-     * @return the identifier (not zero)
-     */
-    public long nativeId() {
-        assert nativeId != 0L;
-        return nativeId;
+        return result;
     }
 
     /**
@@ -143,7 +134,9 @@ public class SolverInfo {
      * @return the count (&gt;0)
      */
     public int numIterations() {
-        int result = getNumIterations(nativeId);
+        long infoId = nativeId();
+        int result = getNumIterations(infoId);
+
         return result;
     }
 
@@ -155,7 +148,9 @@ public class SolverInfo {
      */
     public void setGlobalCfm(float cfm) {
         Validate.nonNegative(cfm, "mixing parameter");
-        setGlobalCfm(nativeId, cfm);
+
+        long infoId = nativeId();
+        setGlobalCfm(infoId, cfm);
     }
 
     /**
@@ -166,7 +161,9 @@ public class SolverInfo {
      */
     public void setMinBatch(int numConstraints) {
         Validate.positive(numConstraints, "number of constraints");
-        setMinBatch(nativeId, numConstraints);
+
+        long infoId = nativeId();
+        setMinBatch(infoId, numConstraints);
     }
 
     /**
@@ -177,7 +174,8 @@ public class SolverInfo {
      * @see com.jme3.bullet.SolverMode
      */
     public void setMode(int flags) {
-        setMode(nativeId, flags);
+        long infoId = nativeId();
+        setMode(infoId, flags);
     }
 
     /**
@@ -189,7 +187,9 @@ public class SolverInfo {
      */
     public void setNumIterations(int numIterations) {
         Validate.positive(numIterations, "number of iterations");
-        setNumIterations(nativeId, numIterations);
+
+        long infoId = nativeId();
+        setNumIterations(infoId, numIterations);
     }
 
     /**
@@ -199,7 +199,8 @@ public class SolverInfo {
      * @param setting the desired setting (default=true)
      */
     public void setSplitImpulseEnabled(boolean setting) {
-        setSplitImpulseEnabled(nativeId, setting);
+        long infoId = nativeId();
+        setSplitImpulseEnabled(infoId, setting);
     }
 
     /**
@@ -209,7 +210,8 @@ public class SolverInfo {
      * @param erp the parameter (default=0.1)
      */
     public void setSplitImpulseErp(float erp) {
-        setSplitImpulseErp(nativeId, erp);
+        long infoId = nativeId();
+        setSplitImpulseErp(infoId, erp);
     }
 
     /**
@@ -221,7 +223,8 @@ public class SolverInfo {
      * default=-0.04)
      */
     public void setSplitImpulseThreshold(float penetration) {
-        setSplitImpulseThreshold(nativeId, penetration);
+        long infoId = nativeId();
+        setSplitImpulseThreshold(infoId, penetration);
     }
 
     /**
@@ -231,7 +234,9 @@ public class SolverInfo {
      * @return the parameter value
      */
     public float splitImpulseErp() {
-        float result = getSplitImpulseErp(nativeId);
+        long infoId = nativeId();
+        float result = getSplitImpulseErp(infoId);
+
         return result;
     }
 
@@ -243,7 +248,9 @@ public class SolverInfo {
      * @return the parameter value
      */
     public float splitImpulseThreshold() {
-        float result = getSplitImpulseThreshold(nativeId);
+        long infoId = nativeId();
+        float result = getSplitImpulseThreshold(infoId);
+
         return result;
     }
     // *************************************************************************
