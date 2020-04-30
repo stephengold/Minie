@@ -19,6 +19,7 @@ ext {
     sinbad = assets + 'Models/Sinbad'
 
     // generated collision-shape J3O files
+    barrelShape = assets + 'CollisionShapes/barrel.j3o'
     duckShape = assets + 'CollisionShapes/duck.j3o'
     heartShape = assets + 'CollisionShapes/heart.j3o'
     swordShape = assets + 'CollisionShapes/sword.j3o'
@@ -64,8 +65,12 @@ task models(type: JavaExec) {
 }
 
 task shapes {
-    dependsOn 'duckShape', 'glyphShapes', 'heartShape', 'swordShape', 'teapotShape'
+    dependsOn 'barrelShape', 'duckShape', 'glyphShapes', 'heartShape', 'swordShape', 'teapotShape'
     description 'Generate collision-shape assets used in MinieExamples.'
+}
+task barrelShape(type: JavaExec) {
+    main 'jme3utilities.minie.test.shapes.MakeBarrel'
+    outputs.files([barrelShape])
 }
 task duckShape(type: JavaExec) {
     main 'jme3utilities.minie.test.shapes.MakeDuck'
@@ -110,8 +115,11 @@ task cleanOto(type: Delete) {
 }
 
 task cleanShapes {
-    dependsOn 'cleanDuckShape', 'cleanGlyphShapes', 'cleanHeartShape', 'cleanSwordShape', 'cleanTeapotShape'
+    dependsOn 'cleanBarrelShape', 'cleanDuckShape', 'cleanGlyphShapes', 'cleanHeartShape', 'cleanSwordShape', 'cleanTeapotShape'
     description 'Delete generated collision-shape assets.'
+}
+task cleanBarrelShape(type: Delete) {
+    delete barrelShape
 }
 task cleanDuckShape(type: Delete) {
     delete duckShape
