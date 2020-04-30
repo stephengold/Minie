@@ -148,16 +148,6 @@ public class VHACDParameters
     }
 
     /**
-     * Read the ID of the native object. TODO delete
-     *
-     * @return the unique identifier (not zero)
-     */
-    long getId() {
-        long objectId = nativeId();
-        return objectId;
-    }
-
-    /**
      * Read the maximum concavity (native field: m_concavity).
      *
      * @return concavity (&ge;0, &le;1)

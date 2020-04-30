@@ -87,7 +87,7 @@ public class VHACD {
         FloatBuffer b_pos = BufferUtils.createFloatBuffer(positions);
         IntBuffer b_ind = BufferUtils.createIntBuffer(indices);
         results = new VHACDResults();
-        compute(b_pos, b_ind, params.getId(), params.getDebugEnabled());
+        compute(b_pos, b_ind, params.nativeId(), params.getDebugEnabled());
 
         return results;
     }
