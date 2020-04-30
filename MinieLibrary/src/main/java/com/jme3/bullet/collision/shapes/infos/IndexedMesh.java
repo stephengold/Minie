@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.collision.shapes.infos;
 
+import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
@@ -64,7 +65,9 @@ import jme3utilities.math.MyMath;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class IndexedMesh implements JmeCloneable, Savable {
+public class IndexedMesh
+        extends NativePhysicsObject
+        implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -122,11 +125,6 @@ public class IndexedMesh implements JmeCloneable, Savable {
      * configured bytes per vertex in the position buffer (12)
      */
     private int vertexStride;
-    /**
-     * Unique identifier of the btIndexedMesh. The constructor sets this to a
-     * non-zero value. Once set, the identifier never changes.
-     */
-    private long nativeId = 0L;
     // *************************************************************************
     // constructors
 
@@ -267,16 +265,6 @@ public class IndexedMesh implements JmeCloneable, Savable {
         assert numVertices >= 0 : numVertices;
         return numVertices;
     }
-
-    /**
-     * Read the ID of the btIndexedMesh.
-     *
-     * @return the unique identifier (not zero)
-     */
-    public long nativeId() {
-        assert nativeId != 0L;
-        return nativeId;
-    }
     // *************************************************************************
     // JmeCloneable methods
 
@@ -307,7 +295,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
             indices.put(offset, tmpIndex);
         }
 
-        nativeId = 0L;
+        unassignNativeObject();
         createMesh();
     }
 
@@ -409,7 +397,7 @@ public class IndexedMesh implements JmeCloneable, Savable {
         capsule.write(floatArray, tagVertices, null);
     }
     // *************************************************************************
-    // Object methods
+    // NativePhysicsObject methods
 
     /**
      * Finalize this mesh just before it is destroyed. Should be invoked only by
@@ -420,9 +408,9 @@ public class IndexedMesh implements JmeCloneable, Savable {
     @Override
     protected void finalize() throws Throwable {
         try {
-            logger.log(Level.FINE, "Finalizing IndexedMesh {0}",
-                    Long.toHexString(nativeId));
-            finalizeNative(nativeId);
+            logger.log(Level.FINE, "Finalizing IndexedMesh {0}", this);
+            long meshId = nativeId();
+            finalizeNative(meshId);
         } finally {
             super.finalize();
         }
@@ -479,32 +467,31 @@ public class IndexedMesh implements JmeCloneable, Savable {
      * Create a new btIndexedMesh using the current configuration.
      */
     private void createMesh() {
-        assert nativeId == 0L;
         assert vertexStride == 12 : vertexStride;
 
+        long meshId;
         switch (indexStride) {
             case 3:
                 ByteBuffer byteBuffer = (ByteBuffer) indices.getBuffer();
-                nativeId = createByte(byteBuffer, vertexPositions, numTriangles,
+                meshId = createByte(byteBuffer, vertexPositions, numTriangles,
                         numVertices, vertexStride, indexStride);
                 break;
             case 6:
                 ShortBuffer shortBuffer = (ShortBuffer) indices.getBuffer();
-                nativeId = createShort(shortBuffer, vertexPositions,
+                meshId = createShort(shortBuffer, vertexPositions,
                         numTriangles, numVertices, vertexStride, indexStride);
                 break;
             case 12:
                 IntBuffer intBuffer = (IntBuffer) indices.getBuffer();
-                nativeId = createInt(intBuffer, vertexPositions, numTriangles,
+                meshId = createInt(intBuffer, vertexPositions, numTriangles,
                         numVertices, vertexStride, indexStride);
                 break;
             default:
                 throw new RuntimeException("indexStride = " + indexStride);
         }
+        setNativeId(meshId);
 
-        assert nativeId != 0L;
-        logger.log(Level.FINE, "Created IndexedMesh {0}",
-                Long.toHexString(nativeId));
+        logger.log(Level.FINE, "Created {0}", this);
     }
     // *************************************************************************
     // native methods
@@ -521,5 +508,5 @@ public class IndexedMesh implements JmeCloneable, Savable {
             FloatBuffer vertexPositions, int numTriangles, int numVertices,
             int vertexStride, int indexStride);
 
-    native private void finalizeNative(long nativeId);
+    native private void finalizeNative(long meshId);
 }
