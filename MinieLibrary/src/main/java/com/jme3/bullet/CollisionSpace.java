@@ -58,7 +58,7 @@ import jme3utilities.Validate;
  *
  * @author normenhansen
  */
-public class CollisionSpace {
+public class CollisionSpace extends NativePhysicsObject {
     // *************************************************************************
     // constants and loggers
 
@@ -92,11 +92,6 @@ public class CollisionSpace {
      * flags used in ray tests (default=SubSimplexRaytest)
      */
     private int rayTestFlags = RayTestFlag.SubSimplexRaytest;
-    /**
-     * Bullet identifier of the space. The constructor sets this to a non-zero
-     * value.
-     */
-    private long nativeId = 0L;
     /**
      * map from collision groups to registered group listeners
      */
@@ -241,7 +236,8 @@ public class CollisionSpace {
      * @return the count (&ge;0)
      */
     public int countCollisionObjects() {
-        int count = getNumCollisionObjects(nativeId);
+        long spaceId = nativeId();
+        int count = getNumCollisionObjects(spaceId);
         return count;
     }
 
@@ -299,13 +295,14 @@ public class CollisionSpace {
     }
 
     /**
-     * Read the unique identifier of the native object.
+     * Read the identifier of the native object. For compatibility with the
+     * jme3-bullet library.
      *
      * @return the ID (not zero)
      */
     final public long getSpaceId() {
-        assert nativeId != 0L;
-        return nativeId;
+        long spaceId = nativeId();
+        return spaceId;
     }
 
     /**
@@ -379,7 +376,8 @@ public class CollisionSpace {
     public List<PhysicsRayTestResult> rayTest(Vector3f from, Vector3f to,
             List<PhysicsRayTestResult> results) {
         results.clear();
-        rayTest_native(from, to, nativeId, results, rayTestFlags);
+        long spaceId = nativeId();
+        rayTest_native(from, to, spaceId, results, rayTestFlags);
 
         Collections.sort(results, hitFractionComparator);
         return results;
@@ -416,7 +414,8 @@ public class CollisionSpace {
     public List<PhysicsRayTestResult> rayTestRaw(Vector3f from, Vector3f to,
             List<PhysicsRayTestResult> results) {
         results.clear();
-        rayTest_native(from, to, nativeId, results, rayTestFlags);
+        long spaceId = nativeId();
+        rayTest_native(from, to, spaceId, results, rayTestFlags);
 
         return results;
     }
@@ -552,7 +551,8 @@ public class CollisionSpace {
 
         long shapeId = shape.getObjectId();
         results.clear();
-        sweepTest_native(shapeId, start, end, nativeId, results,
+        long spaceId = nativeId();
+        sweepTest_native(shapeId, start, end, spaceId, results,
                 allowedCcdPenetration);
 
         return results;
@@ -578,14 +578,11 @@ public class CollisionSpace {
      * @param spaceId the Bullet identifier for this space (non-zero)
      */
     protected void initThread(long spaceId) {
-        assert spaceId != 0L;
-        assert nativeId == 0L : nativeId;
-
-        nativeId = spaceId;
+        setNativeId(spaceId);
         physicsSpaceTL.set(this);
     }
     // *************************************************************************
-    // Object methods
+    // NativePhysicsObject methods
 
     /**
      * Finalize this space just before it is destroyed. Should be invoked only
@@ -600,23 +597,11 @@ public class CollisionSpace {
             for (PhysicsCollisionObject pco : getPcoList()) {
                 removeCollisionObject(pco);
             }
-            finalizeNative(nativeId);
+            long spaceId = nativeId();
+            finalizeNative(spaceId);
         } finally {
             super.finalize();
         }
-    }
-
-    /**
-     * Represent this space as a String.
-     *
-     * @return a descriptive string of text (not null, not empty)
-     */
-    @Override
-    public String toString() {
-        String result = getClass().getSimpleName();
-        result += "#" + Long.toHexString(nativeId);
-
-        return result;
     }
     // *************************************************************************
     // private Java methods
@@ -639,8 +624,9 @@ public class CollisionSpace {
 
         long ghostId = ghost.getObjectId();
         ghostMap.put(ghostId, ghost);
-        assert nativeId != 0L;
-        addCollisionObject(nativeId, ghostId);
+
+        long spaceId = nativeId();
+        addCollisionObject(spaceId, ghostId);
     }
 
     /**
@@ -681,7 +667,9 @@ public class CollisionSpace {
         ghostMap.remove(ghostId);
         loggerC.log(Level.FINE, "Removing {0} from {1}.",
                 new Object[]{ghost, this});
-        removeCollisionObject(nativeId, ghostId);
+
+        long spaceId = nativeId();
+        removeCollisionObject(spaceId, ghostId);
     }
     // *************************************************************************
     // native methods
