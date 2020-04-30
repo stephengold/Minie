@@ -983,6 +983,10 @@ abstract public class PhysicsCollisionObject
     protected void initUserPointer() {
         logger.log(Level.FINE, "initUserPointer() for {0}", this);
         initUserPointer(objectId, collisionGroup, collideWithGroups);
+
+        assert getCollisionGroup(objectId) == collisionGroup;
+        assert getCollideWithGroups(objectId) == collideWithGroups;
+        assert getSpaceId(objectId) == 0L;
     }
 
     /**
