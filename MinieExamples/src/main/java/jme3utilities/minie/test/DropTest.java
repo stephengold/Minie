@@ -458,6 +458,9 @@ public class DropTest
                 case "toggle axes":
                     toggleAxes();
                     return;
+                case "toggle childColoring":
+                    status.toggleChildColoring();
+                    return;
                 case "toggle help":
                     toggleHelp();
                     return;

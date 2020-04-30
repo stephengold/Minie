@@ -187,7 +187,7 @@ public class DropTestStatus extends SimpleAppState {
     void advanceValue(int amount) {
         switch (selectedLine) {
             case coloringStatusLine:
-                isChildColoring = !isChildColoring;
+                toggleChildColoring();
                 break;
             case dampingStatusLine:
                 advanceDamping(amount);
@@ -269,6 +269,13 @@ public class DropTestStatus extends SimpleAppState {
         assert platformName != null;
         assert !platformName.isEmpty();
         return platformName;
+    }
+
+    /**
+     * Toggle whether child coloring is enabled.
+     */
+    void toggleChildColoring() {
+        isChildColoring = !isChildColoring;
     }
     // *************************************************************************
     // ActionAppState methods
