@@ -439,17 +439,6 @@ abstract public class CollisionShape
     }
 
     /**
-     * Initialize the native ID. TODO re-order methods
-     *
-     * @param shapeId the identifier of the btCollisionShape (not zero)
-     */
-    @Override
-    protected void setNativeId(long shapeId) {
-        super.setNativeId(shapeId);
-        logger.log(Level.FINE, "Created {0}.", this);
-    }
-
-    /**
      * Synchronize the copied scale factors with the btCollisionShape.
      */
     protected void updateScale() {
@@ -560,6 +549,17 @@ abstract public class CollisionShape
         } finally {
             super.finalize();
         }
+    }
+
+    /**
+     * Initialize the native ID.
+     *
+     * @param shapeId the identifier of the btCollisionShape (not zero)
+     */
+    @Override
+    protected void setNativeId(long shapeId) {
+        super.setNativeId(shapeId);
+        logger.log(Level.FINE, "Created {0}.", this);
     }
 
     /**
