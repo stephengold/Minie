@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.joints.motors;
 
+import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.math.Vector3f;
 import java.util.logging.Logger;
@@ -42,7 +43,7 @@ import jme3utilities.Validate;
  *
  * @author normenhansen
  */
-public class TranslationalLimitMotor {
+public class TranslationalLimitMotor extends NativePhysicsObject {
     // *************************************************************************
     // constants and loggers
 
@@ -52,24 +53,17 @@ public class TranslationalLimitMotor {
     final public static Logger logger
             = Logger.getLogger(TranslationalLimitMotor.class.getName());
     // *************************************************************************
-    // fields
-
-    /**
-     * Unique identifier of the btTranslationalLimitMotor. The constructor sets
-     * this to a non-zero value. After that, the ID never changes.
-     */
-    private long motorId = 0L;
-    // *************************************************************************
     // constructors
 
     /**
-     * Instantiate a motor for the identified btTranslationalLimitMotor.
+     * Instantiate a motor. Used internally.
      *
-     * @param motor the unique identifier (not zero)
+     * @param nativeId the ID of the pre-existing btTranslationalLimitMotor (not
+     * zero)
      */
-    public TranslationalLimitMotor(long motor) {
-        assert motor != 0L;
-        motorId = motor;
+    public TranslationalLimitMotor(long nativeId) {
+        Validate.nonZero(nativeId, "native ID");
+        super.setNativeId(nativeId);
     }
     // *************************************************************************
     // new methods exposed
@@ -82,6 +76,8 @@ public class TranslationalLimitMotor {
      */
     public Vector3f getAccumulatedImpulse(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long motorId = nativeId();
         getAccumulatedImpulse(motorId, result);
 
         return result;
@@ -94,7 +90,10 @@ public class TranslationalLimitMotor {
      * damped)
      */
     public float getDamping() {
-        return getDamping(motorId);
+        long motorId = nativeId();
+        float result = getDamping(motorId);
+
+        return result;
     }
 
     /**
@@ -106,6 +105,8 @@ public class TranslationalLimitMotor {
      */
     public Vector3f getERP(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long motorId = nativeId();
         getERP(motorId, result);
 
         return result;
@@ -117,7 +118,10 @@ public class TranslationalLimitMotor {
      * @return the limit softness (or relaxation factor)
      */
     public float getLimitSoftness() {
-        return getLimitSoftness(motorId);
+        long motorId = nativeId();
+        float result = getLimitSoftness(motorId);
+
+        return result;
     }
 
     /**
@@ -129,6 +133,8 @@ public class TranslationalLimitMotor {
      */
     public Vector3f getLowerLimit(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long motorId = nativeId();
         getLowerLimit(motorId, result);
 
         return result;
@@ -144,18 +150,21 @@ public class TranslationalLimitMotor {
      */
     public Vector3f getMaxMotorForce(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long motorId = nativeId();
         getMaxMotorForce(motorId, result);
 
         return result;
     }
 
     /**
-     * Read the ID of the btTranslationalLimitMotor.
+     * Read the ID of the btTranslationalLimitMotor. For compatibility with the
+     * jme3-bullet library.
      *
-     * @return the unique identifier (not zero)
+     * @return the identifier (not zero)
      */
     public long getMotor() {
-        assert motorId != 0L;
+        long motorId = nativeId();
         return motorId;
     }
 
@@ -169,6 +178,8 @@ public class TranslationalLimitMotor {
      */
     public Vector3f getNormalCFM(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long motorId = nativeId();
         getNormalCFM(motorId, result);
 
         return result;
@@ -182,6 +193,8 @@ public class TranslationalLimitMotor {
      */
     public Vector3f getOffset(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long motorId = nativeId();
         getOffset(motorId, result);
 
         return result;
@@ -193,7 +206,10 @@ public class TranslationalLimitMotor {
      * @return the restitution (bounce) factor
      */
     public float getRestitution() {
-        return getRestitution(motorId);
+        long motorId = nativeId();
+        float result = getRestitution(motorId);
+
+        return result;
     }
 
     /**
@@ -206,6 +222,8 @@ public class TranslationalLimitMotor {
      */
     public Vector3f getStopCFM(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long motorId = nativeId();
         getStopCFM(motorId, result);
 
         return result;
@@ -219,6 +237,8 @@ public class TranslationalLimitMotor {
      */
     public Vector3f getTargetVelocity(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long motorId = nativeId();
         getTargetVelocity(motorId, result);
 
         return result;
@@ -233,6 +253,8 @@ public class TranslationalLimitMotor {
      */
     public Vector3f getUpperLimit(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long motorId = nativeId();
         getUpperLimit(motorId, result);
 
         return result;
@@ -247,7 +269,10 @@ public class TranslationalLimitMotor {
     public boolean isEnabled(int axisIndex) {
         Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
                 PhysicsSpace.AXIS_Z);
+
+        long motorId = nativeId();
         boolean result = isEnabled(motorId, axisIndex);
+
         return result;
     }
 
@@ -258,6 +283,7 @@ public class TranslationalLimitMotor {
      * default=(0,0,0))
      */
     public void setAccumulatedImpulse(Vector3f accumulatedImpulse) {
+        long motorId = nativeId();
         setAccumulatedImpulse(motorId, accumulatedImpulse);
     }
 
@@ -268,6 +294,7 @@ public class TranslationalLimitMotor {
      * 1&rarr;critically damped, default=1)
      */
     public void setDamping(float damping) {
+        long motorId = nativeId();
         setDamping(motorId, damping);
     }
 
@@ -280,6 +307,8 @@ public class TranslationalLimitMotor {
     public void setEnabled(int axisIndex, boolean enableMotor) {
         Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
                 PhysicsSpace.AXIS_Z);
+
+        long motorId = nativeId();
         setEnabled(motorId, axisIndex, enableMotor);
     }
 
@@ -290,6 +319,7 @@ public class TranslationalLimitMotor {
      * (not null, unaffected, default=(0.2,0.2,0.2))
      */
     public void setERP(Vector3f erp) {
+        long motorId = nativeId();
         setERP(motorId, erp);
     }
 
@@ -299,6 +329,7 @@ public class TranslationalLimitMotor {
      * @param limitSoftness the desired limit softness (default=0.7)
      */
     public void setLimitSoftness(float limitSoftness) {
+        long motorId = nativeId();
         setLimitSoftness(motorId, limitSoftness);
     }
 
@@ -309,6 +340,7 @@ public class TranslationalLimitMotor {
      * null, default=(0,0,0))
      */
     public void setLowerLimit(Vector3f lowerLimit) {
+        long motorId = nativeId();
         setLowerLimit(motorId, lowerLimit);
     }
 
@@ -319,6 +351,7 @@ public class TranslationalLimitMotor {
      * unaffected, default=(0,0,0))
      */
     public void setMaxMotorForce(Vector3f maxForce) {
+        long motorId = nativeId();
         setMaxMotorForce(motorId, maxForce);
     }
 
@@ -330,6 +363,7 @@ public class TranslationalLimitMotor {
      * unaffected, default=(0,0,0))
      */
     public void setNormalCFM(Vector3f cfm) {
+        long motorId = nativeId();
         setNormalCFM(motorId, cfm);
     }
 
@@ -339,6 +373,7 @@ public class TranslationalLimitMotor {
      * @param restitution the desired restitution (bounce) factor (default=0.5)
      */
     public void setRestitution(float restitution) {
+        long motorId = nativeId();
         setRestitution(motorId, restitution);
     }
 
@@ -350,6 +385,7 @@ public class TranslationalLimitMotor {
      * unaffected, default=(0,0,0))
      */
     public void setStopCFM(Vector3f cfm) {
+        long motorId = nativeId();
         setStopCFM(motorId, cfm);
     }
 
@@ -360,6 +396,7 @@ public class TranslationalLimitMotor {
      * default=(0,0,0))
      */
     public void setTargetVelocity(Vector3f velocity) {
+        long motorId = nativeId();
         setTargetVelocity(motorId, velocity);
     }
 
@@ -370,6 +407,7 @@ public class TranslationalLimitMotor {
      * null, default=(0,0,0))
      */
     public void setUpperLimit(Vector3f upperLimit) {
+        long motorId = nativeId();
         setUpperLimit(motorId, upperLimit);
     }
     // *************************************************************************

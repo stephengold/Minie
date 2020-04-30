@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,9 @@
  */
 package com.jme3.bullet.joints.motors;
 
+import com.jme3.bullet.NativePhysicsObject;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * A single-axis motor based on Bullet's btRotationalLimitMotor2, used to
@@ -39,7 +41,7 @@ import java.util.logging.Logger;
  *
  * @author sgold@sonic.net
  */
-public class RotationMotor {
+public class RotationMotor extends NativePhysicsObject {
     // *************************************************************************
     // constants and loggers
 
@@ -49,24 +51,17 @@ public class RotationMotor {
     final public static Logger logger
             = Logger.getLogger(RotationMotor.class.getName());
     // *************************************************************************
-    // fields
-
-    /**
-     * Unique identifier of the btRotationalLimitMotor2. The constructor sets
-     * this to a non-zero value. After that, the ID never changes.
-     */
-    private long motorId = 0L;
-    // *************************************************************************
     // constructors
 
     /**
-     * Instantiate a motor for the identified btRotationalLimitMotor2.
+     * Instantiate a motor. Used internally.
      *
-     * @param motor the unique identifier (not zero)
+     * @param nativeId the ID of a pre-existing btRotationalLimitMotor2 (not
+     * zero)
      */
-    public RotationMotor(long motor) {
-        assert motor != 0L;
-        motorId = motor;
+    public RotationMotor(long nativeId) {
+        Validate.nonZero(nativeId, "native ID");
+        super.setNativeId(nativeId);
     }
     // *************************************************************************
     // new methods exposed
@@ -78,8 +73,9 @@ public class RotationMotor {
      * @return the parameter value
      */
     public float get(MotorParam param) {
-        float result;
+        long motorId = nativeId();
 
+        float result;
         switch (param) {
             case Bounce:
                 result = getBounce(motorId);
@@ -126,12 +122,12 @@ public class RotationMotor {
     }
 
     /**
-     * Read the ID of the btRotationalLimitMotor2.
+     * Read the ID of the btRotationalLimitMotor2. TODO remove this method
      *
-     * @return the unique identifier (not zero)
+     * @return the native identifier (not zero)
      */
     public long getMotor() {
-        assert motorId != 0L;
+        long motorId = nativeId();
         return motorId;
     }
 
@@ -141,7 +137,9 @@ public class RotationMotor {
      * @return true if limited, otherwise false
      */
     public boolean isDampingLimited() {
+        long motorId = nativeId();
         boolean result = isDampingLimited(motorId);
+
         return result;
     }
 
@@ -151,7 +149,9 @@ public class RotationMotor {
      * @return true if enabled, otherwise false
      */
     public boolean isMotorEnabled() {
+        long motorId = nativeId();
         boolean result = isMotorEnabled(motorId);
+
         return result;
     }
 
@@ -161,7 +161,9 @@ public class RotationMotor {
      * @return true if enabled, otherwise false
      */
     public boolean isServoEnabled() {
+        long motorId = nativeId();
         boolean result = isServoEnabled(motorId);
+
         return result;
     }
 
@@ -171,7 +173,9 @@ public class RotationMotor {
      * @return true if enabled, otherwise false
      */
     public boolean isSpringEnabled() {
+        long motorId = nativeId();
         boolean result = isSpringEnabled(motorId);
+
         return result;
     }
 
@@ -182,7 +186,9 @@ public class RotationMotor {
      * @return true if limited, otherwise false
      */
     public boolean isStiffnessLimited() {
+        long motorId = nativeId();
         boolean result = isStiffnessLimited(motorId);
+
         return result;
     }
 
@@ -193,6 +199,7 @@ public class RotationMotor {
      * @param value the desired parameter value
      */
     public void set(MotorParam param, float value) {
+        long motorId = nativeId();
         switch (param) {
             case Bounce:
                 setBounce(motorId, value);
@@ -243,6 +250,7 @@ public class RotationMotor {
      * (default=false)
      */
     public void setDampingLimited(boolean limitDamping) {
+        long motorId = nativeId();
         setDampingLimited(motorId, limitDamping);
     }
 
@@ -252,6 +260,7 @@ public class RotationMotor {
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)
      */
     public void setMotorEnabled(boolean enableFlag) {
+        long motorId = nativeId();
         setMotorEnabled(motorId, enableFlag);
     }
 
@@ -262,6 +271,7 @@ public class RotationMotor {
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)
      */
     public void setServoEnabled(boolean enableFlag) {
+        long motorId = nativeId();
         setServoEnabled(motorId, enableFlag);
     }
 
@@ -271,6 +281,7 @@ public class RotationMotor {
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)
      */
     public void setSpringEnabled(boolean enableFlag) {
+        long motorId = nativeId();
         setSpringEnabled(motorId, enableFlag);
     }
 
@@ -281,6 +292,7 @@ public class RotationMotor {
      * (default=false)
      */
     public void setStiffnessLimited(boolean limitStiffness) {
+        long motorId = nativeId();
         setStiffnessLimited(motorId, limitStiffness);
     }
     // *************************************************************************

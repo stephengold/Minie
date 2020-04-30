@@ -31,7 +31,9 @@
  */
 package com.jme3.bullet.joints.motors;
 
+import com.jme3.bullet.NativePhysicsObject;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * A motor based on Bullet's btRotationalLimitMotor, used to control the
@@ -39,7 +41,7 @@ import java.util.logging.Logger;
  *
  * @author normenhansen
  */
-public class RotationalLimitMotor {
+public class RotationalLimitMotor extends NativePhysicsObject {
     // *************************************************************************
     // constants and loggers
 
@@ -49,24 +51,17 @@ public class RotationalLimitMotor {
     final public static Logger logger
             = Logger.getLogger(RotationalLimitMotor.class.getName());
     // *************************************************************************
-    // fields
-
-    /**
-     * Unique identifier of the btRotationalLimitMotor. The constructor sets
-     * this to a non-zero value. After that, the ID never changes.
-     */
-    private long motorId = 0L;
-    // *************************************************************************
     // constructors
 
     /**
-     * Instantiate a motor for the identified btRotationalLimitMotor.
+     * Instantiate a motor. Used internally.
      *
-     * @param motor the unique identifier (not zero)
+     * @param nativeId the ID of the pre-existing btRotationalLimitMotor (not
+     * zero)
      */
-    public RotationalLimitMotor(long motor) {
-        assert motor != 0L;
-        motorId = motor;
+    public RotationalLimitMotor(long nativeId) {
+        Validate.nonZero(nativeId, "native ID");
+        super.setNativeId(nativeId);
     }
     // *************************************************************************
     // new methods exposed
@@ -77,7 +72,10 @@ public class RotationalLimitMotor {
      * @return the total impulse
      */
     public float getAccumulatedImpulse() {
-        return getAccumulatedImpulse(motorId);
+        long motorId = nativeId();
+        float result = getAccumulatedImpulse(motorId);
+
+        return result;
     }
 
     /**
@@ -86,7 +84,10 @@ public class RotationalLimitMotor {
      * @return the angle (in radians)
      */
     public float getAngle() {
-        return getCurrentPosition(motorId);
+        long motorId = nativeId();
+        float result = getCurrentPosition(motorId);
+
+        return result;
     }
 
     /**
@@ -96,7 +97,10 @@ public class RotationalLimitMotor {
      * damped)
      */
     public float getDamping() {
-        return getDamping(motorId);
+        long motorId = nativeId();
+        float result = getDamping(motorId);
+
+        return result;
     }
 
     /**
@@ -105,7 +109,10 @@ public class RotationalLimitMotor {
      * @return the error-reduction parameter (&ge;0)
      */
     public float getERP() {
-        return getERP(motorId);
+        long motorId = nativeId();
+        float result = getERP(motorId);
+
+        return result;
     }
 
     /**
@@ -114,7 +121,10 @@ public class RotationalLimitMotor {
      * @return the limit softness (or relaxation factor)
      */
     public float getLimitSoftness() {
-        return getLimitSoftness(motorId);
+        long motorId = nativeId();
+        float result = getLimitSoftness(motorId);
+
+        return result;
     }
 
     /**
@@ -123,7 +133,10 @@ public class RotationalLimitMotor {
      * @return the limit value
      */
     public float getLowerLimit() {
-        return getLoLimit(motorId);
+        long motorId = nativeId();
+        float result = getLoLimit(motorId);
+
+        return result;
     }
 
     /**
@@ -132,7 +145,10 @@ public class RotationalLimitMotor {
      * @return the maximum force on the limit (default=300)
      */
     public float getMaxLimitForce() {
-        return getMaxLimitForce(motorId);
+        long motorId = nativeId();
+        float result = getMaxLimitForce(motorId);
+
+        return result;
     }
 
     /**
@@ -141,16 +157,20 @@ public class RotationalLimitMotor {
      * @return the maximum force
      */
     public float getMaxMotorForce() {
-        return getMaxMotorForce(motorId);
+        long motorId = nativeId();
+        float result = getMaxMotorForce(motorId);
+
+        return result;
     }
 
     /**
-     * Read the ID of the btRotationalLimitMotor.
+     * Read the ID of the btRotationalLimitMotor. For compatibility with the
+     * jme3-bullet library.
      *
-     * @return the unique identifier (not zero)
+     * @return the identifier (not zero)
      */
     public long getMotor() {
-        assert motorId != 0L;
+        long motorId = nativeId();
         return motorId;
     }
 
@@ -161,7 +181,10 @@ public class RotationalLimitMotor {
      * @return the mixing parameter (&ge;0)
      */
     public float getNormalCFM() {
-        return getNormalCFM(motorId);
+        long motorId = nativeId();
+        float result = getNormalCFM(motorId);
+
+        return result;
     }
 
     /**
@@ -170,7 +193,10 @@ public class RotationalLimitMotor {
      * @return the restitution (bounce) factor
      */
     public float getRestitution() {
-        return getBounce(motorId);
+        long motorId = nativeId();
+        float result = getBounce(motorId);
+
+        return result;
     }
 
     /**
@@ -180,7 +206,10 @@ public class RotationalLimitMotor {
      * @return the mixing parameter (&ge;0)
      */
     public float getStopCFM() {
-        return getStopCFM(motorId);
+        long motorId = nativeId();
+        float result = getStopCFM(motorId);
+
+        return result;
     }
 
     /**
@@ -189,7 +218,10 @@ public class RotationalLimitMotor {
      * @return the target velocity (in radians per second)
      */
     public float getTargetVelocity() {
-        return getTargetVelocity(motorId);
+        long motorId = nativeId();
+        float result = getTargetVelocity(motorId);
+
+        return result;
     }
 
     /**
@@ -198,7 +230,10 @@ public class RotationalLimitMotor {
      * @return the limit value
      */
     public float getUpperLimit() {
-        return getHiLimit(motorId);
+        long motorId = nativeId();
+        float result = getHiLimit(motorId);
+
+        return result;
     }
 
     /**
@@ -207,7 +242,10 @@ public class RotationalLimitMotor {
      * @return true if enabled, otherwise false
      */
     public boolean isEnableMotor() {
-        return isEnableMotor(motorId);
+        long motorId = nativeId();
+        boolean result = isEnableMotor(motorId);
+
+        return result;
     }
 
     /**
@@ -216,6 +254,7 @@ public class RotationalLimitMotor {
      * @param accumulatedImpulse the desired total (default=0)
      */
     public void setAccumulatedImpulse(float accumulatedImpulse) {
+        long motorId = nativeId();
         setAccumulatedImpulse(motorId, accumulatedImpulse);
     }
 
@@ -226,6 +265,7 @@ public class RotationalLimitMotor {
      * 1&rarr;critically damped, default=1)
      */
     public void setDamping(float damping) {
+        long motorId = nativeId();
         setDamping(motorId, damping);
     }
 
@@ -235,6 +275,7 @@ public class RotationalLimitMotor {
      * @param enableMotor true&rarr;enable, false&rarr;disable (default=false)
      */
     public void setEnableMotor(boolean enableMotor) {
+        long motorId = nativeId();
         setEnableMotor(motorId, enableMotor);
     }
 
@@ -244,6 +285,7 @@ public class RotationalLimitMotor {
      * @param erp the desired error tolerance at limits (&ge;0, default=0.2)
      */
     public void setERP(float erp) {
+        long motorId = nativeId();
         setERP(motorId, erp);
     }
 
@@ -254,6 +296,7 @@ public class RotationalLimitMotor {
      * (default=0.5)
      */
     public void setLimitSoftness(float limitSoftness) {
+        long motorId = nativeId();
         setLimitSoftness(motorId, limitSoftness);
     }
 
@@ -263,6 +306,7 @@ public class RotationalLimitMotor {
      * @param lowerLimit the desired limit value (default=1)
      */
     public void setLowerLimit(float lowerLimit) {
+        long motorId = nativeId();
         setLoLimit(motorId, lowerLimit);
     }
 
@@ -272,6 +316,7 @@ public class RotationalLimitMotor {
      * @param maxLimitForce the desired maximum force on the limit (default=300)
      */
     public void setMaxLimitForce(float maxLimitForce) {
+        long motorId = nativeId();
         setMaxLimitForce(motorId, maxLimitForce);
     }
 
@@ -281,6 +326,7 @@ public class RotationalLimitMotor {
      * @param maxMotorForce the desired maximum force (default=6)
      */
     public void setMaxMotorForce(float maxMotorForce) {
+        long motorId = nativeId();
         setMaxMotorForce(motorId, maxMotorForce);
     }
 
@@ -291,6 +337,7 @@ public class RotationalLimitMotor {
      * @param cfm the desired mixing parameter (&ge;0, default=0)
      */
     public void setNormalCFM(float cfm) {
+        long motorId = nativeId();
         setNormalCFM(motorId, cfm);
     }
 
@@ -300,6 +347,7 @@ public class RotationalLimitMotor {
      * @param restitution the desired restitution (bounce) factor (default=0)
      */
     public void setRestitution(float restitution) {
+        long motorId = nativeId();
         setBounce(motorId, restitution);
     }
 
@@ -310,6 +358,7 @@ public class RotationalLimitMotor {
      * @param cfm the desired mixing parameter (&ge;0, default=0)
      */
     public void setStopCFM(float cfm) {
+        long motorId = nativeId();
         setStopCFM(motorId, cfm);
     }
 
@@ -320,6 +369,7 @@ public class RotationalLimitMotor {
      * default=0)
      */
     public void setTargetVelocity(float targetVelocity) {
+        long motorId = nativeId();
         setTargetVelocity(motorId, targetVelocity);
     }
 
@@ -329,6 +379,7 @@ public class RotationalLimitMotor {
      * @param upperLimit the desired limit value (default=-1)
      */
     public void setUpperLimit(float upperLimit) {
+        long motorId = nativeId();
         setHiLimit(motorId, upperLimit);
     }
     // *************************************************************************
