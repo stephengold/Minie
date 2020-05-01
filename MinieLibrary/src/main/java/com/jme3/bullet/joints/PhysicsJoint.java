@@ -194,18 +194,6 @@ abstract public class PhysicsJoint
         assert bodyB == null : bodyB;
         bodyB = body;
     }
-
-    /**
-     * Initialize the native ID. TODO re-order methods
-     *
-     * @param jointId the native identifier of the btTypedConstraint,
-     * btSoftBody::Anchor, or btSoftBody::Joint (not zero)
-     */
-    @Override
-    protected void setNativeId(long jointId) {
-        super.setNativeId(jointId);
-        logger.log(Level.FINE, "Created {0}.", this);
-    }
     // *************************************************************************
     // JmeCloneable methods
 
@@ -299,6 +287,18 @@ abstract public class PhysicsJoint
     }
     // *************************************************************************
     // NativePhysicsObject methods
+
+    /**
+     * Initialize the native ID.
+     *
+     * @param jointId the native identifier of the btTypedConstraint,
+     * btSoftBody::Anchor, or btSoftBody::Joint (not zero)
+     */
+    @Override
+    protected void setNativeId(long jointId) {
+        super.setNativeId(jointId);
+        logger.log(Level.FINE, "Created {0}.", this);
+    }
 
     /**
      * Represent this joint as a String.
