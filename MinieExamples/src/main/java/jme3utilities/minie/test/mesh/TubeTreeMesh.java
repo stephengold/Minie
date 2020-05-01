@@ -435,11 +435,11 @@ public class TubeTreeMesh extends Mesh {
      *
      * @param jointIndex1 the index of the first Joint (&ge;0)
      * @param jointIndex2 the index of the 2nd Joint (&ge;0)
-     * @param weight1 the weight for the first Joint
+     * @param w1 the weight for the first Joint
      */
     private void putAnimationForVertex(int jointIndex1, int jointIndex2,
-            float weight1) {
-        weight1 = FastMath.clamp(weight1, 0f, 1f);
+            float w1) {
+        float weight1 = FastMath.clamp(w1, 0f, 1f);
 
         int weightIndex;
         if (weight1 != 0f) {
