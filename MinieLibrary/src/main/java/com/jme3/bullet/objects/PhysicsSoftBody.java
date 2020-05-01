@@ -1550,7 +1550,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(restingLengthsScale(), tagRestLengthScale, 0f);
-        capsule.write(getPhysicsLocation(), tagPhysicsLocation, null);
+        capsule.write(getPhysicsLocation(null), tagPhysicsLocation, null);
 
         FloatBuffer floatBuffer = copyLocations(null);
         int capacity = floatBuffer.capacity();

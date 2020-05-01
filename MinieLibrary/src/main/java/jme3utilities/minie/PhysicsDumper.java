@@ -196,7 +196,7 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describeScale(scale);
         addDescription(desc);
 
-        long objectId = shape.getObjectId();
+        long objectId = shape.nativeId();
         addNativeId(objectId);
 
         if (dumpChildShapes && shape instanceof CompoundCollisionShape) {
@@ -238,7 +238,7 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describeUser(collider);
         stream.print(desc);
 
-        Vector3f loc = collider.getPhysicsLocation();
+        Vector3f loc = collider.getPhysicsLocation(null);
         stream.printf(" loc[%s]", MyVector3f.describe(loc));
 
         desc = describer.describeGroups(collider);
@@ -269,7 +269,7 @@ public class PhysicsDumper extends Dumper {
         String desc = describer.describeUser(character);
         stream.print(desc);
 
-        Vector3f location = character.getPhysicsLocation();
+        Vector3f location = character.getPhysicsLocation(null);
         String locString = MyVector3f.describe(location);
         stream.printf(" loc[%s]", locString);
 
@@ -647,7 +647,7 @@ public class PhysicsDumper extends Dumper {
         stream.printf("%d vehicle%s", numVehicles,
                 (numVehicles == 1) ? "" : "s");
 
-        long spaceId = space.getSpaceId();
+        long spaceId = space.nativeId();
         addNativeId(spaceId);
         /*
          * 2nd line
@@ -1155,7 +1155,7 @@ public class PhysicsDumper extends Dumper {
             desc = describer.describeScale(scale);
             addDescription(desc);
 
-            long objectId = shape.getObjectId();
+            long objectId = shape.nativeId();
             addNativeId(objectId);
         }
     }

@@ -245,8 +245,9 @@ public class TestDefaults {
         float suspensionRestLength = 0.1f;
         float wheelRadius = 1f;
         boolean isFrontWheel = true;
-        VehicleWheel wheel = vehicle.addWheel(connectionPoint, direction, axle,
-                suspensionRestLength, wheelRadius, isFrontWheel);
+        VehicleWheel wheel = vehicle.addWheel(null,
+                connectionPoint, direction, axle, suspensionRestLength,
+                wheelRadius, isFrontWheel);
         Assert.assertEquals(0f, wheel.getBrake(), 0f);
         Assert.assertEquals(0f, wheel.getEngineForce(), 0f);
         Assert.assertEquals(10.5f, wheel.getFrictionSlip(), 0f);
@@ -567,7 +568,7 @@ public class TestDefaults {
      */
     private void testShape(CollisionShape shape) {
         Assert.assertNotNull(shape);
-        Assert.assertNotEquals(0, shape.getObjectId());
+        Assert.assertNotEquals(0, shape.nativeId());
         assertEquals(1f, 1f, 1f, shape.getScale(null), 0f);
     }
 
