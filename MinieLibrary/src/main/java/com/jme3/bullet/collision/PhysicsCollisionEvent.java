@@ -411,8 +411,7 @@ public class PhysicsCollisionEvent extends EventObject {
     }
 
     /**
-     * Test whether the collision's lateral friction is initialized. For
-     * compatibility with jme3-bullet.
+     * Test whether the collision's lateral friction is initialized.
      *
      * @return true if initialized, otherwise false
      */

@@ -155,7 +155,7 @@ public class SoftBodyWorldInfo
     /**
      * Read the maximum distance a node can travel per time step.
      *
-     * @return the displacement (in physics-space units)
+     * @return the distance (in physics-space units)
      */
     public float maxDisplacement() {
         long infoId = nativeId();
