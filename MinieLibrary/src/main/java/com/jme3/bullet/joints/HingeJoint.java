@@ -155,7 +155,7 @@ public class HingeJoint extends Constraint {
         /*
          * Synchronize the btHingeConstraint parameters with the local copies.
          */
-        long constraintId = getObjectId();
+        long constraintId = super.nativeId();
         setAngularOnly(constraintId, angularOnly);
 
         float low = getLowerLimit();
@@ -195,7 +195,7 @@ public class HingeJoint extends Constraint {
         /*
          * Synchronize btHingeConstraint parameters with local copies.
          */
-        long constraintId = getObjectId();
+        long constraintId = super.nativeId();
         setAngularOnly(constraintId, angularOnly);
 
         float low = getLowerLimit();
@@ -215,7 +215,7 @@ public class HingeJoint extends Constraint {
      */
     public void enableMotor(boolean enable, float targetVelocity,
             float maxMotorImpulse) {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         enableMotor(constraintId, enable, targetVelocity, maxMotorImpulse);
     }
 
@@ -235,7 +235,7 @@ public class HingeJoint extends Constraint {
      * @return true if enabled, otherwise false
      */
     public boolean getEnableMotor() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         return getEnableAngularMotor(constraintId);
     }
 
@@ -250,7 +250,7 @@ public class HingeJoint extends Constraint {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         switch (end) {
             case A:
                 getFrameOffsetA(constraintId, result);
@@ -272,7 +272,7 @@ public class HingeJoint extends Constraint {
      * @return the angle (in radians)
      */
     public float getHingeAngle() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         return getHingeAngle(constraintId);
     }
 
@@ -292,7 +292,7 @@ public class HingeJoint extends Constraint {
      * @return the angle (in radians)
      */
     final public float getLowerLimit() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         return getLowerLimit(constraintId);
     }
 
@@ -302,7 +302,7 @@ public class HingeJoint extends Constraint {
      * @return velocity
      */
     public float getMotorTargetVelocity() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         return getMotorTargetVelocity(constraintId);
     }
 
@@ -312,7 +312,7 @@ public class HingeJoint extends Constraint {
      * @return impulse
      */
     public float getMaxMotorImpulse() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         return getMaxMotorImpulse(constraintId);
     }
 
@@ -331,7 +331,7 @@ public class HingeJoint extends Constraint {
      * @return angle (in radians)
      */
     final public float getUpperLimit() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         return getUpperLimit(constraintId);
     }
 
@@ -351,7 +351,7 @@ public class HingeJoint extends Constraint {
      */
     public void setAngularOnly(boolean angularOnly) {
         this.angularOnly = angularOnly;
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         setAngularOnly(constraintId, angularOnly);
     }
 
@@ -364,7 +364,7 @@ public class HingeJoint extends Constraint {
      * default=-1)
      */
     public void setLimit(float low, float high) {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         setLimit(constraintId, low, high, limitSoftness, biasFactor,
                 relaxationFactor);
     }
@@ -391,7 +391,7 @@ public class HingeJoint extends Constraint {
      */
     public void setLimit(float low, float high, float softness, float bias,
             float relaxation) {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         biasFactor = bias;
         relaxationFactor = relaxation;
         limitSoftness = softness;

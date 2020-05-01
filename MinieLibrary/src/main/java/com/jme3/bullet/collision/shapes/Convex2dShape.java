@@ -223,7 +223,7 @@ public class Convex2dShape extends ConvexShape {
      * Instantiate an empty btConvex2dShape.
      */
     private void createShape() {
-        long childId = base.getObjectId();
+        long childId = base.nativeId();
         long shapeId = createShape(childId);
         setNativeId(shapeId);
 

@@ -153,7 +153,7 @@ public class DebugShapeFactory {
             result = createPlaneVertices((PlaneCollisionShape) shape, halfExt);
 
         } else {
-            long shapeId = shape.getObjectId();
+            long shapeId = shape.nativeId();
             DebugMeshCallback callback = new DebugMeshCallback();
             getVertices(shapeId, meshResolution, callback);
             result = callback.getVertices();
@@ -182,7 +182,7 @@ public class DebugShapeFactory {
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
-        long shapeId = shape.getObjectId();
+        long shapeId = shape.nativeId();
         DebugMeshCallback callback = new DebugMeshCallback();
         getVertices(shapeId, meshResolution, callback);
         Vector3f[] cornerLocations = callback.footprint(shapeToWorld);
@@ -284,7 +284,7 @@ public class DebugShapeFactory {
             result = createPlaneTriangles((PlaneCollisionShape) shape, halfExt);
 
         } else {
-            long shapeId = shape.getObjectId();
+            long shapeId = shape.nativeId();
             DebugMeshCallback callback = new DebugMeshCallback();
             getTriangles(shapeId, meshResolution, callback);
             result = callback.getVertices();
@@ -313,7 +313,7 @@ public class DebugShapeFactory {
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
-        long shapeId = shape.getObjectId();
+        long shapeId = shape.nativeId();
         DebugMeshCallback callback = new DebugMeshCallback();
         getVertices(shapeId, meshResolution, callback);
         float result = callback.maxDistance(transform);
@@ -372,7 +372,7 @@ public class DebugShapeFactory {
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
-        long shapeId = shape.getObjectId();
+        long shapeId = shape.nativeId();
         DebugMeshCallback callback = new DebugMeshCallback();
         getTriangles(shapeId, meshResolution, callback);
         float volume = callback.volumeConvex();
@@ -522,7 +522,7 @@ public class DebugShapeFactory {
         assert resolution >= lowResolution : resolution;
         assert resolution <= highResolution : resolution;
 
-        long shapeId = shape.getObjectId();
+        long shapeId = shape.nativeId();
         DebugMeshCallback callback = new DebugMeshCallback();
         getTriangles(shapeId, resolution, callback);
 

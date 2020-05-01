@@ -254,7 +254,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     @Override
     protected void finalize() throws Throwable {
         try {
-            long nativeId = getObjectId();
+            long nativeId = nativeId();
             finalizeNative(nativeId);
         } finally {
             super.finalize();

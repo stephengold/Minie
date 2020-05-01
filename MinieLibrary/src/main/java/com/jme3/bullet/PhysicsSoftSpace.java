@@ -85,7 +85,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
             BroadphaseType broadphaseType) {
         super(worldMin, worldMax, broadphaseType);
 
-        long spaceId = getSpaceId();
+        long spaceId = super.nativeId();
         long worldInfoId = getWorldInfo(spaceId);
         worldInfo = new SoftBodyWorldInfo(worldInfoId);
         /*
@@ -104,8 +104,9 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      * @return the count (&ge;0)
      */
     public int countSoftBodies() {
-        long spaceId = getSpaceId();
+        long spaceId = nativeId();
         int count = getNumSoftBodies(spaceId);
+
         assert count == softBodyMap.size();
         return count;
     }
@@ -279,7 +280,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         logger2.log(Level.FINE, "Adding {0} to {1}.",
                 new Object[]{softBody, this});
 
-        long spaceId = getSpaceId();
+        long spaceId = nativeId();
         addSoftBody(spaceId, softBodyId);
         softBody.setWorldInfo(getWorldInfo());
     }
@@ -294,7 +295,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         logger2.log(Level.FINE, "Removing {0} from {1}.",
                 new Object[]{softBody, this});
         softBodyMap.remove(softBodyId);
-        long spaceId = getSpaceId();
+        long spaceId = nativeId();
         removeSoftBody(spaceId, softBodyId);
     }
     // *************************************************************************

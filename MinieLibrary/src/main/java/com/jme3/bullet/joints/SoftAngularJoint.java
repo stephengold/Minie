@@ -141,7 +141,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      * unaffected)
      */
     public void setAxis(Vector3f newAxis) {
-        long jointId = getObjectId();
+        long jointId = nativeId();
         axis.set(newAxis);
         setAxis(jointId, newAxis);
     }

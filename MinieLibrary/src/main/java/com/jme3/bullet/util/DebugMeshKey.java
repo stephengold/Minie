@@ -96,7 +96,7 @@ class DebugMeshKey {
         } else {
             this.resolution = DebugShapeFactory.lowResolution;
         }
-        shapeId = shape.getObjectId();
+        shapeId = shape.nativeId();
         scale = shape.getScale(null);
     }
     // *************************************************************************

@@ -181,7 +181,7 @@ public class TestCloneShapes {
         verifyParameters(empty, 0f);
         CollisionShape emptyClone = (CollisionShape) Heart.deepCopy(empty);
         cloneTest(empty, emptyClone);
-        assert emptyClone.getObjectId() != empty.getObjectId();
+        assert emptyClone.nativeId() != empty.nativeId();
         assert emptyClone.getMargin() == 0.04f;
         empty.setMargin(0.155f);
         assert emptyClone.getMargin() == 0.04f;
@@ -354,7 +354,7 @@ public class TestCloneShapes {
     private void cloneTest(CollisionShape shape, CollisionShape shapeClone) {
         //logger.log(Level.SEVERE, "{0}", shape.getClass());
         assert shapeClone.getClass() == shape.getClass();
-        assert shapeClone.getObjectId() != shape.getObjectId();
+        assert shapeClone.nativeId() != shape.nativeId();
 
         verifyParameters(shape, 0f);
         verifyParameters(shapeClone, 0f);

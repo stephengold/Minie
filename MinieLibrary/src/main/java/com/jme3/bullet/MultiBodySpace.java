@@ -107,7 +107,7 @@ public class MultiBodySpace extends PhysicsSpace {
      * @return the count (&ge;0)
      */
     public int countMultiBodies() {
-        long spaceId = getSpaceId();
+        long spaceId = nativeId();
         int count = getNumMultibodies(spaceId);
         assert count == multiBodyMap.size() : count;
         return count;
@@ -248,7 +248,7 @@ public class MultiBodySpace extends PhysicsSpace {
      */
     @Override
     protected void updateSolver() {
-        long spaceId = getSpaceId();
+        long spaceId = nativeId();
         SolverType type = getSolverType();
         int ordinal = type.ordinal();
         setSolverType(spaceId, ordinal);
@@ -273,7 +273,7 @@ public class MultiBodySpace extends PhysicsSpace {
         logger2.log(Level.FINE, "Adding {0} to {1}.",
                 new Object[]{multiBody, this});
 
-        long spaceId = getSpaceId();
+        long spaceId = nativeId();
         addMultiBody(spaceId, multiBodyId);
     }
 
@@ -292,7 +292,7 @@ public class MultiBodySpace extends PhysicsSpace {
         logger2.log(Level.FINE, "Removing {0} from {1}.",
                 new Object[]{multiBody, this});
         multiBodyMap.remove(multiBodyId);
-        long spaceId = getSpaceId();
+        long spaceId = nativeId();
         removeMultiBody(spaceId, multiBodyId);
     }
     // *************************************************************************

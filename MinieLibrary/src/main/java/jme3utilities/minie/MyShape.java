@@ -282,7 +282,7 @@ public class MyShape {
 
         String type = describeType(shape);
         type = type.toLowerCase(Locale.ROOT);
-        long id = shape.getObjectId();
+        long id = shape.nativeId();
         String result = String.format("%s:%x", type, id);
 
         return result;

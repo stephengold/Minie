@@ -255,7 +255,7 @@ public class TestCloneJoints {
     // private methods
 
     private static void cloneTest(PhysicsJoint joint, PhysicsJoint jointClone) {
-        assert jointClone.getObjectId() != joint.getObjectId();
+        assert jointClone.nativeId() != joint.nativeId();
 
         PhysicsBody a = joint.getBody(JointEnd.A);
         PhysicsBody aClone = jointClone.getBody(JointEnd.A);

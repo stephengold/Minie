@@ -140,7 +140,7 @@ public class Point2PointJoint extends Constraint {
      * damped)
      */
     public float getDamping() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         return getDamping(constraintId);
     }
 
@@ -150,7 +150,7 @@ public class Point2PointJoint extends Constraint {
      * @return the clamp value
      */
     public float getImpulseClamp() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         return getImpulseClamp(constraintId);
     }
 
@@ -160,7 +160,7 @@ public class Point2PointJoint extends Constraint {
      * @return the tau value
      */
     public float getTau() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         return getTau(constraintId);
     }
 
@@ -171,7 +171,7 @@ public class Point2PointJoint extends Constraint {
      * 1&rarr;critically damped, default=1)
      */
     public void setDamping(float value) {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         setDamping(constraintId, value);
     }
 
@@ -181,7 +181,7 @@ public class Point2PointJoint extends Constraint {
      * @param value the desired impulse clamp value (default=0)
      */
     public void setImpulseClamp(float value) {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         setImpulseClamp(constraintId, value);
     }
 
@@ -191,7 +191,7 @@ public class Point2PointJoint extends Constraint {
      * @param value the desired tau value (default=0.3)
      */
     public void setTau(float value) {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         setTau(constraintId, value);
     }
     // *************************************************************************

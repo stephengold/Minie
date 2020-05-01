@@ -208,7 +208,7 @@ public class MeshCollisionShape extends CollisionShape {
      * @return a new array containing a serialized version of the BVH
      */
     public byte[] serializeBvh() {
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         byte[] result = saveBVH(shapeId);
         return result;
     }
@@ -295,7 +295,7 @@ public class MeshCollisionShape extends CollisionShape {
      */
     @Override
     protected void recalculateAabb() {
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         recalcAabb(shapeId);
     }
 
@@ -311,7 +311,7 @@ public class MeshCollisionShape extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         byte[] data = saveBVH(shapeId);
         capsule.write(data, tagNativeBvh, null);
 
