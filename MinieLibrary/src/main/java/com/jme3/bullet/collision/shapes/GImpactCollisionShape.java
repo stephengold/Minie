@@ -167,7 +167,7 @@ public class GImpactCollisionShape extends CollisionShape {
      */
     @Override
     protected void recalculateAabb() {
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         recalcAabb(shapeId);
     }
 

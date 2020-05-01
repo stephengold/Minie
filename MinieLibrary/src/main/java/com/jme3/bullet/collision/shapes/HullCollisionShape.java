@@ -270,7 +270,7 @@ public class HullCollisionShape extends ConvexShape {
      * @return a new array (not null)
      */
     public float[] copyHullVertices() {
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         int numHullVertices = countHullVertices();
         FloatBuffer buffer
                 = BufferUtils.createFloatBuffer(numHullVertices * numAxes);
@@ -290,7 +290,7 @@ public class HullCollisionShape extends ConvexShape {
      * @return the count (&ge;0)
      */
     public int countHullVertices() {
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         int result = countHullVertices(shapeId);
 
         return result;
@@ -396,7 +396,7 @@ public class HullCollisionShape extends ConvexShape {
         int numHullVertices = countHullVertices();
         FloatBuffer buffer
                 = BufferUtils.createFloatBuffer(numHullVertices * numAxes);
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         getHullVerticesF(shapeId, buffer);
         double maxSquaredDistance = 0.0;
 
@@ -442,7 +442,7 @@ public class HullCollisionShape extends ConvexShape {
      */
     @Override
     protected void recalculateAabb() {
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         recalcAabb(shapeId);
     }
 

@@ -140,7 +140,7 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
      * not null, unaffected)
      */
     public void setLocation(Vector3f newLocation) {
-        long jointId = getObjectId();
+        long jointId = nativeId();
         location.set(newLocation);
         setPosition(jointId, newLocation);
     }

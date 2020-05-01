@@ -447,7 +447,7 @@ public class SimplexCollisionShape extends ConvexShape {
      */
     @Override
     protected void recalculateAabb() {
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         recalcAabb(shapeId);
     }
 

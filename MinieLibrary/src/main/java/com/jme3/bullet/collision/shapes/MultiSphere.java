@@ -471,7 +471,7 @@ public class MultiSphere extends ConvexShape {
      */
     @Override
     protected void recalculateAabb() {
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         recalcAabb(shapeId);
     }
 

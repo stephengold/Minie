@@ -50,7 +50,7 @@ import jme3utilities.Validate;
  * <ul>
  * <li>A single-ended Constraint constrains the motion of a dynamic rigid
  * body.</li>
- * <li>A double-ended Conatraint connects 2 rigid bodies together in the same
+ * <li>A double-ended Constraint connects 2 rigid bodies together in the same
  * PhysicsSpace. One or both of the bodies must be dynamic.</li>
  * </ul>
  * Subclasses include: ConeJoint, HingeJoint, New6Dof, Point2PointJoint,
@@ -229,7 +229,7 @@ abstract public class Constraint extends PhysicsJoint {
         if (!isFeedback()) {
             throw new IllegalStateException("Feedback is not enabled.");
         }
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         float result = getAppliedImpulse(constraintId);
 
         assert result >= 0f : result;
@@ -242,7 +242,7 @@ abstract public class Constraint extends PhysicsJoint {
      * @return the value
      */
     public float getBreakingImpulseThreshold() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         float result = getBreakingImpulseThreshold(constraintId);
 
         return result;
@@ -255,7 +255,7 @@ abstract public class Constraint extends PhysicsJoint {
      * default
      */
     public int getOverrideIterations() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         int result = getOverrideIterations(constraintId);
 
         return result;
@@ -332,7 +332,7 @@ abstract public class Constraint extends PhysicsJoint {
      * @return true if enabled, otherwise false
      */
     public boolean isFeedback() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         boolean result = needsFeedback(constraintId);
 
         return result;
@@ -348,7 +348,7 @@ abstract public class Constraint extends PhysicsJoint {
         Validate.inRange(numIterations, "number of iterations", -1,
                 Integer.MAX_VALUE);
 
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         overrideIterations(constraintId, numIterations);
     }
 
@@ -359,7 +359,7 @@ abstract public class Constraint extends PhysicsJoint {
      * library or +Infinity with DP library)
      */
     public void setBreakingImpulseThreshold(float desiredThreshold) {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         setBreakingImpulseThreshold(constraintId, desiredThreshold);
     }
 
@@ -380,7 +380,7 @@ abstract public class Constraint extends PhysicsJoint {
      * @param enable true to enable, false to disable (default=true)
      */
     public void setEnabled(boolean enable) {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         setEnabled(constraintId, enable);
     }
 
@@ -390,7 +390,7 @@ abstract public class Constraint extends PhysicsJoint {
      * @param enable true to enable, false to disable (default=false)
      */
     public void setFeedback(boolean enable) {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         enableFeedback(constraintId, enable);
     }
     // *************************************************************************
@@ -494,7 +494,7 @@ abstract public class Constraint extends PhysicsJoint {
      */
     @Override
     public boolean isEnabled() {
-        long constraintId = getObjectId();
+        long constraintId = nativeId();
         boolean result = isEnabled(constraintId);
 
         return result;
@@ -569,7 +569,7 @@ abstract public class Constraint extends PhysicsJoint {
     protected void finalize() throws Throwable {
         try {
             logger.log(Level.FINE, "Finalizing {0}.", this);
-            long constraintId = getObjectId();
+            long constraintId = nativeId();
             finalizeNative(constraintId);
         } finally {
             super.finalize();

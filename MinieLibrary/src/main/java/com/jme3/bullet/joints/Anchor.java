@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- *
  * A PhysicsJoint to join a particular node of a soft body (A) to a rigid body
  * (B), based on Bullet's btSoftBody::Anchor.
  *
@@ -207,7 +206,7 @@ public class Anchor extends PhysicsJoint {
     public void setInfluence(float amount) {
         Validate.fraction(amount, "amount");
 
-        long anchorId = getObjectId();
+        long anchorId = nativeId();
         this.influence = amount;
         setInfluence(anchorId, amount);
     }

@@ -302,7 +302,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         if (space == null) {
             return;
         }
-        long spaceId = space.getSpaceId();
+        long spaceId = space.nativeId();
         if (spaceId == 0L) {
             throw new IllegalStateException(
                     "Physics space is not initialized!");

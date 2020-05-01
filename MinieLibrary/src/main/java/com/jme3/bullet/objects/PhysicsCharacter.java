@@ -312,8 +312,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Jump in the "up" direction. For compatibility with the jme3-bullet
-     * library.
+     * Jump in the "up" direction.
      */
     public void jump() {
         jump(translateIdentity);
@@ -344,7 +343,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @param space (not null)
      */
     public void reset(PhysicsSpace space) {
-        long spaceId = space.getSpaceId();
+        long spaceId = space.nativeId();
         reset(characterId, spaceId);
     }
 
@@ -384,7 +383,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         if (objectId == 0L) {
             buildObject();
         } else {
-            attachCollisionShape(objectId, collisionShape.getObjectId());
+            attachCollisionShape(objectId, collisionShape.nativeId());
         }
     }
 
@@ -727,7 +726,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
 
         CollisionShape shape = getCollisionShape();
         assert shape.isConvex();
-        long shapeId = shape.getObjectId();
+        long shapeId = shape.nativeId();
         attachCollisionShape(objectId, shapeId);
 
         if (characterId != 0L) {

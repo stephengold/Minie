@@ -117,7 +117,7 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
         Validate.nonNull(shape, "shape");
 
         setCollisionShape(shape);
-        long shapeId = shape.getObjectId();
+        long shapeId = shape.nativeId();
         super.attachCollisionShape(objectId, shapeId);
     }
 

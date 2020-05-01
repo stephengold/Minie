@@ -175,7 +175,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @return true if the local copies are accurate, otherwise false
      */
     public boolean checkParameters() {
-        long jointId = getObjectId();
+        long jointId = nativeId();
         boolean result = (cfm == getConstraintForceMixing(jointId))
                 && (erp == getErrorReductionParameter(jointId))
                 && (split == getSplit(jointId));
@@ -320,7 +320,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     public void setCFM(float cfm) {
         Validate.nonNegative(cfm, "CFM coefficient");
 
-        long jointId = getObjectId();
+        long jointId = nativeId();
         setConstraintForceMixing(jointId, cfm);
         this.cfm = cfm;
     }
@@ -348,7 +348,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     public void setERP(float erp) {
         Validate.fraction(erp, "error-reduction parameter");
 
-        long jointId = getObjectId();
+        long jointId = nativeId();
         setErrorReductionParameter(jointId, erp);
         this.erp = erp;
     }
@@ -359,7 +359,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @param split the desired split value (default=1)
      */
     public void setSplit(float split) {
-        long jointId = getObjectId();
+        long jointId = nativeId();
         setSplit(jointId, split);
         this.split = split;
     }

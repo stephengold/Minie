@@ -160,13 +160,13 @@ public class CompoundCollisionShape extends CollisionShape {
                     "A CompoundCollisionShape cannot have"
                     + " a CompoundCollisionShape child!");
         }
-        long childId = childShape.getObjectId();
+        long childId = childShape.nativeId();
 
         ChildCollisionShape child
                 = new ChildCollisionShape(offset, rotation, childShape);
         children.add(child);
 
-        long parentId = getObjectId();
+        long parentId = nativeId();
         addChildShape(parentId, childId, offset, rotation);
     }
 
@@ -211,7 +211,7 @@ public class CompoundCollisionShape extends CollisionShape {
      */
     public int countChildren() {
         int numChildren = children.size();
-        assert numChildren == countChildren(getObjectId());
+        assert numChildren == countChildren(nativeId());
 
         return numChildren;
     }
@@ -273,7 +273,7 @@ public class CompoundCollisionShape extends CollisionShape {
                 = (storeTransform == null) ? new Transform() : storeTransform;
         Validate.nonNull(storeInertia, "storage for inertia");
 
-        long shapeId = getObjectId();
+        long shapeId = nativeId();
         calculatePrincipalAxisTransform(shapeId, masses, result, storeInertia);
 
         return result;
@@ -285,8 +285,8 @@ public class CompoundCollisionShape extends CollisionShape {
      * @param childShape the collision shape to remove (not null)
      */
     public void removeChildShape(CollisionShape childShape) {
-        long childId = childShape.getObjectId();
-        long parentId = getObjectId();
+        long childId = childShape.nativeId();
+        long parentId = nativeId();
         removeChildShape(parentId, childId);
 
         for (Iterator<ChildCollisionShape> it = children.iterator();
@@ -307,8 +307,8 @@ public class CompoundCollisionShape extends CollisionShape {
      */
     public void setChildTransform(CollisionShape childShape,
             Transform transform) {
-        long childId = childShape.getObjectId();
-        long parentId = getObjectId();
+        long childId = childShape.nativeId();
+        long parentId = nativeId();
         Vector3f offset = transform.getTranslation();
 
         int childIndex = findIndex(childShape);
@@ -432,7 +432,7 @@ public class CompoundCollisionShape extends CollisionShape {
      */
     @Override
     protected void recalculateAabb() {
-        long nativeId = getObjectId();
+        long nativeId = nativeId();
         recalcAabb(nativeId);
     }
 
@@ -491,10 +491,10 @@ public class CompoundCollisionShape extends CollisionShape {
      * Add the configured children to the empty btCompoundShape.
      */
     private void loadChildren() {
-        long parentId = getObjectId();
+        long parentId = nativeId();
 
         for (ChildCollisionShape child : children) {
-            addChildShape(parentId, child.getShape().getObjectId(),
+            addChildShape(parentId, child.getShape().nativeId(),
                     child.copyOffset(null), child.copyRotationMatrix(null));
         }
     }
