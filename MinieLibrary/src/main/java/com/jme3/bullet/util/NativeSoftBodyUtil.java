@@ -47,7 +47,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.IntPair;
 import jme3utilities.math.MyBuffer;
@@ -67,6 +66,10 @@ public class NativeSoftBodyUtil {
      * number of axes in a vector
      */
     final private static int numAxes = 3;
+    /**
+     * number of vertices per edge
+     */
+    final private static int vpe = 2;
     /**
      * number of vertices per triangle
      */
@@ -146,13 +149,13 @@ public class NativeSoftBodyUtil {
         }
 
         int numUniqueEdges = uniqueEdges.size();
-        int indexCount = MyMesh.vpe * numUniqueEdges;
+        int indexCount = vpe * numUniqueEdges;
         IntBuffer links = BufferUtils.createIntBuffer(indexCount);
         int edgeIndex = 0;
         for (IntPair edge : uniqueEdges) {
             links.put(edgeIndex, edge.smaller());
             links.put(edgeIndex + 1, edge.larger());
-            edgeIndex += MyMesh.vpe;
+            edgeIndex += vpe;
         }
         indexBuffer = IndexBuffer.wrapIndexBuffer(links);
         softBody.appendLinks(indexBuffer);
@@ -196,14 +199,14 @@ public class NativeSoftBodyUtil {
 
         int vertexCount = positions.limit();
         int numUniqueEdges = uniqueEdges.size();
-        int indexCount = MyMesh.vpe * numUniqueEdges;
+        int indexCount = vpe * numUniqueEdges;
         IndexBuffer links
                 = IndexBuffer.createIndexBuffer(vertexCount, indexCount);
         int edgeIndex = 0;
         for (IntPair edge : uniqueEdges) {
             links.put(edgeIndex, edge.smaller());
             links.put(edgeIndex + 1, edge.larger());
-            edgeIndex += MyMesh.vpe;
+            edgeIndex += vpe;
         }
         softBody.appendLinks(links);
     }
