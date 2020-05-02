@@ -179,7 +179,7 @@ abstract public class PhysicsCollisionObject
      */
     private DebugMeshInitListener debugMeshInitListener = null;
     /**
-     * which normals to include in new debug meshes (default=None)
+     * which normals to generate for new debug meshes
      */
     private DebugMeshNormals debugMeshNormals = DebugMeshNormals.None;
     /**
@@ -187,12 +187,11 @@ abstract public class PhysicsCollisionObject
      */
     private int collideWithGroups = COLLISION_GROUP_01;
     /**
-     * collision group to which this physics object belongs
+     * collision group to which this object belongs
      */
     private int collisionGroup = COLLISION_GROUP_01;
     /**
-     * resolution for new debug meshes (default=low, effective only for convex
-     * shapes)
+     * resolution for new debug meshes (effective only for convex shapes)
      */
     private int debugMeshResolution = DebugShapeFactory.lowResolution;
     /**
@@ -206,12 +205,13 @@ abstract public class PhysicsCollisionObject
      */
     protected long objectId = 0L;
     /**
-     * custom material for debug shape, or null to use the default material
+     * custom material for the debug shape, or null to use the default material
      */
     private Material debugMaterial = null;
     /**
-     * object that uses this collision object, typically a PhysicsControl,
-     * PhysicsLink, or Spatial
+     * scene object that's using this collision object. The scene object is
+     * typically a PhysicsControl, PhysicsLink, or Spatial. Used by physics
+     * controls.
      */
     private Object userObject;
     // *************************************************************************
@@ -623,9 +623,11 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Access the scene object that uses this collision object.
+     * Access the scene object that's using this collision object, typically a
+     * PhysicsControl, PhysicsLink, or Spatial. Used by physics controls.
      *
      * @return the pre-existing instance, or null if none
+     * @see #setUserObject(java.lang.Object)
      */
     public Object getUserObject() {
         return userObject;
@@ -918,17 +920,17 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter which scene object uses this collision object.
+     * Associate a "user" with this collision object. Used by physics controls.
      *
      * @param userObject the desired scene object (alias created, default=null)
+     * @see #getUserObject()
      */
     public void setUserObject(Object userObject) {
         this.userObject = userObject;
     }
 
     /**
-     * Determine the ID of the CollisionSpace to which this collision object is
-     * added.
+     * Determine the ID of the CollisionSpace to which this object is added.
      *
      * @return the ID, or zero if not in any space
      */
@@ -1060,8 +1062,8 @@ abstract public class PhysicsCollisionObject
      * Compare (by ID) with another collision object.
      *
      * @param other (not null, unaffected)
-     * @return 0 if the objects have the same ID; negative if this comes before
-     * other; positive if this comes after other
+     * @return 0 if the objects have the same native ID; negative if this comes
+     * before other; positive if this comes after other
      */
     @Override
     public int compareTo(PhysicsCollisionObject other) {
@@ -1200,7 +1202,8 @@ abstract public class PhysicsCollisionObject
      * Test for ID equality.
      *
      * @param otherObject the object to compare to (may be null, unaffected)
-     * @return true if the collision objects have the same ID, otherwise false
+     * @return true if the collision objects have the same native ID, otherwise
+     * false
      */
     @Override
     public boolean equals(Object otherObject) {
@@ -1219,8 +1222,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Finalize this collision object just before it is destroyed. Should be
-     * invoked only by a subclass or by the garbage collector.
+     * Finalize this object just before it is destroyed. Should be invoked only
+     * by a subclass or by the garbage collector.
      *
      * @throws Throwable ignored by the garbage collector
      */
@@ -1250,7 +1253,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Represent this collision object as a String.
+     * Represent this object as a String.
      *
      * @return a descriptive string of text (not null, not empty)
      */
