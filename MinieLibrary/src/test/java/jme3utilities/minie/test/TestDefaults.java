@@ -457,9 +457,11 @@ public class TestDefaults {
         Assert.assertNotEquals(0L, pco.getObjectId());
         Assert.assertFalse(pco.isInWorld());
         Assert.assertTrue(pco.isActive());
+
         assertEquals(1f, 1f, 1f, pco.getAnisotropicFriction(null), 0f);
         Assert.assertFalse(pco.hasAnisotropicFriction(1));
         Assert.assertFalse(pco.hasAnisotropicFriction(2));
+        Assert.assertNull(pco.getApplicationData());
         Assert.assertEquals(0f, pco.getCcdMotionThreshold(), 0f);
         Assert.assertEquals(0f, pco.getCcdSweptSphereRadius(), 0f);
         Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,

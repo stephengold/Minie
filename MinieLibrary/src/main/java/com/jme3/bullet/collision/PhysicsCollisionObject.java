@@ -148,6 +148,8 @@ abstract public class PhysicsCollisionObject
             = "anisotropicFrictionComponents";
     final private static String tagAnisotropicFrictionMode
             = "anisotropicFrictionMode";
+    final private static String tagApplicationData
+            = "applicationData";
     final private static String tagCcdMotionThreshold
             = "ccdMotionThreshold";
     final private static String tagCcdSweptSphereRadius
@@ -209,11 +211,16 @@ abstract public class PhysicsCollisionObject
      */
     private Material debugMaterial = null;
     /**
+     * application-specific data of this collision object. Untouched unless
+     * Cloneable or Savable.
+     */
+    private Object applicationData = null;
+    /**
      * scene object that's using this collision object. The scene object is
      * typically a PhysicsControl, PhysicsLink, or Spatial. Used by physics
      * controls.
      */
-    private Object userObject;
+    private Object userObject = null;
     // *************************************************************************
     // new methods exposed
 
@@ -359,6 +366,17 @@ abstract public class PhysicsCollisionObject
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         getAnisotropicFriction(objectId, result);
         return result;
+    }
+
+    /**
+     * Access any application-specific data associated with this collision
+     * object.
+     *
+     * @return the pre-existing instance, or null if none
+     * @see #setApplicationData(java.lang.Object)
+     */
+    public Object getApplicationData() {
+        return applicationData;
     }
 
     /**
@@ -627,6 +645,7 @@ abstract public class PhysicsCollisionObject
      * PhysicsControl, PhysicsLink, or Spatial. Used by physics controls.
      *
      * @return the pre-existing instance, or null if none
+     * @see #getApplicationData()
      * @see #setUserObject(java.lang.Object)
      */
     public Object getUserObject() {
@@ -715,6 +734,18 @@ abstract public class PhysicsCollisionObject
         Validate.inRange(mode, "mode", AfMode.none, AfMode.rolling);
 
         setAnisotropicFriction(objectId, components, mode);
+    }
+
+    /**
+     * Associate application-specific data with this collision object. Minie
+     * never touches application-specific data, except to clone/load/save it if
+     * it is Cloneable or Savable.
+     *
+     * @param data the desired data object (alias created, default=null)
+     * @see #getApplicationData()
+     */
+    public void setApplicationData(Object data) {
+        applicationData = data;
     }
 
     /**
@@ -922,11 +953,12 @@ abstract public class PhysicsCollisionObject
     /**
      * Associate a "user" with this collision object. Used by physics controls.
      *
-     * @param userObject the desired scene object (alias created, default=null)
+     * @param user the desired scene object (alias created, default=null)
      * @see #getUserObject()
+     * @see #setApplicationData(java.lang.Object)
      */
-    public void setUserObject(Object userObject) {
-        this.userObject = userObject;
+    public void setUserObject(Object user) {
+        userObject = user;
     }
 
     /**
@@ -1018,6 +1050,7 @@ abstract public class PhysicsCollisionObject
             setAnisotropicFriction(components, mode);
         }
 
+        applicationData = capsule.readSavable(tagApplicationData, null);
         userObject = capsule.readSavable(tagUserObject, null);
     }
 
@@ -1086,8 +1119,10 @@ abstract public class PhysicsCollisionObject
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        if (userObject instanceof Cloneable
-                || userObject instanceof JmeCloneable) {
+        if (applicationData instanceof Cloneable) {
+            applicationData = cloner.clone(applicationData);
+        }
+        if (userObject instanceof Cloneable) {
             userObject = cloner.clone(userObject);
         }
 
@@ -1167,8 +1202,11 @@ abstract public class PhysicsCollisionObject
         capsule.write(debugMaterial, tagDebugMaterial, null);
         capsule.write(collisionShape, tagCollisionShape, null);
 
+        if (applicationData instanceof Savable) {
+            capsule.write((Savable) applicationData, tagApplicationData, null);
+        }
         if (userObject instanceof Savable) {
-            capsule.write((Savable) userObject, "userObject", null);
+            capsule.write((Savable) userObject, tagUserObject, null);
         }
 
         // common properties
