@@ -73,7 +73,6 @@ import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.ArrayDeque;
-import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.Map;
@@ -186,8 +185,7 @@ public class DropTest
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private SoftPhysicsAppState bulletAppState
-            = new SoftPhysicsAppState();
+    private SoftPhysicsAppState bulletAppState;
     /**
      * local inverse inertial vector for the current drop (or null)
      */
@@ -254,17 +252,9 @@ public class DropTest
     void restartTest() {
         selectDrop(null);
         drops.clear();
+        stateManager.detach(bulletAppState);
 
-        Collection<PhysicsRigidBody> rigids = physicsSpace.getRigidBodyList();
-        for (PhysicsRigidBody body : rigids) {
-            physicsSpace.remove(body);
-        }
-
-        Collection<PhysicsSoftBody> softs = physicsSpace.getSoftBodyList();
-        for (PhysicsSoftBody body : softs) {
-            physicsSpace.remove(body);
-        }
-
+        configurePhysics();
         addAPlatform();
     }
 
@@ -328,6 +318,7 @@ public class DropTest
         configureDumper();
         generateMaterials();
         configurePhysics();
+        generateShapes();
 
         ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(bgColor);
@@ -906,9 +897,10 @@ public class DropTest
     }
 
     /**
-     * Configure physics during startup.
+     * Create and configure a new PhysicsSpace.
      */
     private void configurePhysics() {
+        bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
@@ -917,8 +909,6 @@ public class DropTest
         float gravity = status.gravity();
         Vector3f gravityVector = new Vector3f(0f, -gravity, 0f);
         physicsSpace.setGravity(gravityVector);
-
-        generateShapes();
     }
 
     /**
