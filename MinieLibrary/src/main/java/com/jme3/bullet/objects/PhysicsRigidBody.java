@@ -824,7 +824,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     // new protected methods
 
     /**
-     * For use by subclasses.
+     * Meant to be overridden.
      */
     protected void postRebuild() {
         int flags = getCollisionFlags(objectId);
@@ -839,9 +839,10 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * For use by subclasses.
+     * Meant to be overridden.
      */
     protected void preRebuild() {
+        // do nothing
     }
 
     /**
@@ -859,6 +860,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         }
 
         preRebuild();
+
         CollisionShape shape = getCollisionShape();
         objectId = createRigidBody(mass, motionState.nativeId(),
                 shape.nativeId());
@@ -866,6 +868,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         assert objectId != 0L;
         assert getInternalType(objectId) == PcoType.rigid :
                 getInternalType(objectId);
+
         postRebuild();
 
         if (removedFrom != null) {

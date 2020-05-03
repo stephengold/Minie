@@ -170,7 +170,7 @@ public class CollisionSpace extends NativePhysicsObject {
      * one listener per collision group per space.
      *
      * @param listener the listener to register (not null, alias created)
-     * @param collisionGroup which group it should listen for (bit mask with
+     * @param collisionGroup which group it should listen for (bitmask with
      * exactly one bit set)
      */
     public void addCollisionGroupListener(
@@ -446,7 +446,7 @@ public class CollisionSpace extends NativePhysicsObject {
      * @see
      * #addCollisionGroupListener(com.jme3.bullet.collision.PhysicsCollisionGroupListener,
      * int)
-     * @param collisionGroup the group of the listener to de-register (bit mask
+     * @param collisionGroup the group of the listener to de-register (bitmask
      * with exactly one bit set)
      */
     public void removeCollisionGroupListener(int collisionGroup) {

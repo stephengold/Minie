@@ -373,7 +373,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * character gets rebuilt on the physics side.
      *
      * @param collisionShape the shape to apply (not null, convex, alias
-     * created)
+     * created) TODO declare as ConvexShape
      */
     @Override
     public void setCollisionShape(CollisionShape collisionShape) {
@@ -711,7 +711,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     // private methods
 
     /**
-     * Create the configured btKinematicCharacterController.
+     * Create the configured objects in Bullet.
      */
     private void buildObject() {
         if (objectId == 0L) {
@@ -720,6 +720,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
             assert getInternalType(objectId) == PcoType.ghost :
                     getInternalType(objectId);
             logger2.log(Level.FINE, "Creating {0}.", this);
+
             initUserPointer();
         }
         setCharacterFlags(objectId);
