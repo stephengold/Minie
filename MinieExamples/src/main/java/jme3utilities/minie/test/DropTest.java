@@ -247,9 +247,9 @@ public class DropTest
     }
 
     /**
-     * Start a new test.
+     * Restart the current scenario.
      */
-    void restartTest() {
+    void restartScenario() {
         selectDrop(null);
         drops.clear();
         stateManager.detach(bulletAppState);
@@ -360,7 +360,7 @@ public class DropTest
         dim.bind("previous value", KeyInput.KEY_MINUS);
         dim.bind("previous value", KeyInput.KEY_NUMPAD4);
 
-        dim.bind("restart test", KeyInput.KEY_NUMPAD5);
+        dim.bind("restart scenario", KeyInput.KEY_NUMPAD5);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -439,8 +439,8 @@ public class DropTest
                     status.advanceValue(-1);
                     return;
 
-                case "restart test":
-                    restartTest();
+                case "restart scenario":
+                    restartScenario();
                     return;
 
                 case "toggle aabb":

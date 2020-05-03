@@ -465,7 +465,7 @@ public class DropTestStatus extends SimpleAppState {
             platformName = platformNames[index];
         }
 
-        appInstance.restartTest();
+        appInstance.restartScenario();
     }
 
     /**
