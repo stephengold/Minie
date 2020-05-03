@@ -603,6 +603,7 @@ public class DropTest
 
         float mass = 1f;
         PhysicsRigidBody body = new PhysicsRigidBody(dropShape, mass);
+        body.setApplicationData(debugMaterial);
         body.setCcdMotionThreshold(5f);
         float sweptSphereRadius = dropShape.maxRadius();
         body.setCcdSweptSphereRadius(sweptSphereRadius);
@@ -618,7 +619,6 @@ public class DropTest
         if (inverseInertia != null) {
             body.setInverseInertiaLocal(inverseInertia);
         }
-        body.setUserObject(debugMaterial);
 
         physicsSpace.add(body);
         drops.addLast(body);
@@ -1147,7 +1147,8 @@ public class DropTest
     private void selectDrop(PhysicsRigidBody drop) {
         if (drop != selectedDrop) {
             if (selectedDrop != null) {
-                Material material = (Material) selectedDrop.getUserObject();
+                Material material
+                        = (Material) selectedDrop.getApplicationData();
                 selectedDrop.setDebugMaterial(material);
             }
             selectedDrop = drop;
