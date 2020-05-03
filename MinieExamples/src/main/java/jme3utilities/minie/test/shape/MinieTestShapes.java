@@ -813,7 +813,7 @@ public class MinieTestShapes {
      * @return a new simplex shape (not null)
      */
     public static SimplexCollisionShape makeTriangle() {
-        float radius = 20f;
+        float radius = 40f;
 
         float x = radius * MyMath.rootHalf;
         Vector3f p1 = new Vector3f(x, 0f, x);
