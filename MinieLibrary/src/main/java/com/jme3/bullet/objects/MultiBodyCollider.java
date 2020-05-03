@@ -272,10 +272,10 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
     private void buildObject() {
         long multiBodyId = multiBody.nativeId();
         objectId = createCollider(multiBodyId, linkIndex);
-        logger2.log(Level.FINE, "Created {0}.", this);
         assert objectId != 0L;
         assert getInternalType(objectId) == PcoType.collider :
                 getInternalType(objectId);
+        logger2.log(Level.FINE, "Created {0}.", this);
 
         super.initUserPointer();
     }

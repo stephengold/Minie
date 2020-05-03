@@ -280,10 +280,11 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     private void buildObject() {
         if (objectId == 0L) {
             objectId = createGhostObject();
-            logger2.log(Level.FINE, "Created {0}.", this);
             assert objectId != 0L;
             assert getInternalType(objectId) == PcoType.ghost :
                     getInternalType(objectId);
+            logger2.log(Level.FINE, "Created {0}.", this);
+
             setGhostFlags(objectId);
             initUserPointer();
         }
