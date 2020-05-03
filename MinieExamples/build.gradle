@@ -23,7 +23,7 @@ dependencies {
 
     //implementation 'junit:junit:4.12'
 
-    //implementation 'jme3utilities:Minie:' + minieVersion
+    //implementation 'com.github.stephengold:Minie:' + minieVersion
     implementation project(':MinieLibrary')
 }
 
