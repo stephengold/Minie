@@ -787,6 +787,7 @@ public class DropTest
 
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
+        viewPort.clearProcessors();
         DirectionalLightShadowRenderer dlsr
                 = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
