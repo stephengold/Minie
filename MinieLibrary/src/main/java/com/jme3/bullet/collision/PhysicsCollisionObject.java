@@ -239,7 +239,7 @@ abstract public class PhysicsCollisionObject
      * Two objects can collide only if one of them has the collisionGroup of the
      * other in its collideWithGroups set.
      *
-     * @param collisionGroup groups to add (bit mask)
+     * @param collisionGroup the groups to add (bitmask)
      */
     public void addCollideWithGroup(int collisionGroup) {
         collideWithGroups |= collisionGroup;
@@ -419,7 +419,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Read the set of collision groups with which this object can collide.
      *
-     * @return bit mask
+     * @return the bitmask
      */
     public int getCollideWithGroups() {
         assert collideWithGroups == getCollideWithGroups(objectId);
@@ -429,7 +429,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Read the collision group of this object.
      *
-     * @return the collision group (bit mask with exactly one bit set)
+     * @return the collision group (bitmask with exactly one bit set)
      */
     public int getCollisionGroup() {
         assert collisionGroup == getCollisionGroup(objectId);
@@ -709,9 +709,42 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Determine the collision group of this object's broadphase proxy. A proxy
+     * is created when the object is added to a CollisionSpace, and its group is
+     * 32 for a PhysicsCharacter, 2 for a static object, or 1 for anything else.
+     *
+     * @return the proxy's collision group (a bitmask with exactly one bit set)
+     * or null if this object has no proxy
+     */
+    public Integer proxyGroup() {
+        Integer result = null;
+        if (hasBroadphaseProxy(objectId)) {
+            result = getProxyFilterGroup(objectId);
+        }
+
+        return result;
+    }
+
+    /**
+     * Determine the collision mask of this object's broadphase proxy. A proxy
+     * is created when the object is added to a CollisionSpace, and its mask is
+     * -3 for a static object or -1 for anything else.
+     *
+     * @return the proxy's bitmask, or null if this object has no proxy
+     */
+    public Integer proxyMask() {
+        Integer result = null;
+        if (hasBroadphaseProxy(objectId)) {
+            result = getProxyFilterMask(objectId);
+        }
+
+        return result;
+    }
+
+    /**
      * Remove collision groups from the set with which this object can collide.
      *
-     * @param collisionGroup groups to remove, ORed together (bit mask)
+     * @param collisionGroup the groups to remove, ORed together (bitmask)
      */
     public void removeCollideWithGroup(int collisionGroup) {
         collideWithGroups &= ~collisionGroup;
@@ -775,7 +808,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Directly alter the collision groups with which this object can collide.
      *
-     * @param collisionGroups desired groups, ORed together (bit mask,
+     * @param collisionGroups the desired groups, ORed together (bitmask,
      * default=COLLISION_GROUP_01)
      */
     public void setCollideWithGroups(int collisionGroups) {
@@ -786,13 +819,13 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter which collision group this object belongs to.
      * <p>
-     * Groups are represented by bit masks with exactly one bit set. Manifest
+     * Groups are represented by bitmasks with exactly one bit set. Manifest
      * constants are defined in PhysicsCollisionObject.
      * <p>
      * Two objects can collide only if one of them has the collisionGroup of the
      * other in its collideWithGroups set.
      *
-     * @param collisionGroup the collisionGroup to apply (bit mask with exactly
+     * @param collisionGroup the collisionGroup to apply (bitmask with exactly
      * one bit set, default=COLLISION_GROUP_01)
      */
     public void setCollisionGroup(int collisionGroup) {
@@ -804,7 +837,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Apply the specified CollisionShape to this object.
+     * Apply the specified CollisionShape to this object. Meant to be
+     * overridden.
      *
      * @param collisionShape the shape to apply (not null, alias created)
      */
@@ -1341,6 +1375,10 @@ abstract public class PhysicsCollisionObject
 
     native private void getOrientation(long objectId, Quaternion storeResult);
 
+    native private int getProxyFilterGroup(long objectId);
+
+    native private int getProxyFilterMask(long objectId);
+
     native private float getRestitution(long objectId);
 
     native private float getRollingFriction(long objectId);
@@ -1350,6 +1388,8 @@ abstract public class PhysicsCollisionObject
     native private float getSpinningFriction(long objectId);
 
     native private boolean hasAnisotropicFriction(long objectId, int mode);
+
+    native private boolean hasBroadphaseProxy(long objectId);
 
     native private void initUserPointer(long objectId, int group, int groups);
 

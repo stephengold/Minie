@@ -483,6 +483,8 @@ public class TestDefaults {
         Assert.assertEquals(1, pco.debugNumSides());
         Assert.assertEquals(0.5f, pco.getFriction(), 0f);
         assertEquals(0f, 0f, 0f, pco.getPhysicsLocation(null), 0f);
+        Assert.assertNull(pco.proxyGroup());
+        Assert.assertNull(pco.proxyMask());
         Assert.assertEquals(0f, pco.getRestitution(), 0f);
         Assert.assertEquals(0f, pco.getRollingFriction(), 0f);
         Assert.assertEquals(0f, pco.getSpinningFriction(), 0f);
