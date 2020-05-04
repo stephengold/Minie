@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -87,7 +87,7 @@ public class HelloSoftRope extends SimpleApplication {
         // Create a soft body and add it to the physics space.
         PhysicsSoftBody rope = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromLineMesh(lineMesh, rope);
-        physicsSpace.add(rope);
+        physicsSpace.addCollisionObject(rope);
 
         // Pin one of the end nodes by setting its mass to zero.
         int nodeIndex = 0;

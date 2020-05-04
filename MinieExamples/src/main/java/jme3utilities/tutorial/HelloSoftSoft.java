@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -92,11 +92,11 @@ public class HelloSoftSoft extends SimpleApplication {
         // Create 2 squishy balls and add them to the physics space.
         PhysicsSoftBody ball1 = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(icosphere, ball1);
-        physicsSpace.add(ball1);
+        physicsSpace.addCollisionObject(ball1);
 
         PhysicsSoftBody ball2 = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(icosphere, ball2);
-        physicsSpace.add(ball2);
+        physicsSpace.addCollisionObject(ball2);
 
         // Set each ball's default frame pose:  if deformed,
         // it will tend to return to its current shape.

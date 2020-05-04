@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -85,7 +85,7 @@ public class HelloPin extends SimpleApplication {
         SphereCollisionShape shape = new SphereCollisionShape(radius);
         float mass = PhysicsRigidBody.massForStatic;
         PhysicsRigidBody sphere = new PhysicsRigidBody(shape, mass);
-        physicsSpace.add(sphere);
+        physicsSpace.addCollisionObject(sphere);
 
         // Generate a subdivided square mesh with alternating diagonals.
         int numLines = 41;
@@ -95,7 +95,7 @@ public class HelloPin extends SimpleApplication {
         // Create a soft square and add it to the physics space.
         PhysicsSoftBody cloth = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(squareGrid, cloth);
-        physicsSpace.add(cloth);
+        physicsSpace.addCollisionObject(cloth);
 
         // Pin one of the corner nodes by setting its mass to zero.
         int nodeIndex = 0;
