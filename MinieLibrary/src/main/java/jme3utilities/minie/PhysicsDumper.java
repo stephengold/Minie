@@ -413,6 +413,10 @@ public class PhysicsDumper extends Dumper {
         stream.print(" fric=");
         stream.print(MyString.describe(friction));
 
+        float restitution = body.getRestitution();
+        stream.print(" rest=");
+        stream.print(MyString.describe(restitution));
+
         addActivationState(body);
         long objectId = body.getObjectId();
         addNativeId(objectId);
