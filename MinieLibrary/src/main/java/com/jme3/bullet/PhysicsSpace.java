@@ -121,7 +121,7 @@ public class PhysicsSpace extends CollisionSpace {
     // fields
 
     /**
-     * queue of collision events not yet distributed to listeners
+     * collision events not yet distributed to listeners
      */
     final private Deque<PhysicsCollisionEvent> collisionEvents
             = new ArrayDeque<>(20);
@@ -284,9 +284,10 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Register the specified collision listener with this space.
+     * Register the specified collision listener.
      * <p>
-     * Collision listeners are notified when collisions occur in the space.
+     * During distributeEvents(), registered listeners are notified of all
+     * collisions since the previous distributeEvents().
      *
      * @param listener the listener to register (not null, alias created)
      */
