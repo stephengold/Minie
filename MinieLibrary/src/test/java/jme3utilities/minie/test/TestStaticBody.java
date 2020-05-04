@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -105,32 +105,32 @@ public class TestStaticBody {
          */
         CollisionShape box2d = new Box2dShape(1f, 2f);
         PhysicsRigidBody box2dBody = new PhysicsRigidBody(box2d, 0f);
-        space.add(box2dBody);
+        space.addCollisionObject(box2dBody);
         /*
          * Box
          */
         CollisionShape box = new BoxCollisionShape(1f);
         PhysicsRigidBody boxBody = new PhysicsRigidBody(box, 0f);
-        space.add(boxBody);
+        space.addCollisionObject(boxBody);
         /*
          * Capsule
          */
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         PhysicsRigidBody capsuleBody = new PhysicsRigidBody(capsule, 0f);
-        space.add(capsuleBody);
+        space.addCollisionObject(capsuleBody);
         /*
          * Compound
          */
         CompoundCollisionShape compound = new CompoundCollisionShape();
         compound.addChildShape(capsule, 0f, 1f, 0f);
         PhysicsRigidBody compoundBody = new PhysicsRigidBody(compound, 0f);
-        space.add(compoundBody);
+        space.addCollisionObject(compoundBody);
         /*
          * Cone
          */
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
         PhysicsRigidBody coneBody = new PhysicsRigidBody(cone, 0f);
-        space.add(coneBody);
+        space.addCollisionObject(coneBody);
         /*
          * Box2d
          */
@@ -138,20 +138,20 @@ public class TestStaticBody {
                 = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
         CollisionShape convex2d = new Convex2dShape(flatCone);
         PhysicsRigidBody convex2dBody = new PhysicsRigidBody(convex2d, 0f);
-        space.add(convex2dBody);
+        space.addCollisionObject(convex2dBody);
         /*
          * Cylinder
          */
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
         PhysicsRigidBody cylinderBody = new PhysicsRigidBody(cylinder, 0f);
-        space.add(cylinderBody);
+        space.addCollisionObject(cylinderBody);
         /*
          * Empty
          */
         CollisionShape empty = new EmptyShape(true);
         PhysicsRigidBody emptyBody = new PhysicsRigidBody(empty, 0f);
-        space.add(emptyBody);
+        space.addCollisionObject(emptyBody);
         /*
          * GImpact
          */
@@ -161,7 +161,7 @@ public class TestStaticBody {
         Mesh mesh = geo.getMesh();
         CollisionShape gimpact = new GImpactCollisionShape(mesh);
         PhysicsRigidBody gimpactBody = new PhysicsRigidBody(gimpact, 0f);
-        space.add(gimpactBody);
+        space.addCollisionObject(gimpactBody);
         /*
          * Heightfield
          */
@@ -175,25 +175,25 @@ public class TestStaticBody {
         float[] heightArray = heightMap.getHeightMap();
         CollisionShape hcs = new HeightfieldCollisionShape(heightArray);
         PhysicsRigidBody hcsBody = new PhysicsRigidBody(hcs, 0f);
-        space.add(hcsBody);
+        space.addCollisionObject(hcsBody);
         /*
          * Hull
          */
         CollisionShape hull = new HullCollisionShape(mesh);
         PhysicsRigidBody hullBody = new PhysicsRigidBody(hull, 0f);
-        space.add(hullBody);
+        space.addCollisionObject(hullBody);
         /*
          * Mesh, quantized AABB compression
          */
         CollisionShape mcs = new MeshCollisionShape(mesh, true);
         PhysicsRigidBody mcsBody = new PhysicsRigidBody(mcs, 0f);
-        space.add(mcsBody);
+        space.addCollisionObject(mcsBody);
         /*
          * Mesh, without compression
          */
         CollisionShape mcsq = new MeshCollisionShape(mesh, false);
         PhysicsRigidBody mcsqBody = new PhysicsRigidBody(mcsq, 0f);
-        space.add(mcsqBody);
+        space.addCollisionObject(mcsqBody);
         /*
          * MultiSphere
          */
@@ -208,14 +208,14 @@ public class TestStaticBody {
         CollisionShape multiSphere = new MultiSphere(centers, radii);
         PhysicsRigidBody multiSphereBody
                 = new PhysicsRigidBody(multiSphere, 0f);
-        space.add(multiSphereBody);
+        space.addCollisionObject(multiSphereBody);
         /*
          * Plane
          */
         Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
         CollisionShape pcs = new PlaneCollisionShape(plane);
         PhysicsRigidBody pcsBody = new PhysicsRigidBody(pcs, 0f);
-        space.add(pcsBody);
+        space.addCollisionObject(pcsBody);
         /*
          * Simplex
          */
@@ -224,12 +224,12 @@ public class TestStaticBody {
         Vector3f p3 = new Vector3f(1f, 1f, 0f);
         CollisionShape simplex = new SimplexCollisionShape(p1, p2, p3);
         PhysicsRigidBody simplexBody = new PhysicsRigidBody(simplex, 0f);
-        space.add(simplexBody);
+        space.addCollisionObject(simplexBody);
         /*
          * Sphere
          */
         CollisionShape sphere = new SphereCollisionShape(1f);
         PhysicsRigidBody sphereBody = new PhysicsRigidBody(sphere, 0f);
-        space.add(sphereBody);
+        space.addCollisionObject(sphereBody);
     }
 }
