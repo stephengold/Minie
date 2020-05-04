@@ -137,6 +137,23 @@ public class MultiBodySpace extends PhysicsSpace {
     // PhysicsSpace methods
 
     /**
+     * Activate all colliders and rigid bodies in this space.
+     *
+     * @param forceFlag true to force activation
+     */
+    @Override
+    public void activateAll(boolean forceFlag) {
+        super.activateAll(forceFlag);
+
+        for (MultiBody multiBody : multiBodyMap.values()) {
+            Collection<MultiBodyCollider> colliders = multiBody.listColliders();
+            for (MultiBodyCollider collider : colliders) {
+                collider.activate(forceFlag);
+            }
+        }
+    }
+
+    /**
      * Add the specified object to this space.
      *
      * @param object the object to add (not null)
