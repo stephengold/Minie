@@ -423,10 +423,9 @@ public class PhysicsDumper extends Dumper {
 
         if (body.isDynamic()) {
             /*
-             * The 2nd line has the dynamic info.
+             * The 2nd & 3rd lines have the dynamic properties.
              */
-            addLine(indent);
-            addDynamicProperties(body);
+            addDynamicProperties(body, indent);
         }
         /*
          * The next line has the shape and scale.
@@ -1043,15 +1042,17 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
-     * Print dynamic properties of the specified rigid body: velocity, gravity,
-     * CCD, damping, sleeping, moment of inertia, and angular velocity.
+     * Print dynamic properties of the specified rigid body.
      *
      * @param rigidBody (not null, unaffected)
+     * @param indent (not null)
      */
-    private void addDynamicProperties(PhysicsRigidBody rigidBody) {
-        Vector3f velocity = rigidBody.getLinearVelocity(null);
-        String velString = MyVector3f.describe(velocity);
-        stream.printf(" v[%s]", velString);
+    private void addDynamicProperties(PhysicsRigidBody rigidBody,
+            String indent) {
+        /*
+         * first line: gravity, CCD, damping, and sleep/activation
+         */
+        addLine(indent);
 
         Vector3f gravity = rigidBody.getGravity(null);
         String graString = MyVector3f.describe(gravity);
@@ -1084,8 +1085,17 @@ public class PhysicsDumper extends Dumper {
             stream.print(" time=");
             stream.print(MyString.describe(deactivationTime));
         }
-        stream.print("] moms[");
+        stream.print(']');
+        /*
+         * 2nd line: linear velocity, moments, and angular velocity
+         */
+        addLine(indent);
 
+        Vector3f velocity = rigidBody.getLinearVelocity(null);
+        String velString = MyVector3f.describe(velocity);
+        stream.printf(" v[%s]", velString);
+
+        stream.print(" moms[");
         Vector3f iiLocal = rigidBody.getInverseInertiaLocal(null);
         Vector3f moments = scaleIdentity.divide(iiLocal);
         stream.print(MyVector3f.describe(moments));
