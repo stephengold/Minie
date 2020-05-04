@@ -98,10 +98,10 @@ public class TestIssue1029
         //shape = new BoxCollisionShape(new Vector3f(1f, 1f, 1f));
 
         PhysicsRigidBody staticBody = new PhysicsRigidBody(shape, 0f);
-        physicsSpace.add(staticBody);
+        physicsSpace.addCollisionObject(staticBody);
 
         PhysicsGhostObject ghost = new PhysicsGhostObject(shape);
-        physicsSpace.add(ghost);
+        physicsSpace.addCollisionObject(ghost);
     }
 
     /**

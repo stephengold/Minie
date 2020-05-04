@@ -69,10 +69,10 @@ public class TestIssue1058
         CollisionShape shape = new SphereCollisionShape(1f);
 
         body1 = new PhysicsRigidBody(shape, 1f);
-        physicsSpace.add(body1);
+        physicsSpace.addCollisionObject(body1);
 
         body2 = new PhysicsRigidBody(shape, 2f);
-        physicsSpace.add(body2);
+        physicsSpace.addCollisionObject(body2);
     }
 
     @Override

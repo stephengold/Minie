@@ -78,13 +78,13 @@ public class TestIssue3 extends SimpleApplication
         MyBuffer.rotate(buffer, 0, buffer.limit(), rot);
         CollisionShape meshShape = new MeshCollisionShape(mesh);
         PhysicsRigidBody staticBody = new PhysicsRigidBody(meshShape, 0f);
-        physicsSpace.add(staticBody);
+        physicsSpace.addCollisionObject(staticBody);
 
         CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1f, 3f);
         character = new PhysicsCharacter(capsuleShape, 0.05f);
         character.setGravity(120f);
         character.setPhysicsLocation(new Vector3f(0f, 0.8f, 0f));
-        physicsSpace.add(character);
+        physicsSpace.addCollisionObject(character);
 
         new PhysicsDumper().dump(bulletAppState);
     }
