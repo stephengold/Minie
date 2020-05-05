@@ -655,13 +655,13 @@ public class DacLinks
         PhysicsRigidBody rigidBody;
         if (torsoLink != null) {
             rigidBody = torsoLink.getRigidBody();
-            space.add(rigidBody);
+            space.addCollisionObject(rigidBody);
             rigidBody.setGravity(gravity);
         }
 
         for (BoneLink boneLink : boneLinkList) {
             rigidBody = boneLink.getRigidBody();
-            space.add(rigidBody);
+            space.addCollisionObject(rigidBody);
             rigidBody.setGravity(gravity);
 
             PhysicsJoint joint = boneLink.getJoint();
@@ -670,7 +670,7 @@ public class DacLinks
 
         for (AttachmentLink link : attachmentLinks.values()) {
             rigidBody = link.getRigidBody();
-            space.add(rigidBody);
+            space.addCollisionObject(rigidBody);
             rigidBody.setGravity(gravity);
 
             PhysicsJoint joint = link.getJoint();

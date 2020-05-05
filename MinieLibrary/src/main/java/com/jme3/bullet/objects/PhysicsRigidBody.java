@@ -872,7 +872,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         postRebuild();
 
         if (removedFrom != null) {
-            removedFrom.add(this);
+            removedFrom.addCollisionObject(this);
         }
     }
     // *************************************************************************
