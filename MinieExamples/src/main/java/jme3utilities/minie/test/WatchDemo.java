@@ -39,10 +39,8 @@ import com.jme3.bullet.animation.MassHeuristic;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.ShapeHeuristic;
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
@@ -63,7 +61,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.debug.Grid;
-import com.jme3.scene.shape.Box;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import java.util.List;
@@ -74,13 +71,12 @@ import jme3utilities.InfluenceUtil;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
-import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.controllers.TrackController;
 import jme3utilities.minie.test.tunings.BaseMeshControl;
 import jme3utilities.minie.test.tunings.Binocular;
@@ -91,9 +87,7 @@ import jme3utilities.minie.test.tunings.NinjaControl;
 import jme3utilities.minie.test.tunings.OtoControl;
 import jme3utilities.minie.test.tunings.PuppetControl;
 import jme3utilities.minie.test.tunings.SinbadControl;
-import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
@@ -105,7 +99,7 @@ import jme3utilities.ui.Signals;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class WatchDemo extends ActionApplication {
+public class WatchDemo extends AbstractDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -133,33 +127,17 @@ public class WatchDemo extends ActionApplication {
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
+    private BulletAppState bulletAppState;
     /**
      * Control being tested
      */
     private DynamicAnimControl dac;
     /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
-    /**
      * root node of the C-G model on which the Control is being tested
      */
     private Node cgModel;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
 
     private PhysicsRigidBody targetBody;
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSpace physicsSpace;
     /**
      * visualizer for the target
      */
@@ -208,7 +186,7 @@ public class WatchDemo extends ActionApplication {
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -217,10 +195,11 @@ public class WatchDemo extends ActionApplication {
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
+        generateMaterials();
         configurePhysics();
 
-        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
-        viewPort.setBackgroundColor(bgColor);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
 
         addLighting();
         /*
@@ -228,8 +207,8 @@ public class WatchDemo extends ActionApplication {
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        addAxes();
-        addBox();
+        attachWorldAxes(4f);
+        attachCubePlatform(250f, 0f);
 
         targetPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Red,
                 "ring");
@@ -244,11 +223,43 @@ public class WatchDemo extends ActionApplication {
         CollisionShape shape = new SphereCollisionShape(0.1f);
         targetBody = new PhysicsRigidBody(shape);
         targetBody.setKinematic(true);
-        physicsSpace.add(targetBody);
+        addCollisionObject(targetBody);
 
         Vector3f targetStartLocation
                 = MyVector3f.midpoint(gridTopLeft, gridBottomRight, null);
         targetBody.setPhysicsLocation(targetStartLocation);
+    }
+
+    /**
+     * Configure the PhysicsDumper.
+     */
+    @Override
+    public void configureDumper() {
+        super.configureDumper();
+
+        PhysicsDumper dumper = getDumper();
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of debug axis arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 2f;
     }
 
     /**
@@ -258,8 +269,8 @@ public class WatchDemo extends ActionApplication {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("load BaseMesh", KeyInput.KEY_F11);
         dim.bind("load Jaime", KeyInput.KEY_F2);
@@ -277,12 +288,13 @@ public class WatchDemo extends ActionApplication {
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal track", "RMB");
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
-        dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(AbstractDemo.asTogglePhysicsDebug, KeyInput.KEY_SLASH);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float x = 10f;
@@ -291,9 +303,7 @@ public class WatchDemo extends ActionApplication {
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -307,30 +317,8 @@ public class WatchDemo extends ActionApplication {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-                case "dump scenes":
-                    dumper.dump(renderManager);
-                    return;
-
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
                 case "toggle meshes":
                     toggleMeshes();
-                    return;
-                case "toggle pause":
-                    togglePause();
-                    return;
-                case "toggle physics debug":
-                    togglePhysicsDebug();
                     return;
                 case "toggle skeleton":
                     toggleSkeleton();
@@ -367,42 +355,6 @@ public class WatchDemo extends ActionApplication {
     }
     // *************************************************************************
     // private methods
-
-    /**
-     * Add a visualizer for the axes of the world coordinate system.
-     */
-    private void addAxes() {
-        float axisLength = 4f;
-        AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
-        axes.setLineWidth(0f);
-
-        rootNode.addControl(axes);
-        axes.setEnabled(true);
-    }
-
-    /**
-     * Add a large static box to the scene, to serve as a platform.
-     */
-    private void addBox() {
-        float halfExtent = 250f; // mesh units
-        Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
-        Geometry geometry = new Geometry("box", mesh);
-        rootNode.attachChild(geometry);
-
-        geometry.move(0f, -halfExtent, 0f);
-        ColorRGBA color = new ColorRGBA(0f, 0.2f, 0f, 1f);
-        Material material = MyAsset.createShadedMaterial(assetManager, color);
-        geometry.setMaterial(material);
-        geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
-        geometry.setUserData("touch", true);
-
-        BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsRigidBody.massForStatic;
-        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
-        geometry.addControl(boxBody);
-        boxBody.setApplyScale(true);
-        boxBody.setPhysicsSpace(physicsSpace);
-    }
 
     /**
      * Add a 10x10 X-Z square grid to the scene with the specified bottom-left
@@ -447,13 +399,15 @@ public class WatchDemo extends ActionApplication {
         ColorRGBA ambientColor = new ColorRGBA(0.4f, 0.4f, 0.4f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootNode.addLight(ambient);
+        ambient.setName("ambient");
 
         Vector3f direction = new Vector3f(1f, -2f, -2f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
+        sun.setName("sun");
 
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 4_096, 3);
+                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
@@ -516,39 +470,24 @@ public class WatchDemo extends ActionApplication {
         }
 
         rootNode.attachChild(cgModel);
-        setHeight(cgModel, 10f);
-        center(cgModel);
+        setCgmHeight(cgModel, 10f);
+        centerCgm(cgModel);
 
         Spatial controlledSpatial = sc.getSpatial();
         controlledSpatial.addControl(dac);
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
 
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         if (sc instanceof SkeletonControl) {
-            /*
-             * Clean up Jaime's skeleton visualization by hiding the "IK" bones,
-             * which don't influence any mesh vertices.
-             */
             InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
+        } else {
+            InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
         }
         rootNode.addControl(sv);
 
         addGrid();
-    }
-
-    /**
-     * Translate a model's center so that the model rests on the X-Z plane, and
-     * its center lies on the Y axis.
-     */
-    private void center(Spatial model) {
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
-        Vector3f offset = new Vector3f(center.x, minMax[0].y, center.z);
-
-        Vector3f location = model.getWorldTranslation();
-        location.subtractLocal(offset);
-        MySpatial.setWorldLocation(model, location);
     }
 
     /**
@@ -557,6 +496,7 @@ public class WatchDemo extends ActionApplication {
     private void configureCamera() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(20f);
+        flyCam.setZoomSpeed(20f);
 
         MyCamera.setNearFar(cam, 0.1f, 100f);
         cam.setLocation(new Vector3f(-13f, 9f, 0f));
@@ -568,21 +508,13 @@ public class WatchDemo extends ActionApplication {
     }
 
     /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.setAccuracy(1f / 30); // 33.33-msec timestep
         physicsSpace.getSolverInfo().setNumIterations(15);
     }
@@ -784,51 +716,6 @@ public class WatchDemo extends ActionApplication {
     }
 
     /**
-     * Scale the specified model uniformly so that it has the specified height.
-     *
-     * @param model (not null, modified)
-     * @param height (in world units)
-     */
-    private void setHeight(Spatial model, float height) {
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        float oldHeight = minMax[1].y - minMax[0].y;
-
-        model.scale(height / oldHeight);
-    }
-
-    /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(2f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
-    }
-
-    /**
      * Toggle mesh rendering on/off.
      */
     private void toggleMeshes() {
@@ -840,22 +727,6 @@ public class WatchDemo extends ActionApplication {
             hint = Spatial.CullHint.Never;
         }
         cgModel.setCullHint(hint);
-    }
-
-    /**
-     * Toggle the animation and physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
-    }
-
-    /**
-     * Toggle physics-debug visualization on/off.
-     */
-    private void togglePhysicsDebug() {
-        boolean enabled = bulletAppState.isDebugEnabled();
-        bulletAppState.setDebugEnabled(!enabled);
     }
 
     /**

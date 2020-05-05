@@ -88,7 +88,6 @@ import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
-import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyBuffer;
@@ -102,14 +101,14 @@ import jme3utilities.mesh.Prism;
 import jme3utilities.mesh.RectangleMesh;
 import jme3utilities.mesh.Tetrahedron;
 import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.terrain.MinieTestTerrains;
-import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
+import vhacd.VHACD;
 import vhacd.VHACDParameters;
+import vhacd.VHACDProgressListener;
 
 /**
  * Test various shapes, scales, and collision margins on a kinematic
@@ -119,7 +118,7 @@ import vhacd.VHACDParameters;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestRbc
-        extends ActionApplication
+        extends AbstractDemo
         implements PhysicsCollisionListener {
     // *************************************************************************
     // constants and loggers
@@ -151,29 +150,17 @@ public class TestRbc
     // fields
 
     /**
-     * visualizer for the world axes
-     */
-    private AxesVisualizer axes;
-    /**
      * text displayed in the upper-left corner of the GUI node
      */
     final private BitmapText[] statusLines = new BitmapText[2];
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
-    /**
-     * pre-calculated shape for the SmallTerrainVhacd test
-     */
-    private CollisionShape smallTerrainVhacdShape;
+    private BulletAppState bulletAppState;
     /**
      * shape being tested
      */
     private CollisionShape testShape;
-    /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
     /**
      * part index returned by the most recent ray/sweep test
      */
@@ -191,33 +178,9 @@ public class TestRbc
      */
     private JmeCursor missCursor;
     /**
-     * double-sided, green, shaded material for test spatials
-     */
-    private Material greenMaterial;
-    /**
-     * single-sided, red, unshaded material for projectiles
-     */
-    private Material redMaterial;
-    /**
-     * double-sided, green, wireframe material for the SmallTerrain Spatial
-     */
-    private Material wireMaterial;
-    /**
      * parent for added spatials
      */
-    final private Node addNode = new Node("add");
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSpace physicsSpace;
+    final private Node meshesNode = new Node("meshes node");
     /**
      * visualizer for the most recent raytest/sweeptest hit
      */
@@ -264,7 +227,7 @@ public class TestRbc
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -281,11 +244,11 @@ public class TestRbc
         generateMaterials();
         generateShapes();
 
-        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
-        viewPort.setBackgroundColor(bgColor);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
 
-        addAxes();
         addLighting();
+        attachWorldAxes(0.8f);
         addStatusLines();
         /*
          * Hide the render-statistics overlay initially.
@@ -297,9 +260,85 @@ public class TestRbc
         rootNode.attachChild(hitPoint);
         hitPoint.setEnabled(false);
 
-        rootNode.attachChild(addNode);
+        rootNode.attachChild(meshesNode);
 
         restartTest();
+    }
+
+    /**
+     * Configure the PhysicsDumper during startup.
+     */
+    @Override
+    public void configureDumper() {
+        PhysicsDumper dumper = getDumper();
+        dumper.setEnabled(DumpFlags.ChildShapes, true);
+        //dumper.setMaxChildren(3);
+    }
+
+    /**
+     * Generate materials during startup.
+     */
+    @Override
+    public void generateMaterials() {
+        super.generateMaterials();
+
+        Material wireMaterial = MyAsset.createWireframeMaterial(assetManager,
+                ColorRGBA.Green);
+        RenderState ars = wireMaterial.getAdditionalRenderState();
+        ars.setFaceCullMode(RenderState.FaceCullMode.Off);
+        registerMaterial("green wire", wireMaterial);
+
+        Material redMaterial
+                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Red);
+        registerMaterial("red", redMaterial);
+    }
+
+    /**
+     * Initialize V-HACD shapes during startup.
+     */
+    @Override
+    public void generateShapes() {
+        //super.generateShapes();
+
+        VHACD.addProgressListener(new VHACDProgressListener() {
+            double lastOP = -1.0;
+
+            @Override
+            public void update(double overallPercent, double stagePercent,
+                    double operationPercent, String stageName,
+                    String operationName) {
+                if (overallPercent > lastOP) {
+                    System.out.printf("smallTerrainVhacd %.0f%% complete%n",
+                            overallPercent);
+                    lastOP = overallPercent;
+                }
+            }
+        });
+
+        CollisionShape shape = CollisionShapeFactory.createVhacdShape(
+                MinieTestTerrains.smallQuad, new VHACDParameters(), null);
+        registerShape("smallTerrainVhacd", shape);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of physics-debug arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 1f;
     }
 
     /**
@@ -315,8 +354,8 @@ public class TestRbc
         dim.bind("clear shapes", KeyInput.KEY_BACK);
         dim.bind("clear shapes", KeyInput.KEY_DELETE);
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump viewport", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("launch projectile", KeyInput.KEY_L);
 
@@ -342,9 +381,9 @@ public class TestRbc
 
         dim.bind("sweep", KeyInput.KEY_K);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
         float x = 10f;
@@ -353,9 +392,7 @@ public class TestRbc
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -375,16 +412,6 @@ public class TestRbc
 
                 case "clear shapes":
                     clearShapes();
-                    return;
-
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-                case "dump scenes":
-                    dumper.dump(renderManager);
-                    return;
-                case "dump viewport":
-                    dumper.dump(viewPort);
                     return;
 
                 case "launch projectile":
@@ -428,15 +455,6 @@ public class TestRbc
                     sweep();
                     return;
 
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    axes.toggleEnabled();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
                 case "toggle view":
                     toggleMeshes();
                     togglePhysicsDebug();
@@ -460,6 +478,7 @@ public class TestRbc
         Vector2f screenXY = inputManager.getCursorPosition();
         Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
         Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         List rayTest = physicsSpace.rayTestRaw(from, to);
         if (rayTest.size() > 0) {
             inputManager.setMouseCursor(hitCursor);
@@ -584,18 +603,6 @@ public class TestRbc
             default:
                 throw new IllegalArgumentException(testName);
         }
-    }
-
-    /**
-     * Add a visualizer for the axes of the world coordinate system.
-     */
-    private void addAxes() {
-        float axisLength = 0.8f;
-        axes = new AxesVisualizer(assetManager, axisLength);
-        axes.setLineWidth(0f);
-
-        rootNode.addControl(axes);
-        axes.setEnabled(true);
     }
 
     /**
@@ -775,6 +782,7 @@ public class TestRbc
         testSpatial = MinieTestTerrains.largeQuad;
         testShape = CollisionShapeFactory.createMeshShape(testSpatial);
         makeTestShape();
+        Material greenMaterial = findMaterial("platform");
         testSpatial.setMaterial(greenMaterial);
 
         testShape = CollisionShapeFactory.createMeshShape(testSpatial);
@@ -785,12 +793,12 @@ public class TestRbc
      * Add lighting to the scene.
      */
     private void addLighting() {
-        ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootNode.addLight(ambient);
         ambient.setName("ambient");
 
-        Vector3f direction = new Vector3f(1f, -2f, -2f).normalizeLocal();
+        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
         sun.setName("sun");
@@ -824,14 +832,15 @@ public class TestRbc
         Mesh mesh = new Icosphere(numRefineSteps, radius);
 
         projectileSpatial = new Geometry("projectile", mesh);
-        addNode.attachChild(projectileSpatial);
+        meshesNode.attachChild(projectileSpatial);
+        Material redMaterial = findMaterial("red");
         projectileSpatial.setMaterial(redMaterial);
 
         CollisionShape shape = new MultiSphere(radius);
         // TODO - Why doesn't a SphereCollisionShape work well here?
         float mass = 0.01f;
         RigidBodyControl rbc = new RigidBodyControl(shape, mass);
-        physicsSpace.add(rbc);
+        addCollisionObject(rbc);
         projectileSpatial.addControl(rbc);
 
         rbc.setCcdMotionThreshold(0.01f);
@@ -845,6 +854,8 @@ public class TestRbc
      */
     private void addSmallTerrain() {
         testSpatial = MinieTestTerrains.smallQuad;
+        Material wireMaterial = findMaterial("green wire");
+        assert wireMaterial != null;
         testSpatial.setMaterial(wireMaterial);
 
         switch (testName) {
@@ -853,8 +864,7 @@ public class TestRbc
                 break;
 
             case "SmallTerrainVhacd":
-                testShape = (CollisionShape) Heart.deepCopy(
-                        smallTerrainVhacdShape);
+                testShape = findShape("smallTerrainVhacd");
                 break;
 
             default:
@@ -1039,6 +1049,7 @@ public class TestRbc
         Vector2f screenXY = inputManager.getCursorPosition();
         Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
         Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         List<PhysicsRayTestResult> rayTest = physicsSpace.rayTest(from, to);
 
         if (rayTest.size() > 0) {
@@ -1067,7 +1078,9 @@ public class TestRbc
         /*
          * Remove any added spatials from the scene.
          */
-        addNode.detachAllChildren();
+        PhysicsSpace physicsSpace = getPhysicsSpace();
+        physicsSpace.removeAll(meshesNode);
+        meshesNode.detachAllChildren();
         projectileSpatial = null;
         testSpatial = null;
         /*
@@ -1076,8 +1089,9 @@ public class TestRbc
          */
         Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
         for (PhysicsCollisionObject pco : pcos) {
-            physicsSpace.remove(pco);
+            physicsSpace.removeCollisionObject(pco);
         }
+        assert physicsSpace.isEmpty();
     }
 
     /**
@@ -1089,7 +1103,8 @@ public class TestRbc
         MyCamera.setNearFar(cam, near, far);
 
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(5f);
+        flyCam.setMoveSpeed(4f);
+        flyCam.setZoomSpeed(4f);
 
         cam.setLocation(new Vector3f(5.9f, 5.4f, 2.3f));
         cam.setRotation(new Quaternion(0.1825f, -0.76803f, 0.2501f, 0.56058f));
@@ -1100,21 +1115,15 @@ public class TestRbc
     }
 
     /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.ChildShapes, true);
-        //dumper.setMaxChildren(3);
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSpace();
+
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.addCollisionListener(this);
-        physicsSpace.setGravity(Vector3f.ZERO);
+        setGravityAll(0f);
     }
 
     /**
@@ -1129,35 +1138,8 @@ public class TestRbc
     }
 
     /**
-     * Initialize materials during startup.
-     */
-    private void generateMaterials() {
-        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
-        greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
-        greenMaterial.setName("green");
-        RenderState ars = greenMaterial.getAdditionalRenderState();
-        ars.setFaceCullMode(RenderState.FaceCullMode.Off);
-
-        wireMaterial = MyAsset.createWireframeMaterial(assetManager, green);
-        wireMaterial.setName("green wire");
-        ars = wireMaterial.getAdditionalRenderState();
-        ars.setFaceCullMode(RenderState.FaceCullMode.Off);
-
-        redMaterial
-                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Red);
-        redMaterial.setName("red");
-    }
-
-    /**
-     * Initialize V-HACD shapes during startup.
-     */
-    private void generateShapes() {
-        smallTerrainVhacdShape = CollisionShapeFactory.createVhacdShape(
-                MinieTestTerrains.smallQuad, new VHACDParameters(), null);
-    }
-
-    /**
-     * Launch a projectile from the mouse pointer.
+     * Launch a projectileits starting position and velocity determined by the
+     * camera and mouse cursor.
      */
     private void launchProjectile() {
         RigidBodyControl rbc;
@@ -1180,6 +1162,7 @@ public class TestRbc
 
         projectileSpatial.setLocalTranslation(origin);
         rbc.setEnabled(true);
+        rbc.setPhysicsLocation(origin);
         rbc.setLinearVelocity(initialVelocity);
     }
 
@@ -1189,13 +1172,15 @@ public class TestRbc
      * PhysicsSpace.
      */
     private void makeTestShape() {
-        addNode.attachChild(testSpatial);
+        meshesNode.attachChild(testSpatial);
 
         if (!(testSpatial instanceof TerrainQuad)) {
             List<Geometry> list
                     = MySpatial.listSpatials(testSpatial, Geometry.class, null);
+            Material material = findMaterial("platform");
+            assert material != null;
             for (Geometry geometry : list) {
-                geometry.setMaterial(greenMaterial);
+                geometry.setMaterial(material);
             }
         }
 
@@ -1204,6 +1189,7 @@ public class TestRbc
         rbc.setDebugMeshResolution(DebugShapeFactory.highResolution);
         rbc.setDebugNumSides(2);
         rbc.setKinematic(true);
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         rbc.setPhysicsSpace(physicsSpace);
         testSpatial.addControl(rbc);
 
@@ -1265,6 +1251,7 @@ public class TestRbc
 
         List<PhysicsSweepTestResult> sweepTest = new LinkedList<>();
         float penetration = 0f; // physics-space units
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.sweepTest(shape, from, to, sweepTest, penetration);
 
         if (sweepTest.size() > 0) {
@@ -1286,49 +1273,17 @@ public class TestRbc
     }
 
     /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
-    }
-
-    /**
      * Toggle rendering of the test/projectile spatial(s).
      */
     private void toggleMeshes() {
-        Spatial.CullHint hint = addNode.getLocalCullHint();
+        Spatial.CullHint hint = meshesNode.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {
             hint = Spatial.CullHint.Always;
         } else if (hint == Spatial.CullHint.Always) {
             hint = Spatial.CullHint.Never;
         }
-        addNode.setCullHint(hint);
-    }
-
-    /**
-     * Toggle physics-debug visualization on/off.
-     */
-    private void togglePhysicsDebug() {
-        boolean enabled = bulletAppState.isDebugEnabled();
-        bulletAppState.setDebugEnabled(!enabled);
+        meshesNode.setCullHint(hint);
     }
 
     /**
@@ -1344,15 +1299,12 @@ public class TestRbc
         String viewName;
         boolean debug = bulletAppState.isDebugEnabled();
         if (debug) {
-            viewName = "Physics";
-            if (bbFilter != null) {
-                viewName += "+AABB";
-            }
+            viewName = describePhysicsDebugOptions();
         } else {
             viewName = "Mesh";
         }
-        if (axes.isEnabled()) {
-            viewName += "+Axes";
+        if (areWorldAxesEnabled()) {
+            viewName += "+WorldAxes";
         }
 
         float margin = testShape.getMargin();

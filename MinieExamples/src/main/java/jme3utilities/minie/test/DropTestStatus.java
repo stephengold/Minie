@@ -132,7 +132,7 @@ public class DropTestStatus extends SimpleAppState {
      */
     private DropTest appInstance;
     /**
-     * damping fraction for all drops (&ge;0, &le;1)
+     * damping fraction for all dynamic bodies (&ge;0, &le;1)
      */
     private float damping = 0.6f;
     /**
@@ -140,7 +140,7 @@ public class DropTestStatus extends SimpleAppState {
      */
     private float friction = 0.5f;
     /**
-     * gravity magnitude for all drops (&ge;0)
+     * gravity magnitude for all dynamic bodies (&ge;0)
      */
     private float gravity = 30f;
     /**
@@ -210,7 +210,7 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
-     * Determine the damping fraction for all drops.
+     * Determine the damping fraction for all dynamic bodies.
      *
      * @return the fraction (&ge;0, &le;1)
      */
@@ -231,7 +231,7 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
-     * Determine the gravity magnitude for all rigid bodies.
+     * Determine the gravity magnitude for all dynamic bodies.
      *
      * @return the acceleration (&ge;0)
      */
@@ -338,7 +338,7 @@ public class DropTestStatus extends SimpleAppState {
         int numActive = appInstance.countActive();
         int numDrops = appInstance.countDrops();
         int numCached = DebugShapeFactory.countCachedMeshes();
-        boolean isPaused = (appInstance.getSpeed() <= 1e-12f);
+        boolean isPaused = appInstance.isPaused();
         String message = String.format("numDrops=%d  numActive=%d  numCached=%d%s",
                 numDrops, numActive, numCached, isPaused ? "  PAUSED" : "");
         statusLines[0].setText(message);
@@ -395,7 +395,7 @@ public class DropTestStatus extends SimpleAppState {
             damping = dampingValues[index];
         }
 
-        appInstance.setDamping(damping);
+        appInstance.setDampingAll(damping);
     }
 
     /**
@@ -429,7 +429,7 @@ public class DropTestStatus extends SimpleAppState {
             friction = frictionValues[index];
         }
 
-        appInstance.setFriction(friction);
+        appInstance.setFrictionAll(friction);
     }
 
     /**
@@ -447,7 +447,7 @@ public class DropTestStatus extends SimpleAppState {
             gravity = gravityValues[index];
         }
 
-        appInstance.setGravity(gravity);
+        appInstance.setGravityAll(gravity);
     }
 
     /**

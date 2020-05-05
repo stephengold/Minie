@@ -45,7 +45,6 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,9 +57,8 @@ import jme3utilities.MyString;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.PointMesh;
-import jme3utilities.ui.ActionApplication;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 
 /**
@@ -69,7 +67,7 @@ import jme3utilities.ui.InputMode;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestRectangularSolid extends ActionApplication {
+public class TestRectangularSolid extends AbstractDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -105,7 +103,7 @@ public class TestRectangularSolid extends ActionApplication {
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
+    private BulletAppState bulletAppState = new BulletAppState();
     /**
      * enhanced pseudo-random generator
      */
@@ -114,14 +112,6 @@ public class TestRectangularSolid extends ActionApplication {
      * pseudo-random seed for the current/next trial
      */
     private long trialSeed = 1L;
-    /**
-     * material for visualizing sample points
-     */
-    private Material samplePointMaterial;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
     /**
      * scene-graph node for the current trial
      */
@@ -155,7 +145,7 @@ public class TestRectangularSolid extends ActionApplication {
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -170,14 +160,39 @@ public class TestRectangularSolid extends ActionApplication {
         statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
         guiNode.attachChild(statusText);
 
-        samplePointMaterial = MyAsset.createWireframeMaterial(assetManager,
+        Material material = MyAsset.createWireframeMaterial(assetManager,
                 sampleColor, samplePointSize);
+        registerMaterial("samplePoint", material);
 
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setSpeed(0f);
         stateManager.attach(bulletAppState);
 
+        ColorRGBA darkGray = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);
+        viewPort.setBackgroundColor(darkGray);
+
         trial("capsule");
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of physics-debug arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 1f;
     }
 
     /**
@@ -196,7 +211,7 @@ public class TestRectangularSolid extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
-        dim.bind("toggle help", KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
 
         float x = 10f;
         float y = cam.getHeight() - 40f;
@@ -204,9 +219,7 @@ public class TestRectangularSolid extends ActionApplication {
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -219,12 +232,6 @@ public class TestRectangularSolid extends ActionApplication {
     @Override
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
-            switch (actionString) {
-                case "toggle help":
-                    toggleHelp();
-                    return;
-            }
-
             if (actionString.startsWith("next trial ")) {
                 String shapeName
                         = MyString.remainder(actionString, "next trial ");
@@ -247,6 +254,7 @@ public class TestRectangularSolid extends ActionApplication {
 
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(400f);
+        flyCam.setZoomSpeed(400f);
 
         cam.setLocation(new Vector3f(0f, 0f, 1000f));
 
@@ -270,17 +278,6 @@ public class TestRectangularSolid extends ActionApplication {
             trialNode = null;
         }
         trial(shapeName);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
     }
 
     /**
@@ -329,7 +326,8 @@ public class TestRectangularSolid extends ActionApplication {
             PointMesh pointMesh = new PointMesh();
             pointMesh.setLocation(location);
             Geometry sampleGeometry = new Geometry("sample", pointMesh);
-            sampleGeometry.setMaterial(samplePointMaterial);
+            Material material = findMaterial("samplePoint");
+            sampleGeometry.setMaterial(material);
             trialNode.attachChild(sampleGeometry);
         }
         /*

@@ -29,11 +29,9 @@ package jme3utilities.minie.test;
 import com.jme3.app.Application;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
-import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
@@ -56,31 +54,23 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.math.MyVector3f;
-import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
-import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.ui.ActionApplication;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 
 /**
- * An ActionApplication to simulate Newton's cradle.
+ * An AbstractDemo to simulate Newton's cradle.
  * <p>
  * Collision objects are rendered entirely by debug visualization.
  *
  * @author Stephen Gold sgold@sonic.net
  */
 public class NewtonsCradle
-        extends ActionApplication
+        extends AbstractDemo
         implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
 
-    /**
-     * speed when paused
-     */
-    final private static float pausedSpeed = 1e-12f;
     /**
      * message logger for this class
      */
@@ -101,27 +91,7 @@ public class NewtonsCradle
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
-    /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
-    /**
-     * Material for the balls
-     */
-    private Material ballMaterial;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSpace physicsSpace;
+    private BulletAppState bulletAppState;
     /**
      * temporary storage used in updateStatusText()
      */
@@ -152,7 +122,7 @@ public class NewtonsCradle
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -161,11 +131,11 @@ public class NewtonsCradle
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
-        configureMaterials();
+        generateMaterials();
         configurePhysics();
 
-        ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(sky);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
         /*
          * Add the status text to the GUI.
          */
@@ -177,14 +147,46 @@ public class NewtonsCradle
     }
 
     /**
+     * Initialize materials during startup.
+     */
+    @Override
+    public void generateMaterials() {
+        ColorRGBA black = new ColorRGBA(0.01f, 0.01f, 0.01f, 1f);
+        Material ball = MyAsset.createShinyMaterial(assetManager, black);
+        ball.setFloat("Shininess", 100f);
+        registerMaterial("ball", ball);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of debug axis arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 12f;
+    }
+
+    /**
      * Add application-specific hotkey bindings and override existing ones.
      */
     @Override
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scene", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -204,10 +206,11 @@ public class NewtonsCradle
         dim.bind("simulate 4", KeyInput.KEY_4);
         dim.bind("simulate 4", KeyInput.KEY_NUMPAD4);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
 
         float x = 10f;
         float y = cam.getHeight() - 40f;
@@ -215,9 +218,7 @@ public class NewtonsCradle
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -231,13 +232,6 @@ public class NewtonsCradle
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-                case "dump scene":
-                    dumper.dump(rootNode);
-                    return;
-
                 case "simulate 1":
                     restartSimulation(1);
                     return;
@@ -249,19 +243,6 @@ public class NewtonsCradle
                     return;
                 case "simulate 4":
                     restartSimulation(4);
-                    return;
-
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
-                case "toggle pause":
-                    togglePause();
                     return;
             }
         }
@@ -301,10 +282,12 @@ public class NewtonsCradle
         ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
+        ambient.setName("ambient");
 
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootSpatial.addLight(sun);
+        sun.setName("sun");
     }
 
     /**
@@ -316,24 +299,25 @@ public class NewtonsCradle
         SphereCollisionShape sphere = new SphereCollisionShape(radius);
         PhysicsRigidBody ball = new PhysicsRigidBody(sphere);
         Vector3f location = new Vector3f(xOffset, 0f, 0f);
-        ball.setDebugMaterial(ballMaterial);
+        Material material = findMaterial("ball");
+        ball.setDebugMaterial(material);
         ball.setDebugMeshNormals(DebugMeshNormals.Sphere);
         ball.setDebugMeshResolution(DebugShapeFactory.highResolution);
         ball.setFriction(0f);
         ball.setPhysicsLocation(location);
         ball.setRestitution(1f);
-        physicsSpace.add(ball);
+        addCollisionObject(ball);
 
         float wireLength = 80f;
         float yOffset = wireLength / FastMath.sqrt(2f);
 
         Vector3f offset = new Vector3f(0f, yOffset, +yOffset);
         Point2PointJoint joint1 = new Point2PointJoint(ball, offset);
-        physicsSpace.add(joint1);
+        addJoint(joint1);
 
         offset.set(0f, yOffset, -yOffset);
         Point2PointJoint joint2 = new Point2PointJoint(ball, offset);
-        physicsSpace.add(joint2);
+        addJoint(joint2);
 
         return ball;
     }
@@ -342,12 +326,8 @@ public class NewtonsCradle
      * Remove all physics objects from the PhysicsSpace.
      */
     private void clearSpace() {
-        for (PhysicsJoint joint : physicsSpace.getJointList()) {
-            physicsSpace.remove(joint);
-        }
-        for (PhysicsCollisionObject pco : physicsSpace.getPcoList()) {
-            physicsSpace.remove(pco);
-        }
+        stateManager.detach(bulletAppState);
+        configurePhysics();
     }
 
     /**
@@ -356,6 +336,8 @@ public class NewtonsCradle
     private void configureCamera() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(40f);
+        flyCam.setZoomSpeed(40f);
+
         cam.setLocation(new Vector3f(72f, 35f, 140f));
         cam.setRotation(new Quaternion(0.001f, 0.96926f, -0.031f, -0.244f));
 
@@ -365,46 +347,16 @@ public class NewtonsCradle
     }
 
     /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.ShadowModes, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
-    }
-
-    /**
-     * Configure materials during startup.
-     */
-    private void configureMaterials() {
-        ColorRGBA ballColor = new ColorRGBA(0.01f, 0.01f, 0.01f, 1f);
-        ballMaterial = MyAsset.createShinyMaterial(assetManager, ballColor);
-        ballMaterial.setFloat("Shininess", 100f);
-        ballMaterial.setName("ball");
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
+        bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
 
-        physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.setAccuracy(0.01f);
-        physicsSpace.setGravity(new Vector3f(0f, -250f, 0f));
-    }
-
-    /**
-     * Test whether the physics simulation is paused.
-     */
-    private boolean isPaused() {
-        if (speed <= pausedSpeed) {
-            return true;
-        } else {
-            return false;
-        }
+        getPhysicsSpace().setAccuracy(0.01f);
+        setGravityAll(150f);
     }
 
     /**
@@ -433,49 +385,10 @@ public class NewtonsCradle
     }
 
     /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(2f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
-    }
-
-    /**
-     * Toggle the physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = isPaused() ? 1f : pausedSpeed;
-        setSpeed(newSpeed);
-    }
-
-    /**
      * Update the status text in the GUI.
      */
     private void updateStatusText() {
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         Vector3f gravity = physicsSpace.getGravity(null);
         double totalEnergy = 0.0;
         for (PhysicsRigidBody body : physicsSpace.getRigidBodyList()) {

@@ -27,16 +27,14 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
-import com.jme3.bullet.PhysicsSoftSpace;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.SoftBodyControl;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.joints.PhysicsJoint;
-import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
@@ -45,7 +43,6 @@ import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -58,15 +55,12 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
-import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
-import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.ui.ActionApplication;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 
 /**
@@ -75,7 +69,7 @@ import jme3utilities.ui.InputMode;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestSoftBodyControl
-        extends ActionApplication
+        extends AbstractDemo
         implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
@@ -98,21 +92,9 @@ public class TestSoftBodyControl
      */
     final private FilterAll hiddenObjects = new FilterAll(true);
     /**
-     * single-sided green material to visualize the platform
+     * AppState to manage the PhysicsSpace
      */
-    private Material greenMaterial;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSoftSpace physicsSpace;
+    private SoftPhysicsAppState bulletAppState;
     // *************************************************************************
     // new methods exposed
 
@@ -142,7 +124,7 @@ public class TestSoftBodyControl
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -151,15 +133,48 @@ public class TestSoftBodyControl
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
-        configureMaterials();
+        generateMaterials();
         configurePhysics();
 
-        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
-        viewPort.setBackgroundColor(bgColor);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
         addLighting(rootNode, false);
 
-        addBox(0f);
+        attachCubePlatform(4f, 0f);
         addRubberDuck();
+    }
+
+    /**
+     * Configure the PhysicsDumper during startup.
+     */
+    @Override
+    public void configureDumper() {
+        PhysicsDumper dumper = getDumper();
+
+        dumper.setEnabled(DumpFlags.MatParams, true);
+        dumper.setEnabled(DumpFlags.ShadowModes, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of debug axis arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 1f;
     }
 
     /**
@@ -169,16 +184,18 @@ public class TestSoftBodyControl
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
+
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
         dim.bind("test rubberDuck", KeyInput.KEY_F1);
-        dim.bind("toggle help", KeyInput.KEY_H);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
 
         float x = 10f;
         float y = cam.getHeight() - 10f;
@@ -186,9 +203,7 @@ public class TestSoftBodyControl
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -202,25 +217,10 @@ public class TestSoftBodyControl
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-
-                case "dump scenes":
-                    dumper.dump(renderManager);
-                    return;
-
                 case "test rubberDuck":
                     cleanupAfterTest();
-                    addBox(0f);
+                    attachCubePlatform(4f, 0f);
                     addRubberDuck();
-                    return;
-
-                case "toggle help":
-                    toggleHelp();
-                    return;
-                case "toggle pause":
-                    togglePause();
                     return;
             }
         }
@@ -243,36 +243,6 @@ public class TestSoftBodyControl
     // private methods
 
     /**
-     * Add a visualizer for the axes of the world coordinate system.
-     */
-    private void addAxes() {
-        float axisLength = 0.4f;
-        AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
-        axes.setLineWidth(0f);
-
-        rootNode.addControl(axes);
-        axes.setEnabled(true);
-    }
-
-    /**
-     * Add a large static box to the scene, to serve as a platform.
-     *
-     * @param topY the Y coordinate of the top surface (in physics-space
-     * coordinates)
-     */
-    private void addBox(float topY) {
-        float halfExtent = 4f;
-        BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float boxMass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody boxBody = new PhysicsRigidBody(shape, boxMass);
-
-        boxBody.setDebugMaterial(greenMaterial);
-        boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
-        boxBody.setPhysicsLocation(new Vector3f(0f, topY - halfExtent, 0f));
-        physicsSpace.add(boxBody);
-    }
-
-    /**
      * Add lighting to the specified scene.
      *
      * @param rootSpatial which scene (not null)
@@ -282,11 +252,13 @@ public class TestSoftBodyControl
         ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
+        ambient.setName("ambient");
 
         ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         rootSpatial.addLight(sun);
+        sun.setName("sun");
 
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         if (shadowFlag) {
@@ -324,7 +296,7 @@ public class TestSoftBodyControl
         psb.applyRotation(new Quaternion().fromAngles(0.4f, 0f, 1f));
         psb.applyTranslation(new Vector3f(0f, 1.2f, 0f));
 
-        physicsSpace.add(sbc);
+        getPhysicsSpace().add(sbc);
         hiddenObjects.addException(sbc);
     }
 
@@ -339,13 +311,14 @@ public class TestSoftBodyControl
         /*
          * Remove physics objects, which also removes their debug meshes.
          */
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         Collection<PhysicsJoint> joints = physicsSpace.getJointList();
         for (PhysicsJoint joint : joints) {
             physicsSpace.remove(joint);
         }
         Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
         for (PhysicsCollisionObject pco : pcos) {
-            physicsSpace.remove(pco);
+            physicsSpace.removeCollisionObject(pco);
         }
         /*
          * Clear the hidden-object list.
@@ -365,6 +338,8 @@ public class TestSoftBodyControl
 
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(2f);
+        flyCam.setZoomSpeed(2f);
+
         cam.setLocation(new Vector3f(0f, 2.6f, 4.6f));
         cam.setRotation(new Quaternion(-0.014f, 0.9642f, -0.26f, -0.05f));
 
@@ -374,55 +349,17 @@ public class TestSoftBodyControl
     }
 
     /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.MatParams, true);
-        dumper.setEnabled(DumpFlags.ShadowModes, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
-    }
-
-    /**
-     * Configure materials during startup.
-     */
-    private void configureMaterials() {
-        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
-        greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
-        greenMaterial.setName("green");
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f);
 
-        SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
+        bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugFilter(hiddenObjects);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
 
-        physicsSpace = bulletAppState.getPhysicsSoftSpace();
-        physicsSpace.setGravity(new Vector3f(0f, -1f, 0f));
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
-    }
-
-    /**
-     * Toggle the animation and physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
+        setGravityAll(1f);
     }
 }

@@ -42,10 +42,7 @@ import com.jme3.bullet.animation.MassHeuristic;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.ShapeHeuristic;
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
-import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -58,10 +55,8 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import java.util.ArrayDeque;
@@ -79,12 +74,10 @@ import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.mesh.TubeTreeMesh;
-import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 
 /**
@@ -95,7 +88,7 @@ import jme3utilities.ui.InputMode;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class RopeDemo extends ActionApplication {
+public class RopeDemo extends AbstractDemo {
     // *************************************************************************
     // classes and enums
 
@@ -187,7 +180,7 @@ public class RopeDemo extends ActionApplication {
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
+    private BulletAppState bulletAppState;
     /**
      * physics controls for the ropes, in order of creation
      */
@@ -197,41 +190,17 @@ public class RopeDemo extends ActionApplication {
      */
     final private Deque<RopeShape> shapes = new ArrayDeque<>(12);
     /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
-    /**
      * enhanced pseudo-random generator
      */
     final private Generator random = new Generator();
-    /**
-     * material to visualize the platform box
-     */
-    private Material greenMaterial;
-    /**
-     * material to visualize ropes
-     */
-    private Material ropeMaterial;
     /**
      * generate names for rope geometries
      */
     final private NameGenerator geometryNamer = new NameGenerator();
     /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
      * parent for rope geometries
      */
-    final private Node ropesNode = new Node("ropes");
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSpace physicsSpace;
+    final private Node meshesNode = new Node("meshes node");
     /**
      * visualizer for the Armature of the most recently added rope
      */
@@ -266,7 +235,7 @@ public class RopeDemo extends ActionApplication {
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -278,8 +247,8 @@ public class RopeDemo extends ActionApplication {
         generateMaterials();
         configurePhysics();
 
-        ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(bgColor);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
 
         addLighting();
         /*
@@ -287,10 +256,55 @@ public class RopeDemo extends ActionApplication {
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        addBox();
+        attachCubePlatform(650f, 0f);
         addSkeleton();
 
-        rootNode.attachChild(ropesNode);
+        rootNode.attachChild(meshesNode);
+    }
+
+    /**
+     * Configure the PhysicsDumper.
+     */
+    @Override
+    public void configureDumper() {
+        super.configureDumper();
+
+        PhysicsDumper dumper = getDumper();
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+    }
+
+    /**
+     * Initialize materials during startup.
+     */
+    @Override
+    public void generateMaterials() {
+        super.generateMaterials();
+
+        ColorRGBA taupe = new ColorRGBA().setAsSrgb(0.6f, 0.5f, 0.4f, 1f);
+        Material ropeMaterial
+                = MyAsset.createShadedMaterial(assetManager, taupe);
+        registerMaterial("rope", ropeMaterial);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of debug axis arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 0.5f;
     }
 
     /**
@@ -310,8 +324,9 @@ public class RopeDemo extends ActionApplication {
         dim.bind("delete", KeyInput.KEY_BACK);
         dim.bind("delete", KeyInput.KEY_DELETE);
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
+
         dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("pull a pin", KeyInput.KEY_X);
         dim.bind("save", KeyInput.KEY_SEMICOLON);
@@ -321,13 +336,13 @@ public class RopeDemo extends ActionApplication {
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind("toggle pause", KeyInput.KEY_PAUSE);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
-        dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(AbstractDemo.asTogglePhysicsDebug, KeyInput.KEY_SLASH);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float x = 10f;
@@ -336,9 +351,7 @@ public class RopeDemo extends ActionApplication {
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -356,13 +369,6 @@ public class RopeDemo extends ActionApplication {
                     delete();
                     return;
 
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-                case "dump scenes":
-                    dumper.dump(renderManager);
-                    return;
-
                 case "go limp":
                     goLimp();
                     return;
@@ -371,23 +377,8 @@ public class RopeDemo extends ActionApplication {
                     pullAPin();
                     return;
 
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
                 case "toggle meshes":
                     toggleMeshes();
-                    return;
-                case "toggle pause":
-                    togglePause();
-                    return;
-                case "toggle physics debug":
-                    togglePhysicsDebug();
                     return;
                 case "toggle skeleton":
                     toggleSkeleton();
@@ -423,40 +414,21 @@ public class RopeDemo extends ActionApplication {
     // private methods
 
     /**
-     * Add a large static box to the scene, to serve as a platform.
-     */
-    private void addBox() {
-        float halfExtent = 650f; // mesh units
-        Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
-        Geometry geometry = new Geometry("box", mesh);
-        rootNode.attachChild(geometry);
-
-        geometry.move(0f, -halfExtent, 0f);
-        geometry.setMaterial(greenMaterial);
-        geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
-
-        BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsRigidBody.massForStatic;
-        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
-        geometry.addControl(boxBody);
-        boxBody.setApplyScale(true);
-        boxBody.setPhysicsSpace(physicsSpace);
-    }
-
-    /**
      * Add lighting and shadows to the scene.
      */
     private void addLighting() {
         ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootNode.addLight(ambient);
+        ambient.setName("ambient");
 
         Vector3f direction = new Vector3f(1f, -2f, -2f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
+        sun.setName("sun");
 
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 8_192, 3);
+                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
@@ -656,6 +628,7 @@ public class RopeDemo extends ActionApplication {
         spatial.rotate(0f, rotationAngle, 0f);
 
         spatial.setCullHint(Spatial.CullHint.Never);
+        Material ropeMaterial = findMaterial("rope");
         spatial.setMaterial(ropeMaterial);
         spatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
@@ -682,13 +655,11 @@ public class RopeDemo extends ActionApplication {
         dac.setGravity(new Vector3f(0f, -120f, 0f));
 
         spatial.addControl(dac);
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
-        ropesNode.attachChild(spatial);
+        meshesNode.attachChild(spatial);
 
-        for (PhysicsRigidBody body : dac.listRigidBodies()) {
-            //body.setDebugMeshResolution(DebugShapeFactory.highResolution);
-            body.setFriction(9e9f);
-        }
+        setFrictionAll(9e9f);
 
         dacs.addLast(dac);
         dacReadyInitDone = false;
@@ -768,6 +739,7 @@ public class RopeDemo extends ActionApplication {
 
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(25f);
+        flyCam.setZoomSpeed(25f);
 
         cam.setLocation(new Vector3f(0f, 33f, 55f));
         cam.setRotation(new Quaternion(0f, 0.982f, -0.188f, 0f));
@@ -778,21 +750,13 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.getSolverInfo().setNumIterations(8);
     }
 
@@ -861,7 +825,7 @@ public class RopeDemo extends ActionApplication {
             latestDac.setPhysicsSpace(null);
             Spatial spatial = latestDac.getSpatial();
             spatial.removeControl(latestDac);
-            ropesNode.detachChild(spatial);
+            meshesNode.detachChild(spatial);
             sv.setSubject(null);
 
             dacs.removeLast();
@@ -875,18 +839,6 @@ public class RopeDemo extends ActionApplication {
                 sv.setSubject(sControl);
             }
         }
-    }
-
-    /**
-     * Initialize materials during startup.
-     */
-    private void generateMaterials() {
-        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
-        greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
-        greenMaterial.setName("green");
-
-        ColorRGBA taupe = new ColorRGBA().setAsSrgb(0.6f, 0.5f, 0.4f, 1f);
-        ropeMaterial = MyAsset.createShadedMaterial(assetManager, taupe);
     }
 
     /**
@@ -1077,65 +1029,17 @@ public class RopeDemo extends ActionApplication {
     }
 
     /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
-    }
-
-    /**
      * Toggle mesh rendering of ropes on/off.
      */
     private void toggleMeshes() {
-        Spatial.CullHint hint = ropesNode.getLocalCullHint();
+        Spatial.CullHint hint = meshesNode.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {
             hint = Spatial.CullHint.Always;
         } else if (hint == Spatial.CullHint.Always) {
             hint = Spatial.CullHint.Never;
         }
-        ropesNode.setCullHint(hint);
-    }
-
-    /**
-     * Toggle the animation and physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
-    }
-
-    /**
-     * Toggle physics-debug visualization on/off.
-     */
-    private void togglePhysicsDebug() {
-        boolean enabled = bulletAppState.isDebugEnabled();
-        bulletAppState.setDebugEnabled(!enabled);
+        meshesNode.setCullHint(hint);
     }
 
     /**

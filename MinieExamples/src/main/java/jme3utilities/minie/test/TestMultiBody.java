@@ -27,18 +27,15 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
+import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.MultiBody;
 import com.jme3.bullet.MultiBodyAppState;
 import com.jme3.bullet.MultiBodyLink;
 import com.jme3.bullet.MultiBodySpace;
 import com.jme3.bullet.SolverType;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
-import com.jme3.bullet.objects.MultiBodyCollider;
-import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
@@ -50,23 +47,17 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
-import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
-import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.ui.ActionApplication;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 
 /**
@@ -74,7 +65,7 @@ import jme3utilities.ui.InputMode;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestMultiBody extends ActionApplication {
+public class TestMultiBody extends AbstractDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -96,29 +87,9 @@ public class TestMultiBody extends ActionApplication {
      */
     final private BitmapText[] statusLines = new BitmapText[1];
     /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
-    /**
-     * single-sided gray material to visualize the platform
-     */
-    private Material grayMaterial;
-    /**
      * AppState to manage the MultiBodySpace
      */
     private MultiBodyAppState bulletAppState;
-    /**
-     * space for physics simulation
-     */
-    private MultiBodySpace physicsSpace;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
     /**
      * name of the test being run
      */
@@ -157,7 +128,7 @@ public class TestMultiBody extends ActionApplication {
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -166,19 +137,49 @@ public class TestMultiBody extends ActionApplication {
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
-        configureMaterials();
+        generateMaterials();
         configurePhysics();
 
-        ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(bgColor);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
 
         addLighting(rootNode, false);
         addStatusLines();
-        toggleAxes();
-        togglePause();
+        speed = pausedSpeed;
 
-        addBox(-1f);
+        attachCubePlatform(4f, -1f);
         addMultiBody();
+    }
+
+    /**
+     * Configure materials during startup.
+     */
+    @Override
+    public void generateMaterials() {
+        ColorRGBA gray = new ColorRGBA(0.05f, 0.05f, 0.05f, 1f);
+        Material platform = MyAsset.createUnshadedMaterial(assetManager, gray);
+        registerMaterial("platform", platform);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of debug axis arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 0.5f;
     }
 
     /**
@@ -188,8 +189,8 @@ public class TestMultiBody extends ActionApplication {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpScenes, KeyInput.KEY_P);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -198,11 +199,11 @@ public class TestMultiBody extends ActionApplication {
 
         dim.bind("test test1", KeyInput.KEY_F1);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
-        dim.bind("toggle pause", KeyInput.KEY_PAUSE);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
 
         float x = 10f;
         float y = cam.getHeight() - 30f;
@@ -210,9 +211,7 @@ public class TestMultiBody extends ActionApplication {
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -226,31 +225,11 @@ public class TestMultiBody extends ActionApplication {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-                case "dump scenes":
-                    dumper.dump(renderManager);
-                    return;
-
                 case "test test1":
                     testName = "test1";
                     cleanupAfterTest();
-                    addBox(-1f);
+                    attachCubePlatform(4f, -1f);
                     addMultiBody();
-                    return;
-
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
-                case "toggle pause":
-                    togglePause();
                     return;
             }
         }
@@ -271,36 +250,6 @@ public class TestMultiBody extends ActionApplication {
     // private methods
 
     /**
-     * Add a large static box to the scene, to serve as a platform.
-     *
-     * @param topY the Y coordinate of the top surface (in physics-space
-     * coordinates)
-     */
-    private void addBox(float topY) {
-        float halfExtent = 4f;
-        BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float boxMass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody boxBody = new PhysicsRigidBody(shape, boxMass);
-
-        boxBody.setDebugMaterial(grayMaterial);
-        boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
-        boxBody.setPhysicsLocation(new Vector3f(0f, topY - halfExtent, 0f));
-        physicsSpace.add(boxBody);
-
-        int numLinks = 0;
-        float linkMass = 10f;
-        Vector3f inertia = new Vector3f(1f, 1f, 1f);
-        boolean fixedBase = true;
-        boolean canSleep = false;
-        MultiBody multiBody = new MultiBody(numLinks, linkMass, inertia,
-                fixedBase, canSleep);
-        multiBody.setBaseLocation(new Vector3f(0f, topY - halfExtent, 0f));
-
-        MultiBodyCollider collider = multiBody.addBaseCollider(shape);
-        //physicsSpace.add(multiBody);
-    }
-
-    /**
      * Add lighting and shadows to the specified scene.
      *
      * @param rootSpatial which scene (not null)
@@ -310,11 +259,13 @@ public class TestMultiBody extends ActionApplication {
         ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
+        ambient.setName("ambient");
 
         ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
         Vector3f direction = new Vector3f(1f, -2f, -2f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         rootSpatial.addLight(sun);
+        sun.setName("sun");
 
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         if (shadowFlag) {
@@ -349,7 +300,7 @@ public class TestMultiBody extends ActionApplication {
         CollisionShape linkShape = new BoxCollisionShape(0.3f);
         link.addCollider(linkShape);
 
-        physicsSpace.add(multiBody);
+        getPhysicsSpace().add(multiBody);
     }
 
     /**
@@ -372,18 +323,9 @@ public class TestMultiBody extends ActionApplication {
          * Remove any scenery. Debug meshes are under a different root node.
          */
         rootNode.detachAllChildren();
-        /*
-         * Remove physics objects, which also removes their debug meshes.
-         */
-        Collection<MultiBody> multiBodies = physicsSpace.getMultiBodyList();
-        for (MultiBody joint : multiBodies) {
-            physicsSpace.remove(joint);
-        }
-        Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
-        for (PhysicsCollisionObject pco : pcos) {
-            physicsSpace.remove(pco);
-        }
-        assert physicsSpace.isEmpty();
+
+        stateManager.detach(bulletAppState);
+        configurePhysics();
     }
 
     /**
@@ -396,6 +338,7 @@ public class TestMultiBody extends ActionApplication {
 
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(2f);
+        flyCam.setZoomSpeed(2f);
 
         cam.setLocation(new Vector3f(3.778f, 2.2f, 0.971f));
         cam.setRotation(new Quaternion(0.2181f, -0.68631f, 0.2285f, 0.65513f));
@@ -406,84 +349,27 @@ public class TestMultiBody extends ActionApplication {
     }
 
     /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.MatParams, true);
-        dumper.setEnabled(DumpFlags.ShadowModes, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
-    }
-
-    /**
-     * Configure materials during startup.
-     */
-    private void configureMaterials() {
-        ColorRGBA gray = new ColorRGBA(0.05f, 0.05f, 0.05f, 1f);
-        grayMaterial = MyAsset.createUnshadedMaterial(assetManager, gray);
-        grayMaterial.setName("gray");
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
         bulletAppState = new MultiBodyAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setSolverType(SolverType.Lemke);
+        float axisLength = maxArrowLength();
+        bulletAppState.setDebugAxisLength(axisLength);
         stateManager.attach(bulletAppState);
 
-        physicsSpace = bulletAppState.getMultiBodySpace();
+        MultiBodySpace physicsSpace = bulletAppState.getMultiBodySpace();
         physicsSpace.getSolverInfo().setGlobalCfm(0.1f); // for the Lemke solver
-        physicsSpace.setGravity(new Vector3f(0f, -2f, 0f));
-    }
-
-    /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
-    }
-
-    /**
-     * Toggle the animation and physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
+        setGravityAll(2f);
     }
 
     /**
      * Update the status lines in the GUI.
      */
     private void updateStatusLines() {
-        boolean isPaused = (speed <= 1e-12f);
         String message = String.format(
-                "Test: %s%s", testName, isPaused ? "  PAUSED" : "");
+                "Test: %s%s", testName, isPaused() ? "  PAUSED" : "");
         statusLines[0].setText(message);
     }
 }

@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.anim.AnimComposer;
+import com.jme3.anim.SkinningControl;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
@@ -71,10 +72,9 @@ import jme3utilities.Heart;
 import jme3utilities.InfluenceUtil;
 import jme3utilities.MySpatial;
 import jme3utilities.debug.SkeletonVisualizer;
-import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.controllers.BuoyController;
 import jme3utilities.minie.test.tunings.BaseMeshControl;
 import jme3utilities.minie.test.tunings.ElephantControl;
@@ -84,8 +84,6 @@ import jme3utilities.minie.test.tunings.NinjaControl;
 import jme3utilities.minie.test.tunings.OtoControl;
 import jme3utilities.minie.test.tunings.PuppetControl;
 import jme3utilities.minie.test.tunings.SinbadControl;
-import jme3utilities.ui.ActionApplication;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
@@ -97,7 +95,7 @@ import jme3utilities.ui.Signals;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class BuoyDemo extends ActionApplication {
+public class BuoyDemo extends AbstractDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -125,23 +123,15 @@ public class BuoyDemo extends ActionApplication {
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
+    private BulletAppState bulletAppState;
     /**
      * Control being tested
      */
     private DynamicAnimControl dac;
     /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
-    /**
      * root node of the C-G model on which the Control is being tested
      */
     private Node cgModel;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
     /**
      * scene-graph subtree containing all geometries visible in reflections
      */
@@ -150,14 +140,6 @@ public class BuoyDemo extends ActionApplication {
      * scene-graph subtree containing all reflective geometries
      */
     final private Node reflectorsNode = new Node("reflectors");
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSpace physicsSpace;
     /**
      * scene processor for water effects
      */
@@ -198,7 +180,7 @@ public class BuoyDemo extends ActionApplication {
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -223,14 +205,47 @@ public class BuoyDemo extends ActionApplication {
     }
 
     /**
+     * Configure the PhysicsDumper.
+     */
+    @Override
+    public void configureDumper() {
+        super.configureDumper();
+
+        PhysicsDumper dumper = getDumper();
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of debug axis arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 2f;
+    }
+
+    /**
      * Add application-specific hotkey bindings and override existing ones.
      */
     @Override
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpScenes, KeyInput.KEY_P);
         dim.bind("go floating", KeyInput.KEY_0);
         dim.bind("go floating", KeyInput.KEY_SPACE);
 
@@ -250,12 +265,13 @@ public class BuoyDemo extends ActionApplication {
         dim.bind("signal rotateLeft", KeyInput.KEY_LEFT);
         dim.bind("signal rotateRight", KeyInput.KEY_RIGHT);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
-        dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePhysicsDebug, KeyInput.KEY_SLASH);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float x = 10f;
@@ -264,9 +280,7 @@ public class BuoyDemo extends ActionApplication {
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -280,34 +294,12 @@ public class BuoyDemo extends ActionApplication {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-                case "dump scenes":
-                    dumper.dump(renderManager);
-                    return;
-
                 case "go floating":
                     goFloating();
                     return;
 
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
                 case "toggle meshes":
                     toggleMeshes();
-                    return;
-                case "toggle pause":
-                    togglePause();
-                    return;
-                case "toggle physics debug":
-                    togglePhysicsDebug();
                     return;
                 case "toggle skeleton":
                     toggleSkeleton();
@@ -360,10 +352,12 @@ public class BuoyDemo extends ActionApplication {
         ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootNode.addLight(ambient);
+        ambient.setName("ambient");
 
         Vector3f direction = new Vector3f(-1f, -0.2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
+        sun.setName("sun");
 
         processor = new SimpleWaterProcessor(assetManager);
         viewPort.addProcessor(processor);
@@ -440,14 +434,15 @@ public class BuoyDemo extends ActionApplication {
         cgModel.setCullHint(Spatial.CullHint.Never);
 
         reflectiblesNode.attachChild(cgModel);
-        setHeight(cgModel, 10f);
-        center(cgModel);
+        setCgmHeight(cgModel, 10f);
+        centerCgm(cgModel);
 
         sc = RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);
         dac.setGravity(new Vector3f(0f, -50f, 0f));
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
         /*
          * Add buoyancy to each BoneLink.
@@ -474,11 +469,9 @@ public class BuoyDemo extends ActionApplication {
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         if (sc instanceof SkeletonControl) {
-            /*
-             * Clean up Jaime's skeleton visualization by hiding the "IK" bones,
-             * which don't influence any mesh vertices.
-             */
             InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
+        } else {
+            InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
         }
         rootNode.addControl(sv);
     }
@@ -513,46 +506,25 @@ public class BuoyDemo extends ActionApplication {
     }
 
     /**
-     * Translate a model's center so that the model rests on the X-Z plane, and
-     * its center lies on the Y axis.
-     */
-    private void center(Spatial model) {
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
-        Vector3f offset = new Vector3f(center.x, minMax[0].y, center.z);
-
-        Vector3f location = model.getWorldTranslation();
-        location.subtractLocal(offset);
-        MySpatial.setWorldLocation(model, location);
-    }
-
-    /**
      * Configure the camera during startup.
      */
     private void configureCamera() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(20f);
+        flyCam.setZoomSpeed(20f);
 
         cam.setLocation(new Vector3f(-3f, 12f, 20f));
         cam.setRotation(new Quaternion(0.01f, 0.97587f, -0.2125f, 0.049f));
     }
 
     /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.setAccuracy(0.01f); // 10-msec timestep
         physicsSpace.getSolverInfo().setNumIterations(15);
     }
@@ -690,51 +662,6 @@ public class BuoyDemo extends ActionApplication {
     }
 
     /**
-     * Scale the specified model uniformly so that it has the specified height.
-     *
-     * @param model (not null, modified)
-     * @param height (in world units)
-     */
-    private void setHeight(Spatial model, float height) {
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        float oldHeight = minMax[1].y - minMax[0].y;
-
-        model.scale(height / oldHeight);
-    }
-
-    /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(2f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
-    }
-
-    /**
      * Toggle mesh rendering on/off.
      */
     private void toggleMeshes() {
@@ -746,22 +673,6 @@ public class BuoyDemo extends ActionApplication {
             hint = Spatial.CullHint.Never;
         }
         cgModel.setCullHint(hint);
-    }
-
-    /**
-     * Toggle the animation and physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
-    }
-
-    /**
-     * Toggle physics-debug visualization on/off.
-     */
-    private void togglePhysicsDebug() {
-        boolean enabled = bulletAppState.isDebugEnabled();
-        bulletAppState.setDebugEnabled(!enabled);
     }
 
     /**

@@ -28,32 +28,22 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
-import jme3utilities.debug.AxesVisualizer;
-import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
-import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.ui.ActionApplication;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
@@ -64,7 +54,7 @@ import jme3utilities.ui.Signals;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class ForceDemo extends ActionApplication {
+public class ForceDemo extends AbstractDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -88,27 +78,11 @@ public class ForceDemo extends ActionApplication {
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
+    private BulletAppState bulletAppState;
     /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
-    /**
-     *
+     * subject body to which forces and torques are applied
      */
     private PhysicsRigidBody cube;
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -138,7 +112,7 @@ public class ForceDemo extends ActionApplication {
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -149,11 +123,10 @@ public class ForceDemo extends ActionApplication {
         configureDumper();
         configurePhysics();
 
-        ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(sky);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
 
-        addLighting();
-        addAxes();
+        attachWorldAxes(0.8f);
         /*
          * Add the status text to the GUI.
          */
@@ -161,16 +134,36 @@ public class ForceDemo extends ActionApplication {
         statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
         guiNode.attachChild(statusText);
         /*
-         * Add a spinning box.
+         * Add a spinning cube.
          */
         BoxCollisionShape shape = new BoxCollisionShape(1f);
         float mass = 1f;
         cube = new PhysicsRigidBody(shape, mass);
-        physicsSpace.add(cube);
-        cube.setGravity(Vector3f.ZERO);
         Quaternion initialOrientation
                 = new Quaternion().fromAngles(FastMath.HALF_PI, 0f, 0f);
         cube.setPhysicsRotation(initialOrientation);
+        addCollisionObject(cube);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of debug axis arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 2f;
     }
 
     /**
@@ -180,8 +173,8 @@ public class ForceDemo extends ActionApplication {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scene", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpScene, KeyInput.KEY_P);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -196,10 +189,11 @@ public class ForceDemo extends ActionApplication {
         dim.bind("signal torq+Y", KeyInput.KEY_F1);
         dim.bind("signal torq-Y", KeyInput.KEY_F2);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
 
         float x = 10f;
         float y = cam.getHeight() - 40f;
@@ -207,44 +201,7 @@ public class ForceDemo extends ActionApplication {
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
-    }
-
-    /**
-     * Process an action that wasn't handled by the active input mode.
-     *
-     * @param actionString textual description of the action (not null)
-     * @param ongoing true if the action is ongoing, otherwise false
-     * @param tpf time interval between frames (in seconds, &ge;0)
-     */
-    @Override
-    public void onAction(String actionString, boolean ongoing, float tpf) {
-        if (ongoing) {
-            switch (actionString) {
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-                case "dump scene":
-                    dumper.dump(rootNode);
-                    return;
-
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
-                case "toggle pause":
-                    togglePause();
-                    return;
-            }
-        }
-        super.onAction(actionString, ongoing, tpf);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -258,9 +215,7 @@ public class ForceDemo extends ActionApplication {
         /*
          * Activate any bodies that have fallen asleep.
          */
-        for (PhysicsRigidBody body : physicsSpace.getRigidBodyList()) {
-            body.activate();
-        }
+        activateAll();
         /*
          * Check UI signals and apply forces/torques accordingly.
          */
@@ -299,36 +254,13 @@ public class ForceDemo extends ActionApplication {
     // private methods
 
     /**
-     * Add a visualizer for the axes of the world coordinate system.
-     */
-    private void addAxes() {
-        float axisLength = 0.8f;
-        AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
-        axes.setLineWidth(0f);
-
-        rootNode.addControl(axes);
-        axes.setEnabled(true);
-    }
-
-    /**
-     * Add lighting to the scene.
-     */
-    private void addLighting() {
-        ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);
-        AmbientLight ambient = new AmbientLight(ambientColor);
-        rootNode.addLight(ambient);
-
-        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
-        DirectionalLight sun = new DirectionalLight(direction);
-        rootNode.addLight(sun);
-    }
-
-    /**
      * Configure the camera during startup.
      */
     private void configureCamera() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(4f);
+        flyCam.setZoomSpeed(4f);
+
         cam.setLocation(new Vector3f(2.65f, 2.42f, 9.37f));
         cam.setRotation(new Quaternion(0f, 0.9759f, -0.04f, -0.2136f));
 
@@ -338,61 +270,16 @@ public class ForceDemo extends ActionApplication {
     }
 
     /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.ShadowModes, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        bulletAppState.setDebugAxisLength(2f);
+        bulletAppState = new BulletAppState();
+        float axisLength = maxArrowLength();
+        bulletAppState.setDebugAxisLength(axisLength);
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSpace();
-    }
 
-    /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(2f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
-    }
-
-    /**
-     * Toggle the physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
+        setGravityAll(0f);
     }
 
     /**

@@ -31,6 +31,7 @@ import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.bounding.BoundingBox;
+import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
@@ -38,7 +39,6 @@ import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
@@ -46,6 +46,7 @@ import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.joints.Anchor;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Aero;
@@ -83,18 +84,16 @@ import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
-import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.mesh.ClothGrid;
 import jme3utilities.minie.test.tunings.PuppetControl;
-import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 
 /**
@@ -103,7 +102,7 @@ import jme3utilities.ui.InputMode;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestSoftBody
-        extends ActionApplication
+        extends AbstractDemo
         implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
@@ -184,41 +183,9 @@ public class TestSoftBody
      */
     final private BitmapText[] statusLines = new BitmapText[1];
     /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
-    /**
      * invisible physics objects
      */
     final private FilterAll hiddenObjects = new FilterAll(true);
-    /**
-     * single-sided green material to visualize the platform
-     */
-    private Material greenMaterial;
-    /**
-     * double-sided logo material to visualize flags
-     */
-    private Material logoMaterial;
-    /**
-     * double-sided pink material to visualize 3-D soft bodies
-     */
-    private Material pinkMaterial;
-    /**
-     * double-sided plaid material to visualize tablecloths
-     */
-    private Material plaidMaterial;
-    /**
-     * double-sided red material to visualize clothing
-     */
-    private Material redMaterial;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
     /**
      * space for physics simulation
      */
@@ -226,8 +193,7 @@ public class TestSoftBody
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private SoftPhysicsAppState bulletAppState
-            = new SoftPhysicsAppState();
+    private SoftPhysicsAppState bulletAppState;
     /**
      * name of the test being run
      */
@@ -266,7 +232,7 @@ public class TestSoftBody
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -275,18 +241,90 @@ public class TestSoftBody
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
-        configureMaterials();
+        generateMaterials();
         configurePhysics();
 
-        ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(bgColor);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
 
         addStatusLines();
         addLighting(rootNode, false);
 
-        addBox(0f);
+        attachCubePlatform(4f, 0f);
         DynamicAnimControl dac = addPuppet();
         addSkirt(dac);
+    }
+
+    /**
+     * Configure the PhysicsDumper during startup.
+     */
+    @Override
+    public void configureDumper() {
+        PhysicsDumper dumper = getDumper();
+        dumper.setEnabled(DumpFlags.MatParams, true);
+        //dumper.setEnabled(DumpFlags.NodesInSofts, true);
+        dumper.setEnabled(DumpFlags.ShadowModes, true);
+        dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
+     * Configure materials during startup.
+     */
+    @Override
+    public void generateMaterials() {
+        super.generateMaterials();
+
+        Texture plaid
+                = MyAsset.loadTexture(assetManager, "Textures/plaid.png", true);
+        plaid.setAnisotropicFilter(8);
+        plaid.setWrap(Texture.WrapMode.Repeat);
+        Material plaidMaterial = MyAsset.createShadedMaterial(assetManager, plaid);
+        RenderState renderState = plaidMaterial.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        registerMaterial("plaid", plaidMaterial);
+
+        Texture texture = MyAsset.loadTexture(assetManager,
+                "Interface/Logo/Monkey.png", true);
+        Material logoMaterial = MyAsset.createShadedMaterial(assetManager, texture);
+        renderState = logoMaterial.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        registerMaterial("logo", logoMaterial);
+
+        ColorRGBA pink = new ColorRGBA(1.2f, 0.2f, 0.1f, 1f);
+        Material pinkMaterial = MyAsset.createShinyMaterial(assetManager, pink);
+        pinkMaterial.setFloat("Shininess", 4f);
+        renderState = pinkMaterial.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        registerMaterial("pink", pinkMaterial);
+
+        ColorRGBA red = new ColorRGBA(0.7f, 0.01f, 0.01f, 1f);
+        Material redMaterial = MyAsset.createShadedMaterial(assetManager, red);
+        redMaterial.setColor("Specular", new ColorRGBA(0.05f, 0.05f, 0.05f, 1f));
+        redMaterial.setFloat("Shininess", 4f);
+        renderState = redMaterial.getAdditionalRenderState();
+        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
+        registerMaterial("red", redMaterial);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of debug axis arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 0.5f;
     }
 
     /**
@@ -296,8 +334,9 @@ public class TestSoftBody
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
+
         dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("next", KeyInput.KEY_N);
 
@@ -311,11 +350,11 @@ public class TestSoftBody
         dim.bind("test squishyBall", KeyInput.KEY_F1);
         dim.bind("test tablecloth", KeyInput.KEY_F2);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
-        dim.bind("toggle pause", KeyInput.KEY_PAUSE);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
 
         float x = 10f;
         float y = cam.getHeight() - 30f;
@@ -323,9 +362,7 @@ public class TestSoftBody
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -339,13 +376,6 @@ public class TestSoftBody
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-                case "dump scenes":
-                    dumper.dump(renderManager);
-                    return;
-
                 case "go limp":
                     goLimp();
                     return;
@@ -358,15 +388,15 @@ public class TestSoftBody
                 case "test poleAndFlag":
                     testName = "poleAndFlag";
                     cleanupAfterTest();
-                    addAxes();
-                    addBox(-2f);
+                    attachWorldAxes(0.4f);
+                    attachCubePlatform(4f, -2f);
                     addPoleAndFlag();
                     return;
 
                 case "test puppetInSkirt":
                     testName = "puppetInSkirt";
                     cleanupAfterTest();
-                    addBox(0f);
+                    attachCubePlatform(4f, 0f);
                     DynamicAnimControl dac = addPuppet();
                     addSkirt(dac);
                     return;
@@ -374,29 +404,16 @@ public class TestSoftBody
                 case "test squishyBall":
                     testName = "squishyBall";
                     cleanupAfterTest();
-                    addBox(0f);
+                    attachCubePlatform(4f, 0f);
                     addSquishyBall(1.5f);
                     return;
 
                 case "test tablecloth":
                     testName = "tablecloth";
                     cleanupAfterTest();
-                    addBox(-1f);
+                    attachCubePlatform(4f, -1f);
                     addCylinder(1.7f);
                     addTablecloth(2f);
-                    return;
-
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
-                case "toggle pause":
-                    togglePause();
                     return;
             }
         }
@@ -431,36 +448,6 @@ public class TestSoftBody
     // private methods
 
     /**
-     * Add a visualizer for the axes of the world coordinate system.
-     */
-    private void addAxes() {
-        float axisLength = 0.4f;
-        AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
-        axes.setLineWidth(0f);
-
-        rootNode.addControl(axes);
-        axes.setEnabled(true);
-    }
-
-    /**
-     * Add a large static box to the scene, to serve as a platform.
-     *
-     * @param topY the Y coordinate of the top surface (in physics-space
-     * coordinates)
-     */
-    private void addBox(float topY) {
-        float halfExtent = 4f;
-        BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float boxMass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody boxBody = new PhysicsRigidBody(shape, boxMass);
-
-        boxBody.setDebugMaterial(greenMaterial);
-        boxBody.setDebugMeshNormals(DebugMeshNormals.Facet);
-        boxBody.setPhysicsLocation(new Vector3f(0f, topY - halfExtent, 0f));
-        physicsSpace.add(boxBody);
-    }
-
-    /**
      * Add a static cylinder to the scene, to serve as an obstacle.
      *
      * @param topY the Y coordinate of the top surface (in physics-space
@@ -471,13 +458,13 @@ public class TestSoftBody
         float height = 0.4f;
         CollisionShape shape = new CylinderCollisionShape(radius, height,
                 PhysicsSpace.AXIS_Y);
-        float cylMass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody cylinderBody = new PhysicsRigidBody(shape, cylMass);
+        PhysicsRigidBody cylinderBody
+                = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         Vector3f translation = new Vector3f(0f, topY - height / 2f, 0f);
         cylinderBody.setPhysicsLocation(translation);
 
-        physicsSpace.add(cylinderBody);
+        physicsSpace.addCollisionObject(cylinderBody);
         hiddenObjects.addException(cylinderBody);
     }
 
@@ -491,11 +478,13 @@ public class TestSoftBody
         ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
+        ambient.setName("ambient");
 
         ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
         Vector3f direction = new Vector3f(1f, -2f, -2f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         rootSpatial.addLight(sun);
+        sun.setName("sun");
 
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         if (shadowFlag) {
@@ -515,15 +504,15 @@ public class TestSoftBody
         float height = 4f;
         CollisionShape shape = new CylinderCollisionShape(radius, height,
                 PhysicsSpace.AXIS_Y);
-        float poleMass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody polePrb = new PhysicsRigidBody(shape, poleMass);
+        PhysicsRigidBody polePrb
+                = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         ColorRGBA color = new ColorRGBA(0.7f, 0.7f, 1f, 1f);
         Material material = MyAsset.createShadedMaterial(assetManager, color);
         polePrb.setDebugMaterial(material);
         polePrb.setDebugMeshNormals(DebugMeshNormals.Smooth);
 
-        physicsSpace.add(polePrb);
+        physicsSpace.addCollisionObject(polePrb);
 
         int xLines = 20;
         int zLines = 2 * xLines; // 2x as wide as it is tall
@@ -549,6 +538,7 @@ public class TestSoftBody
         PhysicsSoftBody.Material softMaterial = flagPsb.getSoftMaterial();
         softMaterial.setAngularStiffness(0f);
 
+        Material logoMaterial = findMaterial("logo");
         flagPsb.setDebugMaterial(logoMaterial);
         flagPsb.setDebugMeshInitListener(flagDmiListener);
         flagPsb.setDebugMeshNormals(DebugMeshNormals.Smooth);
@@ -558,7 +548,7 @@ public class TestSoftBody
         flagPsb.applyRotation(rotation);
         flagPsb.setPhysicsLocation(new Vector3f(1f, 1.5f, 0f));
 
-        physicsSpace.add(flagPsb);
+        physicsSpace.addCollisionObject(flagPsb);
         /*
          * Add 2 anchors that join the flag to the pole.
          */
@@ -642,6 +632,7 @@ public class TestSoftBody
         material.setAngularStiffness(0f);
         material.setLinearStiffness(0.5f);
 
+        Material redMaterial = findMaterial("red");
         skirtPsb.setDebugMaterial(redMaterial);
         skirtPsb.setDebugMeshNormals(DebugMeshNormals.Smooth);
 
@@ -650,7 +641,7 @@ public class TestSoftBody
         Transform localToWorld = link.physicsTransform(null);
         skirtPsb.applyTransform(localToWorld);
 
-        physicsSpace.add(skirtPsb);
+        physicsSpace.addCollisionObject(skirtPsb);
         skirtPsb.setGravity(new Vector3f(0f, -10f, 0f));
         /*
          * Add anchors that join Puppet to her skirt.
@@ -684,13 +675,14 @@ public class TestSoftBody
         boolean setFramePose = true;
         ballPsb.setPose(setVolumePose, setFramePose);
 
+        Material pinkMaterial = findMaterial("pink");
         ballPsb.setDebugMaterial(pinkMaterial);
         ballPsb.setDebugMeshNormals(DebugMeshNormals.Smooth);
 
         Vector3f translation = new Vector3f(0f, startY, 0f);
         ballPsb.applyTranslation(translation);
 
-        physicsSpace.add(ballPsb);
+        physicsSpace.addCollisionObject(ballPsb);
     }
 
     /**
@@ -723,6 +715,7 @@ public class TestSoftBody
         PhysicsSoftBody.Material material = softBody.getSoftMaterial();
         material.setAngularStiffness(0f);
 
+        Material plaidMaterial = findMaterial("plaid");
         softBody.setDebugMaterial(plaidMaterial);
         softBody.setDebugMeshInitListener(tableclothDmiListener);
         softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
@@ -730,7 +723,7 @@ public class TestSoftBody
         Vector3f translation = new Vector3f(0f, startY, 0f);
         softBody.applyTranslation(translation);
 
-        physicsSpace.add(softBody);
+        physicsSpace.addCollisionObject(softBody);
     }
 
     /**
@@ -750,7 +743,7 @@ public class TestSoftBody
         }
         Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
         for (PhysicsCollisionObject pco : pcos) {
-            physicsSpace.remove(pco);
+            physicsSpace.removeCollisionObject(pco);
         }
         /*
          * Clear the hidden-object list.
@@ -768,6 +761,7 @@ public class TestSoftBody
 
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(2f);
+        flyCam.setZoomSpeed(2f);
 
         cam.setLocation(new Vector3f(0f, 2.2f, 3.9f));
         cam.setRotation(new Quaternion(0f, 0.98525f, -0.172f, 0f));
@@ -778,61 +772,12 @@ public class TestSoftBody
     }
 
     /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.MatParams, true);
-        //dumper.setEnabled(DumpFlags.NodesInSofts, true);
-        dumper.setEnabled(DumpFlags.ShadowModes, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
-    }
-
-    /**
-     * Configure materials during startup.
-     */
-    private void configureMaterials() {
-        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
-        greenMaterial = MyAsset.createShadedMaterial(assetManager, green);
-        greenMaterial.setName("green");
-
-        Texture plaid
-                = MyAsset.loadTexture(assetManager, "Textures/plaid.png", true);
-        plaid.setAnisotropicFilter(8);
-        plaid.setWrap(Texture.WrapMode.Repeat);
-        plaidMaterial = MyAsset.createShadedMaterial(assetManager, plaid);
-        plaidMaterial.setName("plaid");
-        RenderState renderState = plaidMaterial.getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
-
-        Texture texture = MyAsset.loadTexture(assetManager,
-                "Interface/Logo/Monkey.png", true);
-        logoMaterial = MyAsset.createShadedMaterial(assetManager, texture);
-        logoMaterial.setName("logo");
-        renderState = logoMaterial.getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
-
-        ColorRGBA pink = new ColorRGBA(1.2f, 0.2f, 0.1f, 1f);
-        pinkMaterial = MyAsset.createShinyMaterial(assetManager, pink);
-        pinkMaterial.setFloat("Shininess", 4f);
-        pinkMaterial.setName("pink");
-        renderState = pinkMaterial.getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
-
-        ColorRGBA red = new ColorRGBA(0.7f, 0.01f, 0.01f, 1f);
-        redMaterial = MyAsset.createShadedMaterial(assetManager, red);
-        redMaterial.setColor("Specular", new ColorRGBA(0.05f, 0.05f, 0.05f, 1f));
-        redMaterial.setFloat("Shininess", 4f);
-        redMaterial.setName("red");
-        renderState = redMaterial.getAdditionalRenderState();
-        renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
+        bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugFilter(hiddenObjects);
         bulletAppState.setDebugInitListener(this);
@@ -840,7 +785,7 @@ public class TestSoftBody
 
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
         physicsSpace.setAccuracy(0.01f); // 10-msec timestep
-        physicsSpace.setGravity(new Vector3f(0f, -1f, 0f));
+        setGravityAll(1f);
     }
 
     /**
@@ -1013,52 +958,11 @@ public class TestSoftBody
     }
 
     /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
-    }
-
-    /**
-     * Toggle the animation and physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
-    }
-
-    /**
      * Update the status lines in the GUI.
      */
     private void updateStatusLines() {
-        boolean isPaused = (speed <= 1e-12f);
         String message = String.format(
-                "Test: %s%s", testName, isPaused ? "  PAUSED" : "");
+                "Test: %s%s", testName, isPaused() ? "  PAUSED" : "");
         statusLines[0].setText(message);
     }
 }

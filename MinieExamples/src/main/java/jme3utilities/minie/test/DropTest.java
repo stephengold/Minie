@@ -27,19 +27,14 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
-import com.jme3.bullet.PhysicsSoftSpace;
+import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
-import com.jme3.bullet.collision.shapes.ConeCollisionShape;
-import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
-import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
-import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
@@ -56,8 +51,6 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
-import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector2f;
@@ -75,24 +68,17 @@ import java.nio.FloatBuffer;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
-import jme3utilities.mesh.Prism;
-import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
-import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.mesh.ClothHexagon;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
-import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
@@ -108,11 +94,15 @@ import jme3utilities.ui.Signals;
  * @author Stephen Gold sgold@sonic.net
  */
 public class DropTest
-        extends ActionApplication
+        extends AbstractDemo
         implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * approximate Y coordinate for the platform
+     */
+    final private static float platformY = 0f;
     /**
      * upper limit on the number of drops
      */
@@ -143,41 +133,13 @@ public class DropTest
      */
     private DropTestStatus status;
     /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
-    /**
-     * filter to control visualization of swept spheres
-     */
-    private FilterAll ssFilter;
-    /**
-     * map names to collision shapes
-     */
-    final private Map<String, CollisionShape> namedShapes = new TreeMap<>();
-    /**
      * shiny, lit materials to visualize drops
      */
     final private Material dropMaterials[] = new Material[4];
     /**
-     * single-sided lit green material to visualize platforms
-     */
-    private Material platformMaterial;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
-    /**
      * selected drop, or null if none
      */
     private PhysicsRigidBody selectedDrop = null;
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSoftSpace physicsSpace;
     /**
      * enhanced pseudo-random generator
      */
@@ -187,7 +149,7 @@ public class DropTest
      */
     private SoftPhysicsAppState bulletAppState;
     /**
-     * local inverse inertial vector for the current drop (or null)
+     * local inverse inertia vector for the current drop (or null)
      */
     private Vector3f inverseInertia = null;
     // *************************************************************************
@@ -255,55 +217,11 @@ public class DropTest
         stateManager.detach(bulletAppState);
 
         configurePhysics();
-        addAPlatform();
-    }
-
-    /**
-     * Alter the damping fractions for all drops.
-     *
-     * @param fraction the desired fraction (&ge;0, &le;1)
-     */
-    void setDamping(float fraction) {
-        assert fraction >= 0f : fraction;
-        assert fraction <= 1f : fraction;
-
-        for (PhysicsRigidBody drop : drops) {
-            drop.setDamping(fraction, fraction);
-        }
-    }
-
-    /**
-     * Alter the friction coefficients for all rigid bodies.
-     *
-     * @param coefficient the desired coefficient (&ge;0)
-     */
-    void setFriction(float coefficient) {
-        assert coefficient >= 0f : coefficient;
-
-        for (PhysicsRigidBody body : physicsSpace.getRigidBodyList()) {
-            body.setFriction(coefficient);
-        }
-    }
-
-    /**
-     * Alter the gravity vectors of the space and all bodies in it.
-     *
-     * @param gravity the desired magnitude (&ge;0)
-     */
-    void setGravity(float gravity) {
-        assert gravity >= 0f : gravity;
-
-        Vector3f gravityVector = new Vector3f(0f, -gravity, 0f);
-        physicsSpace.setGravity(gravityVector);
-        for (PhysicsCollisionObject pco : physicsSpace.getPcoList()) {
-            if (pco instanceof PhysicsBody) {
-                PhysicsBody body = (PhysicsBody) pco;
-                body.setGravity(gravityVector);
-            }
-        }
+        String platformName = status.platformType();
+        addPlatform(platformName, platformY);
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -320,11 +238,149 @@ public class DropTest
         configurePhysics();
         generateShapes();
 
-        ColorRGBA bgColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(bgColor);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
 
-        addAPlatform();
+        String platformName = status.platformType();
+        addPlatform(platformName, platformY);
         addADrop();
+    }
+
+    /**
+     * Add the specified body to the PhysicsSpace.
+     *
+     * @param object the body to add (not null, not in world)
+     */
+    @Override
+    public void addCollisionObject(PhysicsCollisionObject object) {
+        super.addCollisionObject(object);
+
+        if (object instanceof PhysicsRigidBody) {
+            float damping = status.damping();
+            ((PhysicsRigidBody) object).setDamping(damping, damping);
+        }
+
+        float friction = status.friction();
+        ((PhysicsCollisionObject) object).setFriction(friction);
+    }
+
+    /**
+     * Add a platform to the PhysicsSpace.
+     *
+     * @param platformName the name of the desired platform type
+     * @param topY the desired Y coordinate of the top surface (in physics-space
+     * coordinates)
+     */
+    @Override
+    public void addPlatform(String platformName, float topY) {
+        switch (platformName) {
+            case "bedOfNails":
+            case "sieve":
+            case "tray":
+                addPlatform(platformName, DebugMeshNormals.Facet, topY);
+                break;
+
+            case "candyDish":
+            case "dimples":
+            case "smooth":
+                addPlatform(platformName, DebugMeshNormals.Smooth, topY);
+                break;
+
+            case "trampoline":
+                addTrampoline(topY);
+                break;
+
+            default:
+                super.addPlatform(platformName, topY);
+        }
+    }
+
+    /**
+     * Initialize materials during startup.
+     */
+    @Override
+    public void generateMaterials() {
+        super.generateMaterials();
+
+        ColorRGBA dropColors[] = new ColorRGBA[dropMaterials.length];
+        dropColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
+        dropColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
+        dropColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire
+        dropColors[3] = new ColorRGBA(0.2f, 0.1f, 0f, 1f); // topaz
+
+        for (int i = 0; i < dropMaterials.length; ++i) {
+            ColorRGBA color = dropColors[i];
+            dropMaterials[i]
+                    = MyAsset.createShinyMaterial(assetManager, color);
+            dropMaterials[i].setFloat("Shininess", 15f);
+        }
+    }
+
+    /**
+     * Initialize collision shapes during startup.
+     */
+    @Override
+    public void generateShapes() {
+        super.generateShapes();
+        /*
+         * "candyDish"
+         */
+        String candyDishPath = "Models/CandyDish/CandyDish.j3o";
+        Node candyDishNode = (Node) assetManager.loadModel(candyDishPath);
+        Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
+        Mesh candyDishMesh = candyDishGeometry.getMesh();
+        CollisionShape shape = new MeshCollisionShape(candyDishMesh);
+        shape.setScale(5f);
+        registerShape("candyDish", shape);
+        /*
+         * "duck" using V-HACD
+         */
+        String duckPath = "CollisionShapes/duck.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(duckPath);
+        shape.setScale(2f);
+        registerShape("duck", shape);
+        /*
+         * "heart"
+         */
+        String heartPath = "CollisionShapes/heart.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(heartPath);
+        shape.setScale(1.2f);
+        registerShape("heart", shape);
+        /*
+         * "sword" using V-HACD
+         */
+        String swordPath = "CollisionShapes/sword.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(swordPath);
+        shape.setScale(5f);
+        registerShape("sword", shape);
+        /*
+         * "teapot" using V-HACD
+         */
+        String teapotPath = "CollisionShapes/teapot.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(teapotPath);
+        shape.setScale(3f);
+        registerShape("teapot", shape);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of debug axis arrows (when they're visible).
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 2f;
     }
 
     /**
@@ -338,16 +394,16 @@ public class DropTest
         dim.bind("add", KeyInput.KEY_INSERT);
         dim.bind("add", KeyInput.KEY_NUMPAD0);
 
-        dim.bind("collect garbage", KeyInput.KEY_G);
+        dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
 
         dim.bind("delete last", KeyInput.KEY_BACK);
         dim.bind("delete last", KeyInput.KEY_SUBTRACT);
         dim.bind("delete selected", KeyInput.KEY_DECIMAL);
         dim.bind("delete selected", KeyInput.KEY_DELETE);
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump selectedDrop", KeyInput.KEY_LBRACKET);
-        dim.bind("dump viewport", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind("dump selected", KeyInput.KEY_LBRACKET);
+        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("next statusLine", KeyInput.KEY_NUMPAD2);
         dim.bind("next value", KeyInput.KEY_EQUALS);
@@ -369,13 +425,13 @@ public class DropTest
         dim.bind("signal shower", KeyInput.KEY_ADD);
         dim.bind("signal shower", KeyInput.KEY_I);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleCcdSpheres, KeyInput.KEY_L);
         dim.bind("toggle childColoring", KeyInput.KEY_COMMA);
-        dim.bind("toggle help", KeyInput.KEY_H);
-        dim.bind("toggle pause", KeyInput.KEY_PAUSE);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
-        dim.bind("toggle spheres", KeyInput.KEY_L);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         /*
          * The help node can't be created until all hotkeys are bound.
          */
@@ -397,10 +453,6 @@ public class DropTest
                     addADrop();
                     return;
 
-                case "collect garbage":
-                    System.gc();
-                    return;
-
                 case "delete last":
                     deleteLastDrop();
                     return;
@@ -408,17 +460,8 @@ public class DropTest
                     deleteSelected();
                     return;
 
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-                case "dump scenes":
-                    dumper.dump(renderManager);
-                    return;
-                case "dump selectedDrop":
-                    dumpSelectedDrop();
-                    return;
-                case "dump viewport":
-                    dumper.dump(viewPort);
+                case "dump selected":
+                    dumpSelected();
                     return;
 
                 case "next statusLine":
@@ -443,23 +486,8 @@ public class DropTest
                     restartScenario();
                     return;
 
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
                 case "toggle childColoring":
                     status.toggleChildColoring();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
-                case "toggle pause":
-                    togglePause();
-                    return;
-                case "toggle spheres":
-                    toggleSpheres();
                     return;
             }
         }
@@ -513,7 +541,7 @@ public class DropTest
             case "knucklebone":
             case "ladder":
             case "top":
-                dropShape = namedShapes.get(dropName);
+                dropShape = findShape(dropName);
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -542,7 +570,7 @@ public class DropTest
                 break;
 
             case "chair":
-                dropShape = namedShapes.get("chair");
+                dropShape = findShape("chair");
                 inverseInertia = MinieTestShapes.chairInverseInertia;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
@@ -558,7 +586,7 @@ public class DropTest
             case "table":
             case "teapot":
             case "thumbTack":
-                dropShape = namedShapes.get(dropName);
+                dropShape = findShape(dropName);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
@@ -607,134 +635,17 @@ public class DropTest
         body.setCcdMotionThreshold(5f);
         float sweptSphereRadius = dropShape.maxRadius();
         body.setCcdSweptSphereRadius(sweptSphereRadius);
-        float damping = status.damping();
-        body.setDamping(damping, damping);
         body.setDebugMaterial(debugMaterial);
         body.setDebugMeshNormals(debugMeshNormals);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        float friction = status.friction();
-        body.setFriction(friction);
         body.setPhysicsLocation(startLocation);
         body.setPhysicsRotation(startOrientation);
         if (inverseInertia != null) {
             body.setInverseInertiaLocal(inverseInertia);
         }
 
-        physicsSpace.add(body);
+        addCollisionObject(body);
         drops.addLast(body);
-    }
-
-    /**
-     * Add a platform to the PhysicsSpace.
-     */
-    private void addAPlatform() {
-        String platformName = status.platformType();
-        switch (platformName) {
-            case "bedOfNails":
-            case "sieve":
-            case "tray":
-            case "triangle":
-                addNamedPlatform(platformName, DebugMeshNormals.Facet);
-                break;
-
-            case "box":
-                addBoxPlatform();
-                break;
-
-            case "candyDish":
-            case "dimples":
-            case "smooth":
-                addNamedPlatform(platformName, DebugMeshNormals.Smooth);
-                break;
-
-            case "cone":
-                addConePlatform();
-                break;
-
-            case "cylinder":
-                addCylinderPlatform();
-                break;
-
-            case "hull":
-                addHullPlatform();
-                break;
-
-            case "plane":
-                addPlanePlatform();
-                break;
-
-            case "roundedRectangle":
-                addRoundedRectangle();
-                break;
-
-            case "trampoline":
-                addTrampoline();
-                break;
-
-            default:
-                String message
-                        = "platformName = " + MyString.quote(platformName);
-                throw new RuntimeException(message);
-        }
-    }
-
-    /**
-     * Add a large, static box to the PhysicsSpace, to serve as a platform.
-     */
-    private void addBoxPlatform() {
-        float halfExtent = 20f;
-        CollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
-        body.setPhysicsLocation(new Vector3f(0f, -halfExtent, 0f));
-        makePlatform(body);
-    }
-
-    /**
-     * Add a large, downward-pointing, static cone to the PhysicsSpace, to serve
-     * as a platform.
-     */
-    private void addConePlatform() {
-        float radius = 20f;
-        float height = 2f * radius;
-        ConeCollisionShape shape = new ConeCollisionShape(radius, height);
-
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
-        body.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        body.setPhysicsLocation(new Vector3f(0f, -radius, 0f));
-        /*
-         * Rotate the cone 180 degrees around the X axis
-         * so that it points downward instead of upward.
-         */
-        Quaternion orientation = new Quaternion();
-        orientation.fromAngles(FastMath.PI, 0f, 0f);
-        body.setPhysicsRotation(orientation);
-
-        makePlatform(body);
-    }
-
-    /**
-     * Add a large, static cylinder to the PhysicsSpace, to serve as a platform.
-     */
-    private void addCylinderPlatform() {
-        float radius = 20f;
-        float thickness = 50f;
-        CylinderCollisionShape shape = new CylinderCollisionShape(radius,
-                thickness, PhysicsSpace.AXIS_Y);
-
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
-        body.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        body.setPhysicsLocation(new Vector3f(0f, -0.5f * thickness, 0f));
-
-        makePlatform(body);
     }
 
     /**
@@ -747,29 +658,7 @@ public class DropTest
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        InputMode dim = getDefaultInputMode();
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
-    }
-
-    /**
-     * Add a large, static petagonal prism shape to the PhysicsSpace, to serve
-     * as a platform.
-     */
-    private void addHullPlatform() {
-        float radius = 20f;
-        float thickness = 5f;
-        boolean normals = false;
-        Mesh mesh = new Prism(5, radius, thickness, normals);
-        HullCollisionShape shape = new HullCollisionShape(mesh);
-
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
-        body.setPhysicsLocation(new Vector3f(0f, -0.5f * thickness, 0f));
-        makePlatform(body);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -779,11 +668,13 @@ public class DropTest
         ColorRGBA ambientColor = new ColorRGBA(0.05f, 0.05f, 0.05f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
+        ambient.setName("ambient");
 
         ColorRGBA directColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
         Vector3f direction = new Vector3f(1f, -3f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         rootSpatial.addLight(sun);
+        sun.setName("sun");
 
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
@@ -798,57 +689,17 @@ public class DropTest
     }
 
     /**
-     * Add a static rigid body with the named shape to the PhysicsSpace, to
-     * serve as a platform.
-     */
-    private void addNamedPlatform(String shapeName, DebugMeshNormals normals) {
-        CollisionShape shape = namedShapes.get(shapeName);
-        assert shape != null : shapeName;
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMeshNormals(normals);
-        makePlatform(body);
-    }
-
-    /**
-     * Add a static plane to the PhysicsSpace, to serve as a platform.
-     */
-    private void addPlanePlatform() {
-        Plane plane = new Plane(Vector3f.UNIT_Y, 0f);
-        PlaneCollisionShape shape = new PlaneCollisionShape(plane);
-
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
-        makePlatform(body);
-    }
-
-    /**
-     * Add a rounded rectangle to the PhysicsSpace, to serve as a platform.
-     */
-    private void addRoundedRectangle() {
-        CollisionShape shape = namedShapes.get("roundedRectangle");
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
-        Quaternion rotation = new Quaternion();
-        rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
-        body.setPhysicsRotation(rotation);
-        makePlatform(body);
-    }
-
-    /**
      * Add a hexagonal trampoline to the PhysicsSpace, to serve as a platform.
+     *
+     * @param y the initial Y coordinate
      */
-    private void addTrampoline() {
+    private void addTrampoline(float y) {
         int numRings = 9;
         float vertexSpacing = 2f;
         Mesh mesh = new ClothHexagon(numRings, vertexSpacing);
         PhysicsSoftBody softBody = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
+        softBody.applyTranslation(new Vector3f(0f, y, 0f));
         /*
          * Pin every node on the perimeter.
          */
@@ -865,7 +716,7 @@ public class DropTest
         SoftBodyConfig config = softBody.getSoftConfig();
         config.setPositionIterations(3);
 
-        makePlatform(softBody);
+        addPlatform(softBody);
     }
 
     /**
@@ -878,23 +729,14 @@ public class DropTest
 
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(10f);
+        flyCam.setZoomSpeed(10f);
 
-        cam.setLocation(new Vector3f(0f, 20f, 40f));
+        cam.setLocation(new Vector3f(0f, platformY + 20f, 40f));
         cam.setRotation(new Quaternion(0f, 0.9649f, -0.263f, 0f));
 
         CameraOrbitAppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
-    }
-
-    /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.ChildShapes, true);
-        dumper.setEnabled(DumpFlags.MatParams, true);
-        dumper.setEnabled(DumpFlags.ShadowModes, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
     }
 
     /**
@@ -906,10 +748,8 @@ public class DropTest
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);
 
-        physicsSpace = bulletAppState.getPhysicsSoftSpace();
         float gravity = status.gravity();
-        Vector3f gravityVector = new Vector3f(0f, -gravity, 0f);
-        physicsSpace.setGravity(gravityVector);
+        setGravityAll(gravity);
     }
 
     /**
@@ -918,14 +758,12 @@ public class DropTest
     private void deleteLastDrop() {
         PhysicsRigidBody lastDrop = drops.peekLast();
         if (lastDrop != null) {
-            physicsSpace.remove(lastDrop);
+            getPhysicsSpace().removeCollisionObject(lastDrop);
             if (lastDrop == selectedDrop) {
                 selectDrop(null);
             }
             drops.removeLast();
-            for (PhysicsRigidBody drop : drops) {
-                drop.activate();
-            }
+            activateAll();
         }
     }
 
@@ -934,136 +772,23 @@ public class DropTest
      */
     private void deleteSelected() {
         if (selectedDrop != null) {
-            physicsSpace.remove(selectedDrop);
+            getPhysicsSpace().removeCollisionObject(selectedDrop);
+            boolean success = drops.remove(selectedDrop);
+            assert success;
             selectDrop(null);
-            drops.remove(selectedDrop);
-            for (PhysicsRigidBody drop : drops) {
-                drop.activate();
-            }
+            activateAll();
         }
     }
 
     /**
      * Dump the selected drop.
      */
-    private void dumpSelectedDrop() {
+    private void dumpSelected() {
         if (selectedDrop == null) {
             System.out.printf("%nNo drop selected.");
         } else {
-            dumper.dump(selectedDrop, "");
+            getDumper().dump(selectedDrop, "");
         }
-    }
-
-    /**
-     * Initialize materials during startup.
-     */
-    private void generateMaterials() {
-        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
-        platformMaterial = MyAsset.createShadedMaterial(assetManager, green);
-        platformMaterial.setName("green");
-
-        ColorRGBA dropColors[] = new ColorRGBA[dropMaterials.length];
-        dropColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
-        dropColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
-        dropColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire
-        dropColors[3] = new ColorRGBA(0.2f, 0.1f, 0f, 1f); // topaz
-
-        for (int i = 0; i < dropMaterials.length; ++i) {
-            ColorRGBA color = dropColors[i];
-            dropMaterials[i]
-                    = MyAsset.createShinyMaterial(assetManager, color);
-            dropMaterials[i].setFloat("Shininess", 15f);
-        }
-    }
-
-    /**
-     * Initialize the collection of named collision shapes during startup.
-     */
-    private void generateShapes() {
-        /*
-         * "barbell", "bedOfNails", "chair", "dimples", "knucklebone", "ladder",
-         * "roundedRectangle", "sieve", "smooth", "top", "tray", and "triangle"
-         * are each generated once, during startup
-         */
-        MinieTestShapes.addShapes(namedShapes);
-        /*
-         * letter shapes
-         */
-        CollisionShape shape;
-        for (char character = 'A'; character <= 'Z'; ++character) {
-            char[] array = new char[]{character};
-            String glyphString = new String(array);
-            String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
-                    glyphString);
-            shape = (CollisionShape) assetManager.loadAsset(assetPath);
-            namedShapes.put(glyphString, shape);
-        }
-        /*
-         * digit shapes
-         */
-        for (char character = '0'; character <= '9'; ++character) {
-            char[] array = new char[]{character};
-            String glyphString = new String(array);
-            String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
-                    glyphString);
-            shape = (CollisionShape) assetManager.loadAsset(assetPath);
-            namedShapes.put(glyphString, shape);
-        }
-        /*
-         * "barrel"
-         */
-        String barrelPath = "CollisionShapes/barrel.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(barrelPath);
-        shape.setScale(3f);
-        namedShapes.put("barrel", shape);
-        /*
-         * "candyDish"
-         */
-        String candyDishPath = "Models/CandyDish/CandyDish.j3o";
-        Node candyDishNode = (Node) assetManager.loadModel(candyDishPath);
-        Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
-        Mesh candyDishMesh = candyDishGeometry.getMesh();
-        shape = new MeshCollisionShape(candyDishMesh);
-        shape.setScale(5f);
-        namedShapes.put("candyDish", shape);
-        /*
-         * "duck" using V-HACD
-         */
-        String duckPath = "CollisionShapes/duck.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(duckPath);
-        shape.setScale(2f);
-        namedShapes.put("duck", shape);
-        /*
-         * "heart"
-         */
-        String heartPath = "CollisionShapes/heart.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(heartPath);
-        shape.setScale(1.2f);
-        namedShapes.put("heart", shape);
-        /*
-         * "sword" using V-HACD
-         */
-        String swordPath = "CollisionShapes/sword.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(swordPath);
-        shape.setScale(5f);
-        namedShapes.put("sword", shape);
-        /*
-         * "teapot" using V-HACD
-         */
-        String teapotPath = "CollisionShapes/teapot.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(teapotPath);
-        shape.setScale(3f);
-        namedShapes.put("teapot", shape);
-    }
-
-    /**
-     * Add the specified platform body to the PhysicsSpace.
-     */
-    private void makePlatform(PhysicsBody body) {
-        body.setDebugMaterial(platformMaterial);
-        float friction = status.friction();
-        body.setFriction(friction);
-        physicsSpace.add(body);
     }
 
     /**
@@ -1074,7 +799,8 @@ public class DropTest
         Vector2f screenXY = inputManager.getCursorPosition();
         Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
         Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
-        List<PhysicsRayTestResult> hits = physicsSpace.rayTest(from, to);
+        PhysicsSpace space = getPhysicsSpace();
+        List<PhysicsRayTestResult> hits = space.rayTest(from, to);
 
         for (PhysicsRayTestResult hit : hits) {
             PhysicsCollisionObject pco = hit.getCollisionObject();
@@ -1095,7 +821,7 @@ public class DropTest
     private void randomDigit() {
         char glyphChar = (char) ('0' + random.nextInt(10));
         String glyphString = Character.toString(glyphChar);
-        dropShape = namedShapes.get(glyphString);
+        dropShape = findShape(glyphString);
     }
 
     /**
@@ -1104,7 +830,7 @@ public class DropTest
     private void randomLetter() {
         char glyphChar = (char) ('A' + random.nextInt(26));
         String glyphString = Character.toString(glyphChar);
-        dropShape = namedShapes.get(glyphString);
+        dropShape = findShape(glyphString);
     }
 
     /**
@@ -1156,58 +882,5 @@ public class DropTest
                 selectedDrop.setDebugMaterial(null);
             }
         }
-    }
-
-    /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(2f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
-    }
-
-    /**
-     * Toggle the physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
-    }
-
-    /**
-     * Toggle visualization of collision-object swept spheres.
-     */
-    private void toggleSpheres() {
-        if (ssFilter == null) {
-            ssFilter = new FilterAll(true);
-        } else {
-            ssFilter = null;
-        }
-
-        bulletAppState.setDebugSweptSphereFilter(ssFilter);
     }
 }

@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.anim.AnimComposer;
+import com.jme3.anim.SkinningControl;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.SkeletonControl;
@@ -43,7 +44,6 @@ import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.MassHeuristic;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.ShapeHeuristic;
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -70,7 +70,6 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import com.jme3.scene.shape.Box;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import java.io.File;
@@ -85,12 +84,11 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.NameGenerator;
 import jme3utilities.debug.SkeletonVisualizer;
-import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.tunings.BaseMeshControl;
 import jme3utilities.minie.test.tunings.Biped;
 import jme3utilities.minie.test.tunings.ElephantControl;
@@ -100,8 +98,6 @@ import jme3utilities.minie.test.tunings.NinjaControl;
 import jme3utilities.minie.test.tunings.OtoControl;
 import jme3utilities.minie.test.tunings.PuppetControl;
 import jme3utilities.minie.test.tunings.SinbadControl;
-import jme3utilities.ui.ActionApplication;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
@@ -113,7 +109,7 @@ import jme3utilities.ui.Signals;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestDac extends ActionApplication {
+public class TestDac extends AbstractDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -161,25 +157,16 @@ public class TestDac extends ActionApplication {
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
-    private CollisionShape ballShape;
+    private BulletAppState bulletAppState;
     /**
      * Control being tested
      */
     private DynamicAnimControl dac;
-    /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
     final private float ballRadius = 1f; // mesh units
     /**
      * enhanced pseudo-random generator
      */
     final private Generator random = new Generator();
-    /**
-     * shiny red Material for the falling balls
-     */
-    private Material ballMaterial;
     /**
      * Mesh for falling balls
      */
@@ -192,18 +179,6 @@ public class TestDac extends ActionApplication {
      * root node of the C-G model on which the Control is being tested
      */
     private Node cgModel;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSpace physicsSpace;
     /**
      * visualizer for the skeleton of the C-G model
      */
@@ -248,6 +223,7 @@ public class TestDac extends ActionApplication {
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
+        settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);
@@ -255,7 +231,7 @@ public class TestDac extends ActionApplication {
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -264,10 +240,11 @@ public class TestDac extends ActionApplication {
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
+        generateMaterials();
         configurePhysics();
 
-        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 1f, 1f);
-        viewPort.setBackgroundColor(bgColor);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
 
         addLighting();
         /*
@@ -275,12 +252,16 @@ public class TestDac extends ActionApplication {
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        addBox();
+        attachCubePlatform(250f, 0f);
 
         ColorRGBA ballColor = new ColorRGBA(0.4f, 0f, 0f, 1f);
-        ballMaterial = MyAsset.createShinyMaterial(assetManager, ballColor);
+        Material ballMaterial
+                = MyAsset.createShinyMaterial(assetManager, ballColor);
         ballMaterial.setFloat("Shininess", 5f);
-        ballShape = new SphereCollisionShape(ballRadius);
+        registerMaterial("ball", ballMaterial);
+
+        CollisionShape ballShape = new SphereCollisionShape(ballRadius);
+        registerShape("ball", ballShape);
 
         addModel("Sinbad");
         /*
@@ -289,6 +270,38 @@ public class TestDac extends ActionApplication {
         statusText = new BitmapText(guiFont, false);
         statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
         guiNode.attachChild(statusText);
+    }
+
+    /**
+     * Configure the PhysicsDumper during startup.
+     */
+    @Override
+    public void configureDumper() {
+        super.configureDumper();
+
+        PhysicsDumper dumper = getDumper();
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of physics-debug arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 2f;
     }
 
     /**
@@ -301,9 +314,11 @@ public class TestDac extends ActionApplication {
         dim.bind("add", KeyInput.KEY_INSERT);
         dim.bind("amputate left elbow", KeyInput.KEY_DELETE);
         dim.bind("blend all to kinematic", KeyInput.KEY_K);
+        dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
         dim.bind("drop attachments", KeyInput.KEY_PGDN);
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scenes", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpScenes, KeyInput.KEY_P);
+
         dim.bind("freeze all", KeyInput.KEY_F);
         dim.bind("freeze upper body", KeyInput.KEY_U);
         dim.bind("ghost upper body", KeyInput.KEY_8);
@@ -343,12 +358,13 @@ public class TestDac extends ActionApplication {
         dim.bind("signal rotateRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
-        dim.bind("toggle physics debug", KeyInput.KEY_SLASH);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(AbstractDemo.asTogglePhysicsDebug, KeyInput.KEY_SLASH);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float x = 10f;
@@ -357,9 +373,7 @@ public class TestDac extends ActionApplication {
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -384,14 +398,6 @@ public class TestDac extends ActionApplication {
                     return;
                 case "drop attachments":
                     dac.dropAttachments();
-                    return;
-
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-
-                case "dump scenes":
-                    dumper.dump(renderManager);
                     return;
 
                 case "freeze all":
@@ -480,23 +486,8 @@ public class TestDac extends ActionApplication {
                     setHeight(15f);
                     return;
 
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
                 case "toggle meshes":
                     toggleMeshes();
-                    return;
-                case "toggle pause":
-                    togglePause();
-                    return;
-                case "toggle physics debug":
-                    togglePhysicsDebug();
                     return;
                 case "toggle skeleton":
                     toggleSkeleton();
@@ -554,7 +545,8 @@ public class TestDac extends ActionApplication {
         Geometry geometry = new Geometry(name, ballMesh);
         rootNode.attachChild(geometry);
 
-        geometry.setMaterial(ballMaterial);
+        Material material = findMaterial("ball");
+        geometry.setMaterial(material);
         geometry.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         Vector3f location = random.nextVector3f();
         location.multLocal(2.5f, 5f, 2.5f);
@@ -562,58 +554,38 @@ public class TestDac extends ActionApplication {
         geometry.move(location);
 
         Vector3f worldScale = geometry.getWorldScale();
-        ballShape.setScale(worldScale);
+        CollisionShape shape = findShape("ball");
+        shape.setScale(worldScale);
+
         float mass = 12f;
-        RigidBodyControl rbc = new RigidBodyControl(ballShape, mass);
+        RigidBodyControl rbc = new RigidBodyControl(shape, mass);
         rbc.setApplyScale(true);
         rbc.setLinearVelocity(new Vector3f(0f, -5f, 0f));
         rbc.setKinematic(false);
         rbc.setFriction(10f);
 
-        rbc.setPhysicsSpace(physicsSpace);
+        addCollisionObject(rbc);
         rbc.setGravity(new Vector3f(0f, -1.5f, 0f));
 
         geometry.addControl(rbc);
     }
 
     /**
-     * Add a large static box to the scene, to serve as a platform.
-     */
-    private void addBox() {
-        float halfExtent = 250f; // mesh units
-        Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
-        Geometry geometry = new Geometry("box", mesh);
-        rootNode.attachChild(geometry);
-
-        geometry.move(0f, -halfExtent, 0f);
-        ColorRGBA color = new ColorRGBA(0.1f, 0.4f, 0.1f, 1f);
-        Material material = MyAsset.createShadedMaterial(assetManager, color);
-        geometry.setMaterial(material);
-        geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
-
-        BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsRigidBody.massForStatic;
-        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
-        geometry.addControl(boxBody);
-        boxBody.setApplyScale(true);
-        boxBody.setPhysicsSpace(physicsSpace);
-        boxBody.setFriction(0.1f);
-    }
-
-    /**
      * Add lighting and shadows to the scene.
      */
     private void addLighting() {
-        ColorRGBA ambientColor = new ColorRGBA(0.7f, 0.7f, 0.7f, 1f);
+        ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootNode.addLight(ambient);
+        ambient.setName("ambient");
 
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
+        sun.setName("sun");
 
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 4_096, 3);
+                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
@@ -676,8 +648,8 @@ public class TestDac extends ActionApplication {
         cgModel.setCullHint(Spatial.CullHint.Never);
 
         rootNode.attachChild(cgModel);
-        setHeight(cgModel, 10f);
-        center(cgModel);
+        setCgmHeight(cgModel, 10f);
+        centerCgm(cgModel);
         resetTransform = cgModel.getLocalTransform().clone();
 
         sc = RagUtils.findSControl(cgModel);
@@ -685,6 +657,7 @@ public class TestDac extends ActionApplication {
 
         controlledSpatial.addControl(dac);
         dac.setGravity(new Vector3f(0f, -50f, 0f));
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
 
         leftClavicle = dac.findBoneLink(leftClavicleName);
@@ -724,27 +697,11 @@ public class TestDac extends ActionApplication {
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         if (sc instanceof SkeletonControl) {
-            /*
-             * Clean up Jaime's skeleton visualization by hiding the "IK" bones,
-             * which don't influence any mesh vertices.
-             */
             InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
+        } else {
+            InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
         }
         rootNode.addControl(sv);
-    }
-
-    /**
-     * Translate a model's center so that the model rests on the X-Z plane, and
-     * its center lies on the Y axis.
-     */
-    private void center(Spatial model) {
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
-        Vector3f offset = new Vector3f(center.x, minMax[0].y, center.z);
-
-        Vector3f location = model.getWorldTranslation();
-        location.subtractLocal(offset);
-        MySpatial.setWorldLocation(model, location);
     }
 
     /**
@@ -753,26 +710,19 @@ public class TestDac extends ActionApplication {
     private void configureCamera() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(20f);
+        flyCam.setZoomSpeed(20f);
 
         cam.setLocation(new Vector3f(0f, 6f, 25f));
-    }
-
-    /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
     }
 
     /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.setAccuracy(0.01f); // 10-msec timestep
         physicsSpace.getSolverInfo().setNumIterations(15);
     }
@@ -972,6 +922,8 @@ public class TestDac extends ActionApplication {
         Vector3f currentWorld = body.getPhysicsLocation(null);
         Point2PointJoint sep2p
                 = new Point2PointJoint(body, Vector3f.ZERO, currentWorld);
+
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.add(sep2p);
     }
 
@@ -996,7 +948,7 @@ public class TestDac extends ActionApplication {
      * Save the specified model to a J3O or XML file.
      */
     private void save(Spatial model, String assetPath) {
-        String filePath = ActionApplication.filePath(assetPath);
+        String filePath = filePath(assetPath);
         File file = new File(filePath);
 
         JmeExporter exporter;
@@ -1031,54 +983,9 @@ public class TestDac extends ActionApplication {
     private void setHeight(float height) {
         assert height > 0f : height;
 
-        setHeight(cgModel, height);
-        center(cgModel);
+        setCgmHeight(cgModel, height);
+        centerCgm(cgModel);
         dac.rebuild();
-    }
-
-    /**
-     * Scale the specified model uniformly so that it has the specified height.
-     *
-     * @param model (not null, modified)
-     * @param height (in world units)
-     */
-    private void setHeight(Spatial model, float height) {
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(model);
-        float oldHeight = minMax[1].y - minMax[0].y;
-
-        model.scale(height / oldHeight);
-    }
-
-    /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(2f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
     }
 
     /**
@@ -1101,22 +1008,6 @@ public class TestDac extends ActionApplication {
     }
 
     /**
-     * Toggle the animation and physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
-    }
-
-    /**
-     * Toggle physics-debug visualization on/off.
-     */
-    private void togglePhysicsDebug() {
-        boolean enabled = bulletAppState.isDebugEnabled();
-        bulletAppState.setDebugEnabled(!enabled);
-    }
-
-    /**
      * Toggle the skeleton visualizer on/off.
      */
     private void toggleSkeleton() {
@@ -1135,17 +1026,10 @@ public class TestDac extends ActionApplication {
 
         boolean debug = bulletAppState.isDebugEnabled();
         if (debug) {
-            message += "+Physics";
-            if (bbFilter != null) {
-                message += "+AABB";
-            }
-            if (bulletAppState.debugAxisLength() > 0f) {
-                message += "+Axes";
-            }
+            message += "+" + describePhysicsDebugOptions();
         }
-
         message += sv.isEnabled() ? "+Skeleton" : "";
-        message += (speed <= 1e-12f) ? "  PAUSED" : "";
+        message += isPaused() ? "  PAUSED" : "";
 
         double energy = dac.kineticEnergy();
         if (Double.isFinite(energy)) {

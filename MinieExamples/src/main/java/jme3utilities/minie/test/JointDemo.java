@@ -36,7 +36,6 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.motors.MotorParam;
 import com.jme3.bullet.joints.motors.RotationMotor;
-import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -59,13 +58,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
-import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.ui.ActionApplication;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
@@ -74,7 +70,7 @@ import jme3utilities.ui.Signals;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class JointDemo extends ActionApplication {
+public class JointDemo extends AbstractDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -96,33 +92,9 @@ public class JointDemo extends ActionApplication {
      */
     private BulletAppState bulletAppState;
     /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
-    /**
-     * material to visualize the platform box
-     */
-    private Material boxMaterial;
-    /**
-     * material to visualize the robot
-     */
-    private Material robotMaterial;
-    /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
      * scene-graph node for visualizing solid objects
      */
-    final private Node solidNode = new Node("solid node");
-    /**
-     * dump debugging information to System.out
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSpace physicsSpace;
+    final private Node meshesNode = new Node("meshes node");
     /**
      * motor to rotate the left-front leg
      */
@@ -168,7 +140,7 @@ public class JointDemo extends ActionApplication {
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -177,19 +149,65 @@ public class JointDemo extends ActionApplication {
     public void actionInitializeApplication() {
         configureCamera();
         configureDumper();
-        configureMaterials();
+        generateMaterials();
         configurePhysics();
 
-        ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(sky);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
 
         addLighting();
-        addAxes();
-        addBox();
+        attachWorldAxes(0.8f);
+        attachCubePlatform(50f, 0f);
         addRobot();
 
-        rootNode.attachChild(solidNode);
-        solidNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        rootNode.attachChild(meshesNode);
+        meshesNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+    }
+
+    /**
+     * Configure the PhysicsDumper during startup.
+     */
+    @Override
+    public void configureDumper() {
+        super.configureDumper();
+
+        PhysicsDumper dumper = getDumper();
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+        dumper.setEnabled(DumpFlags.Motors, true);
+    }
+
+    /**
+     * Generate materials during startup.
+     */
+    @Override
+    public void generateMaterials() {
+        super.generateMaterials();
+
+        ColorRGBA brown = new ColorRGBA().setAsSrgb(0.3f, 0.3f, 0.1f, 1f);
+        Material robotMaterial
+                = MyAsset.createShadedMaterial(assetManager, brown);
+        registerMaterial("robot", robotMaterial);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of physics-debug arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 0.5f;
     }
 
     /**
@@ -199,8 +217,8 @@ public class JointDemo extends ActionApplication {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scene", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpScene, KeyInput.KEY_P);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -211,10 +229,11 @@ public class JointDemo extends ActionApplication {
         dim.bind("signal turnLR", KeyInput.KEY_NUMPAD1);
         dim.bind("signal turnRR", KeyInput.KEY_NUMPAD3);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
         float x = 10f;
@@ -223,9 +242,7 @@ public class JointDemo extends ActionApplication {
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -239,25 +256,6 @@ public class JointDemo extends ActionApplication {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-                case "dump scene":
-                    dumper.dump(rootNode);
-                    return;
-
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
-                case "toggle pause":
-                    togglePause();
-                    return;
                 case "toggle view":
                     toggleMeshes();
                     togglePhysicsDebug();
@@ -278,9 +276,7 @@ public class JointDemo extends ActionApplication {
         /*
          * Activate any bodies that have fallen asleep.
          */
-        for (PhysicsRigidBody body : physicsSpace.getRigidBodyList()) {
-            body.activate();
-        }
+        activateAll();
         /*
          * Check UI signals and update motor velocities accordingly.
          */
@@ -302,52 +298,21 @@ public class JointDemo extends ActionApplication {
     // private methods
 
     /**
-     * Add a visualizer for the axes of the world coordinate system.
-     */
-    private void addAxes() {
-        float axisLength = 0.8f;
-        AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
-        axes.setLineWidth(0f);
-
-        rootNode.addControl(axes);
-        axes.setEnabled(true);
-    }
-
-    /**
-     * Add a large, static box to the scene, to serve as a platform.
-     */
-    private void addBox() {
-        float halfExtent = 50f; // mesh units
-        Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
-        Geometry geometry = new Geometry("box", mesh);
-        solidNode.attachChild(geometry);
-
-        geometry.move(0f, -halfExtent, 0f);
-        geometry.setMaterial(boxMaterial);
-        geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
-
-        BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsRigidBody.massForStatic;
-        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
-        geometry.addControl(boxBody);
-        boxBody.setApplyScale(true);
-        boxBody.setPhysicsSpace(physicsSpace);
-    }
-
-    /**
      * Add a rectangular leg to the robot chassis.
      */
     private RotationMotor addLeg(Geometry legGeom, Vector3f legInWorld,
             Vector3f pivotInChassis, Vector3f chassisInWorld,
             RigidBodyControl chassisRbc) {
-        solidNode.attachChild(legGeom);
+        meshesNode.attachChild(legGeom);
         legGeom.move(legInWorld);
+        Material robotMaterial = findMaterial("robot");
         legGeom.setMaterial(robotMaterial);
 
         CollisionShape shape = new BoxCollisionShape(0.1f, 0.4f, 0.1f);
         float mass = 0.1f;
         RigidBodyControl legRbc = new RigidBodyControl(shape, mass);
         legGeom.addControl(legRbc);
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         legRbc.setPhysicsSpace(physicsSpace);
 
         Vector3f pivotInLeg
@@ -376,16 +341,18 @@ public class JointDemo extends ActionApplication {
     }
 
     /**
-     * Add lighting to the scene.
+     * Add lighting and shadows to the scene.
      */
     private void addLighting() {
         ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootNode.addLight(ambient);
+        ambient.setName("ambient");
 
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
+        sun.setName("sun");
 
         DirectionalLightShadowRenderer dlsr
                 = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
@@ -403,8 +370,9 @@ public class JointDemo extends ActionApplication {
         Vector3f chassisInWorld = new Vector3f(0f, 1f, 0f);
 
         Geometry chassisGeom = new Geometry("chassis", chassisMesh);
-        solidNode.attachChild(chassisGeom);
+        meshesNode.attachChild(chassisGeom);
         chassisGeom.move(chassisInWorld);
+        Material robotMaterial = findMaterial("robot");
         chassisGeom.setMaterial(robotMaterial);
         chassisGeom.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
@@ -412,6 +380,7 @@ public class JointDemo extends ActionApplication {
         RigidBodyControl chassisRbc
                 = new RigidBodyControl(chassisShape, chassisMass);
         chassisGeom.addControl(chassisRbc);
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         chassisRbc.setPhysicsSpace(physicsSpace);
 
         Mesh legMesh = new Box(0.1f, 0.4f, 0.1f);
@@ -447,6 +416,8 @@ public class JointDemo extends ActionApplication {
     private void configureCamera() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(4f);
+        flyCam.setZoomSpeed(4f);
+
         cam.setLocation(new Vector3f(2.65f, 2.42f, 9.37f));
         cam.setRotation(new Quaternion(0f, 0.9759f, -0.04f, -0.2136f));
 
@@ -456,97 +427,24 @@ public class JointDemo extends ActionApplication {
     }
 
     /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.setEnabled(DumpFlags.Motors, true);
-        dumper.setEnabled(DumpFlags.ShadowModes, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
-    }
-
-    /**
-     * Configure materials during startup.
-     */
-    private void configureMaterials() {
-        ColorRGBA darkGreen = new ColorRGBA().setAsSrgb(0.1f, 0.4f, 0.1f, 1f);
-        boxMaterial = MyAsset.createShadedMaterial(assetManager, darkGreen);
-        boxMaterial.setName("darkGreen");
-
-        ColorRGBA brown = new ColorRGBA().setAsSrgb(0.3f, 0.3f, 0.1f, 1f);
-        robotMaterial = MyAsset.createShadedMaterial(assetManager, brown);
-        robotMaterial.setName("brown");
-    }
-
-    /**
      * Configure physics during startup.
      */
     private void configurePhysics() {
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSpace();
-    }
-
-    /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(0.5f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
     }
 
     /**
      * Toggle solid mesh rendering on/off.
      */
     private void toggleMeshes() {
-        Spatial.CullHint hint = solidNode.getLocalCullHint();
+        Spatial.CullHint hint = meshesNode.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {
             hint = Spatial.CullHint.Always;
         } else if (hint == Spatial.CullHint.Always) {
             hint = Spatial.CullHint.Never;
         }
-        solidNode.setCullHint(hint);
-    }
-
-    /**
-     * Toggle the physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
-    }
-
-    /**
-     * Toggle physics-debug visualization on/off.
-     */
-    private void togglePhysicsDebug() {
-        boolean enabled = bulletAppState.isDebugEnabled();
-        bulletAppState.setDebugEnabled(!enabled);
+        meshesNode.setCullHint(hint);
     }
 }

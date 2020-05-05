@@ -69,15 +69,12 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
-import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
-import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.ui.ActionApplication;
+import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.ui.CameraOrbitAppState;
-import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
@@ -89,7 +86,7 @@ import jme3utilities.ui.Signals;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class SeJointDemo extends ActionApplication {
+public class SeJointDemo extends AbstractDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -129,12 +126,8 @@ public class SeJointDemo extends ActionApplication {
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
+    private BulletAppState bulletAppState;
     private CollisionShape seedShape;
-    /**
-     * filter to control visualization of axis-aligned bounding boxes
-     */
-    private FilterAll bbFilter;
     /**
      * enhanced pseudo-random generator
      */
@@ -151,21 +144,9 @@ public class SeJointDemo extends ActionApplication {
      */
     private Mesh seedMesh;
     /**
-     * GUI node for displaying hotkey help/hints
-     */
-    private Node helpNode;
-    /**
      * scene-graph node for visualizing seeds
      */
-    final private Node seedNode = new Node("seed node");
-    /**
-     * dump debugging information to the console
-     */
-    final private PhysicsDumper dumper = new PhysicsDumper();
-    /**
-     * space for physics simulation
-     */
-    private PhysicsSpace physicsSpace;
+    final private Node meshesNode = new Node("meshes node");
     /**
      * name of the test that's currently running
      */
@@ -208,7 +189,8 @@ public class SeJointDemo extends ActionApplication {
         /*
          * Customize the window's title bar.
          */
-        AppSettings settings = new AppSettings(true);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
         settings.setTitle(applicationName);
 
         settings.setGammaCorrection(true);
@@ -219,7 +201,7 @@ public class SeJointDemo extends ActionApplication {
         application.start();
     }
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.
@@ -231,24 +213,56 @@ public class SeJointDemo extends ActionApplication {
         configurePhysics();
         configureGroups();
 
-        ColorRGBA sky = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(sky);
+        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
+        viewPort.setBackgroundColor(skyColor);
 
         addLighting();
-        addAxes();
+        attachWorldAxes(32f);
 
         int numRefineSteps = 1;
         seedMesh = new Icosphere(numRefineSteps, seedRadius);
         seedShape = new MultiSphere(seedRadius);
 
-        seedNode.setCullHint(Spatial.CullHint.Never);// meshes initially visible
-        rootNode.attachChild(seedNode);
+        meshesNode.setCullHint(Spatial.CullHint.Never);// meshes initially visible
+        rootNode.attachChild(meshesNode);
         /*
          * Add the status text to the GUI.
          */
         statusText = new BitmapText(guiFont, false);
         statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
         guiNode.attachChild(statusText);
+    }
+
+    /**
+     * Configure the PhysicsDumper during startup.
+     */
+    @Override
+    public void configureDumper() {
+        super.configureDumper();
+
+        PhysicsDumper dumper = getDumper();
+        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+    }
+
+    /**
+     * Access the active BulletAppState.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    @Override
+    protected BulletAppState getBulletAppState() {
+        assert bulletAppState != null;
+        return bulletAppState;
+    }
+
+    /**
+     * Determine the length of physics-debug arrows when visible.
+     *
+     * @return the desired length (in physics-space units, &ge;0)
+     */
+    @Override
+    protected float maxArrowLength() {
+        return 20f;
     }
 
     /**
@@ -260,8 +274,8 @@ public class SeJointDemo extends ActionApplication {
 
         dim.bind("add", KeyInput.KEY_INSERT);
 
-        dim.bind("dump physicsSpace", KeyInput.KEY_O);
-        dim.bind("dump scene", KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpScene, KeyInput.KEY_P);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -277,10 +291,11 @@ public class SeJointDemo extends ActionApplication {
         dim.bind("test p2p", KeyInput.KEY_F1);
         dim.bind("test slider", KeyInput.KEY_F4);
 
-        dim.bind("toggle aabb", KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle axes", KeyInput.KEY_SEMICOLON);
-        dim.bind("toggle help", KeyInput.KEY_H);
-        dim.bind("toggle pause", KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
         float x = 10f;
@@ -289,9 +304,7 @@ public class SeJointDemo extends ActionApplication {
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
 
-        float space = 20f;
-        helpNode = HelpUtils.buildNode(dim, rectangle, guiFont, space);
-        guiNode.attachChild(helpNode);
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -307,14 +320,6 @@ public class SeJointDemo extends ActionApplication {
             switch (actionString) {
                 case "add":
                     addSeed();
-                    return;
-
-                case "dump physicsSpace":
-                    dumper.dump(physicsSpace);
-                    return;
-
-                case "dump scene":
-                    dumper.dump(rootNode);
                     return;
 
                 case "test 6dof":
@@ -346,18 +351,6 @@ public class SeJointDemo extends ActionApplication {
                     testName = "slider";
                     return;
 
-                case "toggle aabb":
-                    toggleAabb();
-                    return;
-                case "toggle axes":
-                    toggleAxes();
-                    return;
-                case "toggle help":
-                    toggleHelp();
-                    return;
-                case "toggle pause":
-                    togglePause();
-                    return;
                 case "toggle view":
                     toggleMeshes();
                     togglePhysicsDebug();
@@ -387,35 +380,25 @@ public class SeJointDemo extends ActionApplication {
     // private methods
 
     /**
-     * Add a visualizer for the axes of the world coordinate system.
-     */
-    private void addAxes() {
-        float axisLength = 32f;
-        AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
-        axes.setLineWidth(0f);
-
-        rootNode.addControl(axes);
-        axes.setEnabled(true);
-    }
-
-    /**
      * Add lighting to the scene.
      */
     private void addLighting() {
         ColorRGBA ambientColor = new ColorRGBA(2f, 2f, 2f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootNode.addLight(ambient);
+        ambient.setName("ambient");
 
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
+        sun.setName("sun");
     }
 
     /**
-     * Add a dynamic rigid body to the scene.
+     * Add a dynamic rigid body to the scene and PhysicsSpace.
      */
     private void addSeed() {
-        int numSeeds = seedNode.getChildren().size();
+        int numSeeds = meshesNode.getChildren().size();
         if (numSeeds >= maxSeeds) {
             return; // too many seeds
         }
@@ -469,7 +452,7 @@ public class SeJointDemo extends ActionApplication {
         location.addLocal(0f, 160f, 0f);
 
         Geometry geometry = new Geometry("seed", seedMesh);
-        seedNode.attachChild(geometry);
+        meshesNode.attachChild(geometry);
         geometry.setMaterial(material);
         geometry.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         geometry.move(location);
@@ -571,6 +554,7 @@ public class SeJointDemo extends ActionApplication {
                 throw new IllegalStateException("testName = " + testName);
         }
 
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         rbc.setPhysicsSpace(physicsSpace);
         rbc.setGravity(gravity); // must be set *after* setPhysicsSpace!
 
@@ -583,13 +567,14 @@ public class SeJointDemo extends ActionApplication {
      * Clean up after a test.
      */
     private void cleanupAfterTest() {
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         Collection<PhysicsJoint> jointList = physicsSpace.getJointList();
         for (PhysicsJoint joint : jointList) {
             joint.destroy();
             physicsSpace.remove(joint);
         }
 
-        List<Spatial> seeds = seedNode.getChildren();
+        List<Spatial> seeds = meshesNode.getChildren();
         for (Spatial geometry : seeds) {
             RigidBodyControl rbc = geometry.getControl(RigidBodyControl.class);
             rbc.setPhysicsSpace(null);
@@ -608,6 +593,7 @@ public class SeJointDemo extends ActionApplication {
 
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(160f);
+        flyCam.setZoomSpeed(160f);
 
         cam.setLocation(new Vector3f(106f, 96.8f, 374.8f));
         cam.setRotation(new Quaternion(0f, 0.9759f, -0.04f, -0.2136f));
@@ -615,16 +601,6 @@ public class SeJointDemo extends ActionApplication {
         CameraOrbitAppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
-    }
-
-    /**
-     * Configure the PhysicsDumper during startup.
-     */
-    private void configureDumper() {
-        dumper.setEnabled(DumpFlags.JointsInBodies, true);
-        dumper.setEnabled(DumpFlags.JointsInSpaces, true);
-        dumper.setEnabled(DumpFlags.ShadowModes, true);
-        dumper.setEnabled(DumpFlags.Transforms, true);
     }
 
     /**
@@ -655,79 +631,32 @@ public class SeJointDemo extends ActionApplication {
      * Configure physics during startup.
      */
     private void configurePhysics() {
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.setAccuracy(0.1f); // 100-msec timestep
-    }
-
-    /**
-     * Toggle visualization of collision-object bounding boxes.
-     */
-    private void toggleAabb() {
-        if (bbFilter == null) {
-            bbFilter = new FilterAll(true);
-        } else {
-            bbFilter = null;
-        }
-
-        bulletAppState.setDebugBoundingBoxFilter(bbFilter);
-    }
-
-    /**
-     * Toggle visualization of collision-object axes.
-     */
-    private void toggleAxes() {
-        float length = bulletAppState.debugAxisLength();
-        bulletAppState.setDebugAxisLength(20f - length);
-    }
-
-    /**
-     * Toggle visibility of the helpNode.
-     */
-    private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
-        } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
-        }
     }
 
     /**
      * Toggle seed rendering on/off.
      */
     private void toggleMeshes() {
-        Spatial.CullHint hint = seedNode.getLocalCullHint();
+        Spatial.CullHint hint = meshesNode.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {
             hint = Spatial.CullHint.Always;
         } else if (hint == Spatial.CullHint.Always) {
             hint = Spatial.CullHint.Never;
         }
-        seedNode.setCullHint(hint);
-    }
-
-    /**
-     * Toggle the physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = (speed > 1e-12f) ? 1e-12f : 1f;
-        setSpeed(newSpeed);
-    }
-
-    /**
-     * Toggle physics-debug visualization on/off.
-     */
-    private void togglePhysicsDebug() {
-        boolean enabled = bulletAppState.isDebugEnabled();
-        bulletAppState.setDebugEnabled(!enabled);
+        meshesNode.setCullHint(hint);
     }
 
     /**
      * Update the status text in the GUI.
      */
     private void updateStatusText() {
-        int numSeeds = seedNode.getChildren().size();
+        int numSeeds = meshesNode.getChildren().size();
         String message = String.format("test=%s, count=%d", testName, numSeeds);
         statusText.setText(message);
     }
