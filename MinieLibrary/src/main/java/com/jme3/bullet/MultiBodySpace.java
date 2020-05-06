@@ -250,9 +250,7 @@ public class MultiBodySpace extends PhysicsSpace {
      */
     @Override
     public void remove(Object object) {
-        if (object == null) {
-            // do nothing
-        } else if (object instanceof MultiBody) {
+        if (object instanceof MultiBody) {
             removeMultiBody((MultiBody) object);
         } else {
             super.remove(object);
