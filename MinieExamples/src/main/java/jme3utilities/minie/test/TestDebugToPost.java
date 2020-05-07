@@ -105,6 +105,7 @@ public class TestDebugToPost extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         flyCam.setMoveSpeed(10f);
+        flyCam.setZoomSpeed(10f);
         /*
          * Set up Bullet physics (with debug enabled).
          */
@@ -138,8 +139,8 @@ public class TestDebugToPost extends SimpleApplication {
         geometry.setMaterial(boxMaterial);
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsBody.massForStatic;
-        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
+        RigidBodyControl boxBody
+                = new RigidBodyControl(shape, PhysicsBody.massForStatic);
         geometry.addControl(boxBody);
         boxBody.setPhysicsSpace(physicsSpace);
     }
