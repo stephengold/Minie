@@ -204,12 +204,12 @@ public class MultiBodySpace extends PhysicsSpace {
         long nativeId = createMultiBodySpace(getWorldMin(null),
                 getWorldMax(null), broadphase);
         assert nativeId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
 
         assert getWorldType(nativeId) == 2 // BT_DISCRETE_DYNAMICS_WORLD (!)
                 : getWorldType(nativeId);
         initThread(nativeId);
         initSolverInfo();
+        logger2.log(Level.FINE, "Created {0}.", this);
     }
 
     /**

@@ -825,12 +825,12 @@ public class PhysicsSpace extends CollisionSpace {
         long spaceId = createPhysicsSpace(min.x, min.y, min.z,
                 max.x, max.y, max.z, type.ordinal());
         assert spaceId != 0L;
-        logger.log(Level.FINE, "Created {0}.", this);
 
         assert getWorldType(spaceId) == 2 // BT_DISCRETE_DYNAMICS_WORLD
                 : getWorldType(spaceId);
         initThread(spaceId);
         initSolverInfo();
+        logger.log(Level.FINE, "Created {0}.", this);
     }
 
     /**

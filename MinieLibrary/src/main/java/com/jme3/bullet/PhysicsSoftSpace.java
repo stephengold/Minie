@@ -178,10 +178,11 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     /**
      * Count the joints in this space, including anchors and soft-body joints.
      *
-     * @return count (&ge;0)
+     * @return the count (&ge;0)
      */
     @Override
     public int countJoints() {
+        // can't use super.countJoints() because it includes a failing assertion
         int count = physicsJoints.size();
         return count;
     }
@@ -194,12 +195,12 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         long nativeId = createPhysicsSoftSpace(getWorldMin(null),
                 getWorldMax(null), getBroadphaseType().ordinal(), false);
         assert nativeId != 0L;
-        logger2.log(Level.FINE, "Created {0}.", this);
 
         assert getWorldType(nativeId) == 4 // BT_SOFT_RIGID_DYNAMICS_WORLD
                 : getWorldType(nativeId);
         initThread(nativeId);
         initSolverInfo();
+        logger2.log(Level.FINE, "Created {0}.", this);
     }
 
     /**

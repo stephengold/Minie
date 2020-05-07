@@ -568,9 +568,9 @@ public class CollisionSpace extends NativePhysicsObject {
         long spaceId = createCollisionSpace(worldMin.x, worldMin.y, worldMin.z,
                 worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal());
         assert spaceId != 0L;
-        loggerC.log(Level.FINE, "Created {0}.", this);
 
         initThread(spaceId);
+        loggerC.log(Level.FINE, "Created {0}.", this);
     }
 
     /**
