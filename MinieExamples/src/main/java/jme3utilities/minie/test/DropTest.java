@@ -743,6 +743,8 @@ public class DropTest
      * Create and configure a new PhysicsSpace.
      */
     private void configurePhysics() {
+        DebugShapeFactory.setIndexBuffers(200);
+
         bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
