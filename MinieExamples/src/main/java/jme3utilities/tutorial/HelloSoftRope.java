@@ -29,6 +29,7 @@ package jme3utilities.tutorial;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
@@ -91,6 +92,6 @@ public class HelloSoftRope extends SimpleApplication {
 
         // Pin one of the end nodes by setting its mass to zero.
         int nodeIndex = 0;
-        rope.setNodeMass(nodeIndex, PhysicsRigidBody.massForStatic);
+        rope.setNodeMass(nodeIndex, PhysicsBody.massForStatic);
     }
 }

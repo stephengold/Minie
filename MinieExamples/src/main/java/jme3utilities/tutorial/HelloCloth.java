@@ -30,6 +30,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
@@ -83,8 +84,8 @@ public class HelloCloth extends SimpleApplication {
         // Create a static, rigid sphere and add it to the physics space.
         float radius = 1f;
         SphereCollisionShape shape = new SphereCollisionShape(radius);
-        float mass = PhysicsRigidBody.massForStatic;
-        PhysicsRigidBody sphere = new PhysicsRigidBody(shape, mass);
+        PhysicsRigidBody sphere
+                = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
         physicsSpace.addCollisionObject(sphere);
 
         // Generate a subdivided square mesh with alternating diagonals.
