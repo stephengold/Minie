@@ -32,6 +32,7 @@
 package com.jme3.bullet.joints;
 
 import com.jme3.bullet.NativePhysicsObject;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -80,6 +81,10 @@ abstract public class PhysicsJoint
      * with body A only
      */
     private PhysicsBody bodyB = null;
+    /**
+     * space where this joint is added, or null if none
+     */
+    private PhysicsSpace space = null;
     // *************************************************************************
     // constructors
 
@@ -110,9 +115,11 @@ abstract public class PhysicsJoint
     public void destroy() {
         if (bodyA != null) {
             bodyA.removeJoint(this);
+            ///bodyA = null;
         }
         if (bodyB != null) {
             bodyB.removeJoint(this);
+            ///bodyB = null;
         }
     }
 
@@ -165,11 +172,31 @@ abstract public class PhysicsJoint
     }
 
     /**
+     * Access the PhysicsSpace where this joint is added.
+     *
+     * @return the pre-existing instance, or null if none
+     */
+    public PhysicsSpace getPhysicsSpace() {
+        PhysicsSpace result = space;
+        return result;
+    }
+
+    /**
      * Test whether this joint is enabled.
      *
      * @return true if enabled, otherwise false
      */
     abstract public boolean isEnabled();
+
+    /**
+     * Alter which PhysicsSpace this joint is added to. Do not invoke directly!
+     * The field is updated automatically when added/removed.
+     *
+     * @param physicsSpace (may be null)
+     */
+    public void setPhysicsSpace(PhysicsSpace physicsSpace) {
+        space = physicsSpace;
+    }
     // *************************************************************************
     // new protected methods
 
@@ -210,6 +237,7 @@ abstract public class PhysicsJoint
     public void cloneFields(Cloner cloner, Object original) {
         bodyA = cloner.clone(bodyA);
         bodyB = cloner.clone(bodyB);
+        space = null;
         unassignNativeObject();
         /*
          * Each subclass must create the btTypedConstraint, btSoftBody::Anchor,

@@ -954,6 +954,7 @@ public class PhysicsSpace extends CollisionSpace {
                     new Object[]{joint, this});
             return;
         }
+        assert joint.getPhysicsSpace() == null;
         /*
          * Warn if the jointed bodies aren't already added to this space.
          */
@@ -973,6 +974,7 @@ public class PhysicsSpace extends CollisionSpace {
         logger.log(Level.FINE, "Adding {0} to {1}.", new Object[]{joint, this});
         long jointId = joint.nativeId();
         physicsJoints.put(jointId, joint);
+        joint.setPhysicsSpace(this);
 
         if (joint instanceof Constraint) {
             long spaceId = nativeId();
@@ -1097,9 +1099,9 @@ public class PhysicsSpace extends CollisionSpace {
             return;
         }
 
-        characterMap.remove(characterId);
         logger.log(Level.FINE, "Removing {0} from {1}.",
                 new Object[]{character, this});
+        characterMap.remove(characterId);
         long spaceId = nativeId();
         removeAction(spaceId, character.getControllerId());
         removeCharacterObject(spaceId, characterId);
@@ -1121,6 +1123,7 @@ public class PhysicsSpace extends CollisionSpace {
         logger.log(Level.FINE, "Removing {0} from {1}.",
                 new Object[]{joint, this});
         physicsJoints.remove(jointId);
+        joint.setPhysicsSpace(null);
 
         if (joint instanceof Constraint) {
             long spaceId = nativeId();
