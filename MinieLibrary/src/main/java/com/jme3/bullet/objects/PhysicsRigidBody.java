@@ -106,7 +106,6 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * copy of kinematic flag: true&rarr;set kinematic mode (spatial controls
      * body), false&rarr;dynamic/static mode (body controls spatial)
-     * (default=false)
      */
     private boolean kinematic = false;
     /**
@@ -317,9 +316,10 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Read this body's angular-motion sleep threshold.
+     * Read this body's angular-motion sleeping threshold. Note that "sleeping"
+     * is synonym for "deactivation".
      *
-     * @return the angular-motion sleep threshold (in radians per second, &ge;0)
+     * @return the angular-motion threshold (in radians per second, &ge;0)
      */
     public float getAngularSleepingThreshold() {
         return getAngularSleepingThreshold(objectId);
@@ -423,10 +423,11 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Read this body's linear-motion sleep threshold.
+     * Read this body's linear-motion sleeping threshold. Note that "sleeping"
+     * is synonym for "deactivation".
      *
-     * @return the linear-motion sleep threshold (in physics-space units per
-     * second, &ge;0)
+     * @return the linear-motion threshold (in physics-space units per second,
+     * &ge;0)
      */
     public float getLinearSleepingThreshold() {
         return getLinearSleepingThreshold(objectId);
@@ -587,7 +588,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Alter this body's angular-motion sleep threshold.
+     * Alter this body's angular-motion sleeping threshold. Note that "sleeping"
+     * is synonym for "deactivation".
      *
      * @param threshold the desired threshold (&ge;0, default=1)
      */
@@ -663,9 +665,10 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Alter this body's activation state to allow/disallow sleep.
+     * Alter this body's activation state to allow/disallow sleeping. Note that
+     * "sleeping" is synonym for "deactivation".
      *
-     * @param setting true&rarr;enable sleep, false&rarr;disable sleep
+     * @param setting true&rarr;enable sleeping, false&rarr;disable sleeping
      */
     public void setEnableSleep(boolean setting) {
         if (setting) {
@@ -729,7 +732,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Alter this body's linear-motion sleep threshold.
+     * Alter this body's linear-motion sleeping threshold. Note that "sleeping"
+     * is synonym for "deactivation".
      *
      * @param threshold the desired threshold (in physics-space units per
      * second, &ge;0, default=0.8)
@@ -809,13 +813,14 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Alter this body's sleeping thresholds.
+     * Alter this body's sleeping thresholds. Note that "sleeping" is synonym
+     * for "deactivation".
      * <p>
-     * These thresholds determine when the body can be deactivated to save
+     * These thresholds influence whether the body will be deactivated to save
      * resources. Low values keep the body active when it barely moves.
      *
-     * @param linear the desired linear sleeping threshold (&ge;0, default=0.8)
-     * @param angular the desired angular sleeping threshold (&ge;0, default=1)
+     * @param linear the desired linear threshold (&ge;0, default=0.8)
+     * @param angular the desired angular threshold (&ge;0, default=1)
      */
     public void setSleepingThresholds(float linear, float angular) {
         setSleepingThresholds(objectId, linear, angular);
@@ -824,7 +829,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     // new protected methods
 
     /**
-     * Meant to be overridden.
+     * For use by subclasses.
      */
     protected void postRebuild() {
         int flags = getCollisionFlags(objectId);
@@ -839,7 +844,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Meant to be overridden.
+     * For use by subclasses.
      */
     protected void preRebuild() {
         // do nothing
@@ -853,7 +858,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         if (objectId != 0L) {
             removedFrom = (PhysicsSpace) getCollisionSpace();
             if (removedFrom != null) {
-                removedFrom.remove(this);
+                removedFrom.removeCollisionObject(this);
             }
             logger2.log(Level.FINE, "Clearing {0}.", this);
             finalizeNative(objectId);

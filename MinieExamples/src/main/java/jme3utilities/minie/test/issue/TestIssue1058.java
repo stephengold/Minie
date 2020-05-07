@@ -79,7 +79,7 @@ public class TestIssue1058
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
         if (hasStepped) {
-            physicsSpace.remove(body1); // native Bullet crash occurs here
+            physicsSpace.removeCollisionObject(body1); // native Bullet crash occurs here
             physicsSpace = null;
             stop();
         }

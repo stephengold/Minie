@@ -485,7 +485,7 @@ public class AttachmentLink extends PhysicsLink {
             PhysicsRigidBody newBody = getRigidBody();
             if (newBody.isInWorld()) {
                 PhysicsSpace physicsSpace = getControl().getPhysicsSpace();
-                physicsSpace.remove(newBody);
+                physicsSpace.removeCollisionObject(newBody);
             }
             PhysicsRigidBody oldBody = oldLink.getRigidBody();
             setRigidBody(oldBody);

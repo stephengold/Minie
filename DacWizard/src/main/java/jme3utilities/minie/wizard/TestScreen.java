@@ -209,8 +209,8 @@ class TestScreen extends GuiScreenController {
         if (groundPlane == null) {
             Plane xzPlane = new Plane(Vector3f.UNIT_Y, 0f);
             PlaneCollisionShape shape = new PlaneCollisionShape(xzPlane);
-            float mass = PhysicsRigidBody.massForStatic;
-            groundPlane = new PhysicsRigidBody(shape, mass);
+            groundPlane = new PhysicsRigidBody(shape,
+                    PhysicsRigidBody.massForStatic);
 
             BulletAppState bulletAppState
                     = DacWizard.findAppState(BulletAppState.class);
@@ -249,7 +249,7 @@ class TestScreen extends GuiScreenController {
             BulletAppState bulletAppState
                     = DacWizard.findAppState(BulletAppState.class);
             PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
-            physicsSpace.remove(groundPlane);
+            physicsSpace.removeCollisionObject(groundPlane);
             groundPlane = null;
         }
     }
