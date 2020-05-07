@@ -113,7 +113,7 @@ public class MultiBody
     }
 
     /**
-     * Instantiate a MultiBody.
+     * Instantiate a MultiBody. Note that "sleep" is synonym for "deactivate".
      *
      * @param numLinks the desired number of links, not including the base
      * (&ge;0)
@@ -356,7 +356,8 @@ public class MultiBody
     }
 
     /**
-     * Test whether this MultiBody can sleep.
+     * Test whether this MultiBody can sleep. Note that "sleep" is synonym for
+     * "deactivate".
      *
      * @return true if it can sleep, otherwise false
      */

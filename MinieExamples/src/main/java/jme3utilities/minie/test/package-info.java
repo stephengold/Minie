@@ -25,7 +25,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * Applications to test and/or demonstrate the capabilities of the
- * jme3utilities.minie package.
+ * Applications to test and/or demonstrate capabilities of Minie.
  */
 package jme3utilities.minie.test;

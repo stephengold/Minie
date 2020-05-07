@@ -447,7 +447,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Access the CollisionSpace to which this object has been added.
+     * Access the CollisionSpace where this object is added.
      *
      * @return the pre-existing instance, or null if none
      */
@@ -690,7 +690,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Test whether this object is added to a CollisionSpace.
      *
-     * @return true&rarr;in a space, false&rarr;not in a space
+     * @return true&rarr;added to a space, false&rarr;not added to a space
      */
     final public boolean isInWorld() {
         return isInWorld(objectId);
@@ -996,9 +996,9 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Determine the ID of the CollisionSpace to which this object is added.
+     * Determine the ID of the CollisionSpace where this object is added.
      *
-     * @return the ID, or zero if not in any space
+     * @return the ID, or zero if not added to any space
      */
     public long spaceId() {
         long spaceId = getSpaceId(objectId);

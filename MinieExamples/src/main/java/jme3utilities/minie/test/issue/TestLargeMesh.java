@@ -90,8 +90,8 @@ public class TestLargeMesh extends SimpleApplication {
         mesh.setBuffer(VertexBuffer.Type.Position, 3, buffer);
         CollisionShape shape = new MeshCollisionShape(mesh, optimized);
 
-        float mass = PhysicsBody.massForStatic;
-        RigidBodyControl rbc = new RigidBodyControl(shape, mass);
+        RigidBodyControl rbc
+                = new RigidBodyControl(shape, PhysicsBody.massForStatic);
 
         BulletAppState bulletAppState = new BulletAppState();
         //bulletAppState.setDebugEnabled(true);

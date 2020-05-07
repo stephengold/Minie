@@ -53,7 +53,8 @@ public class TestIssue1351 extends SimpleApplication {
             {
                 PhysicsGhostObject a = new PhysicsGhostObject(shape);
                 PhysicsGhostObject b = new PhysicsGhostObject(shape);
-                PhysicsSpace space = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
+                PhysicsSpace space
+                        = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
                 space.addCollisionObject(a);
                 space.addCollisionObject(b);
             }

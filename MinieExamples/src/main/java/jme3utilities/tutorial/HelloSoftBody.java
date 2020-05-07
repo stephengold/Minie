@@ -124,12 +124,12 @@ public class HelloSoftBody extends SimpleApplication {
     // private methods
 
     /**
-     * Add a large static box to serve as a platform.
+     * Add a large static cube to serve as a platform.
      */
     private void addBox() {
         float halfExtent = 2f; // mesh units
         Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
-        Geometry geometry = new Geometry("box", mesh);
+        Geometry geometry = new Geometry("cube platform", mesh);
         rootNode.attachChild(geometry);
 
         geometry.move(0f, -halfExtent, 0f);
@@ -142,8 +142,8 @@ public class HelloSoftBody extends SimpleApplication {
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
-        float mass = PhysicsBody.massForStatic;
-        RigidBodyControl boxBody = new RigidBodyControl(shape, mass);
+        RigidBodyControl boxBody
+                = new RigidBodyControl(shape, PhysicsBody.massForStatic);
         geometry.addControl(boxBody);
         boxBody.setPhysicsSpace(physicsSpace);
     }
