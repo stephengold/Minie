@@ -101,19 +101,21 @@ public class DropTestStatus extends SimpleAppState {
      * list of drop names, in ascending lexicographic order
      */
     final private static String[] dropNames = {
-        "barbell", "barrel", "box", "capsule", "chair", "cone", "cylinder",
-        "digit", "dome", "duck", "football", "frame", "halfPipe", "heart",
-        "hull", "knucklebone", "ladder", "letter", "madMallet", "mallet",
-        "multiSphere", "platonic", "prism", "pyramid", "sphere", "star",
-        "sword", "table", "teapot", "tetrahedron", "thumbTack", "top", "torus"
+        "ankh", "banana", "barbell", "barrel", "bowlingPin", "box", "capsule",
+        "chair", "cone", "cylinder", "digit", "dome", "duck", "football",
+        "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
+        "knucklebone", "ladder", "letter", "lidlessBox", "madMallet", "mallet",
+        "multiSphere", "platonic", "prism", "pyramid", "snowman", "sphere",
+        "star", "sword", "table", "teapot", "tetrahedron", "thumbTack", "top",
+        "torus", "triangularFrame", "trident"
     };
     /**
      * list of platform names, in ascending lexicographic order
      */
     final private static String[] platformNames = {
-        "bedOfNails", "box", "candyDish", "cone", "cylinder", "dimples", "hull",
-        "plane", "roundedRectangle", "sieve", "smooth", "trampoline", "tray",
-        "triangle"
+        "bedOfNails", "box", "candyDish", "cone", "corner", "cylinder",
+        "dimples", "hull", "plane", "roundedRectangle", "sieve", "smooth",
+        "trampoline", "tray", "triangle"
     };
     // *************************************************************************
     // fields

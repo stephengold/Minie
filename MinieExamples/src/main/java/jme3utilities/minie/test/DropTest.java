@@ -275,6 +275,7 @@ public class DropTest
     public void addPlatform(String platformName, float topY) {
         switch (platformName) {
             case "bedOfNails":
+            case "corner":
             case "sieve":
             case "tray":
                 addPlatform(platformName, DebugMeshNormals.Facet, topY);
@@ -536,12 +537,15 @@ public class DropTest
         String dropName = status.nextDropType();
         DebugMeshNormals debugMeshNormals;
         switch (dropName) {
+            case "banana":
             case "barbell":
             case "barrel":
+            case "bowlingPin":
             case "knucklebone":
             case "ladder":
             case "top":
                 dropShape = findShape(dropName);
+                assert dropShape != null : dropName;
                 debugMeshNormals = DebugMeshNormals.Smooth;
                 break;
 
@@ -549,11 +553,15 @@ public class DropTest
             case "frame":
             case "halfPipe":
             case "hull":
+            case "iBeam":
+            case "lidlessBox":
             case "platonic":
             case "prism":
             case "pyramid":
             case "star":
             case "tetrahedron":
+            case "triangularFrame":
+            case "trident":
                 dropShape = random.nextShape(dropName);
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
@@ -564,6 +572,7 @@ public class DropTest
             case "dome":
             case "football":
             case "multiSphere":
+            case "snowman":
             case "torus":
                 dropShape = random.nextShape(dropName);
                 debugMeshNormals = DebugMeshNormals.Smooth;
@@ -581,12 +590,15 @@ public class DropTest
                 break;
 
             case "duck":
+            case "ankh": // TODO re-order cases
             case "heart":
+            case "horseshoe":
             case "sword":
             case "table":
             case "teapot":
             case "thumbTack":
                 dropShape = findShape(dropName);
+                assert dropShape != null : dropName;
                 debugMeshNormals = DebugMeshNormals.Facet;
                 break;
 
