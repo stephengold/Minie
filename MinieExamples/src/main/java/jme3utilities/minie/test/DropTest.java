@@ -677,7 +677,7 @@ public class DropTest
      * Add lighting and shadows to the specified scene.
      */
     private void addLighting(Spatial rootSpatial) {
-        ColorRGBA ambientColor = new ColorRGBA(0.05f, 0.05f, 0.05f, 1f);
+        ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
         ambient.setName("ambient");
