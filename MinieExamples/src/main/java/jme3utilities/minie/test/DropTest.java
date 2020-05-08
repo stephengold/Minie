@@ -51,6 +51,7 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector2f;
@@ -420,6 +421,8 @@ public class DropTest
         dim.bind("pick", "RMB");
         dim.bind("pick", KeyInput.KEY_R);
 
+        dim.bind("pop selected", KeyInput.KEY_PGUP);
+
         dim.bind("previous statusLine", KeyInput.KEY_NUMPAD8);
         dim.bind("previous value", KeyInput.KEY_MINUS);
         dim.bind("previous value", KeyInput.KEY_NUMPAD4);
@@ -481,6 +484,9 @@ public class DropTest
 
                 case "pick":
                     pick();
+                    return;
+                case "pop selected":
+                    popSelected();
                     return;
 
                 case "previous statusLine":
@@ -834,6 +840,20 @@ public class DropTest
             }
         }
         selectDrop(null);
+    }
+
+    /**
+     * Apply an upward impulse to the selected drop.
+     */
+    private void popSelected() {
+        if (selectedDrop != null) {
+            float gravity = status.gravity();
+            float impulse
+                    = selectedDrop.getMass() * FastMath.sqrt(30f * gravity);
+            Vector3f impulseVector = new Vector3f(0f, impulse, 0f);
+            Vector3f offset = random.nextVector3f().multLocal(0.2f);
+            selectedDrop.applyImpulse(impulseVector, offset);
+        }
     }
 
     /**
