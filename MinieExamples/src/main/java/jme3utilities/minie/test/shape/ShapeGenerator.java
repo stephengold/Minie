@@ -67,6 +67,10 @@ public class ShapeGenerator extends Generator {
     // constants and loggers
 
     /**
+     * square root of 3
+     */
+    final public static float root3 = FastMath.sqrt(3f);
+    /**
      * message logger for this class
      */
     final public static Logger logger
@@ -179,9 +183,6 @@ public class ShapeGenerator extends Generator {
      * @return a new shape
      */
     public CompoundCollisionShape nextFrame() {
-        /*
-         * Select the internal half extents.
-         */
         float halfDepth = nextFloat(0.1f, 0.5f);
         float ihHeight = nextFloat(0.7f, 2f);
         float ihWidth = 1.6f * ihHeight;
@@ -236,6 +237,38 @@ public class ShapeGenerator extends Generator {
         MyBuffer.translate(buffer, start, end, offset);
 
         HullCollisionShape result = new HullCollisionShape(buffer);
+
+        return result;
+    }
+
+    /**
+     * Generate an I-Beam shape.
+     *
+     * @return a new compound shape (not null)
+     */
+    public CompoundCollisionShape nextIBeam() {
+        float length = nextFloat(1f, 10f);
+        float flangeWidth = nextFloat(1f, 2f);
+        float beamHeight = nextFloat(1f, 2f);
+        float thickness = nextFloat(0.1f, 0.3f);
+        CompoundCollisionShape result = MinieTestShapes.makeIBeam(length,
+                flangeWidth, beamHeight, thickness);
+
+        return result;
+    }
+
+    /**
+     * Generate a shape for a lidless box.
+     *
+     * @return a new compound shape (not null)
+     */
+    public CompoundCollisionShape nextLidlessBox() {
+        float iHeight = nextFloat(2f, 4f);
+        float iWidth = nextFloat(2f, 4f);
+        float iDepth = nextFloat(1f, 2f);
+        float wallThickness = nextFloat(0.1f, 0.3f);
+        CompoundCollisionShape result = MinieTestShapes.makeLidlessBox(iHeight,
+                iWidth, iDepth, wallThickness);
 
         return result;
     }
@@ -303,7 +336,7 @@ public class ShapeGenerator extends Generator {
         switch (solidType) {
             case 0: // regular tetrahedron
                 radius = 1.55f * nextFloat(0.5f, 1.5f);
-                float he = radius / FastMath.sqrt(3f);
+                float he = radius / root3;
                 Vector3f v0 = new Vector3f(-he, +he, +he);
                 Vector3f v1 = new Vector3f(+he, -he, +he);
                 Vector3f v2 = new Vector3f(+he, +he, -he);
@@ -313,7 +346,7 @@ public class ShapeGenerator extends Generator {
 
             case 1: // cube or regular hexahedron
                 radius = 1.4f * nextFloat(0.5f, 1.5f);
-                float halfExtent = radius / FastMath.sqrt(3f);
+                float halfExtent = radius / root3;
                 result = new BoxCollisionShape(halfExtent);
                 break;
 
@@ -421,6 +454,14 @@ public class ShapeGenerator extends Generator {
                 result = nextHull();
                 break;
 
+            case "iBeam":
+                result = nextIBeam();
+                break;
+
+            case "lidlessBox":
+                result = nextLidlessBox();
+                break;
+
             case "multiSphere":
                 result = nextMultiSphere();
                 break;
@@ -435,6 +476,10 @@ public class ShapeGenerator extends Generator {
 
             case "pyramid":
                 result = nextPyramid();
+                break;
+
+            case "snowman":
+                result = nextSnowman();
                 break;
 
             case "sphere":
@@ -453,10 +498,30 @@ public class ShapeGenerator extends Generator {
                 result = nextTorus();
                 break;
 
+            case "triangularFrame":
+                result = nextTriangularFrame();
+                break;
+
+            case "trident":
+                result = nextTrident();
+                break;
+
             default:
                 String message = "shapeName = " + MyString.quote(shapeName);
                 throw new RuntimeException(message);
         }
+
+        return result;
+    }
+
+    /**
+     * Generate a 3-ball snowman shape with the head on the +Y axis.
+     *
+     * @return a new compound shape (not null)
+     */
+    public CompoundCollisionShape nextSnowman() {
+        float baseRadius = nextFloat(0.7f, 1.5f);
+        CompoundCollisionShape result = MinieTestShapes.makeSnowman(baseRadius);
 
         return result;
     }
@@ -521,6 +586,35 @@ public class ShapeGenerator extends Generator {
         float minorRadius = nextFloat(0.2f, 0.6f);
         CompoundCollisionShape result
                 = MinieTestShapes.makeTorus(majorRadius, minorRadius);
+
+        return result;
+    }
+
+    /**
+     * Generate a triangular frame with identical sides.
+     *
+     * @return a new compound shape (not null)
+     */
+    public CompoundCollisionShape nextTriangularFrame() {
+        float interalLength = nextFloat(2f, 6f);
+        float depth = nextFloat(0.2f, 1f);
+        float thickness = interalLength * nextFloat(0.1f, 0.2f);
+        CompoundCollisionShape result = MinieTestShapes.makeTriangularFrame(
+                interalLength, depth, thickness);
+
+        return result;
+    }
+
+    /**
+     * Generate a trident shape.
+     *
+     * @return a new compound shape (not null)
+     */
+    public CompoundCollisionShape nextTrident() {
+        float shaftLength = nextFloat(4f, 12f);
+        float shaftRadius = nextFloat(0.1f, 0.2f);
+        CompoundCollisionShape result = MinieTestShapes.makeTrident(shaftLength,
+                shaftRadius);
 
         return result;
     }
