@@ -43,7 +43,6 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -53,6 +52,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -309,7 +309,7 @@ public class NewtonsCradle
         addCollisionObject(ball);
 
         float wireLength = 80f;
-        float yOffset = wireLength / FastMath.sqrt(2f);
+        float yOffset = wireLength * MyMath.rootHalf;
 
         Vector3f offset = new Vector3f(0f, yOffset, +yOffset);
         Point2PointJoint joint1 = new Point2PointJoint(ball, offset);
