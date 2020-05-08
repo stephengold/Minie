@@ -468,12 +468,36 @@ abstract public class AbstractDemo extends ActionApplication {
             registerShape(glyphString, shape);
         }
         /*
+         * "ankh" using V-HACD
+         */
+        String ankhPath = "CollisionShapes/ankh.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(ankhPath);
+        registerShape("ankh", shape);
+        /*
+         * "banana" using V-HACD
+         */
+        String bananaPath = "CollisionShapes/banana.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(bananaPath);
+        registerShape("banana", shape);
+        /*
+         * "bowlingPin" using V-HACD
+         */
+        String bowlingPinPath = "CollisionShapes/bowlingPin.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(bowlingPinPath);
+        registerShape("bowlingPin", shape);
+        /*
          * "barrel"
          */
         String barrelPath = "CollisionShapes/barrel.j3o";
         shape = (CollisionShape) assetManager.loadAsset(barrelPath);
         shape.setScale(3f);
         registerShape("barrel", shape);
+        /*
+         * "horseshoe" using V-HACD
+         */
+        String horseshoePath = "CollisionShapes/horseshoe.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(horseshoePath);
+        registerShape("horseshoe", shape);
     }
 
     /**
