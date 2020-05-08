@@ -84,11 +84,11 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.NameGenerator;
 import jme3utilities.debug.SkeletonVisualizer;
-import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.minie.test.tunings.BaseMeshControl;
 import jme3utilities.minie.test.tunings.Biped;
 import jme3utilities.minie.test.tunings.ElephantControl;
@@ -163,10 +163,6 @@ public class TestDac extends AbstractDemo {
      */
     private DynamicAnimControl dac;
     final private float ballRadius = 1f; // mesh units
-    /**
-     * enhanced pseudo-random generator
-     */
-    final private Generator random = new Generator();
     /**
      * Mesh for falling balls
      */
@@ -548,6 +544,7 @@ public class TestDac extends AbstractDemo {
         Material material = findMaterial("ball");
         geometry.setMaterial(material);
         geometry.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        ShapeGenerator random = getGenerator();
         Vector3f location = random.nextVector3f();
         location.multLocal(2.5f, 5f, 2.5f);
         location.y += 20f;

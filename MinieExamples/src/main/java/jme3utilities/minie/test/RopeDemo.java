@@ -72,11 +72,11 @@ import jme3utilities.NameGenerator;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
-import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.mesh.TubeTreeMesh;
+import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
@@ -189,10 +189,6 @@ public class RopeDemo extends AbstractDemo {
      * shapes of the ropes, in order of creation
      */
     final private Deque<RopeShape> shapes = new ArrayDeque<>(12);
-    /**
-     * enhanced pseudo-random generator
-     */
-    final private Generator random = new Generator();
     /**
      * generate names for rope geometries
      */
@@ -622,6 +618,7 @@ public class RopeDemo extends AbstractDemo {
         /*
          * Set a random elevation and Y-axis rotation.
          */
+        ShapeGenerator random = getGenerator();
         float elevation = random.nextFloat(12f, 24f);
         float rotationAngle = random.nextFloat(0f, FastMath.TWO_PI);
         spatial.move(0f, elevation, 0f);

@@ -55,9 +55,9 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.RectangularSolid;
-import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.PointMesh;
 import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
@@ -104,10 +104,6 @@ public class TestRectangularSolid extends AbstractDemo {
      * AppState to manage the PhysicsSpace
      */
     private BulletAppState bulletAppState = new BulletAppState();
-    /**
-     * enhanced pseudo-random generator
-     */
-    final private Generator random = new Generator();
     /**
      * pseudo-random seed for the current/next trial
      */
@@ -294,6 +290,7 @@ public class TestRectangularSolid extends AbstractDemo {
         String message = "trialSeed = " + trialSeed;
         System.out.println(message);
         statusText.setText(message);
+        ShapeGenerator random = getGenerator();
         random.setSeed(trialSeed);
         /*
          * Generate a new transform.

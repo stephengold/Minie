@@ -69,11 +69,11 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
-import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
@@ -128,10 +128,6 @@ public class SeJointDemo extends AbstractDemo {
      */
     private BulletAppState bulletAppState;
     private CollisionShape seedShape;
-    /**
-     * enhanced pseudo-random generator
-     */
-    final private Generator random = new Generator();
     /**
      * material for each type of seed
      */
@@ -440,6 +436,7 @@ public class SeJointDemo extends AbstractDemo {
         /*
          * Randomize which group the new seed is in.
          */
+        ShapeGenerator random = getGenerator();
         int groupIndex = random.nextInt(0, numGroups - 1);
         Material material = materials[groupIndex];
         Vector3f pivotInWorld = pivotLocations[groupIndex];

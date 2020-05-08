@@ -142,10 +142,6 @@ public class DropTest
      */
     private PhysicsRigidBody selectedDrop = null;
     /**
-     * enhanced pseudo-random generator
-     */
-    final private ShapeGenerator random = new ShapeGenerator();
-    /**
      * AppState to manage the PhysicsSpace
      */
     private SoftPhysicsAppState bulletAppState;
@@ -548,6 +544,7 @@ public class DropTest
 
         inverseInertia = null;
         String dropName = status.nextDropType();
+        ShapeGenerator random = getGenerator();
         DebugMeshNormals debugMeshNormals;
         switch (dropName) {
             case "banana":
@@ -851,6 +848,7 @@ public class DropTest
             float impulse
                     = selectedDrop.getMass() * FastMath.sqrt(30f * gravity);
             Vector3f impulseVector = new Vector3f(0f, impulse, 0f);
+            ShapeGenerator random = getGenerator();
             Vector3f offset = random.nextVector3f().multLocal(0.2f);
             selectedDrop.applyImpulse(impulseVector, offset);
         }
@@ -860,6 +858,7 @@ public class DropTest
      * Randomly select the shape of a decimal digit.
      */
     private void randomDigit() {
+        ShapeGenerator random = getGenerator();
         char glyphChar = (char) ('0' + random.nextInt(10));
         String glyphString = Character.toString(glyphChar);
         dropShape = findShape(glyphString);
@@ -869,6 +868,7 @@ public class DropTest
      * Randomly select the shape of an uppercase letter.
      */
     private void randomLetter() {
+        ShapeGenerator random = getGenerator();
         char glyphChar = (char) ('A' + random.nextInt(26));
         String glyphString = Character.toString(glyphChar);
         dropShape = findShape(glyphString);
@@ -882,6 +882,7 @@ public class DropTest
      * principal axes
      */
     private void randomMallet(boolean correctAxes) {
+        ShapeGenerator random = getGenerator();
         float handleR = 0.5f;
         float headR = handleR + random.nextFloat();
         float headHalfLength = headR + random.nextFloat();

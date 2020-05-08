@@ -68,6 +68,7 @@ import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.shape.MinieTestShapes;
+import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.HelpUtils;
 import jme3utilities.ui.InputMode;
@@ -138,6 +139,10 @@ abstract public class AbstractDemo extends ActionApplication {
      * dump debugging information to System.out
      */
     final private PhysicsDumper dumper = new PhysicsDumper();
+    /**
+     * enhanced pseudo-random generator
+     */
+    final private ShapeGenerator generator = new ShapeGenerator();
     // *************************************************************************
     // new methods exposed
 
@@ -507,6 +512,15 @@ abstract public class AbstractDemo extends ActionApplication {
      */
     public PhysicsDumper getDumper() {
         return dumper;
+    }
+
+    /**
+     * Access the ShapeGenerator (enhanced psuedo-random generator).
+     *
+     * @return the pre-existing instance (not null)
+     */
+    public ShapeGenerator getGenerator() {
+        return generator;
     }
 
     /**
