@@ -36,6 +36,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.motors.MotorParam;
 import com.jme3.bullet.joints.motors.RotationMotor;
+import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
@@ -87,6 +88,10 @@ public class JointDemo extends AbstractDemo {
     // *************************************************************************
     // fields
 
+    /**
+     * status displayed in the upper-left corner of the GUI node
+     */
+    private BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
@@ -162,6 +167,12 @@ public class JointDemo extends AbstractDemo {
 
         rootNode.attachChild(meshesNode);
         meshesNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        /*
+         * Add the status text to the GUI.
+         */
+        statusText = new BitmapText(guiFont, false);
+        statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
+        guiNode.attachChild(statusText);
     }
 
     /**
@@ -237,7 +248,7 @@ public class JointDemo extends AbstractDemo {
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
         float x = 10f;
-        float y = cam.getHeight() - 10f;
+        float y = cam.getHeight() - 30f;
         float width = cam.getWidth() - 20f;
         float height = cam.getHeight() - 20f;
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -293,6 +304,8 @@ public class JointDemo extends AbstractDemo {
 
         float rrVelocity = signals.test("turnRR") ? 2f : 0f;
         rrMotor.set(MotorParam.TargetVelocity, rrVelocity);
+
+        updateStatusText();
     }
     // *************************************************************************
     // private methods
@@ -446,5 +459,22 @@ public class JointDemo extends AbstractDemo {
             hint = Spatial.CullHint.Never;
         }
         meshesNode.setCullHint(hint);
+    }
+
+    /**
+     * Update the status text in the GUI.
+     */
+    private void updateStatusText() {
+        String message = "View: ";
+
+        Spatial.CullHint cull = meshesNode.getLocalCullHint();
+        message += (cull == Spatial.CullHint.Always) ? "NOmeshes" : "Meshes";
+
+        boolean debug = bulletAppState.isDebugEnabled();
+        if (debug) {
+            message += "+" + describePhysicsDebugOptions();
+        }
+        message += isPaused() ? "  PAUSED" : "";
+        statusText.setText(message);
     }
 }
