@@ -67,7 +67,7 @@ import jme3utilities.minie.test.mesh.StarSlice;
 import jme3utilities.minie.test.terrain.MinieTestTerrains;
 
 /**
- * Generate some interesting collision shapes for use in MinieExamples.
+ * Utility class to generate collision shapes for use in MinieExamples.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -97,30 +97,38 @@ public class MinieTestShapes {
     private MinieTestShapes() {
     }
     // *************************************************************************
-    // new methods exposed - TODO add makeSnowman()
+    // new methods exposed
 
     /**
-     * Add each test shape to the specified collection of named shapes.
+     * Add some shapes to the specified library.
      *
      * @param namedShapes where to add shapes (not null, modified)
      */
     public static void addShapes(Map<String, CollisionShape> namedShapes) {
-        CollisionShape barbell = makeBarbell();
+        CollisionShape barbell = makeBarbell(); // TODO randomize
         namedShapes.put("barbell", barbell);
 
         CollisionShape bedOfNails = makeBedOfNails();
         namedShapes.put("bedOfNails", bedOfNails);
 
-        CollisionShape chair = makeChair();
+        CollisionShape chair = makeChair(); // TODO randomize
         namedShapes.put("chair", chair);
+
+        {
+            int numSides = 4;
+            float radius = 20f;
+            float depth = 12f;
+            CollisionShape corner = makeCorner(numSides, radius, depth);
+            namedShapes.put("corner", corner);
+        }
 
         CollisionShape dimples = makeDimples();
         namedShapes.put("dimples", dimples);
 
-        CollisionShape knucklebone = makeKnucklebone();
+        CollisionShape knucklebone = makeKnucklebone(); // TODO randomize
         namedShapes.put("knucklebone", knucklebone);
 
-        CollisionShape ladder = makeLadder();
+        CollisionShape ladder = makeLadder(); // TODO randomize
         namedShapes.put("ladder", ladder);
 
         CollisionShape roundedRectangle = makeRoundedRectangle();
@@ -132,13 +140,13 @@ public class MinieTestShapes {
         CollisionShape smooth = makeSmoothHeightfield();
         namedShapes.put("smooth", smooth);
 
-        CollisionShape table = makeTable();
+        CollisionShape table = makeTable(); // TODO randomize
         namedShapes.put("table", table);
 
-        CollisionShape thumbTack = makeThumbTack();
+        CollisionShape thumbTack = makeThumbTack(); // TODO randomize
         namedShapes.put("thumbTack", thumbTack);
 
-        CollisionShape top = makeTop();
+        CollisionShape top = makeTop(); // TODO randomize
         namedShapes.put("top", top);
 
         CollisionShape tray = makeTray();
@@ -254,6 +262,44 @@ public class MinieTestShapes {
     }
 
     /**
+     * Generate an inverted hollow pyramid with its nadir on the -Y axis. Not
+     * intended for use in a dynamic body.
+     *
+     * @param numSides (&ge;3)
+     * @param rimRadius (&gt;0)
+     * @param depth rimY minus nadirY (&gt;0)
+     * @return a new compound shape (not null)
+     */
+    public static CompoundCollisionShape makeCorner(int numSides,
+            float rimRadius, float depth) {
+        Validate.inRange(numSides, "number of sides", 3, Integer.MAX_VALUE);
+        Validate.positive(rimRadius, "rim radius");
+        Validate.positive(depth, "depth");
+
+        float stepAngle = FastMath.TWO_PI / numSides; // in radians
+        Matrix3f rotationMatrix = new Matrix3f();
+        rotationMatrix.fromAngleAxis(stepAngle, Vector3f.UNIT_Y);
+
+        float rimY = 0.3f * depth;
+        Vector3f vertex1 = new Vector3f(rimRadius, rimY, 0f);
+        Vector3f vertex2 = rotationMatrix.mult(vertex1, null);
+        Vector3f nadir = new Vector3f(0f, rimY - depth, 0f);
+        SimplexCollisionShape triangle
+                = new SimplexCollisionShape(vertex1, vertex2, nadir);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(triangle);
+        result.addChildShape(triangle, Vector3f.ZERO, rotationMatrix);
+        for (int i = 2; i < numSides; ++i) {
+            float angle = stepAngle * i;
+            rotationMatrix.fromAngleAxis(angle, Vector3f.UNIT_Y);
+            result.addChildShape(triangle, Vector3f.ZERO, rotationMatrix);
+        }
+
+        return result;
+    }
+
+    /**
      * Generate a dimpled heightfield. Not intended for use in a dynamic body.
      *
      * @return a new heightfield shape (not null)
@@ -344,9 +390,9 @@ public class MinieTestShapes {
     /**
      * Generate a rectangular frame.
      *
-     * @param ihHeight half of the internal height (&gt;0)
-     * @param ihWidth half of the internal width (&gt;0)
-     * @param halfDepth half of the (external) depth (&gt;0)
+     * @param ihHeight half of the internal height (Y direction, &gt;0)
+     * @param ihWidth half of the internal width (X direction, &gt;0)
+     * @param halfDepth half of the (external) depth (Z direction, &gt;0)
      * @param halfThickness half the thickness (&gt;0)
      * @return a new shape
      */
@@ -426,7 +472,42 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a knuclebone with 4 spherical balls.
+     * Generate an I-beam.
+     *
+     * @param length (Z axis, &gt;0)
+     * @param flangeWidth (X axis, &ge;thickness)
+     * @param beamHeight (Y axis, &ge;2*thickness)
+     * @param thickness (&gt;0)
+     * @return a new compound shape (not null)
+     */
+    public static CompoundCollisionShape makeIBeam(float length,
+            float flangeWidth, float beamHeight, float thickness) {
+        Validate.positive(length, "length");
+        Validate.positive(thickness, "thickness");
+        Validate.inRange(flangeWidth, "flange width", thickness,
+                Float.MAX_VALUE);
+        Validate.inRange(beamHeight, "beam height", 2f * thickness,
+                Float.MAX_VALUE);
+
+        float halfLength = length / 2f;
+        float halfThickness = thickness / 2f;
+        float webHalfHeight = beamHeight / 2f - thickness;
+        CollisionShape web = new BoxCollisionShape(halfThickness, webHalfHeight,
+                halfLength);
+        CollisionShape flange = new BoxCollisionShape(flangeWidth / 2f,
+                halfThickness, halfLength);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(web);
+        float flangeY = webHalfHeight + halfThickness;
+        result.addChildShape(flange, 0f, flangeY, 0f);
+        result.addChildShape(flange, 0f, -flangeY, 0f);
+
+        return result;
+    }
+
+    /**
+     * Generate a knucklebone with 4 spherical balls.
      *
      * @return a new compound shape (not null)
      */
@@ -458,7 +539,7 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a mad mallet by compounding 2 cylinders.
+     * Generate a mad mallet by compounding 2 cylinders. TODO re-order methods
      *
      * @param handleR the radius of the handle (in unscaled shape units, &gt;0)
      * @param headR the radius of the head (in unscaled shape units, &gt;0)
@@ -519,6 +600,35 @@ public class MinieTestShapes {
         float rungHalf = rungLength / 2f;
         result.addChildShape(rail, rungHalf, 0f, 0f);
         result.addChildShape(rail, -rungHalf, 0f, 0f);
+
+        return result;
+    }
+
+    /**
+     * Generate a lidless rectangular box with its opening on the +Z side.
+     *
+     * @param iHeight the internal height (Y direction, &gt;0)
+     * @param iWidth the internal width (X direction, &gt;0)
+     * @param iDepth of the interal depth (Z direction, &gt;0)
+     * @param wallThickness (&gt;0)
+     *
+     * @return a new compound shape (not null)
+     */
+    public static CompoundCollisionShape makeLidlessBox(float iHeight,
+            float iWidth, float iDepth, float wallThickness) {
+        float ihHeight = iHeight / 2;
+        float ihWidth = iWidth / 2;
+        float ihDepth = iDepth / 2;
+        float halfThickness = wallThickness / 2;
+
+        float fhDepth = ihDepth + 2f * halfThickness;
+        CompoundCollisionShape result
+                = makeFrame(ihHeight, ihWidth, fhDepth, halfThickness);
+
+        BoxCollisionShape bottom
+                = new BoxCollisionShape(ihWidth, ihHeight, halfThickness);
+        float bottomZ = -ihDepth - halfThickness;
+        result.addChildShape(bottom, 0f, 0f, bottomZ);
 
         return result;
     }
@@ -604,6 +714,32 @@ public class MinieTestShapes {
         Vector3f scale = new Vector3f(40f / n, 12.5f, 40f / n);
         HeightfieldCollisionShape result
                 = new HeightfieldCollisionShape(array, scale);
+
+        return result;
+    }
+
+    /**
+     * Generate a 3-ball snowman with its head on the +Y axis.
+     *
+     * @param baseRadius (&gt;0)
+     * @return a new compound shape (not null)
+     */
+    public static CompoundCollisionShape makeSnowman(float baseRadius) {
+        Validate.positive(baseRadius, "base radius");
+
+        float verticalAngle = 2f;
+        HullCollisionShape base = makeDome(baseRadius, verticalAngle);
+
+        float torsoRadius = 0.8f * baseRadius;
+        SphereCollisionShape torso = new SphereCollisionShape(torsoRadius);
+
+        float headRadius = 0.6f * baseRadius;
+        SphereCollisionShape head = new SphereCollisionShape(headRadius);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(base, 0f, -0.5f * baseRadius, 0f);
+        result.addChildShape(torso, 0f, 0.7f * torsoRadius, 0f);
+        result.addChildShape(head, 0f, 2.1f * torsoRadius, 0f);
 
         return result;
     }
@@ -820,6 +956,126 @@ public class MinieTestShapes {
         Vector3f p2 = new Vector3f(x, 0f, -x);
         Vector3f p3 = new Vector3f(-x, 0f, 0f);
         SimplexCollisionShape result = new SimplexCollisionShape(p1, p2, p3);
+
+        return result;
+    }
+
+    /**
+     * Generate a triangular frame with identical sides.
+     *
+     * @param internalLength the internal length of each side (&gt;0)
+     * @param depth the (external) depth (Z direction, &gt;0)
+     * @param thickness the thickness of each side (&gt;0)
+     * @return a new shape (not null)
+     */
+    public static CompoundCollisionShape makeTriangularFrame(
+            float internalLength, float depth, float thickness) {
+        Validate.positive(internalLength, "internal length");
+        Validate.positive(depth, "depth");
+        Validate.positive(thickness, "thickness");
+
+        float innerX = internalLength / ShapeGenerator.root3;
+        float outerX = innerX + 2f * thickness;
+        float halfDepth = depth / 2f;
+
+        float stepAngle = FastMath.TWO_PI / 3f; // in radians
+        Matrix3f rot1 = new Matrix3f();
+        rot1.fromAngleAxis(stepAngle, Vector3f.UNIT_Z);
+        Matrix3f rot2 = new Matrix3f();
+        rot2.fromAngleAxis(2f * stepAngle, Vector3f.UNIT_Z);
+
+        Vector3f inner1 = rot1.mult(new Vector3f(innerX, 0f, 0f), null);
+        Vector3f outer1 = rot1.mult(new Vector3f(outerX, 0f, 0f), null);
+
+        float[] array = {
+            innerX, 0f, +halfDepth,
+            innerX, 0f, -halfDepth,
+            outerX, 0f, +halfDepth,
+            outerX, 0f, -halfDepth,
+            inner1.x, inner1.y, +halfDepth,
+            inner1.x, inner1.y, -halfDepth,
+            outer1.x, outer1.y, +halfDepth,
+            outer1.x, outer1.y, -halfDepth
+        };
+        CollisionShape side = new HullCollisionShape(array);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(side);
+        result.addChildShape(side, Vector3f.ZERO, rot1);
+        result.addChildShape(side, Vector3f.ZERO, rot2);
+
+        return result;
+    }
+
+    /**
+     * Generate a trident.
+     *
+     * @param shaftLength (Y direction, &gt;0)
+     * @param shaftRadius (&gt;0)
+     *
+     * @return a new compound shape (not null)
+     */
+    public static CompoundCollisionShape makeTrident(float shaftLength,
+            float shaftRadius) {
+        Validate.positive(shaftLength, "shaft length");
+        Validate.positive(shaftRadius, "shaft radius");
+        /*
+         * Create a cylinder for the shaft.
+         */
+        CollisionShape shaft = new CylinderCollisionShape(shaftRadius,
+                shaftLength, PhysicsSpace.AXIS_Y);
+        float shaftOffset = 0.2f * shaftLength;
+        /*
+         * Create a box for the crosspiece.
+         */
+        float halfCross = 5f * shaftRadius;
+        float halfThickness = 0.75f * shaftRadius;
+        float margin = CollisionShape.getDefaultMargin();
+        CollisionShape crosspiece = new BoxCollisionShape(halfCross + margin,
+                halfThickness + margin, halfThickness + margin);
+        /*
+         * Create pyramidal hulls for each of the 3 prongs.
+         */
+        float baseX = halfCross - halfThickness;
+        float pointX = halfCross + 2f * halfThickness;
+        float crossOffset
+                = shaftLength / 2f - shaftOffset + halfThickness + margin;
+        float baseY = crossOffset + halfThickness;
+        float sideY = baseY + 3f * halfCross;
+        float mainY = baseY + 4f * halfCross;
+        float[] array1 = {
+            halfCross, baseY, +halfThickness,
+            halfCross, baseY, -halfThickness,
+            baseX, baseY, +halfThickness,
+            baseX, baseY, -halfThickness,
+            pointX, sideY, 0f
+        };
+        CollisionShape rightProng = new HullCollisionShape(array1);
+
+        float[] array2 = {
+            -halfThickness, baseY, +halfThickness,
+            -halfThickness, baseY, -halfThickness,
+            +halfThickness, baseY, +halfThickness,
+            +halfThickness, baseY, -halfThickness,
+            0f, mainY, 0f
+        };
+        CollisionShape middleProng = new HullCollisionShape(array2);
+
+        float[] array3 = {
+            -halfCross, baseY, +halfThickness,
+            -halfCross, baseY, -halfThickness,
+            -baseX, baseY, +halfThickness,
+            -baseX, baseY, -halfThickness,
+            -pointX, sideY, 0f
+        };
+        CollisionShape leftProng = new HullCollisionShape(array3);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(shaft, 0f, -shaftOffset, 0f);
+        result.addChildShape(crosspiece, 0f, crossOffset, 0f);
+        result.addChildShape(rightProng);
+        result.addChildShape(middleProng);
+        result.addChildShape(leftProng);
 
         return result;
     }
