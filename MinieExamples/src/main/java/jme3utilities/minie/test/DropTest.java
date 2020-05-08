@@ -261,6 +261,9 @@ public class DropTest
 
         float friction = status.friction();
         pco.setFriction(friction);
+
+        float restitution = status.restitution();
+        pco.setRestitution(restitution);
     }
 
     /**

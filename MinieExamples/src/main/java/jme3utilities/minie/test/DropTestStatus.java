@@ -65,6 +65,11 @@ public class DropTestStatus extends SimpleAppState {
     final private static float[] gravityValues
             = {1f, 2f, 5f, 10f, 20f, 30f, 50f};
     /**
+     * list of restitution fractions, in ascending order
+     */
+    final private static float[] restitutionValues
+            = {0f, 0.1f, 0.3f, 0.6f, 0.9f, 0.99f};
+    /**
      * index of the status line for the child-coloring flag
      */
     final private static int coloringStatusLine = 5;
@@ -87,11 +92,15 @@ public class DropTestStatus extends SimpleAppState {
     /**
      * number of lines of text in the overlay
      */
-    final private static int numStatusLines = 7;
+    final private static int numStatusLines = 8;
     /**
      * index of the status line for the platform name
      */
     final private static int platformStatusLine = 1;
+    /**
+     * index of the status line for the restitution fraction
+     */
+    final private static int restitutionStatusLine = 7;
     /**
      * message logger for this class
      */
@@ -145,6 +154,10 @@ public class DropTestStatus extends SimpleAppState {
      * gravity magnitude for all dynamic bodies (&ge;0)
      */
     private float gravity = 30f;
+    /**
+     * restitution all all rigid bodies (&ge;0, &le;1)
+     */
+    private float restitution = 0.3f;
     /**
      * index of the line being edited (&ge;1)
      */
@@ -205,6 +218,9 @@ public class DropTestStatus extends SimpleAppState {
                 break;
             case platformStatusLine:
                 advancePlatform(amount);
+                break;
+            case restitutionStatusLine:
+                advanceRestitution(amount);
                 break;
             default:
                 throw new IllegalStateException("line = " + selectedLine);
@@ -271,6 +287,17 @@ public class DropTestStatus extends SimpleAppState {
         assert platformName != null;
         assert !platformName.isEmpty();
         return platformName;
+    }
+
+    /**
+     * Determine the restitution fraction for all rigid bodies.
+     *
+     * @return the fraction (&ge;0, &le;1)
+     */
+    float restitution() {
+        assert restitution >= 0f : restitution;
+        assert restitution <= 1f : restitution;
+        return restitution;
     }
 
     /**
@@ -378,6 +405,12 @@ public class DropTestStatus extends SimpleAppState {
         message = String.format("Platform #%d of %d: %s", index, count,
                 platformName);
         updateStatusLine(platformStatusLine, message);
+
+        index = 1 + Arrays.binarySearch(restitutionValues, restitution);
+        count = restitutionValues.length;
+        message = String.format("Restitution #%d of %d: %.2f", index,
+                count, restitution);
+        updateStatusLine(restitutionStatusLine, message);
     }
     // *************************************************************************
     // private methods
@@ -468,6 +501,24 @@ public class DropTestStatus extends SimpleAppState {
         }
 
         appInstance.restartScenario();
+    }
+
+    /**
+     * Advance the restitution selection by the specified amount.
+     *
+     * @param amount the number of values to advance
+     */
+    private void advanceRestitution(int amount) {
+        int index = Arrays.binarySearch(restitutionValues, restitution);
+        if (index < 0) {
+            restitution = restitutionValues[0];
+        } else {
+            assert restitutionValues[index] == restitution;
+            index = MyMath.modulo(index + amount, restitutionValues.length);
+            restitution = restitutionValues[index];
+        }
+
+        appInstance.setRestitutionAll(restitution);
     }
 
     /**
