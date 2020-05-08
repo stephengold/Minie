@@ -217,6 +217,7 @@ public class DropTest
         stateManager.detach(bulletAppState);
 
         configurePhysics();
+
         String platformName = status.platformType();
         addPlatform(platformName, platformY);
     }
@@ -243,25 +244,26 @@ public class DropTest
 
         String platformName = status.platformType();
         addPlatform(platformName, platformY);
+
         addADrop();
     }
 
     /**
-     * Add the specified body to the PhysicsSpace.
+     * Add the specified object to the PhysicsSpace.
      *
-     * @param object the body to add (not null, not in world)
+     * @param pco the object to add (not null, not in world)
      */
     @Override
-    public void addCollisionObject(PhysicsCollisionObject object) {
-        super.addCollisionObject(object);
+    public void addCollisionObject(PhysicsCollisionObject pco) {
+        super.addCollisionObject(pco);
 
-        if (object instanceof PhysicsRigidBody) {
+        if (pco instanceof PhysicsRigidBody) {
             float damping = status.damping();
-            ((PhysicsRigidBody) object).setDamping(damping, damping);
+            ((PhysicsRigidBody) pco).setDamping(damping, damping);
         }
 
         float friction = status.friction();
-        ((PhysicsCollisionObject) object).setFriction(friction);
+        pco.setFriction(friction);
     }
 
     /**
@@ -302,6 +304,11 @@ public class DropTest
     @Override
     public void generateMaterials() {
         super.generateMaterials();
+
+        ColorRGBA lightGray = new ColorRGBA(0.6f, 0.6f, 0.6f, 1f);
+        Material selected = MyAsset.createShinyMaterial(assetManager, lightGray);
+        selected.setFloat("Shininess", 15f);
+        registerMaterial("selected", selected);
 
         ColorRGBA dropColors[] = new ColorRGBA[dropMaterials.length];
         dropColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
@@ -891,9 +898,12 @@ public class DropTest
                         = (Material) selectedDrop.getApplicationData();
                 selectedDrop.setDebugMaterial(material);
             }
+
             selectedDrop = drop;
+
             if (selectedDrop != null) {
-                selectedDrop.setDebugMaterial(null);
+                Material material = findMaterial("selected");
+                selectedDrop.setDebugMaterial(material);
             }
         }
     }
