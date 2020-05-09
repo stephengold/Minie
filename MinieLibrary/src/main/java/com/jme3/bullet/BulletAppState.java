@@ -119,10 +119,20 @@ public class BulletAppState
      */
     private BulletDebugAppState.DebugAppStateFilter filter = null;
     /**
+     * limit which gravity vectors are visualized, or null to visualize no
+     * gravity vectors
+     */
+    private BulletDebugAppState.DebugAppStateFilter gravityVectorFilter = null;
+    /**
      * filter to limit which swept spheres are visualized in the debug
      * visualization, or null to visualize no swept spheres
      */
     private BulletDebugAppState.DebugAppStateFilter sweptSphereFilter = null;
+    /**
+     * limit which velocity vectors are visualized, or null to visualize no
+     * velocity vectors
+     */
+    private BulletDebugAppState.DebugAppStateFilter velocityVectorFilter;
 
     final private Callable<Boolean> parallelPhysicsUpdate
             = new Callable<Boolean>() {
@@ -464,6 +474,19 @@ public class BulletAppState
     }
 
     /**
+     * Alter which gravity vectors are included in the debug visualization.
+     *
+     * @param filter the desired filter, or null to visualize no gravity vectors
+     */
+    public void setDebugGravityVectorFilter(
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        if (debugAppState != null) {
+            debugAppState.setGravityVectorFilter(filter);
+        }
+        gravityVectorFilter = filter;
+    }
+
+    /**
      * Register the init listener for the BulletDebugAppState.
      *
      * @param listener the listener to register, or null to de-register
@@ -483,6 +506,20 @@ public class BulletAppState
             debugAppState.setSweptSphereFilter(filter);
         }
         sweptSphereFilter = filter;
+    }
+
+    /**
+     * Alter which velocity vectors are included in the debug visualization.
+     *
+     * @param filter the desired filter, or null to visualize no velocity
+     * vectors
+     */
+    public void setDebugVelocityVectorFilter(
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        if (debugAppState != null) {
+            debugAppState.setVelocityVectorFilter(filter);
+        }
+        velocityVectorFilter = filter;
     }
 
     /**
@@ -840,8 +877,10 @@ public class BulletAppState
             debugAppState.setAxisLength(debugAxisLength);
             debugAppState.setAxisLineWidth(debugAxisLineWidth);
             debugAppState.setBoundingBoxFilter(boundingBoxFilter);
+            debugAppState.setGravityVectorFilter(gravityVectorFilter);
             debugAppState.setJointLineWidth(debugJointLineWidth);
             debugAppState.setSweptSphereFilter(sweptSphereFilter);
+            debugAppState.setVelocityVectorFilter(velocityVectorFilter);
             stateManager.attach(debugAppState);
 
         } else if (!debugEnabled && debugAppState != null) {

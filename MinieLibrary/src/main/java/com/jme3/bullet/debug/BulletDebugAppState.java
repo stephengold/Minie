@@ -42,6 +42,7 @@ import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SoftPhysicsJoint;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -105,10 +106,20 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     protected DebugAppStateFilter filter;
     /**
+     * limit which gravity vectors are visualized, or null to visualize no
+     * gravity vectors
+     */
+    private DebugAppStateFilter gravityVectorFilter;
+    /**
      * limit which swept spheres are visualized, or null to visualize no swept
      * spheres
      */
     private DebugAppStateFilter sweptSphereFilter;
+    /**
+     * limit which velocity vectors are visualized, or null to visualize no
+     * velocity vectors
+     */
+    private DebugAppStateFilter velocityVectorFilter;
     /**
      * registered init listener, or null if none
      */
@@ -143,6 +154,10 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     final private Material[] childMaterials = new Material[10];
     /**
+     * Material for gravity vectors
+     */
+    private Material gravity;
+    /**
      * Material for PhysicsJoint arrows (their A ends)
      */
     private Material jointMaterialA;
@@ -160,7 +175,7 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     final private Material[] pink = new Material[3];
     /**
-     * Material for bounding boxes and swept spheres
+     * Material for bounding boxes, swept spheres, and velocity vectors
      */
     private Material white;
     /**
@@ -312,6 +327,16 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
+     * Access the Material for visualizing gravity vectors.
+     *
+     * @return the pre-existing Material (not null)
+     */
+    Material getGravityVectorMaterial() {
+        assert gravity != null;
+        return gravity;
+    }
+
+    /**
      * Access a Material for visualizing inactive rigid bodies.
      *
      * @param numSides 0&rarr;invisible, 1&rarr;single-sided Material,
@@ -353,6 +378,16 @@ public class BulletDebugAppState extends AbstractAppState {
      * @return the pre-existing Material (not null)
      */
     Material getSweptSphereMaterial() {
+        assert white != null;
+        return white;
+    }
+
+    /**
+     * Access the Material for visualizing velocity vectors.
+     *
+     * @return the pre-existing Material (not null)
+     */
+    Material getVelocityVectorMaterial() {
         assert white != null;
         return white;
     }
@@ -412,6 +447,22 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
+     * Alter which gravity vectors are visualized. For internal use only.
+     *
+     * @param filter the desired filter, or null to visualize no gravity vectors
+     */
+    public void setGravityVectorFilter(DebugAppStateFilter filter) {
+        gravityVectorFilter = filter;
+
+        for (Node transformedNode : pcoMap.values()) {
+            Node parent = transformedNode.getParent();
+            Control control
+                    = parent.getControl(GravityVectorDebugControl.class);
+            parent.removeControl(control);
+        }
+    }
+
+    /**
      * Alter the line width for PhysicsJoint arrows. For internal use only.
      *
      * @param width (in pixels, &ge;1, default=1)
@@ -440,6 +491,23 @@ public class BulletDebugAppState extends AbstractAppState {
         for (Node transformedNode : pcoMap.values()) {
             Node parent = transformedNode.getParent();
             Control control = parent.getControl(SweptSphereDebugControl.class);
+            parent.removeControl(control);
+        }
+    }
+
+    /**
+     * Alter which velocity vectors are visualized. For internal use only.
+     *
+     * @param filter the desired filter, or null to visualize no velocity
+     * vectors
+     */
+    public void setVelocityVectorFilter(DebugAppStateFilter filter) {
+        velocityVectorFilter = filter;
+
+        for (Node transformedNode : pcoMap.values()) {
+            Node parent = transformedNode.getParent();
+            Control control
+                    = parent.getControl(VelocityVectorDebugControl.class);
             parent.removeControl(control);
         }
     }
@@ -518,6 +586,7 @@ public class BulletDebugAppState extends AbstractAppState {
         blues[1].setName("debug blue ss");
         blues[2] = createWireMaterial(am, ColorRGBA.Blue, "debug blue ds", 2);
 
+        // TODO avoid ColorRGBA's shared "constants"
         childMaterials[0] = MyAsset.createUnshadedMaterial(am, ColorRGBA.White);
         childMaterials[1] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Red);
         childMaterials[2] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Green);
@@ -534,6 +603,8 @@ public class BulletDebugAppState extends AbstractAppState {
         for (int childI = 0; childI < childMaterials.length; ++childI) {
             childMaterials[childI].setName("debug child " + childI);
         }
+
+        gravity = createWireMaterial(am, ColorRGBA.Cyan, "debug gravity", 2);
 
         jointMaterialA = createWireMaterial(am, ColorRGBA.Green,
                 "debug joint A wire", 2);
@@ -711,7 +782,9 @@ public class BulletDebugAppState extends AbstractAppState {
         updateShapes();
         updateVehicles();
         updateBoundingBoxes();
+        updateGravityVectors();
         updateSweptSpheres();
+        updateVelocityVectors();
         updateJoints();
 
         // Update the debug root node.
@@ -730,7 +803,8 @@ public class BulletDebugAppState extends AbstractAppState {
             return;
         }
 
-        for (Map.Entry<PhysicsCollisionObject, Node> entry : pcoMap.entrySet()) {
+        for (Map.Entry<PhysicsCollisionObject, Node> entry
+                : pcoMap.entrySet()) {
             PhysicsCollisionObject pco = entry.getKey();
             boolean display = boundingBoxFilter.displayObject(pco);
 
@@ -741,6 +815,40 @@ public class BulletDebugAppState extends AbstractAppState {
             if (control == null && display) {
                 logger.log(Level.FINE, "Create new BoundingBoxDebugControl");
                 control = new BoundingBoxDebugControl(this, pco);
+                parent.addControl(control);
+            } else if (control != null && !display) {
+                parent.removeControl(control);
+            }
+        }
+    }
+
+    /**
+     * Synchronize the gravity-vector debug controls with the bodies in the
+     * PhysicsSpace.
+     */
+    private void updateGravityVectors() {
+        if (gravityVectorFilter == null) {
+            return;
+        }
+
+        for (Map.Entry<PhysicsCollisionObject, Node> entry
+                : pcoMap.entrySet()) {
+            PhysicsCollisionObject pco = entry.getKey();
+            boolean pcoIsKinematic = pco instanceof PhysicsRigidBody
+                    && ((PhysicsRigidBody) pco).isKinematic();
+            boolean display = pco instanceof PhysicsBody
+                    && !pco.isStatic()
+                    && !pcoIsKinematic
+                    && gravityVectorFilter.displayObject(pco);
+
+            Node transformedNode = entry.getValue();
+            Node parent = transformedNode.getParent();
+            Control control
+                    = parent.getControl(GravityVectorDebugControl.class);
+
+            if (control == null && display) {
+                logger.log(Level.FINE, "Create new GravityVectorDebugControl");
+                control = new GravityVectorDebugControl(this, pco);
                 parent.addControl(control);
             } else if (control != null && !display) {
                 parent.removeControl(control);
@@ -832,7 +940,8 @@ public class BulletDebugAppState extends AbstractAppState {
             return;
         }
 
-        for (Map.Entry<PhysicsCollisionObject, Node> entry : pcoMap.entrySet()) {
+        for (Map.Entry<PhysicsCollisionObject, Node> entry
+                : pcoMap.entrySet()) {
             PhysicsCollisionObject pco = entry.getKey();
             boolean display = sweptSphereFilter.displayObject(pco)
                     && pco.getCcdMotionThreshold() > 0f
@@ -871,6 +980,37 @@ public class BulletDebugAppState extends AbstractAppState {
 
             } else if (control != null && !display) {
                 node.removeControl(control);
+            }
+        }
+    }
+
+    /**
+     * Synchronize the velocity-vector debug controls with the dynamic rigid
+     * bodies in the PhysicsSpace.
+     */
+    private void updateVelocityVectors() {
+        if (velocityVectorFilter == null) {
+            return;
+        }
+
+        for (Map.Entry<PhysicsCollisionObject, Node> entry
+                : pcoMap.entrySet()) {
+            PhysicsCollisionObject pco = entry.getKey();
+            boolean display = pco instanceof PhysicsRigidBody
+                    && ((PhysicsRigidBody) pco).isDynamic()
+                    && velocityVectorFilter.displayObject(pco);
+
+            Node transformedNode = entry.getValue();
+            Node parent = transformedNode.getParent();
+            Control control
+                    = parent.getControl(VelocityVectorDebugControl.class);
+
+            if (control == null && display) {
+                logger.log(Level.FINE, "Create new VelocityVectorDebugControl");
+                control = new VelocityVectorDebugControl(this, pco);
+                parent.addControl(control);
+            } else if (control != null && !display) {
+                parent.removeControl(control);
             }
         }
     }
