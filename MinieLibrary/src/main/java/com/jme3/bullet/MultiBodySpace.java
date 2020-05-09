@@ -109,6 +109,7 @@ public class MultiBodySpace extends PhysicsSpace {
     public int countMultiBodies() {
         long spaceId = nativeId();
         int count = getNumMultibodies(spaceId);
+
         assert count == multiBodyMap.size() : count;
         return count;
     }
@@ -120,6 +121,7 @@ public class MultiBodySpace extends PhysicsSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<MultiBody> getMultiBodyList() {
+        // TODO use Collections.unmodifiableCollection
         Collection<MultiBody> result = new TreeSet<>(multiBodyMap.values());
         return result;
     }

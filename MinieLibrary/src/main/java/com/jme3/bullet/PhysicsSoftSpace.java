@@ -118,6 +118,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsSoftBody> getSoftBodyList() {
+        // TODO use Collections.unmodifiableCollection
         return new TreeSet<>(softBodyMap.values());
     }
 

@@ -447,6 +447,7 @@ public class PhysicsSpace extends CollisionSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsCharacter> getCharacterList() {
+        // TODO use Collections.unmodifiableCollection
         TreeSet<PhysicsCharacter> result = new TreeSet<>();
         result.addAll(characterMap.values());
 
@@ -475,6 +476,7 @@ public class PhysicsSpace extends CollisionSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsJoint> getJointList() {
+        // TODO use Collections.unmodifiableCollection
         TreeSet<PhysicsJoint> result = new TreeSet<>();
         result.addAll(physicsJoints.values());
 
@@ -498,6 +500,7 @@ public class PhysicsSpace extends CollisionSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsRigidBody> getRigidBodyList() {
+        // TODO use Collections.unmodifiableCollection
         return new TreeSet<>(rigidMap.values());
     }
 
@@ -536,6 +539,7 @@ public class PhysicsSpace extends CollisionSpace {
      * @return a new collection of pre-existing instances (not null)
      */
     public Collection<PhysicsVehicle> getVehicleList() {
+        // TODO use Collections.unmodifiableCollection
         return new TreeSet<>(vehicleMap.values());
     }
 
