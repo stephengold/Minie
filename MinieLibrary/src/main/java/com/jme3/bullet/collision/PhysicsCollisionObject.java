@@ -161,6 +161,7 @@ abstract public class PhysicsCollisionObject
     final private static String tagContactProcessingThreshold
             = "contactProcessingThreshold";
     final private static String tagContactStiffness = "contactStiffness";
+    final private static String tagDeactivationTime = "deactivationTime";
     final private static String tagDebugMaterial = "debugMaterial";
     final private static String tagDebugMeshNormals = "debugMeshNormals";
     final private static String tagDebugMeshResolution = "debugMeshResolution";
@@ -284,6 +285,7 @@ abstract public class PhysicsCollisionObject
         setContactDamping(old.getContactDamping());
         setContactProcessingThreshold(old.getContactProcessingThreshold());
         setContactStiffness(old.getContactStiffness());
+        setDeactivationTime(old.getDeactivationTime());
         setFriction(old.getFriction());
         setRestitution(old.getRestitution());
         setRollingFriction(old.getRollingFriction());
@@ -1072,6 +1074,7 @@ abstract public class PhysicsCollisionObject
         setContactProcessingThreshold(
                 capsule.readFloat(tagContactProcessingThreshold, 0f));
         setContactStiffness(capsule.readFloat(tagContactStiffness, 1e30f));
+        setDeactivationTime(capsule.readFloat(tagDeactivationTime, 0f));
         setFriction(capsule.readFloat(tagFriction, 0.5f));
         setRestitution(capsule.readFloat(tagRestitution, 0f));
         setRollingFriction(capsule.readFloat(tagRollingFriction, 0f));
@@ -1250,6 +1253,7 @@ abstract public class PhysicsCollisionObject
         capsule.write(getContactProcessingThreshold(),
                 tagContactProcessingThreshold, 0f);
         capsule.write(getContactStiffness(), tagContactStiffness, 1e30f);
+        capsule.write(getDeactivationTime(), tagDeactivationTime, 0f);
         capsule.write(getFriction(), tagFriction, 0.5f);
         capsule.write(getRestitution(), tagRestitution, 0f);
         capsule.write(getRollingFriction(), tagRollingFriction, 0f);

@@ -65,7 +65,6 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
     /**
      * field names for serialization
      */
-    final private static String tagDeactivationTime = "deactivationTime";
     final private static String tagMultiBody = "multiBody";
     final private static String tagPhysicsLocation = "physicsLocation";
     final private static String tagPhysicsRotation = "physicsRotation";
@@ -199,7 +198,6 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
         MultiBodyCollider old = (MultiBodyCollider) original;
         copyPcoProperties(old);
 
-        setDeactivationTime(old.getDeactivationTime());
         setPhysicsLocation(old.getPhysicsLocation(null));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
     }
@@ -235,8 +233,6 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
         buildObject();
         readPcoProperties(capsule);
 
-        setDeactivationTime(capsule.readFloat(tagDeactivationTime, 0f));
-
         Vector3f location = (Vector3f) capsule.readSavable(tagPhysicsLocation,
                 new Vector3f());
         setPhysicsLocation(location);
@@ -258,7 +254,6 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(getDeactivationTime(), tagDeactivationTime, 0f);
         capsule.write(multiBody, tagMultiBody, null);
         capsule.write(getPhysicsLocation(null), tagPhysicsLocation, null);
         capsule.write(getPhysicsRotationMatrix(null), tagPhysicsRotation, null);

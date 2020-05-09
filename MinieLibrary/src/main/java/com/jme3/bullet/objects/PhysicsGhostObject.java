@@ -76,7 +76,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     /**
      * field names for serialization
      */
-    final private static String tagDeactivationTime = "deactivationTime";
     final private static String tagPhysicsLocation = "physicsLocation";
     final private static String tagPhysicsRotation = "physicsRotation";
     // *************************************************************************
@@ -194,7 +193,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
 
         setPhysicsLocation(old.getPhysicsLocation(null));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
-        setDeactivationTime(old.getDeactivationTime());
     }
 
     /**
@@ -243,7 +241,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
                 new Vector3f()));
         setPhysicsRotation(((Matrix3f) capsule.readSavable(tagPhysicsRotation,
                 new Matrix3f())));
-        setDeactivationTime(capsule.readFloat(tagDeactivationTime, 0f));
     }
 
     /**
@@ -260,7 +257,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
 
         capsule.write(getPhysicsLocation(null), tagPhysicsLocation, null);
         capsule.write(getPhysicsRotationMatrix(null), tagPhysicsRotation, null);
-        capsule.write(getDeactivationTime(), tagDeactivationTime, 0f);
     }
     // *************************************************************************
     // private methods

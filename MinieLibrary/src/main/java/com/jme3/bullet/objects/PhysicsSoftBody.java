@@ -1290,8 +1290,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         }
         finishClusters(objectId);
         assert countClusters() == numClusters : countClusters();
-
-        setDeactivationTime(old.getDeactivationTime());
         /*
          * Soft joints require clusters; clone them after appending clusters.
          */

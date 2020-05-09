@@ -70,7 +70,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     final private static String tagAngularDamping = "angularDamping";
     final private static String tagAngularVelocity = "angularVelocity";
     final private static String tagContactResponse = "contactResponse";
-    final private static String tagDeactivationTime = "deactivationTime";
     final private static String tagFallSpeed = "fallSpeed";
     final private static String tagGhostSweepTest = "ghostSweepTest";
     final private static String tagGravityVector = "gravityVector";
@@ -582,7 +581,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
          */
         setWalkDirection(old.getWalkDirection(null));
         setLinearVelocity(old.getLinearVelocity(null));
-        setDeactivationTime(old.getDeactivationTime());
 
         setMaxPenetrationDepth(old.getMaxPenetrationDepth());
         setMaxSlope(old.getMaxSlope());
@@ -646,7 +644,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         setMaxSlope(capsule.readFloat(tagMaxSlope, FastMath.QUARTER_PI));
         setPhysicsLocation((Vector3f) capsule.readSavable(tagPhysicsLocation,
                 new Vector3f()));
-        setDeactivationTime(capsule.readFloat(tagDeactivationTime, 0f));
         if (MyVector3f.isZero(g)) {
             setUp((Vector3f) capsule.readSavable(tagUpDirection,
                     new Vector3f(0f, 1f, 0f)));
@@ -684,7 +681,6 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         capsule.write(getMaxSlope(), tagMaxSlope, FastMath.QUARTER_PI);
         capsule.write(getPhysicsLocation(new Vector3f()), tagPhysicsLocation,
                 null);
-        capsule.write(getDeactivationTime(), tagDeactivationTime, 0f);
         if (MyVector3f.isZero(g)) {
             capsule.write(getUpDirection(null), tagUpDirection,
                     new Vector3f(0f, 1f, 0f));

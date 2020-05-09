@@ -81,7 +81,6 @@ public class PhysicsRigidBody extends PhysicsBody {
             = "angularSleepingThreshold";
     final private static String tagAngularVelocity = "angularVelocity";
     final private static String tagContactResponse = "contactResponse";
-    final private static String tagDeactivationTime = "deactivationTime";
     final private static String tagInverseInertia = "inverseInertia";
     final private static String tagKinematic = "kinematic";
     final private static String tagLinearDamping = "linearDamping";
@@ -906,27 +905,31 @@ public class PhysicsRigidBody extends PhysicsBody {
         motionState = cloner.clone(motionState);
 
         PhysicsRigidBody old = (PhysicsRigidBody) original;
+
+        if (mass != massForStatic) {
+            setKinematic(kinematic);
+        }
+        Vector3f tmpVector = new Vector3f();
+        if (old.isDynamic()) {
+            setAngularVelocity(old.getAngularVelocity(tmpVector));
+            setLinearVelocity(old.getLinearVelocity(tmpVector));
+        }
+        /*
+         * Set velocities and kinematic flag BEFORE copyPcoProperties() because
+         * those setters also affect deactivation time.
+         */
         copyPcoProperties(old);
 
-        Vector3f tmpVector = new Vector3f();
         setAngularDamping(old.getAngularDamping());
         setAngularFactor(old.getAngularFactor(tmpVector));
         setAngularSleepingThreshold(old.getAngularSleepingThreshold());
         setContactResponse(old.isContactResponse());
         setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
-        if (mass != massForStatic) {
-            setKinematic(kinematic);
-        }
         setLinearDamping(old.getLinearDamping());
         setLinearFactor(old.getLinearFactor(tmpVector));
         setLinearSleepingThreshold(old.getLinearSleepingThreshold());
-        if (old.isDynamic()) {
-            setAngularVelocity(old.getAngularVelocity(tmpVector));
-            setLinearVelocity(old.getLinearVelocity(tmpVector));
-        }
         setPhysicsLocation(old.getPhysicsLocation(tmpVector));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
-        setDeactivationTime(old.getDeactivationTime());
     }
 
     /**
@@ -983,13 +986,21 @@ public class PhysicsRigidBody extends PhysicsBody {
         InputCapsule capsule = importer.getCapsule(this);
         mass = capsule.readFloat(tagMass, 1f);
         rebuildRigidBody();
-        readPcoProperties(capsule);
 
-        setContactResponse(capsule.readBoolean(tagContactResponse, true));
+        setAngularVelocity((Vector3f) capsule.readSavable(tagAngularVelocity,
+                translateIdentity));
         if (mass != massForStatic) {
             setKinematic(capsule.readBoolean(tagKinematic, false));
         }
+        setLinearVelocity((Vector3f) capsule.readSavable(tagLinearVelocity,
+                translateIdentity));
+        /*
+         * Set velocities and kinematic flag BEFORE readPcoProperties() because
+         * those setters also affect deactivation time.
+         */
+        readPcoProperties(capsule);
 
+        setContactResponse(capsule.readBoolean(tagContactResponse, true));
         setInverseInertiaLocal((Vector3f) capsule.readSavable(tagInverseInertia,
                 scaleIdentity));
         setAngularFactor((Vector3f) capsule.readSavable(tagAngularFactor,
@@ -1006,11 +1017,6 @@ public class PhysicsRigidBody extends PhysicsBody {
                 translateIdentity));
         setPhysicsRotation((Matrix3f) capsule.readSavable(tagPhysicsRotation,
                 matrixIdentity));
-        setLinearVelocity((Vector3f) capsule.readSavable(tagLinearVelocity,
-                translateIdentity));
-        setAngularVelocity((Vector3f) capsule.readSavable(tagAngularVelocity,
-                translateIdentity));
-        setDeactivationTime(capsule.readFloat(tagDeactivationTime, 0f));
 
         readJoints(capsule);
     }
@@ -1109,7 +1115,6 @@ public class PhysicsRigidBody extends PhysicsBody {
             capsule.write(getLinearVelocity(null), tagLinearVelocity, null);
             capsule.write(getAngularVelocity(null), tagAngularVelocity, null);
         }
-        capsule.write(getDeactivationTime(), tagDeactivationTime, 0f);
 
         writeJoints(capsule);
     }
