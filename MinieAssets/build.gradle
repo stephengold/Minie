@@ -30,6 +30,7 @@ ext {
     teapotShape = assets + 'CollisionShapes/teapot.j3o'
 
     // generated texture files
+    greenTile = assets + 'Textures/greenTile.png'
     plaid = assets + 'Textures/plaid.png'
 }
 
@@ -116,8 +117,12 @@ task teapotShape(type: JavaExec) {
 }
 
 task textures {
-    dependsOn 'plaid'
+    dependsOn 'greenTile', 'plaid'
     description 'Generate texture assets used in MinieExamples.'
+}
+task greenTile(type: JavaExec) {
+    main 'jme3utilities.minie.test.textures.MakeGreenTile'
+    outputs.files([greenTile])
 }
 task plaid(type: JavaExec) {
     main 'jme3utilities.minie.test.textures.MakePlaid'
@@ -172,4 +177,9 @@ task cleanSwordShape(type: Delete) {
 }
 task cleanTeapotShape(type: Delete) {
     delete teapotShape
+}
+
+task cleanTextures(type: Delete) {
+    delete(greenTile, plaid)
+    description 'Delete generated texture assets.'
 }
