@@ -442,10 +442,12 @@ public class DropTest
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(AbstractDemo.asToggleCcdSpheres, KeyInput.KEY_L);
         dim.bind("toggle childColoring", KeyInput.KEY_COMMA);
+        dim.bind(AbstractDemo.asToggleGravities, KeyInput.KEY_J);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(AbstractDemo.asToggleVelocities, KeyInput.KEY_K);
         /*
          * The help node can't be created until all hotkeys are bound.
          */
