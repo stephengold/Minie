@@ -103,10 +103,12 @@ abstract public class AbstractDemo extends ActionApplication {
     final public static String asDumpViewport = "dump viewport";
     final public static String asToggleAabbs = "toggle aabbs";
     final public static String asToggleCcdSpheres = "toggle ccdSpheres";
+    final public static String asToggleGravities = "toggle gravities";
     final public static String asToggleHelp = "toggle help";
     final public static String asTogglePause = "toggle pause";
     final public static String asTogglePcoAxes = "toggle pcoAxes";
     final public static String asTogglePhysicsDebug = "toggle physicsDebug";
+    final public static String asToggleVelocities = "toggle velocities";
     final public static String asToggleWorldAxes = "toggle worldAxes";
     // *************************************************************************
     // fields
@@ -123,6 +125,14 @@ abstract public class AbstractDemo extends ActionApplication {
      * filter to control visualization of CCD swept spheres
      */
     private FilterAll ccdSpheresFilter = null;
+    /**
+     * filter to control visualization of gravity vectors
+     */
+    private FilterAll gravitiesFilter = null;
+    /**
+     * filter to control visualization of velocity vectors
+     */
+    private FilterAll velocitiesFilter = null;
     /**
      * library of named physics collision shapes
      */
@@ -401,9 +411,17 @@ abstract public class AbstractDemo extends ActionApplication {
             result += "+CcdSpheres";
         }
 
+        if (gravitiesFilter != null) {
+            result += "+Gravities";
+        }
+
         BulletAppState bulletAppState = getBulletAppState();
         if (bulletAppState.debugAxisLength() > 0f) {
             result += "+PcoAxes";
+        }
+
+        if (velocitiesFilter != null) {
+            result += "+Velocities";
         }
 
         return result;
@@ -726,6 +744,9 @@ abstract public class AbstractDemo extends ActionApplication {
                 case asToggleCcdSpheres:
                     toggleCcdSpheres();
                     return;
+                case asToggleGravities:
+                    toggleGravities();
+                    return;
                 case asToggleHelp:
                     toggleHelp();
                     return;
@@ -737,6 +758,9 @@ abstract public class AbstractDemo extends ActionApplication {
                     return;
                 case asTogglePhysicsDebug:
                     togglePhysicsDebug();
+                    return;
+                case asToggleVelocities:
+                    toggleVelocities();
                     return;
                 case asToggleWorldAxes:
                     toggleWorldAxes();
@@ -919,6 +943,20 @@ abstract public class AbstractDemo extends ActionApplication {
     }
 
     /**
+     * Toggle visualization of body gravities.
+     */
+    private void toggleGravities() {
+        if (gravitiesFilter == null) {
+            gravitiesFilter = new FilterAll(true);
+        } else {
+            gravitiesFilter = null;
+        }
+
+        BulletAppState bulletAppState = getBulletAppState();
+        bulletAppState.setDebugGravityVectorFilter(gravitiesFilter);
+    }
+
+    /**
      * Toggle visibility of the help node.
      */
     private void toggleHelp() {
@@ -950,6 +988,20 @@ abstract public class AbstractDemo extends ActionApplication {
             axisLength = maxArrowLength();
         }
         bulletAppState.setDebugAxisLength(axisLength);
+    }
+
+    /**
+     * Toggle visualization of rigid-body velocities.
+     */
+    private void toggleVelocities() {
+        if (velocitiesFilter == null) {
+            velocitiesFilter = new FilterAll(true);
+        } else {
+            velocitiesFilter = null;
+        }
+
+        BulletAppState bulletAppState = getBulletAppState();
+        bulletAppState.setDebugVelocityVectorFilter(velocitiesFilter);
     }
 
     /**
