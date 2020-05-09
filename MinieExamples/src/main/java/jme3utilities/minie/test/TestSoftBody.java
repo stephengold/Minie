@@ -112,6 +112,10 @@ public class TestSoftBody
      */
     final private static int numAxes = 3;
     /**
+     * number of lines of text in the overlay
+     */
+    final private static int numStatusLines = 2;
+    /**
      * add UVs to the debug mesh of a flag
      */
     final private static DebugMeshInitListener flagDmiListener
@@ -179,9 +183,10 @@ public class TestSoftBody
     // fields
 
     /**
-     * text displayed in the upper-left corner of the GUI node
+     * lines of text displayed in the upper-left corner of the GUI node ([0] is
+     * the top line)
      */
-    final private BitmapText[] statusLines = new BitmapText[1];
+    final private BitmapText[] statusLines = new BitmapText[numStatusLines];
     /**
      * invisible physics objects
      */
@@ -356,13 +361,7 @@ public class TestSoftBody
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
 
-        float x = 10f;
-        float y = cam.getHeight() - 30f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
-
-        attachHelpNode(rectangle);
+        addHelp();
     }
 
     /**
@@ -466,6 +465,20 @@ public class TestSoftBody
 
         physicsSpace.addCollisionObject(cylinderBody);
         hiddenObjects.addException(cylinderBody);
+    }
+
+    /**
+     * Attach a Node to display hotkey help/hints.
+     */
+    private void addHelp() {
+        float margin = 10f; // pixels
+        float width = cam.getWidth() - 2 * margin;
+        float height = cam.getHeight() - (2 * margin + numStatusLines * 20f);
+        float leftX = margin;
+        float topY = height + margin;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
+
+        attachHelpNode(rectangle);
     }
 
     /**
@@ -954,6 +967,7 @@ public class TestSoftBody
     private static String puppetVSpec(int waistIndex) {
         int puppetVertex = waistlineVertices[waistIndex];
         String vertexSpecifier = String.format("%d/Mesh.009_0", puppetVertex);
+
         return vertexSpecifier;
     }
 
@@ -964,5 +978,9 @@ public class TestSoftBody
         String message = String.format(
                 "Test: %s%s", testName, isPaused() ? "  PAUSED" : "");
         statusLines[0].setText(message);
+
+        String viewOptions = describePhysicsDebugOptions();
+        message = "View: " + viewOptions;
+        statusLines[1].setText(message);
     }
 }
