@@ -72,35 +72,35 @@ public class DropTestStatus extends SimpleAppState {
     /**
      * index of the status line for the child-coloring flag
      */
-    final private static int coloringStatusLine = 5;
+    final private static int coloringStatusLine = 6;
     /**
      * index of the status line for the damping fraction
      */
-    final private static int dampingStatusLine = 3;
+    final private static int dampingStatusLine = 4;
     /**
      * index of the status line for the name of the next drop
      */
-    final private static int dropStatusLine = 2;
+    final private static int dropStatusLine = 3;
     /**
      * index of the status line for the friction coefficient
      */
-    final private static int frictionStatusLine = 4;
+    final private static int frictionStatusLine = 5;
     /**
      * index of the status line for the gravity magnitude
      */
-    final private static int gravityStatusLine = 6;
+    final private static int gravityStatusLine = 7;
     /**
      * number of lines of text in the overlay
      */
-    final private static int numStatusLines = 8;
+    final private static int numStatusLines = 9;
     /**
      * index of the status line for the platform name
      */
-    final private static int platformStatusLine = 1;
+    final private static int platformStatusLine = 2;
     /**
      * index of the status line for the restitution fraction
      */
-    final private static int restitutionStatusLine = 7;
+    final private static int restitutionStatusLine = 8;
     /**
      * message logger for this class
      */
@@ -130,7 +130,7 @@ public class DropTestStatus extends SimpleAppState {
     // fields
 
     /**
-     * lines of text displayed in the upper-left corner of the display ([0] is
+     * lines of text displayed in the upper-left corner of the GUI node ([0] is
      * the top line)
      */
     final private BitmapText[] statusLines = new BitmapText[numStatusLines];
@@ -188,10 +188,13 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of fields to move downward
      */
     void advanceSelectedField(int amount) {
-        int selectedField = selectedLine - 1;
+        int firstField = 2;
+        int numFields = numStatusLines - firstField;
+
+        int selectedField = selectedLine - firstField;
         int sum = selectedField + amount;
-        selectedField = MyMath.modulo(sum, numStatusLines - 1);
-        selectedLine = selectedField + 1;
+        selectedField = MyMath.modulo(sum, numFields);
+        selectedLine = selectedField + firstField;
     }
 
     /**
@@ -364,51 +367,45 @@ public class DropTestStatus extends SimpleAppState {
     public void update(float tpf) {
         super.update(tpf);
 
-        int numActive = appInstance.countActive();
-        int numDrops = appInstance.countDrops();
-        int numCached = DebugShapeFactory.countCachedMeshes();
-        boolean isPaused = appInstance.isPaused();
-        String message = String.format("numDrops=%d  numActive=%d  numCached=%d%s",
-                numDrops, numActive, numCached, isPaused ? "  PAUSED" : "");
-        statusLines[0].setText(message);
+        updateStatusText();
 
-        message = "Child coloring:  "
+        String message = "Child coloring:  "
                 + (isChildColoring ? "enabled" : "disabled");
         updateStatusLine(coloringStatusLine, message);
 
         int index = 1 + Arrays.binarySearch(dampingValues, damping);
         int count = dampingValues.length;
-        message = String.format("Damping #%d of %d: %.2f", index,
+        message = String.format("Damping #%d of %d:  %.2f", index,
                 count, damping);
         updateStatusLine(dampingStatusLine, message);
 
         index = 1 + Arrays.binarySearch(frictionValues, friction);
         count = frictionValues.length;
-        message = String.format("Friction #%d of %d: %.1f", index,
+        message = String.format("Friction #%d of %d:  %.1f", index,
                 count, friction);
         updateStatusLine(frictionStatusLine, message);
 
         index = 1 + Arrays.binarySearch(gravityValues, gravity);
         count = gravityValues.length;
-        message = String.format("Gravity #%d of %d: %.1f", index,
+        message = String.format("Gravity #%d of %d:  %.1f", index,
                 count, gravity);
         updateStatusLine(gravityStatusLine, message);
 
         index = 1 + Arrays.binarySearch(dropNames, nextDropType);
         count = dropNames.length;
-        message = String.format("Next drop #%d of %d: %s", index, count,
+        message = String.format("Drop #%d of %d:  %s", index, count,
                 nextDropType);
         updateStatusLine(dropStatusLine, message);
 
         index = 1 + Arrays.binarySearch(platformNames, platformName);
         count = platformNames.length;
-        message = String.format("Platform #%d of %d: %s", index, count,
+        message = String.format("Platform #%d of %d:  %s", index, count,
                 platformName);
         updateStatusLine(platformStatusLine, message);
 
         index = 1 + Arrays.binarySearch(restitutionValues, restitution);
         count = restitutionValues.length;
-        message = String.format("Restitution #%d of %d: %.2f", index,
+        message = String.format("Restitution #%d of %d:  %.2f", index,
                 count, restitution);
         updateStatusLine(restitutionStatusLine, message);
     }
@@ -532,7 +529,25 @@ public class DropTestStatus extends SimpleAppState {
             spatial.setText("-> " + text);
         } else {
             spatial.setColor(ColorRGBA.White);
-            spatial.setText(text);
+            spatial.setText(" " + text);
         }
+    }
+
+    /**
+     * Update the status text (top 2 lines).
+     */
+    private void updateStatusText() {
+        String viewOptions = appInstance.describePhysicsDebugOptions();
+        String message = " View: " + viewOptions;
+        statusLines[0].setText(message);
+
+        int numDrops = appInstance.countDrops();
+        int numActiveBodies = appInstance.countActive();
+        int numCachedMeshes = DebugShapeFactory.countCachedMeshes();
+        boolean isPaused = appInstance.isPaused();
+        message = String.format(" drops=%d  activeBodies=%d  cachedMeshes=%d%s",
+                numDrops, numActiveBodies, numCachedMeshes,
+                isPaused ? "  PAUSED" : "");
+        statusLines[1].setText(message);
     }
 }

@@ -677,11 +677,12 @@ public class DropTest
      * Attach a Node to display hotkey help/hints.
      */
     private void addHelp() {
-        float width = 360f;
-        float y = cam.getHeight() - 30f;
-        float x = cam.getWidth() - width - 10f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // pixels
+        float width = 370f;
+        float height = cam.getHeight() - (2 * margin + 2 * 20f);
+        float leftX = cam.getWidth() - (width + margin);
+        float topY = height + margin;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }
