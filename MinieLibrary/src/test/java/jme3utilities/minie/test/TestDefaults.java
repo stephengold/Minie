@@ -68,6 +68,7 @@ import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.MultiBodyCollider;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -159,6 +160,11 @@ public class TestDefaults {
         PhysicsGhostObject ghost = new PhysicsGhostObject(box);
         testPco(ghost);
         Assert.assertFalse(ghost.isContactResponse());
+        Assert.assertTrue(ghost.isStatic());
+
+        PhysicsRigidBody srb
+                = new PhysicsRigidBody(box, PhysicsBody.massForStatic);
+        testRigidBody(srb);
 
         rigidA = new PhysicsRigidBody(box);
         testRigidBody(rigidA);
@@ -166,6 +172,7 @@ public class TestDefaults {
         softA = new PhysicsSoftBody();
         testPco(softA);
         Assert.assertTrue(softA.isContactResponse());
+        Assert.assertFalse(softA.isStatic());
         Assert.assertEquals(0, softA.countClusters());
         Assert.assertEquals(0, softA.countFaces());
         Assert.assertEquals(0, softA.countJoints());
@@ -405,10 +412,12 @@ public class TestDefaults {
         MultiBodyCollider baseCollider = mb.getBaseCollider();
         assertEquals(0f, 0f, 0f, 1f, baseCollider.getPhysicsRotation(null), 0f);
         testPco(baseCollider);
+        Assert.assertFalse(baseCollider.isStatic());
 
         MultiBodyCollider linkCollider = link.getCollider();
         assertEquals(0f, 0f, 0f, 1f, linkCollider.getPhysicsRotation(null), 0f);
         testPco(linkCollider);
+        Assert.assertFalse(linkCollider.isStatic());
     }
 
     private void testNew6Dof(New6Dof constraint, int numEnds) {
@@ -557,11 +566,18 @@ public class TestDefaults {
         Assert.assertEquals(0f, prb.getAngularDamping(), 0f);
         Assert.assertEquals(1f, prb.getAngularFactor(), 0f);
         Assert.assertEquals(1f, prb.getAngularSleepingThreshold(), 0f);
-        assertEquals(0f, 0f, 0f, prb.getAngularVelocity(null), 0);
-        assertEquals(0f, 0f, 0f, prb.getLinearVelocity(null), 0);
-        Assert.assertEquals(1f, prb.getMass(), 0f);
+        if (prb.getMass() > 0f) {
+            assertEquals(0f, 0f, 0f, prb.getAngularVelocity(null), 0);
+            assertEquals(0f, 0f, 0f, prb.getLinearVelocity(null), 0);
+            Assert.assertEquals(1f, prb.getMass(), 0f);
+            Assert.assertTrue(prb.isDynamic());
+            Assert.assertFalse(prb.isStatic());
+        } else {
+            Assert.assertEquals(0f, prb.getMass(), 0f);
+            Assert.assertFalse(prb.isDynamic());
+            Assert.assertTrue(prb.isStatic());
+        }
         Assert.assertTrue(prb.isContactResponse());
-        Assert.assertFalse(prb.isStatic());
         Assert.assertFalse(prb.isKinematic());
     }
 
