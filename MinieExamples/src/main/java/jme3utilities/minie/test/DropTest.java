@@ -255,8 +255,12 @@ public class DropTest
         super.addCollisionObject(pco);
 
         if (pco instanceof PhysicsRigidBody) {
+            PhysicsRigidBody rigidBody = (PhysicsRigidBody) pco;
+
             float damping = status.damping();
-            ((PhysicsRigidBody) pco).setDamping(damping, damping);
+            rigidBody.setDamping(damping, damping);
+
+            rigidBody.setSleepingThresholds(0.1f, 0.1f);
         }
 
         float friction = status.friction();
