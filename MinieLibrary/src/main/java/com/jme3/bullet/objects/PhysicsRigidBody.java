@@ -511,6 +511,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @return true if in kinematic mode, otherwise false (dynamic/static mode)
      */
     final public boolean isKinematic() {
+        assert checkKinematicFlag() : kinematic;
         return kinematic;
     }
 
@@ -696,16 +697,20 @@ public class PhysicsRigidBody extends PhysicsBody {
      * other physics objects. Its kinetic force is calculated based on its mass
      * and motion.
      *
-     * @param kinematic true&rarr;set kinematic mode, false&rarr;set
-     * dynamic/static mode (default=false)
+     * @param kinematic true&rarr;set kinematic mode, false&rarr;set dynamic
+     * (default=false)
      */
     public void setKinematic(boolean kinematic) {
         if (mass == massForStatic) {
             throw new IllegalStateException(
                     "Cannot set/clear kinematic mode on a static body!");
         }
+        assert !isStatic();
+
         this.kinematic = kinematic;
         setKinematic(objectId, kinematic);
+
+        assert isKinematic() == kinematic : kinematic;
     }
 
     /**
@@ -909,6 +914,9 @@ public class PhysicsRigidBody extends PhysicsBody {
         setAngularSleepingThreshold(old.getAngularSleepingThreshold());
         setContactResponse(old.isContactResponse());
         setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
+        if (mass != massForStatic) {
+            setKinematic(kinematic);
+        }
         setLinearDamping(old.getLinearDamping());
         setLinearFactor(old.getLinearFactor(tmpVector));
         setLinearSleepingThreshold(old.getLinearSleepingThreshold());
@@ -1118,6 +1126,22 @@ public class PhysicsRigidBody extends PhysicsBody {
         boolean result = FastMath.approximateEquals(nativeMass, mass);
 
         return result;
+    }
+
+    /**
+     * Compare Bullet's kinetmatic flag to the local copy.
+     *
+     * @return true if the flags are equal, otherwise false
+     */
+    private boolean checkKinematicFlag() {
+        int flags = getCollisionFlags(objectId);
+        boolean nativeKinematicFlag
+                = (flags & CollisionFlag.KINEMATIC_OBJECT) != 0;
+        if (kinematic == nativeKinematicFlag) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
