@@ -58,9 +58,9 @@ public class PhysicsCollisionEvent extends EventObject {
     // fields
 
     /**
-     * unique identifier of the btManifoldPoint
+     * identifier of the btManifoldPoint
      */
-    private long nativeId = 0L;
+    private long nid = 0L;
     /**
      * first collision object involved
      */
@@ -88,7 +88,7 @@ public class PhysicsCollisionEvent extends EventObject {
 
         this.pcoA = pcoA;
         this.pcoB = pcoB;
-        nativeId = manifoldPointId;
+        nid = manifoldPointId;
     }
     // *************************************************************************
     // new methods exposed
@@ -149,7 +149,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return impulse
      */
     public float getAppliedImpulse() {
-        return getAppliedImpulse(nativeId);
+        long nativeId = nativeId();
+        float result = getAppliedImpulse(nativeId);
+
+        return result;
     }
 
     /**
@@ -159,7 +162,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return impulse
      */
     public float getAppliedImpulseLateral1() {
-        return getAppliedImpulseLateral1(nativeId);
+        long nativeId = nativeId();
+        float result = getAppliedImpulseLateral1(nativeId);
+
+        return result;
     }
 
     /**
@@ -169,7 +175,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return impulse
      */
     public float getAppliedImpulseLateral2() {
-        return getAppliedImpulseLateral2(nativeId);
+        long nativeId = nativeId();
+        float result = getAppliedImpulseLateral2(nativeId);
+
+        return result;
     }
 
     /**
@@ -179,7 +188,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return the friction sum
      */
     public float getCombinedFriction() {
-        return getCombinedFriction(nativeId);
+        long nativeId = nativeId();
+        float result = getCombinedFriction(nativeId);
+
+        return result;
     }
 
     /**
@@ -189,7 +201,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return the restitution product
      */
     public float getCombinedRestitution() {
-        return getCombinedRestitution(nativeId);
+        long nativeId = nativeId();
+        float result = getCombinedRestitution(nativeId);
+
+        return result;
     }
 
     /**
@@ -199,7 +214,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return the combined friction
      */
     public float getCombinedRollingFriction() {
-        return getCombinedRollingFriction(nativeId);
+        long nativeId = nativeId();
+        float result = getCombinedRollingFriction(nativeId);
+
+        return result;
     }
 
     /**
@@ -209,7 +227,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return the combined friction
      */
     public float getCombinedSpinningFriction() {
-        return getCombinedSpinningFriction(nativeId);
+        long nativeId = nativeId();
+        float result = getCombinedSpinningFriction(nativeId);
+
+        return result;
     }
 
     /**
@@ -218,7 +239,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return the distance (in physics-space units)
      */
     public float getDistance1() {
-        return getDistance1(nativeId);
+        long nativeId = nativeId();
+        float result = getDistance1(nativeId);
+
+        return result;
     }
 
     /**
@@ -227,7 +251,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return a bitmask
      */
     public int getFlags() {
-        return getFlags(nativeId);
+        long nativeId = nativeId();
+        int result = getFlags(nativeId);
+
+        return result;
     }
 
     /**
@@ -248,7 +275,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * undefined
      */
     public int getIndex0() {
-        return getIndex0(nativeId);
+        long nativeId = nativeId();
+        int result = getIndex0(nativeId);
+
+        return result;
     }
 
     /**
@@ -269,7 +299,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * undefined
      */
     public int getIndex1() {
-        return getIndex1(nativeId);
+        long nativeId = nativeId();
+        int result = getIndex1(nativeId);
+
+        return result;
     }
 
     /**
@@ -281,7 +314,10 @@ public class PhysicsCollisionEvent extends EventObject {
      */
     public Vector3f getLateralFrictionDir1(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long nativeId = nativeId();
         getLateralFrictionDir1(nativeId, result);
+
         return result;
     }
 
@@ -294,7 +330,10 @@ public class PhysicsCollisionEvent extends EventObject {
      */
     public Vector3f getLateralFrictionDir2(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long nativeId = nativeId();
         getLateralFrictionDir2(nativeId, result);
+
         return result;
     }
 
@@ -304,7 +343,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return the duration (in ticks, &ge;0)
      */
     public int getLifeTime() {
-        return getLifeTime(nativeId);
+        long nativeId = nativeId();
+        int result = getLifeTime(nativeId);
+
+        return result;
     }
 
     /**
@@ -317,7 +359,10 @@ public class PhysicsCollisionEvent extends EventObject {
      */
     public Vector3f getLocalPointA(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long nativeId = nativeId();
         getLocalPointA(nativeId, result);
+
         return result;
     }
 
@@ -331,7 +376,10 @@ public class PhysicsCollisionEvent extends EventObject {
      */
     public Vector3f getLocalPointB(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long nativeId = nativeId();
         getLocalPointB(nativeId, result);
+
         return result;
     }
 
@@ -344,7 +392,10 @@ public class PhysicsCollisionEvent extends EventObject {
      */
     public Vector3f getNormalWorldOnB(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long nativeId = nativeId();
         getNormalWorldOnB(nativeId, result);
+
         return result;
     }
 
@@ -363,7 +414,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return the index of the collision-shape part (&ge;0) or -1 if undefined
      */
     public int getPartId0() {
-        return getPartId0(nativeId);
+        long nativeId = nativeId();
+        int result = getPartId0(nativeId);
+
+        return result;
     }
 
     /**
@@ -381,7 +435,10 @@ public class PhysicsCollisionEvent extends EventObject {
      * @return the index of the collision-shape part (&ge;0) or -1 if undefined
      */
     public int getPartId1() {
-        return getPartId1(nativeId);
+        long nativeId = nativeId();
+        int result = getPartId1(nativeId);
+
+        return result;
     }
 
     /**
@@ -393,7 +450,10 @@ public class PhysicsCollisionEvent extends EventObject {
      */
     public Vector3f getPositionWorldOnA(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long nativeId = nativeId();
         getPositionWorldOnA(nativeId, result);
+
         return result;
     }
 
@@ -406,7 +466,10 @@ public class PhysicsCollisionEvent extends EventObject {
      */
     public Vector3f getPositionWorldOnB(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long nativeId = nativeId();
         getPositionWorldOnB(nativeId, result);
+
         return result;
     }
 
@@ -420,6 +483,18 @@ public class PhysicsCollisionEvent extends EventObject {
         boolean result = (flags & ContactPointFlag.LATERAL_FRICTION) != 0x0;
 
         return result;
+    }
+    // *************************************************************************
+    // new protected methods
+
+    /**
+     * Read the ID of the btManifoldPoint.
+     *
+     * @return the native identifier (not zero)
+     */
+    final protected long nativeId() {
+        assert nid != 0L;
+        return nid;
     }
     // *************************************************************************
     // native methods
