@@ -38,6 +38,7 @@ import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugMeshInitListener;
+import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Plane;
 import com.jme3.math.Transform;
@@ -67,6 +68,10 @@ public class DebugShapeFactory {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * radius of the debug mesh for a PlaneCollisionShape (in mesh units)
+     */
+    final private static float planeDebugMeshRadius = 1_000f;
     /**
      * specify high-res debug mesh for convex shapes (up to 256 vertices)
      */
@@ -322,6 +327,16 @@ public class DebugShapeFactory {
     }
 
     /**
+     * Determine the side length of the debug mesh for a PlaneCollisionShape.
+     *
+     * @return the length (in mesh units, &gt;0)
+     */
+    static float meshSideLength() {
+        float result = FastMath.sqrt(2f) * planeDebugMeshRadius;
+        return result;
+    }
+
+    /**
      * Forget all previously generated debug meshes for the identified shape.
      *
      * @param shapeId the ID of the shape to remove
@@ -490,9 +505,7 @@ public class DebugShapeFactory {
         Mesh mesh = cache.get(key);
         if (mesh == null) {
             if (shape instanceof PlaneCollisionShape) {
-                float halfExtent = 1000f;
-                mesh = createPlaneMesh((PlaneCollisionShape) shape, halfExtent,
-                        normals);
+                mesh = createPlaneMesh((PlaneCollisionShape) shape, normals);
             } else {
                 mesh = createMesh(shape, normals, resolution);
             }
@@ -610,13 +623,11 @@ public class DebugShapeFactory {
      * Create a Mesh for visualizing the specified PlaneCollisionShape.
      *
      * @param shape (not null, unaffected)
-     * @param halfExtent the desired half extent for the result (in scaled shape
-     * units, &gt;0)
      * @param normals which normals to generate (not null)
      * @return a new, indexed, Triangles-mode Mesh
      */
     private static Mesh createPlaneMesh(PlaneCollisionShape shape,
-            float halfExtent, DebugMeshNormals normals) {
+            DebugMeshNormals normals) {
         /*
          * Generate mesh positions for a large 2-sided square.
          */
@@ -636,7 +647,7 @@ public class DebugShapeFactory {
          * Transform positions to the surface of the shape.
          */
         Transform transform = planeTransform(shape);
-        transform.setScale(halfExtent);
+        transform.setScale(planeDebugMeshRadius);
         MyBuffer.transform(posBuffer, 0, numFloats, transform);
         /*
          * Generate an index buffer for a 2-sided square.
