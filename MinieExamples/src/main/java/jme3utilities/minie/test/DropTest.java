@@ -242,6 +242,8 @@ public class DropTest
         String platformName = status.platformType();
         addPlatform(platformName, platformY);
 
+        renderer.setDefaultAnisotropicFilter(8);
+
         addADrop();
     }
 
@@ -716,7 +718,7 @@ public class DropTest
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.5f);
+        dlsr.setShadowIntensity(0.7f);
         viewPort.addProcessor(dlsr);
     }
 
