@@ -379,7 +379,7 @@ public class NativeSoftBodyUtil {
      */
     public static void updateClusterMesh(PhysicsSoftBody body, Mesh store,
             boolean meshInLocalSpace) {
-        long bodyId = body.getObjectId();
+        long bodyId = body.nativeId();
         FloatBuffer positionBuffer
                 = store.getFloatBuffer(VertexBuffer.Type.Position);
         assert positionBuffer != null;
@@ -411,7 +411,7 @@ public class NativeSoftBodyUtil {
     public static void updateMesh(PhysicsSoftBody body,
             IntBuffer vertexToNodeMap, Mesh store, boolean meshInLocalSpace,
             boolean updateNormals, Transform physicsToMesh) {
-        long bodyId = body.getObjectId();
+        long bodyId = body.nativeId();
         FloatBuffer positionBuffer
                 = store.getFloatBuffer(VertexBuffer.Type.Position);
         assert positionBuffer != null;

@@ -592,7 +592,7 @@ public class PhysicsDescriber extends Describer {
 
         result.append(" a=");
         PhysicsSoftBody bodyA = anchor.getSoftBody();
-        long aId = bodyA.getObjectId();
+        long aId = bodyA.nativeId();
         result.append(Long.toHexString(aId));
         if (!bodyA.isInWorld()) {
             result.append("_NOT_IN_WORLD");
@@ -605,7 +605,7 @@ public class PhysicsDescriber extends Describer {
 
         result.append(" b=");
         PhysicsRigidBody bodyB = anchor.getRigidBody();
-        long bId = bodyB.getObjectId();
+        long bId = bodyB.nativeId();
         result.append(Long.toHexString(bId));
         if (!bodyB.isInWorld()) {
             result.append("_NOT_IN_WORLD");
@@ -677,7 +677,7 @@ public class PhysicsDescriber extends Describer {
         PhysicsRigidBody bodyA = constraint.getBodyA();
         if (bodyA != null) {
             result.append(" a=");
-            long aId = bodyA.getObjectId();
+            long aId = bodyA.nativeId();
             result.append(Long.toHexString(aId));
             if (!bodyA.isInWorld()) {
                 result.append("_NOT_IN_WORLD");
@@ -690,7 +690,7 @@ public class PhysicsDescriber extends Describer {
         PhysicsRigidBody bodyB = constraint.getBodyB();
         if (bodyB != null) {
             result.append(" b=");
-            long bId = bodyB.getObjectId();
+            long bId = bodyB.nativeId();
             result.append(Long.toHexString(bId));
             if (!bodyB.isInWorld()) {
                 result.append("_NOT_IN_WORLD");
@@ -985,7 +985,7 @@ public class PhysicsDescriber extends Describer {
 
         PhysicsSoftBody bodyA = joint.getSoftBodyA();
         result.append(" a=");
-        long aId = bodyA.getObjectId();
+        long aId = bodyA.nativeId();
         result.append(Long.toHexString(aId));
         if (!bodyA.isInWorld()) {
             result.append("_NOT_IN_WORLD");

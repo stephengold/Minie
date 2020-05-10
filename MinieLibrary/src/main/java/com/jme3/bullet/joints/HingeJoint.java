@@ -528,7 +528,7 @@ public class HingeJoint extends Constraint {
      */
     private void createJoint() {
         PhysicsRigidBody a = getBodyA();
-        long aId = a.getObjectId();
+        long aId = a.nativeId();
         assert pivotA != null;
         assert axisA.isUnitVector() : axisA;
 
@@ -568,7 +568,7 @@ public class HingeJoint extends Constraint {
              * Create a double-ended joint.
              */
             assert !useReferenceFrameA;
-            long bId = b.getObjectId();
+            long bId = b.nativeId();
             constraintId = createJoint(aId, bId, pivotA, axisA, pivotB, axisB);
         }
         setNativeId(constraintId);

@@ -302,12 +302,12 @@ public class Anchor extends PhysicsJoint {
      */
     private void createAnchor() {
         PhysicsSoftBody a = getSoftBody();
-        long aId = a.getObjectId();
+        long aId = a.nativeId();
         assert nodeIndexA >= 0 : nodeIndexA;
         assert nodeIndexA < a.countNodes() : nodeIndexA;
 
         PhysicsRigidBody b = getRigidBody();
-        long bId = b.getObjectId();
+        long bId = b.nativeId();
 
         long anchorId = createAnchor(aId, nodeIndexA, bId, pivotInB,
                 allowCollisions, influence);

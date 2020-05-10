@@ -244,7 +244,7 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describeGroups(collider);
         stream.print(desc);
 
-        long objectId = collider.getObjectId();
+        long objectId = collider.nativeId();
         addNativeId(objectId);
         /*
          * The 2nd line has the shape and scale.
@@ -282,7 +282,7 @@ public class PhysicsDumper extends Dumper {
         Vector3f ang = character.getAngularVelocity(null);
         stream.printf(" angV[%s]", MyVector3f.describe(ang));
 
-        long objectId = character.getObjectId();
+        long objectId = character.nativeId();
         addNativeId(objectId);
         /*
          * The 2nd line has the character's configuration.
@@ -365,7 +365,7 @@ public class PhysicsDumper extends Dumper {
 
         desc = describer.describeGroups(ghost);
         stream.print(desc);
-        long objectId = ghost.getObjectId();
+        long objectId = ghost.nativeId();
         addNativeId(objectId);
         /*
          * The 2nd line has the shape and scale.
@@ -418,7 +418,7 @@ public class PhysicsDumper extends Dumper {
         stream.print(MyString.describe(restitution));
 
         addActivationState(body);
-        long objectId = body.getObjectId();
+        long objectId = body.nativeId();
         addNativeId(objectId);
 
         if (body.isDynamic()) {
@@ -500,7 +500,7 @@ public class PhysicsDumper extends Dumper {
         desc = MyString.describe(margin);
         stream.print(desc);
 
-        long objectId = body.getObjectId();
+        long objectId = body.nativeId();
         addNativeId(objectId);
 
         stream.printf("%n%s  vol=", indent);

@@ -167,7 +167,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     public boolean contains(PhysicsCollisionObject pco) {
         boolean result;
         if (pco instanceof PhysicsSoftBody) {
-            long pcoId = pco.getObjectId();
+            long pcoId = pco.nativeId();
             result = softBodyMap.containsKey(pcoId);
         } else {
             result = super.contains(pco);
@@ -270,7 +270,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      * @param softBody the body to add (not null, not already in the space)
      */
     private void addSoftBody(PhysicsSoftBody softBody) {
-        long softBodyId = softBody.getObjectId();
+        long softBodyId = softBody.nativeId();
         if (softBodyMap.containsKey(softBodyId)) {
             logger2.log(Level.WARNING, "{0} is already added to {1}.",
                     new Object[]{softBody, this});
@@ -288,7 +288,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     }
 
     private void removeSoftBody(PhysicsSoftBody softBody) {
-        long softBodyId = softBody.getObjectId();
+        long softBodyId = softBody.nativeId();
         if (!softBodyMap.containsKey(softBodyId)) {
             logger2.log(Level.WARNING, "{0} does not exist in {1}.",
                     new Object[]{softBody, this});

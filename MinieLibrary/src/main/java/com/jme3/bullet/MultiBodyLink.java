@@ -152,7 +152,7 @@ public class MultiBodyLink
 
         collider = new MultiBodyCollider(multiBody, linkIndex);
         long linkId = nativeId();
-        long colliderId = collider.getObjectId();
+        long colliderId = collider.nativeId();
         setCollider(linkId, colliderId);
         collider.attachShape(shape);
 
@@ -349,7 +349,7 @@ public class MultiBodyLink
             assert getCollider(multiBodyId, linkIndex) == 0L;
         } else {
             assert getCollider(multiBodyId, linkIndex)
-                    == collider.getObjectId();
+                    == collider.nativeId();
         }
 
         return collider;

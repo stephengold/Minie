@@ -208,7 +208,7 @@ public class CollisionSpace extends NativePhysicsObject {
      */
     public boolean contains(PhysicsCollisionObject pco) {
         boolean result;
-        long pcoId = pco.getObjectId();
+        long pcoId = pco.nativeId();
         if (pco instanceof PhysicsGhostObject) {
             result = ghostMap.containsKey(pcoId);
         } else {
@@ -624,7 +624,7 @@ public class CollisionSpace extends NativePhysicsObject {
         loggerC.log(Level.FINE, "Adding {0} to {1}.",
                 new Object[]{ghost, this});
 
-        long ghostId = ghost.getObjectId();
+        long ghostId = ghost.nativeId();
         ghostMap.put(ghostId, ghost);
 
         long spaceId = nativeId();
@@ -659,7 +659,7 @@ public class CollisionSpace extends NativePhysicsObject {
      * @param ghost the object to remove (not null)
      */
     private void removeGhostObject(PhysicsGhostObject ghost) {
-        long ghostId = ghost.getObjectId();
+        long ghostId = ghost.nativeId();
         if (!ghostMap.containsKey(ghostId)) {
             loggerC.log(Level.WARNING, "{0} does not exist in {1}.",
                     new Object[]{ghost, this});

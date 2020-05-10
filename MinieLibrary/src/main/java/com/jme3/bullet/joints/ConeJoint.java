@@ -373,7 +373,7 @@ public class ConeJoint extends Constraint {
      */
     private void createJoint() {
         PhysicsRigidBody a = getBodyA();
-        long aId = a.getObjectId();
+        long aId = a.nativeId();
         assert pivotA != null;
         assert rotA != null;
         PhysicsRigidBody b = getBodyB();
@@ -393,7 +393,7 @@ public class ConeJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            long bId = b.getObjectId();
+            long bId = b.nativeId();
             constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB);
         }
         setNativeId(constraintId);

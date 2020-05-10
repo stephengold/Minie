@@ -1056,7 +1056,7 @@ public class SliderJoint extends Constraint {
         assert rotA != null;
 
         PhysicsRigidBody b = getBodyB();
-        long bId = b.getObjectId();
+        long bId = b.nativeId();
         assert pivotB != null;
         assert rotB != null;
 
@@ -1080,7 +1080,7 @@ public class SliderJoint extends Constraint {
             /*
              * Create a double-ended joint.
              */
-            long aId = a.getObjectId();
+            long aId = a.nativeId();
             constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB,
                     useLinearReferenceFrameA);
         }

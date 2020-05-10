@@ -763,7 +763,7 @@ public class New6Dof extends Constraint {
         assert rotA != null;
 
         PhysicsRigidBody b = getBodyB();
-        long bId = b.getObjectId();
+        long bId = b.nativeId();
         assert pivotB != null;
         assert rotB != null;
 
@@ -800,7 +800,7 @@ public class New6Dof extends Constraint {
             /*
              * Create a double-ended constraint.
              */
-            long aId = a.getObjectId();
+            long aId = a.nativeId();
             constraintId = createDoubleEnded(aId, bId, pivotA, rotA, pivotB,
                     rotB, rotOrder);
         }

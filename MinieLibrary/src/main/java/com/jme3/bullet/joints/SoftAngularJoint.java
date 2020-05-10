@@ -221,12 +221,12 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      */
     private void createJoint() {
         PhysicsSoftBody a = getSoftBodyA();
-        long ida = a.getObjectId();
+        long ida = a.nativeId();
         int cia = clusterIndexA();
         assert cia >= 0 : cia;
         assert cia < a.countClusters() : cia;
 
-        long idb = getBodyB().getObjectId();
+        long idb = getBodyB().nativeId();
         int cib = clusterIndexB();
 
         float erp = getERP();

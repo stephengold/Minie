@@ -98,7 +98,7 @@ public class MyPco {
     public static String objectName(PhysicsCollisionObject pco) {
         Validate.nonNull(pco, "physics object");
 
-        long id = pco.getObjectId();
+        long id = pco.nativeId();
         String name;
         if (pco instanceof PhysicsCharacter) {
             name = String.format("chara%d", id);
