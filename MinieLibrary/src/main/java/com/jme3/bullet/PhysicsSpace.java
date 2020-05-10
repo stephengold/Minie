@@ -310,6 +310,48 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
+     * Add the specified PhysicsJoint to this space.
+     *
+     * @param joint the joint to add (not null, alias created)
+     */
+    public void addJoint(PhysicsJoint joint) {
+        Validate.nonNull(joint, "joint");
+        if (contains(joint)) {
+            logger.log(Level.WARNING, "{0} is already added to {1}.",
+                    new Object[]{joint, this});
+            return;
+        }
+        assert joint.getPhysicsSpace() == null;
+        /*
+         * Warn if the jointed bodies aren't already added to this space.
+         */
+        PhysicsBody a = joint.getBody(JointEnd.A);
+        if (a != null && !contains(a)) {
+            logger.log(Level.WARNING,
+                    "{0} at the A end of {1} has not yet been added to {2}.",
+                    new Object[]{a, joint, this});
+        }
+        PhysicsBody b = joint.getBody(JointEnd.B);
+        if (b != null && !contains(b)) {
+            logger.log(Level.WARNING,
+                    "{0} at the B end of {1} has not yet been added to {2}.",
+                    new Object[]{b, joint, this});
+        }
+
+        logger.log(Level.FINE, "Adding {0} to {1}.", new Object[]{joint, this});
+        long jointId = joint.nativeId();
+        physicsJoints.put(jointId, joint);
+        joint.setPhysicsSpace(this);
+
+        if (joint instanceof Constraint) {
+            long spaceId = nativeId();
+            Constraint constr = (Constraint) joint;
+            boolean allowCollision = constr.isCollisionBetweenLinkedBodies();
+            addConstraintC(spaceId, jointId, !allowCollision);
+        }
+    }
+
+    /**
      * Register the specified tick listener with this space.
      * <p>
      * Tick listeners are notified before and after each physics step. A physics
@@ -596,6 +638,31 @@ public class PhysicsSpace extends CollisionSpace {
 
         boolean success = collisionListeners.remove(listener);
         assert success;
+    }
+
+    /**
+     * Remove the specified PhysicsJoint from this space.
+     *
+     * @param joint the joint to remove (not null)
+     */
+    public void removeJoint(PhysicsJoint joint) {
+        Validate.nonNull(joint, "joint");
+        long jointId = joint.nativeId();
+        if (!physicsJoints.containsKey(jointId)) {
+            logger.log(Level.WARNING, "{0} does not exist in {1}.",
+                    new Object[]{joint, this});
+            return;
+        }
+
+        logger.log(Level.FINE, "Removing {0} from {1}.",
+                new Object[]{joint, this});
+        physicsJoints.remove(jointId);
+        joint.setPhysicsSpace(null);
+
+        if (joint instanceof Constraint) {
+            long spaceId = nativeId();
+            removeConstraint(spaceId, jointId);
+        }
     }
 
     /**
@@ -948,47 +1015,6 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Add the specified PhysicsJoint to this space. TODO publicize
-     *
-     * @param joint the joint to add (not null, alias created)
-     */
-    private void addJoint(PhysicsJoint joint) {
-        if (contains(joint)) {
-            logger.log(Level.WARNING, "{0} is already added to {1}.",
-                    new Object[]{joint, this});
-            return;
-        }
-        assert joint.getPhysicsSpace() == null;
-        /*
-         * Warn if the jointed bodies aren't already added to this space.
-         */
-        PhysicsBody a = joint.getBody(JointEnd.A);
-        if (a != null && !contains(a)) {
-            logger.log(Level.WARNING,
-                    "{0} at the A end of {1} has not yet been added to {2}.",
-                    new Object[]{a, joint, this});
-        }
-        PhysicsBody b = joint.getBody(JointEnd.B);
-        if (b != null && !contains(b)) {
-            logger.log(Level.WARNING,
-                    "{0} at the B end of {1} has not yet been added to {2}.",
-                    new Object[]{b, joint, this});
-        }
-
-        logger.log(Level.FINE, "Adding {0} to {1}.", new Object[]{joint, this});
-        long jointId = joint.nativeId();
-        physicsJoints.put(jointId, joint);
-        joint.setPhysicsSpace(this);
-
-        if (joint instanceof Constraint) {
-            long spaceId = nativeId();
-            Constraint constr = (Constraint) joint;
-            boolean allowCollision = constr.isCollisionBetweenLinkedBodies();
-            addConstraintC(spaceId, jointId, !allowCollision);
-        }
-    }
-
-    /**
      * Add the specified PhysicsRigidBody to this space.
      * <p>
      * NOTE: When a rigid body is added, its gravity gets set to that of the
@@ -1109,30 +1135,6 @@ public class PhysicsSpace extends CollisionSpace {
         long spaceId = nativeId();
         removeAction(spaceId, character.getControllerId());
         removeCharacterObject(spaceId, characterId);
-    }
-
-    /**
-     * Remove the specified PhysicsJoint from this space. TODO publicize
-     *
-     * @param joint the joint to remove (not null)
-     */
-    private void removeJoint(PhysicsJoint joint) {
-        long jointId = joint.nativeId();
-        if (!physicsJoints.containsKey(jointId)) {
-            logger.log(Level.WARNING, "{0} does not exist in {1}.",
-                    new Object[]{joint, this});
-            return;
-        }
-
-        logger.log(Level.FINE, "Removing {0} from {1}.",
-                new Object[]{joint, this});
-        physicsJoints.remove(jointId);
-        joint.setPhysicsSpace(null);
-
-        if (joint instanceof Constraint) {
-            long spaceId = nativeId();
-            removeConstraint(spaceId, jointId);
-        }
     }
 
     /**
