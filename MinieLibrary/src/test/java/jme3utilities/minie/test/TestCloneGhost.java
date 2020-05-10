@@ -86,7 +86,7 @@ public class TestCloneGhost {
 
     private void cloneTest(PhysicsGhostObject pgo,
             PhysicsGhostObject pgoClone) {
-        assert pgoClone.getObjectId() != pgo.getObjectId();
+        assert pgoClone.nativeId() != pgo.nativeId();
 
         verifyParameters(pgo, 0f);
         verifyParameters(pgoClone, 0f);

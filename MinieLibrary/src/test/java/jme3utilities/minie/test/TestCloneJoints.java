@@ -263,7 +263,7 @@ public class TestCloneJoints {
             assert aClone == null;
         } else {
             assert aClone != null;
-            assert a.getObjectId() != aClone.getObjectId();
+            assert a.nativeId() != aClone.nativeId();
         }
 
         PhysicsBody b = joint.getBody(JointEnd.B);
@@ -272,7 +272,7 @@ public class TestCloneJoints {
             assert bClone == null;
         } else {
             assert bClone != null;
-            assert b.getObjectId() != bClone.getObjectId();
+            assert b.nativeId() != bClone.nativeId();
         }
 
         verifyParameters(joint, 0f);

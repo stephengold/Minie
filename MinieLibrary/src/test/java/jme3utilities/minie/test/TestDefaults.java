@@ -463,7 +463,7 @@ public class TestDefaults {
      * @param pco the object to test (not null, unaffected)
      */
     private void testPco(PhysicsCollisionObject pco) {
-        Assert.assertNotEquals(0L, pco.getObjectId());
+        Assert.assertNotEquals(0L, pco.nativeId());
         Assert.assertFalse(pco.isInWorld());
         Assert.assertTrue(pco.isActive());
 

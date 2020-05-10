@@ -157,7 +157,7 @@ public class TestCloneBody {
     // private methods
 
     private void cloneTest(PhysicsBody body, PhysicsBody bodyClone) {
-        assert bodyClone.getObjectId() != body.getObjectId();
+        assert bodyClone.nativeId() != body.nativeId();
         if (body instanceof PhysicsSoftBody) {
             PhysicsSoftBody sBody = (PhysicsSoftBody) body;
             PhysicsSoftBody sBodyClone = (PhysicsSoftBody) bodyClone;
