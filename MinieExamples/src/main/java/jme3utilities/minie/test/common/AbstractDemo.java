@@ -41,6 +41,7 @@ import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
+import com.jme3.bullet.util.PlaneDmiListener;
 import com.jme3.font.Rectangle;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -54,6 +55,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.texture.Texture;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
@@ -460,6 +462,14 @@ abstract public class AbstractDemo extends ActionApplication {
         ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
         Material platform = MyAsset.createShadedMaterial(assetManager, green);
         registerMaterial("platform", platform);
+
+        Texture texture = MyAsset.loadTexture(assetManager,
+                "Textures/greenTile.png", true);
+        texture.setMinFilter(Texture.MinFilter.Trilinear);
+        texture.setWrap(Texture.WrapMode.Repeat);
+        Material greenTile
+                = MyAsset.createShadedMaterial(assetManager, texture);
+        registerMaterial("greenTile", greenTile);
     }
 
     /**
@@ -890,8 +900,16 @@ abstract public class AbstractDemo extends ActionApplication {
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
+        PlaneDmiListener planeDmiListener = new PlaneDmiListener(1f);
+        body.setDebugMeshInitListener(planeDmiListener);
+        
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
+
         addPlatform(body);
+
+        Material material = findMaterial("greenTile");
+        body.setApplicationData(material);
+        body.setDebugMaterial(material);
     }
 
     /**
