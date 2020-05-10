@@ -303,10 +303,6 @@ public class PhysicsVehicle extends PhysicsRigidBody {
             return;
         }
         long spaceId = space.nativeId();
-        if (spaceId == 0L) {
-            throw new IllegalStateException(
-                    "Physics space is not initialized!");
-        }
         if (rayCasterId != 0L) {
             logger3.log(Level.FINE, "Clearing RayCaster {0}",
                     Long.toHexString(rayCasterId));
@@ -317,6 +313,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         rayCasterId = createVehicleRaycaster(spaceId);
         logger3.log(Level.FINE, "Created RayCaster {0}",
                 Long.toHexString(rayCasterId));
+        long objectId = nativeId();
         vehicleId = createRaycastVehicle(objectId, rayCasterId);
         logger3.log(Level.FINE, "Created Vehicle {0}",
                 Long.toHexString(vehicleId));

@@ -86,8 +86,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * default gravity vector -- differs from that of
      * btKinematicCharacterController!
      */
-    final private static Vector3f defaultGravity
-            = new Vector3f(0f, -29.4f, 0f);
+    final private static Vector3f defaultGravity = new Vector3f(0f, -29.4f, 0f);
     /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
@@ -389,10 +388,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Enable/disable this character's contact response.
      *
-     * @param newState true to respond to contacts, false to ignore it
+     * @param newState true to respond to contact forces, false to ignore them
      * (default=true)
      */
     public void setContactResponse(boolean newState) {
+        long objectId = nativeId();
         int flags = getCollisionFlags(objectId);
         if (newState) {
             flags &= ~CollisionFlag.NO_CONTACT_RESPONSE;
@@ -719,6 +719,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
 
             initUserPointer();
         }
+
+        long objectId = nativeId();
         setCharacterFlags(objectId);
 
         CollisionShape shape = getCollisionShape();

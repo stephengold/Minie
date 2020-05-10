@@ -103,17 +103,16 @@ public class PhysicsRigidBody extends PhysicsBody {
     // fields
 
     /**
-     * copy of kinematic flag: true&rarr;set kinematic mode (spatial controls
-     * body), false&rarr;dynamic/static mode (body controls spatial)
+     * copy of kinematic flag: true&rarr;set kinematic mode,
+     * false&rarr;dynamic/static mode
      */
     private boolean kinematic = false;
     /**
      * copy of the mass (&gt;0) of a dynamic body, or 0 for a static body
-     * (default=1)
      */
     protected float mass = 1f;
     /**
-     * motion state (not null)
+     * motion state
      */
     private RigidBodyMotionState motionState = new RigidBodyMotionState();
     // *************************************************************************
@@ -188,6 +187,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     public void applyCentralForce(Vector3f force) {
         Validate.finite(force, "force");
 
+        long objectId = nativeId();
         applyCentralForce(objectId, force);
         activate();
     }
@@ -201,6 +201,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     public void applyCentralImpulse(Vector3f impulse) {
         Validate.finite(impulse, "impulse");
 
+        long objectId = nativeId();
         applyCentralImpulse(objectId, impulse);
         activate();
     }
@@ -221,6 +222,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         Validate.finite(force, "force");
         Validate.finite(offset, "offset");
 
+        long objectId = nativeId();
         applyForce(objectId, force, offset);
         activate();
     }
@@ -237,6 +239,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         Validate.finite(impulse, "impulse");
         Validate.finite(offset, "offset");
 
+        long objectId = nativeId();
         applyImpulse(objectId, impulse, offset);
         activate();
     }
@@ -254,6 +257,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     public void applyTorque(Vector3f torque) {
         Validate.finite(torque, "torque");
 
+        long objectId = nativeId();
         applyTorque(objectId, torque);
         activate();
     }
@@ -268,6 +272,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     public void applyTorqueImpulse(Vector3f torqueImpulse) {
         Validate.finite(torqueImpulse, "torque impulse");
 
+        long objectId = nativeId();
         applyTorqueImpulse(objectId, torqueImpulse);
         activate();
     }
@@ -276,6 +281,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Clear all forces and torques acting on this body.
      */
     public void clearForces() {
+        long objectId = nativeId();
         clearForces(objectId);
     }
 
@@ -285,6 +291,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @return the damping fraction (&ge;0, &le;1)
      */
     public float getAngularDamping() {
+        long objectId = nativeId();
         float result = getAngularDamping(objectId);
 
         assert result >= 0f : result;
@@ -310,7 +317,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public Vector3f getAngularFactor(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long objectId = nativeId();
         getAngularFactor(objectId, result);
+
         return result;
     }
 
@@ -321,7 +331,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @return the angular-motion threshold (in radians per second, &ge;0)
      */
     public float getAngularSleepingThreshold() {
-        return getAngularSleepingThreshold(objectId);
+        long objectId = nativeId();
+        float result = getAngularSleepingThreshold(objectId);
+
+        return result;
     }
 
     /**
@@ -346,7 +359,9 @@ public class PhysicsRigidBody extends PhysicsBody {
         assert isDynamic();
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
+        long objectId = nativeId();
         getAngularVelocity(objectId, result);
+
         return result;
     }
 
@@ -362,6 +377,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         assert isDynamic();
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
+        long objectId = nativeId();
         getAngularVelocity(objectId, result);
         Quaternion localToWorld = getPhysicsRotation(null);
         Quaternion worldToLocal = localToWorld.inverse();
@@ -379,7 +395,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public Vector3f getInverseInertiaLocal(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long objectId = nativeId();
         getInverseInertiaLocal(objectId, result);
+
         return result;
     }
 
@@ -391,7 +410,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public Matrix3f getInverseInertiaWorld(Matrix3f storeResult) {
         Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
+
+        long objectId = nativeId();
         getInverseInertiaWorld(objectId, result);
+
         return result;
     }
 
@@ -401,6 +423,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @return the damping fraction (&ge;0, &le;1)
      */
     public float getLinearDamping() {
+        long objectId = nativeId();
         float result = getLinearDamping(objectId);
 
         assert result >= 0f : result;
@@ -417,7 +440,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public Vector3f getLinearFactor(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long objectId = nativeId();
         getLinearFactor(objectId, result);
+
         return result;
     }
 
@@ -429,7 +455,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      * &ge;0)
      */
     public float getLinearSleepingThreshold() {
-        return getLinearSleepingThreshold(objectId);
+        long objectId = nativeId();
+        float result = getLinearSleepingThreshold(objectId);
+
+        return result;
     }
 
     /**
@@ -455,7 +484,9 @@ public class PhysicsRigidBody extends PhysicsBody {
         assert isDynamic();
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
+        long objectId = nativeId();
         getLinearVelocity(objectId, result);
+
         return result;
     }
 
@@ -487,7 +518,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public float getSquaredSpeed() {
         assert isDynamic();
+
+        long objectId = nativeId();
         float result = getSquaredSpeed(objectId);
+
         return result;
     }
 
@@ -564,6 +598,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setAngularDamping(float angularDamping) {
         Validate.fraction(angularDamping, "angular damping");
+
+        long objectId = nativeId();
         setAngularDamping(objectId, angularDamping);
     }
 
@@ -574,6 +610,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * unaffected, default=1)
      */
     public void setAngularFactor(float factor) {
+        long objectId = nativeId();
         setAngularFactor(objectId, new Vector3f(factor, factor, factor));
     }
 
@@ -584,6 +621,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * unaffected, default=(1,1,1))
      */
     public void setAngularFactor(Vector3f factor) {
+        long objectId = nativeId();
         setAngularFactor(objectId, factor);
     }
 
@@ -594,6 +632,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param threshold the desired threshold (&ge;0, default=1)
      */
     public void setAngularSleepingThreshold(float threshold) {
+        long objectId = nativeId();
         setAngularSleepingThreshold(objectId, threshold);
     }
 
@@ -606,6 +645,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     public void setAngularVelocity(Vector3f omega) {
         Validate.finite(omega, "omega");
 
+        long objectId = nativeId();
         setAngularVelocity(objectId, omega);
         activate();
     }
@@ -628,8 +668,10 @@ public class PhysicsRigidBody extends PhysicsBody {
         if (objectId == 0L) {
             rebuildRigidBody();
         } else {
-            setCollisionShape(objectId, collisionShape.nativeId());
-            updateMassProps(objectId, collisionShape.nativeId(), mass);
+            long objectId = nativeId();
+            long shapeId = collisionShape.nativeId();
+            setCollisionShape(objectId, shapeId);
+            updateMassProps(objectId, shapeId, mass);
         }
     }
 
@@ -640,6 +682,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * (default=true)
      */
     public void setContactResponse(boolean newState) {
+        long objectId = nativeId();
         int flags = getCollisionFlags(objectId);
         if (newState) {
             flags &= ~CollisionFlag.NO_CONTACT_RESPONSE;
@@ -661,6 +704,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         Validate.fraction(linearDamping, "linear damping");
         Validate.fraction(angularDamping, "angular damping");
 
+        long objectId = nativeId();
         setDamping(objectId, linearDamping, angularDamping);
     }
 
@@ -671,6 +715,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param setting true&rarr;enable sleeping, false&rarr;disable sleeping
      */
     public void setEnableSleep(boolean setting) {
+        long objectId = nativeId();
         if (setting) {
             setActivationState(objectId, Activation.active);
         } else {
@@ -686,6 +731,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setInverseInertiaLocal(Vector3f inverseInertia) {
         Validate.nonNull(inverseInertia, "inverse inertia");
+
+        long objectId = nativeId();
         setInverseInertiaLocal(objectId, inverseInertia);
     }
 
@@ -707,6 +754,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         assert !isStatic();
 
         this.kinematic = kinematic;
+        long objectId = nativeId();
         setKinematic(objectId, kinematic);
 
         assert isKinematic() == kinematic : kinematic;
@@ -721,6 +769,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     public void setLinearDamping(float linearDamping) {
         Validate.fraction(linearDamping, "linear damping");
 
+        long objectId = nativeId();
         float angularDamping = getAngularDamping();
         setDamping(objectId, linearDamping, angularDamping);
     }
@@ -732,6 +781,9 @@ public class PhysicsRigidBody extends PhysicsBody {
      * unaffected, default=(1,1,1))
      */
     public void setLinearFactor(Vector3f factor) {
+        Validate.nonNull(factor, "factor");
+
+        long objectId = nativeId();
         setLinearFactor(objectId, factor);
     }
 
@@ -743,6 +795,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * second, &ge;0, default=0.8)
      */
     public void setLinearSleepingThreshold(float threshold) {
+        long objectId = nativeId();
         setLinearSleepingThreshold(objectId, threshold);
     }
 
@@ -755,6 +808,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     public void setLinearVelocity(Vector3f velocity) {
         Validate.finite(velocity, "velocity");
 
+        long objectId = nativeId();
         setLinearVelocity(objectId, velocity);
         activate();
     }
@@ -772,6 +826,7 @@ public class PhysicsRigidBody extends PhysicsBody {
             throw new IllegalArgumentException("No rotation of heightfields.");
         }
 
+        long objectId = nativeId();
         setPhysicsRotation(objectId, orientation);
     }
 
@@ -783,6 +838,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setPhysicsRotation(Quaternion orientation) {
         Validate.nonNull(orientation, "orientation");
+
+        long objectId = nativeId();
         setPhysicsRotation(objectId, orientation);
     }
 
@@ -827,6 +884,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param angular the desired angular threshold (&ge;0, default=1)
      */
     public void setSleepingThresholds(float linear, float angular) {
+        Validate.nonNegative(linear, "linear threshold");
+        Validate.nonNegative(angular, "angular threshold");
+
+        long objectId = nativeId();
         setSleepingThresholds(objectId, linear, angular);
     }
     // *************************************************************************
@@ -836,6 +897,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * For use by subclasses.
      */
     protected void postRebuild() {
+        long objectId = nativeId();
         int flags = getCollisionFlags(objectId);
         if (mass == massForStatic) {
             flags |= CollisionFlag.STATIC_OBJECT;
@@ -865,6 +927,7 @@ public class PhysicsRigidBody extends PhysicsBody {
                 removedFrom.removeCollisionObject(this);
             }
             logger2.log(Level.FINE, "Clearing {0}.", this);
+            long objectId = nativeId();
             finalizeNative(objectId);
         }
 
@@ -942,7 +1005,10 @@ public class PhysicsRigidBody extends PhysicsBody {
     @Override
     public Vector3f getGravity(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long objectId = nativeId();
         getGravity(objectId, result);
+
         return result;
     }
 
@@ -1037,6 +1103,7 @@ public class PhysicsRigidBody extends PhysicsBody {
             logger2.warning("The body is not in any PhysicsSpace.");
         }
 
+        long objectId = nativeId();
         setGravity(objectId, acceleration);
     }
 
@@ -1060,6 +1127,7 @@ public class PhysicsRigidBody extends PhysicsBody {
             return;
         }
         this.mass = mass;
+        long objectId = nativeId();
         updateMassProps(objectId, shape.nativeId(), mass);
 
         int flags = getCollisionFlags(objectId);
@@ -1080,6 +1148,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     @Override
     public void setPhysicsLocation(Vector3f location) {
         Validate.finite(location, "location");
+
+        long objectId = nativeId();
         setPhysicsLocation(objectId, location);
     }
 
@@ -1127,6 +1197,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @return true if the masses are approximately equal, otherwise false
      */
     private boolean checkMass() {
+        long objectId = nativeId();
         float nativeMass = getMass(objectId);
         boolean result = FastMath.approximateEquals(nativeMass, mass);
 
@@ -1134,14 +1205,16 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Compare Bullet's kinetmatic flag to the local copy.
+     * Compare Bullet's kinematic flag to the local copy.
      *
      * @return true if the flags are equal, otherwise false
      */
     private boolean checkKinematicFlag() {
+        long objectId = nativeId();
         int flags = getCollisionFlags(objectId);
         boolean nativeKinematicFlag
                 = (flags & CollisionFlag.KINEMATIC_OBJECT) != 0;
+
         if (kinematic == nativeKinematicFlag) {
             return true;
         } else {

@@ -116,6 +116,8 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
         Validate.nonNull(shape, "shape");
 
         setCollisionShape(shape);
+
+        long objectId = nativeId();
         long shapeId = shape.nativeId();
         super.attachCollisionShape(objectId, shapeId);
     }
@@ -164,6 +166,7 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
      * null, unaffected)
      */
     public void setPhysicsLocation(Vector3f location) {
+        long objectId = nativeId();
         setPhysicsLocation(objectId, location);
     }
 
@@ -174,6 +177,7 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
      * physics-space coordinates, not null, unaffected)
      */
     public void setPhysicsRotation(Matrix3f rotation) {
+        long objectId = nativeId();
         setPhysicsRotation(objectId, rotation);
     }
     // *************************************************************************
