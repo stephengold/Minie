@@ -41,6 +41,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
+import com.jme3.renderer.queue.RenderQueue;
+import com.jme3.scene.Node;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -185,6 +187,10 @@ public class BulletAppState
      * running
      */
     private ScheduledThreadPoolExecutor executor;
+    /**
+     * ShadowMode for the debug root node
+     */
+    private RenderQueue.ShadowMode debugShadowMode = RenderQueue.ShadowMode.Off;
     /**
      * constraint solver for the PhysicsSpace to use (not null)
      */
@@ -493,6 +499,21 @@ public class BulletAppState
      */
     public void setDebugInitListener(DebugInitListener listener) {
         debugInitListener = listener;
+    }
+
+    /**
+     * Alter the shadow mode of the debug root node.
+     *
+     * @param mode the desired value (not null, default=Off)
+     */
+    public void setDebugShadowMode(RenderQueue.ShadowMode mode) {
+        Validate.nonNull(mode, "mode");
+
+        if (debugAppState != null) {
+            Node node = debugAppState.getRootNode();
+            node.setShadowMode(mode);
+        }
+        debugShadowMode = mode;
     }
 
     /**
@@ -881,6 +902,7 @@ public class BulletAppState
             debugAppState.setJointLineWidth(debugJointLineWidth);
             debugAppState.setSweptSphereFilter(sweptSphereFilter);
             debugAppState.setVelocityVectorFilter(velocityVectorFilter);
+            debugAppState.getRootNode().setShadowMode(debugShadowMode);
             stateManager.attach(debugAppState);
 
         } else if (!debugEnabled && debugAppState != null) {
