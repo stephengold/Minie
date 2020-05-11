@@ -185,8 +185,7 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * scene-graph node to parent the geometries
      */
-    final private Node physicsDebugRootNode
-            = new Node("Physics Debug Root Node");
+    final private Node root = new Node("Physics Debug Root Node");
     /**
      * PhysicsSpace to visualize (not null)
      */
@@ -383,6 +382,15 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
+     * Access the Node containing all the debug visualization.
+     *
+     * @return the pre-existing instance, or null if unknown
+     */
+    public Node getRootNode() {
+        return root;
+    }
+
+    /**
      * Access the Material for visualizing velocity vectors.
      *
      * @return the pre-existing Material (not null)
@@ -532,7 +540,7 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     protected void attachChild(Spatial spatial) {
         assert spatial != null;
-        physicsDebugRootNode.attachChild(spatial);
+        root.attachChild(spatial);
     }
 
     /**
@@ -722,7 +730,7 @@ public class BulletDebugAppState extends AbstractAppState {
     @Override
     public void cleanup() {
         for (ViewPort viewPort : viewPorts) {
-            viewPort.detachScene(physicsDebugRootNode);
+            viewPort.detachScene(root);
         }
         super.cleanup();
     }
@@ -742,11 +750,11 @@ public class BulletDebugAppState extends AbstractAppState {
         setupMaterials(assetManager);
 
         if (initListener != null) {
-            initListener.bulletDebugInit(physicsDebugRootNode);
+            initListener.bulletDebugInit(root);
         }
 
         for (ViewPort viewPort : viewPorts) {
-            viewPort.attachScene(physicsDebugRootNode);
+            viewPort.attachScene(root);
         }
     }
 
@@ -762,7 +770,7 @@ public class BulletDebugAppState extends AbstractAppState {
         super.render(rm);
         for (ViewPort viewPort : viewPorts) {
             if (viewPort.isEnabled()) {
-                rm.renderScene(physicsDebugRootNode, viewPort);
+                rm.renderScene(root, viewPort);
             }
         }
     }
@@ -788,8 +796,8 @@ public class BulletDebugAppState extends AbstractAppState {
         updateJoints();
 
         // Update the debug root node.
-        physicsDebugRootNode.updateLogicalState(tpf);
-        physicsDebugRootNode.updateGeometricState();
+        root.updateLogicalState(tpf);
+        root.updateGeometricState();
     }
     // *************************************************************************
     // private methods
