@@ -75,6 +75,7 @@ import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
+import jme3utilities.Validate;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.mesh.ClothHexagon;
 import jme3utilities.minie.test.shape.MinieTestShapes;
@@ -218,6 +219,16 @@ public class DropTest
         String platformName = status.platformType();
         addPlatform(platformName, platformY);
     }
+
+    /**
+     * Update the debug materials of all collision objects.
+     */
+    void setDebugMaterialsAll() {
+        PhysicsSpace physicsSpace = getPhysicsSpace();
+        for (PhysicsCollisionObject pco : physicsSpace.getPcoList()) {
+            setDebugMaterial(pco);
+        }
+    }
     // *************************************************************************
     // AbstractDemo methods
 
@@ -254,8 +265,6 @@ public class DropTest
      */
     @Override
     public void addCollisionObject(PhysicsCollisionObject pco) {
-        super.addCollisionObject(pco);
-
         if (pco instanceof PhysicsRigidBody) {
             PhysicsRigidBody rigidBody = (PhysicsRigidBody) pco;
 
@@ -270,6 +279,23 @@ public class DropTest
 
         float restitution = status.restitution();
         pco.setRestitution(restitution);
+
+        setDebugMaterial(pco);
+
+        super.addCollisionObject(pco);
+    }
+
+    /**
+     * Configure the specified platform body and add it to the PhysicsSpace.
+     *
+     * @param body the body to add (not null, not in world)
+     */
+    @Override
+    public void addPlatform(PhysicsBody body) {
+        Validate.nonNull(body, "body");
+        Validate.require(!body.isInWorld(), "not in world");
+
+        super.addPlatform(body);
     }
 
     /**
@@ -312,7 +338,8 @@ public class DropTest
         super.generateMaterials();
 
         ColorRGBA lightGray = new ColorRGBA(0.6f, 0.6f, 0.6f, 1f);
-        Material selected = MyAsset.createShinyMaterial(assetManager, lightGray);
+        Material selected
+                = MyAsset.createShinyMaterial(assetManager, lightGray);
         selected.setFloat("Shininess", 15f);
         registerMaterial("selected", selected);
 
@@ -654,21 +681,17 @@ public class DropTest
 
         Quaternion startOrientation = random.nextQuaternion();
 
-        Material debugMaterial;
-        if (status.isChildColoring()
-                && dropShape instanceof CompoundCollisionShape) {
-            debugMaterial = BulletDebugAppState.enableChildColoring;
-        } else {
-            debugMaterial = (Material) random.pick(dropMaterials);
-        }
-
         float mass = 1f;
         PhysicsRigidBody body = new PhysicsRigidBody(dropShape, mass);
-        body.setApplicationData(debugMaterial);
+
+        Material solidMaterial = (Material) random.pick(dropMaterials);
+        body.setApplicationData(solidMaterial);
+
         body.setCcdMotionThreshold(5f);
+
         float sweptSphereRadius = dropShape.maxRadius();
         body.setCcdSweptSphereRadius(sweptSphereRadius);
-        body.setDebugMaterial(debugMaterial);
+
         body.setDebugMeshNormals(debugMeshNormals);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
         body.setPhysicsLocation(startLocation);
@@ -922,22 +945,40 @@ public class DropTest
     /**
      * Alter which drop is selected.
      *
-     * @param drop the drop to select (or null)
+     * @param newDrop the drop to select (or null)
      */
-    private void selectDrop(PhysicsRigidBody drop) {
-        if (drop != selectedDrop) {
-            if (selectedDrop != null) {
-                Material material
-                        = (Material) selectedDrop.getApplicationData();
-                selectedDrop.setDebugMaterial(material);
+    private void selectDrop(PhysicsRigidBody newDrop) {
+        if (newDrop != selectedDrop) {
+            PhysicsRigidBody oldDrop = selectedDrop;
+            selectedDrop = newDrop;
+
+            if (oldDrop != null) {
+                setDebugMaterial(oldDrop);
             }
-
-            selectedDrop = drop;
-
-            if (selectedDrop != null) {
-                Material material = findMaterial("selected");
-                selectedDrop.setDebugMaterial(material);
+            if (newDrop != null) {
+                setDebugMaterial(newDrop);
             }
         }
+    }
+
+    /**
+     * Update the debug materials of the specified collision object.
+     */
+    private void setDebugMaterial(PhysicsCollisionObject pco) {
+        CollisionShape shape = pco.getCollisionShape();
+
+        Material debugMaterial;
+        if (selectedDrop == pco) {
+            debugMaterial = findMaterial("selected");
+
+        } else if (status.isChildColoring()
+                && shape instanceof CompoundCollisionShape) {
+            debugMaterial = BulletDebugAppState.enableChildColoring;
+
+        } else {
+            debugMaterial = (Material) pco.getApplicationData();
+        }
+        assert debugMaterial != null;
+        pco.setDebugMaterial(debugMaterial);
     }
 }

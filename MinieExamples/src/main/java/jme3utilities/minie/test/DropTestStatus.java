@@ -70,10 +70,6 @@ public class DropTestStatus extends SimpleAppState {
     final private static float[] restitutionValues
             = {0f, 0.1f, 0.3f, 0.6f, 0.9f, 0.99f};
     /**
-     * index of the status line for the child-coloring flag
-     */
-    final private static int coloringStatusLine = 6;
-    /**
      * index of the status line for the damping fraction
      */
     final private static int dampingStatusLine = 4;
@@ -88,11 +84,11 @@ public class DropTestStatus extends SimpleAppState {
     /**
      * index of the status line for the gravity magnitude
      */
-    final private static int gravityStatusLine = 7;
+    final private static int gravityStatusLine = 6;
     /**
      * number of lines of text in the overlay
      */
-    final private static int numStatusLines = 9;
+    final private static int numStatusLines = 8;
     /**
      * index of the status line for the platform name
      */
@@ -100,7 +96,7 @@ public class DropTestStatus extends SimpleAppState {
     /**
      * index of the status line for the restitution fraction
      */
-    final private static int restitutionStatusLine = 8;
+    final private static int restitutionStatusLine = 7;
     /**
      * message logger for this class
      */
@@ -135,7 +131,7 @@ public class DropTestStatus extends SimpleAppState {
      */
     final private BitmapText[] statusLines = new BitmapText[numStatusLines];
     /**
-     * flag to enable child coloring for new drops with compound shapes
+     * flag to enable child coloring for drops with compound shapes
      */
     private boolean isChildColoring = false;
     /**
@@ -204,9 +200,6 @@ public class DropTestStatus extends SimpleAppState {
      */
     void advanceValue(int amount) {
         switch (selectedLine) {
-            case coloringStatusLine:
-                toggleChildColoring();
-                break;
             case dampingStatusLine:
                 advanceDamping(amount);
                 break;
@@ -308,6 +301,7 @@ public class DropTestStatus extends SimpleAppState {
      */
     void toggleChildColoring() {
         isChildColoring = !isChildColoring;
+        appInstance.setDebugMaterialsAll();
     }
     // *************************************************************************
     // ActionAppState methods
@@ -369,13 +363,9 @@ public class DropTestStatus extends SimpleAppState {
 
         updateStatusText();
 
-        String message = "Child coloring:  "
-                + (isChildColoring ? "enabled" : "disabled");
-        updateStatusLine(coloringStatusLine, message);
-
         int index = 1 + Arrays.binarySearch(dampingValues, damping);
         int count = dampingValues.length;
-        message = String.format("Damping #%d of %d:  %.2f", index,
+        String message = String.format("Damping #%d of %d:  %.2f", index,
                 count, damping);
         updateStatusLine(dampingStatusLine, message);
 
@@ -539,6 +529,9 @@ public class DropTestStatus extends SimpleAppState {
     private void updateStatusText() {
         String viewOptions = appInstance.describePhysicsDebugOptions();
         String message = " View: " + viewOptions;
+        if (isChildColoring) {
+            message += "+ChildColoring";
+        }
         statusLines[0].setText(message);
 
         int numDrops = appInstance.countDrops();
