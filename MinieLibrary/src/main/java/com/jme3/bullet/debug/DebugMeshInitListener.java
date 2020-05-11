@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,9 +40,9 @@ import com.jme3.scene.Mesh;
  */
 public interface DebugMeshInitListener {
     /**
-     * Callback from AbstractPhysicsDebugControl, invoked just after the mesh
-     * positions and normals are initialized. A good time to add texture
-     * coordinates.
+     * Callback from DebugShapeFactory or SoftBodyDebugControl, invoked just
+     * after the mesh positions and normals are initialized. A good time to add
+     * texture coordinates.
      *
      * @param debugMesh the mesh to be used for visualization (not null)
      */

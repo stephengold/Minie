@@ -544,7 +544,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Read the ID of the btCollisionObject.
+     * Read the ID of the btCollisionObject. For compatibility with the
+     * jme3-bullet library.
      *
      * @return the native identifier (not zero)
      */
