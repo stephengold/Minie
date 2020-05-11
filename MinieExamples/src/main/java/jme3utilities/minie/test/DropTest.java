@@ -229,6 +229,19 @@ public class DropTest
             setDebugMaterial(pco);
         }
     }
+
+    /**
+     * Update the ShadowMode of the debug scene.
+     */
+    void setDebugShadowMode() {
+        RenderQueue.ShadowMode mode;
+        if (status.isWireframe()) {
+            mode = RenderQueue.ShadowMode.Off;
+        } else {
+            mode = RenderQueue.ShadowMode.CastAndReceive;
+        }
+        bulletAppState.setDebugShadowMode(mode);
+    }
     // *************************************************************************
     // AbstractDemo methods
 
@@ -281,7 +294,6 @@ public class DropTest
         pco.setRestitution(restitution);
 
         setDebugMaterial(pco);
-
         super.addCollisionObject(pco);
     }
 
@@ -477,6 +489,7 @@ public class DropTest
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind(AbstractDemo.asToggleVelocities, KeyInput.KEY_K);
+        dim.bind("toggle wireframe", KeyInput.KEY_SLASH);
         /*
          * The help node can't be created until all hotkeys are bound.
          */
@@ -536,6 +549,9 @@ public class DropTest
 
                 case "toggle childColoring":
                     status.toggleChildColoring();
+                    return;
+                case "toggle wireframe":
+                    status.toggleWireframe();
                     return;
             }
         }
@@ -971,14 +987,18 @@ public class DropTest
         if (selectedDrop == pco) {
             debugMaterial = findMaterial("selected");
 
+        } else if (status.isWireframe()) {
+            debugMaterial = null;
+
         } else if (status.isChildColoring()
                 && shape instanceof CompoundCollisionShape) {
             debugMaterial = BulletDebugAppState.enableChildColoring;
 
         } else {
+            // Use the pre-selected lit material.
             debugMaterial = (Material) pco.getApplicationData();
         }
-        assert debugMaterial != null;
+
         pco.setDebugMaterial(debugMaterial);
     }
 }

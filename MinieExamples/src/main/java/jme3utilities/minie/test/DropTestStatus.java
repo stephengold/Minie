@@ -131,9 +131,14 @@ public class DropTestStatus extends SimpleAppState {
      */
     final private BitmapText[] statusLines = new BitmapText[numStatusLines];
     /**
-     * flag to enable child coloring for drops with compound shapes
+     * flag to enable child coloring for unselected PCOs with compound shapes
      */
     private boolean isChildColoring = false;
+    /**
+     * flag to force wireframe materials for all unselected PCOs (overrides
+     * child coloring)
+     */
+    private boolean isWireframe = false;
     /**
      * reference to the application instance
      */
@@ -264,6 +269,15 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
+     * Test whether wireframe materials are enabled.
+     *
+     * @return true if enabled, otherwise false
+     */
+    boolean isWireframe() {
+        return isWireframe;
+    }
+
+    /**
      * Determine the type for the next drop.
      *
      * @return the name (not null, not empty)
@@ -297,11 +311,20 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
-     * Toggle whether child coloring is enabled.
+     * Toggle child coloring disabled/enabled.
      */
     void toggleChildColoring() {
         isChildColoring = !isChildColoring;
         appInstance.setDebugMaterialsAll();
+    }
+
+    /**
+     * Toggle wireframe disabled/enabled.
+     */
+    void toggleWireframe() {
+        isWireframe = !isWireframe;
+        appInstance.setDebugMaterialsAll();
+        appInstance.setDebugShadowMode();
     }
     // *************************************************************************
     // ActionAppState methods
@@ -529,8 +552,12 @@ public class DropTestStatus extends SimpleAppState {
     private void updateStatusText() {
         String viewOptions = appInstance.describePhysicsDebugOptions();
         String message = " View: " + viewOptions;
-        if (isChildColoring) {
-            message += "+ChildColoring";
+        if (isWireframe) {
+            message += "(Wireframe)";
+        } else if (isChildColoring) {
+            message += "(Lit/ChildColoring)";
+        } else {
+            message += "(Lit)";
         }
         statusLines[0].setText(message);
 
