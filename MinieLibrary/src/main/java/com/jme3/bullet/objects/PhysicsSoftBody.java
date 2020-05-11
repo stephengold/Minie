@@ -264,6 +264,7 @@ public class PhysicsSoftBody extends PhysicsBody {
                     "The number of indices must be a multiple of 4.");
         }
 
+        long objectId = nativeId();
         int numTetras = tetrahedra.size() / 4;
         Buffer buffer = tetrahedra.getBuffer();
         if (buffer instanceof ByteBuffer) {
