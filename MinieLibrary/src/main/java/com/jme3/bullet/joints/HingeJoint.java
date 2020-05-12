@@ -83,26 +83,26 @@ public class HingeJoint extends Constraint {
     // fields
 
     /**
-     * copy of the angular-only flag (default=false)
+     * copy of the angular-only flag
      */
     private boolean angularOnly = false;
     /**
-     * copy of the "use reference frame A" flag (default=false)
+     * copy of the "use reference frame A" flag
      */
     private boolean useReferenceFrameA = false;
     /**
-     * copy of the limit's bias factor: how strictly position errors (drift) is
-     * corrected (default=0.3)
+     * copy of the limit's bias factor: how strictly position errors are
+     * corrected
      */
     private float biasFactor = 0.3f;
     /**
      * copy of the limit's softness: the range fraction at which velocity-error
-     * correction starts operating (default=0.9)
+     * correction starts operating
      */
     private float limitSoftness = 0.9f;
     /**
      * copy of the limit's relaxation factor: the rate at which velocity errors
-     * are corrected (default=1)
+     * are corrected
      */
     private float relaxationFactor = 1f;
     /**
