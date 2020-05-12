@@ -53,7 +53,6 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
-import com.jme3.math.Transform;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
@@ -65,7 +64,6 @@ import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
-import java.nio.FloatBuffer;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
@@ -74,11 +72,10 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
-import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.mesh.ClothHexagon;
-import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -102,7 +99,7 @@ public class DropTest
     // constants and loggers
 
     /**
-     * approximate Y coordinate for the platform
+     * approximate Y coordinate for the platform TODO rename platformTopY
      */
     final private static float platformY = 0f;
     /**
@@ -123,13 +120,13 @@ public class DropTest
     // fields
 
     /**
-     * shape for the next drop
-     */
-    private CollisionShape dropShape;
-    /**
      * current drops, in order of creation
      */
-    final private Deque<PhysicsRigidBody> drops = new ArrayDeque<>(maxNumDrops);
+    final private Deque<Drop> drops = new ArrayDeque<>(maxNumDrops);
+    /**
+     * selected drop, or null if none
+     */
+    private Drop selectedDrop = null;
     /**
      * AppState to manage the status overlay
      */
@@ -139,17 +136,9 @@ public class DropTest
      */
     final private Material dropMaterials[] = new Material[4];
     /**
-     * selected drop, or null if none
-     */
-    private PhysicsRigidBody selectedDrop = null;
-    /**
      * AppState to manage the PhysicsSpace
      */
     private SoftPhysicsAppState bulletAppState;
-    /**
-     * local inverse inertia vector for the current drop (or null)
-     */
-    private Vector3f inverseInertia = null;
     // *************************************************************************
     // new methods exposed
 
@@ -158,8 +147,8 @@ public class DropTest
      */
     int countActive() {
         int result = 0;
-        for (PhysicsRigidBody drop : drops) {
-            if (drop.isActive()) {
+        for (Drop drop : drops) {
+            if (drop.isAnyActive()) {
                 ++result;
             }
         }
@@ -267,7 +256,6 @@ public class DropTest
         addPlatform(platformName, platformY);
 
         renderer.setDefaultAnisotropicFilter(8);
-
         addADrop();
     }
 
@@ -596,136 +584,22 @@ public class DropTest
             return; // too many drops
         }
 
-        inverseInertia = null;
         String dropName = status.nextDropType();
-        ShapeGenerator random = getGenerator();
-        DebugMeshNormals debugMeshNormals;
-        switch (dropName) {
-            case "banana":
-            case "barbell":
-            case "barrel":
-            case "bowlingPin":
-            case "knucklebone":
-            case "ladder":
-            case "top":
-                dropShape = findShape(dropName);
-                assert dropShape != null : dropName;
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "box":
-            case "frame":
-            case "halfPipe":
-            case "hull":
-            case "iBeam":
-            case "lidlessBox":
-            case "platonic":
-            case "prism":
-            case "pyramid":
-            case "star":
-            case "tetrahedron":
-            case "triangularFrame":
-            case "trident":
-                dropShape = random.nextShape(dropName);
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "capsule":
-            case "cone":
-            case "cylinder":
-            case "dome":
-            case "football":
-            case "multiSphere":
-            case "snowman":
-            case "torus":
-                dropShape = random.nextShape(dropName);
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "chair":
-                dropShape = findShape("chair");
-                inverseInertia = MinieTestShapes.chairInverseInertia;
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "digit":
-                randomDigit();
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "duck":
-            case "ankh": // TODO re-order cases
-            case "heart":
-            case "horseshoe":
-            case "sword":
-            case "table":
-            case "teapot":
-            case "thumbTack":
-                dropShape = findShape(dropName);
-                assert dropShape != null : dropName;
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "letter":
-                randomLetter();
-                debugMeshNormals = DebugMeshNormals.Facet;
-                break;
-
-            case "madMallet":
-                randomMallet(false);
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "mallet":
-                randomMallet(true);
-                debugMeshNormals = DebugMeshNormals.Smooth;
-                break;
-
-            case "sphere":
-                dropShape = random.nextShape(dropName);
-                debugMeshNormals = DebugMeshNormals.Sphere;
-                break;
-
-            default:
-                String message = "dropName = " + MyString.quote(dropName);
-                throw new RuntimeException(message);
-        }
-
-        Vector3f startLocation = random.nextVector3f();
-        startLocation.multLocal(2.5f, 5f, 2.5f);
-        startLocation.y += 20f;
-
-        Quaternion startOrientation = random.nextQuaternion();
-
         float mass = 1f;
-        PhysicsRigidBody body = new PhysicsRigidBody(dropShape, mass);
+        ShapeGenerator random = getGenerator();
+        Material litMaterial = (Material) random.pick(dropMaterials);
+        Drop drop = new Drop(this, dropName, mass, litMaterial);
 
-        Material solidMaterial = (Material) random.pick(dropMaterials);
-        body.setApplicationData(solidMaterial);
-
-        body.setCcdMotionThreshold(5f);
-
-        float sweptSphereRadius = dropShape.maxRadius();
-        body.setCcdSweptSphereRadius(sweptSphereRadius);
-
-        body.setDebugMeshNormals(debugMeshNormals);
-        body.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        body.setPhysicsLocation(startLocation);
-        body.setPhysicsRotation(startOrientation);
-        if (inverseInertia != null) {
-            body.setInverseInertiaLocal(inverseInertia);
-        }
-
-        addCollisionObject(body);
-        drops.addLast(body);
+        drop.addToSpace();
+        drops.addLast(drop);
     }
 
     /**
      * Attach a Node to display hotkey help/hints.
      */
     private void addHelp() {
-        float margin = 10f; // pixels
-        float width = 370f;
+        float margin = 10f; // in pixels
+        float width = 370f; // in pixels
         float height = cam.getHeight() - (2 * margin + 2 * 20f);
         float leftX = cam.getWidth() - (width + margin);
         float topY = height + margin;
@@ -831,9 +705,9 @@ public class DropTest
      * Delete the most recently added drop.
      */
     private void deleteLastDrop() {
-        PhysicsRigidBody lastDrop = drops.peekLast();
+        Drop lastDrop = drops.peekLast();
         if (lastDrop != null) {
-            getPhysicsSpace().removeCollisionObject(lastDrop);
+            lastDrop.removeFromSpace();
             if (lastDrop == selectedDrop) {
                 selectDrop(null);
             }
@@ -847,7 +721,7 @@ public class DropTest
      */
     private void deleteSelected() {
         if (selectedDrop != null) {
-            getPhysicsSpace().removeCollisionObject(selectedDrop);
+            selectedDrop.removeFromSpace();
             boolean success = drops.remove(selectedDrop);
             assert success;
             selectDrop(null);
@@ -856,13 +730,15 @@ public class DropTest
     }
 
     /**
-     * Dump the selected drop.
+     * Dump the selected drop, if any.
      */
     private void dumpSelected() {
         if (selectedDrop == null) {
             System.out.printf("%nNo drop selected.");
         } else {
-            getDumper().dump(selectedDrop, "");
+            PhysicsDumper dumper = getDumper();
+            PhysicsSpace space = getPhysicsSpace();
+            dumper.dump(space, "", selectedDrop);
         }
     }
 
@@ -879,10 +755,9 @@ public class DropTest
 
         for (PhysicsRayTestResult hit : hits) {
             PhysicsCollisionObject pco = hit.getCollisionObject();
-            if (pco instanceof PhysicsRigidBody) {
-                PhysicsRigidBody body = (PhysicsRigidBody) pco;
-                if (drops.contains(body)) {
-                    selectDrop(body);
+            for (Drop drop : drops) {
+                if (drop.displayObject(pco)) {
+                    selectDrop(drop);
                     return;
                 }
             }
@@ -896,84 +771,20 @@ public class DropTest
     private void popSelected() {
         if (selectedDrop != null) {
             float gravity = status.gravity();
-            float impulse
-                    = selectedDrop.getMass() * FastMath.sqrt(30f * gravity);
-            Vector3f impulseVector = new Vector3f(0f, impulse, 0f);
-            ShapeGenerator random = getGenerator();
-            Vector3f offset = random.nextVector3f().multLocal(0.2f);
-            selectedDrop.applyImpulse(impulseVector, offset);
-        }
-    }
-
-    /**
-     * Randomly select the shape of a decimal digit.
-     */
-    private void randomDigit() {
-        ShapeGenerator random = getGenerator();
-        char glyphChar = (char) ('0' + random.nextInt(10));
-        String glyphString = Character.toString(glyphChar);
-        dropShape = findShape(glyphString);
-    }
-
-    /**
-     * Randomly select the shape of an uppercase letter.
-     */
-    private void randomLetter() {
-        ShapeGenerator random = getGenerator();
-        char glyphChar = (char) ('A' + random.nextInt(26));
-        String glyphString = Character.toString(glyphChar);
-        dropShape = findShape(glyphString);
-    }
-
-    /**
-     * Randomly generate an asymmetrical compound shape consisting of 2
-     * cylinders.
-     *
-     * @param correctAxes if true, correct the shape's center of mass and
-     * principal axes
-     */
-    private void randomMallet(boolean correctAxes) {
-        ShapeGenerator random = getGenerator();
-        float handleR = 0.5f;
-        float headR = handleR + random.nextFloat();
-        float headHalfLength = headR + random.nextFloat();
-        float handleHalfLength = headHalfLength + random.nextFloat(0f, 2.5f);
-        CompoundCollisionShape compound = MinieTestShapes.makeMadMallet(handleR,
-                headR, handleHalfLength, headHalfLength);
-        dropShape = compound;
-        /*
-         * At this point, the shape's center of mass lies at the bare end
-         * of the handle:  a "mad" mallet that prefers to stand upright.
-         */
-        if (correctAxes) {
-            float handleMass = 0.15f;
-            float headMass = 1f - handleMass; // Put 85% of mass in the head.
-            FloatBuffer masses
-                    = BufferUtils.createFloatBuffer(handleMass, headMass);
-
-            Vector3f inertia = new Vector3f();
-            Transform transform = compound.principalAxes(masses, null, inertia);
-            inverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
-            compound.correctAxes(transform);
+            float deltaV = FastMath.sqrt(30f * gravity);
+            selectedDrop.pop(deltaV);
         }
     }
 
     /**
      * Alter which drop is selected.
      *
-     * @param newDrop the drop to select (or null)
+     * @param newDrop the drop to select (or null for none)
      */
-    private void selectDrop(PhysicsRigidBody newDrop) {
+    private void selectDrop(Drop newDrop) {
         if (newDrop != selectedDrop) {
-            PhysicsRigidBody oldDrop = selectedDrop;
             selectedDrop = newDrop;
-
-            if (oldDrop != null) {
-                setDebugMaterial(oldDrop);
-            }
-            if (newDrop != null) {
-                setDebugMaterial(newDrop);
-            }
+            setDebugMaterialsAll();
         }
     }
 
@@ -984,7 +795,7 @@ public class DropTest
         CollisionShape shape = pco.getCollisionShape();
 
         Material debugMaterial;
-        if (selectedDrop == pco) {
+        if (selectedDrop != null && selectedDrop.displayObject(pco)) {
             debugMaterial = findMaterial("selected");
 
         } else if (status.isWireframe()) {
