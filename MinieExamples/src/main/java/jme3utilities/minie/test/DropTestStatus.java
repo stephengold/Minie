@@ -107,8 +107,8 @@ public class DropTestStatus extends SimpleAppState {
      */
     final private static String[] dropNames = {
         "ankh", "banana", "barbell", "barrel", "bowlingPin", "box", "capsule",
-        "chair", "cone", "cylinder", "digit", "dome", "duck", "football",
-        "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
+        "chair", "cone", "cylinder", "digit", "diptych", "dome", "duck",
+        "football", "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
         "knucklebone", "ladder", "letter", "lidlessBox", "madMallet", "mallet",
         "multiSphere", "platonic", "prism", "pyramid", "snowman", "sphere",
         "star", "sword", "table", "teapot", "tetrahedron", "thumbTack", "top",
@@ -184,7 +184,7 @@ public class DropTestStatus extends SimpleAppState {
     // new methods exposed
 
     /**
-     * Advance the status-field selection by the specified amount.
+     * Advance the field selection by the specified amount.
      *
      * @param amount the number of fields to move downward
      */

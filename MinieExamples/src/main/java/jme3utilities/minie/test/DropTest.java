@@ -53,6 +53,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
@@ -131,10 +132,6 @@ public class DropTest
      * AppState to manage the status overlay
      */
     private DropTestStatus status;
-    /**
-     * shiny, lit materials to visualize drops
-     */
-    final private Material dropMaterials[] = new Material[4];
     /**
      * AppState to manage the PhysicsSpace
      */
@@ -343,17 +340,18 @@ public class DropTest
         selected.setFloat("Shininess", 15f);
         registerMaterial("selected", selected);
 
-        ColorRGBA dropColors[] = new ColorRGBA[dropMaterials.length];
+        ColorRGBA dropColors[] = new ColorRGBA[4];
         dropColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
         dropColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
         dropColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire
         dropColors[3] = new ColorRGBA(0.2f, 0.1f, 0f, 1f); // topaz
 
-        for (int i = 0; i < dropMaterials.length; ++i) {
-            ColorRGBA color = dropColors[i];
-            dropMaterials[i]
+        for (int index = 0; index < dropColors.length; ++index) {
+            ColorRGBA color = dropColors[index];
+            Material material
                     = MyAsset.createShinyMaterial(assetManager, color);
-            dropMaterials[i].setFloat("Shininess", 15f);
+            material.setFloat("Shininess", 15f);
+            registerMaterial("drop" + index, material);
         }
     }
 
@@ -584,11 +582,17 @@ public class DropTest
             return; // too many drops
         }
 
+        ShapeGenerator random = getGenerator();
+        Vector3f startLocation = random.nextVector3f(); //TODO garbage
+        startLocation.multLocal(2.5f, 5f, 2.5f);
+        startLocation.y += 20f;
+        Quaternion startOrientation = random.nextQuaternion(); //TODO garbage
+        Transform startPosition
+                = new Transform(startLocation, startOrientation); //TODO garbage
+
         String dropName = status.nextDropType();
         float mass = 1f;
-        ShapeGenerator random = getGenerator();
-        Material litMaterial = (Material) random.pick(dropMaterials);
-        Drop drop = new Drop(this, dropName, mass, litMaterial);
+        Drop drop = new Drop(this, dropName, mass, startPosition);
 
         drop.addToSpace();
         drops.addLast(drop);

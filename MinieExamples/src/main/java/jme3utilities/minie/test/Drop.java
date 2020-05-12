@@ -27,16 +27,23 @@
 package jme3utilities.minie.test;
 
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.RotationOrder;
+import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.BulletDebugAppState;
+import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.joints.motors.MotorParam;
+import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.DebugShapeFactory;
-import com.jme3.math.Quaternion;
+import com.jme3.material.Material;
+import com.jme3.math.FastMath;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.BufferUtils;
@@ -46,7 +53,6 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
-import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
@@ -68,11 +74,11 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     // fields
 
     /**
-     * reference to the application instance
+     * application that contains this drop
      */
     final private AbstractDemo appInstance;
     /**
-     * all dynamic bodies in this Drop
+     * bodies in this Drop, all must be dynamic
      */
     final private Collection<PhysicsBody> allBodies = new TreeSet<>();
     /**
@@ -80,9 +86,17 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      */
     final private Collection<PhysicsJoint> allJoints = new TreeSet<>();
     /**
+     * total mass of all bodies in this Drop
+     */
+    final private float totalMass;
+    /**
      * type of Drop
      */
     final private String typeName;
+    /**
+     * initial local-to-PhysicsSpace Transform
+     */
+    final private Transform startPosition;
     /**
      * local inverse inertia vector (or null)
      */
@@ -91,60 +105,31 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     // constructors
 
     /**
-     * Instantiate a Drop of the specified type, with the specified mass and
-     * application data.
+     * Instantiate a Drop of the specified type, with the specified mass,
+     * initial position, and application data.
      *
-     * @param appInstance (alias created)
+     * @param appInstance (not null, alias created)
      * @param typeName (not null)
      * @param totalMass (&gt;0)
-     * @param appData (alias created)
+     * @param startPosition the local-to-PhysicsSpace Transform (not null,
+     * unaffected)
      */
     Drop(AbstractDemo appInstance, String typeName, float totalMass,
-            Object appData) {
+            Transform startPosition) {
+        Validate.nonNull(appInstance, "application instance");
         Validate.nonNull(typeName, "type name");
         Validate.positive(totalMass, "total mass");
+        Validate.nonNull(startPosition, "start position");
 
         this.appInstance = appInstance;
         this.typeName = typeName;
-        create(totalMass, appData);
+        this.totalMass = totalMass;
+        this.startPosition = startPosition.clone();
+
+        create();
     }
     // *************************************************************************
     // new methods exposed
-
-    /**
-     * Add dynamic bodies.
-     *
-     * @param bodies (no nulls, not in any PhysicsSpace, aliases created)
-     */
-    void addBodies(PhysicsBody... bodies) {
-        Validate.nonNullArray(bodies, "bodies");
-
-        for (PhysicsBody body : bodies) {
-            assert !body.isInWorld() : body;
-            assert body instanceof PhysicsSoftBody
-                    || ((PhysicsRigidBody) body).isDynamic() : body;
-            allBodies.add(body);
-        }
-    }
-
-    /**
-     * Add physics joints.
-     *
-     * @param joints (no nulls, not in any PhysicsSpace, aliases created)
-     */
-    void addJoints(PhysicsJoint... joints) {
-        Validate.nonNullArray(joints, "joints");
-
-        for (PhysicsJoint joint : joints) {
-            assert joint.getPhysicsSpace() == null : joint;
-            PhysicsBody a = joint.getBodyA();
-            assert a == null || displayObject(a) : a;
-            PhysicsBody b = joint.getBodyB();
-            assert b == null || displayObject(b) : b;
-
-            allJoints.add(joint);
-        }
-    }
 
     /**
      * Add all bodies and joints to the application's PhysicsSpace.
@@ -155,20 +140,6 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         }
         for (PhysicsJoint joint : allJoints) {
             appInstance.addJoint(joint);
-        }
-    }
-
-    /**
-     * Dump detailed information about the bodies.
-     */
-    void dumpBodies() {
-        PhysicsDumper dumper = appInstance.getDumper();
-        for (PhysicsBody body : allBodies) {
-            if (body instanceof PhysicsRigidBody) {
-                dumper.dump((PhysicsRigidBody) body, "");
-            } else {
-                dumper.dump((PhysicsSoftBody) body, "");
-            }
         }
     }
 
@@ -218,15 +189,6 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             space.removeCollisionObject(body);
         }
     }
-
-    /**
-     * Access the type of Drop.
-     *
-     * @return the name of the drop type
-     */
-    String typeName() {
-        return typeName;
-    }
     // *************************************************************************
     // DebugAppStateFilter methods
 
@@ -252,11 +214,54 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     // *************************************************************************
     // private methods
 
-    private void create(float totalMass, Object appData) {
+    /**
+     * Add a rigid body to this Drop and assign it a pseudo-random debug
+     * material.
+     *
+     * @param shape (not null)
+     * @param mass (&gt;0)
+     * @param debugMeshNormals (not null)
+     * @param position (not null, unaffected)
+     * @return the new body (not null, not in any space)
+     */
+    private PhysicsRigidBody addRigidBody(CollisionShape shape, float mass,
+            DebugMeshNormals debugMeshNormals, Transform position) {
+        assert shape != null : typeName;
+        assert mass > 0f : mass;
+        assert debugMeshNormals != null : typeName;
+
+        PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
+        allBodies.add(result);
+
+        ShapeGenerator random = appInstance.getGenerator();
+        String materialName = "drop" + random.nextInt(0, 3);
+        Material debugMaterial = appInstance.findMaterial(materialName);
+        assert debugMaterial != null : materialName;
+        result.setApplicationData(debugMaterial);
+
+        result.setCcdMotionThreshold(5f);
+
+        float sweptSphereRadius = shape.maxRadius();
+        result.setCcdSweptSphereRadius(sweptSphereRadius);
+
+        result.setDebugMeshNormals(debugMeshNormals);
+        result.setDebugMeshResolution(DebugShapeFactory.highResolution);
+        if (inverseInertia != null) {
+            result.setInverseInertiaLocal(inverseInertia);
+        }
+        result.setPhysicsLocation(position.getTranslation());
+        result.setPhysicsRotation(position.getRotation());
+
+        return result;
+    }
+
+    /**
+     * Create bodies and joints based on the configuration.
+     */
+    private void create() {
         ShapeGenerator random = appInstance.getGenerator();
 
-        DebugMeshNormals debugMeshNormals;
-        CollisionShape dropShape;
+        CollisionShape shape;
         switch (typeName) {
             case "ankh":
             case "duck":
@@ -266,9 +271,9 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "table":
             case "teapot":
             case "thumbTack":
-                dropShape = appInstance.findShape(typeName);
-                assert dropShape != null : typeName;
-                debugMeshNormals = DebugMeshNormals.Facet;
+                shape = appInstance.findShape(typeName);
+                addRigidBody(shape, totalMass, DebugMeshNormals.Facet,
+                        startPosition);
                 break;
 
             case "banana":
@@ -278,9 +283,9 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "knucklebone":
             case "ladder":
             case "top":
-                dropShape = appInstance.findShape(typeName);
-                assert dropShape != null : typeName;
-                debugMeshNormals = DebugMeshNormals.Smooth;
+                shape = appInstance.findShape(typeName);
+                addRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
+                        startPosition);
                 break;
 
             case "box":
@@ -296,8 +301,9 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "tetrahedron":
             case "triangularFrame":
             case "trident":
-                dropShape = random.nextShape(typeName);
-                debugMeshNormals = DebugMeshNormals.Facet;
+                shape = random.nextShape(typeName);
+                addRigidBody(shape, totalMass, DebugMeshNormals.Facet,
+                        startPosition);
                 break;
 
             case "capsule":
@@ -308,98 +314,149 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "multiSphere":
             case "snowman":
             case "torus":
-                dropShape = random.nextShape(typeName);
-                debugMeshNormals = DebugMeshNormals.Smooth;
+                shape = random.nextShape(typeName);
+                addRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
+                        startPosition);
                 break;
 
             case "chair":
-                dropShape = appInstance.findShape("chair");
-                assert dropShape != null : typeName;
+                shape = appInstance.findShape("chair");
                 inverseInertia = MinieTestShapes.chairInverseInertia;
-                debugMeshNormals = DebugMeshNormals.Facet;
+                addRigidBody(shape, totalMass, DebugMeshNormals.Facet,
+                        startPosition);
                 break;
 
             case "digit":
-                dropShape = randomDigit();
-                debugMeshNormals = DebugMeshNormals.Facet;
+                shape = randomDigit();
+                addRigidBody(shape, totalMass, DebugMeshNormals.Facet,
+                        startPosition);
+                break;
+
+            case "diptych":
+                createJointed();
                 break;
 
             case "letter":
-                dropShape = randomLetter();
-                debugMeshNormals = DebugMeshNormals.Facet;
+                shape = randomLetter();
+                addRigidBody(shape, totalMass, DebugMeshNormals.Facet,
+                        startPosition);
                 break;
 
             case "madMallet":
-                dropShape = randomMallet(false);
-                debugMeshNormals = DebugMeshNormals.Smooth;
+                shape = randomMallet(false);
+                addRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
+                        startPosition);
                 break;
 
             case "mallet":
-                dropShape = randomMallet(true);
-                debugMeshNormals = DebugMeshNormals.Smooth;
+                shape = randomMallet(true);
+                addRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
+                        startPosition);
                 break;
 
             case "sphere":
-                dropShape = random.nextShape(typeName);
-                debugMeshNormals = DebugMeshNormals.Sphere;
+                shape = random.nextShape(typeName);
+                addRigidBody(shape, totalMass, DebugMeshNormals.Sphere,
+                        startPosition);
                 break;
 
             default:
                 String message = "typeName = " + MyString.quote(typeName);
                 throw new IllegalArgumentException(message);
         }
-
-        Vector3f startLocation = random.nextVector3f();
-        startLocation.multLocal(2.5f, 5f, 2.5f);
-        startLocation.y += 20f;
-
-        Quaternion startOrientation = random.nextQuaternion();
-
-        PhysicsRigidBody body = new PhysicsRigidBody(dropShape, totalMass);
-
-        body.setApplicationData(appData);
-        body.setCcdMotionThreshold(5f);
-
-        float sweptSphereRadius = dropShape.maxRadius();
-        body.setCcdSweptSphereRadius(sweptSphereRadius);
-
-        body.setDebugMeshNormals(debugMeshNormals);
-        body.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        body.setPhysicsLocation(startLocation);
-        body.setPhysicsRotation(startOrientation);
-        if (inverseInertia != null) {
-            body.setInverseInertiaLocal(inverseInertia);
-        }
-
-        allBodies.add(body);
     }
 
     /**
-     * Randomly select the shape of a decimal digit.
+     * Create a diptych consisting of 2 thin boxes joined by a hinge.
+     */
+    private void createDiptych() {
+        float halfWidth = 1f;
+        float halfHeight = 2f;
+        float halfThickness = 0.2f;
+        CollisionShape boxShape
+                = new BoxCollisionShape(halfWidth, halfHeight, halfThickness);
+
+        float boxMass = totalMass / 2f;
+
+        Vector3f pivotInA = new Vector3f(halfWidth, 0f, halfThickness);
+        Transform aPosition = new Transform();
+        aPosition.setTranslation(pivotInA.negate());
+        aPosition.combineWithParent(startPosition);
+        PhysicsRigidBody a = addRigidBody(boxShape, boxMass,
+                DebugMeshNormals.Facet, aPosition);
+
+        Vector3f pivotInB = new Vector3f(-halfWidth, 0f, halfThickness);
+        Transform bPosition = new Transform();
+        bPosition.setTranslation(pivotInB.negate());
+        bPosition.combineWithParent(startPosition);
+        PhysicsRigidBody b = addRigidBody(boxShape, boxMass,
+                DebugMeshNormals.Facet, bPosition);
+
+        Matrix3f rotInA = Matrix3f.IDENTITY;
+        Matrix3f rotInB = Matrix3f.IDENTITY;
+        New6Dof hinge = new New6Dof(a, b, pivotInA, pivotInB, rotInA, rotInB,
+                RotationOrder.YZX);
+        allJoints.add(hinge);
+
+        RotationMotor xMotor = hinge.getRotationMotor(PhysicsSpace.AXIS_X);
+        xMotor.set(MotorParam.LowerLimit, 0f);
+        xMotor.set(MotorParam.UpperLimit, 0f);
+
+        RotationMotor yMotor = hinge.getRotationMotor(PhysicsSpace.AXIS_Y);
+        yMotor.set(MotorParam.LowerLimit, 0.4f);
+        yMotor.set(MotorParam.UpperLimit, FastMath.PI);
+        yMotor.setSpringEnabled(true);
+        yMotor.set(MotorParam.Equilibrium, 3f);
+        yMotor.set(MotorParam.Stiffness, 3e-4f);
+
+        RotationMotor zMotor = hinge.getRotationMotor(PhysicsSpace.AXIS_Z);
+        zMotor.set(MotorParam.LowerLimit, 0f);
+        zMotor.set(MotorParam.UpperLimit, 0f);
+    }
+
+    /**
+     * Create a jointed Drop based on the configuration.
+     */
+    private void createJointed() {
+        switch (typeName) {
+            case "diptych":
+                createDiptych();
+                break;
+
+            default:
+                String message = "typeName = " + MyString.quote(typeName);
+                throw new IllegalArgumentException(message);
+        }
+    }
+
+    /**
+     * Pseudo-randomly select the shape of a decimal digit.
      */
     private CollisionShape randomDigit() {
         ShapeGenerator random = appInstance.getGenerator();
         char glyphChar = (char) ('0' + random.nextInt(10));
         String glyphString = Character.toString(glyphChar);
         CollisionShape result = appInstance.findShape(glyphString);
+        assert result != null : glyphChar;
 
         return result;
     }
 
     /**
-     * Randomly select the shape of an uppercase letter.
+     * Pseudo-randomly select the shape of an uppercase letter.
      */
     private CollisionShape randomLetter() {
         ShapeGenerator random = appInstance.getGenerator();
         char glyphChar = (char) ('A' + random.nextInt(26));
         String glyphString = Character.toString(glyphChar);
         CollisionShape result = appInstance.findShape(glyphString);
+        assert result != null : glyphChar;
 
         return result;
     }
 
     /**
-     * Randomly generate an asymmetrical compound shape consisting of 2
+     * Pseudo-randomly generate an asymmetrical compound shape consisting of 2
      * cylinders.
      *
      * @param correctAxes if true, correct the shape's center of mass and
