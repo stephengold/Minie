@@ -508,7 +508,7 @@ public class ShapeGenerator extends Generator {
 
             default:
                 String message = "shapeName = " + MyString.quote(shapeName);
-                throw new RuntimeException(message);
+                throw new IllegalArgumentException(message);
         }
 
         return result;
