@@ -131,6 +131,14 @@ public class MinieTestShapes {
         CollisionShape ladder = makeLadder(); // TODO randomize
         namedShapes.put("ladder", ladder);
 
+        {
+            float ihHeight = 1f;
+            float ihWidth = 0.5f;
+            float radius = 0.25f;
+            CollisionShape link = makeLink(ihHeight, ihWidth, radius);
+            namedShapes.put("link", link);
+        }
+
         CollisionShape roundedRectangle = makeRoundedRectangle();
         namedShapes.put("roundedRectangle", roundedRectangle);
 
@@ -598,6 +606,37 @@ public class MinieTestShapes {
     }
 
     /**
+     * Generate a rectangular link for a chain.
+     *
+     * @param ihHeight half of the internal height (Y direction, &gt;0)
+     * @param ihWidth half of the internal width (X direction, &gt;0)
+     * @param radius half the thickness (&gt;0)
+     * @return a new shape
+     */
+    public static CompoundCollisionShape makeLink(float ihHeight,
+            float ihWidth, float radius) {
+        Validate.positive(ihHeight, "half height");
+        Validate.positive(ihWidth, "half width");
+        Validate.positive(radius, "radius");
+
+        float mhHeight = ihHeight + radius;
+        float mhWidth = ihWidth + radius;
+
+        CollisionShape horizontal = new CapsuleCollisionShape(
+                radius, 2f * mhWidth, PhysicsSpace.AXIS_X);
+        CollisionShape vertical = new CapsuleCollisionShape(
+                radius, 2f * mhHeight, PhysicsSpace.AXIS_Y);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(horizontal, 0f, -mhHeight, 0f);
+        result.addChildShape(horizontal, 0f, mhHeight, 0f);
+        result.addChildShape(vertical, mhWidth, 0f, 0f);
+        result.addChildShape(vertical, -mhWidth, 0f, 0f);
+
+        return result;
+    }
+
+    /**
      * Generate a mad mallet by compounding 2 cylinders.
      *
      * @param handleR the radius of the handle (in unscaled shape units, &gt;0)
@@ -910,7 +949,7 @@ public class MinieTestShapes {
      */
     public static CompoundCollisionShape makeTray() {
         /*
-         * Start with a box for the base.
+         * Start with a box for the base. TODO use makeLidlessBox
          */
         float height = 1.5f;
         float length = 15f;
