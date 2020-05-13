@@ -91,6 +91,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     final private static String tagMass = "mass";
     final private static String tagPhysicsLocation = "physicsLocation";
     final private static String tagPhysicsRotation = "physicsRotation";
+    final private static String tagUseSpaceGravity = "useSpaceGravity";
     /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
      */
@@ -549,6 +550,18 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
+     * Test whether this body's gravity can be overwritten by PhysicsSpace.
+     *
+     * @return true if this body's gravity can be overwritten, otherwise false
+     */
+    public boolean isUseSpaceGravity() {
+        long objectId = nativeId();
+        boolean result = getUseSpaceGravity(objectId);
+
+        return result;
+    }
+
+    /**
      * Calculate this body's kinetic energy (linear + angular). The body must be
      * in dynamic mode.
      *
@@ -890,6 +903,18 @@ public class PhysicsRigidBody extends PhysicsBody {
         long objectId = nativeId();
         setSleepingThresholds(objectId, linear, angular);
     }
+
+    /**
+     * Alter whether this body's gravity should be overwritten if the body gets
+     * added to a PhysicsSpace or the gravity of the PhysicsSpace changes.
+     *
+     * @param newState true to overwrite this body's gravity, false to preserve
+     * it (default=true)
+     */
+    public void setUseSpaceGravity(boolean newState) {
+        long objectId = nativeId();
+        setUseSpaceGravity(objectId, newState);
+    }
     // *************************************************************************
     // new protected methods
 
@@ -972,7 +997,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         if (mass != massForStatic) {
             setKinematic(kinematic);
         }
-        Vector3f tmpVector = new Vector3f();
+        Vector3f tmpVector = new Vector3f(); // TODO garbage
         if (old.isDynamic()) {
             setAngularVelocity(old.getAngularVelocity(tmpVector));
             setLinearVelocity(old.getLinearVelocity(tmpVector));
@@ -993,6 +1018,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         setLinearSleepingThreshold(old.getLinearSleepingThreshold());
         setPhysicsLocation(old.getPhysicsLocation(tmpVector));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
+        setUseSpaceGravity(old.isUseSpaceGravity());
     }
 
     /**
@@ -1078,6 +1104,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         setSleepingThresholds(
                 capsule.readFloat(tagLinearSleepingThreshold, 0.8f),
                 capsule.readFloat(tagAngularSleepingThreshold, 1f));
+        setUseSpaceGravity(capsule.readBoolean(tagUseSpaceGravity, true));
 
         setPhysicsLocation((Vector3f) capsule.readSavable(tagPhysicsLocation,
                 translateIdentity));
@@ -1178,6 +1205,7 @@ public class PhysicsRigidBody extends PhysicsBody {
                 0.8f);
         capsule.write(getAngularSleepingThreshold(),
                 tagAngularSleepingThreshold, 1f);
+        capsule.write(isUseSpaceGravity(), tagUseSpaceGravity, true);
 
         capsule.write(getPhysicsLocation(null), tagPhysicsLocation, null);
         capsule.write(getPhysicsRotationMatrix(null), tagPhysicsRotation, null);
@@ -1286,6 +1314,8 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     native private float getSquaredSpeed(long objectId);
 
+    native private boolean getUseSpaceGravity(long objectId);
+
     native private void setAngularDamping(long objectId, float dampingFraction);
 
     native private void setAngularFactor(long objectId, Vector3f factor);
@@ -1322,6 +1352,9 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     native private void setSleepingThresholds(long objectId, float linear,
             float angular);
+
+    native private void setUseSpaceGravity(long objectId,
+            boolean useSpaceGravity);
 
     native private void updateMassProps(long objectId, long collisionShapeId,
             float mass);

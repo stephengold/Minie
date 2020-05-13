@@ -200,6 +200,7 @@ public class TestCloneBody {
         if (body.getMass() != PhysicsBody.massForStatic) {
             body.setKinematic(!flag);
         }
+        body.setUseSpaceGravity(!flag);
 
         int afMode = Math.round(b / 0.3f);
         body.setAnisotropicFriction(
@@ -285,6 +286,7 @@ public class TestCloneBody {
         if (body.getMass() != PhysicsBody.massForStatic) {
             assert body.isKinematic() == !flag;
         }
+        assert body.isUseSpaceGravity() == !flag;
 
         int index = Math.round(b / 0.3f);
         if (index == 0) {

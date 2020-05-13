@@ -579,6 +579,7 @@ public class TestDefaults {
         }
         Assert.assertTrue(prb.isContactResponse());
         Assert.assertFalse(prb.isKinematic());
+        Assert.assertTrue(prb.isUseSpaceGravity());
     }
 
     /**
