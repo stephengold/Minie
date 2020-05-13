@@ -177,6 +177,8 @@ abstract public class AbstractDemo extends ActionApplication {
 
         PhysicsSpace space = getPhysicsSpace();
         space.addCollisionObject(pco);
+
+        postAdd(pco);
     }
 
     /**
@@ -578,6 +580,16 @@ abstract public class AbstractDemo extends ActionApplication {
     }
 
     /**
+     * Callback invoked after adding a collision object to the PhysicsSpace.
+     * Meant to be overridden.
+     *
+     * @param pco the object that was added (not null)
+     */
+    public void postAdd(PhysicsCollisionObject pco) {
+        // do nothing
+    }
+
+    /**
      * Add a Material to the library.
      *
      * @param name the desired name for the Material, which is also the key that
@@ -902,7 +914,7 @@ abstract public class AbstractDemo extends ActionApplication {
 
         PlaneDmiListener planeDmiListener = new PlaneDmiListener(1f);
         body.setDebugMeshInitListener(planeDmiListener);
-        
+
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
 
         addPlatform(body);
