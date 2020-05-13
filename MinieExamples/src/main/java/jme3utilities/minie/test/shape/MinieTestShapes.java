@@ -588,19 +588,18 @@ public class MinieTestShapes {
      */
     public static CompoundCollisionShape makeLidlessBox(float iHeight,
             float iWidth, float iDepth, float wallThickness) {
-        float ihHeight = iHeight / 2;
-        float ihWidth = iWidth / 2;
-        float ihDepth = iDepth / 2;
-        float halfThickness = wallThickness / 2;
+        float ihHeight = iHeight / 2f;
+        float ihWidth = iWidth / 2f;
+        float ihDepth = iDepth / 2f;
+        float halfThickness = wallThickness / 2f;
 
-        float fhDepth = ihDepth + 2f * halfThickness;
+        float fhDepth = ihDepth + halfThickness;
         CompoundCollisionShape result
                 = makeFrame(ihHeight, ihWidth, fhDepth, halfThickness);
 
         BoxCollisionShape bottom
                 = new BoxCollisionShape(ihWidth, ihHeight, halfThickness);
-        float bottomZ = -ihDepth - halfThickness;
-        result.addChildShape(bottom, 0f, 0f, bottomZ);
+        result.addChildShape(bottom, 0f, 0f, -ihDepth);
 
         return result;
     }
@@ -942,42 +941,36 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a square tray with a central deflector (asymmetrical). Not
-     * intended for use in a dynamic body.
+     * Generate a square tray with a central deflector. Not intended for use in
+     * a dynamic body.
      *
      * @return a new compound shape (not null)
      */
     public static CompoundCollisionShape makeTray() {
-        /*
-         * Start with a box for the base. TODO use makeLidlessBox
-         */
-        float height = 1.5f;
-        float length = 15f;
-        CollisionShape child = new BoxCollisionShape(length, height, length);
+        float iHeight = 24f;
+        float iWidth = 24f;
+        float iDepth = 3f;
+        float wallThickness = 3f;
+        CompoundCollisionShape result
+                = makeLidlessBox(iHeight, iWidth, iDepth, wallThickness);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        result.addChildShape(child, 0f, -1.95f * height, 0f);
+        Matrix3f rotMatrix = new Matrix3f();
+        rotMatrix.fromAngleNormalAxis(-FastMath.HALF_PI, Vector3f.UNIT_X);
+        result.rotate(rotMatrix);
+
+        float baseY = -1.5f;
+        Vector3f depress = new Vector3f(0f, baseY, 0f);
+        result.translate(depress);
         /*
          * Place a tetrahedral deflector in the center.
          */
         float size = 3f;
         Vector3f p1 = new Vector3f(0f, size, 0f);
-        Vector3f p2 = new Vector3f(-size, -height, size);
-        Vector3f p3 = new Vector3f(-size, -height, -size);
-        Vector3f p4 = new Vector3f(size * FastMath.sqrt(2f), -height, 0f);
-        child = new SimplexCollisionShape(p1, p2, p3, p4);
+        Vector3f p2 = new Vector3f(-size, baseY, size);
+        Vector3f p3 = new Vector3f(-size, baseY, -size);
+        Vector3f p4 = new Vector3f(size * FastMath.sqrt(2f), baseY, 0f);
+        CollisionShape child = new SimplexCollisionShape(p1, p2, p3, p4);
         result.addChildShape(child);
-        /*
-         * Arrange 4 bumpers in a square around the deflector.
-         */
-        float offset = length - height;
-        child = new BoxCollisionShape(length, height, height);
-        result.addChildShape(child, 0f, 0f, offset);
-        result.addChildShape(child, 0f, 0f, -offset);
-
-        child = new BoxCollisionShape(height, height, length);
-        result.addChildShape(child, offset, 0f, 0f);
-        result.addChildShape(child, -offset, 0f, 0f);
 
         return result;
     }
