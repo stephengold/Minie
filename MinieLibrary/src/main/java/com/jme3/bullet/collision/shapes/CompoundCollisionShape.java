@@ -299,8 +299,32 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
+     * Apply the specified rotation (in the parent's coordinate system) to each
+     * child.
+     *
+     * @param rotation the rotation to apply (not null, unaffected)
+     */
+    public void rotate(Matrix3f rotation) {
+        Vector3f offset = new Vector3f();
+        Matrix3f basis = new Matrix3f();
+        for (ChildCollisionShape child : children) {
+            child.copyOffset(offset);
+            rotation.mult(offset, offset);
+
+            child.copyRotationMatrix(basis);
+            rotation.mult(basis, basis);
+
+            child.setTransform(offset, basis);
+        }
+
+        long shapeId = nativeId();
+        rotate(shapeId, rotation);
+    }
+
+    /**
      * Alter the local transform of the specified child CollisionShape. The
-     * transform's scale is ignored.
+     * transform's scale is ignored. Assumes that no 2 children refer to the
+     * same shape!
      *
      * @param childShape the child's CollisionShape (not null, unaffected)
      * @param transform the desired Transform (not null, unaffected)
@@ -320,6 +344,27 @@ public class CompoundCollisionShape extends CollisionShape {
 
         ChildCollisionShape child = children.get(childIndex);
         child.setTransform(offset, rotation);
+    }
+
+    /**
+     * Apply the specified translation (in the parent's coordinate system) to
+     * each child.
+     *
+     * @param amount the translation to apply (not null, unaffected)
+     */
+    public void translate(Vector3f amount) {
+        Vector3f offset = new Vector3f();
+        Matrix3f basis = new Matrix3f();
+        for (ChildCollisionShape child : children) {
+            child.copyOffset(offset);
+            offset.addLocal(amount);
+
+            child.copyRotationMatrix(basis);
+            child.setTransform(offset, basis);
+        }
+
+        long shapeId = nativeId();
+        translate(shapeId, amount);
     }
     // *************************************************************************
     // CollisionShape methods
@@ -517,6 +562,10 @@ public class CompoundCollisionShape extends CollisionShape {
 
     native private void removeChildShape(long compoundId, long childShapeId);
 
+    native private void rotate(long compoundId, Matrix3f rotationMatrix);
+
     native private void setChildTransform(long compoundId, long childShapeId,
             Vector3f offset, Matrix3f rotation);
+
+    native private void translate(long compoundId, Vector3f offsetVector);
 }
