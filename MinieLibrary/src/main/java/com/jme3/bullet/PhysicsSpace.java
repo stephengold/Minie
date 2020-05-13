@@ -1044,8 +1044,13 @@ public class PhysicsSpace extends CollisionSpace {
             kinematic = true;
             rigidBody.setKinematic(false);
         }
+
+        boolean useStaticGroup = rigidBody.isStatic();
+        int proxyGroup = useStaticGroup ? 2 : 1;
+        int proxyMask = useStaticGroup ? -3 : -1;
         long spaceId = nativeId();
-        addRigidBody(spaceId, rigidBodyId);
+        addRigidBody(spaceId, rigidBodyId, proxyGroup, proxyMask);
+
         if (kinematic) {
             rigidBody.setKinematic(true);
         }
@@ -1175,7 +1180,8 @@ public class PhysicsSpace extends CollisionSpace {
     native private void addConstraintC(long spaceId, long constraintId,
             boolean collisionBetweenLinkedBodies);
 
-    native private void addRigidBody(long spaceId, long rigidBodyId);
+    native private void addRigidBody(long spaceId, long rigidBodyId,
+            int proxyGroup, int proxyMask);
 
     native private long createPhysicsSpace(float minX, float minY, float minZ,
             float maxX, float maxY, float maxZ, int broadphaseType);
