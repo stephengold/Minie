@@ -1193,8 +1193,9 @@ automatically creates the ragdoll, including rigid bodies and joints.
 No ragdoll exists before the `Control` is added to a `Spatial`,
 and removing a `Control` from its controlled `Spatial` destroys the ragdoll.
 
-The controlled `Spatial` must include the model's `SkeletonControl`.
+The controlled `Spatial` must include the model's `SkinningControl` or `SkeletonControl`.
 Usually this is the model's root `Spatial`, but not always.
+If unsure about the model's structure, use `RagUtil.findSControl()`.
 For a very simple example, see
 [HelloDac.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloDac.java).
 
@@ -1217,8 +1218,9 @@ a `PhysicsLink`, and the links are organized in a tree hierarchy.
 
 The default constructor for `DynamicAnimControl` is configured to create a
 ragdoll with no bone links, only a `TorsoLink`.
-Before adding the `Control` to a `Spatial`, specify which `Skeleton` bones
+Before adding the `Control` to a `Spatial`, specify which bones
 should be linked, by invoking the `link()` method for each of those bones.
+The order in which bones are linked does not matter.
 
 I recommend starting with a default `LinkConfig` and a generous range of motion
 for each linked bone:
