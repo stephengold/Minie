@@ -91,7 +91,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     final private static String tagMass = "mass";
     final private static String tagPhysicsLocation = "physicsLocation";
     final private static String tagPhysicsRotation = "physicsRotation";
-    final private static String tagUseSpaceGravity = "useSpaceGravity";
+    final private static String tagProtectGravity = "tagProtectGravity";
     /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
      */
@@ -550,13 +550,14 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Test whether this body's gravity can be overwritten by PhysicsSpace.
+     * Test whether this body's gravity can be overwritten by PhysicsSpace. TODO
+     * re-order methods
      *
-     * @return true if this body's gravity can be overwritten, otherwise false
+     * @return false if this body's gravity can be overwritten, otherwise true
      */
-    public boolean isUseSpaceGravity() {
+    public boolean isGravityProtected() {
         long objectId = nativeId();
-        boolean result = getUseSpaceGravity(objectId);
+        boolean result = !getUseSpaceGravity(objectId);
 
         return result;
     }
@@ -906,14 +907,15 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     /**
      * Alter whether this body's gravity should be overwritten if the body gets
-     * added to a PhysicsSpace or the gravity of the PhysicsSpace changes.
+     * added to a PhysicsSpace or the gravity of the PhysicsSpace changes. TODO
+     * re-order methods
      *
-     * @param newState true to overwrite this body's gravity, false to preserve
-     * it (default=true)
+     * @param newState true to preserve this body's gravity, false to allow it
+     * to be overwritten (default=false)
      */
-    public void setUseSpaceGravity(boolean newState) {
+    public void setProtectGravity(boolean newState) {
         long objectId = nativeId();
-        setUseSpaceGravity(objectId, newState);
+        setUseSpaceGravity(objectId, !newState);
     }
     // *************************************************************************
     // new protected methods
@@ -1018,7 +1020,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         setLinearSleepingThreshold(old.getLinearSleepingThreshold());
         setPhysicsLocation(old.getPhysicsLocation(tmpVector));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
-        setUseSpaceGravity(old.isUseSpaceGravity());
+        setProtectGravity(old.isGravityProtected());
     }
 
     /**
@@ -1104,7 +1106,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         setSleepingThresholds(
                 capsule.readFloat(tagLinearSleepingThreshold, 0.8f),
                 capsule.readFloat(tagAngularSleepingThreshold, 1f));
-        setUseSpaceGravity(capsule.readBoolean(tagUseSpaceGravity, true));
+        setProtectGravity(capsule.readBoolean(tagProtectGravity, false));
 
         setPhysicsLocation((Vector3f) capsule.readSavable(tagPhysicsLocation,
                 translateIdentity));
@@ -1205,7 +1207,7 @@ public class PhysicsRigidBody extends PhysicsBody {
                 0.8f);
         capsule.write(getAngularSleepingThreshold(),
                 tagAngularSleepingThreshold, 1f);
-        capsule.write(isUseSpaceGravity(), tagUseSpaceGravity, true);
+        capsule.write(isGravityProtected(), tagProtectGravity, false);
 
         capsule.write(getPhysicsLocation(null), tagPhysicsLocation, null);
         capsule.write(getPhysicsRotationMatrix(null), tagPhysicsRotation, null);
