@@ -790,23 +790,23 @@ public class MinieTestShapes {
      * @param centerY the half thickness at the center (&gt;0)
      * @param radiusRatio the inner radius divided by the outer radius (&gt;0,
      * &lt;1)
-     * @param trianglesPerSlide the number of mesh triangles per slice (4 or 6)
+     * @param trianglesPerSlice the number of mesh triangles per slice (4 or 6)
      * @return a new shape
      */
     public static CompoundCollisionShape makeStar(int numPoints,
             float outerRadius, float centerY, float radiusRatio,
-            int trianglesPerSlide) {
+            int trianglesPerSlice) {
         Validate.inRange(numPoints, "number of points", 2, Integer.MAX_VALUE);
         Validate.positive(outerRadius, "outer radius");
         Validate.positive(centerY, "center Y");
         Validate.fraction(radiusRatio, "radius ratio");
-        Validate.inRange(trianglesPerSlide, "triangles per slice", 4, 6);
+        Validate.inRange(trianglesPerSlice, "triangles per slice", 4, 6);
 
         float innerRadius = radiusRatio * outerRadius;
         float sliceAngle = FastMath.TWO_PI / numPoints; // in radians
         boolean normals = false;
         StarSlice sliceMesh = new StarSlice(sliceAngle, innerRadius,
-                outerRadius, 2f * centerY, normals, trianglesPerSlide);
+                outerRadius, 2f * centerY, normals, trianglesPerSlice);
         CollisionShape sliceShape = new HullCollisionShape(sliceMesh);
 
         CompoundCollisionShape result = new CompoundCollisionShape();
