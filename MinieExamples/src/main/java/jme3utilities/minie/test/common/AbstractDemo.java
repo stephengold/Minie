@@ -40,6 +40,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.PlaneDmiListener;
 import com.jme3.font.Rectangle;
@@ -196,11 +197,13 @@ abstract public class AbstractDemo extends ActionApplication {
     /**
      * Configure the specified platform body and add it to the PhysicsSpace.
      *
-     * @param body the body to add (not null, not in world)
+     * @param body the body to add (not null, static or soft, not in world)
      */
     public void addPlatform(PhysicsBody body) {
         Validate.nonNull(body, "body");
         Validate.require(!body.isInWorld(), "not in world");
+        Validate.require(body.isStatic() || body instanceof PhysicsSoftBody,
+                "static or soft");
 
         Material material = findMaterial("platform");
         assert material != null;
