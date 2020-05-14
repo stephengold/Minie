@@ -268,7 +268,9 @@ public class RagUtils {
      *
      * @param subtree a subtree of a scene graph (may be null, unaffected)
      * @return the pre-existing instance, or null if none or multiple
+     * @deprecated use findSControl()
      */
+    @Deprecated
     public static SkeletonControl findSkeletonControl(Spatial subtree) {
         SkeletonControl result = null;
         if (subtree != null) {
