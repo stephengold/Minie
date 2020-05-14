@@ -122,6 +122,18 @@ public class TestDefaults {
     public void testDefaults() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
+        CollisionSpace cSpace = new CollisionSpace(
+                new Vector3f(-10000f, -10000f, -10000f),
+                new Vector3f(10000f, 10000f, 10000f),
+                PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+        testCollisionSpace(cSpace);
+
+        PhysicsSpace pSpace = new PhysicsSpace(
+                new Vector3f(-10000f, -10000f, -10000f),
+                new Vector3f(10000f, 10000f, 10000f),
+                PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+        testPhysicsSpace(pSpace);
+
         MultiBodySpace mbSpace = new MultiBodySpace(
                 new Vector3f(-10000f, -10000f, -10000f),
                 new Vector3f(10000f, 10000f, 10000f),
