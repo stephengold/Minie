@@ -52,6 +52,10 @@ public class MakeBanana {
     // constants and loggers
 
     /**
+     * which mesh decomposition to use
+     */
+    final private static boolean useManualDecomposition = true;
+    /**
      * message logger for this class
      */
     final private static Logger logger
@@ -114,29 +118,33 @@ public class MakeBanana {
         /*
          * Generate a CollisionShape to approximate the Mesh.
          */
-        VHACD.addProgressListener(new VHACDProgressListener() {
-            double lastOP = -1.0;
+        CompoundCollisionShape shape;
+        if (useManualDecomposition) {
+            shape = (CompoundCollisionShape) CollisionShapeFactory.createDynamicMeshShape(cgmRoot);
+        } else {
+            VHACD.addProgressListener(new VHACDProgressListener() {
+                double lastOP = -1.0;
 
-            @Override
-            public void update(double overallPercent, double stagePercent,
-                    double operationPercent, String stageName,
-                    String operationName) {
-                if (overallPercent != lastOP) {
-                    System.out.printf("MakeBanana %.0f%% complete%n",
-                            overallPercent);
-                    lastOP = overallPercent;
+                @Override
+                public void update(double overallPercent, double stagePercent,
+                        double operationPercent, String stageName,
+                        String operationName) {
+                    if (overallPercent != lastOP) {
+                        System.out.printf("MakeBanana %.0f%% complete%n",
+                                overallPercent);
+                        lastOP = overallPercent;
+                    }
                 }
+            });
+            VHACDParameters parms = new VHACDParameters();
+            parms.setVoxelResolution(300_000);
+            shape = CollisionShapeFactory.createVhacdShape(cgmRoot, parms, null);
+            if (shape.countChildren() == 0) {
+                System.err.println("V-HACD failed!");
+                System.exit(-1);
             }
-        });
-        VHACDParameters parms = new VHACDParameters();
-        parms.setVoxelResolution(300_000);
-        CompoundCollisionShape shape
-                = CollisionShapeFactory.createVhacdShape(cgmRoot, parms, null);
-        if (shape.countChildren() == 0) {
-            System.err.println("V-HACD failed!");
-            System.exit(-1);
         }
-        //System.out.printf("number of hulls = %d%n", shape.countChildren());
+        System.out.printf("MakeBanana number of hulls = %d%n", shape.countChildren());
         /*
          * Write the shape to the asset file.
          */
