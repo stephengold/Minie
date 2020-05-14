@@ -109,11 +109,11 @@ public class DropTestStatus extends SimpleAppState {
         "ankh", "banana", "barbell", "barrel", "bowlingPin", "box", "capsule",
         "chain", "chair", "cone", "cylinder", "digit", "diptych", "dome",
         "duck", "flail", "football", "frame", "halfPipe", "heart", "horseshoe",
-        "hull", "iBeam", "knucklebone", "ladder", "letter", "lidlessBox", 
+        "hull", "iBeam", "knucklebone", "ladder", "letter", "lidlessBox",
         "link", "madMallet", "mallet", "multiSphere", "platonic", "prism",
         "pyramid", "ragdoll", "snowman", "sphere", "star", "sword", "table",
         "teapot", "tetrahedron", "thumbTack", "top", "torus", "triangularFrame",
-        "trident"
+        "trident", "washer"
     };
     /**
      * list of platform names, in ascending lexicographic order

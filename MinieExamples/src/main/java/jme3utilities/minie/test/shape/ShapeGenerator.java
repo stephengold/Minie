@@ -507,6 +507,10 @@ public class ShapeGenerator extends Generator {
                 result = nextTrident();
                 break;
 
+            case "washer":
+                result = nextWasher();
+                break;
+
             default:
                 String message = "shapeName = " + MyString.quote(shapeName);
                 throw new IllegalArgumentException(message);
@@ -619,6 +623,24 @@ public class ShapeGenerator extends Generator {
         float shaftRadius = nextFloat(0.1f, 0.2f);
         CompoundCollisionShape result = MinieTestShapes.makeTrident(shaftLength,
                 shaftRadius);
+
+        return result;
+    }
+
+    /**
+     * Approximate a flat washer (or flat ring), open on the Z axis.
+     *
+     * @return a new compound shape (not null)
+     */
+    public CompoundCollisionShape nextWasher() {
+        float innerRadius = nextFloat(0.6f, 1.5f);
+        float outerRadius = innerRadius + nextFloat(0.8f, 1.5f);
+        float zThickness = nextFloat(0.2f, 0.4f);
+        float arc = FastMath.TWO_PI;
+        int numChildren = 24;
+
+        CompoundCollisionShape result = MinieTestShapes.makePipe(innerRadius,
+                outerRadius - innerRadius, zThickness, arc, numChildren);
 
         return result;
     }

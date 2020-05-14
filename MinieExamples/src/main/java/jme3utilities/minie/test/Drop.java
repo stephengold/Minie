@@ -297,6 +297,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "tetrahedron":
             case "triangularFrame":
             case "trident":
+            case "washer":
                 shape = random.nextShape(typeName);
                 createRigidBody(shape, totalMass, DebugMeshNormals.Facet,
                         startPosition);
