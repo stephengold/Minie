@@ -26,14 +26,15 @@
  */
 package jme3utilities.tutorial;
 
-import com.jme3.anim.SkinningControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.RagUtils;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 
 /**
  * A very simple example using DynamicAnimControl.
@@ -78,14 +79,18 @@ public class HelloDac extends SimpleApplication {
         ninjaModel.rotate(0f, 3f, 0f);
         ninjaModel.scale(0.02f);
 
-        // The DynamicAnimControl must be added to the Spatial with
-        // the model's SkinningControl.
+        // The DynamicAnimControl must be added to the Spatial controlled by
+        // the model's SkinningControl (or SkeletonControl).
+        // RagUtils.findSControl() may be used to locate the controlled Spatial.
+        AbstractControl sControl = RagUtils.findSControl(ninjaModel);
+        Spatial controlled = sControl.getSpatial();
+
         // In the Ninja model, that Spatial is the model's root Node.
-        assert ninjaModel.getControl(SkinningControl.class) != null;
+        assert controlled == ninjaModel;
 
         // Add a DynamicAnimControl to the model.
         DynamicAnimControl dac = new DynamicAnimControl();
-        ninjaModel.addControl(dac);
+        controlled.addControl(dac);
 
         dac.setPhysicsSpace(physicsSpace);
 
