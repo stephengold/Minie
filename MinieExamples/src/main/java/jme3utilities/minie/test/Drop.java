@@ -26,9 +26,15 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RotationOrder;
+import com.jme3.bullet.animation.BoneLink;
+import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.RagUtils;
+import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
+import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
@@ -39,16 +45,18 @@ import com.jme3.bullet.joints.motors.MotorParam;
 import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
-import com.jme3.bullet.objects.PhysicsSoftBody;
-import com.jme3.bullet.util.DebugShapeFactory;
-import com.jme3.material.Material;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.Collection;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
@@ -56,6 +64,7 @@ import jme3utilities.Validate;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
+import jme3utilities.minie.test.tunings.BaseMeshControl;
 
 /**
  * A group of dynamic bodies and physics joints in the DropTest application.
@@ -74,11 +83,11 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     // fields
 
     /**
-     * application that contains this drop
+     * application that contains this Drop
      */
     final private AbstractDemo appInstance;
     /**
-     * bodies in this Drop, all must be dynamic
+     * physics bodies in this Drop, all must be dynamic
      */
     final private Collection<PhysicsBody> allBodies = new TreeSet<>();
     /**
@@ -86,19 +95,23 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      */
     final private Collection<PhysicsJoint> allJoints = new TreeSet<>();
     /**
-     * total mass of all bodies in this Drop
+     * included ragdoll, or null if none
+     */
+    private DynamicAnimControl dac = null;
+    /**
+     * configured total mass of all bodies in this Drop
      */
     final private float totalMass;
     /**
-     * type of Drop
+     * configured type of Drop
      */
     final private String typeName;
     /**
-     * initial local-to-PhysicsSpace Transform
+     * configured initial local-to-PhysicsSpace Transform
      */
     final private Transform startPosition;
     /**
-     * local inverse inertia vector (or null)
+     * local inverse inertia vector for next rigid body (or null)
      */
     private Vector3f inverseInertia = null;
     // *************************************************************************
@@ -132,32 +145,28 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     // new methods exposed
 
     /**
-     * Add all bodies and joints to the application's PhysicsSpace.
+     * Add all controls, bodies, and joints to the application's PhysicsSpace.
      */
     void addToSpace() {
-        for (PhysicsBody body : allBodies) {
-            appInstance.addCollisionObject(body);
-        }
-        for (PhysicsJoint joint : allJoints) {
-            appInstance.addJoint(joint);
-        }
-    }
-
-    /**
-     * Test whether any body is active.
-     *
-     * @return true if active, false if all rigid bodies are asleep
-     */
-    boolean isAnyActive() {
-        boolean result = false;
-        for (PhysicsBody body : allBodies) {
-            if (body instanceof PhysicsSoftBody || body.isActive()) {
-                result = true;
-                break;
+        if (dac != null) {
+            PhysicsSpace space = appInstance.getPhysicsSpace();
+            dac.setPhysicsSpace(space);
+            for (PhysicsBody body : allBodies) {
+                appInstance.postAdd(body);
             }
         }
 
-        return result;
+        for (PhysicsBody body : allBodies) {
+            if (!body.isInWorld()) {
+                appInstance.addCollisionObject(body);
+            }
+        }
+
+        for (PhysicsJoint joint : allJoints) {
+            if (joint.getPhysicsSpace() == null) {
+                appInstance.addJoint(joint);
+            }
+        }
     }
 
     /**
@@ -178,15 +187,42 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     }
 
     /**
-     * Remove all joints and bodies from the application's PhysicsSpace.
+     * Remove all controls, joints, and bodies from the application's
+     * PhysicsSpace.
      */
     void removeFromSpace() {
+        if (dac != null) {
+            dac.setPhysicsSpace(null);
+        }
+
         PhysicsSpace space = appInstance.getPhysicsSpace();
         for (PhysicsJoint joint : allJoints) {
-            space.removeJoint(joint);
+            if (joint.getPhysicsSpace() == space) {
+                space.removeJoint(joint);
+            }
         }
+
         for (PhysicsBody body : allBodies) {
-            space.removeCollisionObject(body);
+            if (body.isInWorld()) {
+                space.removeCollisionObject(body);
+            }
+        }
+    }
+
+    /**
+     * Callback invoked once per frame.
+     */
+    void update() {
+        /*
+         * As soon as the DAC is ready, put all physics links into dynamic mode.
+         */
+        if (dac != null && dac.isReady()) {
+            TorsoLink torso = dac.getTorsoLink();
+            if (torso.isKinematic()) {
+                PhysicsSpace space = appInstance.getPhysicsSpace();
+                Vector3f gravity = space.getGravity(null);
+                dac.setDynamicSubtree(torso, gravity, false);
+            }
         }
     }
     // *************************************************************************
@@ -215,47 +251,6 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     // private methods
 
     /**
-     * Add a rigid body to this Drop and assign it a pseudo-random debug
-     * material.
-     *
-     * @param shape (not null)
-     * @param mass (&gt;0)
-     * @param debugMeshNormals (not null)
-     * @param position (not null, unaffected)
-     * @return the new body (not null, not in any space)
-     */
-    private PhysicsRigidBody addRigidBody(CollisionShape shape, float mass,
-            DebugMeshNormals debugMeshNormals, Transform position) {
-        assert shape != null : typeName;
-        assert mass > 0f : mass;
-        assert debugMeshNormals != null : typeName;
-
-        PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
-        allBodies.add(result);
-
-        ShapeGenerator random = appInstance.getGenerator();
-        String materialName = "drop" + random.nextInt(0, 3);
-        Material debugMaterial = appInstance.findMaterial(materialName);
-        assert debugMaterial != null : materialName;
-        result.setApplicationData(debugMaterial);
-
-        result.setCcdMotionThreshold(5f);
-
-        float sweptSphereRadius = shape.maxRadius();
-        result.setCcdSweptSphereRadius(sweptSphereRadius);
-
-        result.setDebugMeshNormals(debugMeshNormals);
-        result.setDebugMeshResolution(DebugShapeFactory.highResolution);
-        if (inverseInertia != null) {
-            result.setInverseInertiaLocal(inverseInertia);
-        }
-        result.setPhysicsLocation(position.getTranslation());
-        result.setPhysicsRotation(position.getRotation());
-
-        return result;
-    }
-
-    /**
      * Create bodies and joints based on the configuration.
      */
     private void create() {
@@ -272,7 +267,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "teapot":
             case "thumbTack":
                 shape = appInstance.findShape(typeName);
-                addRigidBody(shape, totalMass, DebugMeshNormals.Facet,
+                createRigidBody(shape, totalMass, DebugMeshNormals.Facet,
                         startPosition);
                 break;
 
@@ -282,9 +277,10 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "bowlingPin":
             case "knucklebone":
             case "ladder":
+            case "link":
             case "top":
                 shape = appInstance.findShape(typeName);
-                addRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
+                createRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
                         startPosition);
                 break;
 
@@ -302,7 +298,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "triangularFrame":
             case "trident":
                 shape = random.nextShape(typeName);
-                addRigidBody(shape, totalMass, DebugMeshNormals.Facet,
+                createRigidBody(shape, totalMass, DebugMeshNormals.Facet,
                         startPosition);
                 break;
 
@@ -315,48 +311,51 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "snowman":
             case "torus":
                 shape = random.nextShape(typeName);
-                addRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
+                createRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
                         startPosition);
                 break;
 
             case "chair":
                 shape = appInstance.findShape("chair");
                 inverseInertia = MinieTestShapes.chairInverseInertia;
-                addRigidBody(shape, totalMass, DebugMeshNormals.Facet,
+                createRigidBody(shape, totalMass, DebugMeshNormals.Facet,
                         startPosition);
                 break;
 
             case "digit":
                 shape = randomDigit();
-                addRigidBody(shape, totalMass, DebugMeshNormals.Facet,
+                createRigidBody(shape, totalMass, DebugMeshNormals.Facet,
                         startPosition);
                 break;
 
+            case "chain":
             case "diptych":
+            case "flail":
+            case "ragdoll":
                 createJointed();
                 break;
 
             case "letter":
                 shape = randomLetter();
-                addRigidBody(shape, totalMass, DebugMeshNormals.Facet,
+                createRigidBody(shape, totalMass, DebugMeshNormals.Facet,
                         startPosition);
                 break;
 
             case "madMallet":
                 shape = randomMallet(false);
-                addRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
+                createRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
                         startPosition);
                 break;
 
             case "mallet":
                 shape = randomMallet(true);
-                addRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
+                createRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
                         startPosition);
                 break;
 
             case "sphere":
                 shape = random.nextShape(typeName);
-                addRigidBody(shape, totalMass, DebugMeshNormals.Sphere,
+                createRigidBody(shape, totalMass, DebugMeshNormals.Sphere,
                         startPosition);
                 break;
 
@@ -367,29 +366,71 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     }
 
     /**
-     * Create a diptych consisting of 2 thin boxes joined by a hinge.
+     * Create a chain of links. Initially the chain is laid out along the drop's
+     * local Y axis.
+     *
+     * @param numLinks the number of links (&gt;0)
+     * @param thickness the thickness of each link (in physics-space units,
+     * &gt;0)
      */
-    private void createDiptych() {
-        float halfWidth = 1f;
-        float halfHeight = 2f;
-        float halfThickness = 0.2f;
-        CollisionShape boxShape
-                = new BoxCollisionShape(halfWidth, halfHeight, halfThickness);
+    private void createChain(int numLinks, float thickness) {
+        float halfThickness = thickness / 2f;
+        float linkIhh = 3f * halfThickness;
+        float linkIhw = 1.1f * halfThickness;
+        float angleStep = FastMath.HALF_PI;
+        float yStep = 1.9f * linkIhh; // center-to-center
+        float linkMass = totalMass / numLinks;
+
+        CompoundCollisionShape shape
+                = MinieTestShapes.makeLink(linkIhh, linkIhw, halfThickness);
+
+        Quaternion rotationStep = new Quaternion();
+        rotationStep.fromAngleNormalAxis(angleStep, Vector3f.UNIT_Y);
+
+        float y0 = -yStep * (numLinks - 1) / 2f;
+        Vector3f startOffset = new Vector3f(0f, y0, 0f);
+        Transform transform = new Transform(startOffset);
+        Vector3f linkLocation = transform.getTranslation(); // alias
+        Quaternion linkOrientation = transform.getRotation(); // alias
+
+        Transform tmpPosition = new Transform();
+        for (int linkIndex = 0; linkIndex < numLinks; ++linkIndex) {
+            tmpPosition.set(transform);
+            tmpPosition.combineWithParent(startPosition);
+            createRigidBody(shape, linkMass, DebugMeshNormals.Smooth,
+                    tmpPosition);
+
+            linkLocation.y += yStep;
+            rotationStep.mult(linkOrientation, linkOrientation);
+        }
+    }
+
+    /**
+     * Create a diptych consisting of 2 thin boxes, joined by a hinge. The axis
+     * of the hinge is the drop's local Y axis.
+     */
+    private void createDiptych(float height, float thickness, float boxWidth) {
+        float boxHalfWidth = boxWidth / 2f;
+        float halfThickness = thickness / 2f;
+        CollisionShape boxShape = new BoxCollisionShape(boxHalfWidth,
+                height / 2f, halfThickness);
 
         float boxMass = totalMass / 2f;
 
-        Vector3f pivotInA = new Vector3f(halfWidth, 0f, halfThickness);
+        Vector3f pivotInA = new Vector3f(boxHalfWidth, 0f, halfThickness);
         Transform aPosition = new Transform();
         aPosition.setTranslation(pivotInA.negate());
         aPosition.combineWithParent(startPosition);
-        PhysicsRigidBody a = addRigidBody(boxShape, boxMass,
+
+        PhysicsRigidBody a = createRigidBody(boxShape, boxMass,
                 DebugMeshNormals.Facet, aPosition);
 
-        Vector3f pivotInB = new Vector3f(-halfWidth, 0f, halfThickness);
+        Vector3f pivotInB = new Vector3f(-boxHalfWidth, 0f, halfThickness);
         Transform bPosition = new Transform();
         bPosition.setTranslation(pivotInB.negate());
         bPosition.combineWithParent(startPosition);
-        PhysicsRigidBody b = addRigidBody(boxShape, boxMass,
+
+        PhysicsRigidBody b = createRigidBody(boxShape, boxMass,
                 DebugMeshNormals.Facet, bPosition);
 
         Matrix3f rotInA = Matrix3f.IDENTITY;
@@ -403,11 +444,11 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         xMotor.set(MotorParam.UpperLimit, 0f);
 
         RotationMotor yMotor = hinge.getRotationMotor(PhysicsSpace.AXIS_Y);
-        yMotor.set(MotorParam.LowerLimit, 0.4f);
+        yMotor.set(MotorParam.LowerLimit, 0.1f);
+        yMotor.set(MotorParam.Equilibrium, 1.6f);
         yMotor.set(MotorParam.UpperLimit, FastMath.PI);
         yMotor.setSpringEnabled(true);
-        yMotor.set(MotorParam.Equilibrium, 3f);
-        yMotor.set(MotorParam.Stiffness, 3e-4f);
+        yMotor.set(MotorParam.Stiffness, 0.01f); // a very weak spring
 
         RotationMotor zMotor = hinge.getRotationMotor(PhysicsSpace.AXIS_Z);
         zMotor.set(MotorParam.LowerLimit, 0f);
@@ -415,18 +456,144 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     }
 
     /**
+     * Create a flail consisting of 2 unequal staves, joined by a pivot.
+     * Initially both staves lie on the drop's local Y axis.
+     */
+    private void createFlail(float aLength, float bLength, float radius) {
+        float linearDensity = totalMass / (aLength + bLength);
+
+        CollisionShape aShape = new CapsuleCollisionShape(radius, aLength,
+                PhysicsSpace.AXIS_Y);
+        float aMass = aLength * linearDensity;
+
+        Vector3f pivotInA = new Vector3f(0f, 3f * radius + aLength / 2f, 0f);
+        Transform aPosition = new Transform();
+        aPosition.setTranslation(pivotInA.negate());
+        aPosition.combineWithParent(startPosition);
+
+        PhysicsRigidBody a = createRigidBody(aShape, aMass,
+                DebugMeshNormals.Smooth, aPosition);
+
+        CollisionShape bShape = new CapsuleCollisionShape(radius, bLength,
+                PhysicsSpace.AXIS_Y);
+        float bMass = bLength * linearDensity;
+
+        Vector3f pivotInB = new Vector3f(0f, -3f * radius - bLength / 2f, 0f);
+        Transform bPosition = new Transform();
+        bPosition.setTranslation(pivotInB.negate());
+        bPosition.combineWithParent(startPosition);
+
+        PhysicsRigidBody b = createRigidBody(bShape, bMass,
+                DebugMeshNormals.Smooth, bPosition);
+
+        Matrix3f rotInA = Matrix3f.IDENTITY;
+        Matrix3f rotInB = Matrix3f.IDENTITY;
+        New6Dof pivot = new New6Dof(a, b, pivotInA, pivotInB, rotInA, rotInB,
+                RotationOrder.XYZ);
+        allJoints.add(pivot);
+    }
+
+    /**
      * Create a jointed Drop based on the configuration.
      */
     private void createJointed() {
         switch (typeName) {
-            case "diptych":
-                createDiptych();
+            case "chain": {
+                int numLinks = 10;
+                float thickness = 0.4f;
+                createChain(numLinks, thickness);
                 break;
+            }
+
+            case "diptych": {
+                float height = 4f;
+                float thickness = 0.4f;
+                float boxWidth = 2f;
+                createDiptych(height, thickness, boxWidth);
+                break;
+            }
+
+            case "flail": {
+                float aLength = 5f;
+                float bLength = 2.5f;
+                float radius = 0.2f;
+                createFlail(aLength, bLength, radius);
+                break;
+            }
+
+            case "ragdoll": {
+                float scale = 5f;
+                createRagdoll("Models/BaseMesh/BaseMesh.j3o", scale,
+                        new BaseMeshControl());
+                break;
+            }
 
             default:
                 String message = "typeName = " + MyString.quote(typeName);
                 throw new IllegalArgumentException(message);
         }
+    }
+
+    /**
+     * Create a ragdoll using DynamicAnimControl.
+     *
+     * @param assetPath asset path to the model J3O (not null, not empty)
+     * @param scale the uniform scale factor to apply (&gt;0)
+     * @param control a configured DynamicAnimControl to use (not null)
+     */
+    private void createRagdoll(String assetPath, float scale,
+            DynamicAnimControl control) {
+        assert scale > 0f : scale;
+
+        AssetManager assetManager = appInstance.getAssetManager();
+        Node cgModel = (Node) assetManager.loadModel(assetPath);
+        cgModel.setLocalTransform(startPosition);
+        cgModel.setLocalScale(scale);
+
+        AbstractControl sc = RagUtils.findSControl(cgModel);
+        Spatial controlledSpatial = sc.getSpatial();
+        controlledSpatial.addControl(control);
+        dac = control;
+
+        PhysicsRigidBody[] bodies = dac.listRigidBodies();
+        for (PhysicsRigidBody body : bodies) {
+            allBodies.add(body);
+            body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        }
+
+        List<BoneLink> boneLinks = dac.listLinks(BoneLink.class);
+        for (BoneLink link : boneLinks) {
+            PhysicsJoint joint = link.getJoint();
+            allJoints.add(joint);
+        }
+    }
+
+    /**
+     * Create a rigid body at the specified position and add it to this Drop.
+     *
+     * @param shape (not null)
+     * @param mass (&gt;0)
+     * @param debugMeshNormals (not null)
+     * @param position (not null, unaffected)
+     * @return the new body (not null, not in any space)
+     */
+    private PhysicsRigidBody createRigidBody(CollisionShape shape, float mass,
+            DebugMeshNormals debugMeshNormals, Transform position) {
+        assert shape != null : typeName;
+        assert mass > 0f : mass;
+        assert debugMeshNormals != null : typeName;
+
+        PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
+        allBodies.add(result);
+
+        result.setDebugMeshNormals(debugMeshNormals);
+        if (inverseInertia != null) {
+            result.setInverseInertiaLocal(inverseInertia);
+        }
+        result.setPhysicsLocation(position.getTranslation());
+        result.setPhysicsRotation(position.getRotation());
+
+        return result;
     }
 
     /**
@@ -457,7 +624,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
     /**
      * Pseudo-randomly generate an asymmetrical compound shape consisting of 2
-     * cylinders.
+     * cylinders, a head and a handle.
      *
      * @param correctAxes if true, correct the shape's center of mass and
      * principal axes

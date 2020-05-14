@@ -66,6 +66,7 @@ import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
 import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.logging.Level;
@@ -73,7 +74,6 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
-import jme3utilities.Validate;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.mesh.ClothHexagon;
@@ -108,6 +108,10 @@ public class DropTest
      */
     final private static int maxNumDrops = 80;
     /**
+     * number of colors/materials for drops
+     */
+    final private static int numDropColors = 4;
+    /**
      * message logger for this class
      */
     final public static Logger logger
@@ -140,12 +144,14 @@ public class DropTest
     // new methods exposed
 
     /**
-     * Count how many drops are active.
+     * Count how many rigid bodies are active.
      */
     int countActive() {
         int result = 0;
-        for (Drop drop : drops) {
-            if (drop.isAnyActive()) {
+        Collection<PhysicsRigidBody> rigidBodies
+                = getPhysicsSpace().getRigidBodyList();
+        for (PhysicsRigidBody rigidBody : rigidBodies) {
+            if (rigidBody.isActive()) {
                 ++result;
             }
         }
@@ -196,11 +202,19 @@ public class DropTest
      * Restart the current scenario.
      */
     void restartScenario() {
+        for (Drop drop : drops) {
+            drop.removeFromSpace();
+        }
         selectDrop(null);
         drops.clear();
-        stateManager.detach(bulletAppState);
 
-        configurePhysics();
+        PhysicsSpace physicsSpace = getPhysicsSpace();
+        Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
+        for (PhysicsCollisionObject pco : pcos) {
+            physicsSpace.removeCollisionObject(pco);
+        }
+
+        assert physicsSpace.isEmpty();
 
         String platformName = status.platformType();
         addPlatform(platformName, platformY);
@@ -257,48 +271,9 @@ public class DropTest
     }
 
     /**
-     * Add the specified object to the PhysicsSpace.
-     *
-     * @param pco the object to add (not null, not in world)
-     */
-    @Override
-    public void addCollisionObject(PhysicsCollisionObject pco) {
-        if (pco instanceof PhysicsRigidBody) {
-            PhysicsRigidBody rigidBody = (PhysicsRigidBody) pco;
-
-            float damping = status.damping();
-            rigidBody.setDamping(damping, damping);
-
-            rigidBody.setSleepingThresholds(0.1f, 0.1f);
-        }
-
-        float friction = status.friction();
-        pco.setFriction(friction);
-
-        float restitution = status.restitution();
-        pco.setRestitution(restitution);
-
-        setDebugMaterial(pco);
-        super.addCollisionObject(pco);
-    }
-
-    /**
-     * Configure the specified platform body and add it to the PhysicsSpace.
-     *
-     * @param body the body to add (not null, not in world)
-     */
-    @Override
-    public void addPlatform(PhysicsBody body) {
-        Validate.nonNull(body, "body");
-        Validate.require(!body.isInWorld(), "not in world");
-
-        super.addPlatform(body);
-    }
-
-    /**
      * Add a platform to the PhysicsSpace.
      *
-     * @param platformName the name of the desired platform type
+     * @param platformName the name of the desired platform type (not null)
      * @param topY the desired Y coordinate of the top surface (in physics-space
      * coordinates)
      */
@@ -328,19 +303,23 @@ public class DropTest
     }
 
     /**
-     * Initialize materials during startup.
+     * Initialize the library of named materials during startup.
      */
     @Override
     public void generateMaterials() {
         super.generateMaterials();
-
+        /*
+         * shiny, lit material for the selected drop
+         */
         ColorRGBA lightGray = new ColorRGBA(0.6f, 0.6f, 0.6f, 1f);
         Material selected
                 = MyAsset.createShinyMaterial(assetManager, lightGray);
         selected.setFloat("Shininess", 15f);
         registerMaterial("selected", selected);
-
-        ColorRGBA dropColors[] = new ColorRGBA[4];
+        /*
+         * shiny, lit materials for dynamic bodies in drops
+         */
+        ColorRGBA dropColors[] = new ColorRGBA[numDropColors];
         dropColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
         dropColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
         dropColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire
@@ -356,7 +335,7 @@ public class DropTest
     }
 
     /**
-     * Initialize collision shapes during startup.
+     * Initialize the library of named collision shapes during startup.
      */
     @Override
     public void generateShapes() {
@@ -545,6 +524,47 @@ public class DropTest
     }
 
     /**
+     * Callback invoked after adding a collision object to the PhysicsSpace.
+     *
+     * @param pco the object that was added (not null)
+     */
+    @Override
+    public void postAdd(PhysicsCollisionObject pco) {
+        CollisionShape shape = pco.getCollisionShape();
+        if (!pco.isStatic() && shape != null) {
+            ShapeGenerator random = getGenerator();
+            String materialName = "drop" + random.nextInt(numDropColors);
+            Material debugMaterial = findMaterial(materialName);
+            assert debugMaterial != null : materialName;
+            pco.setApplicationData(debugMaterial);
+
+            pco.setCcdMotionThreshold(5f);
+
+            float sweptSphereRadius = shape.maxRadius();
+            pco.setCcdSweptSphereRadius(sweptSphereRadius);
+        }
+
+        if (pco instanceof PhysicsRigidBody) {
+            PhysicsRigidBody rigidBody = (PhysicsRigidBody) pco;
+
+            float damping = status.damping();
+            rigidBody.setDamping(damping, damping);
+
+            rigidBody.setSleepingThresholds(0.1f, 0.1f);
+        }
+
+        pco.setDebugMeshResolution(DebugShapeFactory.highResolution);
+
+        float friction = status.friction();
+        pco.setFriction(friction);
+
+        float restitution = status.restitution();
+        pco.setRestitution(restitution);
+
+        setDebugMaterial(pco);
+    }
+
+    /**
      * Callback invoked once per frame.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
@@ -552,6 +572,10 @@ public class DropTest
     @Override
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
+
+        for (Drop drop : drops) {
+            drop.update();
+        }
 
         Signals signals = getSignals();
         if (signals.test("shower")) {
