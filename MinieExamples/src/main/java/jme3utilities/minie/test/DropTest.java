@@ -100,9 +100,10 @@ public class DropTest
     // constants and loggers
 
     /**
-     * approximate Y coordinate for the platform TODO rename platformTopY
+     * approximate Y coordinate for the main surface of the platform (in
+     * physics-space coordinates)
      */
-    final private static float platformY = 0f;
+    final private static float platformSurfaceY = 0f;
     /**
      * upper limit on the number of drops
      */
@@ -217,7 +218,7 @@ public class DropTest
         assert physicsSpace.isEmpty();
 
         String platformName = status.platformType();
-        addPlatform(platformName, platformY);
+        addPlatform(platformName, platformSurfaceY);
     }
 
     /**
@@ -264,7 +265,7 @@ public class DropTest
         viewPort.setBackgroundColor(skyColor);
 
         String platformName = status.platformType();
-        addPlatform(platformName, platformY);
+        addPlatform(platformName, platformSurfaceY);
 
         renderer.setDefaultAnisotropicFilter(8);
         addADrop();
@@ -716,7 +717,7 @@ public class DropTest
         flyCam.setMoveSpeed(10f);
         flyCam.setZoomSpeed(10f);
 
-        cam.setLocation(new Vector3f(0f, platformY + 20f, 40f));
+        cam.setLocation(new Vector3f(0f, platformSurfaceY + 20f, 40f));
         cam.setRotation(new Quaternion(0f, 0.9649f, -0.263f, 0f));
 
         CameraOrbitAppState orbitState
