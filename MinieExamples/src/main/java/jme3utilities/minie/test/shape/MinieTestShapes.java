@@ -396,7 +396,7 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a rectangular frame.
+     * Generate a rectangular frame, open on the Z axis.
      *
      * @param ihHeight half of the internal height (Y direction, &gt;0)
      * @param ihWidth half of the internal width (X direction, &gt;0)
@@ -424,57 +424,6 @@ public class MinieTestShapes {
         result.addChildShape(horizontal, -halfThickness, mhHeight, 0f);
         result.addChildShape(vertical, mhWidth, halfThickness, 0f);
         result.addChildShape(vertical, -mhWidth, -halfThickness, 0f);
-
-        return result;
-    }
-
-    /**
-     * Generate a Z-axis half-pipe shape.
-     *
-     * @param innerR the inner radius of an X-Y cross section (in unscaled shape
-     * units, &gt;0)
-     * @param thickness the thickness of the pipe (in unscaled shape units,
-     * &gt;0)
-     * @param zLength the total length of the pipe along the Z axis (in unscaled
-     * shape units, &gt;0)
-     * @param numChildren the number of child shapes to create (&ge;2)
-     * @return a new compound shape
-     */
-    public static CompoundCollisionShape makeHalfPipe(float innerR,
-            float thickness, float zLength, int numChildren) {
-        Validate.positive(innerR, "inner radius");
-        Validate.positive(thickness, "thickness");
-        Validate.positive(zLength, "length");
-        Validate.inRange(numChildren, "number of children",
-                2, Integer.MAX_VALUE);
-
-        float halfLength = zLength / 2f;
-        float outerR = innerR + thickness;
-        float yOff = outerR / 2f;
-        float segmentAngle = FastMath.PI / numChildren;
-
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        for (int segmentI = 0; segmentI < numChildren; ++segmentI) {
-            float theta1 = segmentI * segmentAngle;
-            float theta2 = (segmentI + 1) * segmentAngle;
-            float cos1 = FastMath.cos(theta1);
-            float cos2 = FastMath.cos(theta2);
-            float sin1 = FastMath.sin(theta1);
-            float sin2 = FastMath.sin(theta2);
-
-            FloatBuffer buffer = BufferUtils.createFloatBuffer(
-                    innerR * cos1, innerR * sin1 - yOff, halfLength,
-                    innerR * cos2, innerR * sin2 - yOff, halfLength,
-                    outerR * cos1, outerR * sin1 - yOff, halfLength,
-                    outerR * cos2, outerR * sin2 - yOff, halfLength,
-                    innerR * cos1, innerR * sin1 - yOff, -halfLength,
-                    innerR * cos2, innerR * sin2 - yOff, -halfLength,
-                    outerR * cos1, outerR * sin1 - yOff, -halfLength,
-                    outerR * cos2, outerR * sin2 - yOff, -halfLength
-            );
-            HullCollisionShape child = new HullCollisionShape(buffer);
-            result.addChildShape(child);
-        }
 
         return result;
     }
@@ -669,6 +618,75 @@ public class MinieTestShapes {
         compound.addChildShape(head, offset, rotation);
 
         return compound;
+    }
+
+    /**
+     * Approximate an arc of a straight, square-ended pipe (or of a flat ring),
+     * open on the Z axis, using hulls.
+     *
+     * @param innerR the inner radius of an X-Y cross section (in unscaled shape
+     * units, &gt;0)
+     * @param thickness the thickness of the pipe (in unscaled shape units,
+     * &gt;0)
+     * @param zLength the total length of the pipe along the Z axis (in unscaled
+     * shape units, &gt;0)
+     * @param arc the arc amount (in radians, &gt;0, &le;2pi)
+     * @param numChildren the number of child shapes to create (&ge;3)
+     * @return a new compound shape
+     */
+    public static CompoundCollisionShape makePipe(float innerR, float thickness,
+            float zLength, float arc, int numChildren) {
+        Validate.positive(innerR, "inner radius");
+        Validate.positive(thickness, "thickness");
+        Validate.positive(zLength, "length");
+        Validate.inRange(arc, "arc", 0f, FastMath.TWO_PI);
+        Validate.inRange(numChildren, "number of children", 2,
+                Integer.MAX_VALUE);
+
+        float halfLength = zLength / 2f;
+        float outerR = innerR + thickness;
+        float segmentAngle = arc / numChildren; // in radians
+
+        float xOff, yOff; // TODO more accurate centering
+        if (arc < 2) {
+            float cos = FastMath.cos(segmentAngle);
+            float sin = FastMath.sin(segmentAngle);
+            xOff = (1 + cos * outerR) / 2f;
+            yOff = sin * innerR / 2f;
+
+        } else if (arc < 4) {
+            xOff = 0f;
+            yOff = outerR / 2f;
+
+        } else {
+            xOff = 0f;
+            yOff = 0f;
+        }
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        for (int segmentI = 0; segmentI < numChildren; ++segmentI) {
+            float theta1 = segmentI * segmentAngle;
+            float theta2 = (segmentI + 1) * segmentAngle;
+            float cos1 = FastMath.cos(theta1);
+            float cos2 = FastMath.cos(theta2);
+            float sin1 = FastMath.sin(theta1);
+            float sin2 = FastMath.sin(theta2);
+
+            FloatBuffer buffer = BufferUtils.createFloatBuffer(
+                    innerR * cos1 - xOff, innerR * sin1 - yOff, halfLength,
+                    innerR * cos2 - xOff, innerR * sin2 - yOff, halfLength,
+                    outerR * cos1 - xOff, outerR * sin1 - yOff, halfLength,
+                    outerR * cos2 - xOff, outerR * sin2 - yOff, halfLength,
+                    innerR * cos1 - xOff, innerR * sin1 - yOff, -halfLength,
+                    innerR * cos2 - xOff, innerR * sin2 - yOff, -halfLength,
+                    outerR * cos1 - xOff, outerR * sin1 - yOff, -halfLength,
+                    outerR * cos2 - xOff, outerR * sin2 - yOff, -halfLength
+            );
+            HullCollisionShape child = new HullCollisionShape(buffer);
+            result.addChildShape(child);
+        }
+
+        return result;
     }
 
     /**
@@ -905,7 +923,8 @@ public class MinieTestShapes {
     }
 
     /**
-     * Approximate a torus or donut using capsules arranged in a circle.
+     * Approximate a torus (or donut), open on the Z axis, using capsules
+     * arranged in a circle.
      *
      * @param majorRadius (in unscaled shape units, &gt;minorRadius)
      * @param minorRadius (in unscaled shape units, &gt;0, &lt;majorRadius)
@@ -988,53 +1007,6 @@ public class MinieTestShapes {
         Vector3f p2 = new Vector3f(x, 0f, -x);
         Vector3f p3 = new Vector3f(-x, 0f, 0f);
         SimplexCollisionShape result = new SimplexCollisionShape(p1, p2, p3);
-
-        return result;
-    }
-
-    /**
-     * Generate a triangular frame with identical sides.
-     *
-     * @param internalLength the internal length of each side (&gt;0)
-     * @param depth the (external) depth (Z direction, &gt;0)
-     * @param thickness the thickness of each side (&gt;0)
-     * @return a new shape (not null)
-     */
-    public static CompoundCollisionShape makeTriangularFrame(
-            float internalLength, float depth, float thickness) {
-        Validate.positive(internalLength, "internal length");
-        Validate.positive(depth, "depth");
-        Validate.positive(thickness, "thickness");
-
-        float innerX = internalLength / ShapeGenerator.root3;
-        float outerX = innerX + 2f * thickness;
-        float halfDepth = depth / 2f;
-
-        float stepAngle = FastMath.TWO_PI / 3f; // in radians
-        Matrix3f rot1 = new Matrix3f();
-        rot1.fromAngleAxis(stepAngle, Vector3f.UNIT_Z);
-        Matrix3f rot2 = new Matrix3f();
-        rot2.fromAngleAxis(2f * stepAngle, Vector3f.UNIT_Z);
-
-        Vector3f inner1 = rot1.mult(new Vector3f(innerX, 0f, 0f), null);
-        Vector3f outer1 = rot1.mult(new Vector3f(outerX, 0f, 0f), null);
-
-        float[] array = {
-            innerX, 0f, +halfDepth,
-            innerX, 0f, -halfDepth,
-            outerX, 0f, +halfDepth,
-            outerX, 0f, -halfDepth,
-            inner1.x, inner1.y, +halfDepth,
-            inner1.x, inner1.y, -halfDepth,
-            outer1.x, outer1.y, +halfDepth,
-            outer1.x, outer1.y, -halfDepth
-        };
-        CollisionShape side = new HullCollisionShape(array);
-
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        result.addChildShape(side);
-        result.addChildShape(side, Vector3f.ZERO, rot1);
-        result.addChildShape(side, Vector3f.ZERO, rot2);
 
         return result;
     }

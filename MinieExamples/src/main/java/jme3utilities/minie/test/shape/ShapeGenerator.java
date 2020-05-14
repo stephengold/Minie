@@ -194,7 +194,7 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
-     * Generate a Z-axis half-pipe shape.
+     * Approximate a Z-axis half-pipe shape.
      *
      * @return a new shape
      */
@@ -202,10 +202,11 @@ public class ShapeGenerator extends Generator {
         float innerRadius = nextFloat(0.5f, 1.5f);
         float thickness = nextFloat(0.2f, 0.5f);
         float length = nextFloat(1f, 4f);
+        float arc = FastMath.PI;
         int numChildren = 20;
 
-        CompoundCollisionShape result = MinieTestShapes.makeHalfPipe(
-                innerRadius, thickness, length, numChildren);
+        CompoundCollisionShape result = MinieTestShapes.makePipe(innerRadius,
+                thickness, length, arc, numChildren);
 
         return result;
     }
@@ -577,7 +578,7 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
-     * Generate a torus or donut.
+     * Approximate a torus or donut, open on the Z axis.
      *
      * @return a new shape
      */
@@ -591,16 +592,19 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
-     * Generate a triangular frame with identical sides.
+     * Generate a triangular frame with identical sides, open on the Z axis.
      *
      * @return a new compound shape (not null)
      */
     public CompoundCollisionShape nextTriangularFrame() {
-        float interalLength = nextFloat(2f, 6f);
+        float internalLength = nextFloat(2f, 6f);
+        float innerR = internalLength / root3;
         float depth = nextFloat(0.2f, 1f);
-        float thickness = interalLength * nextFloat(0.1f, 0.2f);
-        CompoundCollisionShape result = MinieTestShapes.makeTriangularFrame(
-                interalLength, depth, thickness);
+        float thickness = internalLength * nextFloat(0.1f, 0.2f);
+        float arc = FastMath.TWO_PI;
+        int numSegments = 3;
+        CompoundCollisionShape result = MinieTestShapes.makePipe(innerR,
+                thickness, depth, arc, numSegments);
 
         return result;
     }
