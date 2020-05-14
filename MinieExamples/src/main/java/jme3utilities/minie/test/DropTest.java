@@ -412,6 +412,9 @@ public class DropTest
         dim.bind("add", KeyInput.KEY_INSERT);
         dim.bind("add", KeyInput.KEY_NUMPAD0);
 
+        dim.bind("advance value +7", KeyInput.KEY_NUMPAD9);
+        dim.bind("advance value -7", KeyInput.KEY_NUMPAD7);
+
         dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
 
         dim.bind("delete last", KeyInput.KEY_BACK);
@@ -474,6 +477,13 @@ public class DropTest
             switch (actionString) {
                 case "add":
                     addADrop();
+                    return;
+
+                case "advance value +7":
+                    status.advanceValue(+7);
+                    return;
+                case "advance value -7":
+                    status.advanceValue(-7);
                     return;
 
                 case "delete last":
