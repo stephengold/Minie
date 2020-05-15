@@ -50,6 +50,7 @@ import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
@@ -331,6 +332,9 @@ public class DropTest
             Material material
                     = MyAsset.createShinyMaterial(assetManager, color);
             material.setFloat("Shininess", 15f);
+            RenderState additional = material.getAdditionalRenderState();
+            additional.setFaceCullMode(RenderState.FaceCullMode.Off);
+
             registerMaterial("drop" + index, material);
         }
     }
