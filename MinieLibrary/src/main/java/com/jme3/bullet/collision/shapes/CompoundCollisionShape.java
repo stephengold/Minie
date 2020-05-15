@@ -38,6 +38,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Matrix4f;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
@@ -186,22 +187,19 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
-     * Apply the inverse of the specified Transform to each child shape. Assumes
-     * that no 2 children refer to the same shape! TODO fix this
+     * Apply the inverse of the specified Transform to each child shape.
      *
      * @param paTransform the Transform to un-apply, typically one calculated by
      * {@link #principalAxes(java.nio.FloatBuffer, com.jme3.math.Transform, com.jme3.math.Vector3f)}
      * (not null, unaffected, scale=1)
      */
     public void correctAxes(Transform paTransform) {
-        Transform invTransform = paTransform.clone().invert();
-
-        Transform tmpTransform = new Transform();
-        for (ChildCollisionShape child : children) {
-            child.copyTransform(tmpTransform);
-            tmpTransform.combineWithParent(invTransform);
-            setChildTransform(child.getShape(), tmpTransform);
-        }
+        Matrix4f invTransform = paTransform.toTransformMatrix(); // TODO garbage
+        invTransform.invertLocal();
+        Matrix3f rotation = invTransform.toRotationMatrix(); // TODO garbage
+        rotate(rotation);
+        Vector3f translation = invTransform.toTranslationVector();
+        translate(translation);
     }
 
     /**
