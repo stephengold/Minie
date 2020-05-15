@@ -1056,9 +1056,12 @@ public class PhysicsDumper extends Dumper {
 
         Vector3f gravity = rigidBody.getGravity(null);
         String graString = MyVector3f.describe(gravity);
-        stream.printf(" grav[%s]", graString);
+        stream.printf(" grav[%s] ", graString);
 
-        stream.print(" ccd[mth=");
+        if (!rigidBody.isGravityProtected()) {
+            stream.print("NOT");
+        }
+        stream.print("protected ccd[mth=");
         float ccdMt = rigidBody.getCcdMotionThreshold();
         stream.print(MyString.describe(ccdMt));
         if (ccdMt > 0f) {
