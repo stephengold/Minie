@@ -194,12 +194,17 @@ public class CompoundCollisionShape extends CollisionShape {
      * (not null, unaffected, scale=1)
      */
     public void correctAxes(Transform paTransform) {
-        Matrix4f invTransform = paTransform.toTransformMatrix(); // TODO garbage
-        invTransform.invertLocal();
-        Matrix3f rotation = invTransform.toRotationMatrix(); // TODO garbage
+        Matrix4f tmpMatrix4f = new Matrix4f(); // TODO garbage
+        paTransform.toTransformMatrix(tmpMatrix4f);
+        tmpMatrix4f.invertLocal();
+
+        Matrix3f rotation = new Matrix3f(); // TODO garbage
+        tmpMatrix4f.toRotationMatrix(rotation);
         rotate(rotation);
-        Vector3f translation = invTransform.toTranslationVector();
-        translate(translation);
+
+        Vector3f offset = new Vector3f(); // TODO garbage
+        tmpMatrix4f.toTranslationVector(offset);
+        translate(offset);
     }
 
     /**
