@@ -541,14 +541,17 @@ public class DropTest
      */
     @Override
     public void postAdd(PhysicsCollisionObject pco) {
-        CollisionShape shape = pco.getCollisionShape();
-        if (!pco.isStatic() && shape != null) {
+        Object appData = pco.getApplicationData();
+        if (appData == null) {
             ShapeGenerator random = getGenerator();
             String materialName = "drop" + random.nextInt(numDropColors);
             Material debugMaterial = findMaterial(materialName);
             assert debugMaterial != null : materialName;
             pco.setApplicationData(debugMaterial);
+        }
 
+        CollisionShape shape = pco.getCollisionShape();
+        if (!pco.isStatic() && shape != null) {
             pco.setCcdMotionThreshold(5f);
 
             float sweptSphereRadius = shape.maxRadius();

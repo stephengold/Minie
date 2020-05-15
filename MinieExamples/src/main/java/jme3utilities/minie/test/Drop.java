@@ -45,11 +45,17 @@ import com.jme3.bullet.joints.motors.MotorParam;
 import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.objects.infos.ConfigFlag;
+import com.jme3.bullet.objects.infos.Sbcp;
+import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
@@ -61,6 +67,7 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
@@ -182,6 +189,10 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                 ShapeGenerator random = appInstance.getGenerator();
                 Vector3f offset = random.nextVector3f().multLocal(0.2f);
                 ((PhysicsRigidBody) body).applyImpulse(impulseVector, offset);
+            } else {
+                PhysicsSoftBody softBody = (PhysicsSoftBody) body;
+                Vector3f velocityVector = new Vector3f(0f, deltaV, 0f);
+                softBody.addVelocity(velocityVector);
             }
         }
     }
@@ -358,6 +369,10 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                 shape = random.nextShape(typeName);
                 createRigidBody(shape, totalMass, DebugMeshNormals.Sphere,
                         startPosition);
+                break;
+
+            case "squishyBall":
+                createSoftBody();
                 break;
 
             default:
@@ -595,6 +610,42 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         result.setPhysicsRotation(position.getRotation());
 
         return result;
+    }
+
+    /**
+     * Create a soft Drop based on the configuration.
+     */
+    private void createSoftBody() {
+        PhysicsSoftBody softBody;
+        switch (typeName) {
+            case "squishyBall": {
+                int numRefinementIterations = 3;
+                float radius = 3f;
+                Mesh mesh = new Icosphere(numRefinementIterations, radius);
+
+                softBody = new PhysicsSoftBody();
+                NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
+                softBody.applyTransform(startPosition);
+
+                softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
+
+                boolean setVolumePose = false;
+                boolean setFramePose = true;
+                softBody.setPose(setVolumePose, setFramePose);
+
+                SoftBodyConfig config = softBody.getSoftConfig();
+                config.set(Sbcp.PoseMatching, 0.1f);
+                config.setCollisionFlags(ConfigFlag.SDF_RS, ConfigFlag.VF_SS);
+                break;
+            }
+
+            default:
+                String message = "typeName = " + MyString.quote(typeName);
+                throw new IllegalArgumentException(message);
+        }
+
+        softBody.setMass(totalMass);
+        allBodies.add(softBody);
     }
 
     /**
