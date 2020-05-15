@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2019 jMonkeyEngine
+ * Copyright (c) 2009-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -348,7 +348,8 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the collision flags. Flag values are defined in {@link ConfigFlag}.
+     * Alter the collision flags (default=SDF_RS). Flag values are defined in
+     * {@link ConfigFlag}.
      *
      * @param flag the first flag to set, or 0x0 to clear all flags
      * @param additionalFlags ... additional flags to set. Flags are ORed
