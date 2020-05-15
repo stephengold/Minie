@@ -253,11 +253,12 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
-     * Calculates the coordinate transform to be applied to a collision object
-     * in order for this shape to be centered at the center of mass and its
+     * Calculates the coordinate transform to be applied to a rigid body in
+     * order for this shape to be centered at the center of mass and its
      * principal axes to coincide with its local axes. Apply the inverse of this
-     * transform to each child shape. The resuling moment of inertia is also
-     * calculated.
+     * transform to each child shape using
+     * {@link #correctAxes(com.jme3.math.Transform)}. The resulting moment of
+     * inertia is also calculated.
      *
      * @param masses the mass for each child shape (not null, direct, all
      * elements &gt;0)
@@ -265,7 +266,7 @@ public class CompoundCollisionShape extends CollisionShape {
      * @param storeInertia storage for the moment of inertia (not null,
      * modified)
      * @return a coordinate transform to apply to the collision object (either
-     * storeTransform or a new instance, not null)
+     * storeTransform or a new instance, not null, scale=1)
      */
     public Transform principalAxes(FloatBuffer masses, Transform storeTransform,
             Vector3f storeInertia) {
