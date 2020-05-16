@@ -365,8 +365,7 @@ abstract public class AbstractDemo extends ActionApplication {
         }
 
         worldAxes = new AxesVisualizer(assetManager, axisLength);
-        float widthForSolid = 0f;
-        worldAxes.setLineWidth(widthForSolid);
+        worldAxes.setLineWidth(AxesVisualizer.widthForSolid);
 
         rootNode.addControl(worldAxes);
         worldAxes.setEnabled(true);

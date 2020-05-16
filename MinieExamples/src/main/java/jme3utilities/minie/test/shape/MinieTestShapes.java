@@ -698,7 +698,7 @@ public class MinieTestShapes {
         float halfExtent = 20f;
 
         float x2 = halfExtent;
-        float y2 = halfExtent / Icosahedron.phi;
+        float y2 = halfExtent / MyMath.phi;
         float x1 = -x2;
         float y1 = -y2;
         float cornerRadius = 4f;
