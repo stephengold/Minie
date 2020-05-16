@@ -61,6 +61,7 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.InfluenceUtil;
 import jme3utilities.MyAnimation;
+import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.VectorSet;
@@ -334,7 +335,7 @@ class Model {
     }
 
     /**
-     * Count how many skeleton controls are in the model.
+     * Count how many skeleton/skinning controls are in the model. TODO rename
      *
      * @return the count (&ge;0) or 0 if no model loaded
      */
@@ -994,8 +995,8 @@ class Model {
     }
 
     /**
-     * Access the model's Skeleton, assuming it doesn't have more than one
-     * SkeletonControl. A C-G model must be loaded.
+     * Access the model's Skeleton, assuming it has no more than one. A C-G
+     * model must be loaded.
      *
      * @return the pre-existing instance, or null if none or multiple
      */
@@ -1004,10 +1005,11 @@ class Model {
             throw new RuntimeException("No model loaded.");
         }
 
-        SkeletonControl control = RagUtils.findSkeletonControl(rootSpatial);
+        List<Skeleton> list = MySkeleton.listSkeletons(rootSpatial, null);
+
         Skeleton result = null;
-        if (control != null) {
-            result = control.getSkeleton();
+        if (list.size() == 1) {
+            result = list.get(0);
         }
 
         return result;

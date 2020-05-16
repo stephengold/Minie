@@ -35,7 +35,6 @@ import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.DacLinks;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.PhysicsLink;
-import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
@@ -50,11 +49,11 @@ import com.jme3.math.Plane;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
+import jme3utilities.MySpatial;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.nifty.GuiScreenController;
@@ -183,8 +182,9 @@ class TestScreen extends GuiScreenController {
                 wizard.makeScene(cgModel);
                 addGroundPlane();
 
-                AbstractControl control = RagUtils.findSControl(cgModel);
-                Spatial controlledSpatial = control.getSpatial();
+                List<Spatial> list
+                        = MySpatial.listAnimationSpatials(cgModel, null);
+                Spatial controlledSpatial = list.get(0);
 
                 DynamicAnimControl dac = model.copyRagdoll();
                 controlledSpatial.addControl(dac);

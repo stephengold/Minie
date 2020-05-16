@@ -28,12 +28,10 @@ package jme3utilities.minie.test.models;
 
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
-import com.jme3.animation.SkeletonControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetInfo;
 import com.jme3.asset.BlenderKey;
 import com.jme3.asset.TextureKey;
-import com.jme3.bullet.animation.RagUtils;
 import com.jme3.material.MatParam;
 import com.jme3.material.Material;
 import com.jme3.scene.Node;
@@ -50,6 +48,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -129,8 +128,10 @@ public class ImportCgms extends SimpleApplication {
          */
         BlenderKey blendKey = new BlenderKey("Blender/2.4x/BaseMesh_249.blend");
         Spatial baseMesh = assetManager.loadModel(blendKey);
-        SkeletonControl sControl = RagUtils.findSkeletonControl(baseMesh);
-        Skeleton skeleton = sControl.getSkeleton();
+
+        List<Skeleton> list = MySkeleton.listSkeletons(baseMesh, null);
+        assert list.size() == 1 : list.size();
+        Skeleton skeleton = list.get(0);
         int numBones = skeleton.getBoneCount();
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             Bone bone = skeleton.getBone(boneIndex);

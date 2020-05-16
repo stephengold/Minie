@@ -31,7 +31,6 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DynamicAnimControl;
-import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -58,13 +57,13 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.logging.Logger;
+import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.mesh.Icosphere;
@@ -566,8 +565,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         cgModel.setLocalTransform(startPosition);
         cgModel.setLocalScale(scale);
 
-        AbstractControl sc = RagUtils.findSControl(cgModel);
-        Spatial controlledSpatial = sc.getSpatial();
+        List<Spatial> list = MySpatial.listAnimationSpatials(cgModel, null);
+        Spatial controlledSpatial = list.get(0);
         controlledSpatial.addControl(control);
         dac = control;
 

@@ -39,7 +39,6 @@ import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.KinematicSubmode;
 import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.PhysicsLink;
-import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -54,7 +53,6 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -67,6 +65,7 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.nifty.dialog.FloatDialog;
@@ -353,8 +352,9 @@ class TestMode extends InputMode {
 
         Spatial modelRoot = model.getRootSpatial();
         modelRoot = (Spatial) Heart.deepCopy(modelRoot);
-        AbstractControl control = RagUtils.findSControl(modelRoot);
-        Spatial controlledSpatial = control.getSpatial();
+        List<Spatial> list = MySpatial.listAnimationSpatials(modelRoot, null);
+        assert list.size() == 1 : list.size();
+        Spatial controlledSpatial = list.get(0);
         DynamicAnimControl dac = model.copyRagdoll();
         controlledSpatial.addControl(dac);
 

@@ -28,7 +28,6 @@ package jme3utilities.minie.test;
 
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
-import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.BulletAppState;
@@ -37,7 +36,6 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.PhysicsLink;
-import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
@@ -592,8 +590,9 @@ public class TestSoftBody
          * Create the animation channel now
          * so that animation blending will work later.
          */
-        SkeletonControl skeletonControl = RagUtils.findSkeletonControl(cgModel);
-        Spatial controlledSpatial = skeletonControl.getSpatial();
+        List<Spatial> list = MySpatial.listAnimationSpatials(cgModel, null);
+        assert list.size() == 1 : list.size();
+        Spatial controlledSpatial = list.get(0);
         AnimControl animControl
                 = controlledSpatial.getControl(AnimControl.class);
         animControl.createChannel(); // Channel[0] includes all bones.
@@ -919,25 +918,22 @@ public class TestSoftBody
      * Cycle through animations of the Puppet model.
      */
     private void nextPuppetAnimation() {
-        SkeletonControl skeletonControl
-                = RagUtils.findSkeletonControl(rootNode);
-        if (skeletonControl == null) {
+        List<AnimControl> list
+                = MySpatial.listControls(rootNode, AnimControl.class, null);
+        if (list.size() != 1) {
             return;
         }
-
-        Spatial controlledSpatial = skeletonControl.getSpatial();
-        AnimControl animControl
-                = controlledSpatial.getControl(AnimControl.class);
+        AnimControl animControl = list.get(0);
         AnimChannel channel = animControl.getChannel(0);
 
         String animationName = channel.getAnimationName();
         if (animationName == null) { // first time
             channel.setAnim("jog");
         } else if (animationName.equals("jog")) {
-            float blendTime = 1f; // seconds
+            float blendTime = 1f; // in seconds
             channel.setAnim("walk", blendTime);
         } else if (animationName.equals("walk")) {
-            float blendTime = 1f; // seconds
+            float blendTime = 1f; // in seconds
             channel.setAnim("jog", blendTime);
         }
     }
