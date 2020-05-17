@@ -905,7 +905,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * These thresholds influence whether the body will be deactivated to save
      * resources. Low values keep the body active when it barely moves.
      *
-     * @param linear the desired linear threshold (&ge;0, default=0.8)
+     * @param linear the desired linear threshold (&ge;0, default=0.8) TODO
+     * units?
      * @param angular the desired angular threshold (&ge;0, default=1)
      */
     public void setSleepingThresholds(float linear, float angular) {

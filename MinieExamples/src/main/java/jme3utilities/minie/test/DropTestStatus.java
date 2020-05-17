@@ -74,7 +74,7 @@ public class DropTestStatus extends SimpleAppState {
      */
     final private static int dampingStatusLine = 4;
     /**
-     * index of the status line for the name of the next drop
+     * index of the status line for the type of the next drop
      */
     final private static int dropStatusLine = 3;
     /**
@@ -230,7 +230,7 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
-     * Determine the damping fraction for all dynamic bodies.
+     * Determine the selected damping fraction for all dynamic bodies.
      *
      * @return the fraction (&ge;0, &le;1)
      */
@@ -241,7 +241,7 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
-     * Determine the friction coefficient for all rigid bodies.
+     * Determine the selected friction coefficient for all rigid bodies.
      *
      * @return the coefficient (&ge;0)
      */
@@ -251,9 +251,9 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
-     * Determine the gravity magnitude for all dynamic bodies.
+     * Determine the selected gravity magnitude for all dynamic bodies.
      *
-     * @return the acceleration (&ge;0)
+     * @return the acceleration (in world units per second squared, &ge;0)
      */
     float gravity() {
         assert gravity >= 0f : gravity;
@@ -279,7 +279,7 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
-     * Determine the type for the next drop.
+     * Determine the selected type for the next drop.
      *
      * @return the name (not null, not empty)
      */
@@ -290,7 +290,7 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
-     * Determine the type of platform.
+     * Determine the selected type of platform.
      *
      * @return the name (not null, not empty)
      */
@@ -301,7 +301,7 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
-     * Determine the restitution fraction for all rigid bodies.
+     * Determine the selected restitution fraction for all rigid bodies.
      *
      * @return the fraction (&ge;0, &le;1)
      */
