@@ -437,15 +437,6 @@ class Model {
     }
 
     /**
-     * Access the root spatial of the loaded C-G model.
-     *
-     * @return the pre-existing spatial, or null if no model loaded
-     */
-    Spatial getRootSpatial() {
-        return rootSpatial;
-    }
-
-    /**
      * Access the model's Skeleton, assuming it has no more than one. A C-G
      * model must be loaded.
      *
@@ -464,6 +455,15 @@ class Model {
         }
 
         return result;
+    }
+
+    /**
+     * Access the root spatial of the loaded C-G model.
+     *
+     * @return the pre-existing spatial, or null if no model loaded
+     */
+    Spatial getRootSpatial() {
+        return rootSpatial;
     }
 
     /**
