@@ -345,6 +345,32 @@ public class DropTest
     @Override
     public void generateShapes() {
         super.generateShapes();
+        CollisionShape shape;
+        /*
+         * "ankh" using manual decomposition
+         */
+        String ankhPath = "CollisionShapes/ankh.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(ankhPath);
+        registerShape("ankh", shape);
+        /*
+         * "banana" using manual decomposition
+         */
+        String bananaPath = "CollisionShapes/banana.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(bananaPath);
+        registerShape("banana", shape);
+        /*
+         * "barrel"
+         */
+        String barrelPath = "CollisionShapes/barrel.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(barrelPath);
+        shape.setScale(3f);
+        registerShape("barrel", shape);
+        /*
+         * "bowlingPin" using manual decomposition
+         */
+        String bowlingPinPath = "CollisionShapes/bowlingPin.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(bowlingPinPath);
+        registerShape("bowlingPin", shape);
         /*
          * "candyDish"
          */
@@ -352,7 +378,7 @@ public class DropTest
         Node candyDishNode = (Node) assetManager.loadModel(candyDishPath);
         Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
         Mesh candyDishMesh = candyDishGeometry.getMesh();
-        CollisionShape shape = new MeshCollisionShape(candyDishMesh);
+        shape = new MeshCollisionShape(candyDishMesh);
         shape.setScale(5f);
         registerShape("candyDish", shape);
         /*
@@ -370,6 +396,12 @@ public class DropTest
         shape.setScale(1.2f);
         registerShape("heart", shape);
         /*
+         * "horseshoe" using manual decomposition
+         */
+        String horseshoePath = "CollisionShapes/horseshoe.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(horseshoePath);
+        registerShape("horseshoe", shape);
+        /*
          * "sword" using V-HACD
          */
         String swordPath = "CollisionShapes/sword.j3o";
@@ -383,6 +415,28 @@ public class DropTest
         shape = (CollisionShape) assetManager.loadAsset(teapotPath);
         shape.setScale(3f);
         registerShape("teapot", shape);
+        /*
+         * letter shapes
+         */
+        for (char character = 'A'; character <= 'Z'; ++character) {
+            char[] array = new char[]{character};
+            String glyphString = new String(array);
+            String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
+                    glyphString);
+            shape = (CollisionShape) assetManager.loadAsset(assetPath);
+            registerShape(glyphString, shape);
+        }
+        /*
+         * digit shapes
+         */
+        for (char character = '0'; character <= '9'; ++character) {
+            char[] array = new char[]{character};
+            String glyphString = new String(array);
+            String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
+                    glyphString);
+            shape = (CollisionShape) assetManager.loadAsset(assetPath);
+            registerShape(glyphString, shape);
+        }
     }
 
     /**

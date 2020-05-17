@@ -481,61 +481,6 @@ abstract public class AbstractDemo extends ActionApplication {
      */
     public void generateShapes() {
         MinieTestShapes.addShapes(namedShapes);
-        // TODO move loaded shapes to DropTest
-        /*
-         * letter shapes
-         */
-        CollisionShape shape;
-        for (char character = 'A'; character <= 'Z'; ++character) {
-            char[] array = new char[]{character};
-            String glyphString = new String(array);
-            String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
-                    glyphString);
-            shape = (CollisionShape) assetManager.loadAsset(assetPath);
-            registerShape(glyphString, shape);
-        }
-        /*
-         * digit shapes
-         */
-        for (char character = '0'; character <= '9'; ++character) {
-            char[] array = new char[]{character};
-            String glyphString = new String(array);
-            String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
-                    glyphString);
-            shape = (CollisionShape) assetManager.loadAsset(assetPath);
-            registerShape(glyphString, shape);
-        }
-        /*
-         * "ankh" using manual decomposition
-         */
-        String ankhPath = "CollisionShapes/ankh.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(ankhPath);
-        registerShape("ankh", shape);
-        /*
-         * "banana" using manual decomposition
-         */
-        String bananaPath = "CollisionShapes/banana.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(bananaPath);
-        registerShape("banana", shape);
-        /*
-         * "bowlingPin" using manual decomposition
-         */
-        String bowlingPinPath = "CollisionShapes/bowlingPin.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(bowlingPinPath);
-        registerShape("bowlingPin", shape);
-        /*
-         * "barrel"
-         */
-        String barrelPath = "CollisionShapes/barrel.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(barrelPath);
-        shape.setScale(3f);
-        registerShape("barrel", shape);
-        /*
-         * "horseshoe" using manual decomposition
-         */
-        String horseshoePath = "CollisionShapes/horseshoe.j3o";
-        shape = (CollisionShape) assetManager.loadAsset(horseshoePath);
-        registerShape("horseshoe", shape);
     }
 
     /**
