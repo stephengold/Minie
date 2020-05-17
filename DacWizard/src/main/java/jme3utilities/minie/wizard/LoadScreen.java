@@ -84,7 +84,7 @@ class LoadScreen extends GuiScreenController {
     String feedback() {
         Model model = DacWizard.getModel();
         int numDacs = model.countDacs();
-        int numSkeletonControls = model.countSkeletonControls();
+        int numSkeletonControls = model.countSControls();
         Spatial nextSpatial = model.getRootSpatial();
         String loadException = model.loadExceptionString();
 

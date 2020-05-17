@@ -335,11 +335,11 @@ class Model {
     }
 
     /**
-     * Count how many skeleton/skinning controls are in the model. TODO rename
+     * Count how many skeleton/skinning controls are in the model.
      *
      * @return the count (&ge;0) or 0 if no model loaded
      */
-    int countSkeletonControls() {
+    int countSControls() {
         int count = MySpatial.countControls(rootSpatial, SkeletonControl.class);
         count += MySpatial.countControls(rootSpatial, SkinningControl.class);
 
