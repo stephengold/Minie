@@ -481,6 +481,7 @@ abstract public class AbstractDemo extends ActionApplication {
      */
     public void generateShapes() {
         MinieTestShapes.addShapes(namedShapes);
+        // TODO move loaded shapes to DropTest
         /*
          * letter shapes
          */
@@ -710,6 +711,16 @@ abstract public class AbstractDemo extends ActionApplication {
         BulletAppState bulletAppState = getBulletAppState();
         boolean enabled = bulletAppState.isDebugEnabled();
         bulletAppState.setDebugEnabled(!enabled);
+    }
+
+    /**
+     * Remove a CollisionShape from the library, if it's been registered.
+     *
+     * @param key the key used to register the shape (not null)
+     */
+    public void unregisterShape(String key) {
+        Validate.nonNull(key, "key");
+        namedShapes.remove(key);
     }
     // *************************************************************************
     // new protected methods
