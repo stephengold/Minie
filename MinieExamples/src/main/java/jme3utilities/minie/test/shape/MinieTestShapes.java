@@ -695,7 +695,7 @@ public class MinieTestShapes {
      * @return a new convex 2-D shape (not null)
      */
     public static Convex2dShape makeRoundedRectangle() {
-        float halfExtent = 20f;
+        float halfExtent = 30f;
 
         float x2 = halfExtent;
         float y2 = halfExtent / MyMath.phi;
@@ -1000,7 +1000,7 @@ public class MinieTestShapes {
      * @return a new simplex shape (not null)
      */
     public static SimplexCollisionShape makeTriangle() {
-        float radius = 40f;
+        float radius = 50f;
 
         float x = radius * MyMath.rootHalf;
         Vector3f p1 = new Vector3f(x, 0f, x);
