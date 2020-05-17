@@ -68,6 +68,7 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.mesh.ClothGrid;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.minie.test.tunings.BaseMeshControl;
@@ -370,6 +371,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                         startPosition);
                 break;
 
+            case "cloth":
             case "squishyBall":
                 createSoftBody();
                 break;
@@ -617,6 +619,26 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     private void createSoftBody() {
         PhysicsSoftBody softBody;
         switch (typeName) {
+            case "cloth": {
+                int numLines = 41;
+                float lineSpacing = 0.3f; // mesh units
+                Mesh mesh = new ClothGrid(numLines, numLines, lineSpacing);
+
+                softBody = new PhysicsSoftBody();
+                NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
+                softBody.applyTranslation(startPosition.getTranslation());
+
+                softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
+                softBody.setMargin(lineSpacing);
+
+                PhysicsSoftBody.Material mat = softBody.getSoftMaterial();
+                //mat.setAngularStiffness(1f); // default = 1
+
+                SoftBodyConfig config = softBody.getSoftConfig();
+                config.setPositionIterations(20);  // default = 1
+                break;
+            }
+
             case "squishyBall": {
                 int numRefinementIterations = 3;
                 float radius = 3f;
@@ -635,6 +657,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                 SoftBodyConfig config = softBody.getSoftConfig();
                 config.set(Sbcp.PoseMatching, 0.1f);
                 config.setCollisionFlags(ConfigFlag.SDF_RS, ConfigFlag.VF_SS);
+                config.setPositionIterations(9);
                 break;
             }
 
