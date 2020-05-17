@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.wizard;
 
+import com.jme3.animation.Skeleton;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.math.Transform;
@@ -239,10 +240,13 @@ class LoadScreen extends GuiScreenController {
         DacWizard app = DacWizard.getApplication();
         SkeletonVisualizer sv = app.findSkeletonVisualizer();
         if (sv != null) {
+            Model model = DacWizard.getModel();
+            Skeleton skeleton = model.findSkeleton();
+            String armature = (skeleton == null) ? "armature" : "skeleton";
             if (sv.isEnabled()) {
-                buttonText = "Hide skeleton";
+                buttonText = "Hide " + armature;
             } else {
-                buttonText = "Show skeleton";
+                buttonText = "Show " + armature;
             }
         }
 

@@ -446,6 +446,27 @@ class Model {
     }
 
     /**
+     * Access the model's Skeleton, assuming it has no more than one. A C-G
+     * model must be loaded.
+     *
+     * @return the pre-existing instance, or null if none or multiple
+     */
+    Skeleton findSkeleton() {
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
+
+        List<Skeleton> list = MySkeleton.listSkeletons(rootSpatial, null);
+
+        Skeleton result = null;
+        if (list.size() == 1) {
+            result = list.get(0);
+        }
+
+        return result;
+    }
+
+    /**
      * Test whether there's a pre-existing DynamicAnimControl with the exact
      * same set of linked bones.
      *
@@ -992,27 +1013,6 @@ class Model {
 
         assert managerName != null;
         return managerName;
-    }
-
-    /**
-     * Access the model's Skeleton, assuming it has no more than one. A C-G
-     * model must be loaded.
-     *
-     * @return the pre-existing instance, or null if none or multiple
-     */
-    private Skeleton findSkeleton() {
-        if (rootSpatial == null) {
-            throw new RuntimeException("No model loaded.");
-        }
-
-        List<Skeleton> list = MySkeleton.listSkeletons(rootSpatial, null);
-
-        Skeleton result = null;
-        if (list.size() == 1) {
-            result = list.get(0);
-        }
-
-        return result;
     }
 
     /**
