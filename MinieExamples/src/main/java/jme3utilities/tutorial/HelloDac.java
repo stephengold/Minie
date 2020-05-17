@@ -84,6 +84,7 @@ public class HelloDac extends SimpleApplication {
         // RagUtils.findSControl() may be used to locate the controlled Spatial.
         AbstractControl sControl = RagUtils.findSControl(ninjaModel);
         Spatial controlled = sControl.getSpatial();
+        // TODO use Heart library instead
 
         // In the Ninja model, that Spatial is the model's root Node.
         assert controlled == ninjaModel;
