@@ -285,10 +285,6 @@ public class JointDemo extends AbstractDemo {
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
         /*
-         * Activate any bodies that have fallen asleep.
-         */
-        activateAll();
-        /*
          * Check UI signals and update motor velocities accordingly.
          */
         Signals signals = getSignals();
@@ -327,6 +323,7 @@ public class JointDemo extends AbstractDemo {
         legGeom.addControl(legRbc);
         PhysicsSpace physicsSpace = getPhysicsSpace();
         legRbc.setPhysicsSpace(physicsSpace);
+        legRbc.setEnableSleep(false);
 
         Vector3f pivotInLeg
                 = pivotInChassis.add(chassisInWorld).subtractLocal(legInWorld);
@@ -395,6 +392,7 @@ public class JointDemo extends AbstractDemo {
         chassisGeom.addControl(chassisRbc);
         PhysicsSpace physicsSpace = getPhysicsSpace();
         chassisRbc.setPhysicsSpace(physicsSpace);
+        chassisRbc.setEnableSleep(false);
 
         Mesh legMesh = new Box(0.1f, 0.4f, 0.1f);
 
