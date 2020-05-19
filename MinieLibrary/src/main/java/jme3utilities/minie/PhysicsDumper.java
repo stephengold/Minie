@@ -550,6 +550,8 @@ public class PhysicsDumper extends Dumper {
         SoftBodyWorldInfo info = body.getWorldInfo();
         desc = describer.describe(info);
         stream.printf("%n%s %s", indent, desc);
+        objectId = info.nativeId();
+        addNativeId(objectId);
         /*
          * 7th line has the group info and number of anchors.
          */
@@ -723,6 +725,8 @@ public class PhysicsDumper extends Dumper {
             SoftBodyWorldInfo info = ((PhysicsSoftSpace) space).getWorldInfo();
             String infoDesc = describer.describe(info);
             stream.printf("%n%s %s", indent, infoDesc);
+            long objectId = info.nativeId();
+            addNativeId(objectId);
         }
 
         if (dumpPcos) {
