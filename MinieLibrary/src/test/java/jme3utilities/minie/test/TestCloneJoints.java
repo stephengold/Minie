@@ -310,6 +310,9 @@ public class TestCloneJoints {
             constraint.setEnabled(flag);
             constraint.setBreakingImpulseThreshold(b + 0.505f);
             constraint.overrideIterations(index);
+            if (joint.countEnds() == 2) {
+                constraint.setCollisionBetweenLinkedBodies(!flag);
+            }
         }
 
         if (joint instanceof ConeJoint) {
@@ -337,7 +340,6 @@ public class TestCloneJoints {
 
     private static void setCone(ConeJoint cone, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        cone.setCollisionBetweenLinkedBodies(flag);
         cone.setAngularOnly(!flag);
 
         cone.setLimit(b + 0.01f, b + 0.02f, b + 0.03f);
@@ -345,7 +347,6 @@ public class TestCloneJoints {
 
     private static void setHinge(HingeJoint hinge, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        hinge.setCollisionBetweenLinkedBodies(flag);
         hinge.setAngularOnly(!flag);
 
         hinge.enableMotor(flag, b + 0.01f, b + 0.02f);
@@ -354,7 +355,6 @@ public class TestCloneJoints {
 
     private static void setNew6Dof(New6Dof constraint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        constraint.setCollisionBetweenLinkedBodies(flag);
 
         RotationMotor rMotor
                 = constraint.getRotationMotor(PhysicsSpace.AXIS_Z);
@@ -381,9 +381,6 @@ public class TestCloneJoints {
     }
 
     private static void setP2P(Point2PointJoint p2p, float b) {
-        boolean flag = (b > 0.15f && b < 0.45f);
-        p2p.setCollisionBetweenLinkedBodies(flag);
-
         p2p.setDamping(b + 0.01f);
         p2p.setImpulseClamp(b + 0.02f);
         p2p.setTau(b + 0.03f);
@@ -391,7 +388,6 @@ public class TestCloneJoints {
 
     private static void setSix(SixDofJoint six, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        six.setCollisionBetweenLinkedBodies(flag);
 
         RotationalLimitMotor rot
                 = six.getRotationalLimitMotor(PhysicsSpace.AXIS_Z);
@@ -429,7 +425,6 @@ public class TestCloneJoints {
 
     private static void setSlide(SliderJoint slide, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        slide.setCollisionBetweenLinkedBodies(flag);
 
         slide.setDampingDirAng(b + 0.01f);
         slide.setDampingDirLin(b + 0.02f);
@@ -516,6 +511,10 @@ public class TestCloneJoints {
             Assert.assertEquals(b + 0.505f,
                     constraint.getBreakingImpulseThreshold(), 0f);
             Assert.assertEquals(index, constraint.getOverrideIterations());
+            if (joint.countEnds() == 2) {
+                Assert.assertEquals(!flag,
+                        constraint.isCollisionBetweenLinkedBodies());
+            }
         }
 
         if (joint instanceof ConeJoint) {
@@ -563,7 +562,6 @@ public class TestCloneJoints {
         }
 
         boolean flag = (b > 0.15f && b < 0.45f);
-        Assert.assertEquals(flag, cone.isCollisionBetweenLinkedBodies());
         Assert.assertEquals(!flag, cone.isAngularOnly());
 
         Assert.assertEquals(b + 0.01f, cone.getSwingSpan1(), 0f);
@@ -583,7 +581,6 @@ public class TestCloneJoints {
         assert tb.getTranslation().z == vb.z : tb;
 
         boolean flag = (b > 0.15f && b < 0.45f);
-        Assert.assertEquals(flag, hinge.isCollisionBetweenLinkedBodies());
         Assert.assertEquals(!flag, hinge.isAngularOnly());
 
         Assert.assertEquals(b + 0.01f, hinge.getMotorTargetVelocity(), 1e-6f);
@@ -615,7 +612,6 @@ public class TestCloneJoints {
         assert tb.getRotation().getW() == qb.getW() : tb;
 
         boolean flag = (b > 0.15f && b < 0.45f);
-        constraint.setCollisionBetweenLinkedBodies(flag);
 
         RotationMotor rMotor
                 = constraint.getRotationMotor(PhysicsSpace.AXIS_Z);
@@ -642,9 +638,6 @@ public class TestCloneJoints {
     }
 
     private static void verifyP2P(Point2PointJoint p2p, float b) {
-        boolean flag = (b > 0.15f && b < 0.45f);
-        assert p2p.isCollisionBetweenLinkedBodies() == flag;
-
         assert p2p.getDamping() == b + 0.01f;
         assert p2p.getImpulseClamp() == b + 0.02f;
         assert p2p.getTau() == b + 0.03f;
@@ -670,7 +663,6 @@ public class TestCloneJoints {
         assert tb.getRotation().getW() == qb.getW() : tb;
 
         boolean flag = (b > 0.15f && b < 0.45f);
-        assert six.isCollisionBetweenLinkedBodies() == flag;
 
         RotationalLimitMotor rot
                 = six.getRotationalLimitMotor(PhysicsSpace.AXIS_Z);
@@ -723,7 +715,6 @@ public class TestCloneJoints {
         assert tb.getTranslation().z == vb.z : tb;
 
         boolean flag = (b > 0.15f && b < 0.45f);
-        assert slide.isCollisionBetweenLinkedBodies() == flag;
 
         assert slide.getDampingDirAng() == b + 0.01f;
         assert slide.getDampingDirLin() == b + 0.02f;

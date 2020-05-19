@@ -251,6 +251,25 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Add another collision object to this object's ignore list and vice versa.
+     *
+     * Any collisions with objects on the list will be ignored.
+     *
+     * @param otherPco the other collision object (not null, not this, modified)
+     */
+    public void addToIgnoreList(PhysicsCollisionObject otherPco) {
+        Validate.nonNull(otherPco, "other");
+        Validate.require(otherPco != this, "not this");
+
+        if (!ignores(otherPco)) {
+            long thisId = nativeId();
+            long otherId = otherPco.nativeId();
+            boolean toIgnore = true;
+            setIgnoreCollisionCheck(thisId, otherId, toIgnore);
+        }
+    }
+
+    /**
      * Calculate an axis-aligned bounding box for this object, based on its
      * collision shape. Note: the calculated bounds are seldom minimal; they are
      * typically larger than necessary due to centering constraints and
@@ -299,6 +318,7 @@ abstract public class PhysicsCollisionObject
             setAnisotropicFriction(old.getAnisotropicFriction(null),
                     AfMode.rolling);
         }
+        // TODO ignore list
     }
 
     /**
@@ -321,7 +341,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Read mesh resolution for new debug meshes.
+     * Read mesh resolution for new debug meshes (convex shapes only).
      *
      * @return 0=low, 1=high
      */
@@ -710,6 +730,32 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Test whether the specified collision object is in this object's ignore
+     * list.
+     *
+     * @param other the collision object to search for
+     * @return true if found, otherwise false
+     * @see #addToIgnoreList(com.jme3.bullet.collision.PhysicsCollisionObject)
+     */
+    public boolean ignores(PhysicsCollisionObject other) {
+        boolean result = false;
+        if (other != null && other != this) {
+            long objectId = nativeId();
+            long otherId = other.nativeId();
+            int numIgnoredObjects = getNumObjectsWithoutCollision(objectId);
+            for (int index = 0; index < numIgnoredObjects; ++index) {
+                long id = getObjectWithoutCollision(objectId, index);
+                if (id == otherId) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Test whether this object has been deactivated due to lack of motion.
      *
      * @return true if object still active, false if deactivated
@@ -769,6 +815,25 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Enumerate the native IDs of all collision objects in this object's ignore
+     * list.
+     *
+     * @return a new array (not null, may be empty)
+     * @see #addToIgnoreList(com.jme3.bullet.collision.PhysicsCollisionObject)
+     */
+    public long[] listIgnoredIds() {
+        long objectId = nativeId();
+        int numIgnoredObjects = getNumObjectsWithoutCollision(objectId);
+        long[] result = new long[numIgnoredObjects];
+        for (int listIndex = 0; listIndex < numIgnoredObjects; ++listIndex) {
+            long otherId = getObjectWithoutCollision(objectId, listIndex);
+            result[listIndex] = otherId;
+        }
+
+        return result;
+    }
+
+    /**
      * Determine the collision group of this object's broadphase proxy. A proxy
      * is created when the object is added to a CollisionSpace, and its group is
      * 32 for a PhysicsCharacter, 2 for a static object, or 1 for anything else.
@@ -812,6 +877,23 @@ abstract public class PhysicsCollisionObject
         collideWithGroups &= ~collisionGroup;
         if (objectId != 0L) {
             setCollideWithGroups(collideWithGroups);
+        }
+    }
+
+    /**
+     * Remove a collision object from this object's ignore list and vice versa.
+     *
+     * @param otherPco the other collision object (not null, not this, modified)
+     */
+    public void removeFromIgnoreList(PhysicsCollisionObject otherPco) {
+        Validate.nonNull(otherPco, "other");
+        Validate.require(otherPco != this, "not this");
+
+        if (ignores(otherPco)) {
+            long thisId = nativeId();
+            long otherId = otherPco.nativeId();
+            boolean toIgnore = false;
+            setIgnoreCollisionCheck(thisId, otherId, toIgnore);
         }
     }
 
@@ -1163,6 +1245,7 @@ abstract public class PhysicsCollisionObject
                     tagAnisotropicFrictionComponents, new Vector3f(1f, 1f, 1f));
             setAnisotropicFriction(components, mode);
         }
+        // TODO ignore list
 
         applicationData = capsule.readSavable(tagApplicationData, null);
         userObject = capsule.readSavable(tagUserObject, null);
@@ -1349,6 +1432,7 @@ abstract public class PhysicsCollisionObject
             Vector3f components = getAnisotropicFriction(null);
             capsule.write(components, tagAnisotropicFrictionComponents, null);
         }
+        // TODO ignore list
     }
     // *************************************************************************
     // Object methods
@@ -1458,6 +1542,10 @@ abstract public class PhysicsCollisionObject
 
     native private void getLocation(long objectId, Vector3f storeResult);
 
+    native private int getNumObjectsWithoutCollision(long objectId);
+
+    native private long getObjectWithoutCollision(long objectId, int listIndex);
+
     native private void getOrientation(long objectId, Quaternion storeResult);
 
     native private int getProxyFilterGroup(long objectId);
@@ -1503,6 +1591,9 @@ abstract public class PhysicsCollisionObject
     native private void setDeactivationTime(long objectId, float time);
 
     native private void setFriction(long objectId, float friction);
+
+    native private void setIgnoreCollisionCheck(long object1Id, long object2Id,
+            boolean setting);
 
     native private void setLocationAndBasis(long objectId, Vector3f location,
             Matrix3f basis);

@@ -83,10 +83,6 @@ abstract public class Constraint extends PhysicsJoint {
     // fields
 
     /**
-     * true IFF bodies A and B are allowed to collide
-     */
-    private boolean collisionBetweenLinkedBodies = true;
-    /**
      * copy of the pivot location: in physics-space coordinates if bodyA is
      * null, or else in A's scaled local coordinates
      */
@@ -318,12 +314,19 @@ abstract public class Constraint extends PhysicsJoint {
     }
 
     /**
-     * Test whether collisions are allowed between the linked bodies.
+     * Test whether collisions are handled between the ends.
      *
-     * @return true if collision are allowed, otherwise false
+     * @return true if collisions are handled, otherwise false
      */
     public boolean isCollisionBetweenLinkedBodies() {
-        return collisionBetweenLinkedBodies;
+        boolean result = true;
+        if (countEnds() == 2) {
+            PhysicsBody a = getBodyA();
+            PhysicsBody b = getBodyB();
+            result = !a.ignores(b);
+        }
+
+        return result;
     }
 
     /**
@@ -364,14 +367,27 @@ abstract public class Constraint extends PhysicsJoint {
     }
 
     /**
-     * Enable or disable collisions between the linked bodies. Changes take
-     * effect when the Constraint is added to a PhysicsSpace.
+     * Handle/ignore collisions between the ends of a double-ended joint.
      *
-     * @param enable true to allow collisions, false to prevent them
+     * @param allow true to handle collisions, false to ignore them
      * (default=true)
      */
-    public void setCollisionBetweenLinkedBodies(boolean enable) {
-        collisionBetweenLinkedBodies = enable;
+    public void setCollisionBetweenLinkedBodies(boolean allow) {
+        if (countEnds() < 2) {
+            String msg = "Can't configure collisions between linked bodies "
+                    + "for a single-ended constraint!";
+            throw new IllegalArgumentException(msg);
+        }
+
+        PhysicsBody a = getBodyA();
+        PhysicsBody b = getBodyB();
+        if (allow) {
+            a.removeFromIgnoreList(b);
+        } else {
+            a.addToIgnoreList(b);
+        }
+
+        assert isCollisionBetweenLinkedBodies() == allow;
     }
 
     /**
@@ -423,8 +439,10 @@ abstract public class Constraint extends PhysicsJoint {
                 = capsule.readFloat(tagBreakingImpulse, Float.MAX_VALUE);
         setBreakingImpulseThreshold(breakingImpulse);
 
-        boolean isCollision = capsule.readBoolean(tagIsCollision, true);
-        setCollisionBetweenLinkedBodies(isCollision);
+        if (countEnds() == 2) {
+            boolean isCollision = capsule.readBoolean(tagIsCollision, true);
+            setCollisionBetweenLinkedBodies(isCollision);
+        }
 
         boolean isEnabled = capsule.readBoolean(tagIsEnabled, true);
         setEnabled(isEnabled);
