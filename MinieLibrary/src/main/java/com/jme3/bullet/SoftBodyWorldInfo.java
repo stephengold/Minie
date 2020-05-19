@@ -38,6 +38,8 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Vector3f;
+import com.jme3.util.clone.Cloner;
+import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,7 +57,7 @@ import jme3utilities.Validate;
  */
 public class SoftBodyWorldInfo
         extends NativePhysicsObject
-        implements Savable {
+        implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -80,7 +82,7 @@ public class SoftBodyWorldInfo
      * true&rarr;refers to a new btSoftBodyWorldInfo, false&rarr;refers to a
      * pre-existing one
      */
-    final private boolean needsNativeFinalization;
+    private boolean needsNativeFinalization;
     // *************************************************************************
     // constructors
 
@@ -260,6 +262,40 @@ public class SoftBodyWorldInfo
     public float waterOffset() {
         long infoId = nativeId();
         return getWaterOffset(infoId);
+    }
+    // *************************************************************************
+    // JmeCloneable methods
+
+    /**
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned info into a deep-cloned one, using the specified Cloner
+     * and original to resolve copied fields.
+     *
+     * @param cloner the Cloner that's cloning this info (not null)
+     * @param original the instance from which this info was shallow-cloned (not
+     * null, unaffected)
+     */
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        long infoId = createSoftBodyWorldInfo();
+        reassignNativeId(infoId);
+        copyAll((SoftBodyWorldInfo) original);
+        needsNativeFinalization = true;
+    }
+
+    /**
+     * Create a shallow clone for the JME cloner.
+     *
+     * @return a new instance
+     */
+    @Override
+    public SoftBodyWorldInfo jmeClone() {
+        try {
+            SoftBodyWorldInfo clone = (SoftBodyWorldInfo) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException exception) {
+            throw new RuntimeException(exception);
+        }
     }
     // *************************************************************************
     // Savable methods
