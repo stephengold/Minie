@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,16 @@ public class NativeLibrary {
     }
     // *************************************************************************
     // native methods
+
+    /**
+     * Dump all native-memory allocation/free events to standard output. This
+     * feature is enabled only in native libraries built with the
+     * BT_DEBUG_MEMORY_ALLOCATIONS macro defined.
+     *
+     * @return the number of bytes outstanding, or -1 if this feature is not
+     * enabled
+     */
+    native public static int dumpMemoryLeaks();
 
     /**
      * Test whether the native library was built with debugging enabled.
