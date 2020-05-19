@@ -231,6 +231,8 @@ public class JointDemo extends AbstractDemo {
         dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpScene, KeyInput.KEY_P);
 
+        dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
+
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);

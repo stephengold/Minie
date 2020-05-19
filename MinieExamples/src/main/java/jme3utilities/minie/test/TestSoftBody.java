@@ -253,7 +253,9 @@ public class TestSoftBody
         addStatusLines();
         addLighting(rootNode, false);
 
-        attachCubePlatform(4f, 0f);
+        float halfExtent = 4f;
+        float topY = 0f;
+        attachCubePlatform(halfExtent, topY);
         DynamicAnimControl dac = addPuppet();
         addSkirt(dac);
     }
@@ -265,6 +267,7 @@ public class TestSoftBody
     public void configureDumper() {
         PhysicsDumper dumper = getDumper();
         dumper.setEnabled(DumpFlags.MatParams, true);
+        //dumper.setEnabled(DumpFlags.NativeIDs, true);
         //dumper.setEnabled(DumpFlags.NodesInSofts, true);
         dumper.setEnabled(DumpFlags.ShadowModes, true);
         dumper.setEnabled(DumpFlags.Transforms, true);
@@ -340,6 +343,7 @@ public class TestSoftBody
         dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
+        dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
         dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("next", KeyInput.KEY_N);
 
