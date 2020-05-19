@@ -113,7 +113,12 @@ public class PhysicsSoftBody extends PhysicsBody {
     /**
      * configuration properties of this soft body
      */
-    private SoftBodyConfig config = new SoftBodyConfig(this);
+    private SoftBodyConfig config = null;
+    /**
+     * properties that get overridden when this body gets added to a collision
+     * space
+     */
+    private SoftBodyWorldInfo worldInfo = null;
     // *************************************************************************
     // constructors
 
@@ -122,7 +127,9 @@ public class PhysicsSoftBody extends PhysicsBody {
      * space.
      */
     public PhysicsSoftBody() {
-        objectId = createEmptySoftBody();
+        worldInfo = new SoftBodyWorldInfo();
+        long infoId = worldInfo.nativeId();
+        objectId = createEmpty(infoId);
         assert objectId != 0L;
         assert getInternalType(objectId) == PcoType.soft :
                 getInternalType(objectId);
@@ -513,6 +520,7 @@ public class PhysicsSoftBody extends PhysicsBody {
             long objectId = nativeId();
             getMasses(objectId, result);
         }
+
         return result;
     }
 
@@ -796,17 +804,13 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Access the world info used by this body. By default a single native
-     * object is shared by all soft bodies.
+     * Access the world info.
      *
-     * @return a new SoftBodyWorldInfo that references the pre-existing native
-     * object (not null)
+     * @return the pre-existing instance (not null)
      */
     public SoftBodyWorldInfo getWorldInfo() {
-        long objectId = nativeId();
-        long worldInfoId = getSoftBodyWorldInfo(objectId);
-        SoftBodyWorldInfo worldInfo = new SoftBodyWorldInfo(worldInfoId);
-
+        assert worldInfo != null;
+        assert worldInfo.nativeId() == getSoftBodyWorldInfo(nativeId());
         return worldInfo;
     }
 
@@ -1236,7 +1240,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Alter the world info of this body.
+     * Replace the world info of this body.
      * <p>
      * Invoke this method <em>after</em> adding the body to a PhysicsSoftSpace.
      * Adding a body to a PhysicsSoftSpace overrides its world info.
@@ -1251,6 +1255,8 @@ public class PhysicsSoftBody extends PhysicsBody {
         long objectId = nativeId();
         long worldInfoId = worldInfo.nativeId();
         setSoftBodyWorldInfo(objectId, worldInfoId);
+
+        this.worldInfo = worldInfo;
     }
 
     /**
@@ -1291,6 +1297,10 @@ public class PhysicsSoftBody extends PhysicsBody {
             finalizeNative(objectId);
             objectId = 0L;
         }
+
+        material = null;
+        config = null;
+        worldInfo = null;
     }
 
     /**
@@ -1316,10 +1326,13 @@ public class PhysicsSoftBody extends PhysicsBody {
     protected void newEmptySoftBody() {
         destroySoftBody();
 
-        objectId = createEmptySoftBody();
+        worldInfo = new SoftBodyWorldInfo();
+        long infoId = worldInfo.nativeId();
+        objectId = createEmpty(infoId);
         assert objectId != 0L;
         logger2.log(Level.FINE, "Created {0}.", this);
 
+        config = new SoftBodyConfig(this);
         initUserPointer();
 
         assert !isInWorld();
@@ -1360,12 +1373,12 @@ public class PhysicsSoftBody extends PhysicsBody {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
+
         newEmptySoftBody();
 
         PhysicsSoftBody old = (PhysicsSoftBody) original;
         copyPcoProperties(old);
-
-        config = cloner.clone(config);
+        config.copyAll(old.config);
 
         Material oldMaterial = old.getSoftMaterial();
         material = new Material(this);
@@ -1625,10 +1638,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     public void setGravity(Vector3f acceleration) {
         Validate.finite(acceleration, "acceleration");
 
-        SoftBodyWorldInfo oldInfo = getWorldInfo();
-
         SoftBodyWorldInfo newInfo = new SoftBodyWorldInfo();
-        newInfo.copyAll(oldInfo);
+        newInfo.copyAll(worldInfo);
         newInfo.setGravity(acceleration);
 
         setWorldInfo(newInfo);
@@ -1790,7 +1801,7 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private int countNodesInCluster(long objectId, int clusterIndex);
 
-    native private long createEmptySoftBody();
+    native private long createEmpty(long infoId);
 
     native private boolean cutLink(long bodyId, int nodeIndex0, int nodeIndex1,
             float cutLocation);
