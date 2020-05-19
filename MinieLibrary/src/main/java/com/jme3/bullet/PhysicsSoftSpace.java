@@ -138,6 +138,8 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      * @return the pre-existing instance (not null)
      */
     public SoftBodyWorldInfo getWorldInfo() {
+        assert worldInfo != null;
+        assert worldInfo.nativeId() == getWorldInfo(nativeId());
         return worldInfo;
     }
     // *************************************************************************
@@ -208,7 +210,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      * Enumerate collision objects that have been added to this space and not
      * yet removed.
      *
-     * @return a new collection of pre-existing instances (not null)
+     * @return a new modifiable collection of pre-existing instances (not null)
      */
     @Override
     public Collection<PhysicsCollisionObject> getPcoList() {
@@ -284,6 +286,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
 
         long spaceId = nativeId();
         addSoftBody(spaceId, softBodyId);
+        // TODO if (!softBody.isWorldInfoProtected())
         softBody.setWorldInfo(getWorldInfo());
     }
 
@@ -308,7 +311,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     native private long createPhysicsSoftSpace(Vector3f minVector,
             Vector3f maxVector, int broadphaseType, boolean threading);
 
-    native private int getNumSoftBodies(long spaceId);
+    native private int getNumSoftBodies(long softSpaceId);
 
     native private long getWorldInfo(long softSpaceId);
 
