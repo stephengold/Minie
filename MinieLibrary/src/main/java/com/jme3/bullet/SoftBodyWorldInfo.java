@@ -39,6 +39,7 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Vector3f;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -73,6 +74,14 @@ public class SoftBodyWorldInfo
     final private static String tagWaterNormal = "waterNormal";
     final private static String tagWaterOffset = "waterOffset";
     // *************************************************************************
+    // fields
+
+    /**
+     * true&rarr;refers to a new btSoftBodyWorldInfo, false&rarr;refers to a
+     * pre-existing one
+     */
+    final private boolean needsNativeFinalization;
+    // *************************************************************************
     // constructors
 
     /**
@@ -82,6 +91,7 @@ public class SoftBodyWorldInfo
     public SoftBodyWorldInfo() {
         long infoId = createSoftBodyWorldInfo();
         super.setNativeId(infoId);
+        needsNativeFinalization = true;
     }
 
     /**
@@ -93,6 +103,7 @@ public class SoftBodyWorldInfo
     public SoftBodyWorldInfo(long nativeId) {
         Validate.nonZero(nativeId, "native ID");
         super.setNativeId(nativeId);
+        needsNativeFinalization = false;
     }
     // *************************************************************************
     // new methods exposed
@@ -293,9 +304,32 @@ public class SoftBodyWorldInfo
         capsule.write(waterOffset(), tagWaterOffset, 0f);
     }
     // *************************************************************************
+    // NativePhysicsObject methods
+
+    /**
+     * Finalize this info just before it is destroyed. Should be invoked only by
+     * a subclass or by the garbage collector.
+     *
+     * @throws Throwable ignored by the garbage collector
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            if (needsNativeFinalization) {
+                logger.log(Level.FINE, "Finalizing {0}.", this);
+                long infoId = nativeId();
+                finalizeNative(infoId);
+            }
+        } finally {
+            super.finalize();
+        }
+    }
+    // *************************************************************************
     // native methods
 
     native private long createSoftBodyWorldInfo();
+
+    native private void finalizeNative(long infoId);
 
     native private float getAirDensity(long infoId);
 
