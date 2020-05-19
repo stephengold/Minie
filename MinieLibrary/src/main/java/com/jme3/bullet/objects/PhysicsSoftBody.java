@@ -103,6 +103,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     final private static String tagPhysicsLocation = "physicsLocation";
     final private static String tagRestLengthScale = "restLengthScale";
     final private static String tagTetraIndices = "tetraIndices";
+    final private static String tagWorldInfo = "worldInfo";
     // *************************************************************************
     // fields
 
@@ -1288,7 +1289,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     // new protected methods
 
     /**
-     * Destroy the pre-existing btSoftBody (if any).
+     * Destroy the pre-existing btSoftBody (if any) except for its worldInfo.
      */
     protected void destroySoftBody() {
         if (objectId != 0L) {
@@ -1300,7 +1301,6 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         material = null;
         config = null;
-        worldInfo = null;
     }
 
     /**
@@ -1320,16 +1320,18 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Create a new, empty btSoftBody for this PhysicsSoftBody. The pre-existing
-     * btSoftBody (if any) will be destroyed.
+     * Create a new, empty btSoftBody for this PhysicsSoftBody, using the
+     * pre-existing worldInfo. The pre-existing btSoftBody (if any) will be
+     * destroyed.
      */
     protected void newEmptySoftBody() {
         destroySoftBody();
 
-        worldInfo = new SoftBodyWorldInfo();
         long infoId = worldInfo.nativeId();
         objectId = createEmpty(infoId);
         assert objectId != 0L;
+        assert getInternalType(objectId) == PcoType.soft :
+                getInternalType(objectId);
         logger2.log(Level.FINE, "Created {0}.", this);
 
         config = new SoftBodyConfig(this);
@@ -1374,7 +1376,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        newEmptySoftBody();
+        worldInfo = cloner.clone(worldInfo);
+        newEmptySoftBody(); // needs worldInfo!
 
         PhysicsSoftBody old = (PhysicsSoftBody) original;
         copyPcoProperties(old);
@@ -1546,7 +1549,9 @@ public class PhysicsSoftBody extends PhysicsBody {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        newEmptySoftBody();
+        worldInfo = (SoftBodyWorldInfo) capsule.readSavable(tagWorldInfo, null);
+        newEmptySoftBody(); // needs worldInfo!
+
         readPcoProperties(capsule);
         config = (SoftBodyConfig) capsule.readSavable(tagConfig, null);
         assert config != null;
@@ -1736,6 +1741,9 @@ public class PhysicsSoftBody extends PhysicsBody {
                 capsule.write(value, tag, defValue);
             }
         }
+
+        assert worldInfo != null;
+        capsule.write(worldInfo, tagWorldInfo, null);
 
         assert config != null;
         capsule.write(config, tagConfig, null);

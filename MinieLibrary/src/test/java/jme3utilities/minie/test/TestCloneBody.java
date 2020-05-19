@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
+import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.AfMode;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
@@ -51,6 +52,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Heart;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -153,6 +155,13 @@ public class TestCloneBody {
         PhysicsSoftBody soft3Clone = sbcClone.getBody();
         cloneTest(soft3, soft3Clone);
     }
+
+    void assertEquals(float x, float y, float z, Vector3f vector,
+            float tolerance) {
+        Assert.assertEquals(x, vector.x, tolerance);
+        Assert.assertEquals(y, vector.y, tolerance);
+        Assert.assertEquals(z, vector.z, tolerance);
+    }
     // *************************************************************************
     // private methods
 
@@ -250,6 +259,17 @@ public class TestCloneBody {
             float value = b + 0.001f * sbcp.ordinal();
             config.set(sbcp, value);
         }
+
+        SoftBodyWorldInfo info = body.getWorldInfo();
+        info.setAirDensity(b + 0.03f);
+        info.setGravity(new Vector3f(b + 0.031f, b + 0.032f, b + 0.033f));
+        info.setMaxDisplacement(b + 0.034f);
+        info.setWaterDensity(b + 0.035f);
+        info.setWaterOffset(b + 0.036f);
+
+        Vector3f normal = new Vector3f(b + 0.1f, b + 0.2f, b + 0.3f);
+        normal.normalizeLocal();
+        info.setWaterNormal(normal);
 
         config.setClusterIterations(n);
         config.setDriftIterations(n + 1);
@@ -373,6 +393,19 @@ public class TestCloneBody {
             float actual = config.get(sbcp);
             assert actual == expected : sbcp;
         }
+
+        SoftBodyWorldInfo info = body.getWorldInfo();
+        Assert.assertEquals(b + 0.03f, info.airDensity(), 0f);
+        assertEquals(b + 0.031f, b + 0.032f, b + 0.033f,
+                info.copyGravity(null), 0f);
+        Assert.assertEquals(b + 0.034f, info.maxDisplacement(), 0f);
+        Assert.assertEquals(b + 0.035f, info.waterDensity(), 0f);
+        Assert.assertEquals(b + 0.036f, info.waterOffset(), 0f);
+
+        Vector3f normal = new Vector3f(b + 0.1f, b + 0.2f, b + 0.3f);
+        normal.normalizeLocal();
+        assertEquals(normal.x, normal.y, normal.z,
+                info.copyWaterNormal(null), 1e-5f);
 
         assert config.clusterIterations() == n;
         assert config.driftIterations() == n + 1;
