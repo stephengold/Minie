@@ -222,6 +222,14 @@ public class TestDefaults {
         Assert.assertEquals(1, config.positionIterations());
         Assert.assertEquals(0, config.velocityIterations());
 
+        SoftBodyWorldInfo sbwi = new SoftBodyWorldInfo();
+        Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
+        assertEquals(0f, -10f, 0f, sbwi.copyGravity(null), 0f);
+        Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
+        Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
+        assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
+        Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
+
         PhysicsSoftBody.Material mat = softA.getSoftMaterial();
         Assert.assertEquals(1f, mat.angularStiffness(), 0f);
         Assert.assertEquals(1f, mat.linearStiffness(), 0f);
@@ -554,9 +562,9 @@ public class TestDefaults {
             PhysicsSoftSpace softSpace = (PhysicsSoftSpace) space;
             Assert.assertEquals(0, softSpace.countSoftBodies());
 
-            SoftBodyWorldInfo sbwi = new SoftBodyWorldInfo();
+            SoftBodyWorldInfo sbwi = softSpace.getWorldInfo();
             Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
-            assertEquals(0f, -10f, 0f, sbwi.copyGravity(null), 0f);
+            assertEquals(0f, -9.81f, 0f, sbwi.copyGravity(null), 0f);
             Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
             Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
             assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);

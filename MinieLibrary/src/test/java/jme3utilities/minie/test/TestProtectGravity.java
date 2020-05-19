@@ -33,6 +33,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import org.junit.Assert;
@@ -119,24 +120,41 @@ public class TestProtectGravity {
         Assert.assertEquals(bodyGravity, usb.getGravity(null));
         Assert.assertFalse(usb.isGravityProtected());
         Assert.assertTrue(usb.isStatic());
+
+        PhysicsSoftBody soft = null;
+        if (space instanceof PhysicsSoftSpace) {
+            soft = new PhysicsSoftBody();
+            soft.setGravity(bodyGravity);
+            Assert.assertEquals(bodyGravity, soft.getGravity(null));
+            Assert.assertFalse(soft.isStatic());
+        }
         /*
-         * add bodies to the PhysicsSpace
+         * Add all bodies to the PhysicsSpace.
          */
         space.addCollisionObject(pdb);
         space.addCollisionObject(udb);
         space.addCollisionObject(usb);
+        if (soft != null) {
+            space.addCollisionObject(soft);
+        }
 
         Assert.assertEquals(bodyGravity, pdb.getGravity(null));
         Assert.assertEquals(spaceGravity1, udb.getGravity(null));
         Assert.assertEquals(bodyGravity, usb.getGravity(null));
+        if (soft != null) {
+            Assert.assertEquals(spaceGravity1, soft.getGravity(null));
+        }
         /*
-         * alter the gravity of the PhysicsSpace
+         * Alter the gravity of the PhysicsSpace.
          */
         space.setGravity(spaceGravity2);
 
         Assert.assertEquals(bodyGravity, pdb.getGravity(null));
         Assert.assertEquals(spaceGravity2, udb.getGravity(null));
         Assert.assertEquals(bodyGravity, usb.getGravity(null));
+        if (soft != null) {
+            Assert.assertEquals(spaceGravity2, soft.getGravity(null));
+        }
 
         // TODO test sleeping rigid bodies
     }
