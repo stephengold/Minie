@@ -461,10 +461,13 @@ public class PhysicsDumper extends Dumper {
             if (numWheels > 0) {
                 dumpWheels(vehicle, indent, numWheels);
             }
-            stream.printf(" and");
+            stream.append(',');
         }
+        int numIgnores = body.listIgnoredIds().length;
         int numJoints = body.countJoints();
-        stream.printf(" %d joint%s", numJoints, (numJoints == 1) ? "" : "s");
+        stream.printf(" %d ignore%s and %d joint%s",
+                numIgnores, (numIgnores == 1) ? "" : "s",
+                numJoints, (numJoints == 1) ? "" : "s");
         /*
          * Additional lines, if needed, for the joints.
          */

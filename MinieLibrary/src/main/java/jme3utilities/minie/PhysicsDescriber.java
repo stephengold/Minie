@@ -660,11 +660,13 @@ public class PhysicsDescriber extends Describer {
         String desc = describe(constraint);
         result.append(desc);
 
-        boolean endsCollide = constraint.isCollisionBetweenLinkedBodies();
-        if (endsCollide) {
-            result.append(" collide");
-        } else {
-            result.append(" NOcollide");
+        if (constraint.countEnds() == 2) {
+            boolean endsCollide = constraint.isCollisionBetweenLinkedBodies();
+            if (endsCollide) {
+                result.append(" collide");
+            } else {
+                result.append(" NOcollide");
+            }
         }
 
         int numIterations = constraint.getOverrideIterations();
