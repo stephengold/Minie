@@ -40,6 +40,7 @@ import com.jme3.export.Savable;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -335,6 +336,25 @@ public class VehicleTuning
         capsule.write(maxSuspensionForce, tagMaxSuspensionForce, 6000f);
     }
     // *************************************************************************
+    // NativePhysicsObject methods
+
+    /**
+     * Finalize this tuning just before it is destroyed. Should be invoked only
+     * by a subclass or by the garbage collector.
+     *
+     * @throws Throwable ignored by the garbage collector
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            logger.log(Level.FINE, "Finalizing {0}", this);
+            long tuningId = nativeId();
+            finalizeNative(tuningId);
+        } finally {
+            super.finalize();
+        }
+    }
+    // *************************************************************************
     // private methods
 
     /**
@@ -355,6 +375,8 @@ public class VehicleTuning
     // native methods
 
     native private long createNative();
+
+    native private void finalizeNative(long tuningId);
 
     native private void setFrictionSlip(long tuningId, float slip);
 
