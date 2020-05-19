@@ -461,7 +461,8 @@ public class DropTest
     }
 
     /**
-     * Add application-specific hotkey bindings and override existing ones.
+     * Add application-specific hotkey/button bindings and override existing
+     * ones.
      */
     @Override
     public void moreDefaultBindings() {

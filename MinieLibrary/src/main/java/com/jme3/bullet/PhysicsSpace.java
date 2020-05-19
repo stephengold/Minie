@@ -908,7 +908,7 @@ public class PhysicsSpace extends CollisionSpace {
      * Enumerate collision objects that have been added to this space and not
      * yet removed.
      *
-     * @return a new collection of pre-existing instances (not null)
+     * @return a new modifiable collection of pre-existing instances (not null)
      */
     @Override
     public Collection<PhysicsCollisionObject> getPcoList() {
