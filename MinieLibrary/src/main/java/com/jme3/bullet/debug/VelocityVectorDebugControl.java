@@ -49,14 +49,14 @@ import java.util.logging.Logger;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class VelocityVectorDebugControl extends AbstractPhysicsDebugControl {
+class VelocityVectorDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // constants and loggers
 
     /**
      * message logger for this class
      */
-    final public static Logger logger
+    final static Logger logger
             = Logger.getLogger(VelocityVectorDebugControl.class.getName());
     // *************************************************************************
     // fields

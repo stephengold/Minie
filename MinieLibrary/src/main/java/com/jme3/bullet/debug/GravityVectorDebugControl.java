@@ -49,14 +49,14 @@ import java.util.logging.Logger;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class GravityVectorDebugControl extends AbstractPhysicsDebugControl {
+class GravityVectorDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // constants and loggers
 
     /**
      * message logger for this class
      */
-    final public static Logger logger
+    final static Logger logger
             = Logger.getLogger(GravityVectorDebugControl.class.getName());
     // *************************************************************************
     // fields
