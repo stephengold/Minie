@@ -41,13 +41,13 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * An abstract physics-debug control with logic shared between
+ * An abstract physics-debug control with additional logic that's shared between
  * BulletCharacterDebugControl, BulletGhostObjectDebugControl,
  * BulletRigidBodyDebugControl, and ColliderDebugControl.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-abstract public class CollisionShapeDebugControl
+abstract class CollisionShapeDebugControl
         extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // constants and loggers
@@ -55,19 +55,29 @@ abstract public class CollisionShapeDebugControl
     /**
      * message logger for this class
      */
-    final public static Logger loggerS
+    final static Logger loggerS
             = Logger.getLogger(CollisionShapeDebugControl.class.getName());
     // *************************************************************************
     // fields
 
     /**
-     * last shape that was set (not null)
+     * ChildCollisionShape summary list when lastShape was set (for compound
+     * shapes only)
+     */
+    final private ChildSummaryList lastSummaryList = new ChildSummaryList();
+    /**
+     * temporary storage for ChildCollisionShape summaries
+     */
+    final private static ChildSummaryList newSummaryList
+            = new ChildSummaryList();
+    /**
+     * shape for which debugSpatial was generated (not null)
      */
     private CollisionShape lastShape;
     /**
-     * collision-shape margin when last shape was set
+     * collision-shape margin when lastShape was set
      */
-    private float oldMargin;
+    private float lastMargin;
     /**
      * Spatial to visualize lastShape (not null)
      */
@@ -77,9 +87,9 @@ abstract public class CollisionShapeDebugControl
      */
     final private static Vector3f newScale = new Vector3f();
     /**
-     * physics scale when last shape was set
+     * collision-shape scale when lastShape was set
      */
-    final private Vector3f oldScale = new Vector3f();
+    final private Vector3f lastScale = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -88,15 +98,15 @@ abstract public class CollisionShapeDebugControl
      *
      * @param debugAppState which app state (not null, alias created)
      */
-    public CollisionShapeDebugControl(BulletDebugAppState debugAppState) {
+    CollisionShapeDebugControl(BulletDebugAppState debugAppState) {
         super(debugAppState);
     }
     // *************************************************************************
     // new protected methods
 
     /**
-     * Color each child of the debug node for a CompoundCollisionShape, when
-     * child coloring is enabled.
+     * Color each child of the debug node for a CompoundCollisionShape. Invoked
+     * when child coloring is enabled.
      */
     protected void colorChildren() {
         Node debugNode = (Node) debugSpatial;
@@ -112,38 +122,42 @@ abstract public class CollisionShapeDebugControl
     /**
      * Compare the specified CollisionShape with the lastShape.
      *
-     * @param shape the current shape (not null, unaffected)
+     * @param newShape the new shape (not null, unaffected)
      * @return true if the shape has changed, otherwise false
      */
-    protected boolean hasShapeChanged(CollisionShape shape) {
-        float newMargin = shape.getMargin();
-        shape.getScale(newScale);
+    protected boolean hasShapeChanged(CollisionShape newShape) {
+        float newMargin = newShape.getMargin();
+        newShape.getScale(newScale);
 
-        boolean result;
-        if (shape instanceof CompoundCollisionShape) {
+        boolean result = false;
+        if (lastShape != newShape) {
             result = true;
-        } else if (lastShape != shape) {
+        } else if (lastMargin != newMargin) {
             result = true;
-        } else if (oldMargin != newMargin) {
+        } else if (!lastScale.equals(newScale)) {
             result = true;
-        } else if (!oldScale.equals(newScale)) {
-            result = true;
-        } else {
-            result = false;
+        } else if (newShape instanceof CompoundCollisionShape) {
+            newSummaryList.update((CompoundCollisionShape) newShape);
+            if (!newSummaryList.equals(lastSummaryList)) {
+                result = true;
+            }
         }
 
         return result;
     }
 
     /**
-     * Set the lastShape.
+     * Update the lastShape and related data.
      *
      * @param shape (not null, alias created)
      */
     protected void setShape(CollisionShape shape) {
         lastShape = shape;
-        oldMargin = lastShape.getMargin();
-        lastShape.getScale(oldScale);
+        lastMargin = shape.getMargin();
+        shape.getScale(lastScale);
+        if (shape instanceof CompoundCollisionShape) {
+            lastSummaryList.update((CompoundCollisionShape) shape);
+        }
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods
