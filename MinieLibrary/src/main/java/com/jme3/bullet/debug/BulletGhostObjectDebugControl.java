@@ -32,7 +32,6 @@
 package com.jme3.bullet.debug;
 
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.util.DebugShapeFactory;
@@ -40,8 +39,6 @@ import com.jme3.material.Material;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -49,7 +46,7 @@ import java.util.logging.Logger;
  *
  * @author normenhansen
  */
-public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
+public class BulletGhostObjectDebugControl extends CollisionShapeDebugControl {
     // *************************************************************************
     // constants and loggers
 
@@ -62,17 +59,9 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
-     * shape for which debugSpatial was generated (not null)
-     */
-    private CollisionShape myShape;
-    /**
      * debug-mesh normals option for which debugSpatial was generated
      */
     private DebugMeshNormals oldNormals;
-    /**
-     * collision-shape margin for which debugSpatial was generated
-     */
-    private float oldMargin;
     /**
      * debug-mesh resolution for which debugSpatial was generated
      */
@@ -86,17 +75,9 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
      */
     final private Quaternion rotation = new Quaternion();
     /**
-     * Spatial to visualize myShape (not null)
-     */
-    private Spatial debugSpatial;
-    /**
      * temporary storage for physics location
      */
     final private Vector3f location = new Vector3f();
-    /**
-     * physics scale for which debugSpatial was generated
-     */
-    final private Vector3f oldScale = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -111,18 +92,16 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
         super(debugAppState);
         ghost = gh;
 
-        myShape = ghost.getCollisionShape();
-        oldMargin = myShape.getMargin();
+        super.setShape(ghost.getCollisionShape());
         oldNormals = gh.debugMeshNormals();
         oldResolution = gh.debugMeshResolution();
-        myShape.getScale(oldScale);
 
         debugSpatial = DebugShapeFactory.getDebugShape(ghost);
         debugSpatial.setName(ghost.toString());
         updateMaterial();
     }
     // *************************************************************************
-    // AbstractPhysicsDebugControl methods
+    // CollisionShapeDebugControl methods
 
     /**
      * Update this control. Invoked once per frame during the logical-state
@@ -134,34 +113,24 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
     @Override
     protected void controlUpdate(float tpf) {
         CollisionShape newShape = ghost.getCollisionShape();
-        float newMargin = newShape.getMargin();
         DebugMeshNormals newNormals = ghost.debugMeshNormals();
         int newResolution = ghost.debugMeshResolution();
-        Vector3f newScale = newShape.getScale(null);
 
         boolean rebuild;
-        if (newShape instanceof CompoundCollisionShape) {
-            rebuild = true;
-        } else if (myShape != newShape) {
-            rebuild = true;
-        } else if (oldMargin != newMargin) {
+        if (hasShapeChanged(newShape)) {
             rebuild = true;
         } else if (oldNormals != newNormals) {
             rebuild = true;
         } else if (oldResolution != newResolution) {
-            rebuild = true;
-        } else if (!oldScale.equals(newScale)) {
             rebuild = true;
         } else {
             rebuild = false;
         }
 
         if (rebuild) {
-            myShape = newShape;
-            oldMargin = newMargin;
+            setShape(newShape);
             oldNormals = newNormals;
             oldResolution = newResolution;
-            oldScale.set(newScale);
 
             Node node = (Node) spatial;
             node.detachChild(debugSpatial);
@@ -177,25 +146,6 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
         ghost.getPhysicsRotation(rotation);
         applyPhysicsTransform(location, rotation);
     }
-
-    /**
-     * Alter which Spatial is controlled. Invoked when the Control is added to
-     * or removed from a Spatial. Should be invoked only by a subclass or from
-     * Spatial. Do not invoke directly from user code.
-     *
-     * @param spatial the spatial to control (or null)
-     */
-    @Override
-    public void setSpatial(Spatial spatial) {
-        if (spatial instanceof Node) {
-            Node node = (Node) spatial;
-            node.attachChild(debugSpatial);
-        } else if (spatial == null && this.spatial != null) {
-            Node node = (Node) this.spatial;
-            node.detachChild(debugSpatial);
-        }
-        super.setSpatial(spatial);
-    }
     // *************************************************************************
     // private methods
 
@@ -207,16 +157,7 @@ public class BulletGhostObjectDebugControl extends AbstractPhysicsDebugControl {
 
         if (material == BulletDebugAppState.enableChildColoring) {
             if (debugSpatial instanceof Node) {
-                /*
-                 * Color each child of the CompoundCollisionShape.
-                 */
-                List<Spatial> children = ((Node) debugSpatial).getChildren();
-                int numChildren = children.size();
-                for (int childI = 0; childI < numChildren; ++childI) {
-                    Spatial child = children.get(childI);
-                    material = debugAppState.getChildMaterial(childI);
-                    child.setMaterial(material);
-                }
+                colorChildren();
                 return;
             }
             material = null;
