@@ -110,7 +110,7 @@ abstract public class PhysicsJoint
     }
 
     /**
-     * Remove this joint from the joint lists of both connected bodies.
+     * Remove this joint from the joint lists of both ends.
      */
     public void destroy() {
         if (bodyA != null) {

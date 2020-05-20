@@ -45,7 +45,7 @@ import java.util.logging.Logger;
 
 /**
  * A physics-debug control used to visualize the bounding box of a collision
- * object.
+ * object. TODO de-publicize
  *
  * @author Stephen Gold sgold@sonic.net
  */

@@ -48,7 +48,7 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 
 /**
- * A physics-debug control to visualize a SoftPhysicsJoint.
+ * A physics-debug control to visualize a SoftPhysicsJoint. TODO de-publicize
  *
  * @author Stephen Gold sgold@sonic.net
  */

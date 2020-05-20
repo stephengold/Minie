@@ -50,7 +50,7 @@ import java.nio.IntBuffer;
 import java.util.logging.Logger;
 
 /**
- * A physics-debug control to visualize a PhysicsSoftBody.
+ * A physics-debug control to visualize a PhysicsSoftBody. TODO de-publicize
  *
  * @author Stephen Gold sgold@sonic.net
  *

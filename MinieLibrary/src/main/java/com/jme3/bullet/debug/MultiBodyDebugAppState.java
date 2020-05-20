@@ -46,7 +46,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * An AppState to manage debug visualization of a MultiBodySpace.
+ * An AppState to manage debug visualization of a MultiBodySpace. TODO
+ * de-publicize
  *
  * @author Stephen Gold sgold@sonic.net
  */

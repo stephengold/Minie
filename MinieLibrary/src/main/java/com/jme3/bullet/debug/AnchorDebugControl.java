@@ -49,7 +49,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A physics-debug control to visualize an Anchor.
+ * A physics-debug control to visualize an Anchor. TODO de-publicize
  *
  * @author Stephen Gold sgold@sonic.net
  */

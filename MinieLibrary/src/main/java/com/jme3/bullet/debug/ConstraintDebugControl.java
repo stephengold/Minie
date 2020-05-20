@@ -46,7 +46,7 @@ import com.jme3.scene.debug.Arrow;
 import java.util.logging.Logger;
 
 /**
- * A physics-debug control to visualize a Constraint.
+ * A physics-debug control to visualize a Constraint. TODO de-publicize
  *
  * @author Stephen Gold sgold@sonic.net
  *
