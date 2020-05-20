@@ -39,6 +39,7 @@ import com.jme3.material.Material;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -128,6 +129,8 @@ public class BulletGhostObjectDebugControl extends CollisionShapeDebugControl {
         }
 
         if (rebuild) {
+            logger.log(Level.INFO, "Rebuild debugSpatial for {0}.", ghost);
+
             setShape(newShape);
             oldNormals = newNormals;
             oldResolution = newResolution;

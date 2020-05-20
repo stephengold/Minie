@@ -39,10 +39,12 @@ import com.jme3.material.Material;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A physics-debug control used to visualize a MultiBodyCollider.
+ * A physics-debug control used to visualize a MultiBodyCollider. TODO
+ * de-publicize
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -128,6 +130,7 @@ public class ColliderDebugControl extends CollisionShapeDebugControl {
         }
 
         if (rebuild) {
+            logger.log(Level.INFO, "Rebuild debugSpatial for {0}.", collider);
             setShape(newShape);
             oldNormals = newNormals;
             oldResolution = newResolution;
