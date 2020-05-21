@@ -197,6 +197,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         buildObject();
 
         PhysicsGhostObject old = (PhysicsGhostObject) original;
+        cloneIgnoreList(cloner, old);
         copyPcoProperties(old);
 
         setPhysicsLocation(old.getPhysicsLocation(null));

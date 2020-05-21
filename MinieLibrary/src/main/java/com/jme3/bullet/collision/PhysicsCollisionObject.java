@@ -166,6 +166,7 @@ abstract public class PhysicsCollisionObject
     final private static String tagDebugMeshNormals = "debugMeshNormals";
     final private static String tagDebugMeshResolution = "debugMeshResolution";
     final private static String tagFriction = "friction";
+    final private static String tagIgnoreList = "ignoreList";
     final private static String tagRestitution = "restitution";
     final private static String tagRollingFriction = "rollingFriction";
     final private static String tagSpinningFriction = "spinningFriction";
@@ -318,7 +319,20 @@ abstract public class PhysicsCollisionObject
             setAnisotropicFriction(old.getAnisotropicFriction(null),
                     AfMode.rolling);
         }
-        // TODO ignore list
+    }
+
+    /**
+     * Count the collision objects in this object's ignore list.
+     *
+     * @return the count (&ge;0)
+     * @see #addToIgnoreList(com.jme3.bullet.collision.PhysicsCollisionObject)
+     */
+    public int countIgnored() {
+        long objectId = nativeId();
+        int result = getNumObjectsWithoutCollision(objectId);
+
+        assert result >= 0 : result;
+        return result;
     }
 
     /**
@@ -362,6 +376,14 @@ abstract public class PhysicsCollisionObject
         assert debugNumSides <= 2 : debugNumSides;
         return debugNumSides;
     }
+
+    /**
+     * Find the PhysicCollisionObject with the specified ID. Native method.
+     *
+     * @param pcoId the native identifier (not zero)
+     * @return the pre-existing instance, or null if it's been reclaimed
+     */
+    native public static PhysicsCollisionObject findInstance(long pcoId);
 
     /**
      * Read this object's activation state (native field: m_activationState1).
@@ -825,6 +847,7 @@ abstract public class PhysicsCollisionObject
         long objectId = nativeId();
         int numIgnoredObjects = getNumObjectsWithoutCollision(objectId);
         long[] result = new long[numIgnoredObjects];
+
         for (int listIndex = 0; listIndex < numIgnoredObjects; ++listIndex) {
             long otherId = getObjectWithoutCollision(objectId, listIndex);
             result[listIndex] = otherId;
@@ -1178,6 +1201,25 @@ abstract public class PhysicsCollisionObject
             long collisionShapeId);
 
     /**
+     * Clone an ignore list.
+     *
+     * @param cloner the Cloner that's cloning this object (not null, modified)
+     * @param old the instance from which this object was shallow-cloned (not
+     * null, unaffected)
+     */
+    protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
+        long[] ignoredIds = old.listIgnoredIds();
+        int numIgnored = ignoredIds.length;
+        for (int index = 0; index < numIgnored; ++index) {
+            long oldPcoId = ignoredIds[index];
+            PhysicsCollisionObject oldPco
+                    = PhysicsCollisionObject.findInstance(oldPcoId);
+            PhysicsCollisionObject newPco = cloner.clone(oldPco);
+            addToIgnoreList(newPco);
+        }
+    }
+
+    /**
      * Finalize the identified btCollisionObject. Native method.
      *
      * @param objectId the ID of the btCollisionObject (not zero)
@@ -1245,7 +1287,14 @@ abstract public class PhysicsCollisionObject
                     tagAnisotropicFrictionComponents, new Vector3f(1f, 1f, 1f));
             setAnisotropicFriction(components, mode);
         }
-        // TODO ignore list
+
+        Savable[] ignoreList = capsule.readSavableArray(tagIgnoreList, null);
+        int numIgnored = ignoreList.length;
+        for (int index = 0; index < numIgnored; ++index) {
+            PhysicsCollisionObject pco
+                    = (PhysicsCollisionObject) ignoreList[index];
+            addToIgnoreList(pco);
+        }
 
         applicationData = capsule.readSavable(tagApplicationData, null);
         userObject = capsule.readSavable(tagUserObject, null);
@@ -1432,7 +1481,15 @@ abstract public class PhysicsCollisionObject
             Vector3f components = getAnisotropicFriction(null);
             capsule.write(components, tagAnisotropicFrictionComponents, null);
         }
-        // TODO ignore list
+
+        long[] ignoredIds = listIgnoredIds();
+        int numIgnored = ignoredIds.length;
+        Savable[] ignoreList = new Savable[numIgnored];
+        for (int index = 0; index < numIgnored; ++index) {
+            long pcoId = ignoredIds[index];
+            ignoreList[index] = PhysicsCollisionObject.findInstance(pcoId);
+        }
+        capsule.write(ignoreList, tagIgnoreList, null);
     }
     // *************************************************************************
     // Object methods
@@ -1449,11 +1506,13 @@ abstract public class PhysicsCollisionObject
         boolean result;
         if (otherObject == this) {
             result = true;
+
         } else if (otherObject != null
                 && otherObject.getClass() == getClass()) {
             long objectId = nativeId();
             long otherId = ((PhysicsCollisionObject) otherObject).nativeId();
             result = (objectId == otherId);
+
         } else {
             result = false;
         }

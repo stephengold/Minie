@@ -1380,6 +1380,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         newEmptySoftBody(); // needs worldInfo!
 
         PhysicsSoftBody old = (PhysicsSoftBody) original;
+        cloneIgnoreList(cloner, old);
         copyPcoProperties(old);
         config.copyAll(old.config);
 

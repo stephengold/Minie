@@ -642,7 +642,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Alter this body's angular-motion sleeping threshold. Note that "sleeping"
      * is synonym for "deactivation".
      *
-     * @param threshold the desired threshold (&ge;0, default=1)
+     * @param threshold the desired threshold (in radians per second, &ge;0,
+     * default=1)
      */
     public void setAngularSleepingThreshold(float threshold) {
         long objectId = nativeId();
@@ -905,9 +906,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      * These thresholds influence whether the body will be deactivated to save
      * resources. Low values keep the body active when it barely moves.
      *
-     * @param linear the desired linear threshold (&ge;0, default=0.8) TODO
-     * units?
-     * @param angular the desired angular threshold (&ge;0, default=1)
+     * @param linear the desired linear threshold (in physics-space units per
+     * second, &ge;0, default=0.8)
+     * @param angular the desired angular threshold (in radians per second,
+     * &ge;0, default=1)
      */
     public void setSleepingThresholds(float linear, float angular) {
         Validate.nonNegative(linear, "linear threshold");
@@ -990,10 +992,10 @@ public class PhysicsRigidBody extends PhysicsBody {
         super.cloneFields(cloner, original);
         rebuildRigidBody();
 
+        PhysicsRigidBody old = (PhysicsRigidBody) original;
+        cloneIgnoreList(cloner, old);
         cloneJoints(cloner);
         motionState = cloner.clone(motionState);
-
-        PhysicsRigidBody old = (PhysicsRigidBody) original;
 
         if (mass != massForStatic) {
             setKinematic(kinematic);

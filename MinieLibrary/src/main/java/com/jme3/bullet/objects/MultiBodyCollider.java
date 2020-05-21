@@ -200,6 +200,7 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
         buildObject();
 
         MultiBodyCollider old = (MultiBodyCollider) original;
+        cloneIgnoreList(cloner, old);
         copyPcoProperties(old);
 
         setPhysicsLocation(old.getPhysicsLocation(null));

@@ -483,7 +483,10 @@ public class TestDefaults {
      * @param pco the object to test (not null, unaffected)
      */
     private void testPco(PhysicsCollisionObject pco) {
-        Assert.assertNotEquals(0L, pco.nativeId());
+        long id = pco.nativeId();
+        Assert.assertNotEquals(0L, id);
+        Assert.assertEquals(pco, PhysicsCollisionObject.findInstance(id));
+        Assert.assertEquals(0, pco.countIgnored());
         Assert.assertFalse(pco.isInWorld());
         Assert.assertTrue(pco.isActive());
 
@@ -510,7 +513,6 @@ public class TestDefaults {
         Assert.assertEquals(DebugShapeFactory.lowResolution,
                 pco.debugMeshResolution());
         Assert.assertEquals(1, pco.debugNumSides());
-        Assert.assertEquals(0, pco.listIgnoredIds().length);
         Assert.assertEquals(0.5f, pco.getFriction(), 0f);
         assertEquals(0f, 0f, 0f, pco.getPhysicsLocation(null), 0f);
         Assert.assertNull(pco.proxyGroup());

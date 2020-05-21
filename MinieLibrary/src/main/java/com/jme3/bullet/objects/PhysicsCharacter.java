@@ -567,6 +567,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         buildObject();
 
         PhysicsCharacter old = (PhysicsCharacter) original;
+        cloneIgnoreList(cloner, old);
         copyPcoProperties(old);
 
         setAngularDamping(old.getAngularDamping());

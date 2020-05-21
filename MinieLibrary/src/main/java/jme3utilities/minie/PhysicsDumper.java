@@ -463,7 +463,7 @@ public class PhysicsDumper extends Dumper {
             }
             stream.append(',');
         }
-        int numIgnores = body.listIgnoredIds().length;
+        int numIgnores = body.countIgnored();
         int numJoints = body.countJoints();
         stream.printf(" %d ignore%s and %d joint%s",
                 numIgnores, (numIgnores == 1) ? "" : "s",
