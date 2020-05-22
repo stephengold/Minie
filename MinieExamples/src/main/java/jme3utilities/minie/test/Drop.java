@@ -36,6 +36,7 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
+import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.joints.New6Dof;
@@ -340,6 +341,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                         startPosition);
                 break;
 
+            case "breakableRod":
             case "chain":
             case "diptych":
             case "flail":
@@ -379,6 +381,48 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             default:
                 String message = "typeName = " + MyString.quote(typeName);
                 throw new IllegalArgumentException(message);
+        }
+    }
+
+    /**
+     * Create a breakable rod. Its length is along the drop's local Y axis.
+     *
+     * @param totalLength the total length (in physics-space units, &gt;0)
+     * @param radius the radius (in physics-space units, &gt;0)
+     */
+    private void createBreakableRod(float totalLength, float radius) {
+        float pieceLength = totalLength / 2f;
+        float pieceMass = totalMass / 2f;
+
+        CylinderCollisionShape pieceShape = new CylinderCollisionShape(radius,
+                pieceLength, PhysicsSpace.AXIS_Y);
+
+        Transform tmpPosition = new Transform();
+        tmpPosition.getTranslation().y = pieceLength / 2;
+        Vector3f pivotInA = tmpPosition.getTranslation().negate();
+        tmpPosition.combineWithParent(startPosition);
+        PhysicsRigidBody a = createRigidBody(pieceShape, pieceMass,
+                DebugMeshNormals.Smooth, tmpPosition);
+
+        tmpPosition.loadIdentity();
+        tmpPosition.getTranslation().y = -pieceLength / 2;
+        Vector3f pivotInB = tmpPosition.getTranslation().negate();
+        tmpPosition.combineWithParent(startPosition);
+        PhysicsRigidBody b = createRigidBody(pieceShape, pieceMass,
+                DebugMeshNormals.Smooth, tmpPosition);
+
+        Matrix3f rotInA = Matrix3f.IDENTITY;
+        Matrix3f rotInB = Matrix3f.IDENTITY;
+        New6Dof fixed = new New6Dof(a, b, pivotInA, pivotInB, rotInA, rotInB,
+                RotationOrder.YZX);
+        allJoints.add(fixed);
+
+        fixed.setBreakingImpulseThreshold(4f);
+
+        for (int i = PhysicsSpace.AXIS_X; i <= PhysicsSpace.AXIS_Z; ++i) {
+            RotationMotor motor = fixed.getRotationMotor(i);
+            motor.set(MotorParam.LowerLimit, 0f);
+            motor.set(MotorParam.UpperLimit, 0f);
         }
     }
 
@@ -515,6 +559,13 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      */
     private void createJointed() {
         switch (typeName) {
+            case "breakableRod": {
+                float totalLength = 5f;
+                float radius = 1f;
+                createBreakableRod(totalLength, radius);
+                break;
+            }
+
             case "chain": {
                 int numLinks = 10;
                 float thickness = 0.4f;

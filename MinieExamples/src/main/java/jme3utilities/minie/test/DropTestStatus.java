@@ -103,17 +103,18 @@ public class DropTestStatus extends SimpleAppState {
     final public static Logger logger
             = Logger.getLogger(DropTestStatus.class.getName());
     /**
-     * list of drop names, in ascending lexicographic order
+     * names of all drop types, in ascending lexicographic order
      */
     final private static String[] dropNames = {
-        "ankh", "banana", "barbell", "barrel", "bowlingPin", "box", "capsule",
-        "chain", "chair", "cloth", "cone", "cylinder", "digit", "diptych",
-        "dome", "duck", "flail", "football", "frame", "halfPipe", "heart",
-        "horseshoe", "hull", "iBeam", "knucklebone", "ladder", "letter",
-        "lidlessBox", "link", "madMallet", "mallet", "multiSphere", "platonic",
-        "prism", "pyramid", "ragdoll", "snowman", "sphere", "squishyBall",
-        "star", "sword", "table", "teapot", "tetrahedron", "thumbTack", "top",
-        "torus", "triangularFrame", "trident", "washer"
+        "ankh", "banana", "barbell", "barrel", "bowlingPin", "box",
+        "breakableRod", "capsule", "chain", "chair", "cloth", "cone",
+        "cylinder", "digit", "diptych", "dome", "duck", "flail", "football",
+        "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
+        "knucklebone", "ladder", "letter", "lidlessBox", "link", "madMallet",
+        "mallet", "multiSphere", "platonic", "prism", "pyramid", "ragdoll",
+        "snowman", "sphere", "squishyBall", "star", "sword", "table", "teapot",
+        "tetrahedron", "thumbTack", "top", "torus", "triangularFrame",
+        "trident", "washer"
     };
     /**
      * list of platform names, in ascending lexicographic order
