@@ -121,7 +121,7 @@ public class DropTestStatus extends SimpleAppState {
     final private static String[] platformNames = {
         "bedOfNails", "box", "candyDish", "cone", "corner", "cylinder",
         "dimples", "hull", "plane", "roundedRectangle", "sieve", "smooth",
-        "trampoline", "tray", "triangle"
+        "square", "trampoline", "tray", "triangle"
     };
     // *************************************************************************
     // fields

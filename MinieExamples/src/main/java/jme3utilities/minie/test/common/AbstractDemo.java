@@ -29,6 +29,7 @@ package jme3utilities.minie.test.common;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
@@ -248,6 +249,10 @@ abstract public class AbstractDemo extends ActionApplication {
 
             case "roundedRectangle":
                 addRoundedRectangle(topY);
+                break;
+
+            case "square":
+                addSquarePlatform(topY, topRadius, thickness);
                 break;
 
             case "triangle":
@@ -894,6 +899,34 @@ abstract public class AbstractDemo extends ActionApplication {
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        Quaternion rotation = new Quaternion();
+        rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
+        body.setPhysicsRotation(rotation);
+        body.setPhysicsLocation(new Vector3f(0f, topY, 0f));
+
+        addPlatform(body);
+    }
+
+    /**
+     * Add a large, static 2-D square to the PhysicsSpace, to serve as a
+     * platform.
+     *
+     * @param topY the desired Y coordinate of the top surface (in physics-space
+     * coordinates)
+     * @param topHalfExtent half the desired extent of the top surface (&gt;0)
+     * @param thickness the desired thickenss (in physics-space units, &gt;0)
+     */
+    private void addSquarePlatform(float topY, float topHalfExtent,
+            float thickness) {
+        Validate.positive(topHalfExtent, "top half extent");
+        Validate.positive(thickness, "thickness");
+
+        CollisionShape shape = new Box2dShape(topHalfExtent);
+        PhysicsRigidBody body
+                = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
+
+        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setPhysicsLocation(new Vector3f(0f, topY, 0f));
         Quaternion rotation = new Quaternion();
         rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
         body.setPhysicsRotation(rotation);

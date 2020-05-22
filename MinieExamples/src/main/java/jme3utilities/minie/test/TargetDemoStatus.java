@@ -107,7 +107,7 @@ public class TargetDemoStatus extends SimpleAppState {
      */
     final private static String[] platformNames = {
         "box", "cone", "cylinder", "hull", "plane", "roundedRectangle",
-        "triangle"
+        "square", "triangle"
     };
     /**
      * list of scenario names, in ascending lexicographic order
