@@ -186,9 +186,9 @@ public class TestRbc
      */
     private PointVisualizer hitPoint;
     /**
-     * geometry for the projectile, or null if none
+     * geometry for the missile, or null if none
      */
-    private Spatial projectileSpatial;
+    private Spatial missileSpatial;
     /**
      * spatial(s) being tested
      */
@@ -357,7 +357,7 @@ public class TestRbc
         dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
-        dim.bind("launch projectile", KeyInput.KEY_L);
+        dim.bind("launch missile", KeyInput.KEY_L);
 
         dim.bind("less margin", KeyInput.KEY_V);
         dim.bind("more margin", KeyInput.KEY_F);
@@ -414,8 +414,8 @@ public class TestRbc
                     clearShapes();
                     return;
 
-                case "launch projectile":
-                    launchProjectile();
+                case "launch missile":
+                    launchMissile();
                     return;
 
                 case "less margin":
@@ -502,13 +502,13 @@ public class TestRbc
     public void collision(PhysicsCollisionEvent event) {
         Spatial userA = event.getNodeA();
         Spatial userB = event.getNodeB();
-        if (userA == testSpatial && userB == projectileSpatial
-                || userA == projectileSpatial && userB == testSpatial) {
+        if (userA == testSpatial && userB == missileSpatial
+                || userA == missileSpatial && userB == testSpatial) {
             /*
-             * Put the projectile's RBC into kinematic mode, so it will stick.
+             * Put the missile's RBC into kinematic mode, so it will stick.
              */
             RigidBodyControl rigidBodyControl
-                    = projectileSpatial.getControl(RigidBodyControl.class);
+                    = missileSpatial.getControl(RigidBodyControl.class);
             rigidBodyControl.setKinematic(true);
             rigidBodyControl.setKinematicSpatial(true);
 
@@ -518,7 +518,7 @@ public class TestRbc
             } else {
                 event.getPositionWorldOnB(location);
             }
-            projectileSpatial.setLocalTranslation(location);
+            missileSpatial.setLocalTranslation(location);
         } else {
             System.out.println("Unexpected collision!");
         }
@@ -821,28 +821,28 @@ public class TestRbc
     }
 
     /**
-     * Add a dynamic projectile to both the scene and PhysicsSpace.
+     * Add a missile to both the scene and PhysicsSpace.
      *
      * @return a new RigidBodyControl (enabled)
      */
-    private RigidBodyControl addProjectile() {
-        assert projectileSpatial == null;
+    private RigidBodyControl addMissile() {
+        assert missileSpatial == null;
 
         int numRefineSteps = 1;
         float radius = 0.05f;
         Mesh mesh = new Icosphere(numRefineSteps, radius);
 
-        projectileSpatial = new Geometry("projectile", mesh);
-        meshesNode.attachChild(projectileSpatial);
+        missileSpatial = new Geometry("missile", mesh);
+        meshesNode.attachChild(missileSpatial);
         Material redMaterial = findMaterial("red");
-        projectileSpatial.setMaterial(redMaterial);
+        missileSpatial.setMaterial(redMaterial);
 
         CollisionShape shape = new MultiSphere(radius);
         // TODO - Why doesn't a SphereCollisionShape work well here?
         float mass = 0.01f;
         RigidBodyControl rbc = new RigidBodyControl(shape, mass);
         addCollisionObject(rbc);
-        projectileSpatial.addControl(rbc);
+        missileSpatial.addControl(rbc);
 
         rbc.setCcdMotionThreshold(0.01f);
         rbc.setCcdSweptSphereRadius(0.04f);
@@ -1085,7 +1085,7 @@ public class TestRbc
         PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.removeAll(meshesNode);
         meshesNode.detachAllChildren();
-        projectileSpatial = null;
+        missileSpatial = null;
         testSpatial = null;
         /*
          * Remove all collision objects from the PhysicsSpace,
@@ -1142,16 +1142,16 @@ public class TestRbc
     }
 
     /**
-     * Launch a projectile, its starting position and velocity determined by the
+     * Launch a missile, its starting position and velocity determined by the
      * camera and mouse cursor.
      */
-    private void launchProjectile() {
+    private void launchMissile() {
         RigidBodyControl rbc;
-        if (projectileSpatial == null) {
-            rbc = addProjectile();
+        if (missileSpatial == null) {
+            rbc = addMissile();
         } else {
-            // Re-use the previously added projectile.
-            rbc = projectileSpatial.getControl(RigidBodyControl.class);
+            // Re-use the previously added missile.
+            rbc = missileSpatial.getControl(RigidBodyControl.class);
         }
         rbc.setEnabled(false);
         rbc.setKinematic(false);
@@ -1165,7 +1165,7 @@ public class TestRbc
         float initialSpeed = 20f;
         Vector3f initialVelocity = direction.mult(initialSpeed);
 
-        projectileSpatial.setLocalTranslation(nearLocation);
+        missileSpatial.setLocalTranslation(nearLocation);
         rbc.setEnabled(true);
         rbc.setPhysicsLocation(nearLocation);
         rbc.setLinearVelocity(initialVelocity);
@@ -1283,7 +1283,7 @@ public class TestRbc
     }
 
     /**
-     * Toggle rendering of the test/projectile spatial(s).
+     * Toggle rendering of the test/missile spatial(s).
      */
     private void toggleMeshes() {
         Spatial.CullHint hint = meshesNode.getLocalCullHint();

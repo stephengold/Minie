@@ -78,8 +78,8 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Test/demonstrate dynamic physics by launching projectiles
- * (small/dynamic/rigid bodies) at various targets.
+ * Test/demonstrate dynamic physics by launching missiles (small/dynamic/rigid
+ * bodies) at various targets.
  * <p>
  * Collision objects are rendered entirely by debug visualization.
  *
@@ -255,9 +255,9 @@ public class TargetDemo
         super.generateMaterials();
 
         ColorRGBA red = new ColorRGBA(0.5f, 0f, 0f, 1f);
-        Material projectile = MyAsset.createShinyMaterial(assetManager, red);
-        projectile.setFloat("Shininess", 15f);
-        registerMaterial("projectile", projectile);
+        Material missile = MyAsset.createShinyMaterial(assetManager, red);
+        missile.setFloat("Shininess", 15f);
+        registerMaterial("missile", missile);
 
         ColorRGBA lightGray = new ColorRGBA(0.6f, 0.6f, 0.6f, 1f);
         Material selected = MyAsset.createShinyMaterial(assetManager, lightGray);
@@ -321,9 +321,9 @@ public class TargetDemo
         dim.bind("dump selected", KeyInput.KEY_LBRACKET);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
-        dim.bind("launch projectile", KeyInput.KEY_RETURN);
-        dim.bind("launch projectile", KeyInput.KEY_INSERT);
-        dim.bind("launch projectile", KeyInput.KEY_NUMPAD0);
+        dim.bind("launch missile", KeyInput.KEY_RETURN);
+        dim.bind("launch missile", KeyInput.KEY_INSERT);
+        dim.bind("launch missile", KeyInput.KEY_NUMPAD0);
 
         dim.bind("next statusLine", KeyInput.KEY_NUMPAD2);
         dim.bind("next value", KeyInput.KEY_EQUALS);
@@ -378,8 +378,8 @@ public class TargetDemo
                 case "dump selected":
                     dumpSelected();
                     return;
-                case "launch projectile":
-                    launchProjectile();
+                case "launch missile":
+                    launchMissile();
                     return;
 
                 case "next statusLine":
@@ -559,10 +559,10 @@ public class TargetDemo
     }
 
     /**
-     * Launch a new projectile, its starting position and velocity determined by
+     * Launch a new missile, its starting position and velocity determined by
      * the camera and mouse cursor.
      */
-    private void launchProjectile() {
+    private void launchMissile() {
         Vector2f screenXY = inputManager.getCursorPosition();
         Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
         Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
@@ -577,7 +577,7 @@ public class TargetDemo
         float mass = 0.5f; // pmu
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
 
-        Material debugMaterial = findMaterial("projectile");
+        Material debugMaterial = findMaterial("missile");
         body.setApplicationData(debugMaterial);
         body.setCcdMotionThreshold(0.01f);
         body.setCcdSweptSphereRadius(radius);
