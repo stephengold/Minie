@@ -569,17 +569,17 @@ public class TargetDemo
 
         Vector3f direction
                 = farLocation.subtract(nearLocation).normalizeLocal();
-        float initialSpeed = 200f; // psu per second
+        float initialSpeed = status.missileInitialSpeed(); // psu per second
         Vector3f initialVelocity = direction.mult(initialSpeed);
 
-        float radius = 0.5f; // psu
+        float radius = status.missileRadius(); // psu
         CollisionShape shape = new MultiSphere(radius);
-        float mass = 0.5f; // pmu
+        float mass = status.missileMass(); // pmu
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
 
         Material debugMaterial = findMaterial("missile");
         body.setApplicationData(debugMaterial);
-        body.setCcdMotionThreshold(0.01f);
+        body.setCcdMotionThreshold(radius);
         body.setCcdSweptSphereRadius(radius);
         body.setDebugMaterial(debugMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Sphere);

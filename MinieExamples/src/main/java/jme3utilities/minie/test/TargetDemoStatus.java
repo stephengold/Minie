@@ -37,6 +37,7 @@ import java.util.logging.Logger;
 import jme3utilities.SimpleAppState;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyMath;
+import jme3utilities.minie.test.common.AbstractDemo;
 
 /**
  * AppState to display the status of the TargetDemo application in an overlay.
@@ -65,6 +66,21 @@ public class TargetDemoStatus extends SimpleAppState {
     final private static float[] gravityValues
             = {1f, 2f, 5f, 10f, 20f, 30f, 50f};
     /**
+     * list of missile initial speeds, in ascending order
+     */
+    final private static float[] missileInitialSpeedValues
+            = {10f, 50f, 100f, 200f, 400f, 1000f};
+    /**
+     * list of missile masses, in ascending order
+     */
+    final private static float[] missileMassValues
+            = {0.1f, 0.3f, 0.5f, 1f, 3f, 10f};
+    /**
+     * list of missile radii, in ascending order
+     */
+    final private static float[] missileRadiusValues
+            = {0.1f, 0.3f, 0.5f, 1f, 3f, 10f};
+    /**
      * list of restitution fractions, in ascending order
      */
     final private static float[] restitutionValues
@@ -72,23 +88,31 @@ public class TargetDemoStatus extends SimpleAppState {
     /**
      * index of the status line for the damping fraction
      */
-    final private static int dampingStatusLine = 4;
-    /**
-     * index of the status line for the scenario
-     */
-    final private static int scenarioStatusLine = 3;
+    final private static int dampingStatusLine = 7;
     /**
      * index of the status line for the friction coefficient
      */
-    final private static int frictionStatusLine = 5;
+    final private static int frictionStatusLine = 8;
     /**
      * index of the status line for the gravity magnitude
      */
-    final private static int gravityStatusLine = 6;
+    final private static int gravityStatusLine = 9;
+    /**
+     * index of the status line for the missile initial speed
+     */
+    final private static int missileInitialSpeedStatusLine = 6;
+    /**
+     * index of the status line for the missile mass
+     */
+    final private static int missileMassStatusLine = 4;
+    /**
+     * index of the status line for the missile radius
+     */
+    final private static int missileRadiusStatusLine = 5;
     /**
      * number of lines of text in the overlay
      */
-    final private static int numStatusLines = 8;
+    final private static int numStatusLines = 11;
     /**
      * index of the status line for the platform name
      */
@@ -96,14 +120,18 @@ public class TargetDemoStatus extends SimpleAppState {
     /**
      * index of the status line for the restitution fraction
      */
-    final private static int restitutionStatusLine = 7;
+    final private static int restitutionStatusLine = 10;
+    /**
+     * index of the status line for the scenario
+     */
+    final private static int scenarioStatusLine = 3;
     /**
      * message logger for this class
      */
     final public static Logger logger
             = Logger.getLogger(TargetDemoStatus.class.getName());
     /**
-     * list of platform names, in ascending lexicographic order
+     * names of all platforms, in ascending lexicographic order
      */
     final private static String[] platformNames = {
         "box", "cone", "cylinder", "hull", "plane", "roundedRectangle",
@@ -146,9 +174,23 @@ public class TargetDemoStatus extends SimpleAppState {
      */
     private float friction = 0.5f;
     /**
-     * gravity magnitude for all dynamic bodies (&ge;0)
+     * gravity magnitude for all dynamic bodies (in physics-space units per
+     * second squared, &ge;0)
      */
     private float gravity = 30f;
+    /**
+     * initial speed selected for the next missile (in physics-space units per
+     * second, &gt;0)
+     */
+    private float missileInitialSpeed = 200f;
+    /**
+     * mass selected for the next missile (&gt;0)
+     */
+    private float missileMass = 0.5f;
+    /**
+     * radius selected for the next missile (in physics-space units, &gt;0)
+     */
+    private float missileRadius = 0.5f;
     /**
      * restitution all all rigid bodies (&ge;0, &le;1)
      */
@@ -202,21 +244,39 @@ public class TargetDemoStatus extends SimpleAppState {
             case dampingStatusLine:
                 advanceDamping(amount);
                 break;
-            case scenarioStatusLine:
-                advanceScenario(amount);
-                break;
+
             case frictionStatusLine:
                 advanceFriction(amount);
                 break;
+
             case gravityStatusLine:
                 advanceGravity(amount);
                 break;
+
+            case missileInitialSpeedStatusLine:
+                advanceMissileInitialSpeed(amount);
+                break;
+
+            case missileMassStatusLine:
+                advanceMissileMass(amount);
+                break;
+
+            case missileRadiusStatusLine:
+                advanceMissileRadius(amount);
+                break;
+
             case platformStatusLine:
                 advancePlatform(amount);
                 break;
+
             case restitutionStatusLine:
                 advanceRestitution(amount);
                 break;
+
+            case scenarioStatusLine:
+                advanceScenario(amount);
+                break;
+
             default:
                 throw new IllegalStateException("line = " + selectedLine);
         }
@@ -272,6 +332,36 @@ public class TargetDemoStatus extends SimpleAppState {
     }
 
     /**
+     * Determine the initial speed for a new missile.
+     *
+     * @return the speed (in physics-space units per second, &gt;0)
+     */
+    float missileInitialSpeed() {
+        assert missileInitialSpeed > 0f : missileInitialSpeed;
+        return missileInitialSpeed;
+    }
+
+    /**
+     * Determine the mass for a new missile.
+     *
+     * @return the mass (&gt;0)
+     */
+    float missileMass() {
+        assert missileMass > 0f : missileMass;
+        return missileMass;
+    }
+
+    /**
+     * Determine the radius for a new missile.
+     *
+     * @return the radius (in physics-space units, &gt;0)
+     */
+    float missileRadius() {
+        assert missileRadius > 0f : missileRadius;
+        return missileRadius;
+    }
+
+    /**
      * Determine the selected type of platform.
      *
      * @return the name (not null, not empty)
@@ -296,7 +386,7 @@ public class TargetDemoStatus extends SimpleAppState {
     /**
      * Determine the selected scenario.
      *
-     * @return the name (not null, not empty)
+     * @return the scenario name (not null, not empty)
      */
     String scenarioName() {
         assert scenarioName != null;
@@ -364,8 +454,13 @@ public class TargetDemoStatus extends SimpleAppState {
         assert MyArray.isSorted(dampingValues);
         assert MyArray.isSorted(frictionValues);
         assert MyArray.isSorted(gravityValues);
-        assert MyArray.isSorted(scenarioNames);
+        assert MyArray.isSorted(missileInitialSpeedValues);
+        assert MyArray.isSorted(missileMassValues);
+        assert MyArray.isSorted(missileRadiusValues);
+        assert MyArray.isSorted(restitutionValues);
+
         assert MyArray.isSorted(platformNames);
+        assert MyArray.isSorted(scenarioNames);
     }
 
     /**
@@ -415,6 +510,25 @@ public class TargetDemoStatus extends SimpleAppState {
         message = String.format("Restitution #%d of %d:  %.2f", index,
                 count, restitution);
         updateStatusLine(restitutionStatusLine, message);
+
+        index = 1 + Arrays.binarySearch(missileInitialSpeedValues,
+                missileInitialSpeed);
+        count = missileInitialSpeedValues.length;
+        message = String.format("Missile speed #%d of %d:  %.0f", index,
+                count, missileInitialSpeed);
+        updateStatusLine(missileInitialSpeedStatusLine, message);
+
+        index = 1 + Arrays.binarySearch(missileMassValues, missileMass);
+        count = missileMassValues.length;
+        message = String.format("Missile mass #%d of %d:  %.2f", index,
+                count, missileMass);
+        updateStatusLine(missileMassStatusLine, message);
+
+        index = 1 + Arrays.binarySearch(missileRadiusValues, missileRadius);
+        count = missileRadiusValues.length;
+        message = String.format("Missile radius #%d of %d:  %.2f", index,
+                count, missileRadius);
+        updateStatusLine(missileRadiusStatusLine, message);
     }
     // *************************************************************************
     // private methods
@@ -422,107 +536,93 @@ public class TargetDemoStatus extends SimpleAppState {
     /**
      * Advance the damping selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advanceDamping(int amount) {
-        int index = Arrays.binarySearch(dampingValues, damping);
-        if (index < 0) {
-            damping = dampingValues[0];
-        } else {
-            assert dampingValues[index] == damping;
-            index = MyMath.modulo(index + amount, dampingValues.length);
-            damping = dampingValues[index];
-        }
-
+        damping = AbstractDemo.advanceFloat(dampingValues, damping, amount);
         appInstance.setDampingAll(damping);
     }
 
     /**
      * Advance the friction selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advanceFriction(int amount) {
-        int index = Arrays.binarySearch(frictionValues, friction);
-        if (index < 0) {
-            friction = frictionValues[0];
-        } else {
-            assert frictionValues[index] == friction;
-            index = MyMath.modulo(index + amount, frictionValues.length);
-            friction = frictionValues[index];
-        }
-
+        friction = AbstractDemo.advanceFloat(frictionValues, friction, amount);
         appInstance.setFrictionAll(friction);
     }
 
     /**
      * Advance the gravity selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advanceGravity(int amount) {
-        int index = Arrays.binarySearch(gravityValues, gravity);
-        if (index < 0) {
-            gravity = gravityValues[0];
-        } else {
-            assert gravityValues[index] == gravity;
-            index = MyMath.modulo(index + amount, gravityValues.length);
-            gravity = gravityValues[index];
-        }
-
+        gravity = AbstractDemo.advanceFloat(gravityValues, gravity, amount);
         appInstance.setGravityAll(gravity);
+    }
+
+    /**
+     * Advance the initial speed selection by the specified amount.
+     *
+     * @param amount the number of values to advance (may be negative)
+     */
+    private void advanceMissileInitialSpeed(int amount) {
+        missileInitialSpeed = AbstractDemo.advanceFloat(
+                missileInitialSpeedValues, missileInitialSpeed, amount);
+    }
+
+    /**
+     * Advance the missile mass selection by the specified amount.
+     *
+     * @param amount the number of values to advance (may be negative)
+     */
+    private void advanceMissileMass(int amount) {
+        missileMass = AbstractDemo.advanceFloat(missileMassValues, missileMass,
+                amount);
+    }
+
+    /**
+     * Advance the missile radius selection by the specified amount.
+     *
+     * @param amount the number of values to advance (may be negative)
+     */
+    private void advanceMissileRadius(int amount) {
+        missileRadius = AbstractDemo.advanceFloat(missileRadiusValues,
+                missileRadius, amount);
     }
 
     /**
      * Advance the platform selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advancePlatform(int amount) {
-        int index = Arrays.binarySearch(platformNames, platformName);
-        if (index < 0) {
-            platformName = platformNames[0];
-        } else {
-            assert platformNames[index].equals(platformName);
-            index = MyMath.modulo(index + amount, platformNames.length);
-            platformName = platformNames[index];
-        }
-
+        platformName = AbstractDemo.advanceString(platformNames, platformName,
+                amount);
         appInstance.restartScenario();
     }
 
     /**
      * Advance the restitution selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advanceRestitution(int amount) {
-        int index = Arrays.binarySearch(restitutionValues, restitution);
-        if (index < 0) {
-            restitution = restitutionValues[0];
-        } else {
-            assert restitutionValues[index] == restitution;
-            index = MyMath.modulo(index + amount, restitutionValues.length);
-            restitution = restitutionValues[index];
-        }
-
+        restitution = AbstractDemo.advanceFloat(restitutionValues, restitution,
+                amount);
         appInstance.setRestitutionAll(restitution);
     }
 
     /**
      * Advance the scenario selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advanceScenario(int amount) {
-        int index = Arrays.binarySearch(scenarioNames, scenarioName);
-        if (index < 0) {
-            scenarioName = scenarioNames[0];
-        } else {
-            assert scenarioNames[index].equals(scenarioName);
-            index = MyMath.modulo(index + amount, scenarioNames.length);
-            scenarioName = scenarioNames[index];
-        }
+        scenarioName = AbstractDemo.advanceString(scenarioNames, scenarioName,
+                amount);
     }
 
     /**
