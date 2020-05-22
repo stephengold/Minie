@@ -55,7 +55,6 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
-import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
@@ -687,9 +686,9 @@ public class DropTest
         Transform startPosition
                 = new Transform(startLocation, startOrientation); //TODO garbage
 
-        String dropName = status.nextDropType();
-        float mass = 1f;
-        Drop drop = new Drop(this, dropName, mass, startPosition);
+        String typeName = status.nextDropType();
+        float totalMass = 1f;
+        Drop drop = new Drop(this, typeName, totalMass, startPosition);
 
         drop.addToSpace();
         drops.addLast(drop);
@@ -848,12 +847,7 @@ public class DropTest
      * result.
      */
     private void pick() {
-        Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
-        Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
-        PhysicsSpace space = getPhysicsSpace();
-        List<PhysicsRayTestResult> hits = space.rayTest(from, to);
-
+        List<PhysicsRayTestResult> hits = rayTestCursor();
         for (PhysicsRayTestResult hit : hits) {
             PhysicsCollisionObject pco = hit.getCollisionObject();
             for (Drop drop : drops) {

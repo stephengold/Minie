@@ -564,10 +564,11 @@ public class TargetDemo
      */
     private void launchProjectile() {
         Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
-        Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
+        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
 
-        Vector3f direction = to.subtract(from).normalizeLocal();
+        Vector3f direction
+                = farLocation.subtract(nearLocation).normalizeLocal();
         float initialSpeed = 200f; // psu per second
         Vector3f initialVelocity = direction.mult(initialSpeed);
 
@@ -584,7 +585,7 @@ public class TargetDemo
         body.setDebugMeshNormals(DebugMeshNormals.Sphere);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
         body.setLinearVelocity(initialVelocity);
-        body.setPhysicsLocation(from);
+        body.setPhysicsLocation(nearLocation);
 
         addCollisionObject(body);
     }
@@ -594,12 +595,7 @@ public class TargetDemo
      * the result.
      */
     private void pick() {
-        Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
-        Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
-        PhysicsSpace space = getPhysicsSpace();
-        List<PhysicsRayTestResult> hits = space.rayTest(from, to);
-
+        List<PhysicsRayTestResult> hits = rayTestCursor();
         for (PhysicsRayTestResult hit : hits) {
             PhysicsCollisionObject pco = hit.getCollisionObject();
             if (pco instanceof PhysicsRigidBody) {

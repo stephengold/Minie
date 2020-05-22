@@ -476,10 +476,11 @@ public class TestRbc
          * Set mouse-cursor shape based on a raytest result.
          */
         Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
-        Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
+        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        List rayTest = physicsSpace.rayTestRaw(from, to);
+        List rayTest = physicsSpace.rayTestRaw(nearLocation, farLocation);
         if (rayTest.size() > 0) {
             inputManager.setMouseCursor(hitCursor);
         } else {
@@ -1047,15 +1048,18 @@ public class TestRbc
      */
     private void castRay() {
         Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f from = cam.getWorldCoordinates(screenXY, 0f);
-        Vector3f to = cam.getWorldCoordinates(screenXY, 1f);
+        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        List<PhysicsRayTestResult> rayTest = physicsSpace.rayTest(from, to);
+        List<PhysicsRayTestResult> rayTest
+                = physicsSpace.rayTest(nearLocation, farLocation);
 
         if (rayTest.size() > 0) {
             PhysicsRayTestResult nearestHit = rayTest.get(0);
             float fraction = nearestHit.getHitFraction();
-            Vector3f location = MyVector3f.lerp(fraction, from, to, null);
+            Vector3f location = MyVector3f.lerp(fraction, nearLocation,
+                    farLocation, null);
 
             hitPoint.setLocalTranslation(location);
             hitPoint.setEnabled(true);
@@ -1138,7 +1142,7 @@ public class TestRbc
     }
 
     /**
-     * Launch a projectileits starting position and velocity determined by the
+     * Launch a projectile, its starting position and velocity determined by the
      * camera and mouse cursor.
      */
     private void launchProjectile() {
@@ -1154,15 +1158,16 @@ public class TestRbc
         rbc.setKinematicSpatial(false);
 
         Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f origin = cam.getWorldCoordinates(screenXY, 0f);
-        Vector3f target = cam.getWorldCoordinates(screenXY, 1f);
-        Vector3f direction = target.subtract(origin).normalizeLocal();
+        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+        Vector3f direction
+                = farLocation.subtract(nearLocation).normalizeLocal();
         float initialSpeed = 20f;
         Vector3f initialVelocity = direction.mult(initialSpeed);
 
-        projectileSpatial.setLocalTranslation(origin);
+        projectileSpatial.setLocalTranslation(nearLocation);
         rbc.setEnabled(true);
-        rbc.setPhysicsLocation(origin);
+        rbc.setPhysicsLocation(nearLocation);
         rbc.setLinearVelocity(initialVelocity);
     }
 
@@ -1244,21 +1249,26 @@ public class TestRbc
         CollisionShape shape = new SphereCollisionShape(radius);
 
         Vector2f screenXY = inputManager.getCursorPosition();
-        Transform from = new Transform();
-        from.setTranslation(cam.getWorldCoordinates(screenXY, 0f));
-        Transform to = new Transform();
-        to.setTranslation(cam.getWorldCoordinates(screenXY, 1f));
+
+        Transform nearTransform = new Transform();
+        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
+        nearTransform.setTranslation(nearLocation);
+
+        Transform farTransform = new Transform();
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+        farTransform.setTranslation(farLocation);
 
         List<PhysicsSweepTestResult> sweepTest = new LinkedList<>();
         float penetration = 0f; // physics-space units
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        physicsSpace.sweepTest(shape, from, to, sweepTest, penetration);
+        physicsSpace.sweepTest(shape, nearTransform, farTransform, sweepTest,
+                penetration);
 
         if (sweepTest.size() > 0) {
             PhysicsSweepTestResult nearestHit = sweepTest.get(0);
             float fraction = nearestHit.getHitFraction();
-            Vector3f fromLocation = from.getTranslation();
-            Vector3f toLocation = to.getTranslation();
+            Vector3f fromLocation = nearTransform.getTranslation();
+            Vector3f toLocation = farTransform.getTranslation();
             Vector3f location = MyVector3f.lerp(fraction, fromLocation,
                     toLocation, null);
 
