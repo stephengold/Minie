@@ -187,7 +187,7 @@ public class ShapeGenerator extends Generator {
         float ihHeight = nextFloat(0.7f, 2f);
         float ihWidth = 1.6f * ihHeight;
         float halfThickness = ihHeight * nextFloat(0.1f, 0.2f);
-        CompoundCollisionShape result = MinieTestShapes.makeFrame(ihHeight,
+        CompoundCollisionShape result = CompoundTestShapes.makeFrame(ihHeight,
                 ihWidth, halfDepth, halfThickness);
 
         return result;
@@ -205,7 +205,7 @@ public class ShapeGenerator extends Generator {
         float arc = FastMath.PI;
         int numChildren = 20;
 
-        CompoundCollisionShape result = MinieTestShapes.makePipe(innerRadius,
+        CompoundCollisionShape result = CompoundTestShapes.makePipe(innerRadius,
                 thickness, length, arc, numChildren);
 
         return result;
@@ -252,7 +252,7 @@ public class ShapeGenerator extends Generator {
         float flangeWidth = nextFloat(1f, 2f);
         float beamHeight = nextFloat(1f, 2f);
         float thickness = nextFloat(0.1f, 0.3f);
-        CompoundCollisionShape result = MinieTestShapes.makeIBeam(length,
+        CompoundCollisionShape result = CompoundTestShapes.makeIBeam(length,
                 flangeWidth, beamHeight, thickness);
 
         return result;
@@ -268,8 +268,8 @@ public class ShapeGenerator extends Generator {
         float iWidth = nextFloat(2f, 4f);
         float iDepth = nextFloat(1f, 2f);
         float wallThickness = nextFloat(0.1f, 0.3f);
-        CompoundCollisionShape result = MinieTestShapes.makeLidlessBox(iHeight,
-                iWidth, iDepth, wallThickness);
+        CompoundCollisionShape result = CompoundTestShapes.makeLidlessBox(
+                iHeight, iWidth, iDepth, wallThickness);
 
         return result;
     }
@@ -526,7 +526,7 @@ public class ShapeGenerator extends Generator {
      */
     public CompoundCollisionShape nextSnowman() {
         float baseRadius = nextFloat(0.7f, 1.5f);
-        CompoundCollisionShape result = MinieTestShapes.makeSnowman(baseRadius);
+        CompoundCollisionShape result = CompoundTestShapes.makeSnowman(baseRadius);
 
         return result;
     }
@@ -554,7 +554,7 @@ public class ShapeGenerator extends Generator {
         int numPoints = nextInt(4, 9);
         float radiusRatio = nextFloat(0.2f, 0.7f);
         int numTriangles = 4 + 2 * nextInt(0, 1);
-        CompoundCollisionShape result = MinieTestShapes.makeStar(numPoints,
+        CompoundCollisionShape result = CompoundTestShapes.makeStar(numPoints,
                 outerRadius, centerY, radiusRatio, numTriangles);
 
         return result;
@@ -590,7 +590,7 @@ public class ShapeGenerator extends Generator {
         float majorRadius = nextFloat(1f, 1.5f);
         float minorRadius = nextFloat(0.2f, 0.6f);
         CompoundCollisionShape result
-                = MinieTestShapes.makeTorus(majorRadius, minorRadius);
+                = CompoundTestShapes.makeTorus(majorRadius, minorRadius);
 
         return result;
     }
@@ -607,7 +607,7 @@ public class ShapeGenerator extends Generator {
         float thickness = internalLength * nextFloat(0.1f, 0.2f);
         float arc = FastMath.TWO_PI;
         int numSegments = 3;
-        CompoundCollisionShape result = MinieTestShapes.makePipe(innerR,
+        CompoundCollisionShape result = CompoundTestShapes.makePipe(innerR,
                 thickness, depth, arc, numSegments);
 
         return result;
@@ -621,8 +621,8 @@ public class ShapeGenerator extends Generator {
     public CompoundCollisionShape nextTrident() {
         float shaftLength = nextFloat(4f, 12f);
         float shaftRadius = nextFloat(0.1f, 0.2f);
-        CompoundCollisionShape result = MinieTestShapes.makeTrident(shaftLength,
-                shaftRadius);
+        CompoundCollisionShape result = CompoundTestShapes.makeTrident(
+                shaftLength, shaftRadius);
 
         return result;
     }
@@ -639,7 +639,7 @@ public class ShapeGenerator extends Generator {
         float arc = FastMath.TWO_PI;
         int numChildren = 24;
 
-        CompoundCollisionShape result = MinieTestShapes.makePipe(innerRadius,
+        CompoundCollisionShape result = CompoundTestShapes.makePipe(innerRadius,
                 outerRadius - innerRadius, zThickness, arc, numChildren);
 
         return result;

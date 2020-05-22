@@ -70,7 +70,7 @@ import jme3utilities.Validate;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.mesh.ClothGrid;
-import jme3utilities.minie.test.shape.MinieTestShapes;
+import jme3utilities.minie.test.shape.CompoundTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.minie.test.tunings.BaseMeshControl;
 
@@ -330,7 +330,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
             case "chair":
                 shape = appInstance.findShape("chair");
-                inverseInertia = MinieTestShapes.chairInverseInertia;
+                inverseInertia = CompoundTestShapes.chairInverseInertia;
                 createRigidBody(shape, totalMass, DebugMeshNormals.Facet,
                         startPosition);
                 break;
@@ -443,7 +443,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         float linkMass = totalMass / numLinks;
 
         CompoundCollisionShape shape
-                = MinieTestShapes.makeLink(linkIhh, linkIhw, halfThickness);
+                = CompoundTestShapes.makeLink(linkIhh, linkIhw, halfThickness);
 
         Quaternion rotationStep = new Quaternion();
         rotationStep.fromAngleNormalAxis(angleStep, Vector3f.UNIT_Y);
@@ -760,8 +760,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         float headR = handleR + random.nextFloat();
         float headHalfLength = headR + random.nextFloat();
         float handleHalfLength = headHalfLength + random.nextFloat(0f, 2.5f);
-        CompoundCollisionShape result = MinieTestShapes.makeMadMallet(handleR,
-                headR, handleHalfLength, headHalfLength);
+        CompoundCollisionShape result = CompoundTestShapes.makeMadMallet(
+                handleR, headR, handleHalfLength, headHalfLength);
         /*
          * At this point, the shape's center of mass lies at the bare end
          * of the handle:  a "mad" mallet that prefers to stand upright.
