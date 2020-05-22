@@ -114,7 +114,7 @@ public class TargetDemoStatus extends SimpleAppState {
      */
     final private static String[] scenarioNames = {
         "brick tower", "brick wall", "can pyramid", "domino row", "empty",
-        "pool"
+        "pool", "tenpin"
     };
     // *************************************************************************
     // fields
@@ -183,7 +183,7 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of fields to move downward
      */
     void advanceSelectedField(int amount) {
-        int firstField = 1;
+        int firstField = 2;
         int numFields = numStatusLines - firstField;
 
         int selectedField = selectedLine - firstField;
@@ -438,22 +438,6 @@ public class TargetDemoStatus extends SimpleAppState {
     }
 
     /**
-     * Advance the scenario selection by the specified amount.
-     *
-     * @param amount the number of values to advance
-     */
-    private void advanceScenario(int amount) {
-        int index = Arrays.binarySearch(scenarioNames, scenarioName);
-        if (index < 0) {
-            scenarioName = scenarioNames[0];
-        } else {
-            assert scenarioNames[index].equals(scenarioName);
-            index = MyMath.modulo(index + amount, scenarioNames.length);
-            scenarioName = scenarioNames[index];
-        }
-    }
-
-    /**
      * Advance the friction selection by the specified amount.
      *
      * @param amount the number of values to advance
@@ -523,6 +507,22 @@ public class TargetDemoStatus extends SimpleAppState {
         }
 
         appInstance.setRestitutionAll(restitution);
+    }
+
+    /**
+     * Advance the scenario selection by the specified amount.
+     *
+     * @param amount the number of values to advance
+     */
+    private void advanceScenario(int amount) {
+        int index = Arrays.binarySearch(scenarioNames, scenarioName);
+        if (index < 0) {
+            scenarioName = scenarioNames[0];
+        } else {
+            assert scenarioNames[index].equals(scenarioName);
+            index = MyMath.modulo(index + amount, scenarioNames.length);
+            scenarioName = scenarioNames[index];
+        }
     }
 
     /**

@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
@@ -51,6 +52,7 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -625,8 +627,9 @@ public class TargetDemo
     }
 
     /**
+     * Register a spherical shape with the specified radius.
      *
-     * @param radius
+     * @param radius the desired radius (in physics-space units, &gt;0)
      */
     private void registerBallShape(float radius) {
         unregisterShape("ball");
@@ -635,10 +638,35 @@ public class TargetDemo
     }
 
     /**
+     * Register a bowling-pin shape with the specified radius.
      *
-     * @param shapeName (Z axis)
-     * @param height (Y axis)
-     * @param length (X axis)
+     * @param radius the desired radius (in physics-space units, &gt;0)
+     */
+    private void registerBowlingPinShape(float radius) {
+        unregisterShape("bowlingPin");
+
+        String bowlingPinPath = "CollisionShapes/bowlingPin.j3o";
+        CollisionShape shape
+                = (CollisionShape) assetManager.loadAsset(bowlingPinPath);
+        shape = (CollisionShape) Heart.deepCopy(shape);
+
+        BoundingBox bounds
+                = shape.boundingBox(Vector3f.ZERO, Matrix3f.IDENTITY, null);
+        float xHalfExtent = bounds.getXExtent();
+        float yHalfExtent = bounds.getYExtent();
+        float unscaledRadius = (xHalfExtent + yHalfExtent) / 2f;
+        float scale = radius / unscaledRadius;
+        shape.setScale(scale);
+
+        registerShape("bowlingPin", shape);
+    }
+
+    /**
+     * Register a brick shape with the specified name, height, and length.
+     *
+     * @param shapeName (Z axis, not null)
+     * @param height the total height (Y axis, in physics-space units, &gt;0)
+     * @param length the total length (X axis, in physics-space units, &gt;0)
      */
     private void registerBrickShape(String shapeName, float height,
             float length, float depth) {
@@ -654,9 +682,10 @@ public class TargetDemo
     }
 
     /**
+     * Register a can shape with the specified radius and height.
      *
-     * @param radius
-     * @param height
+     * @param radius the radius (in physics-space units, &gt;0)
+     * @param height the total height (Y axis, in physics-space units, &gt;0)
      */
     private void registerCanShape(float radius, float height) {
         unregisterShape("can");
@@ -666,8 +695,9 @@ public class TargetDemo
     }
 
     /**
+     * Register a domino shape with the specified length.
      *
-     * @param length
+     * @param length the total length (Y axis, in physics-space units, &gt;0)
      */
     private void registerDominoShape(float length) {
         unregisterShape("domino");
@@ -730,6 +760,26 @@ public class TargetDemo
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
         body.setDebugMeshNormals(DebugMeshNormals.Sphere);
         body.setPhysicsLocation(location);
+
+        setUpTarget(body);
+    }
+
+    /**
+     * Set up a single bowling pin as a target.
+     *
+     * @param location the desired location (in physics-space coordinates, not
+     * null, unaffected)
+     */
+    private void setUpBowlingPin(Vector3f location) {
+        CollisionShape shape = findShape("bowlingPin");
+        float mass = 0.2f;
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
+        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setPhysicsLocation(location);
+
+        Quaternion rotation = new Quaternion();
+        rotation.fromAngleNormalAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
+        body.setPhysicsRotation(rotation);
 
         setUpTarget(body);
     }
@@ -972,6 +1022,10 @@ public class TargetDemo
                 setUpPool();
                 break;
 
+            case "tenpin":
+                setUpTenpin();
+                break;
+
             default:
                 String msg = "scenarioName = " + MyString.quote(scenarioName);
                 throw new RuntimeException(msg);
@@ -994,5 +1048,29 @@ public class TargetDemo
         body.setApplicationData(debugMaterial);
 
         addCollisionObject(body);
+    }
+
+    /**
+     * Set up 10 bowling pins in a wedge, as if for a game of (ten-pin) bowling.
+     */
+    private void setUpTenpin() {
+        int numRows = 4;
+        float xSpacing = 32f / numRows; // center-to-center
+        float radius = 0.2f * xSpacing;
+        registerBowlingPinShape(radius);
+
+        float y0 = 2.50f * radius;
+        float zSpacing = xSpacing / FastMath.sqrt(1.5f); // center-to-center
+        float z0 = (numRows - 1) * zSpacing / 2f;
+        Vector3f location = new Vector3f(0, y0, z0);
+        for (int rowIndex = 0; rowIndex < numRows; ++rowIndex) {
+            int numPinsInRow = rowIndex + 1;
+            location.x = -(numPinsInRow - 1) * xSpacing / 2f;
+            for (int j = 0; j < numPinsInRow; ++j) {
+                setUpBowlingPin(location);
+                location.x += xSpacing;
+            }
+            location.z -= zSpacing;
+        }
     }
 }
