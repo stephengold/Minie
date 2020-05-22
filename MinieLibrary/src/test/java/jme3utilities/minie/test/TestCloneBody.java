@@ -254,6 +254,8 @@ public class TestCloneBody {
         boolean flag = (b > 0.15f && b < 0.45f);
         int n = Math.round(10f * b);
 
+        body.setProtectWorldInfo(!flag);
+
         SoftBodyConfig config = body.getSoftConfig();
         for (Sbcp sbcp : Sbcp.values()) {
             float value = b + 0.001f * sbcp.ordinal();
@@ -386,6 +388,8 @@ public class TestCloneBody {
     private void verifySoft(PhysicsSoftBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         int n = Math.round(10f * b);
+
+        assert body.isWorldInfoProtected() == !flag;
 
         SoftBodyConfig config = body.getSoftConfig();
         for (Sbcp sbcp : Sbcp.values()) {

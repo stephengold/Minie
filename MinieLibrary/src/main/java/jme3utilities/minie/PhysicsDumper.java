@@ -552,7 +552,11 @@ public class PhysicsDumper extends Dumper {
          */
         SoftBodyWorldInfo info = body.getWorldInfo();
         desc = describer.describe(info);
-        stream.printf("%n%s %s", indent, desc);
+        stream.printf("%n%s %s ", indent, desc);
+        if (!body.isWorldInfoProtected()) {
+            stream.print("NOT");
+        }
+        stream.print("protected");
         objectId = info.nativeId();
         addNativeId(objectId);
         /*

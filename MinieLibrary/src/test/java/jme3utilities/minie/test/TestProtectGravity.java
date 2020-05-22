@@ -121,12 +121,21 @@ public class TestProtectGravity {
         Assert.assertFalse(usb.isGravityProtected());
         Assert.assertTrue(usb.isStatic());
 
-        PhysicsSoftBody soft = null;
+        PhysicsSoftBody pSoft = null;
+        PhysicsSoftBody uSoft = null;
         if (space instanceof PhysicsSoftSpace) {
-            soft = new PhysicsSoftBody();
-            soft.setGravity(bodyGravity);
-            Assert.assertEquals(bodyGravity, soft.getGravity(null));
-            Assert.assertFalse(soft.isStatic());
+            pSoft = new PhysicsSoftBody();
+            pSoft.setGravity(bodyGravity);
+            pSoft.setProtectWorldInfo(true);
+            Assert.assertEquals(bodyGravity, pSoft.getGravity(null));
+            Assert.assertTrue(pSoft.isWorldInfoProtected());
+            Assert.assertFalse(pSoft.isStatic());
+
+            uSoft = new PhysicsSoftBody();
+            uSoft.setGravity(bodyGravity);
+            Assert.assertEquals(bodyGravity, uSoft.getGravity(null));
+            Assert.assertFalse(uSoft.isWorldInfoProtected());
+            Assert.assertFalse(uSoft.isStatic());
         }
         /*
          * Add all bodies to the PhysicsSpace.
@@ -134,15 +143,17 @@ public class TestProtectGravity {
         space.addCollisionObject(pdb);
         space.addCollisionObject(udb);
         space.addCollisionObject(usb);
-        if (soft != null) {
-            space.addCollisionObject(soft);
+        if (pSoft != null) {
+            space.addCollisionObject(pSoft);
+            space.addCollisionObject(uSoft);
         }
 
         Assert.assertEquals(bodyGravity, pdb.getGravity(null));
         Assert.assertEquals(spaceGravity1, udb.getGravity(null));
         Assert.assertEquals(bodyGravity, usb.getGravity(null));
-        if (soft != null) {
-            Assert.assertEquals(spaceGravity1, soft.getGravity(null));
+        if (pSoft != null) {
+            Assert.assertEquals(bodyGravity, pSoft.getGravity(null));
+            Assert.assertEquals(spaceGravity1, uSoft.getGravity(null));
         }
         /*
          * Alter the gravity of the PhysicsSpace.
@@ -152,8 +163,9 @@ public class TestProtectGravity {
         Assert.assertEquals(bodyGravity, pdb.getGravity(null));
         Assert.assertEquals(spaceGravity2, udb.getGravity(null));
         Assert.assertEquals(bodyGravity, usb.getGravity(null));
-        if (soft != null) {
-            Assert.assertEquals(spaceGravity2, soft.getGravity(null));
+        if (pSoft != null) {
+            Assert.assertEquals(bodyGravity, pSoft.getGravity(null));
+            Assert.assertEquals(spaceGravity2, uSoft.getGravity(null));
         }
 
         // TODO test sleeping rigid bodies

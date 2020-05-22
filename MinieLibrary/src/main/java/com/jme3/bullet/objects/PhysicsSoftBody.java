@@ -94,6 +94,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     final private static String tagConfig = "config";
     final private static String tagFaceIndices = "faceIndices";
     final private static String tagIndices = "indices";
+    final private static String tagIsWorldInfoProtected
+            = "isWorldInfoProtected";
     final private static String tagLinkIndices = "linkIndices";
     final private static String tagNodeLocations = "nodeLocations";
     final private static String tagNodeMasses = "nodeMasses";
@@ -108,6 +110,11 @@ public class PhysicsSoftBody extends PhysicsBody {
     // fields
 
     /**
+     * false&rarr; world info should be replaced when this body gets added to a
+     * PhysicsSoftSpace, true&rarr;world info should be preserved
+     */
+    private boolean isWorldInfoProtected = false;
+    /**
      * material properties of this soft body, allocated lazily
      */
     private Material material = null;
@@ -116,8 +123,8 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     private SoftBodyConfig config = null;
     /**
-     * properties that get overridden when this body gets added to a collision
-     * space
+     * properties (including gravity) that may be replaced when this body gets
+     * added to a PhysicsSoftSpace
      */
     private SoftBodyWorldInfo worldInfo = null;
     // *************************************************************************
@@ -847,6 +854,18 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Test whether this body's world info should be replaced by
+     * PhysicsSoftSpace.
+     *
+     * @return false if the info should be replaced, true if it should be
+     * preserved
+     */
+    public boolean isWorldInfoProtected() {
+        boolean result = isWorldInfoProtected;
+        return result;
+    }
+
+    /**
      * List all nodes in the indexed cluster.
      *
      * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
@@ -1169,6 +1188,17 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Alter whether this body's world info should be replaced when the body
+     * gets added to a PhysicsSoftSpace.
+     *
+     * @param newState true to preserve the world info, false to allow it to be
+     * replaced (default=false)
+     */
+    public void setProtectWorldInfo(boolean newState) {
+        isWorldInfoProtected = newState;
+    }
+
+    /**
      * Alter the scale factor for resting lengths.
      *
      * @param scale the desired scale factor
@@ -1244,7 +1274,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Replace the world info of this body.
      * <p>
      * Invoke this method <em>after</em> adding the body to a PhysicsSoftSpace.
-     * Adding a body to a PhysicsSoftSpace overrides its world info.
+     * Adding a body to a PhysicsSoftSpace may replace its world info.
      *
      * @param worldInfo the desired SoftBodyWorldInfo (not null)
      */
@@ -1554,6 +1584,9 @@ public class PhysicsSoftBody extends PhysicsBody {
         newEmptySoftBody(); // needs worldInfo!
 
         readPcoProperties(capsule);
+        isWorldInfoProtected
+                = capsule.readBoolean(tagIsWorldInfoProtected, false);
+
         config = (SoftBodyConfig) capsule.readSavable(tagConfig, null);
         assert config != null;
 
@@ -1635,7 +1668,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Alter this body's gravitational acceleration.
      * <p>
      * Invoke this method <em>after</em> adding the body to a PhysicsSoftSpace.
-     * Adding a body to a PhysicsSoftSpace overrides its gravity.
+     * Adding a body to a PhysicsSoftSpace may override its gravity.
      *
      * @param acceleration the desired acceleration vector (in physics-space
      * coordinates, not null, unaffected)
@@ -1689,6 +1722,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
+        capsule.write(isWorldInfoProtected, tagIsWorldInfoProtected, false);
         capsule.write(restingLengthsScale(), tagRestLengthScale, 0f);
         capsule.write(getPhysicsLocation(null), tagPhysicsLocation, null);
 

@@ -185,6 +185,7 @@ public class TestDefaults {
         testPco(softA);
         Assert.assertTrue(softA.isContactResponse());
         Assert.assertFalse(softA.isStatic());
+        Assert.assertFalse(softA.isWorldInfoProtected());
         Assert.assertEquals(0, softA.countClusters());
         Assert.assertEquals(0, softA.countFaces());
         Assert.assertEquals(0, softA.countJoints());
