@@ -37,6 +37,7 @@ import java.util.logging.Logger;
 import jme3utilities.SimpleAppState;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyMath;
+import jme3utilities.minie.test.common.AbstractDemo;
 
 /**
  * AppState to display the status of the DropTest application in an overlay. The
@@ -154,7 +155,8 @@ public class DropTestStatus extends SimpleAppState {
      */
     private float friction = 0.5f;
     /**
-     * gravity magnitude for all dynamic bodies (&ge;0)
+     * gravity magnitude for all dynamic bodies (in physics-space units per
+     * second squared, &ge;0)
      */
     private float gravity = 30f;
     /**
@@ -166,7 +168,7 @@ public class DropTestStatus extends SimpleAppState {
      */
     private int selectedLine = dropStatusLine;
     /**
-     * type for the next drop
+     * name of the type selected for the next drop
      */
     private String nextDropType = "multiSphere";
     /**
@@ -210,21 +212,27 @@ public class DropTestStatus extends SimpleAppState {
             case dampingStatusLine:
                 advanceDamping(amount);
                 break;
+
             case dropStatusLine:
                 advanceDrop(amount);
                 break;
+
             case frictionStatusLine:
                 advanceFriction(amount);
                 break;
+
             case gravityStatusLine:
                 advanceGravity(amount);
                 break;
+
             case platformStatusLine:
                 advancePlatform(amount);
                 break;
+
             case restitutionStatusLine:
                 advanceRestitution(amount);
                 break;
+
             default:
                 throw new IllegalStateException("line = " + selectedLine);
         }
@@ -372,6 +380,8 @@ public class DropTestStatus extends SimpleAppState {
         assert MyArray.isSorted(dampingValues);
         assert MyArray.isSorted(frictionValues);
         assert MyArray.isSorted(gravityValues);
+        assert MyArray.isSorted(restitutionValues);
+
         assert MyArray.isSorted(dropNames);
         assert MyArray.isSorted(platformNames);
     }
@@ -430,106 +440,62 @@ public class DropTestStatus extends SimpleAppState {
     /**
      * Advance the damping selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advanceDamping(int amount) {
-        int index = Arrays.binarySearch(dampingValues, damping);
-        if (index < 0) {
-            damping = dampingValues[0];
-        } else {
-            assert dampingValues[index] == damping;
-            index = MyMath.modulo(index + amount, dampingValues.length);
-            damping = dampingValues[index];
-        }
-
+        damping = AbstractDemo.advanceFloat(dampingValues, damping, amount);
         appInstance.setDampingAll(damping);
     }
 
     /**
      * Advance the next-drop selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advanceDrop(int amount) {
-        int index = Arrays.binarySearch(dropNames, nextDropType);
-        if (index < 0) {
-            nextDropType = dropNames[0];
-        } else {
-            assert dropNames[index].equals(nextDropType);
-            index = MyMath.modulo(index + amount, dropNames.length);
-            nextDropType = dropNames[index];
-        }
+        nextDropType
+                = AbstractDemo.advanceString(dropNames, nextDropType, amount);
     }
 
     /**
      * Advance the friction selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advanceFriction(int amount) {
-        int index = Arrays.binarySearch(frictionValues, friction);
-        if (index < 0) {
-            friction = frictionValues[0];
-        } else {
-            assert frictionValues[index] == friction;
-            index = MyMath.modulo(index + amount, frictionValues.length);
-            friction = frictionValues[index];
-        }
-
+        friction = AbstractDemo.advanceFloat(frictionValues, friction, amount);
         appInstance.setFrictionAll(friction);
     }
 
     /**
      * Advance the gravity selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advanceGravity(int amount) {
-        int index = Arrays.binarySearch(gravityValues, gravity);
-        if (index < 0) {
-            gravity = gravityValues[0];
-        } else {
-            assert gravityValues[index] == gravity;
-            index = MyMath.modulo(index + amount, gravityValues.length);
-            gravity = gravityValues[index];
-        }
-
+        gravity = AbstractDemo.advanceFloat(gravityValues, gravity, amount);
         appInstance.setGravityAll(gravity);
     }
 
     /**
      * Advance the platform selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advancePlatform(int amount) {
-        int index = Arrays.binarySearch(platformNames, platformName);
-        if (index < 0) {
-            platformName = platformNames[0];
-        } else {
-            assert platformNames[index].equals(platformName);
-            index = MyMath.modulo(index + amount, platformNames.length);
-            platformName = platformNames[index];
-        }
-
+        platformName = AbstractDemo.advanceString(platformNames, platformName,
+                amount);
         appInstance.restartScenario();
     }
 
     /**
      * Advance the restitution selection by the specified amount.
      *
-     * @param amount the number of values to advance
+     * @param amount the number of values to advance (may be negative)
      */
     private void advanceRestitution(int amount) {
-        int index = Arrays.binarySearch(restitutionValues, restitution);
-        if (index < 0) {
-            restitution = restitutionValues[0];
-        } else {
-            assert restitutionValues[index] == restitution;
-            index = MyMath.modulo(index + amount, restitutionValues.length);
-            restitution = restitutionValues[index];
-        }
-
+        restitution = AbstractDemo.advanceFloat(restitutionValues, restitution,
+                amount);
         appInstance.setRestitutionAll(restitution);
     }
 
