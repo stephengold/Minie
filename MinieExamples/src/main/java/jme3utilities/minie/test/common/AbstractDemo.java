@@ -60,6 +60,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -69,6 +70,7 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.debug.AxesVisualizer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.mesh.Prism;
 import jme3utilities.minie.DumpFlags;
@@ -299,6 +301,56 @@ abstract public class AbstractDemo extends ActionApplication {
         body.setPhysicsLocation(new Vector3f(0f, centerY, 0f));
 
         addPlatform(body);
+    }
+
+    /**
+     * Advance a float selection by the specified (cyclic) amount.
+     *
+     * @param valuesArray an array of values in ascending order (not null,
+     * unaffected)
+     * @param startValue the starting value (found in values[])
+     * @param amount the number of values to advance (may be negative)
+     * @return the new (advanced) value
+     */
+    public static float advanceFloat(float[] valuesArray, float startValue,
+            int amount) {
+        int index = Arrays.binarySearch(valuesArray, startValue);
+
+        float result;
+        if (index < 0) {
+            result = valuesArray[0];
+        } else {
+            assert valuesArray[index] == startValue;
+            index = MyMath.modulo(index + amount, valuesArray.length);
+            result = valuesArray[index];
+        }
+
+        return result;
+    }
+
+    /**
+     * Advance a String selection by the specified (cyclic) amount.
+     *
+     * @param valuesArray an array of values in ascending order (not null,
+     * unaffected)
+     * @param startValue the starting value (found in values[])
+     * @param amount the number of values to advance (may be negative)
+     * @return the new (advanced) value
+     */
+    public static String advanceString(String[] valuesArray, String startValue,
+            int amount) {
+        int index = Arrays.binarySearch(valuesArray, startValue);
+
+        String result;
+        if (index < 0) {
+            result = valuesArray[0];
+        } else {
+            assert valuesArray[index].equals(startValue);
+            index = MyMath.modulo(index + amount, valuesArray.length);
+            result = valuesArray[index];
+        }
+
+        return result;
     }
 
     /**
