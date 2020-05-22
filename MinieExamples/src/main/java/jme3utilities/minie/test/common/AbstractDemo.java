@@ -29,6 +29,7 @@ package jme3utilities.minie.test.common;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -50,6 +51,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
@@ -58,6 +60,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
@@ -87,6 +90,14 @@ abstract public class AbstractDemo extends ActionApplication {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * Z value for the far clipping plane (in screen coordinates)
+     */
+    final public static float farZ = 1f;
+    /**
+     * Z value for the near clipping plane (in screen coordinates)
+     */
+    final public static float nearZ = 0f;
     /**
      * animation/physics speed when paused
      */
@@ -540,6 +551,24 @@ abstract public class AbstractDemo extends ActionApplication {
      */
     public void postAdd(PhysicsCollisionObject pco) {
         // do nothing
+    }
+
+    /**
+     * Cast a physics ray from the mouse-cursor position and sort the hits by
+     * ascending hitFraction.
+     *
+     * @return a new list of sorted results (not null)
+     */
+    public List<PhysicsRayTestResult> rayTestCursor() {
+        Vector2f screenXY = inputManager.getCursorPosition();
+        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+
+        PhysicsSpace space = getPhysicsSpace();
+        List<PhysicsRayTestResult> result
+                = space.rayTest(nearLocation, farLocation);
+
+        return result;
     }
 
     /**
