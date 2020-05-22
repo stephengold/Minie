@@ -60,7 +60,6 @@ import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.mesh.DomeMesh;
-import jme3utilities.mesh.Icosahedron;
 import jme3utilities.mesh.RoundedRectangle;
 import jme3utilities.minie.MyShape;
 import jme3utilities.minie.test.mesh.StarSlice;
@@ -105,14 +104,27 @@ public class MinieTestShapes {
      * @param namedShapes where to add shapes (not null, modified)
      */
     public static void addShapes(Map<String, CollisionShape> namedShapes) {
-        CollisionShape barbell = makeBarbell(); // TODO randomize
-        namedShapes.put("barbell", barbell);
+        {
+            float barLength = 4.8f; // TODO randomize
+            float barRadius = 0.2f;
+            float plateRadius = 1f;
+            CollisionShape barbell
+                    = makeBarbell(barLength, barRadius, plateRadius);
+            namedShapes.put("barbell", barbell);
+        }
 
         CollisionShape bedOfNails = makeBedOfNails();
         namedShapes.put("bedOfNails", bedOfNails);
 
-        CollisionShape chair = makeChair(); // TODO randomize
-        namedShapes.put("chair", chair);
+        {
+            float backLength = 3f; // TODO randomize
+            float legLength = 2f;
+            float legOffset = 1f;
+            float legRadius = 0.2f;
+            CollisionShape chair
+                    = makeChair(backLength, legLength, legOffset, legRadius);
+            namedShapes.put("chair", chair);
+        }
 
         {
             int numSides = 4;
@@ -125,11 +137,23 @@ public class MinieTestShapes {
         CollisionShape dimples = makeDimples();
         namedShapes.put("dimples", dimples);
 
-        CollisionShape knucklebone = makeKnucklebone(); // TODO randomize
-        namedShapes.put("knucklebone", knucklebone);
+        {
+            float stemLength = 2.5f; // TODO randomize
+            float stemRadius = 0.25f;
+            float ballRadius = 0.4f;
+            CollisionShape knucklebone
+                    = makeKnucklebone(stemLength, stemRadius, ballRadius);
+            namedShapes.put("knucklebone", knucklebone);
+        }
 
-        CollisionShape ladder = makeLadder(); // TODO randomize
-        namedShapes.put("ladder", ladder);
+        {
+            float rungLength = 2f; // TODO randomize
+            float rungSpacing = 2f;
+            float rungRadius = 0.2f;
+            CollisionShape ladder
+                    = makeLadder(rungLength, rungSpacing, rungRadius);
+            namedShapes.put("ladder", ladder);
+        }
 
         {
             float ihHeight = 1f;
@@ -148,14 +172,26 @@ public class MinieTestShapes {
         CollisionShape smooth = makeSmoothHeightfield();
         namedShapes.put("smooth", smooth);
 
-        CollisionShape table = makeTable(); // TODO randomize
-        namedShapes.put("table", table);
+        {
+            float topRadius = 3f; // TODO randomize
+            float pedestalRadius = 0.3f;
+            CollisionShape table = makeTable(topRadius, pedestalRadius);
+            namedShapes.put("table", table);
+        }
 
-        CollisionShape thumbTack = makeThumbTack(); // TODO randomize
-        namedShapes.put("thumbTack", thumbTack);
+        {
+            float headRadius = 2f; // TODO randomize
+            float spikeRadius = 0.2f;
+            CollisionShape thumbTack = makeThumbTack(headRadius, spikeRadius);
+            namedShapes.put("thumbTack", thumbTack);
+        }
 
-        CollisionShape top = makeTop(); // TODO randomize
-        namedShapes.put("top", top);
+        {
+            float bodyRadius = 1.5f; // TODO randomize
+            float handleRadius = 0.3f;
+            CollisionShape top = makeTop(bodyRadius, handleRadius);
+            namedShapes.put("top", top);
+        }
 
         CollisionShape tray = makeTray();
         namedShapes.put("tray", tray);
@@ -167,16 +203,20 @@ public class MinieTestShapes {
     /**
      * Generate a barbell shape with 2 cylindrical plates.
      *
+     * @param barLength the total length of the bar (X axis, in unscaled shape
+     * units, &gt;0)
+     * @param barRadius the radius of the bar (in unscaled shape units, &gt;0)
+     * @param plateRadius the radius of each plate (in unscaled shape units,
+     * &gt;0)
      * @return a new compound shape (not null)
      */
-    public static CompoundCollisionShape makeBarbell() {
-        float barRadius = 0.2f;
-        float plateOffset = 2f;
+    public static CompoundCollisionShape makeBarbell(float barLength,
+            float barRadius, float plateRadius) {
+        float plateOffset = 0.42f * barLength;
         CollisionShape bar = new CylinderCollisionShape(barRadius,
-                2.4f * plateOffset, PhysicsSpace.AXIS_X);
+                barLength, PhysicsSpace.AXIS_X);
 
-        float plateRadius = 1f;
-        float plateThickness = 0.4f;
+        float plateThickness = 0.08f * barLength;
         CollisionShape plate = new CylinderCollisionShape(plateRadius,
                 plateThickness, PhysicsSpace.AXIS_X);
 
@@ -216,37 +256,42 @@ public class MinieTestShapes {
      * Generate a chair with 4 cylindrical legs (asymmetrical). Must override
      * the moments of inertia if used in a dynamic body.
      *
+     * @param backLength the length of the back (Y axis, in unscaled shape
+     * units, &gt;0)
+     * @param legLength the length of each leg (Y axis, in unscaled shape units,
+     * &gt;0)
+     * @param legOffset the offset of each leg from the center of the seat (in
+     * unscaled shape units, &gt;legRadius)
+     * @param legRadius the radius of each leg (in unscaled shape units, &gt;0)
      * @return a new compound shape (not null)
      */
-    public static CompoundCollisionShape makeChair() {
-        float legOffset = 1f;
-        float legRadius = 0.2f;
+    public static CompoundCollisionShape makeChair(float backLength,
+            float legLength, float legOffset, float legRadius) {
         float seatHalf = legOffset + legRadius;
         Vector3f halfExtents = new Vector3f(seatHalf, 0.2f, seatHalf);
         RectangularSolid solid = new RectangularSolid(halfExtents);
         CollisionShape seat = new MultiSphere(solid);
 
-        float frontLength = 2f;
         CollisionShape frontLeg = new CylinderCollisionShape(legRadius,
-                frontLength, PhysicsSpace.AXIS_Y);
+                legLength, PhysicsSpace.AXIS_Y);
 
-        float rearLength = 5f;
+        float rearLength = legLength + backLength;
         CollisionShape rearLeg = new CylinderCollisionShape(legRadius,
                 rearLength, PhysicsSpace.AXIS_Y);
 
         float rearHalf = rearLength / 2f;
-        float frontHalf = frontLength / 2f;
-        float backHalf = rearHalf - frontHalf;
+        float legHalf = legLength / 2f;
+        float backHalf = backLength / 2f;
         halfExtents.set(legOffset, backHalf, legRadius);
         solid = new RectangularSolid(halfExtents);
         CollisionShape back = new MultiSphere(solid);
 
         CompoundCollisionShape result = new CompoundCollisionShape();
         result.addChildShape(seat);
-        result.addChildShape(frontLeg, legOffset, -frontHalf, legOffset);
+        result.addChildShape(frontLeg, legOffset, -legHalf, legOffset);
         frontLeg = (CollisionShape) Heart.deepCopy(frontLeg);
-        result.addChildShape(frontLeg, -legOffset, -frontHalf, legOffset);
-        float yOffset = rearHalf - frontLength;
+        result.addChildShape(frontLeg, -legOffset, -legHalf, legOffset);
+        float yOffset = rearHalf - legLength;
         result.addChildShape(rearLeg, legOffset, yOffset, -legOffset);
         rearLeg = (CollisionShape) Heart.deepCopy(rearLeg);
         result.addChildShape(rearLeg, -legOffset, yOffset, -legOffset);
@@ -271,11 +316,11 @@ public class MinieTestShapes {
 
     /**
      * Generate an inverted hollow pyramid with its nadir on the -Y axis. Not
-     * intended for use in a dynamic body.
+     * intended for use in a dynamic body. TODO use MeshCollisionShape
      *
-     * @param numSides (&ge;3)
-     * @param rimRadius (&gt;0)
-     * @param depth rimY minus nadirY (&gt;0)
+     * @param numSides the number of sides (&ge;3)
+     * @param rimRadius (in unscaled shape units, &gt;0)
+     * @param depth rimY minus nadirY (in unscaled shape units, &gt;0)
      * @return a new compound shape (not null)
      */
     public static CompoundCollisionShape makeCorner(int numSides,
@@ -327,8 +372,9 @@ public class MinieTestShapes {
      * Generate a spherical dome or plano-convex lens.
      *
      * @param radius (in unscaled shape units, &gt;0)
-     * @param verticalAngle (in radians, &lt;Pi, &gt;0)
-     * @return a new shape
+     * @param verticalAngle the central angle from the top to the rim (in
+     * radians, &lt;Pi, &gt;0, Pi/2 &rarr; hemisphere)
+     * @return a new hull shape
      */
     public static HullCollisionShape makeDome(float radius,
             float verticalAngle) {
@@ -365,7 +411,8 @@ public class MinieTestShapes {
      * Generate a (gridiron) football using overlapping spheres arranged in a
      * row.
      *
-     * @param midRadius the radius of the Y-Z cross section at X=0 (&ge;0)
+     * @param midRadius the radius of the Y-Z cross section at X=0 (in unscaled
+     * shape units, &ge;0)
      * @return a new MultiSphere shape (not null)
      */
     public static MultiSphere makeFootball(float midRadius) {
@@ -398,10 +445,13 @@ public class MinieTestShapes {
     /**
      * Generate a rectangular frame, open on the Z axis.
      *
-     * @param ihHeight half of the internal height (Y direction, &gt;0)
-     * @param ihWidth half of the internal width (X direction, &gt;0)
-     * @param halfDepth half of the (external) depth (Z direction, &gt;0)
-     * @param halfThickness half the thickness (&gt;0)
+     * @param ihHeight half of the internal height (Y direction, in unscaled
+     * shape units, &gt;0)
+     * @param ihWidth half of the internal width (X direction, in unscaled shape
+     * units, &gt;0)
+     * @param halfDepth half of the (external) depth (Z direction, in unscaled
+     * shape units, &gt;0)
+     * @param halfThickness half the thickness (in unscaled shape units, &gt;0)
      * @return a new shape
      */
     public static CompoundCollisionShape makeFrame(float ihHeight,
@@ -431,10 +481,10 @@ public class MinieTestShapes {
     /**
      * Generate an I-beam.
      *
-     * @param length (Z axis, &gt;0)
-     * @param flangeWidth (X axis, &ge;thickness)
-     * @param beamHeight (Y axis, &ge;2*thickness)
-     * @param thickness (&gt;0)
+     * @param length (Z axis, in unscaled shape units, &gt;0)
+     * @param flangeWidth (X axis, in unscaled shape units, &ge;thickness)
+     * @param beamHeight (Y axis, in unscaled shape units, &ge;2*thickness)
+     * @param thickness (in unscaled shape units, &gt;0)
      * @return a new compound shape (not null)
      */
     public static CompoundCollisionShape makeIBeam(float length,
@@ -464,13 +514,18 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a knucklebone with 4 spherical balls.
+     * Generate a knucklebone with 4 spherical balls. (No balls on the Z axis.)
      *
+     * @param stemLength the length of each stem (in unscaled shape units,
+     * &gt;0)
+     * @param stemRadius the radius of each stem (in unscaled shape units,
+     * &gt;0)
+     * @param ballRadius the radius of each ball (in unscaled shape units,
+     * &gt;stemRadius)
      * @return a new compound shape (not null)
      */
-    public static CompoundCollisionShape makeKnucklebone() {
-        float stemLength = 2.5f;
-        float stemRadius = 0.25f;
+    public static CompoundCollisionShape makeKnucklebone(float stemLength,
+            float stemRadius, float ballRadius) {
         CollisionShape xStem = new CapsuleCollisionShape(stemRadius, stemLength,
                 PhysicsSpace.AXIS_X);
         CollisionShape yStem = new CapsuleCollisionShape(stemRadius, stemLength,
@@ -478,7 +533,6 @@ public class MinieTestShapes {
         CollisionShape zStem = new CapsuleCollisionShape(stemRadius, stemLength,
                 PhysicsSpace.AXIS_Z);
 
-        float ballRadius = 0.4f;
         CollisionShape ball = new SphereCollisionShape(ballRadius);
 
         CompoundCollisionShape result = new CompoundCollisionShape();
@@ -498,20 +552,25 @@ public class MinieTestShapes {
     /**
      * Generate a ladder with 5 cylindrical rungs.
      *
+     * @param rungLength the total length of each rung (X direction, in unscaled
+     * shape units, &gt;0)
+     * @param rungSpacing the spacing between rungs (Y direction, in unscaled
+     * shape units, &gt;2*rungRadius)
+     * @param rungRadius the radius of each rung (in unscaled shape units,
+     * &gt;0)
      * @return a new compound shape (not null)
      */
-    public static CompoundCollisionShape makeLadder() {
-        float rungRadius = 0.2f;
-        float rungLength = 2f;
+    public static CompoundCollisionShape makeLadder(float rungLength,
+            float rungSpacing, float rungRadius) {
         CollisionShape rung = new CylinderCollisionShape(rungRadius,
                 rungLength, PhysicsSpace.AXIS_X);
 
-        float railHalf = 6f;
+        float railLength = 6f * rungSpacing;
+        float railHalf = railLength / 2f;
         CollisionShape rail
                 = new BoxCollisionShape(rungRadius, railHalf, rungRadius);
 
         CompoundCollisionShape result = new CompoundCollisionShape();
-        float rungSpacing = 2f;
         result.addChildShape(rung, 0f, 2f * rungSpacing, 0f);
         result.addChildShape(rung, 0f, rungSpacing, 0f);
         result.addChildShape(rung);
@@ -528,10 +587,13 @@ public class MinieTestShapes {
     /**
      * Generate a lidless rectangular box with its opening on the +Z side.
      *
-     * @param iHeight the internal height (Y direction, &gt;0)
-     * @param iWidth the internal width (X direction, &gt;0)
-     * @param iDepth of the interal depth (Z direction, &gt;0)
-     * @param wallThickness (&gt;0)
+     * @param iHeight the internal height (Y direction, in unscaled shape units,
+     * &gt;0)
+     * @param iWidth the internal width (X direction, in unscaled shape units,
+     * &gt;0)
+     * @param iDepth of the interal depth (Z direction, in unscaled shape units,
+     * &gt;0)
+     * @param wallThickness (in unscaled shape units, &gt;0)
      *
      * @return a new compound shape (not null)
      */
@@ -556,9 +618,11 @@ public class MinieTestShapes {
     /**
      * Generate a rectangular link for a chain.
      *
-     * @param ihHeight half of the internal height (Y direction, &gt;0)
-     * @param ihWidth half of the internal width (X direction, &gt;0)
-     * @param radius half the thickness (&gt;0)
+     * @param ihHeight half of the internal height (Y direction, in unscaled
+     * shape units, &gt;0)
+     * @param ihWidth half of the internal width (X direction, in unscaled shape
+     * units, &gt;0)
+     * @param radius half the thickness (in unscaled shape units, &gt;0)
      * @return a new shape
      */
     public static CompoundCollisionShape makeLink(float ihHeight,
@@ -628,8 +692,8 @@ public class MinieTestShapes {
      * units, &gt;0)
      * @param thickness the thickness of the pipe (in unscaled shape units,
      * &gt;0)
-     * @param zLength the total length of the pipe along the Z axis (in unscaled
-     * shape units, &gt;0)
+     * @param zLength the length of the pipe (Z direction, in unscaled shape
+     * units, &gt;0)
      * @param arc the arc amount (in radians, &gt;0, &le;2pi)
      * @param numChildren the number of child shapes to create (&ge;3)
      * @return a new compound shape
@@ -777,13 +841,13 @@ public class MinieTestShapes {
     /**
      * Generate a 3-ball snowman with its head on the +Y axis.
      *
-     * @param baseRadius (&gt;0)
+     * @param baseRadius (in unscaled shape units, &gt;0)
      * @return a new compound shape (not null)
      */
     public static CompoundCollisionShape makeSnowman(float baseRadius) {
         Validate.positive(baseRadius, "base radius");
 
-        float verticalAngle = 2f;
+        float verticalAngle = 2f; // radians
         HullCollisionShape base = makeDome(baseRadius, verticalAngle);
 
         float torsoRadius = 0.8f * baseRadius;
@@ -838,20 +902,25 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a round pedestal table.
+     * Generate a round pedestal table with its top on the +Y axis.
      *
+     * @param topRadius the radius of the top (in unscaled shape units,
+     * &gt;pedestalRadius)
+     * @param pedestalRadius the radius of the pedestal (in unscaled shape
+     * units, &gt;0)
      * @return a new compound shape (not null)
      */
-    public static CompoundCollisionShape makeTable() {
+    public static CompoundCollisionShape makeTable(float topRadius,
+            float pedestalRadius) {
         float thickness = 0.4f;
-        CollisionShape foot = new BoxCollisionShape(thickness / 2, 0.25f, 2f);
+        float footHalfLength = 0.6f * (topRadius + pedestalRadius);
+        CollisionShape foot
+                = new BoxCollisionShape(thickness / 2f, 0.25f, footHalfLength);
 
-        float pedestalRadius = 0.3f;
         float pedestalHeight = 4f;
         CollisionShape pedestal = new CylinderCollisionShape(pedestalRadius,
                 pedestalHeight, PhysicsSpace.AXIS_Y);
 
-        float topRadius = 3f;
         CollisionShape top = new CylinderCollisionShape(topRadius, thickness,
                 PhysicsSpace.AXIS_Y);
 
@@ -870,18 +939,21 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a thumb tack (drawing pin) with a round, flat head.
+     * Generate a thumb tack (drawing pin) with a round, flat head on the +Y
+     * axis.
      *
+     * @param headRadius the radius of the head (in unscaled units,
+     * &gt;spikeRadius)
+     * @param spikeRadius the radius of the spike (in unscaled units, &gt;0)
      * @return a new compound shape (not null)
      */
-    public static CompoundCollisionShape makeThumbTack() {
-        float headRadius = 2f;
+    public static CompoundCollisionShape makeThumbTack(float headRadius,
+            float spikeRadius) {
         float headThickness = 0.4f;
         CollisionShape head = new CylinderCollisionShape(headRadius,
                 headThickness, PhysicsSpace.AXIS_Y);
 
         float spikeHeight = 3f;
-        float spikeRadius = 0.2f;
         CollisionShape spike = new ConeCollisionShape(spikeRadius, spikeHeight,
                 PhysicsSpace.AXIS_Y);
 
@@ -893,12 +965,16 @@ public class MinieTestShapes {
     }
 
     /**
-     * Generate a top with a cylindrical body.
+     * Generate a top with a cylindrical body, its handle on the +Y axis.
      *
+     * @param bodyRadius the radius of the body (in unscaled shape units,
+     * &gt;handleRadius)
+     * @param handleRadius the radius of the handle (in unscaled shape units,
+     * &gt;0)
      * @return a new compound shape (not null)
      */
-    public static CompoundCollisionShape makeTop() {
-        float bodyRadius = 1.5f;
+    public static CompoundCollisionShape makeTop(float bodyRadius,
+            float handleRadius) {
         float bodyHeight = 0.6f;
         CollisionShape body = new CylinderCollisionShape(bodyRadius,
                 bodyHeight, PhysicsSpace.AXIS_Y);
@@ -908,7 +984,6 @@ public class MinieTestShapes {
                 coneHeight, PhysicsSpace.AXIS_Y);
 
         float handleHeight = 1.5f;
-        float handleRadius = 0.3f;
         CollisionShape handle = new CapsuleCollisionShape(handleRadius,
                 handleHeight, PhysicsSpace.AXIS_Y);
 
@@ -1014,8 +1089,8 @@ public class MinieTestShapes {
     /**
      * Generate a trident.
      *
-     * @param shaftLength (Y direction, &gt;0)
-     * @param shaftRadius (&gt;0)
+     * @param shaftLength (Y direction, in unscaled shape units, &gt;0)
+     * @param shaftRadius (in unscaled shape units, &gt;0)
      *
      * @return a new compound shape (not null)
      */
