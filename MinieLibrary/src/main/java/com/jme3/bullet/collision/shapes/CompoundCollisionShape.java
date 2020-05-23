@@ -86,16 +86,31 @@ public class CompoundCollisionShape extends CollisionShape {
     /**
      * child shapes of this shape
      */
-    private ArrayList<ChildCollisionShape> children
-            = new ArrayList<>(defaultCapacity);
+    private ArrayList<ChildCollisionShape> children;
     // *************************************************************************
     // constructors
 
     /**
-     * Instantiate an empty compound shape (with dynamic AABB and no children).
+     * Instantiate an empty compound shape (with an initial capacity of 6,
+     * dynamic AABB, and no children).
      */
     public CompoundCollisionShape() {
+        children = new ArrayList<>(defaultCapacity);
         createEmpty(defaultCapacity);
+    }
+
+    /**
+     * Instantiate an empty compound shape with the specified initial capacity
+     * (and dynamic AABB and no children).
+     *
+     * @param initialCapacity the number of children to allocate (&gt;0,
+     * default=6)
+     */
+    public CompoundCollisionShape(int initialCapacity) {
+        Validate.positive(initialCapacity, "initial capacity");
+
+        children = new ArrayList<>(initialCapacity);
+        createEmpty(initialCapacity);
     }
     // *************************************************************************
     // new methods exposed
@@ -525,9 +540,13 @@ public class CompoundCollisionShape extends CollisionShape {
     // private methods
 
     /**
-     * Instantiate an empty btCompoundShape.
+     * Instantiate an empty btCompoundShape with the specified initial capacity.
+     *
+     * @param initialCapacity the number of children to allocate (&gt;0)
      */
     private void createEmpty(int initialCapacity) {
+        assert initialCapacity > 0 : initialCapacity;
+
         boolean enableAabbTree = true;
         long shapeId = createShape2(enableAabbTree, initialCapacity);
         setNativeId(shapeId);

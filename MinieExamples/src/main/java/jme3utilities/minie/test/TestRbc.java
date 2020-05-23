@@ -750,7 +750,7 @@ public class TestRbc
 
             case "KissMultiSphere":
                 CollisionShape ms = new MultiSphere(radius);
-                CompoundCollisionShape tms = new CompoundCollisionShape();
+                CompoundCollisionShape tms = new CompoundCollisionShape(2);
                 tms.addChildShape(ms, radius, 0f, 0f);
                 tms.addChildShape(ms, -radius, 0f, 0f);
                 testShape = tms;
@@ -758,7 +758,7 @@ public class TestRbc
 
             case "KissSphere":
                 CollisionShape s = new SphereCollisionShape(radius);
-                CompoundCollisionShape ts = new CompoundCollisionShape();
+                CompoundCollisionShape ts = new CompoundCollisionShape(2);
                 ts.addChildShape(s, radius, 0f, 0f);
                 ts.addChildShape(s, -radius, 0f, 0f);
                 testShape = ts;

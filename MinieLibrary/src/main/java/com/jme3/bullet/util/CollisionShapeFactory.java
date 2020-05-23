@@ -204,12 +204,6 @@ public class CollisionShapeFactory {
             VHACDParameters parameters, CompoundCollisionShape addResult) {
         Validate.nonNull(subtree, "subtree");
         Validate.nonNull(parameters, "parameters");
-        CompoundCollisionShape result;
-        if (addResult == null) {
-            result = new CompoundCollisionShape();
-        } else {
-            result = addResult;
-        }
 
         Mesh combinedMesh = makeMergedMesh(subtree);
 
@@ -236,6 +230,13 @@ public class CollisionShapeFactory {
          * Convert each V-HACD hull to a HullCollisionShape
          * and add that to the result.
          */
+        CompoundCollisionShape result;
+        if (addResult == null) {
+            int numHulls = vhacdHulls.size();
+            result = new CompoundCollisionShape(numHulls);
+        } else {
+            result = addResult;
+        }
         for (VHACDHull vhacdHull : vhacdHulls) {
             HullCollisionShape hullShape = new HullCollisionShape(vhacdHull);
             result.addChildShape(hullShape);

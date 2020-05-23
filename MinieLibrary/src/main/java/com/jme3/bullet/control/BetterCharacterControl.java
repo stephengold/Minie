@@ -840,7 +840,7 @@ public class BetterCharacterControl
                 = new CapsuleCollisionShape(getFinalRadius(),
                         (getFinalHeight() - (2f * getFinalRadius())));
         CompoundCollisionShape compoundCollisionShape
-                = new CompoundCollisionShape();
+                = new CompoundCollisionShape(1);
         compoundCollisionShape.addChildShape(
                 capsuleCollisionShape, 0f, getFinalHeight() / 2f, 0f);
 

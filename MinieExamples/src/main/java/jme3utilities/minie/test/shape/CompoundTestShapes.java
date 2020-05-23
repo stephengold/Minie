@@ -113,7 +113,7 @@ public class CompoundTestShapes {
         CollisionShape plate = new CylinderCollisionShape(plateRadius,
                 plateThickness, PhysicsSpace.AXIS_X);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(3);
         result.addChildShape(bar);
         result.addChildShape(plate, -plateOffset, 0f, 0f);
         result.addChildShape(plate, plateOffset, 0f, 0f);
@@ -154,7 +154,8 @@ public class CompoundTestShapes {
         centers.add(v3);
         Vector3f centroid = new Vector3f();
         float maxZ = 1e-4f;
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result
+                = new CompoundCollisionShape(numTriangles / 2);
 
         for (int triangleI = 0; triangleI < numTriangles; ++triangleI) {
             mesh.getTriangle(triangleI, v1, v2, v3);
@@ -220,10 +221,10 @@ public class CompoundTestShapes {
         solid = new RectangularSolid(halfExtents);
         CollisionShape back = new MultiSphere(solid);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(6);
         result.addChildShape(seat);
         result.addChildShape(frontLeg, legOffset, -legHalf, legOffset);
-        frontLeg = (CollisionShape) Heart.deepCopy(frontLeg);
+        frontLeg = (CollisionShape) Heart.deepCopy(frontLeg); // TODO
         result.addChildShape(frontLeg, -legOffset, -legHalf, legOffset);
         float yOffset = rearHalf - legLength;
         result.addChildShape(rearLeg, legOffset, yOffset, -legOffset);
@@ -274,7 +275,7 @@ public class CompoundTestShapes {
         SimplexCollisionShape triangle
                 = new SimplexCollisionShape(vertex1, vertex2, nadir);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(numSides);
         result.addChildShape(triangle);
         result.addChildShape(triangle, Vector3f.ZERO, rotationMatrix);
         for (int i = 2; i < numSides; ++i) {
@@ -313,7 +314,7 @@ public class CompoundTestShapes {
         CollisionShape vertical
                 = new BoxCollisionShape(halfThickness, mhHeight, halfDepth);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(4);
         result.addChildShape(horizontal, halfThickness, -mhHeight, 0f);
         result.addChildShape(horizontal, -halfThickness, mhHeight, 0f);
         result.addChildShape(vertical, mhWidth, halfThickness, 0f);
@@ -348,7 +349,7 @@ public class CompoundTestShapes {
         CollisionShape flange = new BoxCollisionShape(flangeWidth / 2f,
                 halfThickness, halfLength);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(3);
         result.addChildShape(web);
         float flangeY = webHalfHeight + halfThickness;
         result.addChildShape(flange, 0f, flangeY, 0f);
@@ -379,7 +380,7 @@ public class CompoundTestShapes {
 
         CollisionShape ball = new SphereCollisionShape(ballRadius);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(7);
         result.addChildShape(xStem);
         result.addChildShape(yStem);
         result.addChildShape(zStem);
@@ -414,7 +415,7 @@ public class CompoundTestShapes {
         CollisionShape rail
                 = new BoxCollisionShape(rungRadius, railHalf, rungRadius);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(7);
         result.addChildShape(rung, 0f, 2f * rungSpacing, 0f);
         result.addChildShape(rung, 0f, rungSpacing, 0f);
         result.addChildShape(rung);
@@ -483,7 +484,7 @@ public class CompoundTestShapes {
         CollisionShape vertical = new CapsuleCollisionShape(
                 radius, 2f * mhHeight, PhysicsSpace.AXIS_Y);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(4);
         result.addChildShape(horizontal, 0f, -mhHeight, 0f);
         result.addChildShape(horizontal, 0f, mhHeight, 0f);
         result.addChildShape(vertical, mhWidth, 0f, 0f);
@@ -516,16 +517,16 @@ public class CompoundTestShapes {
         hes.set(handleR, handleR, handleHalfLength);
         CollisionShape handle = new CylinderCollisionShape(hes);
 
-        CompoundCollisionShape compound = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(2);
 
-        compound.addChildShape(handle, 0f, 0f, handleHalfLength);
+        result.addChildShape(handle, 0f, 0f, handleHalfLength);
 
         Vector3f offset = new Vector3f(0f, 0f, 2f * handleHalfLength);
         Matrix3f rotation = new Matrix3f();
         rotation.fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
-        compound.addChildShape(head, offset, rotation);
+        result.addChildShape(head, offset, rotation);
 
-        return compound;
+        return result;
     }
 
     /**
@@ -571,7 +572,7 @@ public class CompoundTestShapes {
             yOff = 0f;
         }
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(numChildren);
         for (int segmentI = 0; segmentI < numChildren; ++segmentI) {
             float theta1 = segmentI * segmentAngle;
             float theta2 = (segmentI + 1) * segmentAngle;
@@ -611,7 +612,8 @@ public class CompoundTestShapes {
 
         float xHalfExtent = (numZWires - 1) * wireSpacing / 2f;
         float zHalfExtent = (numXWires - 1) * wireSpacing / 2f;
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result
+                = new CompoundCollisionShape(numXWires + numZWires + 1);
         /*
          * Add numXWires wires parallel to the X axis.
          */
@@ -663,7 +665,7 @@ public class CompoundTestShapes {
         float headRadius = 0.6f * baseRadius;
         SphereCollisionShape head = new SphereCollisionShape(headRadius);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(3);
         result.addChildShape(base, 0f, -0.5f * baseRadius, 0f);
         result.addChildShape(torso, 0f, 0.7f * torsoRadius, 0f);
         result.addChildShape(head, 0f, 2.1f * torsoRadius, 0f);
@@ -698,7 +700,7 @@ public class CompoundTestShapes {
                 outerRadius, 2f * centerY, normals, trianglesPerSlice);
         CollisionShape sliceShape = new HullCollisionShape(sliceMesh);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(numPoints);
         Matrix3f rotate = new Matrix3f();
         for (int pointIndex = 0; pointIndex < numPoints; ++pointIndex) {
             rotate.fromAngleAxis(sliceAngle * pointIndex, Vector3f.UNIT_Y);
@@ -731,7 +733,7 @@ public class CompoundTestShapes {
         CollisionShape top = new CylinderCollisionShape(topRadius, thickness,
                 PhysicsSpace.AXIS_Y);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(4);
         result.addChildShape(pedestal, 0f, -1f, 0f);
         result.addChildShape(top, 0f, 1.2f, 0f);
 
@@ -764,7 +766,7 @@ public class CompoundTestShapes {
         CollisionShape spike = new ConeCollisionShape(spikeRadius, spikeHeight,
                 PhysicsSpace.AXIS_Y);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(2);
         result.addChildShape(head, 0f, -0.5f, 0f);
         result.addChildShape(spike, 0f, 1f, 0f);
 
@@ -794,7 +796,7 @@ public class CompoundTestShapes {
         CollisionShape handle = new CapsuleCollisionShape(handleRadius,
                 handleHeight, PhysicsSpace.AXIS_Y);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(3);
         result.addChildShape(body);
         float yOffset = (coneHeight + bodyHeight) / 2f;
         result.addChildShape(cone, 0f, yOffset, 0f);
@@ -825,7 +827,7 @@ public class CompoundTestShapes {
         CollisionShape capsule = new CapsuleCollisionShape(minorRadius,
                 length, PhysicsSpace.AXIS_X);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(numCapsules);
         Vector3f offset = new Vector3f();
         Matrix3f rotation = new Matrix3f();
 
@@ -939,7 +941,7 @@ public class CompoundTestShapes {
         };
         CollisionShape leftProng = new HullCollisionShape(array3);
 
-        CompoundCollisionShape result = new CompoundCollisionShape();
+        CompoundCollisionShape result = new CompoundCollisionShape(5);
         result.addChildShape(shaft, 0f, -shaftOffset, 0f);
         result.addChildShape(crosspiece, 0f, crossOffset, 0f);
         result.addChildShape(rightProng);

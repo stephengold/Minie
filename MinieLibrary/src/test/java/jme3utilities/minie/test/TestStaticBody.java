@@ -121,7 +121,7 @@ public class TestStaticBody {
         /*
          * Compound
          */
-        CompoundCollisionShape compound = new CompoundCollisionShape();
+        CompoundCollisionShape compound = new CompoundCollisionShape(1);
         compound.addChildShape(capsule, 0f, 1f, 0f);
         PhysicsRigidBody compoundBody = new PhysicsRigidBody(compound, 0f);
         space.addCollisionObject(compoundBody);

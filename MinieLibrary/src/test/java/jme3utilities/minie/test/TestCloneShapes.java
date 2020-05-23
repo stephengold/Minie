@@ -129,7 +129,7 @@ public class TestCloneShapes {
         /*
          * Compound
          */
-        CompoundCollisionShape compound = new CompoundCollisionShape();
+        CompoundCollisionShape compound = new CompoundCollisionShape(1);
         compound.addChildShape(capsule, 0f, 1f, 0f);
         setParameters(compound, 0f);
         verifyParameters(compound, 0f);

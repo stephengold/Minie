@@ -122,7 +122,7 @@ public class TestSetScale {
          * Compound of a Box
          */
         CollisionShape childBox = new BoxCollisionShape(1f);
-        CompoundCollisionShape compound = new CompoundCollisionShape();
+        CompoundCollisionShape compound = new CompoundCollisionShape(1);
         compound.addChildShape(childBox, 0f, 1f, 0f);
         assert compound.getScale(null).equals(ident);
         compound.setScale(uni);
