@@ -95,11 +95,11 @@ abstract public class AbstractDemo extends ActionApplication {
     /**
      * Z value for the far clipping plane (in screen coordinates)
      */
-    final public static float farZ = 1f;
+    final protected static float farZ = 1f;
     /**
      * Z value for the near clipping plane (in screen coordinates)
      */
-    final public static float nearZ = 0f;
+    final protected static float nearZ = 0f;
     /**
      * animation/physics speed when paused
      */
