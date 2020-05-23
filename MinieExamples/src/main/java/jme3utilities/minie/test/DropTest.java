@@ -625,7 +625,9 @@ public class DropTest
             rigidBody.setSleepingThresholds(0.1f, 0.1f);
         }
 
-        pco.setDebugMeshResolution(DebugShapeFactory.highResolution);
+        if (!(shape instanceof CompoundCollisionShape)) {
+            pco.setDebugMeshResolution(DebugShapeFactory.highResolution);
+        }
 
         float friction = status.friction();
         pco.setFriction(friction);
