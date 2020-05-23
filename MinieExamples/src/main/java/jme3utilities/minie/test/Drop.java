@@ -328,9 +328,18 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                         startPosition);
                 break;
 
+            case "bowl":
+                shape = appInstance.findShape("bowl");
+                inverseInertia = CompoundTestShapes.bowlInverseInertia.divide(
+                        totalMass);
+                createRigidBody(shape, totalMass, DebugMeshNormals.Smooth,
+                        startPosition);
+                break;
+
             case "chair":
                 shape = appInstance.findShape("chair");
-                inverseInertia = CompoundTestShapes.chairInverseInertia;
+                inverseInertia = CompoundTestShapes.chairInverseInertia.divide(
+                        totalMass);
                 createRigidBody(shape, totalMass, DebugMeshNormals.Facet,
                         startPosition);
                 break;

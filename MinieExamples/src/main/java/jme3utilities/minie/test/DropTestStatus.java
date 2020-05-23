@@ -107,7 +107,7 @@ public class DropTestStatus extends SimpleAppState {
      * names of all drop types, in ascending lexicographic order
      */
     final private static String[] dropNames = {
-        "ankh", "banana", "barbell", "barrel", "bowlingPin", "box",
+        "ankh", "banana", "barbell", "barrel", "bowl", "bowlingPin", "box",
         "breakableRod", "capsule", "chain", "chair", "cloth", "cone",
         "cylinder", "digit", "diptych", "dome", "duck", "flail", "football",
         "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",

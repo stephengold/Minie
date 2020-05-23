@@ -45,11 +45,14 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.Validate;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.minie.MyShape;
+import jme3utilities.minie.test.mesh.Octasphere;
 import jme3utilities.minie.test.mesh.StarSlice;
 
 /**
@@ -70,8 +73,13 @@ public class CompoundTestShapes {
     // fields
 
     /**
-     * inverse moment-of-inertia vector for "chair" shape (initialized by
-     * makeChair()
+     * inverse moment-of-inertia vector for a "bowl" shape with mass=1, scale=1
+     * (initialized by makeBowl()
+     */
+    public static Vector3f bowlInverseInertia = null;
+    /**
+     * inverse moment-of-inertia vector for a "chair" shape with mass=1, scale=1
+     * (initialized by makeChair()
      */
     public static Vector3f chairInverseInertia = null;
     // *************************************************************************
@@ -83,7 +91,7 @@ public class CompoundTestShapes {
     private CompoundTestShapes() {
     }
     // *************************************************************************
-    // new methods exposed
+    // new methods exposed - TODO more validation of method arguments
 
     /**
      * Generate a barbell shape with 2 cylindrical plates.
@@ -109,6 +117,71 @@ public class CompoundTestShapes {
         result.addChildShape(bar);
         result.addChildShape(plate, -plateOffset, 0f, 0f);
         result.addChildShape(plate, plateOffset, 0f, 0f);
+
+        return result;
+    }
+
+    /**
+     * Approximate a hemispherical shell (or bowl), open on the +Z side, using
+     * 3-sphere shapes.
+     *
+     * @param innerRadius (in unscaled shape units, &gt;thickness)
+     * @param thickness (in unscaled shape units, &gt;0, &lt;innerRadius)
+     * @return a new compound shape (not null)
+     */
+    public static CompoundCollisionShape makeBowl(float innerRadius,
+            float thickness) {
+        Validate.inRange(innerRadius, "inner radius", thickness,
+                Float.MAX_VALUE);
+        Validate.inRange(thickness, "thickness", 0f, innerRadius);
+
+        float halfThickness = thickness / 2f;
+        float midRadius = innerRadius + halfThickness;
+        int numRefineSteps = 2;
+        Octasphere mesh = new Octasphere(numRefineSteps, midRadius);
+        int numTriangles = mesh.getTriangleCount();
+
+        List<Float> radii = new ArrayList<>(3);
+        radii.add(thickness);
+        radii.add(thickness);
+        radii.add(thickness);
+        List<Vector3f> centers = new ArrayList<>(3);
+        Vector3f v1 = new Vector3f();
+        Vector3f v2 = new Vector3f();
+        Vector3f v3 = new Vector3f();
+        centers.add(v1);
+        centers.add(v2);
+        centers.add(v3);
+        Vector3f centroid = new Vector3f();
+        float maxZ = 1e-4f;
+        CompoundCollisionShape result = new CompoundCollisionShape();
+
+        for (int triangleI = 0; triangleI < numTriangles; ++triangleI) {
+            mesh.getTriangle(triangleI, v1, v2, v3);
+            if (v1.z < maxZ && v2.z < maxZ && v3.z < maxZ) {
+                centroid.zero();
+                centroid.addLocal(v1).addLocal(v2).addLocal(v3);
+                centroid.divideLocal(3f);
+
+                v1.subtractLocal(centroid);
+                v2.subtractLocal(centroid);
+                v3.subtractLocal(centroid);
+
+                MultiSphere triSphere = new MultiSphere(centers, radii);
+                result.addChildShape(triSphere, centroid);
+            }
+        }
+
+        int numChildren = result.countChildren();
+        FloatBuffer masses = BufferUtils.createFloatBuffer(numChildren);
+        for (int childIndex = 0; childIndex < numChildren; ++childIndex) {
+            masses.put(1f / numChildren);
+        }
+        Vector3f inertia = new Vector3f();
+        Transform transform
+                = result.principalAxes(masses, null, inertia);
+        bowlInverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
+        result.correctAxes(transform);
 
         return result;
     }

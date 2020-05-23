@@ -94,6 +94,14 @@ public class MinieTestShapes {
         namedShapes.put("bedOfNails", bedOfNails);
 
         {
+            float innerRadius = 3f; // TODO randomize
+            float thickness = 0.3f;
+            CollisionShape bowl
+                    = CompoundTestShapes.makeBowl(innerRadius, thickness);
+            namedShapes.put("bowl", bowl);
+        }
+
+        {
             float backLength = 3f; // TODO randomize
             float legLength = 2f;
             float legOffset = 1f;
