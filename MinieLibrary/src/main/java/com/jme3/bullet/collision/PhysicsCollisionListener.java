@@ -39,8 +39,9 @@ package com.jme3.bullet.collision;
  */
 public interface PhysicsCollisionListener {
     /**
-     * Callback to report collisions in a PhysicsSpace. Invoked on the render
-     * thread (not the physics thread) during the BulletAppState update.
+     * Callback to report collisions in a CollisionSpace. Typically invoked on 
+     * the render thread (not the physics thread) during the BulletAppState
+     * update.
      * <p>
      * Typically invoked 2x for each cached contact point, so expect many
      * invocations per collision -- up to 8 per contact manifold.

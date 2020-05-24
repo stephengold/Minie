@@ -83,7 +83,7 @@ public class SimplexCollisionShape extends ConvexShape {
      */
     private Vector3f[] locations;
     // *************************************************************************
-    // constructors - TODO Vector3f... constructor
+    // constructors
 
     /**
      * No-argument constructor needed by SavableClassUtil.
