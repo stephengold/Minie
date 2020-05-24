@@ -32,6 +32,7 @@
 package com.jme3.bullet;
 
 import com.jme3.bullet.collision.PhysicsCollisionGroupListener;
+import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.PhysicsSweepTestResult;
@@ -198,6 +199,25 @@ public class CollisionSpace extends NativePhysicsObject {
             String msg = "Unknown type of collision object: " + typeName;
             throw new IllegalArgumentException(msg);
         }
+    }
+
+    /**
+     * Perform a contact test.
+     *
+     * @param pco the collision object to test (not null, unaffected)
+     * @param listener the callback for reporting contacts (may be null)
+     * @return the number of times the listener was invoked, or would have been
+     * if it weren't null (&ge;0)
+     */
+    public int contactTest(PhysicsCollisionObject pco,
+            PhysicsCollisionListener listener) {
+        Validate.nonNull(pco, "collision object");
+
+        long spaceId = nativeId();
+        long pcoId = pco.nativeId();
+        int result = contactTest(spaceId, pcoId, listener);
+
+        return result;
     }
 
     /**
@@ -677,6 +697,9 @@ public class CollisionSpace extends NativePhysicsObject {
 
     native private void addCollisionObject(long spaceId, long pcoId);
 
+    native private int contactTest(long spaceId, long pcoId,
+            PhysicsCollisionListener listener);
+
     native private long createCollisionSpace(float minX, float minY, float minZ,
             float maxX, float maxY, float maxZ, int broadphaseType);
 
@@ -686,11 +709,11 @@ public class CollisionSpace extends NativePhysicsObject {
 
     native private void rayTest_native(Vector3f fromLocation,
             Vector3f toLocation, long spaceId,
-            List<PhysicsRayTestResult> results, int flags);
+            List<PhysicsRayTestResult> addToList, int flags);
 
     native private void removeCollisionObject(long spaceId, long pcoId);
 
-    native private void sweepTest_native(long shape, Transform from,
-            Transform to, long spaceId, List<PhysicsSweepTestResult> results,
+    native private void sweepTest_native(long shapeId, Transform from,
+            Transform to, long spaceId, List<PhysicsSweepTestResult> addToList,
             float allowedCcdPenetration);
 }
