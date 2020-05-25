@@ -268,7 +268,7 @@ public class DropTest
         addPlatform(platformName, platformSurfaceY);
 
         renderer.setDefaultAnisotropicFilter(8);
-        addADrop();
+        addADrop(1);
     }
 
     /**
@@ -535,7 +535,7 @@ public class DropTest
         if (ongoing) {
             switch (actionString) {
                 case "add":
-                    addADrop();
+                    addADrop(3);
                     return;
 
                 case "advance value +7":
@@ -653,7 +653,7 @@ public class DropTest
 
         Signals signals = getSignals();
         if (signals.test("shower")) {
-            addADrop();
+            addADrop(4);
         }
     }
     // *************************************************************************
@@ -673,11 +673,14 @@ public class DropTest
     // private methods
 
     /**
-     * Add a drop (dynamic rigid body) to the PhysicsSpace.
+     * Add a drop (dynamic body) to the PhysicsSpace. Note: recursive.
+     *
+     * @param numTries the number of attempts to make before giving up (&gt;0)
+     * @return true if successful, otherwise false
      */
-    private void addADrop() {
+    private boolean addADrop(int numTries) {
         if (countDrops() >= maxNumDrops) {
-            return; // too many drops
+            return false; // too many drops
         }
 
         ShapeGenerator random = getGenerator();
@@ -692,8 +695,17 @@ public class DropTest
         float totalMass = 1f;
         Drop drop = new Drop(this, typeName, totalMass, startPosition);
 
-        drop.addToSpace();
-        drops.addLast(drop);
+        if (drop.hasDac() || !drop.hasHullContacts()) {
+            drop.addToSpace();
+            drops.addLast(drop);
+            return true;
+
+        } else if (numTries > 1) { // try again
+            boolean result = addADrop(numTries - 1);
+            return result;
+        }
+
+        return false;
     }
 
     /**

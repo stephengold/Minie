@@ -37,6 +37,7 @@ import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
+import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.joints.New6Dof;
@@ -44,11 +45,13 @@ import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.motors.MotorParam;
 import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.objects.PhysicsBody;
+import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
@@ -67,6 +70,8 @@ import java.util.logging.Logger;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyVector3f;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.mesh.ClothGrid;
@@ -156,7 +161,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      * Add all controls, bodies, and joints to the application's PhysicsSpace.
      */
     void addToSpace() {
-        if (dac != null) {
+        if (hasDac()) {
             PhysicsSpace space = appInstance.getPhysicsSpace();
             dac.setPhysicsSpace(space);
             for (PhysicsBody body : allBodies) {
@@ -175,6 +180,77 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                 appInstance.addJoint(joint);
             }
         }
+    }
+
+    /**
+     * Test whether this Drop includes a DynamicAnimControl.
+     */
+    boolean hasDac() {
+        if (dac == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Test for contacts with this drop's convex hull.
+     */
+    boolean hasHullContacts() {
+        int numBodies = allBodies.size();
+        FloatBuffer[] vertices = new FloatBuffer[numBodies];
+        int bodyIndex = 0;
+        int totalFloats = 0;
+        for (PhysicsBody body : allBodies) {
+            int numFloats;
+            if (body instanceof PhysicsRigidBody) {
+                CollisionShape shape = body.getCollisionShape();
+                vertices[bodyIndex] = DebugShapeFactory.debugVertices(shape,
+                        DebugShapeFactory.lowResolution);
+                numFloats = vertices[bodyIndex].capacity();
+                /*
+                 * Transform scaled shape coordinates to physics-space.
+                 */
+                Quaternion orientation
+                        = ((PhysicsRigidBody) body).getPhysicsRotation(null);
+                MyBuffer.rotate(vertices[bodyIndex], 0, numFloats, orientation);
+                Vector3f location = body.getPhysicsLocation(null);
+                MyBuffer.translate(vertices[bodyIndex], 0, numFloats, location);
+
+            } else {
+                PhysicsSoftBody softBody = (PhysicsSoftBody) body;
+                int numNodes = softBody.countNodes();
+                numFloats = MyVector3f.numAxes * numNodes;
+                vertices[bodyIndex] = BufferUtils.createFloatBuffer(numFloats);
+                softBody.copyLocations(vertices[bodyIndex]);
+            }
+
+            vertices[bodyIndex].limit(numFloats);
+            totalFloats += numFloats;
+            ++bodyIndex;
+        }
+
+        HullCollisionShape hullShape;
+        if (numBodies == 1) {
+            hullShape = new HullCollisionShape(vertices[0]);
+
+        } else {
+            FloatBuffer all = BufferUtils.createFloatBuffer(totalFloats);
+            for (FloatBuffer buffer : vertices) {
+                buffer.rewind();
+                all.put(buffer);
+            }
+            all.limit(totalFloats);
+            hullShape = new HullCollisionShape(all);
+        }
+
+        PhysicsGhostObject ghost = new PhysicsGhostObject(hullShape);
+        PhysicsSpace space = appInstance.getPhysicsSpace();
+        int numContacts = space.contactTest(ghost, null);
+        boolean result = (numContacts > 0);
+        //space.addCollisionObject(ghost);
+
+        return result;
     }
 
     /**
@@ -203,7 +279,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      * PhysicsSpace.
      */
     void removeFromSpace() {
-        if (dac != null) {
+        if (hasDac()) {
             dac.setPhysicsSpace(null);
         }
 
@@ -228,7 +304,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         /*
          * As soon as the DAC is ready, put all physics links into dynamic mode.
          */
-        if (dac != null && dac.isReady()) {
+        if (hasDac() && dac.isReady()) {
             TorsoLink torso = dac.getTorsoLink();
             if (torso.isKinematic()) {
                 PhysicsSpace space = appInstance.getPhysicsSpace();
