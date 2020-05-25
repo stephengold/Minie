@@ -470,6 +470,7 @@ public class DropTest
         dim.bind("add", KeyInput.KEY_RETURN);
         dim.bind("add", KeyInput.KEY_INSERT);
         dim.bind("add", KeyInput.KEY_NUMPAD0);
+        dim.bind("add", KeyInput.KEY_SPACE);
 
         dim.bind("advance value +7", KeyInput.KEY_NUMPAD9);
         dim.bind("advance value -7", KeyInput.KEY_NUMPAD7);
