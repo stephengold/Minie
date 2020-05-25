@@ -202,7 +202,7 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * Perform a contact test.
+     * Perform a contact test. This does not detect contacts with soft bodies.
      *
      * @param pco the collision object to test (not null, unaffected)
      * @param listener the callback for reporting contacts (may be null)
