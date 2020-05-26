@@ -69,17 +69,22 @@ public class DebugShapeFactory {
     // constants and loggers
 
     /**
-     * radius of the debug mesh for a PlaneCollisionShape (in mesh units)
+     * side length of the (square) debug mesh for a PlaneCollisionShape (in mesh
+     * units)
      */
-    final private static float planeDebugMeshRadius = 1_000f;
+    final private static float planeDebugMeshSideLength = 1_500f;
     /**
-     * specify high-res debug mesh for convex shapes (up to 256 vertices)
+     * square root of 2
      */
-    public static final int highResolution = 1;
+    final private static float root2 = FastMath.sqrt(2f);
     /**
-     * specify low-res debug mesh for convex shapes (up to 42 vertices)
+     * specify high-res debug meshes for convex shapes (up to 256 vertices)
      */
-    public static final int lowResolution = 0;
+    final public static int highResolution = 1;
+    /**
+     * specify low-res debug meshes for convex shapes (up to 42 vertices)
+     */
+    final public static int lowResolution = 0;
     /**
      * number of axes
      */
@@ -217,7 +222,7 @@ public class DebugShapeFactory {
      * For compatibility with the jme3-bullet library.
      *
      * @param shape the shape to visualize (may be null, unaffected)
-     * @return a new tree of geometries, or null
+     * @return a new Spatial or null
      */
     public static Spatial getDebugShape(CollisionShape shape) {
         Spatial result;
@@ -226,9 +231,8 @@ public class DebugShapeFactory {
             result = null;
 
         } else if (shape instanceof CompoundCollisionShape) {
-            CompoundCollisionShape compound = (CompoundCollisionShape) shape;
-            result = createNode(compound, noListener, DebugMeshNormals.None,
-                    lowResolution);
+            result = createNode((CompoundCollisionShape) shape, noListener,
+                    DebugMeshNormals.None, lowResolution);
 
         } else {
             result = createGeometry(shape, noListener, DebugMeshNormals.None,
@@ -327,12 +331,13 @@ public class DebugShapeFactory {
     }
 
     /**
-     * Determine the side length of the debug mesh for a PlaneCollisionShape.
+     * Determine the side length of the (square) debug mesh for a
+     * PlaneCollisionShape.
      *
      * @return the length (in mesh units, &gt;0)
      */
     static float meshSideLength() {
-        float result = FastMath.sqrt(2f) * planeDebugMeshRadius;
+        float result = planeDebugMeshSideLength;
         return result;
     }
 
@@ -644,10 +649,11 @@ public class DebugShapeFactory {
         assert posBuffer.position() == numFloats;
         posBuffer.flip();
         /*
-         * Transform positions to the surface of the shape.
+         * Transform mesh positions to the surface of the CollisionShape.
          */
         Transform transform = planeTransform(shape);
-        transform.setScale(planeDebugMeshRadius);
+        float scale = meshSideLength() / root2;
+        transform.setScale(scale);
         MyBuffer.transform(posBuffer, 0, numFloats, transform);
         /*
          * Generate an index buffer for a 2-sided square.
@@ -657,8 +663,7 @@ public class DebugShapeFactory {
             3, 2, 0,
             5, 6, 7,
             4, 5, 7});
-        int numBytes = indexBuffer.capacity();
-        indexBuffer.limit(numBytes);
+        indexBuffer.clear();
 
         Mesh result = new Mesh();
         result.setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
