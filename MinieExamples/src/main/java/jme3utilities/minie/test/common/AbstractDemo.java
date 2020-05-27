@@ -422,6 +422,7 @@ abstract public class AbstractDemo extends ActionApplication {
         InputMode inputMode = getDefaultInputMode();
         float extraSpace = 20f;
         helpNode = HelpUtils.buildNode(inputMode, bounds, guiFont, extraSpace);
+        helpNode.move(0f, 0f, 1f); // move (slightly) to the front
 
         InputMode dummyMode = new InputMode("dummy") {
             @Override
