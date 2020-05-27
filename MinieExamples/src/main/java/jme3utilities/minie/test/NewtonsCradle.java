@@ -113,6 +113,7 @@ public class NewtonsCradle
         Application application = new NewtonsCradle();
         AppSettings settings = new AppSettings(true);
 
+        settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(applicationName); // Customize the window's title bar.

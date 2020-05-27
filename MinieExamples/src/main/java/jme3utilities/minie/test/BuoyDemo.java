@@ -173,6 +173,7 @@ public class BuoyDemo extends AbstractDemo {
         AppSettings settings = new AppSettings(true);
         settings.setTitle(applicationName);
 
+        settings.setAudioRenderer(null);
         settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);
         application.setSettings(settings);

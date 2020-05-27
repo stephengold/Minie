@@ -223,6 +223,7 @@ public class RopeDemo extends AbstractDemo {
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setTitle(applicationName);
 
+        settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
         settings.setVSync(true);

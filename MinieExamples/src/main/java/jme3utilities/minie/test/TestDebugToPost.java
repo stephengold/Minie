@@ -93,6 +93,7 @@ public class TestDebugToPost extends SimpleApplication {
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setTitle(applicationName);
 
+        settings.setAudioRenderer(null);
         application.setSettings(settings);
         application.start();
     }
