@@ -228,8 +228,8 @@ public class JointDemo extends AbstractDemo {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpScene, KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
 
         dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
 

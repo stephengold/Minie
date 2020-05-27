@@ -115,18 +115,18 @@ abstract public class AbstractDemo extends ActionApplication {
      */
     final public static String asCollectGarbage = "collect garbage";
     final public static String asDumpGui = "dump gui";
-    final public static String asDumpPhysicsSpace = "dump physicsSpace";
+    final public static String asDumpSpace = "dump space";
     final public static String asDumpScene = "dump scene";
     final public static String asDumpScenes = "dump scenes";
     final public static String asDumpViewport = "dump viewport";
     final public static String asToggleAabbs = "toggle aabbs";
     final public static String asToggleCcdSpheres = "toggle ccdSpheres";
-    final public static String asToggleGravities = "toggle gravities";
+    final public static String asToggleDebug = "toggle debug";
+    final public static String asToggleGArrows = "toggle gVecs";
     final public static String asToggleHelp = "toggle help";
     final public static String asTogglePause = "toggle pause";
     final public static String asTogglePcoAxes = "toggle pcoAxes";
-    final public static String asTogglePhysicsDebug = "toggle physicsDebug";
-    final public static String asToggleVelocities = "toggle velocities";
+    final public static String asToggleVArrows = "toggle vVecs";
     final public static String asToggleWorldAxes = "toggle worldAxes";
     // *************************************************************************
     // fields
@@ -815,15 +815,15 @@ abstract public class AbstractDemo extends ActionApplication {
                 case asDumpGui:
                     dumper.dump(guiNode);
                     return;
-                case asDumpPhysicsSpace:
-                    PhysicsSpace physicsSpace = getPhysicsSpace();
-                    dumper.dump(physicsSpace);
-                    return;
                 case asDumpScene:
                     dumper.dump(rootNode);
                     return;
                 case asDumpScenes:
                     dumper.dump(renderManager);
+                    return;
+                case asDumpSpace:
+                    PhysicsSpace physicsSpace = getPhysicsSpace();
+                    dumper.dump(physicsSpace);
                     return;
                 case asDumpViewport:
                     dumper.dump(viewPort);
@@ -835,8 +835,11 @@ abstract public class AbstractDemo extends ActionApplication {
                 case asToggleCcdSpheres:
                     toggleCcdSpheres();
                     return;
-                case asToggleGravities:
-                    toggleGravities();
+                case asToggleDebug:
+                    togglePhysicsDebug();
+                    return;
+                case asToggleGArrows:
+                    toggleGravityArrows();
                     return;
                 case asToggleHelp:
                     toggleHelp();
@@ -847,11 +850,8 @@ abstract public class AbstractDemo extends ActionApplication {
                 case asTogglePcoAxes:
                     togglePcoAxes();
                     return;
-                case asTogglePhysicsDebug:
-                    togglePhysicsDebug();
-                    return;
-                case asToggleVelocities:
-                    toggleVelocities();
+                case asToggleVArrows:
+                    toggleVelocityArrows();
                     return;
                 case asToggleWorldAxes:
                     toggleWorldAxes();
@@ -1073,7 +1073,7 @@ abstract public class AbstractDemo extends ActionApplication {
     /**
      * Toggle visualization of body gravities.
      */
-    private void toggleGravities() {
+    private void toggleGravityArrows() {
         if (gravitiesFilter == null) {
             gravitiesFilter = new FilterAll(true);
         } else {
@@ -1123,7 +1123,7 @@ abstract public class AbstractDemo extends ActionApplication {
     /**
      * Toggle visualization of rigid-body velocities.
      */
-    private void toggleVelocities() {
+    private void toggleVelocityArrows() {
         if (velocitiesFilter == null) {
             velocitiesFilter = new FilterAll(true);
         } else {

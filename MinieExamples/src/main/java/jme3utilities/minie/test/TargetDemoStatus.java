@@ -397,7 +397,7 @@ public class TargetDemoStatus extends SimpleAppState {
     /**
      * Toggle child coloring disabled/enabled.
      */
-    void toggleChildColoring() {
+    void toggleChildColor() {
         isChildColoring = !isChildColoring;
         appInstance.setDebugMaterialsAll();
     }

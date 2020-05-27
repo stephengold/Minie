@@ -320,7 +320,7 @@ public class RopeDemo extends AbstractDemo {
         dim.bind("delete", KeyInput.KEY_BACK);
         dim.bind("delete", KeyInput.KEY_DELETE);
 
-        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("go limp", KeyInput.KEY_SPACE);
@@ -333,12 +333,12 @@ public class RopeDemo extends AbstractDemo {
         dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleDebug, KeyInput.KEY_SLASH);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
-        dim.bind(AbstractDemo.asTogglePhysicsDebug, KeyInput.KEY_SLASH);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float x = 10f;

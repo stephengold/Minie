@@ -270,8 +270,8 @@ public class SeJointDemo extends AbstractDemo {
 
         dim.bind("add", KeyInput.KEY_INSERT);
 
-        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpScene, KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
 
         dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
 

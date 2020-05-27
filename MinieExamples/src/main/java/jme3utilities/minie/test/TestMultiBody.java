@@ -189,8 +189,8 @@ public class TestMultiBody extends AbstractDemo {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpScenes, KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);

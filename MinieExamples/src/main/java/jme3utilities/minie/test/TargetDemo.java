@@ -315,15 +315,15 @@ public class TargetDemo
         dim.bind("delete selected", KeyInput.KEY_DECIMAL);
         dim.bind("delete selected", KeyInput.KEY_DELETE);
 
-        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
         dim.bind("dump selected", KeyInput.KEY_LBRACKET);
+        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
-        dim.bind("launch missile", KeyInput.KEY_RETURN);
-        dim.bind("launch missile", KeyInput.KEY_INSERT);
-        dim.bind("launch missile", KeyInput.KEY_NUMPAD0);
+        dim.bind("launch", KeyInput.KEY_RETURN);
+        dim.bind("launch", KeyInput.KEY_INSERT);
+        dim.bind("launch", KeyInput.KEY_NUMPAD0);
 
-        dim.bind("next statusLine", KeyInput.KEY_NUMPAD2);
+        dim.bind("next field", KeyInput.KEY_NUMPAD2);
         dim.bind("next value", KeyInput.KEY_EQUALS);
         dim.bind("next value", KeyInput.KEY_NUMPAD6);
 
@@ -332,11 +332,11 @@ public class TargetDemo
 
         dim.bind("pop selected", KeyInput.KEY_PGUP);
 
-        dim.bind("previous statusLine", KeyInput.KEY_NUMPAD8);
+        dim.bind("previous field", KeyInput.KEY_NUMPAD8);
         dim.bind("previous value", KeyInput.KEY_MINUS);
         dim.bind("previous value", KeyInput.KEY_NUMPAD4);
 
-        dim.bind("restart scenario", KeyInput.KEY_NUMPAD5);
+        dim.bind("restart", KeyInput.KEY_NUMPAD5);
 
         dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -345,13 +345,13 @@ public class TargetDemo
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(AbstractDemo.asToggleCcdSpheres, KeyInput.KEY_L);
-        dim.bind("toggle childColoring", KeyInput.KEY_COMMA);
-        dim.bind(AbstractDemo.asToggleGravities, KeyInput.KEY_J);
+        dim.bind("toggle childColor", KeyInput.KEY_COMMA);
+        dim.bind(AbstractDemo.asToggleGArrows, KeyInput.KEY_J);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
-        dim.bind(AbstractDemo.asToggleVelocities, KeyInput.KEY_K);
+        dim.bind(AbstractDemo.asToggleVArrows, KeyInput.KEY_K);
         dim.bind("toggle wireframe", KeyInput.KEY_SLASH);
         /*
          * The help node can't be created until all hotkeys are bound.
@@ -376,11 +376,11 @@ public class TargetDemo
                 case "dump selected":
                     dumpSelected();
                     return;
-                case "launch missile":
+                case "launch":
                     launchMissile();
                     return;
 
-                case "next statusLine":
+                case "next field":
                     status.advanceSelectedField(+1);
                     return;
                 case "next value":
@@ -394,19 +394,19 @@ public class TargetDemo
                     popSelected();
                     return;
 
-                case "previous statusLine":
+                case "previous field":
                     status.advanceSelectedField(-1);
                     return;
                 case "previous value":
                     status.advanceValue(-1);
                     return;
 
-                case "restart scenario":
+                case "restart":
                     restartScenario();
                     return;
 
-                case "toggle childColoring":
-                    status.toggleChildColoring();
+                case "toggle childColor":
+                    status.toggleChildColor();
                     return;
                 case "toggle wireframe":
                     status.toggleWireframe();

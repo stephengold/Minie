@@ -244,8 +244,8 @@ public class BuoyDemo extends AbstractDemo {
         InputMode dim = getDefaultInputMode();
 
         dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
-        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpScenes, KeyInput.KEY_P);
+        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
         dim.bind("go floating", KeyInput.KEY_0);
         dim.bind("go floating", KeyInput.KEY_SPACE);
 
@@ -266,12 +266,12 @@ public class BuoyDemo extends AbstractDemo {
         dim.bind("signal rotateRight", KeyInput.KEY_RIGHT);
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(AbstractDemo.asToggleDebug, KeyInput.KEY_SLASH);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
-        dim.bind(AbstractDemo.asTogglePhysicsDebug, KeyInput.KEY_SLASH);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float x = 10f;

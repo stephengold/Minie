@@ -354,10 +354,10 @@ public class TestRbc
         dim.bind("clear shapes", KeyInput.KEY_BACK);
         dim.bind("clear shapes", KeyInput.KEY_DELETE);
 
-        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
-        dim.bind("launch missile", KeyInput.KEY_L);
+        dim.bind("launch", KeyInput.KEY_L);
 
         dim.bind("less margin", KeyInput.KEY_V);
         dim.bind("more margin", KeyInput.KEY_F);
@@ -414,7 +414,7 @@ public class TestRbc
                     clearShapes();
                     return;
 
-                case "launch missile":
+                case "launch":
                     launchMissile();
                     return;
 

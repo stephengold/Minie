@@ -340,7 +340,7 @@ public class TestSoftBody
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(AbstractDemo.asDumpPhysicsSpace, KeyInput.KEY_O);
+        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
