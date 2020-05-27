@@ -401,6 +401,15 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
+     * Access the filter that determines which velocity vectors are visualized.
+     *
+     * @return the filter, or null if none
+     */
+    BulletDebugAppState.DebugAppStateFilter getVelocityVectorFilter() {
+        return velocityVectorFilter;
+    }
+
+    /**
      * Alter the length of the axis arrows. For internal use only.
      *
      * @param length (in shape units, &ge;0, default=0)
