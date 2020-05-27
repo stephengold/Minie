@@ -552,7 +552,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * units apart.
      * <p>
      * A sweep test will miss a collision if it starts inside an object and
-     * sweeps away from the object's center.
+     * sweeps away from the object's center. Also, sweep tests do not detect
+     * soft bodies.
      *
      * @param shape the shape to sweep (not null, convex, unaffected) TODO
      * declare as ConvexShape
