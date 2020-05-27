@@ -146,8 +146,7 @@ public class StarSlice extends Mesh {
 
         setBuffer(VertexBuffer.Type.Position, MyVector3f.numAxes,
                 positionBuffer);
-        int numFloats = positionBuffer.capacity();
-        positionBuffer.limit(numFloats);
+        positionBuffer.clear();
 
         if (generateNormals) {
             MyMesh.generateNormals(this);
