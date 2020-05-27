@@ -46,6 +46,7 @@ import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.PlaneDmiListener;
 import com.jme3.font.Rectangle;
+import com.jme3.input.KeyInput;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -159,9 +160,13 @@ abstract public class AbstractDemo extends ActionApplication {
      */
     final private Map<String, Material> namedMaterials = new TreeMap<>();
     /**
-     * node for displaying hotkey help in the GUI scene
+     * Node for displaying hotkey help in the GUI scene
      */
     private Node helpNode;
+    /**
+     * Node for displaying "toggle help: H" in the GUI scene
+     */
+    private Node minHelpNode;
     /**
      * dump debugging information to System.out
      */
@@ -406,7 +411,8 @@ abstract public class AbstractDemo extends ActionApplication {
     }
 
     /**
-     * Generate a help node and attach it to the GUI scene.
+     * Generate full and minimal versions of the hotkey help. Attach the minimal
+     * one to the GUI scene.
      *
      * @param bounds the desired screen coordinates (not null, unaffected)
      */
@@ -416,7 +422,26 @@ abstract public class AbstractDemo extends ActionApplication {
         InputMode inputMode = getDefaultInputMode();
         float extraSpace = 20f;
         helpNode = HelpUtils.buildNode(inputMode, bounds, guiFont, extraSpace);
-        guiNode.attachChild(helpNode);
+
+        InputMode dummyMode = new InputMode("dummy") {
+            @Override
+            protected void defaultBindings() {
+            }
+
+            @Override
+            public void onAction(String s, boolean b, float f) {
+            }
+        };
+        dummyMode.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+
+        float width = 100f;
+        float height = bounds.height;
+        float x = bounds.x + bounds.width - width;
+        float y = bounds.y;
+        Rectangle dummyBounds = new Rectangle(x, y, width, height);
+
+        minHelpNode = HelpUtils.buildNode(dummyMode, dummyBounds, guiFont, 0f);
+        guiNode.attachChild(minHelpNode);
     }
 
     /**
@@ -1060,13 +1085,15 @@ abstract public class AbstractDemo extends ActionApplication {
     }
 
     /**
-     * Toggle visibility of the help node.
+     * Toggle between the full help node and the minimal one.
      */
     private void toggleHelp() {
-        if (helpNode.getCullHint() == Spatial.CullHint.Always) {
-            helpNode.setCullHint(Spatial.CullHint.Never);
+        if (helpNode.getParent() == null) {
+            minHelpNode.removeFromParent();
+            guiNode.attachChild(helpNode);
         } else {
-            helpNode.setCullHint(Spatial.CullHint.Always);
+            helpNode.removeFromParent();
+            guiNode.attachChild(minHelpNode);
         }
     }
 
