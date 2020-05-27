@@ -51,8 +51,8 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.Validate;
 import jme3utilities.math.RectangularSolid;
+import jme3utilities.mesh.Octasphere;
 import jme3utilities.minie.MyShape;
-import jme3utilities.minie.test.mesh.Octasphere;
 import jme3utilities.minie.test.mesh.StarSlice;
 
 /**
