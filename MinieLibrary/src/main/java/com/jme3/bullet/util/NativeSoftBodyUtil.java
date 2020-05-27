@@ -476,6 +476,28 @@ public class NativeSoftBodyUtil {
             store.getBuffer(VertexBuffer.Type.Normal).setUpdateNeeded();
         }
     }
+
+    /**
+     * Update the position buffer of a Mesh from the pinned nodes in the
+     * specified soft body.
+     *
+     * @param body the soft body to provide locations (not null, unaffected)
+     * @param store the Mesh to update (not null, position buffer must be
+     * direct, modified)
+     * @param meshInLocalSpace if true, transform the cluster locations into the
+     * body's local coordinates (relative to its bounding-box center), otherwise
+     * use physics-space coordinates
+     */
+    public static void updatePinMesh(PhysicsSoftBody body, Mesh store,
+            boolean meshInLocalSpace) {
+        long bodyId = body.nativeId();
+        FloatBuffer positionBuffer
+                = store.getFloatBuffer(VertexBuffer.Type.Position);
+        assert positionBuffer != null;
+
+        updatePinMesh(bodyId, positionBuffer, meshInLocalSpace);
+        store.getBuffer(VertexBuffer.Type.Position).setUpdateNeeded();
+    }
     // *************************************************************************
     // native methods
 
@@ -490,4 +512,7 @@ public class NativeSoftBodyUtil {
     native private static void updateMesh(long softBodyId,
             FloatBuffer outPositionBuffer, FloatBuffer outNormalBuffer,
             boolean meshInLocalSpace, boolean updateNormals);
+
+    native private static void updatePinMesh(long softBodyId,
+            FloatBuffer outPositionBuffer, boolean meshInLocalSpace);
 }
