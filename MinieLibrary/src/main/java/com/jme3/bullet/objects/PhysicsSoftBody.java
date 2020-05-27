@@ -437,6 +437,28 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Copy the (linear) velocities of all clusters in this body.
+     *
+     * @param storeResult storage for the result (direct, modified) or null
+     * @return a direct buffer containing 3 floats per cluster (in physics-space
+     * coordinates, either storeResult or a new buffer)
+     */
+    public FloatBuffer copyClusterVelocities(FloatBuffer storeResult) {
+        if (storeResult != null && !storeResult.isDirect()) {
+            throw new IllegalArgumentException("The buffer must be direct.");
+        }
+        int numFloats = numAxes * countClusters();
+        FloatBuffer result = MyBuffer.ensureCapacity(numFloats, storeResult);
+
+        if (numFloats != 0) {
+            long objectId = nativeId();
+            getClustersLinearVelocities(objectId, result);
+        }
+
+        return result;
+    }
+
+    /**
      * Copy the node indices of all faces in this body.
      *
      * @param storeResult storage for the result (direct, modified) or null
@@ -1877,6 +1899,9 @@ public class PhysicsSoftBody extends PhysicsBody {
     native private float getClusterNodeDamping(long bodyId, int clusterIndex);
 
     native private float getClusterSelfImpulse(long bodyId, int clusterIndex);
+
+    native private void getClustersLinearVelocities(long bodyId,
+            FloatBuffer storeBuffer);
 
     native private void getClustersMasses(long bodyId, FloatBuffer storeBuffer);
 
