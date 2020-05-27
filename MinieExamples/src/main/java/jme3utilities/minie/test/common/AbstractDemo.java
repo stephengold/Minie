@@ -956,7 +956,8 @@ abstract public class AbstractDemo extends ActionApplication {
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        PlaneDmiListener planeDmiListener = new PlaneDmiListener(1f);
+        float sideLength = 1f;
+        PlaneDmiListener planeDmiListener = new PlaneDmiListener(sideLength);
         body.setDebugMeshInitListener(planeDmiListener);
 
         body.setDebugMeshNormals(DebugMeshNormals.Facet);
