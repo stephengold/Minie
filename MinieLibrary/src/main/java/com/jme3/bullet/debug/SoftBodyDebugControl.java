@@ -44,10 +44,13 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.debug.Arrow;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.logging.Logger;
+import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A physics-debug control to visualize a PhysicsSoftBody. TODO de-publicize
@@ -73,6 +76,14 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
+     * temporary buffer for locations, allocated lazily
+     */
+    private static FloatBuffer tmpLocations = null;
+    /**
+     * temporary buffer for velocities, allocated lazily
+     */
+    private static FloatBuffer tmpVelocities = null;
+    /**
      * Geometry to visualize clusters
      */
     private Geometry clustersGeometry = null;
@@ -85,19 +96,22 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     private Geometry linksGeometry = null;
     /**
+     * Geometry to visualize pinned nodes
+     */
+    private Geometry pinsGeometry = null;
+    /**
+     * geometries to visualize velocity vectors
+     */
+    private Geometry[] velocityGeometries = null;
+    /**
      * soft body to visualize (not null)
      */
     final private PhysicsSoftBody body;
     /**
-     * temporary storage for one vector per thread
+     * temporary storage
      */
-    final private static ThreadLocal<Vector3f> threadTmpVector
-            = new ThreadLocal<Vector3f>() {
-        @Override
-        protected Vector3f initialValue() {
-            return new Vector3f();
-        }
-    };
+    final private static Vector3f tmpCenter = new Vector3f();
+    final private static Vector3f tmpVector = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -164,6 +178,36 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
                 node.attachChild(linksGeometry);
             }
         }
+        /*
+         * Ensure that the pinsGeometry mesh is correctly sized.
+         */
+        if (!isPinsGeometrySized()) {
+            if (pinsGeometry != null) {
+                node.detachChild(pinsGeometry);
+            }
+            pinsGeometry = createPinsGeometry();
+            assert isPinsGeometrySized();
+            if (pinsGeometry != null) {
+                node.attachChild(pinsGeometry);
+            }
+        }
+        /*
+         * Ensure that the velocityGeometries array is correctly sized.
+         */
+        if (!areVelocitiesSized()) {
+            if (velocityGeometries != null) {
+                for (Geometry geometry : velocityGeometries) {
+                    node.detachChild(geometry);
+                }
+            }
+            velocityGeometries = createVelocityGeometries();
+            assert areVelocitiesSized();
+            if (velocityGeometries != null) {
+                for (Geometry geometry : velocityGeometries) {
+                    node.attachChild(geometry);
+                }
+            }
+        }
 
         boolean localFlag = true; // copy local coords, not physics-space ones
         if (clustersGeometry != null) {
@@ -196,9 +240,47 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             facesGeometry.setMaterial(material);
         }
 
-        Vector3f center = threadTmpVector.get();
-        body.getPhysicsLocation(center);
-        applyPhysicsTransform(center, rotateIdentity);
+        if (pinsGeometry != null) {
+            Mesh mesh = pinsGeometry.getMesh();
+            NativeSoftBodyUtil.updatePinMesh(body, mesh, localFlag);
+        }
+
+        body.getPhysicsLocation(tmpCenter);
+        if (velocityGeometries != null) {
+            int numArrows = velocityGeometries.length;
+            int numFloats = MyVector3f.numAxes * numArrows;
+            if (tmpLocations == null
+                    || numFloats > tmpLocations.capacity()) {
+                tmpLocations = BufferUtils.createFloatBuffer(numFloats);
+            }
+            if (tmpVelocities == null
+                    || numFloats > tmpVelocities.capacity()) {
+                tmpVelocities = BufferUtils.createFloatBuffer(numFloats);
+            }
+
+            if (countClustersToVisualize() > 0) { // cluster velocities
+                body.copyClusterCenters(tmpLocations);
+                body.copyClusterVelocities(tmpVelocities);
+            } else { // node velocities
+                body.copyLocations(tmpLocations);
+                body.copyVelocities(tmpVelocities);
+            }
+
+            for (int arrowIndex = 0; arrowIndex < numArrows; ++arrowIndex) {
+                int startPosition = MyVector3f.numAxes * arrowIndex;
+                Geometry geometry = velocityGeometries[arrowIndex];
+                MyBuffer.get(tmpLocations, startPosition, tmpVector);
+                tmpVector.subtractLocal(tmpCenter);
+                geometry.setLocalTranslation(tmpVector);
+
+                Mesh mesh = geometry.getMesh();
+                Arrow arrow = (Arrow) mesh;
+                MyBuffer.get(tmpVelocities, startPosition, tmpVector);
+                arrow.setArrowExtent(tmpVector);
+            }
+        }
+
+        applyPhysicsTransform(tmpCenter, rotateIdentity);
     }
 
     /**
@@ -242,8 +324,24 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // private methods
 
     /**
-     * Count how many clusters to visualize. Clusters are only visualized when
-     * selected by a display filter.
+     * Test whether the velocityGeometries array is correctly sized.
+     *
+     * @return true if correct size, otherwise false
+     */
+    private boolean areVelocitiesSized() {
+        int numArrows = 0;
+        if (velocityGeometries != null) {
+            numArrows = velocityGeometries.length;
+        }
+        int correctNumArrows = countVelocitiesToVisualize();
+        boolean result = (numArrows == correctNumArrows);
+
+        return result;
+    }
+
+    /**
+     * Determine how many clusters to visualize. Clusters are only visualized
+     * when selected by a display filter.
      *
      * @return the count (&ge;0)
      */
@@ -277,6 +375,28 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     }
 
     /**
+     * Determine how many velocity vectors to visualize. Velocities are only
+     * visualized when selected by a display filter.
+     *
+     * @return the count (&ge;0)
+     */
+    private int countVelocitiesToVisualize() {
+        SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+        BulletDebugAppState.DebugAppStateFilter filter
+                = sdas.getVelocityVectorFilter();
+
+        int result = 0;
+        if (filter != null && filter.displayObject(body)) {
+            result = countClustersToVisualize();
+            if (result == 0) { // visualize node velocities
+                result = body.countNodes();
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Determine how many mesh vertices are in the specified Geometry.
      *
      * @param geometry (may be null, unaffected)
@@ -298,9 +418,10 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     private Geometry createClustersGeometry() {
         Geometry result = null;
+
         int numClustersToVisualize = countClustersToVisualize();
         if (numClustersToVisualize > 0) {
-            Mesh mesh = createClustersMesh(numClustersToVisualize);
+            Mesh mesh = createPointsMesh(numClustersToVisualize);
             result = new Geometry(body + " clusters", mesh);
             result.setShadowMode(RenderQueue.ShadowMode.Off);
 
@@ -313,33 +434,13 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     }
 
     /**
-     * Create a Points-mode Mesh to visualize the body's clusters.
-     *
-     * @param numClusters the number of clusters to visualize (&gt;0)
-     * @return a new Mesh
-     */
-    private Mesh createClustersMesh(int numClusters) {
-        assert numClusters > 0 : numClusters;
-
-        Mesh mesh = new Mesh();
-
-        int numFloats = 3 * numClusters;
-        FloatBuffer centers = BufferUtils.createFloatBuffer(numFloats);
-        mesh.setBuffer(VertexBuffer.Type.Position, 3, centers);
-
-        mesh.setMode(Mesh.Mode.Points);
-        mesh.setStreamed();
-
-        return mesh;
-    }
-
-    /**
      * Create a Geometry to visualize the body's faces.
      *
      * @return a new Geometry, or null if no faces
      */
     private Geometry createFacesGeometry() {
         Geometry result = null;
+
         if (body.countFaces() > 0) {
             Mesh mesh = createFacesMesh();
             result = new Geometry(body + " faces", mesh);
@@ -412,6 +513,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      */
     private Geometry createLinksGeometry() {
         Geometry result = null;
+
         if (body.countFaces() == 0 && body.countLinks() > 0) {
             Mesh mesh = createLinksMesh();
             result = new Geometry(body + " links", mesh);
@@ -444,6 +546,76 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     }
 
     /**
+     * Create a Geometry to visualize the body's pinned nodes.
+     *
+     * @return a new Geometry, or null if no pinned nodes
+     */
+    private Geometry createPinsGeometry() {
+        Geometry result = null;
+
+        int numNodesToVisualize = body.countPinnedNodes();
+        if (numNodesToVisualize > 0) {
+            Mesh mesh = createPointsMesh(numNodesToVisualize);
+            result = new Geometry(body + " pins", mesh);
+            result.setShadowMode(RenderQueue.ShadowMode.Off);
+
+            SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+            Material material = sdas.getPinMaterial();
+            result.setMaterial(material);
+        }
+
+        return result;
+    }
+
+    /**
+     * Create a Points-mode Mesh.
+     *
+     * @param numPoints the number of points to visualize (&gt;0)
+     * @return a new Mesh
+     */
+    private static Mesh createPointsMesh(int numPoints) {
+        assert numPoints > 0 : numPoints;
+
+        Mesh result = new Mesh();
+
+        int numFloats = MyVector3f.numAxes * numPoints;
+        FloatBuffer centers = BufferUtils.createFloatBuffer(numFloats);
+        result.setBuffer(VertexBuffer.Type.Position, MyVector3f.numAxes,
+                centers);
+
+        result.setMode(Mesh.Mode.Points);
+        result.setStreamed();
+
+        return result;
+    }
+
+    /**
+     * Create geometries to visualize velocity vectors.
+     *
+     * @return a new array of geometries, or null if no velocities to visualize
+     */
+    private Geometry[] createVelocityGeometries() {
+        Geometry[] result = null;
+
+        int numGeometries = countVelocitiesToVisualize();
+        if (numGeometries > 0) {
+            result = new Geometry[numGeometries];
+            for (int geomI = 0; geomI < numGeometries; ++geomI) {
+                Arrow mesh = new Arrow(tmpVector);
+                String name = String.format("velocity of %s[%d]", body, geomI);
+                Geometry geometry = new Geometry(name, mesh);
+                result[geomI] = geometry;
+
+                Material material = debugAppState.getVelocityVectorMaterial();
+                geometry.setMaterial(material);
+                geometry.setShadowMode(RenderQueue.ShadowMode.Off);
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Test whether the clustersGeometry mesh is correctly sized.
      *
      * @return true if correct size, otherwise false
@@ -469,7 +641,6 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         } else {
             correctNumVertices = body.countNodes();
         }
-
         boolean result = countElements(facesGeometry) == correctNumTriangles
                 && countVertices(facesGeometry) == correctNumVertices;
 
@@ -488,9 +659,20 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             correctNumLines = body.countLinks();
             correctNumVertices = body.countNodes();
         }
-
         boolean result = countElements(linksGeometry) == correctNumLines
                 && countVertices(linksGeometry) == correctNumVertices;
+
+        return result;
+    }
+
+    /**
+     * Test whether the pinsGeometry mesh is correctly sized.
+     *
+     * @return true if correct size, otherwise false
+     */
+    private boolean isPinsGeometrySized() {
+        int correctNumVertices = body.countPinnedNodes();
+        boolean result = countVertices(pinsGeometry) == correctNumVertices;
 
         return result;
     }
