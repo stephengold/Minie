@@ -31,7 +31,6 @@ import com.jme3.animation.SkeletonControl;
 import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.state.AppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.DynamicAnimControl;
@@ -282,8 +281,6 @@ public class DacWizard extends GuiApplication {
          * Mute the chatty loggers found in certain packages.
          */
         Heart.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
         String renderer = AppSettings.LWJGL_OPENGL2;
         boolean forceDialog = false;
@@ -592,6 +589,7 @@ public class DacWizard extends GuiApplication {
                 super.applyOverrides(settings);
 
                 setForceDialog(forceDialog);
+                settings.setAudioRenderer(null);
                 settings.setRenderer(renderer);
                 settings.setSamples(4);
                 settings.setVSync(true);
