@@ -803,6 +803,10 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         }
 
         softBody.setMass(totalMass);
+        SoftBodyConfig config = softBody.getSoftConfig();
+        config.setCollisionFlags(ConfigFlag.SDF_RS, ConfigFlag.VF_SS);
+        config.setPositionIterations(3);
+        
         allBodies.add(softBody);
     }
 

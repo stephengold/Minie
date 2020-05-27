@@ -41,6 +41,7 @@ import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
@@ -776,6 +777,7 @@ public class DropTest
         softBody.setMass(100f);
 
         SoftBodyConfig config = softBody.getSoftConfig();
+        config.setCollisionFlags(ConfigFlag.SDF_RS, ConfigFlag.VF_SS);
         config.setPositionIterations(3);
 
         addPlatform(softBody);
