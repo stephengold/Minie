@@ -312,8 +312,6 @@ public class TargetDemo
 
         dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
 
-        dim.bind("delete last", KeyInput.KEY_BACK);
-        dim.bind("delete last", KeyInput.KEY_SUBTRACT);
         dim.bind("delete selected", KeyInput.KEY_DECIMAL);
         dim.bind("delete selected", KeyInput.KEY_DELETE);
 
