@@ -76,24 +76,17 @@ public class CharacterControl extends AbstractPhysicsControl {
      */
     private PhysicsCharacter character = null;
     /**
-     * per-thread temporary storage for a Quaternion
+     * temporary storage for a character's orientation
      */
-    final private static ThreadLocal<Quaternion> tmpQuaternionTL
-            = new ThreadLocal<Quaternion>() {
-        @Override
-        protected Quaternion initialValue() {
-            return new Quaternion();
-        }
-    };
-    /**
-     * per-thread temporary storage for a Vector3f
-     */
-    final private static ThreadLocal<Vector3f> tmpVectorTL
-            = new ThreadLocal<Vector3f>();
+    final private static Quaternion tmpOrientation = new Quaternion();
     /**
      * view direction
      */
     private Vector3f viewDirection = new Vector3f(0f, 0f, 1f);
+    /**
+     * temporary storage for vectors
+     */
+    final private static Vector3f tmpVector = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -369,24 +362,11 @@ public class CharacterControl extends AbstractPhysicsControl {
             return;
         }
 
-        Quaternion orientation = tmpQuaternionTL.get();
-        if (orientation == null) {
-            orientation = new Quaternion();
-            tmpQuaternionTL.set(orientation);
-        }
-        Vector3f up = tmpVectorTL.get();
-        if (up == null) {
-            up = new Vector3f();
-            tmpVectorTL.set(up);
-        }
+        character.getUpDirection(tmpVector);
+        tmpOrientation.lookAt(viewDirection, tmpVector);
 
-        character.getUpDirection(up);
-        orientation.lookAt(viewDirection, up);
-
-        Vector3f location = tmpVectorTL.get();
-        assert location != null;
-        character.getPhysicsLocation(location);
-        applyPhysicsTransform(location, orientation);
+        character.getPhysicsLocation(tmpVector);
+        applyPhysicsTransform(tmpVector, tmpOrientation);
     }
 
     /**

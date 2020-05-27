@@ -81,15 +81,9 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
      */
     final private Geometry geomB;
     /**
-     * temporary storage for one Transform per thread
+     * temporary storage for a body's physics transform
      */
-    final private static ThreadLocal<Transform> threadTmpTransform
-            = new ThreadLocal<Transform>() {
-        @Override
-        protected Transform initialValue() {
-            return new Transform();
-        }
-    };
+    final private static Transform tmpTransform = new Transform();
     // *************************************************************************
     // constructors
 
@@ -131,9 +125,8 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
     @Override
     protected void controlUpdate(float tpf) {
         if (constraint.isEnabled()) {
-            Transform transform = threadTmpTransform.get();
-            Vector3f vector = transform.getTranslation(); // note: alias
-            Quaternion rotation = transform.getRotation(); // note: alias
+            Vector3f vector = tmpTransform.getTranslation(); // note: alias
+            Quaternion rotation = tmpTransform.getRotation(); // note: alias
 
             PhysicsRigidBody bodyA = constraint.getBodyA();
             if (bodyA == null) {
@@ -141,7 +134,7 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
             } else {
                 bodyA.getPhysicsLocation(vector);
                 bodyA.getPhysicsRotation(rotation);
-                geomA.setLocalTransform(transform);
+                geomA.setLocalTransform(tmpTransform);
 
                 geomA.setCullHint(Spatial.CullHint.Never); // TODO dynamic
 
@@ -156,7 +149,7 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
             } else {
                 bodyB.getPhysicsLocation(vector);
                 bodyB.getPhysicsRotation(rotation);
-                geomB.setLocalTransform(transform);
+                geomB.setLocalTransform(tmpTransform);
 
                 geomB.setCullHint(Spatial.CullHint.Never);
 

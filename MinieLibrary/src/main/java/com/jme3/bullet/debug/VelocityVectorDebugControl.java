@@ -62,21 +62,21 @@ class VelocityVectorDebugControl extends AbstractPhysicsDebugControl {
     // fields
 
     /**
-     * geometry to visualize the velocity vector
+     * geometry to visualize the velocity vector (not null)
      */
     final private Geometry geom;
     /**
-     * rigid body to visualize
+     * rigid body to visualize (not null)
      */
     final private PhysicsRigidBody rigidBody;
     /**
-     * physics-space coordinates of the body's center
+     * temporary storage for the location of a body's center
      */
-    final private Vector3f center;
+    final private Vector3f tmpCenter = new Vector3f();
     /**
-     * most recent velocity vector
+     * temporary storage for a body's velocity
      */
-    final private Vector3f extent;
+    final private static Vector3f tmpExtent = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -92,12 +92,12 @@ class VelocityVectorDebugControl extends AbstractPhysicsDebugControl {
         super(debugAppState);
         rigidBody = (PhysicsRigidBody) pco;
 
-        extent = rigidBody.getLinearVelocity(null);
-        Arrow mesh = new Arrow(extent);
+        rigidBody.getLinearVelocity(tmpExtent);
+        Arrow mesh = new Arrow(tmpExtent);
         geom = new Geometry("velocity of " + rigidBody, mesh);
 
-        center = rigidBody.getPhysicsLocation();
-        geom.setLocalTranslation(center);
+        rigidBody.getPhysicsLocation(tmpCenter);
+        geom.setLocalTranslation(tmpCenter);
 
         Material material = debugAppState.getVelocityVectorMaterial();
         geom.setMaterial(material);
@@ -115,13 +115,13 @@ class VelocityVectorDebugControl extends AbstractPhysicsDebugControl {
      */
     @Override
     protected void controlUpdate(float tpf) {
-        rigidBody.getPhysicsLocation(center);
-        geom.setLocalTranslation(center);
+        rigidBody.getPhysicsLocation(tmpCenter);
+        geom.setLocalTranslation(tmpCenter);
 
         Mesh mesh = geom.getMesh();
         Arrow arrow = (Arrow) mesh;
-        rigidBody.getLinearVelocity(extent);
-        arrow.setArrowExtent(extent);
+        rigidBody.getLinearVelocity(tmpExtent);
+        arrow.setArrowExtent(tmpExtent);
     }
 
     /**

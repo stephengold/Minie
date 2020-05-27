@@ -76,15 +76,9 @@ public class BulletCharacterDebugControl extends CollisionShapeDebugControl {
      */
     final private PhysicsCharacter character;
     /**
-     * temporary storage for one vector per thread
+     * temporary storage for the location of a character's center
      */
-    final private static ThreadLocal<Vector3f> threadTmpVector
-            = new ThreadLocal<Vector3f>() {
-        @Override
-        protected Vector3f initialValue() {
-            return new Vector3f();
-        }
-    };
+    final private static Vector3f tmpCenter = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -151,9 +145,8 @@ public class BulletCharacterDebugControl extends CollisionShapeDebugControl {
 
         updateMaterial();
 
-        Vector3f location = threadTmpVector.get();
-        character.getPhysicsLocation(location);
-        applyPhysicsTransform(location, rotateIdentity);
+        character.getPhysicsLocation(tmpCenter);
+        applyPhysicsTransform(tmpCenter, rotateIdentity);
     }
     // *************************************************************************
     // private methods
