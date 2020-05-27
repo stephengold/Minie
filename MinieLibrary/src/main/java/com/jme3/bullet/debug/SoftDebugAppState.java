@@ -89,6 +89,10 @@ public class SoftDebugAppState extends BulletDebugAppState {
      */
     private Material linkMaterial;
     /**
+     * material for visualizing all pinned soft-body nodes
+     */
+    private Material pinMaterial;
+    /**
      * materials for soft-body faces
      */
     final private Material[] faceMaterials = new Material[3];
@@ -169,6 +173,16 @@ public class SoftDebugAppState extends BulletDebugAppState {
     }
 
     /**
+     * Access the Material for visualizing pinned soft-body nodes.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getPinMaterial() {
+        assert pinMaterial != null;
+        return pinMaterial;
+    }
+
+    /**
      * Alter which soft-body clusters are visualized. For internal use only.
      *
      * @param filter the desired filter, or null to visualize no clusters
@@ -216,6 +230,20 @@ public class SoftDebugAppState extends BulletDebugAppState {
 
         linkMaterial
                 = createWireMaterial(am, ColorRGBA.Orange, "linkMaterial", 1);
+
+        pinMaterial = new Material(am, matDefPath);
+        ColorRGBA pinColor = new ColorRGBA(1f, 0f, 0f, 1f); // red
+        pinMaterial.setColor("Color", pinColor); // creates an alias
+        shapeSize = 24f;
+        pinMaterial.setFloat("PointSize", shapeSize);
+        pinMaterial.setName("pinMaterial");
+        shapePath = "Textures/shapes/pin.png";
+        mipmaps = false;
+        shapeTexture = MyAsset.loadTexture(am, shapePath, mipmaps);
+        pinMaterial.setTexture("PointShape", shapeTexture);
+        renderState = pinMaterial.getAdditionalRenderState();
+        renderState.setBlendMode(RenderState.BlendMode.Alpha);
+        renderState.setDepthTest(false);
     }
 
     /**
