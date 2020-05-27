@@ -715,7 +715,7 @@ public class DropTest
      */
     private void addHelp() {
         float margin = 10f; // in pixels
-        float width = 370f; // in pixels
+        float width = 400f; // in pixels
         float height = cam.getHeight() - (2 * margin + 2 * 20f);
         float leftX = cam.getWidth() - (width + margin);
         float topY = height + margin;
