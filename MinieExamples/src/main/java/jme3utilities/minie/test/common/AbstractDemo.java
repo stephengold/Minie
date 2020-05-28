@@ -122,11 +122,11 @@ abstract public class AbstractDemo extends ActionApplication {
     final public static String asToggleAabbs = "toggle aabbs";
     final public static String asToggleCcdSpheres = "toggle ccdSpheres";
     final public static String asToggleDebug = "toggle debug";
-    final public static String asToggleGArrows = "toggle gVecs";
+    final public static String asToggleGArrows = "toggle gArrows";
     final public static String asToggleHelp = "toggle help";
     final public static String asTogglePause = "toggle pause";
     final public static String asTogglePcoAxes = "toggle pcoAxes";
-    final public static String asToggleVArrows = "toggle vVecs";
+    final public static String asToggleVArrows = "toggle vArrows";
     final public static String asToggleWorldAxes = "toggle worldAxes";
     // *************************************************************************
     // fields
@@ -146,11 +146,11 @@ abstract public class AbstractDemo extends ActionApplication {
     /**
      * filter to control visualization of gravity vectors
      */
-    private FilterAll gravitiesFilter = null;
+    private FilterAll gArrowsFilter = null;
     /**
      * filter to control visualization of velocity vectors
      */
-    private FilterAll velocitiesFilter = null;
+    private FilterAll vArrowsFilter = null;
     /**
      * library of named physics collision shapes
      */
@@ -511,8 +511,8 @@ abstract public class AbstractDemo extends ActionApplication {
             result += "+CcdSpheres";
         }
 
-        if (gravitiesFilter != null) {
-            result += "+Gravities";
+        if (gArrowsFilter != null) {
+            result += "+GArrows";
         }
 
         BulletAppState bulletAppState = getBulletAppState();
@@ -520,8 +520,8 @@ abstract public class AbstractDemo extends ActionApplication {
             result += "+PcoAxes";
         }
 
-        if (velocitiesFilter != null) {
-            result += "+Velocities";
+        if (vArrowsFilter != null) {
+            result += "+VArrows";
         }
 
         return result;
@@ -1083,14 +1083,14 @@ abstract public class AbstractDemo extends ActionApplication {
      * Toggle visualization of body gravities.
      */
     private void toggleGravityArrows() {
-        if (gravitiesFilter == null) {
-            gravitiesFilter = new FilterAll(true);
+        if (gArrowsFilter == null) {
+            gArrowsFilter = new FilterAll(true);
         } else {
-            gravitiesFilter = null;
+            gArrowsFilter = null;
         }
 
         BulletAppState bulletAppState = getBulletAppState();
-        bulletAppState.setDebugGravityVectorFilter(gravitiesFilter);
+        bulletAppState.setDebugGravityVectorFilter(gArrowsFilter);
     }
 
     /**
@@ -1125,14 +1125,14 @@ abstract public class AbstractDemo extends ActionApplication {
      * Toggle visualization of rigid-body velocities.
      */
     private void toggleVelocityArrows() {
-        if (velocitiesFilter == null) {
-            velocitiesFilter = new FilterAll(true);
+        if (vArrowsFilter == null) {
+            vArrowsFilter = new FilterAll(true);
         } else {
-            velocitiesFilter = null;
+            vArrowsFilter = null;
         }
 
         BulletAppState bulletAppState = getBulletAppState();
-        bulletAppState.setDebugVelocityVectorFilter(velocitiesFilter);
+        bulletAppState.setDebugVelocityVectorFilter(vArrowsFilter);
     }
 
     /**
