@@ -250,9 +250,9 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     /**
      * Alter the gravitational acceleration acting on newly-added bodies.
      * <p>
-     * Whenever a body is added to a space, the body's gravity gets set to that
-     * of the space. Thus it makes sense to set the space's gravity before
-     * adding any bodies to the space.
+     * Typically, when a body is added to a space, the body's gravity gets set
+     * to that of the space. Thus it is preferable to set the space's gravity
+     * before adding any bodies to the space.
      *
      * @param gravity the desired acceleration vector (not null, unaffected,
      * default=(0,-9.81,0))

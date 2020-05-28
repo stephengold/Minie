@@ -633,7 +633,7 @@ abstract public class AbstractDemo extends ActionApplication {
 
     /**
      * Cast a physics ray from the mouse-cursor position and sort the hits by
-     * ascending hitFraction.
+     * ascending hitFraction (in other words, nearest hit first).
      *
      * @return a new list of sorted results (not null)
      */
