@@ -644,15 +644,16 @@ public class TargetDemoStatus extends SimpleAppState {
      * Update the status text (top 2 lines).
      */
     private void updateStatusText() {
-        String viewOptions = appInstance.describePhysicsDebugOptions();
-        String message = " View: " + viewOptions;
+        String message = " View: ";
         if (isWireframe) {
-            message += "(Wireframe)";
+            message += "Wireframe ";
         } else if (isChildColoring) {
-            message += "(Lit/ChildColoring)";
+            message += "Lit/ChildColoring ";
         } else {
-            message += "(Lit)";
+            message += "Lit ";
         }
+        String viewOptions = appInstance.describePhysicsDebugOptions();
+        message += viewOptions;
         statusLines[0].setText(message);
 
         int numActiveBodies = appInstance.countActive();
