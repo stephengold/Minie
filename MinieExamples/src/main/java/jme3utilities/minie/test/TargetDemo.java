@@ -265,7 +265,7 @@ public class TargetDemo
         selected.setFloat("Shininess", 15f);
         registerMaterial("selected", selected);
         /*
-         * shiny, lit materials for targetss
+         * shiny, lit materials for targets
          */
         ColorRGBA targetColors[] = new ColorRGBA[numTargetColors];
         targetColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
@@ -895,6 +895,9 @@ public class TargetDemo
         setUpTarget(body);
     }
 
+    /**
+     * Erect a pyramid of cans along the X axis.
+     */
     private void setUpCanPyramid(int numRows) {
         float xSpacing = 32f / numRows; // center-to-center
         float xGap = 0.1f * xSpacing;
@@ -938,17 +941,17 @@ public class TargetDemo
     }
 
     /**
-     * Set up a row of dominos, evenly-spaced along the X axis.
+     * Set up a row of dominoes, evenly-spaced along the X axis.
      */
-    private void setUpDominoRow(int numDominos) {
-        float xSpacing = 32f / numDominos; // center-to-center
+    private void setUpDominoRow(int numDominoes) {
+        float xSpacing = 32f / numDominoes; // center-to-center
         float length = 1.6f * xSpacing;
         registerDominoShape(length);
 
-        float x0 = -xSpacing * (numDominos - 1) / 2f;
+        float x0 = -xSpacing * (numDominoes - 1) / 2f;
         float y = platformTopY + length / 2;
         Vector3f location = new Vector3f(x0, y, 0f);
-        for (int j = 0; j < numDominos; ++j) {
+        for (int j = 0; j < numDominoes; ++j) {
             setUpDomino(location, Quaternion.IDENTITY);
             location.x += xSpacing;
         }
@@ -1005,8 +1008,8 @@ public class TargetDemo
             }
 
             case "domino row": {
-                int numDominos = 25;
-                setUpDominoRow(numDominos);
+                int numDominoes = 25;
+                setUpDominoRow(numDominoes);
                 break;
             }
 
