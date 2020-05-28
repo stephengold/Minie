@@ -37,7 +37,6 @@ import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.joints.Constraint;
-import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
@@ -695,9 +694,9 @@ public class PhysicsSpace extends CollisionSpace {
     /**
      * Alter the gravitational acceleration acting on newly-added bodies.
      * <p>
-     * Whenever a rigid body is added to a space, the body's gravity gets set to
-     * that of the space. Thus it makes sense to set the space's vector before
-     * adding any bodies to the space.
+     * Typically, when a body is added to a space, the body's gravity gets set
+     * to that of the space. Thus it is preferable to set the space's gravity
+     * before adding any bodies to the space.
      *
      * @param gravity the desired acceleration vector (not null, unaffected,
      * default=0,-9.81,0)
