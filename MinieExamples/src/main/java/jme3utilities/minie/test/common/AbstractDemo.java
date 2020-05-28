@@ -94,11 +94,11 @@ abstract public class AbstractDemo extends ActionApplication {
     // constants and loggers
 
     /**
-     * Z value for the far clipping plane (in screen coordinates)
+     * Z value for the far clipping plane (in screen coordinates) TODO remove
      */
     final protected static float farZ = 1f;
     /**
-     * Z value for the near clipping plane (in screen coordinates)
+     * Z value for the near clipping plane (in screen coordinates) TODO remove
      */
     final protected static float nearZ = 0f;
     /**
@@ -762,6 +762,14 @@ abstract public class AbstractDemo extends ActionApplication {
     }
 
     /**
+     * Toggle the animation and physics simulation: paused/running.
+     */
+    public void togglePause() {
+        float newSpeed = isPaused() ? 1f : pausedSpeed;
+        setSpeed(newSpeed);
+    }
+
+    /**
      * Toggle physics-debug visualization on/off.
      */
     public void togglePhysicsDebug() {
@@ -1096,14 +1104,6 @@ abstract public class AbstractDemo extends ActionApplication {
             helpNode.removeFromParent();
             guiNode.attachChild(minHelpNode);
         }
-    }
-
-    /**
-     * Toggle the animation and physics simulation: paused/running.
-     */
-    private void togglePause() {
-        float newSpeed = isPaused() ? 1f : pausedSpeed;
-        setSpeed(newSpeed);
     }
 
     /**
