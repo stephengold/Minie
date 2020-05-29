@@ -7,6 +7,7 @@ ext {
     // output directories
     assets = '../MinieExamples/src/main/resources/'
     glyphAssets = assets + 'CollisionShapes/glyphs/'
+    poolBalls = assets + 'Textures/poolBalls/'
 
     // output directories for C-G models
     baseMesh = assets + 'Models/BaseMesh'
@@ -117,7 +118,7 @@ task teapotShape(type: JavaExec) {
 }
 
 task textures {
-    dependsOn 'greenTile', 'plaid'
+    dependsOn 'greenTile', 'plaid', 'poolBalls'
     description 'Generate texture assets used in MinieExamples.'
 }
 task greenTile(type: JavaExec) {
@@ -127,6 +128,10 @@ task greenTile(type: JavaExec) {
 task plaid(type: JavaExec) {
     main 'jme3utilities.minie.test.textures.MakePlaid'
     outputs.files([plaid])
+}
+task poolBalls(type: JavaExec) {
+    main 'jme3utilities.minie.test.textures.MakePoolBalls'
+    outputs.dirs([poolBalls])
 }
 
 // cleanup tasks
@@ -180,6 +185,6 @@ task cleanTeapotShape(type: Delete) {
 }
 
 task cleanTextures(type: Delete) {
-    delete(greenTile, plaid)
+    delete(greenTile, plaid, poolBalls)
     description 'Delete generated texture assets.'
 }
