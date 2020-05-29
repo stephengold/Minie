@@ -148,7 +148,10 @@ public class TestMultiBody extends AbstractDemo {
         addStatusLines();
         speed = pausedSpeed;
 
-        attachCubePlatform(4f, -1f);
+        float halfExtent = 4f;
+        float topY = -1f;
+        attachCubePlatform(halfExtent, topY);
+
         addMultiBody();
     }
 
@@ -206,11 +209,12 @@ public class TestMultiBody extends AbstractDemo {
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
 
-        float x = 10f;
-        float y = cam.getHeight() - 30f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // in pixels
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - (2f * margin + 20f);
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }
@@ -229,7 +233,11 @@ public class TestMultiBody extends AbstractDemo {
                 case "test test1":
                     testName = "test1";
                     cleanupAfterTest();
-                    attachCubePlatform(4f, -1f);
+
+                    float halfExtent = 4f;
+                    float topY = -1f;
+                    attachCubePlatform(halfExtent, topY);
+
                     addMultiBody();
                     return;
             }
@@ -270,8 +278,11 @@ public class TestMultiBody extends AbstractDemo {
 
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         if (shadowFlag) {
+            int mapSize = 2_048; // in pixels
+            int numSplits = 3;
             DirectionalLightShadowRenderer dlsr
-                    = new DirectionalLightShadowRenderer(assetManager, 2048, 3);
+                    = new DirectionalLightShadowRenderer(assetManager, mapSize,
+                            numSplits);
             dlsr.setLight(sun);
             dlsr.setShadowIntensity(0.5f);
             viewPort.addProcessor(dlsr);

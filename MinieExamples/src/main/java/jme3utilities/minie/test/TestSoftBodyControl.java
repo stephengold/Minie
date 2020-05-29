@@ -141,7 +141,10 @@ public class TestSoftBodyControl
         viewPort.setBackgroundColor(skyColor);
         addLighting(rootNode, false);
 
-        attachCubePlatform(4f, 0f);
+        float halfExtent = 4f;
+        float topY = 0f;
+        attachCubePlatform(halfExtent, topY);
+
         addRubberDuck();
     }
 
@@ -198,11 +201,12 @@ public class TestSoftBodyControl
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
 
-        float x = 10f;
-        float y = cam.getHeight() - 10f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // in pixels
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - 2f * margin;
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }
@@ -220,7 +224,11 @@ public class TestSoftBodyControl
             switch (actionString) {
                 case "test rubberDuck":
                     cleanupAfterTest();
-                    attachCubePlatform(4f, 0f);
+
+                    float halfExtent = 4f;
+                    float topY = 0f;
+                    attachCubePlatform(halfExtent, topY);
+
                     addRubberDuck();
                     return;
             }
@@ -263,8 +271,11 @@ public class TestSoftBodyControl
 
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         if (shadowFlag) {
+            int mapSize = 2_048; // in pixels
+            int numSplits = 3;
             DirectionalLightShadowRenderer dlsr
-                    = new DirectionalLightShadowRenderer(assetManager, 2048, 3);
+                    = new DirectionalLightShadowRenderer(assetManager, mapSize,
+                            numSplits);
             dlsr.setLight(sun);
             dlsr.setShadowIntensity(0.5f);
             viewPort.addProcessor(dlsr);

@@ -213,11 +213,12 @@ public class NewtonsCradle
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
 
-        float x = 10f;
-        float y = cam.getHeight() - 40f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // in pixels
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - (2f * margin + 20f);
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }
@@ -372,9 +373,9 @@ public class NewtonsCradle
         float xSeparation = 20f;
 
         // center-to-center separation between the first and last balls
-        float xEntent = (numBalls - 1) * xSeparation;
+        float xExtent = (numBalls - 1) * xSeparation;
 
-        float x0 = -xEntent / 2;
+        float x0 = -xExtent / 2;
         PhysicsRigidBody[] balls = new PhysicsRigidBody[numBalls];
         for (int ballIndex = 0; ballIndex < numBalls; ++ballIndex) {
             float x = x0 + ballIndex * xSeparation;

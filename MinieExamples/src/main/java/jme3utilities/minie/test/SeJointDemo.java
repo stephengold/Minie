@@ -214,7 +214,9 @@ public class SeJointDemo extends AbstractDemo {
         viewPort.setBackgroundColor(skyColor);
 
         addLighting();
-        attachWorldAxes(32f);
+
+        float length = 32f;
+        attachWorldAxes(length);
 
         int numRefineSteps = 1;
         seedMesh = new Icosphere(numRefineSteps, seedRadius);
@@ -297,11 +299,12 @@ public class SeJointDemo extends AbstractDemo {
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
-        float x = 10f;
-        float y = cam.getHeight() - 40f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // in pixels
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - (2f * margin + 20f);
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }

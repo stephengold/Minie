@@ -249,7 +249,9 @@ public class TestDac extends AbstractDemo {
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        attachCubePlatform(250f, 0f);
+        float halfExtent = 250f;
+        float topY = 0f;
+        attachCubePlatform(halfExtent, topY);
 
         ColorRGBA ballColor = new ColorRGBA(0.4f, 0f, 0f, 1f);
         Material ballMaterial
@@ -364,11 +366,12 @@ public class TestDac extends AbstractDemo {
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
-        float x = 10f;
-        float y = cam.getHeight() - 40f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // in pixels
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - (2f * margin + 20f);
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }
@@ -582,8 +585,11 @@ public class TestDac extends AbstractDemo {
         rootNode.addLight(sun);
         sun.setName("sun");
 
+        int mapSize = 2_048; // in pixels
+        int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
+                = new DirectionalLightShadowRenderer(assetManager, mapSize,
+                        numSplits);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);

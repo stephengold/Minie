@@ -249,14 +249,17 @@ public class TestRbc
         viewPort.setBackgroundColor(skyColor);
 
         addLighting();
-        attachWorldAxes(0.8f);
         addStatusLines();
+
+        float length = 0.8f;
+        attachWorldAxes(length);
         /*
          * Hide the render-statistics overlay initially.
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        hitPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Red,
+        int markerSize = 16; // pixels
+        hitPoint = new PointVisualizer(assetManager, markerSize, ColorRGBA.Red,
                 "saltire");
         rootNode.attachChild(hitPoint);
         hitPoint.setEnabled(false);
@@ -387,11 +390,12 @@ public class TestRbc
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
-        float x = 10f;
-        float y = cam.getHeight() - 60f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // in pixels
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - (2f * margin + 2f * 20f);
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }

@@ -208,11 +208,16 @@ public class WatchDemo extends AbstractDemo {
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        attachWorldAxes(4f);
-        attachCubePlatform(250f, 0f);
+        float length = 4f;
+        attachWorldAxes(length);
 
-        targetPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Red,
-                "ring");
+        float halfExtent = 250f;
+        float topY = 0f;
+        attachCubePlatform(halfExtent, topY);
+
+        int markerSize = 16;
+        targetPoint = new PointVisualizer(assetManager, markerSize,
+                ColorRGBA.Red, "ring");
         rootNode.attachChild(targetPoint);
 
         //addModel("Sinbad");
@@ -298,11 +303,12 @@ public class WatchDemo extends AbstractDemo {
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
-        float x = 10f;
-        float y = cam.getHeight() - 10f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f;
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - 2f * margin;
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }
@@ -407,8 +413,11 @@ public class WatchDemo extends AbstractDemo {
         rootNode.addLight(sun);
         sun.setName("sun");
 
+        int mapSize = 2_048; // in pixels
+        int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
+                = new DirectionalLightShadowRenderer(assetManager, mapSize,
+                        numSplits);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);

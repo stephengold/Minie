@@ -241,15 +241,19 @@ public class BalanceDemo extends AbstractDemo {
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        comPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Cyan,
+        int markerSize = 16; // pixels
+        comPoint = new PointVisualizer(assetManager, markerSize, ColorRGBA.Cyan,
                 "ring");
         rootNode.attachChild(comPoint);
 
-        supportPoint = new PointVisualizer(assetManager, 16, ColorRGBA.Yellow,
-                "square");
+        supportPoint = new PointVisualizer(assetManager, markerSize,
+                ColorRGBA.Yellow, "square");
         rootNode.attachChild(supportPoint);
 
-        attachCubePlatform(50f, 0f);
+        float halfExtent = 50f;
+        float topY = 0f;
+        attachCubePlatform(halfExtent, topY);
+
         addModel("Sinbad");
     }
 
@@ -326,11 +330,12 @@ public class BalanceDemo extends AbstractDemo {
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
-        float x = 10f;
-        float y = cam.getHeight() - 10f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // in pixels
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - 2f * margin;
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }
@@ -424,8 +429,11 @@ public class BalanceDemo extends AbstractDemo {
         rootNode.addLight(sun);
         sun.setName("sun");
 
+        int mapSize = 2_048; // in pixels
+        int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
+                = new DirectionalLightShadowRenderer(assetManager, mapSize,
+                        numSplits);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);

@@ -464,11 +464,12 @@ public class TargetDemo
      * Attach a Node to display hotkey help/hints.
      */
     private void addHelp() {
-        float width = 360f;
-        float y = cam.getHeight() - 30f;
-        float x = cam.getWidth() - width - 10f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // in pixels
+        float width = 360f; // in pixels
+        float height = cam.getHeight() - (2f * margin + 20f);
+        float leftX = cam.getWidth() - (width + margin);
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }
@@ -491,8 +492,11 @@ public class TargetDemo
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         viewPort.clearProcessors();
+        int mapSize = 2_048; // in pixels
+        int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
+                = new DirectionalLightShadowRenderer(assetManager, mapSize,
+                        numSplits);
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);

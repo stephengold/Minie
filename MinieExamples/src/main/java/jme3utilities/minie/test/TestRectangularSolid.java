@@ -210,11 +210,12 @@ public class TestRectangularSolid extends AbstractDemo {
 
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
 
-        float x = 10f;
-        float y = cam.getHeight() - 40f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // in pixels
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - (2f * margin + 20f);
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }

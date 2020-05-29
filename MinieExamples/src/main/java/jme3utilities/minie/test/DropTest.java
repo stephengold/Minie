@@ -717,9 +717,9 @@ public class DropTest
     private void addHelp() {
         float margin = 10f; // in pixels
         float width = 400f; // in pixels
-        float height = cam.getHeight() - (2 * margin + 2 * 20f);
+        float height = cam.getHeight() - (2f * margin + 2f * 20f);
         float leftX = cam.getWidth() - (width + margin);
-        float topY = height + margin;
+        float topY = margin + height;
         Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
@@ -743,8 +743,11 @@ public class DropTest
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         viewPort.clearProcessors();
+        int mapSize = 2_048; // in pixels
+        int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
+                = new DirectionalLightShadowRenderer(assetManager, mapSize,
+                        numSplits);
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);

@@ -257,6 +257,7 @@ public class TestSoftBody
         float halfExtent = 4f;
         float topY = 0f;
         attachCubePlatform(halfExtent, topY);
+
         DynamicAnimControl dac = addPuppet();
         addSkirt(dac);
     }
@@ -376,6 +377,9 @@ public class TestSoftBody
      */
     @Override
     public void onAction(String actionString, boolean ongoing, float tpf) {
+        final float halfExtent = 4f;
+        float topY;
+
         if (ongoing) {
             switch (actionString) {
                 case "go limp":
@@ -390,15 +394,23 @@ public class TestSoftBody
                 case "test poleAndFlag":
                     testName = "poleAndFlag";
                     cleanupAfterTest();
-                    attachWorldAxes(0.4f);
-                    attachCubePlatform(4f, -2f);
+
+                    float length = 0.4f;
+                    attachWorldAxes(length);
+
+                    topY = -2f;
+                    attachCubePlatform(halfExtent, topY);
+
                     addPoleAndFlag();
                     return;
 
                 case "test puppetInSkirt":
                     testName = "puppetInSkirt";
                     cleanupAfterTest();
-                    attachCubePlatform(4f, 0f);
+
+                    topY = 0f;
+                    attachCubePlatform(halfExtent, topY);
+
                     DynamicAnimControl dac = addPuppet();
                     addSkirt(dac);
                     return;
@@ -406,16 +418,25 @@ public class TestSoftBody
                 case "test squishyBall":
                     testName = "squishyBall";
                     cleanupAfterTest();
-                    attachCubePlatform(4f, 0f);
+
+                    topY = 0f;
+                    attachCubePlatform(halfExtent, topY);
+
                     addSquishyBall(1.5f);
                     return;
 
                 case "test tablecloth":
                     testName = "tablecloth";
                     cleanupAfterTest();
-                    attachCubePlatform(4f, -1f);
-                    addCylinder(1.7f);
-                    addTablecloth(2f);
+
+                    topY = -1f;
+                    attachCubePlatform(halfExtent, topY);
+
+                    topY = 1.7f;
+                    addCylinder(topY);
+
+                    float startY = 2f;
+                    addTablecloth(startY);
                     return;
             }
         }
@@ -475,8 +496,8 @@ public class TestSoftBody
      */
     private void addHelp() {
         float margin = 10f; // pixels
-        float width = cam.getWidth() - 2 * margin;
-        float height = cam.getHeight() - (2 * margin + numStatusLines * 20f);
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - (2f * margin + numStatusLines * 20f);
         float leftX = margin;
         float topY = height + margin;
         Rectangle rectangle = new Rectangle(leftX, topY, width, height);
@@ -504,8 +525,11 @@ public class TestSoftBody
 
         rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         if (shadowFlag) {
+            int mapSize = 2_048; // in pixels
+            int numSplits = 3;
             DirectionalLightShadowRenderer dlsr
-                    = new DirectionalLightShadowRenderer(assetManager, 2048, 3);
+                    = new DirectionalLightShadowRenderer(assetManager, mapSize,
+                            numSplits);
             dlsr.setLight(sun);
             dlsr.setShadowIntensity(0.5f);
             viewPort.addProcessor(dlsr);

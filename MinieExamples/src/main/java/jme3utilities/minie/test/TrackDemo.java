@@ -212,8 +212,12 @@ public class TrackDemo extends AbstractDemo {
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        attachWorldAxes(0.8f);
-        attachCubePlatform(50f, 0f);
+        float length = 0.8f;
+        attachWorldAxes(length);
+
+        float halfExtent = 50f;
+        float topY = 0f;
+        attachCubePlatform(halfExtent, topY);
 
         //addModel("Sinbad");
         //addModel("MhGame");
@@ -298,11 +302,12 @@ public class TrackDemo extends AbstractDemo {
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
-        float x = 10f;
-        float y = cam.getHeight() - 10f;
-        float width = cam.getWidth() - 20f;
-        float height = cam.getHeight() - 20f;
-        Rectangle rectangle = new Rectangle(x, y, width, height);
+        float margin = 10f; // in pixels
+        float width = cam.getWidth() - 2f * margin;
+        float height = cam.getHeight() - 2f * margin;
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
 
         attachHelpNode(rectangle);
     }
@@ -407,8 +412,11 @@ public class TrackDemo extends AbstractDemo {
         rootNode.addLight(sun);
         sun.setName("sun");
 
+        int mapSize = 2_048; // in pixels
+        int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, 2_048, 3);
+                = new DirectionalLightShadowRenderer(assetManager, mapSize,
+                        numSplits);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
