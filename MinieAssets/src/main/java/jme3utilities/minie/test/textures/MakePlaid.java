@@ -106,8 +106,9 @@ public class MakePlaid {
         Graphics2D graphics = image.createGraphics();
 
         float brightness = 1f;
+        float halfBright = brightness / 2f;
         float opacity = 1f;
-        Color pink = new Color(brightness, 0.5f, 0.5f, opacity);
+        Color pink = new Color(brightness, halfBright, halfBright, opacity);
         Color red = new Color(brightness, 0f, 0f, opacity);
         Color white = new Color(brightness, brightness, brightness, opacity);
 
