@@ -435,7 +435,7 @@ abstract public class AbstractDemo extends ActionApplication {
         };
         dummyMode.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
 
-        float width = 100f;
+        float width = 100f; // in pixels
         float height = bounds.height;
         float x = bounds.x + bounds.width - width;
         float y = bounds.y;
