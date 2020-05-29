@@ -212,6 +212,7 @@ public class NewtonsCradle
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(AbstractDemo.asToggleVArrows, KeyInput.KEY_K);
 
         float margin = 10f; // in pixels
         float width = cam.getWidth() - 2f * margin;
