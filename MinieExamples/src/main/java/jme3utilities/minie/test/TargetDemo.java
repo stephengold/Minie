@@ -777,7 +777,7 @@ public class TargetDemo
         body.setPhysicsLocation(location);
 
         Quaternion rotation = new Quaternion();
-        rotation.fromAngleNormalAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
+        rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
         body.setPhysicsRotation(rotation);
 
         setUpTarget(body);
@@ -832,7 +832,7 @@ public class TargetDemo
                 float theta = theta0 + j * angleStep;
                 location.x = midRadius * FastMath.sin(theta);
                 location.z = midRadius * FastMath.cos(theta);
-                orientation.fromAngleNormalAxis(theta, Vector3f.UNIT_Y);
+                orientation.fromAngles(0f, theta, 0f);
                 setUpBrick("tower", location, orientation);
             }
             location.y += height;

@@ -531,7 +531,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                 = CompoundTestShapes.makeLink(linkIhh, linkIhw, halfThickness);
 
         Quaternion rotationStep = new Quaternion();
-        rotationStep.fromAngleNormalAxis(angleStep, Vector3f.UNIT_Y);
+        rotationStep.fromAngles(0f, angleStep, 0f);
 
         float y0 = -yStep * (numLinks - 1) / 2f;
         Vector3f startOffset = new Vector3f(0f, y0, 0f);
@@ -806,7 +806,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         SoftBodyConfig config = softBody.getSoftConfig();
         config.setCollisionFlags(ConfigFlag.SDF_RS, ConfigFlag.VF_SS);
         config.setPositionIterations(3);
-        
+
         allBodies.add(softBody);
     }
 
