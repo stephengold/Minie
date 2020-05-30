@@ -603,7 +603,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Copy the velocities of all nodes in this body.
+     * Copy the (linear) velocities of all nodes in this body.
      *
      * @param storeResult storage for the result (direct, modified) or null
      * @return a direct buffer containing 3 floats per node (in physics-space
