@@ -573,9 +573,9 @@ public class PoolDemo extends AbstractDemo {
     private void setUpTable() {
         final float legLength = 190f;
         final float pocketRadius = 22f;
-        final int numArcEdges = 6;
+        final int numSliceArcEdges = 4;
         Mesh tableSlice
-                = new PoolTableSlice(legLength, pocketRadius, numArcEdges);
+                = new PoolTableSlice(legLength, pocketRadius, numSliceArcEdges);
 
         Material platformMaterial = findMaterial("platform");
         assert platformMaterial != null;
@@ -604,9 +604,10 @@ public class PoolDemo extends AbstractDemo {
             }
         }
 
-        final float bumperHeight = 15f;
+        int numCushionArcEdges = 20;
+        final float bumperHeight = 20f;
         Mesh halfCushions = new PoolHalfCushions(legLength, pocketRadius,
-                numArcEdges, bumperHeight);
+                numCushionArcEdges, bumperHeight);
 
         for (int yRotIndex = 0; yRotIndex < 2; ++yRotIndex) {
             String name = "halfCushions." + yRotIndex;
