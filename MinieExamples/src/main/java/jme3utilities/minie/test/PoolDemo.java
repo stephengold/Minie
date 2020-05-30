@@ -301,12 +301,12 @@ public class PoolDemo extends AbstractDemo {
         dim.bind("strike", KeyInput.KEY_SPACE);
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind("toggle view", KeyInput.KEY_SLASH);
+        dim.bind(AbstractDemo.asToggleDebug, KeyInput.KEY_SLASH);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind("toggle meshes", KeyInput.KEY_M);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
         dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind("toggle scene", KeyInput.KEY_M);
         dim.bind(AbstractDemo.asToggleVArrows, KeyInput.KEY_K);
         /*
          * The help node can't be created before the hotkey bindings
@@ -334,9 +334,8 @@ public class PoolDemo extends AbstractDemo {
                     strikeBall();
                     return;
 
-                case "toggle view":
-                    toggleMeshes();
-                    togglePhysicsDebug();
+                case "toggle scene":
+                    toggleScene();
                     return;
 
             }
@@ -677,7 +676,7 @@ public class PoolDemo extends AbstractDemo {
     /**
      * Toggle mesh rendering on/off.
      */
-    private void toggleMeshes() {
+    private void toggleScene() {
         Spatial.CullHint hint = rbcNode.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {
@@ -692,7 +691,16 @@ public class PoolDemo extends AbstractDemo {
      * Update the status lines in the GUI.
      */
     private void updateStatusLines() {
-        String message = isPaused() ? "  PAUSED" : "";
+        String message = "View: ";
+
+        Spatial.CullHint cull = rbcNode.getLocalCullHint();
+        message += (cull == Spatial.CullHint.Always) ? "NOscene" : "Scene";
+
+        boolean debug = bulletAppState.isDebugEnabled();
+        if (debug) {
+            message += "+" + describePhysicsDebugOptions();
+        }
+        message += isPaused() ? "  PAUSED" : "";
         statusLines[0].setText(message);
     }
 }
