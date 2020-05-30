@@ -573,7 +573,7 @@ public class PoolDemo extends AbstractDemo {
      */
     private void setUpTable() {
         final float legLength = 190f;
-        final float pocketRadius = 25f;
+        final float pocketRadius = 22f;
         final int numArcEdges = 6;
         Mesh tableSlice
                 = new PoolTableSlice(legLength, pocketRadius, numArcEdges);
