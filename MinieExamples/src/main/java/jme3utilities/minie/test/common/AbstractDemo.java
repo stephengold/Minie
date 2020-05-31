@@ -67,6 +67,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 import jme3utilities.MyAsset;
+import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
@@ -93,14 +94,6 @@ abstract public class AbstractDemo extends ActionApplication {
     // *************************************************************************
     // constants and loggers
 
-    /**
-     * Z value for the far clipping plane (in screen coordinates) TODO remove
-     */
-    final protected static float farZ = 1f;
-    /**
-     * Z value for the near clipping plane (in screen coordinates) TODO remove
-     */
-    final protected static float nearZ = 0f;
     /**
      * animation/physics speed when paused
      */
@@ -639,8 +632,9 @@ abstract public class AbstractDemo extends ActionApplication {
      */
     public List<PhysicsRayTestResult> rayTestCursor() {
         Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
-        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+        Vector3f nearLocation
+                = cam.getWorldCoordinates(screenXY, MyCamera.nearZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, MyCamera.farZ);
 
         PhysicsSpace space = getPhysicsSpace();
         List<PhysicsRayTestResult> result

@@ -481,8 +481,9 @@ public class TestRbc
          * Set mouse-cursor shape based on a raytest result.
          */
         Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
-        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+        Vector3f nearLocation
+                = cam.getWorldCoordinates(screenXY, MyCamera.nearZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, MyCamera.farZ);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
         List rayTest = physicsSpace.rayTestRaw(nearLocation, farLocation);
@@ -1053,8 +1054,9 @@ public class TestRbc
      */
     private void castRay() {
         Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
-        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+        Vector3f nearLocation
+                = cam.getWorldCoordinates(screenXY, MyCamera.nearZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, MyCamera.farZ);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
         List<PhysicsRayTestResult> rayTest
@@ -1163,8 +1165,9 @@ public class TestRbc
         rbc.setKinematicSpatial(false);
 
         Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
-        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+        Vector3f nearLocation
+                = cam.getWorldCoordinates(screenXY, MyCamera.nearZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, MyCamera.farZ);
         Vector3f direction
                 = farLocation.subtract(nearLocation).normalizeLocal();
         float initialSpeed = 20f;
@@ -1256,11 +1259,12 @@ public class TestRbc
         Vector2f screenXY = inputManager.getCursorPosition();
 
         Transform nearTransform = new Transform();
-        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
+        Vector3f nearLocation
+                = cam.getWorldCoordinates(screenXY, MyCamera.nearZ);
         nearTransform.setTranslation(nearLocation);
 
         Transform farTransform = new Transform();
-        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, MyCamera.farZ);
         farTransform.setTranslation(farLocation);
 
         List<PhysicsSweepTestResult> sweepTest = new LinkedList<>();

@@ -567,8 +567,9 @@ public class TargetDemo
      */
     private void launchMissile() {
         Vector2f screenXY = inputManager.getCursorPosition();
-        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
-        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+        Vector3f nearLocation
+                = cam.getWorldCoordinates(screenXY, MyCamera.nearZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXY, MyCamera.farZ);
 
         Vector3f direction
                 = farLocation.subtract(nearLocation).normalizeLocal();
