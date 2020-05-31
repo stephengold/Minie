@@ -309,8 +309,7 @@ public class PoolDemo extends AbstractDemo {
         dim.bind("toggle scene", KeyInput.KEY_M);
         dim.bind(AbstractDemo.asToggleVArrows, KeyInput.KEY_K);
         /*
-         * The help node can't be created before the hotkey bindings
-         * are complete.
+         * Don't create the help node until the hotkey bindings are complete.
          */
         addHelp();
     }
@@ -360,7 +359,7 @@ public class PoolDemo extends AbstractDemo {
      * Attach a Node to display hotkey help/hints.
      */
     private void addHelp() {
-        float margin = 10f; // in pixels
+        final float margin = 10f; // in pixels
         float width = cam.getWidth() - 2f * margin;
         float height = cam.getHeight() - (2f * margin + 20f);
         float leftX = margin;
@@ -385,8 +384,6 @@ public class PoolDemo extends AbstractDemo {
         rootSpatial.addLight(lamp);
         lamp.setName("lamp");
         lamp.setRadius(3_000f);
-
-        rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         viewPort.clearProcessors();
         int mapSize = 2_048; // in pixels
@@ -480,7 +477,7 @@ public class PoolDemo extends AbstractDemo {
 
         setUpTable();
         Vector3f location = new Vector3f(0f, platformTopY + ballRadius, 99f);
-        setUpOneBall(location, cueBallId);
+        setUpBall(location, cueBallId);
         setUpBallWedge();
     }
 
@@ -490,7 +487,7 @@ public class PoolDemo extends AbstractDemo {
      * @param location the desired location (in physics-space coordinates, not
      * null, unaffected)
      */
-    private void setUpOneBall(Vector3f location, int ballId) {
+    private void setUpBall(Vector3f location, int ballId) {
         String ballName = ballName(ballId);
         Geometry geometry = new Geometry(ballName, ballMesh);
         rbcNode.attachChild(geometry);
@@ -507,8 +504,6 @@ public class PoolDemo extends AbstractDemo {
         geometry.addControl(rbc);
 
         rbc.setApplicationData(ballId);
-        rbc.setApplyPhysicsLocal(true);
-
         rbc.setCcdMotionThreshold(ballRadius);
         rbc.setCcdSweptSphereRadius(ballRadius);
         rbc.setFriction(0.03f);
@@ -556,7 +551,7 @@ public class PoolDemo extends AbstractDemo {
             location.x = -(numBallsInRow - 1) * xSpacing / 2f;
             for (int j = 0; j < numBallsInRow; ++j) {
                 int ballId = 1 + permutation.permute(ballIndex);
-                setUpOneBall(location, ballId);
+                setUpBall(location, ballId);
                 ++ballIndex;
                 location.x += xSpacing;
             }
@@ -625,12 +620,13 @@ public class PoolDemo extends AbstractDemo {
         platformNode.addControl(rbc);
         rbc.setDebugNumSides(2);
         rbc.setFriction(5f);
-        rbc.setRestitution(0.6f);
-        rbc.setRollingFriction(10f);
-        rbc.setSpinningFriction(50f);
 
         PhysicsSpace space = getPhysicsSpace();
         rbc.setPhysicsSpace(space);
+
+        rbc.setRestitution(0.6f);
+        rbc.setRollingFriction(10f);
+        rbc.setSpinningFriction(50f);
     }
 
     /**
