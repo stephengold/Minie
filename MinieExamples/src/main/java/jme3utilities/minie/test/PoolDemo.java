@@ -250,7 +250,7 @@ public class PoolDemo extends AbstractDemo {
         CollisionShape ballShape = new SphereCollisionShape(ballRadius);
         registerShape("ball", ballShape);
 
-        final int zSamples = 128;
+        final int zSamples = 20;
         final int radialSamples = 2 * zSamples;
         ballMesh = new Sphere(zSamples, radialSamples, ballRadius);
     }
