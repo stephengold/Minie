@@ -476,6 +476,10 @@ public class BuoyDemo extends AbstractDemo {
             InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
         }
         rootNode.addControl(sv);
+
+        if (isPaused()) {
+            togglePause();
+        }
     }
 
     /**
