@@ -30,11 +30,11 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.DynamicAnimControl;
-import com.jme3.bullet.animation.RagUtils;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
+import java.util.List;
+import jme3utilities.MySpatial;
 
 /**
  * A very simple example using DynamicAnimControl.
@@ -81,10 +81,10 @@ public class HelloDac extends SimpleApplication {
 
         // The DynamicAnimControl must be added to the Spatial controlled by
         // the model's SkinningControl (or SkeletonControl).
-        // RagUtils.findSControl() may be used to locate the controlled Spatial.
-        AbstractControl sControl = RagUtils.findSControl(ninjaModel);
-        Spatial controlled = sControl.getSpatial();
-        // TODO use Heart library instead
+        // MySpatial.listAnimationSpatials() is used to locate that Spatial.
+        List<Spatial> list = MySpatial.listAnimationSpatials(ninjaModel, null);
+        assert list.size() == 1 : list.size();
+        Spatial controlled = list.get(0);
 
         // In the Ninja model, that Spatial is the model's root Node.
         assert controlled == ninjaModel;
