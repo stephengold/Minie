@@ -1,5 +1,110 @@
 # release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 1.7.0 released on TBD
+
+ + Fixed bugs in the library:
+   + kinematic `PhysicsRigidBody` cloned as a dynamic one
+   + `CompoundCollisionShape.correctAxes()` yields incorrect results when
+     multiple children reference the same shape
+   + native objects of `SoftBodyWorldInfo` and `VehicleTuning` are never freed
+   + `worldInfo` field of `PhysicsSoftBody` not cloned, loaded, or saved
+   + `FINE` logging of collision spaces reports `nativeId=0` in `create()`
+
+ + Fixed bugs in applications:
+   + `SliderJoint` destroyed multiple times in `TestAttachDriver`
+   + `NullPointerException` thrown in `TestRbc`
+   + "childColoring" action not handled in `DropTest`
+
+ + Deprecated many obsolete methods slated to be removed from v2.
+
+ + Added debug-visualization features:
+   + rebuild the debug shape of `CompoundCollisionShape` ONLY when it changes
+   + arrows to visualize cluster/node/rigid body velocity vectors
+   + markers to visualize pinned soft-body nodes
+   + arrows to visualize rigid/soft body gravity vectors
+   + add texture coordinates when visualizing a `PlaneCollisionShape`
+   + specify line widths for `PhysicsJoint` debug arrows
+   + configure the shadow mode of the debug root node
+
+ + Additional `PhysicsDumper` output:
+   + restitution of each rigid body
+   + angular velocity of each dynamic rigid body
+   + split-impulse parameters of each `SolverInfo`
+   + `isGravityProtected` for rigid bodies and `isWorldInfoProtected`
+     for soft bodies
+   + native ID for each `SoftBodyWorldInfo`
+
+ + Other added library features:
+   + an application-specific data reference for each `PhysicsCollisionObject`
+   + an ignore list for each `PhysicsCollisionObject`
+   + contact tests for collision spaces
+   + an option to protect the gravity of a `PhysicsRigidBody` from modification
+     by a `PhysicsSpace`
+   + an option to protect the world info of a `PhysicsSoftBody` from replacement
+     by a `PhysicsSoftSpace`
+   + methods to rotate/translate a `CompoundCollisionShape`
+   + a method to activate all collision objects in a `PhysicsSpace`
+   + publicized the `addJoint()` and `removeJoint()` methods of `PhysicsSpace`
+   + keep track of the `PhysicsSpace` (if any) to which each `PhysicsJoint`
+     is added
+   + construct an `IndexedMesh` from the debug mesh of a `CollisionShape`
+   + construct a `MeshCollisionShape` from a collection of native meshes
+   + a method to copy the cluster velocities of a `PhysicsSoftBody`
+   + getters for the combined rolling/spinning friction
+     of a `PhysicsCollisionEvent`
+   + access the split-impulse parameters of a `SolverInfo`
+   + `nativeId()` methods for `PhysicsCollisionEvent` and
+     `PhysicsCollisionObject`, to prepare for v2
+   + getters for the proxy group and proxy mash of a `PhysicsCollisionObject`
+   + construct a `CompoundCollisionShape` with specified initial capacity
+
+ + New applications added:
+   + `TargetDemo`, a shooting demo
+   + `PoolDemo`, an eight-ball pool simuation with moody lighting
+   + `NewtonsCradle`, a Newton's cradle simulation
+   + `TestScaleChange`
+   + tests for JME issues 1283 and 1351
+   + 3 apps missing from the Jme3Examples subproject
+
+ + Improvements to the `DropTest` application:
+   + use the PgUp key to "pop" the selected drop (if any)
+   + use the slash key to toggle between lit and wireframe materials
+   + when adding a Drop, avoid contact with existing rigid bodies
+   + added soft-body drop types (cloth and squishyBall)
+   + added jointed drop types (breakableRod, chain, diptych, flail, and ragdoll)
+   + added fixed-shape drop types (ankh, banana, barrel, bowl, bowlingPin,
+     horseshoe, iBeam, lidlessBox, link, snowman, table, thumbtack,
+     triangularFrame, trident, and washer)
+   + added "corner" and "square" platforms
+   + made gravity configurable
+   + applied a repeating texture to the "plane" platform
+
+ + Other improvements to existing applications:
+   + minimized the hotkey help node initially
+   + added the "BaseMesh" model to various demos
+   + bound the "G" key to `System.gc()` in various demos
+   + disabled audio rendering in all apps that use `AppSettings`
+
+ + Major refactoring efforts:
+   + many classes based on a new `NativePhysicsObject` class
+   + many demo apps based on a new `AbstractDemo` class
+   + 4 debug controls based on a new `CollisionShapeDebugControl` class
+   + physics appstate configuration using a new `DebugConfiguration`
+
+ + Added more 5 models with CC0 licenses ("Ankh", "Banana", "Barrel",
+   "BowlingPin", and "Horseshoe").
+ + Updated the native libraries to v6.4.0 of Libbulletjme.
+ + Based on:
+   + the 3.3.2-stable release of jMonkeyEngine,
+   + v5.5.0 of the Heart Library,
+   + v0.8.3 of the jme3-utilities-ui library,
+   + v0.5.0 of the Wes Library.
+ + Upgraded to Gradle v6.4.1 .
+
+## Version 1.6.1 released on 28 April 2020
+
+Fixed JME issue 1351 (crash during garbage collection)
+
 ## Version 1.6.0 released on 12 April 2020
 
  + Fixed bugs:
