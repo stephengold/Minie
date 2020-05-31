@@ -77,6 +77,49 @@ public class BulletDebugAppState extends AbstractAppState {
     // constants and loggers
 
     /**
+     * local copy of {@link com.jme3.math.ColorRGBA#Blue}
+     */
+    final private static ColorRGBA blueColor = new ColorRGBA(0f, 0f, 1f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.ColorRGBA#Brown}
+     */
+    final private static ColorRGBA brownColor
+            = new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.ColorRGBA#Cyan}
+     */
+    final private static ColorRGBA cyanColor = new ColorRGBA(0f, 1f, 1f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.ColorRGBA#Green}
+     */
+    final private static ColorRGBA greenColor = new ColorRGBA(0f, 1f, 0f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.ColorRGBA#Magenta}
+     */
+    final private static ColorRGBA magentaColor = new ColorRGBA(1f, 0f, 1f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.ColorRGBA#Orange}
+     */
+    final private static ColorRGBA orangeColor
+            = new ColorRGBA(251f / 255f, 130f / 255f, 0f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.ColorRGBA#Pink}
+     */
+    final private static ColorRGBA pinkColor
+            = new ColorRGBA(1f, 0.68f, 0.68f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.ColorRGBA#Red}
+     */
+    final private static ColorRGBA redColor = new ColorRGBA(1f, 0f, 0f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.ColorRGBA#White}
+     */
+    final private static ColorRGBA whiteColor = new ColorRGBA(1f, 1f, 1f, 1f);
+    /**
+     * local copy of {@link com.jme3.math.ColorRGBA#Yellow}
+     */
+    final private static ColorRGBA yellowColor = new ColorRGBA(1f, 1f, 0f, 1f);
+    /**
      * message logger for this class
      */
     final public static Logger logger
@@ -551,7 +594,7 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Initialize the wireframe materials.
+     * Initialize the wireframe materials and child materials.
      *
      * @param am the application's AssetManager (not null)
      */
@@ -560,55 +603,49 @@ public class BulletDebugAppState extends AbstractAppState {
 
         Material invisible = MyAsset.createInvisibleMaterial(am);
         blues[0] = invisible;
-        blues[1] = createWireMaterial(am, ColorRGBA.Blue, "debug blue ss", 1);
+        blues[1] = createWireMaterial(am, blueColor, "debug blue ss", 1);
         blues[1].getAdditionalRenderState().setWireframe(true);
         blues[1].setName("debug blue ss");
-        blues[2] = createWireMaterial(am, ColorRGBA.Blue, "debug blue ds", 2);
+        blues[2] = createWireMaterial(am, blueColor, "debug blue ds", 2);
 
-        // TODO avoid ColorRGBA's shared "constants"
-        childMaterials[0] = MyAsset.createUnshadedMaterial(am, ColorRGBA.White);
-        childMaterials[1] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Red);
-        childMaterials[2] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Green);
-        childMaterials[3] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Blue);
-        childMaterials[4]
-                = MyAsset.createUnshadedMaterial(am, ColorRGBA.Yellow);
-        childMaterials[5] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Cyan);
-        childMaterials[6]
-                = MyAsset.createUnshadedMaterial(am, ColorRGBA.Orange);
-        childMaterials[7]
-                = MyAsset.createUnshadedMaterial(am, ColorRGBA.Magenta);
-        childMaterials[8] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Pink);
-        childMaterials[9] = MyAsset.createUnshadedMaterial(am, ColorRGBA.Brown);
+        childMaterials[0] = MyAsset.createUnshadedMaterial(am, whiteColor);
+        childMaterials[1] = MyAsset.createUnshadedMaterial(am, redColor);
+        childMaterials[2] = MyAsset.createUnshadedMaterial(am, greenColor);
+        childMaterials[3] = MyAsset.createUnshadedMaterial(am, blueColor);
+        childMaterials[4] = MyAsset.createUnshadedMaterial(am, yellowColor);
+        childMaterials[5] = MyAsset.createUnshadedMaterial(am, cyanColor);
+        childMaterials[6] = MyAsset.createUnshadedMaterial(am, orangeColor);
+        childMaterials[7] = MyAsset.createUnshadedMaterial(am, magentaColor);
+        childMaterials[8] = MyAsset.createUnshadedMaterial(am, pinkColor);
+        childMaterials[9] = MyAsset.createUnshadedMaterial(am, brownColor);
         for (int childI = 0; childI < childMaterials.length; ++childI) {
             childMaterials[childI].setName("debug child " + childI);
         }
 
-        gravity = createWireMaterial(am, ColorRGBA.Cyan, "debug gravity", 2);
+        gravity = createWireMaterial(am, cyanColor, "debug gravity", 2);
 
-        jointMaterialA = createWireMaterial(am, ColorRGBA.Green,
+        jointMaterialA = createWireMaterial(am, greenColor,
                 "debug joint A wire", 2);
-        jointMaterialB = createWireMaterial(am, ColorRGBA.Red,
+        jointMaterialB = createWireMaterial(am, redColor,
                 "debug joint B wire", 2);
         float jointLineWidth = configuration.jointLineWidth();
         setJointLineWidth(jointLineWidth);
 
         magentas[0] = invisible;
-        magentas[1] = createWireMaterial(am, ColorRGBA.Magenta,
-                "debug magenta ss", 1);
-        magentas[2] = createWireMaterial(am, ColorRGBA.Magenta,
-                "debug magenta ds", 2);
+        magentas[1] = createWireMaterial(am, magentaColor, "debug magenta ss",
+                1);
+        magentas[2] = createWireMaterial(am, magentaColor, "debug magenta ds",
+                2);
 
         pink[0] = invisible;
-        pink[1] = createWireMaterial(am, ColorRGBA.Pink, "debug pink ss", 1);
-        pink[2] = createWireMaterial(am, ColorRGBA.Pink, "debug pink ds", 2);
+        pink[1] = createWireMaterial(am, pinkColor, "debug pink ss", 1);
+        pink[2] = createWireMaterial(am, pinkColor, "debug pink ds", 2);
 
-        white = createWireMaterial(am, ColorRGBA.White, "debug white", 2);
+        white = createWireMaterial(am, whiteColor, "debug white", 2);
 
         yellows[0] = invisible;
-        yellows[1] = createWireMaterial(am, ColorRGBA.Yellow,
-                "debug yellow ss", 1);
-        yellows[2] = createWireMaterial(am, ColorRGBA.Yellow,
-                "debug yellow ds", 2);
+        yellows[1] = createWireMaterial(am, yellowColor, "debug yellow ss", 1);
+        yellows[2] = createWireMaterial(am, yellowColor, "debug yellow ds", 2);
     }
 
     /**
@@ -1016,6 +1053,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * Interface to restrict which physics objects are visualized.
      */
     public interface DebugAppStateFilter {
+
         /**
          * Test whether the specified physics object should be rendered in the
          * debug scene.
