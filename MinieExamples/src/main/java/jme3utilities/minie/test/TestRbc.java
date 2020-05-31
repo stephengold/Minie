@@ -1240,6 +1240,10 @@ public class TestRbc
      * @param zScale desired Z-axis scale factor (default=1)
      */
     private void setScale(float xScale, float yScale, float zScale) {
+        if (testSpatial == null) {
+            return;
+        }
+
         if (testName.equals("LargeTerrain")) {
             testSpatial.setLocalScale(
                     xScale / 100f, yScale / 100f, zScale / 100f);
