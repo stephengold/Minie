@@ -44,9 +44,8 @@ import com.jme3.scene.debug.Arrow;
 import java.util.logging.Logger;
 
 /**
- * Debugging aids. Aside from setStartupMessageEnabled(), this class exists
- * solely for compatibility with the jme3-bullet library. TODO make more
- * compatible
+ * Debugging aids. This class exists solely for compatibility with the
+ * jme3-bullet library.
  *
  * @author normenhansen
  */
@@ -62,23 +61,23 @@ public class DebugTools {
     /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
      */
-    final private static Vector3f UNIT_XYZ_CHECK = new Vector3f(1f, 1f, 1f);
+    final protected static Vector3f UNIT_XYZ_CHECK = new Vector3f(1f, 1f, 1f);
     /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_X}
      */
-    final private static Vector3f UNIT_X_CHECK = new Vector3f(1f, 0f, 0f);
+    final protected static Vector3f UNIT_X_CHECK = new Vector3f(1f, 0f, 0f);
     /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_Y}
      */
-    final private static Vector3f UNIT_Y_CHECK = new Vector3f(0f, 1f, 0f);
+    final protected static Vector3f UNIT_Y_CHECK = new Vector3f(0f, 1f, 0f);
     /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_Z}
      */
-    final private static Vector3f UNIT_Z_CHECK = new Vector3f(0f, 0f, 1f);
+    final protected static Vector3f UNIT_Z_CHECK = new Vector3f(0f, 0f, 1f);
     /**
      * local copy of {@link com.jme3.math.Vector3f#ZERO}
      */
-    final private static Vector3f ZERO_CHECK = new Vector3f(0f, 0f, 0f);
+    final protected static Vector3f ZERO_CHECK = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -106,7 +105,10 @@ public class DebugTools {
      * mesh for the yellow arrow
      */
     public Arrow arrowYellow = new Arrow(Vector3f.ZERO);
-    final private AssetManager manager;
+    /**
+     * asset manager
+     */
+    final protected AssetManager manager;
     /**
      * geometry for the blue arrow
      */
