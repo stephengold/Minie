@@ -100,6 +100,16 @@ public class SoftDebugAppState extends BulletDebugAppState {
     // constructors
 
     /**
+     * Instantiate an AppState with the specified configuration. This
+     * constructor should be invoked only by BulletSoftBodyAppState.
+     *
+     * @param config the desired configuration (not null, alias created)
+     */
+    public SoftDebugAppState(DebugConfiguration config) {
+        super(config);
+    }
+
+    /**
      * Instantiate an AppState to visualize the specified space using the
      * specified view ports. This constructor should be invoked only by
      * BulletSoftBodyAppState.
@@ -112,6 +122,7 @@ public class SoftDebugAppState extends BulletDebugAppState {
      * alias created)
      * @param camera the camera for rendering, or null if unknown
      */
+    @Deprecated
     public SoftDebugAppState(PhysicsSoftSpace space, ViewPort[] viewPorts,
             BulletDebugAppState.DebugAppStateFilter filter,
             DebugInitListener initListener, Camera camera) {
@@ -285,6 +296,8 @@ public class SoftDebugAppState extends BulletDebugAppState {
          * Synchronize the soft-body debug controls and axis visualizers
          * with the soft bodies in the PhysicsSpace.
          */
+        BulletDebugAppState.DebugAppStateFilter filter
+                = getConfiguration().getFilter();
         for (Map.Entry<PhysicsSoftBody, Node> entry : softBodies.entrySet()) {
             PhysicsSoftBody softBody = entry.getKey();
             boolean displayShape = (filter == null)

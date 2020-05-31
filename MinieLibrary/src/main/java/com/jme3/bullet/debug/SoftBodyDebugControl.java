@@ -383,7 +383,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     private int countVelocitiesToVisualize() {
         SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
         BulletDebugAppState.DebugAppStateFilter filter
-                = sdas.getVelocityVectorFilter();
+                = sdas.getConfiguration().getVelocityVectorFilter();
 
         int result = 0;
         if (filter != null && filter.displayObject(body)) {

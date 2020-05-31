@@ -36,6 +36,7 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.PhysicsSpace.BroadphaseType;
 import com.jme3.bullet.debug.BulletDebugAppState;
+import com.jme3.bullet.debug.DebugConfiguration;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -93,10 +94,6 @@ public class BulletAppState
      */
     private AppStateManager stateManager;
     /**
-     * true if-and-only-if debug visualization is enabled
-     */
-    private boolean debugEnabled = false;
-    /**
      * true if-and-only-if the physics simulation is running (started but not
      * yet stopped)
      */
@@ -110,64 +107,22 @@ public class BulletAppState
      * AppState to manage the debug visualization, or null if none
      */
     private BulletDebugAppState debugAppState;
-    /**
-     * filter to limit which bounding boxes are visualized in the debug
-     * visualization, or null to visualize no bounding boxes
-     */
-    private BulletDebugAppState.DebugAppStateFilter boundingBoxFilter = null;
-    /**
-     * filter to limit which objects are visualized in the debug visualization,
-     * or null to visualize all objects
-     */
-    private BulletDebugAppState.DebugAppStateFilter filter = null;
-    /**
-     * limit which gravity vectors are visualized, or null to visualize no
-     * gravity vectors
-     */
-    private BulletDebugAppState.DebugAppStateFilter gravityVectorFilter = null;
-    /**
-     * filter to limit which swept spheres are visualized in the debug
-     * visualization, or null to visualize no swept spheres
-     */
-    private BulletDebugAppState.DebugAppStateFilter sweptSphereFilter = null;
-    /**
-     * limit which velocity vectors are visualized, or null to visualize no
-     * velocity vectors
-     */
-    private BulletDebugAppState.DebugAppStateFilter velocityVectorFilter;
 
     final private Callable<Boolean> parallelPhysicsUpdate
             = new Callable<Boolean>() {
         @Override
         public Boolean call() throws Exception {
+            PhysicsSpace pSpace = debugConfig.getSpace();
             pSpace.update(isEnabled() ? tpf * speed : 0f);
             return true;
         }
     };
     /**
-     * Camera for debug visualization, or null if unknown
+     * configuration for debug visualization
      */
-    private Camera debugCamera;
+    final private DebugConfiguration debugConfig = new DebugConfiguration();
     /**
-     * registered debug init listener, or null if none
-     */
-    private DebugInitListener debugInitListener = null;
-    /**
-     * length of each debug axis arrow (in world units, &gt;0) or 0 for no axis
-     * arrows
-     */
-    private float debugAxisLength = 0f;
-    /**
-     * line width for wireframe debug axis arrows (in pixels, &ge;1) or 0 for
-     * solid axis arrows
-     */
-    private float debugAxisLineWidth = 1f;
-    /**
-     * line width for PhysicsJoint debug arrows (in pixels, &ge;1)
-     */
-    private float debugJointLineWidth = 1f;
-    /**
-     * simulation speed multiplier (default=1, paused=0)
+     * simulation speed multiplier (paused=0)
      */
     private float speed = 1f;
     /**
@@ -179,24 +134,16 @@ public class BulletAppState
      */
     private Future physicsFuture;
     /**
-     * PhysicsSpace managed by this state, or null if no simulation running
-     */
-    private PhysicsSpace pSpace;
-    /**
      * executor service for physics tasks, or null if parallel simulation is not
      * running
      */
     private ScheduledThreadPoolExecutor executor;
     /**
-     * ShadowMode for the debug root node
-     */
-    private RenderQueue.ShadowMode debugShadowMode = RenderQueue.ShadowMode.Off;
-    /**
      * constraint solver for the PhysicsSpace to use (not null)
      */
     private SolverType solverType = SolverType.SI;
     /**
-     * threading mode to use (not null, default=SEQUENTIAL)
+     * threading mode to use (not null)
      */
     private ThreadingType threadingType = ThreadingType.SEQUENTIAL;
     /**
@@ -209,10 +156,6 @@ public class BulletAppState
      * broadphase algorithms (not null)
      */
     final private Vector3f worldMin = new Vector3f(-10000f, -10000f, -10000f);
-    /**
-     * view ports in which to render the debug visualization
-     */
-    private ViewPort[] debugViewPorts = null;
     // *************************************************************************
     // constructors
 
@@ -280,28 +223,26 @@ public class BulletAppState
     // new methods exposed
 
     /**
-     * Read the length of the debug axis arrows.
+     * Determine the length of the debug axis arrows.
      *
-     * @return length (in world units, &ge;0)
+     * @return length (in physics-space units, &ge;0)
      */
     public float debugAxisLength() {
-        assert debugAxisLength >= 0f : debugAxisLength;
-        return debugAxisLength;
+        return debugConfig.axisArrowLength();
     }
 
     /**
-     * Read the line width of the debug axis arrows.
+     * Determine the line width of the debug axis arrows.
      *
      * @return width (in pixels, &ge;1) or 0 for solid arrows
      */
     public float debugAxisLineWidth() {
-        assert debugAxisLineWidth >= 0f : debugAxisLineWidth;
-        return debugAxisLineWidth;
+        return debugConfig.axisLineWidth();
     }
 
     /**
-     * Read which broadphase collision-detection algorithm the PhysicsSpace will
-     * use.
+     * Determine which broadphase collision-detection algorithm the PhysicsSpace
+     * will use.
      *
      * @return enum value (not null)
      */
@@ -315,7 +256,7 @@ public class BulletAppState
      * @return the pre-existing instance, or null if unknown
      */
     public Camera getDebugCamera() {
-        return debugCamera;
+        return debugConfig.getCamera();
     }
 
     /**
@@ -325,13 +266,13 @@ public class BulletAppState
      * @return the pre-existing instance, or null if no simulation running
      */
     public PhysicsSpace getPhysicsSpace() {
-        return pSpace;
+        return debugConfig.getSpace();
     }
 
     /**
      * Determine which constraint solver the PhysicsSpace will use.
      *
-     * @return enum value (not null)
+     * @return the enum value (not null)
      */
     public SolverType getSolverType() {
         assert solverType != null;
@@ -339,20 +280,22 @@ public class BulletAppState
     }
 
     /**
-     * Read the physics simulation speed.
+     * Determine the physics simulation speed.
      *
      * @return the speedup factor (&ge;0, default=1)
      */
     public float getSpeed() {
+        assert speed >= 0f : speed;
         return speed;
     }
 
     /**
-     * Read which type of threading this app state uses.
+     * Determine which type of threading this app state uses.
      *
      * @return the threadingType (not null)
      */
     public ThreadingType getThreadingType() {
+        assert threadingType != null;
         return threadingType;
     }
 
@@ -362,7 +305,7 @@ public class BulletAppState
      * @return true if enabled, otherwise false
      */
     public boolean isDebugEnabled() {
-        return debugEnabled;
+        return debugConfig.isEnabled();
     }
 
     /**
@@ -391,29 +334,22 @@ public class BulletAppState
     /**
      * Alter the length of the debug axis arrows.
      *
-     * @param length (in world units, &ge;0)
+     * @param length the desired length (in physics-space units, &ge;0)
      */
     public void setDebugAxisLength(float length) {
         Validate.nonNegative(length, "length");
-
-        if (debugAppState != null) {
-            debugAppState.setAxisLength(length);
-        }
-        debugAxisLength = length;
+        debugConfig.setAxisArrowLength(length);
     }
 
     /**
      * Alter the line width for debug axis arrows.
      *
-     * @param width (in pixels, &ge;1) or 0 for solid arrows (default=1)
+     * @param width the desired width (in pixels, &ge;1) or 0 for solid arrows
+     * (default=1)
      */
     public void setDebugAxisLineWidth(float width) {
         Validate.inRange(width, "width", 0f, Float.MAX_VALUE);
-
-        if (debugAppState != null) {
-            debugAppState.setAxisLineWidth(width);
-        }
-        debugAxisLineWidth = width;
+        debugConfig.setAxisLineWidth(width);
     }
 
     /**
@@ -423,10 +359,11 @@ public class BulletAppState
      */
     public void setDebugBoundingBoxFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        if (debugAppState != null) {
+        if (debugAppState == null) {
+            debugConfig.setBoundingBoxFilter(filter);
+        } else {
             debugAppState.setBoundingBoxFilter(filter);
         }
-        boundingBoxFilter = filter;
     }
 
     /**
@@ -436,10 +373,50 @@ public class BulletAppState
      * application's main camera)
      */
     public void setDebugCamera(Camera camera) {
-        if (debugAppState != null) {
-            debugAppState.setCamera(camera);
+        debugConfig.setCamera(camera);
+    }
+
+    /**
+     * Enable or disable debug visualization. Changes take effect on the next
+     * update.
+     *
+     * @param debugEnabled true &rarr; enable, false &rarr; disable
+     * (default=false)
+     */
+    public void setDebugEnabled(boolean debugEnabled) {
+        debugConfig.setEnabled(debugEnabled);
+    }
+
+    /**
+     * Alter which objects are included in the debug visualization.
+     *
+     * @param filter the desired filter, or null to visualize all objects
+     */
+    public void setDebugFilter(BulletDebugAppState.DebugAppStateFilter filter) {
+        debugConfig.setFilter(filter);
+    }
+
+    /**
+     * Alter which gravity vectors are included in the debug visualization.
+     *
+     * @param filter the desired filter, or null to visualize no gravity vectors
+     */
+    public void setDebugGravityVectorFilter(
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        if (debugAppState == null) {
+            debugConfig.setGravityVectorFilter(filter);
+        } else {
+            debugAppState.setGravityVectorFilter(filter);
         }
-        debugCamera = camera;
+    }
+
+    /**
+     * Register the init listener for the BulletDebugAppState.
+     *
+     * @param listener the listener to register, or null to de-register
+     */
+    public void setDebugInitListener(DebugInitListener listener) {
+        debugConfig.setInitListener(listener);
     }
 
     /**
@@ -450,55 +427,11 @@ public class BulletAppState
     public void setDebugJointLineWidth(float width) {
         Validate.inRange(width, "width", 1f, Float.MAX_VALUE);
 
-        if (debugAppState != null) {
+        if (debugAppState == null) {
+            debugConfig.setJointLineWidth(width);
+        } else {
             debugAppState.setJointLineWidth(width);
         }
-        debugJointLineWidth = width;
-    }
-
-    /**
-     * Alter whether debug visualization is enabled. Changes take effect on the
-     * next update.
-     *
-     * @param debugEnabled true &rarr; enable, false &rarr; disable
-     * (default=false)
-     */
-    public void setDebugEnabled(boolean debugEnabled) {
-        this.debugEnabled = debugEnabled;
-    }
-
-    /**
-     * Alter which objects are included in the debug visualization.
-     *
-     * @param filter the desired filter, or null to visualize all objects
-     */
-    public void setDebugFilter(BulletDebugAppState.DebugAppStateFilter filter) {
-        if (debugAppState != null) {
-            debugAppState.setFilter(filter);
-        }
-        this.filter = filter;
-    }
-
-    /**
-     * Alter which gravity vectors are included in the debug visualization.
-     *
-     * @param filter the desired filter, or null to visualize no gravity vectors
-     */
-    public void setDebugGravityVectorFilter(
-            BulletDebugAppState.DebugAppStateFilter filter) {
-        if (debugAppState != null) {
-            debugAppState.setGravityVectorFilter(filter);
-        }
-        gravityVectorFilter = filter;
-    }
-
-    /**
-     * Register the init listener for the BulletDebugAppState.
-     *
-     * @param listener the listener to register, or null to de-register
-     */
-    public void setDebugInitListener(DebugInitListener listener) {
-        debugInitListener = listener;
     }
 
     /**
@@ -513,7 +446,7 @@ public class BulletAppState
             Node node = debugAppState.getRootNode();
             node.setShadowMode(mode);
         }
-        debugShadowMode = mode;
+        debugConfig.setShadowMode(mode);
     }
 
     /**
@@ -523,10 +456,11 @@ public class BulletAppState
      */
     public void setDebugSweptSphereFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        if (debugAppState != null) {
+        if (debugAppState == null) {
+            debugConfig.setSweptSphereFilter(filter);
+        } else {
             debugAppState.setSweptSphereFilter(filter);
         }
-        sweptSphereFilter = filter;
     }
 
     /**
@@ -537,10 +471,11 @@ public class BulletAppState
      */
     public void setDebugVelocityVectorFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        if (debugAppState != null) {
+        if (debugAppState == null) {
+            debugConfig.setVelocityVectorFilter(filter);
+        } else {
             debugAppState.setVelocityVectorFilter(filter);
         }
-        velocityVectorFilter = filter;
     }
 
     /**
@@ -550,13 +485,7 @@ public class BulletAppState
      */
     public void setDebugViewPorts(ViewPort... viewPorts) {
         Validate.nonNull(viewPorts, "view ports");
-
-        if (debugAppState != null) {
-            debugAppState.setViewPorts(viewPorts);
-        }
-        int length = viewPorts.length;
-        debugViewPorts = new ViewPort[length];
-        System.arraycopy(viewPorts, 0, debugViewPorts, 0, length);
+        debugConfig.setViewPorts(viewPorts);
     }
 
     /**
@@ -569,7 +498,7 @@ public class BulletAppState
         Validate.nonNull(solver, "solver");
         assert !isRunning();
 
-        this.solverType = solver;
+        solverType = solver;
     }
 
     /**
@@ -632,15 +561,19 @@ public class BulletAppState
             return;
         }
 
+        PhysicsSpace pSpace;
         switch (threadingType) {
             case PARALLEL:
                 boolean success = startPhysicsOnExecutor();
                 assert success;
+
+                pSpace = debugConfig.getSpace();
                 assert pSpace != null;
                 break;
 
             case SEQUENTIAL:
                 pSpace = createPhysicsSpace(worldMin, worldMax, broadphaseType);
+                debugConfig.setSpace(pSpace);
                 pSpace.addTickListener(this);
                 break;
 
@@ -663,6 +596,7 @@ public class BulletAppState
             executor.shutdown();
             executor = null;
         }
+        PhysicsSpace pSpace = debugConfig.getSpace();
         pSpace.removeTickListener(this);
         setPhysicsSpace(null);
         setRunning(false);
@@ -671,7 +605,17 @@ public class BulletAppState
     // new protected methods
 
     /**
-     * Create the configured debug app state.
+     * Create the configured debug-visualization app state.
+     *
+     * @return a new instance (not null)
+     */
+    protected BulletDebugAppState createDebugAppState() {
+        BulletDebugAppState appState = new BulletDebugAppState(debugConfig);
+        return appState;
+    }
+
+    /**
+     * Create the configured debug-visualization app state.
      *
      * @param space the PhysicsSpace (not null, alias created)
      * @param viewPorts the view ports in which to render (not null)
@@ -680,13 +624,13 @@ public class BulletAppState
      * @param camera the camera for debug visualization, or null if unknown
      * @return a new instance (not null)
      */
+    @Deprecated
     protected BulletDebugAppState createDebugAppState(PhysicsSpace space,
             ViewPort[] viewPorts,
             BulletDebugAppState.DebugAppStateFilter filter,
             DebugInitListener listener, Camera camera) {
         BulletDebugAppState appState = new BulletDebugAppState(space, viewPorts,
                 filter, listener, camera);
-
         return appState;
     }
 
@@ -713,12 +657,22 @@ public class BulletAppState
     }
 
     /**
+     * Access the configuration for debug visualization.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    protected DebugConfiguration getDebugConfiguration() {
+        assert debugConfig != null;
+        return debugConfig;
+    }
+
+    /**
      * Alter which PhysicsSpace is managed by this state.
      *
      * @param newSpace the space to be managed (may be null)
      */
     protected void setPhysicsSpace(PhysicsSpace newSpace) {
-        pSpace = newSpace;
+        debugConfig.setSpace(newSpace);
     }
 
     /**
@@ -746,7 +700,9 @@ public class BulletAppState
         Callable<Boolean> call = new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                pSpace = createPhysicsSpace(worldMin, worldMax, broadphaseType);
+                PhysicsSpace pSpace = createPhysicsSpace(worldMin, worldMax,
+                        broadphaseType);
+                debugConfig.setSpace(pSpace);
                 pSpace.addTickListener(appState);
                 return true;
             }
@@ -809,13 +765,7 @@ public class BulletAppState
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
 
-        if (debugCamera == null) {
-            debugCamera = app.getCamera();
-        }
-        if (debugViewPorts == null) {
-            debugViewPorts = new ViewPort[1];
-            debugViewPorts[0] = app.getViewPort();
-        }
+        debugConfig.initialize(app);
         startPhysics();
     }
 
@@ -852,6 +802,7 @@ public class BulletAppState
         if (threadingType == ThreadingType.PARALLEL) {
             physicsFuture = executor.submit(parallelPhysicsUpdate);
         } else if (threadingType == ThreadingType.SEQUENTIAL) {
+            PhysicsSpace pSpace = debugConfig.getSpace();
             pSpace.update(isEnabled() ? tpf * speed : 0f);
         }
     }
@@ -871,6 +822,7 @@ public class BulletAppState
             startPhysics();
         }
         if (threadingType == ThreadingType.PARALLEL) {
+            PhysicsSpace pSpace = debugConfig.getSpace();
             PhysicsSpace.setLocalThreadPhysicsSpace(pSpace);
         }
     }
@@ -887,25 +839,15 @@ public class BulletAppState
         super.update(tpf);
         this.tpf = tpf;
 
-        if (debugEnabled && debugAppState == null) {
+        boolean enable = debugConfig.isEnabled();
+        if (enable && debugAppState == null) {
             /*
              * Start debug visualization.
              */
-            assert pSpace != null;
-            assert debugViewPorts != null;
-            debugAppState = createDebugAppState(pSpace, debugViewPorts, filter,
-                    debugInitListener, debugCamera);
-            debugAppState.setAxisLength(debugAxisLength);
-            debugAppState.setAxisLineWidth(debugAxisLineWidth);
-            debugAppState.setBoundingBoxFilter(boundingBoxFilter);
-            debugAppState.setGravityVectorFilter(gravityVectorFilter);
-            debugAppState.setJointLineWidth(debugJointLineWidth);
-            debugAppState.setSweptSphereFilter(sweptSphereFilter);
-            debugAppState.setVelocityVectorFilter(velocityVectorFilter);
-            debugAppState.getRootNode().setShadowMode(debugShadowMode);
+            debugAppState = createDebugAppState();
             stateManager.attach(debugAppState);
 
-        } else if (!debugEnabled && debugAppState != null) {
+        } else if (!enable && debugAppState != null) {
             /*
              * Stop debug visualization.
              */
@@ -913,6 +855,7 @@ public class BulletAppState
             debugAppState = null;
         }
 
+        PhysicsSpace pSpace = debugConfig.getSpace();
         pSpace.distributeEvents();
     }
     // *************************************************************************

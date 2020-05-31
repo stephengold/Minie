@@ -53,6 +53,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
@@ -92,50 +93,9 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     private AssetManager assetManager;
     /**
-     * Camera for debug visualization, or null if unknown
+     * configuration
      */
-    private Camera camera;
-    /**
-     * limit which bounding boxes are visualized, or null to visualize no
-     * bounding boxes
-     */
-    protected DebugAppStateFilter boundingBoxFilter;
-    /**
-     * limit which object shapes are visualized, or null to visualize all object
-     * shapes
-     */
-    protected DebugAppStateFilter filter;
-    /**
-     * limit which gravity vectors are visualized, or null to visualize no
-     * gravity vectors
-     */
-    private DebugAppStateFilter gravityVectorFilter;
-    /**
-     * limit which swept spheres are visualized, or null to visualize no swept
-     * spheres
-     */
-    private DebugAppStateFilter sweptSphereFilter;
-    /**
-     * limit which velocity vectors are visualized, or null to visualize no
-     * velocity vectors
-     */
-    private DebugAppStateFilter velocityVectorFilter;
-    /**
-     * registered init listener, or null if none
-     */
-    final private DebugInitListener initListener;
-    /**
-     * length of each axis arrow (in shape units, &gt;0) or 0 for no axis arrows
-     */
-    private float axisLength = 0f;
-    /**
-     * line width for axis arrows (in pixels, &ge;1) or 0 for solid axis arrows
-     */
-    private float axisLineWidth = 1f;
-    /**
-     * line width for PhysicsJoint arrows (in pixels, &ge;1)
-     */
-    private float jointLineWidth = 1f;
+    final private DebugConfiguration configuration;
     /**
      * map collision objects to transformed visualization nodes
      */
@@ -183,19 +143,22 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     final private Material[] yellows = new Material[3];
     /**
-     * scene-graph node to parent the geometries
+     * scene-graph node for (debug) visualization
      */
     final private Node root = new Node("Physics Debug Root Node");
-    /**
-     * PhysicsSpace to visualize (not null)
-     */
-    final private PhysicsSpace space;
-    /**
-     * view ports in which to render (not null)
-     */
-    private ViewPort[] viewPorts;
     // *************************************************************************
     // constructors
+
+    /**
+     * Instantiate an AppState with the specified configuration. This
+     * constructor should be invoked only by BulletAppState.
+     *
+     * @param config the desired configuration (not null, alias created)
+     */
+    public BulletDebugAppState(DebugConfiguration config) {
+        Validate.nonNull(config, "configuration");
+        configuration = config;
+    }
 
     /**
      * Instantiate an AppState to visualize the specified space using the
@@ -211,44 +174,41 @@ public class BulletDebugAppState extends AbstractAppState {
      * alias created)
      * @param camera the Camera for rendering (may be null, alias created)
      */
+    @Deprecated
     public BulletDebugAppState(PhysicsSpace space, ViewPort[] viewPorts,
             DebugAppStateFilter filter, DebugInitListener initListener,
             Camera camera) {
         Validate.nonNull(space, "space");
         Validate.nonNull(viewPorts, "view ports");
 
-        this.space = space;
-
-        int numViewPorts = viewPorts.length;
-        this.viewPorts = new ViewPort[numViewPorts];
-        System.arraycopy(viewPorts, 0, this.viewPorts, 0, numViewPorts);
-
-        this.filter = filter;
-        this.initListener = initListener;
-        this.camera = camera;
+        configuration = new DebugConfiguration();
+        configuration.setCamera(camera);
+        configuration.setFilter(filter);
+        configuration.setInitListener(initListener);
+        configuration.setViewPorts(viewPorts);
+        configuration.setSpace(space);
     }
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Read the length of the axis arrows. For internal use only. TODO deprecate
+     * Read the length of the axis arrows. For internal use only.
      *
      * @return length (in shape units, &ge;0)
      */
+    @Deprecated
     public float axisLength() {
-        assert axisLength >= 0f : axisLength;
-        return axisLength;
+        return configuration.axisArrowLength();
     }
 
     /**
-     * Read the line width for axis arrows. For internal use only. TODO
-     * deprecate
+     * Read the line width for axis arrows. For internal use only.
      *
      * @return width (in pixels, &ge;1) or 0 for solid arrows
      */
+    @Deprecated
     public float axisLineWidth() {
-        assert axisLineWidth >= 0f : axisLineWidth;
-        return axisLineWidth;
+        return configuration.axisLineWidth();
     }
 
     /**
@@ -279,8 +239,9 @@ public class BulletDebugAppState extends AbstractAppState {
      *
      * @return the pre-existing instance, or null if unknown
      */
+    @Deprecated
     Camera getCamera() {
-        return camera;
+        return configuration.getCamera();
     }
 
     /**
@@ -310,6 +271,15 @@ public class BulletDebugAppState extends AbstractAppState {
         Material result = childMaterials[materialIndex];
 
         return result;
+    }
+
+    /**
+     * Access the configuration.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    DebugConfiguration getConfiguration() {
+        return configuration;
     }
 
     /**
@@ -372,6 +342,15 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
+     * Access the Node containing all the debug visualization.
+     *
+     * @return the pre-existing instance, or null if unknown
+     */
+    public Node getRootNode() {
+        return root;
+    }
+
+    /**
      * Access the Material for visualizing swept spheres.
      *
      * @return the pre-existing Material (not null)
@@ -379,15 +358,6 @@ public class BulletDebugAppState extends AbstractAppState {
     Material getSweptSphereMaterial() {
         assert white != null;
         return white;
-    }
-
-    /**
-     * Access the Node containing all the debug visualization.
-     *
-     * @return the pre-existing instance, or null if unknown
-     */
-    public Node getRootNode() {
-        return root;
     }
 
     /**
@@ -401,22 +371,13 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Access the filter that determines which velocity vectors are visualized.
-     *
-     * @return the filter, or null if none
-     */
-    BulletDebugAppState.DebugAppStateFilter getVelocityVectorFilter() {
-        return velocityVectorFilter;
-    }
-
-    /**
      * Alter the length of the axis arrows. For internal use only.
      *
      * @param length (in shape units, &ge;0, default=0)
      */
+    @Deprecated
     public void setAxisLength(float length) {
-        Validate.nonNegative(length, "length");
-        axisLength = length;
+        configuration.setAxisArrowLength(length);
     }
 
     /**
@@ -424,9 +385,9 @@ public class BulletDebugAppState extends AbstractAppState {
      *
      * @param width (in pixels, &ge;1) or 0 for solid arrows (default=1)
      */
+    @Deprecated
     public void setAxisLineWidth(float width) {
-        Validate.inRange(width, "width", 0f, Float.MAX_VALUE);
-        axisLineWidth = width;
+        configuration.setAxisLineWidth(width);
     }
 
     /**
@@ -435,7 +396,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * @param filter the desired filter, or null to visualize no bounding boxes
      */
     public void setBoundingBoxFilter(DebugAppStateFilter filter) {
-        boundingBoxFilter = filter;
+        configuration.setBoundingBoxFilter(filter);
 
         for (Node transformedNode : pcoMap.values()) {
             Node parent = transformedNode.getParent();
@@ -450,17 +411,19 @@ public class BulletDebugAppState extends AbstractAppState {
      *
      * @param camera the desired Camera, or null if unknown
      */
+    @Deprecated
     public void setCamera(Camera camera) {
-        this.camera = camera;
+        configuration.setCamera(camera);
     }
 
     /**
-     * Alter which objects are visualized. For internal use only.
+     * Alter which physics objects are visualized. For compatibility with the
+     * jme3-bullet library.
      *
      * @param filter the desired filter, or null to visualize all objects
      */
     public void setFilter(DebugAppStateFilter filter) {
-        this.filter = filter;
+        configuration.setFilter(filter);
     }
 
     /**
@@ -469,7 +432,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * @param filter the desired filter, or null to visualize no gravity vectors
      */
     public void setGravityVectorFilter(DebugAppStateFilter filter) {
-        gravityVectorFilter = filter;
+        configuration.setGravityVectorFilter(filter);
 
         for (Node transformedNode : pcoMap.values()) {
             Node parent = transformedNode.getParent();
@@ -487,13 +450,13 @@ public class BulletDebugAppState extends AbstractAppState {
     public void setJointLineWidth(float width) {
         Validate.inRange(width, "width", 1f, Float.MAX_VALUE);
 
-        jointLineWidth = width;
+        configuration.setJointLineWidth(width);
         if (jointMaterialA != null) {
             RenderState rs = jointMaterialA.getAdditionalRenderState();
-            rs.setLineWidth(jointLineWidth);
+            rs.setLineWidth(width);
 
             rs = jointMaterialB.getAdditionalRenderState();
-            rs.setLineWidth(jointLineWidth);
+            rs.setLineWidth(width);
         }
     }
 
@@ -503,7 +466,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * @param filter the desired filter, or null to visualize no swept spheres
      */
     public void setSweptSphereFilter(DebugAppStateFilter filter) {
-        sweptSphereFilter = filter;
+        configuration.setSweptSphereFilter(filter);
 
         for (Node transformedNode : pcoMap.values()) {
             Node parent = transformedNode.getParent();
@@ -519,7 +482,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * vectors
      */
     public void setVelocityVectorFilter(DebugAppStateFilter filter) {
-        velocityVectorFilter = filter;
+        configuration.setVelocityVectorFilter(filter);
 
         for (Node transformedNode : pcoMap.values()) {
             Node parent = transformedNode.getParent();
@@ -534,10 +497,9 @@ public class BulletDebugAppState extends AbstractAppState {
      *
      * @param viewPorts array of view ports (not null, unaffected)
      */
+    @Deprecated
     public void setViewPorts(ViewPort[] viewPorts) {
-        int length = viewPorts.length;
-        this.viewPorts = new ViewPort[length];
-        System.arraycopy(viewPorts, 0, this.viewPorts, 0, length);
+        configuration.setViewPorts(viewPorts);
     }
     // *************************************************************************
     // new protected methods
@@ -583,9 +545,9 @@ public class BulletDebugAppState extends AbstractAppState {
      *
      * @return the pre-existing instance (not null)
      */
+    @Deprecated
     protected PhysicsSpace getPhysicsSpace() {
-        assert space != null;
-        return space;
+        return configuration.getSpace();
     }
 
     /**
@@ -627,6 +589,7 @@ public class BulletDebugAppState extends AbstractAppState {
                 "debug joint A wire", 2);
         jointMaterialB = createWireMaterial(am, ColorRGBA.Red,
                 "debug joint B wire", 2);
+        float jointLineWidth = configuration.jointLineWidth();
         setJointLineWidth(jointLineWidth);
 
         magentas[0] = invisible;
@@ -655,7 +618,10 @@ public class BulletDebugAppState extends AbstractAppState {
      * @param displayShape true shape is visualized, otherwise false
      */
     protected void updateAxes(Node node, boolean displayShape) {
+        float axisLength = configuration.axisArrowLength();
+        float axisLineWidth = configuration.axisLineWidth();
         boolean displayAxes = displayShape && axisLength > 0f;
+
         AxesVisualizer control = node.getControl(AxesVisualizer.class);
         if (control != null) {
             if (displayAxes) {
@@ -680,6 +646,7 @@ public class BulletDebugAppState extends AbstractAppState {
     protected void updateShapes() {
         for (Map.Entry<PhysicsCollisionObject, Node> entry
                 : pcoMap.entrySet()) {
+            DebugAppStateFilter filter = configuration.getFilter();
             PhysicsCollisionObject pco = entry.getKey();
             boolean displayShape = (filter == null)
                     || filter.displayObject(pco);
@@ -738,6 +705,7 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     @Override
     public void cleanup() {
+        ViewPort[] viewPorts = configuration.listViewPorts();
         for (ViewPort viewPort : viewPorts) {
             viewPort.detachScene(root);
         }
@@ -758,13 +726,18 @@ public class BulletDebugAppState extends AbstractAppState {
         assetManager = app.getAssetManager();
         setupMaterials(assetManager);
 
-        if (initListener != null) {
-            initListener.bulletDebugInit(root);
+        DebugInitListener listener = configuration.getInitListener();
+        if (listener != null) {
+            listener.bulletDebugInit(root);
         }
 
+        ViewPort[] viewPorts = configuration.listViewPorts();
         for (ViewPort viewPort : viewPorts) {
             viewPort.attachScene(root);
         }
+
+        RenderQueue.ShadowMode mode = configuration.shadowMode();
+        root.setShadowMode(mode);
     }
 
     /**
@@ -777,11 +750,7 @@ public class BulletDebugAppState extends AbstractAppState {
     @Override
     public void render(RenderManager rm) {
         super.render(rm);
-        for (ViewPort viewPort : viewPorts) {
-            if (viewPort.isEnabled()) {
-                rm.renderScene(root, viewPort);
-            }
-        }
+        configuration.renderAllViewPorts(rm, root);
     }
 
     /**
@@ -804,7 +773,7 @@ public class BulletDebugAppState extends AbstractAppState {
         updateVelocityVectors();
         updateJoints();
 
-        // Update the debug root node.
+        // Update the (debug) root node.
         root.updateLogicalState(tpf);
         root.updateGeometricState();
     }
@@ -816,14 +785,15 @@ public class BulletDebugAppState extends AbstractAppState {
      * the PhysicsSpace.
      */
     private void updateBoundingBoxes() {
-        if (boundingBoxFilter == null) {
+        DebugAppStateFilter filter = configuration.getBoundingBoxFilter();
+        if (filter == null) {
             return;
         }
 
         for (Map.Entry<PhysicsCollisionObject, Node> entry
                 : pcoMap.entrySet()) {
             PhysicsCollisionObject pco = entry.getKey();
-            boolean display = boundingBoxFilter.displayObject(pco);
+            boolean display = filter.displayObject(pco);
 
             Node transformedNode = entry.getValue();
             Node parent = transformedNode.getParent();
@@ -844,7 +814,9 @@ public class BulletDebugAppState extends AbstractAppState {
      * PhysicsSpace.
      */
     private void updateGravityVectors() {
-        if (gravityVectorFilter == null) {
+        DebugAppStateFilter filter
+                = configuration.getGravityVectorFilter();
+        if (filter == null) {
             return;
         }
 
@@ -856,7 +828,7 @@ public class BulletDebugAppState extends AbstractAppState {
             boolean display = pco instanceof PhysicsBody
                     && !pco.isStatic()
                     && !pcoIsKinematic
-                    && gravityVectorFilter.displayObject(pco);
+                    && filter.displayObject(pco);
 
             Node transformedNode = entry.getValue();
             Node parent = transformedNode.getParent();
@@ -877,9 +849,11 @@ public class BulletDebugAppState extends AbstractAppState {
      * Synchronize the joint debug controls with the joints in the PhysicsSpace.
      */
     private void updateJoints() {
+        DebugAppStateFilter filter = configuration.getFilter();
         HashMap<PhysicsJoint, Node> oldMap = jointMap;
         //create new map
         jointMap = new HashMap<>(oldMap.size());
+        PhysicsSpace space = configuration.getSpace();
         Collection<PhysicsJoint> list = space.getJointList();
         for (PhysicsJoint joint : list) {
             if (filter == null || filter.displayObject(joint)) {
@@ -927,6 +901,7 @@ public class BulletDebugAppState extends AbstractAppState {
          */
         HashMap<PhysicsCollisionObject, Node> oldMap = pcoMap;
         pcoMap = new HashMap<>(oldMap.size());
+        PhysicsSpace space = configuration.getSpace();
         Collection<PhysicsCollisionObject> list = space.getPcoList();
         for (PhysicsCollisionObject pco : list) {
             Node node = oldMap.remove(pco);
@@ -953,14 +928,15 @@ public class BulletDebugAppState extends AbstractAppState {
      * the PhysicsSpace.
      */
     private void updateSweptSpheres() {
-        if (sweptSphereFilter == null) {
+        DebugAppStateFilter filter = configuration.getSweptSphereFilter();
+        if (filter == null) {
             return;
         }
 
         for (Map.Entry<PhysicsCollisionObject, Node> entry
                 : pcoMap.entrySet()) {
             PhysicsCollisionObject pco = entry.getKey();
-            boolean display = sweptSphereFilter.displayObject(pco)
+            boolean display = filter.displayObject(pco)
                     && pco.getCcdMotionThreshold() > 0f
                     && pco.getCcdSweptSphereRadius() > 0f;
 
@@ -984,6 +960,8 @@ public class BulletDebugAppState extends AbstractAppState {
      * PhysicsSpace.
      */
     private void updateVehicles() {
+        DebugAppStateFilter filter = configuration.getFilter();
+        PhysicsSpace space = configuration.getSpace();
         for (PhysicsVehicle vehicle : space.getVehicleList()) {
             boolean display = (filter == null || filter.displayObject(vehicle));
 
@@ -1006,7 +984,9 @@ public class BulletDebugAppState extends AbstractAppState {
      * bodies in the PhysicsSpace.
      */
     private void updateVelocityVectors() {
-        if (velocityVectorFilter == null) {
+        DebugAppStateFilter filter
+                = configuration.getVelocityVectorFilter();
+        if (filter == null) {
             return;
         }
 
@@ -1015,7 +995,7 @@ public class BulletDebugAppState extends AbstractAppState {
             PhysicsCollisionObject pco = entry.getKey();
             boolean display = pco instanceof PhysicsRigidBody
                     && ((PhysicsRigidBody) pco).isDynamic()
-                    && velocityVectorFilter.displayObject(pco);
+                    && filter.displayObject(pco);
 
             Node transformedNode = entry.getValue();
             Node parent = transformedNode.getParent();

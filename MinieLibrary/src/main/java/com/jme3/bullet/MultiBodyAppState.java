@@ -32,6 +32,7 @@
 package com.jme3.bullet;
 
 import com.jme3.bullet.debug.BulletDebugAppState;
+import com.jme3.bullet.debug.DebugConfiguration;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.debug.MultiBodyDebugAppState;
 import com.jme3.math.Vector3f;
@@ -70,6 +71,19 @@ public class MultiBodyAppState extends BulletAppState {
     // BulletAppState methods
 
     /**
+     * Create the configured debug-visualization app state.
+     *
+     * @return a new instance (not null)
+     */
+    @Override
+    protected BulletDebugAppState createDebugAppState() {
+        DebugConfiguration debugConfig = getDebugConfiguration();
+        BulletDebugAppState appState = new MultiBodyDebugAppState(debugConfig);
+
+        return appState;
+    }
+
+    /**
      * Create the configured debug app state.
      *
      * @param space the PhysicsSpace (not null, alias created)
@@ -80,6 +94,7 @@ public class MultiBodyAppState extends BulletAppState {
      * created)
      * @return a new instance (not null)
      */
+    @Deprecated
     @Override
     protected BulletDebugAppState createDebugAppState(PhysicsSpace space,
             ViewPort[] viewPorts,
@@ -108,6 +123,7 @@ public class MultiBodyAppState extends BulletAppState {
         SolverType solverType = getSolverType();
         PhysicsSpace result
                 = new MultiBodySpace(min, max, broadphaseType, solverType);
+
         return result;
     }
 }

@@ -71,6 +71,16 @@ public class MultiBodyDebugAppState extends BulletDebugAppState {
     // constructors
 
     /**
+     * Instantiate an AppState with the specified configuration. This
+     * constructor should be invoked only by MultiBodyDebugAppState.
+     *
+     * @param config the desired configuration (not null, alias created)
+     */
+    public MultiBodyDebugAppState(DebugConfiguration config) {
+        super(config);
+    }
+
+    /**
      * Instantiate an AppState to visualize the specified space using the
      * specified view ports. This constructor should be invoked only by
      * MultiBodyAppState.
@@ -83,10 +93,11 @@ public class MultiBodyDebugAppState extends BulletDebugAppState {
      * alias created)
      * @param camera the camera for rendering, or null if unknown
      */
+    @Deprecated
     public MultiBodyDebugAppState(MultiBodySpace space, ViewPort[] viewPorts,
             BulletDebugAppState.DebugAppStateFilter filter,
             DebugInitListener initListener, Camera camera) {
-        super(space, viewPorts, filter, initListener, camera);
+        super(space, viewPorts, filter, initListener, camera); // TODO
     }
     // *************************************************************************
     // BulletDebugAppState methods
@@ -133,7 +144,10 @@ public class MultiBodyDebugAppState extends BulletDebugAppState {
          * Synchronize the collider debug controls and axis visualizers
          * with the colliders in the PhysicsSpace.
          */
-        for (Map.Entry<MultiBodyCollider, Node> entry : colliderMap.entrySet()) {
+        BulletDebugAppState.DebugAppStateFilter filter
+                = getConfiguration().getFilter();
+        for (Map.Entry<MultiBodyCollider, Node> entry
+                : colliderMap.entrySet()) {
             MultiBodyCollider collider = entry.getKey();
             boolean displayShape = (filter == null)
                     || filter.displayObject(collider);
