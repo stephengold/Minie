@@ -48,7 +48,6 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import jme3utilities.Heart;
 import jme3utilities.Validate;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.mesh.Octasphere;
@@ -224,11 +223,9 @@ public class CompoundTestShapes {
         CompoundCollisionShape result = new CompoundCollisionShape(6);
         result.addChildShape(seat);
         result.addChildShape(frontLeg, legOffset, -legHalf, legOffset);
-        frontLeg = (CollisionShape) Heart.deepCopy(frontLeg); // TODO
         result.addChildShape(frontLeg, -legOffset, -legHalf, legOffset);
         float yOffset = rearHalf - legLength;
         result.addChildShape(rearLeg, legOffset, yOffset, -legOffset);
-        rearLeg = (CollisionShape) Heart.deepCopy(rearLeg);
         result.addChildShape(rearLeg, -legOffset, yOffset, -legOffset);
         result.addChildShape(back, 0f, backHalf, -legOffset);
 
