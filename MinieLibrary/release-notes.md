@@ -1,6 +1,6 @@
 # release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 1.7.0 released on TBD
+## Version 1.7.0 released on 31 May 2020
 
  + Fixed bugs in the library:
    + kinematic `PhysicsRigidBody` cloned as a dynamic one
@@ -18,7 +18,7 @@
  + Deprecated many obsolete methods slated to be removed from v2.
 
  + Added debug-visualization features:
-   + rebuild the debug shape of `CompoundCollisionShape` ONLY when it changes
+   + rebuild the debug shape of a `CompoundCollisionShape` ONLY when it changes
    + arrows to visualize cluster/node/rigid body velocity vectors
    + markers to visualize pinned soft-body nodes
    + arrows to visualize rigid/soft body gravity vectors
@@ -55,7 +55,7 @@
    + access the split-impulse parameters of a `SolverInfo`
    + `nativeId()` methods for `PhysicsCollisionEvent` and
      `PhysicsCollisionObject`, to prepare for v2
-   + getters for the proxy group and proxy mash of a `PhysicsCollisionObject`
+   + getters for the proxy group and proxy mask of a `PhysicsCollisionObject`
    + construct a `CompoundCollisionShape` with specified initial capacity
 
  + New applications added:
@@ -64,7 +64,7 @@
    + `NewtonsCradle`, a Newton's cradle simulation
    + `TestScaleChange`
    + tests for JME issues 1283 and 1351
-   + 3 apps missing from the Jme3Examples subproject
+   + 3 apps that were missing from the Jme3Examples subproject
 
  + Improvements to the `DropTest` application:
    + use the PgUp key to "pop" the selected drop (if any)
@@ -77,7 +77,7 @@
      triangularFrame, trident, and washer)
    + added "corner" and "square" platforms
    + made gravity configurable
-   + applied a repeating texture to the "plane" platform
+   + applied a repeating texture to the "plane" platform visualization
 
  + Other improvements to existing applications:
    + minimized the hotkey help node initially
@@ -89,15 +89,15 @@
    + many classes based on a new `NativePhysicsObject` class
    + many demo apps based on a new `AbstractDemo` class
    + 4 debug controls based on a new `CollisionShapeDebugControl` class
-   + physics appstate configuration using a new `DebugConfiguration`
+   + physics appstate configuration using a new `DebugConfiguration` class
 
- + Added more 5 models with CC0 licenses ("Ankh", "Banana", "Barrel",
+ + Added 5 more models with CC0 licenses ("Ankh", "Banana", "Barrel",
    "BowlingPin", and "Horseshoe").
  + Updated the native libraries to v6.4.0 of Libbulletjme.
  + Based on:
    + the 3.3.2-stable release of jMonkeyEngine,
    + v5.5.0 of the Heart Library,
-   + v0.8.3 of the jme3-utilities-ui library,
+   + v0.8.3 of the jme3-utilities-ui library, and
    + v0.5.0 of the Wes Library.
  + Upgraded to Gradle v6.4.1 .
 
@@ -166,7 +166,7 @@ Fixed JME issue 1351 (crash during garbage collection)
    + the 3.3.0-stable release of jMonkeyEngine,
    + v5.2.1 of the `Heart` library,
    + v0.8.2 of the `jme3-utilities-ui` library,
-   + v0.9.14 of the `jme3-utilities-nifty` library,
+   + v0.9.14 of the `jme3-utilities-nifty` library, and
    + v0.4.9 of the `Wes` library.
  + Upgraded to Gradle v6.3 .
 

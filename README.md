@@ -76,8 +76,8 @@ Summary of added features:
       `CollisionShape`, or `MultiBody`
     + visualize physics objects in multiple viewports
     + customize debug material per collision object
-    + visualize the local axes, bounding boxes, and/or CCD swept spheres
-      of collision objects
+    + visualize the local axes, velocities, bounding boxes, CCD swept spheres,
+      and gravity vectors of collision objects
     + visualize the children of compound collision shapes
     + optional high-resolution debug meshes for convex shapes
     + options to generate debug meshes that include indices,
@@ -129,7 +129,7 @@ Older Maven artifacts (v0.1.2 through v1.3.0) are available from
 
 Package names begin with
 `jme3utilities.` (if Stephen Gold holds the copyright) or
-`com.jme3.` or `jme3test.` (if the jMonkeyEngine Project holds the copyright).
+`com.jme3.`/`jme3test.` (if the jMonkeyEngine Project holds the copyright).
 
 Both the source code and the pre-built libraries are compatible with JDK 7.
 
@@ -299,9 +299,9 @@ preferably early in the development process.
    + using Git:
      + `git clone https://github.com/stephengold/Minie.git`
      + `cd Minie`
-     + `git checkout -b latest 1.6.0`
+     + `git checkout -b latest 1.7.0`
    + using a web browser:
-     + browse to [https://github.com/stephengold/Minie/releases/tag/1.6.0][latest]
+     + browse to [https://github.com/stephengold/Minie/releases/tag/1.7.0][latest]
      + follow the "Source code (zip)" link
      + save the ZIP file
      + unzip the saved ZIP file
@@ -459,7 +459,7 @@ resolve the remaining dependencies automatically.
         jcenter()
     }
     dependencies {
-        compile 'com.github.stephengold:Minie:1.6.0'
+        compile 'com.github.stephengold:Minie:1.7.0'
     }
 
 #### For Ant projects
@@ -467,8 +467,8 @@ resolve the remaining dependencies automatically.
 For projects built using [Ant], download the Minie and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/Minie/releases/tag/1.6.0
- + https://github.com/stephengold/Heart/releases/tag/5.2.1
+ + https://github.com/stephengold/Minie/releases/tag/1.7.0
+ + https://github.com/stephengold/Heart/releases/tag/5.5.0
 
 You'll want both class jars
 and probably the `-sources` and `-javadoc` jars as well.
@@ -482,15 +482,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
  5. Add the `Heart` class jar:
     + Click on the "Add JAR/Folder" button.
     + Navigate to the download folder.
-    + Select the "Heart-5.2.1.jar" file.
+    + Select the "Heart-5.5.0.jar" file.
     + Click on the "Open" button.
  6. (optional) Add jars for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "Heart-5.2.1-javadoc.jar" file.
+    + Select the "Heart-5.5.0-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "Heart-5.2.1-sources.jar" file.
+    + Select the "Heart-5.5.0-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the `Minie` jar(s).
@@ -1054,16 +1054,17 @@ Here is sample output for a space containing 2 rigid bodies and nothing else:
 ```text
 PhysicsSoftSpace with 0 chars, 0 ghosts, 0 joints, 2 rigids, 0 softs, 0 vehicles
  bphase=DBVT grav[y=-30] timeStep[0.0166667 maxSS=4] listeners[c=0 cg=0 t=1]
- solver[SI iters=10 cfm=0 batch=128 mode=WarmStart,VelocityDependent,SIMD,Cone]
+ solver[SI iters=10 cfm=0 batch=128 splitImp[th=global erp=0.1] mode=WarmStart,VelocityDependent,SIMD,Cone]
  rayTest=SubSimplex,HeightfieldAccel
  SbwInfo grav[y=-30] offset=0 norm[xyz=0] water=0 air=1.2 maxDisp=1000
-  Rigid Sta loc[y=-20] fric=0.5
-   Box he[xyz=20] marg=0.04
-   with 0 joints
-  Rigid Dyn(mass=1) user=Material loc[x=1.2788 y=1.17978 z=1.0783] orient[x=-0.251 y=-0.578 z=0.649 w=-0.426] fric=0.5
-   v[x=-0.252605 y=0.232249 z=-0.550773] grav[y=-30] ccd[mth=5 r=2.02997] damp[l=0.6 a=0.6] sleep[lth=0.8 ath=1 time=0.0666667] moms[x=0.95612 y=1.8819 z=1.99822]
-   MultiSphere r[1.09406] marg=0.04 scale[x=1.91423 y=1.15929 z=1.02588]
-   with 0 joints
+  Rigid Sta loc[y=-2] fric=0.5 rest=0.3
+   Box he[x=20 y=2 z=20] marg=0.04
+   with 0 ignores and 0 joints
+  Rigid Dyn(mass=1) loc[x=2.31948 y=0.982135 z=-0.527906] orient[x=0.536 y=-0.536 z=-0.461 w=0.461] fric=0.5 rest=0.3
+   grav[y=-30] NOTprotected ccd[mth=5 r=1.7296] damp[l=0.6 a=0.6] sleep[lth=0.1 ath=0.1 time=0.283333]
+   v[x=-0.00411787 y=8.98242e-05 z=0.00317414] moms[x=1.51493 y=0.922524 z=1.23546] w[x=-0.00188829 y=-0.000811514 z=0.00821815]
+   MultiSphere r[0.982132 0.982132 0.982132 0.982132] marg=0.04
+   with 0 ignores and 0 joints
 ```
 
 2-space indentation indicates the hierarchy of spaces/objects/joints.
@@ -1195,7 +1196,7 @@ and removing a `Control` from its controlled `Spatial` destroys the ragdoll.
 
 The controlled `Spatial` must include the model's `SkinningControl` or `SkeletonControl`.
 Usually this is the model's root `Spatial`, but not always.
-If unsure about the model's structure, use `RagUtil.findSControl()`.
+If unsure about the model's structure, use `MySpatial.listAnimationSpatials()`.
 For a very simple example, see
 [HelloDac.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloDac.java).
 
@@ -1268,7 +1269,7 @@ Minie provides 4 collision-detection interfaces:
     enumerate all collision objects that overlap with it, based on
     axis-aligned bounding boxes.
 
-Minie also provides ray tests and sweep tests.
+Minie also provides contact tests, ray tests, and sweep tests.
 
 [Jump to table of contents](#toc)
 
@@ -1505,12 +1506,20 @@ the MinieExamples sub-project:
     demonstrates forces, torques, and impulses applied in zero gravity
   + `JointDemo`
     demonstrates a crawling robot made of boxes and 6-DOF joints
+  + `NewtonsCradle`
+    demonstrates dynamic restitution and point-to-point joints
+  + `PoolDemo`
+    demonstrates 3 kinds of dynamic friction
   + `RopeDemo`
     demonstrates simulation of ropes using `DynamicAnimControl`
   + `SeJointDemo`
     demonstrates various single-ended joints
+  + `TargetDemo`
+    demonstrates shooting balls at various targets
   + `TestDac`
     demonstrates `DynamicAnimControl` applied to various models
+  + `TestDebugToPost`
+    demonstrates debug visualization to a post `ViewPort`
   + `TestSoftBody`
     demonstrates soft-body physics without `SoftBodyControl`
   + `TestSoftBodyControl`
@@ -1524,14 +1533,14 @@ those not listed above are primarily for testing purposes.)
 For many of the demos, video walkthrus are available from YouTube.
 
 The demos are controlled by primarily by keyboard input.
-At startup, a help node is displayed,
+Each includes a help node,
 containing a brief description of each key's function.
 
 For convenience, the mapping of keys to actions
 is largely standardized.
-For instance, in all 11 demos:
+In most demos:
 
- + the "H" key toggles visibility of help node,
+ + the "H" key toggles the help node between minimized and full versions,
  + F5 toggles visibility of the render-statistics overlay,
  + the "O" key dumps the physics space,
  + the "C" key dumps the camera's position, and
@@ -1548,9 +1557,9 @@ Furthermore:
  + the "Q" and up-arrow keys raise the camera, and
  + the "Z" and down-arrow keys lower the camera.
 
-Some of the demos (such as `DropTest`)
+Some of the demos (such as `DropTest` and `TargetDemo`)
 rely entirely on debug visualization to render the physics objects.
-Others (such as `TestDac`) use physics controls.
+Others (such as `TestDac` and `PoolDemo`) use physics controls.
 When physics controls are in use,
 the "/" key to toggles debug visualization on and off.
 
