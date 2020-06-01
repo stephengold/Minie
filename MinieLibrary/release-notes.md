@@ -60,7 +60,7 @@
 
  + New applications added:
    + `TargetDemo`, a shooting demo
-   + `PoolDemo`, an eight-ball pool simuation with moody lighting
+   + `PoolDemo`, an eight-ball pool simulation with moody lighting
    + `NewtonsCradle`, a Newton's cradle simulation
    + `TestScaleChange`
    + tests for JME issues 1283 and 1351
