@@ -37,8 +37,6 @@ import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
-import com.jme3.renderer.Camera;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.Control;
 import com.jme3.texture.Texture;
@@ -107,26 +105,6 @@ public class SoftDebugAppState extends BulletDebugAppState {
      */
     public SoftDebugAppState(DebugConfiguration config) {
         super(config);
-    }
-
-    /**
-     * Instantiate an AppState to visualize the specified space using the
-     * specified view ports. This constructor should be invoked only by
-     * BulletSoftBodyAppState.
-     *
-     * @param space the PhysicsSoftSpace to visualize (not null, alias created)
-     * @param viewPorts the view ports in which to render (not null, unaffected)
-     * @param filter the filter to limit which objects are visualized, or null
-     * to visualize all objects (may be null, alias created)
-     * @param initListener the init listener, or null if none (may be null,
-     * alias created)
-     * @param camera the camera for rendering, or null if unknown
-     */
-    @Deprecated
-    public SoftDebugAppState(PhysicsSoftSpace space, ViewPort[] viewPorts,
-            BulletDebugAppState.DebugAppStateFilter filter,
-            DebugInitListener initListener, Camera camera) {
-        super(space, viewPorts, filter, initListener, camera);
     }
     // *************************************************************************
     // new methods exposed
@@ -276,7 +254,8 @@ public class SoftDebugAppState extends BulletDebugAppState {
         HashMap<PhysicsSoftBody, Node> oldMap = softBodies;
         //create new map
         softBodies = new HashMap<>(oldMap.size());
-        PhysicsSoftSpace pSpace = (PhysicsSoftSpace) getPhysicsSpace();
+        DebugConfiguration config = getConfiguration();
+        PhysicsSoftSpace pSpace = (PhysicsSoftSpace) config.getSpace();
         Collection<PhysicsSoftBody> list = pSpace.getSoftBodyList();
         for (PhysicsSoftBody softBody : list) {
             Node node = oldMap.remove(softBody);

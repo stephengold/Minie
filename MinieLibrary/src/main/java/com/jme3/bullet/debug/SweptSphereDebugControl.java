@@ -127,7 +127,8 @@ public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
         pco.getPhysicsLocation(center);
         geom.setLocalTranslation(center);
 
-        Camera camera = debugAppState.getCamera();
+        DebugConfiguration config = debugAppState.getConfiguration();
+        Camera camera = config.getCamera();
         if (camera != null) {
             Vector3f offset = camera.getLocation().subtract(center);
             Vector3f axis1 = new Vector3f(); // TODO garbage
@@ -166,7 +167,8 @@ public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
      * known.
      */
     private Mesh updateMesh(Mesh oldMesh) {
-        Camera camera = debugAppState.getCamera();
+        DebugConfiguration config = debugAppState.getConfiguration();
+        Camera camera = config.getCamera();
         SphereMeshes meshType = (camera == null) ? SphereMeshes.Icosphere
                 : SphereMeshes.LoopMesh;
 

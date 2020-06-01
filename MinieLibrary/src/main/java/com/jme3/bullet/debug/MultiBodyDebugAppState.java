@@ -34,8 +34,6 @@ package com.jme3.bullet.debug;
 import com.jme3.bullet.MultiBody;
 import com.jme3.bullet.MultiBodySpace;
 import com.jme3.bullet.objects.MultiBodyCollider;
-import com.jme3.renderer.Camera;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.Control;
 import java.util.Collection;
@@ -79,26 +77,6 @@ public class MultiBodyDebugAppState extends BulletDebugAppState {
     public MultiBodyDebugAppState(DebugConfiguration config) {
         super(config);
     }
-
-    /**
-     * Instantiate an AppState to visualize the specified space using the
-     * specified view ports. This constructor should be invoked only by
-     * MultiBodyAppState.
-     *
-     * @param space the MultiBodySpace to visualize (not null, alias created)
-     * @param viewPorts the view ports in which to render (not null, unaffected)
-     * @param filter the filter to limit which objects are visualized, or null
-     * to visualize all objects (may be null, alias created)
-     * @param initListener the init listener, or null if none (may be null,
-     * alias created)
-     * @param camera the camera for rendering, or null if unknown
-     */
-    @Deprecated
-    public MultiBodyDebugAppState(MultiBodySpace space, ViewPort[] viewPorts,
-            BulletDebugAppState.DebugAppStateFilter filter,
-            DebugInitListener initListener, Camera camera) {
-        super(space, viewPorts, filter, initListener, camera); // TODO
-    }
     // *************************************************************************
     // BulletDebugAppState methods
 
@@ -121,7 +99,8 @@ public class MultiBodyDebugAppState extends BulletDebugAppState {
         HashMap<MultiBodyCollider, Node> oldMap = colliderMap;
         //create new map
         colliderMap = new HashMap<>(oldMap.size());
-        MultiBodySpace pSpace = (MultiBodySpace) getPhysicsSpace();
+        DebugConfiguration config = getConfiguration();
+        MultiBodySpace pSpace = (MultiBodySpace) config.getSpace();
         Collection<MultiBody> list = pSpace.getMultiBodyList();
         for (MultiBody multiBody : list) {
             List<MultiBodyCollider> list2 = multiBody.listColliders();
