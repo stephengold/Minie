@@ -142,7 +142,7 @@ public class TestCloneShapes {
         /*
          * Cone
          */
-        CollisionShape cone = new ConeCollisionShape(1f, 1f);
+        ConeCollisionShape cone = new ConeCollisionShape(1f, 1f);
         setParameters(cone, 0f);
         verifyParameters(cone, 0f);
         CollisionShape coneClone = (CollisionShape) Heart.deepCopy(cone);
@@ -156,7 +156,8 @@ public class TestCloneShapes {
         CollisionShape convex2d = new Convex2dShape(cone);
         setParameters(convex2d, 0f);
         verifyParameters(convex2d, 0f);
-        CollisionShape convex2dClone = (CollisionShape) Heart.deepCopy(convex2d);
+        CollisionShape convex2dClone
+                = (CollisionShape) Heart.deepCopy(convex2d);
         cloneTest(convex2d, convex2dClone);
         assert convex2dClone.getMargin() == 0.04f;
         convex2d.setMargin(0.14f);

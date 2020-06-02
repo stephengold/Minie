@@ -69,7 +69,7 @@ public class Convex2dShape extends ConvexShape {
      * shape on which this shape is based, must be convex and lie entirely in
      * the X-Y plane
      */
-    private CollisionShape base;
+    private ConvexShape base;
     // *************************************************************************
     // constructors
 
@@ -82,11 +82,9 @@ public class Convex2dShape extends ConvexShape {
     /**
      * Instantiate a shape based on the specified convex shape.
      *
-     * @param base the base shape (not null, convex, alias created) TODO declare
-     * as ConvexShape
+     * @param base the base shape (not null, convex, alias created)
      */
-    public Convex2dShape(CollisionShape base) {
-        assert base.isConvex();
+    public Convex2dShape(ConvexShape base) {
         this.base = base;
         createShape();
     }
@@ -179,7 +177,7 @@ public class Convex2dShape extends ConvexShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        base = (CollisionShape) capsule.readSavable(tagBase, null);
+        base = (ConvexShape) capsule.readSavable(tagBase, null);
         createShape();
     }
 

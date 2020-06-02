@@ -132,9 +132,9 @@ public class TestStaticBody {
         PhysicsRigidBody coneBody = new PhysicsRigidBody(cone, 0f);
         space.addCollisionObject(coneBody);
         /*
-         * Box2d
+         * Convex2d
          */
-        CollisionShape flatCone
+        ConeCollisionShape flatCone
                 = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
         CollisionShape convex2d = new Convex2dShape(flatCone);
         PhysicsRigidBody convex2dBody = new PhysicsRigidBody(convex2d, 0f);

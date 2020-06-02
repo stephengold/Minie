@@ -144,8 +144,8 @@ public class TestSetScale {
          */
         float radius = 10f;
         float height = 0f;
-        CollisionShape flatCylinder = new CylinderCollisionShape(radius, height,
-                PhysicsSpace.AXIS_Z);
+        CylinderCollisionShape flatCylinder = new CylinderCollisionShape(radius,
+                height, PhysicsSpace.AXIS_Z);
         CollisionShape convex2d = new Convex2dShape(flatCylinder);
         assert convex2d.getScale(null).equals(ident);
         convex2d.setScale(uni);
