@@ -29,7 +29,6 @@ package jme3utilities.minie.test;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.bullet.animation.DynamicAnimControl;
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.AbstractPhysicsControl;
 import com.jme3.bullet.control.BetterCharacterControl;
@@ -81,7 +80,7 @@ public class TestClonePhysicsControls {
         /*
          * CharacterControl
          */
-        CollisionShape shape = new SphereCollisionShape(2f);
+        SphereCollisionShape shape = new SphereCollisionShape(2f);
         CharacterControl cc = new CharacterControl(shape, 0.5f);
         setParameters(cc, 0f);
         verifyParameters(cc, 0f);

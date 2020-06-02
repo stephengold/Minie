@@ -29,7 +29,6 @@ package jme3utilities.minie.test;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.bullet.collision.AfMode;
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.binary.BinaryExporter;
@@ -61,7 +60,7 @@ public class TestCloneCharacter {
     @Test
     public void testCloneCharacter() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        CollisionShape shape = new SphereCollisionShape(1f);
+        SphereCollisionShape shape = new SphereCollisionShape(1f);
         PhysicsCharacter ch = new PhysicsCharacter(shape, 1f);
         setParameters(ch, 0f);
         verifyParameters(ch, 0f);

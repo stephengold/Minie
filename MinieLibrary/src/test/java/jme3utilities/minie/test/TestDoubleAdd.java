@@ -26,7 +26,6 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.CharacterControl;
@@ -62,7 +61,7 @@ public class TestDoubleAdd {
         /*
          * CharacterControl
          */
-        CollisionShape shape = new SphereCollisionShape(2f);
+        SphereCollisionShape shape = new SphereCollisionShape(2f);
         CharacterControl cc = new CharacterControl(shape, 0.5f);
         doubleAdd(cc);
         // TODO more Control types

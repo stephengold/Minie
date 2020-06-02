@@ -32,7 +32,7 @@
 package com.jme3.bullet.control;
 
 import com.jme3.bullet.PhysicsSpace;
-import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -104,7 +104,7 @@ public class CharacterControl extends AbstractPhysicsControl {
      * @param stepHeight the maximum amount of normal vertical movement (in
      * physics-space units)
      */
-    public CharacterControl(CollisionShape shape, float stepHeight) {
+    public CharacterControl(ConvexShape shape, float stepHeight) {
         character = new PhysicsCharacter(shape, stepHeight);
     }
     // *************************************************************************
