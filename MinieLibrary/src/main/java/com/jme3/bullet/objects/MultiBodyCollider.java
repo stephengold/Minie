@@ -101,7 +101,8 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
 
         this.multiBody = multiBody;
         this.linkIndex = linkIndex;
-        assert objectId == 0L : objectId;
+
+        assert !hasAssignedNativeObject();
         buildObject();
     }
     // *************************************************************************
@@ -271,8 +272,8 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
      */
     private void buildObject() {
         long multiBodyId = multiBody.nativeId();
-        objectId = createCollider(multiBodyId, linkIndex);
-        assert objectId != 0L;
+        long objectId = createCollider(multiBodyId, linkIndex);
+        setNativeId(objectId);
         assert getInternalType(objectId) == PcoType.collider :
                 getInternalType(objectId);
         logger2.log(Level.FINE, "Created {0}.", this);

@@ -33,6 +33,7 @@ package com.jme3.bullet.collision;
 
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.CollisionSpace;
+import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugMeshInitListener;
@@ -56,7 +57,7 @@ import jme3utilities.Validate;
 
 /**
  * The abstract base class for collision objects based on Bullet's
- * btCollisionObject. TODO extend PhysicsNativeObject
+ * btCollisionObject.
  * <p>
  * Subclasses include MultiBodyCollider, PhysicsBody, PhysicsCharacter, and
  * PhysicsGhostObject.
@@ -64,6 +65,7 @@ import jme3utilities.Validate;
  * @author normenhansen
  */
 abstract public class PhysicsCollisionObject
+        extends NativePhysicsObject
         implements Comparable<PhysicsCollisionObject>, JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
@@ -203,12 +205,6 @@ abstract public class PhysicsCollisionObject
      */
     private int debugNumSides = 1;
     /**
-     * Identifier of the btCollisionObject. Constructors are responsible for
-     * setting this to a non-zero value. The ID might change if the object gets
-     * rebuilt.
-     */
-    protected long objectId = 0L;
-    /**
      * custom material for the debug shape, or null to use the default material
      */
     private Material debugMaterial = null;
@@ -246,7 +242,8 @@ abstract public class PhysicsCollisionObject
      */
     public void addCollideWithGroup(int collisionGroup) {
         collideWithGroups |= collisionGroup;
-        if (objectId != 0L) {
+        if (hasAssignedNativeObject()) {
+            long objectId = nativeId();
             setCollideWithGroups(objectId, collideWithGroups);
         }
     }
@@ -298,7 +295,7 @@ abstract public class PhysicsCollisionObject
      * @param old (not null, unaffected)
      */
     final public void copyPcoProperties(PhysicsCollisionObject old) {
-        assert old.objectId != 0L;
+        assert old.hasAssignedNativeObject();
         assert old.nativeId() != nativeId();
 
         setCcdMotionThreshold(old.getCcdMotionThreshold());
@@ -827,16 +824,6 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Read the ID of the btCollisionObject.
-     *
-     * @return the native identifier (not zero)
-     */
-    final public long nativeId() {
-        assert objectId != 0L;
-        return objectId;
-    }
-
-    /**
      * Enumerate the native IDs of all collision objects in this object's ignore
      * list.
      *
@@ -898,7 +885,7 @@ abstract public class PhysicsCollisionObject
      */
     public void removeCollideWithGroup(int collisionGroup) {
         collideWithGroups &= ~collisionGroup;
-        if (objectId != 0L) {
+        if (hasAssignedNativeObject()) {
             setCollideWithGroups(collideWithGroups);
         }
     }
@@ -1377,7 +1364,7 @@ abstract public class PhysicsCollisionObject
         collisionShape = cloner.clone(collisionShape);
         debugMaterial = cloner.clone(debugMaterial);
 
-        objectId = 0L;
+        unassignNativeObject();
         /*
          * The subclass should create the btCollisionObject and then
          * invoke copyPcoProperties() .
@@ -1492,33 +1479,7 @@ abstract public class PhysicsCollisionObject
         capsule.write(ignoreList, tagIgnoreList, null);
     }
     // *************************************************************************
-    // Object methods
-
-    /**
-     * Test for ID equality.
-     *
-     * @param otherObject the object to compare to (may be null, unaffected)
-     * @return true if the collision objects have the same native ID, otherwise
-     * false
-     */
-    @Override
-    public boolean equals(Object otherObject) {
-        boolean result;
-        if (otherObject == this) {
-            result = true;
-
-        } else if (otherObject != null
-                && otherObject.getClass() == getClass()) {
-            long objectId = nativeId();
-            long otherId = ((PhysicsCollisionObject) otherObject).nativeId();
-            result = (objectId == otherId);
-
-        } else {
-            result = false;
-        }
-
-        return result;
-    }
+    // NativePhysicsObject methods
 
     /**
      * Finalize this object just before it is destroyed. Should be invoked only
@@ -1542,17 +1503,6 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Generate the hash code for this object.
-     *
-     * @return value for use in hashing
-     */
-    @Override
-    public int hashCode() {
-        int hash = (int) (objectId >> 4);
-        return hash;
-    }
-
-    /**
      * Represent this object as a String.
      *
      * @return a descriptive string of text (not null, not empty)
@@ -1563,6 +1513,7 @@ abstract public class PhysicsCollisionObject
         result = result.replace("Control", "C");
         result = result.replace("Physics", "");
         result = result.replace("Object", "");
+        long objectId = nativeId();
         result += "#" + Long.toHexString(objectId);
 
         return result;

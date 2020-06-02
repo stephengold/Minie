@@ -283,9 +283,9 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      * Create the configured object in Bullet.
      */
     private void buildObject() {
-        if (objectId == 0L) {
-            objectId = createGhostObject();
-            assert objectId != 0L;
+        if (!hasAssignedNativeObject()) {
+            long objectId = createGhostObject();
+            setNativeId(objectId);
             assert getInternalType(objectId) == PcoType.ghost :
                     getInternalType(objectId);
             logger2.log(Level.FINE, "Created {0}.", this);

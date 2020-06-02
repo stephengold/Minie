@@ -137,8 +137,8 @@ public class PhysicsSoftBody extends PhysicsBody {
     public PhysicsSoftBody() {
         worldInfo = new SoftBodyWorldInfo();
         long infoId = worldInfo.nativeId();
-        objectId = createEmpty(infoId);
-        assert objectId != 0L;
+        long objectId = createEmpty(infoId);
+        super.setNativeId(objectId);
         assert getInternalType(objectId) == PcoType.soft :
                 getInternalType(objectId);
         logger2.log(Level.FINE, "Created {0}.", this);
@@ -1344,11 +1344,11 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Destroy the pre-existing btSoftBody (if any) except for its worldInfo.
      */
     protected void destroySoftBody() {
-        if (objectId != 0L) {
+        if (hasAssignedNativeObject()) {
             logger2.log(Level.FINE, "Destroying {0}.", this);
             long objectId = nativeId();
             finalizeNative(objectId);
-            objectId = 0L;
+            unassignNativeObject();
         }
 
         material = null;
@@ -1380,8 +1380,8 @@ public class PhysicsSoftBody extends PhysicsBody {
         destroySoftBody();
 
         long infoId = worldInfo.nativeId();
-        objectId = createEmpty(infoId);
-        assert objectId != 0L;
+        long objectId = createEmpty(infoId);
+        setNativeId(objectId);
         assert getInternalType(objectId) == PcoType.soft :
                 getInternalType(objectId);
         logger2.log(Level.FINE, "Created {0}.", this);
@@ -1409,6 +1409,7 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         Vector3f minima = new Vector3f(); // TODO garbage
         Vector3f maxima = new Vector3f();
+        long objectId = nativeId();
         getBounds(objectId, minima, maxima);
         result.setMinMax(minima, maxima);
 
@@ -1466,6 +1467,7 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         assert countClusters() == 0 : countClusters();
         int numClusters = old.countClusters();
+        long objectId = nativeId();
         for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
             IntBuffer nodeIndices = old.listNodesInCluster(clusterIndex, null);
             int numNodesInCluster = nodeIndices.capacity();
@@ -1640,6 +1642,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         appendTetras(indexBuffer);
 
         assert countClusters() == 0 : countClusters();
+        long objectId = nativeId();
         int numClusters = capsule.readInt(tagNumClusters, 0);
         for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
             nodeIndices = capsule.readIntArray(tagIndices + clusterIndex,

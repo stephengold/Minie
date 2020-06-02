@@ -377,10 +377,12 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         assert collisionShape.isConvex();
 
         super.setCollisionShape(collisionShape);
-        if (objectId == 0L) {
-            buildObject();
+        if (hasAssignedNativeObject()) {
+            long objectId = nativeId();
+            long shapeId = collisionShape.nativeId();
+            attachCollisionShape(objectId, shapeId);
         } else {
-            attachCollisionShape(objectId, collisionShape.nativeId());
+            buildObject();
         }
     }
 
@@ -591,6 +593,21 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
+     * Finalize this physics character just before it is destroyed. Should be
+     * invoked only by a subclass or by the garbage collector.
+     *
+     * @throws Throwable ignored by the garbage collector
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            finalizeNativeCharacter(characterId);
+        } finally {
+            super.finalize();
+        }
+    }
+
+    /**
      * Create a shallow clone for the JME cloner.
      *
      * @return a new instance
@@ -687,32 +704,15 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         }
     }
     // *************************************************************************
-    // Object methods
-
-    /**
-     * Finalize this physics character just before it is destroyed. Should be
-     * invoked only by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            finalizeNativeCharacter(characterId);
-        } finally {
-            super.finalize();
-        }
-    }
-    // *************************************************************************
     // private methods
 
     /**
      * Create the configured objects in Bullet.
      */
     private void buildObject() {
-        if (objectId == 0L) {
-            objectId = createGhostObject();
-            assert objectId != 0L;
+        if (!hasAssignedNativeObject()) {
+            long objectId = createGhostObject();
+            setNativeId(objectId);
             assert getInternalType(objectId) == PcoType.ghost :
                     getInternalType(objectId);
             logger2.log(Level.FINE, "Creating {0}.", this);

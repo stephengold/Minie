@@ -679,13 +679,13 @@ public class PhysicsRigidBody extends PhysicsBody {
 
         super.setCollisionShape(collisionShape);
 
-        if (objectId == 0L) {
-            rebuildRigidBody();
-        } else {
+        if (hasAssignedNativeObject()) {
             long objectId = nativeId();
             long shapeId = collisionShape.nativeId();
             setCollisionShape(objectId, shapeId);
             updateMassProps(objectId, shapeId, mass);
+        } else {
+            rebuildRigidBody();
         }
     }
 
@@ -949,7 +949,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     protected void rebuildRigidBody() {
         PhysicsSpace removedFrom = null;
-        if (objectId != 0L) {
+        if (hasAssignedNativeObject()) {
             removedFrom = (PhysicsSpace) getCollisionSpace();
             if (removedFrom != null) {
                 removedFrom.removeCollisionObject(this);
@@ -962,9 +962,9 @@ public class PhysicsRigidBody extends PhysicsBody {
         preRebuild();
 
         CollisionShape shape = getCollisionShape();
-        objectId = createRigidBody(mass, motionState.nativeId(),
+        long objectId = createRigidBody(mass, motionState.nativeId(),
                 shape.nativeId());
-        assert objectId != 0L;
+        setNativeId(objectId);
         assert getInternalType(objectId) == PcoType.rigid :
                 getInternalType(objectId);
         logger2.log(Level.FINE, "Created {0}.", this);
@@ -1151,7 +1151,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         if (mass != massForStatic) {
             validateDynamicShape(shape);
         }
-        assert objectId != 0L;
+        assert hasAssignedNativeObject();
 
         if (mass == this.mass) {
             return;
