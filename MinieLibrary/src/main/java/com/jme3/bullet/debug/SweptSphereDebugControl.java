@@ -47,11 +47,11 @@ import jme3utilities.math.MyVector3f;
 
 /**
  * A physics-debug control used to visualize a sphere used for continuous
- * collision detection (CCD). TODO de-publicize
+ * collision detection (CCD).
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
+class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // constants and loggers
 

@@ -43,12 +43,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A physics-debug control used to visualize a MultiBodyCollider. TODO
- * de-publicize
+ * A physics-debug control used to visualize a MultiBodyCollider.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class ColliderDebugControl extends CollisionShapeDebugControl {
+class ColliderDebugControl extends CollisionShapeDebugControl {
     // *************************************************************************
     // constants and loggers
 
@@ -89,7 +88,7 @@ public class ColliderDebugControl extends CollisionShapeDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param mbc the collider to visualize (not null, alias created)
      */
-    public ColliderDebugControl(BulletDebugAppState debugAppState,
+    ColliderDebugControl(BulletDebugAppState debugAppState,
             MultiBodyCollider mbc) {
         super(debugAppState);
         collider = mbc;

@@ -45,11 +45,11 @@ import java.util.logging.Logger;
 
 /**
  * A physics-debug control used to visualize the bounding box of a collision
- * object. TODO de-publicize
+ * object.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
+class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // constants and loggers
 

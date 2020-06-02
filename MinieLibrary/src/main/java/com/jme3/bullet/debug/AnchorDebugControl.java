@@ -49,11 +49,11 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A physics-debug control to visualize an Anchor. TODO de-publicize
+ * A physics-debug control to visualize an Anchor.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class AnchorDebugControl extends AbstractPhysicsDebugControl {
+class AnchorDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // constants and loggers
 
@@ -82,8 +82,7 @@ public class AnchorDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param anchor the Anchor to visualize (not null, alias created)
      */
-    public AnchorDebugControl(BulletDebugAppState debugAppState,
-            Anchor anchor) {
+    AnchorDebugControl(BulletDebugAppState debugAppState, Anchor anchor) {
         super(debugAppState);
         Validate.nonNull(anchor, "anchor");
         this.anchor = anchor;

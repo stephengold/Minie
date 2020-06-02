@@ -48,11 +48,11 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 
 /**
- * A physics-debug control to visualize a SoftPhysicsJoint. TODO de-publicize
+ * A physics-debug control to visualize a SoftPhysicsJoint.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
+class SoftJointDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // constants and loggers
 
@@ -82,7 +82,7 @@ public class SoftJointDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param joint the joint to visualize (not null, alias created)
      */
-    public SoftJointDebugControl(BulletDebugAppState debugAppState,
+    SoftJointDebugControl(BulletDebugAppState debugAppState,
             SoftPhysicsJoint joint) {
         super(debugAppState);
         this.joint = joint;

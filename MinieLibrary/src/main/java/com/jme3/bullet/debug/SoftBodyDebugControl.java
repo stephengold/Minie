@@ -53,13 +53,13 @@ import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A physics-debug control to visualize a PhysicsSoftBody. TODO de-publicize
+ * A physics-debug control to visualize a PhysicsSoftBody.
  *
  * @author Stephen Gold sgold@sonic.net
  *
  * Based on BulletSoftBodyDebugControl by dokthar.
  */
-public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
+class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // constants and loggers
 
@@ -121,7 +121,7 @@ public class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param body which body to visualize (not null, alias created)
      */
-    public SoftBodyDebugControl(BulletDebugAppState debugAppState,
+    SoftBodyDebugControl(BulletDebugAppState debugAppState,
             PhysicsSoftBody body) {
         super(debugAppState);
         this.body = body;

@@ -46,13 +46,13 @@ import com.jme3.scene.debug.Arrow;
 import java.util.logging.Logger;
 
 /**
- * A physics-debug control to visualize a Constraint. TODO de-publicize
+ * A physics-debug control to visualize a Constraint.
  *
  * @author Stephen Gold sgold@sonic.net
  *
  * Based on BulletJointDebugControl by normenhansen.
  */
-public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
+class ConstraintDebugControl extends AbstractPhysicsDebugControl {
     // *************************************************************************
     // constants and loggers
 
@@ -93,7 +93,7 @@ public class ConstraintDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param constraint the Constraint to visualize (not null, alias created)
      */
-    public ConstraintDebugControl(BulletDebugAppState debugAppState,
+    ConstraintDebugControl(BulletDebugAppState debugAppState,
             Constraint constraint) {
         super(debugAppState);
         this.constraint = constraint;
