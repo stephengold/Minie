@@ -34,6 +34,7 @@ package com.jme3.bullet.util;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
+import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
@@ -383,12 +384,11 @@ public class DebugShapeFactory {
      * shape's scale and margin are taken into account, but not its debug-mesh
      * resolution.
      *
-     * @param shape (not null, convex, unaffected) TODO declare as ConvexShape
+     * @param shape (not null, convex, unaffected)
      * @param meshResolution (0=low, 1=high)
      * @return the scaled volume (in physics-space units cubed, &ge;0)
      */
-    public static float volumeConvex(CollisionShape shape, int meshResolution) {
-        assert shape.isConvex();
+    public static float volumeConvex(ConvexShape shape, int meshResolution) {
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
