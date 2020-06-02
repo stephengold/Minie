@@ -1258,7 +1258,7 @@ public class TestRbc
      */
     private void sweep() {
         float radius = 0.05f;
-        CollisionShape shape = new SphereCollisionShape(radius);
+        SphereCollisionShape shape = new SphereCollisionShape(radius);
 
         Vector2f screenXY = inputManager.getCursorPosition();
 

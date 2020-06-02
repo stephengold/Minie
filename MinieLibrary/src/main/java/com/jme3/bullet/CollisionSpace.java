@@ -36,7 +36,7 @@ import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.PhysicsSweepTestResult;
-import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -517,13 +517,12 @@ public class CollisionSpace extends NativePhysicsObject {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @param shape the shape to sweep (not null, convex, unaffected) TODO
-     * declare as ConvexShape
+     * @param shape the shape to sweep (not null, convex, unaffected)
      * @param start the starting physics-space transform (not null, unaffected)
      * @param end the ending physics-space transform (not null, unaffected)
      * @return a new list of results
      */
-    public List<PhysicsSweepTestResult> sweepTest(CollisionShape shape,
+    public List<PhysicsSweepTestResult> sweepTest(ConvexShape shape,
             Transform start, Transform end) {
         List<PhysicsSweepTestResult> results = new LinkedList<>();
         sweepTest(shape, start, end, results);
@@ -533,14 +532,13 @@ public class CollisionSpace extends NativePhysicsObject {
     /**
      * For compatibility with the jme3-bullet library.
      *
-     * @param shape the shape to sweep (not null, convex, unaffected) TODO
-     * declare as ConvexShape
+     * @param shape the shape to sweep (not null, convex, unaffected)
      * @param start the starting physics-space transform (not null, unaffected)
      * @param end the ending physics-space transform (not null, unaffected)
      * @param results the list to hold results (not null, modified)
      * @return results
      */
-    public List<PhysicsSweepTestResult> sweepTest(CollisionShape shape,
+    public List<PhysicsSweepTestResult> sweepTest(ConvexShape shape,
             Transform start, Transform end,
             List<PhysicsSweepTestResult> results) {
         return sweepTest(shape, start, end, results, 0f);
@@ -556,25 +554,23 @@ public class CollisionSpace extends NativePhysicsObject {
      * sweeps away from the object's center. Also, sweep tests do not detect
      * soft bodies.
      *
-     * @param shape the shape to sweep (not null, convex, unaffected) TODO
-     * declare as ConvexShape
+     * @param shape the shape to sweep (not null, convex, unaffected)
      * @param start the starting physics-space transform (not null, unaffected)
      * @param end the ending physics-space transform (not null, unaffected)
      * @param results the list to hold results (not null, modified)
      * @param allowedCcdPenetration (in physics-space units)
      * @return results
      */
-    public List<PhysicsSweepTestResult> sweepTest(CollisionShape shape,
+    public List<PhysicsSweepTestResult> sweepTest(ConvexShape shape,
             Transform start, Transform end,
             List<PhysicsSweepTestResult> results, float allowedCcdPenetration) {
         Validate.nonNull(start, "start");
         Validate.nonNull(end, "end");
         Validate.nonNull(results, "results");
-        assert shape.isConvex();
 
         long shapeId = shape.nativeId();
-        results.clear();
         long spaceId = nativeId();
+        results.clear();
         sweepTest_native(shapeId, start, end, spaceId, results,
                 allowedCcdPenetration);
 
