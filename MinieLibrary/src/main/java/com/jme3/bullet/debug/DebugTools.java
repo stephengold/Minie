@@ -32,7 +32,6 @@
 package com.jme3.bullet.debug;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.bullet.util.NativeLibrary;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -319,18 +318,5 @@ public class DebugTools {
         DEBUG_PINK = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
         DEBUG_PINK.getAdditionalRenderState().setWireframe(true);
         DEBUG_PINK.setColor("Color", ColorRGBA.Pink);
-    }
-
-    /**
-     * Alter whether the native library will print a startup message. TODO
-     * delete
-     *
-     * @param printFlag true &rarr; print a message, false &rarr; no message
-     * @deprecated use
-     * {@link com.jme3.bullet.util.NativeLibrary#setStartupMessageEnabled(boolean)}
-     */
-    @Deprecated
-    public static void setStartupMessageEnabled(boolean printFlag) {
-        NativeLibrary.setStartupMessageEnabled(printFlag);
     }
 }

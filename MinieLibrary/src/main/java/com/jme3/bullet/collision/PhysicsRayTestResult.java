@@ -120,16 +120,6 @@ public class PhysicsRayTestResult {
     }
 
     /**
-     * Test whether the normal is in physics-space coordinates. TODO delete
-     *
-     * @return true if in world space, otherwise false
-     */
-    @Deprecated
-    public boolean isNormalInWorldSpace() {
-        return true;
-    }
-
-    /**
      * Read the part index at the point of contact.
      * <p>
      * If shape that was hit is compound or convex, the index is undefined.

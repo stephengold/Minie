@@ -122,18 +122,6 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Read the ID of the btRotationalLimitMotor2.
-     *
-     * @return the native identifier (not zero)
-     * @deprecated use {@link #nativeId()}
-     */
-    @Deprecated
-    public long getMotor() {
-        long motorId = nativeId();
-        return motorId;
-    }
-
-    /**
      * Test whether the spring's damping is limited (m_springDampingLimited).
      *
      * @return true if limited, otherwise false

@@ -263,28 +263,6 @@ public class RagUtils {
     }
 
     /**
-     * Access the SkeletonControl in the specified subtree, assuming it doesn't
-     * contain more than one.
-     *
-     * @param subtree a subtree of a scene graph (may be null, unaffected)
-     * @return the pre-existing instance, or null if none or multiple
-     * @deprecated use findSControl()
-     */
-    @Deprecated
-    public static SkeletonControl findSkeletonControl(Spatial subtree) {
-        SkeletonControl result = null;
-        if (subtree != null) {
-            List<SkeletonControl> controls = MySpatial.listControls(subtree,
-                    SkeletonControl.class, null);
-            if (controls.size() == 1) {
-                result = controls.get(0);
-            }
-        }
-
-        return result;
-    }
-
-    /**
      * Enumerate all animated meshes in the specified subtree of a scene graph,
      * skipping spatials tagged with "JmePhysicsIgnore". Note: recursive!
      *

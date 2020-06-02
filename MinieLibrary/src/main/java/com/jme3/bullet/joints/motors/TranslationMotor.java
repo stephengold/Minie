@@ -126,18 +126,6 @@ public class TranslationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Read the ID of the btTranslationalLimitMotor2.
-     *
-     * @return the native identifier (not zero)
-     * @deprecated use {@link #nativeId()}
-     */
-    @Deprecated
-    public long getMotor() {
-        long motorId = nativeId();
-        return motorId;
-    }
-
-    /**
      * Test whether the indexed spring's damping is limited
      * (m_springDampingLimited).
      *

@@ -615,26 +615,6 @@ public class BulletAppState
     }
 
     /**
-     * Create the configured debug-visualization app state.
-     *
-     * @param space the PhysicsSpace (not null, alias created)
-     * @param viewPorts the view ports in which to render (not null)
-     * @param filter the display filter, or null for none
-     * @param listener the init listener, or null for none
-     * @param camera the camera for debug visualization, or null if unknown
-     * @return a new instance (not null)
-     */
-    @Deprecated
-    protected BulletDebugAppState createDebugAppState(PhysicsSpace space,
-            ViewPort[] viewPorts,
-            BulletDebugAppState.DebugAppStateFilter filter,
-            DebugInitListener listener, Camera camera) {
-        BulletDebugAppState appState = new BulletDebugAppState(space, viewPorts,
-                filter, listener, camera);
-        return appState;
-    }
-
-    /**
      * Create the configured PhysicsSpace.
      *
      * @param min the minimum coordinate values (not null, unaffected)

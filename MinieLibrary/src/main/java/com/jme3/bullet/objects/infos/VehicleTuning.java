@@ -143,18 +143,6 @@ public class VehicleTuning
     }
 
     /**
-     * Read the ID of the btCollisionShape.
-     *
-     * @return the native identifier (not zero)
-     * @deprecated use {@link #nativeId()}
-     */
-    @Deprecated
-    final public long getNativeId() {
-        long nativeId = nativeId();
-        return nativeId;
-    }
-
-    /**
      * Read the suspension damping when compressed (native field:
      * m_suspensionCompression).
      *

@@ -40,7 +40,6 @@ import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.math.Vector3f;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
@@ -263,49 +262,6 @@ public class MyShape {
             CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
             result = cylinder.getAxis();
         }
-
-        return result;
-    }
-
-    /**
-     * Generate the name for a shape, consisting of its type and ID, separated
-     * by a colon.
-     *
-     * @param shape the shape to name (not null, unaffected)
-     * @return the name (not null, not empty)
-     * @deprecated use
-     * {@link com.jme3.bullet.collision.shapes.CollisionShape#toString()}
-     */
-    @Deprecated
-    public static String name(CollisionShape shape) {
-        Validate.nonNull(shape, "shape");
-
-        String type = describeType(shape);
-        type = type.toLowerCase(Locale.ROOT);
-        long id = shape.nativeId();
-        String result = String.format("%s:%x", type, id);
-
-        return result;
-    }
-
-    /**
-     * Parse the ID of a shape from its name.
-     *
-     * @param name the input text (not null, not empty, exactly one colon)
-     * @return the shape's ID
-     *
-     * @deprecated use {@link #parseNativeId(java.lang.String)}
-     */
-    @Deprecated
-    public static long parseId(String name) {
-        Validate.nonEmpty(name, "name");
-
-        String[] parts = name.split(":");
-        if (parts.length != 2) {
-            throw new IllegalArgumentException("name=" + MyString.quote(name));
-        }
-        String hexadecimal = parts[1];
-        long result = Long.parseLong(hexadecimal, 16);
 
         return result;
     }
