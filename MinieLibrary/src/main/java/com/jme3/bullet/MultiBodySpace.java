@@ -35,8 +35,8 @@ import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.objects.MultiBodyCollider;
 import com.jme3.math.Vector3f;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
-import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -118,12 +118,12 @@ public class MultiBodySpace extends PhysicsSpace {
      * Enumerate multibodies that have been added to this space and not yet
      * removed.
      *
-     * @return a new collection of pre-existing instances (not null)
+     * @return a new unmodifiable collection of pre-existing instances (not
+     * null)
      */
     public Collection<MultiBody> getMultiBodyList() {
-        // TODO use Collections.unmodifiableCollection
-        Collection<MultiBody> result = new TreeSet<>(multiBodyMap.values());
-        return result;
+        Collection<MultiBody> result = multiBodyMap.values();
+        return Collections.unmodifiableCollection(result);
     }
 
     /**

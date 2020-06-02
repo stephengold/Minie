@@ -286,11 +286,12 @@ public class CollisionSpace extends NativePhysicsObject {
      * Enumerate ghost objects that have been added to this space and not yet
      * removed.
      *
-     * @return a new collection of pre-existing instances (not null)
+     * @return a new unmodifiable collection of pre-existing instances (not
+     * null)
      */
     public Collection<PhysicsGhostObject> getGhostObjectList() {
-        // TODO use Collections.unmodifiableCollection
-        return new TreeSet<>(ghostMap.values());
+        Collection<PhysicsGhostObject> result = ghostMap.values();
+        return Collections.unmodifiableCollection(result);
     }
 
     /**

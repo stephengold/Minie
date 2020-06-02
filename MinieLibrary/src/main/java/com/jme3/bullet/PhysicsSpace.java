@@ -48,11 +48,11 @@ import com.jme3.scene.Spatial;
 import com.jme3.util.SafeArrayList;
 import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -485,14 +485,12 @@ public class PhysicsSpace extends CollisionSpace {
      * Enumerate physics characters that have been added to this space and not
      * yet removed.
      *
-     * @return a new collection of pre-existing instances (not null)
+     * @return a new unmodifiable collection of pre-existing instances (not
+     * null)
      */
     public Collection<PhysicsCharacter> getCharacterList() {
-        // TODO use Collections.unmodifiableCollection
-        TreeSet<PhysicsCharacter> result = new TreeSet<>();
-        result.addAll(characterMap.values());
-
-        return result;
+        Collection<PhysicsCharacter> result = characterMap.values();
+        return Collections.unmodifiableCollection(result);
     }
 
     /**
@@ -514,14 +512,12 @@ public class PhysicsSpace extends CollisionSpace {
      * Enumerate physics joints that have been added to this space and not yet
      * removed.
      *
-     * @return a new collection of pre-existing instances (not null)
+     * @return a new unmodifiable collection of pre-existing instances (not
+     * null)
      */
     public Collection<PhysicsJoint> getJointList() {
-        // TODO use Collections.unmodifiableCollection
-        TreeSet<PhysicsJoint> result = new TreeSet<>();
-        result.addAll(physicsJoints.values());
-
-        return result;
+        Collection<PhysicsJoint> result = physicsJoints.values();
+        return Collections.unmodifiableCollection(result);
     }
 
     /**
@@ -538,11 +534,12 @@ public class PhysicsSpace extends CollisionSpace {
      * Enumerate rigid bodies (including vehicles) that have been added to this
      * space and not yet removed.
      *
-     * @return a new collection of pre-existing instances (not null)
+     * @return a new unmodifiable collection of pre-existing instances (not
+     * null)
      */
     public Collection<PhysicsRigidBody> getRigidBodyList() {
-        // TODO use Collections.unmodifiableCollection
-        return new TreeSet<>(rigidMap.values());
+        Collection<PhysicsRigidBody> result = rigidMap.values();
+        return Collections.unmodifiableCollection(result);
     }
 
     /**
@@ -577,11 +574,12 @@ public class PhysicsSpace extends CollisionSpace {
      * Enumerate physics vehicles that have been added to this space and not yet
      * removed.
      *
-     * @return a new collection of pre-existing instances (not null)
+     * @return a new unmodifiable collection of pre-existing instances (not
+     * null)
      */
     public Collection<PhysicsVehicle> getVehicleList() {
-        // TODO use Collections.unmodifiableCollection
-        return new TreeSet<>(vehicleMap.values());
+        Collection<PhysicsVehicle> result = vehicleMap.values();
+        return Collections.unmodifiableCollection(result);
     }
 
     /**
