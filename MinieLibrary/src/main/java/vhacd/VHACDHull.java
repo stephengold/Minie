@@ -26,14 +26,13 @@ public class VHACDHull {
     // fields
 
     /**
-     * vertex locations (length a multiple of 3) TODO privatize
+     * vertex locations (length a multiple of 3)
      */
-    final public float[] positions;
+    final private float[] positions;
     /**
-     * vertex indices for each triangular face (length a multiple of 3) TODO
-     * privatize
+     * vertex indices for each triangular face (length a multiple of 3)
      */
-    final public int[] indexes;
+    final private int[] indexes;
     // *************************************************************************
     // constructors
 
