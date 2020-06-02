@@ -67,10 +67,11 @@ Summary of added features:
  + `New6Dof` physics joints based on `btGeneric6DofSpring2Constraint`
  + Alternative contact-and-constraint solvers based on `btDantzigSolver`,
    `btLemkeSolver`, `btSolveProjectedGaussSeidel`, and `btNNCGConstraintSolver`
- + `MultiSphere` collision shapes based on `btMultiSphereShape`
- + `Box2dShape` collision shapes based on `btBox2dShape`
- + `Convex2dShape` collision shapes based on `btConvex2dShape`
- + `EmptyShape` collision shape based on `btEmptyShape`
+ + collision shapes:
+   + `MultiSphere` shapes based on `btMultiSphereShape`
+   + `Box2dShape` shapes based on `btBox2dShape`
+   + `Convex2dShape` shapes based on `btConvex2dShape`
+   + `EmptyShape` shape based on `btEmptyShape`
  + debugging aids:
     + dump the contents of a `BulletAppState`, `PhysicsSpace`,
       `CollisionShape`, or `MultiBody`
@@ -86,6 +87,8 @@ Summary of added features:
    implement the `JmeCloneable` and `Comparable` interfaces
  + enable/disable a `PhysicsJoint`
  + single-ended physics joints
+ + ignore lists for collision objects
+ + application-specific data for collision objects
  + access more parameters of rigid bodies, vehicles, characters, etcetera
  + option to apply scaling with a `RigidBodyControl`
 
