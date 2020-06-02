@@ -18,6 +18,7 @@ import com.jme3.util.BufferUtils;
 import com.jme3.util.SafeArrayList;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -51,7 +52,7 @@ public class VHACD {
     /**
      * list of hulls computed during the latest decomposition
      */
-    private static VHACDResults results;
+    private static List<VHACDHull> results;
     // *************************************************************************
     // constructors
 
@@ -85,7 +86,7 @@ public class VHACD {
      * @param params the tuning parameters to use (not null, unaffected)
      * @return a new list of hulls, or an empty list if the algorithm failed
      */
-    public static VHACDResults compute(float positions[], int indices[],
+    public static List<VHACDHull> compute(float positions[], int indices[],
             VHACDParameters params) {
         Validate.nonNull(positions, "positions");
         Validate.nonNull(indices, "indices");
@@ -94,7 +95,7 @@ public class VHACD {
 
         FloatBuffer b_pos = BufferUtils.createFloatBuffer(positions);
         IntBuffer b_ind = BufferUtils.createIntBuffer(indices);
-        results = new VHACDResults();
+        results = new ArrayList<>(50);
         compute(b_pos, b_ind, params.nativeId(), params.getDebugEnabled());
 
         return results;

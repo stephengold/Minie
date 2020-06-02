@@ -62,7 +62,6 @@ import jme3utilities.math.MyBuffer;
 import vhacd.VHACD;
 import vhacd.VHACDHull;
 import vhacd.VHACDParameters;
-import vhacd.VHACDResults;
 
 /**
  * Utility methods for generating collision shapes from spatials.
@@ -224,7 +223,7 @@ public class CollisionShapeFactory {
         /*
          * Use the V-HACD algorithm to generate a list of hulls.
          */
-        VHACDResults vhacdHulls
+        List<VHACDHull> vhacdHulls
                 = VHACD.compute(positionArray, indexArray, parameters);
         /*
          * Convert each V-HACD hull to a HullCollisionShape
