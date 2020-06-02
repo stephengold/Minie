@@ -31,21 +31,18 @@
  */
 package com.jme3.bullet.collision;
 
+import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
-import java.util.EventObject;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
  * Describe a collision between 2 collision objects in a PhysicsSpace.
- * <p>
- * Even though this class inherits the java.io.Serializable interface, it isn't
- * serializable. TODO extend PhysicsNativeObject
  *
  * @author normenhansen
  */
-public class PhysicsCollisionEvent extends EventObject {
+public class PhysicsCollisionEvent extends NativePhysicsObject {
     // *************************************************************************
     // constants and loggers
 
@@ -57,10 +54,6 @@ public class PhysicsCollisionEvent extends EventObject {
     // *************************************************************************
     // fields
 
-    /**
-     * identifier of the btManifoldPoint
-     */
-    private long nid = 0L;
     /**
      * first collision object involved
      */
@@ -81,14 +74,13 @@ public class PhysicsCollisionEvent extends EventObject {
      */
     public PhysicsCollisionEvent(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {
-        super(pcoA);
         Validate.nonNull(pcoA, "object A");
         Validate.nonNull(pcoB, "object B");
         Validate.nonZero(manifoldPointId, "manifold point ID");
 
         this.pcoA = pcoA;
         this.pcoB = pcoB;
-        nid = manifoldPointId;
+        super.setNativeId(manifoldPointId);
     }
     // *************************************************************************
     // new methods exposed
@@ -483,18 +475,6 @@ public class PhysicsCollisionEvent extends EventObject {
         boolean result = (flags & ContactPointFlag.LATERAL_FRICTION) != 0x0;
 
         return result;
-    }
-    // *************************************************************************
-    // new protected methods
-
-    /**
-     * Read the ID of the btManifoldPoint.
-     *
-     * @return the native identifier (not zero)
-     */
-    final protected long nativeId() {
-        assert nid != 0L;
-        return nid;
     }
     // *************************************************************************
     // native methods
