@@ -77,10 +77,9 @@ public class CompoundMesh
      */
     private ArrayList<IndexedMesh> submeshes = new ArrayList<>(4);
     /**
-     * copy of scale factors: one for each local axis (default=(1,1,1)) TODO
-     * privatize
+     * copy of scale factors: one for each local axis (default=(1,1,1))
      */
-    protected Vector3f scale = new Vector3f(1f, 1f, 1f);
+    private Vector3f scale = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
     // constructors
 
