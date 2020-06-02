@@ -25,7 +25,7 @@ import jme3utilities.math.MyVector3f;
 
 /**
  * Utility class to perform Volumetric-Hierarchical Approximate Convex
- * Decomposition on an indexed mesh. TODO constructor
+ * Decomposition on an indexed mesh.
  */
 public class VHACD {
     // *************************************************************************
@@ -52,6 +52,14 @@ public class VHACD {
      * list of hulls computed during the latest decomposition
      */
     private static VHACDResults results;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private VHACD() {
+    }
     // *************************************************************************
     // new methods exposed
 
