@@ -98,7 +98,8 @@ public class SoftPhysicsAppState extends BulletAppState {
     @Override
     protected BulletDebugAppState createDebugAppState() {
         DebugConfiguration debugConfig = getDebugConfiguration();
-        BulletDebugAppState appState = new SoftDebugAppState(debugConfig);
+        SoftDebugAppState appState = new SoftDebugAppState(debugConfig);
+        appState.setClusterFilter(clusterFilter);
 
         return appState;
     }
