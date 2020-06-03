@@ -740,8 +740,6 @@ public class DropTest
         rootSpatial.addLight(sun);
         sun.setName("sun");
 
-        rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-
         viewPort.clearProcessors();
         int mapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -816,6 +814,8 @@ public class DropTest
         bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
+        bulletAppState.setDebugShadowMode(
+                RenderQueue.ShadowMode.CastAndReceive);
         stateManager.attach(bulletAppState);
 
         float gravity = status.gravity();

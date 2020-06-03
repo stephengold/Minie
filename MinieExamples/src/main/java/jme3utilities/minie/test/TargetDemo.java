@@ -489,8 +489,6 @@ public class TargetDemo
         rootSpatial.addLight(sun);
         sun.setName("sun");
 
-        rootSpatial.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-
         viewPort.clearProcessors();
         int mapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -533,6 +531,8 @@ public class TargetDemo
         bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
+        bulletAppState.setDebugShadowMode(
+                RenderQueue.ShadowMode.CastAndReceive);
         stateManager.attach(bulletAppState);
 
         float gravity = status.gravity();
