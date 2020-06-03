@@ -957,6 +957,7 @@ public class PhysicsRigidBody extends PhysicsBody {
             logger2.log(Level.FINE, "Clearing {0}.", this);
             long objectId = nativeId();
             finalizeNative(objectId);
+            unassignNativeObject();
         }
 
         preRebuild();
