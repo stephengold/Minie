@@ -166,7 +166,6 @@ class DebugMeshCallback {
             Vector3f pos2 = list.get(firstVertex + 1);
             Vector3f pos3 = list.get(firstVertex + 2);
             triangle.set(pos1, pos2, pos3);
-            triangle.setNormal(null); // work around JME issue #957
             Vector3f normal = triangle.getNormal();
             for (int j = 0; j < vpt; ++j) {
                 buffer.put(normal.x);
