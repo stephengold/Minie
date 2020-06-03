@@ -144,7 +144,7 @@ public class MakeDuck {
             public void update(double overallPercent, double stagePercent,
                     double operationPercent, String stageName,
                     String operationName) {
-                if (overallPercent > lastOP) {
+                if (overallPercent != lastOP) {
                     System.out.printf("MakeDuck %.0f%% complete%n",
                             overallPercent);
                     lastOP = overallPercent;
@@ -152,15 +152,19 @@ public class MakeDuck {
             }
         });
         VHACDParameters parms = new VHACDParameters();
+        //parms.setMaxConcavity(0.014);
         parms.setMaxVerticesPerHull(99);
         parms.setVoxelResolution(900_000);
+        long startTime = System.nanoTime();
         CompoundCollisionShape shape
                 = CollisionShapeFactory.createVhacdShape(cgmRoot, parms, null);
+        long elapsedNsec = System.nanoTime() - startTime;
         if (shape.countChildren() == 0) {
             System.err.println("V-HACD failed!");
             System.exit(-1);
         }
-        //System.out.printf("number of hulls = %d%n", shape.countChildren());
+        System.out.printf("MakeDuck number of hulls = %d (%f sec)%n",
+                shape.countChildren(), elapsedNsec * 1e-9f);
         /*
          * Write the shape to the asset file.
          */

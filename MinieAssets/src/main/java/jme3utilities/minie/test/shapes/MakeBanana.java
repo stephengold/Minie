@@ -137,14 +137,19 @@ public class MakeBanana {
                 }
             });
             VHACDParameters parms = new VHACDParameters();
+            //parms.setMaxConcavity(0.05);
             parms.setVoxelResolution(300_000);
-            shape = CollisionShapeFactory.createVhacdShape(cgmRoot, parms, null);
+            long startTime = System.nanoTime();
+            shape = CollisionShapeFactory.createVhacdShape(cgmRoot, parms,
+                    null);
+            long elapsedNsec = System.nanoTime() - startTime;
             if (shape.countChildren() == 0) {
                 System.err.println("V-HACD failed!");
                 System.exit(-1);
             }
+            System.out.printf("MakeBanana number of hulls = %d (%f sec)%n",
+                    shape.countChildren(), elapsedNsec * 1e-9f);
         }
-        System.out.printf("MakeBanana number of hulls = %d%n", shape.countChildren());
         /*
          * Write the shape to the asset file.
          */

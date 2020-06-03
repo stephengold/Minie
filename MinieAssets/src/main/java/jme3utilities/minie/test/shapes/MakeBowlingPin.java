@@ -137,15 +137,19 @@ public class MakeBowlingPin {
                 }
             });
             VHACDParameters parms = new VHACDParameters();
+            //parms.setMaxConcavity(0.03);
             parms.setVoxelResolution(1_300_000);
+            long startTime = System.nanoTime();
             shape = CollisionShapeFactory.createVhacdShape(cgmRoot, parms,
                     null);
+            long elapsedNsec = System.nanoTime() - startTime;
             if (shape.countChildren() == 0) {
                 System.err.println("V-HACD failed!");
                 System.exit(-1);
             }
+            System.out.printf("MakeBowlingPin number of hulls = %d (%f sec)%n",
+                    shape.countChildren(), elapsedNsec * 1e-9f);
         }
-        System.out.printf("MakeBowlingPin number of hulls = %d%n", shape.countChildren());
         /*
          * Write the shape to the asset file.
          */
