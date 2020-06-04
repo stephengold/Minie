@@ -33,6 +33,7 @@ import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.NativeLibrary;
@@ -48,6 +49,13 @@ import jme3utilities.math.MyBuffer;
 import jme3utilities.mesh.RectangleMesh;
 import jme3utilities.minie.PhysicsDumper;
 
+/**
+ * Test case for Minie issue #3: btAssert() at the peak of a character's jump.
+ * <p>
+ * Press the spacebar. If successful, the jump will complete with no JVM crash.
+ *
+ * @author Stephen Gold sgold@sonic.net
+ */
 public class TestIssue3 extends SimpleApplication
         implements ActionListener, PhysicsTickListener {
 
@@ -77,7 +85,8 @@ public class TestIssue3 extends SimpleApplication
         Quaternion rot = new Quaternion().fromAngles(1.5f, 0f, 0f);
         MyBuffer.rotate(buffer, 0, buffer.limit(), rot);
         CollisionShape meshShape = new MeshCollisionShape(mesh);
-        PhysicsRigidBody staticBody = new PhysicsRigidBody(meshShape, 0f);
+        PhysicsRigidBody staticBody
+                = new PhysicsRigidBody(meshShape, PhysicsBody.massForStatic);
         physicsSpace.addCollisionObject(staticBody);
 
         CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1f, 3f);
