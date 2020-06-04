@@ -92,7 +92,7 @@ public class TestIssue3 extends SimpleApplication
         CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1f, 3f);
         character = new PhysicsCharacter(capsuleShape, 0.05f);
         character.setGravity(120f);
-        character.setPhysicsLocation(new Vector3f(0f, 0.8f, 0f));
+        character.setPhysicsLocation(new Vector3f(0f, 2.5f, 0f));
         physicsSpace.addCollisionObject(character);
 
         new PhysicsDumper().dump(bulletAppState);
