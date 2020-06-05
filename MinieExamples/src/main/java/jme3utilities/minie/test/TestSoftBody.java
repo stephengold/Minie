@@ -50,6 +50,7 @@ import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
@@ -575,7 +576,7 @@ public class TestSoftBody
         config.setAerodynamics(Aero.F_TwoSidedLiftDrag);
         config.setPositionIterations(3);
 
-        PhysicsSoftBody.Material softMaterial = flagPsb.getSoftMaterial();
+        SoftBodyMaterial softMaterial = flagPsb.getSoftMaterial();
         softMaterial.setAngularStiffness(0f);
 
         Material logoMaterial = findMaterial("logo");
@@ -669,7 +670,7 @@ public class TestSoftBody
         config.set(Sbcp.KineticHardness, 1f);
         config.setPositionIterations(6);
 
-        PhysicsSoftBody.Material material = skirtPsb.getSoftMaterial();
+        SoftBodyMaterial material = skirtPsb.getSoftMaterial();
         material.setAngularStiffness(0f);
         material.setLinearStiffness(0.5f);
 
@@ -753,7 +754,7 @@ public class TestSoftBody
         config.set(Sbcp.Damping, 0.02f);
         config.setPositionIterations(3);
 
-        PhysicsSoftBody.Material material = softBody.getSoftMaterial();
+        SoftBodyMaterial material = softBody.getSoftMaterial();
         material.setAngularStiffness(0f);
 
         Material plaidMaterial = findMaterial("plaid");

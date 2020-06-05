@@ -65,6 +65,7 @@ import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.VehicleWheel;
 import com.jme3.bullet.objects.infos.Cluster;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import java.io.PrintStream;
@@ -534,7 +535,7 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" orient[%s]", desc);
         }
         /*
-         * 3rd & 4th lines have the Config.
+         * 3rd & 4th lines have the config.
          */
         SoftBodyConfig config = body.getSoftConfig();
         desc = describer.describe1(config);
@@ -542,9 +543,9 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describe2(config);
         stream.printf("%n%s %s", indent, desc);
         /*
-         * 5th line has the Material.
+         * 5th line has the material.
          */
-        PhysicsSoftBody.Material material = body.getSoftMaterial();
+        SoftBodyMaterial material = body.getSoftMaterial();
         desc = describer.describe(material);
         stream.printf("%n%s %s", indent, desc);
         /*

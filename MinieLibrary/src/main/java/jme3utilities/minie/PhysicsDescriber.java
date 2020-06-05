@@ -67,6 +67,7 @@ import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -235,7 +236,7 @@ public class PhysicsDescriber extends Describer {
      * @param material the Material to describe (not null, unaffected)
      * @return description (not null, not empty)
      */
-    public String describe(PhysicsSoftBody.Material material) {
+    public String describe(SoftBodyMaterial material) {
         String result = String.format(
                 "Material stiffness[ang=%s lin=%s vol=%s]",
                 MyString.describe(material.angularStiffness()),

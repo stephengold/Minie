@@ -79,6 +79,7 @@ import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.bullet.objects.infos.VehicleTuning;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeLibrary;
@@ -231,7 +232,7 @@ public class TestDefaults {
         assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
         Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
 
-        PhysicsSoftBody.Material mat = softA.getSoftMaterial();
+        SoftBodyMaterial mat = softA.getSoftMaterial();
         Assert.assertEquals(1f, mat.angularStiffness(), 0f);
         Assert.assertEquals(1f, mat.linearStiffness(), 0f);
         Assert.assertEquals(1f, mat.volumeStiffness(), 0f);

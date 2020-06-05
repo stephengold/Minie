@@ -38,6 +38,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.objects.infos.Cluster;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -97,6 +98,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     final private static String tagIsWorldInfoProtected
             = "isWorldInfoProtected";
     final private static String tagLinkIndices = "linkIndices";
+    final private static String tagMaterial = "material";
     final private static String tagNodeLocations = "nodeLocations";
     final private static String tagNodeMasses = "nodeMasses";
     final private static String tagNodeNormals = "nodeNormals";
@@ -115,13 +117,13 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     private boolean isWorldInfoProtected = false;
     /**
-     * material properties of this soft body, allocated lazily
-     */
-    private Material material = null;
-    /**
      * configuration properties of this soft body
      */
     private SoftBodyConfig config = null;
+    /**
+     * material properties of this soft body, allocated lazily
+     */
+    private SoftBodyMaterial material = null;
     /**
      * properties (including gravity) that may be replaced when this body gets
      * added to a PhysicsSoftSpace
@@ -137,10 +139,10 @@ public class PhysicsSoftBody extends PhysicsBody {
     public PhysicsSoftBody() {
         worldInfo = new SoftBodyWorldInfo();
         long infoId = worldInfo.nativeId();
-        long objectId = createEmpty(infoId);
-        super.setNativeId(objectId);
-        assert getInternalType(objectId) == PcoType.soft :
-                getInternalType(objectId);
+        long bodyId = createEmpty(infoId);
+        super.setNativeId(bodyId);
+        assert getInternalType(bodyId) == PcoType.soft :
+                getInternalType(bodyId);
         logger2.log(Level.FINE, "Created {0}.", this);
 
         config = new SoftBodyConfig(this);
@@ -739,11 +741,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      * @param numHops (in links, &ge;2)
      * @param material the material for appending links (not null)
      */
-    public void generateBendingConstraints(int numHops, Material material) {
+    public void generateBendingConstraints(int numHops,
+            SoftBodyMaterial material) {
         Validate.inRange(numHops, "number of hops", 2, Integer.MAX_VALUE);
 
         long objectId = nativeId();
-        long materialId = material.materialId;
+        long materialId = material.nativeId();
         generateBendingConstraints(objectId, numHops, materialId);
     }
 
@@ -825,9 +828,9 @@ public class PhysicsSoftBody extends PhysicsBody {
      *
      * @return the instance associated with this body (not null)
      */
-    public Material getSoftMaterial() {
+    public SoftBodyMaterial getSoftMaterial() {
         if (material == null) {
-            material = new Material(this);
+            material = new SoftBodyMaterial(this);
         }
 
         return material;
@@ -1356,14 +1359,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Identify the Material for the identified btSoftBody.
-     *
-     * @param bodyId the ID of the btSoftBody (not 0)
-     * @return the ID of the Material (not 0)
-     */
-    native protected long getMaterial(long bodyId);
-
-    /**
      * Reinitialize the btSoftBody to the default values.
      */
     protected void initDefault() {
@@ -1436,12 +1431,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         cloneIgnoreList(cloner, old);
         copyPcoProperties(old);
         config.copyAll(old.config);
-
-        Material oldMaterial = old.getSoftMaterial();
-        material = new Material(this);
-        material.setAngularStiffness(oldMaterial.angularStiffness());
-        material.setLinearStiffness(oldMaterial.linearStiffness());
-        material.setVolumeStiffness(oldMaterial.volumeStiffness());
+        material = cloner.clone(old.material);
 
         FloatBuffer floats = old.copyLocations(null);
         appendNodes(floats);
@@ -1614,6 +1604,8 @@ public class PhysicsSoftBody extends PhysicsBody {
         config = (SoftBodyConfig) capsule.readSavable(tagConfig, null);
         assert config != null;
 
+        material = (SoftBodyMaterial) capsule.readSavable(tagMaterial, null);
+
         float[] fArray = capsule.readFloatArray(tagNodeLocations, new float[0]);
         appendNodes(BufferUtils.createFloatBuffer(fArray));
 
@@ -1665,7 +1657,6 @@ public class PhysicsSoftBody extends PhysicsBody {
         setPhysicsLocation((Vector3f) capsule.readSavable(tagPhysicsLocation,
                 new Vector3f()));
 
-        getSoftMaterial().read(capsule);
         readJoints(capsule);
     }
 
@@ -1807,7 +1798,7 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         assert config != null;
         capsule.write(config, tagConfig, null);
-        getSoftMaterial().write(capsule);
+        capsule.write(material, tagMaterial, null);
 
         writeJoints(capsule);
     }
@@ -2029,181 +2020,4 @@ public class PhysicsSoftBody extends PhysicsBody {
     native private void setVolumeMass(long bodyId, float mass);
 
     native private void setWindVelocity(long bodyId, Vector3f velocityVector);
-
-    /**
-     * Provide access to 3 fields of the native btSoftBody::Material struct.
-     * TODO make it an outer class
-     */
-    public class Material {
-        // *********************************************************************
-        // constants and loggers
-
-        /**
-         * field names for serialization
-         */
-        final private static String tagAngularStiffness = "angularStiffness";
-        final private static String tagLinearStiffness = "linearStiffness";
-        final private static String tagVolumeStiffness = "volumeStiffness";
-        // *********************************************************************
-        // fields
-
-        /**
-         * unique identifier of this Material (not zero)
-         */
-        private long materialId;
-        // *********************************************************************
-        // constructors
-
-        /**
-         * Instantiate a Material with the default properties.
-         *
-         * @param body the body to which this Material will apply (not null)
-         */
-        private Material(PhysicsSoftBody body) {
-            long softBodyId = body.nativeId();
-            materialId = body.getMaterial(softBodyId);
-            assert materialId != 0L;
-        }
-        // *********************************************************************
-        // new methods exposed
-
-        /**
-         * Read the angular stiffness coefficient (native field: m_kAST).
-         *
-         * @return the coefficient (&ge;0, &le;1)
-         */
-        public float angularStiffness() {
-            return getAngularStiffnessFactor(materialId);
-        }
-
-        /**
-         * Read the linear stiffness coefficient (native field: m_kLST).
-         *
-         * @return the coefficient (&ge;0, &le;1)
-         */
-        public float linearStiffness() {
-            return getLinearStiffnessFactor(materialId);
-        }
-
-        /**
-         * Alter the angular stiffness coefficient (native field: m_kAST).
-         *
-         * @param coefficient the desired coefficient (&ge;0, &le;1, default=1)
-         */
-        public void setAngularStiffness(float coefficient) {
-            Validate.fraction(coefficient, "stiffness coefficient");
-            setAngularStiffnessFactor(materialId, coefficient);
-        }
-
-        /**
-         * Alter the linear stiffness coefficient (native field: m_kLST).
-         *
-         * @param coefficient the desired coefficient (&ge;0, &le;1, default=1)
-         */
-        public void setLinearStiffness(float coefficient) {
-            Validate.fraction(coefficient, "stiffness coefficient");
-            setLinearStiffnessFactor(materialId, coefficient);
-        }
-
-        /**
-         * Alter the volume stiffness coefficient (native field: m_kVST).
-         *
-         * @param coefficient the desired coefficient (&ge;0, &le;1, default=1)
-         */
-        public void setVolumeStiffness(float coefficient) {
-            Validate.fraction(coefficient, "stiffness coefficient");
-            setVolumeStiffnessFactor(materialId, coefficient);
-        }
-
-        /**
-         * Read the volume stiffness coefficient (native field: m_kVST).
-         *
-         * @return the coefficient (&ge;0, &le;1)
-         */
-        public float volumeStiffness() {
-            return getVolumeStiffnessFactor(materialId);
-        }
-        // *********************************************************************
-        // Object methods
-
-        /**
-         * Test for ID equality.
-         *
-         * @param otherObject the object to compare to (may be null, unaffected)
-         * @return true if the materials have the same ID, otherwise false
-         */
-        @Override
-        public boolean equals(Object otherObject) {
-            boolean result;
-            if (otherObject == this) {
-                result = true;
-            } else if (otherObject != null
-                    && otherObject.getClass() == getClass()) {
-                Material otherMaterial = (Material) otherObject;
-                result = (otherMaterial.materialId == materialId);
-            } else {
-                result = false;
-            }
-
-            return result;
-        }
-
-        /**
-         * Generate the hash code for this Material.
-         *
-         * @return the value to use for hashing
-         */
-        @Override
-        public int hashCode() {
-            int result = 313;
-            result = 79 * result + (int) (materialId ^ (materialId >>> 32));
-
-            return result;
-        }
-        // *********************************************************************
-        // private methods
-
-        /**
-         * De-serialize this Material from the specified capsule, for example
-         * when loading from a J3O file.
-         *
-         * @param capsule the capsule to read from (not null)
-         * @throws IOException from the importer
-         */
-        private void read(InputCapsule capsule) throws IOException {
-            setAngularStiffness(capsule.readFloat(tagAngularStiffness, 1f));
-            setLinearStiffness(capsule.readFloat(tagLinearStiffness, 1f));
-            setVolumeStiffness(capsule.readFloat(tagVolumeStiffness, 1f));
-        }
-
-        /**
-         * Serialize this Material to the specified capsule, for example when
-         * saving to a J3O file.
-         *
-         * @param capsule the capsule to write to (not null)
-         * @throws IOException from the exporter
-         */
-        private void write(OutputCapsule capsule) throws IOException {
-            capsule.write(angularStiffness(), tagAngularStiffness, 1f);
-            capsule.write(linearStiffness(), tagLinearStiffness, 1f);
-            capsule.write(volumeStiffness(), tagVolumeStiffness, 1f);
-        }
-        // *********************************************************************
-        // native methods
-
-        native private float getAngularStiffnessFactor(long materialId);
-
-        native private float getLinearStiffnessFactor(long materialId);
-
-        native private float getVolumeStiffnessFactor(long materialId);
-
-        native private void setAngularStiffnessFactor(long materialId,
-                float stiffness);
-
-        native private void setLinearStiffnessFactor(long materialId,
-                float stiffness);
-
-        native private void setVolumeStiffnessFactor(long materialId,
-                float stiffness);
-    }
 }

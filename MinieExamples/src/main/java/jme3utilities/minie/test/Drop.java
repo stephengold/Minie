@@ -51,6 +51,7 @@ import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.FastMath;
@@ -767,7 +768,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                 softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
                 softBody.setMargin(lineSpacing);
 
-                PhysicsSoftBody.Material mat = softBody.getSoftMaterial();
+                SoftBodyMaterial mat = softBody.getSoftMaterial();
                 //mat.setAngularStiffness(1f); // default = 1
 
                 SoftBodyConfig config = softBody.getSoftConfig();

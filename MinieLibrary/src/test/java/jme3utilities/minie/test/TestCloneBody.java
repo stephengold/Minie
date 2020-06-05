@@ -42,6 +42,7 @@ import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
+import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Matrix3f;
@@ -171,6 +172,7 @@ public class TestCloneBody {
             PhysicsSoftBody sBody = (PhysicsSoftBody) body;
             PhysicsSoftBody sBodyClone = (PhysicsSoftBody) bodyClone;
             assert sBodyClone.getSoftConfig() != sBody.getSoftConfig();
+            //assert sBodyClone.getSoftMaterial() != sBody.getSoftMaterial();
             assert sBodyClone.getWorldInfo() != sBody.getWorldInfo();
         }
 
@@ -286,7 +288,7 @@ public class TestCloneBody {
         }
         config.setCollisionFlags(flags);
 
-        PhysicsSoftBody.Material material = body.getSoftMaterial();
+        SoftBodyMaterial material = body.getSoftMaterial();
         material.setAngularStiffness(b + 0.04f);
         material.setLinearStiffness(b + 0.041f);
         material.setVolumeStiffness(b + 0.042f);
@@ -424,9 +426,9 @@ public class TestCloneBody {
         }
         assert config.collisionFlags() == flags;
 
-        PhysicsSoftBody.Material material = body.getSoftMaterial();
-        assert material.angularStiffness() == b + 0.04f;
-        assert material.linearStiffness() == b + 0.041f;
-        assert material.volumeStiffness() == b + 0.042f;
+        SoftBodyMaterial material = body.getSoftMaterial();
+        Assert.assertEquals(b + 0.04f, material.angularStiffness(), 0f);
+        Assert.assertEquals(b + 0.041f, material.linearStiffness(), 0f);
+        Assert.assertEquals(b + 0.042f, material.volumeStiffness(), 0f);
     }
 }
