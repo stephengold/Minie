@@ -44,7 +44,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Tuning parameters for a PhysicsVehicle, based on btVehicleTuning.
+ * Tuning parameters for a PhysicsVehicle, based on Bullet's btVehicleTuning.
  *
  * @author normenhansen
  */
@@ -292,17 +292,16 @@ public class VehicleTuning
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        suspensionStiffness = capsule.readFloat(tagSuspensionStiffness, 5.88f);
-        suspensionDamping
-                = capsule.readFloat(tagWheelsDampingRelaxation, 0.88f);
-        suspensionCompression
-                = capsule.readFloat(tagWheelsDampingCompression, 0.83f);
-        frictionSlip = capsule.readFloat(tagFrictionSlip, 10.5f);
-        maxSuspensionTravelCm
-                = capsule.readFloat(tagMaxSuspensionTravelCm, 500f);
-        maxSuspensionForce = capsule.readFloat(tagMaxSuspensionForce, 6000f);
-
-        create();
+        setSuspensionStiffness(
+                capsule.readFloat(tagSuspensionStiffness, 5.88f));
+        setSuspensionDamping(
+                capsule.readFloat(tagWheelsDampingRelaxation, 0.88f));
+        setSuspensionCompression(
+                capsule.readFloat(tagWheelsDampingCompression, 0.83f));
+        setFrictionSlip(capsule.readFloat(tagFrictionSlip, 10.5f));
+        setMaxSuspensionTravelCm(
+                capsule.readFloat(tagMaxSuspensionTravelCm, 500f));
+        setMaxSuspensionForce(capsule.readFloat(tagMaxSuspensionForce, 6000f));
     }
 
     /**
