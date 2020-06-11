@@ -77,7 +77,7 @@ public class CompoundMesh
      */
     private ArrayList<IndexedMesh> submeshes = new ArrayList<>(4);
     /**
-     * copy of scale factors: one for each local axis (default=(1,1,1))
+     * copy of scale factors: one for each local axis
      */
     private Vector3f scale = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
@@ -263,26 +263,7 @@ public class CompoundMesh
         capsule.writeSavableArrayList(submeshes, tagSubmeshes, null);
     }
     // *************************************************************************
-    // NativePhysicsObject methods
-
-    /**
-     * Finalize this mesh just before it is destroyed. Should be invoked only by
-     * a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            logger.log(Level.FINE, "Finalizing {0}", this);
-            long compoundMeshId = nativeId();
-            finalizeNative(compoundMeshId);
-        } finally {
-            super.finalize();
-        }
-    }
-    // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Compare Bullet's scale factors to the local copy.
@@ -309,8 +290,18 @@ public class CompoundMesh
 
         logger.log(Level.FINE, "Created {0}", this);
     }
+
+    /**
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param compoundMeshId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long compoundMeshId) {
+        assert compoundMeshId != 0L;
+        finalizeNative(compoundMeshId);
+    }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void addIndexedMesh(long compoundMeshId,
             long submeshId);

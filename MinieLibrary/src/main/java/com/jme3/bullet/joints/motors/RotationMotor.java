@@ -61,7 +61,7 @@ public class RotationMotor extends NativePhysicsObject {
      */
     public RotationMotor(long nativeId) {
         Validate.nonZero(nativeId, "native ID");
-        super.setNativeId(nativeId);
+        super.setNativeIdNotTracked(nativeId);
     }
     // *************************************************************************
     // new methods exposed
@@ -286,7 +286,7 @@ public class RotationMotor extends NativePhysicsObject {
         setStiffnessLimited(motorId, limitStiffness);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static float getBounce(long motorId);
 

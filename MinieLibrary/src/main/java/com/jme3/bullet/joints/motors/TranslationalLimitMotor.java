@@ -63,7 +63,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
      */
     public TranslationalLimitMotor(long nativeId) {
         Validate.nonZero(nativeId, "native ID");
-        super.setNativeId(nativeId);
+        super.setNativeIdNotTracked(nativeId);
     }
     // *************************************************************************
     // new methods exposed
@@ -411,7 +411,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
         setUpperLimit(motorId, upperLimit);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void getAccumulatedImpulse(long motorId,
             Vector3f vector);

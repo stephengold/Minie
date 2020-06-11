@@ -40,7 +40,6 @@ import com.jme3.export.Savable;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -76,28 +75,28 @@ public class VehicleTuning
 
     /**
      * coefficient of friction between tires and ground (0.8&rarr;realistic car,
-     * 10000&rarr;kart racer, default=10.5)
+     * 10000&rarr;kart racer)
      */
     private float frictionSlip = 10.5f;
     /**
-     * maximum force exerted by each wheel's suspension (default=6000)
+     * maximum force exerted by each wheel's suspension
      */
     private float maxSuspensionForce = 6000f;
     /**
-     * maximum suspension travel distance (in centimeters, default=500)
+     * maximum suspension travel distance (in centimeters)
      */
     private float maxSuspensionTravelCm = 500f;
     /**
-     * suspension damping when compressed (0&rarr;no damping, default=0.83)
+     * suspension damping when compressed (0&rarr;no damping)
      */
     private float suspensionCompression = 0.83f;
     /**
-     * suspension damping when expanded (0&rarr;no damping, default=0.88)
+     * suspension damping when expanded (0&rarr;no damping)
      */
     private float suspensionDamping = 0.88f;
     /**
      * suspension stiffness constant (10&rarr;off-road buggy, 50&rarr;sports
-     * car, 200&rarr;Formula-1 race car, default=5.88)
+     * car, 200&rarr;Formula-1 race car)
      */
     private float suspensionStiffness = 5.88f;
     // *************************************************************************
@@ -323,26 +322,7 @@ public class VehicleTuning
         capsule.write(maxSuspensionForce, tagMaxSuspensionForce, 6000f);
     }
     // *************************************************************************
-    // NativePhysicsObject methods
-
-    /**
-     * Finalize this tuning just before it is destroyed. Should be invoked only
-     * by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            logger.log(Level.FINE, "Finalizing {0}", this);
-            long tuningId = nativeId();
-            finalizeNative(tuningId);
-        } finally {
-            super.finalize();
-        }
-    }
-    // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Instantiate the configured tuning in Bullet.
@@ -358,8 +338,18 @@ public class VehicleTuning
         setSuspensionDamping(tuningId, suspensionDamping);
         setSuspensionStiffness(tuningId, suspensionStiffness);
     }
+
+    /**
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param tuningId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long tuningId) {
+        assert tuningId != 0L;
+        finalizeNative(tuningId);
+    }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createNative();
 

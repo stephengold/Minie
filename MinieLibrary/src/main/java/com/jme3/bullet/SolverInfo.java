@@ -60,7 +60,7 @@ public class SolverInfo extends NativePhysicsObject {
      */
     SolverInfo(long nativeId) {
         Validate.nonZero(nativeId, "native ID");
-        super.setNativeId(nativeId);
+        super.setNativeIdNotTracked(nativeId);
     }
     // *************************************************************************
     // new methods exposed
@@ -254,7 +254,7 @@ public class SolverInfo extends NativePhysicsObject {
         return result;
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void copyAllParameters(long targetId, long sourceId);
 

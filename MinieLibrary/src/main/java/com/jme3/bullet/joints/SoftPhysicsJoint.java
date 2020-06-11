@@ -39,7 +39,6 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -87,15 +86,15 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      */
     private boolean added = false;
     /**
-     * local copy of the constraint force mixing parameter (default=1)
+     * local copy of the constraint force mixing parameter
      */
     private float cfm = 1f;
     /**
-     * local copy of the error-reduction parameter (default=1)
+     * local copy of the error-reduction parameter
      */
     private float erp = 1f;
     /**
-     * local copy of the split parameter (default=1)
+     * local copy of the split parameter
      */
     private float split = 1f;
     /**
@@ -376,28 +375,6 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     // PhysicsJoint methods
 
     /**
-     * Finalize this joint just before it is destroyed. Should be invoked only
-     * by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        if (added) {
-            // the joint is still attached to a softbody,
-            // assuming the joint is Garbage collected at the same time as his softbody
-            // (the softbody have a reference to this in his joint list)
-            // when deleted the softbody will delete all his joints as well.
-            logger2.log(Level.FINE,
-                    "{0} is still attached, it will be destroyed by the soft body",
-                    this);
-        } else {
-            // finalizeNative() will be invoked by the superclass finalize
-            super.finalize();
-        }
-    }
-
-    /**
      * Test whether this joint is enabled.
      *
      * @return true
@@ -465,7 +442,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         capsule.write(clusterIndexB(), tagClusterIndexB, -1);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static float getConstraintForceMixing(long jointId);
 

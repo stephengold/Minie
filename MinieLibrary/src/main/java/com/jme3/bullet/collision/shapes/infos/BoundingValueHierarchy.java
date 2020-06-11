@@ -41,7 +41,6 @@ import com.jme3.export.Savable;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -67,21 +66,12 @@ public class BoundingValueHierarchy
      */
     final private static String tagBytes = "bytes";
     // *************************************************************************
-    // fields
-
-    /**
-     * true&rarr;refers to a new btOptimizedBvh, false&rarr;refers to a
-     * pre-existing one
-     */
-    private boolean needsNativeFinalization;
-    // *************************************************************************
     // constructors
 
     /**
      * No-argument constructor needed by SavableClassUtil.
      */
     protected BoundingValueHierarchy() {
-        needsNativeFinalization = false;
     }
 
     /**
@@ -95,8 +85,7 @@ public class BoundingValueHierarchy
 
         long shapeId = meshShape.nativeId();
         long bvhId = getOptimizedBvh(shapeId);
-        super.setNativeId(bvhId);
-        needsNativeFinalization = false;
+        super.setNativeIdNotTracked(bvhId);
     }
 
     /**
@@ -109,7 +98,6 @@ public class BoundingValueHierarchy
 
         long bvhId = deSerialize(bytes);
         super.setNativeId(bvhId);
-        needsNativeFinalization = true;
     }
     // *************************************************************************
     // new methods exposed
@@ -145,7 +133,6 @@ public class BoundingValueHierarchy
         byte[] bytes = originalBvh.serialize();
         long bvhId = deSerialize(bytes);
         reassignNativeId(bvhId);
-        needsNativeFinalization = true;
     }
 
     /**
@@ -161,27 +148,6 @@ public class BoundingValueHierarchy
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
-        }
-    }
-    // *************************************************************************
-    // NativePhysicsObject methods
-
-    /**
-     * Finalize this hierarchy just before it is destroyed. Should be invoked
-     * only by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            if (needsNativeFinalization) {
-                logger.log(Level.FINE, "Finalizing {0}.", this);
-                long bvhId = nativeId();
-                finalizeNative(bvhId);
-            }
-        } finally {
-            super.finalize();
         }
     }
     // *************************************************************************
@@ -201,7 +167,6 @@ public class BoundingValueHierarchy
         byte[] bytes = capsule.readByteArray(tagBytes, null);
         long bvhId = deSerialize(bytes);
         super.setNativeId(bvhId);
-        needsNativeFinalization = true;
     }
 
     /**
@@ -219,7 +184,19 @@ public class BoundingValueHierarchy
         capsule.write(bytes, tagBytes, null);
     }
     // *************************************************************************
-    // native methods
+    // Java private methods
+
+    /**
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param bvhId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long bvhId) {
+        assert bvhId != 0L;
+        finalizeNative(bvhId);
+    }
+    // *************************************************************************
+    // native private methods
 
     native private static long deSerialize(byte[] buffer);
 

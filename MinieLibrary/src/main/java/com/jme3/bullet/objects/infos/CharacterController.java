@@ -44,7 +44,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
@@ -540,25 +539,6 @@ public class CharacterController
         }
     }
     // *************************************************************************
-    // NativePhysicsObject methods
-
-    /**
-     * Finalize this controller just before it is destroyed. Should be invoked
-     * only by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            logger.log(Level.FINE, "Finalizing {0}", this);
-            long controllerId = nativeId();
-            finalizeNative(controllerId);
-        } finally {
-            super.finalize();
-        }
-    }
-    // *************************************************************************
     // Savable methods
 
     /**
@@ -636,7 +616,7 @@ public class CharacterController
         }
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Create a btKinematicCharacterController.
@@ -646,8 +626,18 @@ public class CharacterController
         long controllerId = create(ghostId);
         setNativeId(controllerId);
     }
+
+    /**
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param controllerId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long controllerId) {
+        assert controllerId != 0L;
+        finalizeNative(controllerId);
+    }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long create(long ghostId);
 

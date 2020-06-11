@@ -83,19 +83,19 @@ public class HeightfieldCollisionShape extends CollisionShape {
     // fields
 
     /**
-     * reverse the direction of the first diagonal (default=true)
+     * reverse the direction of the first diagonal
      */
     private boolean flipQuadEdges = true;
     /**
-     * true&rarr;left-hand winding of triangles (default=false)
+     * true&rarr;left-hand winding of triangles
      */
     private boolean flipTriangleWinding = false;
     /**
-     * true&rarr;diagonals alternate on both horizontal axes (default=false)
+     * true&rarr;diagonals alternate on both horizontal axes
      */
     private boolean useDiamond = false;
     /**
-     * true&rarr;diagonals alternate on one horizontal axis (default=false)
+     * true&rarr;diagonals alternate on one horizontal axis
      */
     private boolean useZigzag = false;
     /**
@@ -246,22 +246,6 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
-     * Finalize this shape just before it is destroyed. Should be invoked only
-     * by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            long nativeId = nativeId();
-            finalizeNative(nativeId);
-        } finally {
-            super.finalize();
-        }
-    }
-
-    /**
      * Create a shallow clone for the JME cloner.
      *
      * @return a new instance
@@ -331,7 +315,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
         capsule.write(useZigzag, tagUseZigzag, false);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Calculate min and max heights for the heightfield data.
@@ -406,8 +390,18 @@ public class HeightfieldCollisionShape extends CollisionShape {
         setScale(scale);
         setMargin(margin);
     }
+
+    /**
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param shapeId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long shapeId) {
+        assert shapeId != 0L;
+        finalizeNative(shapeId);
+    }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createShape2(int stickWidth, int stickLength,
             FloatBuffer heightfieldData, float heightScale, float minHeight,

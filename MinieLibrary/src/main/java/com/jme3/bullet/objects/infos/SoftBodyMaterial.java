@@ -92,7 +92,7 @@ public class SoftBodyMaterial
 
         long softBodyId = body.nativeId();
         long materialId = getMaterialId(softBodyId);
-        super.setNativeId(materialId);
+        super.setNativeIdNotTracked(materialId);
     }
     // *********************************************************************
     // new methods exposed
@@ -187,7 +187,7 @@ public class SoftBodyMaterial
         body = cloner.clone(body);
         long softBodyId = body.nativeId();
         long materialId = getMaterialId(softBodyId);
-        setNativeId(materialId);
+        setNativeIdNotTracked(materialId);
 
         SoftBodyMaterial old = (SoftBodyMaterial) original;
         setAngularStiffness(old.angularStiffness());
@@ -228,7 +228,7 @@ public class SoftBodyMaterial
 
         long softBodyId = body.nativeId();
         long materialId = getMaterialId(softBodyId);
-        setNativeId(materialId);
+        setNativeIdNotTracked(materialId);
 
         setAngularStiffness(capsule.readFloat(tagAngularStiffness, 1f));
         setLinearStiffness(capsule.readFloat(tagLinearStiffness, 1f));
@@ -253,7 +253,7 @@ public class SoftBodyMaterial
         capsule.write(volumeStiffness(), tagVolumeStiffness, 1f);
     }
     // *********************************************************************
-    // native methods
+    // native private methods
 
     native private static float getAngularStiffnessFactor(long materialId);
 

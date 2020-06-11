@@ -90,7 +90,7 @@ public class CollisionSpace extends NativePhysicsObject {
         }
     };
     /**
-     * flags used in ray tests (default=SubSimplexRaytest)
+     * flags used in ray tests
      */
     private int rayTestFlags = RayTestFlag.SubSimplexRaytest;
     /**
@@ -274,7 +274,7 @@ public class CollisionSpace extends NativePhysicsObject {
 
     /**
      * Access the CollisionSpace <b>running on this thread</b>. For parallel
-     * physics, this can be invoked from the OpenGL thread.
+     * physics, this may be invoked from the OpenGL thread.
      *
      * @return the pre-existing CollisionSpace running on this thread
      */
@@ -602,29 +602,7 @@ public class CollisionSpace extends NativePhysicsObject {
         physicsSpaceTL.set(this);
     }
     // *************************************************************************
-    // NativePhysicsObject methods
-
-    /**
-     * Finalize this space just before it is destroyed. Should be invoked only
-     * by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            loggerC.log(Level.FINE, "Finalizing {0}.", this);
-            for (PhysicsCollisionObject pco : getPcoList()) {
-                removeCollisionObject(pco);
-            }
-            long spaceId = nativeId();
-            finalizeNative(spaceId);
-        } finally {
-            super.finalize();
-        }
-    }
-    // *************************************************************************
-    // private Java methods
+    // Java private methods
 
     /**
      * Add the specified PhysicsGhostObject to this space.
@@ -650,7 +628,17 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * This method is invoked from native code.
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param spaceId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long spaceId) {
+        Validate.nonZero(spaceId, "space ID");
+        finalizeNative(spaceId);
+    }
+
+    /**
+     * This method is invoked by native code.
      */
     private boolean notifyCollisionGroupListeners_native(
             PhysicsCollisionObject pcoA, PhysicsCollisionObject pcoB) {
@@ -692,7 +680,7 @@ public class CollisionSpace extends NativePhysicsObject {
         removeCollisionObject(spaceId, ghostId);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void addCollisionObject(long spaceId, long pcoId);
 

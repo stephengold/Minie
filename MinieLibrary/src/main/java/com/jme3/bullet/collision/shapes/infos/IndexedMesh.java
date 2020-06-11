@@ -397,26 +397,7 @@ public class IndexedMesh
         capsule.write(floatArray, tagVertices, null);
     }
     // *************************************************************************
-    // NativePhysicsObject methods
-
-    /**
-     * Finalize this mesh just before it is destroyed. Should be invoked only by
-     * a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            logger.log(Level.FINE, "Finalizing IndexedMesh {0}", this);
-            long meshId = nativeId();
-            finalizeNative(meshId);
-        } finally {
-            super.finalize();
-        }
-    }
-    // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Configure and create a new btIndexedMesh from the specified JME mesh and
@@ -493,8 +474,18 @@ public class IndexedMesh
 
         logger.log(Level.FINE, "Created {0}", this);
     }
+
+    /**
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param meshId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long meshId) {
+        assert meshId != 0L;
+        finalizeNative(meshId);
+    }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createByte(ByteBuffer indices,
             FloatBuffer vertexPositions, int numTriangles, int numVertices,

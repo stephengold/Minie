@@ -31,11 +31,16 @@
  */
 package com.jme3.bullet;
 
+import java.lang.ref.ReferenceQueue;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
  * An abstract class to represent a native (Bullet) physics object.
+ *
+ * @author Stephen Gold sgold@sonic.net
  */
 abstract public class NativePhysicsObject {
     // *************************************************************************
@@ -54,16 +59,61 @@ abstract public class NativePhysicsObject {
      * none
      */
     private long id = 0L;
+    /**
+     * map native IDs to their trackers
+     */
+    final static Map<Long, NpoTracker> map = new ConcurrentHashMap<>();
+    /**
+     * weak references to all instances whose assigned native objects are
+     * tracked and known to be unused
+     */
+    final static ReferenceQueue<NativePhysicsObject> phantomQueue
+            = new ReferenceQueue<>();
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Test whether a native object is assigned.
+     * Count how many native objects are being tracked.
+     *
+     * @return the count (&ge;0)
+     */
+    final public static int countTrackers() {
+        int result = map.size();
+        return result;
+    }
+
+    /**
+     * Dump all native-object trackers to System.out .
+     */
+    final public static void dumpTrackers() {
+        System.out.println("Active trackers:");
+        for (NpoTracker tracker : map.values()) {
+            System.out.println(" " + tracker);
+        }
+        System.out.flush();
+    }
+
+    /**
+     * Free any assigned native objects that are known to be unused.
+     */
+    final public static void freeUnusedObjects() {
+        while (true) {
+            try {
+                NpoTracker tracker = (NpoTracker) phantomQueue.remove();
+                tracker.freeTrackedObject();
+            } catch (InterruptedException exception) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Test whether a native object is assigned to this instance.
      *
      * @return true if one is assigned, otherwise false
      */
     final public boolean hasAssignedNativeObject() {
-        if (id == 0) {
+        if (id == 0L) {
             return false;
         } else {
             return true;
@@ -71,10 +121,9 @@ abstract public class NativePhysicsObject {
     }
 
     /**
-     * Read the identifier of the assigned native object, assuming that one is
-     * assigned.
+     * Read the ID of the assigned native object, assuming that one is assigned.
      *
-     * @return the identifier (not zero)
+     * @return the native identifier (not zero)
      */
     public long nativeId() {
         assert hasAssignedNativeObject();
@@ -84,25 +133,45 @@ abstract public class NativePhysicsObject {
     // new protected methods
 
     /**
-     * Reassign a native object, unassigning any previous-assigned one.
-     * Typically invoked when cloning a subclass.
+     * Assign a tracked native object to this instance, unassigning (but not
+     * freeing) any previously assigned one. Typically invoked while cloning a
+     * subclass.
      *
-     * @param nativeId the identifier (address) of the native object to assign
-     * (not zero)
+     * @param nativeId the identifier of the native object to assign (not zero)
      */
-    protected void reassignNativeId(long nativeId) {
+    final protected void reassignNativeId(long nativeId) {
         Validate.nonZero(nativeId, "nativeId");
-        id = nativeId;
+
+        if (nativeId != id) {
+            id = nativeId;
+
+            NpoTracker tracker = new NpoTracker(this);
+            map.put(nativeId, tracker);
+        }
     }
 
     /**
-     * Assign a native object, assuming that none is assigned. Typically invoked
-     * when instantiating a subclass.
+     * Assign a tracked native object to this instance, assuming that no native
+     * object is assigned.
      *
-     * @param nativeId the identifier (address) of the native object to assign
-     * (not zero)
+     * @param nativeId the identifier of the native object to assign (not zero)
      */
     protected void setNativeId(long nativeId) {
+        Validate.nonZero(nativeId, "nativeId");
+        assert !hasAssignedNativeObject() : id;
+
+        id = nativeId;
+        NpoTracker tracker = new NpoTracker(this);
+        map.put(nativeId, tracker);
+    }
+
+    /**
+     * Assign an untracked native object to this instance, assuming that no
+     * native object is assigned.
+     *
+     * @param nativeId the identifier of the native object to assign (not zero)
+     */
+    final protected void setNativeIdNotTracked(long nativeId) {
         Validate.nonZero(nativeId, "nativeId");
         assert !hasAssignedNativeObject() : id;
 
@@ -110,9 +179,10 @@ abstract public class NativePhysicsObject {
     }
 
     /**
-     * Unassign the native object, assuming that one is assigned.
+     * Unassign (but don't free) the assigned native object, assuming that one
+     * is assigned.
      */
-    protected void unassignNativeObject() {
+    final protected void unassignNativeObject() {
         assert hasAssignedNativeObject();
         id = 0L;
     }
@@ -132,8 +202,8 @@ abstract public class NativePhysicsObject {
             result = true;
         } else if (otherObject != null
                 && otherObject.getClass() == getClass()) {
-            NativePhysicsObject otherJoint = (NativePhysicsObject) otherObject;
-            long otherId = otherJoint.nativeId();
+            NativePhysicsObject otherNpo = (NativePhysicsObject) otherObject;
+            long otherId = otherNpo.nativeId();
             result = (id == otherId);
         } else {
             result = false;
@@ -164,5 +234,19 @@ abstract public class NativePhysicsObject {
         result += "#" + Long.toHexString(id);
 
         return result;
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param nativeId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long nativeId) {
+        Validate.nonZero(nativeId, "native ID");
+
+        NpoTracker tracker = map.remove(nativeId);
+        assert tracker != null;
     }
 }

@@ -126,7 +126,7 @@ public class MultiBodyLink
         multiBodyId = multiBody.nativeId();
 
         long linkId = getLinkId(multiBodyId, index);
-        super.setNativeId(linkId);
+        super.setNativeIdNotTracked(linkId);
 
         numDofs = getDofCount(linkId);
 

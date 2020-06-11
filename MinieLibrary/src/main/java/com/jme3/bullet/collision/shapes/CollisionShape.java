@@ -95,7 +95,7 @@ abstract public class CollisionShape
 
     /**
      * default margin for new non-sphere/non-capsule shapes (in physics-space
-     * units, &gt;0, default=0.04)
+     * units, &gt;0)
      */
     private static float defaultMargin = 0.04f;
     /**
@@ -103,7 +103,7 @@ abstract public class CollisionShape
      */
     protected float margin = defaultMargin;
     /**
-     * copy of the scale factors, one for each local axis (default=(1,1,1))
+     * copy of the scale factors, one for each local axis
      */
     protected Vector3f scale = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
@@ -534,24 +534,6 @@ abstract public class CollisionShape
     // NativePhysicsObject methods
 
     /**
-     * Finalize this shape just before it is destroyed. Should be invoked only
-     * by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            logger.log(Level.FINE, "Finalizing {0}.", this);
-            long shapeId = nativeId();
-            DebugShapeFactory.removeShapeFromCache(shapeId);
-            finalizeNative(shapeId);
-        } finally {
-            super.finalize();
-        }
-    }
-
-    /**
      * Initialize the native ID.
      *
      * @param shapeId the identifier of the btCollisionShape (not zero)
@@ -576,7 +558,7 @@ abstract public class CollisionShape
         return result;
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Compare Bullet's scale factors to the local copies.
@@ -597,6 +579,18 @@ abstract public class CollisionShape
         }
 
         return result;
+    }
+
+    /**
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param shapeId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long shapeId) {
+        assert shapeId != 0L;
+
+        DebugShapeFactory.removeShapeFromCache(shapeId);
+        finalizeNative(shapeId);
     }
     // *************************************************************************
     // native private methods

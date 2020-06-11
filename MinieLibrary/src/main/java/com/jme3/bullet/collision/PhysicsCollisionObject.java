@@ -1484,27 +1484,6 @@ abstract public class PhysicsCollisionObject
     // NativePhysicsObject methods
 
     /**
-     * Finalize this object just before it is destroyed. Should be invoked only
-     * by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            logger.log(Level.FINE, "Finalizing {0}.", this);
-            CollisionSpace space = getCollisionSpace();
-            if (space != null) {
-                space.removeCollisionObject(this);
-            }
-            long objectId = nativeId();
-            finalizeNative(objectId);
-        } finally {
-            super.finalize();
-        }
-    }
-
-    /**
      * Represent this object as a String.
      *
      * @return a descriptive string of text (not null, not empty)
@@ -1519,6 +1498,18 @@ abstract public class PhysicsCollisionObject
         result += "#" + Long.toHexString(objectId);
 
         return result;
+    }
+    // *************************************************************************
+    // Java private methods
+
+    /**
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param objectId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long objectId) {
+        assert objectId != 0L;
+        finalizeNative(objectId);
     }
     // *************************************************************************
     // native private methods
