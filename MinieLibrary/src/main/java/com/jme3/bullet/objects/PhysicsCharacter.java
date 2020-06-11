@@ -37,18 +37,17 @@ import com.jme3.bullet.collision.PcoType;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.ConvexShape;
+import com.jme3.bullet.objects.infos.CharacterController;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
-import jme3utilities.math.MyVector3f;
 
 /**
  * A collision object for simplified character simulation, based on Bullet's
@@ -68,21 +67,9 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * field names for serialization
      */
-    final private static String tagAngularDamping = "angularDamping";
-    final private static String tagAngularVelocity = "angularVelocity";
     final private static String tagContactResponse = "contactResponse";
-    final private static String tagFallSpeed = "fallSpeed";
-    final private static String tagGhostSweepTest = "ghostSweepTest";
-    final private static String tagGravityVector = "gravityVector";
-    final private static String tagJumpSpeed = "jumpSpeed";
-    final private static String tagLinearDamping = "linearDamping";
-    final private static String tagLinearVelocity = "linearVelocity";
-    final private static String tagMaxPenetrationDepth = "maxPenetrationDepth";
-    final private static String tagMaxSlope = "maxSlope";
+    final private static String tagController = "controller";
     final private static String tagPhysicsLocation = "physicsLocation";
-    final private static String tagStepHeight = "stepHeight";
-    final private static String tagUpDirection = "upDirection";
-    final private static String tagWalkDirection = "walkDirection";
     /**
      * default gravity vector -- differs from that of
      * btKinematicCharacterController!
@@ -100,17 +87,9 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     // fields
 
     /**
-     * copy of the maximum amount of vertical movement without jumping or
-     * falling (in physics-space units)
+     * controller or "action" for this character
      */
-    private float stepHeight;
-    /**
-     * Unique identifier of the btKinematicCharacterController (as opposed to
-     * the collision object, which is a btPairCachingGhostObject). Constructors
-     * are responsible for setting this to a non-zero value. The ID might change
-     * if the character gets rebuilt.
-     */
-    private long characterId = 0L;
+    private CharacterController controller;
     /**
      * temporary storage for one vector per thread
      */
@@ -142,8 +121,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         Validate.nonNull(shape, "shape");
 
         super.setCollisionShape(shape);
-        this.stepHeight = stepHeight;
         buildObject();
+        setStepHeight(stepHeight);
         /*
          * The default gravity for a Bullet btKinematicCharacterController
          * is (0,0,-29.4), which makes no sense for JME.
@@ -158,49 +137,50 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     // new methods exposed
 
     /**
-     * Read this character's angular damping.
+     * Determine this character's angular damping.
      *
      * @return the viscous damping ratio (0&rarr;no damping, 1&rarr;critically
      * damped)
      */
     public float getAngularDamping() {
-        return getAngularDamping(characterId);
+        float result = controller.getAngularDamping();
+        return result;
     }
 
     /**
-     * Copy this character's angular velocity.
+     * Determine this character's angular velocity.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the velocity vector (either storeResult or a new vector, not
      * null)
      */
     public Vector3f getAngularVelocity(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getAngularVelocity(characterId, result);
+        Vector3f result = controller.getAngularVelocity(storeResult);
         return result;
     }
 
     /**
-     * Read the ID of the btKinematicCharacterController. Used internally.
+     * Determine the ID of the btKinematicCharacterController. Used internally.
      *
      * @return the unique identifier (not zero)
      */
     public long getControllerId() {
-        assert characterId != 0L;
-        return characterId;
+        long result = controller.nativeId();
+        return result;
     }
 
     /**
-     * Read this character's maximum fall speed (terminal velocity).
+     * Determine this character's maximum fall speed (terminal velocity).
      *
      * @return the speed (in physics-space units per second)
      */
     public float getFallSpeed() {
-        return getFallSpeed(characterId);
+        float result = controller.getFallSpeed();
+        return result;
     }
 
     /**
-     * Copy this character's gravitational acceleration.
+     * Determine this character's gravitational acceleration.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return an acceleration vector (in physics-space units per second
@@ -208,73 +188,75 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * vector, not null)
      */
     public Vector3f getGravity(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getGravity(characterId, result);
+        Vector3f result = controller.getGravity(storeResult);
         return result;
     }
 
     /**
-     * Read this character's jump speed.
+     * Determine this character's jump speed.
      *
      * @return the speed (in physics-space units per second)
      */
     public float getJumpSpeed() {
-        return getJumpSpeed(characterId);
+        float result = controller.getJumpSpeed();
+        return result;
     }
 
     /**
-     * Read this character's linear damping.
+     * Determine this character's linear damping.
      *
      * @return the viscous damping ratio (0&rarr;no damping, 1&rarr;critically
      * damped)
      */
     public float getLinearDamping() {
-        return getLinearDamping(characterId);
+        float result = controller.getLinearDamping();
+        return result;
     }
 
     /**
-     * Copy the linear velocity of this character's center.
+     * Determine the linear velocity of this character's center.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a vector (either storeResult or a new vector, not null)
      */
     public Vector3f getLinearVelocity(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getLinearVelocity(characterId, result);
+        Vector3f result = controller.getLinearVelocity(storeResult);
         return result;
     }
 
     /**
-     * Read this character's maximum penetration depth.
+     * Determine this character's maximum penetration depth.
      *
      * @return the depth (in physics-space units)
      */
     public float getMaxPenetrationDepth() {
-        return getMaxPenetrationDepth(characterId);
+        float result = controller.getMaxPenetrationDepth();
+        return result;
     }
 
     /**
-     * Read this character's maximum slope angle.
+     * Determine this character's maximum slope angle.
      *
      * @return the angle relative to the horizontal (in radians)
      */
     public float getMaxSlope() {
-        return getMaxSlope(characterId);
+        float result = controller.getMaxSlope();
+        return result;
     }
 
     /**
-     * Read this character's step height.
+     * Determine this character's step height.
      *
      * @return the maximum amount of vertical movement without jumping or
      * falling (in physics-space units)
      */
     public float getStepHeight() {
-        assert stepHeight == getStepHeight(characterId);
-        return stepHeight;
+        float result = controller.getStepHeight();
+        return result;
     }
 
     /**
-     * Copy this character's "up" direction.
+     * Determine this character's "up" direction.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a unit vector (in physics-space coordinates, in the direction
@@ -282,30 +264,29 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * null)
      */
     public Vector3f getUpDirection(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getUpDirection(characterId, result);
+        Vector3f result = controller.getUpDirection(storeResult);
         return result;
     }
 
     /**
-     * Copy the character's walk offset.
+     * Determine the character's walk offset.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return an offset vector (either storeResult or a new vector, not null)
      */
     public Vector3f getWalkDirection(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-        getWalkOffset(characterId, result);
+        Vector3f result = controller.getWalkDirection(storeResult);
         return result;
     }
 
     /**
-     * Test whether the ghost's convexSweepTest is in use.
+     * Test whether the ghost's convex-sweep test is in use.
      *
      * @return true if using the ghost's test, otherwise false
      */
     public boolean isUsingGhostSweepTest() {
-        return isUsingGhostSweepTest(characterId);
+        boolean result = controller.isUsingGhostSweepTest();
+        return result;
     }
 
     /**
@@ -318,11 +299,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Jump in the specified direction.
      *
-     * @param dir desired jump direction (not null, unaffected) or (0,0,0) to
-     * jump in the "up" direction
+     * @param direction desired jump direction (not null, unaffected) or (0,0,0)
+     * to jump in the "up" direction
      */
-    public void jump(Vector3f dir) {
-        jump(characterId, dir);
+    public void jump(Vector3f direction) {
+        controller.jump(direction);
     }
 
     /**
@@ -331,7 +312,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @return true if on the ground, otherwise false
      */
     public boolean onGround() {
-        return onGround(characterId);
+        boolean result = controller.onGround();
+        return result;
     }
 
     /**
@@ -340,8 +322,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @param space (not null)
      */
     public void reset(PhysicsSpace space) {
-        long spaceId = space.nativeId();
-        reset(characterId, spaceId);
+        Validate.nonNull(space, "space");
+        assert space == getCollisionSpace();
+
+        controller.reset(space);
     }
 
     /**
@@ -351,7 +335,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * 1&rarr;critically damped, default=0)
      */
     public void setAngularDamping(float damping) {
-        setAngularDamping(characterId, damping);
+        controller.setAngularDamping(damping);
     }
 
     /**
@@ -361,7 +345,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * unaffected)
      */
     public void setAngularVelocity(Vector3f angularVelocity) {
-        setAngularVelocity(characterId, angularVelocity);
+        Validate.nonNull(angularVelocity, "angular velocity");
+        controller.setAngularVelocity(angularVelocity);
     }
 
     /**
@@ -375,6 +360,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     @Override
     public void setCollisionShape(CollisionShape collisionShape) {
         assert collisionShape.isConvex();
+        assert !isInWorld();
 
         super.setCollisionShape(collisionShape);
         if (hasAssignedNativeObject()) {
@@ -410,7 +396,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * default=55)
      */
     public void setFallSpeed(float fallSpeed) {
-        setFallSpeed(characterId, fallSpeed);
+        controller.setFallSpeed(fallSpeed);
     }
 
     /**
@@ -436,7 +422,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * per second squared, not null, unaffected, default=(0,-29.4,0))
      */
     public void setGravity(Vector3f gravity) {
-        setGravity(characterId, gravity);
+        Validate.nonNull(gravity, "gravity");
+        controller.setGravity(gravity);
     }
 
     /**
@@ -446,7 +433,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * default=10)
      */
     public void setJumpSpeed(float jumpSpeed) {
-        setJumpSpeed(characterId, jumpSpeed);
+        controller.setJumpSpeed(jumpSpeed);
     }
 
     /**
@@ -456,7 +443,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * 1&rarr;critically damped, default=0)
      */
     public void setLinearDamping(float damping) {
-        setLinearDamping(characterId, damping);
+        controller.setLinearDamping(damping);
     }
 
     /**
@@ -465,7 +452,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @param velocity the desired velocity vector (not null)
      */
     public void setLinearVelocity(Vector3f velocity) {
-        setLinearVelocity(characterId, velocity);
+        Validate.nonNull(velocity, "velocity");
+        controller.setLinearVelocity(velocity);
     }
 
     /**
@@ -474,7 +462,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @param depth the desired depth (in physics-space units, default=0.2)
      */
     public void setMaxPenetrationDepth(float depth) {
-        setMaxPenetrationDepth(characterId, depth);
+        controller.setMaxPenetrationDepth(depth);
     }
 
     /**
@@ -484,7 +472,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * radians, default=Pi/4)
      */
     public void setMaxSlope(float slopeRadians) {
-        setMaxSlope(characterId, slopeRadians);
+        controller.setMaxSlope(slopeRadians);
     }
 
     /**
@@ -494,7 +482,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @param location the desired location (not null, unaffected)
      */
     public void setPhysicsLocation(Vector3f location) {
-        warp(location);
+        Validate.nonNull(location, "location");
+        controller.warp(location);
     }
 
     /**
@@ -504,18 +493,17 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * jumping or falling (in physics-space units, default=1)
      */
     public void setStepHeight(float height) {
-        this.stepHeight = height;
-        setStepHeight(characterId, height);
+        controller.setStepHeight(height);
     }
 
     /**
-     * Alter which convexSweepTest is used.
+     * Alter which convex-sweep test is used.
      *
      * @param useGhostSweepTest true to use the ghost's test, false to use the
      * world's test (default=true)
      */
     public void setSweepTest(boolean useGhostSweepTest) {
-        setUseGhostSweepTest(characterId, useGhostSweepTest);
+        controller.setSweepTest(useGhostSweepTest);
     }
 
     /**
@@ -527,7 +515,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     public void setUp(Vector3f direction) {
         Validate.nonZero(direction, "direction");
-        setUp(characterId, direction);
+        controller.setUp(direction);
     }
 
     /**
@@ -538,7 +526,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * physics-space coordinates, not null, unaffected, default=(0,0,0))
      */
     public void setWalkDirection(Vector3f offset) {
-        setWalkDirection(characterId, offset);
+        Validate.nonNull(offset, "offset");
+        controller.setWalkDirection(offset);
     }
 
     /**
@@ -547,7 +536,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * @param location the desired physics location (not null, unaffected)
      */
     public void warp(Vector3f location) {
-        warp(characterId, location);
+        Validate.nonNull(location, "location");
+        controller.warp(location);
     }
     // *************************************************************************
     // PhysicsCollisionObject methods
@@ -564,47 +554,17 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        characterId = 0L;
+
+        controller = null;
         buildObject();
 
         PhysicsCharacter old = (PhysicsCharacter) original;
         cloneIgnoreList(cloner, old);
         copyPcoProperties(old);
-
-        setAngularDamping(old.getAngularDamping());
-        setAngularVelocity(old.getAngularVelocity(null));
         setContactResponse(old.isContactResponse());
-        setFallSpeed(old.getFallSpeed());
-        setGravity(old.getGravity(null));
-        setJumpSpeed(old.getJumpSpeed());
-        setLinearDamping(old.getLinearDamping());
-        /*
-         * Walk direction affects linear velocity, so set it first!
-         */
-        setWalkDirection(old.getWalkDirection(null));
-        setLinearVelocity(old.getLinearVelocity(null));
-
-        setMaxPenetrationDepth(old.getMaxPenetrationDepth());
-        setMaxSlope(old.getMaxSlope());
         setPhysicsLocation(old.getPhysicsLocation(null));
-        setStepHeight(old.getStepHeight());
-        setSweepTest(old.isUsingGhostSweepTest());
-        setUp(old.getUpDirection(null));
-    }
 
-    /**
-     * Finalize this physics character just before it is destroyed. Should be
-     * invoked only by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            finalizeNativeCharacter(characterId);
-        } finally {
-            super.finalize();
-        }
+        controller.copyAll(old.controller);
     }
 
     /**
@@ -634,37 +594,16 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         super.read(importer);
 
         InputCapsule capsule = importer.getCapsule(this);
-        stepHeight = capsule.readFloat(tagStepHeight, 1f);
         buildObject();
         readPcoProperties(capsule);
 
-        setAngularDamping(capsule.readFloat(tagAngularDamping, 0f));
-        setAngularVelocity((Vector3f) capsule.readSavable(tagAngularVelocity,
-                new Vector3f()));
-        setContactResponse(capsule.readBoolean(tagContactResponse, true));
-        setFallSpeed(capsule.readFloat(tagFallSpeed, 55f));
-        setSweepTest(capsule.readBoolean(tagGhostSweepTest, true));
-        Vector3f g = (Vector3f) capsule.readSavable(tagGravityVector,
-                new Vector3f(0f, -9.81f, 0f));
-        setGravity(g);
-        setJumpSpeed(capsule.readFloat(tagJumpSpeed, 10f));
-        setLinearDamping(capsule.readFloat(tagLinearDamping, 0f));
-        /*
-         * Walk direction affects linear velocity, so set it first!
-         */
-        setWalkDirection((Vector3f) capsule.readSavable(tagWalkDirection,
-                new Vector3f()));
-        setLinearVelocity((Vector3f) capsule.readSavable(tagLinearVelocity,
-                new Vector3f()));
+        CharacterController tmp = (CharacterController) capsule.readSavable(
+                tagController, null);
+        controller.copyAll(tmp);
 
-        setMaxPenetrationDepth(capsule.readFloat(tagMaxPenetrationDepth, 0.2f));
-        setMaxSlope(capsule.readFloat(tagMaxSlope, FastMath.QUARTER_PI));
-        setPhysicsLocation((Vector3f) capsule.readSavable(tagPhysicsLocation,
+        setContactResponse(capsule.readBoolean(tagContactResponse, true));
+        warp((Vector3f) capsule.readSavable(tagPhysicsLocation,
                 new Vector3f()));
-        if (MyVector3f.isZero(g)) {
-            setUp((Vector3f) capsule.readSavable(tagUpDirection,
-                    new Vector3f(0f, 1f, 0f)));
-        }
     }
 
     /**
@@ -679,29 +618,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(stepHeight, tagStepHeight, 1f);
-
-        capsule.write(getAngularDamping(), tagAngularDamping, 0f);
-        capsule.write(getAngularVelocity(null), tagAngularVelocity, null);
         capsule.write(isContactResponse(), tagContactResponse, true);
-        capsule.write(getFallSpeed(), tagFallSpeed, 55f);
-        capsule.write(isUsingGhostSweepTest(), tagGhostSweepTest, true);
-        Vector3f g = getGravity(null);
-        capsule.write(g, tagGravityVector, new Vector3f(0f, -9.81f, 0f));
-        capsule.write(getJumpSpeed(), tagJumpSpeed, 10f);
-        capsule.write(getLinearDamping(), tagLinearDamping, 0f);
-
-        capsule.write(getWalkDirection(null), tagWalkDirection, null);
-        capsule.write(getLinearVelocity(null), tagLinearVelocity, null);
-
-        capsule.write(getMaxPenetrationDepth(), tagMaxPenetrationDepth, 0.2f);
-        capsule.write(getMaxSlope(), tagMaxSlope, FastMath.QUARTER_PI);
-        capsule.write(getPhysicsLocation(new Vector3f()), tagPhysicsLocation,
+        capsule.write(controller, tagController, null);
+        capsule.write(getPhysicsLocation(), tagPhysicsLocation,
                 null);
-        if (MyVector3f.isZero(g)) {
-            capsule.write(getUpDirection(null), tagUpDirection,
-                    new Vector3f(0f, 1f, 0f));
-        }
     }
     // *************************************************************************
     // private methods
@@ -728,87 +648,13 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         long shapeId = shape.nativeId();
         attachCollisionShape(objectId, shapeId);
 
-        if (characterId != 0L) {
-            logger2.log(Level.FINE, "Clearing {0}.", this);
-            finalizeNativeCharacter(characterId);
-        }
-        characterId = createCharacterObject(objectId, shapeId, stepHeight);
-        assert characterId != 0L;
+        controller = new CharacterController(this);
         logger2.log(Level.FINE, "Creating {0}.", this);
     }
     // *************************************************************************
     // native methods
 
-    native private long createCharacterObject(long ghostId, long shapeId,
-            float stepHeight);
+    native private static long createGhostObject();
 
-    native private long createGhostObject();
-
-    native private void finalizeNativeCharacter(long controllerId);
-
-    native private float getAngularDamping(long controllerId);
-
-    native private void getAngularVelocity(long controllerId,
-            Vector3f storeVector);
-
-    native private float getFallSpeed(long controllerId);
-
-    native private void getGravity(long controllerId, Vector3f storeVector);
-
-    native private float getJumpSpeed(long controllerId);
-
-    native private float getLinearDamping(long controllerId);
-
-    native private void getLinearVelocity(long controllerId,
-            Vector3f storeVector);
-
-    native private float getMaxPenetrationDepth(long controllerId);
-
-    native private float getMaxSlope(long controllerId);
-
-    native private float getStepHeight(long controllerId);
-
-    native private void getUpDirection(long controllerId, Vector3f storeVector);
-
-    native private void getWalkOffset(long controllerId, Vector3f storeVector);
-
-    native private boolean isUsingGhostSweepTest(long controllerId);
-
-    native private void jump(long controllerId, Vector3f direction);
-
-    native private boolean onGround(long controllerId);
-
-    native private void reset(long controllerId, long spaceId);
-
-    native private void setAngularDamping(long controllerId, float damping);
-
-    native private void setAngularVelocity(long controllerId,
-            Vector3f angularVelocity);
-
-    native private void setCharacterFlags(long ghostId);
-
-    native private void setFallSpeed(long controllerId, float fallSpeed);
-
-    native private void setGravity(long controllerId, Vector3f gravity);
-
-    native private void setJumpSpeed(long controllerId, float jumpSpeed);
-
-    native private void setLinearDamping(long controllerId, float damping);
-
-    native private void setLinearVelocity(long controllerId, Vector3f velocity);
-
-    native private void setMaxPenetrationDepth(long controllerId, float depth);
-
-    native private void setMaxSlope(long controllerId, float slopeRadians);
-
-    native private void setStepHeight(long controllerId, float height);
-
-    native private void setUp(long controllerId, Vector3f direction);
-
-    native private void setUseGhostSweepTest(long controllerId,
-            boolean useGhostSweepTest);
-
-    native private void setWalkDirection(long controllerId, Vector3f direction);
-
-    native private void warp(long controllerId, Vector3f location);
+    native private static void setCharacterFlags(long ghostId);
 }

@@ -1233,130 +1233,143 @@ public class MultiBody
     // *************************************************************************
     // native methods
 
-    native private void addBaseForce(long multiBodyId, Vector3f forceVector);
+    native private static void addBaseForce(long multiBodyId,
+            Vector3f forceVector);
 
-    native private void addBaseTorque(long multiBodyId, Vector3f torqueVector);
+    native private static void addBaseTorque(long multiBodyId,
+            Vector3f torqueVector);
 
-    native private void clearConstraintForces(long multiBodyId);
+    native private static void clearConstraintForces(long multiBodyId);
 
-    native private void clearForcesAndTorques(long multiBodyId);
+    native private static void clearForcesAndTorques(long multiBodyId);
 
-    native private void clearVelocities(long multiBodyId);
+    native private static void clearVelocities(long multiBodyId);
 
     native private long create(int numLinks, float baseMass,
             Vector3f baseInertiaVector, boolean fixedBase, boolean canSleep);
 
-    native private void finalizeMultiDof(long multiBodyId);
+    native private static void finalizeMultiDof(long multiBodyId);
 
-    native private void finalizeNative(long multiBodyId);
+    native private static void finalizeNative(long multiBodyId);
 
-    native private float getAngularDamping(long multiBodyId);
+    native private static float getAngularDamping(long multiBodyId);
 
-    native private void getAngularMomentum(long multiBodyId,
+    native private static void getAngularMomentum(long multiBodyId,
             Vector3f storeVector);
 
-    native private long getBaseCollider(long multiBodyId);
+    native private static long getBaseCollider(long multiBodyId);
 
-    native private void getBaseForce(long multiBodyId, Vector3f storeVector);
+    native private static void getBaseForce(long multiBodyId,
+            Vector3f storeVector);
 
-    native private void getBaseInertia(long multiBodyId, Vector3f storeVector);
+    native private static void getBaseInertia(long multiBodyId,
+            Vector3f storeVector);
 
-    native private float getBaseMass(long multiBodyId);
+    native private static float getBaseMass(long multiBodyId);
 
-    native private void getBaseOmega(long multiBodyId, Vector3f storeVector);
+    native private static void getBaseOmega(long multiBodyId,
+            Vector3f storeVector);
 
-    native private void getBasePos(long multiBodyId, Vector3f storeVector);
+    native private static void getBasePos(long multiBodyId,
+            Vector3f storeVector);
 
-    native private void getBaseTorque(long multiBodyId, Vector3f storeVector);
+    native private static void getBaseTorque(long multiBodyId,
+            Vector3f storeVector);
 
-    native private void getBaseVel(long multiBodyId, Vector3f storeVector);
+    native private static void getBaseVel(long multiBodyId,
+            Vector3f storeVector);
 
-    native private void getBaseWorldTransform(long multiBodyId,
+    native private static void getBaseWorldTransform(long multiBodyId,
             Transform storeTransform);
 
-    native private boolean getCanSleep(long multiBodyId);
+    native private static boolean getCanSleep(long multiBodyId);
 
-    native private boolean getCanWakeup(long multiBodyId);
+    native private static boolean getCanWakeup(long multiBodyId);
 
-    native private int getCollideWithGroups(long multiBodyId);
+    native private static int getCollideWithGroups(long multiBodyId);
 
-    native private int getCollisionGroup(long multiBodyId);
+    native private static int getCollisionGroup(long multiBodyId);
 
-    native private float getKineticEnergy(long multiBodyId);
+    native private static float getKineticEnergy(long multiBodyId);
 
-    native private float getLinearDamping(long multiBodyId);
+    native private static float getLinearDamping(long multiBodyId);
 
-    native private float getMaxAppliedImpulse(long multiBodyId);
+    native private static float getMaxAppliedImpulse(long multiBodyId);
 
-    native private float getMaxCoordinateVelocity(long multiBodyId);
+    native private static float getMaxCoordinateVelocity(long multiBodyId);
 
-    native private int getNumDofs(long multiBodyId);
+    native private static int getNumDofs(long multiBodyId);
 
-    native private int getNumLinks(long multiBodyId);
+    native private static int getNumLinks(long multiBodyId);
 
-    native private int getNumPosVars(long multiBodyId);
+    native private static int getNumPosVars(long multiBodyId);
 
-    native private long getSpace(long multiBodyId);
+    native private static long getSpace(long multiBodyId);
 
-    native private boolean getUseGyroTerm(long multiBodyId);
+    native private static boolean getUseGyroTerm(long multiBodyId);
 
-    native private void getWorldToBaseRot(long multiBodyId,
+    native private static void getWorldToBaseRot(long multiBodyId,
             Quaternion storeQuaternion);
 
-    native private boolean hasFixedBase(long multiBodyId);
+    native private static boolean hasFixedBase(long multiBodyId);
 
-    native private boolean isUsingGlobalVelocities(long multiBodyId);
+    native private static boolean isUsingGlobalVelocities(long multiBodyId);
 
-    native private boolean isUsingRK4Integration(long multiBodyId);
+    native private static boolean isUsingRK4Integration(long multiBodyId);
 
-    native private void setBaseCollider(long multiBodyId, long colliderId);
+    native private static void setBaseCollider(long multiBodyId,
+            long colliderId);
 
-    native private void setBaseOmega(long multiBodyId,
+    native private static void setBaseOmega(long multiBodyId,
             Vector3f angularVelocityVector);
 
-    native private void setBasePos(long multiBodyId, Vector3f positionVector);
+    native private static void setBasePos(long multiBodyId,
+            Vector3f positionVector);
 
-    native private void setBaseVel(long multiBodyId, Vector3f velocityVector);
+    native private static void setBaseVel(long multiBodyId,
+            Vector3f velocityVector);
 
-    native private void setBaseWorldTransform(long multiBodyId,
+    native private static void setBaseWorldTransform(long multiBodyId,
             Transform transform);
 
-    native private void setCollideWithGroups(long multiBodyId,
+    native private static void setCollideWithGroups(long multiBodyId,
             int collisionGroups);
 
-    native private void setCollisionGroup(long multiBodyId, int collisionGroup);
+    native private static void setCollisionGroup(long multiBodyId,
+            int collisionGroup);
 
-    native private void setupFixed(long multiBodyId, int linkIndex,
+    native private static void setupFixed(long multiBodyId, int linkIndex,
             float mass, Vector3f inertiaVector, int parentLinkIndex,
             Quaternion parent2LinkQuaternion, Vector3f parent2PivotVector,
             Vector3f pivot2LinkVector);
 
-    native private void setupPlanar(long multiBodyId, int linkIndex,
+    native private static void setupPlanar(long multiBodyId, int linkIndex,
             float mass, Vector3f inertiaVector, int parentLinkIndex,
             Quaternion parent2LinkQuaternion, Vector3f axisVector,
             Vector3f parent2LinkVector, boolean disableParentCollision);
 
-    native private void setupPrismatic(long multiBodyId, int linkIndex,
+    native private static void setupPrismatic(long multiBodyId, int linkIndex,
             float mass, Vector3f inertiaVector, int parentLinkIndex,
             Quaternion parent2LinkQuaternion, Vector3f axisVector,
             Vector3f parent2PivotVector, Vector3f pivot2LinkVector,
             boolean disableParentCollision);
 
-    native private void setupRevolute(long multiBodyId, int linkIndex,
+    native private static void setupRevolute(long multiBodyId, int linkIndex,
             float mass, Vector3f inertiaVector, int parentLinkIndex,
             Quaternion parent2LinkQuaternion, Vector3f axisVector,
             Vector3f parent2PivotVector, Vector3f pivot2LinkVector,
             boolean disableParentCollision);
 
-    native private void setupSpherical(long multiBodyId, int linkIndex,
+    native private static void setupSpherical(long multiBodyId, int linkIndex,
             float mass, Vector3f inertiaVector, int parentLinkIndex,
             Quaternion parent2LinkQuaternion, Vector3f parent2PivotVector,
             Vector3f pivotToLinkVector, boolean disableParentCollision);
 
-    native private void setWorldToBaseRot(long multiBodyId,
+    native private static void setWorldToBaseRot(long multiBodyId,
             Quaternion quaternion);
 
-    native private void useGlobalVelocities(long multiBodyId, boolean use);
+    native private static void useGlobalVelocities(long multiBodyId,
+            boolean use);
 
-    native private void useRK4Integration(long multiBodyId, boolean use);
+    native private static void useRK4Integration(long multiBodyId, boolean use);
 }

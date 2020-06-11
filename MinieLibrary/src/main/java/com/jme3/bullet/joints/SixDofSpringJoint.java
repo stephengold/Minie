@@ -386,21 +386,24 @@ public class SixDofSpringJoint extends SixDofJoint {
     // *************************************************************************
     // native private methods
 
-    native private void enableSpring(long jointId, int dofIndex, boolean onOff);
+    native private static void enableSpring(long jointId, int dofIndex,
+            boolean onOff);
 
-    native private float getDamping(long jointId, int dofIndex);
+    native private static float getDamping(long jointId, int dofIndex);
 
-    native private float getEquilibriumPoint(long jointId, int dofIndex);
+    native private static float getEquilibriumPoint(long jointId, int dofIndex);
 
-    native private float getStiffness(long jointId, int dofIndex);
+    native private static float getStiffness(long jointId, int dofIndex);
 
-    native private boolean isSpringEnabled(long jointId, int dofIndex);
+    native private static boolean isSpringEnabled(long jointId, int dofIndex);
 
-    native private void setDamping(long jointId, int dofIndex, float damping);
+    native private static void setDamping(long jointId, int dofIndex,
+            float damping);
 
-    native private void setEquilibriumPoint(long jointId);
+    native private static void setEquilibriumPoint(long jointId);
 
-    native private void setEquilibriumPoint(long jointId, int dofIndex);
+    native private static void setEquilibriumPoint(long jointId, int dofIndex);
 
-    native private void setStiffness(long jointId, int dofIndex, float stiffness);
+    native private static void setStiffness(long jointId, int dofIndex,
+            float stiffness);
 }

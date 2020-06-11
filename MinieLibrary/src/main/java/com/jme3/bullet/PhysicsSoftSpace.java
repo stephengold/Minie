@@ -309,14 +309,15 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     // *************************************************************************
     // native methods
 
-    native private void addSoftBody(long softSpaceId, long softBodyId);
+    native private static void addSoftBody(long softSpaceId, long softBodyId);
 
     native private long createPhysicsSoftSpace(Vector3f minVector,
             Vector3f maxVector, int broadphaseType, boolean threading);
 
-    native private int getNumSoftBodies(long softSpaceId);
+    native private static int getNumSoftBodies(long softSpaceId);
 
-    native private long getWorldInfo(long softSpaceId);
+    native private static long getWorldInfo(long softSpaceId);
 
-    native private void removeSoftBody(long softSpaceId, long softBodyId);
+    native private static void removeSoftBody(long softSpaceId,
+            long softBodyId);
 }

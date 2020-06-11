@@ -428,7 +428,7 @@ abstract public class CollisionShape
      * @param shapeId the ID of the btCollisionShape (not zero)
      * @return the type value (from enum BroadphaseNativeTypes)
      */
-    final native protected int getShapeType(long shapeId);
+    final native protected static int getShapeType(long shapeId);
 
     /**
      * Recalculate this shape's bounding box if necessary. Meant to be
@@ -601,26 +601,27 @@ abstract public class CollisionShape
     // *************************************************************************
     // native private methods
 
-    native private void finalizeNative(long shapeId);
+    native private static void finalizeNative(long shapeId);
 
-    native private void getAabb(long shapeId, Vector3f location,
+    native private static void getAabb(long shapeId, Vector3f location,
             Matrix3f basisMatrix, Vector3f storeMinima, Vector3f storeMaxima);
 
-    native private void getLocalScaling(long shapeId, Vector3f storeVector);
+    native private static void getLocalScaling(long shapeId,
+            Vector3f storeVector);
 
-    native private float getMargin(long shapeId);
+    native private static float getMargin(long shapeId);
 
-    native private boolean isConcave(long shapeId);
+    native private static boolean isConcave(long shapeId);
 
-    native private boolean isConvex(long shapeId);
+    native private static boolean isConvex(long shapeId);
 
-    native private boolean isInfinite(long shapeId);
+    native private static boolean isInfinite(long shapeId);
 
-    native private boolean isNonMoving(long shapeId);
+    native private static boolean isNonMoving(long shapeId);
 
-    native private boolean isPolyhedral(long shapeId);
+    native private static boolean isPolyhedral(long shapeId);
 
-    native private void setLocalScaling(long shapeId, Vector3f scale);
+    native private static void setLocalScaling(long shapeId, Vector3f scale);
 
-    native private void setMargin(long shapeId, float margin);
+    native private static void setMargin(long shapeId, float margin);
 }

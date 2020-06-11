@@ -334,20 +334,21 @@ public class Point2PointJoint extends Constraint {
     // *************************************************************************
     // native methods
 
-    native private long createJoint(long bodyIdA, long bodyIdB,
+    native private static long createJoint(long bodyIdA, long bodyIdB,
             Vector3f pivotInA, Vector3f pivotInB);
 
-    native private long createJoint1(long bodyIdA, Vector3f pivotInA);
+    native private static long createJoint1(long bodyIdA, Vector3f pivotInA);
 
-    native private float getDamping(long jointId);
+    native private static float getDamping(long jointId);
 
-    native private float getImpulseClamp(long jointId);
+    native private static float getImpulseClamp(long jointId);
 
-    native private float getTau(long jointId);
+    native private static float getTau(long jointId);
 
-    native private void setDamping(long jointId, float desiredDamping);
+    native private static void setDamping(long jointId, float desiredDamping);
 
-    native private void setImpulseClamp(long jointId, float desiredClamp);
+    native private static void setImpulseClamp(long jointId,
+            float desiredClamp);
 
-    native private void setTau(long jointId, float desiredTau);
+    native private static void setTau(long jointId, float desiredTau);
 }

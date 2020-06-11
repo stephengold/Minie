@@ -409,10 +409,10 @@ public class HeightfieldCollisionShape extends CollisionShape {
     // *************************************************************************
     // native methods
 
-    native private long createShape2(int stickWidth, int stickLength,
+    native private static long createShape2(int stickWidth, int stickLength,
             FloatBuffer heightfieldData, float heightScale, float minHeight,
             float maxHeight, int upAxis, boolean flipQuadEdges,
             boolean flipTriangleWinding, boolean useDiamond, boolean useZigzag);
 
-    native private void finalizeNative(long shapeId);
+    native private static void finalizeNative(long shapeId);
 }

@@ -500,120 +500,126 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     // *************************************************************************
     // native methods
 
-    native private void copyValues(long destId, long sourceId);
+    native private static void copyValues(long destId, long sourceId);
 
-    native private int getAeroModel(long bodyId);
+    native private static int getAeroModel(long bodyId);
 
-    native private float getAnchorsHardness(long bodyId);
+    native private static float getAnchorsHardness(long bodyId);
 
-    native private int getClusterIterations(long bodyId);
+    native private static int getClusterIterations(long bodyId);
 
-    native private float getClusterKineticHardness(long bodyId);
+    native private static float getClusterKineticHardness(long bodyId);
 
-    native private float getClusterKineticImpulseSplitCoef(long bodyId);
+    native private static float getClusterKineticImpulseSplitCoef(long bodyId);
 
-    native private float getClusterRigidHardness(long bodyId);
+    native private static float getClusterRigidHardness(long bodyId);
 
-    native private float getClusterRigidImpulseSplitCoef(long bodyId);
+    native private static float getClusterRigidImpulseSplitCoef(long bodyId);
 
-    native private float getClusterSoftHardness(long bodyId);
+    native private static float getClusterSoftHardness(long bodyId);
 
-    native private float getClusterSoftImpulseSplitCoef(long bodyId);
+    native private static float getClusterSoftImpulseSplitCoef(long bodyId);
 
-    native private int getCollisionsFlags(long bodyId);
+    native private static int getCollisionsFlags(long bodyId);
 
-    native private float getDampingCoef(long bodyId);
+    native private static float getDampingCoef(long bodyId);
 
-    native private float getDragCoef(long bodyId);
+    native private static float getDragCoef(long bodyId);
 
-    native private int getDriftIterations(long bodyId);
+    native private static int getDriftIterations(long bodyId);
 
-    native private float getDynamicFrictionCoef(long bodyId);
+    native private static float getDynamicFrictionCoef(long bodyId);
 
-    native private float getKineticContactsHardness(long bodyId);
+    native private static float getKineticContactsHardness(long bodyId);
 
-    native private float getLiftCoef(long bodyId);
+    native private static float getLiftCoef(long bodyId);
 
-    native private float getMaximumVolumeRatio(long bodyId);
+    native private static float getMaximumVolumeRatio(long bodyId);
 
-    native private float getPoseMatchingCoef(long bodyId);
+    native private static float getPoseMatchingCoef(long bodyId);
 
-    native private int getPositionIterations(long bodyId);
+    native private static int getPositionIterations(long bodyId);
 
-    native private float getPressureCoef(long bodyId);
+    native private static float getPressureCoef(long bodyId);
 
-    native private float getRigidContactsHardness(long bodyId);
+    native private static float getRigidContactsHardness(long bodyId);
 
-    native private float getSoftContactsHardness(long bodyId);
+    native private static float getSoftContactsHardness(long bodyId);
 
-    native private float getTimeScale(long bodyId);
+    native private static float getTimeScale(long bodyId);
 
-    native private float getVelocitiesCorrectionFactor(long bodyId);
+    native private static float getVelocitiesCorrectionFactor(long bodyId);
 
-    native private int getVelocitiesIterations(long bodyId);
+    native private static int getVelocitiesIterations(long bodyId);
 
-    native private float getVolumeConservationCoef(long bodyId);
+    native private static float getVolumeConservationCoef(long bodyId);
 
-    native private void setAeroModel(long bodyId, int aeroModel);
+    native private static void setAeroModel(long bodyId, int aeroModel);
 
-    native private void setAnchorsHardness(long bodyId, float hardness);
+    native private static void setAnchorsHardness(long bodyId, float hardness);
 
-    native private void setClusterIterations(long bodyId,
+    native private static void setClusterIterations(long bodyId,
             int numIterations);
 
-    native private void setClusterKineticHardness(long bodyId,
+    native private static void setClusterKineticHardness(long bodyId,
             float hardness);
 
-    native private void setClusterKineticImpulseSplitCoef(long bodyId,
+    native private static void setClusterKineticImpulseSplitCoef(long bodyId,
             float coefficient);
 
-    native private void setClusterRigidHardness(long bodyId,
+    native private static void setClusterRigidHardness(long bodyId,
             float hardness);
 
-    native private void setClusterRigidImpulseSplitCoef(long bodyId,
+    native private static void setClusterRigidImpulseSplitCoef(long bodyId,
             float coefficient);
 
-    native private void setClusterSoftHardness(long bodyId,
+    native private static void setClusterSoftHardness(long bodyId,
             float hardness);
 
-    native private void setClusterSoftImpulseSplitCoef(long bodyId, float coef);
+    native private static void setClusterSoftImpulseSplitCoef(long bodyId,
+            float coef);
 
-    native private void setCollisionsFlags(long bodyId, int flags);
+    native private static void setCollisionsFlags(long bodyId, int flags);
 
-    native private void setDampingCoef(long bodyId, float coefficient);
+    native private static void setDampingCoef(long bodyId, float coefficient);
 
-    native private void setDragCoef(long bodyId, float coefficient);
+    native private static void setDragCoef(long bodyId, float coefficient);
 
-    native private void setDriftIterations(long bodyId, int numIterations);
-
-    native private void setDynamicFrictionCoef(long bodyId,
-            float coefficient);
-
-    native private void setKineticContactsHardness(long bodyId, float hardness);
-
-    native private void setLiftCoef(long bodyId, float coefficient);
-
-    native private void setMaximumVolumeRatio(long bodyId, float ratio);
-
-    native private void setPoseMatchingCoef(long bodyId, float coefficient);
-
-    native private void setPositionIterations(long bodyId,
+    native private static void setDriftIterations(long bodyId,
             int numIterations);
 
-    native private void setPressureCoef(long bodyId, float coefficient);
+    native private static void setDynamicFrictionCoef(long bodyId,
+            float coefficient);
 
-    native private void setRigidContactsHardness(long bodyId, float hardness);
+    native private static void setKineticContactsHardness(long bodyId,
+            float hardness);
 
-    native private void setSoftContactsHardness(long bodyId, float hardness);
+    native private static void setLiftCoef(long bodyId, float coefficient);
 
-    native private void setTimeScale(long bodyId, float scale);
+    native private static void setMaximumVolumeRatio(long bodyId, float ratio);
 
-    native private void setVelocitiesCorrectionFactor(long bodyId,
+    native private static void setPoseMatchingCoef(long bodyId,
+            float coefficient);
+
+    native private static void setPositionIterations(long bodyId,
+            int numIterations);
+
+    native private static void setPressureCoef(long bodyId, float coefficient);
+
+    native private static void setRigidContactsHardness(long bodyId,
+            float hardness);
+
+    native private static void setSoftContactsHardness(long bodyId,
+            float hardness);
+
+    native private static void setTimeScale(long bodyId, float scale);
+
+    native private static void setVelocitiesCorrectionFactor(long bodyId,
             float factor);
 
-    native private void setVelocitiesIterations(long bodyId,
+    native private static void setVelocitiesIterations(long bodyId,
             int numIterations);
 
-    native private void setVolumeConservationCoef(long bodyId,
+    native private static void setVolumeConservationCoef(long bodyId,
             float coefficient);
 }

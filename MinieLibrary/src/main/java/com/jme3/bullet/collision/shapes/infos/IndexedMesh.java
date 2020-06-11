@@ -496,17 +496,17 @@ public class IndexedMesh
     // *************************************************************************
     // native methods
 
-    native private long createByte(ByteBuffer indices,
+    native private static long createByte(ByteBuffer indices,
             FloatBuffer vertexPositions, int numTriangles, int numVertices,
             int vertexStride, int indexStride);
 
-    native private long createInt(IntBuffer indices,
+    native private static long createInt(IntBuffer indices,
             FloatBuffer vertexPositions, int numTriangles, int numVertices,
             int vertexStride, int indexStride);
 
-    native private long createShort(ShortBuffer indices,
+    native private static long createShort(ShortBuffer indices,
             FloatBuffer vertexPositions, int numTriangles, int numVertices,
             int vertexStride, int indexStride);
 
-    native private void finalizeNative(long meshId);
+    native private static void finalizeNative(long meshId);
 }

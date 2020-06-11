@@ -316,9 +316,9 @@ public class Anchor extends PhysicsJoint {
     // *************************************************************************
     // native methods
 
-    native private long createAnchor(long softBodyId, int nodeIndex,
+    native private static long createAnchor(long softBodyId, int nodeIndex,
             long rigidBodyId, Vector3f initialLocation, boolean allowCollisions,
             float influence);
 
-    native private void setInfluence(long anchorId, float influence);
+    native private static void setInfluence(long anchorId, float influence);
 }

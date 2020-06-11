@@ -216,7 +216,7 @@ public class GImpactCollisionShape extends CollisionShape {
     // *************************************************************************
     // native methods
 
-    native private long createShape(long meshId);
+    native private static long createShape(long meshId);
 
-    native private void recalcAabb(long shapeId);
+    native private static void recalcAabb(long shapeId);
 }

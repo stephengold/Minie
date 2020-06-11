@@ -569,26 +569,28 @@ public class CompoundCollisionShape extends CollisionShape {
     // *************************************************************************
     // native methods
 
-    native private void addChildShape(long compoundId, long childShapeId,
+    native private static void addChildShape(long compoundId, long childShapeId,
             Vector3f offset, Matrix3f rotation);
 
-    native private void calculatePrincipalAxisTransform(long shapeId,
+    native private static void calculatePrincipalAxisTransform(long shapeId,
             FloatBuffer massBuffer, Transform storeTransform,
             Vector3f storeInertia);
 
-    native private int countChildren(long shapeId);
+    native private static int countChildren(long shapeId);
 
-    native private long createShape2(boolean dynamicAabbTree,
+    native private static long createShape2(boolean dynamicAabbTree,
             int initialChildCapacity);
 
-    native private void recalcAabb(long shapeId);
+    native private static void recalcAabb(long shapeId);
 
-    native private void removeChildShape(long compoundId, long childShapeId);
+    native private static void removeChildShape(long compoundId,
+            long childShapeId);
 
-    native private void rotate(long compoundId, Matrix3f rotationMatrix);
+    native private static void rotate(long compoundId, Matrix3f rotationMatrix);
 
-    native private void setChildTransform(long compoundId, long childShapeId,
-            Vector3f offset, Matrix3f rotation);
+    native private static void setChildTransform(long compoundId,
+            long childShapeId, Vector3f offset, Matrix3f rotation);
 
-    native private void translate(long compoundId, Vector3f offsetVector);
+    native private static void translate(long compoundId,
+            Vector3f offsetVector);
 }

@@ -413,54 +413,59 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     // *************************************************************************
     // native methods
 
-    native private void getAccumulatedImpulse(long motorId, Vector3f vector);
+    native private static void getAccumulatedImpulse(long motorId,
+            Vector3f vector);
 
-    native private float getDamping(long motorId);
+    native private static float getDamping(long motorId);
 
-    native private void getERP(long motorId, Vector3f vector);
+    native private static void getERP(long motorId, Vector3f vector);
 
-    native private float getLimitSoftness(long motorId);
+    native private static float getLimitSoftness(long motorId);
 
-    native private void getLowerLimit(long motorId, Vector3f vector);
+    native private static void getLowerLimit(long motorId, Vector3f vector);
 
-    native private void getMaxMotorForce(long motorId, Vector3f vector);
+    native private static void getMaxMotorForce(long motorId, Vector3f vector);
 
-    native private void getNormalCFM(long motorId, Vector3f vector);
+    native private static void getNormalCFM(long motorId, Vector3f vector);
 
-    native private void getOffset(long motorId, Vector3f vector);
+    native private static void getOffset(long motorId, Vector3f vector);
 
-    native private float getRestitution(long motorId);
+    native private static float getRestitution(long motorId);
 
-    native private void getStopCFM(long motorId, Vector3f vector);
+    native private static void getStopCFM(long motorId, Vector3f vector);
 
-    native private void getTargetVelocity(long motorId, Vector3f velocity);
+    native private static void getTargetVelocity(long motorId,
+            Vector3f velocity);
 
-    native private void getUpperLimit(long motorId, Vector3f vector);
+    native private static void getUpperLimit(long motorId, Vector3f vector);
 
-    native private boolean isEnabled(long motorId, int axisIndex);
+    native private static boolean isEnabled(long motorId, int axisIndex);
 
-    native private void setAccumulatedImpulse(long motorId, Vector3f vector);
+    native private static void setAccumulatedImpulse(long motorId,
+            Vector3f vector);
 
-    native private void setDamping(long motorId, float damping);
+    native private static void setDamping(long motorId, float damping);
 
-    native private void setEnabled(long motorId, int axisIndex,
+    native private static void setEnabled(long motorId, int axisIndex,
             boolean enableMotor);
 
-    native private void setERP(long motorId, Vector3f vector);
+    native private static void setERP(long motorId, Vector3f vector);
 
-    native private void setLimitSoftness(long motorId, float limitSoftness);
+    native private static void setLimitSoftness(long motorId,
+            float limitSoftness);
 
-    native private void setLowerLimit(long motorId, Vector3f vector);
+    native private static void setLowerLimit(long motorId, Vector3f vector);
 
-    native private void setMaxMotorForce(long motorId, Vector3f force);
+    native private static void setMaxMotorForce(long motorId, Vector3f force);
 
-    native private void setNormalCFM(long motorId, Vector3f vector);
+    native private static void setNormalCFM(long motorId, Vector3f vector);
 
-    native private void setRestitution(long motorId, float restitution);
+    native private static void setRestitution(long motorId, float restitution);
 
-    native private void setStopCFM(long motorId, Vector3f stopCFM);
+    native private static void setStopCFM(long motorId, Vector3f stopCFM);
 
-    native private void setTargetVelocity(long motorId, Vector3f velocity);
+    native private static void setTargetVelocity(long motorId,
+            Vector3f velocity);
 
-    native private void setUpperLimit(long motorId, Vector3f vector);
+    native private static void setUpperLimit(long motorId, Vector3f vector);
 }

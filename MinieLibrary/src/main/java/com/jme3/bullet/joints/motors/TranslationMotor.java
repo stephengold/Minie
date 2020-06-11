@@ -337,71 +337,84 @@ public class TranslationMotor extends NativePhysicsObject {
     // *************************************************************************
     // native methods
 
-    native private void getBounce(long motorId, Vector3f storeVector);
+    native private static void getBounce(long motorId, Vector3f storeVector);
 
-    native private void getDamping(long motorId, Vector3f storeVector);
+    native private static void getDamping(long motorId, Vector3f storeVector);
 
-    native private void getEquilibrium(long motorId, Vector3f storeVector);
-
-    native private void getLowerLimit(long motorId, Vector3f storeVector);
-
-    native private void getMaxMotorForce(long motorId, Vector3f storeVector);
-
-    native private void getParameter(long motorId, int parameterIndex,
+    native private static void getEquilibrium(long motorId,
             Vector3f storeVector);
 
-    native private void getServoTarget(long motorId, Vector3f storeVector);
+    native private static void getLowerLimit(long motorId,
+            Vector3f storeVector);
 
-    native private void getStiffness(long motorId, Vector3f storeVector);
+    native private static void getMaxMotorForce(long motorId,
+            Vector3f storeVector);
 
-    native private void getTargetVelocity(long motorId, Vector3f storeVector);
+    native private static void getParameter(long motorId, int parameterIndex,
+            Vector3f storeVector);
 
-    native private void getUpperLimit(long motorId, Vector3f storeVector);
+    native private static void getServoTarget(long motorId,
+            Vector3f storeVector);
 
-    native private boolean isDampingLimited(long motorId, int axisIndex);
+    native private static void getStiffness(long motorId, Vector3f storeVector);
 
-    native private boolean isMotorEnabled(long motorId, int axisIndex);
+    native private static void getTargetVelocity(long motorId,
+            Vector3f storeVector);
 
-    native private boolean isServoEnabled(long motorId, int axisIndex);
+    native private static void getUpperLimit(long motorId,
+            Vector3f storeVector);
 
-    native private boolean isSpringEnabled(long motorId, int axisIndex);
+    native private static boolean isDampingLimited(long motorId, int axisIndex);
 
-    native private boolean isStiffnessLimited(long motorId, int axisIndex);
+    native private static boolean isMotorEnabled(long motorId, int axisIndex);
 
-    native private void setBounce(long motorId, Vector3f bounceVector);
+    native private static boolean isServoEnabled(long motorId, int axisIndex);
 
-    native private void setDamping(long motorId, Vector3f dampingVector);
+    native private static boolean isSpringEnabled(long motorId, int axisIndex);
 
-    native private void setDampingLimited(long motorId, int axisIndex,
+    native private static boolean isStiffnessLimited(long motorId,
+            int axisIndex);
+
+    native private static void setBounce(long motorId, Vector3f bounceVector);
+
+    native private static void setDamping(long motorId, Vector3f dampingVector);
+
+    native private static void setDampingLimited(long motorId, int axisIndex,
             boolean limitFlag);
 
-    native private void setEquilibrium(long motorId, Vector3f offsetVector);
+    native private static void setEquilibrium(long motorId,
+            Vector3f offsetVector);
 
-    native private void setLowerLimit(long motorId, Vector3f offsetVector);
+    native private static void setLowerLimit(long motorId,
+            Vector3f offsetVector);
 
-    native private void setMaxMotorForce(long motorId, Vector3f forceVector);
+    native private static void setMaxMotorForce(long motorId,
+            Vector3f forceVector);
 
-    native private void setMotorEnabled(long motorId, int axisIndex,
+    native private static void setMotorEnabled(long motorId, int axisIndex,
             boolean enableFlag);
 
-    native private void setParameter(long motorId, int parameterIndex,
+    native private static void setParameter(long motorId, int parameterIndex,
             Vector3f vector);
 
-    native private void setServoEnabled(long motorId, int axisIndex,
+    native private static void setServoEnabled(long motorId, int axisIndex,
             boolean enableFlag);
 
-    native private void setServoTarget(long motorId, Vector3f targetVector);
+    native private static void setServoTarget(long motorId,
+            Vector3f targetVector);
 
-    native private void setSpringEnabled(long motorId, int axisIndex,
+    native private static void setSpringEnabled(long motorId, int axisIndex,
             boolean enableFlag);
 
-    native private void setStiffness(long motorId, Vector3f stiffnessVector);
+    native private static void setStiffness(long motorId,
+            Vector3f stiffnessVector);
 
-    native private void setStiffnessLimited(long motorId, int axisIndex,
+    native private static void setStiffnessLimited(long motorId, int axisIndex,
             boolean limitFlag);
 
-    native private void setTargetVelocity(long motorId,
+    native private static void setTargetVelocity(long motorId,
             Vector3f velocityVector);
 
-    native private void setUpperLimit(long motorId, Vector3f offsetVector);
+    native private static void setUpperLimit(long motorId,
+            Vector3f offsetVector);
 }

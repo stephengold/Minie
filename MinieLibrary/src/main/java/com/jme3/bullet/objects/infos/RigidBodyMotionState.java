@@ -274,7 +274,7 @@ public class RigidBodyMotionState
         }
     }
     // *************************************************************************
-    // Object methods
+    // PhysicsNativeObject methods
 
     /**
      * Finalize this motion state just before it is destroyed. Should be invoked
@@ -296,17 +296,19 @@ public class RigidBodyMotionState
     // *************************************************************************
     // native methods
 
-    native private boolean applyTransform(long stateId, Vector3f location,
-            Quaternion rotation);
+    native private static boolean applyTransform(long stateId,
+            Vector3f location, Quaternion rotation);
 
-    native private long createMotionState();
+    native private static long createMotionState();
 
-    native private void finalizeNative(long objectId);
+    native private static void finalizeNative(long objectId);
 
-    native private void getWorldLocation(long stateId, Vector3f storeResult);
+    native private static void getWorldLocation(long stateId,
+            Vector3f storeResult);
 
-    native private void getWorldRotation(long stateId, Matrix3f storeResult);
+    native private static void getWorldRotation(long stateId,
+            Matrix3f storeResult);
 
-    native private void getWorldRotationQuat(long stateId,
+    native private static void getWorldRotationQuat(long stateId,
             Quaternion storeResult);
 }

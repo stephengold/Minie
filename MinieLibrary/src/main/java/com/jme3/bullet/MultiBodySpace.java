@@ -315,21 +315,22 @@ public class MultiBodySpace extends PhysicsSpace {
     // *************************************************************************
     // native methods
 
-    native private void addMultiBody(long spaceId, long multiBodyId);
+    native private static void addMultiBody(long spaceId, long multiBodyId);
 
-    native private void addMultiBodyConstraint(long spaceId, long constraintId);
+    native private static void addMultiBodyConstraint(long spaceId,
+            long constraintId);
 
     native private long createMultiBodySpace(Vector3f minVector,
             Vector3f maxVector, int broadphaseType);
 
-    native private int getNumMultibodies(long spaceId);
+    native private static int getNumMultibodies(long spaceId);
 
-    native private int getNumMultiBodyConstraints(long spaceId);
+    native private static int getNumMultiBodyConstraints(long spaceId);
 
-    native private void removeMultiBody(long spaceId, long multiBodyId);
+    native private static void removeMultiBody(long spaceId, long multiBodyId);
 
-    native private void removeMultiBodyConstraint(long spaceId,
+    native private static void removeMultiBodyConstraint(long spaceId,
             long constraintId);
 
-    native private void setSolverType(long spaceId, int solverType);
+    native private static void setSolverType(long spaceId, int solverType);
 }

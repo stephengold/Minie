@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.collision.shapes;
 
+import com.jme3.bullet.collision.shapes.infos.BoundingValueHierarchy;
 import com.jme3.bullet.collision.shapes.infos.CompoundMesh;
 import com.jme3.bullet.collision.shapes.infos.IndexedMesh;
 import com.jme3.export.InputCapsule;
@@ -65,7 +66,7 @@ public class MeshCollisionShape extends CollisionShape {
     /**
      * field names for serialization
      */
-    final private static String tagNativeBvh = "nativeBvh";
+    final private static String tagBvh = "bvh";
     final private static String tagNativePlatform = "nativePlatform";
     final private static String tagNativeMesh = "nativeMesh";
     final private static String tagUseCompression = "useCompression";
@@ -77,13 +78,13 @@ public class MeshCollisionShape extends CollisionShape {
      */
     private boolean useCompression;
     /**
+     * bounding-value hierarchy
+     */
+    private BoundingValueHierarchy bvh;
+    /**
      * native mesh used to construct this shape
      */
     private CompoundMesh nativeMesh;
-    /**
-     * unique identifier of the native buffer that holds the BVH
-     */
-    private long bvhBufferId = 0L;
     // *************************************************************************
     // constructors
 
@@ -109,7 +110,7 @@ public class MeshCollisionShape extends CollisionShape {
         for (IndexedMesh submesh : meshes) {
             nativeMesh.add(submesh);
         }
-        createShape(null);
+        createShape();
     }
 
     /**
@@ -128,19 +129,19 @@ public class MeshCollisionShape extends CollisionShape {
         for (IndexedMesh submesh : submeshes) {
             nativeMesh.add(submesh);
         }
-        createShape(null);
+        createShape();
     }
 
     /**
      * Instantiate a shape from the specified native mesh(es) and serialized
      * BVH. The submeshes must be equivalent to those used to generate the BVH.
      *
-     * @param bvhData the serialized BVH (not null)
+     * @param bvhBytes the serialized BVH (not null)
      * @param submeshes the mesh(es) on which to base the shape (not null, not
      * empty)
      */
-    public MeshCollisionShape(byte[] bvhData, IndexedMesh... submeshes) {
-        Validate.nonNull(bvhData, "BVH data");
+    public MeshCollisionShape(byte[] bvhBytes, IndexedMesh... submeshes) {
+        Validate.nonNull(bvhBytes, "BVH data");
         Validate.nonEmpty(submeshes, "submeshes");
 
         useCompression = true;
@@ -148,7 +149,8 @@ public class MeshCollisionShape extends CollisionShape {
         for (IndexedMesh submesh : submeshes) {
             nativeMesh.add(submesh);
         }
-        createShape(bvhData);
+        bvh = new BoundingValueHierarchy(bvhBytes);
+        createShape();
     }
 
     /**
@@ -163,7 +165,7 @@ public class MeshCollisionShape extends CollisionShape {
 
         useCompression = true;
         nativeMesh = new CompoundMesh(jmeMeshes);
-        createShape(null);
+        createShape();
     }
 
     /**
@@ -177,7 +179,7 @@ public class MeshCollisionShape extends CollisionShape {
 
         this.useCompression = useCompression;
         nativeMesh = new CompoundMesh(mesh);
-        createShape(null);
+        createShape();
     }
     // *************************************************************************
     // new methods exposed
@@ -208,8 +210,7 @@ public class MeshCollisionShape extends CollisionShape {
      * @return a new array containing a serialized version of the BVH
      */
     public byte[] serializeBvh() {
-        long shapeId = nativeId();
-        byte[] result = saveBVH(shapeId);
+        byte[] result = bvh.serialize();
         return result;
     }
     // *************************************************************************
@@ -229,25 +230,8 @@ public class MeshCollisionShape extends CollisionShape {
         super.cloneFields(cloner, original);
 
         nativeMesh = cloner.clone(nativeMesh);
-        bvhBufferId = 0L;
-        createShape(null);
-    }
-
-    /**
-     * Finalize this shape just before it is destroyed. Should be invoked only
-     * by a subclass or by the garbage collector.
-     *
-     * @throws Throwable ignored by the garbage collector
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            if (bvhBufferId != 0L) {
-                finalizeBVH(bvhBufferId);
-            }
-        } finally {
-            super.finalize();
-        }
+        bvh = cloner.clone(bvh);
+        createShape();
     }
 
     /**
@@ -277,17 +261,17 @@ public class MeshCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        byte[] nativeBvh = capsule.readByteArray(tagNativeBvh, null);
+        bvh = (BoundingValueHierarchy) capsule.readSavable(tagBvh, null);
         Platform writePlatform
                 = capsule.readEnum(tagNativePlatform, Platform.class, null);
         if (writePlatform == null || writePlatform != JmeSystem.getPlatform()) {
-            nativeBvh = null; // will re-create the BVH for the new platform
+            bvh = null; // will re-generate the BVH for the new platform
         }
 
         nativeMesh = (CompoundMesh) capsule.readSavable(tagNativeMesh, null);
         useCompression = capsule.readBoolean(tagUseCompression, true);
 
-        createShape(nativeBvh);
+        createShape();
     }
 
     /**
@@ -311,9 +295,7 @@ public class MeshCollisionShape extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        long shapeId = nativeId();
-        byte[] data = saveBVH(shapeId);
-        capsule.write(data, tagNativeBvh, null);
+        capsule.write(bvh, tagBvh, null);
 
         Platform nativePlatform = JmeSystem.getPlatform();
         capsule.write(nativePlatform, tagNativePlatform, null);
@@ -326,18 +308,18 @@ public class MeshCollisionShape extends CollisionShape {
 
     /**
      * Instantiate the configured btBvhTriangleMeshShape.
-     *
-     * @param bvh serialized BVH, or null to build the BVH from scratch
      */
-    private void createShape(byte bvh[]) {
-        boolean buildBvh = (bvh == null || bvh.length == 0);
+    private void createShape() {
+        boolean buildBvh = (bvh == null);
         long meshId = nativeMesh.nativeId();
         long shapeId = createShape(useCompression, buildBvh, meshId);
         setNativeId(shapeId);
 
-        if (!buildBvh) {
-            bvhBufferId = setBVH(bvh, shapeId);
-            assert bvhBufferId != 0L;
+        if (buildBvh) {
+            bvh = new BoundingValueHierarchy(this);
+        } else {
+            long bvhId = bvh.nativeId();
+            setOptimizedBvh(shapeId, bvhId);
         }
 
         setScale(scale);
@@ -346,18 +328,10 @@ public class MeshCollisionShape extends CollisionShape {
     // *************************************************************************
     // native methods
 
-    native private long createShape(boolean useCompression, boolean buildBvh,
-            long meshId);
+    native private static long createShape(boolean useCompression,
+            boolean buildBvh, long meshId);
 
-    native private void finalizeBVH(long bufferId);
+    native private static void recalcAabb(long shapeId);
 
-    native private void recalcAabb(long shapeId);
-
-    native private byte[] saveBVH(long objectId);
-
-    /**
-     * Read the ID of the native buffer used by the in-place de-serialized
-     * shape. The buffer should be explicitly freed when no longer needed.
-     */
-    native private long setBVH(byte[] buffer, long objectid);
+    native private static void setOptimizedBvh(long shapeId, long bvhId);
 }

@@ -301,17 +301,17 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     // *************************************************************************
     // native methods
 
-    native private long createGhostObject();
+    native private static long createGhostObject();
 
-    native private int getOverlappingCount(long objectId);
+    native private static int getOverlappingCount(long objectId);
 
     native private void getOverlappingObjects(long objectId);
 
-    native private void setGhostFlags(long objectId);
+    native private static void setGhostFlags(long objectId);
 
-    native private void setPhysicsLocation(long objectId, Vector3f location);
+    native private static void setPhysicsLocation(long objectId, Vector3f location);
 
-    native private void setPhysicsRotation(long objectId, Matrix3f rotation);
+    native private static void setPhysicsRotation(long objectId, Matrix3f rotation);
 
-    native private void setPhysicsRotation(long objectId, Quaternion rotation);
+    native private static void setPhysicsRotation(long objectId, Quaternion rotation);
 }

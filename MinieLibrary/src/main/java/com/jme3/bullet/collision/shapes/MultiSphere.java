@@ -509,8 +509,8 @@ public class MultiSphere extends ConvexShape {
     // *************************************************************************
     // native methods
 
-    native private long createShape(Vector3f[] centers, float[] radii,
+    native private static long createShape(Vector3f[] centers, float[] radii,
             int numSpheres);
 
-    native private void recalcAabb(long shapeId);
+    native private static void recalcAabb(long shapeId);
 }

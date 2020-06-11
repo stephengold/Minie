@@ -183,5 +183,5 @@ public class PlaneCollisionShape extends CollisionShape {
     // *************************************************************************
     // native methods
 
-    native private long createShape(Vector3f normal, float constant);
+    native private static long createShape(Vector3f normal, float constant);
 }

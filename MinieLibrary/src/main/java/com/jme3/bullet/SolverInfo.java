@@ -256,34 +256,35 @@ public class SolverInfo extends NativePhysicsObject {
     // *************************************************************************
     // native methods
 
-    native private void copyAllParameters(long targetId, long sourceId);
+    native private static void copyAllParameters(long targetId, long sourceId);
 
-    native private float getGlobalCfm(long infoId);
+    native private static float getGlobalCfm(long infoId);
 
-    native private int getMinBatch(long infoId);
+    native private static int getMinBatch(long infoId);
 
-    native private int getMode(long infoId);
+    native private static int getMode(long infoId);
 
-    native private int getNumIterations(long infoId);
+    native private static int getNumIterations(long infoId);
 
-    native private float getSplitImpulseErp(long infoId);
+    native private static float getSplitImpulseErp(long infoId);
 
-    native private float getSplitImpulseThreshold(long infoId);
+    native private static float getSplitImpulseThreshold(long infoId);
 
-    native private boolean isSplitImpulseEnabled(long infoId);
+    native private static boolean isSplitImpulseEnabled(long infoId);
 
-    native private void setGlobalCfm(long infoId, float cfm);
+    native private static void setGlobalCfm(long infoId, float cfm);
 
-    native private void setMinBatch(long infoId, int numConstraints);
+    native private static void setMinBatch(long infoId, int numConstraints);
 
-    native private void setMode(long infoId, int flags);
+    native private static void setMode(long infoId, int flags);
 
-    native private void setNumIterations(long infoId, int numIterations);
+    native private static void setNumIterations(long infoId, int numIterations);
 
-    native private void setSplitImpulseEnabled(long infoId, boolean enable);
+    native private static void setSplitImpulseEnabled(long infoId,
+            boolean enable);
 
-    native private void setSplitImpulseErp(long infoId, float erp);
+    native private static void setSplitImpulseErp(long infoId, float erp);
 
-    native private void setSplitImpulseThreshold(long infoId,
+    native private static void setSplitImpulseThreshold(long infoId,
             float penetration);
 }

@@ -694,25 +694,25 @@ public class CollisionSpace extends NativePhysicsObject {
     // *************************************************************************
     // native methods
 
-    native private void addCollisionObject(long spaceId, long pcoId);
+    native private static void addCollisionObject(long spaceId, long pcoId);
 
-    native private int contactTest(long spaceId, long pcoId,
+    native private static int contactTest(long spaceId, long pcoId,
             PhysicsCollisionListener listener);
 
     native private long createCollisionSpace(float minX, float minY, float minZ,
             float maxX, float maxY, float maxZ, int broadphaseType);
 
-    native private void finalizeNative(long spaceId);
+    native private static void finalizeNative(long spaceId);
 
-    native private int getNumCollisionObjects(long spaceId);
+    native private static int getNumCollisionObjects(long spaceId);
 
-    native private void rayTest_native(Vector3f fromLocation,
+    native private static void rayTest_native(Vector3f fromLocation,
             Vector3f toLocation, long spaceId,
             List<PhysicsRayTestResult> addToList, int flags);
 
-    native private void removeCollisionObject(long spaceId, long pcoId);
+    native private static void removeCollisionObject(long spaceId, long pcoId);
 
-    native private void sweepTest_native(long shapeId, Transform from,
+    native private static void sweepTest_native(long shapeId, Transform from,
             Transform to, long spaceId, List<PhysicsSweepTestResult> addToList,
             float allowedCcdPenetration);
 }

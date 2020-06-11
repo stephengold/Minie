@@ -260,7 +260,7 @@ public class TestDefaults {
         Assert.assertEquals(0.88f, vehicle.getSuspensionDamping(), 0f);
         Assert.assertEquals(5.88f, vehicle.getSuspensionStiffness(), 0f);
 
-        vehicle.createVehicle(space);
+        space.addCollisionObject(vehicle);
         Assert.assertEquals(PhysicsSpace.AXIS_Z, vehicle.forwardAxisIndex());
         Assert.assertNotEquals(0L, vehicle.getVehicleId());
         Assert.assertEquals(0f, vehicle.getCurrentVehicleSpeedKmHour(), 0f);

@@ -255,20 +255,20 @@ public class SoftBodyMaterial
     // *********************************************************************
     // native methods
 
-    native private float getAngularStiffnessFactor(long materialId);
+    native private static float getAngularStiffnessFactor(long materialId);
 
-    native private float getLinearStiffnessFactor(long materialId);
+    native private static float getLinearStiffnessFactor(long materialId);
 
     native private static long getMaterialId(long bodyId);
 
-    native private float getVolumeStiffnessFactor(long materialId);
+    native private static float getVolumeStiffnessFactor(long materialId);
 
-    native private void setAngularStiffnessFactor(long materialId,
+    native private static void setAngularStiffnessFactor(long materialId,
             float stiffness);
 
-    native private void setLinearStiffnessFactor(long materialId,
+    native private static void setLinearStiffnessFactor(long materialId,
             float stiffness);
 
-    native private void setVolumeStiffnessFactor(long materialId,
+    native private static void setVolumeStiffnessFactor(long materialId,
             float stiffness);
 }

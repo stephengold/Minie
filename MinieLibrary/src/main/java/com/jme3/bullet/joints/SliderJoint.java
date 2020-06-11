@@ -1089,126 +1089,132 @@ public class SliderJoint extends Constraint {
     // *************************************************************************
     // native methods
 
-    native private long createJoint(long bodyIdA, long bodyIdB,
+    native private static long createJoint(long bodyIdA, long bodyIdB,
             Vector3f pivotInA, Matrix3f rotInA, Vector3f pivotInB,
             Matrix3f rotInB, boolean useLinearReferenceFrameA);
 
-    native private long createJoint1(long bodyIdB, Vector3f pivotInB,
+    native private static long createJoint1(long bodyIdB, Vector3f pivotInB,
             Matrix3f rotInB, boolean useLinearReferenceFrameA);
 
-    native private float getDampingDirAng(long jointId);
+    native private static float getDampingDirAng(long jointId);
 
-    native private float getDampingDirLin(long jointId);
+    native private static float getDampingDirLin(long jointId);
 
-    native private float getDampingLimAng(long jointId);
+    native private static float getDampingLimAng(long jointId);
 
-    native private float getDampingLimLin(long jointId);
+    native private static float getDampingLimLin(long jointId);
 
-    native private float getDampingOrthoAng(long jointId);
+    native private static float getDampingOrthoAng(long jointId);
 
-    native private float getDampingOrthoLin(long jointId);
+    native private static float getDampingOrthoLin(long jointId);
 
-    native private void getFrameOffsetA(long jointId, Transform frameInA);
+    native private static void getFrameOffsetA(long jointId,
+            Transform frameInA);
 
-    native private void getFrameOffsetB(long jointId, Transform frameInB);
+    native private static void getFrameOffsetB(long jointId,
+            Transform frameInB);
 
-    native private float getLowerAngLimit(long jointId);
+    native private static float getLowerAngLimit(long jointId);
 
-    native private float getLowerLinLimit(long jointId);
+    native private static float getLowerLinLimit(long jointId);
 
-    native private float getMaxAngMotorForce(long jointId);
+    native private static float getMaxAngMotorForce(long jointId);
 
-    native private float getMaxLinMotorForce(long jointId);
+    native private static float getMaxLinMotorForce(long jointId);
 
-    native private float getRestitutionDirAng(long jointId);
+    native private static float getRestitutionDirAng(long jointId);
 
-    native private float getRestitutionDirLin(long jointId);
+    native private static float getRestitutionDirLin(long jointId);
 
-    native private float getRestitutionLimAng(long jointId);
+    native private static float getRestitutionLimAng(long jointId);
 
-    native private float getRestitutionLimLin(long jointId);
+    native private static float getRestitutionLimLin(long jointId);
 
-    native private float getRestitutionOrthoAng(long jointId);
+    native private static float getRestitutionOrthoAng(long jointId);
 
-    native private float getRestitutionOrthoLin(long jointId);
+    native private static float getRestitutionOrthoLin(long jointId);
 
-    native private float getSoftnessDirAng(long jointId);
+    native private static float getSoftnessDirAng(long jointId);
 
-    native private float getSoftnessDirLin(long jointId);
+    native private static float getSoftnessDirLin(long jointId);
 
-    native private float getSoftnessLimAng(long jointId);
+    native private static float getSoftnessLimAng(long jointId);
 
-    native private float getSoftnessLimLin(long jointId);
+    native private static float getSoftnessLimLin(long jointId);
 
-    native private float getSoftnessOrthoAng(long jointId);
+    native private static float getSoftnessOrthoAng(long jointId);
 
-    native private float getSoftnessOrthoLin(long jointId);
+    native private static float getSoftnessOrthoLin(long jointId);
 
-    native private float getTargetAngMotorVelocity(long jointId);
+    native private static float getTargetAngMotorVelocity(long jointId);
 
-    native private float getTargetLinMotorVelocity(long jointId);
+    native private static float getTargetLinMotorVelocity(long jointId);
 
-    native private float getUpperAngLimit(long jointId);
+    native private static float getUpperAngLimit(long jointId);
 
-    native private float getUpperLinLimit(long jointId);
+    native private static float getUpperLinLimit(long jointId);
 
-    native private boolean isPoweredAngMotor(long jointId);
+    native private static boolean isPoweredAngMotor(long jointId);
 
-    native private boolean isPoweredLinMotor(long jointId);
+    native private static boolean isPoweredLinMotor(long jointId);
 
-    native private void setDampingDirAng(long jointId, float value);
+    native private static void setDampingDirAng(long jointId, float value);
 
-    native private void setDampingDirLin(long jointId, float value);
+    native private static void setDampingDirLin(long jointId, float value);
 
-    native private void setDampingLimAng(long jointId, float value);
+    native private static void setDampingLimAng(long jointId, float value);
 
-    native private void setDampingLimLin(long jointId, float value);
+    native private static void setDampingLimLin(long jointId, float value);
 
-    native private void setDampingOrthoAng(long jointId, float value);
+    native private static void setDampingOrthoAng(long jointId, float value);
 
-    native private void setDampingOrthoLin(long jointId, float value);
+    native private static void setDampingOrthoLin(long jointId, float value);
 
-    native private void setLowerAngLimit(long jointId, float value);
+    native private static void setLowerAngLimit(long jointId, float value);
 
-    native private void setLowerLinLimit(long jointId, float value);
+    native private static void setLowerLinLimit(long jointId, float value);
 
-    native private void setMaxAngMotorForce(long jointId, float value);
+    native private static void setMaxAngMotorForce(long jointId, float value);
 
-    native private void setMaxLinMotorForce(long jointId, float value);
+    native private static void setMaxLinMotorForce(long jointId, float value);
 
-    native private void setPoweredAngMotor(long jointId, boolean value);
+    native private static void setPoweredAngMotor(long jointId, boolean value);
 
-    native private void setPoweredLinMotor(long jointId, boolean value);
+    native private static void setPoweredLinMotor(long jointId, boolean value);
 
-    native private void setRestitutionDirAng(long jointId, float value);
+    native private static void setRestitutionDirAng(long jointId, float value);
 
-    native private void setRestitutionDirLin(long jointId, float value);
+    native private static void setRestitutionDirLin(long jointId, float value);
 
-    native private void setRestitutionLimAng(long jointId, float value);
+    native private static void setRestitutionLimAng(long jointId, float value);
 
-    native private void setRestitutionLimLin(long jointId, float value);
+    native private static void setRestitutionLimLin(long jointId, float value);
 
-    native private void setRestitutionOrthoAng(long jointId, float value);
+    native private static void setRestitutionOrthoAng(long jointId,
+            float value);
 
-    native private void setRestitutionOrthoLin(long jointId, float value);
+    native private static void setRestitutionOrthoLin(long jointId,
+            float value);
 
-    native private void setSoftnessDirAng(long jointId, float value);
+    native private static void setSoftnessDirAng(long jointId, float value);
 
-    native private void setSoftnessDirLin(long jointId, float value);
+    native private static void setSoftnessDirLin(long jointId, float value);
 
-    native private void setSoftnessLimAng(long jointId, float value);
+    native private static void setSoftnessLimAng(long jointId, float value);
 
-    native private void setSoftnessLimLin(long jointId, float value);
+    native private static void setSoftnessLimLin(long jointId, float value);
 
-    native private void setSoftnessOrthoAng(long jointId, float value);
+    native private static void setSoftnessOrthoAng(long jointId, float value);
 
-    native private void setSoftnessOrthoLin(long jointId, float value);
+    native private static void setSoftnessOrthoLin(long jointId, float value);
 
-    native private void setTargetAngMotorVelocity(long jointId, float value);
+    native private static void setTargetAngMotorVelocity(long jointId,
+            float value);
 
-    native private void setTargetLinMotorVelocity(long jointId, float value);
+    native private static void setTargetLinMotorVelocity(long jointId,
+            float value);
 
-    native private void setUpperAngLimit(long jointId, float value);
+    native private static void setUpperAngLimit(long jointId, float value);
 
-    native private void setUpperLinLimit(long objectId, float value);
+    native private static void setUpperLinLimit(long objectId, float value);
 }

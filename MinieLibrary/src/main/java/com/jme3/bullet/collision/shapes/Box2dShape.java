@@ -253,5 +253,5 @@ public class Box2dShape extends ConvexShape {
     // *************************************************************************
     // native methods
 
-    native private long createShape(float x, float y, float margin);
+    native private static long createShape(float x, float y, float margin);
 }

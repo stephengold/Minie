@@ -517,11 +517,13 @@ public class HullCollisionShape extends ConvexShape {
     // *************************************************************************
     // native methods
 
-    native private int countHullVertices(long shapeId);
+    native private static int countHullVertices(long shapeId);
 
-    native private long createShapeF(FloatBuffer vertices, int numVertices);
+    native private static long createShapeF(FloatBuffer vertices,
+            int numVertices);
 
-    native private void getHullVerticesF(long shapeId, FloatBuffer vertices);
+    native private static void getHullVerticesF(long shapeId,
+            FloatBuffer vertices);
 
-    native private void recalcAabb(long shapeId);
+    native private static void recalcAabb(long shapeId);
 }

@@ -161,10 +161,13 @@ public class VehicleControl
      * false&rarr;match world coordinates (default=false)
      */
     public void setApplyPhysicsLocal(boolean applyPhysicsLocal) {
-        RigidBodyMotionState ms = getMotionState();
-        ms.setApplyPhysicsLocal(applyPhysicsLocal);
-        for (VehicleWheel vehicleWheel : wheels) {
-            vehicleWheel.setApplyLocal(applyPhysicsLocal);
+        RigidBodyMotionState motionsState = getMotionState();
+        motionsState.setApplyPhysicsLocal(applyPhysicsLocal);
+
+        int numWheels = getNumWheels();
+        for (int wheelIndex = 0; wheelIndex < numWheels; ++wheelIndex) {
+            VehicleWheel wheel = getWheel(wheelIndex);
+            wheel.setApplyLocal(applyPhysicsLocal);
         }
     }
     // *************************************************************************

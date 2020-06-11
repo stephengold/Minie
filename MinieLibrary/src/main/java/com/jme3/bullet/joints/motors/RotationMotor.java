@@ -288,64 +288,69 @@ public class RotationMotor extends NativePhysicsObject {
     // *************************************************************************
     // native methods
 
-    native private float getBounce(long motorId);
+    native private static float getBounce(long motorId);
 
-    native private float getDamping(long motorId);
+    native private static float getDamping(long motorId);
 
-    native private float getEquilibrium(long motorId);
+    native private static float getEquilibrium(long motorId);
 
-    native private float getLowerLimit(long motorId);
+    native private static float getLowerLimit(long motorId);
 
-    native private float getMaxMotorForce(long motorId);
+    native private static float getMaxMotorForce(long motorId);
 
-    native private float getParameter(long motorId, int parameterIndex);
+    native private static float getParameter(long motorId, int parameterIndex);
 
-    native private float getServoTarget(long motorId);
+    native private static float getServoTarget(long motorId);
 
-    native private float getStiffness(long motorId);
+    native private static float getStiffness(long motorId);
 
-    native private float getTargetVelocity(long motorId);
+    native private static float getTargetVelocity(long motorId);
 
-    native private float getUpperLimit(long motorId);
+    native private static float getUpperLimit(long motorId);
 
-    native private boolean isDampingLimited(long motorId);
+    native private static boolean isDampingLimited(long motorId);
 
-    native private boolean isMotorEnabled(long motorId);
+    native private static boolean isMotorEnabled(long motorId);
 
-    native private boolean isServoEnabled(long motorId);
+    native private static boolean isServoEnabled(long motorId);
 
-    native private boolean isSpringEnabled(long motorId);
+    native private static boolean isSpringEnabled(long motorId);
 
-    native private boolean isStiffnessLimited(long motorId);
+    native private static boolean isStiffnessLimited(long motorId);
 
-    native private void setBounce(long motorId, float bounce);
+    native private static void setBounce(long motorId, float bounce);
 
-    native private void setDamping(long motorId, float damping);
+    native private static void setDamping(long motorId, float damping);
 
-    native private void setDampingLimited(long motorId, boolean limitFlag);
+    native private static void setDampingLimited(long motorId,
+            boolean limitFlag);
 
-    native private void setEquilibrium(long motorId, float angle);
+    native private static void setEquilibrium(long motorId, float angle);
 
-    native private void setLowerLimit(long motorId, float angle);
+    native private static void setLowerLimit(long motorId, float angle);
 
-    native private void setMaxMotorForce(long motorId, float force);
+    native private static void setMaxMotorForce(long motorId, float force);
 
-    native private void setMotorEnabled(long motorId, boolean enableFlag);
+    native private static void setMotorEnabled(long motorId,
+            boolean enableFlag);
 
-    native private void setParameter(long motorId, int parameterIndex,
+    native private static void setParameter(long motorId, int parameterIndex,
             float value);
 
-    native private void setServoEnabled(long motorId, boolean enableFlag);
+    native private static void setServoEnabled(long motorId,
+            boolean enableFlag);
 
-    native private void setServoTarget(long motorId, float target);
+    native private static void setServoTarget(long motorId, float target);
 
-    native private void setSpringEnabled(long motorId, boolean enableFlag);
+    native private static void setSpringEnabled(long motorId,
+            boolean enableFlag);
 
-    native private void setStiffness(long motorId, float stiffness);
+    native private static void setStiffness(long motorId, float stiffness);
 
-    native private void setStiffnessLimited(long motorId, boolean limitFlag);
+    native private static void setStiffnessLimited(long motorId,
+            boolean limitFlag);
 
-    native private void setTargetVelocity(long motorId, float velocity);
+    native private static void setTargetVelocity(long motorId, float velocity);
 
-    native private void setUpperLimit(long motorId, float angle);
+    native private static void setUpperLimit(long motorId, float angle);
 }

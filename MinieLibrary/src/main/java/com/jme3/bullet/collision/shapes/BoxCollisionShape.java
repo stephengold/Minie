@@ -278,5 +278,5 @@ public class BoxCollisionShape extends ConvexShape {
     // *************************************************************************
     // native methods
 
-    native private long createShape(Vector3f halfExtents);
+    native private static long createShape(Vector3f halfExtents);
 }

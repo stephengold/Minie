@@ -576,34 +576,35 @@ public class HingeJoint extends Constraint {
     // *************************************************************************
     // native methods
 
-    native private long createJoint(long objectIdA, long objectIdB,
+    native private static long createJoint(long objectIdA, long objectIdB,
             Vector3f pivotInA, Vector3f axisInA, Vector3f pivotInB,
             Vector3f axisInB);
 
-    native private long createJoint1(long objectIdA, Vector3f pivotInA,
+    native private static long createJoint1(long objectIdA, Vector3f pivotInA,
             Vector3f axisInA, boolean useReferenceFrameA);
 
-    native private void enableMotor(long jointId, boolean enable,
+    native private static void enableMotor(long jointId, boolean enable,
             float targetVelocity, float maxMotorImpulse);
 
-    native private boolean getEnableAngularMotor(long jointId);
+    native private static boolean getEnableAngularMotor(long jointId);
 
-    native private void getFrameOffsetA(long jointId, Transform frameInA);
+    native private static void getFrameOffsetA(long jointId, Transform frameInA);
 
-    native private void getFrameOffsetB(long jointId, Transform frameInB);
+    native private static void getFrameOffsetB(long jointId, Transform frameInB);
 
-    native private float getHingeAngle(long jointId);
+    native private static float getHingeAngle(long jointId);
 
-    native private float getLowerLimit(long jointId);
+    native private static float getLowerLimit(long jointId);
 
-    native private float getMaxMotorImpulse(long jointId);
+    native private static float getMaxMotorImpulse(long jointId);
 
-    native private float getMotorTargetVelocity(long jointId);
+    native private static float getMotorTargetVelocity(long jointId);
 
-    native private float getUpperLimit(long jointId);
+    native private static float getUpperLimit(long jointId);
 
-    native private void setAngularOnly(long jointId, boolean angularOnly);
+    native private static void setAngularOnly(long jointId,
+            boolean angularOnly);
 
-    native private void setLimit(long jointId, float low, float high,
+    native private static void setLimit(long jointId, float low, float high,
             float softness, float biasFactor, float relaxationFactor);
 }

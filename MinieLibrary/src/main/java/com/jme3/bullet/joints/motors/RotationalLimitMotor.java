@@ -385,57 +385,63 @@ public class RotationalLimitMotor extends NativePhysicsObject {
     // *************************************************************************
     // native methods
 
-    native private float getAccumulatedImpulse(long motorId);
+    native private static float getAccumulatedImpulse(long motorId);
 
-    native private float getBounce(long motorId);
+    native private static float getBounce(long motorId);
 
-    native private float getCurrentPosition(long motorId);
+    native private static float getCurrentPosition(long motorId);
 
-    native private float getDamping(long motorId);
+    native private static float getDamping(long motorId);
 
-    native private float getERP(long motorId);
+    native private static float getERP(long motorId);
 
-    native private float getHiLimit(long motorId);
+    native private static float getHiLimit(long motorId);
 
-    native private float getLimitSoftness(long motorId);
+    native private static float getLimitSoftness(long motorId);
 
-    native private float getLoLimit(long motorId);
+    native private static float getLoLimit(long motorId);
 
-    native private float getMaxLimitForce(long motorId);
+    native private static float getMaxLimitForce(long motorId);
 
-    native private float getMaxMotorForce(long motorId);
+    native private static float getMaxMotorForce(long motorId);
 
-    native private float getNormalCFM(long motorId);
+    native private static float getNormalCFM(long motorId);
 
-    native private float getStopCFM(long motorId);
+    native private static float getStopCFM(long motorId);
 
-    native private float getTargetVelocity(long motorId);
+    native private static float getTargetVelocity(long motorId);
 
-    native private boolean isEnableMotor(long motorId);
+    native private static boolean isEnableMotor(long motorId);
 
-    native private void setAccumulatedImpulse(long motorId, float vector);
+    native private static void setAccumulatedImpulse(long motorId,
+            float vector);
 
-    native private void setBounce(long motorId, float bounce);
+    native private static void setBounce(long motorId, float bounce);
 
-    native private void setDamping(long motorId, float damping);
+    native private static void setDamping(long motorId, float damping);
 
-    native private void setEnableMotor(long motorId, boolean enableMotor);
+    native private static void setEnableMotor(long motorId,
+            boolean enableMotor);
 
-    native private void setERP(long motorId, float ERP);
+    native private static void setERP(long motorId, float ERP);
 
-    native private void setHiLimit(long motorId, float hiLimit);
+    native private static void setHiLimit(long motorId, float hiLimit);
 
-    native private void setLimitSoftness(long motorId, float limitSoftness);
+    native private static void setLimitSoftness(long motorId,
+            float limitSoftness);
 
-    native private void setLoLimit(long motorId, float loLimit);
+    native private static void setLoLimit(long motorId, float loLimit);
 
-    native private void setMaxLimitForce(long motorId, float maxLimitForce);
+    native private static void setMaxLimitForce(long motorId,
+            float maxLimitForce);
 
-    native private void setMaxMotorForce(long motorId, float maxMotorForce);
+    native private static void setMaxMotorForce(long motorId,
+            float maxMotorForce);
 
-    native private void setNormalCFM(long motorId, float normalCFM);
+    native private static void setNormalCFM(long motorId, float normalCFM);
 
-    native private void setStopCFM(long motorId, float stopCFM);
+    native private static void setStopCFM(long motorId, float stopCFM);
 
-    native private void setTargetVelocity(long motorId, float targetVelocity);
+    native private static void setTargetVelocity(long motorId,
+            float targetVelocity);
 }

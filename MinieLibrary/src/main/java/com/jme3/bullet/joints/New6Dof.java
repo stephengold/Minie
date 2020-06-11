@@ -827,48 +827,53 @@ public class New6Dof extends Constraint {
     // *************************************************************************
     // native private methods
 
-    native private long createDoubleEnded(long bodyIdA, long bodyIdB,
+    native private static long createDoubleEnded(long bodyIdA, long bodyIdB,
             Vector3f pivotInA, Matrix3f rotInA, Vector3f pivotInB,
             Matrix3f rotInB, int rotOrder);
 
-    native private long createSingleEnded(long bodyIdB, Vector3f pivotInB,
-            Matrix3f rotInB, int rotOrder);
+    native private static long createSingleEnded(long bodyIdB,
+            Vector3f pivotInB, Matrix3f rotInB, int rotOrder);
 
-    native private void enableSpring(long constraintId, int dofIndex,
+    native private static void enableSpring(long constraintId, int dofIndex,
             boolean enableFlag);
 
-    native private void getAngles(long constraintId, Vector3f storeVector);
-
-    native private void getAxis(long constraintId, int axisIndex,
+    native private static void getAngles(long constraintId,
             Vector3f storeVector);
 
-    native private void getFrameOffsetA(long constraintId,
+    native private static void getAxis(long constraintId, int axisIndex,
+            Vector3f storeVector);
+
+    native private static void getFrameOffsetA(long constraintId,
             Transform storeTransform);
 
-    native private void getFrameOffsetB(long constraintId,
+    native private static void getFrameOffsetB(long constraintId,
             Transform storeTransform);
 
-    native private void getPivotOffset(long constraintId, Vector3f storeVector);
+    native private static void getPivotOffset(long constraintId,
+            Vector3f storeVector);
 
-    native private long getRotationalMotor(long constraintId, int index);
+    native private static long getRotationalMotor(long constraintId, int index);
 
-    native private int getRotationOrder(long constraintId);
+    native private static int getRotationOrder(long constraintId);
 
-    native private long getTranslationalMotor(long constraintId);
+    native private static long getTranslationalMotor(long constraintId);
 
-    native private void setAllEquilibriumPointsToCurrent(long constraintId);
+    native private static void setAllEquilibriumPointsToCurrent(
+            long constraintId);
 
-    native private void setDamping(long constraintId, int dofIndex,
+    native private static void setDamping(long constraintId, int dofIndex,
             float damping, boolean limitIfNeeded);
 
-    native private void setEquilibriumPoint(long constraintId, int dofIndex,
+    native private static void setEquilibriumPoint(long constraintId,
+            int dofIndex,
             float value);
 
-    native private void setEquilibriumPointToCurrent(long constraintId,
+    native private static void setEquilibriumPointToCurrent(long constraintId,
             int dofIndex);
 
-    native private void setRotationOrder(long constraintId, int rotOrder);
+    native private static void setRotationOrder(long constraintId,
+            int rotOrder);
 
-    native private void setStiffness(long constraintId, int dofIndex,
+    native private static void setStiffness(long constraintId, int dofIndex,
             float stiffness, boolean limitIfNeeded);
 }

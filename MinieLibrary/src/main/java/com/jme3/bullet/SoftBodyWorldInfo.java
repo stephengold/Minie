@@ -363,33 +363,37 @@ public class SoftBodyWorldInfo
     // *************************************************************************
     // native methods
 
-    native private long createSoftBodyWorldInfo();
+    native private static long createSoftBodyWorldInfo();
 
-    native private void finalizeNative(long infoId);
+    native private static void finalizeNative(long infoId);
 
-    native private float getAirDensity(long infoId);
+    native private static float getAirDensity(long infoId);
 
-    native private void getGravity(long infoId, Vector3f storeVector);
+    native private static void getGravity(long infoId, Vector3f storeVector);
 
-    native private float getMaxDisplacement(long infoId);
+    native private static float getMaxDisplacement(long infoId);
 
-    native private float getWaterDensity(long infoId);
+    native private static float getWaterDensity(long infoId);
 
-    native private void getWaterNormal(long infoId, Vector3f storeVector);
+    native private static void getWaterNormal(long infoId,
+            Vector3f storeVector);
 
-    native private float getWaterOffset(long infoId);
+    native private static float getWaterOffset(long infoId);
 
-    native private void setAirDensity(long infoId, float density);
+    native private static void setAirDensity(long infoId, float density);
 
-    native private void setGravity(long infoId, Vector3f gravityVector);
+    native private static void setGravity(long infoId, Vector3f gravityVector);
 
-    native private void setMaxDisplacement(long infoId, float displacement);
+    native private static void setMaxDisplacement(long infoId,
+            float displacement);
 
-    native private void setSoftBodyWorldInfo(long targetId, long sourceId);
+    native private static void setSoftBodyWorldInfo(long targetId,
+            long sourceId);
 
-    native private void setWaterDensity(long infoId, float density);
+    native private static void setWaterDensity(long infoId, float density);
 
-    native private void setWaterNormal(long infoId, Vector3f normalVector);
+    native private static void setWaterNormal(long infoId,
+            Vector3f normalVector);
 
-    native private void setWaterOffset(long infoId, float offset);
+    native private static void setWaterOffset(long infoId, float offset);
 }

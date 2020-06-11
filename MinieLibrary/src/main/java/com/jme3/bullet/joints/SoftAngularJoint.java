@@ -251,13 +251,13 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
     // *************************************************************************
     // native methods
 
-    native private long createJointSoftRigid(long softIdA, int clusterIndexA,
-            long rigidIdB, float erp, float cfm, float split,
+    native private static long createJointSoftRigid(long softIdA,
+            int clusterIndexA, long rigidIdB, float erp, float cfm, float split,
             Vector3f axis);
 
-    native private long createJointSoftSoft(long softIdA, int clusterIndexA,
-            long softIdB, int clusterIndexB, float erp, float cfm, float split,
-            Vector3f axis);
+    native private static long createJointSoftSoft(long softIdA,
+            int clusterIndexA, long softIdB, int clusterIndexB, float erp,
+            float cfm, float split, Vector3f axis);
 
-    native private void setAxis(long jointId, Vector3f axis);
+    native private static void setAxis(long jointId, Vector3f axis);
 }

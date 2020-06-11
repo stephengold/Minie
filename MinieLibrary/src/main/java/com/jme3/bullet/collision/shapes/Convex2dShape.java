@@ -231,5 +231,5 @@ public class Convex2dShape extends ConvexShape {
     // *************************************************************************
     // native methods
 
-    native private long createShape(long childId);
+    native private static long createShape(long childId);
 }
