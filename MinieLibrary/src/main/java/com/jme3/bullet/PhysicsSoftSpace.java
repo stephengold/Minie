@@ -125,7 +125,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
 
     /**
      * Access the PhysicsSoftSpace <b>running on this thread</b>. For parallel
-     * physics, this can be invoked from the OpenGL thread.
+     * physics, this may be invoked from the OpenGL thread.
      *
      * @return the pre-existing PhysicsSoftSpace running on this thread
      */
@@ -264,7 +264,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         worldInfo.setGravity(gravity);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * NOTE: When a soft body is added, its world info may get replaced with
@@ -307,7 +307,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         removeSoftBody(spaceId, softBodyId);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void addSoftBody(long softSpaceId, long softBodyId);
 

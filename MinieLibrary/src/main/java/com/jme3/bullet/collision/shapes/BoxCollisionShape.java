@@ -261,7 +261,7 @@ public class BoxCollisionShape extends ConvexShape {
         capsule.write(halfExtents, tagHalfExtents, null);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Instantiate the configured btBoxShape.
@@ -276,7 +276,7 @@ public class BoxCollisionShape extends ConvexShape {
         setMargin(margin);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createShape(Vector3f halfExtents);
 }

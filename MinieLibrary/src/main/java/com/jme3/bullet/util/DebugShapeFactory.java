@@ -104,7 +104,7 @@ public class DebugShapeFactory {
 
     /**
      * largest debug mesh to index (doesn't affect plane shapes, 0&rarr;never
-     * index, MAX_VALUE&rarr;always index, default=6000 vertices)
+     * index, MAX_VALUE&rarr;always index)
      */
     private static int maxVerticesToIndex = 6_000;
     /**
@@ -784,7 +784,7 @@ public class DebugShapeFactory {
         return result;
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void getTriangles(long shapeId, int meshResolution,
             DebugMeshCallback buffer);

@@ -95,12 +95,12 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
 
     /**
      * viscous damping ratio for new rigid bodies (0&rarr;no damping,
-     * 1&rarr;critically damped, default=0.6)
+     * 1&rarr;critically damped)
      */
     private float damping = 0.6f;
     /**
      * minimum applied impulse for a collision event to be dispatched to
-     * listeners (default=0)
+     * listeners
      */
     private float eventDispatchImpulseThreshold = 0f;
     /**
@@ -124,8 +124,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      */
     private Map<String, Spatial> attachModelMap = new HashMap<>(5);
     /**
-     * gravitational acceleration vector for ragdolls (default is 9.8 in the -Y
-     * direction, approximating Earth-normal in MKS units)
+     * gravitational acceleration vector for ragdolls
      */
     private Vector3f gravityVector = new Vector3f(0f, -9.8f, 0f);
     // *************************************************************************

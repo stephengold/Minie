@@ -522,7 +522,7 @@ public class PhysicsSpace extends CollisionSpace {
 
     /**
      * Access the PhysicsSpace <b>running on this thread</b>. For parallel
-     * physics, this can be invoked from the OpenGL thread.
+     * physics, this may be invoked from the OpenGL thread.
      *
      * @return the pre-existing PhysicsSpace running on this thread
      */
@@ -974,7 +974,7 @@ public class PhysicsSpace extends CollisionSpace {
         }
     }
     // *************************************************************************
-    // private Java methods
+    // Java private methods
 
     /**
      * Add the specified PhysicsCharacter to this space.
@@ -1002,7 +1002,7 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * This method is invoked from native code.
+     * This method is invoked by native code.
      */
     private void addCollisionEvent_native(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {
@@ -1083,9 +1083,7 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Callback invoked just after the physics is stepped.
-     * <p>
-     * This method is invoked from native code.
+     * Callback invoked (by native code) just after the physics is stepped.
      *
      * @param timeStep the time per physics step (in seconds, &ge;0)
      */
@@ -1096,9 +1094,7 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Callback invoked just before the physics is stepped.
-     * <p>
-     * This method is invoked from native code.
+     * Callback invoked (by native code) just before the physics is stepped.
      *
      * @param timeStep the time per physics step (in seconds, &ge;0)
      */
@@ -1176,7 +1172,7 @@ public class PhysicsSpace extends CollisionSpace {
         removeRigidBody(spaceId, rigidBodyId);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void addAction(long spaceId, long actionId);
 

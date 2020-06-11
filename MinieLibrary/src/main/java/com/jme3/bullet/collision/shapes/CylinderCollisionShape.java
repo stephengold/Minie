@@ -351,7 +351,7 @@ public class CylinderCollisionShape extends ConvexShape {
         capsule.write(axis, tagAxis, PhysicsSpace.AXIS_Y);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Instantiate the configured btCollisionShape.
@@ -369,7 +369,7 @@ public class CylinderCollisionShape extends ConvexShape {
         setMargin(margin);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createShape(int axisIndex, Vector3f halfExtents);
 }

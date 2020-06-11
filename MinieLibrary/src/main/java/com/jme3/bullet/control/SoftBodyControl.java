@@ -84,11 +84,11 @@ public class SoftBodyControl extends AbstractPhysicsControl {
 
     /**
      * true&rarr;merge duplicate vertices in the soft body, false&rarr;don't
-     * merge duplicate vertices (default=true)
+     * merge duplicate vertices
      */
     private boolean mergeVertices = true;
     /**
-     * true&rarr;update normals, false&rarr;don't update normals (default=true)
+     * true&rarr;update normals, false&rarr;don't update normals
      */
     private boolean updateNormals = true;
     /**

@@ -134,7 +134,7 @@ public class EmptyShape extends CollisionShape {
         createShape();
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Instantiate the configured shape in Bullet.
@@ -147,7 +147,7 @@ public class EmptyShape extends CollisionShape {
         setMargin(margin);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createShapeNative();
 }

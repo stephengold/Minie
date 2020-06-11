@@ -101,7 +101,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     private float restLength = 1f;
     /**
      * copy of roll-influence factor (0&rarr;no roll torque, 1&rarr;realistic
-     * behavior, default=1)
+     * behavior)
      */
     private float rollInfluence = 1f;
     /**
@@ -883,7 +883,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
         capsule.write(getSuspensionLength(), tagSuspensionLength, 0f);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     private void applyInfo() {
         if (vehicleId != 0L) {
@@ -902,7 +902,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
         }
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void applyInfo(long vehicleId, int wheelIndex,
             float suspensionStiffness,

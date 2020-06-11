@@ -128,7 +128,7 @@ public class MultiBodySpace extends PhysicsSpace {
 
     /**
      * Access the MultiBodySpace <b>running on this thread</b>. For parallel
-     * physics, this can be invoked from the OpenGL thread.
+     * physics, this may be invoked from the OpenGL thread.
      *
      * @return the pre-existing MultiBodySpace running on this thread
      */
@@ -271,7 +271,7 @@ public class MultiBodySpace extends PhysicsSpace {
         setSolverType(spaceId, ordinal);
     }
     // *************************************************************************
-    // private Java methods
+    // Java private methods
 
     /**
      * Add the specified MultiBody and all its colliders.
@@ -313,7 +313,7 @@ public class MultiBodySpace extends PhysicsSpace {
         removeMultiBody(spaceId, multiBodyId);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void addMultiBody(long spaceId, long multiBodyId);
 

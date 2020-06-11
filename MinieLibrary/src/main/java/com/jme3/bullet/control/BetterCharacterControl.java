@@ -111,8 +111,7 @@ public class BetterCharacterControl
      */
     private float mass;
     /**
-     * X-Z motion attenuation factor (0&rarr;no damping, 1=no external forces,
-     * default=0.9)
+     * X-Z motion attenuation factor (0&rarr;no damping, 1=no external forces)
      */
     private float physicsDamping = 0.9f;
     private float radius;

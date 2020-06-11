@@ -214,7 +214,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
         capsule.write(axis, tagAxis, null);
     }
     // *************************************************************************
-    // private methods
+    // native private methods
 
     /**
      * Create the configured btSoftBody::AJoint.
@@ -249,7 +249,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
         assert checkParameters();
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createJointSoftRigid(long softIdA,
             int clusterIndexA, long rigidIdB, float erp, float cfm, float split,

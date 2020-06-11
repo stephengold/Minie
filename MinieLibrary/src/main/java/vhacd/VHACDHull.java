@@ -87,7 +87,7 @@ public class VHACDHull {
         return result;
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void getIndices(long hullId, IntBuffer storeBuffer);
 

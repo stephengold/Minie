@@ -691,7 +691,7 @@ public class MultiBodyLink
         capsule.write(parentLink, tagParentLink, null);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void addConstraintForce(long linkId,
             Vector3f forceVector);

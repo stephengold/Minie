@@ -1803,7 +1803,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         writeJoints(capsule);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void addForce(long bodyId, Vector3f forceVector);
 

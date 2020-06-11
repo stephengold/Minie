@@ -101,7 +101,7 @@ public class ConeJoint extends Constraint {
      */
     private float twistSpan = 1e30f;
     /**
-     * copy of the angular-only flag (default=false)
+     * copy of the angular-only flag
      */
     private boolean angularOnly = false;
     // *************************************************************************
@@ -366,7 +366,7 @@ public class ConeJoint extends Constraint {
         capsule.write(twistSpan, tagTwistSpan, 1e30f);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Create the configured joint in Bullet.
@@ -404,7 +404,7 @@ public class ConeJoint extends Constraint {
         setAngularOnly(angularOnly);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createJoint(long bodyIdA, long bodyIdB,
             Vector3f pivotInA, Matrix3f rotInA, Vector3f pivotInB,

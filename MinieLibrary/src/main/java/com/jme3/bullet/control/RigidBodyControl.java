@@ -104,7 +104,7 @@ public class RigidBodyControl
     private boolean added = false;
     /**
      * true&rarr;enable shape scaling (to the extent that the CollisionShape
-     * supports it), false&rarr;disable shape scaling (default=false)
+     * supports it), false&rarr;disable shape scaling
      */
     private boolean applyScale = false;
     /**

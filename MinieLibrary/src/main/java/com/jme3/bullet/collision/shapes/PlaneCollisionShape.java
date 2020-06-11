@@ -149,6 +149,7 @@ public class PlaneCollisionShape extends CollisionShape {
     @Override
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
+
         InputCapsule capsule = importer.getCapsule(this);
         plane = (Plane) capsule.readSavable(tagCollisionPlane, new Plane());
         createShape();
@@ -164,11 +165,12 @@ public class PlaneCollisionShape extends CollisionShape {
     @Override
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
+
         OutputCapsule capsule = exporter.getCapsule(this);
         capsule.write(plane, tagCollisionPlane, new Plane());
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Instantiate the configured btStaticPlaneShape.
@@ -181,7 +183,7 @@ public class PlaneCollisionShape extends CollisionShape {
         setMargin(margin);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createShape(Vector3f normal, float constant);
 }

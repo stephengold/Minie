@@ -117,7 +117,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     private float density;
     /**
      * weighting of kinematic movement (&ge;0, &le;1, 0=purely dynamic, 1=purely
-     * kinematic, default=1, progresses from 0 to 1 during the blend interval)
+     * kinematic, progresses from 0 to 1 during the blend interval)
      */
     private float kinematicWeight = 1f;
     /**

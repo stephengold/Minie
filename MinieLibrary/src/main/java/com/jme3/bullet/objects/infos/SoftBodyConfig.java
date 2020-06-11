@@ -498,7 +498,7 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
         }
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void copyValues(long destId, long sourceId);
 

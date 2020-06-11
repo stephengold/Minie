@@ -253,7 +253,7 @@ class DebugMeshCallback {
     /**
      * Add a vertex to the list under construction.
      * <p>
-     * This method is invoked from native code.
+     * This method is invoked by native code.
      *
      * @param x the local X coordinate of the new vertex
      * @param y the local Y coordinate of the new vertex

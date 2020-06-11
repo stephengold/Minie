@@ -274,7 +274,7 @@ public class RigidBodyMotionState
         }
     }
     // *************************************************************************
-    // PhysicsNativeObject methods
+    // NativePhysicsObject methods
 
     /**
      * Finalize this motion state just before it is destroyed. Should be invoked

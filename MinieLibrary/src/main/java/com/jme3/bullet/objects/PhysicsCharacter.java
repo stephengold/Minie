@@ -624,7 +624,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
                 null);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Create the configured objects in Bullet.
@@ -652,7 +652,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         logger2.log(Level.FINE, "Creating {0}.", this);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createGhostObject();
 

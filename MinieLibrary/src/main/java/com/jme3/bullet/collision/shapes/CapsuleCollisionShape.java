@@ -291,7 +291,7 @@ public class CapsuleCollisionShape extends ConvexShape {
         capsule.write(axis, tagAxis, PhysicsSpace.AXIS_Y);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Instantiate the configured btCollisionShape.
@@ -310,7 +310,7 @@ public class CapsuleCollisionShape extends ConvexShape {
         margin = 0f;
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createShape(int axisIndex, float radius,
             float height);

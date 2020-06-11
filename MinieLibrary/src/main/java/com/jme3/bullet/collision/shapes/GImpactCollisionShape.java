@@ -200,7 +200,7 @@ public class GImpactCollisionShape extends CollisionShape {
         capsule.write(nativeMesh, tagNativeMesh, null);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Instantiate the configured btGImpactMeshShape.
@@ -214,7 +214,7 @@ public class GImpactCollisionShape extends CollisionShape {
         setMargin(margin);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createShape(long meshId);
 

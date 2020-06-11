@@ -459,7 +459,7 @@ public class HullCollisionShape extends ConvexShape {
         capsule.write(vertices, tagPoints, new float[0]);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Instantiate the configured shape in Bullet.
@@ -515,7 +515,7 @@ public class HullCollisionShape extends ConvexShape {
         return pointsArray;
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static int countHullVertices(long shapeId);
 

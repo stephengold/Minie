@@ -499,7 +499,7 @@ public class NativeSoftBodyUtil {
         store.getBuffer(VertexBuffer.Type.Position).setUpdateNeeded();
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void updateClusterMesh(long softBodyId,
             FloatBuffer outPositionBuffer, boolean meshInLocalSpace);

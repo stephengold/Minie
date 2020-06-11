@@ -38,9 +38,7 @@ package vhacd;
  */
 public interface VHACDProgressListener {
     /**
-     * Callback for progress updates.
-     * <p>
-     * This method is invoked from native code.
+     * Callback invoked (by native code) for progress updates.
      *
      * @param overallPercent an overall completion percentage (&ge;0, &le;100)
      * @param stagePercent a completion percentage for the current stage (&ge;0,

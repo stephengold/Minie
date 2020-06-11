@@ -268,10 +268,10 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         capsule.write(getPhysicsRotationMatrix(null), tagPhysicsRotation, null);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
-     * This method is invoked from native code.
+     * This method is invoked by native code.
      *
      * @param co the collision object to add (alias created)
      */
@@ -299,7 +299,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         attachCollisionShape(objectId, shape.nativeId());
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createGhostObject();
 

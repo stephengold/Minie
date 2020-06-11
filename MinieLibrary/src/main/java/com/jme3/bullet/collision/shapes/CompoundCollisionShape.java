@@ -537,7 +537,7 @@ public class CompoundCollisionShape extends CollisionShape {
         capsule.writeSavableArrayList(children, tagChildren, null);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Instantiate an empty btCompoundShape with the specified initial capacity.
@@ -567,7 +567,7 @@ public class CompoundCollisionShape extends CollisionShape {
         }
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void addChildShape(long compoundId, long childShapeId,
             Vector3f offset, Matrix3f rotation);

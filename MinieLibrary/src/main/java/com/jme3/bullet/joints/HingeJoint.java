@@ -521,7 +521,7 @@ public class HingeJoint extends Constraint {
         capsule.write(getMaxMotorImpulse(), tagMaxMotorImpulse, 0f);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Create the configured joint in Bullet.
@@ -576,7 +576,7 @@ public class HingeJoint extends Constraint {
         setNativeId(constraintId);
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static long createJoint(long objectIdA, long objectIdB,
             Vector3f pivotInA, Vector3f axisInA, Vector3f pivotInB,

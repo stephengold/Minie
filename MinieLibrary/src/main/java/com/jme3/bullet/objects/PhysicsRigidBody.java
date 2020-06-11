@@ -684,6 +684,7 @@ public class PhysicsRigidBody extends PhysicsBody {
             long shapeId = collisionShape.nativeId();
             setCollisionShape(objectId, shapeId);
             updateMassProps(objectId, shapeId, mass);
+
         } else {
             rebuildRigidBody();
         }
@@ -1221,7 +1222,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         writeJoints(capsule);
     }
     // *************************************************************************
-    // private methods
+    // Java private methods
 
     /**
      * Compare Bullet's mass to the local copy.
@@ -1268,7 +1269,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         }
     }
     // *************************************************************************
-    // native methods
+    // native private methods
 
     native private static void applyCentralForce(long objectId, Vector3f force);
 
