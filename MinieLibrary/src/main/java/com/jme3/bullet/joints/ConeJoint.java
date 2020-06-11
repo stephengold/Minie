@@ -396,6 +396,8 @@ public class ConeJoint extends Constraint {
             long bId = b.nativeId();
             constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB);
         }
+
+        assert getConstraintType(constraintId) == 5;
         setNativeId(constraintId);
 
         setLimit(swingSpan1, swingSpan2, twistSpan);

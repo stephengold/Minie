@@ -329,6 +329,7 @@ public class Point2PointJoint extends Constraint {
             constraintId = createJoint(aId, bId, pivotA, pivotB);
         }
 
+        assert getConstraintType(constraintId) == 3;
         setNativeId(constraintId);
     }
     // *************************************************************************

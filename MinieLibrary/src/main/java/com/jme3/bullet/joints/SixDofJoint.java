@@ -780,8 +780,11 @@ public class SixDofJoint extends Constraint {
             constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB,
                     useLinearReferenceFrameA);
         }
-        setNativeId(constraintId);
 
+        int constraintType = getConstraintType(constraintId);
+        assert constraintType == 6 || constraintType == 9;
+
+        setNativeId(constraintId);
         gatherMotors();
     }
 
