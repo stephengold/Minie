@@ -214,7 +214,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
         capsule.write(axis, tagAxis, null);
     }
     // *************************************************************************
-    // native private methods
+    // Java private methods
 
     /**
      * Create the configured btSoftBody::AJoint.
