@@ -26,6 +26,7 @@ Complete source code (in Java) is provided under
  + [Overview and design considerations](#overview)
  + [How to build Minie from source](#build)
  + [How to add Minie to an existing project](#add)
+ + [An introduction to rigid-body physics](#rigidbody)
  + [Choosing collision shapes](#shape)
  + [Debugging physics issues](#debugging)
  + [An introduction to New6Dof](#new6dof)
@@ -89,7 +90,8 @@ Summary of added features:
  + single-ended physics joints
  + ignore lists for collision objects
  + application-specific data for collision objects
- + access more parameters of rigid bodies, vehicles, characters, etcetera
+ + access more parameters of rigid bodies, vehicles, characters, joints,
+   collision shapes, contact/constraint solvers, etcetera
  + option to apply scaling with a `RigidBodyControl`
 
 Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
@@ -172,27 +174,29 @@ resides in the [Libbulletjme] repository.
 
 On desktop platforms, JMonkeyEngine automatically loads
 the appropriate native library during `JmeDesktopSystem.initialize()`
-when it detects Minie's `com.jme3.bullet.util.NativeMeshUtil` class.
-On Android platforms, JMonkeyEngine tries to load
-the appropriate native library
+if it detects Minie's `com.jme3.bullet.util.NativeMeshUtil` class.
+On Android platforms, the native library is loaded (if present)
 during static initialization of the `JmeAndroidSystem` class.
 
 Physics simulation is organized around collision objects
 (instances of `PhysicsCollisionObject`)
-that interact in the context of a physics space (`PhysicsSpace`).
+that interact in the context of a collision space (`CollisionSpace`).
 Collision objects can be soft (varying shape) or rigid (non-varying shape).
 Rigid objects can be mobile (moving) or static (non-moving).
-And moving objects can be dynamic (moved by forces and torques)
+And mobile objects can be dynamic (moved by forces, torques, and impulses)
 or kinematic (moved directly by external calculations).
 
-By themselves, collision objects are invisible
-and spatials have no effect on physics.
-To visualize an object, it must be associated
+In this document, collision spaces that simulate forces, torques, and impulses
+are referred to as "physics spaces".
+
+By themselves, collision objects are invisible,
+while scene-graph spatials have no effect on physics.
+To visualize a collision object, it must be associated
 with one or more scene-graph spatial(s).
 For debugging purposes, Minie can visualize
 collision objects by auto-generating spatials for them.
 For full-custom visualization, use a `PhysicsControl` to associate
-a collision object with a `Spatial`.
+one or more collision objects with a `Spatial`.
 
 A collision object's location and orientation are described
 in physics-space coordinates.
@@ -202,7 +206,7 @@ However, there may be good reasons
 to scale the physics space relative to the scene
 and use physics-space units (psu) that are distinct from world units (wu).
 
-For each physics space, simulation occurs in discrete time steps,
+In each physics space, simulation occurs in discrete time steps,
 which need not correspond to rendered frames.
 Each time step consists of 4 phases:
 
@@ -248,8 +252,8 @@ it's vital to keep the physics simple:
  + Use very simple collision shapes (such as boxes, capsules, and spheres)
    wherever possible.
  + Minimize the number of collision objects by
-   merging static objects together and
-   simulating only the most relevant moving objects.
+   merging static bodies together and
+   simulating only the most relevant moving bodies.
  + Minimize the number of nodes in each soft body.
 
 ### Scaling the world
@@ -323,7 +327,7 @@ You can install the Maven artifacts to your local cache:
  + using Bash:  `./gradlew :MinieLibrary:publishToMavenLocal`
  + using Windows Command Prompt:  `.\gradlew :MinieLibrary:publishToMavenLocal`
 
-### Customizing Minie
+### Customizing Minie builds
 
 By default, Minie's class JAR includes native libraries
 for all the platforms Minie supports.
@@ -525,8 +529,8 @@ Or if you need multibodies, instantiate a `MultiBodyAppState`:
         stateManager.attach(bas);
         MultiBodySpace physicsSpace = bas.getMultiBodySpace();
 
-(Minie doesn't support combining soft bodies and multibodies in
-a single `PhysicsSpace` yet.)
+(Minie doesn't yet support combining soft bodies and multibodies in
+a single `PhysicsSpace`.)
 
 By default, the physics simulation executes on the render thread.
 To execute it on a dedicated thread, use:
@@ -603,33 +607,20 @@ Note that `setAccuracy()` has no effect when `maxSubSteps==0`,
 while `setMaxTimeStep()` has no effect when `maxSubSteps>0`.
 
 The contact solver performs a fixed number of iterations per time step,
-by default, 10.  For higher-quality simualtion, increase this number.  For
-instance, to use 20 iterations:
+by default, 10.
+For higher-quality (but slower) simulation, increase this number.
+For instance, to use 20 iterations:
 
-        space.setSolverNumIterations(20);
+        space.getSolverInfo().setNumIterations(20);
 
-Each `PhysicsBody` contains an acceleration vector
-that determines the effect of gravity on that body.
-In addition, each `PhysicsSpace` has a gravity vector,
-which is applied to bodies as they are added to the space.
+Each `PhysicsSpace` has a gravity vector,
+which is typically applied to bodies as they get added to the space.
 To simulate a zero-gravity environment,
 set the gravity of the space to zero:
 
         space.setGravity(Vector3f.ZERO);
 
-To simulate a non-uniform gravity field,
-update the gravity of each body before each physics tick:
-
-        public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-            Collection<PhysicsCollisionObject> pcos = space.getPcoList();
-            for (PhysicsCollisionObject pco : pcos) {
-                if (pco instanceof PhysicsBody) {
-                    updateGravity((PhysicsBody) pco);
-                }
-            }
-        }
-
-### Other global configuration
+### Global configuration
 
 By default, the native library prints a startup message to `System.out`.
 Once the library is loaded (but not started) you can disable this message:
@@ -681,7 +672,130 @@ or indirectly, by adding physics controls to scene-graph spatials:
 Either way, the object(s) won't be simulated unless added to a `PhysicsSpace`.
 Also, note that collision shapes can be shared between objects.
 
-To instantiate a static body, specify mass=0.
+[Jump to table of contents](#toc)
+
+<a name="rigidbody"/>
+
+## An introduction to rigid-body physics
+
+A rigid body (instance of `PhysicsRigidBody`) is a type of collision object
+that exhibits some familiar features of real-world objects:
+
+ + rigidity (a fixed shape) and
+ + inertia (resistance to changes in its motion).
+
+When creating a rigid body directly, one can specify both its mass
+and collision shape. Together, these properties determine its inertia:
+
+        CollisionShape ballShape = new SphereCollisionShape(1f);
+        float ballMass = 2f;
+        PhysicsRigidBody ball = new PhysicsRigidBody(ballShape, ballMass);
+        Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));
+
+By default, rigid bodies exhibit 3 additional features of real-world objects:
+
+ + They are dynamic
+   (mobile, with motion determined by forces, torques, and impulses.)
+ + They are subject to gravity:
+   a continual downward force proportional to their mass.
+ + They exhibit contact response:
+   a tendency to avoid intersecting with other bodies.
+
+When physics simulation detects a collision between
+2 responsive bodies, it applies powerful
+"contact forces" in an attempt to separate them.
+
+For a simple example demonstrating all 5 features of rigid bodies, see
+[HelloRigidBody.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java).
+
+### Configuring rigid bodies
+
+To create a static (non-moving) rigid body, specify `mass=0` in the constructor.
+
+For a simple example combining static and dynamic rigid bodies, see
+[HelloStaticBody.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloStaticBody.java).
+
+#### Position
+
+Every rigid body occupies a position in space, described by 2 properties:
+
+ + the location of the body's center and
+ + the rotation (orientation) of its local axes.
+
+Both these properties can be independently configured:
+
+        body.setPhysicsLocation(new Vector3f(5f, 1f, 0f));
+        body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));
+
+The center of a dynamic body should be its
+[center of mass](https://en.wikipedia.org/wiki/Center_of_mass),
+the point around which it tends to spin,
+and its local axes should be its
+[principal axes](https://en.wikipedia.org/wiki/Principal_axis_(mechanics)).
+A static or kinematic body allows more flexibility
+in the choice of center and axes.
+
+Once a dynamic or static body has been initialized, of course,
+it shouldn't be repositioned in this manner.
+A kinematic (externally driven) body, on the other hand,
+may be repositioned for every timestep.
+
+#### Kinematic flag
+
+To convert a dynamic rigid body into a kinematic one,
+use `setKinematic(true)`.
+
+For a simple example combining kinematic and dynamic rigid bodies, see
+[HelloKinematics.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloKinematics.java).
+
+To convert a static rigid body into a kinematic one, set its mass
+to a positive value **before** setting its kinematic flag:
+
+        body.setMass(1f);
+        body.setKinematic(true);
+
+#### Contact response
+
+To disable the contact response of a rigid body,
+use `setContactResponse(false)`.
+
+For a simple demonstration of this feature, see
+[HelloContactResponse.java](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloContactResponse.java).
+
+The ball falls until it collides with the blue (static) box.
+Press the spacebar to disable the ball's contact response.
+Once this happens, the box no longer exerts any contact force on the ball.
+Gravity takes over, and the ball falls through the box.
+
+#### Gravity
+
+Every body includes a gravity vector,
+which (if the body is dynamic) applies a continual downward acceleration.
+To configure a body's gravity, use `setGravity(accelerationVector)`.
+If following the Y-up convention, the X and Z components of the
+vector should be zero, and its Y component should be **negative**.
+
+When a body is added to a `PhysicsSpace`,
+the gravity of the space typically gets applied to it,
+replacing any previously configured gravity.
+To protect a rigid body from gravity changes caused by the space
+to which it's added, use `setProtectGravity(true)`.
+
+To simulate a non-uniform gravitational field,
+update the gravity of each body prior to each physics tick.
+
+        public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+            Collection<PhysicsCollisionObject> pcos = space.getPcoList();
+            for (PhysicsCollisionObject pco : pcos) {
+                if (pco instanceof PhysicsBody) {
+                    updateGravity((PhysicsBody) pco);
+                }
+            }
+        }
+
+TODO non-u example, RigidBodyControl, restitution, and damping
+
+[Jump to table of contents](#toc)
 
 <a name="shape"/>
 
@@ -810,7 +924,7 @@ if they don't match the model's shape exactly.
 In particular, `CapsuleCollisionShape` is often used with humanoid models.
 
     if (the object doesn't move and isn't involved in collisions) {
-        use an EmptyShape
+        use an EmptyShape or don't add the object to the space
     } else if (the object doesn't move and its shape can be approximated by an infinite plane) {
         use a PlaneCollisionShape
     } else if (the object doesn't move and its shape can be approximated by point, line segment, or triangle) {
@@ -912,7 +1026,7 @@ To override the low-resolution default on a per-object basis:
 
 Debug visualization caches the mesh
 for every non-compound collision shape it renders.
-To clear this cache:
+To clear th debug-mesh cache:
 
         DebugShapeFactory.clearCache();
 
@@ -927,16 +1041,19 @@ For a very simple example, see
 
 #### Customizing what is rendered
 
-By default, debug visualization renders the shape of every
-`PhysicsCollisionObject`, but not its bounding box nor its swept sphere.
+By default, debug visualization renders the **shape** of every
+`PhysicsCollisionObject`, but not its bounding box, gravity vector,
+swept sphere, or velocity vector.
 To override these defaults, set filters to identify for which collision objects
 each feature should be rendered:
 
         BulletDebugAppState.DebugAppStateFilter all = new FilterAll(true);
         BulletDebugAppState.DebugAppStateFilter none = new FilterAll(false);
-        bas.setDebugBoundingBoxFilter(all); // all bounding boxes
-        bas.setDebugFilter(none);           // no collision shapes
-        bas.setDebugSweptSphereFilter(all); // all swept spheres
+        bas.setDebugBoundingBoxFilter(all);     // all bounding boxes
+        bas.setDebugGravityVectorFilter(none);  // no gravity vectors
+        bas.setDebugFilter(none);               // no collision shapes
+        bas.setDebugSweptSphereFilter(all);     // all swept spheres
+        bas.setDebugVelocityVectorFilter(none); // no velocity vectors
 
 By default, debug visualization doesn't render the centers nor the local axes of
 collision objects.
@@ -945,7 +1062,7 @@ To override this default, increase the axis length to a positive value:
         bas.setAxisLength(1f);
 
 If local axes are rendered, then by default the arrows are one pixel wide.
-You can specify wider lines:
+If your graphics adapter supports it, you can specify wider lines:
 
         bas.setDebugAxisLineWidth(3f); // axis arrows 3 pixels wide
 
@@ -998,7 +1115,7 @@ You can override the no-normals default on a per-object basis:
 
         collisionObject1.setDebugMeshNormals(DebugMeshNormals.Facet);
         collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth);
-        collisionObject2.setDebugMeshNormals(DebugMeshNormals.Sphere);
+        collisionObject3.setDebugMeshNormals(DebugMeshNormals.Sphere);
 
 Generating index buffers for meshes usually reduces
 the number of vertices that must be rendered.
@@ -1008,10 +1125,10 @@ that have more than 6,000 vertices.
 
 You can tune this threshold:
 
-        DebugShapeFactorysetIndexBuffers(1000);
+        DebugShapeFactorysetIndexBuffers(900);
 
 The threshold has no effect on debug meshes previously generated.
-To make this setting retroactive, clear the cache.
+To make this setting retroactive, clear the debug-mesh cache.
 
 #### Callbacks for further customization
 
@@ -1341,7 +1458,7 @@ Like rigid bodies, soft bodies can be constructed directly (using `new`)
 or they can be created using physics controls (such as `SoftBodyControl`)
 which tie them to particular spatials in the scene graph.
 However, unlike a `RigidBodyControl`, a `SoftBodyControl` can only be
-dynamic (spatial follows body) never kinematic (body follows spatial).
+dynamic (`Spatial` follows body) never kinematic (body follows `Spatial`).
 
 ### Constructing a soft body
 
