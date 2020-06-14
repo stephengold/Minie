@@ -1,0 +1,336 @@
+= How to add Minie to an existing project
+
+Adding Minie to an existing JME3 project is a 6-step process:
+
+. Remove any existing physics libraries which might interfere with Minie.
+. Add libraries to the classpath.
+. Create, configure, and attach a `BulletAppState`,
+  if the application doesn't already do so.
+. Configure the `PhysicsSpace`, if the application doesn't already do so.
+. Create physics controls, collision objects,
+  and joints and add them to the `PhysicsSpace`,
+  if the application doesn't already do so.
+. Test and tune as necessary.
+
+== Remove all other physics libraries
+
+Minie replaces (and is therefore incompatible with) the following
+jMonkeyEngine libraries:
+
+* `jme3-bullet`
+* `jme3-bullet-native`
+* `jme3-bullet-native-android`, and
+* `jme3-jbullet`.
+
+Before adding Minie, you should remove these libraries from your project so
+they won't interfere with Minie.
+
+=== Gradle-built projects
+
+Look for artifacts with these names in the `dependencies` section
+of your project's `gradle.build` file and remove them.
+
+=== Ant-built projects
+
+Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
+
+. Right-click on the project (not its assets) in the "Projects" window.
+. Select "Properties to open the "Project Properties" dialog.
+. Under "Categories:" select "Libraries".
+. Click on the "Compile" tab.
+. Look for libraries with these names in the "Compile-time Libraries"
+  listbox.  Select them and click on the "Remove" button.
+. Click on the "OK" button to exit the "Project Properties" dialog.
+
+== Add libraries to the classpath
+
+Minie comes pre-built as a single library that includes both Java classes
+and native libraries.
+The Minie library depends on:
+
+* the standard jme3-terrain library and
+* the Heart library, which in turn depends on:
+** the standard jme3-core library.
+
+=== Gradle-built projects
+
+For projects built using Maven or Gradle, it is sufficient to specify the
+dependency on the Minie Library.  The build tools should automatically
+resolve the remaining dependencies automatically.
+
+[source,groovy]
+----
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        compile 'com.github.stephengold:Minie:1.7.0'
+    }
+----
+
+=== Ant-built projects
+
+Download the Minie and Heart libraries from GitHub:
+
+* https://github.com/stephengold/Minie/releases/tag/1.7.0
+* https://github.com/stephengold/Heart/releases/tag/5.5.0
+
+You'll want both class jars
+and probably the `-sources` and `-javadoc` jars as well.
+
+Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
+
+. Right-click on the project (not its assets) in the "Projects" window.
+. Select "Properties to open the "Project Properties" dialog.
+. Under "Categories:" select "Libraries".
+. Click on the "Compile" tab.
+. Add the `Heart` class jar:
+.. Click on the "Add JAR/Folder" button.
+.. Navigate to the download folder.
+.. Select the "Heart-5.5.0.jar" file.
+.. Click on the "Open" button.
+. (optional) Add jars for javadoc and sources:
+.. Click on the "Edit" button.
+.. Click on the "Browse..." button to the right of "Javadoc:"
+.. Select the "Heart-5.5.0-javadoc.jar" file.
+.. Click on the "Open" button.
+.. Click on the "Browse..." button to the right of "Sources:"
+.. Select the "Heart-5.5.0-sources.jar" file.
+.. Click on the "Open" button again.
+.. Click on the "OK" button to close the "Edit Jar Reference" dialog.
+. Similarly, add the `Minie` jar(s).
+. Click on the "OK" button to exit the "Project Properties" dialog.
+
+== Create, configure, and attach a BulletAppState
+
+Strictly speaking, Minie doesn't require a `BulletAppState`, but
+it does provide a convenient interface for configuring, accessing, updating,
+and debugging a `PhysicsSpace`.
+
+If your application already has a `BulletAppState`, the code will probably
+work fine with Minie.
+If not, here is a snippet to guide you:
+
+[source,java]
+----
+    SoftPhysicsAppState appState = new SoftPhysicsAppState();
+    stateManager.attach(appState);
+    PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();
+----
+
+If you don't need soft bodies, you can instantiate a `BulletAppState` directly:
+
+[source,java]
+----
+    BulletAppState appState = new BulletAppState();
+    stateManager.attach(appState);
+    PhysicsSpace physicsSpace = appState.getPhysicsSpace();
+----
+
+Or if you need multibodies, instantiate a `MultiBodyAppState` instead:
+
+[source,java]
+----
+    MultiBodyAppState appState = new MultiBodyAppState();
+    stateManager.attach(appState);
+    MultiBodySpace physicsSpace = appState.getMultiBodySpace();
+----
+
+(Minie doesn't yet support combining soft bodies and multibodies in
+a single `PhysicsSpace`.)
+
+By default, the physics simulation executes on the render thread.
+To execute it on a dedicated thread, use:
+
+[source,java]
+----
+    bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+----
+
+By default, simulation advances based on the time per frame (tpf)
+reported by the renderer.
+To advance the physics simulation at a different rate, use:
+
+[source,java]
+----
+    bulletAppState.setSpeed(0.5f); // simulate physics at half speed
+----
+
+By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
+collision detection.
+To specify a different data structure, use `setBroadphaseType()`:
+
+[source,java]
+----
+    SoftPhysicsAppState bas = new SoftPhysicsAppState();
+    bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+    bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
+    bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
+    stateManager.attach(bas);
+    PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();
+----
+
+By default, a Sequential Impulse (SI) solver is
+used to resolve contacts and constraints.
+To specify a different type of solver, invoke `setSolverType()`
+before attaching the AppState:
+
+[source,java]
+----
+    bulletAppState.setSolverType(SolverType.Dantzig);
+----
+
+Caveats:
+
+ 1. For soft-body simulations, SI is the only supported solver type.
+ 2. The NNCG solver doesn't support multibodies.
+
+By default, debug visualization is disabled. To enable it, use:
+
+[source,java]
+----
+    bulletAppState.setDebugEnabled(true);
+----
+
+Other `BulletAppState` configurables, used to customize debug visualization,
+are described in the [Debug visualization tips and tricks](#visualization)
+section of this document.
+
+== Configure the PhysicsSpace
+
+Attaching a `BulletAppState` instantiates a `PhysicsSpace` that
+you can access immediately:
+
+[source,java]
+----
+    PhysicsSpace space = bulletAppState.getPhysicsSpace();
+----
+
+`SoftPhysicsAppState` instantiates a `PhysicsSoftSpace`, which is a subclass:
+
+[source,java]
+----
+    PhysicsSoftSpace space = bulletAppState.getPhysicsSoftSpace();
+----
+
+and `MultiBodyAppState` instantiates a `MultiBodySpace`:
+
+[source,java]
+----
+    MultiBodySpace space = bulletAppState.getMultiBodySpace();
+----
+
+Physics simulation can run with a fixed time step or a variable time step.
+The default configuration is a fixed time step of 1/60th of a second
+with up to 4 time steps per frame.
+
+To configure a variable time step with a maximum of 0.25 seconds:
+
+[source,java]
+----
+    space.setMaxSubSteps(0);
+    space.setMaxTimeStep(0.25f);
+----
+
+To configure a fixed time step of 0.01 second with up to 6 time steps per frame:
+
+[source,java]
+----
+    space.setAccuracy(0.01f);
+    space.setMaxSubSteps(6);
+----
+
+Note that `setAccuracy()` has no effect when `maxSubSteps==0`,
+while `setMaxTimeStep()` has no effect when `maxSubSteps>0`.
+
+The contact solver performs a fixed number of iterations per time step,
+by default, 10.
+For higher-quality (but slower) simulation, increase this number.
+For instance, to use 20 iterations:
+
+[source,java]
+----
+    space.getSolverInfo().setNumIterations(20);
+----
+
+Each `PhysicsSpace` has a gravity vector,
+which is typically applied to bodies as they get added to the space.
+To simulate a zero-gravity environment,
+set the gravity of the space to zero:
+
+[source,java]
+----
+    space.setGravity(Vector3f.ZERO);
+----
+
+== Create physics controls, collision objects, and joints
+
+You can create collision objects directly, using the constructors:
+
+[source,java]
+----
+    float radius = 2f;
+    CollisionShape sphere2 = new SphereCollisionShape(radius);
+    PhysicsGhostObject ghost1 = new PhysicsGhostObject(sphere2);
+    float mass = 1f;
+    PhysicsRigidBody body1 = new PhysicsRigidBody(sphere2, mass);
+----
+
+or indirectly, by adding physics controls to scene-graph spatials:
+
+[source,java]
+----
+    float radius = 2f;
+    CollisionShape sphere2 = new SphereCollisionShape(radius);
+
+    Node ghostNode1 = new Node("ghostNode1");
+    GhostControl gc1 = new GhostControl(sphere2);
+    ghostNode1.addControl(gc1);
+
+    Node rigidNode1 = new Node("rigidNode1");
+    float mass = 1f;
+    RigidBodyControl rbc1 = new RigidBodyControl(sphere2, mass);
+    rigidNode1.addControl(rbc1);
+----
+
+Either way, the object(s) won't be simulated unless added to a `PhysicsSpace`.
+Also, note that collision shapes can be shared between objects.
+
+=== Global configuration
+
+TODO move this material to later pages
+
+By default, the native library prints a startup message to `System.out`.
+Once the library is loaded (but not started) you can disable this message:
+
+[source,java]
+----
+    NativeLibrary.setStartupMessageEnabled(false);
+----
+
+Once the native library is loaded,
+you can test whether it uses double-precision arithmetic:
+
+[source,java]
+----
+    boolean doublePrecision = NativeLibrary.isDoublePrecision();
+----
+
+You can also test whether it was built for debugging
+(with assertions enabled, symbols not stripped,
+and debug information generated):
+
+[source,java]
+----
+    boolean debug = NativeLibrary.isDebug();
+----
+
+The default collision margin for new shapes is 0.04 physics-space units.
+To configure a default margin of 0.1 psu:
+
+[source,java]
+----
+    CollisionShape.setDefaultMargin(0.1f);
+----
+
+Note that the Bullet Manual advises against changing the default margin.

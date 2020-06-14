@@ -1,0 +1,73 @@
+= An introduction to `DynamicAnimControl`
+
+The centerpiece of Minie is `DynamicAnimControl`, a kind of `PhysicsControl`.
+Adding a `DynamicAnimControl` to an animated model
+provides ragdoll physics and inverse kinematics.
+`DynamicAnimControl` can also be used to simulate ropes.
+
+Configuration of `DynamicAnimControl` mostly takes place
+before the `Control` is added to a model `Spatial`.
+Adding the `Control` to a `Spatial` automatically creates the ragdoll,
+including rigid bodies and joints.
+No ragdoll exists before the `Control` is added to a `Spatial`,
+and removing a `Control` from its controlled `Spatial` destroys the ragdoll.
+
+The controlled `Spatial`
+must include the model's `SkinningControl` or `SkeletonControl`.
+Usually this is the model's root `Spatial`, but not always.
+If unsure about the model's structure, use `MySpatial.listAnimationSpatials()`.
+For a very simple example, see
+https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloDac.java[HelloDac.java].
+
+A model's ragdoll is composed of rigid bodies joined by physics joints.
+Within the `Control`, each `PhysicsRigidBody` is represented by
+a `PhysicsLink`, and the links are organized in a tree hierarchy.
+
+`PhysicsLink` has 3 subclasses:
+
+* `BoneLink`: manages one or more bones in the model’s `Skeleton`.
+  Each `BoneLink` has a parent link, to which it is jointed.
+  Its parent may be another `BoneLink` or it may be a `TorsoLink`.
+* `TorsoLink`: is always the root of a link hierarchy,
+  so it has no parent link.
+  It manages all root bones in the model's `Skeleton`.  It also manages any
+  `Skeleton` bones that aren't managed by a `BoneLink`.
+* `AttachmentLink`: manages a non-animated model that's
+  attached to the main model by means of an attachment `Node`.
+  An `AttachmentLink` cannot be the parent of a link.
+
+The default constructor for `DynamicAnimControl` is configured to create a
+ragdoll with no bone links, only a `TorsoLink`.
+Before adding the `Control` to a `Spatial`, specify which bones
+should be linked, by invoking the `link()` method for each of those bones.
+The order in which bones are linked does not matter.
+
+I recommend starting with a default `LinkConfig` and a generous range of motion
+for each linked bone:
+
+[source,java]
+----
+    dynamicAnimControl.link(boneName, new LinkConfig(), new RangeOfMotion(1f, 1f, 1f));
+----
+
+For a simple example, see
+https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloBoneLink.java[HelloBoneLink].
+
+When you run `HelloBoneLink`, press the space bar to put the control into
+dynamic mode.
+You'll see the linked bones go limp while the remainder of the Ninja model
+stays rigid.
+
+As an alternative to hand-coding the control configuration,
+you can generate configuration code for a specific model using
+https://github.com/stephengold/Minie/tree/master/DacWizard[the DacWizard application],
+which samples animation tracks to estimate
+the range of motion for each linked bone.
+
+You probably don't want to link every `Bone` in the model's `Skeleton`.
+For instance, if the model has articulated fingers, you probably want to link
+the hand bones but not the individual finger bones.
+Unlinked bones will be managed by the nearest linked ancestor `Bone`.
+The `TorsoLink` will manage any bones for which no ancestor `Bone` is linked.
+If you link too many bones, the ragdoll may become inflexible or jittery
+due to collisions between rigid bodies that don't share a `PhysicsJoint`.

@@ -1,0 +1,4 @@
+# component/version descriptor for the "tutorials" sources directory
+name: minie
+title: The Minie project
+version: master

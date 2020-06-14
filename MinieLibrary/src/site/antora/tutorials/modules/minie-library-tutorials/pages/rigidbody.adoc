@@ -1,0 +1,132 @@
+= An introduction to rigid-body physics
+
+A rigid body (instance of `PhysicsRigidBody`) is a type of collision object
+that exhibits some familiar features of real-world objects, including:
+
+* rigidity (a fixed shape) and
+* inertia (resistance to changes in its motion).
+
+When creating a rigid body directly, one can specify both its mass
+and collision shape. Together, these properties determine its inertia:
+
+[source,java]
+----
+    CollisionShape ballShape = new SphereCollisionShape(1f);
+    float ballMass = 2f;
+    PhysicsRigidBody ball = new PhysicsRigidBody(ballShape, ballMass);
+    Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));
+----
+
+By default, rigid bodies also exhibit 3 more features of real-world objects:
+
+* They are dynamic
+  (mobile, with motion determined by forces, torques, and impulses.)
+* They are subject to gravity:
+  a continual downward force proportional to their mass.
+* They exhibit contact response:
+  a tendency to avoid intersecting with other bodies.
+
+When physics simulation detects a collision between
+2 responsive bodies, it applies powerful
+"contact forces" in an attempt to separate them.
+
+For a simple example demonstrating all 5 features of rigid bodies, see
+https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java[HellowRigidBody.java].
+
+== Configuring rigid bodies
+
+To create a static (non-moving) rigid body, specify `mass=0` in the constructor.
+
+For a simple example combining static and dynamic rigid bodies, see
+https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloStaticBody.java[HelloStaticBody.java].
+
+=== Position
+
+Every rigid body occupies a position in space, described by 2 properties:
+
+* the location of the body's center and
+* the rotation (orientation) of its local axes.
+
+Both these properties can be independently configured:
+
+[source,java]
+----
+    body.setPhysicsLocation(new Vector3f(5f, 1f, 0f));
+    body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));
+----
+
+Once a dynamic or static body has been initialized, of course,
+it shouldn't be repositioned in this manner.
+A kinematic (externally driven) body, on the other hand,
+may be repositioned for every timestep.
+
+The center of a dynamic body should be located at its
+https://en.wikipedia.org/wiki/Center_of_mass[center of mass],
+the point around which it tends to spin,
+and its local axes should correspond to its
+https://en.wikipedia.org/wiki/Principal_axis_(mechanics)[pincipal axes].
+
+A static or kinematic body allows more flexibility
+in the choice of its center and local axes.
+
+=== Kinematic flag
+
+To convert a dynamic rigid body into a kinematic one,
+use `setKinematic(true)`.
+
+For a simple example combining kinematic and dynamic rigid bodies, see
+https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloKinematics.java[HelloKinematics.java].
+
+To convert a static rigid body into a kinematic one, set its mass
+to a positive value *before* setting its kinematic flag:
+
+[source,java]
+----
+    body.setMass(1f);
+    body.setKinematic(true);
+----
+
+=== Contact response
+
+To disable the contact response of a rigid body,
+use `setContactResponse(false)`.
+
+For a simple demonstration of this feature, see
+https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloContactResponse.java[HelloContactResponse.java].
+
+The ball falls until it collides with the blue (static) box,
+which provides a contact force to counteract gravity.
+Press the spacebar to disable the ball's contact response.
+Once this happens, the box no longer exerts any force on the ball.
+Gravity takes over, and the ball falls through the box.
+
+=== Gravity
+
+Every body includes a gravity vector,
+which (if the body is dynamic) applies a continual downward acceleration.
+To configure a body's gravity, use `setGravity(accelerationVector)`.
+If following the Y-up convention, the X and Z components of the
+vector should be zero, and its Y component should be *negative*.
+
+When a body is added to a `PhysicsSpace`,
+the gravity of the space typically gets applied to it,
+replacing any previously configured gravity.
+To protect a rigid body from gravity changes caused by the space
+to which it's added, use `setProtectGravity(true)`.
+
+To simulate a non-uniform gravitational field,
+update the gravity of each body prior to each physics tick.
+
+[source,java]
+----
+        public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+            Collection<PhysicsCollisionObject> pcos = space.getPcoList();
+            for (PhysicsCollisionObject pco : pcos) {
+                if (pco instanceof PhysicsBody) {
+                    updateGravity((PhysicsBody) pco);
+                }
+            }
+        }
+----
+
+TODO non-u example, RigidBodyControl, restitution, damping, friction

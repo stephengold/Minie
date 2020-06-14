@@ -1,0 +1,229 @@
+= Choosing collision shapes
+
+Minie provides 16 `CollisionShape` subclasses:
+
+[cols="2*"]
+|===
+|1. `Box2dShape`
+|(no image yet)
+
+|2. `BoxCollisionShape`
+|image:https://i.imgur.com/My74h2Q.png[height=160]
+
+|3. `CapsuleCollisionShape`
+|image:https://i.imgur.com/R9NMEwc.png[height=160]
+
+|4. `CompoundCollisionShape` constructed explicitly
+|image:https://i.imgur.com/gL6rgAA.png[height=160]
+
+|5. `ConeCollisionShape`
+|image:https://i.imgur.com/jZFVxQd.png[height=160]
+
+|6. `Convex2dShape`
+|(no image yet)
+
+|7. `CylinderCollisionShape`
+|image:https://i.imgur.com/ey249X8.png[height=160]
+
+|8. `EmptyShape`
+|(no image yet)
+
+|9. `GImpactShape`
+|image:https://i.imgur.com/TOLRsig.png[height=160]
+
+|10. `HeightfieldCollisionShape`
+|image:https://i.imgur.com/JwtpqOM.png[height=160]
+
+|11. `HullCollisionShape`
+|image:https://i.imgur.com/Rf61rcw.png[height=160]
+
+|12. `MeshCollisionShape`
+|image:https://i.imgur.com/glB3Ujk.png[height=160]
+
+|13. `MultiSphere`
+|image:https://i.imgur.com/nTZEc8C.png[height=160]
+
+|14. `PlaneCollisionShape`
+|(no image yet)
+
+|15. `SimplexCollisionShape`
+|image:https://i.imgur.com/l1fYSfc.png[height=160]
+
+|16. `SphereCollisionShape`
+|image:https://i.imgur.com/OPYrxRe.png[height=160]
+|===
+
+The general rule is: "Use the simplest shape that yields the desired behavior."
+
+== Limitations of particular subclasses
+
+=== Suitability for dynamic rigid bodies
+
+Not all collision shapes are suitable for dynamic rigid bodies.
+In particular, the following shapes are suitable ONLY
+for kinematic or static collision objects:
+
+* `Box2dShape`
+* `Convex2dShape`
+* `EmptyShape`
+* `HeightfieldCollisionShape`
+* `MeshCollisionShape`
+* `PlaneCollisionShape`
+* `SimplexCollisionShape` with 1-3 vertices
+
+(Simplex shapes with 4 vertices are fine for dynamic rigid bodies.)
+
+=== Precision and margins
+
+Most collision shapes incorporate a margin.
+According to the Bullet Manual, the purpose of margin is
+"to improve performance and reliability of the collision detection."
+
+While methods are provided to adjust margins, doing so is not recommended.
+
+For certain shapes, margin increases the effective size of the collision object
+and distorts its effective shape:
+
+* `ConeCollisionShape`
+* `Convex2dShape`
+* `HullCollisionShape`
+* `SimplexCollisionShape`
+
+Margin also distorts a `CylinderCollisionShape`,
+but its effect on size is complicated.
+
+Distortion due to margin is most noticeable for small shapes.
+
+When using imprecise shapes, you can compensate somewhat for margin
+by shrinking the shape's dimensions
+(for a `ConeCollisionShape` or `CylinderCollisionShape`)
+or moving its defining vertices inward
+(for a `SimplexCollisionShape` or `HullCollisionShape`).
+
+Another possible workaround is to scale the physics space so that
+the effects of margin become less obvious.
+
+If these workarounds are impractical,
+use a "precise" shape, one that isn't distorted by margin:
+
+* `Box2dShape`
+* `BoxCollisionShape`
+* `CapsuleCollisionShape`
+* `GImpactShape`
+* `HeightfieldCollisionShape`
+* `MeshCollisionShape`
+* `MultiSphere`
+* `PlaneCollisionShape`
+* `SphereCollisionShape`
+
+=== Scalability
+
+Some applications require collision shapes that are scalable
+(can be dynamically shrunk or enlarged).
+However, not all collision shapes can scale arbitrarily.
+In particular,
+
+* `SimplexCollisionShape` doesn't support scaling at all;
+  the only allowed scaling is (1,1,1).
+* `CapsuleCollisionShape`, `ConeCollisionShape`, and `SphereCollisionShape`
+  support only uniform scaling, where all axes have the same scale factor.
+  For instance, (0.2,0.2,0.2) or (9,9,9).
+* `CylinderCollisionShape` allows the height and base to scale independently,
+  but the scale factors of both base axes must be equal.
+  In other words, the cross section must remain circular.
+  So (9,9,9) would be allowed for any cylinder,
+  but (9,1,1) would be allowed only for cylinders
+  where the local X axis is the height axis.
+
+You can test at runtime whether a particular scaling
+is applicable to particular shape:
+
+[source,java]
+----
+    if (shape.canScale(newScale)) {
+        shape.setScale(newScale);
+    }
+----
+
+== An algorithm for choosing a shape
+
+Because jMonkeyEngine models are composed of triangular meshes,
+beginners are often tempted to use mesh-based shapes
+(such as `GImpactCollisionShape`) for everything.
+However, since mesh-based collision detection is CPU-intensive, primitive
+convex shapes (such as boxes and spheres) are usually a better choice, even
+if they don't match the model's shape exactly.
+In particular, `CapsuleCollisionShape` is often used with humanoid models.
+
+[source]
+----
+    if (the object doesn't move and isn't involved in collisions) {
+        use an EmptyShape or don't add the object to the space
+    } else if (the object doesn't move and its shape can be approximated by an infinite plane) {
+        use a PlaneCollisionShape
+    } else if (the object doesn't move and its shape can be approximated by point, line segment, or triangle) {
+        use a SimplexCollisionShape
+    } else if (the object doesn't move and its shape can be approximated by rectangle) {
+        use a Box2dShape
+    } else if (the object doesn't move and its shape can be approximated by convex polygon) {
+        use a Convex2dShape
+    } else if (its shape can be approximated by a tetrahedron) {
+        use a SimplexCollisionShape
+    } else if (its shape can be approximated by a centered sphere) {
+        use a SphereCollisionShape
+    } else if (its shape can be approximated by a centered rectangular solid) {
+        use a BoxCollisionShape
+    } else if (its shape can be approximated by a centered capsule) {
+        use a CapsuleCollisionShape
+    } else if (its shape can be approximated by a centered cylinder) {
+        use a CylinderCollisionShape
+    } else if (its shape can be approximated by a centered cone) {
+        use a ConeCollisionShape
+    } else if (its shape can be approximated by an ellipsoid
+                or an eccentric sphere
+                or an eccentric capsule
+                or the convex hull of multiple spheres) {
+        use a MultiSphere
+    } else if (its shape can be approximated by an eccentric rectangular solid
+                or an eccentric cylinder
+                or an eccentric cone
+                or a combination of convex primitives) {
+            use a CompoundCollisionShape
+    } else if (the object does not move) {
+        if (it is a 2-D heightfield) {
+            use a HeightfieldCollisionShape
+        } else {
+            use a MeshCollisionShape
+        }
+    } else { // if the object moves
+        if (its shape can be approximated by a convex hull) {
+            use a HullCollisionShape
+        } else if (its shape can be decomposed into convex hulls) {
+            use a compound of hull shapes
+        } else {
+            use a GImpactCollisionShape
+        }
+    }
+----
+
+(Pseudocode adapted from the flowchart on page 13 of
+https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf[the Bullet User Manual].)
+
+Note that `GImpactCollisionShape` should be your last resort!
+
+Minie has Khaled Mamou's Volumetric-Hierarchical Approximate Convex
+Decomposition (V-HACD) algorithm built in.
+V-HACD makes it easy to decompose any 3-D model into a
+compound of hull shapes:
+
+[source,java]
+----
+    VHACDParameters parms = new VHACDParameters();
+    CollisionShape shape
+            = CollisionShapeFactory.createVhacdShape(modelRoot, parms, null);
+----
+
+The V-HACD algorithm is costly to run, but in many applications it can
+be run during the build process and stored in J3O format.
+At runtime, the resulting shape will usually be far more efficient
+than a `GImpactCollisionShape`.
