@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>An introduction to DynamicAnimControl :: The Minie project</title>
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../..">The Minie project</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="minie" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../overview.html">The Minie project</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="https://github.com/stephengold/Minie">Git repository</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="add.html">Library tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="add.html">Add to existing project</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rigidbody.html">Rigid bodies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="shape.html">Collision shapes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="debug.html">Debugging</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="new6dof.html">New6Dof joints</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="dac.html">Ragdolls</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="detect.html">Collision detection</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="softbody.html">Soft bodies</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">The Minie project</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">The Minie project</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../overview.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../overview.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../overview.html">The Minie project</a></li>
+    <li><a href="add.html">Library tutorials</a></li>
+    <li><a href="dac.html">Ragdolls</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/MinieLibrary/src/site/antora/tutorials/modules/minie-library-tutorials/pages/dac.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">An introduction to <code>DynamicAnimControl</code></h1>
+<div class="paragraph">
+<p>The centerpiece of Minie is <code>DynamicAnimControl</code>, a kind of <code>PhysicsControl</code>.
+Adding a <code>DynamicAnimControl</code> to an animated model
+provides ragdoll physics and inverse kinematics.
+<code>DynamicAnimControl</code> can also be used to simulate ropes.</p>
+</div>
+<div class="paragraph">
+<p>Configuration of <code>DynamicAnimControl</code> mostly takes place
+before the <code>Control</code> is added to a model <code>Spatial</code>.
+Adding the <code>Control</code> to a <code>Spatial</code> automatically creates the ragdoll,
+including rigid bodies and joints.
+No ragdoll exists before the <code>Control</code> is added to a <code>Spatial</code>,
+and removing a <code>Control</code> from its controlled <code>Spatial</code> destroys the ragdoll.</p>
+</div>
+<div class="paragraph">
+<p>The controlled <code>Spatial</code>
+must include the model&#8217;s <code>SkinningControl</code> or <code>SkeletonControl</code>.
+Usually this is the model&#8217;s root <code>Spatial</code>, but not always.
+If unsure about the model&#8217;s structure, use <code>MySpatial.listAnimationSpatials()</code>.
+For a very simple example, see
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloDac.java">HelloDac.java</a>.</p>
+</div>
+<div class="paragraph">
+<p>A model&#8217;s ragdoll is composed of rigid bodies joined by physics joints.
+Within the <code>Control</code>, each <code>PhysicsRigidBody</code> is represented by
+a <code>PhysicsLink</code>, and the links are organized in a tree hierarchy.</p>
+</div>
+<div class="paragraph">
+<p><code>PhysicsLink</code> has 3 subclasses:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>BoneLink</code>: manages one or more bones in the model’s <code>Skeleton</code>.
+Each <code>BoneLink</code> has a parent link, to which it is jointed.
+Its parent may be another <code>BoneLink</code> or it may be a <code>TorsoLink</code>.</p>
+</li>
+<li>
+<p><code>TorsoLink</code>: is always the root of a link hierarchy,
+so it has no parent link.
+It manages all root bones in the model&#8217;s <code>Skeleton</code>.  It also manages any
+<code>Skeleton</code> bones that aren&#8217;t managed by a <code>BoneLink</code>.</p>
+</li>
+<li>
+<p><code>AttachmentLink</code>: manages a non-animated model that&#8217;s
+attached to the main model by means of an attachment <code>Node</code>.
+An <code>AttachmentLink</code> cannot be the parent of a link.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The default constructor for <code>DynamicAnimControl</code> is configured to create a
+ragdoll with no bone links, only a <code>TorsoLink</code>.
+Before adding the <code>Control</code> to a <code>Spatial</code>, specify which bones
+should be linked, by invoking the <code>link()</code> method for each of those bones.
+The order in which bones are linked does not matter.</p>
+</div>
+<div class="paragraph">
+<p>I recommend starting with a default <code>LinkConfig</code> and a generous range of motion
+for each linked bone:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    dynamicAnimControl.link(boneName, new LinkConfig(), new RangeOfMotion(1f, 1f, 1f));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a simple example, see
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloBoneLink.java">HelloBoneLink</a>.</p>
+</div>
+<div class="paragraph">
+<p>When you run <code>HelloBoneLink</code>, press the space bar to put the control into
+dynamic mode.
+You&#8217;ll see the linked bones go limp while the remainder of the Ninja model
+stays rigid.</p>
+</div>
+<div class="paragraph">
+<p>As an alternative to hand-coding the control configuration,
+you can generate configuration code for a specific model using
+<a href="https://github.com/stephengold/Minie/tree/master/DacWizard">the DacWizard application</a>,
+which samples animation tracks to estimate
+the range of motion for each linked bone.</p>
+</div>
+<div class="paragraph">
+<p>You probably don&#8217;t want to link every <code>Bone</code> in the model&#8217;s <code>Skeleton</code>.
+For instance, if the model has articulated fingers, you probably want to link
+the hand bones but not the individual finger bones.
+Unlinked bones will be managed by the nearest linked ancestor <code>Bone</code>.
+The <code>TorsoLink</code> will manage any bones for which no ancestor <code>Bone</code> is linked.
+If you link too many bones, the ragdoll may become inflexible or jittery
+due to collisions between rigid bodies that don&#8217;t share a <code>PhysicsJoint</code>.</p>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

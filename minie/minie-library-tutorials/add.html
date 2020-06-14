@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>How to add Minie to an existing project :: The Minie project</title>
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../..">The Minie project</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="minie" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../overview.html">The Minie project</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="https://github.com/stephengold/Minie">Git repository</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="add.html">Library tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="add.html">Add to existing project</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rigidbody.html">Rigid bodies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="shape.html">Collision shapes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="debug.html">Debugging</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="new6dof.html">New6Dof joints</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="dac.html">Ragdolls</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="detect.html">Collision detection</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="softbody.html">Soft bodies</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">The Minie project</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">The Minie project</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../overview.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../overview.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../overview.html">The Minie project</a></li>
+    <li><a href="add.html">Library tutorials</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/MinieLibrary/src/site/antora/tutorials/modules/minie-library-tutorials/pages/add.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">How to add Minie to an existing project</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Adding Minie to an existing JME3 project is a 6-step process:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Remove any existing physics libraries which might interfere with Minie.</p>
+</li>
+<li>
+<p>Add libraries to the classpath.</p>
+</li>
+<li>
+<p>Create, configure, and attach a <code>BulletAppState</code>,
+if the application doesn&#8217;t already do so.</p>
+</li>
+<li>
+<p>Configure the <code>PhysicsSpace</code>, if the application doesn&#8217;t already do so.</p>
+</li>
+<li>
+<p>Create physics controls, collision objects,
+and joints and add them to the <code>PhysicsSpace</code>,
+if the application doesn&#8217;t already do so.</p>
+</li>
+<li>
+<p>Test and tune as necessary.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_remove_all_other_physics_libraries"><a class="anchor" href="#_remove_all_other_physics_libraries"></a>Remove all other physics libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Minie replaces (and is therefore incompatible with) the following
+jMonkeyEngine libraries:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>jme3-bullet</code></p>
+</li>
+<li>
+<p><code>jme3-bullet-native</code></p>
+</li>
+<li>
+<p><code>jme3-bullet-native-android</code>, and</p>
+</li>
+<li>
+<p><code>jme3-jbullet</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Before adding Minie, you should remove these libraries from your project so
+they won&#8217;t interfere with Minie.</p>
+</div>
+<div class="sect2">
+<h3 id="_gradle_built_projects"><a class="anchor" href="#_gradle_built_projects"></a>Gradle-built projects</h3>
+<div class="paragraph">
+<p>Look for artifacts with these names in the <code>dependencies</code> section
+of your project&#8217;s <code>gradle.build</code> file and remove them.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ant_built_projects"><a class="anchor" href="#_ant_built_projects"></a>Ant-built projects</h3>
+<div class="paragraph">
+<p>Open the project&#8217;s properties in the IDE (JME 3.2 SDK or NetBeans 8.2):</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Right-click on the project (not its assets) in the "Projects" window.</p>
+</li>
+<li>
+<p>Select "Properties to open the "Project Properties" dialog.</p>
+</li>
+<li>
+<p>Under "Categories:" select "Libraries".</p>
+</li>
+<li>
+<p>Click on the "Compile" tab.</p>
+</li>
+<li>
+<p>Look for libraries with these names in the "Compile-time Libraries"
+listbox.  Select them and click on the "Remove" button.</p>
+</li>
+<li>
+<p>Click on the "OK" button to exit the "Project Properties" dialog.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_libraries_to_the_classpath"><a class="anchor" href="#_add_libraries_to_the_classpath"></a>Add libraries to the classpath</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Minie comes pre-built as a single library that includes both Java classes
+and native libraries.
+The Minie library depends on:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the standard jme3-terrain library and</p>
+</li>
+<li>
+<p>the Heart library, which in turn depends on:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>the standard jme3-core library.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_gradle_built_projects_2"><a class="anchor" href="#_gradle_built_projects_2"></a>Gradle-built projects</h3>
+<div class="paragraph">
+<p>For projects built using Maven or Gradle, it is sufficient to specify the
+dependency on the Minie Library.  The build tools should automatically
+resolve the remaining dependencies automatically.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">    repositories {
+        jcenter()
+    }
+    dependencies {
+        compile 'com.github.stephengold:Minie:1.7.0'
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ant_built_projects_2"><a class="anchor" href="#_ant_built_projects_2"></a>Ant-built projects</h3>
+<div class="paragraph">
+<p>Download the Minie and Heart libraries from GitHub:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/stephengold/Minie/releases/tag/1.7.0" class="bare">https://github.com/stephengold/Minie/releases/tag/1.7.0</a></p>
+</li>
+<li>
+<p><a href="https://github.com/stephengold/Heart/releases/tag/5.5.0" class="bare">https://github.com/stephengold/Heart/releases/tag/5.5.0</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll want both class jars
+and probably the <code>-sources</code> and <code>-javadoc</code> jars as well.</p>
+</div>
+<div class="paragraph">
+<p>Open the project&#8217;s properties in the IDE (JME 3.2 SDK or NetBeans 8.2):</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Right-click on the project (not its assets) in the "Projects" window.</p>
+</li>
+<li>
+<p>Select "Properties to open the "Project Properties" dialog.</p>
+</li>
+<li>
+<p>Under "Categories:" select "Libraries".</p>
+</li>
+<li>
+<p>Click on the "Compile" tab.</p>
+</li>
+<li>
+<p>Add the <code>Heart</code> class jar:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Click on the "Add JAR/Folder" button.</p>
+</li>
+<li>
+<p>Navigate to the download folder.</p>
+</li>
+<li>
+<p>Select the "Heart-5.5.0.jar" file.</p>
+</li>
+<li>
+<p>Click on the "Open" button.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>(optional) Add jars for javadoc and sources:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Click on the "Edit" button.</p>
+</li>
+<li>
+<p>Click on the "Browse&#8230;&#8203;" button to the right of "Javadoc:"</p>
+</li>
+<li>
+<p>Select the "Heart-5.5.0-javadoc.jar" file.</p>
+</li>
+<li>
+<p>Click on the "Open" button.</p>
+</li>
+<li>
+<p>Click on the "Browse&#8230;&#8203;" button to the right of "Sources:"</p>
+</li>
+<li>
+<p>Select the "Heart-5.5.0-sources.jar" file.</p>
+</li>
+<li>
+<p>Click on the "Open" button again.</p>
+</li>
+<li>
+<p>Click on the "OK" button to close the "Edit Jar Reference" dialog.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Similarly, add the <code>Minie</code> jar(s).</p>
+</li>
+<li>
+<p>Click on the "OK" button to exit the "Project Properties" dialog.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_configure_and_attach_a_bulletappstate"><a class="anchor" href="#_create_configure_and_attach_a_bulletappstate"></a>Create, configure, and attach a BulletAppState</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Strictly speaking, Minie doesn&#8217;t require a <code>BulletAppState</code>, but
+it does provide a convenient interface for configuring, accessing, updating,
+and debugging a <code>PhysicsSpace</code>.</p>
+</div>
+<div class="paragraph">
+<p>If your application already has a <code>BulletAppState</code>, the code will probably
+work fine with Minie.
+If not, here is a snippet to guide you:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    SoftPhysicsAppState appState = new SoftPhysicsAppState();
+    stateManager.attach(appState);
+    PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you don&#8217;t need soft bodies, you can instantiate a <code>BulletAppState</code> directly:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    BulletAppState appState = new BulletAppState();
+    stateManager.attach(appState);
+    PhysicsSpace physicsSpace = appState.getPhysicsSpace();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or if you need multibodies, instantiate a <code>MultiBodyAppState</code> instead:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    MultiBodyAppState appState = new MultiBodyAppState();
+    stateManager.attach(appState);
+    MultiBodySpace physicsSpace = appState.getMultiBodySpace();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(Minie doesn&#8217;t yet support combining soft bodies and multibodies in
+a single <code>PhysicsSpace</code>.)</p>
+</div>
+<div class="paragraph">
+<p>By default, the physics simulation executes on the render thread.
+To execute it on a dedicated thread, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, simulation advances based on the time per frame (tpf)
+reported by the renderer.
+To advance the physics simulation at a different rate, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    bulletAppState.setSpeed(0.5f); // simulate physics at half speed</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
+collision detection.
+To specify a different data structure, use <code>setBroadphaseType()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    SoftPhysicsAppState bas = new SoftPhysicsAppState();
+    bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+    bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
+    bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
+    stateManager.attach(bas);
+    PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, a Sequential Impulse (SI) solver is
+used to resolve contacts and constraints.
+To specify a different type of solver, invoke <code>setSolverType()</code>
+before attaching the AppState:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    bulletAppState.setSolverType(SolverType.Dantzig);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Caveats:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For soft-body simulations, SI is the only supported solver type.</p>
+</li>
+<li>
+<p>The NNCG solver doesn&#8217;t support multibodies.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>By default, debug visualization is disabled. To enable it, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    bulletAppState.setDebugEnabled(true);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Other <code>BulletAppState</code> configurables, used to customize debug visualization,
+are described in the [Debug visualization tips and tricks](#visualization)
+section of this document.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configure_the_physicsspace"><a class="anchor" href="#_configure_the_physicsspace"></a>Configure the PhysicsSpace</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Attaching a <code>BulletAppState</code> instantiates a <code>PhysicsSpace</code> that
+you can access immediately:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    PhysicsSpace space = bulletAppState.getPhysicsSpace();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>SoftPhysicsAppState</code> instantiates a <code>PhysicsSoftSpace</code>, which is a subclass:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    PhysicsSoftSpace space = bulletAppState.getPhysicsSoftSpace();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and <code>MultiBodyAppState</code> instantiates a <code>MultiBodySpace</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    MultiBodySpace space = bulletAppState.getMultiBodySpace();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Physics simulation can run with a fixed time step or a variable time step.
+The default configuration is a fixed time step of 1/60th of a second
+with up to 4 time steps per frame.</p>
+</div>
+<div class="paragraph">
+<p>To configure a variable time step with a maximum of 0.25 seconds:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    space.setMaxSubSteps(0);
+    space.setMaxTimeStep(0.25f);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To configure a fixed time step of 0.01 second with up to 6 time steps per frame:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    space.setAccuracy(0.01f);
+    space.setMaxSubSteps(6);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that <code>setAccuracy()</code> has no effect when <code>maxSubSteps==0</code>,
+while <code>setMaxTimeStep()</code> has no effect when <code>maxSubSteps&gt;0</code>.</p>
+</div>
+<div class="paragraph">
+<p>The contact solver performs a fixed number of iterations per time step,
+by default, 10.
+For higher-quality (but slower) simulation, increase this number.
+For instance, to use 20 iterations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    space.getSolverInfo().setNumIterations(20);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each <code>PhysicsSpace</code> has a gravity vector,
+which is typically applied to bodies as they get added to the space.
+To simulate a zero-gravity environment,
+set the gravity of the space to zero:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    space.setGravity(Vector3f.ZERO);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_physics_controls_collision_objects_and_joints"><a class="anchor" href="#_create_physics_controls_collision_objects_and_joints"></a>Create physics controls, collision objects, and joints</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can create collision objects directly, using the constructors:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    float radius = 2f;
+    CollisionShape sphere2 = new SphereCollisionShape(radius);
+    PhysicsGhostObject ghost1 = new PhysicsGhostObject(sphere2);
+    float mass = 1f;
+    PhysicsRigidBody body1 = new PhysicsRigidBody(sphere2, mass);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or indirectly, by adding physics controls to scene-graph spatials:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    float radius = 2f;
+    CollisionShape sphere2 = new SphereCollisionShape(radius);
+
+    Node ghostNode1 = new Node("ghostNode1");
+    GhostControl gc1 = new GhostControl(sphere2);
+    ghostNode1.addControl(gc1);
+
+    Node rigidNode1 = new Node("rigidNode1");
+    float mass = 1f;
+    RigidBodyControl rbc1 = new RigidBodyControl(sphere2, mass);
+    rigidNode1.addControl(rbc1);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Either way, the object(s) won&#8217;t be simulated unless added to a <code>PhysicsSpace</code>.
+Also, note that collision shapes can be shared between objects.</p>
+</div>
+<div class="sect2">
+<h3 id="_global_configuration"><a class="anchor" href="#_global_configuration"></a>Global configuration</h3>
+<div class="paragraph">
+<p>TODO move this material to later pages</p>
+</div>
+<div class="paragraph">
+<p>By default, the native library prints a startup message to <code>System.out</code>.
+Once the library is loaded (but not started) you can disable this message:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    NativeLibrary.setStartupMessageEnabled(false);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once the native library is loaded,
+you can test whether it uses double-precision arithmetic:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    boolean doublePrecision = NativeLibrary.isDoublePrecision();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also test whether it was built for debugging
+(with assertions enabled, symbols not stripped,
+and debug information generated):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    boolean debug = NativeLibrary.isDebug();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The default collision margin for new shapes is 0.04 physics-space units.
+To configure a default margin of 0.1 psu:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    CollisionShape.setDefaultMargin(0.1f);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the Bullet Manual advises against changing the default margin.</p>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

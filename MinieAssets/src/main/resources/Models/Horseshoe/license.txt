@@ -1,7 +1,0 @@
-Licensing history for assets in MinieAssets/src/main/resources/Models/Horseshoe
-
-The Horseshoe model asset was created by Stephen Gold using Blender v2.81a.
-
-The files "Horseshoe.blend" and "Horseshoe.glb" are licensed
-under the Creative Commons CC0 1.0 Universal license
-(https://creativecommons.org/publicdomain/zero/1.0/).

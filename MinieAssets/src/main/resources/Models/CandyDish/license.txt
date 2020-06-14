@@ -1,7 +1,0 @@
-Licensing history for assets in MinieAssets/src/main/resources/Models/CandyDish
-
-The CandyDish model asset was created by Stephen Gold using Blender v2.81a.
-
-The files "CandyDish.blend" and "CandyDish.glb" are licensed
-under the Creative Commons CC0 1.0 Universal license
-(https://creativecommons.org/publicdomain/zero/1.0/).

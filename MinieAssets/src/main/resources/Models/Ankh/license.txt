@@ -1,7 +1,0 @@
-Licensing history for assets in MinieAssets/src/main/resources/Models/Ankh
-
-The Ankh model asset was created by Stephen Gold using Blender.
-
-The files "Ankh.blend" and "Ankh.glb" are licensed
-under the Creative Commons CC0 1.0 Universal license
-(https://creativecommons.org/publicdomain/zero/1.0/).

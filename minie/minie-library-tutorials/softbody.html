@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>An introduction to soft-body physics :: The Minie project</title>
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../..">The Minie project</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="minie" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../overview.html">The Minie project</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="https://github.com/stephengold/Minie">Git repository</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="add.html">Library tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="add.html">Add to existing project</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rigidbody.html">Rigid bodies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="shape.html">Collision shapes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="debug.html">Debugging</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="new6dof.html">New6Dof joints</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="dac.html">Ragdolls</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="detect.html">Collision detection</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="softbody.html">Soft bodies</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">The Minie project</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">The Minie project</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../overview.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../overview.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../overview.html">The Minie project</a></li>
+    <li><a href="add.html">Library tutorials</a></li>
+    <li><a href="softbody.html">Soft bodies</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/MinieLibrary/src/site/antora/tutorials/modules/minie-library-tutorials/pages/softbody.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">An introduction to soft-body physics</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>While rope, cloth, and foam rubber
+can be simulated using many small rigid bodies,
+it is more convenient and efficient to treat them
+as individual bodies that can be deformed.
+To this end, Minie supports simulation of soft bodies
+in a manner roughly analogous to rigid bodies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In place of <code>BulletAppState</code>, use <code>SoftPhysicsAppState</code>.</p>
+</li>
+<li>
+<p>In place of <code>PhysicsSpace</code>, use <code>PhysicsSoftSpace</code>.</p>
+</li>
+<li>
+<p>In place of <code>PhysicsRigidBody</code>, use <code>PhysicsSoftBody</code>.</p>
+</li>
+<li>
+<p>In place of <code>RigidBodyControl</code>, use <code>SoftBodyControl</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>PhysicsSoftSpace</code> is a subclass of <code>PhysicsSpace</code>.
+It implements soft-body physics in addition to all the
+features of an ordinary <code>PhysicsSpace</code> (such as rigid bodies).</p>
+</div>
+<div class="paragraph">
+<p>The abstract class <code>PhysicsBody</code> is a superclass of both <code>PhysicsRigidBody</code>
+and <code>PhysicsSoftBody</code>.
+It provides access to properties that rigid bodies and soft bodies
+have in common, such as gravity, location, mass, and joints.</p>
+</div>
+<div class="paragraph">
+<p>Soft bodies can collide with both rigid bodies and other soft bodies.
+They can also be joined to other bodies of both types, using special subclasses
+of <code>PhysicsJoint</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_comparison_of_soft_bodies_and_rigid_bodies"><a class="anchor" href="#_a_comparison_of_soft_bodies_and_rigid_bodies"></a>A comparison of soft bodies and rigid bodies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Unlike a rigid body, a soft body doesn&#8217;t have a <code>CollisionShape</code> or
+an orientation.
+Instead, it is composed of point masses (called "nodes") whose locations
+are specified in physics-space coordinates.
+A soft body&#8217;s shape, structure, mass distribution, and position are all defined
+by its mesh of nodes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To simulate rope, nodes can be connected in pairs (called "links").</p>
+</li>
+<li>
+<p>To simulate cloth, nodes can be connected to form triangles (called "faces").</p>
+</li>
+<li>
+<p>To simulate foam rubber, nodes can be connected to form tetrahedra (also
+called "tetras").</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>(Soft-body nodes are entirely unrelated to <code>com.jme3.scene.Node</code>,
+the kind of node found in the scene graph.)</p>
+</div>
+<div class="paragraph">
+<p>Unlike a rigid body, the physics location of a soft body is not its center
+of mass, but rather the center of its axis-aligned bounding box.</p>
+</div>
+<div class="paragraph">
+<p>Like rigid bodies, soft bodies have collision margins.
+However, since a soft body lacks a <code>CollisionShape</code>,
+different accessors are used:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    float oldMargin = softBody.margin();
+    softBody.setMargin(0.1f);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Soft bodies lack many other features of rigid bodies, including:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>motion state (for extrapolating between time steps),</p>
+</li>
+<li>
+<p>deactivation/sleeping (for efficient simulation), and</p>
+</li>
+<li>
+<p>continuous collision detection (CCD) (for fast-moving objects).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Like rigid bodies, soft bodies can be constructed directly (using <code>new</code>)
+or they can be created using physics controls (such as <code>SoftBodyControl</code>)
+which tie them to particular spatials in the scene graph.
+However, unlike a <code>RigidBodyControl</code>, a <code>SoftBodyControl</code> can only be
+dynamic (<code>Spatial</code> follows body) never kinematic (body follows <code>Spatial</code>).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_constructing_a_soft_body"><a class="anchor" href="#_constructing_a_soft_body"></a>Constructing a soft body</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To construct a soft body directly, start with the null constructor:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    PhysicsSoftBody softBody = new PhysicsSoftBody()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This produces an empty body (one without any nodes, links, faces, tetras,
+or joints) that isn&#8217;t added to any physics space.</p>
+</div>
+<div class="paragraph">
+<p>Methods are provided to append nodes, links, and faces to a soft body.
+However, it&#8217;s often more convenient to generate a <code>com.jme3.scene.Mesh</code>
+(the same kind of mesh used in scene-graph geometries)
+with the desired shape and topology and append it to the body
+using a utility method:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>NativeSoftBodyUtil.appendFromTriMesh()</code>
+to append nodes and faces from a mesh with Mode.Triangles</p>
+</li>
+<li>
+<p><code>NativeSoftBodyUtil.appendFromLineMesh()</code>
+to append nodes and links from a mesh with Mode.Lines</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Be aware that meshes intended for graphics rendering often prove
+unsuitable for soft-body simulation.
+For instance, they may define multiple vertices at the same position
+or their edges/faces may be insufficiently subdivided.</p>
+</div>
+<div class="paragraph">
+<p>To construct a soft body using <code>SoftBodyControl</code>, instantiate a control
+and add it to a <code>Geometry</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    SoftBodyControl sbc = new SoftBodyControl();
+    geometry.addControl(sbc);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Access the newly-constructed <code>PhysicsSoftBody</code> using <code>sbc.getBody()</code>.</p>
+</div>
+<div class="paragraph">
+<p>If you add the control to a scene-graph <code>Node</code> instead of a <code>Geometry</code>,
+it will traverse the node&#8217;s subtree and use the first <code>Geometry</code> it finds.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_soft_body_configuration_and_pose_matching"><a class="anchor" href="#_soft_body_configuration_and_pose_matching"></a>Soft-body configuration and pose matching</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Each soft body has numerous properties that can affect its behavior.
+Most of these are stored in its configuration object, which can be
+accessed using <code>getSoftConfig()</code>.
+Soft bodies and configuration objects are one-to-one.</p>
+</div>
+<div class="paragraph">
+<p>Configuration properties with <code>float</code> values are enumerated
+by the <code>Sbcp</code> ("soft-body configuration parameter") enum.
+For instance, a soft body can have a preferred shape (called its "default pose")
+that it tends to return to when deformed.
+The strength of this tendency depends on the configuration object&#8217;s
+"pose matching" parameter, which defaults to zero.</p>
+</div>
+<div class="paragraph">
+<p>For a simple example using <code>SoftPhysicsAppState</code>, <code>SoftBodyControl</code>, and
+pose matching, see
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloSoftBody.java">HelloSoftBody</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_soft_soft_collisions"><a class="anchor" href="#_soft_soft_collisions"></a>Soft-soft collisions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, collisions between soft bodies are not handled (ignored).
+One way to handle soft-soft collisions for a specific body is to
+set the <code>VF_SS</code> collision flag in its configuration object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    SoftBodyConfig config = softBody.getSoftConfig();
+    int oldFlags = config.getCollisionFlags();
+    config.setCollisionFlags(oldFlags, ConfigFlag.VF_SS);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a simple example of a collision between 2 soft bodies, see
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloSoftSoft.java">HelloSoftBody</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_solver_iterations"><a class="anchor" href="#_solver_iterations"></a>Solver iterations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>During each time step, the simulator applies a series of
+iterative solvers to each soft body:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a cluster solver</p>
+</li>
+<li>
+<p>a drift solver</p>
+</li>
+<li>
+<p>a position solver</p>
+</li>
+<li>
+<p>a velocity solver</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The number of iterations for each solver is stored in the body&#8217;s
+configuration object.
+When simulating collisions, you can often improve accuracy by increasing the
+number of position-solver iterations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    SoftBodyConfig config = softBody.getSoftConfig();
+    config.setPositionIterations(numIterations);  // default=1</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_stiffness_coefficients"><a class="anchor" href="#_stiffness_coefficients"></a>Stiffness coefficients</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Each soft body has 3 stiffness coefficients.
+These are stored in its "material" object,
+which can be accessed using <code>getSoftMaterial()</code>.
+Soft bodies and their material objects are one-to-one.
+(Soft-body materials are unrelated to <code>com.jme3.material.Material</code>,
+the kind of material used to render geometries.)</p>
+</div>
+<div class="paragraph">
+<p>To simulate an object that flexes easily (such as cloth), create a soft
+body with many faces and set its angular-stiffness coefficient
+to a small value (such as zero):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    PhysicsSoftBody.Material softMaterial = softBody.getSoftMaterial();
+    softMaterial.setAngularStiffness(0f); // default=1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a simple example of cloth simulation, see
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloCloth.java">HelloCloth</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mass_distribution"><a class="anchor" href="#_mass_distribution"></a>Mass distribution</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When a node is appended to a soft body, it has mass=1.
+To alter the mass of a pre-existing node, use the <code>setNodeMass()</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    softBody.setNodeMass(nodeIndex, desiredMass);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also alter the total mass of a soft body, distributing the mass across
+the pre-existing nodes in various ways:
+  + in proportion to the current mass of each node, using <code>setMassByCurrent()</code>,
+  + in proportion to the area of adjacent faces, using <code>setMassByArea()</code>, or
+  + in a custom fashion, using <code>setMasses()</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>softBody.setMass()</code> is equivalent to <code>setMassByCurrent()</code>.</p>
+</div>
+<div class="paragraph">
+<p>If a soft-body node has mass=0, it becomes pinned/immovable, like a static
+<code>PhysicsRigidBody</code>.</p>
+</div>
+<div class="paragraph">
+<p>For a simple example of a pinned node, see
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloPin.java">HelloPin.java</a>.</p>
+</div>
+<div class="paragraph">
+<p>TODO: ropes, applying forces, anchors, soft joints, world info, aerodynamics</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_clusters"><a class="anchor" href="#_clusters"></a>Clusters</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, soft-body collisions are handled using nodes and faces.
+As an alternative, they can be handled using groups of connected nodes
+(called "clusters").
+To enable cluster-based rigid-soft collisions for a specific soft body,
+set its <code>CL_RS</code> collision flag.
+To enable cluster-based soft-soft collisions, set its <code>CL_SS</code> flag.</p>
+</div>
+<div class="paragraph">
+<p>Clusters can overlap, but they can&#8217;t span multiple bodies.
+In other words, a single node can belong to multiple clusters,
+but a single cluster can&#8217;t contain nodes from multiple bodies.</p>
+</div>
+<div class="paragraph">
+<p>When a soft body is created, it doesn&#8217;t have any clusters.
+Once nodes are appended to a body, clusters can be generated automatically,
+using an iterative algorithm that&#8217;s built into Bullet:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    softBody.generateClusters(k, numIterations);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

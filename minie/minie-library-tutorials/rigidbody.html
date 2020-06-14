@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>An introduction to rigid-body physics :: The Minie project</title>
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../..">The Minie project</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="minie" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../overview.html">The Minie project</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="https://github.com/stephengold/Minie">Git repository</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="add.html">Library tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="add.html">Add to existing project</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="rigidbody.html">Rigid bodies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="shape.html">Collision shapes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="debug.html">Debugging</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="new6dof.html">New6Dof joints</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="dac.html">Ragdolls</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="detect.html">Collision detection</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="softbody.html">Soft bodies</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">The Minie project</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">The Minie project</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../overview.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../overview.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../overview.html">The Minie project</a></li>
+    <li><a href="add.html">Library tutorials</a></li>
+    <li><a href="rigidbody.html">Rigid bodies</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/MinieLibrary/src/site/antora/tutorials/modules/minie-library-tutorials/pages/rigidbody.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">An introduction to rigid-body physics</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>A rigid body (instance of <code>PhysicsRigidBody</code>) is a type of collision object
+that exhibits some familiar features of real-world objects, including:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>rigidity (a fixed shape) and</p>
+</li>
+<li>
+<p>inertia (resistance to changes in its motion).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When creating a rigid body directly, one can specify both its mass
+and collision shape. Together, these properties determine its inertia:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    CollisionShape ballShape = new SphereCollisionShape(1f);
+    float ballMass = 2f;
+    PhysicsRigidBody ball = new PhysicsRigidBody(ballShape, ballMass);
+    Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, rigid bodies also exhibit 3 more features of real-world objects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>They are dynamic
+(mobile, with motion determined by forces, torques, and impulses.)</p>
+</li>
+<li>
+<p>They are subject to gravity:
+a continual downward force proportional to their mass.</p>
+</li>
+<li>
+<p>They exhibit contact response:
+a tendency to avoid intersecting with other bodies.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When physics simulation detects a collision between
+2 responsive bodies, it applies powerful
+"contact forces" in an attempt to separate them.</p>
+</div>
+<div class="paragraph">
+<p>For a simple example demonstrating all 5 features of rigid bodies, see
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HellowRigidBody.java</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuring_rigid_bodies"><a class="anchor" href="#_configuring_rigid_bodies"></a>Configuring rigid bodies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To create a static (non-moving) rigid body, specify <code>mass=0</code> in the constructor.</p>
+</div>
+<div class="paragraph">
+<p>For a simple example combining static and dynamic rigid bodies, see
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloStaticBody.java">HelloStaticBody.java</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_position"><a class="anchor" href="#_position"></a>Position</h3>
+<div class="paragraph">
+<p>Every rigid body occupies a position in space, described by 2 properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the location of the body&#8217;s center and</p>
+</li>
+<li>
+<p>the rotation (orientation) of its local axes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Both these properties can be independently configured:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    body.setPhysicsLocation(new Vector3f(5f, 1f, 0f));
+    body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once a dynamic or static body has been initialized, of course,
+it shouldn&#8217;t be repositioned in this manner.
+A kinematic (externally driven) body, on the other hand,
+may be repositioned for every timestep.</p>
+</div>
+<div class="paragraph">
+<p>The center of a dynamic body should be located at its
+<a href="https://en.wikipedia.org/wiki/Center_of_mass">center of mass</a>,
+the point around which it tends to spin,
+and its local axes should correspond to its
+<a href="https://en.wikipedia.org/wiki/Principal_axis_(mechanics)">pincipal axes</a>.</p>
+</div>
+<div class="paragraph">
+<p>A static or kinematic body allows more flexibility
+in the choice of its center and local axes.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_kinematic_flag"><a class="anchor" href="#_kinematic_flag"></a>Kinematic flag</h3>
+<div class="paragraph">
+<p>To convert a dynamic rigid body into a kinematic one,
+use <code>setKinematic(true)</code>.</p>
+</div>
+<div class="paragraph">
+<p>For a simple example combining kinematic and dynamic rigid bodies, see
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloKinematics.java">HelloKinematics.java</a>.</p>
+</div>
+<div class="paragraph">
+<p>To convert a static rigid body into a kinematic one, set its mass
+to a positive value <strong>before</strong> setting its kinematic flag:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    body.setMass(1f);
+    body.setKinematic(true);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_contact_response"><a class="anchor" href="#_contact_response"></a>Contact response</h3>
+<div class="paragraph">
+<p>To disable the contact response of a rigid body,
+use <code>setContactResponse(false)</code>.</p>
+</div>
+<div class="paragraph">
+<p>For a simple demonstration of this feature, see
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloContactResponse.java">HelloContactResponse.java</a>.</p>
+</div>
+<div class="paragraph">
+<p>The ball falls until it collides with the blue (static) box,
+which provides a contact force to counteract gravity.
+Press the spacebar to disable the ball&#8217;s contact response.
+Once this happens, the box no longer exerts any force on the ball.
+Gravity takes over, and the ball falls through the box.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gravity"><a class="anchor" href="#_gravity"></a>Gravity</h3>
+<div class="paragraph">
+<p>Every body includes a gravity vector,
+which (if the body is dynamic) applies a continual downward acceleration.
+To configure a body&#8217;s gravity, use <code>setGravity(accelerationVector)</code>.
+If following the Y-up convention, the X and Z components of the
+vector should be zero, and its Y component should be <strong>negative</strong>.</p>
+</div>
+<div class="paragraph">
+<p>When a body is added to a <code>PhysicsSpace</code>,
+the gravity of the space typically gets applied to it,
+replacing any previously configured gravity.
+To protect a rigid body from gravity changes caused by the space
+to which it&#8217;s added, use <code>setProtectGravity(true)</code>.</p>
+</div>
+<div class="paragraph">
+<p>To simulate a non-uniform gravitational field,
+update the gravity of each body prior to each physics tick.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">        public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+            Collection&lt;PhysicsCollisionObject&gt; pcos = space.getPcoList();
+            for (PhysicsCollisionObject pco : pcos) {
+                if (pco instanceof PhysicsBody) {
+                    updateGravity((PhysicsBody) pco);
+                }
+            }
+        }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>TODO non-u example, RigidBodyControl, restitution, damping, friction</p>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

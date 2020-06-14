@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Choosing collision shapes :: The Minie project</title>
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../..">The Minie project</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="minie" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../overview.html">The Minie project</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="https://github.com/stephengold/Minie">Git repository</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="add.html">Library tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="add.html">Add to existing project</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rigidbody.html">Rigid bodies</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="shape.html">Collision shapes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="debug.html">Debugging</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="new6dof.html">New6Dof joints</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="dac.html">Ragdolls</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="detect.html">Collision detection</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="softbody.html">Soft bodies</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">The Minie project</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">The Minie project</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../overview.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../overview.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../overview.html">The Minie project</a></li>
+    <li><a href="add.html">Library tutorials</a></li>
+    <li><a href="shape.html">Collision shapes</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/MinieLibrary/src/site/antora/tutorials/modules/minie-library-tutorials/pages/shape.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Choosing collision shapes</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Minie provides 16 <code>CollisionShape</code> subclasses:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1. <code>Box2dShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(no image yet)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2. <code>BoxCollisionShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/My74h2Q.png" alt="My74h2Q" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3. <code>CapsuleCollisionShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/R9NMEwc.png" alt="R9NMEwc" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4. <code>CompoundCollisionShape</code> constructed explicitly</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/gL6rgAA.png" alt="gL6rgAA" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5. <code>ConeCollisionShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/jZFVxQd.png" alt="jZFVxQd" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6. <code>Convex2dShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(no image yet)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7. <code>CylinderCollisionShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/ey249X8.png" alt="ey249X8" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8. <code>EmptyShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(no image yet)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9. <code>GImpactShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/TOLRsig.png" alt="TOLRsig" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10. <code>HeightfieldCollisionShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/JwtpqOM.png" alt="JwtpqOM" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11. <code>HullCollisionShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/Rf61rcw.png" alt="Rf61rcw" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12. <code>MeshCollisionShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/glB3Ujk.png" alt="glB3Ujk" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13. <code>MultiSphere</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/nTZEc8C.png" alt="nTZEc8C" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14. <code>PlaneCollisionShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(no image yet)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15. <code>SimplexCollisionShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/l1fYSfc.png" alt="l1fYSfc" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16. <code>SphereCollisionShape</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/OPYrxRe.png" alt="OPYrxRe" height="160"></span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The general rule is: "Use the simplest shape that yields the desired behavior."</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_limitations_of_particular_subclasses"><a class="anchor" href="#_limitations_of_particular_subclasses"></a>Limitations of particular subclasses</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_suitability_for_dynamic_rigid_bodies"><a class="anchor" href="#_suitability_for_dynamic_rigid_bodies"></a>Suitability for dynamic rigid bodies</h3>
+<div class="paragraph">
+<p>Not all collision shapes are suitable for dynamic rigid bodies.
+In particular, the following shapes are suitable ONLY
+for kinematic or static collision objects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Box2dShape</code></p>
+</li>
+<li>
+<p><code>Convex2dShape</code></p>
+</li>
+<li>
+<p><code>EmptyShape</code></p>
+</li>
+<li>
+<p><code>HeightfieldCollisionShape</code></p>
+</li>
+<li>
+<p><code>MeshCollisionShape</code></p>
+</li>
+<li>
+<p><code>PlaneCollisionShape</code></p>
+</li>
+<li>
+<p><code>SimplexCollisionShape</code> with 1-3 vertices</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>(Simplex shapes with 4 vertices are fine for dynamic rigid bodies.)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_precision_and_margins"><a class="anchor" href="#_precision_and_margins"></a>Precision and margins</h3>
+<div class="paragraph">
+<p>Most collision shapes incorporate a margin.
+According to the Bullet Manual, the purpose of margin is
+"to improve performance and reliability of the collision detection."</p>
+</div>
+<div class="paragraph">
+<p>While methods are provided to adjust margins, doing so is not recommended.</p>
+</div>
+<div class="paragraph">
+<p>For certain shapes, margin increases the effective size of the collision object
+and distorts its effective shape:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ConeCollisionShape</code></p>
+</li>
+<li>
+<p><code>Convex2dShape</code></p>
+</li>
+<li>
+<p><code>HullCollisionShape</code></p>
+</li>
+<li>
+<p><code>SimplexCollisionShape</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Margin also distorts a <code>CylinderCollisionShape</code>,
+but its effect on size is complicated.</p>
+</div>
+<div class="paragraph">
+<p>Distortion due to margin is most noticeable for small shapes.</p>
+</div>
+<div class="paragraph">
+<p>When using imprecise shapes, you can compensate somewhat for margin
+by shrinking the shape&#8217;s dimensions
+(for a <code>ConeCollisionShape</code> or <code>CylinderCollisionShape</code>)
+or moving its defining vertices inward
+(for a <code>SimplexCollisionShape</code> or <code>HullCollisionShape</code>).</p>
+</div>
+<div class="paragraph">
+<p>Another possible workaround is to scale the physics space so that
+the effects of margin become less obvious.</p>
+</div>
+<div class="paragraph">
+<p>If these workarounds are impractical,
+use a "precise" shape, one that isn&#8217;t distorted by margin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Box2dShape</code></p>
+</li>
+<li>
+<p><code>BoxCollisionShape</code></p>
+</li>
+<li>
+<p><code>CapsuleCollisionShape</code></p>
+</li>
+<li>
+<p><code>GImpactShape</code></p>
+</li>
+<li>
+<p><code>HeightfieldCollisionShape</code></p>
+</li>
+<li>
+<p><code>MeshCollisionShape</code></p>
+</li>
+<li>
+<p><code>MultiSphere</code></p>
+</li>
+<li>
+<p><code>PlaneCollisionShape</code></p>
+</li>
+<li>
+<p><code>SphereCollisionShape</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scalability"><a class="anchor" href="#_scalability"></a>Scalability</h3>
+<div class="paragraph">
+<p>Some applications require collision shapes that are scalable
+(can be dynamically shrunk or enlarged).
+However, not all collision shapes can scale arbitrarily.
+In particular,</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SimplexCollisionShape</code> doesn&#8217;t support scaling at all;
+the only allowed scaling is (1,1,1).</p>
+</li>
+<li>
+<p><code>CapsuleCollisionShape</code>, <code>ConeCollisionShape</code>, and <code>SphereCollisionShape</code>
+support only uniform scaling, where all axes have the same scale factor.
+For instance, (0.2,0.2,0.2) or (9,9,9).</p>
+</li>
+<li>
+<p><code>CylinderCollisionShape</code> allows the height and base to scale independently,
+but the scale factors of both base axes must be equal.
+In other words, the cross section must remain circular.
+So (9,9,9) would be allowed for any cylinder,
+but (9,1,1) would be allowed only for cylinders
+where the local X axis is the height axis.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can test at runtime whether a particular scaling
+is applicable to particular shape:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    if (shape.canScale(newScale)) {
+        shape.setScale(newScale);
+    }</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_an_algorithm_for_choosing_a_shape"><a class="anchor" href="#_an_algorithm_for_choosing_a_shape"></a>An algorithm for choosing a shape</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Because jMonkeyEngine models are composed of triangular meshes,
+beginners are often tempted to use mesh-based shapes
+(such as <code>GImpactCollisionShape</code>) for everything.
+However, since mesh-based collision detection is CPU-intensive, primitive
+convex shapes (such as boxes and spheres) are usually a better choice, even
+if they don&#8217;t match the model&#8217;s shape exactly.
+In particular, <code>CapsuleCollisionShape</code> is often used with humanoid models.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>    if (the object doesn't move and isn't involved in collisions) {
+        use an EmptyShape or don't add the object to the space
+    } else if (the object doesn't move and its shape can be approximated by an infinite plane) {
+        use a PlaneCollisionShape
+    } else if (the object doesn't move and its shape can be approximated by point, line segment, or triangle) {
+        use a SimplexCollisionShape
+    } else if (the object doesn't move and its shape can be approximated by rectangle) {
+        use a Box2dShape
+    } else if (the object doesn't move and its shape can be approximated by convex polygon) {
+        use a Convex2dShape
+    } else if (its shape can be approximated by a tetrahedron) {
+        use a SimplexCollisionShape
+    } else if (its shape can be approximated by a centered sphere) {
+        use a SphereCollisionShape
+    } else if (its shape can be approximated by a centered rectangular solid) {
+        use a BoxCollisionShape
+    } else if (its shape can be approximated by a centered capsule) {
+        use a CapsuleCollisionShape
+    } else if (its shape can be approximated by a centered cylinder) {
+        use a CylinderCollisionShape
+    } else if (its shape can be approximated by a centered cone) {
+        use a ConeCollisionShape
+    } else if (its shape can be approximated by an ellipsoid
+                or an eccentric sphere
+                or an eccentric capsule
+                or the convex hull of multiple spheres) {
+        use a MultiSphere
+    } else if (its shape can be approximated by an eccentric rectangular solid
+                or an eccentric cylinder
+                or an eccentric cone
+                or a combination of convex primitives) {
+            use a CompoundCollisionShape
+    } else if (the object does not move) {
+        if (it is a 2-D heightfield) {
+            use a HeightfieldCollisionShape
+        } else {
+            use a MeshCollisionShape
+        }
+    } else { // if the object moves
+        if (its shape can be approximated by a convex hull) {
+            use a HullCollisionShape
+        } else if (its shape can be decomposed into convex hulls) {
+            use a compound of hull shapes
+        } else {
+            use a GImpactCollisionShape
+        }
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(Pseudocode adapted from the flowchart on page 13 of
+<a href="https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf">the Bullet User Manual</a>.)</p>
+</div>
+<div class="paragraph">
+<p>Note that <code>GImpactCollisionShape</code> should be your last resort!</p>
+</div>
+<div class="paragraph">
+<p>Minie has Khaled Mamou&#8217;s Volumetric-Hierarchical Approximate Convex
+Decomposition (V-HACD) algorithm built in.
+V-HACD makes it easy to decompose any 3-D model into a
+compound of hull shapes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    VHACDParameters parms = new VHACDParameters();
+    CollisionShape shape
+            = CollisionShapeFactory.createVhacdShape(modelRoot, parms, null);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The V-HACD algorithm is costly to run, but in many applications it can
+be run during the build process and stored in J3O format.
+At runtime, the resulting shape will usually be far more efficient
+than a <code>GImpactCollisionShape</code>.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

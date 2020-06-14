@@ -1,7 +1,0 @@
-plugins {
-    id 'base' // To add "clean" task to the root project.
-}
-
-subprojects {
-    apply from: rootProject.file('common.gradle')
-}
