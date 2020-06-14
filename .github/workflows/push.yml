@@ -1,6 +1,8 @@
 # GitHub workflow for commits pushed to the Minie repo
 name: CI at GitHub
-on: [push]
+on:
+  push:
+    branches-ignore: [ gh-pages ]
 
 jobs:
   Java8-Linux:
