@@ -194,6 +194,12 @@ task cleanWindows64(type: Delete) {
     delete nativeDir + 'windows/x86_64/bulletjme.dll'
 }
 
+task('copyJavadocToSite', type: Copy) {
+    dependsOn 'javadoc'
+    from "${buildDir}/docs/javadoc"
+    into "../build/site/minie/javadoc"
+}
+
 build.dependsOn('pom')
 task('pom', type: Copy) {
     dependsOn 'generatePomFileForMavenPublication'

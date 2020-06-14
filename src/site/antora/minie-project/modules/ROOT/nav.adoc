@@ -8,3 +8,4 @@
 ** xref:minie-library-tutorials:dac.adoc[Ragdolls]
 ** xref:minie-library-tutorials:detect.adoc[Collision detection]
 ** xref:minie-library-tutorials:softbody.adoc[Soft bodies]
+* https://stephengold.github.io/test/minie/javadoc[Library API]
