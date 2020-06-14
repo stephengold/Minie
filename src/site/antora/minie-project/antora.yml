@@ -1,0 +1,7 @@
+# component/version descriptor for the "minie-project" sources directory
+name: minie
+title: The Minie project
+version: master
+start_page: ROOT:overview.adoc
+nav:
+- modules/ROOT/nav.adoc

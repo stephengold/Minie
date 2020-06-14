@@ -1,0 +1,16 @@
+= The Minie project
+
+Minie is a physics library for JMonkeyEngine
+that takes physics-based games to the next level.
+Use it to:
+
+. add solidity to walls, characters, projectiles, landscapes, and vehicles
+. detect collisions between complex shapes
+. simulate characters and buildings collapsing in real time
+. simulate cloth, rope, and deformable volumes,
+  including their interactions with rigid bodies and each other
+
+Forked from the jme3-bullet library, Minie adds many features
+while preserving most of the jme3-bullet API.
+Most JME physics examples can use Minie without modification,
+and Minie adds its own demos and tutorials to help you get started.
