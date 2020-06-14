@@ -116,3 +116,8 @@ jobs:
         node-version: 12.18.0
     - run: npm ci
     - run: npm audit
+    - run: npm run buildDocs
+    - uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build/site
