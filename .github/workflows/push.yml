@@ -101,3 +101,16 @@ jobs:
         java-version: 14
     - uses: gradle/wrapper-validation-action@v1
     - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
+
+  Website:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 14
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.18.0
+    - run: npm ci
+    - run: npm audit

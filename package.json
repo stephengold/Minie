@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "buildDocs": "$(npm bin)/antora --stacktrace antora-playbook.yml"
+  },
+  "dependencies": {
+    "@antora/cli": "^2.3.3",
+    "@antora/site-generator-default": "^2.3.3"
+  }
+}
