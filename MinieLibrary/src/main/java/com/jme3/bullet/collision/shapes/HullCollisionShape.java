@@ -160,7 +160,7 @@ public class HullCollisionShape extends ConvexShape {
      * 100 vertices.
      *
      * @param flippedBuffer the coordinates on which to base the shape (not
-     * null, limit&gt0, limit a multiple of 3, unaffected)
+     * null, limit&gt;0, limit a multiple of 3, unaffected)
      */
     public HullCollisionShape(FloatBuffer flippedBuffer) {
         Validate.nonNull(flippedBuffer, "flipped buffer");
