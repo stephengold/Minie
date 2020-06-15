@@ -3,7 +3,7 @@
 * https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE[License]
 * https://github.com/stephengold/Minie/releases/latest[Latest release]
 * https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md[Release log]
-* xref:minie-library-tutorials:add.adoc[Library tutorials]
+* Library tutorials:
 ** xref:minie-library-tutorials:add.adoc[Add to existing project]
 ** xref:minie-library-tutorials:rigidbody.adoc[Rigid bodies]
 ** xref:minie-library-tutorials:shape.adoc[Collision shapes]
@@ -17,3 +17,11 @@
 * https://jitpack.io/#stephengold/Minie[JitPack page]
 * https://jmonkeystore.com/38308161-c3cf-4e23-8754-528ca8387c11[JmonkeyStore page]
 * https://github.com/stephengold/Minie/issues[Issue tracker]
+* Related projects:
+** https://jmonkeyengine.org[JMonkeyEngine]
+** https://github.com/stephengold/Libbulletjme[Libbulletjme]
+** https://pybullet.org/wordpress[Bullet]
+** https://github.com/kmammou/v-hacd[V-HACD]
+** https://github.com/stephengold/Heart[Heart]
+** https://jmonkeystore.com/4477514f-a3ae-4d42-b928-d3a62335159f[Advanced vehicles]
+** https://jmonkeystore.com/1a85df6f-4bb6-4c85-9e77-b5119662ed54[Blocks]
