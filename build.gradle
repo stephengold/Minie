@@ -5,3 +5,10 @@ plugins {
 subprojects {
     apply from: rootProject.file('common.gradle')
 }
+
+// cleanup tasks
+
+clean.dependsOn('cleanNodeModules')
+task cleanNodeModules(type: Delete) {
+    delete 'node_modules'
+}
