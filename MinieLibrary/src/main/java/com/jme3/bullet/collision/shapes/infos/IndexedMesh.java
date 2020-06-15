@@ -168,6 +168,9 @@ public class IndexedMesh
      */
     public IndexedMesh(Mesh jmeMesh) {
         Validate.nonNull(jmeMesh, "JME mesh");
+        Validate.require(MyMesh.hasTriangles(jmeMesh),
+                "mode=Triangles/TriangleFan/TriangleStrip");
+
         create(jmeMesh, null);
     }
 
@@ -182,6 +185,8 @@ public class IndexedMesh
      */
     public IndexedMesh(Mesh jmeMesh, Transform transform) {
         Validate.nonNull(jmeMesh, "JME mesh");
+        Validate.require(MyMesh.hasTriangles(jmeMesh),
+                "mode=Triangles/TriangleFan/TriangleStrip");
         Validate.nonNull(transform, "transform");
 
         create(jmeMesh, transform);
@@ -412,6 +417,9 @@ public class IndexedMesh
         assert MyMesh.hasTriangles(jmeMesh);
 
         numVertices = jmeMesh.getVertexCount();
+        if (numVertices <= 0) {
+            numVertices = 0;
+        }
 
         FloatBuffer meshVs = jmeMesh.getFloatBuffer(VertexBuffer.Type.Position);
         int numFloats = numAxes * numVertices;
@@ -427,6 +435,9 @@ public class IndexedMesh
         }
 
         numTriangles = jmeMesh.getTriangleCount();
+        if (numTriangles <= 0) {
+            numTriangles = 0;
+        }
         int numIndices = vpt * numTriangles;
 
         indices = IndexBuffer.createIndexBuffer(numVertices, numIndices);
