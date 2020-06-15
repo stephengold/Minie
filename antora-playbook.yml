@@ -12,5 +12,5 @@ content:
     start_path: MinieLibrary/src/site/antora/tutorials
 ui:
   bundle:
-    url: https://github.com/mitm001/jme-ui/releases/latest/download/ui-bundle.zip
+    url: https://github.com/stephengold/antora-ui-bundle/releases/download/v-sgold200615/ui-bundle.zip
     snapshot: true
