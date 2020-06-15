@@ -271,18 +271,30 @@ If your graphics driver supports it, you can specify wider arrows:</p>
 <p>By default, Minie visualizes the shapes of collision objects
 using single-sided wireframe materials:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">* yellow for any collision object without contact response,
-  which includes any `PhysicsGhostObject`
-* magenta for a `PhysicsRigidBody` or `MultiBodyCollider`
-  (with contact response) that's both dynamic and active
-* blue for a `PhysicsRigidBody` or `MultiBodyCollider`
-  (with contact response) that's either static or kinematic or sleeping
-* pink for a `PhysicsCharacter` (with contact response)
-* red for a `PhysicsSoftBody` with faces
-* orange for a `PhysicsSoftBody` with links but no faces</code></pre>
-</div>
+<div class="ulist">
+<ul>
+<li>
+<p>yellow for any collision object without contact response,
+which includes any <code>PhysicsGhostObject</code></p>
+</li>
+<li>
+<p>magenta for a <code>PhysicsRigidBody</code> or <code>MultiBodyCollider</code>
+(with contact response) that&#8217;s both dynamic and active</p>
+</li>
+<li>
+<p>blue for a <code>PhysicsRigidBody</code> or <code>MultiBodyCollider</code>
+(with contact response) that&#8217;s either static or kinematic or sleeping</p>
+</li>
+<li>
+<p>pink for a <code>PhysicsCharacter</code> (with contact response)</p>
+</li>
+<li>
+<p>red for a <code>PhysicsSoftBody</code> with faces</p>
+</li>
+<li>
+<p>orange for a <code>PhysicsSoftBody</code> with links but no faces</p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock note">
 <table>
