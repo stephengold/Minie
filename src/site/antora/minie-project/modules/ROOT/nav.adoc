@@ -1,5 +1,7 @@
 * https://hub.jmonkeyengine.org/c/user-code-projects/minie/63[Forum]
 * https://github.com/stephengold/Minie[Git repository]
+* https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE[License]
+* https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md[Release log]
 * xref:minie-library-tutorials:add.adoc[Library tutorials]
 ** xref:minie-library-tutorials:add.adoc[Add to existing project]
 ** xref:minie-library-tutorials:rigidbody.adoc[Rigid bodies]
