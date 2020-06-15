@@ -547,6 +547,7 @@ YouTube videos about Minie:
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestDac.java)
 
 [ant]: https://ant.apache.org "Apache Ant Project"
+[antora]: https://antora.org/ "Antora Project"
 [blender]: https://docs.blender.org "Blender Project"
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
 [bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
@@ -632,6 +633,7 @@ artists and software developers:
 + [Nathan Vegdahl][vegdahl], for creating the Puppet model
 + Tobias Jung, for distributing [ProFont]
 + plus the creators of (and contributors to) the following software:
+    + the [Antora] static website generator
     + the [Blender] 3-D animation suite
     + the [Bullet] real-time physics library
     + the [FindBugs] source-code analyzer
