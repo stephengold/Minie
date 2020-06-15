@@ -240,7 +240,7 @@ To configure a fixed time step of 0.01 second with up to 6 time steps per frame:
     space.setMaxSubSteps(6);
 ----
 
-Note that `setAccuracy()` has no effect when `maxSubSteps==0`,
+NOTE: `setAccuracy()` has no effect when `maxSubSteps==0`,
 while `setMaxTimeStep()` has no effect when `maxSubSteps>0`.
 
 The contact solver performs a fixed number of iterations per time step,
@@ -294,7 +294,7 @@ or indirectly, by adding physics controls to scene-graph spatials:
 ----
 
 Either way, the object(s) won't be simulated unless added to a `PhysicsSpace`.
-Also, note that collision shapes can be shared between objects.
+NOTE: Collision shapes can be shared between objects.
 
 === Global configuration
 
@@ -333,4 +333,4 @@ To configure a default margin of 0.1 psu:
     CollisionShape.setDefaultMargin(0.1f);
 ----
 
-Note that the Bullet Manual advises against changing the default margin.
+NOTE: The Bullet Manual advises against changing the default margin.

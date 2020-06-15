@@ -116,7 +116,7 @@ using single-sided wireframe materials:
 * orange for a `PhysicsSoftBody` with links but no faces
 ----
 
-Note that on Android platforms,
+NOTE: On Android platforms,
 the default debug materials are solid colors instead of wireframes.
 
 Some collision objects are best visualized using double-sided materials.
@@ -127,7 +127,7 @@ You can override the single-sided default on a per-object basis:
     collisionObject.setDebugNumSides(2);
 ----
 
-Note that `setDebugNumSides(0)` makes the object's shape invisible
+NOTE: `setDebugNumSides(0)` makes the object's shape invisible
 in debug visualization,
 even if the object is selected by the debug filter.
 
@@ -139,7 +139,7 @@ on a per-object basis:
     collisionObject.setDebugMaterial(myMaterial);
 ----
 
-Note that `setDebugNumSides()` has no effect on custom debug materials.
+NOTE: `setDebugNumSides()` has no effect on custom debug materials.
 
 === Customizing the meshes
 
