@@ -140,9 +140,9 @@ is applicable to particular shape:
 
 [source,java]
 ----
-    if (shape.canScale(newScale)) {
-        shape.setScale(newScale);
-    }
+if (shape.canScale(newScale)) {
+    shape.setScale(newScale);
+}
 ----
 
 == An algorithm for choosing a shape
@@ -157,53 +157,53 @@ In particular, `CapsuleCollisionShape` is often used with humanoid models.
 
 [source]
 ----
-    if (the object doesn't move and isn't involved in collisions) {
-        use an EmptyShape or don't add the object to the space
-    } else if (the object doesn't move and its shape can be approximated by an infinite plane) {
-        use a PlaneCollisionShape
-    } else if (the object doesn't move and its shape can be approximated by point, line segment, or triangle) {
-        use a SimplexCollisionShape
-    } else if (the object doesn't move and its shape can be approximated by rectangle) {
-        use a Box2dShape
-    } else if (the object doesn't move and its shape can be approximated by convex polygon) {
-        use a Convex2dShape
-    } else if (its shape can be approximated by a tetrahedron) {
-        use a SimplexCollisionShape
-    } else if (its shape can be approximated by a centered sphere) {
-        use a SphereCollisionShape
-    } else if (its shape can be approximated by a centered rectangular solid) {
-        use a BoxCollisionShape
-    } else if (its shape can be approximated by a centered capsule) {
-        use a CapsuleCollisionShape
-    } else if (its shape can be approximated by a centered cylinder) {
-        use a CylinderCollisionShape
-    } else if (its shape can be approximated by a centered cone) {
-        use a ConeCollisionShape
-    } else if (its shape can be approximated by an ellipsoid
-                or an eccentric sphere
-                or an eccentric capsule
-                or the convex hull of multiple spheres) {
-        use a MultiSphere
-    } else if (its shape can be approximated by an eccentric rectangular solid
-                or an eccentric cylinder
-                or an eccentric cone
-                or a combination of convex primitives) {
-            use a CompoundCollisionShape
-    } else if (the object does not move) {
-        if (it is a 2-D heightfield) {
-            use a HeightfieldCollisionShape
-        } else {
-            use a MeshCollisionShape
-        }
-    } else { // if the object moves
-        if (its shape can be approximated by a convex hull) {
-            use a HullCollisionShape
-        } else if (its shape can be decomposed into convex hulls) {
-            use a compound of hull shapes
-        } else {
-            use a GImpactCollisionShape
-        }
+if (the object doesn't move and isn't involved in collisions) {
+    use an EmptyShape or don't add the object to the space
+} else if (the object doesn't move and its shape can be approximated by an infinite plane) {
+    use a PlaneCollisionShape
+} else if (the object doesn't move and its shape can be approximated by point, line segment, or triangle) {
+    use a SimplexCollisionShape
+} else if (the object doesn't move and its shape can be approximated by rectangle) {
+    use a Box2dShape
+} else if (the object doesn't move and its shape can be approximated by convex polygon) {
+    use a Convex2dShape
+} else if (its shape can be approximated by a tetrahedron) {
+    use a SimplexCollisionShape
+} else if (its shape can be approximated by a centered sphere) {
+    use a SphereCollisionShape
+} else if (its shape can be approximated by a centered rectangular solid) {
+    use a BoxCollisionShape
+} else if (its shape can be approximated by a centered capsule) {
+    use a CapsuleCollisionShape
+} else if (its shape can be approximated by a centered cylinder) {
+    use a CylinderCollisionShape
+} else if (its shape can be approximated by a centered cone) {
+    use a ConeCollisionShape
+} else if (its shape can be approximated by an ellipsoid
+            or an eccentric sphere
+            or an eccentric capsule
+            or the convex hull of multiple spheres) {
+    use a MultiSphere
+} else if (its shape can be approximated by an eccentric rectangular solid
+            or an eccentric cylinder
+            or an eccentric cone
+            or a combination of convex primitives) {
+    use a CompoundCollisionShape
+} else if (the object does not move) {
+    if (it is a 2-D heightfield) {
+        use a HeightfieldCollisionShape
+    } else {
+        use a MeshCollisionShape
     }
+} else { // if the object moves
+    if (its shape can be approximated by a convex hull) {
+        use a HullCollisionShape
+    } else if (its shape can be decomposed into convex hulls) {
+        use a compound of hull shapes
+    } else {
+        use a GImpactCollisionShape
+    }
+}
 ----
 
 (Pseudocode adapted from the flowchart on page 13 of
@@ -218,9 +218,9 @@ compound of hull shapes:
 
 [source,java]
 ----
-    VHACDParameters parms = new VHACDParameters();
-    CollisionShape shape
-            = CollisionShapeFactory.createVhacdShape(modelRoot, parms, null);
+VHACDParameters parms = new VHACDParameters();
+CollisionShape shape
+        = CollisionShapeFactory.createVhacdShape(modelRoot, parms, null);
 ----
 
 The V-HACD algorithm is costly to run, but in many applications it can

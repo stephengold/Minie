@@ -11,10 +11,10 @@ and collision shape. Together, these properties determine its inertia:
 
 [source,java]
 ----
-    CollisionShape ballShape = new SphereCollisionShape(1f);
-    float ballMass = 2f;
-    PhysicsRigidBody ball = new PhysicsRigidBody(ballShape, ballMass);
-    Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));
+CollisionShape ballShape = new SphereCollisionShape(1f);
+float ballMass = 2f;
+PhysicsRigidBody ball = new PhysicsRigidBody(ballShape, ballMass);
+Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));
 ----
 
 By default, rigid bodies also exhibit 3 more features of real-world objects:
@@ -51,8 +51,8 @@ Both these properties can be independently configured:
 
 [source,java]
 ----
-    body.setPhysicsLocation(new Vector3f(5f, 1f, 0f));
-    body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));
+body.setPhysicsLocation(new Vector3f(5f, 1f, 0f));
+body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));
 ----
 
 Once a dynamic or static body has been initialized, of course,
@@ -82,8 +82,8 @@ to a positive value *before* setting its kinematic flag:
 
 [source,java]
 ----
-    body.setMass(1f);
-    body.setKinematic(true);
+body.setMass(1f);
+body.setKinematic(true);
 ----
 
 === Contact response
@@ -119,14 +119,14 @@ update the gravity of each body prior to each physics tick.
 
 [source,java]
 ----
-        public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-            Collection<PhysicsCollisionObject> pcos = space.getPcoList();
-            for (PhysicsCollisionObject pco : pcos) {
-                if (pco instanceof PhysicsBody) {
-                    updateGravity((PhysicsBody) pco);
-                }
-            }
+public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+    Collection<PhysicsCollisionObject> pcos = space.getPcoList();
+    for (PhysicsCollisionObject pco : pcos) {
+        if (pco instanceof PhysicsBody) {
+            updateGravity((PhysicsBody) pco);
         }
+    }
+}
 ----
 
 TODO non-u example, RigidBodyControl, restitution, damping, friction

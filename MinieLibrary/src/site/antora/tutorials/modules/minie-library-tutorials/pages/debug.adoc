@@ -19,7 +19,7 @@ To enable it, configure the `BulletAppState`:
 
 [source,java]
 ----
-    bulletAppState.setDebugEnabled(true);
+bulletAppState.setDebugEnabled(true);
 ----
 
 By default, debug visualization renders convex collision shapes using meshes
@@ -29,7 +29,7 @@ To override the low-resolution default on a per-object basis:
 
 [source,java]
 ----
-    collisionObject.setDebugMeshResolution(DebugShapeFactory.highResolution);
+collisionObject.setDebugMeshResolution(DebugShapeFactory.highResolution);
 ----
 
 (This setting is effective only if the object has a convex shape.)
@@ -40,7 +40,7 @@ To clear the debug-mesh cache:
 
 [source,java]
 ----
-    DebugShapeFactory.clearCache();
+DebugShapeFactory.clearCache();
 ----
 
 By default, debug visualization renders only to the
@@ -49,7 +49,7 @@ To specify a different `ViewPort` (or an array of viewports) use:
 
 [source,java]
 ----
-    bulletAppState.setDebugViewPorts(viewPortArray);
+bulletAppState.setDebugViewPorts(viewPortArray);
 ----
 
 For a very simple example, see
@@ -65,13 +65,13 @@ each feature should be visualized:
 
 [source,java]
 ----
-    BulletDebugAppState.DebugAppStateFilter all = new FilterAll(true);
-    BulletDebugAppState.DebugAppStateFilter none = new FilterAll(false);
-    bulletAppState.setDebugBoundingBoxFilter(all);     // all bounding boxes
-    bulletAppState.setDebugGravityVectorFilter(none);  // no gravity vectors
-    bulletAppState.setDebugFilter(none);               // no collision shapes
-    bulletAppState.setDebugSweptSphereFilter(all);     // all swept spheres
-    bulletAppState.setDebugVelocityVectorFilter(none); // no velocity vectors
+BulletDebugAppState.DebugAppStateFilter all = new FilterAll(true);
+BulletDebugAppState.DebugAppStateFilter none = new FilterAll(false);
+bulletAppState.setDebugBoundingBoxFilter(all);     // all bounding boxes
+bulletAppState.setDebugGravityVectorFilter(none);  // no gravity vectors
+bulletAppState.setDebugFilter(none);               // no collision shapes
+bulletAppState.setDebugSweptSphereFilter(all);     // all swept spheres
+bulletAppState.setDebugVelocityVectorFilter(none); // no velocity vectors
 ----
 
 By default, debug visualization doesn't indicate
@@ -80,7 +80,7 @@ To override this default, increase the axis length to a positive value:
 
 [source,java]
 ----
-    bulletAppState.setAxisLength(1f);
+bulletAppState.setAxisLength(1f);
 ----
 
 If local axes are visualized, then by default the arrows are one pixel wide.
@@ -88,14 +88,14 @@ If your graphics driver supports it, you can specify wider arrows:
 
 [source,java]
 ----
-    bulletAppState.setDebugAxisLineWidth(3f); // axis arrows 3 pixels wide
+bulletAppState.setDebugAxisLineWidth(3f); // axis arrows 3 pixels wide
 ----
 
 or you can specify 3-D arrows:
 
 [source,java]
 ----
-    bulletAppState.setDebugAxisLineWidth(0f); // solid arrows
+bulletAppState.setDebugAxisLineWidth(0f); // solid arrows
 ----
 
 === Customizing the materials
@@ -121,7 +121,7 @@ You can override the single-sided default on a per-object basis:
 
 [source,java]
 ----
-    collisionObject.setDebugNumSides(2);
+collisionObject.setDebugNumSides(2);
 ----
 
 NOTE: `setDebugNumSides(0)` makes the object's shape invisible
@@ -133,7 +133,7 @@ on a per-object basis:
 
 [source,java]
 ----
-    collisionObject.setDebugMaterial(myMaterial);
+collisionObject.setDebugMaterial(myMaterial);
 ----
 
 NOTE: `setDebugNumSides()` has no effect on custom debug materials.
@@ -149,9 +149,9 @@ You can override the no-normals default on a per-object basis:
 
 [source,java]
 ----
-    collisionObject1.setDebugMeshNormals(DebugMeshNormals.Facet);
-    collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth);
-    collisionObject3.setDebugMeshNormals(DebugMeshNormals.Sphere);
+collisionObject1.setDebugMeshNormals(DebugMeshNormals.Facet);
+collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth);
+collisionObject3.setDebugMeshNormals(DebugMeshNormals.Sphere);
 ----
 
 Generating index buffers for meshes usually reduces
@@ -164,7 +164,7 @@ You can tune this threshold:
 
 [source,java]
 ----
-    DebugShapeFactorysetIndexBuffers(900);
+DebugShapeFactorysetIndexBuffers(900);
 ----
 
 The threshold has no effect on debug meshes previously generated.
@@ -177,15 +177,15 @@ You can use this callback to provide lighting for debug visualization:
 
 [source,java]
 ----
-    DebugInitListener callbackObject = new DebugInitListener() {
-        public void bulletDebugInit(Node physicsDebugRootNode) {
-            AmbientLight ambient = new AmbientLight(aColor);
-            physicsDebugRootNode.addLight(ambient);
-            DirectionalLight sun = new DirectionalLight(direction, dColor);
-            physicsDebugRootNode.addLight(sun);
-        }
-    };
-    bulletAppState.setDebugInitListener(callbackObject);
+DebugInitListener callbackObject = new DebugInitListener() {
+    public void bulletDebugInit(Node physicsDebugRootNode) {
+        AmbientLight ambient = new AmbientLight(aColor);
+        physicsDebugRootNode.addLight(ambient);
+        DirectionalLight sun = new DirectionalLight(direction, dColor);
+        physicsDebugRootNode.addLight(sun);
+    }
+};
+bulletAppState.setDebugInitListener(callbackObject);
 ----
 
 `BulletAppState` invokes a callback each time it generates a debug mesh.
@@ -193,18 +193,18 @@ You can use this callback to add texture coordinates to the mesh:
 
 [source,java]
 ----
-    DebugInitListener callbackObject = new DebugMeshInitListener() {
-        public void debugMeshInit(Mesh debugMesh) {
-            VertexBuffer pos = debugMesh.getBuffer(VertexBuffer.Type.Position);
-            int numVertices = pos.getNumElements();
-            FloatBuffer positions = (FloatBuffer) pos.getDataReadOnly();
-            FloatBuffer uvs = BufferUtils.createFloatBuffer(2 * numVertices);
-            // TODO: fill the uvs buffer with data
-            debugMesh.setBuffer(VertexBuffer.Type.TexCoord, 2, uvs);
-            uvs.flip();
-        }
-    };
-    collisionObject.setDebugMeshInitListener(callbackObject);
+DebugInitListener callbackObject = new DebugMeshInitListener() {
+    public void debugMeshInit(Mesh debugMesh) {
+        VertexBuffer pos = debugMesh.getBuffer(VertexBuffer.Type.Position);
+        int numVertices = pos.getNumElements();
+        FloatBuffer positions = (FloatBuffer) pos.getDataReadOnly();
+        FloatBuffer uvs = BufferUtils.createFloatBuffer(2 * numVertices);
+        // TODO: fill the uvs buffer with data
+        debugMesh.setBuffer(VertexBuffer.Type.TexCoord, 2, uvs);
+        uvs.flip();
+    }
+};
+collisionObject.setDebugMeshInitListener(callbackObject);
 ----
 
 == An introduction to PhysicsDumper
@@ -214,8 +214,8 @@ The following temporary statements could be used to dump
 
 [source,java]
 ----
-    PhysicsDumper dumper = new PhysicsDumper();
-    dumper.dump(physicsSpace);
+PhysicsDumper dumper = new PhysicsDumper();
+dumper.dump(physicsSpace);
 ----
 
 Here is sample output for a space containing 2 rigid bodies and nothing else:
@@ -244,9 +244,9 @@ To dump a `PhysicsSpace` to a text file:
 
 [source,java]
 ----
-    PrintStream dumpStream = new PrintStream("dump.txt");
-    PhysicsDumper dumper = new PhysicsDumper(dumpStream);
-    dumper.dump(physicsSpace);
+PrintStream dumpStream = new PrintStream("dump.txt");
+PhysicsDumper dumper = new PhysicsDumper(dumpStream);
+dumper.dump(physicsSpace);
 ----
 
 === Customizing what is dumped
@@ -255,25 +255,25 @@ You can dump an entire `BulletAppState`, including its `PhysicsSpace`:
 
 [source,java]
 ----
-    dumper.dump(bulletAppState);
+dumper.dump(bulletAppState);
 ----
 
 You can dump individual collision objects:
 
 [source,java]
 ----
-    dumper.dump(character);
-    dumper.dump(multiBodyCollider);
-    dumper.dump(ghostObject);
-    dumper.dump(rigidBody);
-    dumper.dump(softBody);
+dumper.dump(character);
+dumper.dump(multiBodyCollider);
+dumper.dump(ghostObject);
+dumper.dump(rigidBody);
+dumper.dump(softBody);
 ----
 
 You can dump individual collision shapes:
 
 [source,java]
 ----
-    dumper.dump(collisionShape, "");
+dumper.dump(collisionShape, "");
 ----
 
 When dumping a `PhysicsSpace`,
@@ -283,22 +283,22 @@ To describe the joints in each body, configure the dumper like so:
 
 [source,java]
 ----
-    dumper.setEnabled(DumpFlags.JointsInBodies, true); // default=false
+dumper.setEnabled(DumpFlags.JointsInBodies, true); // default=false
 ----
 
 To describe the motors in each joint, configure the dumper like so:
 
 [source,java]
 ----
-    dumper.setEnabled(DumpFlags.Motors, true); // default=false
+dumper.setEnabled(DumpFlags.Motors, true); // default=false
 ----
 
 To dump just the physics joints (no collision objects):
 
 [source,java]
 ----
-    dumper.setEnabled(DumpFlags.Pcos, false); // default=true
-    dumper.setEnabled(DumpFlags.JointsInSpaces, true); // default=false
+dumper.setEnabled(DumpFlags.Pcos, false); // default=true
+dumper.setEnabled(DumpFlags.JointsInSpaces, true); // default=false
 ----
 
 When dumping a `PhysicsSpace`, you can apply a filter
@@ -307,9 +307,9 @@ For instance, to dump only those physics objects that lack a user object:
 
 [source,java]
 ----
-    String indent = "";
-    BulletDebugAppState.DebugAppStateFilter noUser = new UserFilter(null);
-    dumper.dump(physicsSpace, indent, noUser);
+String indent = "";
+BulletDebugAppState.DebugAppStateFilter noUser = new UserFilter(null);
+dumper.dump(physicsSpace, indent, noUser);
 ----
 
 Other dump flags can be set, for instance,

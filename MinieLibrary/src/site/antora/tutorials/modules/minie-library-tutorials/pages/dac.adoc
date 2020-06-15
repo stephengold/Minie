@@ -47,7 +47,7 @@ for each linked bone:
 
 [source,java]
 ----
-    dynamicAnimControl.link(boneName, new LinkConfig(), new RangeOfMotion(1f, 1f, 1f));
+dynamicAnimControl.link(boneName, new LinkConfig(), new RangeOfMotion(1f, 1f, 1f));
 ----
 
 For a simple example, see

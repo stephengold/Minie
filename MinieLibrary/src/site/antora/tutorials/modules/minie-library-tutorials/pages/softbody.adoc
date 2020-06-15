@@ -51,8 +51,8 @@ different accessors are used:
 
 [source,java]
 ----
-    float oldMargin = softBody.margin();
-    softBody.setMargin(0.1f);
+float oldMargin = softBody.margin();
+softBody.setMargin(0.1f);
 ----
 
 Soft bodies lack many other features of rigid bodies, including:
@@ -73,7 +73,7 @@ To construct a soft body directly, start with the null constructor:
 
 [source,java]
 ----
-    PhysicsSoftBody softBody = new PhysicsSoftBody()
+PhysicsSoftBody softBody = new PhysicsSoftBody()
 ----
 
 This produces an empty body (one without any nodes, links, faces, tetras,
@@ -100,8 +100,8 @@ and add it to a `Geometry`:
 
 [source,java]
 ----
-    SoftBodyControl sbc = new SoftBodyControl();
-    geometry.addControl(sbc);
+SoftBodyControl sbc = new SoftBodyControl();
+geometry.addControl(sbc);
 ----
 
 Access the newly-constructed `PhysicsSoftBody` using `sbc.getBody()`.
@@ -135,9 +135,9 @@ set the `VF_SS` collision flag in its configuration object:
 
 [source,java]
 ----
-    SoftBodyConfig config = softBody.getSoftConfig();
-    int oldFlags = config.getCollisionFlags();
-    config.setCollisionFlags(oldFlags, ConfigFlag.VF_SS);
+SoftBodyConfig config = softBody.getSoftConfig();
+int oldFlags = config.getCollisionFlags();
+config.setCollisionFlags(oldFlags, ConfigFlag.VF_SS);
 ----
 
 For a simple example of a collision between 2 soft bodies, see
@@ -160,8 +160,8 @@ number of position-solver iterations:
 
 [source,java]
 ----
-    SoftBodyConfig config = softBody.getSoftConfig();
-    config.setPositionIterations(numIterations);  // default=1
+SoftBodyConfig config = softBody.getSoftConfig();
+config.setPositionIterations(numIterations);  // default=1
 ----
 
 == Stiffness coefficients
@@ -179,8 +179,8 @@ to a small value (such as zero):
 
 [source,java]
 ----
-    PhysicsSoftBody.Material softMaterial = softBody.getSoftMaterial();
-    softMaterial.setAngularStiffness(0f); // default=1
+PhysicsSoftBody.Material softMaterial = softBody.getSoftMaterial();
+softMaterial.setAngularStiffness(0f); // default=1
 ----
 
 For a simple example of cloth simulation, see
@@ -193,7 +193,7 @@ To alter the mass of a pre-existing node, use the `setNodeMass()` method:
 
 [source,java]
 ----
-    softBody.setNodeMass(nodeIndex, desiredMass);
+softBody.setNodeMass(nodeIndex, desiredMass);
 ----
 
 You can also alter the total mass of a soft body, distributing the mass across
@@ -231,6 +231,6 @@ using an iterative algorithm that's built into Bullet:
 
 [source,java]
 ----
-    softBody.generateClusters(k, numIterations);
+softBody.generateClusters(k, numIterations);
 ----
 

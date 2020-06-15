@@ -60,12 +60,12 @@ resolve the remaining dependencies automatically.
 
 [source,groovy]
 ----
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        compile 'com.github.stephengold:Minie:1.7.0'
-    }
+repositories {
+    jcenter()
+}
+dependencies {
+    compile 'com.github.stephengold:Minie:1.7.0'
+}
 ----
 
 === Ant-built projects
@@ -113,27 +113,27 @@ If not, here is a snippet to guide you:
 
 [source,java]
 ----
-    SoftPhysicsAppState appState = new SoftPhysicsAppState();
-    stateManager.attach(appState);
-    PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();
+SoftPhysicsAppState appState = new SoftPhysicsAppState();
+stateManager.attach(appState);
+PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();
 ----
 
 If you don't need soft bodies, you can instantiate a `BulletAppState` directly:
 
 [source,java]
 ----
-    BulletAppState appState = new BulletAppState();
-    stateManager.attach(appState);
-    PhysicsSpace physicsSpace = appState.getPhysicsSpace();
+BulletAppState appState = new BulletAppState();
+stateManager.attach(appState);
+PhysicsSpace physicsSpace = appState.getPhysicsSpace();
 ----
 
 Or if you need multibodies, instantiate a `MultiBodyAppState` instead:
 
 [source,java]
 ----
-    MultiBodyAppState appState = new MultiBodyAppState();
-    stateManager.attach(appState);
-    MultiBodySpace physicsSpace = appState.getMultiBodySpace();
+MultiBodyAppState appState = new MultiBodyAppState();
+stateManager.attach(appState);
+MultiBodySpace physicsSpace = appState.getMultiBodySpace();
 ----
 
 (Minie doesn't yet support combining soft bodies and multibodies in
@@ -144,7 +144,7 @@ To execute it on a dedicated thread, use:
 
 [source,java]
 ----
-    bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
 ----
 
 By default, simulation advances based on the time per frame (tpf)
@@ -153,7 +153,7 @@ To advance the physics simulation at a different rate, use:
 
 [source,java]
 ----
-    bulletAppState.setSpeed(0.5f); // simulate physics at half speed
+bulletAppState.setSpeed(0.5f); // simulate physics at half speed
 ----
 
 By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
@@ -162,12 +162,12 @@ To specify a different data structure, use `setBroadphaseType()`:
 
 [source,java]
 ----
-    SoftPhysicsAppState bas = new SoftPhysicsAppState();
-    bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
-    bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
-    bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
-    stateManager.attach(bas);
-    PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();
+SoftPhysicsAppState bas = new SoftPhysicsAppState();
+bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
+bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
+stateManager.attach(bas);
+PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();
 ----
 
 By default, a Sequential Impulse (SI) solver is
@@ -177,7 +177,7 @@ before attaching the AppState:
 
 [source,java]
 ----
-    bulletAppState.setSolverType(SolverType.Dantzig);
+bulletAppState.setSolverType(SolverType.Dantzig);
 ----
 
 Caveats:
@@ -189,7 +189,7 @@ By default, debug visualization is disabled. To enable it, use:
 
 [source,java]
 ----
-    bulletAppState.setDebugEnabled(true);
+bulletAppState.setDebugEnabled(true);
 ----
 
 Other `BulletAppState` configurables, used to customize debug visualization,
@@ -203,21 +203,21 @@ you can access immediately:
 
 [source,java]
 ----
-    PhysicsSpace space = bulletAppState.getPhysicsSpace();
+PhysicsSpace space = bulletAppState.getPhysicsSpace();
 ----
 
 `SoftPhysicsAppState` instantiates a `PhysicsSoftSpace`, which is a subclass:
 
 [source,java]
 ----
-    PhysicsSoftSpace space = bulletAppState.getPhysicsSoftSpace();
+PhysicsSoftSpace space = bulletAppState.getPhysicsSoftSpace();
 ----
 
 and `MultiBodyAppState` instantiates a `MultiBodySpace`:
 
 [source,java]
 ----
-    MultiBodySpace space = bulletAppState.getMultiBodySpace();
+MultiBodySpace space = bulletAppState.getMultiBodySpace();
 ----
 
 Physics simulation can run with a fixed time step or a variable time step.
@@ -228,16 +228,16 @@ To configure a variable time step with a maximum of 0.25 seconds:
 
 [source,java]
 ----
-    space.setMaxSubSteps(0);
-    space.setMaxTimeStep(0.25f);
+space.setMaxSubSteps(0);
+space.setMaxTimeStep(0.25f);
 ----
 
 To configure a fixed time step of 0.01 second with up to 6 time steps per frame:
 
 [source,java]
 ----
-    space.setAccuracy(0.01f);
-    space.setMaxSubSteps(6);
+space.setAccuracy(0.01f);
+space.setMaxSubSteps(6);
 ----
 
 NOTE: `setAccuracy()` has no effect when `maxSubSteps==0`,
@@ -250,7 +250,7 @@ For instance, to use 20 iterations:
 
 [source,java]
 ----
-    space.getSolverInfo().setNumIterations(20);
+space.getSolverInfo().setNumIterations(20);
 ----
 
 Each `PhysicsSpace` has a gravity vector,
@@ -260,7 +260,7 @@ set the gravity of the space to zero:
 
 [source,java]
 ----
-    space.setGravity(Vector3f.ZERO);
+space.setGravity(Vector3f.ZERO);
 ----
 
 == Create physics controls, collision objects, and joints
@@ -269,28 +269,28 @@ You can create collision objects directly, using the constructors:
 
 [source,java]
 ----
-    float radius = 2f;
-    CollisionShape sphere2 = new SphereCollisionShape(radius);
-    PhysicsGhostObject ghost1 = new PhysicsGhostObject(sphere2);
-    float mass = 1f;
-    PhysicsRigidBody body1 = new PhysicsRigidBody(sphere2, mass);
+float radius = 2f;
+CollisionShape sphere2 = new SphereCollisionShape(radius);
+PhysicsGhostObject ghost1 = new PhysicsGhostObject(sphere2);
+float mass = 1f;
+PhysicsRigidBody body1 = new PhysicsRigidBody(sphere2, mass);
 ----
 
 or indirectly, by adding physics controls to scene-graph spatials:
 
 [source,java]
 ----
-    float radius = 2f;
-    CollisionShape sphere2 = new SphereCollisionShape(radius);
+float radius = 2f;
+CollisionShape sphere2 = new SphereCollisionShape(radius);
 
-    Node ghostNode1 = new Node("ghostNode1");
-    GhostControl gc1 = new GhostControl(sphere2);
-    ghostNode1.addControl(gc1);
+Node ghostNode1 = new Node("ghostNode1");
+GhostControl gc1 = new GhostControl(sphere2);
+ghostNode1.addControl(gc1);
 
-    Node rigidNode1 = new Node("rigidNode1");
-    float mass = 1f;
-    RigidBodyControl rbc1 = new RigidBodyControl(sphere2, mass);
-    rigidNode1.addControl(rbc1);
+Node rigidNode1 = new Node("rigidNode1");
+float mass = 1f;
+RigidBodyControl rbc1 = new RigidBodyControl(sphere2, mass);
+rigidNode1.addControl(rbc1);
 ----
 
 Either way, the object(s) won't be simulated unless added to a `PhysicsSpace`.
@@ -306,7 +306,7 @@ Once the library is loaded (but not started) you can disable this message:
 
 [source,java]
 ----
-    NativeLibrary.setStartupMessageEnabled(false);
+NativeLibrary.setStartupMessageEnabled(false);
 ----
 
 Once the native library is loaded,
@@ -314,7 +314,7 @@ you can test whether it uses double-precision arithmetic:
 
 [source,java]
 ----
-    boolean doublePrecision = NativeLibrary.isDoublePrecision();
+boolean doublePrecision = NativeLibrary.isDoublePrecision();
 ----
 
 You can also test whether it was built for debugging
@@ -323,7 +323,7 @@ and debug information generated):
 
 [source,java]
 ----
-    boolean debug = NativeLibrary.isDebug();
+boolean debug = NativeLibrary.isDebug();
 ----
 
 The default collision margin for new shapes is 0.04 physics-space units.
@@ -331,7 +331,7 @@ To configure a default margin of 0.1 psu:
 
 [source,java]
 ----
-    CollisionShape.setDefaultMargin(0.1f);
+CollisionShape.setDefaultMargin(0.1f);
 ----
 
 NOTE: The Bullet Manual advises against changing the default margin.
