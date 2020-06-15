@@ -98,18 +98,20 @@ public class MeshCollisionShape extends CollisionShape {
      * Instantiate a shape from the specified collection of native meshes.
      *
      * @param useCompression true to use quantized AABB compression
-     * @param meshes the collection on which to base the shape (not null, not
-     * empty)
+     * @param meshes the collection on which to base the shape (must contain at
+     * least one triangle)
      */
     public MeshCollisionShape(boolean useCompression,
             Collection<IndexedMesh> meshes) {
         Validate.nonEmpty(meshes, "meshes");
-
-        this.useCompression = useCompression;
         nativeMesh = new CompoundMesh();
         for (IndexedMesh submesh : meshes) {
             nativeMesh.add(submesh);
         }
+        Validate.require(nativeMesh.countTriangles() > 0,
+                "at least one triangle");
+
+        this.useCompression = useCompression;
         createShape();
     }
 
@@ -117,18 +119,20 @@ public class MeshCollisionShape extends CollisionShape {
      * Instantiate a shape from the specified native mesh(es).
      *
      * @param useCompression true to use quantized AABB compression
-     * @param submeshes the mesh(es) on which to base the shape (not null, not
-     * empty)
+     * @param submeshes the mesh(es) on which to base the shape (must contain at
+     * least one triangle)
      */
     public MeshCollisionShape(boolean useCompression,
             IndexedMesh... submeshes) {
         Validate.nonEmpty(submeshes, "submeshes");
-
-        this.useCompression = useCompression;
         nativeMesh = new CompoundMesh();
         for (IndexedMesh submesh : submeshes) {
             nativeMesh.add(submesh);
         }
+        Validate.require(nativeMesh.countTriangles() > 0,
+                "at least one triangle");
+
+        this.useCompression = useCompression;
         createShape();
     }
 
@@ -136,19 +140,21 @@ public class MeshCollisionShape extends CollisionShape {
      * Instantiate a shape from the specified native mesh(es) and serialized
      * BVH. The submeshes must be equivalent to those used to generate the BVH.
      *
-     * @param bvhBytes the serialized BVH (not null)
-     * @param submeshes the mesh(es) on which to base the shape (not null, not
-     * empty)
+     * @param bvhBytes the serialized BVH (not null, unaffected)
+     * @param submeshes the mesh(es) on which to base the shape (must contain at
+     * least one triangle)
      */
     public MeshCollisionShape(byte[] bvhBytes, IndexedMesh... submeshes) {
         Validate.nonNull(bvhBytes, "BVH data");
         Validate.nonEmpty(submeshes, "submeshes");
-
-        useCompression = true;
         nativeMesh = new CompoundMesh();
         for (IndexedMesh submesh : submeshes) {
             nativeMesh.add(submesh);
         }
+        Validate.require(nativeMesh.countTriangles() > 0,
+                "at least one triangle");
+
+        useCompression = true;
         bvh = new BoundingValueHierarchy(bvhBytes);
         createShape();
     }
@@ -157,28 +163,33 @@ public class MeshCollisionShape extends CollisionShape {
      * Instantiate a shape based on the specified JME mesh(es), using quantized
      * AABB compression.
      *
-     * @param jmeMeshes the mesh(es) on which to base the shape (not null, not
-     * empty, unaffected)
+     * @param jmeMeshes the mesh(es) on which to base the shape (must contain at
+     * least one triangle, unaffected)
      */
     public MeshCollisionShape(Mesh... jmeMeshes) {
         Validate.nonEmpty(jmeMeshes, "JME meshes");
+        nativeMesh = new CompoundMesh(jmeMeshes);
+        Validate.require(nativeMesh.countTriangles() > 0,
+                "at least one triangle");
 
         useCompression = true;
-        nativeMesh = new CompoundMesh(jmeMeshes);
         createShape();
     }
 
     /**
      * Instantiate a shape based on the specified JME mesh.
      *
-     * @param mesh the mesh on which to base the shape (not null, unaffected)
+     * @param mesh the mesh on which to base the shape (must contain at least
+     * one triangle, unaffected)
      * @param useCompression true to use quantized AABB compression
      */
     public MeshCollisionShape(Mesh mesh, boolean useCompression) {
         Validate.nonNull(mesh, "mesh");
+        nativeMesh = new CompoundMesh(mesh);
+        Validate.require(nativeMesh.countTriangles() > 0,
+                "at least one triangle");
 
         this.useCompression = useCompression;
-        nativeMesh = new CompoundMesh(mesh);
         createShape();
     }
     // *************************************************************************
@@ -310,6 +321,9 @@ public class MeshCollisionShape extends CollisionShape {
      * Instantiate the configured btBvhTriangleMeshShape.
      */
     private void createShape() {
+        int numTriangles = nativeMesh.countTriangles();
+        assert numTriangles > 0 : numTriangles;
+
         boolean buildBvh = (bvh == null);
         long meshId = nativeMesh.nativeId();
         long shapeId = createShape(useCompression, buildBvh, meshId);
