@@ -360,8 +360,8 @@ java.util.Collection&lt;<a href="infos/IndexedMesh.html" title="class in com.jme
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>useCompression</code> - true to use quantized AABB compression</dd>
-<dd><code>meshes</code> - the collection on which to base the shape (not null, not
- empty)</dd>
+<dd><code>meshes</code> - the collection on which to base the shape (must contain at
+ least one triangle)</dd>
 </dl>
 </section>
 </li>
@@ -374,8 +374,8 @@ java.util.Collection&lt;<a href="infos/IndexedMesh.html" title="class in com.jme
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>useCompression</code> - true to use quantized AABB compression</dd>
-<dd><code>submeshes</code> - the mesh(es) on which to base the shape (not null, not
- empty)</dd>
+<dd><code>submeshes</code> - the mesh(es) on which to base the shape (must contain at
+ least one triangle)</dd>
 </dl>
 </section>
 </li>
@@ -388,9 +388,9 @@ java.util.Collection&lt;<a href="infos/IndexedMesh.html" title="class in com.jme
  BVH. The submeshes must be equivalent to those used to generate the BVH.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>bvhBytes</code> - the serialized BVH (not null)</dd>
-<dd><code>submeshes</code> - the mesh(es) on which to base the shape (not null, not
- empty)</dd>
+<dd><code>bvhBytes</code> - the serialized BVH (not null, unaffected)</dd>
+<dd><code>submeshes</code> - the mesh(es) on which to base the shape (must contain at
+ least one triangle)</dd>
 </dl>
 </section>
 </li>
@@ -402,8 +402,8 @@ java.util.Collection&lt;<a href="infos/IndexedMesh.html" title="class in com.jme
  AABB compression.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>jmeMeshes</code> - the mesh(es) on which to base the shape (not null, not
- empty, unaffected)</dd>
+<dd><code>jmeMeshes</code> - the mesh(es) on which to base the shape (must contain at
+ least one triangle, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -415,7 +415,8 @@ boolean&nbsp;useCompression)</span></div>
 <div class="block">Instantiate a shape based on the specified JME mesh.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>mesh</code> - the mesh on which to base the shape (not null, unaffected)</dd>
+<dd><code>mesh</code> - the mesh on which to base the shape (must contain at least
+ one triangle, unaffected)</dd>
 <dd><code>useCompression</code> - true to use quantized AABB compression</dd>
 </dl>
 </section>
