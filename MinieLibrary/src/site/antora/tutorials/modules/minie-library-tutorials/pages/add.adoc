@@ -294,6 +294,7 @@ or indirectly, by adding physics controls to scene-graph spatials:
 ----
 
 Either way, the object(s) won't be simulated unless added to a `PhysicsSpace`.
+
 NOTE: Collision shapes can be shared between objects.
 
 === Global configuration

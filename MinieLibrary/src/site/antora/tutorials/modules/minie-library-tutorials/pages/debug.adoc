@@ -103,8 +103,6 @@ or you can specify 3-D arrows:
 By default, Minie visualizes the shapes of collision objects
 using single-sided wireframe materials:
 
-[source,java]
-----
 * yellow for any collision object without contact response,
   which includes any `PhysicsGhostObject`
 * magenta for a `PhysicsRigidBody` or `MultiBodyCollider`
@@ -114,7 +112,6 @@ using single-sided wireframe materials:
 * pink for a `PhysicsCharacter` (with contact response)
 * red for a `PhysicsSoftBody` with faces
 * orange for a `PhysicsSoftBody` with links but no faces
-----
 
 NOTE: On Android platforms,
 the default debug materials are solid colors instead of wireframes.
