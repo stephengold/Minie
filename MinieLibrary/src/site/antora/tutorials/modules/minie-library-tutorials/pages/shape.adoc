@@ -28,7 +28,7 @@ Minie provides 16 `CollisionShape` subclasses:
 |8. `EmptyShape`
 |(no image yet)
 
-|9. `GImpactShape`
+|9. `GImpactCollisionShape`
 |image:https://i.imgur.com/TOLRsig.png[height=160]
 
 |10. `HeightfieldCollisionShape`
@@ -109,7 +109,7 @@ use a "precise" shape, one that isn't distorted by margin:
 * `Box2dShape`
 * `BoxCollisionShape`
 * `CapsuleCollisionShape`
-* `GImpactShape`
+* `GImpactCollisionShape`
 * `HeightfieldCollisionShape`
 * `MeshCollisionShape`
 * `MultiSphere`
