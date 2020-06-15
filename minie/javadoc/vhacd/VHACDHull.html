@@ -57,13 +57,13 @@ loadScripts(document, 'script');</script>
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
@@ -93,40 +93,10 @@ loadScripts(document, 'script');</script>
 <hr>
 <pre>public class <span class="typeNameLabel">VHACDHull</span>
 extends java.lang.Object</pre>
-<div class="block">An indexed, 3-D, convex hull based on V-HACD's ConvexHull.</div>
+<div class="block">A 3-D convex hull based on a V-HACD ConvexHull. Immutable.</div>
 </section>
 <section class="summary">
 <ul class="blockList">
-<!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<li class="blockList">
-<section class="constructorSummary"><a id="constructor.summary">
-<!--   -->
-</a>
-<h2>Constructor Summary</h2>
-<div class="memberSummary">
-<table>
-<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
-<thead>
-<tr>
-<th class="colFirst" scope="col">Modifier</th>
-<th class="colSecond" scope="col">Constructor</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><code>protected </code></td>
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(float%5B%5D,int%5B%5D)">VHACDHull</a></span>&#8203;(float[]&nbsp;positions,
-int[]&nbsp;indexes)</code></th>
-<td class="colLast">
-<div class="block">Instantiate a hull with the specfied vertex positions and indices.</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li class="blockList">
 <section class="methodSummary"><a id="method.summary">
@@ -167,29 +137,6 @@ int[]&nbsp;indexes)</code></th>
 </section>
 <section class="details">
 <ul class="blockList">
-<!-- ========= CONSTRUCTOR DETAIL ======== -->
-<li class="blockList">
-<section class="constructorDetails"><a id="constructor.detail">
-<!--   -->
-</a>
-<h2>Constructor Details</h2>
-<ul class="blockList">
-<li class="blockList">
-<section class="detail">
-<h3><a id="&lt;init&gt;(float[],int[])">VHACDHull</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="memberName">VHACDHull</span>&#8203;(<span class="arguments">float[]&nbsp;positions,
-int[]&nbsp;indexes)</span></div>
-<div class="block">Instantiate a hull with the specfied vertex positions and indices.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positions</code> - (alias created)</dd>
-<dd><code>indexes</code> - (alias created)</dd>
-</dl>
-</section>
-</li>
-</ul>
-</section>
-</li>
 <!-- ============ METHOD DETAIL ========== -->
 <li class="blockList">
 <section class="methodDetails"><a id="method.detail">
@@ -204,7 +151,7 @@ int[]&nbsp;indexes)</span></div>
 <div class="block">Copy the vertex positions to a new array.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the new array</dd>
+<dd>the new array (not empty, length a multiple of 3)</dd>
 </dl>
 </section>
 </li>
@@ -242,13 +189,13 @@ int[]&nbsp;indexes)</span></div>
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
