@@ -284,9 +284,18 @@ using single-sided wireframe materials:</p>
 * orange for a `PhysicsSoftBody` with links but no faces</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Note that on Android platforms,
-the default debug materials are solid colors instead of wireframes.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+On Android platforms,
+the default debug materials are solid colors instead of wireframes.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Some collision objects are best visualized using double-sided materials.
@@ -297,10 +306,19 @@ You can override the single-sided default on a per-object basis:</p>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    collisionObject.setDebugNumSides(2);</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Note that <code>setDebugNumSides(0)</code> makes the object&#8217;s shape invisible
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>setDebugNumSides(0)</code> makes the object&#8217;s shape invisible
 in debug visualization,
-even if the object is selected by the debug filter.</p>
+even if the object is selected by the debug filter.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>If further customization is required, the debug material can be customized
@@ -311,8 +329,17 @@ on a per-object basis:</p>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    collisionObject.setDebugMaterial(myMaterial);</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Note that <code>setDebugNumSides()</code> has no effect on custom debug materials.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>setDebugNumSides()</code> has no effect on custom debug materials.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">

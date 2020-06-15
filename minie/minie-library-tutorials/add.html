@@ -553,9 +553,18 @@ with up to 4 time steps per frame.</p>
     space.setMaxSubSteps(6);</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Note that <code>setAccuracy()</code> has no effect when <code>maxSubSteps==0</code>,
-while <code>setMaxTimeStep()</code> has no effect when <code>maxSubSteps&gt;0</code>.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>setAccuracy()</code> has no effect when <code>maxSubSteps==0</code>,
+while <code>setMaxTimeStep()</code> has no effect when <code>maxSubSteps&gt;0</code>.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The contact solver performs a fixed number of iterations per time step,
@@ -616,7 +625,7 @@ set the gravity of the space to zero:</p>
 </div>
 <div class="paragraph">
 <p>Either way, the object(s) won&#8217;t be simulated unless added to a <code>PhysicsSpace</code>.
-Also, note that collision shapes can be shared between objects.</p>
+NOTE: Collision shapes can be shared between objects.</p>
 </div>
 <div class="sect2">
 <h3 id="_global_configuration"><a class="anchor" href="#_global_configuration"></a>Global configuration</h3>
@@ -660,8 +669,17 @@ To configure a default margin of 0.1 psu:</p>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    CollisionShape.setDefaultMargin(0.1f);</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Note that the Bullet Manual advises against changing the default margin.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The Bullet Manual advises against changing the default margin.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
