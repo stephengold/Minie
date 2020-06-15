@@ -16,23 +16,19 @@ package vhacd;
 
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
+import jme3utilities.math.MyVector3f;
 
 /**
- * An indexed, 3-D, convex hull based on V-HACD's ConvexHull.
+ * A 3-D convex hull based on a V-HACD ConvexHull. Immutable.
  */
 public class VHACDHull {
     // *************************************************************************
     // fields
 
     /**
-     * vertex locations (length a multiple of 3)
+     * vertex locations (not empty, length a multiple of 3)
      */
     final private float[] positions;
-    /**
-     * vertex indices for each triangular face (length a multiple of 3)
-     */
-    final private int[] indexes;
     // *************************************************************************
     // constructors
 
@@ -45,31 +41,15 @@ public class VHACDHull {
         assert hullId != 0L;
 
         int numFloats = getNumFloats(hullId);
+        assert numFloats > 0 : numFloats;
+        assert numFloats % MyVector3f.numAxes == 0 : numFloats;
+
         FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(numFloats);
         getPositions(hullId, floatBuffer);
         positions = new float[numFloats];
         for (int floatIndex = 0; floatIndex < numFloats; ++floatIndex) {
             positions[floatIndex] = floatBuffer.get(floatIndex);
         }
-
-        int numInts = getNumInts(hullId);
-        IntBuffer intBuffer = BufferUtils.createIntBuffer(numInts);
-        getIndices(hullId, intBuffer);
-        indexes = new int[numInts];
-        for (int intIndex = 0; intIndex < numInts; ++intIndex) {
-            indexes[intIndex] = intBuffer.get(intIndex);
-        }
-    }
-
-    /**
-     * Instantiate a hull with the specfied vertex positions and indices.
-     *
-     * @param positions (alias created)
-     * @param indexes (alias created)
-     */
-    protected VHACDHull(float[] positions, int[] indexes) {
-        this.positions = positions;
-        this.indexes = indexes;
     }
     // *************************************************************************
     // new methods exposed
@@ -77,10 +57,13 @@ public class VHACDHull {
     /**
      * Copy the vertex positions to a new array.
      *
-     * @return the new array
+     * @return the new array (not empty, length a multiple of 3)
      */
     public float[] clonePositions() {
         int numFloats = positions.length;
+        assert numFloats > 0 : numFloats;
+        assert numFloats % MyVector3f.numAxes == 0 : numFloats;
+
         float[] result = new float[numFloats];
         System.arraycopy(positions, 0, result, 0, numFloats);
 
@@ -89,11 +72,7 @@ public class VHACDHull {
     // *************************************************************************
     // native private methods
 
-    native private static void getIndices(long hullId, IntBuffer storeBuffer);
-
     native private static int getNumFloats(long hullId);
-
-    native private static int getNumInts(long hullId);
 
     native private static void getPositions(long hullId,
             FloatBuffer storeBuffer);
