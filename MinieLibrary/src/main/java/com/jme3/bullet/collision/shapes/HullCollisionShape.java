@@ -160,13 +160,13 @@ public class HullCollisionShape extends ConvexShape {
      * 100 vertices.
      *
      * @param flippedBuffer the coordinates on which to base the shape (not
-     * null, not empty, limit a multiple of 3, unaffected)
+     * null, limit&gt0, limit a multiple of 3, unaffected)
      */
     public HullCollisionShape(FloatBuffer flippedBuffer) {
         Validate.nonNull(flippedBuffer, "flipped buffer");
         int numFloats = flippedBuffer.limit();
-        assert numFloats > 0 : numFloats;
-        assert numFloats % numAxes == 0 : numFloats;
+        Validate.positive(numFloats, "limit");
+        Validate.require(numFloats % numAxes == 0, "limit a multiple of 3");
 
         points = new float[numFloats];
         for (int i = 0; i < numFloats; ++i) {
@@ -185,7 +185,10 @@ public class HullCollisionShape extends ConvexShape {
      * least one vertex, unaffected)
      */
     public HullCollisionShape(Mesh... meshes) {
+        Validate.nonEmpty(meshes, "meshes");
         points = getPoints(meshes);
+        Validate.require(points.length > 0, "at least one vertex");
+
         createShape();
     }
 
