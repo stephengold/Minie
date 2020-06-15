@@ -91,7 +91,7 @@ public class BoundingValueHierarchy
     /**
      * Instantiate a hierarchy from serialized bytes.
      *
-     * @param bytes the serialized bytes (not null)
+     * @param bytes the serialized bytes (not null, unaffected)
      */
     public BoundingValueHierarchy(byte[] bytes) {
         Validate.nonNull(bytes, "bytes");
