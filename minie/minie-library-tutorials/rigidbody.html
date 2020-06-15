@@ -198,10 +198,10 @@ and collision shape. Together, these properties determine its inertia:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    CollisionShape ballShape = new SphereCollisionShape(1f);
-    float ballMass = 2f;
-    PhysicsRigidBody ball = new PhysicsRigidBody(ballShape, ballMass);
-    Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">CollisionShape ballShape = new SphereCollisionShape(1f);
+float ballMass = 2f;
+PhysicsRigidBody ball = new PhysicsRigidBody(ballShape, ballMass);
+Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -264,8 +264,8 @@ a tendency to avoid intersecting with other bodies.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    body.setPhysicsLocation(new Vector3f(5f, 1f, 0f));
-    body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">body.setPhysicsLocation(new Vector3f(5f, 1f, 0f));
+body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -302,8 +302,8 @@ to a positive value <strong>before</strong> setting its kinematic flag:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    body.setMass(1f);
-    body.setKinematic(true);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">body.setMass(1f);
+body.setKinematic(true);</code></pre>
 </div>
 </div>
 </div>
@@ -347,14 +347,14 @@ update the gravity of each body prior to each physics tick.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">        public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-            Collection&lt;PhysicsCollisionObject&gt; pcos = space.getPcoList();
-            for (PhysicsCollisionObject pco : pcos) {
-                if (pco instanceof PhysicsBody) {
-                    updateGravity((PhysicsBody) pco);
-                }
-            }
-        }</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+    Collection&lt;PhysicsCollisionObject&gt; pcos = space.getPcoList();
+    for (PhysicsCollisionObject pco : pcos) {
+        if (pco instanceof PhysicsBody) {
+            updateGravity((PhysicsBody) pco);
+        }
+    }
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">

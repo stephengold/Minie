@@ -260,8 +260,8 @@ different accessors are used:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    float oldMargin = softBody.margin();
-    softBody.setMargin(0.1f);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">float oldMargin = softBody.margin();
+softBody.setMargin(0.1f);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -297,7 +297,7 @@ dynamic (<code>Spatial</code> follows body) never kinematic (body follows <code>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    PhysicsSoftBody softBody = new PhysicsSoftBody()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">PhysicsSoftBody softBody = new PhysicsSoftBody()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -335,8 +335,8 @@ and add it to a <code>Geometry</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    SoftBodyControl sbc = new SoftBodyControl();
-    geometry.addControl(sbc);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">SoftBodyControl sbc = new SoftBodyControl();
+geometry.addControl(sbc);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -382,9 +382,9 @@ set the <code>VF_SS</code> collision flag in its configuration object:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    SoftBodyConfig config = softBody.getSoftConfig();
-    int oldFlags = config.getCollisionFlags();
-    config.setCollisionFlags(oldFlags, ConfigFlag.VF_SS);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">SoftBodyConfig config = softBody.getSoftConfig();
+int oldFlags = config.getCollisionFlags();
+config.setCollisionFlags(oldFlags, ConfigFlag.VF_SS);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -424,8 +424,8 @@ number of position-solver iterations:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    SoftBodyConfig config = softBody.getSoftConfig();
-    config.setPositionIterations(numIterations);  // default=1</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">SoftBodyConfig config = softBody.getSoftConfig();
+config.setPositionIterations(numIterations);  // default=1</code></pre>
 </div>
 </div>
 </div>
@@ -448,8 +448,8 @@ to a small value (such as zero):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    PhysicsSoftBody.Material softMaterial = softBody.getSoftMaterial();
-    softMaterial.setAngularStiffness(0f); // default=1</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">PhysicsSoftBody.Material softMaterial = softBody.getSoftMaterial();
+softMaterial.setAngularStiffness(0f); // default=1</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -467,7 +467,7 @@ To alter the mass of a pre-existing node, use the <code>setNodeMass()</code> met
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    softBody.setNodeMass(nodeIndex, desiredMass);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">softBody.setNodeMass(nodeIndex, desiredMass);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -516,7 +516,7 @@ using an iterative algorithm that&#8217;s built into Bullet:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    softBody.generateClusters(k, numIterations);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">softBody.generateClusters(k, numIterations);</code></pre>
 </div>
 </div>
 </div>

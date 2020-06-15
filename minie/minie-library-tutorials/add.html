@@ -307,12 +307,12 @@ resolve the remaining dependencies automatically.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">    repositories {
-        jcenter()
-    }
-    dependencies {
-        compile 'com.github.stephengold:Minie:1.7.0'
-    }</code></pre>
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">repositories {
+    jcenter()
+}
+dependencies {
+    compile 'com.github.stephengold:Minie:1.7.0'
+}</code></pre>
 </div>
 </div>
 </div>
@@ -428,9 +428,9 @@ If not, here is a snippet to guide you:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    SoftPhysicsAppState appState = new SoftPhysicsAppState();
-    stateManager.attach(appState);
-    PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">SoftPhysicsAppState appState = new SoftPhysicsAppState();
+stateManager.attach(appState);
+PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -438,9 +438,9 @@ If not, here is a snippet to guide you:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    BulletAppState appState = new BulletAppState();
-    stateManager.attach(appState);
-    PhysicsSpace physicsSpace = appState.getPhysicsSpace();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BulletAppState appState = new BulletAppState();
+stateManager.attach(appState);
+PhysicsSpace physicsSpace = appState.getPhysicsSpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -448,9 +448,9 @@ If not, here is a snippet to guide you:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    MultiBodyAppState appState = new MultiBodyAppState();
-    stateManager.attach(appState);
-    MultiBodySpace physicsSpace = appState.getMultiBodySpace();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">MultiBodyAppState appState = new MultiBodyAppState();
+stateManager.attach(appState);
+MultiBodySpace physicsSpace = appState.getMultiBodySpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -463,7 +463,7 @@ To execute it on a dedicated thread, use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -473,7 +473,7 @@ To advance the physics simulation at a different rate, use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    bulletAppState.setSpeed(0.5f); // simulate physics at half speed</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setSpeed(0.5f); // simulate physics at half speed</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -483,12 +483,12 @@ To specify a different data structure, use <code>setBroadphaseType()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    SoftPhysicsAppState bas = new SoftPhysicsAppState();
-    bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
-    bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
-    bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
-    stateManager.attach(bas);
-    PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">SoftPhysicsAppState bas = new SoftPhysicsAppState();
+bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
+bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
+stateManager.attach(bas);
+PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -499,7 +499,7 @@ before attaching the AppState:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    bulletAppState.setSolverType(SolverType.Dantzig);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setSolverType(SolverType.Dantzig);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -520,7 +520,7 @@ before attaching the AppState:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    bulletAppState.setDebugEnabled(true);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setDebugEnabled(true);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -539,7 +539,7 @@ you can access immediately:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    PhysicsSpace space = bulletAppState.getPhysicsSpace();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">PhysicsSpace space = bulletAppState.getPhysicsSpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -547,7 +547,7 @@ you can access immediately:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    PhysicsSoftSpace space = bulletAppState.getPhysicsSoftSpace();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">PhysicsSoftSpace space = bulletAppState.getPhysicsSoftSpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -555,7 +555,7 @@ you can access immediately:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    MultiBodySpace space = bulletAppState.getMultiBodySpace();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">MultiBodySpace space = bulletAppState.getMultiBodySpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -568,8 +568,8 @@ with up to 4 time steps per frame.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    space.setMaxSubSteps(0);
-    space.setMaxTimeStep(0.25f);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.setMaxSubSteps(0);
+space.setMaxTimeStep(0.25f);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -577,8 +577,8 @@ with up to 4 time steps per frame.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    space.setAccuracy(0.01f);
-    space.setMaxSubSteps(6);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.setAccuracy(0.01f);
+space.setMaxSubSteps(6);</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -602,7 +602,7 @@ For instance, to use 20 iterations:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    space.getSolverInfo().setNumIterations(20);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.getSolverInfo().setNumIterations(20);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -613,7 +613,7 @@ set the gravity of the space to zero:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    space.setGravity(Vector3f.ZERO);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.setGravity(Vector3f.ZERO);</code></pre>
 </div>
 </div>
 </div>
@@ -626,11 +626,11 @@ set the gravity of the space to zero:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    float radius = 2f;
-    CollisionShape sphere2 = new SphereCollisionShape(radius);
-    PhysicsGhostObject ghost1 = new PhysicsGhostObject(sphere2);
-    float mass = 1f;
-    PhysicsRigidBody body1 = new PhysicsRigidBody(sphere2, mass);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">float radius = 2f;
+CollisionShape sphere2 = new SphereCollisionShape(radius);
+PhysicsGhostObject ghost1 = new PhysicsGhostObject(sphere2);
+float mass = 1f;
+PhysicsRigidBody body1 = new PhysicsRigidBody(sphere2, mass);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -638,17 +638,17 @@ set the gravity of the space to zero:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    float radius = 2f;
-    CollisionShape sphere2 = new SphereCollisionShape(radius);
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">float radius = 2f;
+CollisionShape sphere2 = new SphereCollisionShape(radius);
 
-    Node ghostNode1 = new Node("ghostNode1");
-    GhostControl gc1 = new GhostControl(sphere2);
-    ghostNode1.addControl(gc1);
+Node ghostNode1 = new Node("ghostNode1");
+GhostControl gc1 = new GhostControl(sphere2);
+ghostNode1.addControl(gc1);
 
-    Node rigidNode1 = new Node("rigidNode1");
-    float mass = 1f;
-    RigidBodyControl rbc1 = new RigidBodyControl(sphere2, mass);
-    rigidNode1.addControl(rbc1);</code></pre>
+Node rigidNode1 = new Node("rigidNode1");
+float mass = 1f;
+RigidBodyControl rbc1 = new RigidBodyControl(sphere2, mass);
+rigidNode1.addControl(rbc1);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -677,7 +677,7 @@ Once the library is loaded (but not started) you can disable this message:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    NativeLibrary.setStartupMessageEnabled(false);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">NativeLibrary.setStartupMessageEnabled(false);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -686,7 +686,7 @@ you can test whether it uses double-precision arithmetic:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    boolean doublePrecision = NativeLibrary.isDoublePrecision();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">boolean doublePrecision = NativeLibrary.isDoublePrecision();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -696,7 +696,7 @@ and debug information generated):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    boolean debug = NativeLibrary.isDebug();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">boolean debug = NativeLibrary.isDebug();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -705,7 +705,7 @@ To configure a default margin of 0.1 psu:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    CollisionShape.setDefaultMargin(0.1f);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">CollisionShape.setDefaultMargin(0.1f);</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
