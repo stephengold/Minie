@@ -176,25 +176,29 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">An introduction to rigid-body physics</h1>
-<div id="preamble">
+<div class="sect1">
+<h2 id="_five_familiar_features"><a class="anchor" href="#_five_familiar_features"></a>Five familiar features</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A rigid body (instance of <code>PhysicsRigidBody</code>) is a type of collision object
+<p>A <em>rigid body</em> is a type of collision object
 that exhibits some familiar features of real-world objects, including:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>rigidity (a fixed shape) and</p>
+<p><em>rigidity</em> (a fixed shape) and</p>
 </li>
 <li>
-<p>inertia (resistance to changes in its motion).</p>
+<p><em>inertia</em> (resistance to change of motion).</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>When creating a rigid body directly, one can specify both its mass
-and collision shape. Together, these properties determine its inertia:</p>
+<p>The simplest way to create a rigid body
+is to directly invoke the <code>PhysicsRigidBody</code> constructor.
+This allows you to specify its mass and collision shape.
+Together, these properties determine its
+<a href="https://en.wikipedia.org/wiki/Moment_of_inertia"><em>moment of inertia</em></a>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -205,62 +209,115 @@ Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));<
 </div>
 </div>
 <div class="paragraph">
-<p>By default, rigid bodies also exhibit 3 more features of real-world objects:</p>
+<p>By default, rigid bodies also exhibit 3 other features of real-world objects:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>They are dynamic
-(mobile, with motion determined by forces, torques, and impulses.)</p>
+<p>They are <em>dynamic</em>
+(mobile, with their motion determined by
+<a href="https://en.wikipedia.org/wiki/Force"><em>forces</em></a>,
+<a href="https://en.wikipedia.org/wiki/Torque"><em>torques</em></a>, and
+<a href="https://en.wikipedia.org/wiki/Impulse_(physics)"><em>impulses</em></a>.)</p>
 </li>
 <li>
-<p>They are subject to gravity:
+<p>They are subject to <em>gravity</em>:
 a continual downward force proportional to their mass.</p>
 </li>
 <li>
-<p>They exhibit contact response:
-a tendency to avoid intersecting with other bodies.</p>
+<p>They exhibit <em>contact response</em>:
+powerful forces which prevent them from intersecting with other bodies.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>When physics simulation detects a collision between
-2 responsive bodies, it applies powerful
-"contact forces" in an attempt to separate them.</p>
+<p>However, these last 3 features are optional and can be disabled.</p>
 </div>
+<div class="sect2">
+<h3 id="_hellorigidbody"><a class="anchor" href="#_hellorigidbody"></a>HelloRigidBody</h3>
 <div class="paragraph">
-<p>For a simple example demonstrating all 5 features of rigid bodies, see
-<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody.java</a>.</p>
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody</a> is a simple
+application that demonstrates the 5 familiar features of rigid bodies.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Two balls, both falling slowly under the influence of gravity.</p>
+</li>
+<li>
+<p>The ball on the right receives an impulse that pushes it leftward.</p>
+</li>
+<li>
+<p>After the impulse ends, the ball&#8217;s inertia keeps it moving leftward.</p>
+</li>
+<li>
+<p>The simulation runs at one-tenth normal speed,
+making the individual time steps noticeable.</p>
+</li>
+<li>
+<p>The balls collide, generating contact forces
+  that alter their motions but not their shapes.
+.* The ball on the right loses half of its speed.
+.* The ball on the left begins moving leftward as it falls.</p>
+</li>
+</ol>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_configuring_rigid_bodies"><a class="anchor" href="#_configuring_rigid_bodies"></a>Configuring rigid bodies</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_static_bodies"><a class="anchor" href="#_static_bodies"></a>Static bodies</h3>
 <div class="paragraph">
-<p>To create a static (non-moving) rigid body, specify <code>mass=0</code> in the constructor.</p>
+<p>Not all rigid bodies are dynamic.
+To create a <em>static</em> (non-moving) rigid body,
+specify <code>mass=0</code> in the constructor.
+Unlike a dynamic body,
+a static one is unaffected by forces, torques, and impulses,
+as if its mass were infinite.</p>
 </div>
 <div class="paragraph">
-<p>For a simple example combining static and dynamic rigid bodies, see
-<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloStaticBody.java">HelloStaticBody.java</a>.</p>
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloStaticBody.java">HelloStaticBody</a>
+is a simple application that combines static and dynamic rigid bodies.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Two balls: the top one dynamic, the bottom one static.</p>
+</li>
+<li>
+<p>The balls collide, generating contact forces
+that alter the path of the dynamic ball.</p>
+</li>
+<li>
+<p>The static ball stays fixed in place,
+unaffected by both gravity and contact forces.</p>
+</li>
+</ol>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_position"><a class="anchor" href="#_position"></a>Position</h3>
 <div class="paragraph">
-<p>Every rigid body occupies a position in space, described by 2 properties:</p>
+<p>Every rigid body occupies a <em>position</em> in space, described by 2 properties:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>the location of the body&#8217;s center and</p>
+<p>the <em>location</em> of the body&#8217;s center and</p>
 </li>
 <li>
-<p>the rotation (orientation) of its local axes.</p>
+<p>the body&#8217;s <em>orientation</em>,
+the rotation of its (local) axes relative to those of the physics space.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Both these properties can be independently configured:</p>
+<p>Each property can be configured separately:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -268,36 +325,55 @@ a tendency to avoid intersecting with other bodies.</p>
 body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Once a dynamic or static body has been initialized, of course,
-it shouldn&#8217;t be repositioned in this manner.
-A kinematic (externally driven) body, on the other hand,
-may be repositioned for every timestep.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+once a dynamic or static body has been initialized,
+it should never be repositioned in this manner.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The center of a dynamic body should be located at its
-<a href="https://en.wikipedia.org/wiki/Center_of_mass">center of mass</a>,
-the point around which it tends to spin,
-and its local axes should correspond to its
-<a href="https://en.wikipedia.org/wiki/Principal_axis_(mechanics)">principal axes</a>.</p>
+<a href="https://en.wikipedia.org/wiki/Center_of_mass"><em>center of mass</em></a>,
+the location around which it tends to spin,
+and its local axes should correspond to the
+<a href="https://en.wikipedia.org/wiki/Principal_axis_(mechanics)"><em>principal axes</em></a>
+of its mass distribution.</p>
 </div>
 <div class="paragraph">
-<p>A static or kinematic body allows more flexibility
-in the choice of its center and local axes.</p>
+<p>Unlike a dynamic body, a static body allows complete flexibility
+in the choice of center and local axes.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_kinematic_flag"><a class="anchor" href="#_kinematic_flag"></a>Kinematic flag</h3>
 <div class="paragraph">
-<p>To convert a dynamic rigid body into a kinematic one,
-use <code>setKinematic(true)</code>.</p>
+<p>In addition to static and dynamic, there&#8217;s a third type of rigid body.</p>
 </div>
 <div class="paragraph">
-<p>For a simple example combining kinematic and dynamic rigid bodies, see
-<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloKinematics.java">HelloKinematics.java</a>.</p>
+<p><em>Kinematic</em> bodies share properties of both static and dynamic ones.
+Like dynamic bodies, kinematic ones can move.
+However, they are unaffected by forces, torques, and impulses.
+Their movement is driven by external logic, which may, if desired,
+reposition them prior to every timestep.</p>
 </div>
 <div class="paragraph">
-<p>To convert a static rigid body into a kinematic one, set its mass
+<p>In the presence of dynamic bodies, a kinematic body acts like
+an unstoppable battering ram.</p>
+</div>
+<div class="paragraph">
+<p>There&#8217;s no way to instantiate a kinematic rigid body directly.
+To convert a dynamic rigid body into a kinematic one, use <code>setKinematic(true)</code>.</p>
+</div>
+<div class="paragraph">
+<p>For obscure reasons, a kinematic rigid body must have positive mass.
+To convert a static rigid body into a kinematic one, set its mass
 to a positive value <strong>before</strong> setting its kinematic flag:</p>
 </div>
 <div class="listingblock">
@@ -306,93 +382,253 @@ to a positive value <strong>before</strong> setting its kinematic flag:</p>
 body.setKinematic(true);</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloKinematics.java">HelloKinematics</a>
+is a simple application that combines static and dynamic rigid bodies.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Two balls: the top one dynamic, the bottom one kinematic.</p>
+</li>
+<li>
+<p>The kinematic ball orbits a fixed point in space.</p>
+</li>
+<li>
+<p>The balls collide, generating contact forces
+that alter the motion of the dynamic ball.</p>
+</li>
+<li>
+<p>The kinematic ball continues to orbit,
+unaffected by both gravity and contact forces.</p>
+</li>
+</ol>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_contact_response"><a class="anchor" href="#_contact_response"></a>Contact response</h3>
+<div class="paragraph">
+<p>When physics simulation detects a collision between
+2 bodies that both have contact response, it applies contact forces.</p>
+</div>
 <div class="paragraph">
 <p>To disable the contact response of a rigid body,
 use <code>setContactResponse(false)</code>.</p>
 </div>
 <div class="paragraph">
-<p>For a simple demonstration of this feature, see
-<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloContactResponse.java">HelloContactResponse.java</a>.</p>
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloContactResponse.java">HelloContactResponse</a>
+is a simple application demonstrates contact response.
+Things to notice while running the app:</p>
 </div>
-<div class="paragraph">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
 <p>The ball falls until it collides with the blue (static) box,
-which provides a contact force to counteract gravity.
-Press the spacebar to disable the ball&#8217;s contact response.
-Once this happens, the box no longer exerts any force on the ball.
+which provides a contact force to halt its motion and counteract gravity.</p>
+</li>
+<li>
+<p>Press the spacebar to disable the ball&#8217;s contact response.</p>
+</li>
+<li>
+<p>Afterwards, the box no longer exerts any force on the ball.
 Gravity takes over, and the ball falls through the box.</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_velocity"><a class="anchor" href="#_velocity"></a>Velocity</h3>
 <div class="paragraph">
-<p>Every dynamic body has a velocity, which quantifies how it is moving at the
+<p>Every dynamic body has a <em>velocity</em>, which quantifies its motion at the
 present instant.</p>
 </div>
 <div class="paragraph">
-<p>More precisely, it has 2 velocities: "linear velocity" and "angular velocity",
+<p>More precisely, it has 2 velocities: <em>linear velocity</em> and <em>angular velocity</em>,
 both represented as 3-D vectors.
 The magnitude and direction of the linear velocity vector describe the speed
-and direction at which its center is traveling through space, if at all.
+and direction at which its center is traveling through space (if at all).
 The magnitude and direction of the angular velocity vector describe the
 rate and axis of the body&#8217;s spinning motion, if any.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Both velocities of a static body are zero.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Both velocities of a kinematic body are undefined.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To initialize the velocities of a dynamic rigid body,
+use its <code>setLinearVelocity()</code> and <code>setAngularVelocity()</code> methods.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_built_in_forces"><a class="anchor" href="#_built_in_forces"></a>Built-in forces</h3>
+<div class="paragraph">
+<p>Many familiar real-world phenomena
+can be modeled as forces acting on rigid bodies.</p>
+</div>
+<div class="paragraph">
+<p>You can apply custom forces using the following 6 methods:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Both velocities of a static body are zero.</p>
+<p><code>applyCentralForce(Vector3f)</code></p>
 </li>
 <li>
-<p>The velocities of a kinematic body are undefined.</p>
+<p><code>applyCentralImpulse(Vector3f)</code></p>
+</li>
+<li>
+<p><code>applyForce(Vector3f force, Vector3f offset)</code></p>
+</li>
+<li>
+<p><code>applyImpulse(Vector3f impulse, Vector3f offset)</code></p>
+</li>
+<li>
+<p><code>applyTorque(Vector3f)</code></p>
+</li>
+<li>
+<p><code>applyTorqueImpulse(Vector3f)</code></p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>For convenience, the following forces are "built into" rigid body simulations:</p>
 </div>
-<div class="sect2">
-<h3 id="_damping"><a class="anchor" href="#_damping"></a>Damping</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>drag forces:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>damping</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>gravity</p>
+</li>
+<li>
+<p>contact forces:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>restitution</p>
+</li>
+<li>
+<p>friction</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_damping"><a class="anchor" href="#_damping"></a>Damping</h4>
 <div class="paragraph">
 <p>In the absence of external forces,
-the velocities of a dynamic body would be constant.
-However, we&#8217;re accustomed to seeing moving objects eventually come to rest.
-This behavior is partly caused by drag forces such as air resistance.</p>
+inertia would keep the velocities of a dynamic body constant.
+In the real world, however,
+we&#8217;re accustomed to seeing moving objects eventually come to rest.
+This behavior can be caused by <em>drag forces</em> (such as air resistance)
+that increase with speed.</p>
 </div>
 <div class="paragraph">
-<p>To simulate drag forces, each dynamic rigid body includes damping,
-which quantifies how fast its motion (if any) decays.</p>
+<p>To simulate drag forces, each rigid body has <em>damping</em>,
+which quantifies how quickly its motion decays to zero,
+assuming the body is dynamic.</p>
 </div>
 <div class="paragraph">
 <p>More precisely, each body has 2 damping parameters:
-"linear damping" and "angular damping",
-each of which ranges from zero (no drag) to one (motion ceases).</p>
+<em>linear damping</em> and <em>angular damping</em>,
+each of which ranges from zero (no drag) to one (motion ceases immediately).</p>
 </div>
 <div class="paragraph">
-<p>Minie provides accessors for both parameters:</p>
+<p>Accessors are provided for both parameters, separately and together:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">rigidBody.setAngularDamping(0.5f);  // default=0
 rigidBody.setLinearDamping(0.2f);   // default=0
+// or alternatively:
+float linearDamping = 0.5f;
+float angularDamping = 0.2f;
 rigidBody.setDamping(linearDamping, angularDamping);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>TODO tutorial app</p>
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloDamping.java">HelloDamping</a>
+is a simple application that demonstrates damping.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Four cubes intially share the same linear and angular velocities.</p>
+</li>
+<li>
+<p>The top 2 have constant linear velocities, a sign of zero linear damping.</p>
+</li>
+<li>
+<p>The left 2 have constant angular velocities, a sign of zero angular damping.</p>
+</li>
+<li>
+<p>The linear velocities of the bottom 2 cubes decay quickly to zero
+due to strong linear damping.</p>
+</li>
+<li>
+<p>The angular velocities of the right 2 cubes decay quickly to zero
+due to strong angular damping.</p>
+</li>
+</ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_gravity"><a class="anchor" href="#_gravity"></a>Gravity</h3>
+<div class="sect3">
+<h4 id="_gravity"><a class="anchor" href="#_gravity"></a>Gravity</h4>
 <div class="paragraph">
-<p>However, we&#8217;re accustomed to seeing unsupported objects fall
-under the influence of gravity.</p>
+<p>In the real world,
+we&#8217;re accustomed to seeing unsupported objects fall.
+This behavior is caused by <em>gravity</em>,
+a downward force that&#8217;s proportional to mass.</p>
 </div>
 <div class="paragraph">
 <p>To simulate this phenomenon, each body has a gravity vector,
-which (if the body is dynamic) applies a continual downward acceleration.
-To configure a body&#8217;s gravity, use <code>setGravity(accelerationVector)</code>.
+which (if the body is dynamic) applies a continual downward force.
+To configure a body&#8217;s gravity, use <code>setGravity(accelerationVector)</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
 If following the Y-up convention, the X and Z components of the
-vector should be zero, and its Y component should be <strong>negative</strong>.</p>
+vector should be zero, and its Y component should be <strong>negative</strong>.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>When a body is added to a <code>PhysicsSpace</code>,
@@ -421,31 +657,35 @@ update the gravity of each body prior to each physics tick.</p>
 <p>TODO non-u example app</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_restitution"><a class="anchor" href="#_restitution"></a>Restitution</h3>
+<div class="sect3">
+<h4 id="_restitution"><a class="anchor" href="#_restitution"></a>Restitution</h4>
 <div class="paragraph">
-<p>When bodies collide, contact forces come into play, altering their velocities.
-Restitution is the contact force perpendicular to the collision plane.
-Its strength depends on what the bodies are made out of.</p>
+<p>When 2 responsive rigid bodies collide,
+contact forces come into play, altering their velocities.
+These forces are split into 2 components:  restitution and friction.</p>
 </div>
 <div class="paragraph">
-<p>If both bodies were composed of hard, springy steel,
+<p><em>Restitution</em> is a force perpendicular to the collision plane.
+Its strength hints at what the bodies might be made out of.</p>
+</div>
+<div class="paragraph">
+<p>If both bodies were made of hard, springy steel,
 they might separate without loss of energy,
-after what&#8217;s called a "perfectly elastic" collision.
+following what&#8217;s called a <em>perfectly elastic</em> collision.
 If, on the other hand, both bodies were made of soft, sticky clay,
 they might cling together,
-resulting in what&#8217;s called a "perfectly inelastic" collision.</p>
+resulting in what&#8217;s called a <em>perfectly inelastic</em> collision.</p>
 </div>
 <div class="paragraph">
 <p>In reality, no collision is perfectly elastic.
-Elasticity is quantified by a "coefficient of restitution",
+Elasticity is quantified by a <em>coefficient of restitution</em>,
 which ranges from zero (perfectly inelastic) to one (perfectly elastic).</p>
 </div>
 <div class="paragraph">
-<p>In Minie and Bullet, collisions are perfectly inelastic by default.
+<p>In Minie and Bullet, collisions are inelastic by default.
 (We saw this in <a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody.java</a>.)
-Each rigid body has a restitution parameter (which defaults to zero),
-and the coefficient of restitution is determined by multiplying the parameters
+Each rigid body has a <em>restitution parameter</em> which defaults to zero.
+The coefficient of restitution is calculated by multiplying the parameters
 of the colliding bodies.</p>
 </div>
 <div class="paragraph">
@@ -459,61 +699,104 @@ rigidBodyB.setRestitution(1f);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>To see perfectly elastic collisions, run
-<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/NewtonsCradle.java">the Newton&#8217;s Cradle demo</a>.</p>
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/NewtonsCradle.java">The Newton&#8217;s Cradle demo</a>
+demonstrates perfectly elastic collisions.
+At startup, the simulation is paused.
+Press kbd:[.] to start the simulation, or to pause it while running.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_friction"><a class="anchor" href="#_friction"></a>Friction</h3>
+<div class="sect3">
+<h4 id="_friction"><a class="anchor" href="#_friction"></a>Friction</h4>
 <div class="paragraph">
-<p>Just as restitution models the component of the contact force
+<p>Just as restitution models the contact forces
 perpendicular to the collision plane,
-friction models the component that lies <strong>in</strong> the plane.</p>
+<em>friction</em> models contact forces whose directions lie <strong>in</strong> the collision plane.</p>
 </div>
 <div class="paragraph">
 <p>Each rigid body has a friction parameter (which defaults to 0.5),
 and the coefficient of friction is determined by adding the parameters
 of the colliding bodies.
+A body&#8217;s friction parameter hints at its surface characteristics.
+To configure the parameter, use <code>setFriction(parameter)</code>.
 Reducing a body&#8217;s friction parameter makes it more slippery (think wet ice).
 Increasing it results in better traction (think sandpaper or rubber).</p>
 </div>
 <div class="paragraph">
-<p>Modeling friction is more complicated than modeling restitution because
-friction can generate both contact forces and contact torques.
-In addition to its basic friction parameter,
+<p>TODO move the rest of this section to an advanced topic</p>
+</div>
+<div class="paragraph">
+<p>Because friction can generate both forces and torques,
+modeling it can get very complicated.</p>
+</div>
+<div class="paragraph">
+<p>In addition to its basic friction parameter,
 each rigid body also has 2 additional friction parameters:
 one for rolling friction and one for spinning frction.
 Both parameters default to zero.</p>
 </div>
 <div class="paragraph">
-<p>Rolling friction creates torque orthogonal to the contact normal,
+<p><em>Rolling friction</em> creates torque orthogonal to the contact normal,
 which tends to slow down a rolling body.
-Spinning friction creates torque parallel to the contact normal,
+<em>Spinning friction</em> creates torque parallel to the contact normal,
 which tends to prevent a body from spinning when grasped.</p>
-</div>
-<div class="paragraph">
-<p>Minie provides accessors for the 3 parameters described above:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">rigidBody.setFriction(5f);          // default=0.5
-rigidBody.setRollingFriction(10f);  // default=0
-rigidBody.setSpinningFriction(50f); // default=0</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Using numpad keys, you can vary the damping, friction, gravity,
-and restitution of the dropped bodies in
-<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/NewtonsCradle.java">the DropTest demo</a>
-and see how these parameters affect their motion.</p>
 </div>
 <div class="paragraph">
 <p>To see rolling and spinning friction in action, run
 <a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/PoolDemo.java">the PoolDemo application</a>.</p>
 </div>
 <div class="paragraph">
-<p>TODO contact damping/processing/stiffness, sleeping/activation, CCD, RigidBodyControl</p>
+<p>To simulate objects with grooved surfaces, it&#8217;s also possible to configure
+a body for <em>anisotropic friction</em>:
+friction that depends on the direction of relative motion.</p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_related_demo_apps"><a class="anchor" href="#_related_demo_apps"></a>Related demo apps</h3>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/DropTest.java">The DropTest demo</a> and
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/TargetDemo.java">the TargetDemo application</a>
+allow and you to vary the damping, friction, gravity,
+and restitution of all the bodies in a physics space.
+This allows you to see how these 4 parameters affect the bodies' motion.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use kbd:Enter to add dynamic bodies to the space.</p>
+</li>
+<li>
+<p>Use kbd:num8 and kbd:num2 to select the desired parameter.</p>
+</li>
+<li>
+<p>Use kbd:num4 and kbd:num6 to cycle through the available parameter values.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sleeping_and_activation"><a class="anchor" href="#_sleeping_and_activation"></a>Sleeping and activation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_continuous_collision_detection"><a class="anchor" href="#_continuous_collision_detection"></a>Continuous collision detection</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rigidbodycontrol"><a class="anchor" href="#_rigidbodycontrol"></a>RigidBodyControl</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TODO</p>
 </div>
 </div>
 </div>
