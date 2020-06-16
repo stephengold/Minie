@@ -1,4 +1,5 @@
 = An introduction to `DynamicAnimControl`
+:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
 The centerpiece of Minie is `DynamicAnimControl`, a kind of `PhysicsControl`.
 Adding a `DynamicAnimControl` to an animated model
@@ -17,7 +18,7 @@ must include the model's `SkinningControl` or `SkeletonControl`.
 Usually this is the model's root `Spatial`, but not always.
 If unsure about the model's structure, use `MySpatial.listAnimationSpatials()`.
 For a very simple example, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloDac.java[HelloDac.java].
+{url-tutorial}/HelloDac.java[HelloDac.java].
 
 A model's ragdoll is composed of rigid bodies joined by physics joints.
 Within the `Control`, each `PhysicsRigidBody` is represented by
@@ -51,7 +52,7 @@ dynamicAnimControl.link(boneName, new LinkConfig(), new RangeOfMotion(1f, 1f, 1f
 ----
 
 For a simple example, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloBoneLink.java[HelloBoneLink].
+{url-tutorial}/HelloBoneLink.java[HelloBoneLink].
 
 When you run `HelloBoneLink`, press the space bar to put the control into
 dynamic mode.

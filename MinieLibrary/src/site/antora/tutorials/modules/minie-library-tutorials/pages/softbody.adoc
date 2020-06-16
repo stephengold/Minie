@@ -1,4 +1,5 @@
 = An introduction to soft-body physics
+:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
 While rope, cloth, and foam rubber
 can be simulated using many small rigid bodies,
@@ -125,7 +126,7 @@ The strength of this tendency depends on the configuration object's
 
 For a simple example using `SoftPhysicsAppState`, `SoftBodyControl`, and
 pose matching, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloSoftBody.java[HelloSoftBody].
+{url-tutorial}/HelloSoftBody.java[HelloSoftBody].
 
 == Soft-soft collisions
 
@@ -141,7 +142,7 @@ config.setCollisionFlags(oldFlags, ConfigFlag.VF_SS);
 ----
 
 For a simple example of a collision between 2 soft bodies, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloSoftSoft.java[HelloSoftBody].
+{url-tutorial}/HelloSoftSoft.java[HelloSoftBody].
 
 == Solver iterations
 
@@ -184,7 +185,7 @@ softMaterial.setAngularStiffness(0f); // default=1
 ----
 
 For a simple example of cloth simulation, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloCloth.java[HelloCloth].
+{url-tutorial}/HelloCloth.java[HelloCloth].
 
 == Mass distribution
 
@@ -208,7 +209,7 @@ If a soft-body node has mass=0, it becomes pinned/immovable, like a static
 `PhysicsRigidBody`.
 
 For a simple example of a pinned node, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloPin.java[HelloPin.java].
+{url-tutorial}/HelloPin.java[HelloPin.java].
 
 TODO: ropes, applying forces, anchors, soft joints, world info, aerodynamics
 

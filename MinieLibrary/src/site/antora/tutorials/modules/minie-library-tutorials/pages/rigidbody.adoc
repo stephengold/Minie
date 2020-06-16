@@ -1,4 +1,5 @@
 = An introduction to rigid-body physics
+:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
 A rigid body (instance of `PhysicsRigidBody`) is a type of collision object
 that exhibits some familiar features of real-world objects, including:
@@ -31,14 +32,14 @@ When physics simulation detects a collision between
 "contact forces" in an attempt to separate them.
 
 For a simple example demonstrating all 5 features of rigid bodies, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java[HellowRigidBody.java].
+{url-tutorial}/HelloRigidBody.java[HellowRigidBody.java].
 
 == Configuring rigid bodies
 
 To create a static (non-moving) rigid body, specify `mass=0` in the constructor.
 
 For a simple example combining static and dynamic rigid bodies, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloStaticBody.java[HelloStaticBody.java].
+{url-tutorial}/HelloStaticBody.java[HelloStaticBody.java].
 
 === Position
 
@@ -75,7 +76,7 @@ To convert a dynamic rigid body into a kinematic one,
 use `setKinematic(true)`.
 
 For a simple example combining kinematic and dynamic rigid bodies, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloKinematics.java[HelloKinematics.java].
+{url-tutorial}/HelloKinematics.java[HelloKinematics.java].
 
 To convert a static rigid body into a kinematic one, set its mass
 to a positive value *before* setting its kinematic flag:
@@ -92,7 +93,7 @@ To disable the contact response of a rigid body,
 use `setContactResponse(false)`.
 
 For a simple demonstration of this feature, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloContactResponse.java[HelloContactResponse.java].
+{url-tutorial}/HelloContactResponse.java[HelloContactResponse.java].
 
 The ball falls until it collides with the blue (static) box,
 which provides a contact force to counteract gravity.
