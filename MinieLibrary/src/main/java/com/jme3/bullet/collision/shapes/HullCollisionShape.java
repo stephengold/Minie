@@ -144,8 +144,7 @@ public class HullCollisionShape extends ConvexShape {
      * Instantiate a shape based on a VHACDHull. For best performance and
      * stability, the convex hull should have no more than 100 vertices.
      *
-     * @param vhacdHull (not null, not empty, length a multiple of 3,
-     * unaffected)
+     * @param vhacdHull (not null, unaffected)
      */
     public HullCollisionShape(VHACDHull vhacdHull) {
         Validate.nonNull(vhacdHull, "V-HACD hull");
