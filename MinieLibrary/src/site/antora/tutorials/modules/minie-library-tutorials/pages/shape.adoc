@@ -155,7 +155,6 @@ convex shapes (such as boxes and spheres) are usually a better choice, even
 if they don't match the model's shape exactly.
 In particular, `CapsuleCollisionShape` is often used with humanoid models.
 
-[source]
 ----
 if (the object doesn't move and isn't involved in collisions) {
     use an EmptyShape or don't add the object to the space
