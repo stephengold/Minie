@@ -64,7 +64,7 @@ The center of a dynamic body should be located at its
 https://en.wikipedia.org/wiki/Center_of_mass[center of mass],
 the point around which it tends to spin,
 and its local axes should correspond to its
-https://en.wikipedia.org/wiki/Principal_axis_(mechanics)[pincipal axes].
+https://en.wikipedia.org/wiki/Principal_axis_(mechanics)[principal axes].
 
 A static or kinematic body allows more flexibility
 in the choice of its center and local axes.
