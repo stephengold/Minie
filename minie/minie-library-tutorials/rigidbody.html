@@ -230,7 +230,7 @@ a tendency to avoid intersecting with other bodies.</p>
 </div>
 <div class="paragraph">
 <p>For a simple example demonstrating all 5 features of rigid bodies, see
-<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HellowRigidBody.java</a>.</p>
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody.java</a>.</p>
 </div>
 </div>
 </div>
@@ -326,9 +326,69 @@ Gravity takes over, and the ball falls through the box.</p>
 </div>
 </div>
 <div class="sect2">
+<h3 id="_velocity"><a class="anchor" href="#_velocity"></a>Velocity</h3>
+<div class="paragraph">
+<p>Every dynamic body has a velocity, which quantifies how it is moving at the
+present instant.</p>
+</div>
+<div class="paragraph">
+<p>More precisely, it has 2 velocities: "linear velocity" and "angular velocity",
+both represented as 3-D vectors.
+The magnitude and direction of the linear velocity vector describe the speed
+and direction at which its center is traveling through space, if at all.
+The magnitude and direction of the angular velocity vector describe the
+rate and axis of the body&#8217;s spinning motion, if any.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Both velocities of a static body are zero.</p>
+</li>
+<li>
+<p>The velocities of a kinematic body are undefined.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_damping"><a class="anchor" href="#_damping"></a>Damping</h3>
+<div class="paragraph">
+<p>In the absence of external forces,
+the velocities of a dynamic body would be constant.
+However, we&#8217;re accustomed to seeing moving objects eventually come to rest.
+This behavior is partly caused by drag forces such as air resistance.</p>
+</div>
+<div class="paragraph">
+<p>To simulate drag forces, each dynamic rigid body includes damping,
+which quantifies how fast its motion (if any) decays.</p>
+</div>
+<div class="paragraph">
+<p>More precisely, each body has 2 damping parameters:
+"linear damping" and "angular damping",
+each of which ranges from zero (no drag) to one (motion ceases).</p>
+</div>
+<div class="paragraph">
+<p>Minie provides accessors for both parameters:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">rigidBody.setAngularDamping(0.5f);  // default=0
+rigidBody.setLinearDamping(0.2f);   // default=0
+rigidBody.setDamping(linearDamping, angularDamping);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>TODO tutorial app</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_gravity"><a class="anchor" href="#_gravity"></a>Gravity</h3>
 <div class="paragraph">
-<p>Every body includes a gravity vector,
+<p>However, we&#8217;re accustomed to seeing unsupported objects fall
+under the influence of gravity.</p>
+</div>
+<div class="paragraph">
+<p>To simulate this phenomenon, each body has a gravity vector,
 which (if the body is dynamic) applies a continual downward acceleration.
 To configure a body&#8217;s gravity, use <code>setGravity(accelerationVector)</code>.
 If following the Y-up convention, the X and Z components of the
@@ -358,7 +418,101 @@ update the gravity of each body prior to each physics tick.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>TODO non-u example, RigidBodyControl, restitution, damping, friction</p>
+<p>TODO non-u example app</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_restitution"><a class="anchor" href="#_restitution"></a>Restitution</h3>
+<div class="paragraph">
+<p>When bodies collide, contact forces come into play, altering their velocities.
+Restitution is the contact force perpendicular to the collision plane.
+Its strength depends on what the bodies are made out of.</p>
+</div>
+<div class="paragraph">
+<p>If both bodies were composed of hard, springy steel,
+they might separate without loss of energy,
+after what&#8217;s called a "perfectly elastic" collision.
+If, on the other hand, both bodies were made of soft, sticky clay,
+they might cling together,
+resulting in what&#8217;s called a "perfectly inelastic" collision.</p>
+</div>
+<div class="paragraph">
+<p>In reality, no collision is perfectly elastic.
+Elasticity is quantified by a "coefficient of restitution",
+which ranges from zero (perfectly inelastic) to one (perfectly elastic).</p>
+</div>
+<div class="paragraph">
+<p>In Minie and Bullet, collisions are perfectly inelastic by default.
+(We saw this in <a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody.java</a>.)
+Each rigid body has a restitution parameter (which defaults to zero),
+and the coefficient of restitution is determined by multiplying the parameters
+of the colliding bodies.</p>
+</div>
+<div class="paragraph">
+<p>To simulate a perfectly elastic collision, set the restitution parameters of
+both bodies to one:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">rigidBodyA.setRestitution(1f); // default=0
+rigidBodyB.setRestitution(1f);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To see perfectly elastic collisions, run
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/NewtonsCradle.java">the Newton&#8217;s Cradle demo</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_friction"><a class="anchor" href="#_friction"></a>Friction</h3>
+<div class="paragraph">
+<p>Just as restitution models the component of the contact force
+perpendicular to the collision plane,
+friction models the component that lies <strong>in</strong> the plane.</p>
+</div>
+<div class="paragraph">
+<p>Each rigid body has a friction parameter (which defaults to 0.5),
+and the coefficient of friction is determined by adding the parameters
+of the colliding bodies.
+Reducing a body&#8217;s friction parameter makes it more slippery (think wet ice).
+Increasing it results in better traction (think sandpaper or rubber).</p>
+</div>
+<div class="paragraph">
+<p>Modeling friction is more complicated than modeling restitution because
+friction can generate both contact forces and contact torques.
+In addition to its basic friction parameter,
+each rigid body also has 2 additional friction parameters:
+one for rolling friction and one for spinning frction.
+Both parameters default to zero.</p>
+</div>
+<div class="paragraph">
+<p>Rolling friction creates torque orthogonal to the contact normal,
+which tends to slow down a rolling body.
+Spinning friction creates torque parallel to the contact normal,
+which tends to prevent a body from spinning when grasped.</p>
+</div>
+<div class="paragraph">
+<p>Minie provides accessors for the 3 parameters described above:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">rigidBody.setFriction(5f);          // default=0.5
+rigidBody.setRollingFriction(10f);  // default=0
+rigidBody.setSpinningFriction(50f); // default=0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To see perfectly elastic collisions, run
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/PoolDemo.java">PoolDemo.java</a>.</p>
+</div>
+<div class="paragraph">
+<p>Using numpad keys, you can vary the damping, friction, gravity,
+and restitution of the dropped bodies in
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/NewtonsCradle.java">the DropTest demo</a>
+and see how these parameters affect their motion.</p>
+</div>
+<div class="paragraph">
+<p>TODO contact damping/processing/stiffness, sleeping/activation, CCD, RigidBodyControl</p>
 </div>
 </div>
 </div>
