@@ -243,12 +243,12 @@ rigidBody.setRollingFriction(10f);  // default=0
 rigidBody.setSpinningFriction(50f); // default=0
 ----
 
-To see perfectly elastic collisions, run
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/PoolDemo.java[PoolDemo.java].
-
 Using numpad keys, you can vary the damping, friction, gravity,
 and restitution of the dropped bodies in
 https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/NewtonsCradle.java[the DropTest demo]
 and see how these parameters affect their motion.
+
+To see rolling and spinning friction in action, run
+https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/PoolDemo.java[the PoolDemo application].
 
 TODO contact damping/processing/stiffness, sleeping/activation, CCD, RigidBodyControl
