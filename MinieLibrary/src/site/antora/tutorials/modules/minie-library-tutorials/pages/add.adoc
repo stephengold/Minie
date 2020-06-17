@@ -27,8 +27,9 @@ they won't interfere with Minie.
 
 === Gradle-built projects
 
-Look for artifacts with these names in the `dependencies` section
-of your project's `gradle.build` file and remove them.
+. Look for artifacts with these names in the `dependencies` sections
+  of your project's `build.gradle` file(s).
+. Remove those artifacts.
 
 === Ant-built projects
 
