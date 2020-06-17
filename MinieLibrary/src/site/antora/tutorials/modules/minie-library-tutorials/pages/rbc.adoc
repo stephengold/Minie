@@ -1,0 +1,23 @@
+= An introduction to `RigidBodyControl`
+:experimental:
+:url-enwiki: https://en.wikipedia.org/wiki
+:url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
+:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
+
+By themselves, collision objects are invisible,
+while scene-graph spatials have no effect on physics.
+To visualize a collision object, it must be associated
+with one or more scene-graph spatial(s).
+Such associations can be implemented using _physics controls_:
+scene-graph controls that implement the `PhysicsControl` interface.
+
+For rigid bodies, Minie provides a `RigidBodyControl` class that
+extends `PhysicsRigidBody` to implement `PhysicsControl`.
+Because each `RigidBodyControl` instance is also a rigid body,
+you can configure it and add it to a space just like any other rigid body.
+Adding the instance to a `Spatial` synchronizes the position of the rigid body
+with that of the `Spatial`.
+
+There are several `PhysicsRigidBody` constructors.
+
+TODO sample code
