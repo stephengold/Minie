@@ -1,7 +1,7 @@
 = An introduction to rigid-body physics
 :experimental:
 :page-toclevels: 3
-:url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities
+:url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
 == Five familiar features
