@@ -14,7 +14,7 @@ jobs:
       with:
         java-version: 8
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java8-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -25,7 +25,7 @@ jobs:
       with:
         java-version: 8
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java8-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -36,7 +36,7 @@ jobs:
       with:
         java-version: 8
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java11-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -47,7 +47,7 @@ jobs:
       with:
         java-version: 11
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java11-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -58,7 +58,7 @@ jobs:
       with:
         java-version: 11
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java11-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -69,7 +69,7 @@ jobs:
       with:
         java-version: 11
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java14-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -80,7 +80,7 @@ jobs:
       with:
         java-version: 14
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java14-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -91,7 +91,7 @@ jobs:
       with:
         java-version: 14
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java14-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -102,7 +102,7 @@ jobs:
       with:
         java-version: 14
     - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon
+    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Website:
     runs-on: ubuntu-latest
