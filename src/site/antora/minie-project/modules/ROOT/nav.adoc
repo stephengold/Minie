@@ -1,8 +1,9 @@
-* https://hub.jmonkeyengine.org/c/user-code-projects/minie/63[Forum]
 * https://github.com/stephengold/Minie[Git repository]
 * https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE[License]
 * https://github.com/stephengold/Minie/releases/latest[Latest release]
 * https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md[Release log]
+* https://github.com/stephengold/Minie/issues[Issue tracker]
+* https://hub.jmonkeyengine.org/c/user-code-projects/minie/63[Forum]
 * Library tutorials:
 ** xref:minie-library-tutorials:add.adoc[Add to existing project]
 ** xref:minie-library-tutorials:rigidbody.adoc[Rigid bodies]
@@ -13,10 +14,10 @@
 ** xref:minie-library-tutorials:detect.adoc[Collision detection]
 ** xref:minie-library-tutorials:softbody.adoc[Soft bodies]
 * https://stephengold.github.io/Minie/minie/javadoc[Library API]
-* https://bintray.com/stephengold/com.github.stephengold/Minie[Bintray page]
-* https://jitpack.io/#stephengold/Minie[JitPack page]
-* https://jmonkeystore.com/38308161-c3cf-4e23-8754-528ca8387c11[JmonkeyStore page]
-* https://github.com/stephengold/Minie/issues[Issue tracker]
+* Minie at other sites:
+** https://bintray.com/stephengold/com.github.stephengold/Minie[Bintray]
+** https://jitpack.io/#stephengold/Minie[JitPack]
+** https://jmonkeystore.com/38308161-c3cf-4e23-8754-528ca8387c11[JmonkeyStore]
 * Related projects:
 ** https://jmonkeyengine.org[JMonkeyEngine]
 ** https://github.com/stephengold/Libbulletjme[Libbulletjme]
