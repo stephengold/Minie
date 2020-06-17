@@ -1,5 +1,6 @@
 = An introduction to rigid-body physics
 :experimental:
+:page-toclevels: 3
 :url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
@@ -57,7 +58,7 @@ Things to notice while running the app:
 
 == Configuring rigid bodies
 
-=== Static bodies
+=== Static rigid bodies
 
 Not all rigid bodies are dynamic.
 To create a _static_ (non-moving) rigid body,
@@ -92,7 +93,7 @@ body.setPhysicsLocation(new Vector3f(5f, 1f, 0f));
 body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));
 ----
 
-NOTE: once a dynamic or static body has been initialized,
+NOTE: Once a dynamic or static body has been initialized,
 it should never be repositioned in this manner.
 
 The center of a dynamic body should be located at its
