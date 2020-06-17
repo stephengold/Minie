@@ -1,10 +1,12 @@
 = An introduction to rigid-body physics
 :experimental:
 :page-toclevels: 3
+:url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
+:url-enwiki: https://en.wikipedia.org/wiki
 :url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
-== Five familiar features
+== The 5 familiar features
 
 A _rigid body_ is a type of collision object
 that exhibits some familiar features of real-world objects, including:
@@ -13,16 +15,19 @@ that exhibits some familiar features of real-world objects, including:
 * _inertia_ (resistance to change of motion).
 
 The simplest way to create a rigid body
-is to directly invoke the `PhysicsRigidBody` constructor.
+is to directly invoke the
+{url-api}/objects/PhysicsRigidBody.html[`PhysicsRigidBody`] constructor.
 This allows you to specify its mass and collision shape.
 Together, these properties determine its
-https://en.wikipedia.org/wiki/Moment_of_inertia[_moment of inertia_]:
+{url-enwiki}/Moment_of_inertia[_moment of inertia_]:
 
 [source,java]
 ----
 CollisionShape ballShape = new SphereCollisionShape(1f);
 float ballMass = 2f;
+// create a rigid body
 PhysicsRigidBody ball = new PhysicsRigidBody(ballShape, ballMass);
+// calculate its moment of inertia (in local coordinates, diagonal entries only)
 Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));
 ----
 
@@ -30,13 +35,13 @@ By default, rigid bodies also exhibit 3 other features of real-world objects:
 
 * They are _dynamic_
   (mobile, with their motion determined by
-  https://en.wikipedia.org/wiki/Force[_forces_],
-  https://en.wikipedia.org/wiki/Torque[_torques_], and
-  https://en.wikipedia.org/wiki/Impulse_(physics)[_impulses_].)
+  {url-enwiki}/Force[_forces_],
+  {url-enwiki}/Torque[_torques_], and
+  {url-enwiki}/Impulse_(physics)[_impulses_].)
 * They are subject to _gravity_:
   a continual downward force proportional to their mass.
 * They exhibit _contact response_:
-  powerful forces which prevent them from intersecting with other bodies.
+  powerful forces prevent them from intersecting with other bodies.
 
 However, these last 3 features are optional and can be disabled.
 
@@ -49,8 +54,8 @@ Things to notice while running the app:
 . Two balls, both falling slowly under the influence of gravity.
 . The ball on the right receives an impulse that pushes it leftward.
 . After the impulse ends, the ball's inertia keeps it moving leftward.
-. The simulation runs at one-tenth normal speed,
-  making the individual time steps noticeable.
+. The simulation runs at 1/10th normal speed,
+  making the time steps noticeable.
 . The balls collide, generating contact forces
   that alter their motions but not their shapes.
 .* The ball on the right loses half of its speed.
@@ -94,13 +99,13 @@ body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));
 ----
 
 NOTE: Once a dynamic or static body has been initialized,
-it should never be repositioned in this manner.
+it shouldn't be repositioned in this manner.
 
 The center of a dynamic body should be located at its
-https://en.wikipedia.org/wiki/Center_of_mass[_center of mass_],
-the location around which it tends to spin,
+{url-enwiki}/Center_of_mass[_center of mass_],
+the point around which it tends to spin,
 and its local axes should correspond to the
-https://en.wikipedia.org/wiki/Principal_axis_(mechanics)[_principal axes_]
+{url-enwiki}/Principal_axis_(mechanics)[_principal axes_]
 of its mass distribution.
 
 Unlike a dynamic body, a static body allows complete flexibility
@@ -113,14 +118,15 @@ In addition to static and dynamic, there's a third type of rigid body.
 _Kinematic_ bodies share properties of both static and dynamic ones.
 Like dynamic bodies, kinematic ones can move.
 However, they are unaffected by forces, torques, and impulses.
-Their movement is driven by external logic, which may, if desired,
+Their movement is driven by external logic that may, if desired,
 reposition them prior to every timestep.
 
 In the presence of dynamic bodies, a kinematic body acts like
 an unstoppable battering ram.
 
-There's no way to instantiate a kinematic rigid body directly.
-To convert a dynamic rigid body into a kinematic one, use `setKinematic(true)`.
+There's no direct way to instantiate a kinematic rigid body.
+The usual solution is to instantiate a dynamic body and convert it
+to kinematic using `setKinematic(true)`.
 
 For obscure reasons, a kinematic rigid body must have positive mass.
 To convert a static rigid body into a kinematic one, set its mass
@@ -163,14 +169,14 @@ Things to notice while running the app:
 
 === Velocity
 
-Every dynamic body has a _velocity_, which quantifies its motion at the
+Every dynamic body has a _velocity_ that quantifies its motion at the
 present instant.
 
 More precisely, it has 2 velocities: _linear velocity_ and _angular velocity_,
 both represented as 3-D vectors.
-The magnitude and direction of the linear velocity vector describe the speed
+The magnitude and direction of the linear velocity vector quantify the speed
 and direction at which its center is traveling through space (if at all).
-The magnitude and direction of the angular velocity vector describe the
+The magnitude and direction of the angular velocity vector quantify the
 rate and axis of the body's spinning motion, if any.
 
 NOTE: Both velocities of a static body are zero.
@@ -185,7 +191,8 @@ use its `setLinearVelocity()` and `setAngularVelocity()` methods.
 Many familiar real-world phenomena
 can be modeled as forces acting on rigid bodies.
 
-You can apply custom forces using the following 6 methods:
+You can apply custom forces, impulses, and torques
+using the following 6 methods:
 
 * `applyCentralForce(Vector3f)`
 * `applyCentralImpulse(Vector3f)`
@@ -194,7 +201,8 @@ You can apply custom forces using the following 6 methods:
 * `applyTorque(Vector3f)`
 * `applyTorqueImpulse(Vector3f)`
 
-For convenience, the following forces are "built into" rigid body simulations:
+However, some forces are so commonplace that they are
+"built into" rigid body simulations:
 
 * drag forces:
 ** damping
@@ -209,7 +217,7 @@ In the absence of external forces,
 inertia would keep the velocities of a dynamic body constant.
 In the real world, however,
 we're accustomed to seeing moving objects eventually come to rest.
-This behavior can be caused by _drag forces_ (such as air resistance)
+This behavior if often caused by _drag forces_ (such as air resistance)
 that increase with speed.
 
 To simulate drag forces, each rigid body has _damping_,
@@ -249,20 +257,28 @@ Things to notice while running the app:
 In the real world,
 we're accustomed to seeing unsupported objects fall.
 This behavior is caused by _gravity_,
-a downward force that's proportional to mass.
+a downward force that's proportional to mass (and thus causes a constant
+{url-enwiki}/Acceleration[acceleration]).
 
 To simulate this phenomenon, each body has a gravity vector,
-which (if the body is dynamic) applies a continual downward force.
+which quantifies the acceleration, assuming the body is dynamic.
 To configure a body's gravity, use `setGravity(accelerationVector)`.
 
-NOTE: If following the Y-up convention, the X and Z components of the
+NOTE: If following the Y-up axes convention, the X and Z components of the
 vector should be zero, and its Y component should be *negative*.
 
-When a body is added to a `PhysicsSpace`,
+When a body is added to a physics space,
 the gravity of the space typically gets applied to it,
 replacing any previously configured gravity.
 To protect a rigid body from gravity changes caused by the space
 to which it's added, use `setProtectGravity(true)`.
+
+To disable gravity, set it to zero:
+
+[source,java]
+----
+rigidBody.setGravity(Vector3f.ZERO);
+----
 
 To simulate a non-uniform gravitational field,
 update the gravity of each body prior to each physics tick.
@@ -292,10 +308,10 @@ Its strength hints at what the bodies might be made out of.
 
 If both bodies were made of hard, springy steel,
 they might separate without loss of energy,
-following what's called a _perfectly elastic_ collision.
+after undergoing what's called a _perfectly elastic_ collision.
 If, on the other hand, both bodies were made of soft, sticky clay,
 they might cling together,
-resulting in what's called a _perfectly inelastic_ collision.
+undergoing what's called a _perfectly inelastic_ collision.
 
 In reality, no collision is perfectly elastic.
 Elasticity is quantified by a _coefficient of restitution_,
@@ -304,8 +320,8 @@ which ranges from zero (perfectly inelastic) to one (perfectly elastic).
 In Minie and Bullet, collisions are inelastic by default.
 (We saw this in {url-tutorial}/HelloRigidBody.java[HelloRigidBody.java].)
 Each rigid body has a _restitution parameter_ which defaults to zero.
-The coefficient of restitution is calculated by multiplying the parameters
-of the colliding bodies.
+For each collision, the coefficient of restitution
+is calculated by multiplying the parameters of the colliding bodies.
 
 To simulate a perfectly elastic collision, set the restitution parameters of
 both bodies to one:
@@ -319,49 +335,28 @@ rigidBodyB.setRestitution(1f);
 {url-examples}/NewtonsCradle.java[The Newton's Cradle demo]
 demonstrates perfectly elastic collisions.
 At startup, the simulation is paused.
-Press kbd:[.] to start the simulation, or to pause it while running.
+Press kbd:[.] to start the simulation, or to pause it while it's running.
 
 ==== Friction
 
-Just as restitution models the contact forces
+While restitution models contact forces
 perpendicular to the collision plane,
-_friction_ models contact forces whose directions lie *in* the collision plane.
+_friction_ models contact forces that lie *in* the collision plane.
 
-Each rigid body has a friction parameter (which defaults to 0.5),
-and the coefficient of friction is determined by adding the parameters
-of the colliding bodies.
+Each rigid body has a _friction parameter_ (which defaults to 0.5).
 A body's friction parameter hints at its surface characteristics.
 To configure the parameter, use `setFriction(parameter)`.
 Reducing a body's friction parameter makes it more slippery (think wet ice).
 Increasing it results in better traction (think sandpaper or rubber).
 
-TODO move the rest of this section to an advanced topic
-
-Because friction can generate both forces and torques,
-modeling it can get very complicated.
-
-In addition to its basic friction parameter,
-each rigid body also has 2 additional friction parameters:
-one for rolling friction and one for spinning frction.
-Both parameters default to zero.
-
-_Rolling friction_ creates torque orthogonal to the contact normal,
-which tends to slow down a rolling body.
-_Spinning friction_ creates torque parallel to the contact normal,
-which tends to prevent a body from spinning when grasped.
-
-To see rolling and spinning friction in action, run
-{url-examples}/PoolDemo.java[the PoolDemo application].
-
-To simulate objects with grooved surfaces, it's also possible to configure
-a body for _anisotropic friction_:
-friction that depends on the direction of relative motion.
+For each collision, a _coefficient of friction_
+is calculated by add the parameters of the colliding bodies.
 
 === Related demo apps
 
 {url-examples}/DropTest.java[The DropTest demo] and
 {url-examples}/TargetDemo.java[the TargetDemo application]
-allow and you to vary the damping, friction, gravity,
+both allow and you to vary the damping, friction, gravity,
 and restitution of all the bodies in a physics space.
 This allows you to see how these 4 parameters affect the bodies' motion.
 
@@ -369,11 +364,24 @@ This allows you to see how these 4 parameters affect the bodies' motion.
 * Use kbd:[num8] and kbd:[num2] to select the desired parameter.
 * Use kbd:[num4] and kbd:[num6] to cycle through the available parameter values.
 
-== Sleeping and activation
-TODO
+== Deactivation
+
+It's common for physics simulations to reach a
+{url-enwiki}/Steady_state[_steady state_] in which
+the all or some of the rigid bodies cease to move.
+
+If a dynamic rigid body doesn't move for 2 seconds,
+Bullet _deactivates_ it to reduce CPU consumption.
+Deactivated bodies are not simulated.
+
+How do bodies get deactivated? TODO
+
+To test whether a body is deactivated TODO
+
+To alter the deactivation interval of a body TODO
+
+Disable deactivation for a body TODO
 
 == Continuous collision detection
-TODO
 
-== RigidBodyControl
 TODO
