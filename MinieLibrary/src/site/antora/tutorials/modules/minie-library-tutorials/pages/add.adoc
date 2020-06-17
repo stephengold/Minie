@@ -37,8 +37,8 @@ they won't interfere with Minie.
 Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
 . Right-click on the project (not its assets) in the "Projects" window.
-. Select menu:[Properties] to open the "Project Properties" dialog.
-. Under "Categories:" select menu:Libraries.
+. Select menu:Properties to open the "Project Properties" dialog.
+. Under "Categories:", click on btn:[Libraries].
 . Click on the btn:[Compile] tab.
 . Look for incompatible libraries in the "Compile-time Libraries"
   listbox.  Select them and click on the btn:[Remove] button.
@@ -83,8 +83,8 @@ and probably the `-sources` and `-javadoc` jars as well.
 Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
 . Right-click on the project (not its assets) in the "Projects" window.
-. Select menu:[Properties] to open the "Project Properties" dialog.
-. Under "Categories:" select menu:[Libraries].
+. Select menu:Properties to open the "Project Properties" dialog.
+. Under "Categories:", click on btn:[Libraries].
 . Click on the btn:[Compile] tab.
 . Add the Heart class jar:
 .. Click on the btn:[Add JAR/Folder] button.
