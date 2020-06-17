@@ -37,12 +37,12 @@ they won't interfere with Minie.
 Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
 . Right-click on the project (not its assets) in the "Projects" window.
-. Select menu:Properties to open the "Project Properties" dialog.
+. Select menu:[Properties] to open the "Project Properties" dialog.
 . Under "Categories:" select menu:Libraries.
-. Click on the btn:Compile tab.
+. Click on the btn:[Compile] tab.
 . Look for incompatible libraries in the "Compile-time Libraries"
-  listbox.  Select them and click on the btn:Remove button.
-. Click on the btn:OK button to exit the "Project Properties" dialog.
+  listbox.  Select them and click on the btn:[Remove] button.
+. Click on the btn:[OK] button to exit the "Project Properties" dialog.
 
 == Add libraries to the classpath
 
@@ -83,25 +83,25 @@ and probably the `-sources` and `-javadoc` jars as well.
 Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
 . Right-click on the project (not its assets) in the "Projects" window.
-. Select menu:Properties to open the "Project Properties" dialog.
-. Under "Categories:" select menu:Libraries.
-. Click on the btn:Compile tab.
+. Select menu:[Properties] to open the "Project Properties" dialog.
+. Under "Categories:" select menu:[Libraries].
+. Click on the btn:[Compile] tab.
 . Add the Heart class jar:
 .. Click on the btn:[Add JAR/Folder] button.
 .. Navigate to the download folder.
 .. Select the "Heart-5.5.0.jar" file.
-.. Click on the btn:Open button.
+.. Click on the btn:[Open] button.
 . (optional) Add jars for javadoc and sources:
-.. Click on the btn:Edit button.
+.. Click on the btn:[Edit] button.
 .. Click on the btn:[Browse...] button to the right of "Javadoc:"
 .. Select the "Heart-5.5.0-javadoc.jar" file.
-.. Click on the btn:Open button.
+.. Click on the btn:[Open] button.
 .. Click on the btn:[Browse...] button to the right of "Sources:"
 .. Select the "Heart-5.5.0-sources.jar" file.
-.. Click on the btn:Open button button again.
-.. Click on the btn:OK button to close the "Edit Jar Reference" dialog.
+.. Click on the btn:[Open] button button again.
+.. Click on the btn:[OK] button to close the "Edit Jar Reference" dialog.
 . Similarly, add the Minie jar(s).
-. Click on the btn:OK button to exit the "Project Properties" dialog.
+. Click on the btn:[OK] button to exit the "Project Properties" dialog.
 
 == Create, configure, and attach a BulletAppState
 
