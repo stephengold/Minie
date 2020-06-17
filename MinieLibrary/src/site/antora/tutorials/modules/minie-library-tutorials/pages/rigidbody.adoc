@@ -41,7 +41,7 @@ By default, rigid bodies also exhibit 3 other features of real-world objects:
 * They are subject to _gravity_:
   a continual downward force proportional to their mass.
 * They exhibit _contact response_:
-  powerful forces prevent them from intersecting with other bodies.
+  powerful forces prevent them from intersecting other bodies.
 
 However, these last 3 features are optional and can be disabled.
 
@@ -87,7 +87,7 @@ Things to notice while running the app:
 Every rigid body occupies a _position_ in space, described by 2 properties:
 
 * the _location_ of the body's center and
-* the body's _orientation_,
+* the body's _orientation_:
   the rotation of its (local) axes relative to those of the physics space.
 
 Each property can be configured separately:
@@ -115,20 +115,20 @@ in the choice of center and local axes.
 
 In addition to static and dynamic rigid bodies, there's a third type.
 
-_Kinematic_ bodies share properties of both static and dynamic ones.
+_Kinematic_ bodies share some properties with both static and dynamic ones.
 Like dynamic bodies, kinematic ones can move.
 However, they are unaffected by forces, torques, and impulses.
-Their movement is driven by external logic that may, if desired,
+Their movement is dictated by external logic that may, if desired,
 reposition them prior to every timestep.
 
 In the presence of dynamic bodies, a kinematic body acts like
 an unstoppable battering ram.
 
 There's no direct way to instantiate a kinematic rigid body.
-The usual solution is to instantiate a dynamic body and convert it
+The usual way is to instantiate a dynamic body and then convert it
 to kinematic using `rigidBody.setKinematic(true)`.
 
-For obscure reasons, a kinematic rigid body must have positive mass.
+Due to a design flaw, a kinematic rigid body must have positive mass.
 To convert a static rigid body into a kinematic one, set its mass
 to a positive value *before* setting its kinematic flag:
 
@@ -145,7 +145,7 @@ Things to notice while running the app:
 . Two balls: the top one dynamic, the bottom one kinematic.
 . The kinematic ball orbits a fixed point in space.
 . The balls collide, generating contact forces
-  that alter the motion of the dynamic ball.
+  that affect the motion of the dynamic ball.
 . The kinematic ball continues to orbit,
   unaffected by both gravity and contact forces.
 
@@ -169,21 +169,21 @@ Things to notice while running the app:
 
 === Velocity
 
-Every dynamic body has a _velocity_ that quantifies its motion at the
-present instant.
+Every dynamic body has a _velocity_ that quantifies its motion as of the
+end of the last time step (or the start of the next).
 
 More precisely, it has 2 velocities: _linear velocity_ and _angular velocity_,
 both represented as 3-D vectors.
 The magnitude and direction of the linear velocity vector quantify the speed
-and direction at which its center is traveling through space (if at all).
+and direction at which the body's center is traveling through space (if at all).
 The magnitude and direction of the angular velocity vector quantify the
-rate and axis of the body's spinning motion, if any.
+rate and axis direction of the body's spinning motion, if any.
 
 NOTE: Both velocities of a static body are zero.
 
 NOTE: Both velocities of a kinematic body are undefined.
 
-To initialize the velocities of a dynamic rigid body,
+To alter the velocities of a dynamic rigid body,
 use its `setLinearVelocity()` and `setAngularVelocity()` methods.
 
 === Built-in forces
@@ -202,7 +202,7 @@ using the following 6 methods:
 * `applyTorqueImpulse(Vector3f)`
 
 However, some forces are so commonplace that they are
-"built into" rigid body simulations:
+"built into" rigid body simulation:
 
 * drag forces:
 ** damping
@@ -216,7 +216,7 @@ However, some forces are so commonplace that they are
 In the absence of external forces,
 inertia would keep the velocities of a dynamic body constant.
 In the real world, however,
-we're accustomed to seeing moving objects eventually come to rest.
+we're accustomed to seeing unpowered moving objects eventually come to rest.
 This behavior is often caused by _drag forces_ (such as air resistance)
 that increase with speed.
 
@@ -227,6 +227,8 @@ assuming the body is dynamic.
 More precisely, each body has 2 damping parameters:
 _linear damping_ and _angular damping_,
 each of which ranges from zero (no drag) to one (motion ceases immediately).
+Linear damping damps the linear velocity, and
+angular damping damps the angular velocity.
 
 Accessors are provided for both parameters, separately and together:
 
@@ -245,8 +247,8 @@ is a simple application that demonstrates damping.
 Things to notice while running the app:
 
 . 4 cubes intially share the same linear and angular velocities.
-. The top 2 have constant linear velocities, a sign of zero linear damping.
-. The left 2 have constant angular velocities, a sign of zero angular damping.
+. The top 2 have constant linear velocities, evidence of no linear damping.
+. The left 2 have constant angular velocities, evidence of no angular damping.
 . The linear velocities of the bottom 2 cubes decay quickly to zero
   due to strong linear damping.
 . The angular velocities of the right 2 cubes decay quickly to zero
@@ -313,7 +315,7 @@ In Minie and Bullet, collisions are inelastic by default.
 (We saw this in {url-tutorial}/HelloRigidBody.java[HelloRigidBody.java].)
 Each rigid body has a _restitution parameter_ which defaults to zero.
 For each collision, the coefficient of restitution
-is calculated by multiplying the parameters of the colliding bodies.
+is calculated by *multiplying* the parameters of the colliding bodies.
 
 To simulate a perfectly elastic collision, set the restitution parameters of
 both bodies to one:
@@ -342,7 +344,7 @@ Reducing a body's friction parameter makes it more slippery (think wet ice).
 Increasing it yields better traction (think sandpaper or dry rubber).
 
 For each collision, a _coefficient of friction_
-is calculated by add the parameters of the colliding bodies.
+is calculated by *adding* the parameters of the colliding bodies.
 
 === Related demo apps
 
@@ -401,7 +403,7 @@ Puzzling behavior may occur if a deactivated body is:
 * driven by a motorized physics joint.
 
 The deactivated body will seem to be "stuck"
-because the events described do not, by themselves, reactivate it.
+because the events listed above do not, by themselves, reactivate it.
 
 {url-tutorial}/HelloDeactivation.java[HelloDeactivation]
 is a simple application that demonstrates deactivation.
@@ -421,29 +423,29 @@ involves a fast-moving dynamic body passing through a thin obstacle
 without any collision being detected.
 The issue arises because the body can pass from one side of the object to
 another in a single time step.
-The simulator sees
-that the dynamic body doesn't intersect the obstable on any time step,
+The dynamic body doesn't intersect the obstable on any time step,
 so no collision is detected and no contact forces are simulated.
 
 To some extent, this issue could be mitigated by reducing the time step.
 But since CPU consumption is inversely proportional to the time step,
-this solution can become very inefficient.
+this approach quickly becomes very inefficient.
 
 To solve this issue, Bullet offers _continous collision detection_ (CCD),
 an algorithm for detecting collisions that occur *between* time steps.
 CCD substitutes a sphere for the collision shape of the fast-moving body,
 sweeps that sphere forward along the body's projected path,
-and performs a more accurate collision test on any obstacles it finds.
+and then performs more detailed collision tests on any potential
+obstacles found by the sweep test.
 
 Because CCD involves extra computation, it is disabled by default.
-Because it is only necessary for fast-moving bodies, it is enabled only
+Since it's only necessary for fast-moving bodies, it is enabled only
 when a body's distance travelled per time step exceeds a threshold.
 To enable CCD for a particular rigid body,
-increase the body's CCD activation threshold using
+increase its activation threshold using
 `rigidBody.setCcdMotionThreshold(distancePerTimeStep)`.
 
-To get the best possible results using CCD,
-configure both the motion threshold and the size of the swept sphere.
+To obtain the best possible results from CCD,
+tune both the motion threshold and the size of the swept sphere.
 Here's a heuristic that works well for many situations:
 
 [source,java]
@@ -466,3 +468,42 @@ Things to notice while running the app:
 . The ball with CCD enabled (on the left) sticks the landing on the platform.
 . The control ball (on the right) falls through the platform,
   passing from one side to the other in a single time step.
+
+== Summary
+
+* Rigid bodies simulate many familiar features of real-world objects.
+* There are 3 kinds: dynamic, static, and kinematic...
+
+[cols="4", options="header"]
+|===
+| |Static |Kinematic |Dynamic
+
+a|Movement
+a|prior to first time step only
+a|`setPhysicsLocation()`, `setPhysicsRotation()`, ...
+a|`setLinearVelocity()`, `applyImpulse()`, ...
+
+a|Affected by forces, impulses, and torques?
+a|No.
+a|No.
+a|Yes.
+
+a|Typical uses
+a|Non-moving objects such as floors and walls
+a|Application-controlled objects such as airships and elevators
+a|Physics-controlled objects such as balls and bricks
+
+a|How to configure
+a|`setMass(0f); setKinematic(false);`
+a|`setMass(positive); setKinematic(true);`
+a|`setMass(positive); setKinematic(false);`
+|===
+
+* The properties of rigid bodies include: shape, mass, moment of inertia,
+  location, orientation, velocities (linear and angular),
+  damping, gravity, restitution, and friction.
+* Contact response is an optional feature.
+* If a dynamic rigid body moves too slowly,
+  it might get automatically deactivated after 2 seconds.
+* Continous collision detection solves the problem
+  of fast-moving dynamic bodies passing through thin obstacles.
