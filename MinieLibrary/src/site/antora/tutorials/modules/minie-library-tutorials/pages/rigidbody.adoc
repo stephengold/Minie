@@ -472,16 +472,16 @@ Things to notice while running the app:
 == Summary
 
 * Rigid bodies simulate many familiar features of real-world objects.
-* There are 3 kinds: dynamic, static, and kinematic...
+* There are 3 kinds: static, kinematic, and dynamic ...
 
 [cols="4", options="header"]
 |===
 | |Static |Kinematic |Dynamic
 
 a|Movement
-a|prior to first time step only
-a|`setPhysicsLocation()`, `setPhysicsRotation()`, ...
-a|`setLinearVelocity()`, `applyImpulse()`, ...
+a|prior to first time step only: `setPhysicsLocation()` `setPhysicsRotation()`
+a|`setPhysicsLocation()` `setPhysicsRotation()`
+a|`setLinearVelocity()` `applyImpulse()` `applyForce()` ...
 
 a|Affected by forces, impulses, and torques?
 a|No.
@@ -491,12 +491,12 @@ a|Yes.
 a|Typical uses
 a|Non-moving objects such as floors and walls
 a|Application-controlled objects such as airships and elevators
-a|Physics-controlled objects such as balls and bricks
+a|Physics-controlled objects such as balls, bricks, and ragdolls
 
 a|How to configure
-a|`setMass(0f); setKinematic(false);`
-a|`setMass(positive); setKinematic(true);`
-a|`setMass(positive); setKinematic(false);`
+a|`setMass(0f);` `setKinematic(false);`
+a|`setMass(positive);` `setKinematic(true);`
+a|`setMass(positive);` `setKinematic(false);`
 |===
 
 * The properties of rigid bodies include: shape, mass, moment of inertia,
