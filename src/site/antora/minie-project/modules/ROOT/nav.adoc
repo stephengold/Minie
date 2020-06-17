@@ -14,6 +14,7 @@
 ** xref:minie-library-tutorials:dac.adoc[Ragdolls]
 ** xref:minie-library-tutorials:detect.adoc[Collision detection]
 ** xref:minie-library-tutorials:softbody.adoc[Soft bodies]
+** xref:minie-library-tutorials:misc.adoc[Miscellany]
 * https://stephengold.github.io/Minie/minie/javadoc[Library API]
 * Minie at other sites:
 ** https://bintray.com/stephengold/com.github.stephengold/Minie[Bintray]
