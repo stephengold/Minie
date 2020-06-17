@@ -3,21 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>The Minie project :: The Minie project</title>
-    <link rel="canonical" href="https://stephengold.github.io/Minie/minie/overview.html">
+    <title>An introduction to RigidBodyControl :: The Minie project</title>
+    <link rel="canonical" href="https://stephengold.github.io/Minie/minie/minie-library-tutorials/rbc.html">
     <meta name="generator" content="Antora 2.3.3">
-    <link rel="stylesheet" href="../_/css/site.css">
-<meta property="og:image" content="../_/img/iconx128.png">
-<meta property="og:description" content="The Minie project">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<meta property="og:image" content="../../_/img/iconx128.png">
+<meta property="og:description" content="An introduction to <code>RigidBodyControl</code>">
 <meta property="og:title" content="The Minie project">
-<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
   </head>
   <body class="article">
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
       <a class="navbar-item" href="https://stephengold.github.io/Minie">
-        <img alt="" src="../_/img/iconx128.png" width="32" type="image/x-icon" style="margin-right:16px">
+        <img alt="" src="../../_/img/iconx128.png" width="32" type="image/x-icon" style="margin-right:16px">
         The Minie project
       </a>
       <button class="navbar-burger" data-target="topbar-nav">
@@ -45,7 +45,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="overview.html">The Minie project</a></h3>
+    <h3 class="title"><a href="../overview.html">The Minie project</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -72,34 +72,34 @@
     <span class="nav-text">Library tutorials:</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="minie-library-tutorials/add.html">Add to existing project</a>
+    <a class="nav-link" href="add.html">Add to existing project</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="minie-library-tutorials/rigidbody.html">Rigid bodies</a>
+    <a class="nav-link" href="rigidbody.html">Rigid bodies</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="minie-library-tutorials/shape.html">Collision shapes</a>
+    <a class="nav-link" href="shape.html">Collision shapes</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="rbc.html">RigidBodyControl</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="minie-library-tutorials/rbc.html">RigidBodyControl</a>
+    <a class="nav-link" href="debug.html">Debugging</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="minie-library-tutorials/debug.html">Debugging</a>
+    <a class="nav-link" href="new6dof.html">New6Dof joints</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="minie-library-tutorials/new6dof.html">New6Dof joints</a>
+    <a class="nav-link" href="dac.html">Ragdolls</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="minie-library-tutorials/dac.html">Ragdolls</a>
+    <a class="nav-link" href="detect.html">Collision detection</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="minie-library-tutorials/detect.html">Collision detection</a>
+    <a class="nav-link" href="softbody.html">Soft bodies</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="minie-library-tutorials/softbody.html">Soft bodies</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="minie-library-tutorials/misc.html">Miscellany</a>
+    <a class="nav-link" href="misc.html">Miscellany</a>
   </li>
 </ul>
   </li>
@@ -163,7 +163,7 @@
       <span class="title">The Minie project</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="overview.html">master</a>
+          <a href="../overview.html">master</a>
         </li>
       </ul>
     </li>
@@ -177,41 +177,37 @@
 <button class="nav-toggle"></button>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="overview.html">The Minie project</a></li>
+    <li><a href="../overview.html">The Minie project</a></li>
+    <li>Library tutorials:</li>
+    <li><a href="rbc.html">RigidBodyControl</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/src/site/antora/minie-project/modules/ROOT/pages/overview.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/MinieLibrary/src/site/antora/tutorials/modules/minie-library-tutorials/pages/rbc.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">The Minie project</h1>
+<h1 class="page">An introduction to <code>RigidBodyControl</code></h1>
 <div class="paragraph">
-<p>Minie is a physics library for JMonkeyEngine
-that takes physics-based games to the next level.
-Use it to:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>add solidity to walls, characters, projectiles, landscapes, and vehicles</p>
-</li>
-<li>
-<p>detect collisions between complex shapes</p>
-</li>
-<li>
-<p>simulate characters and buildings collapsing in real time</p>
-</li>
-<li>
-<p>simulate cloth, rope, and deformable volumes,
-including their interactions with rigid bodies and each other</p>
-</li>
-</ul>
+<p>By themselves, collision objects are invisible,
+while scene-graph spatials have no effect on physics.
+To visualize a collision object, it must be associated
+with one or more scene-graph spatial(s).
+Such associations can be implemented using <em>physics controls</em>:
+scene-graph controls that implement the <code>PhysicsControl</code> interface.</p>
 </div>
 <div class="paragraph">
-<p>Forked from the jme3-bullet library, Minie adds many features
-while preserving most of the jme3-bullet API.
-Most JME physics examples can use Minie without modification,
-and Minie adds its own demos and tutorials to help you get started.</p>
+<p>For rigid bodies, Minie provides a <code>RigidBodyControl</code> class that
+extends <code>PhysicsRigidBody</code> to implement <code>PhysicsControl</code>.
+Because each <code>RigidBodyControl</code> instance is also a rigid body,
+you can configure it and add it to a space just like any other rigid body.
+Adding the instance to a <code>Spatial</code> synchronizes the position of the rigid body
+with that of the <code>Spatial</code>.</p>
+</div>
+<div class="paragraph">
+<p>There are several <code>PhysicsRigidBody</code> constructors.</p>
+</div>
+<div class="paragraph">
+<p>TODO sample code</p>
 </div>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
@@ -223,7 +219,7 @@ and Minie adds its own demos and tutorials to help you get started.</p>
 <footer class="footer">
   <p>Copyright 2020 Stephen Gold</p>
 </footer>
-<script src="../_/js/site.js"></script>
-<script async src="../_/js/vendor/highlight.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>
