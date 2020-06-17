@@ -212,7 +212,7 @@ if the application doesn&#8217;t already do so.</p>
 <h2 id="_remove_all_other_physics_libraries"><a class="anchor" href="#_remove_all_other_physics_libraries"></a>Remove all other physics libraries</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Minie replaces (and is therefore incompatible with) the following
+<p>Minie replaces (and is thus incompatible with) the following
 jMonkeyEngine libraries:</p>
 </div>
 <div class="ulist">
@@ -237,9 +237,16 @@ they won&#8217;t interfere with Minie.</p>
 </div>
 <div class="sect2">
 <h3 id="_gradle_built_projects"><a class="anchor" href="#_gradle_built_projects"></a>Gradle-built projects</h3>
-<div class="paragraph">
-<p>Look for artifacts with these names in the <code>dependencies</code> section
-of your project&#8217;s <code>gradle.build</code> file and remove them.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Look for artifacts with these names in the <code>dependencies</code> sections
+of your project&#8217;s <code>build.gradle</code> file(s).</p>
+</li>
+<li>
+<p>Remove those artifacts.</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
@@ -253,20 +260,20 @@ of your project&#8217;s <code>gradle.build</code> file and remove them.</p>
 <p>Right-click on the project (not its assets) in the "Projects" window.</p>
 </li>
 <li>
-<p>Select "Properties to open the "Project Properties" dialog.</p>
+<p>Select menu:Properties to open the "Project Properties" dialog.</p>
 </li>
 <li>
-<p>Under "Categories:" select "Libraries".</p>
+<p>Under "Categories:" select menu:Libraries.</p>
 </li>
 <li>
-<p>Click on the "Compile" tab.</p>
+<p>Click on the btn:Compile tab.</p>
 </li>
 <li>
-<p>Look for libraries with these names in the "Compile-time Libraries"
-listbox.  Select them and click on the "Remove" button.</p>
+<p>Look for incompatible libraries in the "Compile-time Libraries"
+listbox.  Select them and click on the btn:Remove button.</p>
 </li>
 <li>
-<p>Click on the "OK" button to exit the "Project Properties" dialog.</p>
+<p>Click on the btn:OK button to exit the "Project Properties" dialog.</p>
 </li>
 </ol>
 </div>
@@ -344,20 +351,20 @@ and probably the <code>-sources</code> and <code>-javadoc</code> jars as well.</
 <p>Right-click on the project (not its assets) in the "Projects" window.</p>
 </li>
 <li>
-<p>Select "Properties to open the "Project Properties" dialog.</p>
+<p>Select menu:Properties to open the "Project Properties" dialog.</p>
 </li>
 <li>
-<p>Under "Categories:" select "Libraries".</p>
+<p>Under "Categories:" select menu:Libraries.</p>
 </li>
 <li>
-<p>Click on the "Compile" tab.</p>
+<p>Click on the btn:Compile tab.</p>
 </li>
 <li>
-<p>Add the <code>Heart</code> class jar:</p>
+<p>Add the Heart class jar:</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Click on the "Add JAR/Folder" button.</p>
+<p>Click on the btn:[Add JAR/Folder] button.</p>
 </li>
 <li>
 <p>Navigate to the download folder.</p>
@@ -366,7 +373,7 @@ and probably the <code>-sources</code> and <code>-javadoc</code> jars as well.</
 <p>Select the "Heart-5.5.0.jar" file.</p>
 </li>
 <li>
-<p>Click on the "Open" button.</p>
+<p>Click on the btn:Open button.</p>
 </li>
 </ol>
 </div>
@@ -376,37 +383,37 @@ and probably the <code>-sources</code> and <code>-javadoc</code> jars as well.</
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Click on the "Edit" button.</p>
+<p>Click on the btn:Edit button.</p>
 </li>
 <li>
-<p>Click on the "Browse&#8230;&#8203;" button to the right of "Javadoc:"</p>
+<p>Click on the btn:[Browse&#8230;&#8203;] button to the right of "Javadoc:"</p>
 </li>
 <li>
 <p>Select the "Heart-5.5.0-javadoc.jar" file.</p>
 </li>
 <li>
-<p>Click on the "Open" button.</p>
+<p>Click on the btn:Open button.</p>
 </li>
 <li>
-<p>Click on the "Browse&#8230;&#8203;" button to the right of "Sources:"</p>
+<p>Click on the btn:[Browse&#8230;&#8203;] button to the right of "Sources:"</p>
 </li>
 <li>
 <p>Select the "Heart-5.5.0-sources.jar" file.</p>
 </li>
 <li>
-<p>Click on the "Open" button again.</p>
+<p>Click on the btn:Open button button again.</p>
 </li>
 <li>
-<p>Click on the "OK" button to close the "Edit Jar Reference" dialog.</p>
+<p>Click on the btn:OK button to close the "Edit Jar Reference" dialog.</p>
 </li>
 </ol>
 </div>
 </li>
 <li>
-<p>Similarly, add the <code>Minie</code> jar(s).</p>
+<p>Similarly, add the Minie jar(s).</p>
 </li>
 <li>
-<p>Click on the "OK" button to exit the "Project Properties" dialog.</p>
+<p>Click on the btn:OK button to exit the "Project Properties" dialog.</p>
 </li>
 </ol>
 </div>
