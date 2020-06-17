@@ -12,7 +12,7 @@ A _rigid body_ is a type of collision object
 that exhibits some familiar features of real-world objects, including:
 
 * _rigidity_ (a fixed shape) and
-* _inertia_ (resistance to change of motion).
+* {url-enwiki}/Inertia[_inertia_] (resistance to changes of motion).
 
 The simplest way to create a rigid body
 is to directly invoke the
@@ -58,8 +58,8 @@ Things to notice while running the app:
   making the time steps noticeable.
 . The balls collide, generating contact forces
   that alter their motions but not their shapes.
-.* The ball on the right loses half of its speed.
-.* The ball on the left begins moving leftward as it falls.
+.. The ball on the right loses half of its speed.
+.. The ball on the left begins moving leftward as it falls.
 
 == Configuring rigid bodies
 
@@ -113,7 +113,7 @@ in the choice of center and local axes.
 
 === Kinematic flag
 
-In addition to static and dynamic, there's a third type of rigid body.
+In addition to static and dynamic rigid bodies, there's a third type.
 
 _Kinematic_ bodies share properties of both static and dynamic ones.
 Like dynamic bodies, kinematic ones can move.
@@ -126,7 +126,7 @@ an unstoppable battering ram.
 
 There's no direct way to instantiate a kinematic rigid body.
 The usual solution is to instantiate a dynamic body and convert it
-to kinematic using `setKinematic(true)`.
+to kinematic using `rigidBody.setKinematic(true)`.
 
 For obscure reasons, a kinematic rigid body must have positive mass.
 To convert a static rigid body into a kinematic one, set its mass
@@ -134,12 +134,12 @@ to a positive value *before* setting its kinematic flag:
 
 [source,java]
 ----
-body.setMass(1f);
-body.setKinematic(true);
+rigidBody.setMass(1f);
+rigidBody.setKinematic(true);
 ----
 
 {url-tutorial}/HelloKinematics.java[HelloKinematics]
-is a simple application that combines static and dynamic rigid bodies.
+is a simple application that combines kinematic and dynamic rigid bodies.
 Things to notice while running the app:
 
 . Two balls: the top one dynamic, the bottom one kinematic.
@@ -154,11 +154,11 @@ Things to notice while running the app:
 When physics simulation detects a collision between
 2 bodies that both have contact response, it applies contact forces.
 
-To disable the contact response of a rigid body,
-use `setContactResponse(false)`.
+To disable contact response for a particular rigid body,
+use `rigidBody.setContactResponse(false)`.
 
 {url-tutorial}/HelloContactResponse.java[HelloContactResponse]
-is a simple application demonstrates contact response.
+is a simple application that demonstrates contact response.
 Things to notice while running the app:
 
 . The ball falls until it collides with the blue (static) box,
@@ -217,7 +217,7 @@ In the absence of external forces,
 inertia would keep the velocities of a dynamic body constant.
 In the real world, however,
 we're accustomed to seeing moving objects eventually come to rest.
-This behavior if often caused by _drag forces_ (such as air resistance)
+This behavior is often caused by _drag forces_ (such as air resistance)
 that increase with speed.
 
 To simulate drag forces, each rigid body has _damping_,
@@ -244,7 +244,7 @@ rigidBody.setDamping(linearDamping, angularDamping);
 is a simple application that demonstrates damping.
 Things to notice while running the app:
 
-. Four cubes intially share the same linear and angular velocities.
+. 4 cubes intially share the same linear and angular velocities.
 . The top 2 have constant linear velocities, a sign of zero linear damping.
 . The left 2 have constant angular velocities, a sign of zero angular damping.
 . The linear velocities of the bottom 2 cubes decay quickly to zero
@@ -267,35 +267,27 @@ To configure a body's gravity, use `setGravity(accelerationVector)`.
 NOTE: If following the Y-up axes convention, the X and Z components of the
 vector should be zero, and its Y component should be *negative*.
 
+To disable gravity for a particular rigid body,
+use `rigidBody.setGravity(Vector3f.ZERO)`.
+
 When a body is added to a physics space,
 the gravity of the space typically gets applied to it,
 replacing any previously configured gravity.
+
+To disable gravity for a particular physics space and all bodies in it,
+use `physicsSpace.setGravity(Vector3f.ZERO)`.
+
 To protect a rigid body from gravity changes caused by the space
-to which it's added, use `setProtectGravity(true)`.
-
-To disable gravity, set it to zero:
-
-[source,java]
-----
-rigidBody.setGravity(Vector3f.ZERO);
-----
+to which it's added, use `rigidBody.setProtectGravity(true)`.
 
 To simulate a non-uniform gravitational field,
 update the gravity of each body prior to each physics tick.
-
-[source,java]
-----
-public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-    Collection<PhysicsCollisionObject> pcos = space.getPcoList();
-    for (PhysicsCollisionObject pco : pcos) {
-        if (pco instanceof PhysicsBody) {
-            updateGravity((PhysicsBody) pco);
-        }
-    }
-}
-----
-
-TODO non-u example app
+{url-tutorial}/HelloNonUniformGravity.java[HelloNonUniformGravity]
+is a simple application that demonstrates this technique.
+The planet's gravity vector is visualized by a thin cyan arrow.
+It orbits a black hole whose location is indicated by 3 thick arrows.
+NOTE: The planet's path varies somewhat from orbit to orbit.
+This is partly due to inaccuracies of single-precision arithmetic.
 
 ==== Restitution
 
@@ -344,10 +336,10 @@ perpendicular to the collision plane,
 _friction_ models contact forces that lie *in* the collision plane.
 
 Each rigid body has a _friction parameter_ (which defaults to 0.5).
-A body's friction parameter hints at its surface characteristics.
+This parameter hints at the body's surface characteristics.
 To configure the parameter, use `setFriction(parameter)`.
 Reducing a body's friction parameter makes it more slippery (think wet ice).
-Increasing it results in better traction (think sandpaper or rubber).
+Increasing it yields better traction (think sandpaper or dry rubber).
 
 For each collision, a _coefficient of friction_
 is calculated by add the parameters of the colliding bodies.
@@ -368,20 +360,109 @@ This allows you to see how these 4 parameters affect the bodies' motion.
 
 It's common for physics simulations to reach a
 {url-enwiki}/Steady_state[_steady state_] in which
-the all or some of the rigid bodies cease to move.
-
+the some or all of the rigid bodies have stopped moving.
 If a dynamic rigid body doesn't move for 2 seconds,
-Bullet _deactivates_ it to reduce CPU consumption.
-Deactivated bodies are not simulated.
+Bullet may automatically _deactivate_ it to reduce CPU consumption.
 
-How do bodies get deactivated? TODO
+To prevent a body from being deactivated,
+a certain amount of movement, either linear or angular,
+needs to occur every 2 seconds.
+Accessors are provided for these thresholds:
 
-To test whether a body is deactivated TODO
+[source,java]
+----
+float linearThreshold = 0.5f; // default=0.8
+float angularThreshold = 0.2f; // default=1
+rigidBody.setSleepingThresholds(linearThreshold, angularThreshold);
+----
 
-To alter the deactivation interval of a body TODO
+NOTE: _Sleeping_ is synonym for deactivation.
 
-Disable deactivation for a body TODO
+To disable deactivation for a particular rigid body,
+use `physicsSpace.setEnableSleep(false)`.
+
+To test whether a body is deactivated, use `rigidBody.isActive()`.
+
+Deactivated bodies won't be simulated (and won't move)
+unless/until they get reactivated.
+Reactivation occurs when:
+
+* a new contact is added (due to a collision),
+* a custom force is applied, or
+* the `rigidBody.activate()` method is invoked.
+
+To reactivate all bodies in a particular physics space,
+use `physicsSpace.activateAll(true)`.
+
+Puzzling behavior may occur if a deactivated body is:
+
+* supported by another body which then gets removed,
+* supported by another body which then has its contact response disabled, or
+* driven by a motorized physics joint.
+
+The deactivated body will seem to be "stuck"
+because the events described do not, by themselves, reactivate it.
+
+{url-tutorial}/HelloDeactivation.java[HelloDeactivation]
+is a simple application that demonstrates deactivation.
+Things to notice while running the app:
+
+. The upper (dynamic) box falls until it collides with the lower (static) box,
+  which provides a contact force to halt its motion and counteract gravity.
+. About 2 seconds after the upper box stops moving, it gets deactivated.
+. After the application removes the lower box,
+  the upper box doesn't resuming falling.
+  Due to deactivation, it seems to be "stuck".
 
 == Continuous collision detection
 
-TODO
+A common issue with discrete-time simulations
+involves a fast-moving dynamic body passing through a thin obstacle
+without any collision being detected.
+The issue arises because the body can pass from one side of the object to
+another in a single time step.
+The simulator sees
+that the dynamic body doesn't intersect the obstable on any time step,
+so no collision is detected and no contact forces are simulated.
+
+To some extent, this issue could be mitigated by reducing the time step.
+But since CPU consumption is inversely proportional to the time step,
+this solution can become very inefficient.
+
+To solve this issue, Bullet offers _continous collision detection_ (CCD),
+an algorithm for detecting collisions that occur *between* time steps.
+CCD substitutes a sphere for the collision shape of the fast-moving body,
+sweeps that sphere forward along the body's projected path,
+and performs a more accurate collision test on any obstacles it finds.
+
+Because CCD involves extra computation, it is disabled by default.
+Because it is only necessary for fast-moving bodies, it is enabled only
+when a body's distance travelled per time step exceeds a threshold.
+To enable CCD for a particular rigid body,
+increase the body's CCD activation threshold using
+`rigidBody.setCcdMotionThreshold(distancePerTimeStep)`.
+
+To get the best possible results using CCD,
+configure both the motion threshold and the size of the swept sphere.
+Here's a heuristic that works well for many situations:
+
+[source,java]
+----
+if (rigidBody.isDynamic()) {
+    CollisionShape shape = rigidBody.getCollisionShape();
+    float radius = shape.maxRadius();
+    rigidBody.setCcdMotionThreshold(radius);
+    rigidBody.setCcdSweptSphereRadius(radius);
+}
+----
+
+{url-tutorial}/HelloCcd.java[HelloCcd]
+is a simple application that demonstrates CCD.
+Things to notice while running the app:
+
+. The 2 balls have the same size, mass, initial height, and initial velocity.
+. The simulation runs at 1/10th normal speed,
+  making the time steps noticeable.
+. The ball with CCD enabled (on the left) sticks the landing on the platform.
+. The control ball (on the right) falls through the platform,
+  passing from one side to the other in a single time step.
