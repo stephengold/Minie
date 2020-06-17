@@ -240,7 +240,7 @@ a continual downward force proportional to their mass.</p>
 </li>
 <li>
 <p>They exhibit <em>contact response</em>:
-powerful forces prevent them from intersecting with other bodies.</p>
+powerful forces prevent them from intersecting other bodies.</p>
 </li>
 </ul>
 </div>
@@ -333,7 +333,7 @@ unaffected by both gravity and contact forces.</p>
 <p>the <em>location</em> of the body&#8217;s center and</p>
 </li>
 <li>
-<p>the body&#8217;s <em>orientation</em>,
+<p>the body&#8217;s <em>orientation</em>:
 the rotation of its (local) axes relative to those of the physics space.</p>
 </li>
 </ul>
@@ -379,10 +379,10 @@ in the choice of center and local axes.</p>
 <p>In addition to static and dynamic rigid bodies, there&#8217;s a third type.</p>
 </div>
 <div class="paragraph">
-<p><em>Kinematic</em> bodies share properties of both static and dynamic ones.
+<p><em>Kinematic</em> bodies share some properties with both static and dynamic ones.
 Like dynamic bodies, kinematic ones can move.
 However, they are unaffected by forces, torques, and impulses.
-Their movement is driven by external logic that may, if desired,
+Their movement is dictated by external logic that may, if desired,
 reposition them prior to every timestep.</p>
 </div>
 <div class="paragraph">
@@ -391,11 +391,11 @@ an unstoppable battering ram.</p>
 </div>
 <div class="paragraph">
 <p>There&#8217;s no direct way to instantiate a kinematic rigid body.
-The usual solution is to instantiate a dynamic body and convert it
+The usual way is to instantiate a dynamic body and then convert it
 to kinematic using <code>rigidBody.setKinematic(true)</code>.</p>
 </div>
 <div class="paragraph">
-<p>For obscure reasons, a kinematic rigid body must have positive mass.
+<p>Due to a design flaw, a kinematic rigid body must have positive mass.
 To convert a static rigid body into a kinematic one, set its mass
 to a positive value <strong>before</strong> setting its kinematic flag:</p>
 </div>
@@ -420,7 +420,7 @@ Things to notice while running the app:</p>
 </li>
 <li>
 <p>The balls collide, generating contact forces
-that alter the motion of the dynamic ball.</p>
+that affect the motion of the dynamic ball.</p>
 </li>
 <li>
 <p>The kinematic ball continues to orbit,
@@ -463,16 +463,16 @@ Gravity takes over, and the ball falls through the box.</p>
 <div class="sect2">
 <h3 id="_velocity"><a class="anchor" href="#_velocity"></a>Velocity</h3>
 <div class="paragraph">
-<p>Every dynamic body has a <em>velocity</em> that quantifies its motion at the
-present instant.</p>
+<p>Every dynamic body has a <em>velocity</em> that quantifies its motion as of the
+end of the last time step (or the start of the next).</p>
 </div>
 <div class="paragraph">
 <p>More precisely, it has 2 velocities: <em>linear velocity</em> and <em>angular velocity</em>,
 both represented as 3-D vectors.
 The magnitude and direction of the linear velocity vector quantify the speed
-and direction at which its center is traveling through space (if at all).
+and direction at which the body&#8217;s center is traveling through space (if at all).
 The magnitude and direction of the angular velocity vector quantify the
-rate and axis of the body&#8217;s spinning motion, if any.</p>
+rate and axis direction of the body&#8217;s spinning motion, if any.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -499,7 +499,7 @@ Both velocities of a kinematic body are undefined.
 </table>
 </div>
 <div class="paragraph">
-<p>To initialize the velocities of a dynamic rigid body,
+<p>To alter the velocities of a dynamic rigid body,
 use its <code>setLinearVelocity()</code> and <code>setAngularVelocity()</code> methods.</p>
 </div>
 </div>
@@ -537,7 +537,7 @@ using the following 6 methods:</p>
 </div>
 <div class="paragraph">
 <p>However, some forces are so commonplace that they are
-"built into" rigid body simulations:</p>
+"built into" rigid body simulation:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -575,7 +575,7 @@ using the following 6 methods:</p>
 <p>In the absence of external forces,
 inertia would keep the velocities of a dynamic body constant.
 In the real world, however,
-we&#8217;re accustomed to seeing moving objects eventually come to rest.
+we&#8217;re accustomed to seeing unpowered moving objects eventually come to rest.
 This behavior is often caused by <em>drag forces</em> (such as air resistance)
 that increase with speed.</p>
 </div>
@@ -587,7 +587,9 @@ assuming the body is dynamic.</p>
 <div class="paragraph">
 <p>More precisely, each body has 2 damping parameters:
 <em>linear damping</em> and <em>angular damping</em>,
-each of which ranges from zero (no drag) to one (motion ceases immediately).</p>
+each of which ranges from zero (no drag) to one (motion ceases immediately).
+Linear damping damps the linear velocity, and
+angular damping damps the angular velocity.</p>
 </div>
 <div class="paragraph">
 <p>Accessors are provided for both parameters, separately and together:</p>
@@ -613,10 +615,10 @@ Things to notice while running the app:</p>
 <p>4 cubes intially share the same linear and angular velocities.</p>
 </li>
 <li>
-<p>The top 2 have constant linear velocities, a sign of zero linear damping.</p>
+<p>The top 2 have constant linear velocities, evidence of no linear damping.</p>
 </li>
 <li>
-<p>The left 2 have constant angular velocities, a sign of zero angular damping.</p>
+<p>The left 2 have constant angular velocities, evidence of no angular damping.</p>
 </li>
 <li>
 <p>The linear velocities of the bottom 2 cubes decay quickly to zero
@@ -713,7 +715,7 @@ which ranges from zero (perfectly inelastic) to one (perfectly elastic).</p>
 (We saw this in <a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody.java</a>.)
 Each rigid body has a <em>restitution parameter</em> which defaults to zero.
 For each collision, the coefficient of restitution
-is calculated by multiplying the parameters of the colliding bodies.</p>
+is calculated by <strong>multiplying</strong> the parameters of the colliding bodies.</p>
 </div>
 <div class="paragraph">
 <p>To simulate a perfectly elastic collision, set the restitution parameters of
@@ -748,7 +750,7 @@ Increasing it yields better traction (think sandpaper or dry rubber).</p>
 </div>
 <div class="paragraph">
 <p>For each collision, a <em>coefficient of friction</em>
-is calculated by add the parameters of the colliding bodies.</p>
+is calculated by <strong>adding</strong> the parameters of the colliding bodies.</p>
 </div>
 </div>
 </div>
@@ -859,7 +861,7 @@ use <code>physicsSpace.activateAll(true)</code>.</p>
 </div>
 <div class="paragraph">
 <p>The deactivated body will seem to be "stuck"
-because the events described do not, by themselves, reactivate it.</p>
+because the events listed above do not, by themselves, reactivate it.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloDeactivation.java">HelloDeactivation</a>
@@ -893,33 +895,33 @@ involves a fast-moving dynamic body passing through a thin obstacle
 without any collision being detected.
 The issue arises because the body can pass from one side of the object to
 another in a single time step.
-The simulator sees
-that the dynamic body doesn&#8217;t intersect the obstable on any time step,
+The dynamic body doesn&#8217;t intersect the obstable on any time step,
 so no collision is detected and no contact forces are simulated.</p>
 </div>
 <div class="paragraph">
 <p>To some extent, this issue could be mitigated by reducing the time step.
 But since CPU consumption is inversely proportional to the time step,
-this solution can become very inefficient.</p>
+this approach quickly becomes very inefficient.</p>
 </div>
 <div class="paragraph">
 <p>To solve this issue, Bullet offers <em>continous collision detection</em> (CCD),
 an algorithm for detecting collisions that occur <strong>between</strong> time steps.
 CCD substitutes a sphere for the collision shape of the fast-moving body,
 sweeps that sphere forward along the body&#8217;s projected path,
-and performs a more accurate collision test on any obstacles it finds.</p>
+and then performs more detailed collision tests on any potential
+obstacles found by the sweep test.</p>
 </div>
 <div class="paragraph">
 <p>Because CCD involves extra computation, it is disabled by default.
-Because it is only necessary for fast-moving bodies, it is enabled only
+Since it&#8217;s only necessary for fast-moving bodies, it is enabled only
 when a body&#8217;s distance travelled per time step exceeds a threshold.
 To enable CCD for a particular rigid body,
-increase the body&#8217;s CCD activation threshold using
+increase its activation threshold using
 <code>rigidBody.setCcdMotionThreshold(distancePerTimeStep)</code>.</p>
 </div>
 <div class="paragraph">
-<p>To get the best possible results using CCD,
-configure both the motion threshold and the size of the swept sphere.
+<p>To obtain the best possible results from CCD,
+tune both the motion threshold and the size of the swept sphere.
 Here&#8217;s a heuristic that works well for many situations:</p>
 </div>
 <div class="listingblock">
@@ -954,6 +956,115 @@ making the time steps noticeable.</p>
 passing from one side to the other in a single time step.</p>
 </li>
 </ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Rigid bodies simulate many familiar features of real-world objects.</p>
+</li>
+<li>
+<p>There are 3 kinds: dynamic, static, and kinematic&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">Static</th>
+<th class="tableblock halign-left valign-top">Kinematic</th>
+<th class="tableblock halign-left valign-top">Dynamic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Movement</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>prior to first time step only</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>setPhysicsLocation()</code>, <code>setPhysicsRotation()</code>, &#8230;&#8203;</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>setLinearVelocity()</code>, <code>applyImpulse()</code>, &#8230;&#8203;</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Affected by forces, impulses, and torques?</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>No.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>No.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Yes.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Typical uses</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Non-moving objects such as floors and walls</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Application-controlled objects such as airships and elevators</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Physics-controlled objects such as balls and bricks</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>How to configure</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>setMass(0f); setKinematic(false);</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>setMass(positive); setKinematic(true);</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>setMass(positive); setKinematic(false);</code></p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>The properties of rigid bodies include: shape, mass, moment of inertia,
+location, orientation, velocities (linear and angular),
+damping, gravity, restitution, and friction.</p>
+</li>
+<li>
+<p>Contact response is an optional feature.</p>
+</li>
+<li>
+<p>If a dynamic rigid body moves too slowly,
+it might get automatically deactivated after 2 seconds.</p>
+</li>
+<li>
+<p>Continous collision detection solves the problem
+of fast-moving dynamic bodies passing through thin obstacles.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
