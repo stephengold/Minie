@@ -1,4 +1,5 @@
 = An introduction to rigid-body physics
+:experimental:
 :url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
@@ -363,9 +364,9 @@ allow and you to vary the damping, friction, gravity,
 and restitution of all the bodies in a physics space.
 This allows you to see how these 4 parameters affect the bodies' motion.
 
-* Use kbd:Enter to add dynamic bodies to the space.
-* Use kbd:num8 and kbd:num2 to select the desired parameter.
-* Use kbd:num4 and kbd:num6 to cycle through the available parameter values.
+* Use kbd:[Enter] to add dynamic bodies to the space.
+* Use kbd:[num8] and kbd:[num2] to select the desired parameter.
+* Use kbd:[num4] and kbd:[num6] to cycle through the available parameter values.
 
 == Sleeping and activation
 TODO
