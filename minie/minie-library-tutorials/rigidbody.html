@@ -200,7 +200,7 @@ that exhibits some familiar features of real-world objects, including:</p>
 <p><em>rigidity</em> (a fixed shape) and</p>
 </li>
 <li>
-<p><em>inertia</em> (resistance to change of motion).</p>
+<p><a href="https://en.wikipedia.org/wiki/Inertia"><em>inertia</em></a> (resistance to changes of motion).</p>
 </li>
 </ul>
 </div>
@@ -271,9 +271,17 @@ making the time steps noticeable.</p>
 </li>
 <li>
 <p>The balls collide, generating contact forces
-  that alter their motions but not their shapes.
-.* The ball on the right loses half of its speed.
-.* The ball on the left begins moving leftward as it falls.</p>
+that alter their motions but not their shapes.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The ball on the right loses half of its speed.</p>
+</li>
+<li>
+<p>The ball on the left begins moving leftward as it falls.</p>
+</li>
+</ol>
+</div>
 </li>
 </ol>
 </div>
@@ -368,7 +376,7 @@ in the choice of center and local axes.</p>
 <div class="sect2">
 <h3 id="_kinematic_flag"><a class="anchor" href="#_kinematic_flag"></a>Kinematic flag</h3>
 <div class="paragraph">
-<p>In addition to static and dynamic, there&#8217;s a third type of rigid body.</p>
+<p>In addition to static and dynamic rigid bodies, there&#8217;s a third type.</p>
 </div>
 <div class="paragraph">
 <p><em>Kinematic</em> bodies share properties of both static and dynamic ones.
@@ -384,7 +392,7 @@ an unstoppable battering ram.</p>
 <div class="paragraph">
 <p>There&#8217;s no direct way to instantiate a kinematic rigid body.
 The usual solution is to instantiate a dynamic body and convert it
-to kinematic using <code>setKinematic(true)</code>.</p>
+to kinematic using <code>rigidBody.setKinematic(true)</code>.</p>
 </div>
 <div class="paragraph">
 <p>For obscure reasons, a kinematic rigid body must have positive mass.
@@ -393,13 +401,13 @@ to a positive value <strong>before</strong> setting its kinematic flag:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">body.setMass(1f);
-body.setKinematic(true);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">rigidBody.setMass(1f);
+rigidBody.setKinematic(true);</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloKinematics.java">HelloKinematics</a>
-is a simple application that combines static and dynamic rigid bodies.
+is a simple application that combines kinematic and dynamic rigid bodies.
 Things to notice while running the app:</p>
 </div>
 <div class="olist arabic">
@@ -428,12 +436,12 @@ unaffected by both gravity and contact forces.</p>
 2 bodies that both have contact response, it applies contact forces.</p>
 </div>
 <div class="paragraph">
-<p>To disable the contact response of a rigid body,
-use <code>setContactResponse(false)</code>.</p>
+<p>To disable contact response for a particular rigid body,
+use <code>rigidBody.setContactResponse(false)</code>.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloContactResponse.java">HelloContactResponse</a>
-is a simple application demonstrates contact response.
+is a simple application that demonstrates contact response.
 Things to notice while running the app:</p>
 </div>
 <div class="olist arabic">
@@ -568,7 +576,7 @@ using the following 6 methods:</p>
 inertia would keep the velocities of a dynamic body constant.
 In the real world, however,
 we&#8217;re accustomed to seeing moving objects eventually come to rest.
-This behavior if often caused by <em>drag forces</em> (such as air resistance)
+This behavior is often caused by <em>drag forces</em> (such as air resistance)
 that increase with speed.</p>
 </div>
 <div class="paragraph">
@@ -602,7 +610,7 @@ Things to notice while running the app:</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Four cubes intially share the same linear and angular velocities.</p>
+<p>4 cubes intially share the same linear and angular velocities.</p>
 </li>
 <li>
 <p>The top 2 have constant linear velocities, a sign of zero linear damping.</p>
@@ -649,38 +657,31 @@ vector should be zero, and its Y component should be <strong>negative</strong>.
 </table>
 </div>
 <div class="paragraph">
-<p>When a body is added to a physics space,
-the gravity of the space typically gets applied to it,
-replacing any previously configured gravity.
-To protect a rigid body from gravity changes caused by the space
-to which it&#8217;s added, use <code>setProtectGravity(true)</code>.</p>
+<p>To disable gravity for a particular rigid body,
+use <code>rigidBody.setGravity(Vector3f.ZERO)</code>.</p>
 </div>
 <div class="paragraph">
-<p>To disable gravity, set it to zero:</p>
+<p>When a body is added to a physics space,
+the gravity of the space typically gets applied to it,
+replacing any previously configured gravity.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">rigidBody.setGravity(Vector3f.ZERO);</code></pre>
+<div class="paragraph">
+<p>To disable gravity for a particular physics space and all bodies in it,
+use <code>physicsSpace.setGravity(Vector3f.ZERO)</code>.</p>
 </div>
+<div class="paragraph">
+<p>To protect a rigid body from gravity changes caused by the space
+to which it&#8217;s added, use <code>rigidBody.setProtectGravity(true)</code>.</p>
 </div>
 <div class="paragraph">
 <p>To simulate a non-uniform gravitational field,
-update the gravity of each body prior to each physics tick.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-    Collection&lt;PhysicsCollisionObject&gt; pcos = space.getPcoList();
-    for (PhysicsCollisionObject pco : pcos) {
-        if (pco instanceof PhysicsBody) {
-            updateGravity((PhysicsBody) pco);
-        }
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>TODO non-u example app</p>
+update the gravity of each body prior to each physics tick.
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloNonUniformGravity.java">HelloNonUniformGravity</a>
+is a simple application that demonstrates this technique.
+The planet&#8217;s gravity vector is visualized by a thin cyan arrow.
+It orbits a black hole whose location is indicated by 3 thick arrows.
+NOTE: The planet&#8217;s path varies somewhat from orbit to orbit.
+This is partly due to inaccuracies of single-precision arithmetic.</p>
 </div>
 </div>
 <div class="sect3">
@@ -740,10 +741,10 @@ perpendicular to the collision plane,
 </div>
 <div class="paragraph">
 <p>Each rigid body has a <em>friction parameter</em> (which defaults to 0.5).
-A body&#8217;s friction parameter hints at its surface characteristics.
+This parameter hints at the body&#8217;s surface characteristics.
 To configure the parameter, use <code>setFriction(parameter)</code>.
 Reducing a body&#8217;s friction parameter makes it more slippery (think wet ice).
-Increasing it results in better traction (think sandpaper or rubber).</p>
+Increasing it yields better traction (think sandpaper or dry rubber).</p>
 </div>
 <div class="paragraph">
 <p>For each collision, a <em>coefficient of friction</em>
@@ -782,24 +783,104 @@ This allows you to see how these 4 parameters affect the bodies' motion.</p>
 <div class="paragraph">
 <p>It&#8217;s common for physics simulations to reach a
 <a href="https://en.wikipedia.org/wiki/Steady_state"><em>steady state</em></a> in which
-the all or some of the rigid bodies cease to move.</p>
+the some or all of the rigid bodies have stopped moving.
+If a dynamic rigid body doesn&#8217;t move for 2 seconds,
+Bullet may automatically <em>deactivate</em> it to reduce CPU consumption.</p>
 </div>
 <div class="paragraph">
-<p>If a dynamic rigid body doesn&#8217;t move for 2 seconds,
-Bullet <em>deactivates</em> it to reduce CPU consumption.
-Deactivated bodies are not simulated.</p>
+<p>To prevent a body from being deactivated,
+a certain amount of movement, either linear or angular,
+needs to occur every 2 seconds.
+Accessors are provided for these thresholds:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">float linearThreshold = 0.5f; // default=0.8
+float angularThreshold = 0.2f; // default=1
+rigidBody.setSleepingThresholds(linearThreshold, angularThreshold);</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<em>Sleeping</em> is synonym for deactivation.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>How do bodies get deactivated? TODO</p>
+<p>To disable deactivation for a particular rigid body,
+use <code>physicsSpace.setEnableSleep(false)</code>.</p>
 </div>
 <div class="paragraph">
-<p>To test whether a body is deactivated TODO</p>
+<p>To test whether a body is deactivated, use <code>rigidBody.isActive()</code>.</p>
 </div>
 <div class="paragraph">
-<p>To alter the deactivation interval of a body TODO</p>
+<p>Deactivated bodies won&#8217;t be simulated (and won&#8217;t move)
+unless/until they get reactivated.
+Reactivation occurs when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a new contact is added (due to a collision),</p>
+</li>
+<li>
+<p>a custom force is applied, or</p>
+</li>
+<li>
+<p>the <code>rigidBody.activate()</code> method is invoked.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Disable deactivation for a body TODO</p>
+<p>To reactivate all bodies in a particular physics space,
+use <code>physicsSpace.activateAll(true)</code>.</p>
+</div>
+<div class="paragraph">
+<p>Puzzling behavior may occur if a deactivated body is:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>supported by another body which then gets removed,</p>
+</li>
+<li>
+<p>supported by another body which then has its contact response disabled, or</p>
+</li>
+<li>
+<p>driven by a motorized physics joint.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The deactivated body will seem to be "stuck"
+because the events described do not, by themselves, reactivate it.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloDeactivation.java">HelloDeactivation</a>
+is a simple application that demonstrates deactivation.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The upper (dynamic) box falls until it collides with the lower (static) box,
+which provides a contact force to halt its motion and counteract gravity.</p>
+</li>
+<li>
+<p>About 2 seconds after the upper box stops moving, it gets deactivated.</p>
+</li>
+<li>
+<p>After the application removes the lower box,
+the upper box doesn&#8217;t resuming falling.
+Due to deactivation, it seems to be "stuck".</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -807,7 +888,72 @@ Deactivated bodies are not simulated.</p>
 <h2 id="_continuous_collision_detection"><a class="anchor" href="#_continuous_collision_detection"></a>Continuous collision detection</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>A common issue with discrete-time simulations
+involves a fast-moving dynamic body passing through a thin obstacle
+without any collision being detected.
+The issue arises because the body can pass from one side of the object to
+another in a single time step.
+The simulator sees
+that the dynamic body doesn&#8217;t intersect the obstable on any time step,
+so no collision is detected and no contact forces are simulated.</p>
+</div>
+<div class="paragraph">
+<p>To some extent, this issue could be mitigated by reducing the time step.
+But since CPU consumption is inversely proportional to the time step,
+this solution can become very inefficient.</p>
+</div>
+<div class="paragraph">
+<p>To solve this issue, Bullet offers <em>continous collision detection</em> (CCD),
+an algorithm for detecting collisions that occur <strong>between</strong> time steps.
+CCD substitutes a sphere for the collision shape of the fast-moving body,
+sweeps that sphere forward along the body&#8217;s projected path,
+and performs a more accurate collision test on any obstacles it finds.</p>
+</div>
+<div class="paragraph">
+<p>Because CCD involves extra computation, it is disabled by default.
+Because it is only necessary for fast-moving bodies, it is enabled only
+when a body&#8217;s distance travelled per time step exceeds a threshold.
+To enable CCD for a particular rigid body,
+increase the body&#8217;s CCD activation threshold using
+<code>rigidBody.setCcdMotionThreshold(distancePerTimeStep)</code>.</p>
+</div>
+<div class="paragraph">
+<p>To get the best possible results using CCD,
+configure both the motion threshold and the size of the swept sphere.
+Here&#8217;s a heuristic that works well for many situations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">if (rigidBody.isDynamic()) {
+    CollisionShape shape = rigidBody.getCollisionShape();
+    float radius = shape.maxRadius();
+    rigidBody.setCcdMotionThreshold(radius);
+    rigidBody.setCcdSweptSphereRadius(radius);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloCcd.java">HelloCcd</a>
+is a simple application that demonstrates CCD.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The 2 balls have the same size, mass, initial height, and initial velocity.</p>
+</li>
+<li>
+<p>The simulation runs at 1/10th normal speed,
+making the time steps noticeable.</p>
+</li>
+<li>
+<p>The ball with CCD enabled (on the left) sticks the landing on the platform.</p>
+</li>
+<li>
+<p>The control ball (on the right) falls through the platform,
+passing from one side to the other in a single time step.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
