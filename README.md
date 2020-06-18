@@ -229,7 +229,7 @@ With `BulletAppState`, debug visualization can be enabled
 Normal collisions (between collision objects) are reported asynchronously
 to listeners registered at the `PhysicsSpace`.
 For fast-moving objects,
-Minie offers optional continous collision detection (CCD)
+Minie offers optional continuous collision detection (CCD)
 using swept spheres;
 such collisions are reported through those same listeners.
 
