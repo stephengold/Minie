@@ -106,7 +106,7 @@ public class CollisionSpace extends NativePhysicsObject {
     /**
      * physics-space reference for each thread
      */
-    final protected static ThreadLocal<CollisionSpace> physicsSpaceTL
+    final private static ThreadLocal<CollisionSpace> physicsSpaceTL
             = new ThreadLocal<CollisionSpace>();
     /**
      * copy of maximum coordinate values when using AXIS_SWEEP broadphase

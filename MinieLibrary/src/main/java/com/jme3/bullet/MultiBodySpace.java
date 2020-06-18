@@ -133,7 +133,7 @@ public class MultiBodySpace extends PhysicsSpace {
      * @return the pre-existing MultiBodySpace running on this thread
      */
     public static MultiBodySpace getMultiBodySpace() {
-        return (MultiBodySpace) physicsSpaceTL.get();
+        return (MultiBodySpace) getCollisionSpace();
     }
     // *************************************************************************
     // PhysicsSpace methods

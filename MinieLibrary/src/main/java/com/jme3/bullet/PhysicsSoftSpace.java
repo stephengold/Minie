@@ -131,7 +131,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      * @return the pre-existing PhysicsSoftSpace running on this thread
      */
     public static PhysicsSoftSpace getSoftSpace() {
-        return (PhysicsSoftSpace) physicsSpaceTL.get();
+        return (PhysicsSoftSpace) getCollisionSpace();
     }
 
     /**
