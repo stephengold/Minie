@@ -3812,7 +3812,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#getFriction()">getFriction()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
-<div class="block">Read this object's friction coefficient (native field: m_friction).</div>
+<div class="block">Read this object's friction parameter (native field: m_friction).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/infos/VehicleTuning.html#getFrictionSlip()">getFrictionSlip()</a></span> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/VehicleTuning.html" title="class in com.jme3.bullet.objects.infos">VehicleTuning</a></dt>
 <dd>
@@ -3958,6 +3958,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Enumerate physics joints that have been added to this space and not yet
  removed.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#getJointMap()">getJointMap()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Access the map from native IDs to physics joints.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/control/BetterCharacterControl.html#getJumpForce(com.jme3.math.Vector3f)">getJumpForce(Vector3f)</a></span> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
@@ -5671,6 +5675,10 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/MultiBody.html#isUsingRK4()">isUsingRK4()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBody.html" title="class in com.jme3.bullet">MultiBody</a></dt>
 <dd>
 <div class="block">Test whether this MultiBody uses RK4 integration.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#isUsingScr()">isUsingScr()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Test whether this space uses Speculative Contact Restitution.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#isWorldInfoProtected()">isWorldInfoProtected()</a></span> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
@@ -7430,10 +7438,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">No-argument constructor needed by SavableClassUtil.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#physicsJoints">physicsJoints</a></span> - Variable in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
-<dd>
-<div class="block">map joint IDs to added objects</div>
-</dd>
 <dt><a href="com/jme3/bullet/animation/PhysicsLink.html" title="class in com.jme3.bullet.animation"><span class="typeNameLink">PhysicsLink</span></a> - Class in <a href="com/jme3/bullet/animation/package-summary.html">com.jme3.bullet.animation</a></dt>
 <dd>
 <div class="block">The abstract base class used by DynamicAnimControl to link pieces of a JME
@@ -7506,10 +7510,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/PhysicsSpace.BroadphaseType.html" title="enum in com.jme3.bullet"><span class="typeNameLink">PhysicsSpace.BroadphaseType</span></a> - Enum in <a href="com/jme3/bullet/package-summary.html">com.jme3.bullet</a></dt>
 <dd>
 <div class="block">Enumerate the available accelerators for broadphase collision detection.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#physicsSpaceTL">physicsSpaceTL</a></span> - Static variable in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
-<dd>
-<div class="block">physics-space reference for each thread</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision"><span class="typeNameLink">PhysicsSweepTestResult</span></a> - Class in <a href="com/jme3/bullet/collision/package-summary.html">com.jme3.bullet.collision</a></dt>
 <dd>
@@ -7658,10 +7658,6 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/BulletAppState.html#postRender()">postRender()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/BulletAppState.html" title="class in com.jme3.bullet">BulletAppState</a></dt>
 <dd>
 <div class="block">Update this state after all rendering commands are flushed.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#pQueue">pQueue</a></span> - Variable in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
-<dd>
-<div class="block">first-in/first-out (FIFO) queue of physics tasks</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#pQueueTL">pQueueTL</a></span> - Static variable in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
@@ -11181,6 +11177,10 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/MultiBody.html#useRK4(boolean)">useRK4(boolean)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBody.html" title="class in com.jme3.bullet">MultiBody</a></dt>
 <dd>
 <div class="block">Alter whether this MultiBody uses RK4 integration.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#useScr(boolean)">useScr(boolean)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Alter whether this space uses Speculative Contact Restitution.</div>
 </dd>
 </dl>
 <a id="I:V">
