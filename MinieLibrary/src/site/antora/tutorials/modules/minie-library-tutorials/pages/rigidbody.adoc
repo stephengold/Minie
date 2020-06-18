@@ -494,9 +494,9 @@ a|Application-controlled objects such as airships and elevators
 a|Physics-controlled objects such as balls, bricks, and ragdolls
 
 a|How to configure
-a|`setMass(0f);` `setKinematic(false);`
-a|`setMass(positive);` `setKinematic(true);`
-a|`setMass(positive);` `setKinematic(false);`
+a|`setMass(0f)` `setKinematic(false)`
+a|`setMass(positive)` `setKinematic(true)`
+a|`setMass(positive)` `setKinematic(false)`
 |===
 
 * The properties of rigid bodies include: shape, mass, moment of inertia,
