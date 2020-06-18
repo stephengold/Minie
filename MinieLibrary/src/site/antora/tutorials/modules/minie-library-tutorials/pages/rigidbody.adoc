@@ -58,7 +58,7 @@ Things to notice while running the app:
   making the time steps noticeable.
 . The balls collide, generating contact forces
   that alter their motions but not their shapes.
-.. The ball on the right loses half of its speed.
+.. The ball on the right loses half its speed.
 .. The ball on the left begins moving leftward as it falls.
 
 == Configuring rigid bodies
@@ -294,25 +294,26 @@ This is partly due to inaccuracies of single-precision arithmetic.
 
 ==== Restitution
 
-When 2 responsive rigid bodies collide,
+When responsive rigid bodies collide,
 contact forces come into play, altering their velocities.
 These forces are split into 2 components:  restitution and friction.
 
-_Restitution_ is a force perpendicular to the collision plane.
+_Restitution_ is a force parallel to the contact normal.
 Its strength hints at what the bodies might be made out of.
 
 If both bodies were made of hard, springy steel,
-they might separate without loss of energy,
+they might separate without loss of
+{url-enwiki}/Kinetic_energy[kinetic energy],
 after undergoing what's called a _perfectly elastic_ collision.
 If, on the other hand, both bodies were made of soft, sticky clay,
-they might cling together,
+they might cling together, dissipating kinetic energy and
 undergoing what's called a _perfectly inelastic_ collision.
 
 In reality, no collision is perfectly elastic.
 Elasticity is quantified by a _coefficient of restitution_,
 which ranges from zero (perfectly inelastic) to one (perfectly elastic).
 
-In Minie and Bullet, collisions are inelastic by default.
+In simulation, collisions are inelastic by default.
 (We saw this in {url-tutorial}/HelloRigidBody.java[HelloRigidBody.java].)
 Each rigid body has a _restitution parameter_ which defaults to zero.
 For each collision, the coefficient of restitution
@@ -334,9 +335,8 @@ Press kbd:[.] to start the simulation, or to pause it while it's running.
 
 ==== Friction
 
-While restitution models contact forces
-perpendicular to the collision plane,
-_friction_ models contact forces that lie *in* the collision plane.
+While restitution models contact forces parallel to the contact normal,
+_friction_ models contact forces orthogonal to the contact normal.
 
 Each rigid body has a _friction parameter_ (which defaults to 0.5).
 This parameter hints at the body's surface characteristics.
@@ -365,7 +365,7 @@ It's common for physics simulations to reach a
 {url-enwiki}/Steady_state[_steady state_] in which
 the some or all of the rigid bodies have stopped moving.
 If a dynamic rigid body doesn't move for 2 seconds,
-Bullet may automatically _deactivate_ it to reduce CPU consumption.
+the simulator may automatically _deactivate_ it to reduce CPU consumption.
 
 To prevent a body from being deactivated,
 a certain amount of movement, either linear or angular,
@@ -431,15 +431,16 @@ To some extent, this issue could be mitigated by reducing the time step.
 But since CPU consumption is inversely proportional to the time step,
 this approach quickly becomes very inefficient.
 
-To solve this issue, Bullet offers _continuous collision detection_ (CCD),
+To solve this issue,
+the simulator offers _continuous collision detection_ (CCD),
 an algorithm for detecting collisions that occur *between* time steps.
 CCD substitutes a sphere for the collision shape of the fast-moving body,
 sweeps that sphere forward along the body's projected path,
 and then performs more detailed collision tests on any potential
 obstacles found by the sweep test.
 
-Because CCD involves extra computation, it is disabled by default.
-Since it's only necessary for fast-moving bodies, it is enabled only
+Because CCD involves extra computation, it's disabled by default.
+Since it's only necessary for fast-moving bodies, it's enabled only
 when a body's distance travelled per time step exceeds a threshold.
 To enable CCD for a particular rigid body,
 increase its activation threshold using
