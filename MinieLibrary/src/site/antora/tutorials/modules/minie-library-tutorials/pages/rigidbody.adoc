@@ -118,11 +118,11 @@ In addition to static and dynamic rigid bodies, there's a third type.
 _Kinematic_ bodies share some properties with both static and dynamic ones.
 Like dynamic bodies, kinematic ones can move.
 However, they are unaffected by forces, torques, and impulses.
-Their movement is dictated by external logic that may, if desired,
+Their movement is dictated by application logic that may, if desired,
 reposition them prior to every timestep.
 
 In the presence of dynamic bodies, a kinematic body acts like
-an unstoppable battering ram.
+an irresistible battering ram.
 
 There's no direct way to instantiate a kinematic rigid body.
 The usual way is to instantiate a dynamic body and then convert it
@@ -163,7 +163,7 @@ Things to notice while running the app:
 
 . The ball falls until it collides with the blue (static) box,
   which provides a contact force to halt its motion and counteract gravity.
-. Press the spacebar to disable the ball's contact response.
+. Press kbd:[Space bar] to disable the ball's contact response.
 . Afterwards, the box no longer exerts any force on the ball.
   Gravity takes over, and the ball falls through the box.
 
@@ -246,7 +246,7 @@ rigidBody.setDamping(linearDamping, angularDamping);
 is a simple application that demonstrates damping.
 Things to notice while running the app:
 
-. 4 cubes intially share the same linear and angular velocities.
+. 4 cubes initially share the same linear and angular velocities.
 . The top 2 have constant linear velocities, evidence of no linear damping.
 . The left 2 have constant angular velocities, evidence of no angular damping.
 . The linear velocities of the bottom 2 cubes decay quickly to zero
@@ -354,7 +354,7 @@ both allow and you to vary the damping, friction, gravity,
 and restitution of all the bodies in a physics space.
 This allows you to see how these 4 parameters affect the bodies' motion.
 
-* Use kbd:[Enter] to add dynamic bodies to the space.
+* Press kbd:[Enter] to add dynamic bodies to the space.
 * Use kbd:[num8] and kbd:[num2] to select the desired parameter.
 * Use kbd:[num4] and kbd:[num6] to cycle through the available parameter values.
 
@@ -423,14 +423,14 @@ involves a fast-moving dynamic body passing through a thin obstacle
 without any collision being detected.
 The issue arises because the body can pass from one side of the object to
 another in a single time step.
-The dynamic body doesn't intersect the obstable on any time step,
+The dynamic body doesn't intersect the obstacle on any time step,
 so no collision is detected and no contact forces are simulated.
 
 To some extent, this issue could be mitigated by reducing the time step.
 But since CPU consumption is inversely proportional to the time step,
 this approach quickly becomes very inefficient.
 
-To solve this issue, Bullet offers _continous collision detection_ (CCD),
+To solve this issue, Bullet offers _continuous collision detection_ (CCD),
 an algorithm for detecting collisions that occur *between* time steps.
 CCD substitutes a sphere for the collision shape of the fast-moving body,
 sweeps that sphere forward along the body's projected path,
@@ -505,5 +505,5 @@ a|`setMass(positive);` `setKinematic(false);`
 * Contact response is an optional feature.
 * If a dynamic rigid body moves too slowly,
   it might get automatically deactivated after 2 seconds.
-* Continous collision detection solves the problem
+* Continuous collision detection solves the problem
   of fast-moving dynamic bodies passing through thin obstacles.

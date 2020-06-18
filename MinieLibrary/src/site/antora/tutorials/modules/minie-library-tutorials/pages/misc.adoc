@@ -51,7 +51,7 @@ modeling it can get very complicated.
 
 In addition to its basic friction parameter,
 each rigid body has 2 additional friction parameters:
-one for rolling friction and one for spinning frction.
+one for rolling friction and one for spinning friction.
 Both parameters default to zero.
 
 _Rolling friction_ creates torque orthogonal to the contact normal,
