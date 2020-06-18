@@ -1,16 +1,41 @@
 = The Minie project
+:url-enwiki: https://en.wikipedia.org/wiki
 
-Minie is a physics library for JMonkeyEngine
+_Minie_ is a physics library for https://jmonkeyengine.org[JMonkeyEngine]
 that takes physics-based games to the next level.
+
 Use it to:
 
 * add solidity to walls, characters, projectiles, landscapes, and vehicles
-* detect collisions between complex shapes
-* simulate characters and buildings collapsing in real time
+* detect collisions between complex shapes and perform ray/sweep tests
+* simulate characters and buildings collapsing in real time, and
 * simulate cloth, rope, and deformable volumes,
-  including their interactions with rigid bodies and each other
+  including their interactions with rigid bodies and each other.
 
-Forked from the jme3-bullet library, Minie adds many features
-while preserving most of the jme3-bullet API.
-Most JME physics examples can use Minie without modification,
+Forked from the jme3-bullet library, Minie adds many useful features
+while preserving most of the jme3-bullet
+{url-enwiki}/Application_programming_interface[API].
+Most of the JMonkeyEngine physics examples can use Minie without modification,
 and Minie adds its own demos and tutorials to help you get started.
+
+All software in the Minie project is free and open-source,
+including the library itself, the demo and tutorial apps,
+and the software used to build, test, and run them.
+
+The underlying simulation software is written in
+{url-enwiki}/C%2B%2B[C++] and comes from
+https://pybullet.org/wordpress[_Bullet_], a mature real-time physics simulator.
+
+== Intended audience
+
+Minie's focus is on simulating
+{url-enwiki}/Classical_mechanics[classical mechanics]
+in just enough detail to add verisimilitude to 3-D games.
+It's not intended for 2-D {url-enwiki}/wiki/Platform_game[platformers],
+nor for scientific research.
+
+Like JMonkeyEngine, Minie and its documentation
+assume a certain level of proficiency with
+{url-enwiki}/Java_(programming_language)[the Java programming language].
+This project isn't aimed at non-programmers,
+nor at developers without prior Java experience.
