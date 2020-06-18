@@ -185,10 +185,14 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">The Minie project</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>Minie is a physics library for JMonkeyEngine
-that takes physics-based games to the next level.
-Use it to:</p>
+<p><em>Minie</em> is a physics library for <a href="https://jmonkeyengine.org">JMonkeyEngine</a>
+that takes physics-based games to the next level.</p>
+</div>
+<div class="paragraph">
+<p>Use it to:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -196,22 +200,54 @@ Use it to:</p>
 <p>add solidity to walls, characters, projectiles, landscapes, and vehicles</p>
 </li>
 <li>
-<p>detect collisions between complex shapes</p>
+<p>detect collisions between complex shapes and perform ray/sweep tests</p>
 </li>
 <li>
-<p>simulate characters and buildings collapsing in real time</p>
+<p>simulate characters and buildings collapsing in real time, and</p>
 </li>
 <li>
 <p>simulate cloth, rope, and deformable volumes,
-including their interactions with rigid bodies and each other</p>
+including their interactions with rigid bodies and each other.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Forked from the jme3-bullet library, Minie adds many features
-while preserving most of the jme3-bullet API.
-Most JME physics examples can use Minie without modification,
+<p>Forked from the jme3-bullet library, Minie adds many useful features
+while preserving most of the jme3-bullet
+<a href="https://en.wikipedia.org/wiki/Application_programming_interface">API</a>.
+Most of the JMonkeyEngine physics examples can use Minie without modification,
 and Minie adds its own demos and tutorials to help you get started.</p>
+</div>
+<div class="paragraph">
+<p>All software in the Minie project is free and open-source,
+including the library itself, the demo and tutorial apps,
+and the software used to build, test, and run them.</p>
+</div>
+<div class="paragraph">
+<p>The underlying simulation software is written in
+<a href="https://en.wikipedia.org/wiki/C%2B%2B">C++</a> and comes from
+<a href="https://pybullet.org/wordpress"><em>Bullet</em></a>, a mature real-time physics simulator.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_intended_audience"><a class="anchor" href="#_intended_audience"></a>Intended audience</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Minie&#8217;s focus is on simulating
+<a href="https://en.wikipedia.org/wiki/Classical_mechanics">classical mechanics</a>
+in just enough detail to add verisimilitude to 3-D games.
+It&#8217;s not intended for 2-D <a href="https://en.wikipedia.org/wiki/wiki/Platform_game">platformers</a>,
+nor for scientific research.</p>
+</div>
+<div class="paragraph">
+<p>Like JMonkeyEngine, Minie and its documentation
+assume a certain level of proficiency with
+<a href="https://en.wikipedia.org/wiki/Java_(programming_language)">the Java programming language</a>.
+This project isn&#8217;t aimed at non-programmers,
+nor at developers without prior Java experience.</p>
+</div>
+</div>
 </div>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
