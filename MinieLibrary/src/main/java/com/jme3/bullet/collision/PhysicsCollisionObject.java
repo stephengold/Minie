@@ -571,9 +571,9 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Read this object's friction coefficient (native field: m_friction).
+     * Read this object's friction parameter (native field: m_friction).
      *
-     * @return the coefficient (&ge;0)
+     * @return the parameter value (&ge;0)
      */
     public float getFriction() {
         long objectId = nativeId();
@@ -1109,7 +1109,7 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter this object's friction (native field: m_friction).
      *
-     * @param friction the desired friction coefficient (&ge;0, default=0.5)
+     * @param friction the desired friction value (&ge;0, default=0.5)
      */
     public void setFriction(float friction) {
         Validate.nonNegative(friction, "friction");
