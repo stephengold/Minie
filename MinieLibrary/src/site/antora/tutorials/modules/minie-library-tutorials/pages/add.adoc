@@ -1,5 +1,6 @@
 = How to add Minie to an existing project
 :experimental:
+:url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
 
 Adding Minie to an existing JMonkeyEngine project is a 6-step process:
 
@@ -106,8 +107,9 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
 == Create, configure, and attach a BulletAppState
 
-Strictly speaking, Minie doesn't require a `BulletAppState`,
-but the appstate *does* provide a convenient interface
+Strictly speaking, Minie doesn't require a
+{url-api}/BulletAppState.html[`BulletAppState`].
+However, the appstate *does* provide a convenient interface
 for configuring, accessing, updating, and debugging a `PhysicsSpace`.
 
 If your application already has a `BulletAppState`, that code will probably
@@ -151,21 +153,20 @@ To advance the physics simulation at a different rate, use:
 bulletAppState.setSpeed(0.5f); // simulate physics at half speed
 ----
 
-
 By default, debug visualization is disabled. To enable it, use:
 
 [source,java]
 ----
-bulletAppState.setDebugEnabled(true);
+bulletAppState.setDebugEnabled(true); // default=false
 ----
 
-Other `BulletAppState` configurables, used to customize debug visualization,
-are described in the [Debug visualization tips and tricks](#visualization)
-section of this document.
+Other `BulletAppState` parameters, used to customize debug visualization,
+are described on xref:minie-library-tutorials:debug.adoc[the Debugging page].
 
 == Configure the PhysicsSpace
 
-Attaching a `BulletAppState` instantiates a `PhysicsSpace` that
+Attaching a `BulletAppState` instantiates a
+{url-api}/PhysicsSpace.html[`PhysicsSpace`] that
 you can access immediately:
 
 [source,java]
@@ -180,12 +181,7 @@ PhysicsSpace space = bulletAppState.getPhysicsSpace();
 PhysicsSoftSpace space = bulletAppState.getPhysicsSoftSpace();
 ----
 
-and `MultiBodyAppState` instantiates a `MultiBodySpace`:
-
-[source,java]
-----
-MultiBodySpace space = bulletAppState.getMultiBodySpace();
-----
+and `MultiBodyAppState` instantiates a `MultiBodySpace`, another subclass.
 
 Physics simulation can run with a fixed time step or a variable time step.
 The default configuration is a fixed time step of 1/60th of a second
@@ -232,7 +228,7 @@ space.setGravity(Vector3f.ZERO);
 
 == Create physics controls, collision objects, and joints
 
-You can create collision objects directly, using the constructors:
+You can create physics objects directly, using the constructors:
 
 [source,java]
 ----
@@ -260,6 +256,14 @@ RigidBodyControl rbc1 = new RigidBodyControl(sphere2, mass);
 rigidNode1.addControl(rbc1);
 ----
 
-Either way, the object(s) won't be simulated unless added to a `PhysicsSpace`.
+Either way, the objects won't get simulated until they're added to a space.
 
-NOTE: Collision shapes can be shared between objects.
+== Summary
+
+* Before adding Minie to an application, remove all other physics libraries.
+* `BulletAppState` provides a convenient interface
+  for configuring, accessing, updating, and debugging a `PhysicsSpace`.
+* Collision objects can be created 2 ways:
+** directly, using the constructors
+** indirectly, by adding physics controls to the scene graph.
+* Physics objects aren't simulated unless they're added to a space.
