@@ -32,6 +32,7 @@
 package com.jme3.bullet;
 
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.math.Vector3f;
 import java.util.Collection;
@@ -187,8 +188,10 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     @Override
     public int countJoints() {
         // can't use super.countJoints() because it includes a failing assertion
-        int count = physicsJoints.size();
-        return count;
+        Map<Long, PhysicsJoint> map = getJointMap();
+        int result = map.size();
+
+        return result;
     }
 
     /**
