@@ -163,7 +163,7 @@ public class MakeDuck {
             System.err.println("V-HACD failed!");
             System.exit(-1);
         }
-        System.out.printf("MakeDuck number of hulls = %d (%f sec)%n",
+        System.out.printf("MakeDuck number of hulls = %d (%.3f sec)%n",
                 shape.countChildren(), elapsedNsec * 1e-9f);
         /*
          * Write the shape to the asset file.

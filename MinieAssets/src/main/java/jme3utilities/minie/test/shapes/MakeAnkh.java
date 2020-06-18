@@ -146,7 +146,7 @@ public class MakeAnkh {
                 System.err.println("V-HACD failed!");
                 System.exit(-1);
             }
-            System.out.printf("MakeAnkh number of hulls = %d (%f sec)%n",
+            System.out.printf("MakeAnkh number of hulls = %d (%.3f sec)%n",
                     shape.countChildren(), elapsedNsec * 1e-9f);
         }
         /*
