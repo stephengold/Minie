@@ -1,4 +1,4 @@
-= The Minie project
+= Project overview
 :url-enwiki: https://en.wikipedia.org/wiki
 
 _Minie_ is a physics library for https://jmonkeyengine.org[JMonkeyEngine]
@@ -47,7 +47,7 @@ Please don't use this software in mission-critical applications.
 
 == The name
 
-The Minie project is named after after
+The Minie project is named after
 {url-enwiki}/Claude-%C3%89tienne_Mini%C3%A9[Claude-Étienne Minié],
 who in 1846 developed an improved bullet for rifles.
 It's a play on words, not intended to denigrate the man, nor glorify him.
