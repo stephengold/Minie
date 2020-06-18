@@ -4,7 +4,7 @@
 * https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md[Release log]
 * https://github.com/stephengold/Minie/issues[Issue tracker]
 * https://hub.jmonkeyengine.org/c/user-code-projects/minie/63[Forum]
-* Library tutorials:
+* Library tutorials
 ** xref:minie-library-tutorials:add.adoc[Add to existing project]
 ** xref:minie-library-tutorials:rigidbody.adoc[Rigid bodies]
 ** xref:minie-library-tutorials:shape.adoc[Collision shapes]
@@ -16,11 +16,11 @@
 ** xref:minie-library-tutorials:softbody.adoc[Soft bodies]
 ** xref:minie-library-tutorials:misc.adoc[Miscellany]
 * https://stephengold.github.io/Minie/minie/javadoc[Library API]
-* Minie at other sites:
+* Minie at other sites
 ** https://bintray.com/stephengold/com.github.stephengold/Minie[Bintray]
 ** https://jitpack.io/#stephengold/Minie[JitPack]
 ** https://jmonkeystore.com/38308161-c3cf-4e23-8754-528ca8387c11[JmonkeyStore]
-* Related projects:
+* Related projects
 ** https://jmonkeyengine.org[JMonkeyEngine]
 ** https://github.com/stephengold/Libbulletjme[Libbulletjme]
 ** https://pybullet.org/wordpress[Bullet]
