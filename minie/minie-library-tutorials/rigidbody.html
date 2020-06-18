@@ -275,7 +275,7 @@ that alter their motions but not their shapes.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>The ball on the right loses half of its speed.</p>
+<p>The ball on the right loses half its speed.</p>
 </li>
 <li>
 <p>The ball on the left begins moving leftward as it falls.</p>
@@ -681,28 +681,40 @@ update the gravity of each body prior to each physics tick.
 <a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloNonUniformGravity.java">HelloNonUniformGravity</a>
 is a simple application that demonstrates this technique.
 The planet&#8217;s gravity vector is visualized by a thin cyan arrow.
-It orbits a black hole whose location is indicated by 3 thick arrows.
-NOTE: The planet&#8217;s path varies somewhat from orbit to orbit.
-This is partly due to inaccuracies of single-precision arithmetic.</p>
+It orbits a black hole whose location is indicated by 3 thick arrows.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The planet&#8217;s path varies somewhat from orbit to orbit.
+This is partly due to inaccuracies of single-precision arithmetic.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_restitution"><a class="anchor" href="#_restitution"></a>Restitution</h4>
 <div class="paragraph">
-<p>When 2 responsive rigid bodies collide,
+<p>When responsive rigid bodies collide,
 contact forces come into play, altering their velocities.
 These forces are split into 2 components:  restitution and friction.</p>
 </div>
 <div class="paragraph">
-<p><em>Restitution</em> is a force perpendicular to the collision plane.
+<p><em>Restitution</em> is a force parallel to the contact normal.
 Its strength hints at what the bodies might be made out of.</p>
 </div>
 <div class="paragraph">
 <p>If both bodies were made of hard, springy steel,
-they might separate without loss of energy,
+they might separate without loss of
+<a href="https://en.wikipedia.org/wiki/Kinetic_energy">kinetic energy</a>,
 after undergoing what&#8217;s called a <em>perfectly elastic</em> collision.
 If, on the other hand, both bodies were made of soft, sticky clay,
-they might cling together,
+they might cling together, dissipating kinetic energy and
 undergoing what&#8217;s called a <em>perfectly inelastic</em> collision.</p>
 </div>
 <div class="paragraph">
@@ -711,7 +723,7 @@ Elasticity is quantified by a <em>coefficient of restitution</em>,
 which ranges from zero (perfectly inelastic) to one (perfectly elastic).</p>
 </div>
 <div class="paragraph">
-<p>In Minie and Bullet, collisions are inelastic by default.
+<p>In simulation, collisions are inelastic by default.
 (We saw this in <a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody.java</a>.)
 Each rigid body has a <em>restitution parameter</em> which defaults to zero.
 For each collision, the coefficient of restitution
@@ -737,9 +749,8 @@ Press <kbd>.</kbd> to start the simulation, or to pause it while it&#8217;s runn
 <div class="sect3">
 <h4 id="_friction"><a class="anchor" href="#_friction"></a>Friction</h4>
 <div class="paragraph">
-<p>While restitution models contact forces
-perpendicular to the collision plane,
-<em>friction</em> models contact forces that lie <strong>in</strong> the collision plane.</p>
+<p>While restitution models contact forces parallel to the contact normal,
+<em>friction</em> models contact forces orthogonal to the contact normal.</p>
 </div>
 <div class="paragraph">
 <p>Each rigid body has a <em>friction parameter</em> (which defaults to 0.5).
@@ -787,7 +798,7 @@ This allows you to see how these 4 parameters affect the bodies' motion.</p>
 <a href="https://en.wikipedia.org/wiki/Steady_state"><em>steady state</em></a> in which
 the some or all of the rigid bodies have stopped moving.
 If a dynamic rigid body doesn&#8217;t move for 2 seconds,
-Bullet may automatically <em>deactivate</em> it to reduce CPU consumption.</p>
+the simulator may automatically <em>deactivate</em> it to reduce CPU consumption.</p>
 </div>
 <div class="paragraph">
 <p>To prevent a body from being deactivated,
@@ -904,7 +915,8 @@ But since CPU consumption is inversely proportional to the time step,
 this approach quickly becomes very inefficient.</p>
 </div>
 <div class="paragraph">
-<p>To solve this issue, Bullet offers <em>continuous collision detection</em> (CCD),
+<p>To solve this issue,
+the simulator offers <em>continuous collision detection</em> (CCD),
 an algorithm for detecting collisions that occur <strong>between</strong> time steps.
 CCD substitutes a sphere for the collision shape of the fast-moving body,
 sweeps that sphere forward along the body&#8217;s projected path,
@@ -912,8 +924,8 @@ and then performs more detailed collision tests on any potential
 obstacles found by the sweep test.</p>
 </div>
 <div class="paragraph">
-<p>Because CCD involves extra computation, it is disabled by default.
-Since it&#8217;s only necessary for fast-moving bodies, it is enabled only
+<p>Because CCD involves extra computation, it&#8217;s disabled by default.
+Since it&#8217;s only necessary for fast-moving bodies, it&#8217;s enabled only
 when a body&#8217;s distance travelled per time step exceeds a threshold.
 To enable CCD for a particular rigid body,
 increase its activation threshold using
@@ -1035,13 +1047,13 @@ passing from one side to the other in a single time step.</p>
 <p>How to configure</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>setMass(0f);</code> <code>setKinematic(false);</code></p>
+<p><code>setMass(0f)</code> <code>setKinematic(false)</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>setMass(positive);</code> <code>setKinematic(true);</code></p>
+<p><code>setMass(positive)</code> <code>setKinematic(true)</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>setMass(positive);</code> <code>setKinematic(false);</code></p>
+<p><code>setMass(positive)</code> <code>setKinematic(false)</code></p>
 </div></div></td>
 </tr>
 </tbody>

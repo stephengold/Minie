@@ -190,7 +190,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Adding Minie to an existing JME3 project is a 6-step process:</p>
+<p>Adding Minie to an existing JMonkeyEngine project is a 6-step process:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -251,7 +251,7 @@ they won&#8217;t interfere with Minie.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Look for artifacts with these names in the <code>dependencies</code> sections
+<p>Look for artifacts with these names in the <code>dependencies</code> section(s)
 of your project&#8217;s "build.gradle" file(s).</p>
 </li>
 <li>
@@ -305,7 +305,8 @@ The Minie library depends on:</p>
 <p>the standard jme3-terrain library and</p>
 </li>
 <li>
-<p>the Heart library, which in turn depends on:</p>
+<p><a href="https://github.com/stephengold/Heart">the Heart library</a>,
+which in turn depends on:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -435,12 +436,13 @@ and probably the "-sources" and "-javadoc" jars as well.</p>
 <h2 id="_create_configure_and_attach_a_bulletappstate"><a class="anchor" href="#_create_configure_and_attach_a_bulletappstate"></a>Create, configure, and attach a BulletAppState</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Strictly speaking, Minie doesn&#8217;t require a <code>BulletAppState</code>, but
-it does provide a convenient interface for configuring, accessing, updating,
-and debugging a <code>PhysicsSpace</code>.</p>
+<p>Strictly speaking, Minie doesn&#8217;t require a
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>.
+However, the appstate <strong>does</strong> provide a convenient interface
+for configuring, accessing, updating, and debugging a <code>PhysicsSpace</code>.</p>
 </div>
 <div class="paragraph">
-<p>If your application already has a <code>BulletAppState</code>, the code will probably
+<p>If your application already has a <code>BulletAppState</code>, that code will probably
 work fine with Minie.
 If not, here is a snippet to guide you:</p>
 </div>
@@ -462,21 +464,12 @@ PhysicsSpace physicsSpace = appState.getPhysicsSpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Or if you need multibodies, instantiate a <code>MultiBodyAppState</code> instead:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">MultiBodyAppState appState = new MultiBodyAppState();
-stateManager.attach(appState);
-MultiBodySpace physicsSpace = appState.getMultiBodySpace();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>(Minie doesn&#8217;t yet support combining soft bodies and multibodies in
+<p>If you need multibodies, instantiate a <code>MultiBodyAppState</code>.
+(Minie doesn&#8217;t yet support combining soft bodies and multibodies in
 a single <code>PhysicsSpace</code>.)</p>
 </div>
 <div class="paragraph">
-<p>By default, the physics simulation executes on the render thread.
+<p>By default, the physics simulation runs on the render thread.
 To execute it on a dedicated thread, use:</p>
 </div>
 <div class="listingblock">
@@ -495,56 +488,16 @@ To advance the physics simulation at a different rate, use:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
-collision detection.
-To specify a different data structure, use <code>setBroadphaseType()</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">SoftPhysicsAppState bas = new SoftPhysicsAppState();
-bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
-bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
-bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
-stateManager.attach(bas);
-PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>By default, a Sequential Impulse (SI) solver is
-used to resolve contacts and constraints.
-To specify a different type of solver, invoke <code>setSolverType()</code>
-before attaching the AppState:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setSolverType(SolverType.Dantzig);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Caveats:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>For soft-body simulations, SI is the only supported solver type.</p>
-</li>
-<li>
-<p>The NNCG solver doesn&#8217;t support multibodies.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
 <p>By default, debug visualization is disabled. To enable it, use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setDebugEnabled(true);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setDebugEnabled(true); // default=false</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Other <code>BulletAppState</code> configurables, used to customize debug visualization,
-are described in the [Debug visualization tips and tricks](#visualization)
-section of this document.</p>
+<p>Other <code>BulletAppState</code> parameters, used to customize debug visualization,
+are described on <a href="debug.html" class="page">the Debugging page</a>.</p>
 </div>
 </div>
 </div>
@@ -552,7 +505,8 @@ section of this document.</p>
 <h2 id="_configure_the_physicsspace"><a class="anchor" href="#_configure_the_physicsspace"></a>Configure the PhysicsSpace</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Attaching a <code>BulletAppState</code> instantiates a <code>PhysicsSpace</code> that
+<p>Attaching a <code>BulletAppState</code> instantiates a
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> that
 you can access immediately:</p>
 </div>
 <div class="listingblock">
@@ -569,12 +523,7 @@ you can access immediately:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>and <code>MultiBodyAppState</code> instantiates a <code>MultiBodySpace</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">MultiBodySpace space = bulletAppState.getMultiBodySpace();</code></pre>
-</div>
+<p>and <code>MultiBodyAppState</code> instantiates a <code>MultiBodySpace</code>, another subclass.</p>
 </div>
 <div class="paragraph">
 <p>Physics simulation can run with a fixed time step or a variable time step.
@@ -640,7 +589,7 @@ set the gravity of the space to zero:</p>
 <h2 id="_create_physics_controls_collision_objects_and_joints"><a class="anchor" href="#_create_physics_controls_collision_objects_and_joints"></a>Create physics controls, collision objects, and joints</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can create collision objects directly, using the constructors:</p>
+<p>You can create physics objects directly, using the constructors:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -670,19 +619,39 @@ rigidNode1.addControl(rbc1);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Either way, the object(s) won&#8217;t be simulated unless added to a <code>PhysicsSpace</code>.</p>
+<p>Either way, the objects won&#8217;t get simulated until they&#8217;re added to a space.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Collision shapes can be shared between objects.
-</td>
-</tr>
-</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Before adding Minie to an application, remove all other physics libraries.</p>
+</li>
+<li>
+<p><code>BulletAppState</code> provides a convenient interface
+for configuring, accessing, updating, and debugging a <code>PhysicsSpace</code>.</p>
+</li>
+<li>
+<p>Collision objects can be created 2 ways:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>directly, using the constructors</p>
+</li>
+<li>
+<p>indirectly, by adding physics controls to the scene graph.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Physics objects aren&#8217;t simulated unless they&#8217;re added to a space.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>

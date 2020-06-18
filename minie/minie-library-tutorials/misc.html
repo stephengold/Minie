@@ -250,22 +250,93 @@ The Bullet Manual advises against changing the default margin.
 </div>
 </div>
 <div class="sect1">
+<h2 id="_broadphase_types"><a class="anchor" href="#_broadphase_types"></a>Broadphase types</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
+collision detection.
+To specify a different data structure, use <code>setBroadphaseType()</code>
+on the appstate:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">SoftPhysicsAppState bas = new SoftPhysicsAppState();
+bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
+bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
+stateManager.attach(bas);
+PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The world max/min bounds are used
+only by the <code>AXIS_SWEEP_3</code> and <code>AXIS_SWEEP_3_32</code> broadphase algorithms.
+The <code>SIMPLE</code> and <code>DBVT</code> algorithms ignore those paramters.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact_and_constraint_solver_types"><a class="anchor" href="#_contact_and_constraint_solver_types"></a>Contact-and-constraint solver types</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, a Sequential Impulse (SI) solver is
+used to resolve contacts and constraints.
+To specify a different type of solver, invoke <code>setSolverType()</code>
+before attaching the AppState:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setSolverType(SolverType.Dantzig);</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For soft-body simulations, SI is the only supported solver type.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The NNCG solver doesn&#8217;t support multibodies.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_advanced_rigid_body_friction"><a class="anchor" href="#_advanced_rigid_body_friction"></a>Advanced rigid-body friction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Because friction can generate both forces and torques,
-modeling it can get very complicated.</p>
-</div>
-<div class="paragraph">
-<p>In addition to its basic friction parameter,
+<p>In addition to the basic friction parameter (which affects sliding friction)
 each rigid body has 2 additional friction parameters:
 one for rolling friction and one for spinning friction.
 Both parameters default to zero.</p>
 </div>
 <div class="paragraph">
-<p><em>Rolling friction</em> creates torque orthogonal to the contact normal,
+<p><em>Rolling friction</em> generates torque orthogonal to the contact normal,
 which tends to slow down a rolling body.
-<em>Spinning friction</em> creates torque parallel to the contact normal,
+<em>Spinning friction</em> generates torque parallel to the contact normal,
 which tends to prevent a body from spinning when grasped.</p>
 </div>
 <div class="paragraph">
