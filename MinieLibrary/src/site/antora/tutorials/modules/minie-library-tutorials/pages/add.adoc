@@ -1,7 +1,7 @@
 = How to add Minie to an existing project
 :experimental:
 
-Adding Minie to an existing JME3 project is a 6-step process:
+Adding Minie to an existing JMonkeyEngine project is a 6-step process:
 
 . Remove any existing physics libraries which might interfere with Minie.
 . Add libraries to the classpath.
@@ -28,7 +28,7 @@ they won't interfere with Minie.
 
 === Gradle-built projects
 
-. Look for artifacts with these names in the `dependencies` sections
+. Look for artifacts with these names in the `dependencies` section(s)
   of your project's "build.gradle" file(s).
 . Remove those artifacts.
 
@@ -51,7 +51,8 @@ and native libraries.
 The Minie library depends on:
 
 * the standard jme3-terrain library and
-* the Heart library, which in turn depends on:
+* https://github.com/stephengold/Heart[the Heart library],
+  which in turn depends on:
 ** the standard jme3-core library.
 
 === Gradle-built projects
@@ -105,11 +106,11 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
 == Create, configure, and attach a BulletAppState
 
-Strictly speaking, Minie doesn't require a `BulletAppState`, but
-it does provide a convenient interface for configuring, accessing, updating,
-and debugging a `PhysicsSpace`.
+Strictly speaking, Minie doesn't require a `BulletAppState`,
+but the appstate *does* provide a convenient interface
+for configuring, accessing, updating, and debugging a `PhysicsSpace`.
 
-If your application already has a `BulletAppState`, the code will probably
+If your application already has a `BulletAppState`, that code will probably
 work fine with Minie.
 If not, here is a snippet to guide you:
 
@@ -129,19 +130,11 @@ stateManager.attach(appState);
 PhysicsSpace physicsSpace = appState.getPhysicsSpace();
 ----
 
-Or if you need multibodies, instantiate a `MultiBodyAppState` instead:
-
-[source,java]
-----
-MultiBodyAppState appState = new MultiBodyAppState();
-stateManager.attach(appState);
-MultiBodySpace physicsSpace = appState.getMultiBodySpace();
-----
-
+If you need multibodies, instantiate a `MultiBodyAppState`.
 (Minie doesn't yet support combining soft bodies and multibodies in
 a single `PhysicsSpace`.)
 
-By default, the physics simulation executes on the render thread.
+By default, the physics simulation runs on the render thread.
 To execute it on a dedicated thread, use:
 
 [source,java]
@@ -158,34 +151,6 @@ To advance the physics simulation at a different rate, use:
 bulletAppState.setSpeed(0.5f); // simulate physics at half speed
 ----
 
-By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
-collision detection.
-To specify a different data structure, use `setBroadphaseType()`:
-
-[source,java]
-----
-SoftPhysicsAppState bas = new SoftPhysicsAppState();
-bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
-bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
-bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
-stateManager.attach(bas);
-PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();
-----
-
-By default, a Sequential Impulse (SI) solver is
-used to resolve contacts and constraints.
-To specify a different type of solver, invoke `setSolverType()`
-before attaching the AppState:
-
-[source,java]
-----
-bulletAppState.setSolverType(SolverType.Dantzig);
-----
-
-Caveats:
-
- 1. For soft-body simulations, SI is the only supported solver type.
- 2. The NNCG solver doesn't support multibodies.
 
 By default, debug visualization is disabled. To enable it, use:
 

@@ -44,19 +44,53 @@ CollisionShape.setDefaultMargin(0.1f);
 
 NOTE: The Bullet Manual advises against changing the default margin.
 
+== Broadphase types
+
+By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
+collision detection.
+To specify a different data structure, use `setBroadphaseType()`
+on the appstate:
+
+[source,java]
+----
+SoftPhysicsAppState bas = new SoftPhysicsAppState();
+bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
+bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
+stateManager.attach(bas);
+PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();
+----
+
+NOTE: The world max/min bounds are used
+only by the `AXIS_SWEEP_3` and `AXIS_SWEEP_3_32` broadphase algorithms.
+The `SIMPLE` and `DBVT` algorithms ignore those paramters.
+
+== Contact-and-constraint solver types
+
+By default, a Sequential Impulse (SI) solver is
+used to resolve contacts and constraints.
+To specify a different type of solver, invoke `setSolverType()`
+before attaching the AppState:
+
+[source,java]
+----
+bulletAppState.setSolverType(SolverType.Dantzig);
+----
+
+NOTE: For soft-body simulations, SI is the only supported solver type.
+
+NOTE: The NNCG solver doesn't support multibodies.
+
 == Advanced rigid-body friction
 
-Because friction can generate both forces and torques,
-modeling it can get very complicated.
-
-In addition to its basic friction parameter,
+In addition to the basic friction parameter (which affects sliding friction)
 each rigid body has 2 additional friction parameters:
 one for rolling friction and one for spinning friction.
 Both parameters default to zero.
 
-_Rolling friction_ creates torque orthogonal to the contact normal,
+_Rolling friction_ generates torque orthogonal to the contact normal,
 which tends to slow down a rolling body.
-_Spinning friction_ creates torque parallel to the contact normal,
+_Spinning friction_ generates torque parallel to the contact normal,
 which tends to prevent a body from spinning when grasped.
 
 To see rolling and spinning friction in action, run
