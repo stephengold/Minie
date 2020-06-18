@@ -288,6 +288,7 @@ update the gravity of each body prior to each physics tick.
 is a simple application that demonstrates this technique.
 The planet's gravity vector is visualized by a thin cyan arrow.
 It orbits a black hole whose location is indicated by 3 thick arrows.
+
 NOTE: The planet's path varies somewhat from orbit to orbit.
 This is partly due to inaccuracies of single-precision arithmetic.
 
