@@ -170,7 +170,7 @@ public class PhysicsSpace extends CollisionSpace {
     /**
      * first-in/first-out (FIFO) queue of physics tasks
      */
-    final protected Queue<AppTask<?>> pQueue
+    final private Queue<AppTask<?>> pQueue
             = new ConcurrentLinkedQueue<>();
     /**
      * parameters used by the contact-and-constraint solver
