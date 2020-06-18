@@ -583,6 +583,18 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
+     * Test whether this space uses Speculative Contact Restitution.
+     *
+     * @return true if using SCR, otherwise false
+     */
+    public boolean isUsingScr() {
+        long spaceId = nativeId();
+        boolean result = isSpeculativeContactRestitution(spaceId);
+
+        return result;
+    }
+
+    /**
      * Read the maximum number of time steps per frame.
      *
      * @return number of steps (&gt;0) or 0 for a variable time step
@@ -785,6 +797,16 @@ public class PhysicsSpace extends CollisionSpace {
         long spaceId = nativeId();
         assert accuracy > 0f : accuracy;
         stepSimulation(spaceId, timeInterval, maxSteps, accuracy);
+    }
+
+    /**
+     * Alter whether this space uses Speculative Contact Restitution.
+     *
+     * @param setting true to enable SCR, false to disable it (default=false)
+     */
+    public void useScr(boolean setting) {
+        long spaceId = nativeId();
+        setSpeculativeContactRestitution(spaceId, setting);
     }
     // *************************************************************************
     // new protected methods
@@ -1194,6 +1216,8 @@ public class PhysicsSpace extends CollisionSpace {
 
     native private static long getSolverInfo(long spaceId);
 
+    native private static boolean isSpeculativeContactRestitution(long spaceId);
+
     native private static void removeAction(long spaceId, long actionId);
 
     native private static void removeCharacterObject(long spaceId,
@@ -1207,6 +1231,9 @@ public class PhysicsSpace extends CollisionSpace {
     native private static void setGravity(long spaceId, Vector3f gravityVector);
 
     native private static void setSolverType(long spaceId, int solverType);
+
+    native private static void setSpeculativeContactRestitution(long spaceId,
+            boolean apply);
 
     native private static void stepSimulation(long spaceId, float timeInterval,
             int maxSubSteps, float accuracy);
