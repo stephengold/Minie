@@ -44,6 +44,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -520,6 +521,16 @@ public class BulletAppState
     public void setThreadingType(ThreadingType threadingType) {
         assert !isRunning;
         this.threadingType = threadingType;
+    }
+
+    /**
+     * Alter the conversion from physics-space coordinates to world coordinates.
+     *
+     * @param spatial the desired conversion spatial, or null for physics=world
+     * (alias created, default=null)
+     */
+    public void setTransformSpatial(Spatial spatial) {
+        debugConfig.setTransformSpatial(spatial);
     }
 
     /**
