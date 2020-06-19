@@ -1,63 +1,210 @@
 = Choosing collision shapes
+:url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
 
-A _collision shape_ describes the shape and size of a collision object
-such as a rigid body.
+A _collision shape_
+describes the shape and size of a collision object such as a rigid body.
 The examples so far have only used spheres and cubes.
-However, there are actually 16 `CollisionShape` subclasses.
-Here they are in lexicographic order, with pictures:
+However, there are actually 16 
+{url-api}/collision/shapes/CollisionShape.html[`CollisionShape`] subclasses.
+Here they are in lexicographic order,
+with characteristics and illustrations:
 
 [cols="2*"]
 |===
-|1. `Box2dShape`
+
+|1. `Box2dShape` +
+[ ] concave +
+[x] convex +
+[ ] infinite +
+[ ] nonMoving +
+[ ] polyhedral
+
+* has margin
+* is precise
+* is fully scalable
 |image:box2d.png[height=160]
 
-|2. `BoxCollisionShape`
+|2. `BoxCollisionShape` +
+[ ] concave +
+[x] convex +
+[ ] infinite +
+[ ] nonMoving +
+[x] polyhedral
+
+* has margin
+* is precise
+* is fully scalable
 |image:https://i.imgur.com/My74h2Q.png[height=160]
 
 |3. `CapsuleCollisionShape`
+[ ] concave +
+[x] convex +
+[ ] infinite +
+[ ] nonMoving +
+[ ] polyhedral
+
+* zero margin
+* is precise
+* may be scaled uniformly
 |image:https://i.imgur.com/R9NMEwc.png[height=160]
 
 |4. `CompoundCollisionShape`
+[ ] concave +
+[ ] convex +
+[ ] infinite +
+[ ] nonMoving +
+[ ] polyhedral
+
+* has margin
+* is precise if all its children are precise
+* may be scaled if all its children are scalable
 |image:https://i.imgur.com/gL6rgAA.png[height=160]
 
-|5. `ConeCollisionShape`
+|5. `ConeCollisionShape` +
+[ ] concave +
+[x] convex +
+[ ] infinite +
+[ ] nonMoving +
+[ ] polyhedral
+
+* has margin
+* not precise
+* may be scaled uniformly
 |image:https://i.imgur.com/jZFVxQd.png[height=160]
 
-|6. `Convex2dShape`
+|6. `Convex2dShape` +
+[ ] concave +
+[x] convex +
+[ ] infinite +
+[ ] nonMoving +
+[ ] polyhedral
+
+* has margin
+* not precise
+* may be scaled if its base shape is scalable
 |image:convex2d.png[height=160]
 
-|7. `CylinderCollisionShape`
+|7. `CylinderCollisionShape` +
+[ ] concave +
+[x] convex +
+[ ] infinite +
+[ ] nonMoving +
+[ ] polyhedral
+
+* has margin
+* not precise
+* scalability is limited
 |image:https://i.imgur.com/ey249X8.png[height=160]
 
-|8. `EmptyShape`
+|8. `EmptyShape` +
+[x] concave +
+[ ] convex +
+[ ] infinite +
+[x] nonMoving +
+[ ] polyhedral
+
+* has margin
+* is precise
+* fully scalable, but why bother?
 |(no image)
 
-|9. `GImpactCollisionShape`
+|9. `GImpactCollisionShape` +
+[x] concave +
+[ ] convex +
+[ ] infinite +
+[ ] nonMoving +
+[ ] polyhedral
+
+* has margin
+* is precise
+* fully scalable
 |image:https://i.imgur.com/TOLRsig.png[height=160]
 
-|10. `HeightfieldCollisionShape`
+|10. `HeightfieldCollisionShape` +
+[x] concave +
+[ ] convex +
+[ ] infinite +
+[x] nonMoving +
+[ ] polyhedral
+
+* has margin
+* is precise
+* fully scalable
 |image:https://i.imgur.com/JwtpqOM.png[height=160]
 
-|11. `HullCollisionShape`
+|11. `HullCollisionShape` +
+[ ] concave +
+[x] convex +
+[ ] infinite +
+[ ] nonMoving +
+[x] polyhedral
+
+* has margin
+* not precise
+* fully scalable
 |image:https://i.imgur.com/Rf61rcw.png[height=160]
 
-|12. `MeshCollisionShape`
+|12. `MeshCollisionShape` +
+[x] concave +
+[ ] convex +
+[ ] infinite +
+[x] nonMoving +
+[ ] polyhedral
+
+* has margin
+* precise
+* fully scalable
 |image:https://i.imgur.com/glB3Ujk.png[height=160]
 
-|13. `MultiSphere`
+|13. `MultiSphere` +
+[ ] concave +
+[x] convex +
+[ ] infinite +
+[ ] nonMoving +
+[ ] polyhedral
+
+* has margin
+* is precise
+* fully scalable
 |image:https://i.imgur.com/nTZEc8C.png[height=160]
 
-|14. `PlaneCollisionShape`
+|14. `PlaneCollisionShape` +
+[x] concave +
+[ ] convex +
+[x] infinite +
+[x] nonMoving +
+[ ] polyhedral
+
+* has margin
+* is precise
+* fully scalable, but why bother?
 |(no image yet)
 
-|15. `SimplexCollisionShape`
+|15. `SimplexCollisionShape` +
+[ ] concave +
+[x] convex +
+[ ] infinite +
+[ ] nonMoving +
+[x] polyhedral
+
+* has margin
+* not precise
+* not scalable
 |image:https://i.imgur.com/l1fYSfc.png[height=160]
 
-|16. `SphereCollisionShape`
-|image:https://i.imgur.com/OPYrxRe.png[height=160]
-|===
+|16. `SphereCollisionShape` +
+[ ] concave +
+[x] convex +
+[ ] infinite +
+[ ] nonMoving +
+[ ] polyhedral
 
-The general rule is: "Use the simplest shape that yields the desired behavior."
+* zero margin
+* is precise
+* may be scaled uniformly
+|image:https://i.imgur.com/OPYrxRe.png[height=160]
+
+|===
 
 == Limitations of particular subclasses
 
@@ -150,6 +297,16 @@ if (shape.canScale(newScale)) {
 ----
 
 == An algorithm for choosing a shape
+
+For efficient simulation, the general rule is:
+"Use the simplest shape that yields the desired behavior."
+By staying focused on behavior, you avoid modeling details that don't matter.
+For instance:
+
+* If a glass bottle stays sealed, its collision shape need not be hollow.
+* A character's hair probably shouldn't be included in their collision shape.
+* Any small shape that encounters only large, flat surfaces
+  can probably be approximated by a convex hull.
 
 Because jMonkeyEngine models are composed of triangular meshes,
 beginners are often tempted to use mesh-based shapes
