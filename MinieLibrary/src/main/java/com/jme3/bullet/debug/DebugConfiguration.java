@@ -118,6 +118,10 @@ public class DebugConfiguration {
      */
     private RenderQueue.ShadowMode shadowMode = RenderQueue.ShadowMode.Off;
     /**
+     * used to convert physics-space coordinates into world coordinates
+     */
+    private Spatial transformSpatial;
+    /**
      * view ports in which to render the visualization
      */
     private ViewPort[] viewPorts;
@@ -206,6 +210,16 @@ public class DebugConfiguration {
      */
     BulletDebugAppState.DebugAppStateFilter getSweptSphereFilter() {
         return sweptSphereFilter;
+    }
+
+    /**
+     * Access the Spatial used to convert physics-space coordinates into world
+     * coordinates.
+     *
+     * @return spatial the pre-existing Spatial, or null if none
+     */
+    public Spatial getTransformSpatial() {
+        return transformSpatial;
     }
 
     /**
@@ -401,6 +415,16 @@ public class DebugConfiguration {
     public void setSweptSphereFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
         sweptSphereFilter = filter;
+    }
+
+    /**
+     * Alter the conversion from physics-space coordinates to world coordinates.
+     *
+     * @param spatial the desired conversion spatial, or null for physics=world
+     * (alias created, default=null)
+     */
+    public void setTransformSpatial(Spatial spatial) {
+        transformSpatial = spatial;
     }
 
     /**
