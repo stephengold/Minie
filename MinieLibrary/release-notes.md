@@ -1,4 +1,41 @@
-# release log for the Minie library, DacWizard, and MinieExamples
+# Release log for the Minie library, DacWizard, and MinieExamples
+
+## Version 2.0.0-test1 released on TBD
+
+ + Changes to the library API:
+   + Deleted the `MinieCharacterControl` and `VHACDResults` classes.
+   + Replaced inner class `PhysicsSoftBody.Material` with `SoftBodyMaterial`.
+   + Deleted deprecated methods and constructors.
+   + De-publicized 7 debug-control classes.
+   + Changed arguments of the `PhysicsCharacter`, `CharacterControl`,
+     and `Convex2dShape` constructors from `CollisionShape` to `ConvexShape`.
+   + Changed an argument of a `HullCollisionShape` constructor to `float...`.
+   + Changed the `shape` arguments of `sweepTest()` methods to `ConvexShape`.
+   + Changed an argument of the `volumeConvex()` method to `ConvexShape`.
+   + Privatized 6 fields:
+     + `CollisionSpace.physicsSpaceTL`
+     + `CompoundMesh.scale`
+     + `PhysicsSpace.physicsJoints`
+     + `PhysicsSpace.pQueue`
+     + `VHACD.indices`
+     + `VHACD.vertices`
+   + Changed 7 returned collections to unmodifiable collections.
+   + Based the `PhysicsCollisionObject` and `PhysicsCollisionEvent` classes
+     on the `NativePhysicsObject` class.
+   + Added a private constructor to the `VHACD` class.
+
+ + Eliminated all `finalize()` methods by implementing a cleaner thread and
+   adding 4 classes:
+   + `BoundingValueHierarchy`
+   + `CharacterController`
+   + `NpoTracker`
+   + `VehicleController`
+ + Added a GitHub Pages website, including javadoc and 3 new tutorial pages.
+ + Implemented debug visualization for local physics.
+ + Added 8 tutorial apps.
+ + Added the `TestEmptyShape` automated test.
+ + Add accessors for speculative contact restitution flag of a `PhysicsSpace`.
+ + Upgraded to Gradle v6.4.1, Libbulletjme v8.1.0, and JUnit v4.13 .
 
 ## Version 1.7.0 released on 31 May 2020
 
