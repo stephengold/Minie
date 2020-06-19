@@ -1,7 +1,7 @@
 = Choosing collision shapes
 
-The shape of a collision object is, in most cases,
-described by a `CollisionShape`. 
+A _collision shape_ describes the shape and size of a collision object
+such as a rigid body.
 The examples so far have only used spheres and cubes.
 However, there are actually 16 `CollisionShape` subclasses.
 Here they are in lexicographic order, with pictures:
@@ -24,13 +24,13 @@ Here they are in lexicographic order, with pictures:
 |image:https://i.imgur.com/jZFVxQd.png[height=160]
 
 |6. `Convex2dShape`
-|(no image yet)
+|image:convex2d.png[height=160]
 
 |7. `CylinderCollisionShape`
 |image:https://i.imgur.com/ey249X8.png[height=160]
 
 |8. `EmptyShape`
-|(no image yet)
+|(no image)
 
 |9. `GImpactCollisionShape`
 |image:https://i.imgur.com/TOLRsig.png[height=160]
