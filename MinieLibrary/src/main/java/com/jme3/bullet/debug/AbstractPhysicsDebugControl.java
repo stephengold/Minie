@@ -159,35 +159,17 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
     /**
      * Apply the specified location and orientation to the specified Spatial.
      *
-     * @param worldLocation location vector (in physics-space coordinates, not
-     * null, unaffected)
-     * @param worldRotation orientation (in physics-space coordinates, not null,
+     * @param location location vector (in physics-space coordinates, not null,
+     * unaffected)
+     * @param rotation orientation (in physics-space coordinates, not null,
      * unaffected)
      * @param spatial where to apply (may be null)
      */
-    private void applyPhysicsTransform(Vector3f worldLocation,
-            Quaternion worldRotation, Spatial spatial) {
+    private void applyPhysicsTransform(Vector3f location,
+            Quaternion rotation, Spatial spatial) {
         if (spatial != null) {
-            Vector3f localLocation = spatial.getLocalTranslation();
-            Quaternion localRotationQuat = spatial.getLocalRotation();
-            if (spatial.getParent() != null) {
-                localLocation.set(worldLocation).subtractLocal(
-                        spatial.getParent().getWorldTranslation());
-                localLocation.divideLocal(spatial.getParent().getWorldScale());
-                tmp_inverseWorldRotation.set(
-                        spatial.getParent().getWorldRotation())
-                        .inverseLocal().multLocal(localLocation);
-                localRotationQuat.set(worldRotation);
-                tmp_inverseWorldRotation.set(
-                        spatial.getParent().getWorldRotation())
-                        .inverseLocal().mult(localRotationQuat,
-                                localRotationQuat);
-                spatial.setLocalTranslation(localLocation);
-                spatial.setLocalRotation(localRotationQuat);
-            } else {
-                spatial.setLocalTranslation(worldLocation);
-                spatial.setLocalRotation(worldRotation);
-            }
+            spatial.setLocalTranslation(location);
+            spatial.setLocalRotation(rotation);
         }
     }
 }
