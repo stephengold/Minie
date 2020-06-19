@@ -192,207 +192,206 @@
 <div class="paragraph">
 <p>A <em>collision shape</em>
 describes the shape and size of a collision object such as a rigid body.
-The examples so far have only used spheres and cubes.
-However, there are actually 16
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/CollisionShape.html"><code>CollisionShape</code></a> subclasses.
-Here they are in lexicographic order,
-with characteristics and illustrations:</p>
+The examples so far have all used spheres and cubes.
+However, there are actually 16 subclasses of
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/CollisionShape.html"><code>CollisionShape</code></a>.
+Here they are in lexicographic order, with characteristics and illustrations:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-none stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1. <code>Box2dShape</code><br>
-[ ] concave<br>
-[x] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
-* is precise
-* is fully scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1. <code>Box2dShape</code></p>
+<p class="tableblock">* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
+* fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/box2d.png" alt="box2d" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2. <code>BoxCollisionShape</code><br>
-[ ] concave<br>
-[x] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[x] polyhedral</p>
-<p class="tableblock">* has margin
-* is precise
-* is fully scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2. <code>BoxCollisionShape</code></p>
+<p class="tableblock">* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [x] polyhedral
+* positive margin
+* precise
+* fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/My74h2Q.png" alt="My74h2Q" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3. <code>CapsuleCollisionShape</code>
-[ ] concave<br>
-[x] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* zero margin
-* is precise
+<td class="tableblock halign-left valign-top"><p class="tableblock">3. <code>CapsuleCollisionShape</code></p>
+<p class="tableblock">* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* zero margin
+* precise
 * may be scaled uniformly</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/R9NMEwc.png" alt="R9NMEwc" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4. <code>CompoundCollisionShape</code>
-[ ] concave<br>
-[ ] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
-* is precise if all its children are precise
-* may be scaled if all its children are scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4. <code>CompoundCollisionShape</code></p>
+<p class="tableblock">* [ ] concave
+* [ ] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise if-and-only-if all of its children are precise
+* may be scaled if all of its children are scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/gL6rgAA.png" alt="gL6rgAA" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5. <code>ConeCollisionShape</code><br>
-[ ] concave<br>
-[x] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
-* not precise
+<td class="tableblock halign-left valign-top"><p class="tableblock">5. <code>ConeCollisionShape</code></p>
+<p class="tableblock">* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* imprecise
 * may be scaled uniformly</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/jZFVxQd.png" alt="jZFVxQd" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6. <code>Convex2dShape</code><br>
-[ ] concave<br>
-[x] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
-* not precise
-* may be scaled if its base shape is scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6. <code>Convex2dShape</code></p>
+<p class="tableblock">* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* imprecise
+* may be scaled if-and-only-if its base shape is scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/convex2d.png" alt="convex2d" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7. <code>CylinderCollisionShape</code><br>
-[ ] concave<br>
-[x] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
-* not precise
-* scalability is limited</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7. <code>CylinderCollisionShape</code></p>
+<p class="tableblock">* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* imprecise
+* limited scalability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/ey249X8.png" alt="ey249X8" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8. <code>EmptyShape</code><br>
-[x] concave<br>
-[ ] convex<br>
-[ ] infinite<br>
-[x] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
-* is precise
+<td class="tableblock halign-left valign-top"><p class="tableblock">8. <code>EmptyShape</code></p>
+<p class="tableblock">* [x] concave
+* [ ] convex
+* [ ] infinite
+* [x] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
 * fully scalable, but why bother?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">(no image)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9. <code>GImpactCollisionShape</code><br>
-[x] concave<br>
-[ ] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
-* is precise
+<td class="tableblock halign-left valign-top"><p class="tableblock">9. <code>GImpactCollisionShape</code></p>
+<p class="tableblock">* [x] concave
+* [ ] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
 * fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/TOLRsig.png" alt="TOLRsig" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10. <code>HeightfieldCollisionShape</code><br>
-[x] concave<br>
-[ ] convex<br>
-[ ] infinite<br>
-[x] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
-* is precise
+<td class="tableblock halign-left valign-top"><p class="tableblock">10. <code>HeightfieldCollisionShape</code></p>
+<p class="tableblock">* [x] concave
+* [ ] convex
+* [ ] infinite
+* [x] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
 * fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/JwtpqOM.png" alt="JwtpqOM" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11. <code>HullCollisionShape</code><br>
-[ ] concave<br>
-[x] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[x] polyhedral</p>
-<p class="tableblock">* has margin
-* not precise
+<td class="tableblock halign-left valign-top"><p class="tableblock">11. <code>HullCollisionShape</code></p>
+<p class="tableblock">* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [x] polyhedral
+* positive margin
+* imprecise
 * fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/Rf61rcw.png" alt="Rf61rcw" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12. <code>MeshCollisionShape</code><br>
-[x] concave<br>
-[ ] convex<br>
-[ ] infinite<br>
-[x] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
+<td class="tableblock halign-left valign-top"><p class="tableblock">12. <code>MeshCollisionShape</code></p>
+<p class="tableblock">* [x] concave
+* [ ] convex
+* [ ] infinite
+* [x] nonMoving
+* [ ] polyhedral
+* positive margin
 * precise
 * fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/glB3Ujk.png" alt="glB3Ujk" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">13. <code>MultiSphere</code><br>
-[ ] concave<br>
-[x] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
-* is precise
+<td class="tableblock halign-left valign-top"><p class="tableblock">13. <code>MultiSphere</code></p>
+<p class="tableblock">* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
 * fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/nTZEc8C.png" alt="nTZEc8C" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">14. <code>PlaneCollisionShape</code><br>
-[x] concave<br>
-[ ] convex<br>
-[x] infinite<br>
-[x] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* has margin
-* is precise
+<td class="tableblock halign-left valign-top"><p class="tableblock">14. <code>PlaneCollisionShape</code></p>
+<p class="tableblock">* [x] concave
+* [ ] convex
+* [x] infinite
+* [x] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
 * fully scalable, but why bother?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">(no image yet)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">15. <code>SimplexCollisionShape</code><br>
-[ ] concave<br>
-[x] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[x] polyhedral</p>
-<p class="tableblock">* has margin
-* not precise
+<td class="tableblock halign-left valign-top"><p class="tableblock">15. <code>SimplexCollisionShape</code></p>
+<p class="tableblock">* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [x] polyhedral
+* positive margin
+* imprecise
 * not scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/l1fYSfc.png" alt="l1fYSfc" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">16. <code>SphereCollisionShape</code><br>
-[ ] concave<br>
-[x] convex<br>
-[ ] infinite<br>
-[ ] nonMoving<br>
-[ ] polyhedral</p>
-<p class="tableblock">* zero margin
-* is precise
+<td class="tableblock halign-left valign-top"><p class="tableblock">16. <code>SphereCollisionShape</code></p>
+<p class="tableblock">* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* zero margin
+* precise
 * may be scaled uniformly</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/OPYrxRe.png" alt="OPYrxRe" height="160"></span></p></td>
 </tr>
