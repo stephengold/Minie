@@ -1,11 +1,15 @@
 = Choosing collision shapes
 
-Minie provides 16 `CollisionShape` subclasses:
+The shape of a collision object is, in most cases,
+described by a `CollisionShape`. 
+The examples so far have only used spheres and cubes.
+However, there are actually 16 `CollisionShape` subclasses.
+Here they are in lexicographic order, with pictures:
 
 [cols="2*"]
 |===
 |1. `Box2dShape`
-|(no image yet)
+|image:box2d.png[height=160]
 
 |2. `BoxCollisionShape`
 |image:https://i.imgur.com/My74h2Q.png[height=160]
@@ -13,7 +17,7 @@ Minie provides 16 `CollisionShape` subclasses:
 |3. `CapsuleCollisionShape`
 |image:https://i.imgur.com/R9NMEwc.png[height=160]
 
-|4. `CompoundCollisionShape` constructed explicitly
+|4. `CompoundCollisionShape`
 |image:https://i.imgur.com/gL6rgAA.png[height=160]
 
 |5. `ConeCollisionShape`
