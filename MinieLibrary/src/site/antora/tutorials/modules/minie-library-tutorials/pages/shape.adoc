@@ -3,205 +3,220 @@
 
 A _collision shape_
 describes the shape and size of a collision object such as a rigid body.
-The examples so far have only used spheres and cubes.
-However, there are actually 16 
-{url-api}/collision/shapes/CollisionShape.html[`CollisionShape`] subclasses.
-Here they are in lexicographic order,
-with characteristics and illustrations:
+The examples so far have all used spheres and cubes.
+However, there are actually 16 subclasses of
+{url-api}/collision/shapes/CollisionShape.html[`CollisionShape`].
+Here they are in lexicographic order, with characteristics and illustrations:
 
-[cols="2*"]
+[cols="2*",grid="none"]
 |===
 
-|1. `Box2dShape` +
-[ ] concave +
-[x] convex +
-[ ] infinite +
-[ ] nonMoving +
-[ ] polyhedral
+|1. `Box2dShape`
 
-* has margin
-* is precise
-* is fully scalable
+* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
+* fully scalable
+
 |image:box2d.png[height=160]
 
-|2. `BoxCollisionShape` +
-[ ] concave +
-[x] convex +
-[ ] infinite +
-[ ] nonMoving +
-[x] polyhedral
+|2. `BoxCollisionShape`
 
-* has margin
-* is precise
-* is fully scalable
+* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [x] polyhedral
+* positive margin
+* precise
+* fully scalable
+
 |image:https://i.imgur.com/My74h2Q.png[height=160]
 
 |3. `CapsuleCollisionShape`
-[ ] concave +
-[x] convex +
-[ ] infinite +
-[ ] nonMoving +
-[ ] polyhedral
 
+* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
 * zero margin
-* is precise
+* precise
 * may be scaled uniformly
+
 |image:https://i.imgur.com/R9NMEwc.png[height=160]
 
 |4. `CompoundCollisionShape`
-[ ] concave +
-[ ] convex +
-[ ] infinite +
-[ ] nonMoving +
-[ ] polyhedral
 
-* has margin
-* is precise if all its children are precise
-* may be scaled if all its children are scalable
+* [ ] concave
+* [ ] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise if-and-only-if all of its children are precise
+* may be scaled if all of its children are scalable
+
 |image:https://i.imgur.com/gL6rgAA.png[height=160]
 
-|5. `ConeCollisionShape` +
-[ ] concave +
-[x] convex +
-[ ] infinite +
-[ ] nonMoving +
-[ ] polyhedral
+|5. `ConeCollisionShape`
 
-* has margin
-* not precise
+* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* imprecise
 * may be scaled uniformly
+
 |image:https://i.imgur.com/jZFVxQd.png[height=160]
 
-|6. `Convex2dShape` +
-[ ] concave +
-[x] convex +
-[ ] infinite +
-[ ] nonMoving +
-[ ] polyhedral
+|6. `Convex2dShape`
 
-* has margin
-* not precise
-* may be scaled if its base shape is scalable
+* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* imprecise
+* may be scaled if-and-only-if its base shape is scalable
+
 |image:convex2d.png[height=160]
 
-|7. `CylinderCollisionShape` +
-[ ] concave +
-[x] convex +
-[ ] infinite +
-[ ] nonMoving +
-[ ] polyhedral
+|7. `CylinderCollisionShape`
 
-* has margin
-* not precise
-* scalability is limited
+* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* imprecise
+* limited scalability
+
 |image:https://i.imgur.com/ey249X8.png[height=160]
 
-|8. `EmptyShape` +
-[x] concave +
-[ ] convex +
-[ ] infinite +
-[x] nonMoving +
-[ ] polyhedral
+|8. `EmptyShape`
 
-* has margin
-* is precise
+* [x] concave
+* [ ] convex
+* [ ] infinite
+* [x] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
 * fully scalable, but why bother?
+
 |(no image)
 
-|9. `GImpactCollisionShape` +
-[x] concave +
-[ ] convex +
-[ ] infinite +
-[ ] nonMoving +
-[ ] polyhedral
+|9. `GImpactCollisionShape`
 
-* has margin
-* is precise
-* fully scalable
-|image:https://i.imgur.com/TOLRsig.png[height=160]
-
-|10. `HeightfieldCollisionShape` +
-[x] concave +
-[ ] convex +
-[ ] infinite +
-[x] nonMoving +
-[ ] polyhedral
-
-* has margin
-* is precise
-* fully scalable
-|image:https://i.imgur.com/JwtpqOM.png[height=160]
-
-|11. `HullCollisionShape` +
-[ ] concave +
-[x] convex +
-[ ] infinite +
-[ ] nonMoving +
-[x] polyhedral
-
-* has margin
-* not precise
-* fully scalable
-|image:https://i.imgur.com/Rf61rcw.png[height=160]
-
-|12. `MeshCollisionShape` +
-[x] concave +
-[ ] convex +
-[ ] infinite +
-[x] nonMoving +
-[ ] polyhedral
-
-* has margin
+* [x] concave
+* [ ] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
 * precise
 * fully scalable
+
+|image:https://i.imgur.com/TOLRsig.png[height=160]
+
+|10. `HeightfieldCollisionShape`
+
+* [x] concave
+* [ ] convex
+* [ ] infinite
+* [x] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
+* fully scalable
+
+|image:https://i.imgur.com/JwtpqOM.png[height=160]
+
+|11. `HullCollisionShape`
+
+* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [x] polyhedral
+* positive margin
+* imprecise
+* fully scalable
+
+|image:https://i.imgur.com/Rf61rcw.png[height=160]
+
+|12. `MeshCollisionShape`
+
+* [x] concave
+* [ ] convex
+* [ ] infinite
+* [x] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
+* fully scalable
+
 |image:https://i.imgur.com/glB3Ujk.png[height=160]
 
-|13. `MultiSphere` +
-[ ] concave +
-[x] convex +
-[ ] infinite +
-[ ] nonMoving +
-[ ] polyhedral
+|13. `MultiSphere`
 
-* has margin
-* is precise
+* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
 * fully scalable
+
 |image:https://i.imgur.com/nTZEc8C.png[height=160]
 
-|14. `PlaneCollisionShape` +
-[x] concave +
-[ ] convex +
-[x] infinite +
-[x] nonMoving +
-[ ] polyhedral
+|14. `PlaneCollisionShape`
 
-* has margin
-* is precise
+* [x] concave
+* [ ] convex
+* [x] infinite
+* [x] nonMoving
+* [ ] polyhedral
+* positive margin
+* precise
 * fully scalable, but why bother?
+
 |(no image yet)
 
-|15. `SimplexCollisionShape` +
-[ ] concave +
-[x] convex +
-[ ] infinite +
-[ ] nonMoving +
-[x] polyhedral
+|15. `SimplexCollisionShape`
 
-* has margin
-* not precise
+* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [x] polyhedral
+* positive margin
+* imprecise
 * not scalable
+
 |image:https://i.imgur.com/l1fYSfc.png[height=160]
 
-|16. `SphereCollisionShape` +
-[ ] concave +
-[x] convex +
-[ ] infinite +
-[ ] nonMoving +
-[ ] polyhedral
+|16. `SphereCollisionShape`
 
+* [ ] concave
+* [x] convex
+* [ ] infinite
+* [ ] nonMoving
+* [ ] polyhedral
 * zero margin
-* is precise
+* precise
 * may be scaled uniformly
+
 |image:https://i.imgur.com/OPYrxRe.png[height=160]
 
 |===
