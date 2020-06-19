@@ -50,6 +50,7 @@ import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Transform;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
@@ -127,6 +128,10 @@ public class BulletDebugAppState extends AbstractAppState {
      * fake Material to indicate child coloring of a CompoundCollisionShape
      */
     final public static Material enableChildColoring = new Material();
+    /**
+     * local copy of {@link com.jme3.math.Transform#IDENTITY}
+     */
+    final private static Transform transformIdentity = new Transform();
     // *************************************************************************
     // fields
 
@@ -147,8 +152,8 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     private HashMap<PhysicsJoint, Node> jointMap = new HashMap<>(64);
     /**
-     * materials for rigid bodies (and vehicles) that are responsive and either
-     * static or kinematic or inactive
+     * materials for rigid bodies (and vehicle chassis and colliders) that are
+     * responsive and either static or kinematic or inactive
      */
     final private Material[] blues = new Material[3];
     /**
@@ -168,8 +173,8 @@ public class BulletDebugAppState extends AbstractAppState {
      */
     private Material jointMaterialB;
     /**
-     * materials for rigid bodies (and vehicles) that are responsive, dynamic,
-     * and active
+     * materials for rigid bodies (and vehicle chassis and colliders) that are
+     * responsive, dynamic, and active
      */
     final private Material[] magentas = new Material[3];
     /**
@@ -701,6 +706,13 @@ public class BulletDebugAppState extends AbstractAppState {
 
         // Update the (debug) root node.
         root.updateLogicalState(tpf);
+        Spatial transformSpatial = configuration.getTransformSpatial();
+        if (transformSpatial == null) {
+            root.setLocalTransform(transformIdentity);
+        } else {
+            Transform transform = transformSpatial.getWorldTransform();
+            root.setLocalTransform(transform);
+        }
         root.updateGeometricState();
     }
     // *************************************************************************
