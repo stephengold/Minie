@@ -39,7 +39,12 @@ Like JMonkeyEngine, Minie and its documentation
 assume a certain level of proficiency with
 {url-enwiki}/Java_(programming_language)[the Java programming language].
 This project isn't aimed at non-programmers,
-nor at developers without prior Java experience.
+nor developers without prior Java experience.
+Similarly, some familiarity with 3-D graphics and vector math are assumed.
+
+While familiarity with classical mechanics is assumed,
+many of its technical terms are linked (at first use)
+to the relevant article in the English Wikipedia.
 
 https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE[Minie's BSD-style license]
 disclaims liability for defects.
