@@ -799,7 +799,7 @@ when recombined, will approximate the desired behavior.</p>
 depending on what the developer knows about the object&#8217;s shape.
 If the model&#8217;s mesh is generated procedurally, it may be possible
 to decompose it during the generation process.
-Or if the object is modelled in Blender,
+Or if the object is modeled in Blender,
 it may be practical to manually decompose it there
 into meshes that are convex or nearly so.
 In both cases, the desired compound shape can then be generated using
@@ -821,9 +821,9 @@ CollisionShape shape
 </div>
 <div class="paragraph">
 <p>The V-HACD algorithm is costly to run, but in many applications it can
-be run during in advance and stored in J3O format until needed.
+be performed in advance and stored in J3O format until needed.
 During simulation, the resulting shape will usually be much more efficient
-than a <code>GImpactCollisionShape</code>.</p>
+than a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/GImpactCollisionShape.html"><code>GImpactCollisionShape</code></a>.</p>
 </div>
 </div>
 </div>
@@ -854,15 +854,15 @@ may still exhibit the convex property.</p>
 <p>Not all collision shapes are suitable for dynamic rigid bodies.</p>
 </li>
 <li>
-<p>When applying a non-symmetric shape to a dynamic rigid body,
-make sure that the center and principal axes are reasonable.</p>
+<p>When applying a asymmetric shape to a dynamic rigid body,
+make sure that its center and principal axes are plausible.</p>
 </li>
 <li>
 <p>Use the simplest shape that yields the desired behavior.</p>
 </li>
 <li>
 <p>To speed up simulation of objects with non-convex shapes,
-decompose them into convex ones, either by hand or using V-HACD.</p>
+decompose them into convex ones, either during construction or using V-HACD.</p>
 </li>
 </ul>
 </div>
