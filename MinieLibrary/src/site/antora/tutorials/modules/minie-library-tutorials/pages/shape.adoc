@@ -7,7 +7,8 @@ describes the shape and size of a collision object such as a rigid body.
 The examples so far have all used spheres and cubes.
 However, there are actually 16 subclasses of
 {url-api}/collision/shapes/CollisionShape.html[`CollisionShape`].
-Here they are in lexicographic order, with characteristics and illustrations:
+Here they are in lexicographic order, 
+with key characteristics and illustrations:
 
 [cols="2*",grid="none"]
 |===
@@ -122,7 +123,7 @@ Here they are in lexicographic order, with characteristics and illustrations:
 {item}  positive margin +
 {item}  precise +
 {item}  fully scalable, but why bother?
-|(no image yet)
+|image:plane.png[height=160]
 
 |15. {url-api}/collision/shapes/SimplexCollisionShape.html[`SimplexCollisionShape`]
 
