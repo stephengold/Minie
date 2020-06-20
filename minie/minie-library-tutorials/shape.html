@@ -204,195 +204,131 @@ Here they are in lexicographic order, with characteristics and illustrations:</p
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1. <code>Box2dShape</code></p>
-<p class="tableblock">* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/Box2dShape.html"><code>Box2dShape</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; positive margin<br>
+&rarr; precise<br>
+&rarr; fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/box2d.png" alt="box2d" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2. <code>BoxCollisionShape</code></p>
-<p class="tableblock">* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [x] polyhedral
-* positive margin
-* precise
-* fully scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/BoxCollisionShape.html"><code>BoxCollisionShape</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; positive margin<br>
+&rarr; precise<br>
+&rarr; fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/My74h2Q.png" alt="My74h2Q" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3. <code>CapsuleCollisionShape</code></p>
-<p class="tableblock">* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* zero margin
-* precise
-* may be scaled uniformly</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html"><code>CapsuleCollisionShape</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; zero margin<br>
+&rarr; precise<br>
+&rarr; uniform scaling only</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/R9NMEwc.png" alt="R9NMEwc" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4. <code>CompoundCollisionShape</code></p>
-<p class="tableblock">* [ ] concave
-* [ ] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise if-and-only-if all of its children are precise
-* may be scaled if all of its children are scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/CompoundCollisionShape.html"><code>CompoundCollisionShape</code></a></p>
+<p class="tableblock">&rarr; neither concave nor convex<br>
+&rarr; positive margin<br>
+&rarr; precise if-and-only-if all of its children are precise<br>
+&rarr; scalable to the extent that all of its children are scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/gL6rgAA.png" alt="gL6rgAA" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5. <code>ConeCollisionShape</code></p>
-<p class="tableblock">* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* imprecise
-* may be scaled uniformly</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/ConeCollisionShape.html"><code>ConeCollisionShape</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; positive margin<br>
+&rarr; imprecise<br>
+&rarr; uniform scaling only</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/jZFVxQd.png" alt="jZFVxQd" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6. <code>Convex2dShape</code></p>
-<p class="tableblock">* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* imprecise
-* may be scaled if-and-only-if its base shape is scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/Convex2dShape.html"><code>Convex2dShape</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; positive margin<br>
+&rarr; imprecise<br>
+&rarr; scalable to the extent that its base shape is scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/convex2d.png" alt="convex2d" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7. <code>CylinderCollisionShape</code></p>
-<p class="tableblock">* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* imprecise
-* limited scalability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; positive margin<br>
+&rarr; imprecise<br>
+&rarr; limited scalability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/ey249X8.png" alt="ey249X8" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8. <code>EmptyShape</code></p>
-<p class="tableblock">* [x] concave
-* [ ] convex
-* [ ] infinite
-* [x] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable, but why bother?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/EmptyShape.html"><code>EmptyShape</code></a></p>
+<p class="tableblock">&rarr; concave<br>
+&rarr; positive margin<br>
+&rarr; precise<br>
+&rarr; fully scalable, but why bother?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">(no image)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9. <code>GImpactCollisionShape</code></p>
-<p class="tableblock">* [x] concave
-* [ ] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/GImpactCollisionShape.html"><code>GImpactCollisionShape</code></a></p>
+<p class="tableblock">&rarr; concave<br>
+&rarr; positive margin<br>
+&rarr; precise<br>
+&rarr; fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/TOLRsig.png" alt="TOLRsig" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10. <code>HeightfieldCollisionShape</code></p>
-<p class="tableblock">* [x] concave
-* [ ] convex
-* [ ] infinite
-* [x] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a></p>
+<p class="tableblock">&rarr; concave<br>
+&rarr; positive margin<br>
+&rarr; precise<br>
+&rarr; fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/JwtpqOM.png" alt="JwtpqOM" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11. <code>HullCollisionShape</code></p>
-<p class="tableblock">* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [x] polyhedral
-* positive margin
-* imprecise
-* fully scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/HullCollisionShape.html"><code>HullCollisionShape</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; positive margin<br>
+&rarr; imprecise<br>
+&rarr; fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/Rf61rcw.png" alt="Rf61rcw" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12. <code>MeshCollisionShape</code></p>
-<p class="tableblock">* [x] concave
-* [ ] convex
-* [ ] infinite
-* [x] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/MeshCollisionShape.html"><code>MeshCollisionShape</code></a></p>
+<p class="tableblock">&rarr; concave<br>
+&rarr; positive margin<br>
+&rarr; precise<br>
+&rarr; fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/glB3Ujk.png" alt="glB3Ujk" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">13. <code>MultiSphere</code></p>
-<p class="tableblock">* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/MultiSphere.html"><code>MultiSphere</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; positive margin<br>
+&rarr; precise<br>
+&rarr; fully scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/nTZEc8C.png" alt="nTZEc8C" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">14. <code>PlaneCollisionShape</code></p>
-<p class="tableblock">* [x] concave
-* [ ] convex
-* [x] infinite
-* [x] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable, but why bother?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/PlaneCollisionShape.html"><code>PlaneCollisionShape</code></a></p>
+<p class="tableblock">&rarr; concave and infinite<br>
+&rarr;  positive margin<br>
+&rarr;  precise<br>
+&rarr;  fully scalable, but why bother?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">(no image yet)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">15. <code>SimplexCollisionShape</code></p>
-<p class="tableblock">* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [x] polyhedral
-* positive margin
-* imprecise
-* not scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/SimplexCollisionShape.html"><code>SimplexCollisionShape</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; positive margin<br>
+&rarr; imprecise<br>
+&rarr; not scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/l1fYSfc.png" alt="l1fYSfc" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">16. <code>SphereCollisionShape</code></p>
-<p class="tableblock">* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* zero margin
-* precise
-* may be scaled uniformly</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/SphereCollisionShape.html"><code>SphereCollisionShape</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; zero margin<br>
+&rarr; precise<br>
+&rarr; uniform scaling only</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/OPYrxRe.png" alt="OPYrxRe" height="160"></span></p></td>
 </tr>
 </tbody>
