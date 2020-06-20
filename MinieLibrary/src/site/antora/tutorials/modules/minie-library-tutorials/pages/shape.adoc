@@ -1,4 +1,5 @@
 = Choosing collision shapes
+:item: &rarr;
 :url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
 
 A _collision shape_
@@ -11,212 +12,132 @@ Here they are in lexicographic order, with characteristics and illustrations:
 [cols="2*",grid="none"]
 |===
 
-|1. `Box2dShape`
+|1. {url-api}/collision/shapes/Box2dShape.html[`Box2dShape`]
 
-* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable
-
+{item} convex +
+{item} positive margin +
+{item} precise +
+{item} fully scalable
 |image:box2d.png[height=160]
 
-|2. `BoxCollisionShape`
+|2. {url-api}/collision/shapes/BoxCollisionShape.html[`BoxCollisionShape`]
 
-* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [x] polyhedral
-* positive margin
-* precise
-* fully scalable
-
+{item} convex +
+{item} positive margin +
+{item} precise +
+{item} fully scalable
 |image:https://i.imgur.com/My74h2Q.png[height=160]
 
-|3. `CapsuleCollisionShape`
+|3. {url-api}/collision/shapes/CapsuleCollisionShape.html[`CapsuleCollisionShape`]
 
-* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* zero margin
-* precise
-* may be scaled uniformly
-
+{item} convex +
+{item} zero margin +
+{item} precise +
+{item} uniform scaling only
 |image:https://i.imgur.com/R9NMEwc.png[height=160]
 
-|4. `CompoundCollisionShape`
+|4. {url-api}/collision/shapes/CompoundCollisionShape.html[`CompoundCollisionShape`]
 
-* [ ] concave
-* [ ] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise if-and-only-if all of its children are precise
-* may be scaled if all of its children are scalable
-
+{item} neither concave nor convex +
+{item} positive margin +
+{item} precise if-and-only-if all of its children are precise +
+{item} scalable to the extent that all of its children are scalable
 |image:https://i.imgur.com/gL6rgAA.png[height=160]
 
-|5. `ConeCollisionShape`
+|5. {url-api}/collision/shapes/ConeCollisionShape.html[`ConeCollisionShape`]
 
-* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* imprecise
-* may be scaled uniformly
-
+{item} convex +
+{item} positive margin +
+{item} imprecise +
+{item} uniform scaling only
 |image:https://i.imgur.com/jZFVxQd.png[height=160]
 
-|6. `Convex2dShape`
+|6. {url-api}/collision/shapes/Convex2dShape.html[`Convex2dShape`]
 
-* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* imprecise
-* may be scaled if-and-only-if its base shape is scalable
-
+{item} convex +
+{item} positive margin +
+{item} imprecise +
+{item} scalable to the extent that its base shape is scalable
 |image:convex2d.png[height=160]
 
-|7. `CylinderCollisionShape`
+|7. {url-api}/collision/shapes/CylinderCollisionShape.html[`CylinderCollisionShape`]
 
-* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* imprecise
-* limited scalability
-
+{item} convex +
+{item} positive margin +
+{item} imprecise +
+{item} limited scalability
 |image:https://i.imgur.com/ey249X8.png[height=160]
 
-|8. `EmptyShape`
+|8. {url-api}/collision/shapes/EmptyShape.html[`EmptyShape`]
 
-* [x] concave
-* [ ] convex
-* [ ] infinite
-* [x] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable, but why bother?
-
+{item} concave +
+{item} positive margin +
+{item} precise +
+{item} fully scalable, but why bother?
 |(no image)
 
-|9. `GImpactCollisionShape`
+|9. {url-api}/collision/shapes/GImpactCollisionShape.html[`GImpactCollisionShape`]
 
-* [x] concave
-* [ ] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable
-
+{item} concave +
+{item} positive margin +
+{item} precise +
+{item} fully scalable
 |image:https://i.imgur.com/TOLRsig.png[height=160]
 
-|10. `HeightfieldCollisionShape`
+|10. {url-api}/collision/shapes/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`]
 
-* [x] concave
-* [ ] convex
-* [ ] infinite
-* [x] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable
-
+{item} concave +
+{item} positive margin +
+{item} precise +
+{item} fully scalable
 |image:https://i.imgur.com/JwtpqOM.png[height=160]
 
-|11. `HullCollisionShape`
+|11. {url-api}/collision/shapes/HullCollisionShape.html[`HullCollisionShape`]
 
-* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [x] polyhedral
-* positive margin
-* imprecise
-* fully scalable
-
+{item} convex +
+{item} positive margin +
+{item} imprecise +
+{item} fully scalable
 |image:https://i.imgur.com/Rf61rcw.png[height=160]
 
-|12. `MeshCollisionShape`
+|12. {url-api}/collision/shapes/MeshCollisionShape.html[`MeshCollisionShape`]
 
-* [x] concave
-* [ ] convex
-* [ ] infinite
-* [x] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable
-
+{item} concave +
+{item} positive margin +
+{item} precise +
+{item} fully scalable
 |image:https://i.imgur.com/glB3Ujk.png[height=160]
 
-|13. `MultiSphere`
+|13. {url-api}/collision/shapes/MultiSphere.html[`MultiSphere`]
 
-* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable
-
+{item} convex +
+{item} positive margin +
+{item} precise +
+{item} fully scalable
 |image:https://i.imgur.com/nTZEc8C.png[height=160]
 
-|14. `PlaneCollisionShape`
+|14. {url-api}/collision/shapes/PlaneCollisionShape.html[`PlaneCollisionShape`]
 
-* [x] concave
-* [ ] convex
-* [x] infinite
-* [x] nonMoving
-* [ ] polyhedral
-* positive margin
-* precise
-* fully scalable, but why bother?
-
+{item} concave and infinite +
+{item}  positive margin +
+{item}  precise +
+{item}  fully scalable, but why bother?
 |(no image yet)
 
-|15. `SimplexCollisionShape`
+|15. {url-api}/collision/shapes/SimplexCollisionShape.html[`SimplexCollisionShape`]
 
-* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [x] polyhedral
-* positive margin
-* imprecise
-* not scalable
-
+{item} convex +
+{item} positive margin +
+{item} imprecise +
+{item} not scalable
 |image:https://i.imgur.com/l1fYSfc.png[height=160]
 
-|16. `SphereCollisionShape`
+|16. {url-api}/collision/shapes/SphereCollisionShape.html[`SphereCollisionShape`]
 
-* [ ] concave
-* [x] convex
-* [ ] infinite
-* [ ] nonMoving
-* [ ] polyhedral
-* zero margin
-* precise
-* may be scaled uniformly
-
+{item} convex +
+{item} zero margin +
+{item} precise +
+{item} uniform scaling only
 |image:https://i.imgur.com/OPYrxRe.png[height=160]
 
 |===
