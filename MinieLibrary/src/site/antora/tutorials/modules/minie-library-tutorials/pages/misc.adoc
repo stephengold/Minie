@@ -1,4 +1,4 @@
-= Miscelaneous tutorial material
+= Miscellaneous tutorial material
 :experimental:
 :url-enwiki: https://en.wikipedia.org/wiki
 :url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
@@ -63,7 +63,7 @@ PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();
 
 NOTE: The world max/min bounds are used
 only by the `AXIS_SWEEP_3` and `AXIS_SWEEP_3_32` broadphase algorithms.
-The `SIMPLE` and `DBVT` algorithms ignore those paramters.
+The `SIMPLE` and `DBVT` algorithms ignore those parameters.
 
 == Contact-and-constraint solver types
 

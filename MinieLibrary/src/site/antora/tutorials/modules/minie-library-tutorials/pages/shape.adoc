@@ -430,7 +430,7 @@ There are various approaches,
 depending on what the developer knows about the object's shape.
 If the model's mesh is generated procedurally, it may be possible
 to decompose it during the generation process.
-Or if the object is modelled in Blender,
+Or if the object is modeled in Blender,
 it may be practical to manually decompose it there
 into meshes that are convex or nearly so.
 In both cases, the desired compound shape can then be generated using
@@ -450,9 +450,9 @@ CollisionShape shape
 ----
 
 The V-HACD algorithm is costly to run, but in many applications it can
-be run during in advance and stored in J3O format until needed.
+be performed in advance and stored in J3O format until needed.
 During simulation, the resulting shape will usually be much more efficient
-than a `GImpactCollisionShape`.
+than a {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`].
 
 == Summary
 
@@ -465,8 +465,8 @@ than a `GImpactCollisionShape`.
 * Margin distorts the effective shape of imprecise collision shapes.
 * Most collision shapes can be scaled, but not all can be scaled non-uniformly.
 * Not all collision shapes are suitable for dynamic rigid bodies.
-* When applying a non-symmetric shape to a dynamic rigid body,
-  make sure that the center and principal axes are reasonable.
+* When applying a asymmetric shape to a dynamic rigid body,
+  make sure that its center and principal axes are plausible.
 * Use the simplest shape that yields the desired behavior.
 * To speed up simulation of objects with non-convex shapes,
-  decompose them into convex ones, either by hand or using V-HACD.
+  decompose them into convex ones, either during construction or using V-HACD.

@@ -441,7 +441,7 @@ obstacles found by the sweep test.
 
 Because CCD involves extra computation, it's disabled by default.
 Since it's only necessary for fast-moving bodies, it's enabled only
-when a body's distance travelled per time step exceeds a threshold.
+when a body's distance traveled per time step exceeds a threshold.
 To enable CCD for a particular rigid body,
 increase its activation threshold using
 `rigidBody.setCcdMotionThreshold(distancePerTimeStep)`.
