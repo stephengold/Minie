@@ -192,7 +192,7 @@
 <div class="paragraph">
 <p>A <em>collision shape</em>
 describes the shape and size of a collision object such as a rigid body.
-The examples so far have all used spheres and cubes.
+The examples so far have all used spheres and/or cubes.
 However, there are actually 16 subclasses of
 <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/CollisionShape.html"><code>CollisionShape</code></a>.
 Here they are in lexicographic order,
@@ -334,26 +334,36 @@ with key characteristics and illustrations:</p>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In this context,
+<em>concave</em> doesn&#8217;t imply that the shape in question must be
+<a href="https://en.wikipedia.org/wiki/Convex_set#Non-convex_set">non-convex in the mathematical sense</a>.
+Rather, it is a property of specific <code>CollisionShape</code> subclasses.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_limitations_of_particular_subclasses"><a class="anchor" href="#_limitations_of_particular_subclasses"></a>Limitations of particular subclasses</h2>
+<h2 id="_suitability_for_dynamic_bodies"><a class="anchor" href="#_suitability_for_dynamic_bodies"></a>Suitability for dynamic bodies</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_suitability_for_dynamic_rigid_bodies"><a class="anchor" href="#_suitability_for_dynamic_rigid_bodies"></a>Suitability for dynamic rigid bodies</h3>
 <div class="paragraph">
-<p>Not all collision shapes are suitable for dynamic rigid bodies.
-In particular, the following shapes are suitable ONLY
-for kinematic or static collision objects:</p>
+<p>Not all collision shapes are suitable for dynamic rigid bodies.</p>
+</div>
+<div class="paragraph">
+<p>In particular, the following shapes are suitable <strong>only</strong>
+for kinematic or static collision objects because
+Bullet cannot calculate their mass distributions:</p>
 </div>
 <div class="ulist">
 <ul>
-<li>
-<p><code>Box2dShape</code></p>
-</li>
-<li>
-<p><code>Convex2dShape</code></p>
-</li>
 <li>
 <p><code>EmptyShape</code></p>
 </li>
@@ -366,28 +376,106 @@ for kinematic or static collision objects:</p>
 <li>
 <p><code>PlaneCollisionShape</code></p>
 </li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Furthermore,
+collision detection doesn&#8217;t work well between zero-thickness shapes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Box2dShape</code></p>
+</li>
+<li>
+<p><code>Convex2dShape</code></p>
+</li>
 <li>
 <p><code>SimplexCollisionShape</code> with 1-3 vertices</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>(Simplex shapes with 4 vertices are fine for dynamic rigid bodies.)</p>
+<p>There are many non-symmetric shapes
+that can be applied to dynamic rigid bodies.
+With such shapes, however, care should be taken to ensure
+that the center and principal axes are reasonable:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>CompoundCollisionShape</code></p>
+</li>
+<li>
+<p><code>GImpactCollisionShape</code></p>
+</li>
+<li>
+<p><code>HullCollisionShape</code></p>
+</li>
+<li>
+<p><code>MultiSphere</code></p>
+</li>
+<li>
+<p><code>SimplexCollisionShape</code> with 4 vertices</p>
+</li>
+</ul>
 </div>
-<div class="sect2">
-<h3 id="_precision_and_margins"><a class="anchor" href="#_precision_and_margins"></a>Precision and margins</h3>
 <div class="paragraph">
-<p>Most collision shapes incorporate a margin.
+<p>At the very least,
+the shape&#8217;s center should be located <strong>inside</strong> its convex hull.</p>
+</div>
+<div class="paragraph">
+<p>The safest shapes for dynamic rigid bodies are the <em>primitives</em>,
+since their centers and principal axes are known:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>BoxCollisionShape</code></p>
+</li>
+<li>
+<p><code>CapsuleCollisionShape</code></p>
+</li>
+<li>
+<p><code>ConeCollisionShape</code></p>
+</li>
+<li>
+<p><code>CylinderCollisionShape</code></p>
+</li>
+<li>
+<p><code>SphereCollisionShape</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_margin"><a class="anchor" href="#_margin"></a>Margin</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All collision shapes except <code>CapsuleCollisionShape</code> and <code>SphereCollisionShape</code>
+incorporate a <em>collision margin</em>.
 According to the Bullet Manual, the purpose of margin is
 "to improve performance and reliability of the collision detection."</p>
 </div>
 <div class="paragraph">
-<p>While methods are provided to adjust margins, doing so is not recommended.</p>
+<p>For all shapes with margin, the default margin is 0.04 physics-space units.
+Methods are provided to adjust their margins, but doing so is not recommended.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_precise_shapes"><a class="anchor" href="#_precise_shapes"></a>Precise shapes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <em>precise shape</em> is a collision shape whose effective shape
+(as determined by collisions, contact tests, ray tests, and sweep tests)
+is unaffected by margin.</p>
 </div>
 <div class="paragraph">
-<p>For certain shapes, margin increases the effective size of the collision object
-and distorts its effective shape:</p>
+<p>While most of the <code>CollisionShape</code> subtypes are precise,
+there are 5 that are not.
+For 4 of them, margin simply bloats their effective shapes:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -407,65 +495,30 @@ and distorts its effective shape:</p>
 </div>
 <div class="paragraph">
 <p>Margin also distorts a <code>CylinderCollisionShape</code>,
-but its effect on size is complicated.</p>
+but its effect on size is more complicated.</p>
 </div>
 <div class="paragraph">
-<p>Distortion due to margin is most noticeable for small shapes.</p>
+<p>Since margin is defined in physics-space units,
+its distortions are most noticeable for small shapes.</p>
 </div>
 <div class="paragraph">
-<p>When using imprecise shapes, you can compensate somewhat for margin
+<p>When using imprecise shapes, you may want to compensate for margin
 by shrinking the shape&#8217;s dimensions
 (for a <code>ConeCollisionShape</code> or <code>CylinderCollisionShape</code>)
-or moving its defining vertices inward
+or by moving its defining vertices inward
 (for a <code>SimplexCollisionShape</code> or <code>HullCollisionShape</code>).</p>
 </div>
 <div class="paragraph">
-<p>Another possible workaround is to scale the physics space so that
+<p>Another possible workaround would be to scale the physics space so that
 the effects of margin become less obvious.</p>
 </div>
-<div class="paragraph">
-<p>If these workarounds are impractical,
-use a "precise" shape, one that isn&#8217;t distorted by margin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>Box2dShape</code></p>
-</li>
-<li>
-<p><code>BoxCollisionShape</code></p>
-</li>
-<li>
-<p><code>CapsuleCollisionShape</code></p>
-</li>
-<li>
-<p><code>GImpactCollisionShape</code></p>
-</li>
-<li>
-<p><code>HeightfieldCollisionShape</code></p>
-</li>
-<li>
-<p><code>MeshCollisionShape</code></p>
-</li>
-<li>
-<p><code>MultiSphere</code></p>
-</li>
-<li>
-<p><code>PlaneCollisionShape</code></p>
-</li>
-<li>
-<p><code>SphereCollisionShape</code></p>
-</li>
-</ul>
-</div>
-</div>
 <div class="sect2">
-<h3 id="_scalability"><a class="anchor" href="#_scalability"></a>Scalability</h3>
+<h3 id="_scaling"><a class="anchor" href="#_scaling"></a>Scaling</h3>
 <div class="paragraph">
-<p>Some applications require collision shapes that are scalable
+<p>Some applications require collision shapes that are <em>scalable</em>
 (can be dynamically shrunk or enlarged).
 However, not all collision shapes can scale arbitrarily.
-In particular,</p>
+In particular:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -503,12 +556,13 @@ is applicable to particular shape:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_an_algorithm_for_choosing_a_shape"><a class="anchor" href="#_an_algorithm_for_choosing_a_shape"></a>An algorithm for choosing a shape</h2>
+<h2 id="_choosing_a_shape"><a class="anchor" href="#_choosing_a_shape"></a>Choosing a shape</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>For efficient simulation, the general rule is:
-"Use the simplest shape that yields the desired behavior."
-By staying focused on behavior, you avoid modeling details that don&#8217;t matter.
+"Use the simplest shape that yields the desired <strong>behavior</strong>."
+By focusing on behavior rather than appearance,
+you may avoid modeling details that don&#8217;t matter.
 For instance:</p>
 </div>
 <div class="ulist">
@@ -517,10 +571,10 @@ For instance:</p>
 <p>If a glass bottle stays sealed, its collision shape need not be hollow.</p>
 </li>
 <li>
-<p>A character&#8217;s hair probably shouldn&#8217;t be included in their collision shape.</p>
+<p>A character&#8217;s hair should probably be omitted from their collision shape.</p>
 </li>
 <li>
-<p>Any small shape that encounters only large, flat surfaces
+<p>Any small shape that only encounters large, flat surfaces
 can probably be approximated by a convex hull.</p>
 </li>
 </ul>
@@ -531,20 +585,27 @@ beginners are often tempted to use mesh-based shapes
 (such as <code>GImpactCollisionShape</code>) for everything.
 However, since mesh-based collision detection is CPU-intensive, primitive
 convex shapes (such as boxes and spheres) are usually a better choice, even
-if they don&#8217;t match the model&#8217;s shape exactly.
+when they don&#8217;t match the model&#8217;s shape exactly.
 In particular, <code>CapsuleCollisionShape</code> is often used with humanoid models.</p>
+</div>
+<div class="paragraph">
+<p>The following pseudo-code algorithm may be helpful:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre>if (the object doesn't move and isn't involved in collisions) {
     use an EmptyShape or don't add the object to the space
-} else if (the object doesn't move and its shape can be approximated by an infinite plane) {
+} else if (the object doesn't move
+           and its shape can be approximated by an infinite plane) {
     use a PlaneCollisionShape
-} else if (the object doesn't move and its shape can be approximated by point, line segment, or triangle) {
+} else if (the object doesn't move
+          and its shape can be approximated by point, line segment, or triangle) {
     use a SimplexCollisionShape
-} else if (the object doesn't move and its shape can be approximated by rectangle) {
+} else if (the object doesn't move
+           and its shape can be approximated by rectangle) {
     use a Box2dShape
-} else if (the object doesn't move and its shape can be approximated by convex polygon) {
+} else if (the object doesn't move
+           and its shape can be approximated by 2-D convex polygon) {
     use a Convex2dShape
 } else if (its shape can be approximated by a tetrahedron) {
     use a SimplexCollisionShape
@@ -559,14 +620,12 @@ In particular, <code>CapsuleCollisionShape</code> is often used with humanoid mo
 } else if (its shape can be approximated by a centered cone) {
     use a ConeCollisionShape
 } else if (its shape can be approximated by an ellipsoid
-            or an eccentric sphere
-            or an eccentric capsule
-            or the convex hull of multiple spheres) {
+           or an eccentric sphere
+           or an eccentric capsule
+           or the convex hull of multiple spheres) {
     use a MultiSphere
-} else if (its shape can be approximated by an eccentric rectangular solid
-            or an eccentric cylinder
-            or an eccentric cone
-            or a combination of convex primitives) {
+} else if (its shape can be approximated by an eccentric primitive
+           or a combination of convex primitives) {
     use a CompoundCollisionShape
 } else if (the object does not move) {
     if (it is a 2-D heightfield) {
@@ -601,10 +660,32 @@ In particular, <code>CapsuleCollisionShape</code> is often used with humanoid mo
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_convex_decomposition"><a class="anchor" href="#_convex_decomposition"></a>Convex decomposition</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Minie has Khaled Mamou&#8217;s Volumetric-Hierarchical Approximate Convex
-Decomposition (V-HACD) algorithm built in.
-V-HACD makes it easy to decompose any 3-D model into a
+<p>Faced with simulating a non-convex object such as a ring,
+the it&#8217;s best to decompose it into convex shapes that,
+when recombined, will approximate the desired behavior.</p>
+</div>
+<div class="paragraph">
+<p>There are various approaches,
+depending on what the developer knows about the object&#8217;s shape.
+If the object&#8217;s mesh is generated procedurally, it may be possible
+to decompose it during the generation process.
+Or if the object is modelled in Blender,
+it may be practical to manually decompose it there
+into meshes that are convex or nearly so.
+In those cases, the desired compound shape can be generated using
+<code>CollisionShapeFactory.createDynamicMeshShape()</code>.</p>
+</div>
+<div class="paragraph">
+<p>For situations where manual decomposition is impractical,
+Minie incorporates Khaled Mamou&#8217;s
+<a href="https://github.com/kmammou/v-hacd">Volumetric-Hierarchical Approximate Convex Decomposition (V-HACD) algorithm</a>.
+V-HACD makes it easy to decompose a 3-D model into a
 compound of hull shapes:</p>
 </div>
 <div class="listingblock">
@@ -616,9 +697,43 @@ CollisionShape shape
 </div>
 <div class="paragraph">
 <p>The V-HACD algorithm is costly to run, but in many applications it can
-be run during the build process and stored in J3O format.
-At runtime, the resulting shape will usually be far more efficient
+be run during in advance and stored in J3O format until needed.
+During simulation, the resulting shape will usually be much more efficient
 than a <code>GImpactCollisionShape</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Minie provides 16 types of collision shapes,
+ranging from the trivial <code>EmptyShape</code> to the costly <code>GImpactCollisionShape</code>.</p>
+</li>
+<li>
+<p>Not all collision shapes are suitable for dynamic rigid bodies.</p>
+</li>
+<li>
+<p>When applying a non-symmetric shape to a dynamic rigid body,
+make sure that the center and principal axes are reasonable.</p>
+</li>
+<li>
+<p>Most collision shapes incorporate a margin, and in some cases the
+margin distorts the effective shape, making it imprecise.</p>
+</li>
+<li>
+<p>Most collision shapes can be scaled, but not all can be scaled non-uniformly.</p>
+</li>
+<li>
+<p>Use the simplest shape that yields the desired behavior.</p>
+</li>
+<li>
+<p>To speed up simulation of objects with non-convex shapes,
+decompose them into convex ones, either by hand or using V-HACD.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
