@@ -67,8 +67,9 @@ The `SIMPLE` and `DBVT` algorithms ignore those parameters.
 
 == Contact-and-constraint solver types
 
-By default, a Sequential Impulse (SI) solver is
-used to resolve contacts and constraints.
+By default, a
+http://allenchou.net/2013/12/game-physics-constraints-sequential-impulse[Sequential Impulse (SI) solver]
+is used to resolve contacts and constraints.
 To specify a different type of solver, invoke `setSolverType()`
 before attaching the AppState:
 
