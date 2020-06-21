@@ -253,7 +253,7 @@ the simulator cannot determine their mass distributions:
 * {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`]
 * {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`]
 
-The safest shapes for dynamic rigid bodies are the _primitives_ listed below.
+The safest shapes for dynamic rigid bodies are the 5 _primitives_ listed below.
 All have at least one {url-enwiki}/Rotational_symmetry[axis of symmetry],
 and their centers and axes are well-known:
 
@@ -279,7 +279,7 @@ Things to notice while running the app:
   is located at the end of its handle.
 . After landing, the mallet tends to stand erect.
   Although this position seems unnatural, it is the precisely the one
-  that will minimize the mallet's
+  that minimizes the mallet's
   {url-enwiki}/Gravitational_potential[gravitational potential].
 
 The following classes can generate asymmetric shapes for rigid bodies:
@@ -304,6 +304,9 @@ Things to notice while running the app:
 . After landing, the mallet comes to rest on its side,
   which is a more natural behavior for a mallet.
 
+Note: The `principalAxes()` method relies on each child having an accurate
+center, axes, and moment of inertia.
+
 == Scaling
 
 Some applications require collision shapes that are _scalable_
@@ -318,7 +321,7 @@ In particular:
   {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`], and
   {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
   support only uniform scaling, where all axes have the same scale factor.
-  For instance, (0.2,0.2,0.2) or (9,9,9).
+  For instance, (0.2, 0.2, 0.2) or (9,9,9).
 * {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`]
   allows the height and base to scale independently,
   but the scale factors of both base axes must be equal.
@@ -341,12 +344,12 @@ if (shape.canScale(newScale)) {
 
 For efficient simulation, the general rule is:
 "Use the simplest shape that yields the desired *behavior*."
-By focusing on behavior rather than appearance,
-you may avoid simulating details that don't matter.
+Focusing on behavior rather than appearance
+helps you avoid simulating details that don't matter.
 For instance:
 
 * A character's hair should probably be omitted from their collision shape.
-* Any small shape that only encounters large, flat surfaces
+* Any small object that only encounters large, flat surfaces
   can probably be approximated by a convex hull.
 * If a transparent container remains sealed,
   its collision shape need not be hollow.
@@ -418,7 +421,8 @@ if (the object doesn't move and isn't involved in collisions) {
 (Pseudocode adapted from the flowchart on page 13 of
 https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf[the Bullet User Manual].)
 
-NOTE: `GImpactCollisionShape` should be your last resort!
+NOTE: {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`] 
+should be your last resort!
 
 == Convex decomposition
 
