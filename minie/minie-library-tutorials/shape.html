@@ -529,7 +529,7 @@ the simulator cannot determine their mass distributions:</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The safest shapes for dynamic rigid bodies are the <em>primitives</em> listed below.
+<p>The safest shapes for dynamic rigid bodies are the 5 <em>primitives</em> listed below.
 All have at least one <a href="https://en.wikipedia.org/wiki/Rotational_symmetry">axis of symmetry</a>,
 and their centers and axes are well-known:</p>
 </div>
@@ -577,7 +577,7 @@ is located at the end of its handle.</p>
 <li>
 <p>After landing, the mallet tends to stand erect.
 Although this position seems unnatural, it is the precisely the one
-that will minimize the mallet&#8217;s
+that minimizes the mallet&#8217;s
 <a href="https://en.wikipedia.org/wiki/Gravitational_potential">gravitational potential</a>.</p>
 </li>
 </ol>
@@ -627,6 +627,10 @@ which is a more natural behavior for a mallet.</p>
 </li>
 </ol>
 </div>
+<div class="paragraph">
+<p>Note: The <code>principalAxes()</code> method relies on each child having an accurate
+center, axes, and moment of inertia.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -650,7 +654,7 @@ the only allowed scale is (1,1,1).</p>
 <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/ConeCollisionShape.html"><code>ConeCollisionShape</code></a>, and
 <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/SphereCollisionShape.html"><code>SphereCollisionShape</code></a>
 support only uniform scaling, where all axes have the same scale factor.
-For instance, (0.2,0.2,0.2) or (9,9,9).</p>
+For instance, (0.2, 0.2, 0.2) or (9,9,9).</p>
 </li>
 <li>
 <p><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a>
@@ -682,8 +686,8 @@ is applicable to particular shape:</p>
 <div class="paragraph">
 <p>For efficient simulation, the general rule is:
 "Use the simplest shape that yields the desired <strong>behavior</strong>."
-By focusing on behavior rather than appearance,
-you may avoid simulating details that don&#8217;t matter.
+Focusing on behavior rather than appearance
+helps you avoid simulating details that don&#8217;t matter.
 For instance:</p>
 </div>
 <div class="ulist">
@@ -692,7 +696,7 @@ For instance:</p>
 <p>A character&#8217;s hair should probably be omitted from their collision shape.</p>
 </li>
 <li>
-<p>Any small shape that only encounters large, flat surfaces
+<p>Any small object that only encounters large, flat surfaces
 can probably be approximated by a convex hull.</p>
 </li>
 <li>
@@ -779,7 +783,8 @@ is often used with humanoid models.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>GImpactCollisionShape</code> should be your last resort!
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/GImpactCollisionShape.html"><code>GImpactCollisionShape</code></a>
+should be your last resort!
 </td>
 </tr>
 </table>
@@ -787,16 +792,44 @@ is often used with humanoid models.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_convex_decomposition"><a class="anchor" href="#_convex_decomposition"></a>Convex decomposition</h2>
+<h2 id="_automated_shape_generation"><a class="anchor" href="#_automated_shape_generation"></a>Automated shape generation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Faced with simulating a non-convex object such as a ring,
+<p>The <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/util/CollisionShapeFactory.java"><code>CollisionShapeFactory</code></a> class
+automates the creation of collision shapes for models.</p>
+</div>
+<div class="paragraph">
+<p>The <code>createDynamicMeshShape()</code> method
+creates a collision shape suitable for a dynamic rigid body.
+It constructs a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/HullCollisionShape.html"><code>HullCollisionShape</code></a>
+for each <code>Geometry</code>, and if the model&#8217;s root spatial is a <code>Node</code>,
+it combines all the hulls into a single compound shape.</p>
+</div>
+<div class="paragraph">
+<p>The <code>createMeshShape()</code> method
+creates a collision shape suitable for a static rigid body.
+It constructs a
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a>
+for each <code>TerrainQuad</code> and <code>TerrainPatch</code> in the model.
+It constructs a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/MeshCollisionShape.html"><code>MeshCollisionShape</code></a>
+for each non-terrain Geometry in the model.
+And if the model&#8217;s root spatial is a <code>Node</code>,
+it combines all the heightfields and hulls into a single compound shape.</p>
+</div>
+<div class="paragraph">
+<p>When generating compound shapes, both these methods skip over any geometries
+that have the <code>"JmePhysicsIgnore"</code> user-data key set to <code>true</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_convex_decomposition"><a class="anchor" href="#_convex_decomposition"></a>Convex decomposition</h3>
+<div class="paragraph">
+<p>Faced with the task of simulating a non-convex rigid body (such as a ring),
 it&#8217;s best to decompose it into convex shapes that,
 when recombined, will approximate the desired behavior.</p>
 </div>
 <div class="paragraph">
 <p>There are various approaches,
-depending on what the developer knows about the object&#8217;s shape.
+depending how much the developer knows about the object&#8217;s shape.
 If the model&#8217;s mesh is generated procedurally, it may be possible
 to decompose it during the generation process.
 Or if the object is modeled in Blender,
@@ -824,6 +857,7 @@ CollisionShape shape
 be performed in advance and stored in J3O format until needed.
 During simulation, the resulting shape will usually be much more efficient
 than a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/GImpactCollisionShape.html"><code>GImpactCollisionShape</code></a>.</p>
+</div>
 </div>
 </div>
 </div>
