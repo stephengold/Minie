@@ -427,7 +427,7 @@ should be your last resort!
 
 == Automated shape generation
 
-The {url-api}/util/CollisionShapeFactory.java[`CollisionShapeFactory`] class
+The {url-api}/util/CollisionShapeFactory.html[`CollisionShapeFactory`] class
 automates the creation of collision shapes for models.
 
 The `createDynamicMeshShape()` method
