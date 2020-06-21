@@ -1,6 +1,7 @@
 = Choosing collision shapes
 :item: &rarr;
 :url-enwiki: https://en.wikipedia.org/wiki
+:url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
 :url-shape: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
@@ -421,17 +422,41 @@ if (the object doesn't move and isn't involved in collisions) {
 (Pseudocode adapted from the flowchart on page 13 of
 https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf[the Bullet User Manual].)
 
-NOTE: {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`] 
+NOTE: {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`]
 should be your last resort!
 
-== Convex decomposition
+== Automated shape generation
 
-Faced with simulating a non-convex object such as a ring,
+The {url-api}/util/CollisionShapeFactory.java[`CollisionShapeFactory`] class
+automates the creation of collision shapes for models.
+
+The `createDynamicMeshShape()` method
+creates a collision shape suitable for a dynamic rigid body.
+It constructs a {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
+for each `Geometry`, and if the model's root spatial is a `Node`,
+it combines all the hulls into a single compound shape.
+
+The `createMeshShape()` method
+creates a collision shape suitable for a static rigid body.
+It constructs a
+{url-shape}/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`]
+for each `TerrainQuad` and `TerrainPatch` in the model.
+It constructs a {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`]
+for each non-terrain Geometry in the model.
+And if the model's root spatial is a `Node`,
+it combines all the heightfields and hulls into a single compound shape.
+
+When generating compound shapes, both these methods skip over any geometries
+that have the `"JmePhysicsIgnore"` user-data key set to `true`.
+
+=== Convex decomposition
+
+Faced with the task of simulating a non-convex rigid body (such as a ring),
 it's best to decompose it into convex shapes that,
 when recombined, will approximate the desired behavior.
 
 There are various approaches,
-depending on what the developer knows about the object's shape.
+depending how much the developer knows about the object's shape.
 If the model's mesh is generated procedurally, it may be possible
 to decompose it during the generation process.
 Or if the object is modeled in Blender,
