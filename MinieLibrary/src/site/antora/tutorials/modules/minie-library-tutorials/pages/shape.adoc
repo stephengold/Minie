@@ -436,6 +436,12 @@ It constructs a {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
 for each `Geometry`, and if the model's root spatial is a `Node`,
 it combines all the hulls into a single compound shape.
 
+This approach comes with 3 caveats:
+. For good fidelity, each mesh in the model must be convex or nearly so.
+. The center of the resulting collision shape is at the model's origin,
+  which might not be a plausible location for it.
+. It's often possible to generate a more efficient shape by hand.
+
 The `createMeshShape()` method
 creates a collision shape suitable for a static rigid body.
 It constructs a
