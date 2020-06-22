@@ -1,0 +1,63 @@
+= Physics simulation without appstates
+:experimental:
+:url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
+
+{url-api}/BulletAppState.html[`BulletAppState`] provides a convenient interface
+for configuring, accessing, updating, and debugging
+a {url-api}/PhysicsSpace.html[`PhysicsSpace`].
+
+However, if your application doesn't need debug visualization,
+you can instantiate a space directly and update it explicitly.
+
+{url-tutorial}/HelloUpdate.java[HelloUpdate] is a simple
+application that demonstrates direct instantiation and explicit updating.
+
+If you run in a headless configuration such as a server,
+you might not need a scene graph.
+By loading the native library explicitly
+with `NativeLibraryLoader.loadNativeLibrary("bulletjme", true)`,
+you can completely avoid JMonkeyEngine's initialization.
+
+{url-tutorial}/HelloConsole.java[HelloConsole] is a console
+application that demonstrates explicitly loading the native library.
+
+For applications that don't require a scene graph, consider using
+https://github.com/stephengold/Libbulletjme[Libbulletjme] instead of Minie.
+
+== Constructing the space
+
+Currently there are 7 ways to construct a
+{url-api}/PhysicsSpace.html[`PhysicsSpace`]:
+
+[source,java]
+----
+PhysicsSpace space1 = new PhysicsSpace(worldMin, worldMax, broadphase, solver);
+PhysicsSpace space2 = new PhysicsSpace(worldMin, worldMax, broadphase);
+PhysicsSpace space3 = new PhysicsSpace(worldMin, worldMax);
+PhysicsSpace space4 = new PhysicsSpace(broadphaseType);
+PhysicsSpace space5 = new PhysicsSoftSpace(worldMin, worldMax, broadphase);
+PhysicsSpace space6
+        = new MultiBodySpace(worldMin, worldMax, broadphaseType, solverType)
+PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);
+----
+
+TODO
+
+== Updating the space
+
+There are 2 methods for updating a {url-api}/PhysicsSpace.html[`PhysicsSpace`]:
+
+[source,java]
+----
+space.update(timeInterval);
+space.update(timeInterval, maxSteps);
+----
+
+TODO
+
+== Summary
+
+* For applications where the app state is inconvenient, it's possible to
+  instantiate a space directly and update it explicitly.
+* In case you need to bypass JMonkeyEngine initialization, you can load
+  the native library explicitly.
