@@ -199,27 +199,27 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> provides a convenient interface
+<p>The <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> class
+provides a convenient interface
 for configuring, accessing, updating, and debugging
 a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
 </div>
 <div class="paragraph">
-<p>However, if your application doesn&#8217;t need debug visualization,
-you can instantiate a space directly and update it explicitly.</p>
+<p>However, if your application doesn&#8217;t require debug visualization,
+it can instantiate a space directly and update it explicitly.</p>
 </div>
 <div class="paragraph">
-<p>{url-tutorial}/HelloUpdate.java[HelloUpdate] is a simple
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloUpdate.java">HelloUpdate</a> is a simple
 application that demonstrates direct instantiation and explicit updating.</p>
 </div>
 <div class="paragraph">
-<p>If you run in a headless configuration such as a server,
-you might not need a scene graph.
-By loading the native library explicitly
-with <code>NativeLibraryLoader.loadNativeLibrary("bulletjme", true)</code>,
-you can completely avoid JMonkeyEngine&#8217;s initialization.</p>
+<p>An application running in a headless configuration such as a server
+might not require a scene graph.
+By using <code>NativeLibraryLoader.loadNativeLibrary()</code> to load the native library,
+such applications can completely avoid JMonkeyEngine&#8217;s initialization.</p>
 </div>
 <div class="paragraph">
-<p>{url-tutorial}/HelloConsole.java[HelloConsole] is a console
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloConsole.java">HelloConsole</a> is a console
 application that demonstrates explicitly loading the native library.</p>
 </div>
 <div class="paragraph">
@@ -260,12 +260,22 @@ PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);</code>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.update(timeInterval);
-space.update(timeInterval, maxSteps);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.update(timeInterval, maxSteps);
+space.update(timeInterval);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>TODO</p>
+<p>To single-step the simulation, specify <code>maxSteps = 0</code>.
+The time step will be <code>timeInterval</code> seconds.</p>
+</div>
+<div class="paragraph">
+<p>To attempt real-time simulation, specify <code>maxSteps &gt; 0</code>.
+The time step will be <code>space.getAccuracy()</code>
+and up to <code>maxSteps</code> steps will be simulated for each invocation.</p>
+</div>
+<div class="paragraph">
+<p>If <code>maxSteps</code> is not specified, <code>space.maxSubSteps()</code> is used.
+But if <code>maxSteps = 0</code>, the time step is capped at <code>space.maxTimeStep()</code> seconds.</p>
 </div>
 </div>
 </div>
