@@ -42,7 +42,7 @@ constructors:
 rbc1 = new RigidBodyControl(collisionShape, mass);
 rbc2 = new RigidBodyControl(collisionShape);
 rbc3 = new RigidBodyControl(mass);
----
+----
 
 If you specify `mass > 0`, a dynamic body is created.
 If you specify `mass = 0`, a static one is created.
