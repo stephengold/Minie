@@ -1,0 +1,31 @@
+= An introduction to character physics
+:url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
+
+The {url-api}/object/PhysicsCharacter.html[`PhysicsCharacter`]
+class (a subclass of
+{url-api}/collision/PhysicsCollisionObject.html[`PhysicsCollisionObject`])
+provides a simplified physics model for characters.
+
+To associate a character with a `Spatial`, there's
+{url-api}/control/CharacterControl.html[`CharacterControl`],
+a physics control that extends
+{url-api}/objects/PhysicsCharacter.html[`PhysicsCharacter`].
+
+NOTE: Once again, the physics control and its collision object
+are the same object.
+
+== Constructors
+
+TODO
+
+== Tunable parameters
+
+TODO
+
+== BetterCharacterControl
+
+TODO
+
+== Summary
+
+TODO

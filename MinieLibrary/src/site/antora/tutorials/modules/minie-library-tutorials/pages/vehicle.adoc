@@ -1,0 +1,26 @@
+= An introduction to vehicle physics
+:url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
+
+The {url-api}/object/PhysicsVehicle.html[`PhysicsVehicle`]
+class (a subclass of {url-api}/object/PhysicsRigidBody.html[`PhysicsRigidBody`])
+provides a simplified physics model for vehicles.
+
+To associate a vehicle with a `Spatial`, there's
+{url-api}/control/VehicleControl.html[`VehicleControl`],
+a physics control that extends
+{url-api}/objects/PhysicsVehicle.html[`PhysicsVehicle`].
+
+NOTE: Yet again, the physics control and its collision object
+are the same object.
+
+== Constructors
+
+TODO
+
+== Tunable parameters
+
+TODO
+
+== Summary
+
+TODO

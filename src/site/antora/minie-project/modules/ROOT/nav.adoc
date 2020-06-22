@@ -10,6 +10,8 @@
 ** xref:minie-library-tutorials:shape.adoc[Collision shapes]
 ** xref:minie-library-tutorials:rbc.adoc[RigidBodyControl]
 ** xref:minie-library-tutorials:debug.adoc[Debugging]
+** xref:minie-library-tutorials:character.adoc[Characters]
+** xref:minie-library-tutorials:vehicle.adoc[Vehicles]
 ** xref:minie-library-tutorials:new6dof.adoc[New6Dof joints]
 ** xref:minie-library-tutorials:dac.adoc[Ragdolls]
 ** xref:minie-library-tutorials:detect.adoc[Collision detection]
