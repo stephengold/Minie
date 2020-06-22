@@ -60,14 +60,14 @@ jobs:
     - uses: gradle/wrapper-validation-action@v1
     - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
-  Java11-Windows:
+  Java13-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v1
       with:
-        java-version: 11
+        java-version: 13
     - uses: gradle/wrapper-validation-action@v1
     - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
