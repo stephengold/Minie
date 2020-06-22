@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Miscellaneous tutorial material :: The Minie project</title>
-    <link rel="canonical" href="https://stephengold.github.io/Minie/minie/minie-library-tutorials/misc.html">
+    <title>Physics simulation without appstates :: The Minie project</title>
+    <link rel="canonical" href="https://stephengold.github.io/Minie/minie/minie-library-tutorials/server.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
 <meta property="og:image" content="../../_/img/iconx128.png">
-<meta property="og:description" content="Miscellaneous tutorial material">
+<meta property="og:description" content="Physics simulation without appstates">
 <meta property="og:title" content="The Minie project">
 <link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
   </head>
@@ -104,10 +104,10 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="softbody.html">Soft bodies</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="server.html">Physics without appstates</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="misc.html">Miscellany</a>
   </li>
 </ul>
@@ -188,175 +188,101 @@
   <ul>
     <li><a href="../overview.html">The Minie project</a></li>
     <li>Library tutorials</li>
-    <li><a href="misc.html">Miscellany</a></li>
+    <li><a href="server.html">Physics without appstates</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/MinieLibrary/src/site/antora/tutorials/modules/minie-library-tutorials/pages/misc.adoc">Edit this page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/MinieLibrary/src/site/antora/tutorials/modules/minie-library-tutorials/pages/server.adoc">Edit this page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Miscellaneous tutorial material</h1>
+<h1 class="page">Physics simulation without appstates</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This page acts as a holding area for tutorial material that&#8217;s waiting
-to be organized.</p>
+<p><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> provides a convenient interface
+for configuring, accessing, updating, and debugging
+a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>However, if your application doesn&#8217;t need debug visualization,
+you can instantiate a space directly and update it explicitly.</p>
+</div>
+<div class="paragraph">
+<p>{url-tutorial}/HelloUpdate.java[HelloUpdate] is a simple
+application that demonstrates direct instantiation and explicit updating.</p>
+</div>
+<div class="paragraph">
+<p>If you run in a headless configuration such as a server,
+you might not need a scene graph.
+By loading the native library explicitly
+with <code>NativeLibraryLoader.loadNativeLibrary("bulletjme", true)</code>,
+you can completely avoid JMonkeyEngine&#8217;s initialization.</p>
+</div>
+<div class="paragraph">
+<p>{url-tutorial}/HelloConsole.java[HelloConsole] is a console
+application that demonstrates explicitly loading the native library.</p>
+</div>
+<div class="paragraph">
+<p>For applications that don&#8217;t require a scene graph, consider using
+<a href="https://github.com/stephengold/Libbulletjme">Libbulletjme</a> instead of Minie.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_global_configuration"><a class="anchor" href="#_global_configuration"></a>Global configuration</h2>
+<h2 id="_constructing_the_space"><a class="anchor" href="#_constructing_the_space"></a>Constructing the space</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>By default, the native library prints a startup message to <code>System.out</code>.
-Once the library is loaded (but not started) you can disable this message:</p>
+<p>Currently there are 7 ways to construct a
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">NativeLibrary.setStartupMessageEnabled(false);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">PhysicsSpace space1 = new PhysicsSpace(worldMin, worldMax, broadphase, solver);
+PhysicsSpace space2 = new PhysicsSpace(worldMin, worldMax, broadphase);
+PhysicsSpace space3 = new PhysicsSpace(worldMin, worldMax);
+PhysicsSpace space4 = new PhysicsSpace(broadphaseType);
+PhysicsSpace space5 = new PhysicsSoftSpace(worldMin, worldMax, broadphase);
+PhysicsSpace space6
+        = new MultiBodySpace(worldMin, worldMax, broadphaseType, solverType)
+PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Once the native library is loaded,
-you can test whether it uses double-precision arithmetic:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">boolean doublePrecision = NativeLibrary.isDoublePrecision();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can also test whether it was built for debugging
-(with assertions enabled, symbols not stripped,
-and debug information generated):</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">boolean debug = NativeLibrary.isDebug();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The default collision margin for new shapes is 0.04 physics-space units.
-To configure a default margin of 0.1 psu:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">CollisionShape.setDefaultMargin(0.1f);</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The Bullet Manual advises against changing the default margin.
-</td>
-</tr>
-</table>
+<p>TODO</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_broadphase_types"><a class="anchor" href="#_broadphase_types"></a>Broadphase types</h2>
+<h2 id="_updating_the_space"><a class="anchor" href="#_updating_the_space"></a>Updating the space</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
-collision detection.
-To specify a different data structure, use <code>setBroadphaseType()</code>
-on the appstate:</p>
+<p>There are 2 methods for updating a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">SoftPhysicsAppState bas = new SoftPhysicsAppState();
-bas.setBroadphaseType(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
-bas.setWorldMax(new Vector3f(1000f, 10f, 1000f));
-bas.setWorldMin(new Vector3f(-1000f, -10f, -1000f));
-stateManager.attach(bas);
-PhysicsSoftSpace physicsSpace = bas.getPhysicsSoftSpace();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.update(timeInterval);
+space.update(timeInterval, maxSteps);</code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The world max/min bounds are used
-only by the <code>AXIS_SWEEP_3</code> and <code>AXIS_SWEEP_3_32</code> broadphase algorithms.
-The <code>SIMPLE</code> and <code>DBVT</code> algorithms ignore those parameters.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>TODO</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contact_and_constraint_solver_types"><a class="anchor" href="#_contact_and_constraint_solver_types"></a>Contact-and-constraint solver types</h2>
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>By default, a
-<a href="http://allenchou.net/2013/12/game-physics-constraints-sequential-impulse">Sequential Impulse (SI) solver</a>
-is used to resolve contacts and constraints.
-To specify a different type of solver, invoke <code>setSolverType()</code>
-before attaching the AppState:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setSolverType(SolverType.Dantzig);</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-For soft-body simulations, SI is the only supported solver type.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The NNCG solver doesn&#8217;t support multibodies.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_advanced_rigid_body_friction"><a class="anchor" href="#_advanced_rigid_body_friction"></a>Advanced rigid-body friction</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In addition to the basic friction parameter (which affects sliding friction)
-each rigid body has 2 additional friction parameters:
-one for rolling friction and one for spinning friction.
-Both parameters default to zero.</p>
-</div>
-<div class="paragraph">
-<p><em>Rolling friction</em> generates torque orthogonal to the contact normal,
-which tends to slow down a rolling body.
-<em>Spinning friction</em> generates torque parallel to the contact normal,
-which tends to prevent a body from spinning when grasped.</p>
-</div>
-<div class="paragraph">
-<p>To see rolling and spinning friction in action, run
-<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/PoolDemo.java">the PoolDemo application</a>.</p>
-</div>
-<div class="paragraph">
-<p>To simulate objects with grooved surfaces, it&#8217;s also possible to configure
-a rigid body for <em>anisotropic friction</em>:
-friction that depends on the direction of relative motion.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For applications where the app state is inconvenient, it&#8217;s possible to
+instantiate a space directly and update it explicitly.</p>
+</li>
+<li>
+<p>In case you need to bypass JMonkeyEngine initialization, you can load
+the native library explicitly.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
