@@ -202,13 +202,13 @@ To visualize a collision object, it must be associated
 with one or more scene-graph spatial(s).
 Such associations are implemented using <em>physics controls</em>:
 scene-graph controls that implement the
-{url-api}/control/PhysicsControl.html[<code>PhysicsControl</code>] interface.</p>
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/PhysicsControl.html"><code>PhysicsControl</code></a> interface.</p>
 </div>
 <div class="paragraph">
 <p>To associate a rigid body with a <code>Spatial</code>, there&#8217;s a
-{url-api}/control/RigidBodyControl.html[<code>RigidBodyControl</code>] class that extends
-{url-api}/objects/PhysicsRigidBody.html[<code>PhysicsRigidBody</code>] and implements
-{url-api}/control/PhysicsControl.html[<code>PhysicsControl</code>].</p>
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a> class that extends
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/objects/PhysicsRigidBody.html"><code>PhysicsRigidBody</code></a> and implements
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/PhysicsControl.html"><code>PhysicsControl</code></a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -224,11 +224,20 @@ are the same object!
 </table>
 </div>
 <div class="paragraph">
-<p>Because each {url-api}/control/RigidBodyControl.html[<code>RigidBodyControl</code>] (RBC)
+<p>Because each <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a> (RBC)
 instance is a rigid body, you can configure it and add it to a space
 just like a directly instantiated rigid body.
-Adding the control to a <code>Spatial</code> synchronizes the motion of the rigid body
-with that of the <code>Spatial</code>.</p>
+For instance, you can configure friction using <code>setFriction()</code>
+and disable contact response using <code>setContactResponse(false)</code>.</p>
+</div>
+<div class="paragraph">
+<p>After being added to a <code>Spatial</code>,
+the control synchronizes the motion of the rigid body
+with that of the controlled spatial.</p>
+</div>
+<div class="paragraph">
+<p>Disabling a rigid-body control
+causes the body to be removed from the space it&#8217;s in, if any.</p>
 </div>
 </div>
 </div>
@@ -236,7 +245,7 @@ with that of the <code>Spatial</code>.</p>
 <h2 id="_constructors"><a class="anchor" href="#_constructors"></a>Constructors</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are 3 {url-api}/control/RigidBodyControl.html[<code>RigidBodyControl</code>]
+<p>There are 3 <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a>
 constructors:</p>
 </div>
 <div class="listingblock">
@@ -246,7 +255,7 @@ rbc2 = new RigidBodyControl(collisionShape);
 rbc3 = new RigidBodyControl(mass);
 ---
 
-If you specify `mass &gt; 0`, a dynamic rigid body is created.
+If you specify `mass &gt; 0`, a dynamic body is created.
 If you specify `mass = 0`, a static one is created.
 If you construct an RBC without specifying a mass,
 you get a dynamic body with `mass = 1`.
@@ -258,9 +267,11 @@ NOTE: Adding an incomplete body to a physics space will cause an crash!
 
 To complete the body,
 simply add the control to a `Spatial` (*before* adding it to a space).
-A collision shape will be created based on the controlled spatial,
-using `CollisionShapeFactory.createDynamicMeshShape()` (for a dynamic body)
-or `CollisionShapeFactory.createMeshShape()` (for a static one).
+A collision shape will be created based on the controlled spatial, using:
+* `SphereCollisionShape` if the `Spatial` is a `Geometry` with spherical mesh,
+* `BoxCollisionShape` if the `Spatial` is a `Geometry` with a box-shaped mesh,
+* `CollisionShapeFactory.createDynamicMeshShape()` (for a dynamic body), or
+* `CollisionShapeFactory.createMeshShape()` (for a static one).
 
 {url-tutorial}/HelloRbc.java[HelloRbc] is a simple
 application that demonstrates the use of
@@ -285,7 +296,7 @@ To reposition it, you must reposition the `Spatial`.
 
 To avoid this behavior, use `setKinematicSpatial(false)`.
 The body will remain kinematic,
-but it will no longer match the motion of the controlled spatial.
+but it will no longer follow the motion of the controlled spatial.
 The body can then be positioned directly,
 using `setPhysicsLocation()` and `setPhysicsRotation()`.
 
@@ -296,23 +307,22 @@ that of the body, their *sizes* might differ.
 By default, there's no connection between the scale of the controlled spatial
 and the scale of the body's collision shape.
 
-To match those scales, use `setApplyScale(true)`.
+To synchronize those scales, use `setApplyScale(true)`.
 
 {url-tutorial}/HelloApplyScale.java[HelloKinematicRbc] is a simple
 application that demonstrates `setApplyScale()`.
 Things to notice while running the app:
 
 . The rigid body is visualized as a blue wireframe.
-. The controlled geometry is solid white.
+. The controlled geometry is white.
 . The size of the rigid body matches that of the controlled geometry.
 
 == Local physics
 
-By default, a rigid-body control writes (or reads)
+By default, a rigid-body control matches
 the *world* transform of its controlled spatial.
 
-To write (or read) the spatial's *local* transform,
-use `setApplyPhysicsLocal(true)`.
+To match the spatial's *local* transform, use `setApplyPhysicsLocal(true)`.
 
 == Summary
 
@@ -322,10 +332,10 @@ use `setApplyPhysicsLocal(true)`.
   it will be incomplete until it gets added to a `Spatial`.
 * An RBC can be static, dynamic, or kinematic.
 * Generally, the motion of the controlled spatial matches that of the body,
-  but you can disable the spatial-following behavior of a kinematic RBC.
+  but you can disable the matching behavior of a kinematic RBC.
 * To match the scales of the body and the controlled spatial,
   use `setApplyScale(true)`.
-* To match with the spatial's local transform
+* To match the spatial's local transform
    instead of its world transform, use `setApplyPhysicsLocal(true)`.</code></pre>
 </div>
 </div>
