@@ -13,15 +13,15 @@ it can instantiate a space directly and update it explicitly.
 {url-tutorial}/HelloUpdate.java[HelloUpdate] is a simple
 application that demonstrates direct instantiation and explicit updating.
 
-An application running in a headless configuration such as a server
-might not require a scene graph.
+An application running in a headless configuration (such as a server)
+might not even need a scene graph.
 By using `NativeLibraryLoader.loadNativeLibrary()` to load the native library,
 such applications can completely avoid JMonkeyEngine's initialization.
 
 {url-tutorial}/HelloConsole.java[HelloConsole] is a console
 application that demonstrates explicitly loading the native library.
 
-For applications that don't require a scene graph, consider using
+For applications that don't need a scene graph, consider using
 https://github.com/stephengold/Libbulletjme[Libbulletjme] instead of Minie.
 
 == Constructing the space
@@ -34,14 +34,25 @@ Currently there are 7 ways to construct a
 PhysicsSpace space1 = new PhysicsSpace(worldMin, worldMax, broadphase, solver);
 PhysicsSpace space2 = new PhysicsSpace(worldMin, worldMax, broadphase);
 PhysicsSpace space3 = new PhysicsSpace(worldMin, worldMax);
-PhysicsSpace space4 = new PhysicsSpace(broadphaseType);
+PhysicsSpace space4 = new PhysicsSpace(broadphase);
 PhysicsSpace space5 = new PhysicsSoftSpace(worldMin, worldMax, broadphase);
 PhysicsSpace space6
-        = new MultiBodySpace(worldMin, worldMax, broadphaseType, solverType)
+        = new MultiBodySpace(worldMin, worldMax, broadphase, solverType);
 PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);
 ----
 
-TODO
+The first 4 methods can be used
+*only* if soft bodies and multibodies will not be added to the space.
+
+If the `solver` argument is omitted, then a
+http://allenchou.net/2013/12/game-physics-constraints-sequential-impulse[Sequential Impulse (SI) solver]
+will be used.
+
+If the `broadphase` argument is omitted, then incremental 3-D sweep and prune
+(`AXIS_SWEEP_3`) broadphase accelerator will be used.
+
+If the `worldMin` and `worldMax` arguments are omitted, then the world
+bounds will extend from (-10000,-10000,-10000) to (+10000, +10000, +10000).
 
 == Updating the space
 
@@ -55,13 +66,17 @@ space.update(timeInterval);
 
 To single-step the simulation, specify `maxSteps = 0`.
 The time step will be `timeInterval` seconds.
+Specifying the time step this way allows it to vary from step to step,
+without regard for `space.getAccuracy()` or `space.maxTimeStep()`.
 
 To attempt real-time simulation, specify `maxSteps > 0`.
 The time step will be `space.getAccuracy()`
-and up to `maxSteps` steps will be simulated for each invocation.
+and up to `maxSteps` steps will be simulated for each update.
 
-If `maxSteps` is not specified, `space.maxSubSteps()` is used.
-But if `maxSteps = 0`, the time step is capped at `space.maxTimeStep()` seconds.
+If the `maxSteps` argument is omitted, `space.maxSubSteps()` will be used.
+And if `space.maxSubSteps() == 0`,
+then the time step will be capped at `space.maxTimeStep()` seconds
+(as with a {url-api}/BulletAppState.html[`BulletAppState`]).
 
 == Summary
 
