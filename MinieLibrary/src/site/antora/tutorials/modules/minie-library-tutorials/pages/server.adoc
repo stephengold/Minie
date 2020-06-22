@@ -7,26 +7,26 @@ provides a convenient interface
 for configuring, accessing, updating, and debugging
 a {url-api}/PhysicsSpace.html[`PhysicsSpace`].
 
-However, if your application doesn't require debug visualization,
+However, if an application doesn't require debug visualization,
 it can instantiate a space directly and update it explicitly.
 
 {url-tutorial}/HelloUpdate.java[HelloUpdate] is a simple
 application that demonstrates direct instantiation and explicit updating.
 
-An application running in a headless configuration (such as a server)
-might not even need a scene graph.
+Furthermore, an application running in a headless configuration
+(such as a server) might not even need a scene graph.
 By using `NativeLibraryLoader.loadNativeLibrary()` to load the native library,
 such applications can completely avoid JMonkeyEngine's initialization.
 
 {url-tutorial}/HelloConsole.java[HelloConsole] is a console
 application that demonstrates explicitly loading the native library.
 
-For applications that don't need a scene graph, consider using
+For such applications, consider using
 https://github.com/stephengold/Libbulletjme[Libbulletjme] instead of Minie.
 
 == Constructing the space
 
-Currently there are 7 ways to construct a
+There are 7 ways to explicitly construct a
 {url-api}/PhysicsSpace.html[`PhysicsSpace`]:
 
 [source,java]
@@ -48,11 +48,16 @@ If the `solver` argument is omitted, then a
 http://allenchou.net/2013/12/game-physics-constraints-sequential-impulse[Sequential Impulse (SI) solver]
 will be used.
 
-If the `broadphase` argument is omitted, then incremental 3-D sweep and prune
+If the `broadphase` argument is omitted,
+then the incremental 3-D sweep-and-prune
 (`AXIS_SWEEP_3`) broadphase accelerator will be used.
 
 If the `worldMin` and `worldMax` arguments are omitted, then the world
-bounds will extend from (-10000,-10000,-10000) to (+10000, +10000, +10000).
+will extend from (-10000, -10000, -10000) to (+10000, +10000, +10000).
+
+NOTE: World bounds are used only by the sweep-and-prune broadphase accelerators
+(`AXIS_SWEEP_3` and `AXIS_SWEEP_3_32`).
+The `SIMPLE` and `DBVT` accelerators ignore them.
 
 == Updating the space
 
@@ -69,7 +74,7 @@ The time step will be `timeInterval` seconds.
 Specifying the time step this way allows it to vary from step to step,
 without regard for `space.getAccuracy()` or `space.maxTimeStep()`.
 
-To attempt real-time simulation, specify `maxSteps > 0`.
+To attempt real-time simulation, specify `maxSteps` > 0.
 The time step will be `space.getAccuracy()`
 and up to `maxSteps` steps will be simulated for each update.
 
@@ -80,7 +85,6 @@ then the time step will be capped at `space.maxTimeStep()` seconds
 
 == Summary
 
-* For applications where the app state is inconvenient, it's possible to
-  instantiate a space directly and update it explicitly.
-* In case you need to bypass JMonkeyEngine initialization, you can load
-  the native library explicitly.
+* It's possible to instantiate a space directly and update it explicitly.
+* It's possible to load the native library explicitly.
+* A scene graph is not required for physics simulation.
