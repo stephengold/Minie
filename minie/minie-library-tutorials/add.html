@@ -207,15 +207,17 @@
 <p>Add libraries to the classpath.</p>
 </li>
 <li>
-<p>Create, configure, and attach a <code>BulletAppState</code>,
+<p>Create, configure, and attach
+a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>,
 if the application doesn&#8217;t already do so.</p>
 </li>
 <li>
-<p>Configure the <code>PhysicsSpace</code>, if the application doesn&#8217;t already do so.</p>
+<p>Configure the <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>,
+if the application doesn&#8217;t already do so.</p>
 </li>
 <li>
 <p>Create physics controls, collision objects,
-and joints and add them to the <code>PhysicsSpace</code>,
+and joints and add them to the physics space,
 if the application doesn&#8217;t already do so.</p>
 </li>
 <li>
@@ -439,16 +441,18 @@ and probably the "-sources" and "-javadoc" jars as well.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_configure_and_attach_a_bulletappstate"><a class="anchor" href="#_create_configure_and_attach_a_bulletappstate"></a>Create, configure, and attach a BulletAppState</h2>
+<h2 id="_create_configure_and_attach_a_bulletappstate"><a class="anchor" href="#_create_configure_and_attach_a_bulletappstate"></a>Create, configure, and attach a <code>BulletAppState</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Strictly speaking, Minie doesn&#8217;t require a
 <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>.
 However, the appstate <strong>does</strong> provide a convenient interface
-for configuring, accessing, updating, and debugging a <code>PhysicsSpace</code>.</p>
+for configuring, accessing, updating, and debugging
+a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
 </div>
 <div class="paragraph">
-<p>If your application already has a <code>BulletAppState</code>, that code will probably
+<p>If your application already has
+a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>, that code will probably
 work fine with Minie.
 If not, here is a snippet to guide you:</p>
 </div>
@@ -460,7 +464,8 @@ PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If you don&#8217;t need soft bodies, you can instantiate a <code>BulletAppState</code> directly:</p>
+<p>If you don&#8217;t need soft bodies, you can instantiate
+a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> directly:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -470,9 +475,10 @@ PhysicsSpace physicsSpace = appState.getPhysicsSpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If you need multibodies, instantiate a <code>MultiBodyAppState</code>.
+<p>If you need multibodies, instantiate a
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/MultiBodyBulletAppState.html"><code>MultiBodyBulletAppState</code></a>.
 (Minie doesn&#8217;t yet support combining soft bodies and multibodies in
-a single <code>PhysicsSpace</code>.)</p>
+a single physics space.)</p>
 </div>
 <div class="paragraph">
 <p>By default, the physics simulation runs on the render thread.
@@ -502,7 +508,8 @@ To advance the physics simulation at a different rate, use:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Other <code>BulletAppState</code> parameters, used to customize debug visualization,
+<p>Other <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> parameters,
+used to customize debug visualization,
 are described on <a href="debug.html" class="page">the Debugging page</a>.</p>
 </div>
 </div>
@@ -511,7 +518,7 @@ are described on <a href="debug.html" class="page">the Debugging page</a>.</p>
 <h2 id="_configure_the_physicsspace"><a class="anchor" href="#_configure_the_physicsspace"></a>Configure the PhysicsSpace</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Attaching a <code>BulletAppState</code> instantiates a
+<p>Attaching a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> instantiates a
 <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> that
 you can access immediately:</p>
 </div>
@@ -579,7 +586,7 @@ For instance, to use 20 iterations:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Each <code>PhysicsSpace</code> has a gravity vector,
+<p>Each physics space has a gravity vector,
 which is typically applied to bodies as they get added to the space.
 To simulate a zero-gravity environment,
 set the gravity of the space to zero:</p>
@@ -638,8 +645,8 @@ rigidNode1.addControl(rbc1);</code></pre>
 <p>Before adding Minie to an application, remove all other physics libraries.</p>
 </li>
 <li>
-<p><code>BulletAppState</code> provides a convenient interface
-for configuring, accessing, updating, and debugging a <code>PhysicsSpace</code>.</p>
+<p><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> provides a convenient interface
+for configuring, accessing, updating, and debugging a physics space.</p>
 </li>
 <li>
 <p>Collision objects can be created 2 ways:</p>
