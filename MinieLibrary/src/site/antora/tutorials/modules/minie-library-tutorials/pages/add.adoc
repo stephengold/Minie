@@ -6,11 +6,13 @@ Adding Minie to an existing JMonkeyEngine project is a 6-step process:
 
 . Remove any existing physics libraries which might interfere with Minie.
 . Add libraries to the classpath.
-. Create, configure, and attach a `BulletAppState`,
+. Create, configure, and attach
+  a {url-api}/BulletAppState.html[`BulletAppState`],
   if the application doesn't already do so.
-. Configure the `PhysicsSpace`, if the application doesn't already do so.
+. Configure the {url-api}/PhysicsSpace.html[`PhysicsSpace`],
+  if the application doesn't already do so.
 . Create physics controls, collision objects,
-  and joints and add them to the `PhysicsSpace`,
+  and joints and add them to the physics space,
   if the application doesn't already do so.
 . Test and tune as necessary.
 
@@ -105,14 +107,16 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 . Similarly, add the Minie jar(s).
 . Click on the btn:[OK] button to exit the "Project Properties" dialog.
 
-== Create, configure, and attach a BulletAppState
+== Create, configure, and attach a `BulletAppState`
 
 Strictly speaking, Minie doesn't require a
 {url-api}/BulletAppState.html[`BulletAppState`].
 However, the appstate *does* provide a convenient interface
-for configuring, accessing, updating, and debugging a `PhysicsSpace`.
+for configuring, accessing, updating, and debugging
+a {url-api}/PhysicsSpace.html[`PhysicsSpace`].
 
-If your application already has a `BulletAppState`, that code will probably
+If your application already has
+a {url-api}/BulletAppState.html[`BulletAppState`], that code will probably
 work fine with Minie.
 If not, here is a snippet to guide you:
 
@@ -123,7 +127,8 @@ stateManager.attach(appState);
 PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();
 ----
 
-If you don't need soft bodies, you can instantiate a `BulletAppState` directly:
+If you don't need soft bodies, you can instantiate
+a {url-api}/BulletAppState.html[`BulletAppState`] directly:
 
 [source,java]
 ----
@@ -132,9 +137,10 @@ stateManager.attach(appState);
 PhysicsSpace physicsSpace = appState.getPhysicsSpace();
 ----
 
-If you need multibodies, instantiate a `MultiBodyAppState`.
+If you need multibodies, instantiate a
+{url-api}/MultiBodyBulletAppState.html[`MultiBodyBulletAppState`].
 (Minie doesn't yet support combining soft bodies and multibodies in
-a single `PhysicsSpace`.)
+a single physics space.)
 
 By default, the physics simulation runs on the render thread.
 To execute it on a dedicated thread, use:
@@ -160,12 +166,13 @@ By default, debug visualization is disabled. To enable it, use:
 bulletAppState.setDebugEnabled(true); // default=false
 ----
 
-Other `BulletAppState` parameters, used to customize debug visualization,
+Other {url-api}/BulletAppState.html[`BulletAppState`] parameters,
+used to customize debug visualization,
 are described on xref:minie-library-tutorials:debug.adoc[the Debugging page].
 
 == Configure the PhysicsSpace
 
-Attaching a `BulletAppState` instantiates a
+Attaching a {url-api}/BulletAppState.html[`BulletAppState`] instantiates a
 {url-api}/PhysicsSpace.html[`PhysicsSpace`] that
 you can access immediately:
 
@@ -216,7 +223,7 @@ For instance, to use 20 iterations:
 space.getSolverInfo().setNumIterations(20);
 ----
 
-Each `PhysicsSpace` has a gravity vector,
+Each physics space has a gravity vector,
 which is typically applied to bodies as they get added to the space.
 To simulate a zero-gravity environment,
 set the gravity of the space to zero:
@@ -261,8 +268,8 @@ Either way, the objects won't get simulated until they're added to a space.
 == Summary
 
 * Before adding Minie to an application, remove all other physics libraries.
-* `BulletAppState` provides a convenient interface
-  for configuring, accessing, updating, and debugging a `PhysicsSpace`.
+* {url-api}/BulletAppState.html[`BulletAppState`] provides a convenient interface
+  for configuring, accessing, updating, and debugging a physics space.
 * Collision objects can be created 2 ways:
 ** directly, using the constructors
 ** indirectly, by adding physics controls to the scene graph.
