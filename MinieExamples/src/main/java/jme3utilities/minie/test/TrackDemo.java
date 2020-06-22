@@ -179,7 +179,8 @@ public class TrackDemo extends AbstractDemo {
         /*
          * Customize the window's title bar.
          */
-        AppSettings settings = new AppSettings(true);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
         settings.setTitle(applicationName);
 
         settings.setAudioRenderer(null);

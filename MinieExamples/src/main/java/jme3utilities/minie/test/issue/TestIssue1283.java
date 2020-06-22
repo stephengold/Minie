@@ -109,8 +109,9 @@ public class TestIssue1283 extends SimpleApplication {
      */
     public static void main(String[] ignored) {
         TestIssue1283 application = new TestIssue1283();
-        AppSettings appSettings = new AppSettings(true);
-        application.setSettings(appSettings);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************

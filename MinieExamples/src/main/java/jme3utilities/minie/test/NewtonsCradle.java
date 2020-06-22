@@ -111,7 +111,8 @@ public class NewtonsCradle
         Heart.setLoggingLevels(Level.WARNING);
 
         Application application = new NewtonsCradle();
-        AppSettings settings = new AppSettings(true);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
 
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
