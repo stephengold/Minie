@@ -252,92 +252,157 @@ constructors:</p>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">rbc1 = new RigidBodyControl(collisionShape, mass);
 rbc2 = new RigidBodyControl(collisionShape);
-rbc3 = new RigidBodyControl(mass);
----
-
-If you specify `mass &gt; 0`, a dynamic body is created.
-If you specify `mass = 0`, a static one is created.
+rbc3 = new RigidBodyControl(mass);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you specify <code>mass &gt; 0</code>, a dynamic body is created.
+If you specify <code>mass = 0</code>, a static one is created.
 If you construct an RBC without specifying a mass,
-you get a dynamic body with `mass = 1`.
-
-If you construct an RBC without specifying a collision shape,
-you get an incomplete body.
-
-NOTE: Adding an incomplete body to a physics space will cause an crash!
-
-To complete the body,
-simply add the control to a `Spatial` (*before* adding it to a space).
+you get a dynamic body with <code>mass = 1</code>.</p>
+</div>
+<div class="paragraph">
+<p>If you construct an RBC without specifying a collision shape,
+you get an incomplete body.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Adding an incomplete body to a physics space will cause an crash!
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To complete the body,
+simply add the control to a <code>Spatial</code> (<strong>before</strong> adding it to a space).
 A collision shape will be created based on the controlled spatial, using:
-* `SphereCollisionShape` if the `Spatial` is a `Geometry` with spherical mesh,
-* `BoxCollisionShape` if the `Spatial` is a `Geometry` with a box-shaped mesh,
-* `CollisionShapeFactory.createDynamicMeshShape()` (for a dynamic body), or
-* `CollisionShapeFactory.createMeshShape()` (for a static one).
-
-{url-tutorial}/HelloRbc.java[HelloRbc] is a simple
+* <code>SphereCollisionShape</code> if the <code>Spatial</code> is a <code>Geometry</code> with spherical mesh,
+* <code>BoxCollisionShape</code> if the <code>Spatial</code> is a <code>Geometry</code> with a box-shaped mesh,
+* <code>CollisionShapeFactory.createDynamicMeshShape()</code> (for a dynamic body), or
+* <code>CollisionShapeFactory.createMeshShape()</code> (for a static one).</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRbc.java">HelloRbc</a> is a simple
 application that demonstrates the use of
-{url-api}/control/RigidBodyControl.html[`RigidBodyControl`].
-Things to notice while running the app:
-
-. The collision objects behave like directly instantiated rigid bodies.
-. Each geometry matches the motion of its corresponding physics object.
-
-== Kinematic flags
-
-To create a physics control for a *kinematic* rigid body,
-first instantiate a dynamic RBC (with `mass &gt; 0`),
-then convert it to kinematic using `rigidBodyControl.setKinematic(true)`.
-
-{url-tutorial}/HelloKinematicRbc.java[HelloKinematicRbc] is a simple
-application that demonstrates a kinematic RBC.
-
-By default, the physics object of a kinematic RBC
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a>.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The collision objects behave like directly instantiated rigid bodies.</p>
+</li>
+<li>
+<p>Each geometry matches the motion of its corresponding physics object.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_kinematic_flags"><a class="anchor" href="#_kinematic_flags"></a>Kinematic flags</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To create a physics control for a <strong>kinematic</strong> rigid body,
+first instantiate a dynamic RBC (with <code>mass &gt; 0</code>),
+then convert it to kinematic using <code>rigidBodyControl.setKinematic(true)</code>.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloKinematicRbc.java">HelloKinematicRbc</a> is a simple
+application that demonstrates a kinematic RBC.</p>
+</div>
+<div class="paragraph">
+<p>By default, the physics object of a kinematic RBC
 follows the motion of its controlled spatial.
-To reposition it, you must reposition the `Spatial`.
-
-To avoid this behavior, use `setKinematicSpatial(false)`.
+To reposition it, you must reposition the <code>Spatial</code>.</p>
+</div>
+<div class="paragraph">
+<p>To avoid this behavior, use <code>setKinematicSpatial(false)</code>.
 The body will remain kinematic,
 but it will no longer follow the motion of the controlled spatial.
 The body can then be positioned directly,
-using `setPhysicsLocation()` and `setPhysicsRotation()`.
-
-== The "apply scale" option
-
-While the *motion* of the controlled spatial matches
-that of the body, their *sizes* might differ.
-By default, there's no connection between the scale of the controlled spatial
-and the scale of the body's collision shape.
-
-To synchronize those scales, use `setApplyScale(true)`.
-
-{url-tutorial}/HelloApplyScale.java[HelloKinematicRbc] is a simple
-application that demonstrates `setApplyScale()`.
-Things to notice while running the app:
-
-. The rigid body is visualized as a blue wireframe.
-. The controlled geometry is white.
-. The size of the rigid body matches that of the controlled geometry.
-
-== Local physics
-
-By default, a rigid-body control matches
-the *world* transform of its controlled spatial.
-
-To match the spatial's *local* transform, use `setApplyPhysicsLocal(true)`.
-
-== Summary
-
-* To associate a rigid body with a scene-graph spatial, use a
-  {url-api}/control/RigidBodyControl.html[`RigidBodyControl`].
-* If you construct an RBC without specifying a collision shape,
-  it will be incomplete until it gets added to a `Spatial`.
-* An RBC can be static, dynamic, or kinematic.
-* Generally, the motion of the controlled spatial matches that of the body,
-  but you can disable the matching behavior of a kinematic RBC.
-* To match the scales of the body and the controlled spatial,
-  use `setApplyScale(true)`.
-* To match the spatial's local transform
-   instead of its world transform, use `setApplyPhysicsLocal(true)`.</code></pre>
+using <code>setPhysicsLocation()</code> and <code>setPhysicsRotation()</code>.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_apply_scale_option"><a class="anchor" href="#_the_apply_scale_option"></a>The "apply scale" option</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>While the <strong>motion</strong> of the controlled spatial matches
+that of the body, their <strong>sizes</strong> might differ.
+By default, there&#8217;s no connection between the scale of the controlled spatial
+and the scale of the body&#8217;s collision shape.</p>
+</div>
+<div class="paragraph">
+<p>To synchronize those scales, use <code>setApplyScale(true)</code>.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloApplyScale.java">HelloKinematicRbc</a> is a simple
+application that demonstrates <code>setApplyScale()</code>.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The rigid body is visualized as a blue wireframe.</p>
+</li>
+<li>
+<p>The controlled geometry is white.</p>
+</li>
+<li>
+<p>The size of the rigid body matches that of the controlled geometry.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_local_physics"><a class="anchor" href="#_local_physics"></a>Local physics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, a rigid-body control matches
+the <strong>world</strong> transform of its controlled spatial.</p>
+</div>
+<div class="paragraph">
+<p>To match the spatial&#8217;s <strong>local</strong> transform, use <code>setApplyPhysicsLocal(true)</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>To associate a rigid body with a scene-graph spatial, use a
+<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a>.</p>
+</li>
+<li>
+<p>If you construct an RBC without specifying a collision shape,
+it will be incomplete until it gets added to a <code>Spatial</code>.</p>
+</li>
+<li>
+<p>An RBC can be static, dynamic, or kinematic.</p>
+</li>
+<li>
+<p>Generally, the motion of the controlled spatial matches that of the body,
+but you can disable the matching behavior of a kinematic RBC.</p>
+</li>
+<li>
+<p>To match the scales of the body and the controlled spatial,
+use <code>setApplyScale(true)</code>.</p>
+</li>
+<li>
+<p>To match the spatial&#8217;s local transform
+instead of its world transform, use <code>setApplyPhysicsLocal(true)</code>.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
