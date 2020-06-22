@@ -205,7 +205,7 @@ for configuring, accessing, updating, and debugging
 a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
 </div>
 <div class="paragraph">
-<p>However, if your application doesn&#8217;t require debug visualization,
+<p>However, if an application doesn&#8217;t require debug visualization,
 it can instantiate a space directly and update it explicitly.</p>
 </div>
 <div class="paragraph">
@@ -213,8 +213,8 @@ it can instantiate a space directly and update it explicitly.</p>
 application that demonstrates direct instantiation and explicit updating.</p>
 </div>
 <div class="paragraph">
-<p>An application running in a headless configuration (such as a server)
-might not even need a scene graph.
+<p>Furthermore, an application running in a headless configuration
+(such as a server) might not even need a scene graph.
 By using <code>NativeLibraryLoader.loadNativeLibrary()</code> to load the native library,
 such applications can completely avoid JMonkeyEngine&#8217;s initialization.</p>
 </div>
@@ -223,7 +223,7 @@ such applications can completely avoid JMonkeyEngine&#8217;s initialization.</p>
 application that demonstrates explicitly loading the native library.</p>
 </div>
 <div class="paragraph">
-<p>For applications that don&#8217;t need a scene graph, consider using
+<p>For such applications, consider using
 <a href="https://github.com/stephengold/Libbulletjme">Libbulletjme</a> instead of Minie.</p>
 </div>
 </div>
@@ -232,7 +232,7 @@ application that demonstrates explicitly loading the native library.</p>
 <h2 id="_constructing_the_space"><a class="anchor" href="#_constructing_the_space"></a>Constructing the space</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Currently there are 7 ways to construct a
+<p>There are 7 ways to explicitly construct a
 <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>:</p>
 </div>
 <div class="listingblock">
@@ -257,12 +257,27 @@ PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);</code>
 will be used.</p>
 </div>
 <div class="paragraph">
-<p>If the <code>broadphase</code> argument is omitted, then incremental 3-D sweep and prune
+<p>If the <code>broadphase</code> argument is omitted,
+then the incremental 3-D sweep-and-prune
 (<code>AXIS_SWEEP_3</code>) broadphase accelerator will be used.</p>
 </div>
 <div class="paragraph">
 <p>If the <code>worldMin</code> and <code>worldMax</code> arguments are omitted, then the world
-bounds will extend from (-10000,-10000,-10000) to (+10000, +10000, +10000).</p>
+will extend from (-10000, -10000, -10000) to (+10000, +10000, +10000).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+World bounds are used only by the sweep-and-prune broadphase accelerators
+(<code>AXIS_SWEEP_3</code> and <code>AXIS_SWEEP_3_32</code>).
+The <code>SIMPLE</code> and <code>DBVT</code> accelerators ignore them.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -285,7 +300,7 @@ Specifying the time step this way allows it to vary from step to step,
 without regard for <code>space.getAccuracy()</code> or <code>space.maxTimeStep()</code>.</p>
 </div>
 <div class="paragraph">
-<p>To attempt real-time simulation, specify <code>maxSteps &gt; 0</code>.
+<p>To attempt real-time simulation, specify <code>maxSteps</code> &gt; 0.
 The time step will be <code>space.getAccuracy()</code>
 and up to <code>maxSteps</code> steps will be simulated for each update.</p>
 </div>
@@ -303,12 +318,13 @@ then the time step will be capped at <code>space.maxTimeStep()</code> seconds
 <div class="ulist">
 <ul>
 <li>
-<p>For applications where the app state is inconvenient, it&#8217;s possible to
-instantiate a space directly and update it explicitly.</p>
+<p>It&#8217;s possible to instantiate a space directly and update it explicitly.</p>
 </li>
 <li>
-<p>In case you need to bypass JMonkeyEngine initialization, you can load
-the native library explicitly.</p>
+<p>It&#8217;s possible to load the native library explicitly.</p>
+</li>
+<li>
+<p>A scene graph is not required for physics simulation.</p>
 </li>
 </ul>
 </div>
