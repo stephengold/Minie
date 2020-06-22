@@ -1,5 +1,5 @@
 = An introduction to `RigidBodyControl`
-:experimental:
+:url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
 :url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
@@ -22,8 +22,15 @@ are the same object!
 Because each {url-api}/control/RigidBodyControl.html[`RigidBodyControl`] (RBC)
 instance is a rigid body, you can configure it and add it to a space
 just like a directly instantiated rigid body.
-Adding the control to a `Spatial` synchronizes the motion of the rigid body
-with that of the `Spatial`.
+For instance, you can configure friction using `setFriction()`
+and disable contact response using `setContactResponse(false)`.
+
+After being added to a `Spatial`,
+the control synchronizes the motion of the rigid body
+with that of the controlled spatial.
+
+Disabling a rigid-body control
+causes the body to be removed from the space it's in, if any.
 
 == Constructors
 
@@ -37,7 +44,7 @@ rbc2 = new RigidBodyControl(collisionShape);
 rbc3 = new RigidBodyControl(mass);
 ---
 
-If you specify `mass > 0`, a dynamic rigid body is created.
+If you specify `mass > 0`, a dynamic body is created.
 If you specify `mass = 0`, a static one is created.
 If you construct an RBC without specifying a mass,
 you get a dynamic body with `mass = 1`.
@@ -49,9 +56,11 @@ NOTE: Adding an incomplete body to a physics space will cause an crash!
 
 To complete the body,
 simply add the control to a `Spatial` (*before* adding it to a space).
-A collision shape will be created based on the controlled spatial,
-using `CollisionShapeFactory.createDynamicMeshShape()` (for a dynamic body)
-or `CollisionShapeFactory.createMeshShape()` (for a static one).
+A collision shape will be created based on the controlled spatial, using:
+* `SphereCollisionShape` if the `Spatial` is a `Geometry` with spherical mesh,
+* `BoxCollisionShape` if the `Spatial` is a `Geometry` with a box-shaped mesh,
+* `CollisionShapeFactory.createDynamicMeshShape()` (for a dynamic body), or
+* `CollisionShapeFactory.createMeshShape()` (for a static one).
 
 {url-tutorial}/HelloRbc.java[HelloRbc] is a simple
 application that demonstrates the use of
@@ -76,7 +85,7 @@ To reposition it, you must reposition the `Spatial`.
 
 To avoid this behavior, use `setKinematicSpatial(false)`.
 The body will remain kinematic,
-but it will no longer match the motion of the controlled spatial.
+but it will no longer follow the motion of the controlled spatial.
 The body can then be positioned directly,
 using `setPhysicsLocation()` and `setPhysicsRotation()`.
 
@@ -87,23 +96,22 @@ that of the body, their *sizes* might differ.
 By default, there's no connection between the scale of the controlled spatial
 and the scale of the body's collision shape.
 
-To match those scales, use `setApplyScale(true)`.
+To synchronize those scales, use `setApplyScale(true)`.
 
 {url-tutorial}/HelloApplyScale.java[HelloKinematicRbc] is a simple
 application that demonstrates `setApplyScale()`.
 Things to notice while running the app:
 
 . The rigid body is visualized as a blue wireframe.
-. The controlled geometry is solid white.
+. The controlled geometry is white.
 . The size of the rigid body matches that of the controlled geometry.
 
 == Local physics
 
-By default, a rigid-body control writes (or reads)
+By default, a rigid-body control matches
 the *world* transform of its controlled spatial.
 
-To write (or read) the spatial's *local* transform,
-use `setApplyPhysicsLocal(true)`.
+To match the spatial's *local* transform, use `setApplyPhysicsLocal(true)`.
 
 == Summary
 
@@ -113,8 +121,8 @@ use `setApplyPhysicsLocal(true)`.
   it will be incomplete until it gets added to a `Spatial`.
 * An RBC can be static, dynamic, or kinematic.
 * Generally, the motion of the controlled spatial matches that of the body,
-  but you can disable the spatial-following behavior of a kinematic RBC.
+  but you can disable the matching behavior of a kinematic RBC.
 * To match the scales of the body and the controlled spatial,
   use `setApplyScale(true)`.
-* To match with the spatial's local transform
+* To match the spatial's local transform
    instead of its world transform, use `setApplyPhysicsLocal(true)`.
