@@ -15,19 +15,19 @@ Use it to:
 Forked from the jme3-bullet library, Minie adds many useful features
 while preserving most of the jme3-bullet
 {url-enwiki}/Application_programming_interface[API].
-Most of the JMonkeyEngine physics examples can use Minie without modification,
+Most JMonkeyEngine physics examples can use Minie without modification,
 and Minie adds its own demos and tutorials to help you get started.
 
 All software in the Minie project is free and open-source,
-including the library itself, the demo and tutorial apps,
+including the library itself, the demo, tutorial, and utility apps,
 and the software used to build, test, and run them.
 
 The underlying simulation software  comes from
 https://pybullet.org/wordpress[_Bullet_], a mature real-time physics simulator.
-But while Bullet is written in {url-enwiki}/C%2B%2B[C&#43;&#43;],
+But although Bullet is written in {url-enwiki}/C%2B%2B[C&#43;&#43;],
 you won't need any knowledge of C++ to use Minie.
 
-== General caveats
+== Caveats
 
 Minie's focus is on simulating
 {url-enwiki}/Classical_mechanics[classical mechanics]
@@ -40,9 +40,9 @@ assume a certain level of proficiency with
 {url-enwiki}/Java_(programming_language)[the Java programming language].
 This project isn't aimed at non-programmers,
 nor developers without prior Java experience.
-Similarly, some familiarity with 3-D graphics and vector math are assumed.
+Similarly, some familiarity with 3-D graphics and vector math is assumed.
 
-While familiarity with classical mechanics is assumed,
+While an understanding of classical mechanics is assumed,
 many of its technical terms are linked (at first use)
 to the relevant article in the English Wikipedia.
 
