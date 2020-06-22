@@ -213,8 +213,8 @@ it can instantiate a space directly and update it explicitly.</p>
 application that demonstrates direct instantiation and explicit updating.</p>
 </div>
 <div class="paragraph">
-<p>An application running in a headless configuration such as a server
-might not require a scene graph.
+<p>An application running in a headless configuration (such as a server)
+might not even need a scene graph.
 By using <code>NativeLibraryLoader.loadNativeLibrary()</code> to load the native library,
 such applications can completely avoid JMonkeyEngine&#8217;s initialization.</p>
 </div>
@@ -223,7 +223,7 @@ such applications can completely avoid JMonkeyEngine&#8217;s initialization.</p>
 application that demonstrates explicitly loading the native library.</p>
 </div>
 <div class="paragraph">
-<p>For applications that don&#8217;t require a scene graph, consider using
+<p>For applications that don&#8217;t need a scene graph, consider using
 <a href="https://github.com/stephengold/Libbulletjme">Libbulletjme</a> instead of Minie.</p>
 </div>
 </div>
@@ -240,15 +240,29 @@ application that demonstrates explicitly loading the native library.</p>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">PhysicsSpace space1 = new PhysicsSpace(worldMin, worldMax, broadphase, solver);
 PhysicsSpace space2 = new PhysicsSpace(worldMin, worldMax, broadphase);
 PhysicsSpace space3 = new PhysicsSpace(worldMin, worldMax);
-PhysicsSpace space4 = new PhysicsSpace(broadphaseType);
+PhysicsSpace space4 = new PhysicsSpace(broadphase);
 PhysicsSpace space5 = new PhysicsSoftSpace(worldMin, worldMax, broadphase);
 PhysicsSpace space6
-        = new MultiBodySpace(worldMin, worldMax, broadphaseType, solverType)
+        = new MultiBodySpace(worldMin, worldMax, broadphase, solverType);
 PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>TODO</p>
+<p>The first 4 methods can be used
+<strong>only</strong> if soft bodies and multibodies will not be added to the space.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>solver</code> argument is omitted, then a
+<a href="http://allenchou.net/2013/12/game-physics-constraints-sequential-impulse">Sequential Impulse (SI) solver</a>
+will be used.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>broadphase</code> argument is omitted, then incremental 3-D sweep and prune
+(<code>AXIS_SWEEP_3</code>) broadphase accelerator will be used.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>worldMin</code> and <code>worldMax</code> arguments are omitted, then the world
+bounds will extend from (-10000,-10000,-10000) to (+10000, +10000, +10000).</p>
 </div>
 </div>
 </div>
@@ -266,16 +280,20 @@ space.update(timeInterval);</code></pre>
 </div>
 <div class="paragraph">
 <p>To single-step the simulation, specify <code>maxSteps = 0</code>.
-The time step will be <code>timeInterval</code> seconds.</p>
+The time step will be <code>timeInterval</code> seconds.
+Specifying the time step this way allows it to vary from step to step,
+without regard for <code>space.getAccuracy()</code> or <code>space.maxTimeStep()</code>.</p>
 </div>
 <div class="paragraph">
 <p>To attempt real-time simulation, specify <code>maxSteps &gt; 0</code>.
 The time step will be <code>space.getAccuracy()</code>
-and up to <code>maxSteps</code> steps will be simulated for each invocation.</p>
+and up to <code>maxSteps</code> steps will be simulated for each update.</p>
 </div>
 <div class="paragraph">
-<p>If <code>maxSteps</code> is not specified, <code>space.maxSubSteps()</code> is used.
-But if <code>maxSteps = 0</code>, the time step is capped at <code>space.maxTimeStep()</code> seconds.</p>
+<p>If the <code>maxSteps</code> argument is omitted, <code>space.maxSubSteps()</code> will be used.
+And if <code>space.maxSubSteps() == 0</code>,
+then the time step will be capped at <code>space.maxTimeStep()</code> seconds
+(as with a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>).</p>
 </div>
 </div>
 </div>
