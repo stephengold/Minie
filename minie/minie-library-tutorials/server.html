@@ -50,19 +50,31 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="https://github.com/stephengold/Minie">Git repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/releases/latest">Latest release</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/releases">Recent releases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/blob/master/README.md">ReadMe</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md">Release log</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/commits/master">Recent commits</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/issues">Issue tracker</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE">License</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="https://github.com/stephengold/Minie/releases/latest">Latest release</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md">Release log</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="https://github.com/stephengold/Minie/issues">Issue tracker</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="https://hub.jmonkeyengine.org/c/user-code-projects/minie/63">Forum</a>
@@ -206,7 +218,7 @@ a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/Phy
 </div>
 <div class="paragraph">
 <p>However, if an application doesn&#8217;t require debug visualization,
-it can instantiate a space directly and update it explicitly.</p>
+it can instantiate a physics space directly and update it explicitly.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloUpdate.java">HelloUpdate</a> is a simple
@@ -233,10 +245,10 @@ application that demonstrates explicitly loading the native library.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_constructing_the_space"><a class="anchor" href="#_constructing_the_space"></a>Constructing the space</h2>
+<h2 id="_instantiating_the_physics_space"><a class="anchor" href="#_instantiating_the_physics_space"></a>Instantiating the physics space</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are 7 ways to explicitly construct a
+<p>There are 7 ways to directly instantiate a
 <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>:</p>
 </div>
 <div class="listingblock">
@@ -287,7 +299,7 @@ The <code>SIMPLE</code> and <code>DBVT</code> accelerators ignore them.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_updating_the_space"><a class="anchor" href="#_updating_the_space"></a>Updating the space</h2>
+<h2 id="_updating_the_physics_space"><a class="anchor" href="#_updating_the_physics_space"></a>Updating the physics space</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> offers 2 update methods:</p>
@@ -323,21 +335,22 @@ then the time step will be capped at <code>space.maxTimeStep()</code> seconds
 <div class="ulist">
 <ul>
 <li>
-<p>It&#8217;s possible to instantiate a space directly and update it explicitly.</p>
+<p>It&#8217;s possible to instantiate a physics space directly
+and update it explicitly.</p>
 </li>
 <li>
 <p>It&#8217;s possible to load the native library explicitly
 and thus avoid initializing JMonkeyEngine.</p>
 </li>
 <li>
-<p>A scene graph is not required for physics simulation.</p>
+<p>Physics simulation does not require a scene graph.</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 </article>
-<aside class="toc sidebar" data-title="Contents" data-levels="2">
+<aside class="toc sidebar" data-title="Page contents" data-levels="2">
   <div class="toc-menu"></div>
 </aside>
   </div>
