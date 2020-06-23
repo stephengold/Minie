@@ -213,17 +213,21 @@ it can instantiate a space directly and update it explicitly.</p>
 application that demonstrates direct instantiation and explicit updating.</p>
 </div>
 <div class="paragraph">
-<p>Furthermore, an application running in a headless configuration
+<p>Furthermore, an application running in a headless environment
 (such as a server) might not even need a scene graph.
-By using <code>NativeLibraryLoader.loadNativeLibrary()</code> to load the native library,
-such applications can completely avoid JMonkeyEngine&#8217;s initialization.</p>
+By instantiating collision objects directly (not using physics controls),
+you can simulate physics without a scene graph.</p>
+</div>
+<div class="paragraph">
+<p>And by using <code>NativeLibraryLoader</code> to explicitly load the native library,
+such applications can completely avoid initializing JMonkeyEngine.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloConsole.java">HelloConsole</a> is a console
 application that demonstrates explicitly loading the native library.</p>
 </div>
 <div class="paragraph">
-<p>For such applications, consider using
+<p>For applications without a scene graph, consider using
 <a href="https://github.com/stephengold/Libbulletjme">Libbulletjme</a> instead of Minie.</p>
 </div>
 </div>
@@ -272,7 +276,8 @@ will extend from (-10000, -10000, -10000) to (+10000, +10000, +10000).</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-World bounds are used only by the sweep-and-prune broadphase accelerators
+World bounds are used <strong>only</strong> by
+the sweep-and-prune broadphase accelerators
 (<code>AXIS_SWEEP_3</code> and <code>AXIS_SWEEP_3_32</code>).
 The <code>SIMPLE</code> and <code>DBVT</code> accelerators ignore them.
 </td>
@@ -285,7 +290,7 @@ The <code>SIMPLE</code> and <code>DBVT</code> accelerators ignore them.
 <h2 id="_updating_the_space"><a class="anchor" href="#_updating_the_space"></a>Updating the space</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are 2 methods for updating a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>:</p>
+<p><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> offers 2 update methods:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -321,7 +326,8 @@ then the time step will be capped at <code>space.maxTimeStep()</code> seconds
 <p>It&#8217;s possible to instantiate a space directly and update it explicitly.</p>
 </li>
 <li>
-<p>It&#8217;s possible to load the native library explicitly.</p>
+<p>It&#8217;s possible to load the native library explicitly
+and thus avoid initializing JMonkeyEngine.</p>
 </li>
 <li>
 <p>A scene graph is not required for physics simulation.</p>
