@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 2.0.0-test1 released on TBD
+## Version 2.0.0-test1 released on 19 June 2020
 
  + Changes to the library API:
    + Deleted the `MinieCharacterControl` and `VHACDResults` classes.
