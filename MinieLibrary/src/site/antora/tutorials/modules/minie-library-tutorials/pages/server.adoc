@@ -8,7 +8,7 @@ for configuring, accessing, updating, and debugging
 a {url-api}/PhysicsSpace.html[`PhysicsSpace`].
 
 However, if an application doesn't require debug visualization,
-it can instantiate a space directly and update it explicitly.
+it can instantiate a physics space directly and update it explicitly.
 
 {url-tutorial}/HelloUpdate.java[HelloUpdate] is a simple
 application that demonstrates direct instantiation and explicit updating.
@@ -27,9 +27,9 @@ application that demonstrates explicitly loading the native library.
 For applications without a scene graph, consider using
 https://github.com/stephengold/Libbulletjme[Libbulletjme] instead of Minie.
 
-== Constructing the space
+== Instantiating the physics space
 
-There are 7 ways to explicitly construct a
+There are 7 ways to directly instantiate a
 {url-api}/PhysicsSpace.html[`PhysicsSpace`]:
 
 [source,java]
@@ -63,7 +63,7 @@ the sweep-and-prune broadphase accelerators
 (`AXIS_SWEEP_3` and `AXIS_SWEEP_3_32`).
 The `SIMPLE` and `DBVT` accelerators ignore them.
 
-== Updating the space
+== Updating the physics space
 
 {url-api}/PhysicsSpace.html[`PhysicsSpace`] offers 2 update methods:
 
@@ -89,7 +89,8 @@ then the time step will be capped at `space.maxTimeStep()` seconds
 
 == Summary
 
-* It's possible to instantiate a space directly and update it explicitly.
+* It's possible to instantiate a physics space directly
+  and update it explicitly.
 * It's possible to load the native library explicitly
   and thus avoid initializing JMonkeyEngine.
-* A scene graph is not required for physics simulation.
+* Physics simulation does not require a scene graph.
