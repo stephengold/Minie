@@ -57,6 +57,7 @@ NOTE: Adding an incomplete body to a physics space will cause an crash!
 To complete the body,
 simply add the control to a `Spatial` (*before* adding it to a space).
 A collision shape will be created based on the controlled spatial, using:
+
 * `SphereCollisionShape` if the `Spatial` is a `Geometry` with spherical mesh,
 * `BoxCollisionShape` if the `Spatial` is a `Geometry` with a box-shaped mesh,
 * `CollisionShapeFactory.createDynamicMeshShape()` (for a dynamic body), or
