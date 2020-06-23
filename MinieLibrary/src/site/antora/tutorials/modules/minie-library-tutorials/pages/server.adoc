@@ -13,15 +13,18 @@ it can instantiate a space directly and update it explicitly.
 {url-tutorial}/HelloUpdate.java[HelloUpdate] is a simple
 application that demonstrates direct instantiation and explicit updating.
 
-Furthermore, an application running in a headless configuration
+Furthermore, an application running in a headless environment
 (such as a server) might not even need a scene graph.
-By using `NativeLibraryLoader.loadNativeLibrary()` to load the native library,
-such applications can completely avoid JMonkeyEngine's initialization.
+By instantiating collision objects directly (not using physics controls),
+you can simulate physics without a scene graph.
+
+And by using `NativeLibraryLoader` to explicitly load the native library,
+such applications can completely avoid initializing JMonkeyEngine.
 
 {url-tutorial}/HelloConsole.java[HelloConsole] is a console
 application that demonstrates explicitly loading the native library.
 
-For such applications, consider using
+For applications without a scene graph, consider using
 https://github.com/stephengold/Libbulletjme[Libbulletjme] instead of Minie.
 
 == Constructing the space
@@ -55,13 +58,14 @@ then the incremental 3-D sweep-and-prune
 If the `worldMin` and `worldMax` arguments are omitted, then the world
 will extend from (-10000, -10000, -10000) to (+10000, +10000, +10000).
 
-NOTE: World bounds are used only by the sweep-and-prune broadphase accelerators
+NOTE: World bounds are used *only* by
+the sweep-and-prune broadphase accelerators
 (`AXIS_SWEEP_3` and `AXIS_SWEEP_3_32`).
 The `SIMPLE` and `DBVT` accelerators ignore them.
 
 == Updating the space
 
-There are 2 methods for updating a {url-api}/PhysicsSpace.html[`PhysicsSpace`]:
+{url-api}/PhysicsSpace.html[`PhysicsSpace`] offers 2 update methods:
 
 [source,java]
 ----
@@ -86,5 +90,6 @@ then the time step will be capped at `space.maxTimeStep()` seconds
 == Summary
 
 * It's possible to instantiate a space directly and update it explicitly.
-* It's possible to load the native library explicitly.
+* It's possible to load the native library explicitly
+  and thus avoid initializing JMonkeyEngine.
 * A scene graph is not required for physics simulation.
