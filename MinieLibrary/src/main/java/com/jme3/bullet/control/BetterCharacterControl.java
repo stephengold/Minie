@@ -655,10 +655,10 @@ public class BetterCharacterControl
      * Callback from Bullet, invoked just after the physics has been stepped.
      *
      * @param space the space that was just stepped (not null)
-     * @param tpf the time per physics step (in seconds, &ge;0)
+     * @param timeStep the time per physics step (in seconds, &ge;0)
      */
     @Override
-    public void physicsTick(PhysicsSpace space, float tpf) {
+    public void physicsTick(PhysicsSpace space, float timeStep) {
         rigidBody.getLinearVelocity(velocity);
     }
 
@@ -666,10 +666,10 @@ public class BetterCharacterControl
      * Callback from Bullet, invoked just before the physics is stepped.
      *
      * @param space the space that is about to be stepped (not null)
-     * @param tpf the time per physics step (in seconds, &ge;0)
+     * @param timeStep the time per physics step (in seconds, &ge;0)
      */
     @Override
-    public void prePhysicsTick(PhysicsSpace space, float tpf) {
+    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         checkOnGround();
         if (wantToUnDuck && checkCanUnDuck()) {
             setHeightPercent(1);

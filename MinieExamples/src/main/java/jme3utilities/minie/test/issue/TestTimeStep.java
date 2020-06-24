@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -26,72 +26,40 @@
  */
 package jme3utilities.minie.test.issue;
 
-import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
-import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
-import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.PhysicsGhostObject;
 
 /**
- * Test case for JME issue #1058: native Bullet crash while removing a rigid
- * body from a BroadphaseType.SIMPLE PhysicsSpace.
- * <p>
+ * Test case for JME issue #1351: native Bullet crash during garbage collection.
+ *
  * If successful, the app will complete normally.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue1058
-        extends SimpleApplication
-        implements PhysicsTickListener {
+public class TestIssue1351 extends SimpleApplication {
 
-    private volatile boolean hasStepped = false;
-    private PhysicsRigidBody body1;
-    private PhysicsRigidBody body2;
-    private PhysicsSpace physicsSpace;
-
-    public static void main(String[] arguments) {
-        Application application = new TestIssue1058();
-        application.start();
+    public static void main(String[] args) {
+        TestIssue1351 app = new TestIssue1351();
+        app.start();
     }
 
     @Override
     public void simpleInitApp() {
-        BulletAppState bulletAppState = new BulletAppState();
-        bulletAppState.setBroadphaseType(PhysicsSpace.BroadphaseType.SIMPLE);
-        stateManager.attach(bulletAppState);
-
-        physicsSpace = bulletAppState.getPhysicsSpace();
-        physicsSpace.addTickListener(this);
-
         CollisionShape shape = new SphereCollisionShape(1f);
-
-        body1 = new PhysicsRigidBody(shape, 1f);
-        physicsSpace.addCollisionObject(body1);
-
-        body2 = new PhysicsRigidBody(shape, 2f);
-        physicsSpace.addCollisionObject(body2);
-    }
-
-    @Override
-    public void simpleUpdate(float tpf) {
-        super.simpleUpdate(tpf);
-        if (hasStepped) {
-            physicsSpace.removeCollisionObject(body1); // native Bullet crash occurs here
-            physicsSpace = null;
-            stop();
+        for (int i = 0; i < 10; ++i) {
+            {
+                PhysicsGhostObject a = new PhysicsGhostObject(shape);
+                PhysicsGhostObject b = new PhysicsGhostObject(shape);
+                PhysicsSpace space
+                        = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
+                space.addCollisionObject(a);
+                space.addCollisionObject(b);
+            }
+            System.gc();
         }
-    }
-
-    @Override
-    public void prePhysicsTick(PhysicsSpace space, float timestep) {
-        // do nothing
-    }
-
-    @Override
-    public void physicsTick(PhysicsSpace space, float timestep) {
-        hasStepped = true;
+        stop();
     }
 }
