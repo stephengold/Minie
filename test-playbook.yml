@@ -1,0 +1,16 @@
+site:
+  title: The Minie project (test)
+  start_page: minie:ROOT:overview.adoc
+  url: file:///home/sgold/Git/Minie/build/site
+content:
+  sources:
+  - url: /home/sgold/Git/Minie
+    branches: master
+    start_path: src/site/antora/minie-project
+  - url: /home/sgold/Git/Minie
+    branches: master
+    start_path: MinieLibrary/src/site/antora/tutorials
+ui:
+  bundle:
+    url: /home/sgold/Git/antora-ui-bundle/build/ui-bundle.zip
+    snapshot: true
