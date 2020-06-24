@@ -1,4 +1,5 @@
 = Debugging physics issues
+:page-pagination:
 
 When a physics simulation doesn't work as expected,
 debug visualization (configured at the BulletAppState) should be enabled

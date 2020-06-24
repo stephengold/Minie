@@ -1,4 +1,5 @@
 = Collision detection
+:page-pagination:
 
 Minie provides 4 collision-detection interfaces:
 

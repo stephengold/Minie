@@ -1,4 +1,5 @@
 = An introduction to soft-body physics
+:page-pagination:
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
 While rope, cloth, and foam rubber

@@ -1,4 +1,5 @@
 = An introduction to vehicle physics
+:page-pagination:
 :url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
 
 The {url-api}/object/PhysicsVehicle.html[`PhysicsVehicle`]

@@ -1,5 +1,6 @@
 = An introduction to rigid-body physics
 :experimental:
+:page-pagination:
 :page-toclevels: 3
 :url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
 :url-enwiki: https://en.wikipedia.org/wiki

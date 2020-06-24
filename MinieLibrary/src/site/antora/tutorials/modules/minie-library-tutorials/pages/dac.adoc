@@ -1,4 +1,5 @@
 = An introduction to `DynamicAnimControl`
+:page-pagination:
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
 The centerpiece of Minie is `DynamicAnimControl`, a kind of `PhysicsControl`.

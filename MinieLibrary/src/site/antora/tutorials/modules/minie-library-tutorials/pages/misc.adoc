@@ -1,5 +1,5 @@
 = Miscellaneous tutorial material
-:experimental:
+:page-pagination:
 :url-enwiki: https://en.wikipedia.org/wiki
 :url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial

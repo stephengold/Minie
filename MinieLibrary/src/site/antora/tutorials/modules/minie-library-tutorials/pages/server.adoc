@@ -1,4 +1,5 @@
 = Physics simulation without appstates
+:page-pagination:
 :url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 

@@ -1,5 +1,6 @@
 = Choosing collision shapes
 :item: &rarr;
+:page-pagination:
 :url-enwiki: https://en.wikipedia.org/wiki
 :url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
 :url-shape: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes
