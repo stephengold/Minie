@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>An introduction to RigidBodyControl :: The Minie project</title>
     <link rel="canonical" href="https://stephengold.github.io/Minie/minie/minie-library-tutorials/rbc.html">
+    <link rel="prev" href="shape.html">
+    <link rel="next" href="debug.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
 <meta property="og:image" content="../../_/img/iconx128.png">
@@ -295,11 +297,23 @@ Adding an incomplete body to a physics space will cause an crash!
 <div class="paragraph">
 <p>To complete the body,
 simply add the control to a <code>Spatial</code> (<strong>before</strong> adding it to a space).
-A collision shape will be created based on the controlled spatial, using:
-* <code>SphereCollisionShape</code> if the <code>Spatial</code> is a <code>Geometry</code> with spherical mesh,
-* <code>BoxCollisionShape</code> if the <code>Spatial</code> is a <code>Geometry</code> with a box-shaped mesh,
-* <code>CollisionShapeFactory.createDynamicMeshShape()</code> (for a dynamic body), or
-* <code>CollisionShapeFactory.createMeshShape()</code> (for a static one).</p>
+A collision shape will be created based on the controlled spatial, using:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SphereCollisionShape</code> if the <code>Spatial</code> is a <code>Geometry</code> with spherical mesh,</p>
+</li>
+<li>
+<p><code>BoxCollisionShape</code> if the <code>Spatial</code> is a <code>Geometry</code> with a box-shaped mesh,</p>
+</li>
+<li>
+<p><code>CollisionShapeFactory.createDynamicMeshShape()</code> (for a dynamic body), or</p>
+</li>
+<li>
+<p><code>CollisionShapeFactory.createMeshShape()</code> (for a static one).</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRbc.java">HelloRbc</a> is a simple
@@ -421,6 +435,10 @@ instead of its world transform, use <code>setApplyPhysicsLocal(true)</code>.</p>
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="shape.html">Collision shapes</a></span>
+  <span class="next"><a href="debug.html">Debugging</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Page contents" data-levels="2">
   <div class="toc-menu"></div>
