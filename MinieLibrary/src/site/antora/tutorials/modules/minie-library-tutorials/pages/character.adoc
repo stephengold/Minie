@@ -1,4 +1,5 @@
 = An introduction to character physics
+:page-pagination:
 :url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
 
 The {url-api}/object/PhysicsCharacter.html[`PhysicsCharacter`]
@@ -6,15 +7,38 @@ class (a subclass of
 {url-api}/collision/PhysicsCollisionObject.html[`PhysicsCollisionObject`])
 provides a simplified physics model for characters.
 
-To associate a character with a `Spatial`, there's
-{url-api}/control/CharacterControl.html[`CharacterControl`],
-a physics control that extends
-{url-api}/objects/PhysicsCharacter.html[`PhysicsCharacter`].
+The model incorporates the following assumptions:
 
-NOTE: Once again, the physics control and its collision object
-are the same object.
+* The character's shape is convex, and its orientation never changes.
+* The character remains upright even when jumping or falling:
+  no sitting or lying down.
+* There are limits on steep a slope and how high a step the character can climb.
+
+TODO example
 
 == Constructors
+
+The constructor requires a convex shape.
+Typically a
+{url-api}/collision/shape/CapsuleCollisionShape.html[`CapsuleCollisionShape`]
+is used.
+
+TODO
+
+== CharacterControl
+
+To associate a character with a `Spatial`, there's
+{url-api}/control/CharacterControl.html[`CharacterControl`],
+a physics control.
+The `PhysicsCharacter` is created after the control is added to a `Spatial`.
+
+NOTE: In a {url-api}/control/CharacterControl.html[`CharacterControl`],
+the physics control and its collision object are *not* the same object!
+
+To access the collision object of a control,
+use `characterControl.getCharacter()`.
+To access the control of a collision object,
+use `(CharacterControl) character.getUserObject()`.
 
 TODO
 
