@@ -28,10 +28,12 @@ application that demonstrates explicitly loading the native library.
 For applications without a scene graph, consider using
 https://github.com/stephengold/Libbulletjme[Libbulletjme] instead of Minie.
 
-== Instantiating the physics space
+== Constructors
 
-There are 7 ways to directly instantiate a
-{url-api}/PhysicsSpace.html[`PhysicsSpace`]:
+Both examples used the simplest {url-api}/PhysicsSpace.html[`PhysicsSpace`]
+constructor, which is fine for most applications.
+However there are actually different 7 ways
+to directly instantiate a physics space:
 
 [source,java]
 ----
@@ -45,8 +47,22 @@ PhysicsSpace space6
 PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);
 ----
 
-The first 4 methods can be used
+The first 4 constructors can be used
 *only* if soft bodies and multibodies will not be added to the space.
+Construct a `{url-api}/PhysicsSoftSpace.html[`PhysicsSoftSpace`]
+to enable soft-body physics.
+Construct a `{url-api}/MultiBodySpace.html[`MultiBodySpace`]
+to enable multi-body physics.
+
+For `broadphase` and `solver`, stick with `DBVT` and `SI` respectively,
+unless you know what you're doing.
+
+NOTE: The world bounds are used *only* by
+the sweep-and-prune broadphase accelerators
+(`AXIS_SWEEP_3` and `AXIS_SWEEP_3_32`).
+The `SIMPLE` and `DBVT` accelerators ignore them.
+
+=== Defaults
 
 If the `solver` argument is omitted, then a
 http://allenchou.net/2013/12/game-physics-constraints-sequential-impulse[Sequential Impulse (SI) solver]
@@ -58,11 +74,6 @@ then the incremental 3-D sweep-and-prune
 
 If the `worldMin` and `worldMax` arguments are omitted, then the world
 will extend from (-10000, -10000, -10000) to (+10000, +10000, +10000).
-
-NOTE: World bounds are used *only* by
-the sweep-and-prune broadphase accelerators
-(`AXIS_SWEEP_3` and `AXIS_SWEEP_3_32`).
-The `SIMPLE` and `DBVT` accelerators ignore them.
 
 == Updating the physics space
 
