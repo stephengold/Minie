@@ -434,6 +434,15 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
+     * For compatibility with jme3-bullet.
+     *
+     * @return a new location vector
+     */
+    public Vector3f getPositionWorldOnA() {
+        return getPositionWorldOnA(null);
+    }
+
+    /**
      * Copy the collision's location (native field: m_positionWorldOnA).
      *
      * @param storeResult storage for the result (modified if not null)
@@ -447,6 +456,15 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
         getPositionWorldOnA(nativeId, result);
 
         return result;
+    }
+
+    /**
+     * For compatibility with jme3-bullet.
+     *
+     * @return a new location vector
+     */
+    public Vector3f getPositionWorldOnB() {
+        return getPositionWorldOnB(null);
     }
 
     /**
