@@ -72,6 +72,7 @@ import java.util.Deque;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.BackingStoreException;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
@@ -184,20 +185,21 @@ public class DropTest
          */
         BufferUtils.setTrackDirectMemoryEnabled(true);
 
-        Application application = new DropTest();
-        /*
-         * Customize the window's title bar.
-         */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        settings.setTitle(applicationName);
-
+        try {
+            settings.load(applicationName);
+        } catch (BackingStoreException e) {
+            logger.warning("Failed to load AppSettings.");
+        }
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
+        settings.setTitle(applicationName); // the window's title bar
         settings.setVSync(true);
-        application.setSettings(settings);
 
+        Application application = new DropTest();
+        application.setSettings(settings);
         application.start();
     }
 
