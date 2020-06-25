@@ -247,11 +247,13 @@ application that demonstrates explicitly loading the native library.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_instantiating_the_physics_space"><a class="anchor" href="#_instantiating_the_physics_space"></a>Instantiating the physics space</h2>
+<h2 id="_constructors"><a class="anchor" href="#_constructors"></a>Constructors</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are 7 ways to directly instantiate a
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>:</p>
+<p>Both examples used the simplest <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>
+constructor, which is fine for most applications.
+However there are actually different 7 ways
+to directly instantiate a physics space:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -266,9 +268,34 @@ PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);</code>
 </div>
 </div>
 <div class="paragraph">
-<p>The first 4 methods can be used
-<strong>only</strong> if soft bodies and multibodies will not be added to the space.</p>
+<p>The first 4 constructors can be used
+<strong>only</strong> if soft bodies and multibodies will not be added to the space.
+Construct a <code><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSoftSpace.html">`PhysicsSoftSpace</code></a>
+to enable soft-body physics.
+Construct a <code><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/MultiBodySpace.html">`MultiBodySpace</code></a>
+to enable multi-body physics.</p>
 </div>
+<div class="paragraph">
+<p>For <code>broadphase</code> and <code>solver</code>, stick with <code>DBVT</code> and <code>SI</code> respectively,
+unless you know what you&#8217;re doing.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The world bounds are used <strong>only</strong> by
+the sweep-and-prune broadphase accelerators
+(<code>AXIS_SWEEP_3</code> and <code>AXIS_SWEEP_3_32</code>).
+The <code>SIMPLE</code> and <code>DBVT</code> accelerators ignore them.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_defaults"><a class="anchor" href="#_defaults"></a>Defaults</h3>
 <div class="paragraph">
 <p>If the <code>solver</code> argument is omitted, then a
 <a href="http://allenchou.net/2013/12/game-physics-constraints-sequential-impulse">Sequential Impulse (SI) solver</a>
@@ -283,20 +310,6 @@ then the incremental 3-D sweep-and-prune
 <p>If the <code>worldMin</code> and <code>worldMax</code> arguments are omitted, then the world
 will extend from (-10000, -10000, -10000) to (+10000, +10000, +10000).</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-World bounds are used <strong>only</strong> by
-the sweep-and-prune broadphase accelerators
-(<code>AXIS_SWEEP_3</code> and <code>AXIS_SWEEP_3_32</code>).
-The <code>SIMPLE</code> and <code>DBVT</code> accelerators ignore them.
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>

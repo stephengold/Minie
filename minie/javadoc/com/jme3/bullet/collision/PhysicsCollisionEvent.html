@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -357,19 +357,33 @@ long&nbsp;manifoldPointId)</code></th>
 </tr>
 <tr class="rowColor" id="i23">
 <td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPositionWorldOnA()">getPositionWorldOnA</a></span>()</code></th>
+<td class="colLast">
+<div class="block">For compatibility with jme3-bullet.</div>
+</td>
+</tr>
+<tr class="altColor" id="i24">
+<td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPositionWorldOnA(com.jme3.math.Vector3f)">getPositionWorldOnA</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Copy the collision's location (native field: m_positionWorldOnA).</div>
 </td>
 </tr>
-<tr class="altColor" id="i24">
+<tr class="rowColor" id="i25">
+<td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPositionWorldOnB()">getPositionWorldOnB</a></span>()</code></th>
+<td class="colLast">
+<div class="block">For compatibility with jme3-bullet.</div>
+</td>
+</tr>
+<tr class="altColor" id="i26">
 <td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPositionWorldOnB(com.jme3.math.Vector3f)">getPositionWorldOnB</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Copy the collision's location (native field: m_positionWorldOnB).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i25">
+<tr class="rowColor" id="i27">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isLateralFrictionInitialized()">isLateralFrictionInitialized</a></span>()</code></th>
 <td class="colLast">
@@ -765,6 +779,17 @@ long&nbsp;manifoldPointId)</span></div>
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="getPositionWorldOnA()">getPositionWorldOnA</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">com.jme3.math.Vector3f</span>&nbsp;<span class="memberName">getPositionWorldOnA</span>()</div>
+<div class="block">For compatibility with jme3-bullet.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new location vector</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="getPositionWorldOnA(com.jme3.math.Vector3f)">getPositionWorldOnA</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">com.jme3.math.Vector3f</span>&nbsp;<span class="memberName">getPositionWorldOnA</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
 <div class="block">Copy the collision's location (native field: m_positionWorldOnA).</div>
@@ -774,6 +799,17 @@ long&nbsp;manifoldPointId)</span></div>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a location vector (in physics-space coordinates, either
  storeResult or a new instance)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="getPositionWorldOnB()">getPositionWorldOnB</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">com.jme3.math.Vector3f</span>&nbsp;<span class="memberName">getPositionWorldOnB</span>()</div>
+<div class="block">For compatibility with jme3-bullet.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new location vector</dd>
 </dl>
 </section>
 </li>

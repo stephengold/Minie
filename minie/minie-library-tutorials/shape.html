@@ -223,11 +223,11 @@ describes the shape and size of a collision object such as a rigid body.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The examples so far have all used spheres, cubes, and/or cylinders.
-However, those are but 3 of the 16 subclasses of the
+However, those are only 3 of the 16 subclasses of
 <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/CollisionShape.html"><code>CollisionShape</code></a>.</p>
 </div>
 <div class="paragraph">
-<p>Here they are in lexicographic order,
+<p>Here they are summarized in lexicographic order,
 with illustrations and lists of key properties (explained below):</p>
 </div>
 <table class="tableblock frame-all grid-none stretch">
@@ -252,7 +252,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; precise<br>
 &rarr; fully scalable<br>
 &rarr; symmetric</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/My74h2Q.png" alt="My74h2Q" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/box.png" alt="box" height="160"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html"><code>CapsuleCollisionShape</code></a></p>
@@ -261,7 +261,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; precise<br>
 &rarr; uniform scaling only<br>
 &rarr; symmetric</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/R9NMEwc.png" alt="R9NMEwc" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/capsule.png" alt="capsule" height="160"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/CompoundCollisionShape.html"><code>CompoundCollisionShape</code></a></p>
@@ -269,7 +269,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; positive margin<br>
 &rarr; precise if-and-only-if all of its children are precise<br>
 &rarr; scalable to the extent that all of its children are scalable</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/gL6rgAA.png" alt="gL6rgAA" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/compound.png" alt="compound" height="160"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/ConeCollisionShape.html"><code>ConeCollisionShape</code></a></p>
@@ -278,7 +278,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; imprecise<br>
 &rarr; uniform scaling only<br>
 &rarr; symmetric</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/jZFVxQd.png" alt="jZFVxQd" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/cone.png" alt="cone" height="160"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">6. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/Convex2dShape.html"><code>Convex2dShape</code></a></p>
@@ -295,7 +295,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; imprecise<br>
 &rarr; limited scalability<br>
 &rarr; symmetric</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/ey249X8.png" alt="ey249X8" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/cylinder.png" alt="cylinder" height="160"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/EmptyShape.html"><code>EmptyShape</code></a></p>
@@ -312,7 +312,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; positive margin<br>
 &rarr; precise<br>
 &rarr; fully scalable</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/TOLRsig.png" alt="TOLRsig" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/gimpact.png" alt="gimpact" height="160"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a></p>
@@ -320,7 +320,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; positive margin<br>
 &rarr; precise<br>
 &rarr; fully scalable</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/JwtpqOM.png" alt="JwtpqOM" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/heightfield.png" alt="heightfield" height="160"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">11. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/HullCollisionShape.html"><code>HullCollisionShape</code></a></p>
@@ -328,7 +328,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; positive margin<br>
 &rarr; imprecise<br>
 &rarr; fully scalable</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/Rf61rcw.png" alt="Rf61rcw" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/hull.png" alt="hull" height="160"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">12. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/MeshCollisionShape.html"><code>MeshCollisionShape</code></a></p>
@@ -336,7 +336,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; positive margin<br>
 &rarr; precise<br>
 &rarr; fully scalable</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/glB3Ujk.png" alt="glB3Ujk" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/mesh.png" alt="mesh" height="160"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">13. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/MultiSphere.html"><code>MultiSphere</code></a></p>
@@ -344,7 +344,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; positive margin<br>
 &rarr; precise<br>
 &rarr; fully scalable</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/nTZEc8C.png" alt="nTZEc8C" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/multiSphere.png" alt="multiSphere" height="160"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">14. <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes/PlaneCollisionShape.html"><code>PlaneCollisionShape</code></a></p>
@@ -370,7 +370,7 @@ with illustrations and lists of key properties (explained below):</p>
 &rarr; precise<br>
 &rarr; uniform scaling only<br>
 &rarr; symmetric</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://i.imgur.com/OPYrxRe.png" alt="OPYrxRe" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/sphere.png" alt="sphere" height="160"></span></p></td>
 </tr>
 </tbody>
 </table>
