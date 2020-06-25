@@ -14,3 +14,6 @@ ui:
   bundle:
     url: https://github.com/stephengold/antora-ui-bundle/releases/download/v-sgold200624a/ui-bundle.zip
     snapshot: true
+output:
+  clean: true
+  dir: build/site

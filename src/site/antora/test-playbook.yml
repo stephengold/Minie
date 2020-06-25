@@ -14,3 +14,6 @@ ui:
   bundle:
     url: /home/sgold/Git/antora-ui-bundle/build/ui-bundle.zip
     snapshot: true
+output:
+  clean: true
+  dir: build/site

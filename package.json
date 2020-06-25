@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "buildDocs": "$(npm bin)/antora --stacktrace antora-playbook.yml"
+    "buildDocs": "$(npm bin)/antora --stacktrace src/site/antora/ci-playbook.yml"
   },
   "dependencies": {
     "@antora/cli": "^2.3.3",
