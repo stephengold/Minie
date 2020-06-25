@@ -1041,17 +1041,24 @@ public class PhysicsDescriber extends Describer {
         Object user = pco.getUserObject();
         if (user != null) {
             builder.append(" user=");
-            builder.append(user.getClass().getSimpleName());
+            String name;
             if (user instanceof Spatial) {
-                Spatial spatial = (Spatial) user;
-                String name = spatial.getName();
-                String text = MyString.quote(name);
-                builder.append(text);
+                builder.append(user.getClass().getSimpleName());
+                name = ((Spatial) user).getName();
             } else if (user instanceof PhysicsLink) {
-                PhysicsLink link = (PhysicsLink) user;
-                String name = link.boneName();
-                String text = MyString.quote(name);
-                builder.append(text);
+                builder.append(user.getClass().getSimpleName());
+                name = ((PhysicsLink) user).boneName();
+            } else if (user instanceof String) {
+                builder.append("String");
+                name = (String) user;
+            } else {
+                name = user.toString();
+            }
+            if (name != null) {
+                if (name.length() > 50) {
+                    name = name.substring(0, 47) + "...";
+                }
+                builder.append(MyString.quote(name));
             }
         }
 
