@@ -734,7 +734,7 @@ public class TestDefaults {
         Torus torus = new Torus(16, 16, 0.2f, 0.8f);
         GImpactCollisionShape gimpact = new GImpactCollisionShape(torus);
         testShape(gimpact);
-        Assert.assertEquals(0.04f, empty.getMargin(), 0f);
+        Assert.assertEquals(0.04f, gimpact.getMargin(), 0f);
         Assert.assertTrue(gimpact.isConcave());
         Assert.assertFalse(gimpact.isConvex());
         Assert.assertFalse(gimpact.isInfinite());
