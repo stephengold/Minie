@@ -12,10 +12,10 @@ describes the shape and size of a collision object such as a rigid body.
 == The 16 shape classes
 
 The examples so far have all used spheres, cubes, and/or cylinders.
-However, those are but 3 of the 16 subclasses of the
+However, those are only 3 of the 16 subclasses of
 {url-shape}/CollisionShape.html[`CollisionShape`].
 
-Here they are in lexicographic order,
+Here they are summarized in lexicographic order,
 with illustrations and lists of key properties (explained below):
 
 [cols="2*",grid="none"]
@@ -37,7 +37,7 @@ with illustrations and lists of key properties (explained below):
 {item} precise +
 {item} fully scalable +
 {item} symmetric
-|image:https://i.imgur.com/My74h2Q.png[height=160]
+|image:box.png[height=160]
 
 |3. {url-shape}/CapsuleCollisionShape.html[`CapsuleCollisionShape`]
 
@@ -46,7 +46,7 @@ with illustrations and lists of key properties (explained below):
 {item} precise +
 {item} uniform scaling only +
 {item} symmetric
-|image:https://i.imgur.com/R9NMEwc.png[height=160]
+|image:capsule.png[height=160]
 
 |4. {url-shape}/CompoundCollisionShape.html[`CompoundCollisionShape`]
 
@@ -54,7 +54,7 @@ with illustrations and lists of key properties (explained below):
 {item} positive margin +
 {item} precise if-and-only-if all of its children are precise +
 {item} scalable to the extent that all of its children are scalable
-|image:https://i.imgur.com/gL6rgAA.png[height=160]
+|image:compound.png[height=160]
 
 |5. {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`]
 
@@ -63,7 +63,7 @@ with illustrations and lists of key properties (explained below):
 {item} imprecise +
 {item} uniform scaling only +
 {item} symmetric
-|image:https://i.imgur.com/jZFVxQd.png[height=160]
+|image:cone.png[height=160]
 
 |6. {url-shape}/Convex2dShape.html[`Convex2dShape`]
 
@@ -80,7 +80,7 @@ with illustrations and lists of key properties (explained below):
 {item} imprecise +
 {item} limited scalability +
 {item} symmetric
-|image:https://i.imgur.com/ey249X8.png[height=160]
+|image:cylinder.png[height=160]
 
 |8. {url-shape}/EmptyShape.html[`EmptyShape`]
 
@@ -97,7 +97,7 @@ with illustrations and lists of key properties (explained below):
 {item} positive margin +
 {item} precise +
 {item} fully scalable
-|image:https://i.imgur.com/TOLRsig.png[height=160]
+|image:gimpact.png[height=160]
 
 |10. {url-shape}/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`]
 
@@ -105,7 +105,7 @@ with illustrations and lists of key properties (explained below):
 {item} positive margin +
 {item} precise +
 {item} fully scalable
-|image:https://i.imgur.com/JwtpqOM.png[height=160]
+|image:heightfield.png[height=160]
 
 |11. {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
 
@@ -113,7 +113,7 @@ with illustrations and lists of key properties (explained below):
 {item} positive margin +
 {item} imprecise +
 {item} fully scalable
-|image:https://i.imgur.com/Rf61rcw.png[height=160]
+|image:hull.png[height=160]
 
 |12. {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`]
 
@@ -121,7 +121,7 @@ with illustrations and lists of key properties (explained below):
 {item} positive margin +
 {item} precise +
 {item} fully scalable
-|image:https://i.imgur.com/glB3Ujk.png[height=160]
+|image:mesh.png[height=160]
 
 |13. {url-shape}/MultiSphere.html[`MultiSphere`]
 
@@ -129,7 +129,7 @@ with illustrations and lists of key properties (explained below):
 {item} positive margin +
 {item} precise +
 {item} fully scalable
-|image:https://i.imgur.com/nTZEc8C.png[height=160]
+|image:multiSphere.png[height=160]
 
 |14. {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`]
 
@@ -155,7 +155,7 @@ with illustrations and lists of key properties (explained below):
 {item} precise +
 {item} uniform scaling only +
 {item} symmetric
-|image:https://i.imgur.com/OPYrxRe.png[height=160]
+|image:sphere.png[height=160]
 
 |===
 
