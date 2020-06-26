@@ -73,6 +73,9 @@
   </li>
 </ul>
   </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="implementation.html">Implementation</a>
+  </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE">License</a>
   </li>
@@ -202,7 +205,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="overview.html">The Minie project</a></li>
-    <li><a href="implementation.html">How Minie works</a></li>
+    <li><a href="implementation.html">Implementation</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/src/site/antora/minie-project/modules/ROOT/pages/implementation.adoc">Edit this page</a></div>
@@ -215,10 +218,21 @@
 <div class="paragraph">
 <p>For simulation, Minie uses <a href="https://pybullet.org/wordpress">the Bullet Physics SDK</a>,
 a mature, open-source, 3-D physics simulator,
-released under <a href="https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt">a Zlib license</a>.
-Bullet is written in C&#43;&#43;, so Minie uses
-<a href="https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html">the Java Native Interface</a>
-to access Bullet objects and methods.</p>
+released under <a href="https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt">a Zlib license</a>.</p>
+</div>
+<div class="paragraph">
+<p>For efficient simulation of moving meshes, Minie also incorporates Khaled Mamou&#8217;s
+<a href="https://github.com/kmammou/v-hacd">Volumetric-Hierarchical Approximate Convex Decomposition (V-HACD) algorithm</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_native_libraries"><a class="anchor" href="#_native_libraries"></a>Native libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Bullet and V-HACD are written in C&#43;&#43;, so Minie uses
+<a href="https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html">the Java Native Interface (JNI)</a>
+to access their objects and methods.</p>
 </div>
 <div class="paragraph">
 <p>All C&#43;&#43; source code associated with Minie
@@ -250,6 +264,11 @@ if it detects Minie&#8217;s <code>NativeMeshUtil</code> class.
 On Android platforms, the native library is loaded (if present)
 during static initialization of the <code>JmeAndroidSystem</code>.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_collision_objects_and_spaces"><a class="anchor" href="#_collision_objects_and_spaces"></a>Collision objects and spaces</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Physics simulation is organized around <em>collision objects</em>
 that interact in the context of a <em>collision space</em>.
@@ -281,6 +300,11 @@ However, Minie supports scaling the physics space relative to the scene,
 in which case the <em>physics-space units</em> (psu)
 might differ the from world units (wu).</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_discrete_time_and_collision_detection"><a class="anchor" href="#_discrete_time_and_collision_detection"></a>Discrete time and collision detection</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Within a physics space, simulation occurs in discrete <em>time steps</em>,
 which need not correspond to rendered frames.
@@ -317,6 +341,11 @@ Minie offers optional continuous collision detection (CCD)
 using swept spheres;
 such collisions are reported through those same listeners.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_app_states"><a class="anchor" href="#_app_states"></a>App states</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>To simplify the creation and management of physics spaces,
 Minie provides <em>app states</em>.
