@@ -28,6 +28,8 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.font.BitmapText;
@@ -54,7 +56,9 @@ import jme3utilities.ui.Signals;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class ForceDemo extends AbstractDemo {
+public class ForceDemo
+        extends AbstractDemo
+        implements PhysicsTickListener {
     // *************************************************************************
     // constants and loggers
 
@@ -142,6 +146,7 @@ public class ForceDemo extends AbstractDemo {
         BoxCollisionShape shape = new BoxCollisionShape(1f);
         float mass = 1f;
         cube = new PhysicsRigidBody(shape, mass);
+        cube.setEnableSleep(false);
         Quaternion initialOrientation
                 = new Quaternion().fromAngles(FastMath.HALF_PI, 0f, 0f);
         cube.setPhysicsRotation(initialOrientation);
@@ -217,10 +222,19 @@ public class ForceDemo extends AbstractDemo {
     @Override
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
-        /*
-         * Activate any bodies that have fallen asleep.
-         */
-        activateAll();
+        updateStatusText();
+    }
+    // *************************************************************************
+    // PhysicsTickListener methods
+
+    /**
+     * Callback from Bullet, invoked just before the physics is stepped.
+     *
+     * @param space the space that is about to be stepped (not null)
+     * @param timeStep the time per physics step (in seconds, &ge;0)
+     */
+    @Override
+    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         /*
          * Check UI signals and apply forces/torques accordingly.
          */
@@ -252,8 +266,17 @@ public class ForceDemo extends AbstractDemo {
         if (signals.test("torq-Y")) {
             cube.applyTorque(new Vector3f(0f, -1f, 0f));
         }
+    }
 
-        updateStatusText();
+    /**
+     * Callback from Bullet, invoked just after the physics has been stepped.
+     *
+     * @param space the space that was just stepped (not null)
+     * @param timeStep the time per physics step (in seconds, &ge;0)
+     */
+    @Override
+    public void physicsTick(PhysicsSpace space, float timeStep) {
+        // do nothing
     }
     // *************************************************************************
     // private methods
@@ -284,6 +307,8 @@ public class ForceDemo extends AbstractDemo {
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
 
+        PhysicsSpace space = getPhysicsSpace();
+        space.addTickListener(this);
         setGravityAll(0f);
     }
 
