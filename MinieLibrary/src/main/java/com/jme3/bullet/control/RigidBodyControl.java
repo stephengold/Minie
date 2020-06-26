@@ -134,13 +134,15 @@ public class RigidBodyControl
     }
 
     /**
-     * Instantiate an enabled Control with a responsive dynamic or static body
-     * and the specified mass. The CollisionShape is generated automatically
-     * when the Control is added to a Spatial.
+     * Instantiate an enabled control. The new instance is incomplete because it
+     * lacks a collision shape, so it CANNOT be immediately added to a space.
      *
-     * @param mass the desired mass (&ge;0) if &gt;0, a HullCollisionShape is
-     * generated, otherwise a MeshCollisionShape is used. For geometries with
-     * box or sphere meshes the proper box or sphere CollisionShape is used.
+     * Its shape will be auto-generated when it is added to a Spatial. If the
+     * controlled spatial is a Geometry with a box or sphere mesh, a matching
+     * box or sphere CollisionShape will be generated. Otherwise
+     * {@link com.jme3.bullet.util.CollisionShapeFactory} will be used.
+     *
+     * @param mass the desired mass (&ge;0)
      */
     public RigidBodyControl(float mass) {
         this.mass = mass;
