@@ -80,6 +80,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     final private static String tagAngularSleepingThreshold
             = "angularSleepingThreshold";
     final private static String tagAngularVelocity = "angularVelocity";
+    final private static String tagAppliedForce = "appliedForce";
+    final private static String tagAppliedTorque = "appliedTorque";
     final private static String tagContactResponse = "contactResponse";
     final private static String tagInverseInertia = "inverseInertia";
     final private static String tagKinematic = "kinematic";
@@ -728,6 +730,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * "sleeping" is synonym for "deactivation".
      *
      * @param setting true&rarr;enable sleeping, false&rarr;disable sleeping
+     * (default=true)
      */
     public void setEnableSleep(boolean setting) {
         long objectId = nativeId();
@@ -919,6 +922,41 @@ public class PhysicsRigidBody extends PhysicsBody {
         long objectId = nativeId();
         setSleepingThresholds(objectId, linear, angular);
     }
+
+    /**
+     * Determine the total force applied to this body (excluding contact forces,
+     * damping, and gravity).
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the total force (either storeResult or a new vector, mass times
+     * physics-space units per second squared in physics-space coordinates)
+     */
+    public Vector3f totalAppliedForce(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long objectId = nativeId();
+        getTotalForce(objectId, result);
+
+        return result;
+    }
+
+    /**
+     * Determine the total torque applied to this body (excluding contact forces
+     * and damping).
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the total torque (either storeResult or a new vector, mass times
+     * physics-space units squared per second squared in physics-space
+     * coordinates)
+     */
+    public Vector3f totalAppliedTorque(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long objectId = nativeId();
+        getTotalTorque(objectId, result);
+
+        return result;
+    }
     // *************************************************************************
     // new protected methods
 
@@ -1007,19 +1045,28 @@ public class PhysicsRigidBody extends PhysicsBody {
             setAngularVelocity(old.getAngularVelocity(tmpVector));
             setLinearVelocity(old.getLinearVelocity(tmpVector));
         }
+        Vector3f factor = new Vector3f(); // TODO garbage
+        setAngularFactor(old.getAngularFactor(factor));
+        old.totalAppliedTorque(tmpVector);
+        tmpVector.divideLocal(factor);
+        applyTorque(tmpVector);
+
+        setLinearFactor(old.getLinearFactor(factor));
+        old.totalAppliedForce(tmpVector);
+        tmpVector.divideLocal(factor);
+        applyCentralForce(tmpVector);
         /*
-         * Set velocities and kinematic flag BEFORE copyPcoProperties() because
+         * Set force, torque, velocities, and kinematic flag
+         * BEFORE copyPcoProperties() because
          * those setters also affect deactivation time.
          */
         copyPcoProperties(old);
 
         setAngularDamping(old.getAngularDamping());
-        setAngularFactor(old.getAngularFactor(tmpVector));
         setAngularSleepingThreshold(old.getAngularSleepingThreshold());
         setContactResponse(old.isContactResponse());
         setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
         setLinearDamping(old.getLinearDamping());
-        setLinearFactor(old.getLinearFactor(tmpVector));
         setLinearSleepingThreshold(old.getLinearSleepingThreshold());
         setPhysicsLocation(old.getPhysicsLocation(tmpVector));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
@@ -1091,8 +1138,13 @@ public class PhysicsRigidBody extends PhysicsBody {
         }
         setLinearVelocity((Vector3f) capsule.readSavable(tagLinearVelocity,
                 translateIdentity));
+        applyCentralForce((Vector3f) capsule.readSavable(tagAppliedForce,
+                translateIdentity));
+        applyTorque((Vector3f) capsule.readSavable(tagAppliedTorque,
+                translateIdentity));
         /*
-         * Set velocities and kinematic flag BEFORE readPcoProperties() because
+         * Set force, torque, velocities, and kinematic flag
+         * BEFORE readPcoProperties() because
          * those setters also affect deactivation time.
          */
         readPcoProperties(capsule);
@@ -1126,7 +1178,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Adding a body to a PhysicsSpace may override its gravity.
      *
      * @param acceleration the desired acceleration vector (in physics-space
-     * coordinates, not null, unaffected)
+     * coordinates, not null, unaffected, default=(0,0,0))
      */
     @Override
     public void setGravity(Vector3f acceleration) {
@@ -1218,6 +1270,8 @@ public class PhysicsRigidBody extends PhysicsBody {
             capsule.write(getLinearVelocity(null), tagLinearVelocity, null);
             capsule.write(getAngularVelocity(null), tagAngularVelocity, null);
         }
+        capsule.write(totalAppliedForce(null), tagAppliedForce, null);
+        capsule.write(totalAppliedTorque(null), tagAppliedTorque, null);
 
         writeJoints(capsule);
     }
@@ -1323,6 +1377,12 @@ public class PhysicsRigidBody extends PhysicsBody {
     native private static float getMass(long objectId);
 
     native private static float getSquaredSpeed(long objectId);
+
+    native private static void getTotalForce(long objectId,
+            Vector3f storeResult);
+
+    native private static void getTotalTorque(long objectId,
+            Vector3f storeResult);
 
     native private static boolean getUseSpaceGravity(long objectId);
 
