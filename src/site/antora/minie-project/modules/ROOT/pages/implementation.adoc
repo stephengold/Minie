@@ -5,15 +5,21 @@
 For simulation, Minie uses https://pybullet.org/wordpress[the Bullet Physics SDK],
 a mature, open-source, 3-D physics simulator,
 released under https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt[a Zlib license].
-Bullet is written in {cplusplus}, so Minie uses
-https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html[the Java Native Interface]
-to access Bullet objects and methods.
+
+For efficient simulation of moving meshes, Minie also incorporates Khaled Mamou's
+https://github.com/kmammou/v-hacd[Volumetric-Hierarchical Approximate Convex Decomposition (V-HACD) algorithm].
+
+== Native libraries
+
+Bullet and V-HACD are written in {cplusplus}, so Minie uses
+https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html[the Java Native Interface (JNI)]
+to access their objects and methods.
 
 All {cplusplus} source code associated with Minie
 (including JNI "glue code" and a modified partial snapshot of the Bullet SDK)
 resides in https://github.com/stephengold/Libbulletjme[the Libbulletjme repository].
 The Libbulletjme project builds _native libraries_
-for each of the 11 platforms currently supported by Minie: 
+for each of the 11 platforms currently supported by Minie:
 
 * Windows: 32-bit and 64-bit
 * Linux: x86-64, x86, and aarch64
@@ -25,6 +31,8 @@ the appropriate native library during initialization of the `JmeDesktopSystem`
 if it detects Minie's `NativeMeshUtil` class.
 On Android platforms, the native library is loaded (if present)
 during static initialization of the `JmeAndroidSystem`.
+
+== Collision objects and spaces
 
 Physics simulation is organized around _collision objects_
 that interact in the context of a _collision space_.
@@ -53,6 +61,8 @@ However, Minie supports scaling the physics space relative to the scene,
 in which case the _physics-space units_ (psu)
 might differ the from world units (wu).
 
+== Discrete time and collision detection
+
 Within a physics space, simulation occurs in discrete _time steps_,
 which need not correspond to rendered frames.
 Each time step consists of 4 _phases_:
@@ -75,6 +85,8 @@ For fast-moving objects,
 Minie offers optional continuous collision detection (CCD)
 using swept spheres;
 such collisions are reported through those same listeners.
+
+== App states
 
 To simplify the creation and management of physics spaces,
 Minie provides _app states_.
