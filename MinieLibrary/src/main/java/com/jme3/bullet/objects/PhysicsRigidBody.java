@@ -1045,16 +1045,16 @@ public class PhysicsRigidBody extends PhysicsBody {
             setAngularVelocity(old.getAngularVelocity(tmpVector));
             setLinearVelocity(old.getLinearVelocity(tmpVector));
         }
-        Vector3f factor = new Vector3f(); // TODO garbage
-        setAngularFactor(old.getAngularFactor(factor));
-        old.totalAppliedTorque(tmpVector);
-        tmpVector.divideLocal(factor);
-        applyTorque(tmpVector);
 
-        setLinearFactor(old.getLinearFactor(factor));
-        old.totalAppliedForce(tmpVector);
-        tmpVector.divideLocal(factor);
-        applyCentralForce(tmpVector);
+        clearForces();
+
+        setAngularFactor(scaleIdentity);
+        applyTorque(old.totalAppliedTorque(tmpVector));
+        setAngularFactor(old.getAngularFactor(tmpVector));
+
+        setLinearFactor(scaleIdentity);
+        applyCentralForce(old.totalAppliedForce(tmpVector));
+        setLinearFactor(old.getLinearFactor(tmpVector));
         /*
          * Set force, torque, velocities, and kinematic flag
          * BEFORE copyPcoProperties() because
