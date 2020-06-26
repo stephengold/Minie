@@ -5,6 +5,7 @@
 ** https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md[Release log]
 ** https://github.com/stephengold/Minie/commits/master[Recent commits]
 ** https://github.com/stephengold/Minie/issues[Issue tracker]
+* xref:implementation.adoc[Implementation]
 * https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE[License]
 * https://hub.jmonkeyengine.org/c/user-code-projects/minie/63[Forum]
 * Library tutorials
