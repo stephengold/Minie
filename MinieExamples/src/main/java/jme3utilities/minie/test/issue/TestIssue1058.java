@@ -46,17 +46,31 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 public class TestIssue1058
         extends SimpleApplication
         implements PhysicsTickListener {
+    // *************************************************************************
+    // fields
 
     private volatile boolean hasStepped = false;
     private PhysicsRigidBody body1;
     private PhysicsRigidBody body2;
     private PhysicsSpace physicsSpace;
+    // *************************************************************************
+    // new methods exposed
 
-    public static void main(String[] arguments) {
+    /**
+     * Main entry point for the TestIssue1058 application.
+     *
+     * @param ignored array of command-line arguments (not null)
+     */
+    public static void main(String[] ignored) {
         Application application = new TestIssue1058();
         application.start();
     }
+    // *************************************************************************
+    // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         BulletAppState bulletAppState = new BulletAppState();
@@ -75,6 +89,11 @@ public class TestIssue1058
         physicsSpace.addCollisionObject(body2);
     }
 
+    /**
+     * Callback invoked once per frame.
+     *
+     * @param tpf the time interval between frames (in seconds, &ge;0)
+     */
     @Override
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
@@ -84,14 +103,28 @@ public class TestIssue1058
             stop();
         }
     }
+    // *************************************************************************
+    // PhysicsTickListener methods
 
+    /**
+     * Callback from Bullet, invoked just before the physics is stepped.
+     *
+     * @param space the space that is about to be stepped (not null)
+     * @param timeStep the time per physics step (in seconds, &ge;0)
+     */
     @Override
-    public void prePhysicsTick(PhysicsSpace space, float timestep) {
+    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         // do nothing
     }
 
+    /**
+     * Callback from Bullet, invoked just after the physics has been stepped.
+     *
+     * @param space the space that was just stepped (not null)
+     * @param timeStep the time per physics step (in seconds, &ge;0)
+     */
     @Override
-    public void physicsTick(PhysicsSpace space, float timestep) {
+    public void physicsTick(PhysicsSpace space, float timeStep) {
         hasStepped = true;
     }
 }
