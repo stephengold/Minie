@@ -218,7 +218,8 @@ public class TestCloneBody {
                 new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), afMode);
 
         body.setAngularDamping(b + 0.01f);
-        body.setAngularFactor(new Vector3f(b + 0.02f, b + 0.021f, b + 0.022f));
+        Vector3f aFactor = new Vector3f(b + 0.02f, b + 0.021f, b + 0.022f);
+        body.setAngularFactor(aFactor);
         body.setSleepingThresholds(b + 0.17f, b + 0.03f);
         body.setAngularVelocity(new Vector3f(b + 0.04f, b + 0.05f, b + 0.06f));
         body.setCcdMotionThreshold(b + 0.07f);
@@ -230,7 +231,8 @@ public class TestCloneBody {
         body.setInverseInertiaLocal(
                 new Vector3f(b + 0.122f, b + 0.123f, b + 0.124f));
         body.setLinearDamping(b + 0.13f);
-        body.setLinearFactor(new Vector3f(b + 0.14f, b + 0.15f, b + 0.16f));
+        Vector3f lFactor = new Vector3f(b + 0.14f, b + 0.15f, b + 0.16f);
+        body.setLinearFactor(lFactor);
         body.setPhysicsLocation(new Vector3f(b + 0.18f, b + 0.19f, b + 0.20f));
 
         Quaternion orient
@@ -245,6 +247,11 @@ public class TestCloneBody {
         /*
          * Linear velocity affects deactivation time, so set it first!
          */
+        body.clearForces();
+        Vector3f force = new Vector3f(b + 0.231f, b + 0.232f, b + 0.233f);
+        body.applyCentralForce(force.divide(lFactor));
+        Vector3f torque = new Vector3f(b + 0.241f, b + 0.242f, b + 0.243f);
+        body.applyTorque(torque.divide(aFactor));
         body.setLinearVelocity(new Vector3f(b + 0.26f, b + 0.27f, b + 0.28f));
         body.setDeactivationTime(b + 0.087f);
         if (body instanceof PhysicsVehicle) {
@@ -337,7 +344,7 @@ public class TestCloneBody {
         assert body.getContactDamping() == b + 0.084f;
         assert body.getContactProcessingThreshold() == b + 0.0845f;
         assert body.getContactStiffness() == b + 0.085f;
-        assert body.getDeactivationTime() == b + 0.087f;
+        Assert.assertEquals(b + 0.087f, body.getDeactivationTime(), 0f);
         assert body.getFriction() == b + 0.09f;
 
         Vector3f i = body.getInverseInertiaLocal(null);
@@ -369,6 +376,11 @@ public class TestCloneBody {
         assert body.getRestitution() == b + 0.25f;
         assert body.getRollingFriction() == b + 0.254f;
         assert body.getSpinningFriction() == b + 0.255f;
+
+        assertEquals(b + 0.231f, b + 0.232f, b + 0.233f,
+                body.totalAppliedForce(null), 1e-6f);
+        assertEquals(b + 0.241f, b + 0.242f, b + 0.243f,
+                body.totalAppliedTorque(null), 1e-6f);
 
         if (body.isDynamic()) {
             Vector3f w = body.getAngularVelocity(null);
