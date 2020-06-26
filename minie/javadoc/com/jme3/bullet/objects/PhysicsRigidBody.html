@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10,"i51":10,"i52":10,"i53":10,"i54":10,"i55":10,"i56":10,"i57":10,"i58":10,"i59":10,"i60":10,"i61":10,"i62":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10,"i51":10,"i52":10,"i53":10,"i54":10,"i55":10,"i56":10,"i57":10,"i58":10,"i59":10,"i60":10,"i61":10,"i62":10,"i63":10,"i64":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -673,6 +673,22 @@ float&nbsp;angular)</code></th>
 </td>
 </tr>
 <tr class="altColor" id="i62">
+<td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#totalAppliedForce(com.jme3.math.Vector3f)">totalAppliedForce</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
+<td class="colLast">
+<div class="block">Determine the total force applied to this body (excluding contact forces,
+ damping, and gravity).</div>
+</td>
+</tr>
+<tr class="rowColor" id="i63">
+<td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#totalAppliedTorque(com.jme3.math.Vector3f)">totalAppliedTorque</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
+<td class="colLast">
+<div class="block">Determine the total torque applied to this body (excluding contact forces
+ and damping).</div>
+</td>
+</tr>
+<tr class="altColor" id="i64">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(com.jme3.export.JmeExporter)">write</a></span>&#8203;(com.jme3.export.JmeExporter&nbsp;exporter)</code></th>
 <td class="colLast">
@@ -1278,7 +1294,8 @@ float&nbsp;angularDamping)</span></div>
  "sleeping" is synonym for "deactivation".</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>setting</code> - true&rarr;enable sleeping, false&rarr;disable sleeping</dd>
+<dd><code>setting</code> - true&rarr;enable sleeping, false&rarr;disable sleeping
+ (default=true)</dd>
 </dl>
 </section>
 </li>
@@ -1444,6 +1461,37 @@ float&nbsp;angular)</span></div>
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="totalAppliedForce(com.jme3.math.Vector3f)">totalAppliedForce</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">com.jme3.math.Vector3f</span>&nbsp;<span class="memberName">totalAppliedForce</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
+<div class="block">Determine the total force applied to this body (excluding contact forces,
+ damping, and gravity).</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the total force (either storeResult or a new vector, mass times
+ physics-space units per second squared in physics-space coordinates)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="totalAppliedTorque(com.jme3.math.Vector3f)">totalAppliedTorque</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">com.jme3.math.Vector3f</span>&nbsp;<span class="memberName">totalAppliedTorque</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
+<div class="block">Determine the total torque applied to this body (excluding contact forces
+ and damping).</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the total torque (either storeResult or a new vector, mass times
+ physics-space units squared per second squared in physics-space
+ coordinates)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="postRebuild()">postRebuild</a></h3>
 <div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">postRebuild</span>()</div>
 <div class="block">For use by subclasses.</div>
@@ -1559,7 +1607,7 @@ java.lang.Object&nbsp;original)</span></div>
 <dd><code><a href="PhysicsBody.html#setGravity(com.jme3.math.Vector3f)">setGravity</a></code>&nbsp;in class&nbsp;<code><a href="PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>acceleration</code> - the desired acceleration vector (in physics-space
- coordinates, not null, unaffected)</dd>
+ coordinates, not null, unaffected, default=(0,0,0))</dd>
 </dl>
 </section>
 </li>
