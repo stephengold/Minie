@@ -1,0 +1,95 @@
+= How Minie works
+:cplusplus: C&#43;&#43;
+:url-enwiki: https://en.wikipedia.org/wiki
+
+For simulation, Minie uses https://pybullet.org/wordpress[the Bullet Physics SDK],
+a mature, open-source, 3-D physics simulator,
+released under https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt[a Zlib license].
+Bullet is written in {cplusplus}, so Minie uses
+https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html[the Java Native Interface]
+to access Bullet objects and methods.
+
+All {cplusplus} source code associated with Minie
+(including JNI "glue code" and a modified partial snapshot of the Bullet SDK)
+resides in https://github.com/stephengold/Libbulletjme[the Libbulletjme repository].
+The Libbulletjme project builds _native libraries_
+for each of the 11 platforms currently supported by Minie: 
+
+* Windows: 32-bit and 64-bit
+* Linux: x86-64, x86, and aarch64
+* macOS: 32-bit and 64-bit
+* Android: armeabi-v7a, arm64-v8a, x86, and x86_64
+
+On desktop platforms, JMonkeyEngine automatically loads
+the appropriate native library during initialization of the `JmeDesktopSystem`
+if it detects Minie's `NativeMeshUtil` class.
+On Android platforms, the native library is loaded (if present)
+during static initialization of the `JmeAndroidSystem`.
+
+Physics simulation is organized around _collision objects_
+that interact in the context of a _collision space_.
+Collision objects can be _soft_ (varying shape) or _rigid_ (non-varying shape).
+Rigid objects can be _mobile_ (moving) or _static_ (non-moving).
+And mobile objects can be _dynamic_ (moved by {url-enwiki}/Force[forces],
+{url-enwiki}/Torque[torques], and {url-enwiki}/Impulse_(physics)[impulses])
+or _kinematic_ (moved directly by external calculations).
+
+In this document, collision spaces that simulate forces, torques, and impulses
+are referred to as _physics spaces_.
+
+By themselves, collision objects are invisible,
+while scene-graph spatials have no effect on physics.
+To visualize a collision object, it must be associated
+with one or more scene-graph spatial(s).
+For debugging purposes, Minie can visualize
+collision objects by auto-generating spatials for them.
+For full-custom visualization, a _physics control_
+should be used to associate collision objects with spatials.
+
+A collision object's location and orientation are described
+using _physics-space coordinates_.
+These typically correspond to world coordinates of the scene.
+However, Minie supports scaling the physics space relative to the scene,
+in which case the _physics-space units_ (psu)
+might differ the from world units (wu).
+
+Within a physics space, simulation occurs in discrete _time steps_,
+which need not correspond to rendered frames.
+Each time step consists of 4 _phases_:
+
+. _forward dynamics_ part one,
+  to apply known forces
+  and predict the next position of each collision object
+. _broadphase collision detection_,
+  to quickly determine (using axis-aligned bounding boxes)
+  which objects (if any) might possibly collide
+. _narrowphase collision detection_,
+  to compute actual contacts (if any) between between objects,
+  and
+. forward dynamics part 2,
+  to apply contact forces, solve constraints, and update positions.
+
+Collisions between collision objects are reported asynchronously
+to listeners registered at the space.
+For fast-moving objects,
+Minie offers optional continuous collision detection (CCD)
+using swept spheres;
+such collisions are reported through those same listeners.
+
+To simplify the creation and management of physics spaces,
+Minie provides _app states_.
+The simplest of these is `BulletAppState`; it manages a single
+space without any soft objects or multibodies.
+Simulation of the space can take place on the render thread
+or else on a dedicated physics thread.
+Either way, the app state attempts to synchronize to real time
+during each rendered frame.
+Debug visualization can be enabled or disabled simply by setting a parameter.
+
+== Next steps
+
+For more detail about Bullet physics, download and read the
+https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf[Bullet User Manual].
+
+To gain hands-on experience,
+proceed to xref:minie-library-tutorials:add.adoc[the first tutorial page].

@@ -25,7 +25,7 @@ and the software used to build, test, and run them.
 The underlying simulation software  comes from
 https://pybullet.org/wordpress[_Bullet_], a mature real-time physics simulator.
 But although Bullet is written in {url-enwiki}/C%2B%2B[C&#43;&#43;],
-you won't need any knowledge of C++ to use Minie.
+you won't need any knowledge of C&#43;&#43; to use Minie.
 
 == Caveats
 
@@ -59,3 +59,11 @@ It's a play on words, not intended to denigrate the man, nor glorify him.
 
 The preferred English pronunciation is roughly "min-YAY",
 but "MIN-ee" is also acceptable.
+
+== Next steps
+
+If you're curious how Minie works,
+proceed to xref:implementation.adoc[the Implementation page].
+
+To gain hands-on experience,
+proceed to xref:minie-library-tutorials:add.adoc[the first tutorial page].
