@@ -376,6 +376,15 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
+     * For compatibility with jme3-bullet.
+     *
+     * @return a new normal vector
+     */
+    public Vector3f getNormalWorldOnB() {
+        return getPositionWorldOnB(null);
+    }
+
+    /**
      * Copy the collision's normal on object B (native name: m_normalWorldOnB).
      *
      * @param storeResult storage for the result (modified if not null)
