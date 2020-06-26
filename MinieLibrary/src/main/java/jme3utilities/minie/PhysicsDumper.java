@@ -1102,22 +1102,33 @@ public class PhysicsDumper extends Dumper {
         }
         stream.print(']');
         /*
-         * 2nd line: linear velocity, moments, and angular velocity
+         * 2nd line: linear velocity, applied force, linear factor
          */
         addLine(indent);
 
-        Vector3f velocity = rigidBody.getLinearVelocity(null);
-        String velString = MyVector3f.describe(velocity);
-        stream.printf(" v[%s]", velString);
+        Vector3f v = rigidBody.getLinearVelocity(null);
+        stream.printf(" v[%s]", MyVector3f.describe(v));
+        Vector3f force = rigidBody.totalAppliedForce(null);
+        stream.printf(" force[%s]", MyVector3f.describe(force));
+        Vector3f lFact = rigidBody.getLinearFactor(null);
+        stream.printf(" lFact[%s]", MyVector3f.describe(lFact));
+        /*
+         * 3rd line: inertia, angular velocity, applied torque, angular factor
+         */
+        addLine(indent);
 
-        stream.print(" moms[");
+        stream.print(" inert[");
         Vector3f iiLocal = rigidBody.getInverseInertiaLocal(null);
-        Vector3f moments = scaleIdentity.divide(iiLocal);
-        stream.print(MyVector3f.describe(moments));
+        Vector3f inert = scaleIdentity.divide(iiLocal);
+        stream.print(MyVector3f.describe(inert));
         stream.print(']');
 
         Vector3f angularVelocity = rigidBody.getAngularVelocity(null);
         stream.printf(" w[%s]", MyVector3f.describe(angularVelocity));
+        Vector3f torq = rigidBody.totalAppliedTorque(null);
+        stream.printf(" torq[%s]", MyVector3f.describe(torq));
+        Vector3f aFact = rigidBody.getAngularFactor(null);
+        stream.printf(" aFact[%s]", MyVector3f.describe(aFact));
     }
 
     /**
