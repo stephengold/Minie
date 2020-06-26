@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Project overview :: The Minie project</title>
-    <link rel="canonical" href="https://stephengold.github.io/Minie/minie/overview.html">
+    <title>How Minie works :: The Minie project</title>
+    <link rel="canonical" href="https://stephengold.github.io/Minie/minie/implementation.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
 <meta property="og:image" content="../_/img/iconx128.png">
-<meta property="og:description" content="Project overview">
+<meta property="og:description" content="How Minie works">
 <meta property="og:title" content="The Minie project">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
   </head>
@@ -202,102 +202,131 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="overview.html">The Minie project</a></li>
-    <li><a href="overview.html">Project overview</a></li>
+    <li><a href="implementation.html">How Minie works</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/src/site/antora/minie-project/modules/ROOT/pages/overview.adoc">Edit this page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/src/site/antora/minie-project/modules/ROOT/pages/implementation.adoc">Edit this page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Project overview</h1>
+<h1 class="page">How Minie works</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><em>Minie</em> is a physics library for <a href="https://jmonkeyengine.org">JMonkeyEngine</a>
-that takes physics-based games to the next level.</p>
+<p>For simulation, Minie uses <a href="https://pybullet.org/wordpress">the Bullet Physics SDK</a>,
+a mature, open-source, 3-D physics simulator,
+released under <a href="https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt">a Zlib license</a>.
+Bullet is written in C&#43;&#43;, so Minie uses
+<a href="https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html">the Java Native Interface</a>
+to access Bullet objects and methods.</p>
 </div>
 <div class="paragraph">
-<p>Use it to:</p>
+<p>All C&#43;&#43; source code associated with Minie
+(including JNI "glue code" and a modified partial snapshot of the Bullet SDK)
+resides in <a href="https://github.com/stephengold/Libbulletjme">the Libbulletjme repository</a>.
+The Libbulletjme project builds <em>native libraries</em>
+for each of the 11 platforms currently supported by Minie:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>add solidity to walls, characters, projectiles, landscapes, and vehicles</p>
+<p>Windows: 32-bit and 64-bit</p>
 </li>
 <li>
-<p>detect collisions between complex shapes and perform ray/sweep tests</p>
+<p>Linux: x86-64, x86, and aarch64</p>
 </li>
 <li>
-<p>simulate characters and buildings collapsing in real time, and</p>
+<p>macOS: 32-bit and 64-bit</p>
 </li>
 <li>
-<p>simulate cloth, rope, and deformable volumes,
-including their interactions with rigid bodies and each other.</p>
+<p>Android: armeabi-v7a, arm64-v8a, x86, and x86_64</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Forked from the jme3-bullet library, Minie adds many useful features
-while preserving most of the jme3-bullet
-<a href="https://en.wikipedia.org/wiki/Application_programming_interface">API</a>.
-Most JMonkeyEngine physics examples can use Minie without modification,
-and Minie adds its own demos and tutorials to help you get started.</p>
+<p>On desktop platforms, JMonkeyEngine automatically loads
+the appropriate native library during initialization of the <code>JmeDesktopSystem</code>
+if it detects Minie&#8217;s <code>NativeMeshUtil</code> class.
+On Android platforms, the native library is loaded (if present)
+during static initialization of the <code>JmeAndroidSystem</code>.</p>
 </div>
 <div class="paragraph">
-<p>All software in the Minie project is free and open-source,
-including the library itself, the demo, tutorial, and utility apps,
-and the software used to build, test, and run them.</p>
+<p>Physics simulation is organized around <em>collision objects</em>
+that interact in the context of a <em>collision space</em>.
+Collision objects can be <em>soft</em> (varying shape) or <em>rigid</em> (non-varying shape).
+Rigid objects can be <em>mobile</em> (moving) or <em>static</em> (non-moving).
+And mobile objects can be <em>dynamic</em> (moved by <a href="https://en.wikipedia.org/wiki/Force">forces</a>,
+<a href="https://en.wikipedia.org/wiki/Torque">torques</a>, and <a href="https://en.wikipedia.org/wiki/Impulse_(physics)">impulses</a>)
+or <em>kinematic</em> (moved directly by external calculations).</p>
 </div>
 <div class="paragraph">
-<p>The underlying simulation software  comes from
-<a href="https://pybullet.org/wordpress"><em>Bullet</em></a>, a mature real-time physics simulator.
-But although Bullet is written in <a href="https://en.wikipedia.org/wiki/C%2B%2B">C&#43;&#43;</a>,
-you won&#8217;t need any knowledge of C&#43;&#43; to use Minie.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_caveats"><a class="anchor" href="#_caveats"></a>Caveats</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Minie&#8217;s focus is on simulating
-<a href="https://en.wikipedia.org/wiki/Classical_mechanics">classical mechanics</a>
-in just enough detail to add verisimilitude to 3-D games.
-It&#8217;s not intended for 2-D <a href="https://en.wikipedia.org/wiki/wiki/Platform_game">platformers</a>,
-nor for scientific research.</p>
+<p>In this document, collision spaces that simulate forces, torques, and impulses
+are referred to as <em>physics spaces</em>.</p>
 </div>
 <div class="paragraph">
-<p>Like JMonkeyEngine, Minie and its documentation
-assume a certain level of proficiency with
-<a href="https://en.wikipedia.org/wiki/Java_(programming_language)">the Java programming language</a>.
-This project isn&#8217;t aimed at non-programmers,
-nor developers without prior Java experience.
-Similarly, some familiarity with 3-D graphics and vector math is assumed.</p>
+<p>By themselves, collision objects are invisible,
+while scene-graph spatials have no effect on physics.
+To visualize a collision object, it must be associated
+with one or more scene-graph spatial(s).
+For debugging purposes, Minie can visualize
+collision objects by auto-generating spatials for them.
+For full-custom visualization, a <em>physics control</em>
+should be used to associate collision objects with spatials.</p>
 </div>
 <div class="paragraph">
-<p>While an understanding of classical mechanics is assumed,
-many of its technical terms are linked (at first use)
-to the relevant article in the English Wikipedia.</p>
+<p>A collision object&#8217;s location and orientation are described
+using <em>physics-space coordinates</em>.
+These typically correspond to world coordinates of the scene.
+However, Minie supports scaling the physics space relative to the scene,
+in which case the <em>physics-space units</em> (psu)
+might differ the from world units (wu).</p>
 </div>
 <div class="paragraph">
-<p><a href="https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE">Minie&#8217;s BSD-style license</a>
-disclaims liability for defects.
-Please don&#8217;t use this software in mission-critical applications.</p>
+<p>Within a physics space, simulation occurs in discrete <em>time steps</em>,
+which need not correspond to rendered frames.
+Each time step consists of 4 <em>phases</em>:</p>
 </div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><em>forward dynamics</em> part one,
+to apply known forces
+and predict the next position of each collision object</p>
+</li>
+<li>
+<p><em>broadphase collision detection</em>,
+to quickly determine (using axis-aligned bounding boxes)
+which objects (if any) might possibly collide</p>
+</li>
+<li>
+<p><em>narrowphase collision detection</em>,
+to compute actual contacts (if any) between between objects,
+and</p>
+</li>
+<li>
+<p>forward dynamics part 2,
+to apply contact forces, solve constraints, and update positions.</p>
+</li>
+</ol>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_the_name"><a class="anchor" href="#_the_name"></a>The name</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>The Minie project is named after
-<a href="https://en.wikipedia.org/wiki/Claude-%C3%89tienne_Mini%C3%A9">Claude-Étienne Minié</a>,
-who in 1846 developed an improved bullet for rifles.
-It&#8217;s a play on words, not intended to denigrate the man, nor glorify him.</p>
+<p>Collisions between collision objects are reported asynchronously
+to listeners registered at the space.
+For fast-moving objects,
+Minie offers optional continuous collision detection (CCD)
+using swept spheres;
+such collisions are reported through those same listeners.</p>
 </div>
 <div class="paragraph">
-<p>The preferred English pronunciation is roughly "min-YAY",
-but "MIN-ee" is also acceptable.</p>
+<p>To simplify the creation and management of physics spaces,
+Minie provides <em>app states</em>.
+The simplest of these is <code>BulletAppState</code>; it manages a single
+space without any soft objects or multibodies.
+Simulation of the space can take place on the render thread
+or else on a dedicated physics thread.
+Either way, the app state attempts to synchronize to real time
+during each rendered frame.
+Debug visualization can be enabled or disabled simply by setting a parameter.</p>
 </div>
 </div>
 </div>
@@ -305,8 +334,8 @@ but "MIN-ee" is also acceptable.</p>
 <h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next steps</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you&#8217;re curious how Minie works,
-proceed to <a href="implementation.html" class="page">the Implementation page</a>.</p>
+<p>For more detail about Bullet physics, download and read the
+<a href="https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf">Bullet User Manual</a>.</p>
 </div>
 <div class="paragraph">
 <p>To gain hands-on experience,
