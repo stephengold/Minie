@@ -224,7 +224,7 @@
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Remove any existing physics libraries which might interfere with Minie.</p>
+<p>Remove any libraries that might interfere with Minie.</p>
 </li>
 <li>
 <p>Add libraries to the classpath.</p>
@@ -251,11 +251,18 @@ if the application doesn&#8217;t already do so.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_remove_all_other_physics_libraries"><a class="anchor" href="#_remove_all_other_physics_libraries"></a>Remove all other physics libraries</h2>
+<h2 id="_remove_libraries_that_might_interfere"><a class="anchor" href="#_remove_libraries_that_might_interfere"></a>Remove libraries that might interfere</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Minie replaces (and is thus incompatible with) the following
-jMonkeyEngine libraries:</p>
+<p>If any directory where your application might runs contains files
+named "libbulletjme.so" or "bulletjme.dll" or "libbulletjme.dylib",
+you should remove those files.
+Those filenames are used by JMonkeyEngine when it loads the native library,
+and you don&#8217;t want it to load the wrong one!</p>
+</div>
+<div class="paragraph">
+<p>Also, Minie replaces (and is thus incompatible with) the following
+JMonkeyEngine libraries:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -282,7 +289,7 @@ they won&#8217;t interfere with Minie.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Look for artifacts with these names in the <code>dependencies</code> section(s)
+<p>Look for artifacts with those names in the <code>dependencies</code> section(s)
 of your project&#8217;s "build.gradle" file(s).</p>
 </li>
 <li>
@@ -351,7 +358,7 @@ which in turn depends on:</p>
 <div class="sect2">
 <h3 id="_gradle_built_projects_2"><a class="anchor" href="#_gradle_built_projects_2"></a>Gradle-built projects</h3>
 <div class="paragraph">
-<p>For projects built using Maven or Gradle, it is sufficient to specify the
+<p>For projects built using Maven or Gradle, it&#8217;s usually sufficient to specify the
 dependency on the Minie Library.  The build tools should automatically
 resolve the remaining dependencies automatically.</p>
 </div>

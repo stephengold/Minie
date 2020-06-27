@@ -452,7 +452,7 @@ Things to notice while running the app:</p>
 that affect the motion of the dynamic ball.</p>
 </li>
 <li>
-<p>The kinematic ball continues to orbit,
+<p>The kinematic ball continues orbiting,
 unaffected by both gravity and contact forces.</p>
 </li>
 </ol>
@@ -670,8 +670,8 @@ a downward force that&#8217;s proportional to mass (and thus causes a constant
 <a href="https://en.wikipedia.org/wiki/Acceleration">acceleration</a>).</p>
 </div>
 <div class="paragraph">
-<p>To simulate this phenomenon, each body has a gravity vector,
-which quantifies the acceleration, assuming the body is dynamic.
+<p>To simulate this phenomenon, each body has a gravity vector
+that quantifies the acceleration, assuming the body is dynamic.
 To configure a body&#8217;s gravity, use <code>setGravity(accelerationVector)</code>.</p>
 </div>
 <div class="admonitionblock note">
@@ -754,9 +754,9 @@ which ranges from zero (perfectly inelastic) to one (perfectly elastic).</p>
 <div class="paragraph">
 <p>In simulation, collisions are inelastic by default.
 (We saw this in <a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody.java</a>.)
-Each rigid body has a <em>restitution parameter</em> which defaults to zero.
+Each rigid body has a <em>restitution parameter</em>, which defaults to zero.
 For each collision, the coefficient of restitution
-is calculated by <strong>multiplying</strong> the parameters of the colliding bodies.</p>
+is calculated by multiplying the parameters of the colliding bodies.</p>
 </div>
 <div class="paragraph">
 <p>To simulate a perfectly elastic collision, set the restitution parameters of
@@ -790,7 +790,7 @@ Increasing it yields better traction (think sandpaper or dry rubber).</p>
 </div>
 <div class="paragraph">
 <p>For each collision, a <em>coefficient of friction</em>
-is calculated by <strong>adding</strong> the parameters of the colliding bodies.</p>
+is calculated by multiplying the parameters of the colliding bodies.</p>
 </div>
 </div>
 </div>
@@ -889,10 +889,10 @@ use <code>physicsSpace.activateAll(true)</code>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>supported by another body which then gets removed,</p>
+<p>supported by another body that then gets removed,</p>
 </li>
 <li>
-<p>supported by another body which then has its contact response disabled, or</p>
+<p>supported by another body that then has its contact response disabled, or</p>
 </li>
 <li>
 <p>driven by a motorized physics joint.</p>
