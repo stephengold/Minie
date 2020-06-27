@@ -410,21 +410,18 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" orient[%s]", orientText);
         }
 
-        float friction = body.getFriction();
-        stream.print(" fric=");
-        stream.print(MyString.describe(friction));
-
-        float restitution = body.getRestitution();
-        stream.print(" rest=");
-        stream.print(MyString.describe(restitution));
-
-        addActivationState(body);
         long objectId = body.nativeId();
         addNativeId(objectId);
+        /*
+         * 2nd line: activation state and contact parameters
+         */
+        addLine(indent);
+        addActivationState(body);
+        addContactParameters(body);
 
         if (body.isDynamic()) {
             /*
-             * The 2nd & 3rd lines have the dynamic properties.
+             * The next 3 lines have the dynamic properties.
              */
             addDynamicProperties(body, indent);
         }
@@ -1051,6 +1048,34 @@ public class PhysicsDumper extends Dumper {
         if (activationState != expectedState) {
             stream.printf(" as=%d", activationState);
         }
+    }
+
+    /**
+     * Print the contact parameters of the specified rigid body.
+     *
+     * @param rigidBody (not null, unaffected)
+     */
+    private void addContactParameters(PhysicsRigidBody body) {
+        float fric = body.getFriction();
+        stream.print(" contact[fric=");
+        stream.print(MyString.describe(fric));
+
+        float rest = body.getRestitution();
+        stream.print(" rest=");
+        stream.print(MyString.describe(rest));
+
+        float damp = body.getContactDamping();
+        stream.print(" damp=");
+        stream.print(MyString.describe(damp));
+
+        float pth = body.getContactProcessingThreshold();
+        stream.print(" pth=");
+        stream.print(MyString.describe(pth));
+
+        float stiff = body.getContactStiffness();
+        stream.print(" stiff=");
+        stream.print(MyString.describe(stiff));
+        stream.print(']');
     }
 
     /**
