@@ -88,7 +88,7 @@ public class TestStaticBody {
      * Test the creation of static rigid bodies with various shapes.
      */
     @Test
-    public void testDefaults() {
+    public void testStaticBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
         assetManager.registerLoader(AWTLoader.class, "jpg", "png");
         assetManager.registerLoader(BinaryLoader.class, "j3o");

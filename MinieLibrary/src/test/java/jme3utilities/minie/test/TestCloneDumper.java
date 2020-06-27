@@ -43,7 +43,7 @@ public class TestCloneDumper {
      * Test cloning a PhysicsDumper.
      */
     @Test
-    public void testCloneCharacter() {
+    public void testCloneDumper() {
         PhysicsDumper dumper = new PhysicsDumper();
         setParameters(dumper, 0f);
         verifyParameters(dumper, 0f);

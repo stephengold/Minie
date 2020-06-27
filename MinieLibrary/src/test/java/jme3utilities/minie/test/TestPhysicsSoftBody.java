@@ -45,7 +45,7 @@ public class TestPhysicsSoftBody {
     // new methods exposed
 
     @Test
-    public void testApplyPhysicsTransform() {
+    public void testPhysicsSoftBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
         Vector3f non2 = new Vector3f(1f, 2f, 3f);
