@@ -146,7 +146,7 @@ with illustrations and lists of key properties (explained below):
 {item} positive margin +
 {item} imprecise +
 {item} not scalable
-|image:https://i.imgur.com/l1fYSfc.png[height=160]
+|image:simplex.png[height=160]
 
 |16. {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
 
@@ -356,7 +356,7 @@ For instance:
 * If a transparent container remains sealed,
   its collision shape need not be hollow.
 
-Because jMonkeyEngine models are composed of triangular meshes,
+Because JMonkeyEngine models are composed of triangle meshes,
 beginners are often tempted to use mesh-based shapes
 (such as {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`])
 for everything.
