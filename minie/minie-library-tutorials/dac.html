@@ -30,12 +30,13 @@
     </div>
     <div id="topbar-nav" class="navbar-menu">
       <div class="navbar-end">
-        <div class="navbar-item theme-switch-wrapper">
-          <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox"/>
-            <div class="slider round"></div>
-          </label>
-          <p class="navlabel">light/dark mode</em>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Color themes</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" onclick="setTheme('dark')">Dark</button>
+            <a class="navbar-item" onclick="setTheme('light')">Light</button>
+            <a class="navbar-item" onclick="setTheme('pastel')">Pastel</button>
+          </div>
         </div>
       </div>
     </div>
