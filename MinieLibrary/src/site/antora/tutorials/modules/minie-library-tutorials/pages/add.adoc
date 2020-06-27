@@ -5,7 +5,7 @@
 
 Adding Minie to an existing JMonkeyEngine project is a 6-step process:
 
-. Remove any existing physics libraries which might interfere with Minie.
+. Remove any libraries that might interfere with Minie.
 . Add libraries to the classpath.
 . Create, configure, and attach
   a {url-api}/BulletAppState.html[`BulletAppState`],
@@ -17,10 +17,16 @@ Adding Minie to an existing JMonkeyEngine project is a 6-step process:
   if the application doesn't already do so.
 . Test and tune as necessary.
 
-== Remove all other physics libraries
+== Remove libraries that might interfere
 
-Minie replaces (and is thus incompatible with) the following
-jMonkeyEngine libraries:
+If any directory where your application might runs contains files
+named "libbulletjme.so" or "bulletjme.dll" or "libbulletjme.dylib",
+you should remove those files.
+Those filenames are used by JMonkeyEngine when it loads the native library,
+and you don't want it to load the wrong one!
+
+Also, Minie replaces (and is thus incompatible with) the following
+JMonkeyEngine libraries:
 
 * jme3-bullet
 * jme3-bullet-native
@@ -32,7 +38,7 @@ they won't interfere with Minie.
 
 === Gradle-built projects
 
-. Look for artifacts with these names in the `dependencies` section(s)
+. Look for artifacts with those names in the `dependencies` section(s)
   of your project's "build.gradle" file(s).
 . Remove those artifacts.
 
@@ -61,7 +67,7 @@ The Minie library depends on:
 
 === Gradle-built projects
 
-For projects built using Maven or Gradle, it is sufficient to specify the
+For projects built using Maven or Gradle, it's usually sufficient to specify the
 dependency on the Minie Library.  The build tools should automatically
 resolve the remaining dependencies automatically.
 
