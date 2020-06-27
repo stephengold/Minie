@@ -106,9 +106,6 @@ import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.minie.test.terrain.MinieTestTerrains;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
-import vhacd.VHACD;
-import vhacd.VHACDParameters;
-import vhacd.VHACDProgressListener;
 
 /**
  * Test various shapes, scales, and collision margins on a kinematic
@@ -140,11 +137,10 @@ public class TestRbc
         "ConeHull", "ConeMesh", "Cylinder", "CylinderGImpact", "CylinderHull",
         "CylinderMesh", "FourSphere", "KissCapsule", "KissHull", "KissMesh",
         "KissMultiSphere", "KissSphere", "LargeTerrain", "OneSphere", "Prism",
-        "Simplex", "SmallTerrain", "SmallTerrainVhacd", "Sphere",
-        "SphereCapsule", "SphereGImpact", "SphereHull", "SphereMesh", "Square",
-        "SquareBox", "SquareConvex2d", "SquareGImpact", "SquareHeightfield",
-        "SquareHull", "SquareMesh", "TetraGImpact", "TetraHull", "TetraMesh",
-        "TwoSphere"
+        "Simplex", "SmallTerrain", "Sphere", "SphereCapsule", "SphereGImpact",
+        "SphereHull", "SphereMesh", "Square", "SquareBox", "SquareConvex2d",
+        "SquareGImpact", "SquareHeightfield", "SquareHull", "SquareMesh",
+        "TetraGImpact", "TetraHull", "TetraMesh", "TwoSphere"
     };
     // *************************************************************************
     // fields
@@ -303,25 +299,6 @@ public class TestRbc
     @Override
     public void generateShapes() {
         //super.generateShapes();
-
-        VHACD.addProgressListener(new VHACDProgressListener() {
-            double lastOP = -1.0;
-
-            @Override
-            public void update(double overallPercent, double stagePercent,
-                    double operationPercent, String stageName,
-                    String operationName) {
-                if (overallPercent > lastOP) {
-                    System.out.printf("smallTerrainVhacd %.0f%% complete%n",
-                            overallPercent);
-                    lastOP = overallPercent;
-                }
-            }
-        });
-
-        CollisionShape shape = CollisionShapeFactory.createVhacdShape(
-                MinieTestTerrains.smallQuad, new VHACDParameters(), null);
-        registerShape("smallTerrainVhacd", shape);
     }
 
     /**
@@ -577,7 +554,6 @@ public class TestRbc
                 break;
 
             case "SmallTerrain":
-            case "SmallTerrainVhacd":
                 addSmallTerrain();
                 break;
 
@@ -868,10 +844,6 @@ public class TestRbc
         switch (testName) {
             case "SmallTerrain":
                 testShape = CollisionShapeFactory.createMeshShape(testSpatial);
-                break;
-
-            case "SmallTerrainVhacd":
-                testShape = findShape("smallTerrainVhacd");
                 break;
 
             default:
