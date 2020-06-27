@@ -174,7 +174,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
-     * Read the combined friction, which is the sum of the collision-object
+     * Read the combined friction, which is the product of the collision-object
      * frictions (native field: m_combinedFriction).
      *
      * @return the friction sum

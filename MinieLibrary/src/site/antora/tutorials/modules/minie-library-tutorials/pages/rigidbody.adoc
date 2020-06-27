@@ -147,7 +147,7 @@ Things to notice while running the app:
 . The kinematic ball orbits a fixed point in space.
 . The balls collide, generating contact forces
   that affect the motion of the dynamic ball.
-. The kinematic ball continues to orbit,
+. The kinematic ball continues orbiting,
   unaffected by both gravity and contact forces.
 
 === Contact response
@@ -263,8 +263,8 @@ This behavior is caused by _gravity_,
 a downward force that's proportional to mass (and thus causes a constant
 {url-enwiki}/Acceleration[acceleration]).
 
-To simulate this phenomenon, each body has a gravity vector,
-which quantifies the acceleration, assuming the body is dynamic.
+To simulate this phenomenon, each body has a gravity vector
+that quantifies the acceleration, assuming the body is dynamic.
 To configure a body's gravity, use `setGravity(accelerationVector)`.
 
 NOTE: If following the Y-up axes convention, the X and Z components of the
@@ -316,9 +316,9 @@ which ranges from zero (perfectly inelastic) to one (perfectly elastic).
 
 In simulation, collisions are inelastic by default.
 (We saw this in {url-tutorial}/HelloRigidBody.java[HelloRigidBody.java].)
-Each rigid body has a _restitution parameter_ which defaults to zero.
+Each rigid body has a _restitution parameter_, which defaults to zero.
 For each collision, the coefficient of restitution
-is calculated by *multiplying* the parameters of the colliding bodies.
+is calculated by multiplying the parameters of the colliding bodies.
 
 To simulate a perfectly elastic collision, set the restitution parameters of
 both bodies to one:
@@ -346,7 +346,7 @@ Reducing a body's friction parameter makes it more slippery (think wet ice).
 Increasing it yields better traction (think sandpaper or dry rubber).
 
 For each collision, a _coefficient of friction_
-is calculated by *adding* the parameters of the colliding bodies.
+is calculated by multiplying the parameters of the colliding bodies.
 
 === Related demo apps
 
@@ -400,8 +400,8 @@ use `physicsSpace.activateAll(true)`.
 
 Puzzling behavior may occur if a deactivated body is:
 
-* supported by another body which then gets removed,
-* supported by another body which then has its contact response disabled, or
+* supported by another body that then gets removed,
+* supported by another body that then has its contact response disabled, or
 * driven by a motorized physics joint.
 
 The deactivated body will seem to be "stuck"
