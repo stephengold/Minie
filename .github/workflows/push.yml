@@ -107,7 +107,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: crash-log
-        path: '*.log'
+        path: 'MinieLibrary/*.log'
 
   Website:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
