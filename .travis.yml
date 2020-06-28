@@ -12,7 +12,6 @@ jobs:
         - default-jre
         update: true
   - os: osx
-  - os: windows
 
 script:
  - ./gradlew build --console=plain --no-daemon
