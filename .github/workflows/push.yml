@@ -61,6 +61,11 @@ jobs:
           java-version: 11
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
 
   Java13-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
