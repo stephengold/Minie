@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>How Minie works :: The Minie project</title>
-    <link rel="canonical" href="https://stephengold.github.io/Minie/minie/implementation.html">
+    <title>How to build Minie from source :: The Minie project</title>
+    <link rel="canonical" href="https://stephengold.github.io/Minie/minie/build.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
 <meta property="og:image" content="../_/img/iconx128.png">
-<meta property="og:description" content="How Minie works">
+<meta property="og:description" content="How to build Minie from source">
 <meta property="og:title" content="The Minie project">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
   </head>
@@ -50,7 +50,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="implementation.html">Implementation</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -98,7 +98,7 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="build.html">Build instructions</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -209,170 +209,211 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="overview.html">The Minie project</a></li>
-    <li><a href="implementation.html">Implementation</a></li>
+    <li><a href="build.html">Build instructions</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/src/site/antora/minie-project/modules/ROOT/pages/implementation.adoc">Edit this page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/src/site/antora/minie-project/modules/ROOT/pages/build.adoc">Edit this page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">How Minie works</h1>
+<h1 class="page">How to build Minie from source</h1>
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p>For simulation, Minie uses <a href="https://pybullet.org/wordpress">the Bullet Physics SDK</a>,
-a mature, open-source, 3-D physics simulator,
-released under <a href="https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt">a Zlib license</a>.</p>
-</div>
-<div class="paragraph">
-<p>For efficient simulation of moving meshes, Minie also incorporates Khaled Mamou&#8217;s
-<a href="https://github.com/kmammou/v-hacd">Volumetric-Hierarchical Approximate Convex Decomposition (V-HACD) algorithm</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_native_libraries"><a class="anchor" href="#_native_libraries"></a>Native libraries</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Bullet and V-HACD are written in C&#43;&#43;, so Minie uses
-<a href="https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html">the Java Native Interface (JNI)</a>
-to access their objects and methods.</p>
-</div>
-<div class="paragraph">
-<p>All C&#43;&#43; source code associated with Minie
-(including JNI "glue code" and a modified partial snapshot of the Bullet SDK)
-resides in <a href="https://github.com/stephengold/Libbulletjme">the Libbulletjme repository</a>.
-The Libbulletjme project builds <em>native libraries</em>
-for each of the 11 platforms currently supported by Minie:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Windows: 32-bit and 64-bit</p>
-</li>
-<li>
-<p>Linux: x86-64, x86, and aarch64</p>
-</li>
-<li>
-<p>macOS: 32-bit and 64-bit</p>
-</li>
-<li>
-<p>Android: armeabi-v7a, arm64-v8a, x86, and x86_64</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>On desktop platforms, JMonkeyEngine automatically loads
-the appropriate native library during initialization of the <code>JmeDesktopSystem</code>
-if it detects Minie&#8217;s <code>NativeMeshUtil</code> class.
-On Android platforms, the native library is loaded (if present)
-during static initialization of the <code>JmeAndroidSystem</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_collision_objects_and_spaces"><a class="anchor" href="#_collision_objects_and_spaces"></a>Collision objects and spaces</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Physics simulation is organized around <em>collision objects</em>
-that interact in the context of a <em>collision space</em>.
-Collision objects can be <em>soft</em> (varying shape) or <em>rigid</em> (non-varying shape).
-Rigid objects can be <em>mobile</em> (moving) or <em>static</em> (non-moving).
-And mobile objects can be <em>dynamic</em> (moved by <a href="https://en.wikipedia.org/wiki/Force">forces</a>,
-<a href="https://en.wikipedia.org/wiki/Torque">torques</a>, and <a href="https://en.wikipedia.org/wiki/Impulse_(physics)">impulses</a>)
-or <em>kinematic</em> (moved directly by external calculations).</p>
-</div>
-<div class="paragraph">
-<p>In this document, collision spaces that simulate forces, torques, and impulses
-are referred to as <em>physics spaces</em>.</p>
-</div>
-<div class="paragraph">
-<p>By themselves, collision objects are invisible,
-while scene-graph spatials have no effect on physics.
-To visualize a collision object, it must be associated
-with one or more scene-graph spatial(s).
-For debugging purposes, Minie can visualize
-collision objects by auto-generating spatials for them.
-For full-custom visualization, a <em>physics control</em>
-should be used to associate collision objects with spatials.</p>
-</div>
-<div class="paragraph">
-<p>A collision object&#8217;s location and orientation are described
-using <em>physics-space coordinates</em>.
-These typically correspond to world coordinates of the scene.
-However, Minie supports scaling the physics space relative to the scene,
-in which case the <em>physics-space units</em> (psu)
-might differ the from world units (wu).</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_discrete_time_and_collision_detection"><a class="anchor" href="#_discrete_time_and_collision_detection"></a>Discrete time and collision detection</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Within a physics space, simulation occurs in discrete <em>time steps</em>,
-which need not correspond to rendered frames.
-Each time step consists of 4 <em>phases</em>:</p>
-</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><em>forward dynamics</em> part one,
-to apply known forces
-and predict the next position of each collision object</p>
+<p>Install the build tools:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>a <a href="https://openjdk.java.net">Java Development Kit</a> and</p>
 </li>
 <li>
-<p><em>broadphase collision detection</em>,
-to quickly determine (using axis-aligned bounding boxes)
-which objects (if any) might possibly collide</p>
+<p><a href="https://gradle.org">Gradle</a></p>
+</li>
+</ol>
+</div>
 </li>
 <li>
-<p><em>narrowphase collision detection</em>,
-to compute actual contacts (if any) between between objects,
-and</p>
+<p>Download and extract the source code from GitHub:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>using Git:</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p><code>git clone <a href="https://github.com/stephengold/Minie.git" class="bare">https://github.com/stephengold/Minie.git</a></code></p>
 </li>
 <li>
-<p>forward dynamics part 2,
-to apply contact forces, solve constraints, and update positions.</p>
+<p><code>cd Minie</code></p>
+</li>
+<li>
+<p><code>git checkout -b latest 1.7.0</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>using a web browser:</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>browse to <a href="https://github.com/stephengold/Minie/releases/tag/1.7.0" class="bare">https://github.com/stephengold/Minie/releases/tag/1.7.0</a></p>
+</li>
+<li>
+<p>follow the "Source code (zip)" link</p>
+</li>
+<li>
+<p>save the ZIP file</p>
+</li>
+<li>
+<p>unzip the saved ZIP file</p>
+</li>
+<li>
+<p><code>cd</code> to the extracted directory/folder</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Set the <code>JAVA_HOME</code> environment variable:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>using Bash:  <code>export JAVA_HOME="</code> <strong>path to your JDK</strong> <code>"</code></p>
+</li>
+<li>
+<p>using Windows Command Prompt:  <code>set JAVA_HOME="</code> <strong>path to your JDK</strong> <code>"</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Run the Gradle wrapper:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>using Bash:  <code>./gradlew build</code></p>
+</li>
+<li>
+<p>using Windows Command Prompt:  <code>.\gradlew build</code></p>
+</li>
+</ol>
+</div>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Collisions between collision objects are reported asynchronously
-to listeners registered at the space.
-For fast-moving objects,
-Minie offers optional continuous collision detection (CCD)
-using swept spheres;
-such collisions are reported through those same listeners.</p>
+<p>After a successful build,
+Maven artifacts will be found in <code>MinieLibrary/build/libs</code>.</p>
+</div>
+<div class="paragraph">
+<p>You can install the Maven artifacts to your local cache:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>using Bash:  <code>./gradlew :MinieLibrary:publishToMavenLocal</code></p>
+</li>
+<li>
+<p>using Windows Command Prompt:  <code>.\gradlew :MinieLibrary:publishToMavenLocal</code></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_app_states"><a class="anchor" href="#_app_states"></a>App states</h2>
+<h2 id="_customizing_minie_builds"><a class="anchor" href="#_customizing_minie_builds"></a>Customizing Minie builds</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To simplify the creation and management of physics spaces,
-Minie provides <em>app states</em>.
-The simplest of these is <code>BulletAppState</code>; it manages a single
-space without any soft objects or multibodies.
-Simulation of the space can take place on the render thread
-or else on a dedicated physics thread.
-Either way, the app state attempts to synchronize to real time
-during each rendered frame.
-Debug visualization can be enabled or disabled simply by setting a parameter.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next steps</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>For more detail about Bullet physics, download and read the
-<a href="https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf">Bullet User Manual</a>.</p>
+<p>By default, Minie&#8217;s class JAR includes native libraries
+for all the platforms Minie supports.
+While this is convenient, it results in a large JAR
+and (potentially) a bloated application.
+If you build Minie from source,
+you can customize it to include native libraries only for specific platforms.</p>
 </div>
 <div class="paragraph">
-<p>To gain hands-on experience,
-proceed to <a href="minie-library-tutorials/add.html" class="page">the first tutorial page</a>.</p>
+<p>To configure which native libraries will be included in the JAR,
+edit the MinieLibrary/build.gradle script.
+Look for the section where the <code>btf</code> variables are set.
+It should look something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">btfAndroid_ARM7 = 'ReleaseSp'
+btfAndroid_ARM8 = 'ReleaseSp'
+btfAndroid_X86 = 'ReleaseSp'
+btfAndroid_X86_64 = 'ReleaseSp'
+btfLinux32 = 'ReleaseSp'
+btfLinux64 = 'ReleaseSp'
+btfLinux_ARM64 = 'ReleaseSp'
+btfMacOSX32 = 'ReleaseSp'
+btfMacOSX64 = 'ReleaseSp'
+btfWindows32 = 'ReleaseSp'
+btfWindows64 = 'ReleaseSp'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, to include only the 64-bit Linux native library,
+change the other <code>btf</code> variables to <code>''</code> and rebuild:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">btfAndroid_ARM7 = ''
+btfAndroid_ARM8 = ''
+btfAndroid_X86 = ''
+btfAndroid_X86_64 = ''
+btfLinux32 = ''
+btfLinux64 = 'ReleaseSp'
+btfLinux_ARM64 = ''
+btfMacOSX32 = ''
+btfMacOSX64 = ''
+btfWindows32 = ''
+btfWindows64 = ''</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also customize Minie to include debug-enabled native libraries
+for specific platforms:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">btfAndroid_ARM7 = ''
+btfAndroid_ARM8 = ''
+btfAndroid_X86 = ''
+btfAndroid_X86_64 = ''
+btfLinux32 = ''
+btfLinux64 = ''
+btfLinux_ARM64 = ''
+btfMacOSX32 = ''
+btfMacOSX64 = ''
+btfWindows32 = ''
+btfWindows64 = 'DebugSp'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly, you can specify double-precision (Dp-flavored) native libraries
+for specific platforms:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">btfAndroid_ARM7 = ''
+btfAndroid_ARM8 = ''
+btfAndroid_X86 = ''
+btfAndroid_X86_64 = ''
+btfLinux32 = ''
+btfLinux64 = 'ReleaseDp'
+btfLinux_ARM64 = ''
+btfMacOSX32 = ''
+btfMacOSX64 = 'ReleaseDp'
+btfWindows32 = ''
+btfWindows64 = 'ReleaseDp'</code></pre>
+</div>
 </div>
 </div>
 </div>
