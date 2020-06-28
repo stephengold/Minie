@@ -1,20 +1,23 @@
+---
+# configure deployment and continuous integration at travis-ci.com
+
 language: java
 
 jobs:
   include:
-  - os: linux
-    arch: amd64
-  - os: linux
-    arch: arm64
-    addons:
-      apt:
-        packages:
-        - default-jre
-        update: true
-  - os: osx
+    - os: linux
+      arch: amd64
+    - os: linux
+      arch: arm64
+      addons:
+        apt:
+          packages:
+            - default-jre
+          update: true
+    - os: osx
 
 script:
- - ./gradlew build --console=plain --no-daemon
+  - ./gradlew build --console=plain --no-daemon
 
 after_failure:
- - cat MinieLibrary/build/reports/tests/test/classes/jme3utilities.minie.test.TestDefaults.html
+  - cat MinieLibrary/build/reports/tests/test/classes/jme3utilities.minie.test.TestDefaults.html

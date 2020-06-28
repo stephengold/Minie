@@ -1,130 +1,132 @@
+---
 # GitHub workflow for commits pushed to the Minie repo
+
 name: CI at GitHub
 on:
   push:
-    branches-ignore: [ gh-pages ]
+    branches-ignore: [gh-pages]
 
 jobs:
   Java8-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-16.04
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 8
-    - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - uses: gradle/wrapper-validation-action@v1
+      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java8-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-10.15
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 8
-    - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - uses: gradle/wrapper-validation-action@v1
+      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java8-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-2016
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 8
-    - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - uses: gradle/wrapper-validation-action@v1
+      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java11-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 11
-    - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - uses: gradle/wrapper-validation-action@v1
+      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java11-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 11
-    - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - uses: gradle/wrapper-validation-action@v1
+      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java13-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 13
-    - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 13
+      - uses: gradle/wrapper-validation-action@v1
+      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java14-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 14
-    - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 14
+      - uses: gradle/wrapper-validation-action@v1
+      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java14-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 14
-    - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 14
+      - uses: gradle/wrapper-validation-action@v1
+      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
 
   Java14-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 14
-    - uses: gradle/wrapper-validation-action@v1
-    - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
-    - if: failure()
-      uses: actions/upload-artifact@v2
-      with:
-        name: crash-log
-        path: 'MinieLibrary/*.log'
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 14
+      - uses: gradle/wrapper-validation-action@v1
+      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
 
   Website:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 14
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 12.18.0
-    - run: npm ci
-    - run: npm audit
-    - run: npm run buildDocs
-    - run: ./gradlew copyJavadocToSite --console=plain --no-daemon --stacktrace
-    - uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build/site
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 14
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.18.0
+      - run: npm ci
+      - run: npm audit
+      - run: npm run buildDocs
+      - run: ./gradlew copyJavadocToSite --console=plain --no-daemon --stacktrace
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/site
