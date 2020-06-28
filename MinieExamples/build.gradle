@@ -21,7 +21,7 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-blender:' + jmonkeyengineVersion
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmonkeyengineVersion
 
-    //implementation 'junit:junit:4.12'
+    //implementation 'junit:junit:4.13'
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion
     implementation project(':MinieLibrary')
