@@ -1,0 +1,113 @@
+= How to build Minie from source
+
+. Install the build tools:
+.. a https://openjdk.java.net[Java Development Kit] and
+.. https://gradle.org[Gradle]
+. Download and extract the source code from GitHub:
+.. using Git:
+... `git clone https://github.com/stephengold/Minie.git`
+... `cd Minie`
+... `git checkout -b latest 1.7.0`
+.. using a web browser:
+... browse to https://github.com/stephengold/Minie/releases/tag/1.7.0
+... follow the "Source code (zip)" link
+... save the ZIP file
+... unzip the saved ZIP file
+... `cd` to the extracted directory/folder
+. Set the `JAVA_HOME` environment variable:
+.. using Bash:  `export JAVA_HOME="` *path to your JDK* `"`
+.. using Windows Command Prompt:  `set JAVA_HOME="` *path to your JDK* `"`
+. Run the Gradle wrapper:
+.. using Bash:  `./gradlew build`
+.. using Windows Command Prompt:  `.\gradlew build`
+
+After a successful build,
+Maven artifacts will be found in `MinieLibrary/build/libs`.
+
+You can install the Maven artifacts to your local cache:
+
+* using Bash:  `./gradlew :MinieLibrary:publishToMavenLocal`
+* using Windows Command Prompt:  `.\gradlew :MinieLibrary:publishToMavenLocal`
+
+== Customizing Minie builds
+
+By default, Minie's class JAR includes native libraries
+for all the platforms Minie supports.
+While this is convenient, it results in a large JAR
+and (potentially) a bloated application.
+If you build Minie from source,
+you can customize it to include native libraries only for specific platforms.
+
+To configure which native libraries will be included in the JAR,
+edit the MinieLibrary/build.gradle script.
+Look for the section where the `btf` variables are set.
+It should look something like this:
+
+[source,groovy]
+----
+btfAndroid_ARM7 = 'ReleaseSp'
+btfAndroid_ARM8 = 'ReleaseSp'
+btfAndroid_X86 = 'ReleaseSp'
+btfAndroid_X86_64 = 'ReleaseSp'
+btfLinux32 = 'ReleaseSp'
+btfLinux64 = 'ReleaseSp'
+btfLinux_ARM64 = 'ReleaseSp'
+btfMacOSX32 = 'ReleaseSp'
+btfMacOSX64 = 'ReleaseSp'
+btfWindows32 = 'ReleaseSp'
+btfWindows64 = 'ReleaseSp'
+----
+
+For example, to include only the 64-bit Linux native library,
+change the other `btf` variables to `''` and rebuild:
+
+[source,groovy]
+----
+btfAndroid_ARM7 = ''
+btfAndroid_ARM8 = ''
+btfAndroid_X86 = ''
+btfAndroid_X86_64 = ''
+btfLinux32 = ''
+btfLinux64 = 'ReleaseSp'
+btfLinux_ARM64 = ''
+btfMacOSX32 = ''
+btfMacOSX64 = ''
+btfWindows32 = ''
+btfWindows64 = ''
+----
+
+You can also customize Minie to include debug-enabled native libraries
+for specific platforms:
+
+[source,groovy]
+----
+btfAndroid_ARM7 = ''
+btfAndroid_ARM8 = ''
+btfAndroid_X86 = ''
+btfAndroid_X86_64 = ''
+btfLinux32 = ''
+btfLinux64 = ''
+btfLinux_ARM64 = ''
+btfMacOSX32 = ''
+btfMacOSX64 = ''
+btfWindows32 = ''
+btfWindows64 = 'DebugSp'
+----
+
+Similarly, you can specify double-precision (Dp-flavored) native libraries
+for specific platforms:
+
+[source,groovy]
+----
+btfAndroid_ARM7 = ''
+btfAndroid_ARM8 = ''
+btfAndroid_X86 = ''
+btfAndroid_X86_64 = ''
+btfLinux32 = ''
+btfLinux64 = 'ReleaseDp'
+btfLinux_ARM64 = ''
+btfMacOSX32 = ''
+btfMacOSX64 = 'ReleaseDp'
+btfWindows32 = ''
+btfWindows64 = 'ReleaseDp'
+----
