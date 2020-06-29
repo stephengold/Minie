@@ -812,8 +812,8 @@ float&nbsp;mass)</span></div>
 <section class="detail">
 <h3><a id="applyCentralForce(com.jme3.math.Vector3f)">applyCentralForce</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">applyCentralForce</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;force)</span></div>
-<div class="block">Apply a central force to the body. Effective only if the next physics
- update steps the physics.
+<div class="block">Apply a central force to the body. Effective on the next time step, then
+ cleared.
  <p>
  To apply an impulse, use
  <a href="#applyCentralImpulse(com.jme3.math.Vector3f)"><code>applyCentralImpulse(com.jme3.math.Vector3f)</code></a>.</div>
@@ -841,8 +841,7 @@ float&nbsp;mass)</span></div>
 <h3><a id="applyForce(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">applyForce</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">applyForce</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;force,
 com.jme3.math.Vector3f&nbsp;offset)</span></div>
-<div class="block">Apply a force to the body. Effective only if the next physics update
- steps the physics.
+<div class="block">Apply a force to the body. Effective on the next time step, then cleared.
  <p>
  To apply an impulse, use
  <a href="#applyImpulse(com.jme3.math.Vector3f,com.jme3.math.Vector3f)"><code>applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)</code></a>.</div>
@@ -874,8 +873,8 @@ com.jme3.math.Vector3f&nbsp;offset)</span></div>
 <section class="detail">
 <h3><a id="applyTorque(com.jme3.math.Vector3f)">applyTorque</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">applyTorque</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;torque)</span></div>
-<div class="block">Apply a torque to the body. Effective only if the next physics update
- steps the physics.
+<div class="block">Apply a torque to the body. Effective on the next time step, then
+ cleared.
  <p>
  To apply a torque impulse, use
  <a href="#applyTorqueImpulse(com.jme3.math.Vector3f)"><code>applyTorqueImpulse(com.jme3.math.Vector3f)</code></a>.</div>
