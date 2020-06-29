@@ -1,3 +1,6 @@
+---
+# GitHub workflow for new issues opened at the Minie repo
+
 name: Greetings
 
 on: [issues]
