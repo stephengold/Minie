@@ -1,18 +1,21 @@
+---
+# configure Antora for deployment
+
 site:
   title: The Minie project
   start_page: minie:ROOT:overview.adoc
   url: https://stephengold.github.io/Minie
 content:
   sources:
-  - url: https://github.com/stephengold/Minie.git
-    branches: master
-    start_path: src/site/antora/minie-project
-  - url: https://github.com/stephengold/Minie.git
-    branches: master
-    start_path: MinieLibrary/src/site/antora/tutorials
+    - url: https://github.com/stephengold/Minie.git
+      branches: master
+      start_path: src/site/antora/minie-project
+    - url: https://github.com/stephengold/Minie.git
+      branches: master
+      start_path: MinieLibrary/src/site/antora/tutorials
 ui:
   bundle:
-    url: https://github.com/stephengold/antora-ui-bundle/releases/download/v-sgold200627a/ui-bundle.zip
+    url: https://github.com/stephengold/antora-ui-bundle/releases/download/v-sgold200628a/ui-bundle.zip
     snapshot: true
 output:
   clean: true
