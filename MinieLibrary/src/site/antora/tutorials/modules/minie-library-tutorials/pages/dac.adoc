@@ -42,7 +42,7 @@ The default constructor for `DynamicAnimControl` is configured to create a
 ragdoll with no bone links, only a `TorsoLink`.
 Before adding the `Control` to a `Spatial`, specify which bones
 should be linked, by invoking the `link()` method for each of those bones.
-The order in which bones are linked does not matter.
+The order in which bones are linked doesn't matter.
 
 I recommend starting with a default `LinkConfig` and a generous range of motion
 for each linked bone:

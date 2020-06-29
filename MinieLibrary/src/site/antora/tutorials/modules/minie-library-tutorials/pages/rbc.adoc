@@ -91,7 +91,7 @@ but it will no longer follow the motion of the controlled spatial.
 The body can then be positioned directly,
 using `setPhysicsLocation()` and `setPhysicsRotation()`.
 
-== The "apply scale" option
+== Synchronizing scales
 
 While the *motion* of the controlled spatial matches
 that of the body, their *sizes* might differ.
@@ -105,8 +105,9 @@ application that demonstrates `setApplyScale()`.
 Things to notice while running the app:
 
 . The rigid body is visualized as a blue wireframe.
-. The controlled geometry is white.
-. The size of the rigid body matches that of the controlled geometry.
+. The controlled geometry is shaded white.
+. The size of the rigid body matches that of the controlled geometry,
+  even as it pulsates.
 
 == Local physics
 
@@ -118,7 +119,7 @@ To match the spatial's *local* transform, use `setApplyPhysicsLocal(true)`.
 == Summary
 
 * To associate a rigid body with a scene-graph spatial, use a
-  {url-api}/control/RigidBodyControl.html[`RigidBodyControl`].
+  {url-api}/control/RigidBodyControl.html[`RigidBodyControl`] (RBC).
 * If you construct an RBC without specifying a collision shape,
   it will be incomplete until it gets added to a `Spatial`.
 * An RBC can be static, dynamic, or kinematic.

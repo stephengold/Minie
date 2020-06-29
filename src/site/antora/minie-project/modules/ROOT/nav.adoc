@@ -13,7 +13,7 @@
 ** xref:minie-library-tutorials:softbody.adoc[Soft bodies]
 ** xref:minie-library-tutorials:server.adoc[Physics without appstates]
 ** xref:minie-library-tutorials:misc.adoc[Miscellany]
-* xref:build.adoc[Build instructions]
+* xref:build.adoc[Build procedures]
 * https://github.com/stephengold/Minie[Git repository]
 ** https://github.com/stephengold/Minie/releases/latest[Latest release]
 ** https://github.com/stephengold/Minie/releases[Recent releases]

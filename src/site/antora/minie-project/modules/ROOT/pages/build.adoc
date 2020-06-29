@@ -1,5 +1,7 @@
 = How to build Minie from source
 
+== Standard build
+
 . Install the build tools:
 .. a https://openjdk.java.net[Java Development Kit] and
 .. https://gradle.org[Gradle]
@@ -9,7 +11,7 @@
 ... `cd Minie`
 ... `git checkout -b latest 1.7.0`
 .. using a web browser:
-... browse to https://github.com/stephengold/Minie/releases/tag/1.7.0
+... browse to https://github.com/stephengold/Minie/releases/latest
 ... follow the "Source code (zip)" link
 ... save the ZIP file
 ... unzip the saved ZIP file
@@ -22,14 +24,21 @@
 .. using Windows Command Prompt:  `.\gradlew build`
 
 After a successful build,
-Maven artifacts will be found in `MinieLibrary/build/libs`.
+Maven artifacts will be found in "MinieLibrary/build/libs".
 
-You can install the Maven artifacts to your local cache:
+You can install the artifacts to your local cache:
 
 * using Bash:  `./gradlew :MinieLibrary:publishToMavenLocal`
 * using Windows Command Prompt:  `.\gradlew :MinieLibrary:publishToMavenLocal`
 
-== Customizing Minie builds
+=== Cleanup
+
+After a build, you can restore the build directory to a pristine state:
+
+ * using Bash:  `./gradlew clean`
+ * using Windows Command Prompt:  `.\gradlew clean`
+
+== Customizing the native libraries
 
 By default, Minie's class JAR includes native libraries
 for all the platforms Minie supports.

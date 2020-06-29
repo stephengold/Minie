@@ -65,7 +65,7 @@ Soft bodies lack many other features of rigid bodies, including:
 
 Like rigid bodies, soft bodies can be constructed directly (using `new`)
 or they can be created using physics controls (such as `SoftBodyControl`)
-which tie them to particular spatials in the scene graph.
+that tie them to one or more spatials in the scene graph.
 However, unlike a `RigidBodyControl`, a `SoftBodyControl` can only be
 dynamic (`Spatial` follows body) never kinematic (body follows `Spatial`).
 
