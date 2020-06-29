@@ -22,7 +22,7 @@
 ** https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md[Release log]
 ** https://github.com/stephengold/Minie/commits/master[Recent commits]
 ** https://github.com/stephengold/Minie/issues[Issue tracker]
-* https://stephengold.github.io/Minie/minie/javadoc[Library API]
+* https://stephengold.github.io/Minie/javadoc/master[Library API]
 * Minie at other sites
 ** https://hub.jmonkeyengine.org/c/user-code-projects/minie/63[JMonkeyEngine forum]
 ** https://bintray.com/stephengold/com.github.stephengold/Minie[Bintray]
