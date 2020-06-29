@@ -34,8 +34,10 @@
           <a class="navbar-link" href="#">Color themes</a>
           <div class="navbar-dropdown">
             <a class="navbar-item" onclick="setTheme('dark')">Dark</button>
+            <a class="navbar-item" onclick="setTheme('jungle')">Jungle</button>
             <a class="navbar-item" onclick="setTheme('light')">Light</button>
             <a class="navbar-item" onclick="setTheme('pastel')">Pastel</button>
+            <a class="navbar-item" onclick="setTheme('phosphor')">Phosphor</button>
           </div>
         </div>
       </div>
@@ -101,7 +103,7 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../build.html">Build instructions</a>
+    <a class="nav-link" href="../build.html">Build procedures</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -229,13 +231,13 @@ To visualize a collision object, it must be associated
 with one or more scene-graph spatial(s).
 Such associations are implemented using <em>physics controls</em>:
 scene-graph controls that implement the
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/PhysicsControl.html"><code>PhysicsControl</code></a> interface.</p>
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/PhysicsControl.html"><code>PhysicsControl</code></a> interface.</p>
 </div>
 <div class="paragraph">
 <p>To associate a rigid body with a <code>Spatial</code>, there&#8217;s a
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a> class that extends
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/objects/PhysicsRigidBody.html"><code>PhysicsRigidBody</code></a> and implements
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/PhysicsControl.html"><code>PhysicsControl</code></a>.</p>
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a> class that extends
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsRigidBody.html"><code>PhysicsRigidBody</code></a> and implements
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/PhysicsControl.html"><code>PhysicsControl</code></a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -251,7 +253,7 @@ are the same object!
 </table>
 </div>
 <div class="paragraph">
-<p>Because each <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a> (RBC)
+<p>Because each <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a> (RBC)
 instance is a rigid body, you can configure it and add it to a space
 just like a directly instantiated rigid body.
 For instance, you can configure friction using <code>setFriction()</code>
@@ -272,7 +274,7 @@ causes the body to be removed from the space it&#8217;s in, if any.</p>
 <h2 id="_constructors"><a class="anchor" href="#_constructors"></a>Constructors</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are 3 <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a>
+<p>There are 3 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a>
 constructors:</p>
 </div>
 <div class="listingblock">
@@ -328,7 +330,7 @@ A collision shape will be created based on the controlled spatial, using:</p>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRbc.java">HelloRbc</a> is a simple
 application that demonstrates the use of
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a>.
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a>.
 Things to notice while running the app:</p>
 </div>
 <div class="olist arabic">
@@ -370,7 +372,7 @@ using <code>setPhysicsLocation()</code> and <code>setPhysicsRotation()</code>.</
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_apply_scale_option"><a class="anchor" href="#_the_apply_scale_option"></a>The "apply scale" option</h2>
+<h2 id="_synchronizing_scales"><a class="anchor" href="#_synchronizing_scales"></a>Synchronizing scales</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>While the <strong>motion</strong> of the controlled spatial matches
@@ -392,10 +394,11 @@ Things to notice while running the app:</p>
 <p>The rigid body is visualized as a blue wireframe.</p>
 </li>
 <li>
-<p>The controlled geometry is white.</p>
+<p>The controlled geometry is shaded white.</p>
 </li>
 <li>
-<p>The size of the rigid body matches that of the controlled geometry.</p>
+<p>The size of the rigid body matches that of the controlled geometry,
+even as it pulsates.</p>
 </li>
 </ol>
 </div>
@@ -420,7 +423,7 @@ the <strong>world</strong> transform of its controlled spatial.</p>
 <ul>
 <li>
 <p>To associate a rigid body with a scene-graph spatial, use a
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a>.</p>
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a> (RBC).</p>
 </li>
 <li>
 <p>If you construct an RBC without specifying a collision shape,

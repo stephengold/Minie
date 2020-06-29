@@ -34,8 +34,10 @@
           <a class="navbar-link" href="#">Color themes</a>
           <div class="navbar-dropdown">
             <a class="navbar-item" onclick="setTheme('dark')">Dark</button>
+            <a class="navbar-item" onclick="setTheme('jungle')">Jungle</button>
             <a class="navbar-item" onclick="setTheme('light')">Light</button>
             <a class="navbar-item" onclick="setTheme('pastel')">Pastel</button>
+            <a class="navbar-item" onclick="setTheme('phosphor')">Phosphor</button>
           </div>
         </div>
       </div>
@@ -101,7 +103,7 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../build.html">Build instructions</a>
+    <a class="nav-link" href="../build.html">Build procedures</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -223,10 +225,10 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> class
+<p>The <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> class
 provides a convenient interface
 for configuring, accessing, updating, and debugging
-a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
+a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
 </div>
 <div class="paragraph">
 <p>However, if an application doesn&#8217;t require debug visualization,
@@ -260,7 +262,7 @@ application that demonstrates explicitly loading the native library.</p>
 <h2 id="_constructors"><a class="anchor" href="#_constructors"></a>Constructors</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Both examples used the simplest <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>
+<p>Both examples used the simplest <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>
 constructor, which is fine for most applications.
 However there are actually different 7 ways
 to directly instantiate a physics space:</p>
@@ -280,9 +282,9 @@ PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);</code>
 <div class="paragraph">
 <p>The first 4 constructors can be used
 <strong>only</strong> if soft bodies and multibodies will not be added to the space.
-Construct a <code><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSoftSpace.html">`PhysicsSoftSpace</code></a>
+Construct a <code><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSoftSpace.html">`PhysicsSoftSpace</code></a>
 to enable soft-body physics.
-Construct a <code><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/MultiBodySpace.html">`MultiBodySpace</code></a>
+Construct a <code><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/MultiBodySpace.html">`MultiBodySpace</code></a>
 to enable multi-body physics.</p>
 </div>
 <div class="paragraph">
@@ -327,7 +329,7 @@ will extend from (-10000, -10000, -10000) to (+10000, +10000, +10000).</p>
 <h2 id="_updating_the_physics_space"><a class="anchor" href="#_updating_the_physics_space"></a>Updating the physics space</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> offers 2 update methods:</p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> offers 2 update methods:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -350,7 +352,7 @@ and up to <code>maxSteps</code> steps will be simulated for each update.</p>
 <p>If the <code>maxSteps</code> argument is omitted, <code>space.maxSubSteps()</code> will be used.
 And if <code>space.maxSubSteps() == 0</code>,
 then the time step will be capped at <code>space.maxTimeStep()</code> seconds
-(as with a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>).</p>
+(as with a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>).</p>
 </div>
 </div>
 </div>

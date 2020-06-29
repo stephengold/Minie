@@ -32,8 +32,10 @@
           <a class="navbar-link" href="#">Color themes</a>
           <div class="navbar-dropdown">
             <a class="navbar-item" onclick="setTheme('dark')">Dark</button>
+            <a class="navbar-item" onclick="setTheme('jungle')">Jungle</button>
             <a class="navbar-item" onclick="setTheme('light')">Light</button>
             <a class="navbar-item" onclick="setTheme('pastel')">Pastel</button>
+            <a class="navbar-item" onclick="setTheme('phosphor')">Phosphor</button>
           </div>
         </div>
       </div>
@@ -99,7 +101,7 @@
 </ul>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="build.html">Build instructions</a>
+    <a class="nav-link" href="build.html">Build procedures</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -209,7 +211,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="overview.html">The Minie project</a></li>
-    <li><a href="build.html">Build instructions</a></li>
+    <li><a href="build.html">Build procedures</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/src/site/antora/minie-project/modules/ROOT/pages/build.adoc">Edit this page</a></div>
@@ -217,7 +219,8 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">How to build Minie from source</h1>
-<div id="preamble">
+<div class="sect1">
+<h2 id="_standard_build"><a class="anchor" href="#_standard_build"></a>Standard build</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -259,7 +262,7 @@
 <div class="olist lowerroman">
 <ol class="lowerroman" type="i">
 <li>
-<p>browse to <a href="https://github.com/stephengold/Minie/releases/tag/1.7.0" class="bare">https://github.com/stephengold/Minie/releases/tag/1.7.0</a></p>
+<p>browse to <a href="https://github.com/stephengold/Minie/releases/latest" class="bare">https://github.com/stephengold/Minie/releases/latest</a></p>
 </li>
 <li>
 <p>follow the "Source code (zip)" link</p>
@@ -309,10 +312,10 @@
 </div>
 <div class="paragraph">
 <p>After a successful build,
-Maven artifacts will be found in <code>MinieLibrary/build/libs</code>.</p>
+Maven artifacts will be found in "MinieLibrary/build/libs".</p>
 </div>
 <div class="paragraph">
-<p>You can install the Maven artifacts to your local cache:</p>
+<p>You can install the artifacts to your local cache:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -324,10 +327,26 @@ Maven artifacts will be found in <code>MinieLibrary/build/libs</code>.</p>
 </li>
 </ul>
 </div>
+<div class="sect2">
+<h3 id="_cleanup"><a class="anchor" href="#_cleanup"></a>Cleanup</h3>
+<div class="paragraph">
+<p>After a build, you can restore the build directory to a pristine state:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>using Bash:  <code>./gradlew clean</code></p>
+</li>
+<li>
+<p>using Windows Command Prompt:  <code>.\gradlew clean</code></p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_customizing_minie_builds"><a class="anchor" href="#_customizing_minie_builds"></a>Customizing Minie builds</h2>
+<h2 id="_customizing_the_native_libraries"><a class="anchor" href="#_customizing_the_native_libraries"></a>Customizing the native libraries</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>By default, Minie&#8217;s class JAR includes native libraries

@@ -34,8 +34,10 @@
           <a class="navbar-link" href="#">Color themes</a>
           <div class="navbar-dropdown">
             <a class="navbar-item" onclick="setTheme('dark')">Dark</button>
+            <a class="navbar-item" onclick="setTheme('jungle')">Jungle</button>
             <a class="navbar-item" onclick="setTheme('light')">Light</button>
             <a class="navbar-item" onclick="setTheme('pastel')">Pastel</button>
+            <a class="navbar-item" onclick="setTheme('phosphor')">Phosphor</button>
           </div>
         </div>
       </div>
@@ -101,7 +103,7 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../build.html">Build instructions</a>
+    <a class="nav-link" href="../build.html">Build procedures</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -327,7 +329,7 @@ softBody.setMargin(0.1f);</code></pre>
 <div class="paragraph">
 <p>Like rigid bodies, soft bodies can be constructed directly (using <code>new</code>)
 or they can be created using physics controls (such as <code>SoftBodyControl</code>)
-which tie them to particular spatials in the scene graph.
+that tie them to one or more spatials in the scene graph.
 However, unlike a <code>RigidBodyControl</code>, a <code>SoftBodyControl</code> can only be
 dynamic (<code>Spatial</code> follows body) never kinematic (body follows <code>Spatial</code>).</p>
 </div>

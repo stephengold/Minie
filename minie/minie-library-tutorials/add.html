@@ -34,8 +34,10 @@
           <a class="navbar-link" href="#">Color themes</a>
           <div class="navbar-dropdown">
             <a class="navbar-item" onclick="setTheme('dark')">Dark</button>
+            <a class="navbar-item" onclick="setTheme('jungle')">Jungle</button>
             <a class="navbar-item" onclick="setTheme('light')">Light</button>
             <a class="navbar-item" onclick="setTheme('pastel')">Pastel</button>
+            <a class="navbar-item" onclick="setTheme('phosphor')">Phosphor</button>
           </div>
         </div>
       </div>
@@ -101,7 +103,7 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../build.html">Build instructions</a>
+    <a class="nav-link" href="../build.html">Build procedures</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -235,11 +237,11 @@
 </li>
 <li>
 <p>Create, configure, and attach
-a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>,
+a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>,
 if the application doesn&#8217;t already do so.</p>
 </li>
 <li>
-<p>Configure the <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>,
+<p>Configure the <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>,
 if the application doesn&#8217;t already do so.</p>
 </li>
 <li>
@@ -479,14 +481,14 @@ and probably the "-sources" and "-javadoc" jars as well.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Strictly speaking, Minie doesn&#8217;t require a
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>.
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>.
 However, the appstate <strong>does</strong> provide a convenient interface
 for configuring, accessing, updating, and debugging
-a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
+a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
 </div>
 <div class="paragraph">
 <p>If your application already has
-a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>, that code will probably
+a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>, that code will probably
 work fine with Minie.
 If not, here is a snippet to guide you:</p>
 </div>
@@ -499,7 +501,7 @@ PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();</code></pre>
 </div>
 <div class="paragraph">
 <p>If you don&#8217;t need soft bodies, you can instantiate
-a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> directly:</p>
+a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> directly:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -510,7 +512,7 @@ PhysicsSpace physicsSpace = appState.getPhysicsSpace();</code></pre>
 </div>
 <div class="paragraph">
 <p>If you need multibodies, instantiate a
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/MultiBodyBulletAppState.html"><code>MultiBodyBulletAppState</code></a>.
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/MultiBodyBulletAppState.html"><code>MultiBodyBulletAppState</code></a>.
 (Minie doesn&#8217;t yet support combining soft bodies and multibodies in
 a single physics space.)</p>
 </div>
@@ -542,7 +544,7 @@ To advance the physics simulation at a different rate, use:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Other <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> parameters,
+<p>Other <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> parameters,
 used to customize debug visualization,
 are described on <a href="debug.html" class="page">the Debugging page</a>.</p>
 </div>
@@ -552,8 +554,8 @@ are described on <a href="debug.html" class="page">the Debugging page</a>.</p>
 <h2 id="_configure_the_physicsspace"><a class="anchor" href="#_configure_the_physicsspace"></a>Configure the PhysicsSpace</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Attaching a <a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> instantiates a
-<a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> that
+<p>Attaching a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> instantiates a
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> that
 you can access immediately:</p>
 </div>
 <div class="listingblock">
@@ -679,7 +681,7 @@ rigidNode1.addControl(rbc1);</code></pre>
 <p>Before adding Minie to an application, remove all other physics libraries.</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> provides a convenient interface
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> provides a convenient interface
 for configuring, accessing, updating, and debugging a physics space.</p>
 </li>
 <li>
