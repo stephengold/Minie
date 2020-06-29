@@ -197,7 +197,7 @@ task cleanWindows64(type: Delete) {
 task('copyJavadocToSite', type: Copy) {
     dependsOn 'javadoc'
     from "${buildDir}/docs/javadoc"
-    into '../build/site/minie/javadoc'
+    into '../build/site/javadoc/master'
 }
 
 build.dependsOn('pom')

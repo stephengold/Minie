@@ -4,7 +4,7 @@
 name: CI at GitHub
 on:
   push:
-    branches-ignore: [gh-pages]
+    branches: [master]
 
 jobs:
   Java8-Linux:

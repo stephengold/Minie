@@ -2,8 +2,8 @@
 :item: &rarr;
 :page-pagination:
 :url-enwiki: https://en.wikipedia.org/wiki
-:url-api: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet
-:url-shape: https://stephengold.github.io/Minie/minie/javadoc/com/jme3/bullet/collision/shapes
+:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
+:url-shape: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
 A _collision shape_
