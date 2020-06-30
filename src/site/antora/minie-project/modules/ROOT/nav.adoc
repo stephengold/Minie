@@ -14,6 +14,7 @@
 ** xref:minie-library-tutorials:server.adoc[Physics without appstates]
 ** xref:minie-library-tutorials:misc.adoc[Miscellany]
 * xref:build.adoc[Build procedures]
+* xref:demos.adoc[Demos]
 * https://github.com/stephengold/Minie[Git repository]
 ** https://github.com/stephengold/Minie/releases/latest[Latest release]
 ** https://github.com/stephengold/Minie/releases[Recent releases]
