@@ -265,7 +265,7 @@ java.lang.Object&nbsp;original)</code></th>
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAppliedImpulse()">getAppliedImpulse</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Read the magnitude of the applied impulse.</div>
+<div class="block">Determine the magnitude of the applied impulse.</div>
 </td>
 </tr>
 <tr class="altColor" id="i2">
@@ -286,7 +286,7 @@ java.lang.Object&nbsp;original)</code></th>
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getBreakingImpulseThreshold()">getBreakingImpulseThreshold</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Read the breaking impulse threshold.</div>
+<div class="block">Determine the breaking impulse threshold.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i5">
@@ -300,7 +300,7 @@ java.lang.Object&nbsp;original)</code></th>
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOverrideIterations()">getOverrideIterations</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Read the number of iterations used to solve this Constraint.</div>
+<div class="block">Determine the number of iterations used to solve this Constraint.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i7">
@@ -380,7 +380,7 @@ com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setBreakingImpulseThreshold(float)">setBreakingImpulseThreshold</a></span>&#8203;(float&nbsp;desiredThreshold)</code></th>
 <td class="colLast">
-<div class="block">Read the breaking impulse threshold.</div>
+<div class="block">Alter the breaking impulse threshold.</div>
 </td>
 </tr>
 <tr class="altColor" id="i18">
@@ -564,7 +564,7 @@ com.jme3.math.Vector3f&nbsp;pivotInB)</span></div>
 <section class="detail">
 <h3><a id="getAppliedImpulse()">getAppliedImpulse</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">float</span>&nbsp;<span class="memberName">getAppliedImpulse</span>()</div>
-<div class="block">Read the magnitude of the applied impulse. Requires feedback.</div>
+<div class="block">Determine the magnitude of the applied impulse. Requires feedback.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>impulse magnitude (&ge;0)</dd>
@@ -577,10 +577,10 @@ com.jme3.math.Vector3f&nbsp;pivotInB)</span></div>
 <section class="detail">
 <h3><a id="getBreakingImpulseThreshold()">getBreakingImpulseThreshold</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">float</span>&nbsp;<span class="memberName">getBreakingImpulseThreshold</span>()</div>
-<div class="block">Read the breaking impulse threshold.</div>
+<div class="block">Determine the breaking impulse threshold.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the value</dd>
+<dd>the threshold value</dd>
 </dl>
 </section>
 </li>
@@ -588,7 +588,7 @@ com.jme3.math.Vector3f&nbsp;pivotInB)</span></div>
 <section class="detail">
 <h3><a id="getOverrideIterations()">getOverrideIterations</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">getOverrideIterations</span>()</div>
-<div class="block">Read the number of iterations used to solve this Constraint.</div>
+<div class="block">Determine the number of iterations used to solve this Constraint.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the number of iterations (&ge;0) or -1 if using the solver's
@@ -679,7 +679,7 @@ com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
 <section class="detail">
 <h3><a id="setBreakingImpulseThreshold(float)">setBreakingImpulseThreshold</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setBreakingImpulseThreshold</span>&#8203;(<span class="arguments">float&nbsp;desiredThreshold)</span></div>
-<div class="block">Read the breaking impulse threshold.</div>
+<div class="block">Alter the breaking impulse threshold.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>desiredThreshold</code> - the desired value (default=MAX_VALUE with SP
