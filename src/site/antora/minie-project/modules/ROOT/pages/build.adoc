@@ -26,6 +26,8 @@
 After a successful build,
 Maven artifacts will be found in "MinieLibrary/build/libs".
 
+=== Install artifacts
+
 You can install the artifacts to your local cache:
 
 * using Bash:  `./gradlew :MinieLibrary:publishToMavenLocal`
