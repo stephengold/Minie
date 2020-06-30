@@ -56,6 +56,7 @@ import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.SixDofJoint;
@@ -148,7 +149,7 @@ public class TestDefaults {
         testPhysicsSpace(space);
 
         testShapes();
-        // TODO GhostControl, CharacterControl, RigidBodyControl, VehicleControl
+        // TODO GhostControl, CharacterControl, VehicleControl
 
         PhysicsCharacter character = new PhysicsCharacter(box, 1f);
         testPco(character);
@@ -178,9 +179,15 @@ public class TestDefaults {
         PhysicsRigidBody srb
                 = new PhysicsRigidBody(box, PhysicsBody.massForStatic);
         testRigidBody(srb);
+        RigidBodyControl srbc
+                = new RigidBodyControl(box, PhysicsBody.massForStatic);
+        testRigidBody(srbc);
 
         rigidA = new PhysicsRigidBody(box);
         testRigidBody(rigidA);
+
+        RigidBodyControl drbc = new RigidBodyControl(box);
+        testRigidBody(drbc);
 
         softA = new PhysicsSoftBody();
         testPco(softA);
@@ -606,6 +613,14 @@ public class TestDefaults {
         Assert.assertTrue(prb.isContactResponse());
         Assert.assertFalse(prb.isKinematic());
         Assert.assertFalse(prb.isGravityProtected());
+
+        if (prb instanceof RigidBodyControl) {
+            RigidBodyControl rbc = (RigidBodyControl) prb;
+            Assert.assertNull(rbc.getSpatial());
+            Assert.assertFalse(rbc.isApplyPhysicsLocal());
+            Assert.assertFalse(rbc.isApplyScale());
+            Assert.assertTrue(rbc.isKinematicSpatial());
+        }
     }
 
     /**
