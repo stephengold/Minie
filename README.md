@@ -246,76 +246,7 @@ preferably early in the development process.
 
 ## An overview of the demo applications
 
-Demo applications have been created to showcase certain features of Minie.
-The following demos are found in the `jme3utilities.minie.test` package of
-the MinieExamples sub-project:
-
-  + `BalanceDemo`
-    demonstrates models that balance their weight between 2 feet
-  + `BuoyDemo`
-    demonstrates ragdolls with buoyancy
-  + `DropTest` (also known as `MultiSphereDemo`)
-    demonstrates falling rigid bodies with various shapes
-  + `ForceDemo`
-    demonstrates forces, torques, and impulses applied in zero gravity
-  + `JointDemo`
-    demonstrates a crawling robot made of boxes and 6-DOF joints
-  + `NewtonsCradle`
-    demonstrates dynamic restitution and point-to-point joints
-  + `PoolDemo`
-    demonstrates 3 kinds of dynamic friction
-  + `RopeDemo`
-    demonstrates simulation of ropes using `DynamicAnimControl`
-  + `SeJointDemo`
-    demonstrates various single-ended joints
-  + `TargetDemo`
-    demonstrates shooting balls at various targets
-  + `TestDac`
-    demonstrates `DynamicAnimControl` applied to various models
-  + `TestDebugToPost`
-    demonstrates debug visualization to a post `ViewPort`
-  + `TestSoftBody`
-    demonstrates soft-body physics without `SoftBodyControl`
-  + `TestSoftBodyControl`
-    demonstrates soft-body physics with `SoftBodyControl`
-  + `WatchDemo`
-    demonstrates head/eye inverse kinematics for various models
-
-(Not all applications in the package are intended as demos;
-those not listed above are primarily for testing purposes.)
-
-For many of the demos, video walkthrus are available from YouTube.
-
-The demos are controlled by primarily by keyboard input.
-Each includes a help node,
-containing a brief description of each key's function.
-
-For convenience, the mapping of keys to actions
-is largely standardized.
-In most demos:
-
- + the "H" key toggles the help node between minimized and full versions,
- + F5 toggles visibility of the render-statistics overlay,
- + the "O" key dumps the physics space,
- + the "C" key dumps the camera's position, and
- + the Escape key ends the application.
-
-For camera control, all demos use
-the standard `FlyByCamera` with `setDragToRotate(true)`.
-This means you can rotate the camera
-by dragging with the left mouse button (LMB).
-Furthermore:
-
- + the "W" and "S" keys dolly the camera forward and back, respectively,
- + the "A" and "D" keys dolly the camera left and right, respectively,
- + the "Q" and up-arrow keys raise the camera, and
- + the "Z" and down-arrow keys lower the camera.
-
-Some of the demos (such as `DropTest` and `TargetDemo`)
-rely entirely on debug visualization to render the physics objects.
-Others (such as `TestDac` and `PoolDemo`) use physics controls.
-When physics controls are in use,
-the "/" key to toggles debug visualization on and off.
+[An overview of the demo applications](https://stephengold.github.io/Minie/minie/demos.html)
 
 [Jump to table of contents](#toc)
 
