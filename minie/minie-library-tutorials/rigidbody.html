@@ -236,10 +236,10 @@ that exhibits some familiar features of real-world objects, including:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><em>rigidity</em> (a fixed shape) and</p>
+<p><em>rigidity</em>: a fixed shape and</p>
 </li>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Inertia"><em>inertia</em></a> (resistance to changes of motion).</p>
+<p><a href="https://en.wikipedia.org/wiki/Inertia"><em>inertia</em></a>: resistance to changes of motion.</p>
 </li>
 </ul>
 </div>
@@ -267,11 +267,11 @@ Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));<
 <div class="ulist">
 <ul>
 <li>
-<p>They are <em>dynamic</em>
-(mobile, with their motion determined by
+<p>They are <em>dynamic</em>:
+mobile, with their motion determined by
 <a href="https://en.wikipedia.org/wiki/Force"><em>forces</em></a>,
 <a href="https://en.wikipedia.org/wiki/Torque"><em>torques</em></a>, and
-<a href="https://en.wikipedia.org/wiki/Impulse_(physics)"><em>impulses</em></a>.)</p>
+<a href="https://en.wikipedia.org/wiki/Impulse_(physics)"><em>impulses</em></a>.</p>
 </li>
 <li>
 <p>They are subject to <em>gravity</em>:
@@ -314,7 +314,7 @@ that alter their motions but not their shapes.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>The ball on the right loses half its speed.</p>
+<p>The ball on the right loses half its horizontal velocity.</p>
 </li>
 <li>
 <p>The ball on the left begins moving leftward as it falls.</p>
@@ -356,7 +356,7 @@ that alter the path of the dynamic ball.</p>
 </li>
 <li>
 <p>The static ball stays fixed in place,
-unaffected by both gravity and contact forces.</p>
+unaffected by gravity and contact forces.</p>
 </li>
 </ol>
 </div>
@@ -400,7 +400,7 @@ it shouldn&#8217;t be repositioned in this manner.
 </table>
 </div>
 <div class="paragraph">
-<p>The center of a dynamic body should be located at its
+<p>The center of a dynamic body should be its
 <a href="https://en.wikipedia.org/wiki/Center_of_mass"><em>center of mass</em></a>,
 the point around which it tends to spin,
 and its local axes should correspond to the
@@ -422,7 +422,7 @@ in the choice of center and local axes.</p>
 Like dynamic bodies, kinematic ones can move.
 However, they are unaffected by forces, torques, and impulses.
 Their movement is dictated by application logic that may, if desired,
-reposition them prior to every timestep.</p>
+reposition them prior to every time step.</p>
 </div>
 <div class="paragraph">
 <p>In the presence of dynamic bodies, a kinematic body acts like
@@ -463,7 +463,7 @@ that affect the motion of the dynamic ball.</p>
 </li>
 <li>
 <p>The kinematic ball continues orbiting,
-unaffected by both gravity and contact forces.</p>
+unaffected by gravity and contact forces.</p>
 </li>
 </ol>
 </div>
@@ -511,7 +511,7 @@ both represented as 3-D vectors.
 The magnitude and direction of the linear velocity vector quantify the speed
 and direction at which the body&#8217;s center is traveling through space (if at all).
 The magnitude and direction of the angular velocity vector quantify the
-rate and axis direction of the body&#8217;s spinning motion, if any.</p>
+rate and axis direction of the body&#8217;s spinning motion (if any).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -545,8 +545,7 @@ use its <code>setLinearVelocity()</code> and <code>setAngularVelocity()</code> m
 <div class="sect2">
 <h3 id="_built_in_forces"><a class="anchor" href="#_built_in_forces"></a>Built-in forces</h3>
 <div class="paragraph">
-<p>Many familiar real-world phenomena
-can be modeled as forces acting on rigid bodies.</p>
+<p>Many real-world phenomena can be modeled as forces acting on rigid bodies.</p>
 </div>
 <div class="paragraph">
 <p>You can apply custom forces, impulses, and torques
@@ -576,7 +575,7 @@ using the following 6 methods:</p>
 </div>
 <div class="paragraph">
 <p>However, some forces are so commonplace that they are
-"built into" rigid body simulation:</p>
+"built into" rigid-body simulation:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -882,7 +881,7 @@ Reactivation occurs when:</p>
 <p>a new contact is added (due to a collision),</p>
 </li>
 <li>
-<p>a custom force is applied, or</p>
+<p>a custom force, torque, or impulse is applied, or</p>
 </li>
 <li>
 <p>the <code>rigidBody.activate()</code> method is invoked.</p>
@@ -951,7 +950,7 @@ so no collision is detected and no contact forces are simulated.</p>
 <div class="paragraph">
 <p>To some extent, this issue could be mitigated by reducing the time step.
 But since CPU consumption is inversely proportional to the time step,
-this approach quickly becomes very inefficient.</p>
+this approach quickly becomes inefficient.</p>
 </div>
 <div class="paragraph">
 <p>To solve this issue,
@@ -1016,7 +1015,7 @@ passing from one side to the other in a single time step.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Rigid bodies simulate many familiar features of real-world objects.</p>
+<p>Rigid bodies simulate familiar features of real-world objects.</p>
 </li>
 <li>
 <p>There are 3 kinds: static, kinematic, and dynamic &#8230;&#8203;</p>
@@ -1050,7 +1049,9 @@ passing from one side to the other in a single time step.</p>
 <p><code>setPhysicsLocation()</code> <code>setPhysicsRotation()</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>setLinearVelocity()</code> <code>applyImpulse()</code> <code>applyForce()</code> &#8230;&#8203;</p>
+<p><code>applyCentralForce()</code> <code>applyCentralImpulse()</code> <code>applyForce()</code> <code>applyImpulse()</code>
+  <code>applyTorque()</code> <code>applyTorqueImpulse()</code> <code>setAngularVelocity()</code>
+  <code>setLinearVelocity()</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -1072,7 +1073,7 @@ passing from one side to the other in a single time step.</p>
 <p>Typical uses</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Non-moving objects such as floors and walls</p>
+<p>Non-moving objects such as floors, posts, terrain, and walls</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Application-controlled objects such as airships and elevators</p>
@@ -1102,7 +1103,8 @@ passing from one side to the other in a single time step.</p>
 <li>
 <p>The properties of rigid bodies include: shape, mass, moment of inertia,
 location, orientation, velocities (linear and angular),
-damping, gravity, restitution, and friction.</p>
+damping, gravity, restitution, friction, sleeping thresholds, CCD threshold,
+and swept-sphere radius.</p>
 </li>
 <li>
 <p>Contact response is an optional feature.</p>
