@@ -12,8 +12,8 @@
 A _rigid body_ is a type of collision object
 that exhibits some familiar features of real-world objects, including:
 
-* _rigidity_ (a fixed shape) and
-* {url-enwiki}/Inertia[_inertia_] (resistance to changes of motion).
+* _rigidity_: a fixed shape and
+* {url-enwiki}/Inertia[_inertia_]: resistance to changes of motion.
 
 The simplest way to create a rigid body
 is to directly invoke the
@@ -34,11 +34,11 @@ Vector3f inertia = Vector3f.UNIT_XYZ.divide(ball.getInverseInertiaLocal(null));
 
 By default, rigid bodies also exhibit 3 other features of real-world objects:
 
-* They are _dynamic_
-  (mobile, with their motion determined by
+* They are _dynamic_:
+  mobile, with their motion determined by
   {url-enwiki}/Force[_forces_],
   {url-enwiki}/Torque[_torques_], and
-  {url-enwiki}/Impulse_(physics)[_impulses_].)
+  {url-enwiki}/Impulse_(physics)[_impulses_].
 * They are subject to _gravity_:
   a continual downward force proportional to their mass.
 * They exhibit _contact response_:
@@ -59,7 +59,7 @@ Things to notice while running the app:
   making the time steps noticeable.
 . The balls collide, generating contact forces
   that alter their motions but not their shapes.
-.. The ball on the right loses half its speed.
+.. The ball on the right loses half its horizontal velocity.
 .. The ball on the left begins moving leftward as it falls.
 
 == Configuring rigid bodies
@@ -81,7 +81,7 @@ Things to notice while running the app:
 . The balls collide, generating contact forces
   that alter the path of the dynamic ball.
 . The static ball stays fixed in place,
-  unaffected by both gravity and contact forces.
+  unaffected by gravity and contact forces.
 
 === Position
 
@@ -102,7 +102,7 @@ body.setPhysicsRotation(new Quaternion(0.5f, 0.5f, 0.5f, 0.5f));
 NOTE: Once a dynamic or static body has been initialized,
 it shouldn't be repositioned in this manner.
 
-The center of a dynamic body should be located at its
+The center of a dynamic body should be its
 {url-enwiki}/Center_of_mass[_center of mass_],
 the point around which it tends to spin,
 and its local axes should correspond to the
@@ -120,7 +120,7 @@ _Kinematic_ bodies share some properties with both static and dynamic ones.
 Like dynamic bodies, kinematic ones can move.
 However, they are unaffected by forces, torques, and impulses.
 Their movement is dictated by application logic that may, if desired,
-reposition them prior to every timestep.
+reposition them prior to every time step.
 
 In the presence of dynamic bodies, a kinematic body acts like
 an irresistible battering ram.
@@ -148,7 +148,7 @@ Things to notice while running the app:
 . The balls collide, generating contact forces
   that affect the motion of the dynamic ball.
 . The kinematic ball continues orbiting,
-  unaffected by both gravity and contact forces.
+  unaffected by gravity and contact forces.
 
 === Contact response
 
@@ -178,7 +178,7 @@ both represented as 3-D vectors.
 The magnitude and direction of the linear velocity vector quantify the speed
 and direction at which the body's center is traveling through space (if at all).
 The magnitude and direction of the angular velocity vector quantify the
-rate and axis direction of the body's spinning motion, if any.
+rate and axis direction of the body's spinning motion (if any).
 
 NOTE: Both velocities of a static body are zero.
 
@@ -189,8 +189,7 @@ use its `setLinearVelocity()` and `setAngularVelocity()` methods.
 
 === Built-in forces
 
-Many familiar real-world phenomena
-can be modeled as forces acting on rigid bodies.
+Many real-world phenomena can be modeled as forces acting on rigid bodies.
 
 You can apply custom forces, impulses, and torques
 using the following 6 methods:
@@ -203,7 +202,7 @@ using the following 6 methods:
 * `applyTorqueImpulse(Vector3f)`
 
 However, some forces are so commonplace that they are
-"built into" rigid body simulation:
+"built into" rigid-body simulation:
 
 * drag forces:
 ** damping
@@ -392,7 +391,7 @@ unless/until they get reactivated.
 Reactivation occurs when:
 
 * a new contact is added (due to a collision),
-* a custom force is applied, or
+* a custom force, torque, or impulse is applied, or
 * the `rigidBody.activate()` method is invoked.
 
 To reactivate all bodies in a particular physics space,
@@ -430,7 +429,7 @@ so no collision is detected and no contact forces are simulated.
 
 To some extent, this issue could be mitigated by reducing the time step.
 But since CPU consumption is inversely proportional to the time step,
-this approach quickly becomes very inefficient.
+this approach quickly becomes inefficient.
 
 To solve this issue,
 the simulator offers _continuous collision detection_ (CCD),
@@ -474,7 +473,7 @@ Things to notice while running the app:
 
 == Summary
 
-* Rigid bodies simulate many familiar features of real-world objects.
+* Rigid bodies simulate familiar features of real-world objects.
 * There are 3 kinds: static, kinematic, and dynamic ...
 
 [cols="4", options="header"]
@@ -484,7 +483,9 @@ Things to notice while running the app:
 a|Movement
 a|prior to first time step only: `setPhysicsLocation()` `setPhysicsRotation()`
 a|`setPhysicsLocation()` `setPhysicsRotation()`
-a|`setLinearVelocity()` `applyImpulse()` `applyForce()` ...
+a|`applyCentralForce()` `applyCentralImpulse()` `applyForce()` `applyImpulse()`
+  `applyTorque()` `applyTorqueImpulse()` `setAngularVelocity()`
+  `setLinearVelocity()`
 
 a|Affected by forces, impulses, and torques?
 a|No.
@@ -492,7 +493,7 @@ a|No.
 a|Yes.
 
 a|Typical uses
-a|Non-moving objects such as floors and walls
+a|Non-moving objects such as floors, posts, terrain, and walls
 a|Application-controlled objects such as airships and elevators
 a|Physics-controlled objects such as balls, bricks, and ragdolls
 
@@ -504,7 +505,8 @@ a|`setMass(positive)` `setKinematic(false)`
 
 * The properties of rigid bodies include: shape, mass, moment of inertia,
   location, orientation, velocities (linear and angular),
-  damping, gravity, restitution, and friction.
+  damping, gravity, restitution, friction, sleeping thresholds, CCD threshold,
+  and swept-sphere radius.
 * Contact response is an optional feature.
 * If a dynamic rigid body moves too slowly,
   it might get automatically deactivated after 2 seconds.
