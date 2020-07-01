@@ -2,7 +2,7 @@
 
 == Standard build
 
-. Install the build tools:
+. Install the _build tools_:
 .. a https://openjdk.java.net[Java Development Kit] and
 .. https://gradle.org[Gradle]
 . Download and extract the source code from GitHub:
@@ -15,7 +15,7 @@
 ... follow the "Source code (zip)" link
 ... save the ZIP file
 ... unzip the saved ZIP file
-... `cd` to the extracted directory/folder
+... `cd` to the extracted directory
 . Set the `JAVA_HOME` environment variable:
 .. using Bash:  `export JAVA_HOME="` *path to your JDK* `"`
 .. using Windows Command Prompt:  `set JAVA_HOME="` *path to your JDK* `"`
@@ -24,7 +24,7 @@
 .. using Windows Command Prompt:  `.\gradlew build`
 
 After a successful build,
-Maven artifacts will be found in "MinieLibrary/build/libs".
+Maven artifacts will be found in the "MinieLibrary/build/libs" directory.
 
 === Install artifacts
 
@@ -35,7 +35,7 @@ You can install the artifacts to your local cache:
 
 === Cleanup
 
-After a build, you can restore the build directory to a pristine state:
+After a build, you can restore the repository to a pristine state:
 
  * using Bash:  `./gradlew clean`
  * using Windows Command Prompt:  `.\gradlew clean`
@@ -43,14 +43,14 @@ After a build, you can restore the build directory to a pristine state:
 == Customizing the native libraries
 
 By default, Minie's class JAR includes native libraries
-for all the platforms Minie supports.
+for all platforms Minie supports.
 While this is convenient, it results in a large JAR
 and (potentially) a bloated application.
 If you build Minie from source,
 you can customize it to include native libraries only for specific platforms.
 
 To configure which native libraries will be included in the JAR,
-edit the MinieLibrary/build.gradle script.
+edit the "MinieLibrary/build.gradle" script.
 Look for the section where the `btf` variables are set.
 It should look something like this:
 
