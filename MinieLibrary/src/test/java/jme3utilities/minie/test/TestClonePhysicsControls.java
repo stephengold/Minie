@@ -95,6 +95,8 @@ public class TestClonePhysicsControls {
         DynamicAnimControl dacClone = (DynamicAnimControl) Heart.deepCopy(dac);
         cloneTest(dac, dacClone);
         /*
+         * Note: RigidBodyControl is tested in TestCloneBody. 
+         *
          * SoftBodyControl
          */
         SoftBodyControl sbc = new SoftBodyControl();

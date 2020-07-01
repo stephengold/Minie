@@ -471,7 +471,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     }
 
     /**
-     * Create a breakable rod. Its length is along the drop's local Y axis.
+     * Create a breakable rod. Its length runs along the drop's local Y axis.
      *
      * @param totalLength the total length (in physics-space units, &gt;0)
      * @param radius the radius (in physics-space units, &gt;0)
