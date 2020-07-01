@@ -88,8 +88,8 @@ Download the Minie and Heart libraries from GitHub:
 * https://github.com/stephengold/Minie/releases/tag/1.7.0
 * https://github.com/stephengold/Heart/releases/tag/5.5.0
 
-You'll want both class jars
-and probably the "-sources" and "-javadoc" jars as well.
+You'll want both class JARs
+and probably the "-sources" and "-javadoc" JARs as well.
 
 Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
@@ -97,12 +97,12 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 . Select menu:Properties[] to open the "Project Properties" dialog.
 . Under "Categories:", click on btn:[Libraries].
 . Click on the btn:[Compile] tab.
-. Add the Heart class jar:
+. Add the Heart class JAR:
 .. Click on the btn:[Add JAR/Folder] button.
-.. Navigate to the download folder.
+.. Navigate to the download directory.
 .. Select the "Heart-5.5.0.jar" file.
 .. Click on the btn:[Open] button.
-. (optional) Add jars for javadoc and sources:
+. (optional) Add JARs for javadoc and sources:
 .. Click on the btn:[Edit] button.
 .. Click on the btn:[Browse...] button to the right of "Javadoc:"
 .. Select the "Heart-5.5.0-javadoc.jar" file.
@@ -111,7 +111,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 .. Select the "Heart-5.5.0-sources.jar" file.
 .. Click on the btn:[Open] button button again.
 .. Click on the btn:[OK] button to close the "Edit Jar Reference" dialog.
-. Similarly, add the Minie jar(s).
+. Similarly, add the Minie JAR(s).
 . Click on the btn:[OK] button to exit the "Project Properties" dialog.
 
 == Create, configure, and attach a `BulletAppState`
@@ -240,7 +240,7 @@ set the gravity of the space to zero:
 space.setGravity(Vector3f.ZERO);
 ----
 
-== Create physics controls, collision objects, and joints
+== Create physics objects
 
 You can create physics objects directly, using the constructors:
 
