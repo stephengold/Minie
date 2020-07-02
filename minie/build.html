@@ -229,7 +229,7 @@
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Install the build tools:</p>
+<p>Install the <em>build tools</em>:</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
@@ -278,7 +278,7 @@
 <p>unzip the saved ZIP file</p>
 </li>
 <li>
-<p><code>cd</code> to the extracted directory/folder</p>
+<p><code>cd</code> to the extracted directory</p>
 </li>
 </ol>
 </div>
@@ -316,7 +316,7 @@
 </div>
 <div class="paragraph">
 <p>After a successful build,
-Maven artifacts will be found in "MinieLibrary/build/libs".</p>
+Maven artifacts will be found in the "MinieLibrary/build/libs" directory.</p>
 </div>
 <div class="sect2">
 <h3 id="_install_artifacts"><a class="anchor" href="#_install_artifacts"></a>Install artifacts</h3>
@@ -337,7 +337,7 @@ Maven artifacts will be found in "MinieLibrary/build/libs".</p>
 <div class="sect2">
 <h3 id="_cleanup"><a class="anchor" href="#_cleanup"></a>Cleanup</h3>
 <div class="paragraph">
-<p>After a build, you can restore the build directory to a pristine state:</p>
+<p>After a build, you can restore the repository to a pristine state:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -357,7 +357,7 @@ Maven artifacts will be found in "MinieLibrary/build/libs".</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>By default, Minie&#8217;s class JAR includes native libraries
-for all the platforms Minie supports.
+for all platforms Minie supports.
 While this is convenient, it results in a large JAR
 and (potentially) a bloated application.
 If you build Minie from source,
@@ -365,7 +365,7 @@ you can customize it to include native libraries only for specific platforms.</p
 </div>
 <div class="paragraph">
 <p>To configure which native libraries will be included in the JAR,
-edit the MinieLibrary/build.gradle script.
+edit the "MinieLibrary/build.gradle" script.
 Look for the section where the <code>btf</code> variables are set.
 It should look something like this:</p>
 </div>
