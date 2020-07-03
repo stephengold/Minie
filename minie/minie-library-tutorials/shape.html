@@ -243,7 +243,13 @@ However, those are only 3 of the 16 subclasses of
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CollisionShape.html"><code>CollisionShape</code></a>.</p>
 </div>
 <div class="paragraph">
-<p>Here they are summarized in lexicographic order,
+<p>The <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CompoundCollisionShape.html"><code>CompoundCollisionShape</code></a>
+class is especially important because
+it enables any number of <em>child shapes</em>
+to be combined into a single <em>compound shape</em>.</p>
+</div>
+<div class="paragraph">
+<p>The subclasses are summarized here, in lexicographic order,
 with illustrations and lists of key properties (explained below):</p>
 </div>
 <table class="tableblock frame-all grid-none stretch">
@@ -437,12 +443,12 @@ To test whether a shape belongs to a concave class, use <code>shape.isConcave()<
 <h2 id="_margin"><a class="anchor" href="#_margin"></a>Margin</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>All collision shapes except
+<p>All collision-shape subtypes except
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html"><code>CapsuleCollisionShape</code></a>
 and
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SphereCollisionShape.html"><code>SphereCollisionShape</code></a>
 incorporate a <em>margin</em>, a narrow zone near the surface of the shape.
-(The word <em>margin</em> is used to refer to both the zone and its thickness.)
+(The word <em>margin</em> refers to both the zone and its thickness.)
 According to the Bullet Manual, the purpose of margin is
 "to improve performance and reliability of the collision detection."</p>
 </div>
@@ -473,12 +479,11 @@ doing so is not recommended.
 is unaffected by margin.</p>
 </div>
 <div class="paragraph">
-<p>While most of the <code>CollisionShape</code> subtypes are precise,
-there are 5 that are not.
+<p>While most collision-shape subtypes are precise, 5 are not.
 For 4 of them, margin simply expands their effective shapes:</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/ConeCollisionShape.html"><code>ConeCollisionShape</code></a></p>
 </li>
@@ -491,25 +496,41 @@ For 4 of them, margin simply expands their effective shapes:</p>
 <li>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SimplexCollisionShape.html"><code>SimplexCollisionShape</code></a></p>
 </li>
-</ul>
+</ol>
 </div>
 <div class="paragraph">
 <p>Margin also distorts a
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a>,
-but its effect is more complicated.</p>
+but its effect there is more complicated.</p>
 </div>
 <div class="paragraph">
+<p>Here are illustrations of 4 otherwise identical simplex shapes
+with different margins:</p>
+</div>
+<table class="tableblock frame-all grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/margin1.png" alt="margin1" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/margin4.png" alt="margin4" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/margin5.png" alt="margin5" height="160"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/margin6.png" alt="margin6" height="160"></span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
 <p>Since margin is defined in physics-space units,
-its effects tend become more noticeable for smaller shapes.</p>
+its effects are most noticeable for small shapes.</p>
 </div>
 <div class="paragraph">
 <p>When using imprecise shapes, you may compensate for margin
-by shrinking the shape&#8217;s dimensions
-(for a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/ConeCollisionShape.html"><code>ConeCollisionShape</code></a> or
-<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a>)
-or by moving its defining vertices inward
-(for a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SimplexCollisionShape.html"><code>SimplexCollisionShape</code></a> or
-<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HullCollisionShape.html"><code>HullCollisionShape</code></a>).</p>
+by shrinking the shape&#8217;s dimensions (for a cone or cylinder shape)
+or by moving its defining vertices inward (for a simplex or hull shape).</p>
 </div>
 <div class="paragraph">
 <p>Another possible workaround would be to scale the physics space
@@ -530,19 +551,20 @@ collision detection doesn&#8217;t work well between zero-thickness shapes such a
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/Box2dShape.html"><code>Box2dShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/Box2dShape.html"><code>Box2dShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/Convex2dShape.html"><code>Convex2dShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/Convex2dShape.html"><code>Convex2dShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/PlaneCollisionShape.html"><code>PlaneCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/PlaneCollisionShape.html"><code>PlaneCollisionShape</code></a>, and</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SimplexCollisionShape.html"><code>SimplexCollisionShape</code></a> with 1-to-3 vertices</p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SimplexCollisionShape.html"><code>SimplexCollisionShape</code></a>
+with 1-to-3 vertices.</p>
 </li>
 </ul>
 </div>
@@ -554,16 +576,16 @@ the simulator cannot determine their mass distributions:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/EmptyShape.html"><code>EmptyShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/EmptyShape.html"><code>EmptyShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MeshCollisionShape.html"><code>MeshCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MeshCollisionShape.html"><code>MeshCollisionShape</code></a>, and</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/PlaneCollisionShape.html"><code>PlaneCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/PlaneCollisionShape.html"><code>PlaneCollisionShape</code></a>.</p>
 </li>
 </ul>
 </div>
@@ -572,24 +594,24 @@ the simulator cannot determine their mass distributions:</p>
 All have at least one <a href="https://en.wikipedia.org/wiki/Rotational_symmetry">axis of symmetry</a>,
 and their centers and axes are well-known:</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/BoxCollisionShape.html"><code>BoxCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/BoxCollisionShape.html"><code>BoxCollisionShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html"><code>CapsuleCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html"><code>CapsuleCollisionShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/ConeCollisionShape.html"><code>ConeCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/ConeCollisionShape.html"><code>ConeCollisionShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a>, and</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SphereCollisionShape.html"><code>SphereCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SphereCollisionShape.html"><code>SphereCollisionShape</code></a>.</p>
 </li>
-</ul>
+</ol>
 </div>
 <div class="paragraph">
 <p>Many asymmetric shapes are also suitable for dynamic rigid bodies.
@@ -622,24 +644,26 @@ that minimizes the mallet&#8217;s
 </ol>
 </div>
 <div class="paragraph">
-<p>The following classes can generate asymmetric shapes for rigid bodies:</p>
+<p>The following classes
+can be used to generate asymmetric shapes for rigid bodies:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CompoundCollisionShape.html"><code>CompoundCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CompoundCollisionShape.html"><code>CompoundCollisionShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/GImpactCollisionShape.html"><code>GImpactCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/GImpactCollisionShape.html"><code>GImpactCollisionShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HullCollisionShape.html"><code>HullCollisionShape</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HullCollisionShape.html"><code>HullCollisionShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MultiSphere.html"><code>MultiSphere</code></a></p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MultiSphere.html"><code>MultiSphere</code></a>, and</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SimplexCollisionShape.html"><code>SimplexCollisionShape</code></a> with 4 vertices</p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SimplexCollisionShape.html"><code>SimplexCollisionShape</code></a>
+with 4 vertices.</p>
 </li>
 </ul>
 </div>
@@ -662,7 +686,7 @@ lies much closer to the head, in a very plausible location.</p>
 </li>
 <li>
 <p>After landing, the mallet comes to rest on its side,
-which is a more natural behavior for a mallet.</p>
+which is the most natural behavior for a mallet.</p>
 </li>
 </ol>
 </div>
@@ -692,8 +716,8 @@ the only allowed scale is (1,1,1).</p>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html"><code>CapsuleCollisionShape</code></a>,
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/ConeCollisionShape.html"><code>ConeCollisionShape</code></a>, and
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SphereCollisionShape.html"><code>SphereCollisionShape</code></a>
-support only uniform scaling, where all axes have the same scale factor.
-For instance, (0.2, 0.2, 0.2) or (9,9,9).</p>
+support only uniform scaling, where all axes have the same scale factor,
+such as (0.2, 0.2, 0.2) or (9,9,9).</p>
 </li>
 <li>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a>
@@ -752,8 +776,7 @@ for everything.
 However, since mesh-based collision detection is CPU-intensive,
 simpler shapes are often a better choice,
 even when they don&#8217;t match the model&#8217;s shape closely.
-In particular, <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html"><code>CapsuleCollisionShape</code></a>
-is often used with humanoid models.</p>
+In particular, capsule shapes are often used for humanoid models.</p>
 </div>
 <div class="paragraph">
 <p>The following pseudo-code algorithm may be helpful:</p>
@@ -795,7 +818,7 @@ is often used with humanoid models.</p>
            or a combination of convex primitives) {
     use a CompoundCollisionShape
 } else if (the object does not move) {
-    if (it is a 2-D heightfield) {
+    if (it is a heightfield) {
         use a HeightfieldCollisionShape
     } else {
         use a MeshCollisionShape
@@ -838,18 +861,28 @@ should be your last resort!
 automates the creation of collision shapes for models.</p>
 </div>
 <div class="paragraph">
-<p>The <code>createDynamicMeshShape()</code> method
+<p>Its <code>createDynamicMeshShape()</code> method
 creates a collision shape suitable for a dynamic rigid body.
-It constructs a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HullCollisionShape.html"><code>HullCollisionShape</code></a>
-for each <code>Geometry</code>, and if the model&#8217;s root spatial is a <code>Node</code>,
+It constructs a hull shape for each geometry,
+and if the model&#8217;s root spatial is a node,
 it combines all the hulls into a single compound shape.</p>
 </div>
 <div class="paragraph">
-<p>This approach comes with 3 caveats:
-. For good fidelity, each mesh in the model must be convex or nearly so.
-. The center of the resulting collision shape is at the model&#8217;s origin,
-  which might not be a plausible location for it.
-. It&#8217;s often possible to generate a more efficient shape by hand.</p>
+<p>This approach comes with 3 caveats:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For good fidelity, each mesh in the model must be convex or nearly so.</p>
+</li>
+<li>
+<p>The center of the resulting collision shape is at the model&#8217;s origin,
+which might not be a plausible location for it.</p>
+</li>
+<li>
+<p>It&#8217;s often possible to generate a more efficient shape by hand.</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p>The <code>createMeshShape()</code> method
@@ -858,13 +891,13 @@ It constructs a
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a>
 for each <code>TerrainQuad</code> and <code>TerrainPatch</code> in the model.
 It constructs a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MeshCollisionShape.html"><code>MeshCollisionShape</code></a>
-for each non-terrain Geometry in the model.
-And if the model&#8217;s root spatial is a <code>Node</code>,
+for each non-terrain geometry in the model.
+And if the model&#8217;s root spatial is a node,
 it combines all the heightfields and hulls into a single compound shape.</p>
 </div>
 <div class="paragraph">
 <p>When generating compound shapes, both these methods skip over any geometries
-that have the <code>"JmePhysicsIgnore"</code> user-data key set to <code>true</code>.</p>
+that have the "JmePhysicsIgnore" user-data key set to <code>true</code>.</p>
 </div>
 <div class="sect2">
 <h3 id="_convex_decomposition"><a class="anchor" href="#_convex_decomposition"></a>Convex decomposition</h3>
@@ -882,7 +915,7 @@ Or if the object is modeled in Blender,
 it may be practical to manually decompose it there
 into meshes that are convex or nearly so.
 In both cases, the desired compound shape can then be generated using
-<code>CollisionShapeFactory.createDynamicMeshShape()</code>.</p>
+<code>createDynamicMeshShape()</code>.</p>
 </div>
 <div class="paragraph">
 <p>For situations where manual decomposition is impractical,
@@ -899,10 +932,10 @@ CollisionShape shape
 </div>
 </div>
 <div class="paragraph">
-<p>The V-HACD algorithm is costly to run, but in many applications it can
-be performed in advance and stored in J3O format until needed.
-During simulation, the resulting shape will usually be much more efficient
-than a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/GImpactCollisionShape.html"><code>GImpactCollisionShape</code></a>.</p>
+<p>The V-HACD algorithm is costly to run, but for many applications it can
+be run in advance and the output stored in J3O format until needed.
+During simulation, the resulting shape will usually be much far efficient
+than a GImpact shape.</p>
 </div>
 </div>
 </div>
@@ -934,8 +967,8 @@ may still exhibit the convex property.</p>
 <p>Not all collision shapes are suitable for dynamic rigid bodies.</p>
 </li>
 <li>
-<p>When applying a asymmetric shape to a dynamic rigid body,
-make sure that its center and principal axes are plausible.</p>
+<p>Before applying an asymmetric shape to a dynamic rigid body,
+make sure its center and principal axes are plausible.</p>
 </li>
 <li>
 <p>Use the simplest shape that yields the desired behavior.</p>
