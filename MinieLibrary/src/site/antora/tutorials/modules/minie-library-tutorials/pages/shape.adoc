@@ -15,7 +15,12 @@ The examples so far have all used spheres, cubes, and/or cylinders.
 However, those are only 3 of the 16 subclasses of
 {url-shape}/CollisionShape.html[`CollisionShape`].
 
-Here they are summarized in lexicographic order,
+The {url-shape}/CompoundCollisionShape.html[`CompoundCollisionShape`]
+class is especially important because
+it enables any number of _child shapes_
+to be combined into a single _compound shape_.
+
+The subclasses are summarized here, in lexicographic order,
 with illustrations and lists of key properties (explained below):
 
 [cols="2*",grid="none"]
@@ -186,12 +191,12 @@ To test whether a shape belongs to a concave class, use `shape.isConcave()`.
 
 == Margin
 
-All collision shapes except
+All collision-shape subtypes except
 {url-shape}/CapsuleCollisionShape.html[`CapsuleCollisionShape`]
 and
 {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
 incorporate a _margin_, a narrow zone near the surface of the shape.
-(The word _margin_ is used to refer to both the zone and its thickness.)
+(The word _margin_ refers to both the zone and its thickness.)
 According to the Bullet Manual, the purpose of margin is
 "to improve performance and reliability of the collision detection."
 
@@ -206,29 +211,35 @@ A _precise shape_ is a collision shape whose _effective shape_
 (observed in collisions, contact tests, ray tests, and sweep tests)
 is unaffected by margin.
 
-While most of the `CollisionShape` subtypes are precise,
-there are 5 that are not.
+While most collision-shape subtypes are precise, 5 are not.
 For 4 of them, margin simply expands their effective shapes:
 
-* {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`]
-* {url-shape}/Convex2dShape.html[`Convex2dShape`]
-* {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
-* {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
+. {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`]
+. {url-shape}/Convex2dShape.html[`Convex2dShape`]
+. {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
+. {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
 
 Margin also distorts a
 {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`],
-but its effect is more complicated.
+but its effect there is more complicated.
+
+Here are illustrations of 4 otherwise identical simplex shapes
+with different margins:
+
+[cols="2*",grid="none"]
+|===
+|image:margin1.png[height=160]
+|image:margin4.png[height=160]
+|image:margin5.png[height=160]
+|image:margin6.png[height=160]
+|===
 
 Since margin is defined in physics-space units,
-its effects tend become more noticeable for smaller shapes.
+its effects are most noticeable for small shapes.
 
 When using imprecise shapes, you may compensate for margin
-by shrinking the shape's dimensions
-(for a {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`] or
-{url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`])
-or by moving its defining vertices inward
-(for a {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`] or
-{url-shape}/HullCollisionShape.html[`HullCollisionShape`]).
+by shrinking the shape's dimensions (for a cone or cylinder shape)
+or by moving its defining vertices inward (for a simplex or hull shape).
 
 Another possible workaround would be to scale the physics space
 so as to make the effects of margin less obvious.
@@ -240,30 +251,31 @@ Not all collision shapes are suitable for dynamic rigid bodies.
 For instance,
 collision detection doesn't work well between zero-thickness shapes such as:
 
-* {url-shape}/Box2dShape.html[`Box2dShape`]
-* {url-shape}/Convex2dShape.html[`Convex2dShape`]
-* {url-shape}/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`]
-* {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`]
-* {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`] with 1-to-3 vertices
+* {url-shape}/Box2dShape.html[`Box2dShape`],
+* {url-shape}/Convex2dShape.html[`Convex2dShape`],
+* {url-shape}/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`],
+* {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`], and
+* {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
+  with 1-to-3 vertices.
 
 Furthermore, the following shape classes are suitable *only*
 for kinematic or static objects because
 the simulator cannot determine their mass distributions:
 
-* {url-shape}/EmptyShape.html[`EmptyShape`]
-* {url-shape}/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`]
-* {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`]
-* {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`]
+* {url-shape}/EmptyShape.html[`EmptyShape`],
+* {url-shape}/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`],
+* {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`], and
+* {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`].
 
 The safest shapes for dynamic rigid bodies are the 5 _primitives_ listed below.
 All have at least one {url-enwiki}/Rotational_symmetry[axis of symmetry],
 and their centers and axes are well-known:
 
-* {url-shape}/BoxCollisionShape.html[`BoxCollisionShape`]
-* {url-shape}/CapsuleCollisionShape.html[`CapsuleCollisionShape`]
-* {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`]
-* {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`]
-* {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
+. {url-shape}/BoxCollisionShape.html[`BoxCollisionShape`],
+. {url-shape}/CapsuleCollisionShape.html[`CapsuleCollisionShape`],
+. {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`],
+. {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`], and
+. {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`].
 
 Many asymmetric shapes are also suitable for dynamic rigid bodies.
 With such shapes, however, care should be taken to ensure the plausibility of
@@ -284,13 +296,15 @@ Things to notice while running the app:
   that minimizes the mallet's
   {url-enwiki}/Gravitational_potential[gravitational potential].
 
-The following classes can generate asymmetric shapes for rigid bodies:
+The following classes
+can be used to generate asymmetric shapes for rigid bodies:
 
-* {url-shape}/CompoundCollisionShape.html[`CompoundCollisionShape`]
-* {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`]
-* {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
-* {url-shape}/MultiSphere.html[`MultiSphere`]
-* {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`] with 4 vertices
+* {url-shape}/CompoundCollisionShape.html[`CompoundCollisionShape`],
+* {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`],
+* {url-shape}/HullCollisionShape.html[`HullCollisionShape`],
+* {url-shape}/MultiSphere.html[`MultiSphere`], and
+* {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
+  with 4 vertices.
 
 In the case of a
 {url-shape}/CompoundCollisionShape.html[`CompoundCollisionShape`],
@@ -304,7 +318,7 @@ Things to notice while running the app:
 . This time, the mallet's center of mass (visualized by 3 arrows)
   lies much closer to the head, in a very plausible location.
 . After landing, the mallet comes to rest on its side,
-  which is a more natural behavior for a mallet.
+  which is the most natural behavior for a mallet.
 
 Note: The `principalAxes()` method relies on each child having an accurate
 center, axes, and moment of inertia.
@@ -322,8 +336,8 @@ In particular:
 * {url-shape}/CapsuleCollisionShape.html[`CapsuleCollisionShape`],
   {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`], and
   {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
-  support only uniform scaling, where all axes have the same scale factor.
-  For instance, (0.2, 0.2, 0.2) or (9,9,9).
+  support only uniform scaling, where all axes have the same scale factor,
+  such as (0.2, 0.2, 0.2) or (9,9,9).
 * {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`]
   allows the height and base to scale independently,
   but the scale factors of both base axes must be equal.
@@ -363,8 +377,7 @@ for everything.
 However, since mesh-based collision detection is CPU-intensive,
 simpler shapes are often a better choice,
 even when they don't match the model's shape closely.
-In particular, {url-shape}/CapsuleCollisionShape.html[`CapsuleCollisionShape`]
-is often used with humanoid models.
+In particular, capsule shapes are often used for humanoid models.
 
 The following pseudo-code algorithm may be helpful:
 
@@ -404,7 +417,7 @@ if (the object doesn't move and isn't involved in collisions) {
            or a combination of convex primitives) {
     use a CompoundCollisionShape
 } else if (the object does not move) {
-    if (it is a 2-D heightfield) {
+    if (it is a heightfield) {
         use a HeightfieldCollisionShape
     } else {
         use a MeshCollisionShape
@@ -431,13 +444,14 @@ should be your last resort!
 The {url-api}/util/CollisionShapeFactory.html[`CollisionShapeFactory`] class
 automates the creation of collision shapes for models.
 
-The `createDynamicMeshShape()` method
+Its `createDynamicMeshShape()` method
 creates a collision shape suitable for a dynamic rigid body.
-It constructs a {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
-for each `Geometry`, and if the model's root spatial is a `Node`,
+It constructs a hull shape for each geometry,
+and if the model's root spatial is a node,
 it combines all the hulls into a single compound shape.
 
 This approach comes with 3 caveats:
+
 . For good fidelity, each mesh in the model must be convex or nearly so.
 . The center of the resulting collision shape is at the model's origin,
   which might not be a plausible location for it.
@@ -449,12 +463,12 @@ It constructs a
 {url-shape}/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`]
 for each `TerrainQuad` and `TerrainPatch` in the model.
 It constructs a {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`]
-for each non-terrain Geometry in the model.
-And if the model's root spatial is a `Node`,
+for each non-terrain geometry in the model.
+And if the model's root spatial is a node,
 it combines all the heightfields and hulls into a single compound shape.
 
 When generating compound shapes, both these methods skip over any geometries
-that have the `"JmePhysicsIgnore"` user-data key set to `true`.
+that have the "JmePhysicsIgnore" user-data key set to `true`.
 
 === Convex decomposition
 
@@ -470,7 +484,7 @@ Or if the object is modeled in Blender,
 it may be practical to manually decompose it there
 into meshes that are convex or nearly so.
 In both cases, the desired compound shape can then be generated using
-`CollisionShapeFactory.createDynamicMeshShape()`.
+`createDynamicMeshShape()`.
 
 For situations where manual decomposition is impractical,
 Minie incorporates Khaled Mamou's
@@ -485,10 +499,10 @@ CollisionShape shape
         = CollisionShapeFactory.createVhacdShape(modelRoot, parms, null);
 ----
 
-The V-HACD algorithm is costly to run, but in many applications it can
-be performed in advance and stored in J3O format until needed.
-During simulation, the resulting shape will usually be much more efficient
-than a {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`].
+The V-HACD algorithm is costly to run, but for many applications it can
+be run in advance and the output stored in J3O format until needed.
+During simulation, the resulting shape will usually be much far efficient
+than a GImpact shape.
 
 == Summary
 
@@ -501,8 +515,8 @@ than a {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`].
 * Margin distorts the effective shape of imprecise collision shapes.
 * Most collision shapes can be scaled, but not all can be scaled non-uniformly.
 * Not all collision shapes are suitable for dynamic rigid bodies.
-* When applying a asymmetric shape to a dynamic rigid body,
-  make sure that its center and principal axes are plausible.
+* Before applying an asymmetric shape to a dynamic rigid body,
+  make sure its center and principal axes are plausible.
 * Use the simplest shape that yields the desired behavior.
 * To speed up simulation of objects with non-convex shapes,
   decompose them into convex ones, either during construction or using V-HACD.
