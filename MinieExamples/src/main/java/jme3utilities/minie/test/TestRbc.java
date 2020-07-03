@@ -246,7 +246,7 @@ public class TestRbc
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
 
-        addLighting();
+        addLighting(rootNode);
         addStatusLines();
 
         float length = 0.8f;
@@ -365,6 +365,9 @@ public class TestRbc
 
         dim.bind("sweep", KeyInput.KEY_K);
 
+        dim.bind("test+7", KeyInput.KEY_NUMPAD9);
+        dim.bind("test-7", KeyInput.KEY_NUMPAD7);
+
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
@@ -438,6 +441,13 @@ public class TestRbc
 
                 case "sweep":
                     sweep();
+                    return;
+
+                case "test+7":
+                    advanceTest(+7);
+                    return;
+                case "test-7":
+                    advanceTest(-7);
                     return;
 
                 case "toggle view":
@@ -776,17 +786,17 @@ public class TestRbc
     }
 
     /**
-     * Add lighting to the scene.
+     * Add lighting to the specified scene.
      */
-    private void addLighting() {
+    private void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
-        rootNode.addLight(ambient);
+        rootSpatial.addLight(ambient);
         ambient.setName("ambient");
 
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
-        rootNode.addLight(sun);
+        rootSpatial.addLight(sun);
         sun.setName("sun");
     }
 
