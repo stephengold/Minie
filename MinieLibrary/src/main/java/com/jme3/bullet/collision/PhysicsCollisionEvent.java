@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * Describe a collision between 2 collision objects in a PhysicsSpace.
+ * Describe a collision between 2 objects in a CollisionSpace.
  *
  * @author normenhansen
  */

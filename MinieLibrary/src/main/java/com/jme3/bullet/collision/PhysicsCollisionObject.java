@@ -342,7 +342,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Read which normals to include in new debug meshes.
+     * Determine which normals to include in new debug meshes.
      *
      * @return an enum value (not null)
      */
@@ -352,7 +352,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Read mesh resolution for new debug meshes (convex shapes only).
+     * Determine the resolution for new debug meshes (convex shapes only).
      *
      * @return 0=low, 1=high
      */
@@ -583,7 +583,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Read the ID of the btCollisionObject. For compatibility with the
+     * Determine the ID of the btCollisionObject. For compatibility with the
      * jme3-bullet library.
      *
      * @return the native identifier (not zero)
