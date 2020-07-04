@@ -215,7 +215,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#addCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addCollisionListener(PhysicsCollisionListener)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Register the specified collision listener.</div>
+<div class="block">Register the specified listener for new contacts.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#addCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)">addCollisionObject(PhysicsCollisionObject)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
@@ -264,6 +264,10 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/MultiBodyLink.html#addJointTorque(int,float)">addJointTorque(int, float)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodyLink.html" title="class in com.jme3.bullet">MultiBodyLink</a></dt>
 <dd>
 <div class="block">Add an external torque to this link's joint.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addOngoingCollisionListener(PhysicsCollisionListener)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Register the specified listener for ongoing contacts.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/animation/DacLinks.html#addPhysics()">addPhysics()</a></span> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/DacLinks.html" title="class in com.jme3.bullet.animation">DacLinks</a></dt>
 <dd>
@@ -2639,7 +2643,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#debugMeshNormals()">debugMeshNormals()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
-<div class="block">Read which normals to include in new debug meshes.</div>
+<div class="block">Determine which normals to include in new debug meshes.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/DebugMeshNormals.html" title="enum in com.jme3.bullet.collision.shapes.infos"><span class="typeNameLink">DebugMeshNormals</span></a> - Enum in <a href="com/jme3/bullet/collision/shapes/infos/package-summary.html">com.jme3.bullet.collision.shapes.infos</a></dt>
 <dd>
@@ -2647,7 +2651,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#debugMeshResolution()">debugMeshResolution()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
-<div class="block">Read mesh resolution for new debug meshes (convex shapes only).</div>
+<div class="block">Determine the resolution for new debug meshes (convex shapes only).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/debug/DebugTools.html#debugNode">debugNode</a></span> - Variable in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/DebugTools.html" title="class in com.jme3.bullet.debug">DebugTools</a></dt>
 <dd>
@@ -2863,7 +2867,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#distributeEvents()">distributeEvents()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Distribute each collision event to all listeners.</div>
+<div class="block">Distribute each collision event to registered listeners.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/infos/Sbcp.html#Drag">Drag</a></span> - com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/Sbcp.html" title="enum in com.jme3.bullet.objects.infos">Sbcp</a></dt>
 <dd>
@@ -4287,7 +4291,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#getObjectId()">getObjectId()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
-<div class="block">Read the ID of the btCollisionObject.</div>
+<div class="block">Determine the ID of the btCollisionObject.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/shapes/CollisionShape.html#getObjectId()">getObjectId()</a></span> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></dt>
 <dd>
@@ -7386,7 +7390,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision"><span class="typeNameLink">PhysicsCollisionEvent</span></a> - Class in <a href="com/jme3/bullet/collision/package-summary.html">com.jme3.bullet.collision</a></dt>
 <dd>
-<div class="block">Describe a collision between 2 collision objects in a PhysicsSpace.</div>
+<div class="block">Describe a collision between 2 objects in a CollisionSpace.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#%3Cinit%3E(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">PhysicsCollisionEvent(PhysicsCollisionObject, PhysicsCollisionObject, long)</a></span> - Constructor for class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
@@ -8247,7 +8251,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#removeCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeCollisionListener(PhysicsCollisionListener)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">De-register the specified collision listener.</div>
+<div class="block">De-register the specified listener for new contacts.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)">removeCollisionObject(PhysicsCollisionObject)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
@@ -8285,6 +8289,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Remove all non-physics controls from the specified subtree of the scene
  graph.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#removeOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeOngoingCollisionListener(PhysicsCollisionListener)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">De-register the specified listener for ongoing contacts.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/animation/DacLinks.html#removePhysics()">removePhysics()</a></span> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/DacLinks.html" title="class in com.jme3.bullet.animation">DacLinks</a></dt>
 <dd>

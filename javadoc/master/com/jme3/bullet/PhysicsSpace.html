@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":9,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":9,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":9,"i31":10,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":9,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":9,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":9,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10,"i51":10,"i52":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -297,7 +297,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addCollisionListener</a></span>&#8203;(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
-<div class="block">Register the specified collision listener.</div>
+<div class="block">Register the specified listener for new contacts.</div>
 </td>
 </tr>
 <tr class="altColor" id="i4">
@@ -316,96 +316,103 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 </tr>
 <tr class="altColor" id="i6">
 <td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addOngoingCollisionListener</a></span>&#8203;(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></th>
+<td class="colLast">
+<div class="block">Register the specified listener for ongoing contacts.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i7">
+<td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addTickListener(com.jme3.bullet.PhysicsTickListener)">addTickListener</a></span>&#8203;(<a href="PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
 <div class="block">Register the specified tick listener with this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i7">
+<tr class="altColor" id="i8">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(com.jme3.bullet.collision.PhysicsCollisionObject)">contains</a></span>&#8203;(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pco)</code></th>
 <td class="colLast">
 <div class="block">Test whether the specified collision object is added to this space.</div>
 </td>
 </tr>
-<tr class="altColor" id="i8">
+<tr class="rowColor" id="i9">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(com.jme3.bullet.joints.PhysicsJoint)">contains</a></span>&#8203;(<a href="joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint)</code></th>
 <td class="colLast">
 <div class="block">Test whether the specified PhysicsJoint is added to this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i9">
+<tr class="altColor" id="i10">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#countCollisionListeners()">countCollisionListeners</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Count how many collision listeners are registered with this space.</div>
 </td>
 </tr>
-<tr class="altColor" id="i10">
+<tr class="rowColor" id="i11">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#countJoints()">countJoints</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Count the joints in this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i11">
+<tr class="altColor" id="i12">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#countRigidBodies()">countRigidBodies</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Count the rigid bodies in this space, including vehicles.</div>
 </td>
 </tr>
-<tr class="altColor" id="i12">
+<tr class="rowColor" id="i13">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#countTickListeners()">countTickListeners</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Count how many tick listeners are registered with this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i13">
+<tr class="altColor" id="i14">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create()">create</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Must be invoked on the designated physics thread.</div>
 </td>
 </tr>
-<tr class="altColor" id="i14">
+<tr class="rowColor" id="i15">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#destroy()">destroy</a></span>()</code></th>
 <td class="colLast">
 <div class="block">For compatibility with the jme3-bullet library.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i15">
+<tr class="altColor" id="i16">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#distributeEvents()">distributeEvents</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Distribute each collision event to all listeners.</div>
+<div class="block">Distribute each collision event to registered listeners.</div>
 </td>
 </tr>
-<tr class="altColor" id="i16">
+<tr class="rowColor" id="i17">
 <td class="colFirst"><code>&lt;V&gt;&nbsp;java.util.concurrent.Future&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enqueue(java.util.concurrent.Callable)">enqueue</a></span>&#8203;(java.util.concurrent.Callable&lt;V&gt;&nbsp;callable)</code></th>
 <td class="colLast">
 <div class="block">Invoke the specified callable during the next physics tick.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i17">
+<tr class="altColor" id="i18">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;java.util.concurrent.Future&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enqueueOnThisThread(java.util.concurrent.Callable)">enqueueOnThisThread</a></span>&#8203;(java.util.concurrent.Callable&lt;V&gt;&nbsp;callable)</code></th>
 <td class="colLast">
 <div class="block">Enqueue a callable on the currently executing thread.</div>
 </td>
 </tr>
-<tr class="altColor" id="i18">
+<tr class="rowColor" id="i19">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAccuracy()">getAccuracy</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the accuracy: the time step used when maxSubSteps&gt;0.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i19">
+<tr class="altColor" id="i20">
 <td class="colFirst"><code>java.util.Collection&lt;<a href="objects/PhysicsCharacter.html" title="class in com.jme3.bullet.objects">PhysicsCharacter</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCharacterList()">getCharacterList</a></span>()</code></th>
 <td class="colLast">
@@ -413,14 +420,14 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  yet removed.</div>
 </td>
 </tr>
-<tr class="altColor" id="i20">
+<tr class="rowColor" id="i21">
 <td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getGravity(com.jme3.math.Vector3f)">getGravity</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Copy the gravitational acceleration for newly-added bodies.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i21">
+<tr class="altColor" id="i22">
 <td class="colFirst"><code>java.util.Collection&lt;<a href="joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getJointList()">getJointList</a></span>()</code></th>
 <td class="colLast">
@@ -428,14 +435,14 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  removed.</div>
 </td>
 </tr>
-<tr class="altColor" id="i22">
+<tr class="rowColor" id="i23">
 <td class="colFirst"><code>protected java.util.Map&lt;java.lang.Long,&#8203;<a href="joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getJointMap()">getJointMap</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the map from native IDs to physics joints.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i23">
+<tr class="altColor" id="i24">
 <td class="colFirst"><code>java.util.Collection&lt;<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPcoList()">getPcoList</a></span>()</code></th>
 <td class="colLast">
@@ -443,14 +450,14 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  yet removed.</div>
 </td>
 </tr>
-<tr class="altColor" id="i24">
+<tr class="rowColor" id="i25">
 <td class="colFirst"><code>static <a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPhysicsSpace()">getPhysicsSpace</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the PhysicsSpace <b>running on this thread</b>.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i25">
+<tr class="altColor" id="i26">
 <td class="colFirst"><code>java.util.Collection&lt;<a href="objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRigidBodyList()">getRigidBodyList</a></span>()</code></th>
 <td class="colLast">
@@ -458,14 +465,14 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  space and not yet removed.</div>
 </td>
 </tr>
-<tr class="altColor" id="i26">
+<tr class="rowColor" id="i27">
 <td class="colFirst"><code><a href="SolverInfo.html" title="class in com.jme3.bullet">SolverInfo</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSolverInfo()">getSolverInfo</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access parameters used by the contact-and-constraint solver.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i27">
+<tr class="altColor" id="i28">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSolverNumIterations()">getSolverNumIterations</a></span>()</code></th>
 <td class="colLast">
@@ -473,14 +480,14 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  for compatibility with the jme3-bullet library.</div>
 </td>
 </tr>
-<tr class="altColor" id="i28">
+<tr class="rowColor" id="i29">
 <td class="colFirst"><code><a href="SolverType.html" title="enum in com.jme3.bullet">SolverType</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSolverType()">getSolverType</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine the type of solver.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i29">
+<tr class="altColor" id="i30">
 <td class="colFirst"><code>java.util.Collection&lt;<a href="objects/PhysicsVehicle.html" title="class in com.jme3.bullet.objects">PhysicsVehicle</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getVehicleList()">getVehicleList</a></span>()</code></th>
 <td class="colLast">
@@ -488,56 +495,56 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  removed.</div>
 </td>
 </tr>
-<tr class="altColor" id="i30">
+<tr class="rowColor" id="i31">
 <td class="colFirst"><code>protected static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWorldType(long)">getWorldType</a></span>&#8203;(long&nbsp;spaceId)</code></th>
 <td class="colLast">
 <div class="block">Determine the type of the underlying btDynamicsWorld.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i31">
+<tr class="altColor" id="i32">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initSolverInfo()">initSolverInfo</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Initialize the solverInfo field during create().</div>
 </td>
 </tr>
-<tr class="altColor" id="i32">
+<tr class="rowColor" id="i33">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty()">isEmpty</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether this space is empty.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i33">
+<tr class="altColor" id="i34">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isUsingScr()">isUsingScr</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether this space uses Speculative Contact Restitution.</div>
 </td>
 </tr>
-<tr class="altColor" id="i34">
+<tr class="rowColor" id="i35">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#maxSubSteps()">maxSubSteps</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the maximum number of time steps per frame.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i35">
+<tr class="altColor" id="i36">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#maxTimeStep()">maxTimeStep</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the maximum time step (imposed when maxSubSteps=0).</div>
 </td>
 </tr>
-<tr class="altColor" id="i36">
+<tr class="rowColor" id="i37">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified object from this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i37">
+<tr class="altColor" id="i38">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(com.jme3.scene.Spatial)">removeAll</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;spatial)</code></th>
 <td class="colLast">
@@ -545,63 +552,70 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  from this space (e.g.</div>
 </td>
 </tr>
-<tr class="altColor" id="i38">
+<tr class="rowColor" id="i39">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeCollisionListener</a></span>&#8203;(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
-<div class="block">De-register the specified collision listener.</div>
+<div class="block">De-register the specified listener for new contacts.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i39">
+<tr class="altColor" id="i40">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)">removeCollisionObject</a></span>&#8203;(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pco)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified collision object from this space.</div>
 </td>
 </tr>
-<tr class="altColor" id="i40">
+<tr class="rowColor" id="i41">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeJoint(com.jme3.bullet.joints.PhysicsJoint)">removeJoint</a></span>&#8203;(<a href="joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified PhysicsJoint from this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i41">
+<tr class="altColor" id="i42">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeOngoingCollisionListener</a></span>&#8203;(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></th>
+<td class="colLast">
+<div class="block">De-register the specified listener for ongoing contacts.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i43">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeTickListener(com.jme3.bullet.PhysicsTickListener)">removeTickListener</a></span>&#8203;(<a href="PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
 <div class="block">De-register the specified tick listener.</div>
 </td>
 </tr>
-<tr class="altColor" id="i42">
+<tr class="altColor" id="i44">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setAccuracy(float)">setAccuracy</a></span>&#8203;(float&nbsp;accuracy)</code></th>
 <td class="colLast">
 <div class="block">Alter the accuracy (time step used when maxSubSteps&gt;0).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i43">
+<tr class="rowColor" id="i45">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setGravity(com.jme3.math.Vector3f)">setGravity</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;gravity)</code></th>
 <td class="colLast">
 <div class="block">Alter the gravitational acceleration acting on newly-added bodies.</div>
 </td>
 </tr>
-<tr class="altColor" id="i44">
+<tr class="altColor" id="i46">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxSubSteps(int)">setMaxSubSteps</a></span>&#8203;(int&nbsp;steps)</code></th>
 <td class="colLast">
 <div class="block">Alter the maximum number of time steps per frame.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i45">
+<tr class="rowColor" id="i47">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxTimeStep(float)">setMaxTimeStep</a></span>&#8203;(float&nbsp;maxTimeStep)</code></th>
 <td class="colLast">
 <div class="block">Alter the maximum time step (imposed when maxSubSteps=0).</div>
 </td>
 </tr>
-<tr class="altColor" id="i46">
+<tr class="altColor" id="i48">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSolverNumIterations(int)">setSolverNumIterations</a></span>&#8203;(int&nbsp;numIterations)</code></th>
 <td class="colLast">
@@ -609,14 +623,14 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  for compatibility with the jme3-bullet library.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i47">
+<tr class="rowColor" id="i49">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#update(float)">update</a></span>&#8203;(float&nbsp;timeInterval)</code></th>
 <td class="colLast">
 <div class="block">Update this space.</div>
 </td>
 </tr>
-<tr class="altColor" id="i48">
+<tr class="altColor" id="i50">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#update(float,int)">update</a></span>&#8203;(float&nbsp;timeInterval,
 int&nbsp;maxSteps)</code></th>
@@ -624,7 +638,7 @@ int&nbsp;maxSteps)</code></th>
 <div class="block">Update this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i49">
+<tr class="rowColor" id="i51">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateSolver()">updateSolver</a></span>()</code></th>
 <td class="colLast">
@@ -632,7 +646,7 @@ int&nbsp;maxSteps)</code></th>
  correct type.</div>
 </td>
 </tr>
-<tr class="altColor" id="i50">
+<tr class="altColor" id="i52">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#useScr(boolean)">useScr</a></span>&#8203;(boolean&nbsp;setting)</code></th>
 <td class="colLast">
@@ -835,13 +849,13 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <section class="detail">
 <h3><a id="addCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addCollisionListener</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">addCollisionListener</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</span></div>
-<div class="block">Register the specified collision listener.
+<div class="block">Register the specified listener for new contacts.
  <p>
- During distributeEvents(), registered listeners are notified of all
- collisions since the previous distributeEvents().</div>
+ During distributeEvents(), registered listeners are notified of all new
+ contacts since the previous distributeEvents().</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the listener to register (not null, alias created)</dd>
+<dd><code>listener</code> - the listener object to register (not null, alias created)</dd>
 </dl>
 </section>
 </li>
@@ -870,6 +884,20 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <dd><code>listener</code> - the listener to register (not null, alias created)</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#setAccuracy(float)"><code>setAccuracy(float)</code></a></dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addOngoingCollisionListener</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">addOngoingCollisionListener</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</span></div>
+<div class="block">Register the specified listener for ongoing contacts.
+ <p>
+ During distributeEvents(), registered listeners are notified of all
+ ongoing contacts.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>listener</code> - the listener object to register (not null, alias created)</dd>
 </dl>
 </section>
 </li>
@@ -941,7 +969,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <section class="detail">
 <h3><a id="distributeEvents()">distributeEvents</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">distributeEvents</span>()</div>
-<div class="block">Distribute each collision event to all listeners.</div>
+<div class="block">Distribute each collision event to registered listeners.</div>
 </section>
 </li>
 <li class="blockList">
@@ -1151,10 +1179,10 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <section class="detail">
 <h3><a id="removeCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeCollisionListener</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">removeCollisionListener</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</span></div>
-<div class="block">De-register the specified collision listener.</div>
+<div class="block">De-register the specified listener for new contacts.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the listener to de-register (not null)</dd>
+<dd><code>listener</code> - the listener object to de-register (not null)</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#addCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)"><code>addCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)</code></a></dd>
 </dl>
@@ -1168,6 +1196,19 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>joint</code> - the joint to remove (not null)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="removeOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeOngoingCollisionListener</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">removeOngoingCollisionListener</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</span></div>
+<div class="block">De-register the specified listener for ongoing contacts.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>listener</code> - the listener object to de-register (not null)</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="#addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)"><code>addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)</code></a></dd>
 </dl>
 </section>
 </li>
