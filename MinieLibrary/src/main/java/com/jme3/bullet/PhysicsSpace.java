@@ -382,7 +382,7 @@ public class PhysicsSpace extends CollisionSpace {
      * Register the specified listener for ongoing contacts.
      * <p>
      * During distributeEvents(), registered listeners are notified of all
-     * ongoing contacts.
+     * ongoing contacts EXCEPT Sphere-Sphere contacts.
      *
      * @param listener the listener object to register (not null, alias created)
      */
