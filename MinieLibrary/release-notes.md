@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 2.0.0-test2 released on TBD
+## Version 2.0.0-test2 released on 4 July 2020
 
  + Added collision listeners for ongoing contacts, to the `PhysicsSpace` class.
  + Added `totalAppliedForce()` and `totalAppliedTorque()` methods
