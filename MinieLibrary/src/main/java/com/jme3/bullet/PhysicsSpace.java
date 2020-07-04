@@ -120,6 +120,11 @@ public class PhysicsSpace extends CollisionSpace {
     // fields
 
     /**
+     * contact-processed events not yet distributed to listeners
+     */
+    final private Deque<PhysicsCollisionEvent> contactProcessedEvents
+            = new ArrayDeque<>(20);
+    /**
      * contact-started events not yet distributed to listeners
      */
     final private Deque<PhysicsCollisionEvent> contactStartedEvents
@@ -137,6 +142,11 @@ public class PhysicsSpace extends CollisionSpace {
      * (&ge;0)
      */
     private int maxSubSteps = 4;
+    /**
+     * list of registered listeners for ongoing contacts
+     */
+    final private List<PhysicsCollisionListener> contactProcessedListeners
+            = new SafeArrayList<>(PhysicsCollisionListener.class);
     /**
      * list of registered listeners for new contacts
      */
@@ -369,6 +379,21 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
+     * Register the specified listener for ongoing contacts.
+     * <p>
+     * During distributeEvents(), registered listeners are notified of all
+     * ongoing contacts.
+     *
+     * @param listener the listener object to register (not null, alias created)
+     */
+    public void addOngoingCollisionListener(PhysicsCollisionListener listener) {
+        Validate.nonNull(listener, "listener");
+        assert !contactProcessedListeners.contains(listener);
+
+        contactProcessedListeners.add(listener);
+    }
+
+    /**
      * Test whether the specified PhysicsJoint is added to this space.
      *
      * @param joint the joint to test (not null, unaffected)
@@ -387,7 +412,8 @@ public class PhysicsSpace extends CollisionSpace {
      * @return the count (&ge;0)
      */
     public int countCollisionListeners() {
-        int result = contactStartedListeners.size();
+        int result = contactProcessedListeners.size()
+                + contactStartedListeners.size();
         return result;
     }
 
@@ -441,7 +467,14 @@ public class PhysicsSpace extends CollisionSpace {
                 listener.collision(event);
             }
         }
-    }
+
+        while (!contactProcessedEvents.isEmpty()) {
+            PhysicsCollisionEvent event = contactProcessedEvents.pop();
+            for (PhysicsCollisionListener listener : contactProcessedListeners) {
+                listener.collision(event);
+            }
+        }
+     }
 
     /**
      * Invoke the specified callable during the next physics tick. This is
@@ -673,6 +706,20 @@ public class PhysicsSpace extends CollisionSpace {
             long spaceId = nativeId();
             removeConstraint(spaceId, jointId);
         }
+    }
+
+    /**
+     * De-register the specified listener for ongoing contacts.
+     *
+     * @see
+     * #addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)
+     * @param listener the listener object to de-register (not null)
+     */
+    public void removeOngoingCollisionListener(PhysicsCollisionListener listener) {
+        Validate.nonNull(listener, "listener");
+
+        boolean success = contactProcessedListeners.remove(listener);
+        assert success;
     }
 
     /**
@@ -1041,6 +1088,18 @@ public class PhysicsSpace extends CollisionSpace {
             PhysicsCollisionEvent event
                     = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
             contactStartedEvents.add(event);
+        }
+    }
+
+    /**
+     * This method is invoked by native code.
+     */
+    private void addContactProcessed(PhysicsCollisionObject pcoA,
+            PhysicsCollisionObject pcoB, long manifoldPointId) {
+        if (!contactProcessedListeners.isEmpty()) {
+            PhysicsCollisionEvent event
+                    = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
+            contactProcessedEvents.add(event);
         }
     }
 
