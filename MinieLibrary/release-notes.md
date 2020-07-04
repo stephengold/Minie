@@ -1,5 +1,20 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 2.0.0-test2 released on TBD
+
+ + Added collision listeners for ongoing contacts, to the `PhysicsSpace` class.
+ + Added `totalAppliedForce()` and `totalAppliedTorque()` methods
+   to the `PhysicsRigidBody` class.
+ + Added a `setContactCalcArea3Points()` method
+   to the `PhysicsCollisionEvent` class.
+ + Added 3 compatibility methods to the `PhysicsCollisionEvent` class.
+ + Made progress building the website.
+ + Added 7 more tutorial apps.
+ + Dump additional information for rigid bodies.
+ + Improved descriptions of user objects.
+ + Upgraded to Gradle v6.5.1 .
+ + Updated the native libraries to v8.3.0 of Libbulletjme.
+
 ## Version 2.0.0-test1 released on 19 June 2020
 
  + Changes to the library API:
@@ -32,9 +47,10 @@
    + `VehicleController`
  + Added a GitHub Pages website, including javadoc and 3 new tutorial pages.
  + Implemented debug visualization for local physics.
- + Added 8 tutorial apps.
+ + Added 8 more tutorial apps.
  + Added the `TestEmptyShape` automated test.
- + Add accessors for speculative contact restitution flag of a `PhysicsSpace`.
+ + Added accessors for the speculative contact restitution flag
+   of a `PhysicsSpace`.
  + Upgraded to Gradle v6.4.1, Libbulletjme v8.1.0, and JUnit v4.13 .
 
 ## Version 1.7.0 released on 31 May 2020
