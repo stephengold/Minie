@@ -229,17 +229,35 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>When a physics simulation doesn&#8217;t work as expected,
-debug visualization (configured at the BulletAppState) should be enabled
+<p>Minie uses <code>assert</code> statements to verify assumptions made while coding.
+During development, Java assertions should be enabled using:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the "-ea" JVM argument or</p>
+</li>
+<li>
+<p>the <code>enableAssertions</code> setting of Gradle <code>JavaExec</code> tasks.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Similarly, native-code assertions should be enabled during development,
+by specifying a Minie library of the "debug" type, such as "Minie-1.7.0+debug".</p>
+</div>
+<div class="paragraph">
+<p>When a physics simulation doesn&#8217;t behave as expected,
+<em>debug visualization</em> should be enabled
 to uncover gross issues such as incorrect collision shapes,
-incorrect initial positions, bodies that have gone inactive,
-and objects not added to the PhysicsSpace.</p>
+incorrect initial positions, bodies that become deactivated,
+and collision objects not added to the space.</p>
 </div>
 <div class="paragraph">
 <p>If further details are desired,
-temporary print statements might be added at key points.
-To streamline this process, Minie provides a configurable dumper
-for app states, physics spaces, collision shapes, multibodies,
+temporary print statements may be added at key points.
+To streamline this process, Minie provides a configurable <em>dumper</em>
+to print out app states, physics spaces, collision shapes, multibodies,
 viewports, and scene graphs.</p>
 </div>
 </div>
@@ -248,14 +266,21 @@ viewports, and scene graphs.</p>
 <h2 id="_debug_visualization_tips_and_tricks"><a class="anchor" href="#_debug_visualization_tips_and_tricks"></a>Debug visualization tips and tricks</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>By default, debug visualization is disabled.
-To enable it, configure the <code>BulletAppState</code>:</p>
+<p>Debug visualization is disabled by default.
+To enable it, configure
+the <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> thus:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setDebugEnabled(true);</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>For an example,
+see the <a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody</a> tutorial.</p>
+</div>
+<div class="sect2">
+<h3 id="_high_res_convex_shapes"><a class="anchor" href="#_high_res_convex_shapes"></a>High-res convex shapes</h3>
 <div class="paragraph">
 <p>By default, debug visualization renders convex collision shapes using meshes
 with up to 42 vertex locations.
@@ -267,23 +292,38 @@ To override the low-resolution default on a per-object basis:</p>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">collisionObject.setDebugMeshResolution(DebugShapeFactory.highResolution);</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>(This setting is effective only if the object has a convex shape.)</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This setting is effective only if the object has a convex shape.
+</td>
+</tr>
+</table>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_mesh_caching"><a class="anchor" href="#_mesh_caching"></a>Mesh caching</h3>
 <div class="paragraph">
-<p>Debug visualization caches the mesh
-for every non-compound collision shape it renders.
-To clear the debug-mesh cache:</p>
+<p>Debug visualization caches the debug mesh
+of every non-compound collision shape it renders.
+To clear the cache, use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">DebugShapeFactory.clearCache();</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_viewports"><a class="anchor" href="#_viewports"></a>Viewports</h3>
 <div class="paragraph">
 <p>By default, debug visualization renders only to the
 application&#8217;s main <code>ViewPort</code>.
-To specify a different <code>ViewPort</code> (or an array of viewports) use:</p>
+To specify a different viewport (or an array of viewports) use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -291,16 +331,35 @@ To specify a different <code>ViewPort</code> (or an array of viewports) use:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>For a very simple example, see
-<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestDebugToPost.java">TestDebugToPost</a>.</p>
+<p>For example, see <a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestDebugToPost.java">TestDebugToPost</a>.</p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_customizing_what_is_visualized"><a class="anchor" href="#_customizing_what_is_visualized"></a>Customizing what is visualized</h3>
+<h3 id="_which_features_are_rendered"><a class="anchor" href="#_which_features_are_rendered"></a>Which features are rendered</h3>
 <div class="paragraph">
-<p>By default, debug visualization visualizes the <strong>shape</strong> of every
-<code>PhysicsCollisionObject</code>, but not its bounding box, gravity vector,
-swept sphere, or velocity vector.
-To override these defaults, set filters to indicate for which collision objects
+<p>By default, debug visualization renders the shape of every collision object.
+In addition to the shape, Minie can render other features, such as:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>its axis-aligned bounding box,</p>
+</li>
+<li>
+<p>its gravity vector,</p>
+</li>
+<li>
+<p>its CCD swept sphere, and</p>
+</li>
+<li>
+<p>its velocity vector.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>However, these features are hidden by default.
+To override these defaults,
+set <em>filters</em> to specify for which collision objects
 each feature should be visualized:</p>
 </div>
 <div class="listingblock">
@@ -314,10 +373,13 @@ bulletAppState.setDebugSweptSphereFilter(all);     // all swept spheres
 bulletAppState.setDebugVelocityVectorFilter(none); // no velocity vectors</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_centers_and_local_axes"><a class="anchor" href="#_centers_and_local_axes"></a>Centers and local axes</h3>
 <div class="paragraph">
 <p>By default, debug visualization doesn&#8217;t indicate
-the centers and the local axes of collision objects.
-To override this default, increase the axis length to a positive value:</p>
+the centers or local axes of collision objects.
+To override this default, set the debug axis length to a positive value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -334,7 +396,7 @@ If your graphics driver supports it, you can specify wider arrows:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>or you can specify 3-D arrows:</p>
+<p>Alternatively, you can specify "solid" arrows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -343,35 +405,10 @@ If your graphics driver supports it, you can specify wider arrows:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_customizing_the_materials"><a class="anchor" href="#_customizing_the_materials"></a>Customizing the materials</h3>
+<h3 id="_materials"><a class="anchor" href="#_materials"></a>Materials</h3>
 <div class="paragraph">
 <p>By default, Minie visualizes the shapes of collision objects
-using single-sided wireframe materials:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>yellow for any collision object without contact response,
-which includes any <code>PhysicsGhostObject</code></p>
-</li>
-<li>
-<p>magenta for a <code>PhysicsRigidBody</code> or <code>MultiBodyCollider</code>
-(with contact response) that&#8217;s both dynamic and active</p>
-</li>
-<li>
-<p>blue for a <code>PhysicsRigidBody</code> or <code>MultiBodyCollider</code>
-(with contact response) that&#8217;s either static or kinematic or sleeping</p>
-</li>
-<li>
-<p>pink for a <code>PhysicsCharacter</code> (with contact response)</p>
-</li>
-<li>
-<p>red for a <code>PhysicsSoftBody</code> with faces</p>
-</li>
-<li>
-<p>orange for a <code>PhysicsSoftBody</code> with links but no faces</p>
-</li>
-</ul>
+using single-sided wireframe materials.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -386,6 +423,40 @@ the default debug materials are solid colors instead of wireframes.
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>By default, the material color indicates the type of object:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>yellow for a collision object without contact response,
+including any <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsGhostObject.html"><code>PhysicsGhostObject</code></a>,</p>
+</li>
+<li>
+<p>magenta for a rigid body or
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/MultiBodyCollider.html"><code>MultiBodyCollider</code></a>
+that&#8217;s dynamic, responsive, and active,</p>
+</li>
+<li>
+<p>blue for a rigid body or collider
+(with contact response) that&#8217;s static or kinematic or inactive,</p>
+</li>
+<li>
+<p>pink for a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsCharacter.html"><code>PhysicsCharacter</code></a>
+(with contact response),</p>
+</li>
+<li>
+<p>red for a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsSoftBody.html"><code>PhysicsSoftBody</code></a>
+with faces, and</p>
+</li>
+<li>
+<p>orange for a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsSoftBody.html"><code>PhysicsSoftBody</code></a>
+with links but no faces.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_number_of_sides"><a class="anchor" href="#_number_of_sides"></a>Number of sides</h4>
 <div class="paragraph">
 <p>Some collision objects are best visualized using double-sided materials.
 You can override the single-sided default on a per-object basis:</p>
@@ -409,8 +480,11 @@ even if the object is selected by the debug filter.
 </tr>
 </table>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_custom_materials"><a class="anchor" href="#_custom_materials"></a>Custom materials</h4>
 <div class="paragraph">
-<p>If further customization is required, the debug material can be customized
+<p>If further customization is required, debug materials can be configured
 on a per-object basis:</p>
 </div>
 <div class="listingblock">
@@ -431,14 +505,17 @@ on a per-object basis:</p>
 </table>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_customizing_the_meshes"><a class="anchor" href="#_customizing_the_meshes"></a>Customizing the meshes</h3>
+<h3 id="_meshes"><a class="anchor" href="#_meshes"></a>Meshes</h3>
 <div class="paragraph">
 <p>The default debug materials
 don&#8217;t need lighting, normals, or texture coordinates.
 By default, debug visualization doesn&#8217;t provide these amenities.
-However, a customized debug material might require them.</p>
+However, a custom debug material might require them.</p>
 </div>
+<div class="sect3">
+<h4 id="_normals"><a class="anchor" href="#_normals"></a>Normals</h4>
 <div class="paragraph">
 <p>You can override the no-normals default on a per-object basis:</p>
 </div>
@@ -449,12 +526,15 @@ collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth);
 collisionObject3.setDebugMeshNormals(DebugMeshNormals.Sphere);</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_index_buffers"><a class="anchor" href="#_index_buffers"></a>Index buffers</h4>
 <div class="paragraph">
 <p>Generating index buffers for meshes usually reduces
 the number of vertices that must be rendered.
 However, generating index buffers for large meshes can take a long time.
 By default, Minie doesn&#8217;t generate index buffers for debug meshes
-that have more than 6,000 vertices.</p>
+with than 6,000 vertices.</p>
 </div>
 <div class="paragraph">
 <p>You can tune this threshold:</p>
@@ -469,11 +549,14 @@ that have more than 6,000 vertices.</p>
 To make this setting retroactive, clear the debug-mesh cache.</p>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_callbacks_for_further_customization"><a class="anchor" href="#_callbacks_for_further_customization"></a>Callbacks for further customization</h3>
+<h3 id="_lighting_and_shadows"><a class="anchor" href="#_lighting_and_shadows"></a>Lighting and shadows</h3>
 <div class="paragraph">
-<p><code>BulletAppState</code> invokes a callback during initialization.
-You can use this callback to provide lighting for debug visualization:</p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>
+invokes a callback during initialization.
+You can use this callback
+to provide lighting and/or shadows for debug visualization:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -488,8 +571,12 @@ You can use this callback to provide lighting for debug visualization:</p>
 bulletAppState.setDebugInitListener(callbackObject);</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_texture_coordinates"><a class="anchor" href="#_texture_coordinates"></a>Texture coordinates</h3>
 <div class="paragraph">
-<p><code>BulletAppState</code> invokes a callback each time it generates a debug mesh.
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>
+invokes a callback each time it generates a debug mesh.
 You can use this callback to add texture coordinates to the mesh:</p>
 </div>
 <div class="listingblock">
@@ -512,11 +599,11 @@ collisionObject.setDebugMeshInitListener(callbackObject);</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_an_introduction_to_physicsdumper"><a class="anchor" href="#_an_introduction_to_physicsdumper"></a>An introduction to PhysicsDumper</h2>
+<h2 id="_an_introduction_to_physicsdumper"><a class="anchor" href="#_an_introduction_to_physicsdumper"></a>An introduction to <code>PhysicsDumper</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The following temporary statements could be used to dump
-(to <code>System.out</code>) all collision objects in a <code>PhysicsSpace</code>:</p>
+(to <code>System.out</code>) all collision objects in a physics space:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -550,7 +637,7 @@ Single-space indentation indicates additional description
 of the foregoing object.</p>
 </div>
 <div class="paragraph">
-<p>To dump a <code>PhysicsSpace</code> to a text file:</p>
+<p>To dump a physics space to a text file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -560,9 +647,10 @@ dumper.dump(physicsSpace);</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_customizing_what_is_dumped"><a class="anchor" href="#_customizing_what_is_dumped"></a>Customizing what is dumped</h3>
+<h3 id="_what_is_dumped"><a class="anchor" href="#_what_is_dumped"></a>What is dumped</h3>
 <div class="paragraph">
-<p>You can dump an entire <code>BulletAppState</code>, including its <code>PhysicsSpace</code>:</p>
+<p>You can dump an entire <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>,
+including its physics space:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -570,7 +658,7 @@ dumper.dump(physicsSpace);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You can dump individual collision objects:</p>
+<p>You can dump specific collision objects:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -582,7 +670,7 @@ dumper.dump(softBody);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You can dump individual collision shapes:</p>
+<p>You can dump specific collision shapes:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -590,9 +678,9 @@ dumper.dump(softBody);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>When dumping a <code>PhysicsSpace</code>,
+<p>When dumping a space,
 the default is to describe every collision object;
-physics joints are counted but not described.
+physics joints are counted but not described in detail.
 To describe the joints in each body, configure the dumper like so:</p>
 </div>
 <div class="listingblock">
@@ -618,22 +706,39 @@ dumper.setEnabled(DumpFlags.JointsInSpaces, true); // default=false</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>When dumping a <code>PhysicsSpace</code>, you can apply a filter
+<p>When dumping a space, you can apply a filter
 to restrict which physics objects are listed.
 For instance, to dump only those physics objects that lack a user object:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">String indent = "";
-BulletDebugAppState.DebugAppStateFilter noUser = new UserFilter(null);
+UserFilter noUser = new UserFilter(null);
 dumper.dump(physicsSpace, indent, noUser);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Other dump flags can be set, for instance,
-to describe the nodes or clusters in each soft body
+<p>Other dump flags can be set to describe the nodes or clusters in each soft body
 or the child shapes in each compound collision shape.</p>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>During development, enable Java assertions and use debug-enabled libraries.</p>
+</li>
+<li>
+<p>Use debug visualization to investigate gross issues.</p>
+</li>
+<li>
+<p>To obtain detailed information about scenes and physics, use a dumper.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -642,7 +747,7 @@ or the child shapes in each compound collision shape.</p>
   <span class="next"><a href="character.html">Characters</a></span>
 </nav>
 </article>
-<aside class="toc sidebar" data-title="Page contents" data-levels="2">
+<aside class="toc sidebar" data-title="Page contents" data-levels="3">
   <div class="toc-menu" style="margin-top: 1rem;"></div>
 </aside>
   </div>
