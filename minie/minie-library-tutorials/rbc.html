@@ -232,13 +232,13 @@
 <p>By themselves, collision objects are invisible,
 while scene-graph spatials have no effect on physics.
 To visualize a collision object, it must be associated
-with one or more scene-graph spatial(s).
+with one or more spatials.
 Such associations are implemented using <em>physics controls</em>:
 scene-graph controls that implement the
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/PhysicsControl.html"><code>PhysicsControl</code></a> interface.</p>
 </div>
 <div class="paragraph">
-<p>To associate a rigid body with a <code>Spatial</code>, there&#8217;s a
+<p>To associate a rigid body with a spatial, there&#8217;s a
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a> class that extends
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsRigidBody.html"><code>PhysicsRigidBody</code></a> and implements
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/PhysicsControl.html"><code>PhysicsControl</code></a>.</p>
@@ -258,19 +258,19 @@ are the same object!
 </div>
 <div class="paragraph">
 <p>Because each <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a> (RBC)
-instance is a rigid body, you can configure it and add it to a space
+instance is also a rigid body, you can configure it and add it to a space
 just like a directly instantiated rigid body.
 For instance, you can configure friction using <code>setFriction()</code>
 and disable contact response using <code>setContactResponse(false)</code>.</p>
 </div>
 <div class="paragraph">
-<p>After being added to a <code>Spatial</code>,
+<p>After being added to a spatial,
 the control synchronizes the motion of the rigid body
 with that of the controlled spatial.</p>
 </div>
 <div class="paragraph">
-<p>Disabling a rigid-body control
-causes the body to be removed from the space it&#8217;s in, if any.</p>
+<p>RBCs are enabled by default.
+Disabling an RBC causes the body to be removed from the space it&#8217;s in, if any.</p>
 </div>
 </div>
 </div>
@@ -283,20 +283,20 @@ constructors:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">rbc1 = new RigidBodyControl(collisionShape, mass);
-rbc2 = new RigidBodyControl(collisionShape);
-rbc3 = new RigidBodyControl(mass);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">new RigidBodyControl(collisionShape, mass);
+new RigidBodyControl(collisionShape);
+new RigidBodyControl(mass);</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>If you specify <code>mass &gt; 0</code>, a dynamic body is created.
-If you specify <code>mass = 0</code>, a static one is created.
+If you specify <code>mass = 0</code>, a static body is created.
 If you construct an RBC without specifying a mass,
 you get a dynamic body with <code>mass = 1</code>.</p>
 </div>
 <div class="paragraph">
 <p>If you construct an RBC without specifying a collision shape,
-you get an incomplete body.</p>
+you get an incomplete RBC.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -305,23 +305,23 @@ you get an incomplete body.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Adding an incomplete body to a physics space will cause an crash!
+Adding an incomplete RBC to a physics space will cause an crash!
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>To complete the body,
-simply add the control to a <code>Spatial</code> (<strong>before</strong> adding it to a space).
-A collision shape will be created based on the controlled spatial, using:</p>
+<p>To complete the RBC,
+simply add it to a spatial (<strong>before</strong> adding it to a space).
+A collision shape will be generated based on the controlled spatial, using:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>SphereCollisionShape</code> if the <code>Spatial</code> is a <code>Geometry</code> with spherical mesh,</p>
+<p><code>SphereCollisionShape</code> if the spatial is a geometry with spherical mesh,</p>
 </li>
 <li>
-<p><code>BoxCollisionShape</code> if the <code>Spatial</code> is a <code>Geometry</code> with a box-shaped mesh,</p>
+<p><code>BoxCollisionShape</code> if the spatial is a geometry with a box-shaped mesh,</p>
 </li>
 <li>
 <p><code>CollisionShapeFactory.createDynamicMeshShape()</code> (for a dynamic body), or</p>
@@ -340,10 +340,10 @@ Things to notice while running the app:</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>The collision objects behave like directly instantiated rigid bodies.</p>
+<p>The RBCs behave like directly instantiated rigid bodies.</p>
 </li>
 <li>
-<p>Each geometry matches the motion of its corresponding physics object.</p>
+<p>Each geometry matches the motion of its corresponding RBC.</p>
 </li>
 </ol>
 </div>
@@ -363,13 +363,13 @@ application that demonstrates a kinematic RBC.</p>
 </div>
 <div class="paragraph">
 <p>By default, the physics object of a kinematic RBC
-follows the motion of its controlled spatial.
-To reposition it, you must reposition the <code>Spatial</code>.</p>
+follows the motion of the spatial.
+To reposition it, you must reposition the spatial.</p>
 </div>
 <div class="paragraph">
 <p>To avoid this behavior, use <code>setKinematicSpatial(false)</code>.
 The body will remain kinematic,
-but it will no longer follow the motion of the controlled spatial.
+but it will no longer follow the motion of the spatial.
 The body can then be positioned directly,
 using <code>setPhysicsLocation()</code> and <code>setPhysicsRotation()</code>.</p>
 </div>
@@ -381,7 +381,7 @@ using <code>setPhysicsLocation()</code> and <code>setPhysicsRotation()</code>.</
 <div class="paragraph">
 <p>While the <strong>motion</strong> of the controlled spatial matches
 that of the body, their <strong>sizes</strong> might differ.
-By default, there&#8217;s no connection between the scale of the controlled spatial
+By default, there&#8217;s no connection between the scale of the spatial
 and the scale of the body&#8217;s collision shape.</p>
 </div>
 <div class="paragraph">
@@ -412,11 +412,50 @@ even as it pulsates.</p>
 <h2 id="_local_physics"><a class="anchor" href="#_local_physics"></a>Local physics</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>By default, a rigid-body control matches
-the <strong>world</strong> transform of its controlled spatial.</p>
+<p>In JMonkeyEngine, <em>world coordinates</em> are 3-D coordinates
+that are used (for instance) to position cameras and lights.</p>
 </div>
 <div class="paragraph">
-<p>To match the spatial&#8217;s <strong>local</strong> transform, use <code>setApplyPhysicsLocal(true)</code>.</p>
+<p>The <em>world transform</em> of a spatial transforms (or converts)
+the spatial&#8217;s coordinate system to the world coordinate system,
+using a combination of translation, rotation, and scaling.</p>
+</div>
+<div class="paragraph">
+<p>The <em>local transform</em> of a spatial transforms its coordinate system
+to that of its parent node in the scene graph.</p>
+</div>
+<div class="paragraph">
+<p>By default, a rigid-body control matches
+the <strong>world</strong> transform of its controlled spatial.
+For most applications, this is what you want.</p>
+</div>
+<div class="paragraph">
+<p>To match the spatial&#8217;s <strong>local</strong> transform instead,
+use <code>setApplyPhysicsLocal(true)</code>.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloLocalPhysics.java">HelloLocalPhysics</a> is a simple
+application that demonstrates local physics.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Two balls: the top one dynamic, the bottom one kinematic.</p>
+</li>
+<li>
+<p>Both geometries are attached to a scene-graph node
+that orbits a fixed point in world space.</p>
+</li>
+<li>
+<p>While the kinematic ball is motionless in physics space,
+its path in world space is a circular orbit.</p>
+</li>
+<li>
+<p>While the dynamic ball falls straight downward in physics space,
+it follows a corkscrew path in world space.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -431,7 +470,7 @@ the <strong>world</strong> transform of its controlled spatial.</p>
 </li>
 <li>
 <p>If you construct an RBC without specifying a collision shape,
-it will be incomplete until it gets added to a <code>Spatial</code>.</p>
+it will be incomplete until it gets added to a spatial.</p>
 </li>
 <li>
 <p>An RBC can be static, dynamic, or kinematic.</p>
@@ -445,8 +484,8 @@ but you can disable the matching behavior of a kinematic RBC.</p>
 use <code>setApplyScale(true)</code>.</p>
 </li>
 <li>
-<p>To match the spatial&#8217;s local transform
-instead of its world transform, use <code>setApplyPhysicsLocal(true)</code>.</p>
+<p>To match the controlled spatial&#8217;s local transform
+(instead of its world transform) use <code>setApplyPhysicsLocal(true)</code>.</p>
 </li>
 </ul>
 </div>

@@ -264,7 +264,7 @@ if the application doesn&#8217;t already do so.</p>
 <h2 id="_remove_libraries_that_might_interfere"><a class="anchor" href="#_remove_libraries_that_might_interfere"></a>Remove libraries that might interfere</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If any directory where your application might runs contains files
+<p>If any directory where the application might runs contains files
 named "libbulletjme.so" or "bulletjme.dll" or "libbulletjme.dylib",
 you should remove those files.
 Those filenames are used by JMonkeyEngine when it loads the native library,
@@ -291,7 +291,7 @@ JMonkeyEngine libraries:</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Before adding Minie, you should remove these libraries from your project so
+<p>Before adding Minie, you should remove these libraries from the project so
 they won&#8217;t interfere with Minie.</p>
 </div>
 <div class="sect2">
@@ -300,10 +300,24 @@ they won&#8217;t interfere with Minie.</p>
 <ol class="arabic">
 <li>
 <p>Look for artifacts with those names in the <code>dependencies</code> section(s)
-of your project&#8217;s "build.gradle" file(s).</p>
+of the project&#8217;s "build.gradle" file(s).</p>
 </li>
 <li>
-<p>Remove those artifacts.</p>
+<p>Remove those dependencies.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_maven_built_projects"><a class="anchor" href="#_maven_built_projects"></a>Maven-built projects</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Look for artifacts with those IDs in the <code>dependencies</code> section(s)
+of the project&#8217;s "pom.xml" file.</p>
+</li>
+<li>
+<p>Remove those dependencies.</p>
 </li>
 </ol>
 </div>
@@ -368,9 +382,12 @@ which in turn depends on:</p>
 <div class="sect2">
 <h3 id="_gradle_built_projects_2"><a class="anchor" href="#_gradle_built_projects_2"></a>Gradle-built projects</h3>
 <div class="paragraph">
-<p>For projects built using Maven or Gradle, it&#8217;s usually sufficient to specify the
+<p>For projects built using Gradle, it&#8217;s usually sufficient to specify the
 dependency on the Minie Library.  The build tools should automatically
 resolve the remaining dependencies automatically.</p>
+</div>
+<div class="paragraph">
+<p>Add to the application&#8217;s "build.gradle" file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -380,6 +397,29 @@ resolve the remaining dependencies automatically.</p>
 dependencies {
     compile 'com.github.stephengold:Minie:1.7.0'
 }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_maven_built_projects_2"><a class="anchor" href="#_maven_built_projects_2"></a>Maven-built projects</h3>
+<div class="paragraph">
+<p>Add to the project&#8217;s "pom.xml" file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;repositories&gt;
+    &lt;repository&gt;
+      &lt;id&gt;jcenter&lt;/id&gt;
+      &lt;url&gt;https://jcenter.bintray.com/&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/repositories&gt;
+
+&lt;dependency&gt;
+  &lt;groupId&gt;com.github.stephengold&lt;/groupId&gt;
+  &lt;artifactId&gt;Minie&lt;/artifactId&gt;
+  &lt;version&gt;1.7.0&lt;/version&gt;
+  &lt;type&gt;pom&lt;/type&gt;
+&lt;/dependency&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -491,7 +531,7 @@ for configuring, accessing, updating, and debugging
 a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
 </div>
 <div class="paragraph">
-<p>If your application already has
+<p>If the application already has
 a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>, that code will probably
 work fine with Minie.
 If not, here is a snippet to guide you:</p>
@@ -504,7 +544,7 @@ PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If you don&#8217;t need soft bodies, you can instantiate
+<p>If the application doesn&#8217;t need soft bodies, you can instantiate
 a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> directly:</p>
 </div>
 <div class="listingblock">
@@ -515,7 +555,7 @@ PhysicsSpace physicsSpace = appState.getPhysicsSpace();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If you need multibodies, instantiate a
+<p>If the application needs multibodies, instantiate a
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/MultiBodyBulletAppState.html"><code>MultiBodyBulletAppState</code></a>.
 (Minie doesn&#8217;t yet support combining soft bodies and multibodies in
 a single physics space.)</p>
@@ -560,7 +600,7 @@ are described on <a href="debug.html" class="page">the Debugging page</a>.</p>
 <div class="paragraph">
 <p>Attaching a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> instantiates a
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> that
-you can access immediately:</p>
+the application can access immediately:</p>
 </div>
 <div class="listingblock">
 <div class="content">
