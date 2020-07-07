@@ -38,6 +38,8 @@ import com.jme3.math.Vector3f;
 /**
  * A simple example combining static and dynamic rigid bodies.
  *
+ * Builds upon HelloRigidBody.
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloStaticBody extends SimpleApplication {

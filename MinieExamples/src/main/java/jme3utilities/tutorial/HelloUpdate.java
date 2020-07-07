@@ -43,6 +43,8 @@ import com.jme3.scene.shape.Sphere;
 /**
  * A simple example without an AppState.
  *
+ * Builds upon HelloRbc.
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloUpdate extends SimpleApplication {

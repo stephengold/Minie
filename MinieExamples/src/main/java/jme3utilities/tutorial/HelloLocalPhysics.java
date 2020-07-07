@@ -46,7 +46,7 @@ import com.jme3.scene.shape.Sphere;
  * A simple example involving a rigid-body control with
  * setApplyPhysicsLocal(true).
  *
- * Compare with HelloKinematicRbc.
+ * Builds upon HelloKinematicRbc.
  *
  * @author Stephen Gold sgold@sonic.net
  */

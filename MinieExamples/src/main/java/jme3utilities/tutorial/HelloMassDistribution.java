@@ -43,6 +43,8 @@ import java.nio.FloatBuffer;
  * A simple example to demonstrate the use of principalAxes() and correctAxes()
  * to improve the plausibility of a compound shape.
  *
+ * Builds upon HelloMadMallet.
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloMassDistribution extends SimpleApplication {

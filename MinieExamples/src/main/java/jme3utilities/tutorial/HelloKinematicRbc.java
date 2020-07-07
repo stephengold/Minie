@@ -44,6 +44,8 @@ import com.jme3.scene.shape.Sphere;
 /**
  * A simple example involving a kinematic RigidBodyControl.
  *
+ * Builds upon HelloKinematics.
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloKinematicRbc extends SimpleApplication {
