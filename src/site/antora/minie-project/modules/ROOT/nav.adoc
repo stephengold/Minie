@@ -4,7 +4,7 @@
 ** xref:minie-library-tutorials:rigidbody.adoc[Rigid bodies]
 ** xref:minie-library-tutorials:shape.adoc[Collision shapes]
 ** xref:minie-library-tutorials:rbc.adoc[RigidBodyControl]
-** xref:minie-library-tutorials:debug.adoc[Debugging]
+** xref:minie-library-tutorials:debug.adoc[Debug aids]
 ** xref:minie-library-tutorials:character.adoc[Characters]
 ** xref:minie-library-tutorials:vehicle.adoc[Vehicles]
 ** xref:minie-library-tutorials:new6dof.adoc[New6Dof joints]
@@ -28,7 +28,7 @@
 ** https://hub.jmonkeyengine.org/c/user-code-projects/minie/63[JMonkeyEngine forum]
 ** https://jmonkeystore.com/38308161-c3cf-4e23-8754-528ca8387c11[JmonkeyStore]
 ** https://bintray.com/stephengold/com.github.stephengold/Minie[Bintray]
-** https://jitpack.io/#stephengold/Minie[JitPack]
+** https://jitpack.io/#stephengold/Minie[JitPack (unofficial)]
 * Related projects
 ** https://jmonkeyengine.org[JMonkeyEngine]
 ** https://github.com/stephengold/Libbulletjme[Libbulletjme]
