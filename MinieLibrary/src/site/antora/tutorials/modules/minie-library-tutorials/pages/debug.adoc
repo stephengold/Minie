@@ -1,27 +1,46 @@
 = Debugging physics issues
 :page-pagination:
+:page-toclevels: 3
+:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
+:url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
+:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
-When a physics simulation doesn't work as expected,
-debug visualization (configured at the BulletAppState) should be enabled
+Minie uses `assert` statements to verify assumptions made while coding.
+During development, Java assertions should be enabled using:
+
+* the "-ea" JVM argument or
+* the `enableAssertions` setting of Gradle `JavaExec` tasks.
+
+Similarly, native-code assertions should be enabled during development,
+by specifying a Minie library of the "debug" type, such as "Minie-1.7.0+debug".
+
+When a physics simulation doesn't behave as expected,
+_debug visualization_ should be enabled
 to uncover gross issues such as incorrect collision shapes,
-incorrect initial positions, bodies that have gone inactive,
-and objects not added to the PhysicsSpace.
+incorrect initial positions, bodies that become deactivated,
+and collision objects not added to the space.
 
 If further details are desired,
-temporary print statements might be added at key points.
-To streamline this process, Minie provides a configurable dumper
-for app states, physics spaces, collision shapes, multibodies,
+temporary print statements may be added at key points.
+To streamline this process, Minie provides a configurable _dumper_
+to print out app states, physics spaces, collision shapes, multibodies,
 viewports, and scene graphs.
 
 == Debug visualization tips and tricks
 
-By default, debug visualization is disabled.
-To enable it, configure the `BulletAppState`:
+Debug visualization is disabled by default.
+To enable it, configure
+the {url-api}/BulletAppState.html[`BulletAppState`] thus:
 
 [source,java]
 ----
 bulletAppState.setDebugEnabled(true);
 ----
+
+For an example,
+see the {url-tutorial}/HelloRigidBody.java[HelloRigidBody] tutorial.
+
+=== High-res convex shapes
 
 By default, debug visualization renders convex collision shapes using meshes
 with up to 42 vertex locations.
@@ -33,35 +52,45 @@ To override the low-resolution default on a per-object basis:
 collisionObject.setDebugMeshResolution(DebugShapeFactory.highResolution);
 ----
 
-(This setting is effective only if the object has a convex shape.)
+NOTE: This setting is effective only if the object has a convex shape.
 
-Debug visualization caches the mesh
-for every non-compound collision shape it renders.
-To clear the debug-mesh cache:
+=== Mesh caching
+
+Debug visualization caches the debug mesh
+of every non-compound collision shape it renders.
+To clear the cache, use:
 
 [source,java]
 ----
 DebugShapeFactory.clearCache();
 ----
 
+=== Viewports
+
 By default, debug visualization renders only to the
 application's main `ViewPort`.
-To specify a different `ViewPort` (or an array of viewports) use:
+To specify a different viewport (or an array of viewports) use:
 
 [source,java]
 ----
 bulletAppState.setDebugViewPorts(viewPortArray);
 ----
 
-For a very simple example, see
-https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestDebugToPost.java[TestDebugToPost].
+For example, see {url-examples}/TestDebugToPost.java[TestDebugToPost].
 
-=== Customizing what is visualized
+=== Which features are rendered
 
-By default, debug visualization visualizes the *shape* of every
-`PhysicsCollisionObject`, but not its bounding box, gravity vector,
-swept sphere, or velocity vector.
-To override these defaults, set filters to indicate for which collision objects
+By default, debug visualization renders the shape of every collision object.
+In addition to the shape, Minie can render other features, such as:
+
+* its axis-aligned bounding box,
+* its gravity vector,
+* its CCD swept sphere, and
+* its velocity vector.
+
+However, these features are hidden by default.
+To override these defaults,
+set _filters_ to specify for which collision objects
 each feature should be visualized:
 
 [source,java]
@@ -75,9 +104,11 @@ bulletAppState.setDebugSweptSphereFilter(all);     // all swept spheres
 bulletAppState.setDebugVelocityVectorFilter(none); // no velocity vectors
 ----
 
+=== Centers and local axes
+
 By default, debug visualization doesn't indicate
-the centers and the local axes of collision objects.
-To override this default, increase the axis length to a positive value:
+the centers or local axes of collision objects.
+To override this default, set the debug axis length to a positive value:
 
 [source,java]
 ----
@@ -92,30 +123,38 @@ If your graphics driver supports it, you can specify wider arrows:
 bulletAppState.setDebugAxisLineWidth(3f); // axis arrows 3 pixels wide
 ----
 
-or you can specify 3-D arrows:
+Alternatively, you can specify "solid" arrows:
 
 [source,java]
 ----
 bulletAppState.setDebugAxisLineWidth(0f); // solid arrows
 ----
 
-=== Customizing the materials
+=== Materials
 
 By default, Minie visualizes the shapes of collision objects
-using single-sided wireframe materials:
-
-* yellow for any collision object without contact response,
-  which includes any `PhysicsGhostObject`
-* magenta for a `PhysicsRigidBody` or `MultiBodyCollider`
-  (with contact response) that's both dynamic and active
-* blue for a `PhysicsRigidBody` or `MultiBodyCollider`
-  (with contact response) that's either static or kinematic or sleeping
-* pink for a `PhysicsCharacter` (with contact response)
-* red for a `PhysicsSoftBody` with faces
-* orange for a `PhysicsSoftBody` with links but no faces
+using single-sided wireframe materials.
 
 NOTE: On Android platforms,
 the default debug materials are solid colors instead of wireframes.
+
+By default, the material color indicates the type of object:
+
+* yellow for a collision object without contact response,
+  including any {url-api}/objects/PhysicsGhostObject.html[`PhysicsGhostObject`],
+* magenta for a rigid body or
+  {url-api}/objects/MultiBodyCollider.html[`MultiBodyCollider`]
+  that's dynamic, responsive, and active,
+* blue for a rigid body or collider
+  (with contact response) that's static or kinematic or inactive,
+* pink for a {url-api}/objects/PhysicsCharacter.html[`PhysicsCharacter`]
+  (with contact response),
+* red for a {url-api}/objects/PhysicsSoftBody.html[`PhysicsSoftBody`]
+  with faces, and
+* orange for a {url-api}/objects/PhysicsSoftBody.html[`PhysicsSoftBody`]
+  with links but no faces.
+
+==== Number of sides
 
 Some collision objects are best visualized using double-sided materials.
 You can override the single-sided default on a per-object basis:
@@ -129,7 +168,9 @@ NOTE: `setDebugNumSides(0)` makes the object's shape invisible
 in debug visualization,
 even if the object is selected by the debug filter.
 
-If further customization is required, the debug material can be customized
+==== Custom materials
+
+If further customization is required, debug materials can be configured
 on a per-object basis:
 
 [source,java]
@@ -139,12 +180,14 @@ collisionObject.setDebugMaterial(myMaterial);
 
 NOTE: `setDebugNumSides()` has no effect on custom debug materials.
 
-=== Customizing the meshes
+=== Meshes
 
 The default debug materials
 don't need lighting, normals, or texture coordinates.
 By default, debug visualization doesn't provide these amenities.
-However, a customized debug material might require them.
+However, a custom debug material might require them.
+
+==== Normals
 
 You can override the no-normals default on a per-object basis:
 
@@ -155,11 +198,13 @@ collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth);
 collisionObject3.setDebugMeshNormals(DebugMeshNormals.Sphere);
 ----
 
+==== Index buffers
+
 Generating index buffers for meshes usually reduces
 the number of vertices that must be rendered.
 However, generating index buffers for large meshes can take a long time.
 By default, Minie doesn't generate index buffers for debug meshes
-that have more than 6,000 vertices.
+with than 6,000 vertices.
 
 You can tune this threshold:
 
@@ -171,10 +216,12 @@ DebugShapeFactorysetIndexBuffers(900);
 The threshold has no effect on debug meshes previously generated.
 To make this setting retroactive, clear the debug-mesh cache.
 
-=== Callbacks for further customization
+=== Lighting and shadows
 
-`BulletAppState` invokes a callback during initialization.
-You can use this callback to provide lighting for debug visualization:
+{url-api}/BulletAppState.html[`BulletAppState`]
+invokes a callback during initialization.
+You can use this callback
+to provide lighting and/or shadows for debug visualization:
 
 [source,java]
 ----
@@ -189,7 +236,10 @@ DebugInitListener callbackObject = new DebugInitListener() {
 bulletAppState.setDebugInitListener(callbackObject);
 ----
 
-`BulletAppState` invokes a callback each time it generates a debug mesh.
+=== Texture coordinates
+
+{url-api}/BulletAppState.html[`BulletAppState`]
+invokes a callback each time it generates a debug mesh.
 You can use this callback to add texture coordinates to the mesh:
 
 [source,java]
@@ -208,10 +258,10 @@ DebugInitListener callbackObject = new DebugMeshInitListener() {
 collisionObject.setDebugMeshInitListener(callbackObject);
 ----
 
-== An introduction to PhysicsDumper
+== An introduction to `PhysicsDumper`
 
 The following temporary statements could be used to dump
-(to `System.out`) all collision objects in a `PhysicsSpace`:
+(to `System.out`) all collision objects in a physics space:
 
 [source,java]
 ----
@@ -241,7 +291,7 @@ PhysicsSoftSpace with 0 chars, 0 ghosts, 0 joints, 2 rigids, 0 softs, 0 vehicles
 Single-space indentation indicates additional description
 of the foregoing object.
 
-To dump a `PhysicsSpace` to a text file:
+To dump a physics space to a text file:
 
 [source,java]
 ----
@@ -250,16 +300,17 @@ PhysicsDumper dumper = new PhysicsDumper(dumpStream);
 dumper.dump(physicsSpace);
 ----
 
-=== Customizing what is dumped
+=== What is dumped
 
-You can dump an entire `BulletAppState`, including its `PhysicsSpace`:
+You can dump an entire {url-api}/BulletAppState.html[`BulletAppState`],
+including its physics space:
 
 [source,java]
 ----
 dumper.dump(bulletAppState);
 ----
 
-You can dump individual collision objects:
+You can dump specific collision objects:
 
 [source,java]
 ----
@@ -270,16 +321,16 @@ dumper.dump(rigidBody);
 dumper.dump(softBody);
 ----
 
-You can dump individual collision shapes:
+You can dump specific collision shapes:
 
 [source,java]
 ----
 dumper.dump(collisionShape, "");
 ----
 
-When dumping a `PhysicsSpace`,
+When dumping a space,
 the default is to describe every collision object;
-physics joints are counted but not described.
+physics joints are counted but not described in detail.
 To describe the joints in each body, configure the dumper like so:
 
 [source,java]
@@ -302,17 +353,22 @@ dumper.setEnabled(DumpFlags.Pcos, false); // default=true
 dumper.setEnabled(DumpFlags.JointsInSpaces, true); // default=false
 ----
 
-When dumping a `PhysicsSpace`, you can apply a filter
+When dumping a space, you can apply a filter
 to restrict which physics objects are listed.
 For instance, to dump only those physics objects that lack a user object:
 
 [source,java]
 ----
 String indent = "";
-BulletDebugAppState.DebugAppStateFilter noUser = new UserFilter(null);
+UserFilter noUser = new UserFilter(null);
 dumper.dump(physicsSpace, indent, noUser);
 ----
 
-Other dump flags can be set, for instance,
-to describe the nodes or clusters in each soft body
+Other dump flags can be set to describe the nodes or clusters in each soft body
 or the child shapes in each compound collision shape.
+
+== Summary
+
+* During development, enable Java assertions and use debug-enabled libraries.
+* Use debug visualization to investigate gross issues.
+* To obtain detailed information about scenes and physics, use a dumper.
