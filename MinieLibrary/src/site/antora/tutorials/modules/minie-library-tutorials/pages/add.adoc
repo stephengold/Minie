@@ -19,7 +19,7 @@ Adding Minie to an existing JMonkeyEngine project is a 6-step process:
 
 == Remove libraries that might interfere
 
-If any directory where your application might runs contains files
+If any directory where the application might runs contains files
 named "libbulletjme.so" or "bulletjme.dll" or "libbulletjme.dylib",
 you should remove those files.
 Those filenames are used by JMonkeyEngine when it loads the native library,
@@ -33,14 +33,20 @@ JMonkeyEngine libraries:
 * jme3-bullet-native-android, and
 * jme3-jbullet.
 
-Before adding Minie, you should remove these libraries from your project so
+Before adding Minie, you should remove these libraries from the project so
 they won't interfere with Minie.
 
 === Gradle-built projects
 
 . Look for artifacts with those names in the `dependencies` section(s)
-  of your project's "build.gradle" file(s).
-. Remove those artifacts.
+  of the project's "build.gradle" file(s).
+. Remove those dependencies.
+
+=== Maven-built projects
+
+. Look for artifacts with those IDs in the `dependencies` section(s)
+  of the project's "pom.xml" file.
+. Remove those dependencies.
 
 === Ant-built projects
 
@@ -67,9 +73,11 @@ The Minie library depends on:
 
 === Gradle-built projects
 
-For projects built using Maven or Gradle, it's usually sufficient to specify the
+For projects built using Gradle, it's usually sufficient to specify the
 dependency on the Minie Library.  The build tools should automatically
 resolve the remaining dependencies automatically.
+
+Add to the application's "build.gradle" file:
 
 [source,groovy]
 ----
@@ -79,6 +87,27 @@ repositories {
 dependencies {
     compile 'com.github.stephengold:Minie:1.7.0'
 }
+----
+
+=== Maven-built projects
+
+Add to the project's "pom.xml" file:
+
+[source,xml]
+----
+<repositories>
+    <repository>
+      <id>jcenter</id>
+      <url>https://jcenter.bintray.com/</url>
+    </repository>
+</repositories>
+
+<dependency>
+  <groupId>com.github.stephengold</groupId>
+  <artifactId>Minie</artifactId>
+  <version>1.7.0</version>
+  <type>pom</type>
+</dependency>
 ----
 
 === Ant-built projects
@@ -122,7 +151,7 @@ However, the appstate *does* provide a convenient interface
 for configuring, accessing, updating, and debugging
 a {url-api}/PhysicsSpace.html[`PhysicsSpace`].
 
-If your application already has
+If the application already has
 a {url-api}/BulletAppState.html[`BulletAppState`], that code will probably
 work fine with Minie.
 If not, here is a snippet to guide you:
@@ -134,7 +163,7 @@ stateManager.attach(appState);
 PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();
 ----
 
-If you don't need soft bodies, you can instantiate
+If the application doesn't need soft bodies, you can instantiate
 a {url-api}/BulletAppState.html[`BulletAppState`] directly:
 
 [source,java]
@@ -144,7 +173,7 @@ stateManager.attach(appState);
 PhysicsSpace physicsSpace = appState.getPhysicsSpace();
 ----
 
-If you need multibodies, instantiate a
+If the application needs multibodies, instantiate a
 {url-api}/MultiBodyBulletAppState.html[`MultiBodyBulletAppState`].
 (Minie doesn't yet support combining soft bodies and multibodies in
 a single physics space.)
@@ -181,7 +210,7 @@ are described on xref:minie-library-tutorials:debug.adoc[the Debugging page].
 
 Attaching a {url-api}/BulletAppState.html[`BulletAppState`] instantiates a
 {url-api}/PhysicsSpace.html[`PhysicsSpace`] that
-you can access immediately:
+the application can access immediately:
 
 [source,java]
 ----
