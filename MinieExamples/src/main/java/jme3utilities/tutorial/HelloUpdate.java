@@ -38,7 +38,9 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
+import com.jme3.system.AppSettings;
 
 /**
  * A simple example without an AppState.
@@ -62,6 +64,13 @@ public class HelloUpdate extends SimpleApplication {
      */
     public static void main(String[] ignored) {
         HelloUpdate application = new HelloUpdate();
+
+        // Enable gamma correction for accurate lighting.
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
+        settings.setGammaCorrection(true);
+        application.setSettings(settings);
+
         application.start();
     }
     // *************************************************************************
@@ -72,14 +81,15 @@ public class HelloUpdate extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        addLighting();
+        // Create the physics space.
+        physicsSpace = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
 
         // Create a material and a mesh for balls.
         float ballRadius = 1f;
         Material ballMaterial = new Material(assetManager, Materials.LIGHTING);
         Mesh ballMesh = new Sphere(16, 32, ballRadius);
 
-        // Create a geometries for a dynamic ball and a static ball
+        // Create geometries for a dynamic ball and a static ball
         // and add them to the scene graph.
         Geometry dyna = new Geometry("dyna", ballMesh);
         dyna.setMaterial(ballMaterial);
@@ -89,7 +99,7 @@ public class HelloUpdate extends SimpleApplication {
         stat.setMaterial(ballMaterial);
         rootNode.attachChild(stat);
 
-        // Create controls for both balls and add them to the geometries.
+        // Create RBCs for both balls and add them to the geometries.
         float mass = 2f;
         RigidBodyControl dynaRbc = new RigidBodyControl(mass);
         dyna.addControl(dynaRbc);
@@ -98,9 +108,6 @@ public class HelloUpdate extends SimpleApplication {
                 = new RigidBodyControl(PhysicsBody.massForStatic);
         stat.addControl(statRbc);
 
-        // Create a physics space.
-        physicsSpace = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
-
         // Add the controls to the physics space.
         physicsSpace.add(dynaRbc);
         physicsSpace.add(statRbc);
@@ -108,10 +115,13 @@ public class HelloUpdate extends SimpleApplication {
         // Position the balls in physics space.
         dynaRbc.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
         statRbc.setPhysicsLocation(new Vector3f(0.1f, 0f, 0f));
+
+        // Add lighting.
+        addLighting(rootNode);
     }
 
     /**
-     * Callback invoked once per frame.
+     * Callback invoked once per frame to update the PhysicsSpace.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
      */
@@ -123,14 +133,19 @@ public class HelloUpdate extends SimpleApplication {
     // private methods
 
     /**
-     * Add lighting to the scene.
+     * Add lighting to the specified scene.
      */
-    private void addLighting() {
-        AmbientLight ambient = new AmbientLight(ColorRGBA.White.mult(0.2f));
-        rootNode.addLight(ambient);
+    private void addLighting(Spatial scene) {
+        // Light the scene with ambient and directional lights.
+        ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
+        AmbientLight ambient = new AmbientLight(ambientColor);
+        scene.addLight(ambient);
+        ambient.setName("ambient");
 
-        Vector3f direction = new Vector3f(-0.7f, -0.3f, -0.5f).normalizeLocal();
-        DirectionalLight sun = new DirectionalLight(direction, ColorRGBA.White);
-        rootNode.addLight(sun);
+        ColorRGBA directColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
+        DirectionalLight sun = new DirectionalLight(direction, directColor);
+        scene.addLight(sun);
+        sun.setName("sun");
     }
 }
