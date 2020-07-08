@@ -17,6 +17,11 @@ jobs:
           java-version: 8
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
 
   Java8-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -28,6 +33,11 @@ jobs:
           java-version: 8
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
 
   Java8-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -39,6 +49,11 @@ jobs:
           java-version: 8
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
 
   Java11-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -50,6 +65,11 @@ jobs:
           java-version: 11
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
 
   Java11-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -77,6 +97,11 @@ jobs:
           java-version: 13
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
 
   Java14-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -88,6 +113,11 @@ jobs:
           java-version: 14
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
 
   Java14-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -99,6 +129,11 @@ jobs:
           java-version: 14
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
+      - if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
 
   Java14-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
