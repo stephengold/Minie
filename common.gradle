@@ -62,21 +62,25 @@ artifacts {
 }
 
 // cleanup tasks
-clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs')
-clean.dependsOn('cleanWrittenAssets')
 
-task cleanDLLs(type: Delete) {
+clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanPDBs')
+clean.dependsOn('cleanSOs', 'cleanWrittenAssets')
+
+task cleanDLLs(type: Delete) { // Windows native libraries
     delete fileTree(dir: '.', include: '*.dll')
 }
-task cleanDyLibs(type: Delete) {
+task cleanDyLibs(type: Delete) { // MacOSX native libraries
     delete fileTree(dir: '.', include: '*.dylib')
 }
-task cleanLogs(type: Delete) {
+task cleanLogs(type: Delete) { // JVM crash logs
     delete fileTree(dir: '.', include: 'hs_err_pid*.log')
 }
-task cleanSOs(type: Delete) {
+task cleanPDBs(type: Delete) { // Windows program database files
+    delete fileTree(dir: '.', include: '*.pdb')
+}
+task cleanSOs(type: Delete) { // Linux and Android native libraries
     delete fileTree(dir: '.', include: '*.so')
 }
-task cleanWrittenAssets(type: Delete) {
+task cleanWrittenAssets(type: Delete) { // jme3-utilities-ui output directory
     delete 'Written Assets'
 }
