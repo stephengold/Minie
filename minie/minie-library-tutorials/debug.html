@@ -557,20 +557,12 @@ To make this setting retroactive, clear the debug-mesh cache.</p>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>
 invokes a callback during initialization.
 You can use this callback
-to provide lighting and/or shadows for debug visualization:</p>
+to provide lighting and/or shadows for debug visualization.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">DebugInitListener callbackObject = new DebugInitListener() {
-    public void bulletDebugInit(Node physicsDebugRootNode) {
-        AmbientLight ambient = new AmbientLight(aColor);
-        physicsDebugRootNode.addLight(ambient);
-        DirectionalLight sun = new DirectionalLight(direction, dColor);
-        physicsDebugRootNode.addLight(sun);
-    }
-};
-bulletAppState.setDebugInitListener(callbackObject);</code></pre>
-</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloCustomDebug.java">HelloCustomDebug</a> is a simple
+application that demonstrates customization of debug materials,
+debug meshes, and lighting.</p>
 </div>
 </div>
 <div class="sect2">
