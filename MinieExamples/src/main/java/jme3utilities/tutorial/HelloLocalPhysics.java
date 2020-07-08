@@ -40,10 +40,12 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
+import com.jme3.system.AppSettings;
 
 /**
- * A simple example involving a rigid-body control with
+ * A simple example involving a RigidBodyControl with
  * setApplyPhysicsLocal(true).
  *
  * Builds upon HelloKinematicRbc.
@@ -55,9 +57,9 @@ public class HelloLocalPhysics extends SimpleApplication {
     // fields
 
     /**
-     * simulation time (in seconds, &ge;0)
+     * physics-simulation time (in seconds, &ge;0)
      */
-    private static float elapsedTime = 0f;
+    private float elapsedTime = 0f;
     /**
      * node orbiting the origin
      */
@@ -72,6 +74,13 @@ public class HelloLocalPhysics extends SimpleApplication {
      */
     public static void main(String[] ignored) {
         HelloLocalPhysics application = new HelloLocalPhysics();
+
+        // Enable gamma correction for accurate lighting.
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
+        settings.setGammaCorrection(true);
+        application.setSettings(settings);
+
         application.start();
     }
     // *************************************************************************
@@ -82,13 +91,7 @@ public class HelloLocalPhysics extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        // Light the scene with directional and ambient lights.
-        AmbientLight ambient = new AmbientLight(ColorRGBA.White.mult(0.2f));
-        rootNode.addLight(ambient);
-
-        Vector3f direction = new Vector3f(-0.7f, -0.3f, -0.5f).normalizeLocal();
-        DirectionalLight sun = new DirectionalLight(direction, ColorRGBA.White);
-        rootNode.addLight(sun);
+        PhysicsSpace physicsSpace = configurePhysics();
 
         // Create a material and a mesh for balls.
         float ballRadius = 1f;
@@ -100,7 +103,7 @@ public class HelloLocalPhysics extends SimpleApplication {
         rootNode.attachChild(orbitingNode);
 
         // Create geometries for a dynamic ball and a kinematic ball
-        // and attach them to the parent node.
+        // and attach them to the orbiting node.
         Geometry dyna = new Geometry("dyna", ballMesh);
         dyna.setMaterial(ballMaterial);
         orbitingNode.attachChild(dyna);
@@ -109,8 +112,7 @@ public class HelloLocalPhysics extends SimpleApplication {
         kine.setMaterial(ballMaterial);
         orbitingNode.attachChild(kine);
 
-        // Create local physics controls for both balls
-        // and add them to the geometries.
+        // Create local RBCs for both balls and add them to the geometries.
         float mass = 2f;
         RigidBodyControl dynaRbc = new RigidBodyControl(mass);
         dynaRbc.setApplyPhysicsLocal(true);
@@ -119,17 +121,9 @@ public class HelloLocalPhysics extends SimpleApplication {
         kineRbc.setApplyPhysicsLocal(true);
         kine.addControl(kineRbc);
 
-        // Set up Bullet physics and create a physics space.
-        BulletAppState bulletAppState = new BulletAppState();
-        stateManager.attach(bulletAppState);
-        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
-
-        // Add the controls to the physics space.
+        // Add the controls to the space.
         physicsSpace.add(dynaRbc);
         physicsSpace.add(kineRbc);
-
-        // Reduce the time step for better accuracy.
-        physicsSpace.setAccuracy(0.005f);
 
         // Position the dynamic ball in physics space.
         dynaRbc.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
@@ -137,7 +131,7 @@ public class HelloLocalPhysics extends SimpleApplication {
         // Set the kinematic flag on the other ball.
         kineRbc.setKinematic(true);
 
-        // Minie's BulletAppState simulates the dynamics...
+        addLighting(rootNode);
     }
 
     /**
@@ -160,5 +154,37 @@ public class HelloLocalPhysics extends SimpleApplication {
         orbitingNode.setLocalTranslation(location);
 
         elapsedTime += tpf;
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Add lighting to the specified scene.
+     */
+    private void addLighting(Spatial scene) {
+        ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
+        AmbientLight ambient = new AmbientLight(ambientColor);
+        scene.addLight(ambient);
+        ambient.setName("ambient");
+
+        ColorRGBA directColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
+        DirectionalLight sun = new DirectionalLight(direction, directColor);
+        scene.addLight(sun);
+        sun.setName("sun");
+    }
+
+    /**
+     * Configure physics during startup.
+     */
+    private PhysicsSpace configurePhysics() {
+        BulletAppState bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+        PhysicsSpace result = bulletAppState.getPhysicsSpace();
+
+        // Reduce the time step for better accuracy.
+        result.setAccuracy(0.005f);
+
+        return result;
     }
 }
