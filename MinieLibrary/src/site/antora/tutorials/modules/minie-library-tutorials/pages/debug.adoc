@@ -221,20 +221,11 @@ To make this setting retroactive, clear the debug-mesh cache.
 {url-api}/BulletAppState.html[`BulletAppState`]
 invokes a callback during initialization.
 You can use this callback
-to provide lighting and/or shadows for debug visualization:
+to provide lighting and/or shadows for debug visualization.
 
-[source,java]
-----
-DebugInitListener callbackObject = new DebugInitListener() {
-    public void bulletDebugInit(Node physicsDebugRootNode) {
-        AmbientLight ambient = new AmbientLight(aColor);
-        physicsDebugRootNode.addLight(ambient);
-        DirectionalLight sun = new DirectionalLight(direction, dColor);
-        physicsDebugRootNode.addLight(sun);
-    }
-};
-bulletAppState.setDebugInitListener(callbackObject);
-----
+{url-tutorial}/HelloCustomDebug.java[HelloCustomDebug] is a simple
+application that demonstrates customization of debug materials,
+debug meshes, and lighting.
 
 === Texture coordinates
 
