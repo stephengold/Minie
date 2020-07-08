@@ -51,6 +51,11 @@ public class NativeLibrary {
     // new methods exposed
 
     /**
+     * Crash the JVM with an EXCEPTION_ACCESS_VIOLATION or SIGILL, for testing.
+     */
+    native public static void crash();
+
+    /**
      * Dump all native-memory allocation/free events to standard output. This
      * feature is enabled only in native libraries built with the
      * BT_DEBUG_MEMORY_ALLOCATIONS macro defined.
@@ -59,6 +64,13 @@ public class NativeLibrary {
      * not enabled
      */
     native public static int dumpMemoryLeaks();
+
+    /**
+     * Execute btAssert(0). This has no effect on Release builds, but if the
+     * native library was built with debugging enabled, it should terminate the
+     * JVM.
+     */
+    native public static void fail();
 
     /**
      * Test whether the native library was built with debugging enabled.
@@ -73,6 +85,16 @@ public class NativeLibrary {
      * @return true if double-precision, false if single-precision
      */
     native public static boolean isDoublePrecision();
+
+    /**
+     * Alter whether the native library should invoke the reinitialization()
+     * callback.
+     *
+     * @param callbackFlag true &rarr; invoke, false &rarr; don't invoke
+     * (default=false)
+     */
+    native public static void
+            setReinitializationCallbackEnabled(boolean callbackFlag);
 
     /**
      * Alter whether the native library will print its startup message during
@@ -105,5 +127,13 @@ public class NativeLibrary {
         };
         physicsCleaner.setDaemon(true);
         physicsCleaner.start();
+    }
+
+    /**
+     * Callback invoked (by native code) for each attempt to re-initialize the
+     * native library while setReinitializationCallbackEnabled(true).
+     */
+    private static void reinitialization() {
+        // do nothing, for now
     }
 }
