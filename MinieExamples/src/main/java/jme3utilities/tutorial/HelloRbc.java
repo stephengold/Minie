@@ -39,10 +39,14 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
+import com.jme3.system.AppSettings;
 
 /**
  * A simple example using RigidBodyControl.
+ *
+ * Builds upon HelloStaticBody.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -57,6 +61,13 @@ public class HelloRbc extends SimpleApplication {
      */
     public static void main(String[] ignored) {
         HelloRbc application = new HelloRbc();
+
+        // Enable gamma correction for accurate lighting.
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
+        settings.setGammaCorrection(true);
+        application.setSettings(settings);
+
         application.start();
     }
     // *************************************************************************
@@ -67,20 +78,15 @@ public class HelloRbc extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        // Light the scene with directional and ambient lights.
-        AmbientLight ambient = new AmbientLight(ColorRGBA.White.mult(0.2f));
-        rootNode.addLight(ambient);
-
-        Vector3f direction = new Vector3f(-0.7f, -0.3f, -0.5f).normalizeLocal();
-        DirectionalLight sun = new DirectionalLight(direction, ColorRGBA.White);
-        rootNode.addLight(sun);
+        // Set up Bullet physics and create a physics space.
+        PhysicsSpace physicsSpace = configurePhysics();
 
         // Create a material and a mesh for balls.
         float ballRadius = 1f;
         Material ballMaterial = new Material(assetManager, Materials.LIGHTING);
         Mesh ballMesh = new Sphere(16, 32, ballRadius);
 
-        // Create a geometries for a dynamic ball and a static ball
+        // Create geometries for a dynamic ball and a static ball
         // and add them to the scene graph.
         Geometry dyna = new Geometry("dyna", ballMesh);
         dyna.setMaterial(ballMaterial);
@@ -90,7 +96,7 @@ public class HelloRbc extends SimpleApplication {
         stat.setMaterial(ballMaterial);
         rootNode.attachChild(stat);
 
-        // Create controls for both balls and add them to the geometries.
+        // Create RBCs for both balls and add them to the geometries.
         float mass = 2f;
         RigidBodyControl dynaRbc = new RigidBodyControl(mass);
         dyna.addControl(dynaRbc);
@@ -98,11 +104,6 @@ public class HelloRbc extends SimpleApplication {
         RigidBodyControl statRbc
                 = new RigidBodyControl(PhysicsBody.massForStatic);
         stat.addControl(statRbc);
-
-        // Set up Bullet physics and create a physics space.
-        BulletAppState bulletAppState = new BulletAppState();
-        stateManager.attach(bulletAppState);
-        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
         // Add the controls to the physics space.
         physicsSpace.add(dynaRbc);
@@ -112,6 +113,39 @@ public class HelloRbc extends SimpleApplication {
         dynaRbc.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
         statRbc.setPhysicsLocation(new Vector3f(0.1f, 0f, 0f));
 
+        // Add lighting.
+        addLighting(rootNode);
+
         // Minie's BulletAppState simulates the dynamics...
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Add lighting to the specified scene.
+     */
+    private void addLighting(Spatial scene) {
+        // Light the scene with ambient and directional lights.
+        ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
+        AmbientLight ambient = new AmbientLight(ambientColor);
+        scene.addLight(ambient);
+        ambient.setName("ambient");
+
+        ColorRGBA directColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
+        DirectionalLight sun = new DirectionalLight(direction, directColor);
+        scene.addLight(sun);
+        sun.setName("sun");
+    }
+
+    /**
+     * Configure physics during startup.
+     */
+    private PhysicsSpace configurePhysics() {
+        BulletAppState bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+        PhysicsSpace result = bulletAppState.getPhysicsSpace();
+
+        return result;
     }
 }
