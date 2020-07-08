@@ -14,18 +14,27 @@ ext {
     libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/8.3.0/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // test an unreleased build
 
-    // Specify the BTF (buildType + flavor) of native library for each platform:
-    // (Specify '' for no native library.)
-
+    pdbWindows64 = ''
     if (gradle.rootProject.hasProperty('btdebug')) {
         // -Pbtdebug specified on the command line
+
         if (gradle.rootProject.hasProperty('dp')) {
             // both -Pbtdebug and -Pdp specified
-            configureAndroidBtfs('')
+
+            configureAndroidBtfs('') // no DebugDp for Android yet
             configureDesktopBtfs('DebugDp')
             metadata = 'debugdp' + jmeTarget
 
-        } else { // -Pbtdebug specified, but not -Pdp
+        } else if (gradle.rootProject.hasProperty('pdb64')) {
+            // both -Pbtdebug and -Ppdb64 specified, but not -Pdp
+
+            configureAndroidBtfs('')
+            configureDesktopBtfs('')
+            btfWindows64 = 'DebugSp'
+            pdbWindows64 = 'DebugSp'
+            metadata = 'debug' + jmeTarget
+
+        } else { // -Pbtdebug specified, but not -Pdp or -Ppdb64
             configureAndroidBtfs('DebugSp')
             configureDesktopBtfs('DebugSp')
             metadata = 'debug' + jmeTarget
@@ -33,11 +42,16 @@ ext {
 
     } else if (gradle.rootProject.hasProperty('dp')) {
         // -Pdp specified, but not -Pbtdebug
+
         configureAndroidBtfs('')
         configureDesktopBtfs('ReleaseDp')
         metadata = 'dp' + jmeTarget
 
     } else { // neither -Pbtdebug nor -Pdp specified
+
+        // Specify the BTF (buildType + flavor) of native library for each platform:
+        // (Specify '' for no native library.)
+
         btfAndroid_ARM7 = 'ReleaseSp'
         btfAndroid_ARM8 = 'ReleaseSp'
         btfAndroid_X86 = 'ReleaseSp'
@@ -108,6 +122,8 @@ processResources.dependsOn((btfMacOSX64 == '' ? 'clean' : 'download') + 'MacOSX6
 processResources.dependsOn((btfWindows32 == '' ? 'clean' : 'download') + 'Windows32')
 processResources.dependsOn((btfWindows64 == '' ? 'clean' : 'download') + 'Windows64')
 
+assemble.dependsOn((pdbWindows64 == '' ? 'clean' : 'download') + 'PDBs')
+
 // tasks to download native libraries (from GitHub, typically)
 
 task downloadAndroid_ARM7(type: MyDownload) {
@@ -155,7 +171,13 @@ task downloadWindows64(type: MyDownload) {
     target = file(nativeDir + 'windows/x86_64/bulletjme.dll')
 }
 
+task downloadPDBs(type: MyDownload) {
+    sourceUrl = libbulletjmeUrl + "Windows64${pdbWindows64}_bulletjme.pdb"
+    target = file('bulletjme.pdb')
+}
+
 // cleanup tasks
+
 clean.dependsOn('cleanAndroid_ARM7', 'cleanAndroid_ARM8', 'cleanAndroid_X86',
     'cleanAndroid_X86_64', 'cleanLinux32', 'cleanLinux64', 'cleanLinux_ARM64',
     'cleanMacOSX32', 'cleanMacOSX64', 'cleanWindows32', 'cleanWindows64')
