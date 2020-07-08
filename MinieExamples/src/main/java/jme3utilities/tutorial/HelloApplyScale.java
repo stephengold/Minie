@@ -41,10 +41,14 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.system.AppSettings;
 
 /**
  * A simple example of a kinematic RigidBodyControl with setApplyScale(true).
+ *
+ * Builds upon HelloKinematicRbc.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -53,7 +57,7 @@ public class HelloApplyScale extends SimpleApplication {
     // fields
 
     /**
-     * simulation time (in seconds, &ge;0)
+     * physics-simulation time (in seconds, &ge;0)
      */
     private float elapsedTime = 0f;
     /**
@@ -70,6 +74,13 @@ public class HelloApplyScale extends SimpleApplication {
      */
     public static void main(String[] ignored) {
         HelloApplyScale application = new HelloApplyScale();
+
+        // Enable gamma correction for accurate lighting.
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
+        settings.setGammaCorrection(true);
+        application.setSettings(settings);
+
         application.start();
     }
     // *************************************************************************
@@ -80,8 +91,6 @@ public class HelloApplyScale extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        addLighting();
-        configureCamera();
         PhysicsSpace physicsSpace = configurePhysics();
 
         // Create the cube Geometry and add it to the scene graph.
@@ -91,17 +100,20 @@ public class HelloApplyScale extends SimpleApplication {
         cubeGeometry.setMaterial(cubeMaterial);
         rootNode.attachChild(cubeGeometry);
 
-        // Create a RigidBodyControl and add it to the Geometry.
+        // Create an RBC and add it to the Geometry.
         float mass = 2f;
         RigidBodyControl kineRbc = new RigidBodyControl(mass);
         cubeGeometry.addControl(kineRbc);
 
-        // Add the PhysicsControl to the PhysicsSpace.
+        // Add the control to the space.
         physicsSpace.add(kineRbc);
 
-        // Set the kinematic and "apply scale" flags on the PhysicsControl.
+        // Set the kinematic and "apply scale" flags on the RBC.
         kineRbc.setKinematic(true);
         kineRbc.setApplyScale(true);
+
+        addLighting(rootNode);
+        configureCamera();
     }
 
     /**
@@ -127,15 +139,19 @@ public class HelloApplyScale extends SimpleApplication {
     // private methods
 
     /**
-     * Add lighting to the scene.
+     * Add lighting to the specified scene.
      */
-    private void addLighting() {
-        AmbientLight ambient = new AmbientLight(ColorRGBA.White.mult(0.2f));
-        rootNode.addLight(ambient);
+    private void addLighting(Spatial scene) {
+        ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
+        AmbientLight ambient = new AmbientLight(ambientColor);
+        scene.addLight(ambient);
+        ambient.setName("ambient");
 
-        Vector3f direction = new Vector3f(-0.7f, -0.3f, -0.5f).normalizeLocal();
-        DirectionalLight sun = new DirectionalLight(direction, ColorRGBA.White);
-        rootNode.addLight(sun);
+        ColorRGBA directColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
+        DirectionalLight sun = new DirectionalLight(direction, directColor);
+        scene.addLight(sun);
+        sun.setName("sun");
     }
 
     /**
@@ -162,8 +178,8 @@ public class HelloApplyScale extends SimpleApplication {
         overlay.setClearFlags(false, true, false);
         bulletAppState.setDebugViewPorts(overlay);
 
-        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
+        PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        return physicsSpace;
+        return result;
     }
 }
