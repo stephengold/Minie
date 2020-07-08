@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9};
+<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -116,27 +116,49 @@ extends java.lang.Object</pre>
 </thead>
 <tbody>
 <tr class="altColor" id="i0">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#crash()">crash</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Crash the JVM with an EXCEPTION_ACCESS_VIOLATION or SIGILL, for testing.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i1">
 <td class="colFirst"><code>static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#dumpMemoryLeaks()">dumpMemoryLeaks</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Dump all native-memory allocation/free events to standard output.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i1">
+<tr class="altColor" id="i2">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fail()">fail</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Execute btAssert(0).</div>
+</td>
+</tr>
+<tr class="rowColor" id="i3">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDebug()">isDebug</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether the native library was built with debugging enabled.</div>
 </td>
 </tr>
-<tr class="altColor" id="i2">
+<tr class="altColor" id="i4">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDoublePrecision()">isDoublePrecision</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether the native library uses double-precision arithmetic.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i3">
+<tr class="rowColor" id="i5">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setReinitializationCallbackEnabled(boolean)">setReinitializationCallbackEnabled</a></span>&#8203;(boolean&nbsp;callbackFlag)</code></th>
+<td class="colLast">
+<div class="block">Alter whether the native library should invoke the reinitialization()
+ callback.</div>
+</td>
+</tr>
+<tr class="altColor" id="i6">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStartupMessageEnabled(boolean)">setStartupMessageEnabled</a></span>&#8203;(boolean&nbsp;printFlag)</code></th>
 <td class="colLast">
@@ -144,7 +166,7 @@ extends java.lang.Object</pre>
  initialization.</div>
 </td>
 </tr>
-<tr class="altColor" id="i4">
+<tr class="rowColor" id="i7">
 <td class="colFirst"><code>static java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#versionNumber()">versionNumber</a></span>()</code></th>
 <td class="colLast">
@@ -175,6 +197,13 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <section class="detail">
+<h3><a id="crash()">crash</a></h3>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">crash</span>()</div>
+<div class="block">Crash the JVM with an EXCEPTION_ACCESS_VIOLATION or SIGILL, for testing.</div>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="dumpMemoryLeaks()">dumpMemoryLeaks</a></h3>
 <div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">dumpMemoryLeaks</span>()</div>
 <div class="block">Dump all native-memory allocation/free events to standard output. This
@@ -185,6 +214,15 @@ extends java.lang.Object</pre>
 <dd>the number of bytes outstanding (&ge;0), or -1 if this feature is
  not enabled</dd>
 </dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="fail()">fail</a></h3>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">fail</span>()</div>
+<div class="block">Execute btAssert(0). This has no effect on Release builds, but if the
+ native library was built with debugging enabled, it should terminate the
+ JVM.</div>
 </section>
 </li>
 <li class="blockList">
@@ -206,6 +244,19 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if double-precision, false if single-precision</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="setReinitializationCallbackEnabled(boolean)">setReinitializationCallbackEnabled</a></h3>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setReinitializationCallbackEnabled</span>&#8203;(<span class="arguments">boolean&nbsp;callbackFlag)</span></div>
+<div class="block">Alter whether the native library should invoke the reinitialization()
+ callback.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>callbackFlag</code> - true &rarr; invoke, false &rarr; don't invoke
+ (default=false)</dd>
 </dl>
 </section>
 </li>
