@@ -1,44 +1,84 @@
 = An introduction to character physics
 :page-pagination:
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
+:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
-The {url-api}/object/PhysicsCharacter.html[`PhysicsCharacter`]
-class (a subclass of
-{url-api}/collision/PhysicsCollisionObject.html[`PhysicsCollisionObject`])
-provides a simplified physics model for characters.
+A _physics character_ is a type of collision object
+used to model game characters walking, jumping, and falling.
+The model makes many simplifying assumptions:
 
-The model incorporates the following assumptions:
-
-* The character's shape is convex, and its orientation never changes.
+* The character's shape must be convex.
 * The character remains upright even when jumping or falling:
-  no sitting or lying down.
-* There are limits on steep a slope and how high a step the character can climb.
+  no sitting, squatting, ducking, or lying down.
+* The model places limits on:
+** how steep a slope the character can climb,
+** how high a step the character can climb, and
+** how fast the character can fall.
 
-TODO example
+Like a rigid body, a physics character has a collision shape, a location, and
+a gravity vector, along with velocities and damping parameters.
+It also has an optional contact response, which is enabled by default.
+However, it has no concept of mass,
+and its motion is controlled very differently from a rigid body.
+Instead of applying forces or directly setting the character's velocities,
+the app must tell the character when and how to walk and jump.
 
-== Constructors
+You can create a character directly by invoking the
+{url-api}/objects/PhysicsCharacter.html[`PhysicsCharacter`] constructor.
+This allows you to specify its collision shape and step height.
 
-The constructor requires a convex shape.
-Typically a
-{url-api}/collision/shape/CapsuleCollisionShape.html[`CapsuleCollisionShape`]
-is used.
+{url-tutorial}/HelloCharacter.java[HelloCharacter] is a simple
+application that demonstrates the direct creation of a character,
+followed by jumping motions.
+Things to notice about the app:
 
-TODO
+* The constructor requires a convex shape.
+  In this app, a capsule is used.
+* By themselves, the character and the ground are both invisible,
+  so the app uses debug visualization
+  to reveal what is occurring in physics space.
+* The `onGround()` method tests whether the character is standing
+  on a solid surface (as opposed to falling).
 
 == CharacterControl
 
-To associate a character with a `Spatial`, there's
-{url-api}/control/CharacterControl.html[`CharacterControl`],
-a physics control.
-The `PhysicsCharacter` is created after the control is added to a `Spatial`.
+Since directly created characters don't look like much,
+they are typically used to represent players in single-player games
+with a first-person viewpoint.
 
-NOTE: In a {url-api}/control/CharacterControl.html[`CharacterControl`],
-the physics control and its collision object are *not* the same object!
+To associate a character with a spatial, there's a
+{url-api}/control/CharacterControl.html[`CharacterControl`] class
+that implements the {url-api}/control/PhysicsControl.html[`PhysicsControl`]
+interface.
 
-To access the collision object of a control,
+NOTE: For a {url-api}/control/CharacterControl.html[`CharacterControl`],
+the control and its collision object are *not* the same object!
+The collision object isn't created until the control is added to a spatial.
+
+To access the collision object
+associated with a {url-api}/control/CharacterControl.html[`CharacterControl`],
 use `characterControl.getCharacter()`.
-To access the control of a collision object,
+To access the {url-api}/control/CharacterControl.html[`CharacterControl`]
+associated with a collision object,
 use `(CharacterControl) character.getUserObject()`.
+
+{url-tutorial}/HelloCharacterControl.java[HelloCharacterControl]
+is a simple application that demonstrates
+the creation of a {url-api}/control/CharacterControl.html[`CharacterControl`].
+
+Things to notice about the app:
+
+. The control's collision shape is a capsule.
+. The center of the Jaime model is located between its feet.
+  If the control were directly attached to the model,
+  its capsule shape would be off-center.
+  In order to match the physics to the model, the control is attached instead
+  to a `centerNode` located in Jaime's chest.
+. Because control provides convenience methods
+  such as `onGround()` and `jump()`,
+  the app never accesses the physics character directly.
+
+== Walking
 
 TODO
 
