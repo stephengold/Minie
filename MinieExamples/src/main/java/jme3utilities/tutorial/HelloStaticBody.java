@@ -79,12 +79,14 @@ public class HelloStaticBody extends SimpleApplication {
         float mass = 2f;
         PhysicsRigidBody dynaBall = new PhysicsRigidBody(ballShape, mass);
         physicsSpace.add(dynaBall);
-        dynaBall.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
 
         // Create a static body and add it to the space.
         PhysicsRigidBody statBall
                 = new PhysicsRigidBody(ballShape, PhysicsBody.massForStatic);
         physicsSpace.add(statBall);
+
+        // Position the balls in physics space.
+        dynaBall.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
         statBall.setPhysicsLocation(new Vector3f(0.1f, 0f, 0f));
 
         // Minie's BulletAppState simulates the dynamics...
