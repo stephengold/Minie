@@ -39,6 +39,8 @@ import com.jme3.math.Vector3f;
 /**
  * A simple example combining kinematic and dynamic rigid bodies.
  *
+ * Builds upon HelloStaticBody.
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloKinematics
