@@ -56,6 +56,13 @@ However, these last 3 features are optional and can easily be disabled.
 
 {url-tutorial}/HelloRigidBody.java[HelloRigidBody] is a simple
 application that demonstrates the 5 familiar features of rigid bodies.
+
+IMPORTANT: {url-tutorial}/HelloRigidBody.java[HelloRigidBody] is the first of
+many tutorial apps designed for hands-on learning.
+I expect you to not only study the source code,
+but to actually run the software as well.
+Take time *now* to set up a development environment for this purpose!
+
 Things to notice while running the app:
 
 . Two balls, both falling slowly under the influence of gravity.
