@@ -428,7 +428,7 @@ assert convexClass == isConvex;</code></pre>
 <td class="content">
 In this context, "convex" is a property of classes, not instances.
 While specific <strong>instances</strong> of non-convex classes have the convex property,
-they don&#8217;t guarantee it for <strong>all</strong> instances.
+those classes don&#8217;t guarantee it for <strong>all</strong> instances.
 </td>
 </tr>
 </table>
@@ -451,7 +451,9 @@ and
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SphereCollisionShape.html"><code>SphereCollisionShape</code></a>
 incorporate a <em>margin</em>, a narrow zone near the surface of the shape.
 (The word <em>margin</em> refers to both the zone and its thickness.)
-According to the Bullet Manual, the purpose of margin is
+According to
+<a href="https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf">the Bullet User Manual</a>,
+the purpose of margin is
 "to improve performance and reliability of the collision detection."</p>
 </div>
 <div class="paragraph">
@@ -481,7 +483,7 @@ doing so is not recommended.
 is unaffected by margin.</p>
 </div>
 <div class="paragraph">
-<p>While most collision-shape subtypes are precise, 5 are not.
+<p>While most collision-shape subtypes are precise, 5 of them are not.
 For 4 of them, margin simply expands their effective shapes:</p>
 </div>
 <div class="olist arabic">
@@ -548,7 +550,7 @@ so as to make the effects of margin less obvious.</p>
 </div>
 <div class="paragraph">
 <p>For instance,
-collision detection doesn&#8217;t work well between zero-thickness shapes such as:</p>
+collision detection is unreliable between zero-thickness shapes such as:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -560,6 +562,10 @@ collision detection doesn&#8217;t work well between zero-thickness shapes such a
 </li>
 <li>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a>,</p>
+</li>
+<li>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HullCollisionShape.html"><code>HullCollisionShape</code></a>
+with 1-to-3 vertices,</p>
 </li>
 <li>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/PlaneCollisionShape.html"><code>PlaneCollisionShape</code></a>, and</p>
@@ -639,7 +645,7 @@ is located at the end of its handle.</p>
 </li>
 <li>
 <p>After landing, the mallet tends to stand erect.
-Although this position seems unnatural, it is the precisely the one
+Although this orientation seems unnatural, it is the precisely the one
 that minimizes the mallet&#8217;s
 <a href="https://en.wikipedia.org/wiki/Gravitational_potential">gravitational potential</a>.</p>
 </li>
@@ -652,20 +658,22 @@ can be used to generate asymmetric shapes for rigid bodies:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CompoundCollisionShape.html"><code>CompoundCollisionShape</code></a>,</p>
-</li>
-<li>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/GImpactCollisionShape.html"><code>GImpactCollisionShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HullCollisionShape.html"><code>HullCollisionShape</code></a>,</p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HullCollisionShape.html"><code>HullCollisionShape</code></a>
+with 4 or more vertices,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MultiSphere.html"><code>MultiSphere</code></a>, and</p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MultiSphere.html"><code>MultiSphere</code></a>,</p>
 </li>
 <li>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SimplexCollisionShape.html"><code>SimplexCollisionShape</code></a>
-with 4 vertices.</p>
+with 4 vertices, and</p>
+</li>
+<li>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CompoundCollisionShape.html"><code>CompoundCollisionShape</code></a>
+with suitable children.</p>
 </li>
 </ul>
 </div>
@@ -688,7 +696,7 @@ lies much closer to the head, in a very plausible location.</p>
 </li>
 <li>
 <p>After landing, the mallet comes to rest on its side,
-which is the most natural behavior for a mallet.</p>
+which is a natural orientation for a mallet.</p>
 </li>
 </ol>
 </div>
@@ -751,7 +759,7 @@ is applicable to particular shape:</p>
 <div class="paragraph">
 <p>For efficient simulation, the general rule is:
 "Use the simplest shape that yields the desired <strong>behavior</strong>."
-Focusing on behavior rather than appearance
+Focusing on behavior (rather than appearance)
 helps you avoid simulating details that don&#8217;t matter.
 For instance:</p>
 </div>
@@ -765,7 +773,7 @@ For instance:</p>
 can probably be approximated by a convex hull.</p>
 </li>
 <li>
-<p>If a transparent container remains sealed,
+<p>If a container remains sealed,
 its collision shape need not be hollow.</p>
 </li>
 </ul>
@@ -777,7 +785,7 @@ beginners are often tempted to use mesh-based shapes
 for everything.
 However, since mesh-based collision detection is CPU-intensive,
 simpler shapes are often a better choice,
-even when they don&#8217;t match the model&#8217;s shape closely.
+even when they don&#8217;t closely match the model&#8217;s shape.
 In particular, capsule shapes are often used for humanoid models.</p>
 </div>
 <div class="paragraph">
@@ -863,7 +871,52 @@ should be your last resort!
 automates the creation of collision shapes for models.</p>
 </div>
 <div class="paragraph">
-<p>Its <code>createDynamicMeshShape()</code> method
+<p>By convention, all factory methods skip over geometries
+that have the "JmePhysicsIgnore" user-data key set to <code>true</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_for_static_bodies"><a class="anchor" href="#_for_static_bodies"></a>For static bodies</h3>
+<div class="paragraph">
+<p>The <code>createMeshShape()</code> method
+creates a collision shape suitable for a static rigid body.
+It constructs a
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a>
+for each <code>TerrainQuad</code> and <code>TerrainPatch</code> in the model.
+It constructs a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MeshCollisionShape.html"><code>MeshCollisionShape</code></a>
+for each non-terrain geometry in the model.
+And if the model&#8217;s root spatial is a node,
+it combines all the heightfields and mesh shapes into a single compound shape.</p>
+</div>
+<div class="paragraph">
+<p>The <code>createMergedMeshShape()</code> method
+creates a simple <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MeshCollisionShape.html"><code>MeshCollisionShape</code></a>
+suitable for a static rigid body.
+Unlike <code>createMeshShape()</code>, it ignores terrain.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_for_dynamic_bodies"><a class="anchor" href="#_for_dynamic_bodies"></a>For dynamic bodies</h3>
+<div class="paragraph">
+<p>Faced with the task of simulating a non-convex rigid body
+(such as a cross or ring),
+it&#8217;s best to decompose it into convex shapes that,
+when recombined, will approximate the desired behavior.</p>
+</div>
+<div class="paragraph">
+<p>There are various approaches,
+depending how much the developer knows about the object&#8217;s shape.
+If the model&#8217;s mesh is generated procedurally, it may be possible
+to decompose it during the generation process.
+Or if the object is modeled in Blender,
+it may be practical to manually decompose it there
+into meshes that are convex or nearly so.
+In both cases, the desired compound shape can then be generated using
+<code>createDynamicMeshShape()</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_meshes_already_decomposed"><a class="anchor" href="#_meshes_already_decomposed"></a>Meshes already decomposed</h4>
+<div class="paragraph">
+<p>The <code>createDynamicMeshShape()</code> method
 creates a collision shape suitable for a dynamic rigid body.
 It constructs a hull shape for each geometry,
 and if the model&#8217;s root spatial is a node,
@@ -886,39 +939,9 @@ which might not be a plausible location for it.</p>
 </li>
 </ol>
 </div>
-<div class="paragraph">
-<p>The <code>createMeshShape()</code> method
-creates a collision shape suitable for a static rigid body.
-It constructs a
-<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/HeightfieldCollisionShape.html"><code>HeightfieldCollisionShape</code></a>
-for each <code>TerrainQuad</code> and <code>TerrainPatch</code> in the model.
-It constructs a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MeshCollisionShape.html"><code>MeshCollisionShape</code></a>
-for each non-terrain geometry in the model.
-And if the model&#8217;s root spatial is a node,
-it combines all the heightfields and hulls into a single compound shape.</p>
 </div>
-<div class="paragraph">
-<p>When generating compound shapes, both these methods skip over any geometries
-that have the "JmePhysicsIgnore" user-data key set to <code>true</code>.</p>
-</div>
-<div class="sect2">
-<h3 id="_convex_decomposition"><a class="anchor" href="#_convex_decomposition"></a>Convex decomposition</h3>
-<div class="paragraph">
-<p>Faced with the task of simulating a non-convex rigid body (such as a ring),
-it&#8217;s best to decompose it into convex shapes that,
-when recombined, will approximate the desired behavior.</p>
-</div>
-<div class="paragraph">
-<p>There are various approaches,
-depending how much the developer knows about the object&#8217;s shape.
-If the model&#8217;s mesh is generated procedurally, it may be possible
-to decompose it during the generation process.
-Or if the object is modeled in Blender,
-it may be practical to manually decompose it there
-into meshes that are convex or nearly so.
-In both cases, the desired compound shape can then be generated using
-<code>createDynamicMeshShape()</code>.</p>
-</div>
+<div class="sect3">
+<h4 id="_automated_decomposition"><a class="anchor" href="#_automated_decomposition"></a>Automated decomposition</h4>
 <div class="paragraph">
 <p>For situations where manual decomposition is impractical,
 Minie incorporates Khaled Mamou&#8217;s
@@ -938,6 +961,7 @@ CollisionShape shape
 be run in advance and the output stored in J3O format until needed.
 During simulation, the resulting shape will usually be much far efficient
 than a GImpact shape.</p>
+</div>
 </div>
 </div>
 </div>
@@ -977,7 +1001,8 @@ make sure its center and principal axes are plausible.</p>
 </li>
 <li>
 <p>To speed up simulation of objects with non-convex shapes,
-decompose them into convex ones, either during construction or using V-HACD.</p>
+decompose them into convex ones,
+either during model construction or using V-HACD.</p>
 </li>
 </ul>
 </div>
