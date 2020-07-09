@@ -182,7 +182,7 @@ assert convexClass == isConvex;
 
 NOTE: In this context, "convex" is a property of classes, not instances.
 While specific *instances* of non-convex classes have the convex property,
-they don't guarantee it for *all* instances.
+those classes don't guarantee it for *all* instances.
 
 _Concave_ is essentially the opposite of convex, except that compound shapes
 are regarded as neither convex nor concave.
@@ -197,7 +197,9 @@ and
 {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
 incorporate a _margin_, a narrow zone near the surface of the shape.
 (The word _margin_ refers to both the zone and its thickness.)
-According to the Bullet Manual, the purpose of margin is
+According to
+https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf[the Bullet User Manual],
+the purpose of margin is
 "to improve performance and reliability of the collision detection."
 
 For all shapes with margin, the default thickness is 0.04 physics-space units.
@@ -211,7 +213,7 @@ A _precise shape_ is a collision shape whose _effective shape_
 (observed in collisions, contact tests, ray tests, and sweep tests)
 is unaffected by margin.
 
-While most collision-shape subtypes are precise, 5 are not.
+While most collision-shape subtypes are precise, 5 of them are not.
 For 4 of them, margin simply expands their effective shapes:
 
 . {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`]
@@ -249,11 +251,13 @@ so as to make the effects of margin less obvious.
 Not all collision shapes are suitable for dynamic rigid bodies.
 
 For instance,
-collision detection doesn't work well between zero-thickness shapes such as:
+collision detection is unreliable between zero-thickness shapes such as:
 
 * {url-shape}/Box2dShape.html[`Box2dShape`],
 * {url-shape}/Convex2dShape.html[`Convex2dShape`],
 * {url-shape}/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`],
+* {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
+  with 1-to-3 vertices,
 * {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`], and
 * {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
   with 1-to-3 vertices.
@@ -292,19 +296,21 @@ Things to notice while running the app:
 . Unlike a real mallet, the body's center of mass (visualized by 3 arrows)
   is located at the end of its handle.
 . After landing, the mallet tends to stand erect.
-  Although this position seems unnatural, it is the precisely the one
+  Although this orientation seems unnatural, it is the precisely the one
   that minimizes the mallet's
   {url-enwiki}/Gravitational_potential[gravitational potential].
 
 The following classes
 can be used to generate asymmetric shapes for rigid bodies:
 
-* {url-shape}/CompoundCollisionShape.html[`CompoundCollisionShape`],
 * {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`],
-* {url-shape}/HullCollisionShape.html[`HullCollisionShape`],
-* {url-shape}/MultiSphere.html[`MultiSphere`], and
+* {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
+  with 4 or more vertices,
+* {url-shape}/MultiSphere.html[`MultiSphere`],
 * {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
-  with 4 vertices.
+  with 4 vertices, and
+* {url-shape}/CompoundCollisionShape.html[`CompoundCollisionShape`]
+  with suitable children.
 
 In the case of a
 {url-shape}/CompoundCollisionShape.html[`CompoundCollisionShape`],
@@ -318,7 +324,7 @@ Things to notice while running the app:
 . This time, the mallet's center of mass (visualized by 3 arrows)
   lies much closer to the head, in a very plausible location.
 . After landing, the mallet comes to rest on its side,
-  which is the most natural behavior for a mallet.
+  which is a natural orientation for a mallet.
 
 Note: The `principalAxes()` method relies on each child having an accurate
 center, axes, and moment of inertia.
@@ -360,14 +366,14 @@ if (shape.canScale(newScale)) {
 
 For efficient simulation, the general rule is:
 "Use the simplest shape that yields the desired *behavior*."
-Focusing on behavior rather than appearance
+Focusing on behavior (rather than appearance)
 helps you avoid simulating details that don't matter.
 For instance:
 
 * A character's hair should probably be omitted from their collision shape.
 * Any small object that only encounters large, flat surfaces
   can probably be approximated by a convex hull.
-* If a transparent container remains sealed,
+* If a container remains sealed,
   its collision shape need not be hollow.
 
 Because JMonkeyEngine models are composed of triangle meshes,
@@ -376,7 +382,7 @@ beginners are often tempted to use mesh-based shapes
 for everything.
 However, since mesh-based collision detection is CPU-intensive,
 simpler shapes are often a better choice,
-even when they don't match the model's shape closely.
+even when they don't closely match the model's shape.
 In particular, capsule shapes are often used for humanoid models.
 
 The following pseudo-code algorithm may be helpful:
@@ -444,18 +450,10 @@ should be your last resort!
 The {url-api}/util/CollisionShapeFactory.html[`CollisionShapeFactory`] class
 automates the creation of collision shapes for models.
 
-Its `createDynamicMeshShape()` method
-creates a collision shape suitable for a dynamic rigid body.
-It constructs a hull shape for each geometry,
-and if the model's root spatial is a node,
-it combines all the hulls into a single compound shape.
+By convention, all factory methods skip over geometries
+that have the "JmePhysicsIgnore" user-data key set to `true`.
 
-This approach comes with 3 caveats:
-
-. For good fidelity, each mesh in the model must be convex or nearly so.
-. The center of the resulting collision shape is at the model's origin,
-  which might not be a plausible location for it.
-. It's often possible to generate a more efficient shape by hand.
+=== For static bodies
 
 The `createMeshShape()` method
 creates a collision shape suitable for a static rigid body.
@@ -465,14 +463,17 @@ for each `TerrainQuad` and `TerrainPatch` in the model.
 It constructs a {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`]
 for each non-terrain geometry in the model.
 And if the model's root spatial is a node,
-it combines all the heightfields and hulls into a single compound shape.
+it combines all the heightfields and mesh shapes into a single compound shape.
 
-When generating compound shapes, both these methods skip over any geometries
-that have the "JmePhysicsIgnore" user-data key set to `true`.
+The `createMergedMeshShape()` method
+creates a simple {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`]
+suitable for a static rigid body.
+Unlike `createMeshShape()`, it ignores terrain.
 
-=== Convex decomposition
+=== For dynamic bodies
 
-Faced with the task of simulating a non-convex rigid body (such as a ring),
+Faced with the task of simulating a non-convex rigid body
+(such as a cross or ring),
 it's best to decompose it into convex shapes that,
 when recombined, will approximate the desired behavior.
 
@@ -485,6 +486,23 @@ it may be practical to manually decompose it there
 into meshes that are convex or nearly so.
 In both cases, the desired compound shape can then be generated using
 `createDynamicMeshShape()`.
+
+==== Meshes already decomposed
+
+The `createDynamicMeshShape()` method
+creates a collision shape suitable for a dynamic rigid body.
+It constructs a hull shape for each geometry,
+and if the model's root spatial is a node,
+it combines all the hulls into a single compound shape.
+
+This approach comes with 3 caveats:
+
+. For good fidelity, each mesh in the model must be convex or nearly so.
+. The center of the resulting collision shape is at the model's origin,
+  which might not be a plausible location for it.
+. It's often possible to generate a more efficient shape by hand.
+
+==== Automated decomposition
 
 For situations where manual decomposition is impractical,
 Minie incorporates Khaled Mamou's
@@ -519,4 +537,5 @@ than a GImpact shape.
   make sure its center and principal axes are plausible.
 * Use the simplest shape that yields the desired behavior.
 * To speed up simulation of objects with non-convex shapes,
-  decompose them into convex ones, either during construction or using V-HACD.
+  decompose them into convex ones,
+  either during model construction or using V-HACD.
