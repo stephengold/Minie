@@ -15,10 +15,16 @@ that exhibits some familiar features of real-world objects, including:
 * _rigidity_: a fixed shape and
 * {url-enwiki}/Inertia[_inertia_]: resistance to changes of motion.
 
-The simplest way to create a rigid body
-is to directly invoke the
+The simplest way to create a rigid body is to directly invoke the
 {url-api}/objects/PhysicsRigidBody.html[`PhysicsRigidBody`] constructor.
-This allows you to specify its mass and collision shape.
+A common alternative to direct construction
+is to create a `RigidBodyControl` (RBC).
+`RigidBodyControl` has
+its own xref:minie-library-tutorials:rbc.adoc[tutorial page].
+However, that page assumes familiarity with the concepts introduced here.
+
+The {url-api}/objects/PhysicsRigidBody.html[`PhysicsRigidBody`] constructor
+allows you to specify the new body's mass and collision shape.
 Together, these properties determine its
 {url-enwiki}/Moment_of_inertia[_moment of inertia_]:
 
@@ -44,7 +50,7 @@ By default, rigid bodies also exhibit 3 other features of real-world objects:
 * They exhibit _contact response_:
   powerful forces prevent them from intersecting other bodies.
 
-However, these last 3 features are optional and can be disabled.
+However, these last 3 features are optional and can easily be disabled.
 
 === HelloRigidBody
 
