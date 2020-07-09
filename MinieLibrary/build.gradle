@@ -63,6 +63,7 @@ ext {
         btfMacOSX64 = 'ReleaseSp'
         btfWindows32 = 'ReleaseSp'
         btfWindows64 = 'ReleaseSp'
+
         metadata = jmeTarget
     }
 

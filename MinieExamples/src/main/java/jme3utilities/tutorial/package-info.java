@@ -25,6 +25,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * Short/simple code examples, intended to help users learn how to use Minie.
+ * Short/simple code examples, intended to help beginners learn how to use
+ * Minie.
  */
 package jme3utilities.tutorial;
