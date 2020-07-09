@@ -1,5 +1,6 @@
 *.dll
 *.dylib
+*.pdb
 *.so
 /.gradle/
 /.nb-gradle/
