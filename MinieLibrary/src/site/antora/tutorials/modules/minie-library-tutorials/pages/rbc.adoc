@@ -100,7 +100,7 @@ and the scale of the body's collision shape.
 
 To synchronize those scales, use `setApplyScale(true)`.
 
-{url-tutorial}/HelloApplyScale.java[HelloKinematicRbc] is a simple
+{url-tutorial}/HelloApplyScale.java[HelloApplyScale] is a simple
 application that demonstrates `setApplyScale()`.
 Things to notice while running the app:
 
