@@ -245,10 +245,17 @@ that exhibits some familiar features of real-world objects, including:</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The simplest way to create a rigid body
-is to directly invoke the
+<p>The simplest way to create a rigid body is to directly invoke the
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsRigidBody.html"><code>PhysicsRigidBody</code></a> constructor.
-This allows you to specify its mass and collision shape.
+A common alternative to direct construction
+is to create a <code>RigidBodyControl</code> (RBC).
+<code>RigidBodyControl</code> has
+its own <a href="rbc.html" class="page">tutorial page</a>.
+However, that page assumes familiarity with the concepts introduced here.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsRigidBody.html"><code>PhysicsRigidBody</code></a> constructor
+allows you to specify the new body&#8217;s mass and collision shape.
 Together, these properties determine its
 <a href="https://en.wikipedia.org/wiki/Moment_of_inertia"><em>moment of inertia</em></a>:</p>
 </div>
@@ -285,7 +292,7 @@ powerful forces prevent them from intersecting other bodies.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>However, these last 3 features are optional and can be disabled.</p>
+<p>However, these last 3 features are optional and can easily be disabled.</p>
 </div>
 <div class="sect2">
 <h3 id="_hellorigidbody"><a class="anchor" href="#_hellorigidbody"></a>HelloRigidBody</h3>
