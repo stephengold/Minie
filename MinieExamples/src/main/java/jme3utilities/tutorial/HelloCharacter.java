@@ -129,7 +129,7 @@ public class HelloCharacter
 
         Material greenMaterial = createLitMaterial(0f, 1f, 0f);
         ground.setDebugMaterial(greenMaterial);
-        character.setDebugMeshNormals(DebugMeshNormals.Facet);
+        ground.setDebugMeshNormals(DebugMeshNormals.Facet);
 
         // Minie's BulletAppState simulates the dynamics...
     }
