@@ -42,6 +42,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -472,10 +473,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Alter this character's maximum slope angle.
      *
-     * @param slopeRadians the desired angle relative to the horizontal (in
-     * radians, default=Pi/4)
+     * @param slopeRadians the desired angle above to the horizontal plane (in
+     * radians, &ge;0, &le;Pi/2, default=Pi/4)
      */
     public void setMaxSlope(float slopeRadians) {
+        Validate.inRange(slopeRadians, "slope radians", 0f, FastMath.HALF_PI);
         controller.setMaxSlope(slopeRadians);
     }
 
