@@ -231,9 +231,11 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <em>physics character</em> is a type of collision object
-used to model game characters walking, jumping, and falling.
-The model makes many simplifying assumptions:</p>
+<p>A <em>physics character</em> is a collision object
+used to simulate game characters walking, jumping, and falling.</p>
+</div>
+<div class="paragraph">
+<p>The standard physics character makes some simplifying assumptions:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -245,7 +247,7 @@ The model makes many simplifying assumptions:</p>
 no sitting, squatting, ducking, or lying down.</p>
 </li>
 <li>
-<p>The model places limits on:</p>
+<p>Limits are placed on:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -263,27 +265,35 @@ no sitting, squatting, ducking, or lying down.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Like a rigid body, a physics character has a collision shape, a location, and
+<p>Like a dynamic rigid body,
+a physics character has a collision shape, a location, and
 a gravity vector, along with velocities and damping parameters.
-It also has an optional contact response, which is enabled by default.
-However, it has no concept of mass,
-and its motion is controlled very differently from a rigid body.
-Instead of applying forces or directly setting the character&#8217;s velocities,
-the app must tell the character when and how to walk and jump.</p>
+It also has an optional contact response, which is enabled by default.</p>
 </div>
 <div class="paragraph">
-<p>You can create a character directly by invoking the
+<p>However, a physics character has no concept of mass,
+and its motion is controlled very differently from a dynamic body.
+Instead of applying forces or directly updating the character&#8217;s velocities,
+the app should specify when and how the character should walk and jump.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_direct_creation"><a class="anchor" href="#_direct_creation"></a>Direct creation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can create a character by directly invoking the
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsCharacter.html"><code>PhysicsCharacter</code></a> constructor.
 This allows you to specify its collision shape and step height.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloCharacter.java">HelloCharacter</a> is a simple
 application that demonstrates the direct creation of a character,
-followed by jumping motions.
+followed by automated jumps.
 Things to notice about the app:</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>The constructor requires a convex shape.
 In this app, a capsule is used.</p>
@@ -294,21 +304,21 @@ so the app uses debug visualization
 to reveal what is occurring in physics space.</p>
 </li>
 <li>
-<p>The <code>onGround()</code> method tests whether the character is standing
-on a solid surface (as opposed to falling).</p>
+<p>The <code>onGround()</code> method tests whether the character is supported
+by a solid surface (as opposed to jumping or falling).</p>
 </li>
-</ul>
+</ol>
+</div>
+<div class="paragraph">
+<p>Since directly created characters don&#8217;t look like much,
+they are mostly used to represent players in single-player games
+with a first-person viewpoint.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_charactercontrol"><a class="anchor" href="#_charactercontrol"></a>CharacterControl</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Since directly created characters don&#8217;t look like much,
-they are typically used to represent players in single-player games
-with a first-person viewpoint.</p>
-</div>
 <div class="paragraph">
 <p>To associate a character with a spatial, there&#8217;s a
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/CharacterControl.html"><code>CharacterControl</code></a> class
@@ -323,19 +333,21 @@ interface.</p>
 </td>
 <td class="content">
 For a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/CharacterControl.html"><code>CharacterControl</code></a>,
-the control and its collision object are <strong>not</strong> the same object!
-The collision object isn&#8217;t created until the control is added to a spatial.
+the physics control and its collision object are <strong>not</strong> the same object!
+In fact, no collision object is created until the control is added to a spatial.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>To access the collision object
-associated with a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/CharacterControl.html"><code>CharacterControl</code></a>,
+<p>To access the collision object associated with a control,
 use <code>characterControl.getCharacter()</code>.
-To access the <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/CharacterControl.html"><code>CharacterControl</code></a>
-associated with a collision object,
-use <code>(CharacterControl) character.getUserObject()</code>.</p>
+To access the control associated with a collision object, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">(CharacterControl) character.getUserObject();</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloCharacterControl.java">HelloCharacterControl</a>
@@ -348,19 +360,19 @@ the creation of a <a href="https://stephengold.github.io/Minie/javadoc/master/co
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>The control&#8217;s collision shape is a capsule.</p>
+<p>The character&#8217;s collision shape is a capsule.</p>
 </li>
 <li>
 <p>The center of the Jaime model is located between its feet.
 If the control were directly attached to the model,
 its capsule shape would be off-center.
-In order to match the physics to the model, the control is attached instead
-to a <code>centerNode</code> located in Jaime&#8217;s chest.</p>
+In order to match the model to the physics, the control is attached instead
+to a <code>centerNode</code> located near Jaime&#8217;s chest.</p>
 </li>
 <li>
 <p>Because control provides convenience methods
 such as <code>onGround()</code> and <code>jump()</code>,
-the app never accesses the physics character directly.</p>
+the app never accesses the collision object directly.</p>
 </li>
 </ol>
 </div>
@@ -370,15 +382,171 @@ the app never accesses the physics character directly.</p>
 <h2 id="_walking"><a class="anchor" href="#_walking"></a>Walking</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>A character&#8217;s walking motion is controlled by its <em>walk direction</em> vector.
+On each physics tick, the horizontal component of the walk direction
+gets added to the character&#8217;s location.
+To stop the character from walking, invoke <code>setWalkDirection(Vector3f.ZERO)</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Despite its name, the walk direction need not be a unit vector.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloWalk.java">HelloWalk</a> demonstrates
+keyboard-controlled motion of a physics character.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Move the mouse to turn the camera.</p>
+</li>
+<li>
+<p>Because the app uses a first-person camera, the character is invisible.
+Nonetheless, the character&#8217;s <strong>shadow</strong> can be seen. Find it!</p>
+</li>
+<li>
+<p>Press <kbd>Space bar</kbd> to jump.</p>
+</li>
+<li>
+<p>Press <kbd>W</kbd> to walk in the camera&#8217;s forward direction.</p>
+</li>
+<li>
+<p>Some of the mountains have slopes too steep for the character to climb.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_tunable_parameters"><a class="anchor" href="#_tunable_parameters"></a>Tunable parameters</h2>
+<h2 id="_configuration"><a class="anchor" href="#_configuration"></a>Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>The configuration parameters described in this section
+apply to both <code>PhysicsCharacter</code> and <code>CharacterControl</code>.
+The control provides convenience methods to get/set some of these parameters.
+The rest may be accessed by way of <code>characterControl.getCharacter()</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_gravity_and_up_direction"><a class="anchor" href="#_gravity_and_up_direction"></a>Gravity and up direction</h3>
+<div class="paragraph">
+<p>The <em>up direction</em> of a physics character is a unit vector
+that points in the direction opposite its gravity vector.
+By default, the up direction is (0,1,0) and
+the gravity vector is (0,-29.4,0).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A character&#8217;s default gravity is 3x stronger
+than the default gravity of a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Unlike the gravity of a rigid body, a character&#8217;s gravity is never
+overridden by any physics space.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To alter a character&#8217;s gravity vector,
+use <code>character.setGravity(gravityVector)</code>.</p>
+</div>
+<div class="paragraph">
+<p>Altering the gravity vector automatically updates the character&#8217;s up direction.
+To alter the <strong>magnitude</strong> of a character&#8217;s gravity
+(without changing its direction) use <code>character.setGravity(g)</code>.</p>
+</div>
+<div class="paragraph">
+<p>To alter a character&#8217;s up direction, use <code>character.setUp(upVector)</code>.
+Altering the up direction automatically updates the gravity vector.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jump_speed"><a class="anchor" href="#_jump_speed"></a>Jump speed</h3>
+<div class="paragraph">
+<p>If a character jumps in its up direction,
+its predicted rise time and jump height
+are determined by its gravity and jump speed.
+Roughly speaking:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">float g = character.getGravity(null).length();
+float v0 = character.getJumpSpeed();
+float riseSeconds = v0 / g;
+float jumpHeight = v0 * v0 / (2f * g);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The default jump speed is 10 psu per second.
+To alter a character&#8217;s jump speed, use <code>character.setJumpSpeed(speed)</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fall_speed"><a class="anchor" href="#_fall_speed"></a>Fall speed</h3>
+<div class="paragraph">
+<p><em>Fall speed</em> limits the speed of a falling character.
+To be realistic, it should be larger than the character&#8217;s jump speed.</p>
+</div>
+<div class="paragraph">
+<p>The default fall speed is 55 psu per second.
+To alter a character&#8217;s fall speed, use <code>character.setFallSpeed(speed)</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_height"><a class="anchor" href="#_step_height"></a>Step height</h3>
+<div class="paragraph">
+<p><em>Step height</em> limits how high a step the character can climb.
+To be realistic, it should be less than the character&#8217;s height.</p>
+</div>
+<div class="paragraph">
+<p>A character&#8217;s initial step height is set by the constructor.
+To alter it, use <code>character.setStepHeight()</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_maximum_slope"><a class="anchor" href="#_maximum_slope"></a>Maximum slope</h3>
+<div class="paragraph">
+<p><em>Maximum slope</em> limits how steep a slope the character can climb.
+It is expressed as an angle in radians relative to the horizontal plane.</p>
+</div>
+<div class="paragraph">
+<p>The default maximum slope is &#960;/4, indicating a 45-degree angle.
+To alter it, use <code>character.setMaxSlope(angle)</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_contact_response"><a class="anchor" href="#_contact_response"></a>Contact response</h3>
+<div class="paragraph">
+<p>As with a rigid body, you can disable the contact response of a character using
+<code>character.setContactResponse(false)</code>.</p>
+</div>
+<div class="paragraph">
+<p>Disabling a character&#8217;s contact response
+will compel it to fall, at least until contact response is re-enabled.</p>
+</div>
 </div>
 </div>
 </div>
@@ -386,15 +554,94 @@ the app never accesses the physics character directly.</p>
 <h2 id="_bettercharactercontrol"><a class="anchor" href="#_bettercharactercontrol"></a>BetterCharacterControl</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>Many limitations of
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsCharacter.html"><code>PhysicsCharacter</code></a> and
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/CharacterControl.html"><code>CharacterControl</code></a>
+are hardcoded into Bullet.
+To work around these limitations,
+you may wish to implement your own physics controls for characters.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/BetterCharacterControl.html"><code>BetterCharacterControl</code></a>
+is a custom character control that implements ducking and look direction.
+You can use it as a model for implementing your own physics controls.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+BetterCharacterControl is based
+on <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsRigidBody.html"><code>PhysicsRigidBody</code></a>,
+not <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsCharacter.html"><code>PhysicsCharacter</code></a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_related_demo_apps"><a class="anchor" href="#_related_demo_apps"></a>Related demo apps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Jme3Examples subproject contains several demo apps
+that showcase physics characters.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestQ3.java">The <code>TestQ3</code> demo app</a> demonstrates
+a first-person walkthough of a fictitious ancient temple.
+It uses a directly created <code>PhysicsCharacter</code>.</p>
+</li>
+<li>
+<p>The <a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestPhysicsCharacter.java"><code>TestPhysicsCharacter</code></a>
+and <a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestWalkingChar.java"><code>TestWalkingChar</code></a>
+demo apps use <code>CharacterControl</code>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>TestWalkingCharacter demonstrates the Oto model walking and shooting,
+with appropriate skeleton animations.</p>
+</li>
+<li>
+<p>TestPhysicsCharacter demonstrates the Sinbad model walking and jumping,
+but doesn&#8217;t use skeleton animations.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestBetterCharacter.java">The <code>TestBetterCharacter</code> demo app</a>
+demonstrates the Jaime model walking, jumping, and ducking.
+It uses <code>BetterCharacterControl</code>.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>TODO</p>
+<div class="ulist">
+<ul>
+<li>
+<p>A physics character simulates a game character walking, jumping, and falling.</p>
+</li>
+<li>
+<p>To associate a character with a spatial, use <code>CharacterControl</code>.</p>
+</li>
+<li>
+<p>For <code>CharacterControl</code>, the physics control
+and its collision object are <strong>not</strong> the same object!</p>
+</li>
+<li>
+<p>If the build-in character controls don&#8217;t meet your needs,
+you can implement your own.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
