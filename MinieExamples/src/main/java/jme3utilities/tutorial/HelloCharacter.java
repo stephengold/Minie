@@ -97,7 +97,7 @@ public class HelloCharacter
     public void simpleInitApp() {
         PhysicsSpace physicsSpace = configurePhysics();
 
-        // Create a character with a capsule shape.
+        // Create a character with a capsule shape and add it to the space.
         float characterRadius = 0.5f;
         float characterHeight = 1f;
         CapsuleCollisionShape characterShape
@@ -106,20 +106,10 @@ public class HelloCharacter
         character = new PhysicsCharacter(characterShape, stepHeight);
         physicsSpace.addCollisionObject(character);
 
-        // Create a static square to represent the ground.
+        // Add a square to represent the ground.
         float halfExtent = 4f;
-        Box2dShape boxShape = new Box2dShape(halfExtent);
-        PhysicsRigidBody ground
-                = new RigidBodyControl(boxShape, PhysicsBody.massForStatic);
-        physicsSpace.addCollisionObject(ground);
-
-        // Rotate it 90 degrees to a horizontal orientation.
-        Matrix3f rotate90 = new Matrix3f();
-        rotate90.fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_X);
-        ground.setPhysicsRotation(rotate90);
-
-        // Lower the ground level by 2 physics-space units.
-        ground.setPhysicsLocation(new Vector3f(0f, -2f, 0f));
+        float y = -2f;
+        PhysicsRigidBody ground = addSquare(halfExtent, y, physicsSpace);
 
         // Customize the debug visualization of each object.
         Material redMaterial = createLitMaterial(1f, 0f, 0f);
@@ -194,6 +184,34 @@ public class HelloCharacter
         // Set the viewport's background color to light blue.
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
+    }
+
+    /**
+     * Add a horizontal square body to the specified PhysicsSpace.
+     *
+     * @param halfExtent (half of the desired side length)
+     * @param y (the desired elevation, in physics-space coordinates)
+     * @param physicsSpace (not null)
+     * @return the new body (not null)
+     */
+    private PhysicsRigidBody addSquare(float halfExtent, float y,
+            PhysicsSpace physicsSpace) {
+        // Construct a static rigid body with a square shape.
+        Box2dShape shape = new Box2dShape(halfExtent);
+        PhysicsRigidBody result
+                = new RigidBodyControl(shape, PhysicsBody.massForStatic);
+
+        physicsSpace.addCollisionObject(result);
+
+        // Rotate it 90 degrees to a horizontal orientation.
+        Matrix3f rotate90 = new Matrix3f();
+        rotate90.fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_X);
+        result.setPhysicsRotation(rotate90);
+
+        // Translate it to the desired elevation.
+        result.setPhysicsLocation(new Vector3f(0f, y, 0f));
+
+        return result;
     }
 
     /**

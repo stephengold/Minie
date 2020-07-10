@@ -120,26 +120,10 @@ public class HelloCharacterControl
         centerNode.addControl(characterControl);
         physicsSpace.add(characterControl);
 
-        // Create a static square to represent the ground
-        // and attach it to the scene.
-        float halfExtent = 4f; // mesh units
-        Mesh groundMesh = new Quad(2 * halfExtent, 2 * halfExtent);
-        Geometry ground = new Geometry("ground", groundMesh);
-        Material grassyMaterial = createGrassyMaterial();
-        ground.setMaterial(grassyMaterial);
-        ground.setShadowMode(RenderQueue.ShadowMode.Receive);
-        ground.rotate(-FastMath.HALF_PI, 0f, 0f);
-        ground.move(-halfExtent, 0f, halfExtent);
-        rootNode.attachChild(ground);
-
-        // Lower the ground level by 2 physics-space units.
-        ground.move(0f, -2f, 0f);
-
-        // Add a static RBC to the ground, to make it solid.
-        RigidBodyControl groundRbc
-                = new RigidBodyControl(PhysicsBody.massForStatic);
-        ground.addControl(groundRbc);
-        physicsSpace.addCollisionObject(groundRbc);
+        // Add a square to represent the ground.
+        float halfExtent = 4f;
+        float y = -2f;
+        addSquare(halfExtent, y, physicsSpace);
 
         // Add lighting.
         addLighting(rootNode);
@@ -208,6 +192,36 @@ public class HelloCharacterControl
     }
 
     /**
+     * Attach a horizontal square to the scene and also to the specified
+     * PhysicsSpace.
+     *
+     * @param halfExtent (half of the desired side length)
+     * @param y (the desired elevation, in physics-space coordinates)
+     * @param physicsSpace (not null)
+     */
+    private void addSquare(float halfExtent, float y,
+            PhysicsSpace physicsSpace) {
+        // Add a Quad to the scene.
+        Mesh quad = new Quad(2 * halfExtent, 2 * halfExtent);
+        Geometry geometry = new Geometry("square", quad);
+        Material material = createGrassyMaterial();
+        geometry.setMaterial(material);
+        geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
+        rootNode.attachChild(geometry);
+
+        // Rotate it 90 degrees to a horizontal orientation.
+        geometry.rotate(-FastMath.HALF_PI, 0f, 0f);
+
+        // Translate it to the desired elevation.
+        geometry.move(-halfExtent, y, halfExtent);
+
+        // Add a static RBC to the Geometry, to make it solid.
+        RigidBodyControl rbc = new RigidBodyControl(PhysicsBody.massForStatic);
+        geometry.addControl(rbc);
+        physicsSpace.addCollisionObject(rbc);
+    }
+
+    /**
      * Configure physics during startup.
      */
     private PhysicsSpace configurePhysics() {
@@ -222,7 +236,7 @@ public class HelloCharacterControl
     }
 
     /**
-     * Generate a grassy lit material for the ground.
+     * Generate a grassy lit material.
      */
     private Material createGrassyMaterial() {
         Material result = new Material(assetManager, Materials.LIGHTING);
