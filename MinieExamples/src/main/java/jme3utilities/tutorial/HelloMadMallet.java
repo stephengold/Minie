@@ -39,6 +39,8 @@ import com.jme3.math.Vector3f;
 /**
  * A simple example of a dynamic rigid body with an implausible center.
  *
+ * Builds upon HelloStaticBody.
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloMadMallet extends SimpleApplication {

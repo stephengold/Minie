@@ -37,6 +37,8 @@ import com.jme3.math.Vector3f;
 /**
  * A simple example illustrating the effect of damping on dynamic rigid bodies.
  *
+ * Builds upon HelloRigidBody.
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloDamping extends SimpleApplication {

@@ -40,6 +40,8 @@ import jme3utilities.minie.FilterAll;
 /**
  * A simple example of non-uniform gravity.
  *
+ * Builds upon HelloRigidBody.
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloNonUniformGravity

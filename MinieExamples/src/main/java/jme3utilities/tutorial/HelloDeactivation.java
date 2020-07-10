@@ -39,6 +39,8 @@ import com.jme3.math.Vector3f;
 /**
  * A simple example of rigid-body deactivation.
  *
+ * Builds upon HelloStaticBody.
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloDeactivation
