@@ -1,22 +1,58 @@
 = An introduction to vehicle physics
 :page-pagination:
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
+:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
-The {url-api}/object/PhysicsVehicle.html[`PhysicsVehicle`]
-class (a subclass of {url-api}/object/PhysicsRigidBody.html[`PhysicsRigidBody`])
-provides a simplified physics model for vehicles.
+A _physics vehicle_ is a collision object
+used to simulate game vehicles driving on (or gliding over) smooth surfaces.
+
+The standard physics vehicle makes some simplifying assumptions:
+
+* A rigid chassis, supported by one or more wheels.
+* Acceleration and braking forces are applied to the chassis, not the wheels.
+* The wheels have no momentum, and as long as they touch the ground,
+  they don't lose traction.
+* Tire friction is calculated using a basic anisotropic friction model.
+* Engine power is unlimited. There is no transmission and no gearing.
+
+The chassis is simulated by a dynamic rigid body, with all the features thereof.
+On each time step, the vehicle controller casts physics rays
+to determine the height of each wheel's center above the ground.
+Those heights determine forces exerted on the chassis by the suspension.
+
+Instead of applying forces or directly updating the vehicles's velocities,
+apps should specify when and how the vehicle accelerates, steers, and brakes.
+
+== Direct creation
+
+You can create a vehicle without wheels by directly invoking the
+{url-api}/objects/PhysicsVehicle.html[`PhysicsVehicle`] constructor.
+This allows you to specify the shape and mass of the chassis.
+Before adding a vehicle to a physics space, you should add wheels to it.
+For stability, a vehicle needs at least 3 wheels, and the chassis center
+should be located between the wheels, more or less.
+
+{url-tutorial}/HelloVehicle.java[HelloVehicle] is a simple
+application that demonstrates the direct creation of a vehicle,
+followed by continuous steering and acceleration.
+Things to notice while running the app:
+
+. The vehicle has a wedge-shaped chassis.
+. The vehicle has 4 wheels, arranged in a rectangle.
+. The vehicle circles to the left,
+  accelerating until it "wipes out" and flips over.
+
+== VehicleControl
 
 To associate a vehicle with a `Spatial`, there's
 {url-api}/control/VehicleControl.html[`VehicleControl`],
 a physics control that extends
 {url-api}/objects/PhysicsVehicle.html[`PhysicsVehicle`].
 
-NOTE: Yet again, the physics control and its collision object
-are the same object.
+NOTE: As with {url-api}/control/RigidBodyControl.html[`RigidBodyControl`],
+the physics control and the collision object are the same object.
 
-== Constructors
-
-TODO
+TODO demo apps
 
 == Tunable parameters
 
