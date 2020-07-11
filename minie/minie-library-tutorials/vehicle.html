@@ -235,7 +235,7 @@
 used to simulate game vehicles driving on (or gliding over) smooth surfaces.</p>
 </div>
 <div class="paragraph">
-<p>The standard physics vehicle makes some simplifying assumptions:</p>
+<p>The standard physics vehicle makes many simplifying assumptions:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -247,10 +247,8 @@ used to simulate game vehicles driving on (or gliding over) smooth surfaces.</p>
 </li>
 <li>
 <p>The wheels have no momentum, and as long as they touch the ground,
-they don&#8217;t lose traction.</p>
-</li>
-<li>
-<p>Tire friction is calculated using a basic anisotropic friction model.</p>
+they don&#8217;t lose traction or "drift".
+Tire friction is calculated using a basic anisotropic friction model.</p>
 </li>
 <li>
 <p>Engine power is unlimited. There is no transmission and no gearing.</p>
@@ -260,11 +258,13 @@ they don&#8217;t lose traction.</p>
 <div class="paragraph">
 <p>The chassis is simulated by a dynamic rigid body, with all the features thereof.
 On each time step, the vehicle controller casts physics rays
-to determine the height of each wheel&#8217;s center above the ground.
-Those heights determine forces exerted on the chassis by the suspension.</p>
+to calculate the height of each wheel&#8217;s axis above the ground.
+Those heights are used to calculate the forces
+exerted on the chassis by the suspension.</p>
 </div>
 <div class="paragraph">
-<p>Instead of applying forces or directly updating the vehicles&#8217;s velocities,
+<p>Instead of directly applying force to the chassis
+or updating the vehicle&#8217;s velocities,
 apps should specify when and how the vehicle accelerates, steers, and brakes.</p>
 </div>
 </div>
@@ -277,7 +277,7 @@ apps should specify when and how the vehicle accelerates, steers, and brakes.</p
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsVehicle.html"><code>PhysicsVehicle</code></a> constructor.
 This allows you to specify the shape and mass of the chassis.
 Before adding a vehicle to a physics space, you should add wheels to it.
-For stability, a vehicle needs at least 3 wheels, and the chassis center
+For stability, a vehicle needs at least 3 wheels, and the chassis center of mass
 should be located between the wheels, more or less.</p>
 </div>
 <div class="paragraph">
@@ -296,7 +296,7 @@ Things to notice while running the app:</p>
 </li>
 <li>
 <p>The vehicle circles to the left,
-accelerating until it "wipes out" and flips over.</p>
+accelerating steadily until it "wipes out" and flips over.</p>
 </li>
 </ol>
 </div>
@@ -324,24 +324,322 @@ the physics control and the collision object are the same object.
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_related_demo_apps"><a class="anchor" href="#_related_demo_apps"></a>Related demo apps</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>TODO demo apps</p>
+<p>The Jme3Examples subproject contains 4 demo apps that showcase physics vehicles:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestPhysicsCar.java">The <code>TestPhysicsCar</code> app</a>
+demonstrates a <code>VehicleControl</code> with keyboard-controlled motion
+and debug visualization.</p>
+</li>
+<li>
+<p><a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestFancyCar.java">The <code>TestFancyCar</code> app</a>
+demonstrates a <code>VehicleControl</code> with keyboard-controlled motion
+and a textured model to visualize the chassis and wheels.</p>
+</li>
+<li>
+<p><a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestAttachDriver.java">The <code>TestAttachDriver</code> app</a>
+demonstrates attaching a rigid body to vehicle by means of a physics joint.
+This demo uses <code>VehicleControl</code>.</p>
+</li>
+<li>
+<p><a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestHoveringTank.java">The <code>TestHoveringTank</code> app</a>
+simulates a hovercraft traveling over rough terrain.
+In this demo, the "wheels" are invisible.
+This demo uses the <code>PhysicsHoverControl</code> custom vehicle control.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The first 3 demo apps share the following keyboard controls:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><kbd>U</kbd> to accelerate the vehicle</p>
+</li>
+<li>
+<p><kbd>H</kbd>/<kbd>K</kbd> to steer left/right</p>
+</li>
+<li>
+<p><kbd>J</kbd> to apply the brake</p>
+</li>
+<li>
+<p><kbd>W</kbd>/<kbd>A</kbd>/<kbd>S</kbd>/<kbd>D</kbd> to dolly the camera forward/left/back/right</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>TestHoveringTank</code> uses a different set of keyboard controls:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><kbd>W</kbd> to accelerate the vehicle</p>
+</li>
+<li>
+<p><kbd>A</kbd>/<kbd>D</kbd> to rotate the vehicle left/right</p>
+</li>
+<li>
+<p><kbd>S</kbd> to apply the brake</p>
+</li>
+<li>
+<p><kbd>Space bar</kbd> to fire the gun</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Most of the remaining keyboard controls are standardized:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><kbd>Return</kbd> restarts the simulation,</p>
+</li>
+<li>
+<p><kbd>F5</kbd> toggles visibility of the render-statistics overlay,</p>
+</li>
+<li>
+<p><kbd>C</kbd> dumps the camera&#8217;s position to the console,</p>
+</li>
+<li>
+<p><kbd>M</kbd> prints memory statistics to the console, and</p>
+</li>
+<li>
+<p><kbd>Esc</kbd> ends the application.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_tunable_parameters"><a class="anchor" href="#_tunable_parameters"></a>Tunable parameters</h2>
+<h2 id="_configuration_and_tuning"><a class="anchor" href="#_configuration_and_tuning"></a>Configuration and tuning</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>The physics vehicle model includes many details that
+can affect stability and/or realism.
+The complexity of the model
+often gets in the way of achieving the desired behavior.
+Kester Maddock has published
+<a href="https://docs.google.com/document/d/18edpOwtGgCwNyvakS78jxMajCuezotCU_0iezcwiFQc">a 16-page article on this subject</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_chassis_shape"><a class="anchor" href="#_chassis_shape"></a>Chassis shape</h3>
+<div class="paragraph">
+<p>Because the chassis is a dynamic rigid body,
+it requires a suitable collision shape.
+In particular:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>it should be 3-dimensional, and</p>
+</li>
+<li>
+<p>its center and local axes should be plausible.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A symmetrical collision shape
+will place the center of gravity rather high,
+resulting in a vehicle prone to tipping.
+To avoid this pitfall, use an asymmetrical shape such as a <code>HullCollisionShape</code>
+or a compound shape.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>By default, the local axes of the chassis are assigned as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>+X points left,</p>
+</li>
+<li>
+<p>+Y points up, and</p>
+</li>
+<li>
+<p>+Z points forward.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>However, the local-axis assignments can be customized
+to match a 3rd-party chassis model:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">VehicleController controller = vehicle.getController();
+controller.setCoordinateSystem(PhysicsSpace.AXIS_Z,
+                PhysicsSpace.AXIS_Y, PhysicsSpace.AXIS_X);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_maximum_suspension_force"><a class="anchor" href="#_maximum_suspension_force"></a>Maximum suspension force</h3>
+<div class="paragraph">
+<p>A vehicle&#8217;s suspension must support the weight of its chassis.
+If the maximum suspension force is set too low, the suspension will collapse,
+causing the chassis to scrape the ground.</p>
+</div>
+<div class="paragraph">
+<p>The default maximum suspension force is 6000 per wheel.
+For a vehicle with 4 wheels and a mass of 3000,
+the default is inadequate for a gravitational acceleration of 8 or more.
+And if the weight of the chassis is unevenly distributed among the wheels,
+the maximum forces might need to be increased accordingly.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_suspension_rest_length"><a class="anchor" href="#_suspension_rest_length"></a>Suspension rest length</h3>
+<div class="paragraph">
+<p><em>Rest length</em> is the length of a spring when no force is applied to it.
+If the rest lengths are too large,
+the chassis will seem to be jacked up on stilts
+and the vehicle will tend to tip, even when not moving.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_suspension_stiffness"><a class="anchor" href="#_suspension_stiffness"></a>Suspension stiffness</h3>
+<div class="paragraph">
+<p><em>Stiffness</em> is the force exerted by a spring divided by its change in length.
+If the suspension is too stiff,
+a small bump could cause the vehicle to bounce violently.
+If it isn&#8217;t stiff enough, a large bump could cause the chassis to "bottom out".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_suspension_damping"><a class="anchor" href="#_suspension_damping"></a>Suspension damping</h3>
+<div class="paragraph">
+<p>Each wheel has 2 suspension damping parameters,
+one for expansion and one for compression.
+The range of plausible values depends on the suspension stiffness,
+according to the formula in the javadoc:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">damping = 2f * k * FastMath.sqrt(stiffness);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where k is the suspension&#8217;s <em>damping ratio</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>k = 0: undamped and bouncy.</p>
+</li>
+<li>
+<p>k = 1: critically damped.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Good values of k are between 0.1 and 0.3.</p>
+</div>
+<div class="paragraph">
+<p>The default damping parameters of 0.83 and 0.88 are suitable for a
+chassis with the default stiffness of 5.88 (k=0.171 and 0.181, respectively).
+If you override the default stiffness,
+you should override the damping parameters as well.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_friction_slip"><a class="anchor" href="#_friction_slip"></a>Friction slip</h3>
+<div class="paragraph">
+<p>The <em>friction slip</em> parameter quantifies how much traction a tire has.
+Its effect is most noticable when the vehicle is braking.</p>
+</div>
+<div class="paragraph">
+<p>Too much traction could cause a vehicle to flip over if it braked hard.
+Too little traction would make braking ineffective,
+as if the tires were bald or the road were icy.</p>
+</div>
+<div class="paragraph">
+<p>The default value for friction slip is 10.5 .
+The <code>PhysicsHoverControl</code> custom control used in <code>TestHoveringTank</code> sets the
+friction slip to 0.001, making its brakes useless.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_roll_influence"><a class="anchor" href="#_roll_influence"></a>Roll influence</h3>
+<div class="paragraph">
+<p>The <em>roll-influence factor</em> reduces (or magnifies) torques
+that tend to cause vehicles to roll over.</p>
+</div>
+<div class="paragraph">
+<p>The default value of 1 yields realistic behavior.
+Reducing this parameter will improve stability, but it&#8217;s a bit of a hack;
+use it only as a last resort.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_advanced_vehicles"><a class="anchor" href="#_advanced_vehicles"></a>Advanced vehicles</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For further inspiration, look at
+<a href="https://jmonkeystore.com/4477514f-a3ae-4d42-b928-d3a62335159f">James Khan&#8217;s Advanced Vehicles demo</a>
+which includes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pacejka model for tire friction,</p>
+</li>
+<li>
+<p>multiple gears including reverse,</p>
+</li>
+<li>
+<p>sound effects,</p>
+</li>
+<li>
+<p>speedometer display,</p>
+</li>
+<li>
+<p>tachometer display, and</p>
+</li>
+<li>
+<p>skid marks.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>TODO</p>
+<div class="ulist">
+<ul>
+<li>
+<p>A physics vehicle simulates a game vehicle accelerating, steering, and braking
+on a smooth surface.</p>
+</li>
+<li>
+<p>To associate a vehicle with a spatial, use a <code>VehicleControl</code>.</p>
+</li>
+<li>
+<p>The vehicle model is highly simplified,
+yet its complexity often gets in the way of achieving the desired behavior.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
