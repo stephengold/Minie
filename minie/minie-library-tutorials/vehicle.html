@@ -231,10 +231,80 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/object/PhysicsVehicle.html"><code>PhysicsVehicle</code></a>
-class (a subclass of <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/object/PhysicsRigidBody.html"><code>PhysicsRigidBody</code></a>)
-provides a simplified physics model for vehicles.</p>
+<p>A <em>physics vehicle</em> is a collision object
+used to simulate game vehicles driving on (or gliding over) smooth surfaces.</p>
 </div>
+<div class="paragraph">
+<p>The standard physics vehicle makes some simplifying assumptions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A rigid chassis, supported by one or more wheels.</p>
+</li>
+<li>
+<p>Acceleration and braking forces are applied to the chassis, not the wheels.</p>
+</li>
+<li>
+<p>The wheels have no momentum, and as long as they touch the ground,
+they don&#8217;t lose traction.</p>
+</li>
+<li>
+<p>Tire friction is calculated using a basic anisotropic friction model.</p>
+</li>
+<li>
+<p>Engine power is unlimited. There is no transmission and no gearing.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The chassis is simulated by a dynamic rigid body, with all the features thereof.
+On each time step, the vehicle controller casts physics rays
+to determine the height of each wheel&#8217;s center above the ground.
+Those heights determine forces exerted on the chassis by the suspension.</p>
+</div>
+<div class="paragraph">
+<p>Instead of applying forces or directly updating the vehicles&#8217;s velocities,
+apps should specify when and how the vehicle accelerates, steers, and brakes.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_direct_creation"><a class="anchor" href="#_direct_creation"></a>Direct creation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can create a vehicle without wheels by directly invoking the
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsVehicle.html"><code>PhysicsVehicle</code></a> constructor.
+This allows you to specify the shape and mass of the chassis.
+Before adding a vehicle to a physics space, you should add wheels to it.
+For stability, a vehicle needs at least 3 wheels, and the chassis center
+should be located between the wheels, more or less.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloVehicle.java">HelloVehicle</a> is a simple
+application that demonstrates the direct creation of a vehicle,
+followed by continuous steering and acceleration.
+Things to notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The vehicle has a wedge-shaped chassis.</p>
+</li>
+<li>
+<p>The vehicle has 4 wheels, arranged in a rectangle.</p>
+</li>
+<li>
+<p>The vehicle circles to the left,
+accelerating until it "wipes out" and flips over.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_vehiclecontrol"><a class="anchor" href="#_vehiclecontrol"></a>VehicleControl</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>To associate a vehicle with a <code>Spatial</code>, there&#8217;s
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/VehicleControl.html"><code>VehicleControl</code></a>,
@@ -248,19 +318,14 @@ a physics control that extends
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Yet again, the physics control and its collision object
-are the same object.
+As with <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a>,
+the physics control and the collision object are the same object.
 </td>
 </tr>
 </table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_constructors"><a class="anchor" href="#_constructors"></a>Constructors</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>TODO demo apps</p>
 </div>
 </div>
 </div>
