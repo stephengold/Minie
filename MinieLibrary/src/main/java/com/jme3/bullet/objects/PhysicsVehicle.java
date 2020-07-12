@@ -383,8 +383,11 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * Determine the initial maximum suspension travel distance for new wheels.
      *
-     * @return the maximum distance the suspension can be compressed (in
-     * centimeters)
+     * Note that the units are centimeters ONLY if the physics-space unit is
+     * exactly one meter.
+     *
+     * @return the maximum amount a suspension can be compressed or expanded,
+     * relative to its rest length (in hundredths of a physics-space unit)
      */
     public float getMaxSuspensionTravelCm() {
         float result = tuning.getMaxSuspensionTravelCm();
@@ -558,8 +561,12 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * Effective only before adding wheels. After adding a wheel, use
      * {@link #setMaxSuspensionTravelCm(int, float)}.
      *
-     * @param maxSuspensionTravelCm the desired maximum distance the suspension
-     * can be compressed (in centimeters, default=500)
+     * Note that the units are centimeters ONLY if the physics-space unit is
+     * exactly one meter.
+     *
+     * @param maxSuspensionTravelCm the desired maximum amount a suspension can
+     * be compressed or expanded, relative to its rest length (in hundredths of
+     * a physics-space unit, default=500)
      */
     public void setMaxSuspensionTravelCm(float maxSuspensionTravelCm) {
         tuning.setMaxSuspensionTravelCm(maxSuspensionTravelCm);
@@ -568,9 +575,13 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * Alter the maximum suspension travel distance for the indexed wheel.
      *
+     * Note that the units are centimeters ONLY if the physics-space unit is
+     * exactly one meter.
+     *
      * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
-     * @param maxSuspensionTravelCm the desired maximum distance the suspension
-     * can be compressed (in centimeters, default=500)
+     * @param maxSuspensionTravelCm the desired maximum amount the suspension
+     * can be compressed or expanded, relative to its rest length (in hundredths
+     * of a physics-space unit, default=500)
      */
     public void setMaxSuspensionTravelCm(int wheelIndex,
             float maxSuspensionTravelCm) {

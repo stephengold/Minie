@@ -405,11 +405,14 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the travel distance for this wheel's suspension (native field:
-     * m_maxSuspensionTravelCm).
+     * Determine the maximum travel distance for this wheel's suspension (native
+     * field: m_maxSuspensionTravelCm).
      *
-     * @return the maximum travel distance (in hundredths of a physics-space
-     * unit)
+     * Note that the units are centimeters ONLY if the physics-space unit is
+     * exactly one meter.
+     *
+     * @return the maximum amount the suspension can be compressed or expanded,
+     * relative to its rest length (in hundredths of a physics-space unit)
      */
     public float getMaxSuspensionTravelCm() {
         return tuning.getMaxSuspensionTravelCm();
@@ -625,10 +628,14 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the travel distance for this wheel's suspension (native field:
-     * m_maxSuspensionTravelCm).
+     * Alter the maximum travel distance for this wheel's suspension (native
+     * field: m_maxSuspensionTravelCm).
      *
-     * @param travelCm the desired maximum travel distance (in hundredeths of a
+     * Note that the units are centimeters ONLY if the physics-space unit is
+     * exactly one meter.
+     *
+     * @param travelCm the desired maximum amount the suspension can be
+     * compressed or expanded, relative to its rest length (in hundredths of a
      * physics-space unit, default=500)
      */
     public void setMaxSuspensionTravelCm(float travelCm) {
