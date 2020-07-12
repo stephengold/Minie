@@ -331,10 +331,14 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Determine this vehicle's speed in km/h. The vehicle must be added to a
-     * PhysicsSpace.
+     * Determine this vehicle's forward velocity as of the previous time step.
+     * The vehicle must be added to a PhysicsSpace.
      *
-     * @return speed (in kilometers per hour, positive in the forward direction)
+     * Note that the units are kilometers per hour ONLY if the physics-space
+     * unit is exactly one meter.
+     *
+     * @return the forward component of the linear velocity (in physics-space
+     * units per 3.6 seconds, may be negative)
      */
     public float getCurrentVehicleSpeedKmHour() {
         assert isInWorld();
