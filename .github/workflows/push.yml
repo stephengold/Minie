@@ -49,6 +49,7 @@ jobs:
           java-version: 8
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
+        shell: bash
       - if: failure()
         uses: actions/upload-artifact@v2
         with:
@@ -97,6 +98,7 @@ jobs:
           java-version: 13
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
+        shell: bash
       - if: failure()
         uses: actions/upload-artifact@v2
         with:
@@ -145,6 +147,7 @@ jobs:
           java-version: 14
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
+        shell: bash
       - if: failure()
         uses: actions/upload-artifact@v2
         with:
