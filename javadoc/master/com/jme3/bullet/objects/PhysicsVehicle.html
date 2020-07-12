@@ -936,11 +936,14 @@ float&nbsp;impulse)</span></div>
 <section class="detail">
 <h3><a id="getMaxSuspensionTravelCm()">getMaxSuspensionTravelCm</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">float</span>&nbsp;<span class="memberName">getMaxSuspensionTravelCm</span>()</div>
-<div class="block">Determine the initial maximum suspension travel distance for new wheels.</div>
+<div class="block">Determine the initial maximum suspension travel distance for new wheels.
+
+ Note that the units are centimeters ONLY if the physics-space unit is
+ exactly one meter.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the maximum distance the suspension can be compressed (in
- centimeters)</dd>
+<dd>the maximum amount a suspension can be compressed or expanded,
+ relative to its rest length (in hundredths of a physics-space unit)</dd>
 </dl>
 </section>
 </li>
@@ -1128,11 +1131,15 @@ float&nbsp;maxSuspensionForce)</span></div>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setMaxSuspensionTravelCm</span>&#8203;(<span class="arguments">float&nbsp;maxSuspensionTravelCm)</span></div>
 <div class="block">Alter the initial maximum suspension travel distance for new wheels.
  Effective only before adding wheels. After adding a wheel, use
- <a href="#setMaxSuspensionTravelCm(int,float)"><code>setMaxSuspensionTravelCm(int, float)</code></a>.</div>
+ <a href="#setMaxSuspensionTravelCm(int,float)"><code>setMaxSuspensionTravelCm(int, float)</code></a>.
+
+ Note that the units are centimeters ONLY if the physics-space unit is
+ exactly one meter.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>maxSuspensionTravelCm</code> - the desired maximum distance the suspension
- can be compressed (in centimeters, default=500)</dd>
+<dd><code>maxSuspensionTravelCm</code> - the desired maximum amount a suspension can
+ be compressed or expanded, relative to its rest length (in hundredths of
+ a physics-space unit, default=500)</dd>
 </dl>
 </section>
 </li>
@@ -1141,12 +1148,16 @@ float&nbsp;maxSuspensionForce)</span></div>
 <h3><a id="setMaxSuspensionTravelCm(int,float)">setMaxSuspensionTravelCm</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setMaxSuspensionTravelCm</span>&#8203;(<span class="arguments">int&nbsp;wheelIndex,
 float&nbsp;maxSuspensionTravelCm)</span></div>
-<div class="block">Alter the maximum suspension travel distance for the indexed wheel.</div>
+<div class="block">Alter the maximum suspension travel distance for the indexed wheel.
+
+ Note that the units are centimeters ONLY if the physics-space unit is
+ exactly one meter.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>wheelIndex</code> - the index of the wheel to modify (&ge;0, &lt;count)</dd>
-<dd><code>maxSuspensionTravelCm</code> - the desired maximum distance the suspension
- can be compressed (in centimeters, default=500)</dd>
+<dd><code>maxSuspensionTravelCm</code> - the desired maximum amount the suspension
+ can be compressed or expanded, relative to its rest length (in hundredths
+ of a physics-space unit, default=500)</dd>
 </dl>
 </section>
 </li>

@@ -313,8 +313,8 @@ java.lang.Object&nbsp;original)</code></th>
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getMaxSuspensionTravelCm()">getMaxSuspensionTravelCm</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Read the travel distance for this wheel's suspension (native field:
- m_maxSuspensionTravelCm).</div>
+<div class="block">Determine the maximum travel distance for this wheel's suspension (native
+ field: m_maxSuspensionTravelCm).</div>
 </td>
 </tr>
 <tr class="rowColor" id="i17">
@@ -480,8 +480,8 @@ java.lang.Object&nbsp;original)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxSuspensionTravelCm(float)">setMaxSuspensionTravelCm</a></span>&#8203;(float&nbsp;travelCm)</code></th>
 <td class="colLast">
-<div class="block">Alter the travel distance for this wheel's suspension (native field:
- m_maxSuspensionTravelCm).</div>
+<div class="block">Alter the maximum travel distance for this wheel's suspension (native
+ field: m_maxSuspensionTravelCm).</div>
 </td>
 </tr>
 <tr class="rowColor" id="i39">
@@ -842,12 +842,15 @@ boolean&nbsp;frontWheel)</span></div>
 <section class="detail">
 <h3><a id="getMaxSuspensionTravelCm()">getMaxSuspensionTravelCm</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">float</span>&nbsp;<span class="memberName">getMaxSuspensionTravelCm</span>()</div>
-<div class="block">Read the travel distance for this wheel's suspension (native field:
- m_maxSuspensionTravelCm).</div>
+<div class="block">Determine the maximum travel distance for this wheel's suspension (native
+ field: m_maxSuspensionTravelCm).
+
+ Note that the units are centimeters ONLY if the physics-space unit is
+ exactly one meter.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the maximum travel distance (in hundredths of a physics-space
- unit)</dd>
+<dd>the maximum amount the suspension can be compressed or expanded,
+ relative to its rest length (in hundredths of a physics-space unit)</dd>
 </dl>
 </section>
 </li>
@@ -1090,11 +1093,15 @@ boolean&nbsp;frontWheel)</span></div>
 <section class="detail">
 <h3><a id="setMaxSuspensionTravelCm(float)">setMaxSuspensionTravelCm</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setMaxSuspensionTravelCm</span>&#8203;(<span class="arguments">float&nbsp;travelCm)</span></div>
-<div class="block">Alter the travel distance for this wheel's suspension (native field:
- m_maxSuspensionTravelCm).</div>
+<div class="block">Alter the maximum travel distance for this wheel's suspension (native
+ field: m_maxSuspensionTravelCm).
+
+ Note that the units are centimeters ONLY if the physics-space unit is
+ exactly one meter.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>travelCm</code> - the desired maximum travel distance (in hundredeths of a
+<dd><code>travelCm</code> - the desired maximum amount the suspension can be
+ compressed or expanded, relative to its rest length (in hundredths of a
  physics-space unit, default=500)</dd>
 </dl>
 </section>
