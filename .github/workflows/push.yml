@@ -84,8 +84,8 @@ jobs:
       - if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: crash-log
-          path: 'MinieLibrary/*.log'
+          name: test-report
+          path: 'build/reports/tests/test/index.html'
 
   Java13-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
