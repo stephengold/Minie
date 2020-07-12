@@ -343,7 +343,7 @@ java.lang.Object&nbsp;original)</code></th>
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCurrentVehicleSpeedKmHour()">getCurrentVehicleSpeedKmHour</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Determine this vehicle's speed in km/h.</div>
+<div class="block">Determine this vehicle's forward velocity as of the previous time step.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i13">
@@ -882,11 +882,15 @@ float&nbsp;impulse)</span></div>
 <section class="detail">
 <h3><a id="getCurrentVehicleSpeedKmHour()">getCurrentVehicleSpeedKmHour</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">float</span>&nbsp;<span class="memberName">getCurrentVehicleSpeedKmHour</span>()</div>
-<div class="block">Determine this vehicle's speed in km/h. The vehicle must be added to a
- PhysicsSpace.</div>
+<div class="block">Determine this vehicle's forward velocity as of the previous time step.
+ The vehicle must be added to a PhysicsSpace.
+
+ Note that the units are kilometers per hour ONLY if the physics-space
+ unit is exactly one meter.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>speed (in kilometers per hour, positive in the forward direction)</dd>
+<dd>the forward component of the linear velocity (in physics-space
+ units per 3.6 seconds, may be negative)</dd>
 </dl>
 </section>
 </li>
