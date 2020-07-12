@@ -511,7 +511,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      *
      * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
      * @param frictionSlip the desired coefficient of friction between tire and
-     * ground (0.8&rarr;realistic car, 10000&rarr;kart racer)
+     * ground (0.8&rarr;realistic car, 10000&rarr;kart racer, default=10.5)
      */
     public void setFrictionSlip(int wheelIndex, float frictionSlip) {
         VehicleWheel wheel = wheels.get(wheelIndex);
@@ -566,7 +566,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      *
      * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
      * @param maxSuspensionTravelCm the desired maximum distance the suspension
-     * can be compressed (in centimeters)
+     * can be compressed (in centimeters, default=500)
      */
     public void setMaxSuspensionTravelCm(int wheelIndex,
             float maxSuspensionTravelCm) {
@@ -622,7 +622,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * 0.3 are good values
      *
      * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
-     * @param coefficient the desired damping coefficient
+     * @param coefficient the desired damping coefficient (default=0.83)
      */
     public void setSuspensionCompression(int wheelIndex, float coefficient) {
         VehicleWheel wheel = wheels.get(wheelIndex);
@@ -657,7 +657,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * 0.3 are good values
      *
      * @param wheelIndex the index of the wheel to modify (&ge;0, &lt;count)
-     * @param coefficient the desired damping coefficient
+     * @param coefficient the desired damping coefficient (default=0.88)
      */
     public void setSuspensionDamping(int wheelIndex, float coefficient) {
         VehicleWheel wheel = wheels.get(wheelIndex);
