@@ -409,7 +409,7 @@ public class TestCloneBody {
         for (Sbcp sbcp : Sbcp.values()) {
             float expected = b + 0.001f * sbcp.ordinal();
             float actual = config.get(sbcp);
-            assert actual == expected : sbcp;
+            Assert.assertEquals(expected, actual, 1e-6f);
         }
 
         SoftBodyWorldInfo info = body.getWorldInfo();
