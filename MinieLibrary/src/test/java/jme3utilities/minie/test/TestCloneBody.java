@@ -69,6 +69,14 @@ public class TestCloneBody {
      * AssetManager required by the BinaryImporter
      */
     final private AssetManager assetManager = new DesktopAssetManager();
+    /**
+     * collision shape for generating rigid bodies
+     */
+    private CollisionShape shape;
+    /**
+     * wire mesh for generating soft bodies
+     */
+    final private Mesh wireBox = new WireBox();
     // *************************************************************************
     // new methods exposed
 
@@ -79,9 +87,31 @@ public class TestCloneBody {
     @Test
     public void testCloneBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        CollisionShape shape = new SphereCollisionShape(1f);
+        shape = new SphereCollisionShape(1f);
+
+        clonePrb();
+        cloneRbc();
+        clonePv();
+        cloneVc();
+        clonePsb();
+        cloneSbc();
+    }
+
+    void assertEquals(float x, float y, float z, Vector3f vector,
+            float tolerance) {
+        Assert.assertEquals(x, vector.x, tolerance);
+        Assert.assertEquals(y, vector.y, tolerance);
+        Assert.assertEquals(z, vector.z, tolerance);
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Clone rigid bodies.
+     */
+    private void clonePrb() {
         /*
-         * PhysicsRigidBody with mass=0
+         * static
          */
         PhysicsRigidBody body0 = new PhysicsRigidBody(shape, 0f);
         setParameters(body0, 0f);
@@ -89,39 +119,21 @@ public class TestCloneBody {
         PhysicsRigidBody body0Clone = (PhysicsRigidBody) Heart.deepCopy(body0);
         cloneTest(body0, body0Clone);
         /*
-         * PhysicsRigidBody with mass=1
+         * dynamic with mass=1
          */
         PhysicsRigidBody body = new PhysicsRigidBody(shape, 1f);
         setParameters(body, 0f);
         verifyParameters(body, 0f);
         PhysicsRigidBody bodyClone = (PhysicsRigidBody) Heart.deepCopy(body);
         cloneTest(body, bodyClone);
+    }
+
+    /**
+     * Clone soft bodies.
+     */
+    private void clonePsb() {
         /*
-         * RigidBodyControl
-         */
-        RigidBodyControl rbc = new RigidBodyControl(shape, 1f);
-        setParameters(rbc, 0f);
-        verifyParameters(rbc, 0f);
-        RigidBodyControl rbcClone = (RigidBodyControl) Heart.deepCopy(rbc);
-        cloneTest(rbc, rbcClone);
-        /*
-         * PhysicsVehicle - TODO add wheel
-         */
-        PhysicsVehicle vehicle = new PhysicsVehicle(shape, 1f);
-        setParameters(vehicle, 0f);
-        verifyParameters(vehicle, 0f);
-        PhysicsVehicle vehicleClone = (PhysicsVehicle) Heart.deepCopy(vehicle);
-        cloneTest(vehicle, vehicleClone);
-        /*
-         * VehicleControl - TODO add wheel
-         */
-        VehicleControl vc = new VehicleControl(shape, 1f);
-        setParameters(vc, 0f);
-        verifyParameters(vc, 0f);
-        VehicleControl vcClone = (VehicleControl) Heart.deepCopy(vc);
-        cloneTest(vc, vcClone);
-        /*
-         * PhysicsSoftBody (empty)
+         * empty
          */
         PhysicsSoftBody soft = new PhysicsSoftBody();
         setParameters(soft, 0f);
@@ -129,18 +141,45 @@ public class TestCloneBody {
         PhysicsSoftBody softClone = (PhysicsSoftBody) Heart.deepCopy(soft);
         cloneTest(soft, softClone);
         /*
-         * PhysicsSoftBody (non-empty)
+         * non-empty
          */
-        Mesh wireBox = new WireBox();
         PhysicsSoftBody soft2 = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, soft2);
         setParameters(soft2, 0f);
         verifyParameters(soft2, 0f);
         PhysicsSoftBody soft2Clone = (PhysicsSoftBody) Heart.deepCopy(soft2);
         cloneTest(soft2, soft2Clone);
+    }
+
+    /**
+     * Clone vehicles.
+     */
+    private void clonePv() {
         /*
-         * SoftBodyControl
+         * TODO add wheel(s)
          */
+        PhysicsVehicle vehicle = new PhysicsVehicle(shape, 1f);
+        setParameters(vehicle, 0f);
+        verifyParameters(vehicle, 0f);
+        PhysicsVehicle vehicleClone = (PhysicsVehicle) Heart.deepCopy(vehicle);
+        cloneTest(vehicle, vehicleClone);
+    }
+
+    /**
+     * Clone rigid-body controls.
+     */
+    private void cloneRbc() {
+        RigidBodyControl rbc = new RigidBodyControl(shape, 1f);
+        setParameters(rbc, 0f);
+        verifyParameters(rbc, 0f);
+        RigidBodyControl rbcClone = (RigidBodyControl) Heart.deepCopy(rbc);
+        cloneTest(rbc, rbcClone);
+    }
+
+    /**
+     * Clone soft-body controls.
+     */
+    private void cloneSbc() {
         boolean localPhysics = false;
         boolean updateNormals = true;
         boolean mergeVertices = true;
@@ -156,15 +195,6 @@ public class TestCloneBody {
         PhysicsSoftBody soft3Clone = sbcClone.getBody();
         cloneTest(soft3, soft3Clone);
     }
-
-    void assertEquals(float x, float y, float z, Vector3f vector,
-            float tolerance) {
-        Assert.assertEquals(x, vector.x, tolerance);
-        Assert.assertEquals(y, vector.y, tolerance);
-        Assert.assertEquals(z, vector.z, tolerance);
-    }
-    // *************************************************************************
-    // private methods
 
     private void cloneTest(PhysicsBody body, PhysicsBody bodyClone) {
         assert bodyClone.nativeId() != body.nativeId();
@@ -193,6 +223,20 @@ public class TestCloneBody {
         PhysicsBody bodyCloneCopy
                 = BinaryExporter.saveAndLoad(assetManager, bodyClone);
         verifyParameters(bodyCloneCopy, 0.6f);
+    }
+
+    /**
+     * Clone vehicle controls.
+     */
+    private void cloneVc() {
+        /*
+         * TODO add wheel(s)
+         */
+        VehicleControl vc = new VehicleControl(shape, 1f);
+        setParameters(vc, 0f);
+        verifyParameters(vc, 0f);
+        VehicleControl vcClone = (VehicleControl) Heart.deepCopy(vc);
+        cloneTest(vc, vcClone);
     }
 
     private void setParameters(PhysicsBody pco, float b) {
