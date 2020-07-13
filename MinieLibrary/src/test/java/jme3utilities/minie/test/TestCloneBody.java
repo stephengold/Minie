@@ -89,12 +89,14 @@ public class TestCloneBody {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
         shape = new SphereCollisionShape(1f);
 
-        clonePrb();
-        cloneRbc();
-        clonePv();
-        cloneVc();
-        clonePsb();
-        cloneSbc();
+        for (int iteration = 0; iteration < 99; ++iteration) {
+            clonePrb();
+            cloneRbc();
+            clonePv();
+            cloneVc();
+            clonePsb();
+            cloneSbc();
+        }
     }
 
     void assertEquals(float x, float y, float z, Vector3f vector,
