@@ -10,6 +10,7 @@ dependencies {
     implementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
     implementation 'org.jmonkeyengine:jme3-effects:' + jmonkeyengineVersion
     implementation 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
+    implementation 'junit:junit:4.13'
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
     // select one version of LWJGL (from jcenter or mavenLocal)
@@ -20,8 +21,6 @@ dependencies {
     // They are included solely to avoid warnings from AssetConfig.
     runtimeOnly 'org.jmonkeyengine:jme3-blender:' + jmonkeyengineVersion
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmonkeyengineVersion
-
-    //implementation 'junit:junit:4.13'
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion
     implementation project(':MinieLibrary')
