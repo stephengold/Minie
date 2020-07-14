@@ -204,9 +204,13 @@ bulletAppState.setDebugEnabled(true); // default=false
 
 Other {url-api}/BulletAppState.html[`BulletAppState`] parameters,
 used to customize debug visualization,
-are described on xref:minie-library-tutorials:debug.adoc[the Debugging page].
+are described on xref:debug.adoc[the debugging page].
 
-== Configure the PhysicsSpace
+Ways to simulate physics without using
+{url-api}/BulletAppState.html[`BulletAppState`]
+are described on xref:server.adoc[the physics-without-appstates page].
+
+== Configure the `PhysicsSpace`
 
 Attaching a {url-api}/BulletAppState.html[`BulletAppState`] instantiates a
 {url-api}/PhysicsSpace.html[`PhysicsSpace`] that
