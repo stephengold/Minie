@@ -434,9 +434,9 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(getCFM(), tagConstraintForceMixing, 1);
-        capsule.write(getERP(), tagErrorReductionParameter, 1);
-        capsule.write(getSplit(), tagSplit, 1);
+        capsule.write(getCFM(), tagConstraintForceMixing, 1f);
+        capsule.write(getERP(), tagErrorReductionParameter, 1f);
+        capsule.write(getSplit(), tagSplit, 1f);
 
         capsule.write(clusterIndexA(), tagClusterIndexA, -1);
         capsule.write(clusterIndexB(), tagClusterIndexB, -1);
