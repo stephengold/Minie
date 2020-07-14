@@ -47,6 +47,8 @@ import org.junit.Assert;
 /**
  * Test case for Minie issue #9: JVM crash in
  * PhysicsCollisionObject.finalizeNative().
+ * 
+ * If successful, the app will start up without a JVM crash.
  *
  * @author Stephen Gold sgold@sonic.net
  */

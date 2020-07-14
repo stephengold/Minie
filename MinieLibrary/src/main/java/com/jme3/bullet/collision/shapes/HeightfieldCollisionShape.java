@@ -130,11 +130,11 @@ public class HeightfieldCollisionShape extends CollisionShape {
      */
     private int heightStickWidth;
     /**
-     * copy of the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z, default=1)
+     * copy of the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
      */
     private int upAxis = PhysicsSpace.AXIS_Y;
     // *************************************************************************
-    // constructors
+    // constructors - TODO construct from a HeightMap
 
     /**
      * No-argument constructor needed by SavableClassUtil.
@@ -178,13 +178,17 @@ public class HeightfieldCollisionShape extends CollisionShape {
      * @param stickWidth number of columns in the heightfield (&gt;1)
      * @param heightmap (not null, length&ge;stickLength*stickWidth, unaffected)
      * @param scale the desired scale factor for each local axis (not null, no
-     * negative component, unaffected)
-     * @param upAxis the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
+     * negative component, unaffected, default=(1,1,1))
+     * @param upAxis the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z,
+     * default=1)
      * @param flipQuadEdges true&rarr;reverse the direction of the first
-     * diagonal
+     * diagonal (default=true)
      * @param flipTriangleWinding true&rarr;left-hand winding of triangles
+     * (default=false)
      * @param useDiamond true&rarr;diagonals alternate on both horizontal axes
+     * (default=false)
      * @param useZigzag true&rarr;diagonals alternate on one horizontal axis
+     * (default=false)
      */
     public HeightfieldCollisionShape(int stickLength, int stickWidth,
             float[] heightmap, Vector3f scale, int upAxis,

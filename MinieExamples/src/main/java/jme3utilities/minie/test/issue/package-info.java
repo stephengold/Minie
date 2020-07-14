@@ -25,6 +25,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * Applications to test various jMonkeyEngine issues.
+ * Applications to test whether certain issues have regressed.
  */
 package jme3utilities.minie.test.issue;
