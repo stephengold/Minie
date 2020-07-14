@@ -1349,8 +1349,6 @@ public class PhysicsSoftBody extends PhysicsBody {
     protected void destroySoftBody() {
         if (hasAssignedNativeObject()) {
             logger2.log(Level.FINE, "Destroying {0}.", this);
-            long objectId = nativeId();
-            finalizeNative(objectId);
             unassignNativeObject();
         }
 
@@ -1422,11 +1420,10 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        super.cloneFields(cloner, original);
-
         worldInfo = cloner.clone(worldInfo);
         newEmptySoftBody(); // needs worldInfo!
 
+        super.cloneFields(cloner, original);
         PhysicsSoftBody old = (PhysicsSoftBody) original;
         cloneIgnoreList(cloner, old);
         copyPcoProperties(old);
@@ -1591,12 +1588,12 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     @Override
     public void read(JmeImporter importer) throws IOException {
-        super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
         worldInfo = (SoftBodyWorldInfo) capsule.readSavable(tagWorldInfo, null);
         newEmptySoftBody(); // needs worldInfo!
 
+        super.read(importer);
         readPcoProperties(capsule);
         isWorldInfoProtected
                 = capsule.readBoolean(tagIsWorldInfoProtected, false);

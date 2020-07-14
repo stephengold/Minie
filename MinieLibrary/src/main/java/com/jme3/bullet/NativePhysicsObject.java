@@ -34,6 +34,7 @@ package com.jme3.bullet;
 import java.lang.ref.ReferenceQueue;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -143,6 +144,9 @@ abstract public class NativePhysicsObject {
         Validate.nonZero(nativeId, "nativeId");
 
         if (nativeId != id) {
+            if (map.containsKey(nativeId)) {
+                loggerN.log(Level.WARNING, "reused tracked native ID {0}", id);
+            }
             id = nativeId;
 
             NpoTracker tracker = new NpoTracker(this);
@@ -159,6 +163,9 @@ abstract public class NativePhysicsObject {
     protected void setNativeId(long nativeId) {
         Validate.nonZero(nativeId, "nativeId");
         assert !hasAssignedNativeObject() : id;
+        if (map.containsKey(nativeId)) {
+            loggerN.log(Level.WARNING, "reused tracked native ID {0}", id);
+        }
 
         id = nativeId;
         NpoTracker tracker = new NpoTracker(this);

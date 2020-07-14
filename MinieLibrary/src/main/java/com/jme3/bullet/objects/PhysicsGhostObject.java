@@ -193,6 +193,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
+        unassignNativeObject();
         overlappingObjects = cloner.clone(overlappingObjects);
         buildObject();
 

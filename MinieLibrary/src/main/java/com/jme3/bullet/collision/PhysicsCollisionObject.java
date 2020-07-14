@@ -1365,11 +1365,9 @@ abstract public class PhysicsCollisionObject
 
         collisionShape = cloner.clone(collisionShape);
         debugMaterial = cloner.clone(debugMaterial);
-
-        unassignNativeObject();
         /*
-         * The subclass should create the btCollisionObject and then
-         * invoke copyPcoProperties() .
+         * The caller should unassign the old native object and invoke
+         * cloneIgnoreList() and copyPcoProperties().
          */
     }
 

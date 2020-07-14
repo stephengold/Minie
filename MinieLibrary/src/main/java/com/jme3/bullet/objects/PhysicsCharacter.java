@@ -560,6 +560,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
+        unassignNativeObject();
 
         controller = null;
         buildObject();

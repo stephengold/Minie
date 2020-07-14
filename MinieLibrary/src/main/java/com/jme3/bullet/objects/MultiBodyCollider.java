@@ -196,6 +196,7 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
+        unassignNativeObject();
 
         multiBody = cloner.clone(multiBody);
         buildObject();
