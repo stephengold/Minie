@@ -47,8 +47,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.UserData;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.mesh.IndexBuffer;
-import com.jme3.terrain.geomipmap.TerrainPatch;
-import com.jme3.terrain.geomipmap.TerrainQuad;
+import com.jme3.terrain.Terrain;
 import com.jme3.util.BufferUtils;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
@@ -168,15 +167,10 @@ public class CollisionShapeFactory {
      * (if spatial is a Node)
      */
     public static CollisionShape createMeshShape(Spatial subtree) {
-        if (subtree instanceof TerrainQuad) {
-            TerrainQuad terrain = (TerrainQuad) subtree;
+        if (subtree instanceof Terrain) {
+            Terrain terrain = (Terrain) subtree;
             return new HeightfieldCollisionShape(terrain.getHeightMap(),
-                    terrain.getLocalScale());
-
-        } else if (subtree instanceof TerrainPatch) {
-            TerrainPatch terrain = (TerrainPatch) subtree;
-            return new HeightfieldCollisionShape(terrain.getHeightMap(),
-                    terrain.getLocalScale());
+                    subtree.getLocalScale());
 
         } else if (subtree instanceof Geometry) {
             return createSingleMeshShape((Geometry) subtree, subtree);
@@ -319,23 +313,15 @@ public class CollisionShapeFactory {
             Transform transform = getTransform(child, modelRoot);
 
             CollisionShape childShape;
-            if (child instanceof TerrainQuad) {
-                TerrainQuad terrainQuad = (TerrainQuad) child;
+            if (child instanceof Terrain) {
+                Terrain terrain = (Terrain) child;
                 childShape = new HeightfieldCollisionShape(
-                        terrainQuad.getHeightMap(),
-                        transform.getScale());
+                        terrain.getHeightMap(), transform.getScale());
                 shape.addChildShape(childShape, transform);
 
             } else if (child instanceof Node) {
                 createCompoundShape(modelRoot, (Node) child, shape,
                         meshAccurate, dynamic);
-
-            } else if (child instanceof TerrainPatch) {
-                TerrainPatch patch = (TerrainPatch) child;
-                childShape = new HeightfieldCollisionShape(
-                        patch.getHeightMap(),
-                        patch.getLocalScale());
-                shape.addChildShape(childShape, transform);
 
             } else if (child instanceof Geometry) {
                 Geometry geometry = (Geometry) child;
