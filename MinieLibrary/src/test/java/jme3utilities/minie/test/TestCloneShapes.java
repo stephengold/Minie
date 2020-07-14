@@ -56,7 +56,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.system.NativeLibraryLoader;
-import com.jme3.terrain.heightmap.AbstractHeightMap;
+import com.jme3.terrain.heightmap.HeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
@@ -208,11 +208,8 @@ public class TestCloneShapes {
                 "Textures/BumpMapTest/Simple_height.png", false);
         Image heightImage = heightTexture.getImage();
         float heightScale = 1f;
-        AbstractHeightMap heightMap
-                = new ImageBasedHeightMap(heightImage, heightScale);
-        heightMap.load();
-        float[] heightArray = heightMap.getHeightMap();
-        CollisionShape hcs = new HeightfieldCollisionShape(heightArray);
+        HeightMap heightMap = new ImageBasedHeightMap(heightImage, heightScale);
+        CollisionShape hcs = new HeightfieldCollisionShape(heightMap);
         setParameters(hcs, 0f);
         verifyParameters(hcs, 0f);
         CollisionShape hcsClone = (CollisionShape) Heart.deepCopy(hcs);

@@ -165,9 +165,7 @@ public class TestSetMargin {
         float heightScale = 1f;
         AbstractHeightMap heightMap
                 = new ImageBasedHeightMap(heightImage, heightScale);
-        heightMap.load();
-        float[] heightArray = heightMap.getHeightMap();
-        CollisionShape hcs = new HeightfieldCollisionShape(heightArray);
+        CollisionShape hcs = new HeightfieldCollisionShape(heightMap);
         assert hcs.getMargin() == 0.04f;
         hcs.setMargin(0.17f);
         assert hcs.getMargin() == 0.17f;

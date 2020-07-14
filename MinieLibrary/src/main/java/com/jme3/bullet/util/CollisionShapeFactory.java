@@ -168,8 +168,7 @@ public class CollisionShapeFactory {
      */
     public static CollisionShape createMeshShape(Spatial subtree) {
         if (subtree instanceof Terrain) {
-            Terrain terrain = (Terrain) subtree;
-            return new HeightfieldCollisionShape(terrain.getHeightMap(),
+            return new HeightfieldCollisionShape((Terrain) subtree,
                     subtree.getLocalScale());
 
         } else if (subtree instanceof Geometry) {
@@ -314,9 +313,8 @@ public class CollisionShapeFactory {
 
             CollisionShape childShape;
             if (child instanceof Terrain) {
-                Terrain terrain = (Terrain) child;
-                childShape = new HeightfieldCollisionShape(
-                        terrain.getHeightMap(), transform.getScale());
+                childShape = new HeightfieldCollisionShape((Terrain) child,
+                        transform.getScale());
                 shape.addChildShape(childShape, transform);
 
             } else if (child instanceof Node) {

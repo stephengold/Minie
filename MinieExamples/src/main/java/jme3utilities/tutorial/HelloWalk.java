@@ -55,7 +55,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
-import com.jme3.terrain.heightmap.AbstractHeightMap;
+import com.jme3.terrain.heightmap.HeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
@@ -251,18 +251,15 @@ public class HelloWalk
      * @param physicsSpace (not null)
      */
     private void addTerrain(PhysicsSpace physicsSpace) {
-        // Load height data from from jme3-testdata-3.1.0-stable.jar
+        // Generate a HeightMap from from jme3-testdata-3.1.0-stable.jar
         String assetPath = "Textures/Terrain/splat/mountains512.png";
         Texture texture = assetManager.loadTexture(assetPath);
         Image image = texture.getImage();
-        AbstractHeightMap heightmap = new ImageBasedHeightMap(image);
-        heightmap.load();
-        float[] heights = heightmap.getHeightMap();
+        HeightMap heightMap = new ImageBasedHeightMap(image);
+        heightMap.setHeightScale(0.2f);
 
-        // Construct a static rigid body based on the height data.
-        Vector3f scale = new Vector3f(1f, 0.2f, 1f);
-        CollisionShape shape
-                = new HeightfieldCollisionShape(heights, scale);
+        // Construct a static rigid body based on the HeightMap.
+        CollisionShape shape = new HeightfieldCollisionShape(heightMap);
         PhysicsRigidBody body
                 = new RigidBodyControl(shape, PhysicsBody.massForStatic);
 
