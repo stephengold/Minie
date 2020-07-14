@@ -348,6 +348,7 @@ public class TestCloneBody {
     }
 
     private void verifyParameters(PhysicsBody pco, float b) {
+        Assert.assertNotNull(pco);
         if (pco instanceof PhysicsRigidBody) {
             verifyRigid((PhysicsRigidBody) pco, b);
         } else if (pco instanceof PhysicsSoftBody) {
