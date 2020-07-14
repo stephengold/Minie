@@ -84,6 +84,10 @@ class NpoTracker extends WeakReference<NativePhysicsObject> {
      */
     void freeTrackedObject() {
         int invocationCount = 0;
+        /*
+         * Remove this tracker from the map BEFORE freeing the native object.
+         */
+        NativePhysicsObject.removeTracker(id);
 
         Class<? extends Object> c;
         for (c = referentClass; c != Object.class; c = c.getSuperclass()) {
@@ -108,7 +112,7 @@ class NpoTracker extends WeakReference<NativePhysicsObject> {
             }
         }
 
-        assert invocationCount >= 2 : invocationCount;
+        assert invocationCount > 0 : invocationCount;
     }
     // *************************************************************************
     // Object methods

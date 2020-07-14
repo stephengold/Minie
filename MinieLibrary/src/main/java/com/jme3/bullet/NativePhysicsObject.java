@@ -34,7 +34,6 @@ package com.jme3.bullet;
 import java.lang.ref.ReferenceQueue;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -63,7 +62,7 @@ abstract public class NativePhysicsObject {
     /**
      * map native IDs to their trackers
      */
-    final static Map<Long, NpoTracker> map = new ConcurrentHashMap<>();
+    final static Map<Long, NpoTracker> map = new ConcurrentHashMap<>(999);
     /**
      * weak references to all instances whose assigned native objects are
      * tracked and known to be unused
@@ -130,6 +129,18 @@ abstract public class NativePhysicsObject {
         assert hasAssignedNativeObject();
         return id;
     }
+
+    /**
+     * Remove the identified tracker from the map.
+     *
+     * @param nativeId the native identifier (not zero)
+     */
+    static void removeTracker(long nativeId) {
+        assert nativeId != 0L;
+
+        NpoTracker tracker = map.remove(nativeId);
+        assert tracker != null;
+    }
     // *************************************************************************
     // new protected methods
 
@@ -144,13 +155,10 @@ abstract public class NativePhysicsObject {
         Validate.nonZero(nativeId, "nativeId");
 
         if (nativeId != id) {
-            if (map.containsKey(nativeId)) {
-                loggerN.log(Level.WARNING, "reused tracked native ID {0}", id);
-            }
             id = nativeId;
-
             NpoTracker tracker = new NpoTracker(this);
-            map.put(nativeId, tracker);
+            NpoTracker previous = map.put(nativeId, tracker);
+            assert previous == null : id;
         }
     }
 
@@ -163,13 +171,11 @@ abstract public class NativePhysicsObject {
     protected void setNativeId(long nativeId) {
         Validate.nonZero(nativeId, "nativeId");
         assert !hasAssignedNativeObject() : id;
-        if (map.containsKey(nativeId)) {
-            loggerN.log(Level.WARNING, "reused tracked native ID {0}", id);
-        }
 
         id = nativeId;
         NpoTracker tracker = new NpoTracker(this);
-        map.put(nativeId, tracker);
+        NpoTracker previous = map.put(nativeId, tracker);
+        assert previous == null : id;
     }
 
     /**
@@ -241,19 +247,5 @@ abstract public class NativePhysicsObject {
         result += "#" + Long.toHexString(id);
 
         return result;
-    }
-    // *************************************************************************
-    // private methods
-
-    /**
-     * Free the identified tracked native object. Invoked by reflection.
-     *
-     * @param nativeId the native identifier (not zero)
-     */
-    private static void freeNativeObject(long nativeId) {
-        Validate.nonZero(nativeId, "native ID");
-
-        NpoTracker tracker = map.remove(nativeId);
-        assert tracker != null;
     }
 }
