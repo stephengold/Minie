@@ -200,6 +200,21 @@ boolean&nbsp;useZigzag)</code></th>
 <div class="block">Instantiate a rectangular shape for the specified parameters.</div>
 </td>
 </tr>
+<tr class="altColor">
+<td class="colFirst"><code>&nbsp;</code></td>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(com.jme3.terrain.heightmap.HeightMap)">HeightfieldCollisionShape</a></span>&#8203;(com.jme3.terrain.heightmap.HeightMap&nbsp;heightMap)</code></th>
+<td class="colLast">
+<div class="block">Instantiate a square shape for the specified HeightMap.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>&nbsp;</code></td>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(com.jme3.terrain.Terrain,com.jme3.math.Vector3f)">HeightfieldCollisionShape</a></span>&#8203;(com.jme3.terrain.Terrain&nbsp;terrain,
+com.jme3.math.Vector3f&nbsp;scale)</code></th>
+<td class="colLast">
+<div class="block">Instantiate a square shape for the specified terrain and scale vector.</div>
+</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -333,6 +348,18 @@ java.lang.Object&nbsp;original)</code></th>
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="&lt;init&gt;(com.jme3.terrain.heightmap.HeightMap)">HeightfieldCollisionShape</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">HeightfieldCollisionShape</span>&#8203;(<span class="arguments">com.jme3.terrain.heightmap.HeightMap&nbsp;heightMap)</span></div>
+<div class="block">Instantiate a square shape for the specified HeightMap. If the HeightMap
+ isn't populated, invoke its load() method.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>heightMap</code> - (not null, size &ge; 2)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="&lt;init&gt;(float[],com.jme3.math.Vector3f)">HeightfieldCollisionShape</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">HeightfieldCollisionShape</span>&#8203;(<span class="arguments">float[]&nbsp;heightmap,
 com.jme3.math.Vector3f&nbsp;scale)</span></div>
@@ -341,6 +368,20 @@ com.jme3.math.Vector3f&nbsp;scale)</span></div>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>heightmap</code> - (not null, length&ge;4, length a perfect square,
  unaffected)</dd>
+<dd><code>scale</code> - the desired scale factor for each local axis (not null, no
+ negative component, unaffected, default=(1,1,1))</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="&lt;init&gt;(com.jme3.terrain.Terrain,com.jme3.math.Vector3f)">HeightfieldCollisionShape</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">HeightfieldCollisionShape</span>&#8203;(<span class="arguments">com.jme3.terrain.Terrain&nbsp;terrain,
+com.jme3.math.Vector3f&nbsp;scale)</span></div>
+<div class="block">Instantiate a square shape for the specified terrain and scale vector.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>terrain</code> - (not null, size &ge;2, unaffected)</dd>
 <dd><code>scale</code> - the desired scale factor for each local axis (not null, no
  negative component, unaffected, default=(1,1,1))</dd>
 </dl>
@@ -365,13 +406,17 @@ boolean&nbsp;useZigzag)</span></div>
 <dd><code>stickWidth</code> - number of columns in the heightfield (&gt;1)</dd>
 <dd><code>heightmap</code> - (not null, length&ge;stickLength*stickWidth, unaffected)</dd>
 <dd><code>scale</code> - the desired scale factor for each local axis (not null, no
- negative component, unaffected)</dd>
-<dd><code>upAxis</code> - the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z)</dd>
+ negative component, unaffected, default=(1,1,1))</dd>
+<dd><code>upAxis</code> - the height-axis index (0&rarr;X, 1&rarr;Y, 2&rarr;Z,
+ default=1)</dd>
 <dd><code>flipQuadEdges</code> - true&rarr;reverse the direction of the first
- diagonal</dd>
-<dd><code>flipTriangleWinding</code> - true&rarr;left-hand winding of triangles</dd>
-<dd><code>useDiamond</code> - true&rarr;diagonals alternate on both horizontal axes</dd>
-<dd><code>useZigzag</code> - true&rarr;diagonals alternate on one horizontal axis</dd>
+ diagonal (default=true)</dd>
+<dd><code>flipTriangleWinding</code> - true&rarr;left-hand winding of triangles
+ (default=false)</dd>
+<dd><code>useDiamond</code> - true&rarr;diagonals alternate on both horizontal axes
+ (default=false)</dd>
+<dd><code>useZigzag</code> - true&rarr;diagonals alternate on one horizontal axis
+ (default=false)</dd>
 </dl>
 </section>
 </li>
