@@ -442,6 +442,18 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         capsule.write(clusterIndexB(), tagClusterIndexB, -1);
     }
     // *************************************************************************
+    // Java private methods
+
+    /**
+     * Free the identified tracked native object. Invoked by reflection.
+     *
+     * @param jointId the native identifier (not zero)
+     */
+    private static void freeNativeObject(long jointId) {
+        assert jointId != 0L;
+        finalizeNative(jointId);
+    }
+    // *************************************************************************
     // native private methods
 
     native private static float getConstraintForceMixing(long jointId);
