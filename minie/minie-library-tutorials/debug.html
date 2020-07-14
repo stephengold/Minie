@@ -581,11 +581,23 @@ You can use this callback to add texture coordinates to the mesh:</p>
         int numVertices = pos.getNumElements();
         FloatBuffer positions = (FloatBuffer) pos.getDataReadOnly();
         FloatBuffer uvs = BufferUtils.createFloatBuffer(2 * numVertices);
-        // TODO: fill the uvs buffer with data
+        // TODO: fill the UV buffer with data
         debugMesh.setBuffer(VertexBuffer.Type.TexCoord, 2, uvs);
         uvs.flip();
     }
 };
+collisionObject.setDebugMeshInitListener(callbackObject);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Without texture coordinates,
+objects with plane collision shapes are especially tricky to visualize.
+For such objects, Minie provides a standard callback class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">float tileSize = 1f;
+PlaneDmiListener callbackObject = new PlaneDmiListener(tileSize);
 collisionObject.setDebugMeshInitListener(callbackObject);</code></pre>
 </div>
 </div>
