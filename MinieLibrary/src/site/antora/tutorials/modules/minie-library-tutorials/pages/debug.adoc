@@ -241,11 +241,22 @@ DebugInitListener callbackObject = new DebugMeshInitListener() {
         int numVertices = pos.getNumElements();
         FloatBuffer positions = (FloatBuffer) pos.getDataReadOnly();
         FloatBuffer uvs = BufferUtils.createFloatBuffer(2 * numVertices);
-        // TODO: fill the uvs buffer with data
+        // TODO: fill the UV buffer with data
         debugMesh.setBuffer(VertexBuffer.Type.TexCoord, 2, uvs);
         uvs.flip();
     }
 };
+collisionObject.setDebugMeshInitListener(callbackObject);
+----
+
+Without texture coordinates,
+objects with plane collision shapes are especially tricky to visualize.
+For such objects, Minie provides a standard callback class:
+
+[source, java]
+----
+float tileSize = 1f;
+PlaneDmiListener callbackObject = new PlaneDmiListener(tileSize);
 collisionObject.setDebugMeshInitListener(callbackObject);
 ----
 
