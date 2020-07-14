@@ -38,6 +38,8 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
+import com.jme3.terrain.Terrain;
+import com.jme3.terrain.heightmap.HeightMap;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -134,7 +136,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
      */
     private int upAxis = PhysicsSpace.AXIS_Y;
     // *************************************************************************
-    // constructors - TODO construct from a HeightMap
+    // constructors
 
     /**
      * No-argument constructor needed by SavableClassUtil.
@@ -156,6 +158,25 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
+     * Instantiate a square shape for the specified HeightMap. If the HeightMap
+     * isn't populated, invoke its load() method.
+     *
+     * @param heightMap (not null, size &ge; 2)
+     */
+    public HeightfieldCollisionShape(HeightMap heightMap) {
+        float[] array = heightMap.getHeightMap();
+        if (array == null) { // not populated
+            boolean success = heightMap.load();
+            assert success;
+            array = heightMap.getHeightMap();
+            assert array != null;
+        }
+        assert array.length >= 4 : array.length;
+
+        createCollisionHeightfield(array, scaleIdentity);
+    }
+
+    /**
      * Instantiate a square shape for the specified height map and scale vector.
      *
      * @param heightmap (not null, length&ge;4, length a perfect square,
@@ -168,6 +189,23 @@ public class HeightfieldCollisionShape extends CollisionShape {
         assert heightmap.length >= 4 : heightmap.length;
         Validate.nonNegative(scale, "scale");
 
+        createCollisionHeightfield(heightmap, scale);
+    }
+
+    /**
+     * Instantiate a square shape for the specified terrain and scale vector.
+     *
+     * @param terrain (not null, size &ge;2, unaffected)
+     * @param scale the desired scale factor for each local axis (not null, no
+     * negative component, unaffected, default=(1,1,1))
+     */
+    public HeightfieldCollisionShape(Terrain terrain, Vector3f scale) {
+        Validate.nonNegative(scale, "scale");
+        Validate.inRange(terrain.getTerrainSize(), "terrain size", 2,
+                Integer.MAX_VALUE);
+
+        float[] heightmap = terrain.getHeightMap();
+        assert heightmap.length >= 4 : heightmap.length;
         createCollisionHeightfield(heightmap, scale);
     }
 
