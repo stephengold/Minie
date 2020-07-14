@@ -67,7 +67,7 @@ abstract public class NativePhysicsObject {
      * weak references to all instances whose assigned native objects are
      * tracked and known to be unused
      */
-    final static ReferenceQueue<NativePhysicsObject> phantomQueue
+    final static ReferenceQueue<NativePhysicsObject> weakReferenceQueue
             = new ReferenceQueue<>();
     // *************************************************************************
     // new methods exposed
@@ -99,7 +99,7 @@ abstract public class NativePhysicsObject {
     final public static void freeUnusedObjects() {
         while (true) {
             try {
-                NpoTracker tracker = (NpoTracker) phantomQueue.remove();
+                NpoTracker tracker = (NpoTracker) weakReferenceQueue.remove();
                 tracker.freeTrackedObject();
             } catch (InterruptedException exception) {
                 break;

@@ -69,7 +69,7 @@ class NpoTracker extends WeakReference<NativePhysicsObject> {
      * @param referent (must have an assigned native object)
      */
     NpoTracker(NativePhysicsObject referent) {
-        super(referent, NativePhysicsObject.phantomQueue);
+        super(referent, NativePhysicsObject.weakReferenceQueue);
 
         referentClass = referent.getClass();
         id = referent.nativeId();
