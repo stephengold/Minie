@@ -74,10 +74,9 @@ Each time step consists of 4 _phases_:
   and predict the next position of each collision object,
 . _broadphase collision detection_,
   to quickly determine (using axis-aligned bounding boxes)
-  which objects might possibly collide,
+  which object pairs might possibly collide,
 . _narrowphase collision detection_,
-  to compute actual contacts (if any) between between objects,
-  and
+  to compute actual contacts (if any) between between objects, and
 . _forward dynamics part 2_,
   to apply contact forces, solve constraints, and update positions.
 

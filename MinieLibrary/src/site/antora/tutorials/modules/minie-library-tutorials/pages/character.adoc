@@ -227,7 +227,7 @@ that showcase physics characters.
 == Summary
 
 * A physics character simulates a game character walking, jumping, and falling.
-* To associate a character with a spatial, use `CharacterControl`.
+* To associate a character with a spatial, use a `CharacterControl`.
 * For `CharacterControl`, the physics control
   and its collision object are *not* the same object!
 * If the build-in character controls don't meet your needs,

@@ -19,8 +19,7 @@ The simplest way to create a rigid body is to directly invoke the
 {url-api}/objects/PhysicsRigidBody.html[`PhysicsRigidBody`] constructor.
 A common alternative to direct construction
 is to create a `RigidBodyControl` (RBC).
-`RigidBodyControl` has
-its own xref:minie-library-tutorials:rbc.adoc[tutorial page].
+`RigidBodyControl` has its own xref:rbc.adoc[tutorial page].
 However, that page assumes familiarity with the concepts introduced here.
 
 The {url-api}/objects/PhysicsRigidBody.html[`PhysicsRigidBody`] constructor
@@ -60,7 +59,7 @@ application that demonstrates the 5 familiar features of rigid bodies.
 IMPORTANT: {url-tutorial}/HelloRigidBody.java[HelloRigidBody] is the first of
 many tutorial apps designed for hands-on learning.
 I expect you to not only study the source code,
-but to actually run the software as well.
+but to actually run the app as well.
 Take time *now* to set up a development environment for this purpose!
 
 Things to notice while running the app:

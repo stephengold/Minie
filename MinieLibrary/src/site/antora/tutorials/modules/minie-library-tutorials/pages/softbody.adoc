@@ -36,10 +36,10 @@ are specified in physics-space coordinates.
 A soft body's shape, structure, mass distribution, and position are all defined
 by its mesh of nodes:
 
-* To simulate rope, nodes can be connected in pairs (called "links").
-* To simulate cloth, nodes can be connected to form triangles (called "faces").
+* To simulate rope, nodes can be connected in pairs (called _links_).
+* To simulate cloth, nodes can be connected to form triangles (called _faces_).
 * To simulate foam rubber, nodes can be connected to form tetrahedra (also
-   called "tetras").
+   called _tetras_).
 
 (Soft-body nodes are entirely unrelated to `com.jme3.scene.Node`,
 the kind of node found in the scene graph.)
@@ -143,7 +143,7 @@ config.setCollisionFlags(oldFlags, ConfigFlag.VF_SS);
 ----
 
 For a simple example of a collision between 2 soft bodies, see
-{url-tutorial}/HelloSoftSoft.java[HelloSoftBody].
+{url-tutorial}/HelloSoftSoft.java[HelloSoftSoft].
 
 == Solver iterations
 

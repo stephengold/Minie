@@ -1,12 +1,14 @@
 = An introduction to New6Dof
 :page-pagination:
+:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 
-A `PhysicsJoint` connects one physics body to another
+A _physics joint_ connects one physics body to another
 (or to a fixed point in space), constraining how the body(s) can move.
 
 For instance, a door might swing on hinges.
 In simulation, the hinges would be represented by a joint
-with a single degree of freedom (DOF): rotation around the axis of the hinges.
+with a single _degree of freedom_ (DOF):
+rotation around the axis of the hinges.
 
 Or a door might slide along a track.
 In that case, the track would be represented by a joint
@@ -14,16 +16,25 @@ that’s free only to translate along the axis of the track.
 
 Or imagine a robot arm mounted on a ball-and-socket:
 it can freely turn and twist to any imaginable orientation,
-but the ball end can’t leave the socket. (This requires 3 degrees of freedom.)
+but the ball end can’t leave the socket.
+(This requires a joint with 3 degrees of freedom.)
 
-`New6Dof` is a new physics joint intended to replace
-the older `SixDofJoint` and `SixDofSpringJoint`
-types found in jme3-bullet and jme3-jbullet.
+{url-api}/joints/New6Dof.html[`New6Dof`] is a new physics joint
+intended to replace the older {url-api}/joints/SixDofJoint.html[`SixDofJoint`]
+and {url-api}/joints/SixDofSpringJoint.html[`SixDofSpringJoint`].
+It's so versatile, it can also emulate the other 4 rigid-body physics joints:
+
+. {url-api}/joints/ConeJoint.html[`ConeJoint`]
+. {url-api}/joints/HingeJoint.html[`HingeJoint`]
+. {url-api}/joints/Point2PointJoint.html[`Point2PointJoint`]
+. {url-api}/joints/SliderJoint.html[`SliderJoint`]
+
+It might be the only physics joint you'll ever need.
 
 == Features
 
-`New6Dof` is a versatile physics joint with 3 rotation DOFs
- and 3 translation DOFs; it can potentially rotate or slide on any axis or axes.
+{url-api}/joints/New6Dof.html[`New6Dof`] has 3 rotation DOFs
+and 3 translation DOFs; it can potentially rotate or slide on any axis or axes.
 Locking various DOFs allows it to simulate almost any kind of joint:
 
 * To simulate a swinging door, you’d lock all 3 translation DOFs

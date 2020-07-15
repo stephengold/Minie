@@ -49,13 +49,13 @@ PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);
 
 The first 4 constructors can be used
 *only* if soft bodies and multibodies will not be added to the space.
-Construct a `{url-api}/PhysicsSoftSpace.html[`PhysicsSoftSpace`]
+Construct a {url-api}/PhysicsSoftSpace.html[`PhysicsSoftSpace`]
 to enable soft-body physics.
-Construct a `{url-api}/MultiBodySpace.html[`MultiBodySpace`]
+Construct a {url-api}/MultiBodySpace.html[`MultiBodySpace`]
 to enable multi-body physics.
 
 For `broadphase` and `solver`, stick with `DBVT` and `SI` respectively,
-unless you know what you're doing.
+unless you understand what you're doing.
 
 NOTE: The world bounds are used *only* by
 the sweep-and-prune broadphase accelerators
@@ -105,4 +105,4 @@ then the time step will be capped at `space.maxTimeStep()` seconds
   and update it explicitly.
 * It's possible to load the native library explicitly
   and thus avoid initializing JMonkeyEngine.
-* Physics simulation does not require a scene graph.
+* Physics simulation doesn't require a scene graph.
