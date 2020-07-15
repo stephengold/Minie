@@ -51,7 +51,7 @@ import com.jme3.scene.shape.Box;
 /**
  * A simple example of a DynamicAnimControl with 3 bone links.
  *
- * Based upon HelloDac.
+ * Builds upon HelloDac.
  *
  * @author Stephen Gold sgold@sonic.net
  */
