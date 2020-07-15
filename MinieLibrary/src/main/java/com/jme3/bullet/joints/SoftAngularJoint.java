@@ -245,7 +245,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
             jointId = createJointSoftSoft(ida, cia, idb, cib, erp, cfm, split,
                     axis);
         }
-        setNativeId(jointId);
+        setNativeIdNotTracked(jointId);
         assert checkParameters();
     }
     // *************************************************************************
