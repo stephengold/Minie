@@ -99,33 +99,19 @@ public class TestCloneJoints {
     public void testCloneJoints() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
-        float mass = 1f;
-        CollisionShape box = new BoxCollisionShape(1f);
-        rigidA = new PhysicsRigidBody(box, mass);
-        rigidB = new PhysicsRigidBody(box, mass);
+        for (int iteration = 0; iteration < 99; ++iteration) {
+            newBodies();
 
-        Mesh wireBox = new WireBox();
-        softA = new PhysicsSoftBody();
-        NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
-        softA.generateClusters(2, 999);
-        softA.setMargin(0.1f);
-        softA.setMass(mass);
-
-        softB = new PhysicsSoftBody();
-        NativeSoftBodyUtil.appendFromLineMesh(wireBox, softB);
-        softB.generateClusters(2, 999);
-        softB.setMargin(0.1f);
-        softB.setMass(mass);
-
-        cloneCone();
-        cloneHinge();
-        cloneNew6Dof();
-        cloneP2P();
-        cloneSix();
-        cloneSpring();
-        cloneSlide();
-        cloneSoftAngular();
-        cloneSoftLinear();
+            cloneCone();
+            cloneHinge();
+            cloneNew6Dof();
+            cloneP2P();
+            cloneSix();
+            cloneSpring();
+            cloneSlide();
+            cloneSoftAngular();
+            cloneSoftLinear();
+        }
     }
     // *************************************************************************
     // private methods
@@ -336,6 +322,26 @@ public class TestCloneJoints {
         PhysicsJoint jointCloneCopy
                 = BinaryExporter.saveAndLoad(assetManager, jointClone);
         verifyParameters(jointCloneCopy, 0.6f);
+    }
+
+    private void newBodies() {
+        float mass = 1f;
+        CollisionShape box = new BoxCollisionShape(1f);
+        rigidA = new PhysicsRigidBody(box, mass);
+        rigidB = new PhysicsRigidBody(box, mass);
+
+        Mesh wireBox = new WireBox();
+        softA = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
+        softA.generateClusters(2, 999);
+        softA.setMargin(0.1f);
+        softA.setMass(mass);
+
+        softB = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromLineMesh(wireBox, softB);
+        softB.generateClusters(2, 999);
+        softB.setMargin(0.1f);
+        softB.setMass(mass);
     }
 
     /**
