@@ -6,12 +6,13 @@
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
 
 A _physics vehicle_ is a collision object
-used to simulate game vehicles driving on (or gliding over) smooth surfaces.
+used to simulate a vehicle driving on (or gliding over) a smooth surface.
 
 The standard physics vehicle makes many simplifying assumptions:
 
-* A rigid chassis, supported by one or more wheels.
-* Acceleration and braking forces are applied to the chassis, not the wheels.
+* A rigid _chassis_, supported by _wheels_.
+* Acceleration, steering, and braking forces are applied to the chassis,
+  not the wheels.
 * The wheels have no momentum, and as long as they touch the ground,
   they don't lose traction or "drift".
   Tire friction is calculated using a basic anisotropic friction model.
@@ -23,9 +24,8 @@ to calculate the height of each wheel's axis above the ground.
 Those heights are used to calculate the forces
 exerted on the chassis by the suspension.
 
-Instead of directly applying force to the chassis
-or updating the vehicle's velocities,
-apps should specify when and how the vehicle accelerates, steers, and brakes.
+An app that uses a physics vehicle
+should specify when and how the vehicle accelerates, steers, and brakes.
 
 == Direct creation
 
@@ -64,29 +64,29 @@ The Jme3Examples subproject contains 4 demo apps that showcase physics vehicles:
   demonstrates a `VehicleControl` with keyboard-controlled motion
   and debug visualization.
 . {url-jme3test}/bullet/TestFancyCar.java[The `TestFancyCar` app]
-  demonstrates a `VehicleControl` with keyboard-controlled motion
-  and a textured model to visualize the chassis and wheels.
+  demonstrates a `VehicleControl` with keyboard-controlled motion.
+  A textured model is used to visualize the chassis and wheels.
 . {url-jme3test}/bullet/TestAttachDriver.java[The `TestAttachDriver` app]
   demonstrates attaching a rigid body to vehicle by means of a physics joint.
-  This demo uses `VehicleControl`.
+  This demo uses `VehicleControl` and debug visualization.
 . {url-jme3test}/bullet/TestHoveringTank.java[The `TestHoveringTank` app]
   simulates a hovercraft traveling over rough terrain.
-  In this demo, the "wheels" are invisible.
+  In this demo, the "wheels" are invisible, and braking is disabled.
   This demo uses the `PhysicsHoverControl` custom vehicle control.
 
 The first 3 demo apps share the following keyboard controls:
 
-* kbd:[U] to accelerate the vehicle
-* kbd:[H]/kbd:[K] to steer left/right
-* kbd:[J] to apply the brake
-* kbd:[W]/kbd:[A]/kbd:[S]/kbd:[D] to dolly the camera forward/left/back/right
+* kbd:[U] to accelerate the vehicle,
+* kbd:[H]/kbd:[K] to steer left/right,
+* kbd:[J] to apply the brake, and
+* kbd:[W]/kbd:[A]/kbd:[S]/kbd:[D] to dolly the camera forward/left/back/right.
 
 `TestHoveringTank` uses a different set of keyboard controls:
 
-* kbd:[W] to accelerate the vehicle
-* kbd:[A]/kbd:[D] to rotate the vehicle left/right
-* kbd:[S] to apply the brake
-* kbd:[Space bar] to fire the gun
+* kbd:[W] to accelerate the vehicle,
+* kbd:[A]/kbd:[D] to rotate the vehicle left/right,
+* kbd:[S] to apply the brake, and
+* kbd:[Space bar] to fire the gun.
 
 Most of the remaining keyboard controls are standardized:
 
@@ -118,7 +118,7 @@ NOTE: A symmetrical collision shape
 will place the center of gravity rather high,
 resulting in a vehicle prone to tipping.
 To avoid this pitfall, use an asymmetrical shape such as a `HullCollisionShape`
-or a compound shape.
+or a compound shape and make sure its center is low.
 
 By default, the local axes of the chassis are assigned as follows:
 
@@ -127,33 +127,36 @@ By default, the local axes of the chassis are assigned as follows:
 * +Z points forward.
 
 However, the local-axis assignments can be customized
-to match a 3rd-party chassis model:
+to match most models:
 
 [source,java]
 ----
 VehicleController controller = vehicle.getController();
-controller.setCoordinateSystem(PhysicsSpace.AXIS_Z,
-                PhysicsSpace.AXIS_Y, PhysicsSpace.AXIS_X);
+int leftRight = PhysicsSpace.AXIS_Z;
+int upDown = PhysicsSpace.AXIS_X;
+int forwardBackward = PhysicsSpace.AXIS_Y;
+controller.setCoordinateSystem(leftRight, upDown, forwardBackward);
 ----
 
 === Maximum suspension force
 
-A vehicle's suspension must support the weight of its chassis.
+A vehicle's _suspension_ connects its wheels to its chassis.
+The suspension must support the weight of its chassis.
 If the maximum suspension force is set too low, the suspension will collapse,
 causing the chassis to scrape the ground.
 
 The default maximum suspension force is 6000 per wheel.
 For a vehicle with 4 wheels and a mass of 3000,
 the default is inadequate for a gravitational acceleration of 8 or more.
-And if the weight of the chassis is unevenly distributed among the wheels,
-the maximum forces might need to be increased accordingly.
+If the weight of the chassis is distributed unevenly among the wheels,
+some of the maxima might need to be increased accordingly.
 
 === Suspension rest length
 
 _Rest length_ is the length of a spring when no force is applied to it.
-If the rest lengths are too large,
+If the subspension's rest lengths are too large,
 the chassis will seem to be jacked up on stilts
-and the vehicle will tend to tip, even when not moving.
+and the vehicle will be prone to tipping, even when not moving.
 
 === Suspension stiffness
 
@@ -193,7 +196,7 @@ Its effect is most noticable when the vehicle is braking.
 
 Too much traction could cause a vehicle to flip over if it braked hard.
 Too little traction would make braking ineffective,
-as if the tires were bald or the road were icy.
+as if the tires were bald or the supporting surface were icy.
 
 The default value for friction slip is 10.5 .
 The `PhysicsHoverControl` custom control used in `TestHoveringTank` sets the
@@ -204,7 +207,7 @@ friction slip to 0.001, making its brakes useless.
 The _roll-influence factor_ reduces (or magnifies) torques
 that tend to cause vehicles to roll over.
 
-The default value of 1 yields realistic behavior.
+The default value of 1.0 yields realistic behavior.
 Reducing this parameter will improve stability, but it's a bit of a hack;
 use it only as a last resort.
 
@@ -214,17 +217,17 @@ For further inspiration, look at
 https://jmonkeystore.com/4477514f-a3ae-4d42-b928-d3a62335159f[James Khan's Advanced Vehicles demo]
 which includes:
 
-* Pacejka model for tire friction,
+* a Pacejka model for tire friction,
 * multiple gears including reverse,
 * sound effects,
-* speedometer display,
-* tachometer display, and
+* a speedometer display,
+* a tachometer display, and
 * skid marks.
 
 == Summary
 
-* A physics vehicle simulates a game vehicle accelerating, steering, and braking
+* A physics vehicle simulates a vehicle accelerating, steering, and braking
   on a smooth surface.
 * To associate a vehicle with a spatial, use a `VehicleControl`.
-* The vehicle model is highly simplified,
-  yet its complexity is often an obstacle to achieving the desired behavior.
+* The vehicle model is simplified,
+  yet its complexity can be an obstacle to achieving the desired behavior.
