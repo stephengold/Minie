@@ -184,7 +184,7 @@
     <a class="nav-link" href="https://jmonkeystore.com/1a85df6f-4bb6-4c85-9e77-b5119662ed54">Blocks</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="https://github.com/stephengold/antora-ui-bundle">Site UI</a>
+    <a class="nav-link" href="https://github.com/stephengold/antora-ui-bundle">Website UI bundle</a>
   </li>
 </ul>
   </li>
@@ -231,13 +231,14 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <code>PhysicsJoint</code> connects one physics body to another
+<p>A <em>physics joint</em> connects one physics body to another
 (or to a fixed point in space), constraining how the body(s) can move.</p>
 </div>
 <div class="paragraph">
 <p>For instance, a door might swing on hinges.
 In simulation, the hinges would be represented by a joint
-with a single degree of freedom (DOF): rotation around the axis of the hinges.</p>
+with a single <em>degree of freedom</em> (DOF):
+rotation around the axis of the hinges.</p>
 </div>
 <div class="paragraph">
 <p>Or a door might slide along a track.
@@ -247,12 +248,33 @@ that’s free only to translate along the axis of the track.</p>
 <div class="paragraph">
 <p>Or imagine a robot arm mounted on a ball-and-socket:
 it can freely turn and twist to any imaginable orientation,
-but the ball end can’t leave the socket. (This requires 3 degrees of freedom.)</p>
+but the ball end can’t leave the socket.
+(This requires a joint with 3 degrees of freedom.)</p>
 </div>
 <div class="paragraph">
-<p><code>New6Dof</code> is a new physics joint intended to replace
-the older <code>SixDofJoint</code> and <code>SixDofSpringJoint</code>
-types found in jme3-bullet and jme3-jbullet.</p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> is a new physics joint
+intended to replace the older <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/SixDofJoint.html"><code>SixDofJoint</code></a>
+and <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/SixDofSpringJoint.html"><code>SixDofSpringJoint</code></a>.
+It&#8217;s so versatile, it can also emulate the other 4 rigid-body physics joints:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/ConeJoint.html"><code>ConeJoint</code></a></p>
+</li>
+<li>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/HingeJoint.html"><code>HingeJoint</code></a></p>
+</li>
+<li>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/Point2PointJoint.html"><code>Point2PointJoint</code></a></p>
+</li>
+<li>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/SliderJoint.html"><code>SliderJoint</code></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>It might be the only physics joint you&#8217;ll ever need.</p>
 </div>
 </div>
 </div>
@@ -260,8 +282,8 @@ types found in jme3-bullet and jme3-jbullet.</p>
 <h2 id="_features"><a class="anchor" href="#_features"></a>Features</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>New6Dof</code> is a versatile physics joint with 3 rotation DOFs
- and 3 translation DOFs; it can potentially rotate or slide on any axis or axes.
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> has 3 rotation DOFs
+and 3 translation DOFs; it can potentially rotate or slide on any axis or axes.
 Locking various DOFs allows it to simulate almost any kind of joint:</p>
 </div>
 <div class="ulist">
