@@ -119,7 +119,7 @@ public class TestCloneJoints {
     /**
      * ConeJoint: single- and double-ended
      */
-    private static void cloneCone() {
+    private void cloneCone() {
         ConeJoint cone
                 = new ConeJoint(rigidA, rigidB, va, vb, qa.toRotationMatrix(),
                         qb.toRotationMatrix());
@@ -138,7 +138,7 @@ public class TestCloneJoints {
     /**
      * HingeJoint: single- and double-ended
      */
-    private static void cloneHinge() {
+    private void cloneHinge() {
         HingeJoint hinge = new HingeJoint(rigidA, rigidB, va, vb,
                 new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f));
         setParameters(hinge, 0f);
@@ -157,7 +157,7 @@ public class TestCloneJoints {
     /**
      * New6Dof: single- and double-ended
      */
-    private static void cloneNew6Dof() {
+    private void cloneNew6Dof() {
         New6Dof deNew6 = new New6Dof(rigidA, rigidB, va, vb,
                 qa.toRotationMatrix(), qb.toRotationMatrix(), RotationOrder.XYZ);
         setParameters(deNew6, 0f);
@@ -176,7 +176,7 @@ public class TestCloneJoints {
     /**
      * Point2PointJoint: single- and double-ended
      */
-    private static void cloneP2P() {
+    private void cloneP2P() {
         Point2PointJoint p2p = new Point2PointJoint(rigidA, rigidB, va, vb);
         setParameters(p2p, 0f);
         verifyParameters(p2p, 0f);
@@ -194,7 +194,7 @@ public class TestCloneJoints {
     /**
      * SixDofJoint: single- and double-ended
      */
-    private static void cloneSix() {
+    private void cloneSix() {
         SixDofJoint six = new SixDofJoint(rigidA, rigidB, va, vb,
                 qa.toRotationMatrix(), qb.toRotationMatrix(), false);
         setParameters(six, 0f);
@@ -213,7 +213,7 @@ public class TestCloneJoints {
     /**
      * SliderJoint: single- and double-ended
      */
-    private static void cloneSlide() {
+    private void cloneSlide() {
         SliderJoint slide = new SliderJoint(rigidA, rigidB, va, vb,
                 qa.toRotationMatrix(), qb.toRotationMatrix(), false);
         setParameters(slide, 0f);
@@ -231,7 +231,7 @@ public class TestCloneJoints {
     /**
      * SoftAngularJoint: soft-soft and soft-rigid
      */
-    private static void cloneSoftAngular() {
+    private void cloneSoftAngular() {
         SoftAngularJoint ssaj = new SoftAngularJoint(va, softA, 0, softB, 0);
         setParameters(ssaj, 0f);
         verifyParameters(ssaj, 0f);
@@ -248,7 +248,7 @@ public class TestCloneJoints {
     /**
      * Clone SoftLinearJoint: soft-soft and soft-rigid
      */
-    private static void cloneSoftLinear() {
+    private void cloneSoftLinear() {
         SoftLinearJoint sslj = new SoftLinearJoint(va, softA, 0, softB, 0);
         setParameters(sslj, 0f);
         verifyParameters(sslj, 0f);
@@ -265,7 +265,7 @@ public class TestCloneJoints {
     /**
      * SixDofSpringJoint: single- and double-ended
      */
-    private static void cloneSpring() {
+    private void cloneSpring() {
         SixDofSpringJoint spring = new SixDofSpringJoint(rigidA, rigidB, va, vb,
                 qa.toRotationMatrix(), qb.toRotationMatrix(), false);
         setParameters(spring, 0f);
@@ -283,7 +283,7 @@ public class TestCloneJoints {
         cloneTest(seSpring, seSpringClone);
     }
 
-    private static void cloneTest(PhysicsJoint joint, PhysicsJoint jointClone) {
+    private void cloneTest(PhysicsJoint joint, PhysicsJoint jointClone) {
         assert jointClone.nativeId() != joint.nativeId();
 
         PhysicsBody a = joint.getBody(JointEnd.A);
@@ -350,7 +350,7 @@ public class TestCloneJoints {
      * @param control the joint to modify (not null)
      * @param b the key value
      */
-    private static void setParameters(PhysicsJoint joint, float b) {
+    private void setParameters(PhysicsJoint joint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
 
@@ -387,14 +387,14 @@ public class TestCloneJoints {
         }
     }
 
-    private static void setCone(ConeJoint cone, float b) {
+    private void setCone(ConeJoint cone, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         cone.setAngularOnly(!flag);
 
         cone.setLimit(b + 0.01f, b + 0.02f, b + 0.03f);
     }
 
-    private static void setHinge(HingeJoint hinge, float b) {
+    private void setHinge(HingeJoint hinge, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         hinge.setAngularOnly(!flag);
 
@@ -402,7 +402,7 @@ public class TestCloneJoints {
         hinge.setLimit(b + 0.03f, b + 0.04f, b + 0.05f, b + 0.06f, b + 0.07f);
     }
 
-    private static void setNew6Dof(New6Dof constraint, float b) {
+    private void setNew6Dof(New6Dof constraint, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
 
         RotationMotor rMotor
@@ -429,13 +429,13 @@ public class TestCloneJoints {
         }
     }
 
-    private static void setP2P(Point2PointJoint p2p, float b) {
+    private void setP2P(Point2PointJoint p2p, float b) {
         p2p.setDamping(b + 0.01f);
         p2p.setImpulseClamp(b + 0.02f);
         p2p.setTau(b + 0.03f);
     }
 
-    private static void setSix(SixDofJoint six, float b) {
+    private void setSix(SixDofJoint six, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
 
         RotationalLimitMotor rot
@@ -472,7 +472,7 @@ public class TestCloneJoints {
         tra.setTargetVelocity(new Vector3f(0f, 0f, b + 0.24f));
     }
 
-    private static void setSlide(SliderJoint slide, float b) {
+    private void setSlide(SliderJoint slide, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
 
         slide.setDampingDirAng(b + 0.01f);
@@ -512,19 +512,19 @@ public class TestCloneJoints {
         slide.setUpperLinLimit(b + 0.26f);
     }
 
-    private static void setSoftAngular(SoftAngularJoint saj, float b) {
+    private void setSoftAngular(SoftAngularJoint saj, float b) {
         saj.setCFM(b + 0.01f);
         saj.setERP(b + 0.02f);
         saj.setSplit(b + 0.03f);
     }
 
-    private static void setSoftLinear(SoftLinearJoint slj, float b) {
+    private void setSoftLinear(SoftLinearJoint slj, float b) {
         slj.setCFM(b + 0.02f);
         slj.setERP(b + 0.03f);
         slj.setSplit(b + 0.04f);
     }
 
-    private static void setSpring(SixDofSpringJoint spring, float b) {
+    private void setSpring(SixDofSpringJoint spring, float b) {
         setSix(spring, b);
 
         spring.setDamping(0, b + 0.251f);
@@ -549,7 +549,7 @@ public class TestCloneJoints {
      * @param joint the joint to verify (not null, unaffected)
      * @param b the key value
      */
-    private static void verifyParameters(PhysicsJoint joint, float b) {
+    private void verifyParameters(PhysicsJoint joint, float b) {
         assert joint != null;
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
@@ -589,7 +589,7 @@ public class TestCloneJoints {
         }
     }
 
-    private static void verifyCone(ConeJoint cone, float b) {
+    private void verifyCone(ConeJoint cone, float b) {
         Transform ta = cone.getFrameTransform(JointEnd.A, null);
         assert ta.getTranslation().x == va.x : ta;
         assert ta.getTranslation().y == va.y : ta;
@@ -618,7 +618,7 @@ public class TestCloneJoints {
         Assert.assertEquals(b + 0.03f, cone.getTwistSpan(), 0f);
     }
 
-    private static void verifyHinge(HingeJoint hinge, float b) {
+    private void verifyHinge(HingeJoint hinge, float b) {
         Transform ta = hinge.getFrameTransform(JointEnd.A, null);
         assert ta.getTranslation().x == va.x : ta;
         assert ta.getTranslation().y == va.y : ta;
@@ -641,7 +641,7 @@ public class TestCloneJoints {
         Assert.assertEquals(b + 0.07f, hinge.getRelaxationFactor(), 1e-6f);
     }
 
-    private static void verifyNew6Dof(New6Dof constraint, float b) {
+    private void verifyNew6Dof(New6Dof constraint, float b) {
         Transform ta = constraint.getFrameTransform(JointEnd.A, null);
         assert ta.getTranslation().x == va.x : ta;
         assert ta.getTranslation().y == va.y : ta;
@@ -686,13 +686,13 @@ public class TestCloneJoints {
         }
     }
 
-    private static void verifyP2P(Point2PointJoint p2p, float b) {
+    private void verifyP2P(Point2PointJoint p2p, float b) {
         assert p2p.getDamping() == b + 0.01f;
         assert p2p.getImpulseClamp() == b + 0.02f;
         assert p2p.getTau() == b + 0.03f;
     }
 
-    private static void verifySix(SixDofJoint six, float b) {
+    private void verifySix(SixDofJoint six, float b) {
         Transform ta = six.getFrameTransform(JointEnd.A, null);
         assert ta.getTranslation().x == va.x : ta;
         assert ta.getTranslation().y == va.y : ta;
@@ -752,7 +752,7 @@ public class TestCloneJoints {
         assert tra.getTargetVelocity(null).z == b + 0.24f;
     }
 
-    private static void verifySlide(SliderJoint slide, float b) {
+    private void verifySlide(SliderJoint slide, float b) {
         Transform ta = slide.getFrameTransform(JointEnd.A, null);
         assert ta.getTranslation().x == va.x : ta;
         assert ta.getTranslation().y == va.y : ta;
@@ -802,19 +802,19 @@ public class TestCloneJoints {
         assert slide.getUpperLinLimit() == b + 0.26f;
     }
 
-    private static void verifySoftAngular(SoftAngularJoint saj, float b) {
+    private void verifySoftAngular(SoftAngularJoint saj, float b) {
         assert saj.getCFM() == b + 0.01f;
         assert saj.getERP() == b + 0.02f;
         assert saj.getSplit() == b + 0.03f;
     }
 
-    private static void verifySoftLinear(SoftLinearJoint slj, float b) {
+    private void verifySoftLinear(SoftLinearJoint slj, float b) {
         assert slj.getCFM() == b + 0.02f;
         assert slj.getERP() == b + 0.03f;
         assert slj.getSplit() == b + 0.04f;
     }
 
-    private static void verifySpring(SixDofSpringJoint spring, float b) {
+    private void verifySpring(SixDofSpringJoint spring, float b) {
         verifySix(spring, b);
 
         assert spring.getDamping(0) == b + 0.251f;
