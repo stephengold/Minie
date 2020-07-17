@@ -33,7 +33,6 @@ import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
@@ -199,7 +198,7 @@ public class HelloCharacter
         // Construct a static rigid body with a square shape.
         Box2dShape shape = new Box2dShape(halfExtent);
         PhysicsRigidBody result
-                = new RigidBodyControl(shape, PhysicsBody.massForStatic);
+                = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         physicsSpace.addCollisionObject(result);
 
