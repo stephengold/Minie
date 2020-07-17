@@ -128,7 +128,7 @@ public class HelloVehicle extends SimpleApplication {
         // Apply a constant acceleration (to the chassis).
         vehicle.accelerate(1f);
 
-        // Add a plane to represent the ground.
+        // Add a static plane to represent the ground.
         float y = -radius - 0.35f;
         addPlane(y, physicsSpace);
 
@@ -150,7 +150,7 @@ public class HelloVehicle extends SimpleApplication {
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        // Generate a repeating tile texture.
+        // Load a repeating tile texture.
         String assetPath = "Textures/greenTile.png";
         boolean flipY = false;
         TextureKey key = new TextureKey(assetPath, flipY);
