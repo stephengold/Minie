@@ -7,7 +7,7 @@
 ** xref:minie-library-tutorials:debug.adoc[Debug aids]
 ** xref:minie-library-tutorials:character.adoc[Characters]
 ** xref:minie-library-tutorials:vehicle.adoc[Vehicles]
-** xref:minie-library-tutorials:new6dof.adoc[New6Dof joints]
+** xref:minie-library-tutorials:new6dof.adoc[New6Dof constraints]
 ** xref:minie-library-tutorials:dac.adoc[Ragdolls]
 ** xref:minie-library-tutorials:detect.adoc[Collision detection]
 ** xref:minie-library-tutorials:softbody.adoc[Soft bodies]
