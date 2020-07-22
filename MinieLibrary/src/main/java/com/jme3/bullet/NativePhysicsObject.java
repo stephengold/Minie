@@ -62,7 +62,8 @@ abstract public class NativePhysicsObject {
     /**
      * map native IDs to their trackers
      */
-    final static Map<Long, NpoTracker> map = new ConcurrentHashMap<>(999);
+    final private static Map<Long, NpoTracker> map
+            = new ConcurrentHashMap<>(999);
     /**
      * weak references to all instances whose assigned native objects are
      * tracked and known to be unused
