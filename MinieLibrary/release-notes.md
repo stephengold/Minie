@@ -1,5 +1,20 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 2.0.0 released on TBD
+
+ + Bugfix: issue #9 (native crashes caused by invoking `finalizeNative()`
+   outside of the "Physics Cleaner" thread)
+ + Bugfix: race condition during the removal of an `NpoTracker`.
+ + Bugfix: issue #10 (native IDs of soft physics joints shouldn't be tracked)
+ + Bugfix: location not initialized when creating a `PhysicsCharacter`.
+ + Added 2 new constructors to the `HeightfieldCollisionShape` class.
+ + Added argument validation to the `setMaxSlope()` method
+   in the `PhysicsCharacter` class.
+ + More progress constructing the website.
+ + Added 10 more tutoral apps.
+ + Enabled gamma correction in tutorial apps that use lighting.
+ + Updated the native libraries to v8.4.0 of Libbulletjme.
+
 ## Version 2.0.0-test2 released on 4 July 2020
 
  + Added collision listeners for ongoing contacts, to the `PhysicsSpace` class.
