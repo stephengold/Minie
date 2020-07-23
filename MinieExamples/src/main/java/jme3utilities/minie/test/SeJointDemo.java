@@ -660,7 +660,9 @@ public class SeJointDemo extends AbstractDemo {
      */
     private void updateStatusText() {
         int numSeeds = meshesNode.getChildren().size();
-        String message = String.format("test=%s, count=%d", testName, numSeeds);
+        boolean isPaused = isPaused();
+        String message = String.format("test=%s, count=%d%s", testName,
+                numSeeds, isPaused ? "  PAUSED" : "");
         statusText.setText(message);
     }
 }
