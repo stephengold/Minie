@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 2.0.0 released on TBD
+## Version 2.0.0 released on 22 July 2020
 
  + Bugfix: issue #9 (native crashes caused by invoking `finalizeNative()`
    outside of the "Physics Cleaner" thread)
@@ -10,8 +10,8 @@
  + Added 2 new constructors to the `HeightfieldCollisionShape` class.
  + Added argument validation to the `setMaxSlope()` method
    in the `PhysicsCharacter` class.
- + More progress constructing the website.
- + Added 10 more tutoral apps.
+ + Made more progress constructing the website.
+ + Added 10 more tutorial apps.
  + Enabled gamma correction in tutorial apps that use lighting.
  + Updated the native libraries to v8.4.0 of Libbulletjme.
 
