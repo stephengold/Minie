@@ -57,6 +57,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Limits;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
@@ -271,7 +272,10 @@ public class DropTest
         String platformName = status.platformType();
         addPlatform(platformName, platformSurfaceY);
 
-        renderer.setDefaultAnisotropicFilter(8);
+        int maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
+        int degree = Math.min(8, maxDegree);
+        renderer.setDefaultAnisotropicFilter(degree);
+        
         addADrop(1);
     }
 

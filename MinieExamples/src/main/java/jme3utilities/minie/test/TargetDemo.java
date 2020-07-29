@@ -56,6 +56,7 @@ import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Limits;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -244,7 +245,10 @@ public class TargetDemo
         String platformName = status.platformType();
         addPlatform(platformName, platformTopY);
 
-        renderer.setDefaultAnisotropicFilter(8);
+        int maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
+        int degree = Math.min(8, maxDegree);
+        renderer.setDefaultAnisotropicFilter(degree);
+        
         setUpScenario();
     }
 

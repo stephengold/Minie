@@ -41,6 +41,7 @@ import com.jme3.material.Materials;
 import com.jme3.math.FastMath;
 import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Limits;
 import com.jme3.texture.Texture;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -131,9 +132,6 @@ public class HelloVehicle extends SimpleApplication {
         // Add a static plane to represent the ground.
         float y = -radius - 0.35f;
         addPlane(y, physicsSpace);
-
-        // Enable anisotropic filtering for textures, to reduce blurring.
-        renderer.setDefaultAnisotropicFilter(8);
     }
     // *************************************************************************
     // private methods
@@ -159,6 +157,11 @@ public class HelloVehicle extends SimpleApplication {
         Texture texture = assetManager.loadTexture(key);
         texture.setMinFilter(Texture.MinFilter.Trilinear);
         texture.setWrap(Texture.WrapMode.Repeat);
+
+        // Enable anisotropic filtering, to reduce blurring.
+        int maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
+        int degree = Math.min(8, maxDegree);
+        texture.setAnisotropicFilter(degree);
 
         // Apply a tiled, unshaded debug material to the body.
         Material material = new Material(assetManager, Materials.UNSHADED);

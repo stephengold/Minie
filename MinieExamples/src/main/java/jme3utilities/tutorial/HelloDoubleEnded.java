@@ -52,6 +52,7 @@ import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Limits;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -63,7 +64,7 @@ import com.jme3.texture.Texture;
 /**
  * A simple example of a double-ended PhysicsJoint.
  *
- * Built upon HelloJoint.
+ * Builds upon HelloJoint.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -140,9 +141,6 @@ public class HelloDoubleEnded
                 pivotInBall, pivotInPaddle,
                 rotInBall, rotInPaddle, RotationOrder.XYZ);
         physicsSpace.addJoint(joint);
-
-        // Enable anisotropic filtering for textures, to reduce blurring.
-        renderer.setDefaultAnisotropicFilter(8);
     }
 
     /**
@@ -294,6 +292,11 @@ public class HelloDoubleEnded
         Texture texture = assetManager.loadTexture(key);
         texture.setMinFilter(Texture.MinFilter.Trilinear);
         texture.setWrap(Texture.WrapMode.Repeat);
+
+        // Enable anisotropic filtering, to reduce blurring.
+        int maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
+        int degree = Math.min(8, maxDegree);
+        texture.setAnisotropicFilter(degree);
 
         // Apply a tiled, unshaded debug material to the body.
         Material material = new Material(assetManager, Materials.UNSHADED);
