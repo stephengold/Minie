@@ -777,7 +777,7 @@ public class BetterCharacterControl
         loc.set(localUp).multLocal(FastMath.ZERO_TOLERANCE).addLocal(this.location);
         rayVector.set(localUp).multLocal(height + FastMath.ZERO_TOLERANCE).addLocal(loc);
         List<PhysicsRayTestResult> results
-                = getPhysicsSpace().rayTest(loc, rayVector);
+                = getPhysicsSpace().rayTestRaw(loc, rayVector);
         vars.release();
         for (PhysicsRayTestResult physicsRayTestResult : results) {
             if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
@@ -798,7 +798,7 @@ public class BetterCharacterControl
         loc.set(localUp).multLocal(height).addLocal(this.location);
         rayVector.set(localUp).multLocal(-height - 0.1f).addLocal(loc);
         List<PhysicsRayTestResult> results
-                = getPhysicsSpace().rayTest(loc, rayVector);
+                = getPhysicsSpace().rayTestRaw(loc, rayVector);
         vars.release();
         for (PhysicsRayTestResult physicsRayTestResult : results) {
             if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
