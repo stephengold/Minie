@@ -56,6 +56,10 @@ public enum DumpFlags {
      */
     CullHints,
     /**
+     * ignored objects in collision objects
+     */
+    Ignores,
+    /**
      * physics joints in rigid bodies
      */
     JointsInBodies,
@@ -68,11 +72,11 @@ public enum DumpFlags {
      */
     MatParams,
     /**
-     * motors in joints
+     * motors in physics joints
      */
     Motors,
     /**
-     * nodes in clusters
+     * soft-body nodes in clusters
      */
     NodesInClusters,
     /**

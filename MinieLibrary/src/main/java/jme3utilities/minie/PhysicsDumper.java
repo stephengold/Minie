@@ -41,6 +41,7 @@ import com.jme3.bullet.SolverInfo;
 import com.jme3.bullet.SolverMode;
 import com.jme3.bullet.SolverType;
 import com.jme3.bullet.collision.Activation;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
@@ -115,7 +116,11 @@ public class PhysicsDumper extends Dumper {
      */
     private boolean dumpClustersInSofts = false;
     /**
-     * enable dumping of joints in bodies
+     * enable dumping of ignored objects in collision objects
+     */
+    private boolean dumpIgnores = false;
+    /**
+     * enable dumping of physics joints in bodies
      */
     private boolean dumpJointsInBodies = false;
     /**
@@ -123,7 +128,7 @@ public class PhysicsDumper extends Dumper {
      */
     private boolean dumpJointsInSpaces = false;
     /**
-     * enable dumping of motors in joints
+     * enable dumping of motors in physics joints
      */
     private boolean dumpMotors = false;
     /**
@@ -131,7 +136,7 @@ public class PhysicsDumper extends Dumper {
      */
     private boolean dumpNativeIDs = false;
     /**
-     * enable dumping of nodes in clusters
+     * enable dumping of soft-body nodes in clusters
      */
     private boolean dumpNodesInClusters = false;
     /**
@@ -253,6 +258,7 @@ public class PhysicsDumper extends Dumper {
          */
         CollisionShape shape = collider.getCollisionShape();
         dump(shape, indent + " ");
+        // TODO ignored objects
     }
 
     /**
@@ -337,6 +343,7 @@ public class PhysicsDumper extends Dumper {
          */
         CollisionShape shape = character.getCollisionShape();
         dump(shape, indent + " ");
+        // TODO ignored objects
     }
 
     /**
@@ -374,6 +381,7 @@ public class PhysicsDumper extends Dumper {
          */
         CollisionShape shape = ghost.getCollisionShape();
         dump(shape, indent + " ");
+        // TODO ignored objects
     }
 
     /**
@@ -433,7 +441,7 @@ public class PhysicsDumper extends Dumper {
         dump(shape, indent + " ");
         /*
          * The next line has the bounding box, group info, number of wheels,
-         * and number of joints.
+         * and number of ignores/joints.
          */
         addLine(indent);
         if (shape instanceof CompoundCollisionShape
@@ -458,17 +466,20 @@ public class PhysicsDumper extends Dumper {
                     (numWheels == 1) ? "" : "s");
             if (numWheels > 0) {
                 dumpWheels(vehicle, indent, numWheels);
+            } else {
+                stream.append(',');
             }
-            stream.append(',');
         }
+
         int numIgnores = body.countIgnored();
+        stream.printf(" %d ignore%s", numIgnores, (numIgnores == 1) ? "" : "s");
+        if (dumpIgnores && numIgnores > 0) {
+            dumpIgnores(body, indent);
+        }
+
         int numJoints = body.countJoints();
-        stream.printf(" %d ignore%s and %d joint%s",
-                numIgnores, (numIgnores == 1) ? "" : "s",
+        stream.printf(" and %d joint%s",
                 numJoints, (numJoints == 1) ? "" : "s");
-        /*
-         * Additional lines, if needed, for the joints.
-         */
         if (dumpJointsInBodies && numJoints > 0) {
             dumpJoints(body, indent);
         }
@@ -597,6 +608,7 @@ public class PhysicsDumper extends Dumper {
         if (dumpNodesInSofts && numNodes > 0) {
             dumpNodes(body, indent);
         }
+        // TODO ignored objects
     }
 
     /**
@@ -834,6 +846,10 @@ public class PhysicsDumper extends Dumper {
                 result = isDumpCull();
                 break;
 
+            case Ignores:
+                result = dumpIgnores;
+                break;
+
             case JointsInBodies:
                 result = dumpJointsInBodies;
                 break;
@@ -920,6 +936,10 @@ public class PhysicsDumper extends Dumper {
 
             case CullHints:
                 setDumpCull(newValue);
+                break;
+
+            case Ignores:
+                dumpIgnores = newValue;
                 break;
 
             case JointsInBodies:
@@ -1278,6 +1298,25 @@ public class PhysicsDumper extends Dumper {
             if (dumpMotors) {
                 dumpNodesInCluster(softBody, clusterIndex);
             }
+        }
+        addLine(indent);
+    }
+
+    /**
+     * Dump all ignored objects in the specified collision object.
+     *
+     * @param pco the body to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    private void dumpIgnores(PhysicsCollisionObject pco, String indent) {
+        stream.print(':');
+        long[] idList = pco.listIgnoredIds();
+        String moreIndent = indent + indentIncrement();
+        for (long otherId : idList) {
+            addLine(moreIndent);
+            PhysicsCollisionObject otherPco
+                    = PhysicsCollisionObject.findInstance(otherId);
+            stream.append(otherPco.toString());
         }
         addLine(indent);
     }
