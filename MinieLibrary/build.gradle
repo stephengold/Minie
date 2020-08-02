@@ -217,10 +217,22 @@ task cleanWindows64(type: Delete) {
     delete nativeDir + 'windows/x86_64/bulletjme.dll'
 }
 
-task('copyJavadocToSite', type: Copy) {
+task('copyJavadocToSite') {
+    dependsOn 'copyMasterJavadocToSite', 'copy20JavadocToSite'
+}
+task('copyMasterJavadocToSite', type: Copy) {
     dependsOn 'javadoc'
     from "${buildDir}/docs/javadoc"
     into '../build/site/javadoc/master'
+}
+task('copy20JavadocToSite', type: Copy) {
+    dependsOn 'download20Javadoc'
+    from zipTree("${buildDir}/docs/v2-0.jar")
+    into '../build/site/javadoc/v2-0'
+}
+task download20Javadoc(type: MyDownload) {
+    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/2.0.0/Minie-2.0.0-javadoc.jar'
+    target = file("${buildDir}/docs/v2-0.jar")
 }
 
 build.dependsOn('pom')
