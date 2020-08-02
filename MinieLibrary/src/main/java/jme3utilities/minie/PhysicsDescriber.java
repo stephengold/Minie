@@ -878,23 +878,17 @@ public class PhysicsDescriber extends Describer {
         String desc = describe(joint);
         result.append(desc);
 
-        PhysicsBody otherBody = null;
+        PhysicsBody otherBody;
         Vector3f pivot = null;
         if (joint.getBody(JointEnd.A) == body) {
-            PhysicsBody bodyB = joint.getBody(JointEnd.B);
-            if (bodyB != null) {
-                otherBody = bodyB;
-            }
+            otherBody = joint.getBody(JointEnd.B);
             if (joint instanceof Constraint) {
                 Constraint constraint = (Constraint) joint;
                 pivot = constraint.getPivotA(null);
             }
         } else {
             assert joint.getBody(JointEnd.B) == body;
-            PhysicsBody bodyA = joint.getBody(JointEnd.A);
-            if (bodyA != null) {
-                otherBody = bodyA;
-            }
+            otherBody = joint.getBody(JointEnd.A);
             if (joint instanceof Constraint) {
                 Constraint constraint = (Constraint) joint;
                 pivot = constraint.getPivotB(null);
