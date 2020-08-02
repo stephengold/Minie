@@ -34,13 +34,12 @@ import com.jme3.bullet.objects.PhysicsBody;
 import java.util.logging.Logger;
 
 /**
- * A simple DebugAppStateFilter to display/dump only physics objects associated
- * with a specific user object. Instances are immutable.
+ * A simple DebugAppStateFilter that selects physics objects associated with a
+ * specific user object. Instances are immutable.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class UserFilter
-        implements BulletDebugAppState.DebugAppStateFilter {
+public class UserFilter implements BulletDebugAppState.DebugAppStateFilter {
     // *************************************************************************
     // constants and loggers
 
@@ -75,8 +74,8 @@ public class UserFilter
      * Test whether the specified physics object should be displayed/dumped.
      *
      * @param physicsObject the joint or collision object to test (unaffected)
-     * @return return true if the object should be displayed/dumped, false if
-     * not
+     * @return return true if the object should be displayed/dumped, false if it
+     * shouldn't be
      */
     @Override
     public boolean displayObject(Object physicsObject) {
