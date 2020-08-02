@@ -1196,9 +1196,7 @@ abstract public class PhysicsCollisionObject
      */
     protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
         long[] ignoredIds = old.listIgnoredIds();
-        int numIgnored = ignoredIds.length;
-        for (int index = 0; index < numIgnored; ++index) {
-            long oldPcoId = ignoredIds[index];
+        for (long oldPcoId : ignoredIds) {
             PhysicsCollisionObject oldPco
                     = PhysicsCollisionObject.findInstance(oldPcoId);
             PhysicsCollisionObject newPco = cloner.clone(oldPco);
