@@ -774,7 +774,7 @@ public class BulletAppState
                 physicsFuture.get();
                 physicsFuture = null;
             } catch (InterruptedException | ExecutionException exception) {
-                logger.log(Level.SEVERE, null, exception);
+                throw new RuntimeException(exception);
             }
         }
     }
