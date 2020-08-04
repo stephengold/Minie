@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":6,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":6,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -222,27 +222,41 @@ java.lang.Object&nbsp;original)</code></th>
 </td>
 </tr>
 <tr class="altColor" id="i4">
+<td class="colFirst"><code><a href="JointEnd.html" title="enum in com.jme3.bullet.joints">JointEnd</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#findEnd(com.jme3.bullet.objects.PhysicsBody)">findEnd</a></span>&#8203;(<a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;body)</code></th>
+<td class="colLast">
+<div class="block">Test whether the specified body is an end of this joint.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i5">
+<td class="colFirst"><code><a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#findOtherBody(com.jme3.bullet.objects.PhysicsBody)">findOtherBody</a></span>&#8203;(<a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;body)</code></th>
+<td class="colLast">
+<div class="block">Access the remaining body of this joint.</div>
+</td>
+</tr>
+<tr class="altColor" id="i6">
 <td class="colFirst"><code><a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getBody(com.jme3.bullet.joints.JointEnd)">getBody</a></span>&#8203;(<a href="JointEnd.html" title="enum in com.jme3.bullet.joints">JointEnd</a>&nbsp;end)</code></th>
 <td class="colLast">
 <div class="block">Access the body at the specified end of this joint.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i5">
+<tr class="rowColor" id="i7">
 <td class="colFirst"><code><a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getBodyA()">getBodyA</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the body at the joint's "A" end.</div>
 </td>
 </tr>
-<tr class="altColor" id="i6">
+<tr class="altColor" id="i8">
 <td class="colFirst"><code><a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getBodyB()">getBodyB</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the body at the joint's "B" end.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i7">
+<tr class="rowColor" id="i9">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getObjectId()">getObjectId</a></span>()</code></th>
 <td class="colLast">
@@ -250,28 +264,28 @@ java.lang.Object&nbsp;original)</code></th>
  btSoftBody::Joint.</div>
 </td>
 </tr>
-<tr class="altColor" id="i8">
+<tr class="altColor" id="i10">
 <td class="colFirst"><code><a href="../PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPhysicsSpace()">getPhysicsSpace</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the PhysicsSpace where this joint is added.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i9">
+<tr class="rowColor" id="i11">
 <td class="colFirst"><code>abstract boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEnabled()">isEnabled</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether this joint is enabled.</div>
 </td>
 </tr>
-<tr class="altColor" id="i10">
+<tr class="altColor" id="i12">
 <td class="colFirst"><code><a href="PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#jmeClone()">jmeClone</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Create a shallow clone for the JME cloner.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i11">
+<tr class="rowColor" id="i13">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#read(com.jme3.export.JmeImporter)">read</a></span>&#8203;(com.jme3.export.JmeImporter&nbsp;importer)</code></th>
 <td class="colLast">
@@ -279,42 +293,42 @@ java.lang.Object&nbsp;original)</code></th>
  loading from a J3O file.</div>
 </td>
 </tr>
-<tr class="altColor" id="i12">
+<tr class="altColor" id="i14">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setBodyA(com.jme3.bullet.objects.PhysicsBody)">setBodyA</a></span>&#8203;(<a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;body)</code></th>
 <td class="colLast">
 <div class="block">Specify the body at the joint's "A" end.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i13">
+<tr class="rowColor" id="i15">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setBodyB(com.jme3.bullet.objects.PhysicsBody)">setBodyB</a></span>&#8203;(<a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;body)</code></th>
 <td class="colLast">
 <div class="block">Specify the body at the joint's "B" end.</div>
 </td>
 </tr>
-<tr class="altColor" id="i14">
+<tr class="altColor" id="i16">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setNativeId(long)">setNativeId</a></span>&#8203;(long&nbsp;jointId)</code></th>
 <td class="colLast">
 <div class="block">Initialize the native ID.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i15">
+<tr class="rowColor" id="i17">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPhysicsSpace(com.jme3.bullet.PhysicsSpace)">setPhysicsSpace</a></span>&#8203;(<a href="../PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;physicsSpace)</code></th>
 <td class="colLast">
 <div class="block">Alter which PhysicsSpace this joint is added to.</div>
 </td>
 </tr>
-<tr class="altColor" id="i16">
+<tr class="altColor" id="i18">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Represent this joint as a String.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i17">
+<tr class="rowColor" id="i19">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(com.jme3.export.JmeExporter)">write</a></span>&#8203;(com.jme3.export.JmeExporter&nbsp;exporter)</code></th>
 <td class="colLast">
@@ -399,6 +413,33 @@ java.lang.Object&nbsp;original)</code></th>
 <h3><a id="destroy()">destroy</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">destroy</span>()</div>
 <div class="block">Remove this joint from the joint lists of both ends.</div>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="findEnd(com.jme3.bullet.objects.PhysicsBody)">findEnd</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="JointEnd.html" title="enum in com.jme3.bullet.joints">JointEnd</a></span>&nbsp;<span class="memberName">findEnd</span>&#8203;(<span class="arguments"><a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;body)</span></div>
+<div class="block">Test whether the specified body is an end of this joint.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>body</code> - the body to find (not null, unaffected)</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the enum value if found, otherwise null</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="findOtherBody(com.jme3.bullet.objects.PhysicsBody)">findOtherBody</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></span>&nbsp;<span class="memberName">findOtherBody</span>&#8203;(<span class="arguments"><a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;body)</span></div>
+<div class="block">Access the remaining body of this joint.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>body</code> - (not null, unaffected)</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the body at the other end (null if not found or the joint is
+ single-ended)</dd>
+</dl>
 </section>
 </li>
 <li class="blockList">
