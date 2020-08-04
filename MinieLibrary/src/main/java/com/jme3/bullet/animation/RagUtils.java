@@ -37,6 +37,8 @@ import com.jme3.anim.SkinningControl;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
+import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Eigen3f;
@@ -260,6 +262,32 @@ public class RagUtils {
         }
 
         return result;
+    }
+
+    /**
+     * Traverse a group of bodies joined by physics joints, adding neighbors to
+     * the ignore list of the start body. Assumes no cycles. Note: recursive!
+     *
+     * @param start the body where the traversal began (not null, unaffected)
+     * @param current the body to traverse (not null, unaffected)
+     * @param hopsRemaining the number of hops remaining (&ge;0)
+     */
+    static void ignoreCollisions(PhysicsBody start, PhysicsBody current,
+            int hopsRemaining) {
+        if (hopsRemaining <= 0) {
+            return;
+        }
+        /*
+         * Take another hop.
+         */
+        PhysicsJoint[] joints = current.listJoints();
+        for (PhysicsJoint joint : joints) {
+            PhysicsBody neighbor = joint.findOtherBody(current);
+            if (neighbor != null && neighbor != start) {
+                start.addToIgnoreList(neighbor);
+                ignoreCollisions(start, neighbor, hopsRemaining - 1);
+            }
+        }
     }
 
     /**

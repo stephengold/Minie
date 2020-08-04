@@ -915,8 +915,8 @@ public class DacLinks
             armature.update();
         }
 
-        int maxGenerations = ignoredGenerations();
-        ignoreCollisions(maxGenerations);
+        int maxHops = ignoredHops();
+        ignoreCollisions(maxHops);
 
         if (added) {
             addPhysics();
@@ -1622,26 +1622,24 @@ public class DacLinks
     }
 
     /**
-     * Ignore collisions between PhysicsLink ancestor-descendant pairs spanning
-     * up to the specified number of generations.
+     * Ignore collisions between rigid bodies connected by at most maxHops
+     * physics joints, but don't ignore any other pairs.
      *
-     * @param maxGenerations the number of generations to ignore (&ge;0)
+     * @param maxHops the maximum number of hops (&ge;0)
      */
-    private void ignoreCollisions(int maxGenerations) {
-        for (PhysicsLink link : listLinks(PhysicsLink.class)) {
-            PhysicsRigidBody linkBody = link.getRigidBody();
-
-            PhysicsLink ancestor = link;
-            int separation = 0;
-            while (true) {
-                ancestor = ancestor.getParent();
-                ++separation;
-                if (ancestor == null || separation > maxGenerations) {
-                    break;
-                }
-                PhysicsRigidBody ancestorBody = ancestor.getRigidBody();
-                ancestorBody.addToIgnoreList(linkBody);
-            }
+    private void ignoreCollisions(int maxHops) {
+        /*
+         * Clear the ignore lists of all bodies.
+         */
+        PhysicsRigidBody bodies[] = listRigidBodies();
+        for (PhysicsRigidBody body : bodies) {
+            body.clearIgnoreList();
+        }
+        /*
+         * Rebuild the ignore lists using recursion.
+         */
+        for (PhysicsRigidBody body : bodies) {
+            RagUtils.ignoreCollisions(body, body, maxHops);
         }
     }
 

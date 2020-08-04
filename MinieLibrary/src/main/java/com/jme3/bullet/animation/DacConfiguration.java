@@ -83,7 +83,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     final private static String tagEventDispatchImpulseThreshold
             = "eventDispatchImpulseThreshold";
     final private static String tagGravity = "gravity";
-    final private static String tagIgnoredGenerations = "ignoredGenerations";
+    final private static String tagIgnoredHops = "ignoredHops";
     final private static String tagLinkedBoneJoints = "linkedBoneJoints";
     final private static String tagLinkedBoneNames = "linkedBoneNames";
     final private static String tagTorsoConfig = "torsoConfig";
@@ -105,10 +105,10 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      */
     private float eventDispatchImpulseThreshold = 0f;
     /**
-     * number of PhysicsLink generations across which ancestor-descendant pairs
-     * ignore collisions
+     * maximum number of physics-joint hops across which bodies ignore
+     * collisions
      */
-    private int ignoredGenerations = 1;
+    private int ignoredHops = 1;
     /**
      * configuration data for the torso
      */
@@ -408,14 +408,14 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Determine the number of PhysicsLink generations across which
-     * ancestor-descendant pairs ignore collisions.
+     * Determine the maximum number of physics-joint hops across which bodies
+     * ignore collisions.
      *
-     * @return the number of generations (&ge;0)
+     * @return the number of hops (&ge;0)
      */
-    public int ignoredGenerations() {
-        assert ignoredGenerations >= 0 : ignoredGenerations;
-        return ignoredGenerations;
+    public int ignoredHops() {
+        assert ignoredHops >= 0 : ignoredHops;
+        return ignoredHops;
     }
 
     /**
@@ -602,18 +602,18 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Alter the number of PhysicsLink generations across which
-     * ancestor-descendant pairs ignore collisions.
+     * Alter the maximum number of physics-joint hops across which bodies will
+     * ignore collisions.
      * <p>
      * Allowed only when the control is NOT added to a spatial.
      *
-     * @param numGenerations the desired number of generations (&ge;0)
+     * @param numHops the desired number of hops (&ge;0, default=1)
      */
-    public void setIgnoredGenerations(int numGenerations) {
-        Validate.nonNegative(numGenerations, "number of generations");
-        verifyNotAddedToSpatial("alter ignored generations");
+    public void setIgnoredHops(int numHops) {
+        Validate.nonNegative(numHops, "number of hops");
+        verifyNotAddedToSpatial("alter ignored hops");
 
-        ignoredGenerations = numGenerations;
+        ignoredHops = numHops;
     }
 
     /**
@@ -881,7 +881,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        ignoredGenerations = capsule.readInt(tagIgnoredGenerations, 1);
+        ignoredHops = capsule.readInt(tagIgnoredHops, 1);
         damping = capsule.readFloat(tagDamping, 0.6f);
         eventDispatchImpulseThreshold
                 = capsule.readFloat(tagEventDispatchImpulseThreshold, 0f);
@@ -958,7 +958,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(ignoredGenerations, tagIgnoredGenerations, 1);
+        capsule.write(ignoredHops, tagIgnoredHops, 1);
         capsule.write(damping, tagDamping, 0.6f);
         capsule.write(eventDispatchImpulseThreshold,
                 tagEventDispatchImpulseThreshold, 0f);
