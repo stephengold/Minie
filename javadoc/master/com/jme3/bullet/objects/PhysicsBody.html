@@ -372,11 +372,11 @@ extends <a href="../collision/PhysicsCollisionObject.html" title="class in com.j
 <section class="detail">
 <h3><a id="countJoints()">countJoints</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">countJoints</span>()</div>
-<div class="block">Count how many joints connect to this body.</div>
+<div class="block">Count how many joints connect to this body. (The semantics have changed
+ since Minie v2.)</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the count (&ge;0) or 0 if the body isn't added to any
- PhysicsSpace</dd>
+<dd>the count (&ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -409,11 +409,11 @@ extends <a href="../collision/PhysicsCollisionObject.html" title="class in com.j
 <section class="detail">
 <h3><a id="listJoints()">listJoints</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="../joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>[]</span>&nbsp;<span class="memberName">listJoints</span>()</div>
-<div class="block">Enumerate the joints connected to this body.</div>
+<div class="block">Enumerate the joints connected to this body. (The semantics have changed
+ since Minie v2.)</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new array of pre-existing joints, or null if this body is not
- added to any PhysicsSpace</dd>
+<dd>a new array of pre-existing joints</dd>
 </dl>
 </section>
 </li>
