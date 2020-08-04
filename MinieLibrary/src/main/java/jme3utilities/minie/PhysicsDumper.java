@@ -467,7 +467,7 @@ public class PhysicsDumper extends Dumper {
             if (numWheels > 0) {
                 dumpWheels(vehicle, indent, numWheels);
             } else {
-                stream.append(',');
+                stream.print(',');
             }
         }
 
@@ -1316,7 +1316,10 @@ public class PhysicsDumper extends Dumper {
             addLine(moreIndent);
             PhysicsCollisionObject otherPco
                     = PhysicsCollisionObject.findInstance(otherId);
-            stream.append(otherPco.toString());
+            stream.print(otherPco.toString());
+            String desc = getDescriber().describeUser(otherPco);
+            stream.print(desc);
+
         }
         addLine(indent);
     }
