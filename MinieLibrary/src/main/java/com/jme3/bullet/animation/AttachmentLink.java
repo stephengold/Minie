@@ -177,8 +177,6 @@ public class AttachmentLink extends PhysicsLink {
 
         RangeOfMotion rangeOfMotion = new RangeOfMotion();
         rangeOfMotion.setup(constraint, false, false, false);
-
-        constraint.setCollisionBetweenLinkedBodies(false);
     }
 
     /**
@@ -241,8 +239,6 @@ public class AttachmentLink extends PhysicsLink {
 
         RangeOfMotion rangeOfMotion = new RangeOfMotion();
         rangeOfMotion.setup(constraint, false, false, false);
-
-        constraint.setCollisionBetweenLinkedBodies(false);
     }
     // *************************************************************************
     // new methods exposed

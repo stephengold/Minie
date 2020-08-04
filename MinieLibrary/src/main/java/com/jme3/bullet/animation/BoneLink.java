@@ -227,8 +227,6 @@ public class BoneLink extends PhysicsLink {
         RangeOfMotion rangeOfMotion = getControl().getJointLimits(name);
         rangeOfMotion.setup(constraint, false, false, false);
 
-        constraint.setCollisionBetweenLinkedBodies(false);
-
         assert managedBones == null;
         assert managedArmatureJoints == null;
         int numManaged;

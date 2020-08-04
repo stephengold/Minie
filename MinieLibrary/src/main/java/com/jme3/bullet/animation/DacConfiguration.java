@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -83,6 +83,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     final private static String tagEventDispatchImpulseThreshold
             = "eventDispatchImpulseThreshold";
     final private static String tagGravity = "gravity";
+    final private static String tagIgnoredGenerations = "ignoredGenerations";
     final private static String tagLinkedBoneJoints = "linkedBoneJoints";
     final private static String tagLinkedBoneNames = "linkedBoneNames";
     final private static String tagTorsoConfig = "torsoConfig";
@@ -103,6 +104,11 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * listeners
      */
     private float eventDispatchImpulseThreshold = 0f;
+    /**
+     * number of PhysicsLink generations across which ancestor-descendant pairs
+     * ignore collisions
+     */
+    private int ignoredGenerations = 1;
     /**
      * configuration data for the torso
      */
@@ -402,6 +408,17 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
+     * Determine the number of PhysicsLink generations across which
+     * ancestor-descendant pairs ignore collisions.
+     *
+     * @return the number of generations (&ge;0)
+     */
+    public int ignoredGenerations() {
+        assert ignoredGenerations >= 0 : ignoredGenerations;
+        return ignoredGenerations;
+    }
+
+    /**
      * Link the named bone using the specified mass and range of motion.
      * <p>
      * Allowed only when the control is NOT added to a spatial.
@@ -582,6 +599,21 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     public void setGravity(Vector3f gravity) {
         Validate.finite(gravity, "gravity");
         gravityVector.set(gravity);
+    }
+
+    /**
+     * Alter the number of PhysicsLink generations across which
+     * ancestor-descendant pairs ignore collisions.
+     * <p>
+     * Allowed only when the control is NOT added to a spatial.
+     *
+     * @param numGenerations the desired number of generations (&ge;0)
+     */
+    public void setIgnoredGenerations(int numGenerations) {
+        Validate.nonNegative(numGenerations, "number of generations");
+        verifyNotAddedToSpatial("alter ignored generations");
+
+        ignoredGenerations = numGenerations;
     }
 
     /**
@@ -849,6 +881,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
+        ignoredGenerations = capsule.readInt(tagIgnoredGenerations, 1);
         damping = capsule.readFloat(tagDamping, 0.6f);
         eventDispatchImpulseThreshold
                 = capsule.readFloat(tagEventDispatchImpulseThreshold, 0f);
@@ -925,6 +958,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
+        capsule.write(ignoredGenerations, tagIgnoredGenerations, 1);
         capsule.write(damping, tagDamping, 0.6f);
         capsule.write(eventDispatchImpulseThreshold,
                 tagEventDispatchImpulseThreshold, 0f);

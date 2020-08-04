@@ -915,6 +915,9 @@ public class DacLinks
             armature.update();
         }
 
+        int maxGenerations = ignoredGenerations();
+        ignoreCollisions(maxGenerations);
+
         if (added) {
             addPhysics();
         }
@@ -1092,6 +1095,7 @@ public class DacLinks
                         = spatial.getControl(SkeletonControl.class);
                 String[] managerMap = managerMap(skeleton);
                 createAttachmentLink(boneName, skeletonControl, managerMap);
+
             } else {
                 SkinningControl skinningControl
                         = spatial.getControl(SkinningControl.class);
@@ -1614,6 +1618,30 @@ public class DacLinks
         } else {
             torsoLink = new TorsoLink(this, armatureJoint, shape, linkConfig,
                     meshToModel, offset);
+        }
+    }
+
+    /**
+     * Ignore collisions between PhysicsLink ancestor-descendant pairs spanning
+     * up to the specified number of generations.
+     *
+     * @param maxGenerations the number of generations to ignore (&ge;0)
+     */
+    private void ignoreCollisions(int maxGenerations) {
+        for (PhysicsLink link : listLinks(PhysicsLink.class)) {
+            PhysicsRigidBody linkBody = link.getRigidBody();
+
+            PhysicsLink ancestor = link;
+            int separation = 0;
+            while (true) {
+                ancestor = ancestor.getParent();
+                ++separation;
+                if (ancestor == null || separation > maxGenerations) {
+                    break;
+                }
+                PhysicsRigidBody ancestorBody = ancestor.getRigidBody();
+                ancestorBody.addToIgnoreList(linkBody);
+            }
         }
     }
 
