@@ -124,6 +124,44 @@ abstract public class PhysicsJoint
     }
 
     /**
+     * Test whether the specified body is an end of this joint.
+     *
+     * @param body the body to find (not null, unaffected)
+     * @return the enum value if found, otherwise null
+     */
+    public JointEnd findEnd(PhysicsBody body) {
+        Validate.nonNull(body, "body");
+
+        if (body == bodyA) {
+            return JointEnd.A;
+        } else if (body == bodyB) {
+            return JointEnd.B;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Access the remaining body of this joint.
+     *
+     * @param body (not null, unaffected)
+     * @return the body at the other end (null if not found or the joint is
+     * single-ended)
+     */
+    public PhysicsBody findOtherBody(PhysicsBody body) {
+        Validate.nonNull(body, "body");
+        assert bodyA != bodyB;
+
+        if (body == bodyA) {
+            return bodyB;
+        } else if (body == bodyB) {
+            return bodyA;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Access the body at the specified end of this joint.
      *
      * @param end which end of the joint to access (not null)
