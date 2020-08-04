@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -92,17 +92,13 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
     }
 
     /**
-     * Count how many joints connect to this body.
+     * Count how many joints connect to this body. (The semantics have changed
+     * since Minie v2.)
      *
-     * @return the count (&ge;0) or 0 if the body isn't added to any
-     * PhysicsSpace
+     * @return the count (&ge;0)
      */
     public int countJoints() {
-        int result = 0;
-        if (isInWorld()) {
-            result = joints.size();
-        }
-
+        int result = joints.size();
         return result;
     }
 
@@ -123,20 +119,15 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
     abstract public float getMass();
 
     /**
-     * Enumerate the joints connected to this body.
+     * Enumerate the joints connected to this body. (The semantics have changed
+     * since Minie v2.)
      *
-     * @return a new array of pre-existing joints, or null if this body is not
-     * added to any PhysicsSpace
+     * @return a new array of pre-existing joints
      */
     public PhysicsJoint[] listJoints() {
-        PhysicsJoint[] result;
-        if (isInWorld()) {
-            int numJoints = joints.size();
-            result = new PhysicsJoint[numJoints];
-            joints.toArray(result);
-        } else {
-            result = null;
-        }
+        int numJoints = joints.size();
+        PhysicsJoint[] result = new PhysicsJoint[numJoints];
+        joints.toArray(result);
 
         return result;
     }
