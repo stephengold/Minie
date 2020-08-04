@@ -1383,7 +1383,11 @@ public class PhysicsSoftBody extends PhysicsBody {
         initUserPointer();
 
         assert !isInWorld();
-        assert isEmpty();
+        assert countNodes() == 0;
+        assert countFaces() == 0;
+        assert countLinks() == 0;
+        assert countTetras() == 0;
+        assert countClusters() == 0;
     }
     // *************************************************************************
     // PhysicsBody methods
