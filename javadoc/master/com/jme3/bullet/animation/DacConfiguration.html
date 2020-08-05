@@ -328,10 +328,10 @@ java.lang.Object&nbsp;original)</code></th>
 </tr>
 <tr class="rowColor" id="i21">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ignoredGenerations()">ignoredGenerations</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ignoredHops()">ignoredHops</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Determine the number of PhysicsLink generations across which
- ancestor-descendant pairs ignore collisions.</div>
+<div class="block">Determine the maximum number of physics-joint hops across which bodies
+ ignore collisions.</div>
 </td>
 </tr>
 <tr class="altColor" id="i22">
@@ -468,10 +468,10 @@ float&nbsp;mass)</code></th>
 </tr>
 <tr class="rowColor" id="i39">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setIgnoredGenerations(int)">setIgnoredGenerations</a></span>&#8203;(int&nbsp;numGenerations)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setIgnoredHops(int)">setIgnoredHops</a></span>&#8203;(int&nbsp;numHops)</code></th>
 <td class="colLast">
-<div class="block">Alter the number of PhysicsLink generations across which
- ancestor-descendant pairs ignore collisions.</div>
+<div class="block">Alter the maximum number of physics-joint hops across which bodies will
+ ignore collisions.</div>
 </td>
 </tr>
 <tr class="altColor" id="i40">
@@ -781,13 +781,13 @@ com.jme3.scene.Spatial&nbsp;model)</span></div>
 </li>
 <li class="blockList">
 <section class="detail">
-<h3><a id="ignoredGenerations()">ignoredGenerations</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">ignoredGenerations</span>()</div>
-<div class="block">Determine the number of PhysicsLink generations across which
- ancestor-descendant pairs ignore collisions.</div>
+<h3><a id="ignoredHops()">ignoredHops</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">ignoredHops</span>()</div>
+<div class="block">Determine the maximum number of physics-joint hops across which bodies
+ ignore collisions.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the number of generations (&ge;0)</dd>
+<dd>the number of hops (&ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -943,15 +943,15 @@ float&nbsp;mass)</span></div>
 </li>
 <li class="blockList">
 <section class="detail">
-<h3><a id="setIgnoredGenerations(int)">setIgnoredGenerations</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setIgnoredGenerations</span>&#8203;(<span class="arguments">int&nbsp;numGenerations)</span></div>
-<div class="block">Alter the number of PhysicsLink generations across which
- ancestor-descendant pairs ignore collisions.
+<h3><a id="setIgnoredHops(int)">setIgnoredHops</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setIgnoredHops</span>&#8203;(<span class="arguments">int&nbsp;numHops)</span></div>
+<div class="block">Alter the maximum number of physics-joint hops across which bodies will
+ ignore collisions.
  <p>
  Allowed only when the control is NOT added to a spatial.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>numGenerations</code> - the desired number of generations (&ge;0)</dd>
+<dd><code>numHops</code> - the desired number of hops (&ge;0, default=1)</dd>
 </dl>
 </section>
 </li>
