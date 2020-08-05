@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,8 @@ public enum MassHeuristic {
     // values
 
     /**
-     * multiply configured parameter by the scaled volume of the CollisionShape
+     * multiply the configured parameter by the unscaled volume of the
+     * CollisionShape
      */
     Density,
     /**
