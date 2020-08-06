@@ -241,9 +241,6 @@ public class PhysicsDumper extends Dumper {
         String massText = MyString.describe(mass);
         stream.printf(" mass=%s", massText);
 
-        desc = describer.describeUser(collider);
-        stream.print(desc);
-
         Vector3f loc = collider.getPhysicsLocation(null);
         stream.printf(" loc[%s]", MyVector3f.describe(loc));
 
