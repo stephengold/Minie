@@ -223,8 +223,11 @@ public class PhysicsDumper extends Dumper {
 
         addLine(indent);
         stream.print("Collider");
+
         PhysicsDescriber describer = getDescriber();
-        String desc = describer.describeUser(collider);
+        String desc = describer.describeApplicationData(collider);
+        stream.print(desc);
+        desc = describer.describeUser(collider);
         stream.print(desc);
 
         if (!collider.isActive()) {
@@ -269,8 +272,11 @@ public class PhysicsDumper extends Dumper {
         Validate.nonNull(indent, "indent");
 
         stream.printf("%n%sCharacter", indent);
+
         PhysicsDescriber describer = getDescriber();
-        String desc = describer.describeUser(character);
+        String desc = describer.describeApplicationData(character);
+        stream.print(desc);
+        desc = describer.describeUser(character);
         stream.print(desc);
 
         Vector3f location = character.getPhysicsLocation(null);
@@ -354,8 +360,11 @@ public class PhysicsDumper extends Dumper {
         Validate.nonNull(indent, "indent");
 
         stream.printf("%n%sGhost", indent);
+
         PhysicsDescriber describer = getDescriber();
-        String desc = describer.describeUser(ghost);
+        String desc = describer.describeApplicationData(ghost);
+        stream.print(desc);
+        desc = describer.describeUser(ghost);
         stream.print(desc);
 
         Vector3f location = ghost.getPhysicsLocation(null);
@@ -402,6 +411,8 @@ public class PhysicsDumper extends Dumper {
         stream.print(desc);
 
         PhysicsDescriber describer = getDescriber();
+        desc = describer.describeApplicationData(body);
+        stream.print(desc);
         desc = describer.describeUser(body);
         stream.print(desc);
 
@@ -523,6 +534,8 @@ public class PhysicsDumper extends Dumper {
         stream.print(desc);
         stream.print(']');
 
+        desc = describer.describeApplicationData(body);
+        stream.print(desc);
         desc = describer.describeUser(body);
         stream.print(desc);
 
@@ -1314,9 +1327,12 @@ public class PhysicsDumper extends Dumper {
             PhysicsCollisionObject otherPco
                     = PhysicsCollisionObject.findInstance(otherId);
             stream.print(otherPco.toString());
-            String desc = getDescriber().describeUser(otherPco);
-            stream.print(desc);
 
+            PhysicsDescriber describer = getDescriber();
+            String desc = describer.describeApplicationData(otherPco);
+            stream.print(desc);
+            desc = describer.describeUser(otherPco);
+            stream.print(desc);
         }
         addLine(indent);
     }
