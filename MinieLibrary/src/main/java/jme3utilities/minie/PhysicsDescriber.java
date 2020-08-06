@@ -650,6 +650,27 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
+     * Describe the application data of a collision object.
+     *
+     * @param pco the collision object to describe (not null, unaffected)
+     * @return a descriptive string (not null, may be empty)
+     */
+    public String describeApplicationData(PhysicsCollisionObject pco) {
+        Validate.nonNull(pco, "collision object");
+
+        String result = "";
+        Object appData = pco.getApplicationData();
+        if (appData != null) {
+            StringBuilder builder = new StringBuilder(64);
+            builder.append(" app=");
+            appendObjectDescription(builder, appData);
+            result = builder.toString();
+        }
+
+        return result;
+    }
+
+    /**
      * Describe the specified Constraint in the context of a PhysicsSpace.
      *
      * @param constraint the Constraint to describe (not null, unaffected)
@@ -1031,32 +1052,16 @@ public class PhysicsDescriber extends Describer {
     public String describeUser(PhysicsCollisionObject pco) {
         Validate.nonNull(pco, "collision object");
 
-        StringBuilder builder = new StringBuilder(32);
+        String result = "";
         Object user = pco.getUserObject();
         if (user != null) {
+            StringBuilder builder = new StringBuilder(64);
             builder.append(" user=");
-            String name;
-            if (user instanceof Spatial) {
-                builder.append(user.getClass().getSimpleName());
-                name = ((Spatial) user).getName();
-            } else if (user instanceof PhysicsLink) {
-                builder.append(user.getClass().getSimpleName());
-                name = ((PhysicsLink) user).boneName();
-            } else if (user instanceof String) {
-                builder.append("String");
-                name = (String) user;
-            } else {
-                name = user.toString();
-            }
-            if (name != null) {
-                if (name.length() > 50) {
-                    name = name.substring(0, 47) + "...";
-                }
-                builder.append(MyString.quote(name));
-            }
+            appendObjectDescription(builder, user);
+            result = builder.toString();
         }
 
-        return builder.toString();
+        return result;
     }
     // *************************************************************************
     // Describer methods
@@ -1103,6 +1108,36 @@ public class PhysicsDescriber extends Describer {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Append a description of an arbitrary Object.
+     *
+     * @param builder the StringBuilder to append to (not null, modified)
+     * @param subject the Object to describe (not null, unaffected)
+     */
+    private void appendObjectDescription(StringBuilder builder,
+            Object subject) {
+        String desc;
+        if (subject instanceof Spatial) {
+            builder.append(subject.getClass().getSimpleName());
+            desc = ((Spatial) subject).getName();
+        } else if (subject instanceof PhysicsLink) {
+            builder.append(subject.getClass().getSimpleName());
+            desc = ((PhysicsLink) subject).boneName();
+        } else if (subject instanceof String) {
+            builder.append("String");
+            desc = (String) subject;
+        } else {
+            desc = subject.toString();
+        }
+
+        if (desc != null) {
+            if (desc.length() > 50) {
+                desc = desc.substring(0, 47) + "...";
+            }
+            builder.append(MyString.quote(desc));
+        }
+    }
 
     /**
      * Describe the specified half extents.
