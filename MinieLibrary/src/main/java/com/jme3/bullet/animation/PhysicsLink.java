@@ -462,9 +462,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * Internal callback, invoked just AFTER the physics is stepped.
      */
     void postTick() {
-        if (!isKinematic()) {
-            rigidBody.activate();
-        }
+        // Do nothing.
     }
 
     /**
@@ -508,6 +506,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
 
         setKinematicWeight(0f);
         rigidBody.setGravity(uniformAcceleration);
+        rigidBody.setEnableSleep(false);
     }
 
     /**
