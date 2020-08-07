@@ -382,31 +382,37 @@ public class RangeOfMotion implements Savable {
             upper.x = current.x;
         }
         RotationMotor rotX = constraint.getRotationMotor(PhysicsSpace.AXIS_X);
+        rotX.set(MotorParam.Equilibrium, 0.5f * (lower.x + upper.x));
         rotX.set(MotorParam.LowerLimit, lower.x);
         rotX.set(MotorParam.UpperLimit, upper.x);
+        rotX.setSpringEnabled(lockX);
 
         if (lockY) {
             lower.y = current.y;
             upper.y = current.y;
         }
         RotationMotor rotY = constraint.getRotationMotor(PhysicsSpace.AXIS_Y);
+        rotY.set(MotorParam.Equilibrium, 0.5f * (lower.y + upper.y));
         rotY.set(MotorParam.LowerLimit, lower.y);
         rotY.set(MotorParam.UpperLimit, upper.y);
+        rotY.setSpringEnabled(lockY);
 
         if (lockZ) {
             lower.z = current.z;
             upper.z = current.z;
         }
         RotationMotor rotZ = constraint.getRotationMotor(PhysicsSpace.AXIS_Z);
+        rotZ.set(MotorParam.Equilibrium, 0.5f * (lower.z + upper.z));
         rotZ.set(MotorParam.LowerLimit, lower.z);
         rotZ.set(MotorParam.UpperLimit, upper.z);
+        rotZ.setSpringEnabled(lockZ);
 
         for (int i = 0; i < MyVector3f.numAxes; ++i) {
             RotationMotor rot = constraint.getRotationMotor(i);
             rot.set(MotorParam.MaxMotorForce, maxMotorForces.x);
         }
         /*
-         * Prevent the constraint from translating.
+         * Inhibit translation.
          */
         TranslationMotor tra = constraint.getTranslationMotor();
         tra.set(MotorParam.LowerLimit, translateIdentity);
