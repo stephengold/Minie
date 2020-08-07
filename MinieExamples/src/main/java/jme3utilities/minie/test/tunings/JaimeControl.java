@@ -57,14 +57,14 @@ public class JaimeControl
     // constructors
 
     /**
-     * Instantiate a new control tuned for the Jaime model.
+     * Instantiate a new DynamicAnimControl tuned for the Jaime model.
      */
     public JaimeControl() {
         super();
-        LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,
+        LinkConfig hull = new LinkConfig(1f, MassHeuristic.Mass,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean, RotationOrder.XZY);
-        LinkConfig hullZxy = new LinkConfig(1f, MassHeuristic.Density,
+        LinkConfig hullZxy = new LinkConfig(1f, MassHeuristic.Mass,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean, RotationOrder.ZXY);
 
