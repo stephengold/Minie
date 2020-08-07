@@ -324,6 +324,7 @@ public class TestDac extends AbstractDemo {
         dim.bind("ghost upper body", KeyInput.KEY_8);
         dim.bind("go bind pose", KeyInput.KEY_B);
         dim.bind("go floating", KeyInput.KEY_0);
+        dim.bind("go frozen", KeyInput.KEY_MINUS);
         dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("limp left arm", KeyInput.KEY_LBRACKET);
         dim.bind("limp right arm", KeyInput.KEY_RBRACKET);
@@ -418,6 +419,13 @@ public class TestDac extends AbstractDemo {
                     if (dac.isReady()) {
                         dac.setDynamicSubtree(dac.getTorsoLink(), Vector3f.ZERO,
                                 false);
+                    }
+                    return;
+                case "go frozen":
+                    if (dac.isReady()) {
+                        Vector3f gravity = dac.gravity(null);
+                        dac.setDynamicSubtree(dac.getTorsoLink(), gravity,
+                                true);
                     }
                     return;
                 case "go limp":
