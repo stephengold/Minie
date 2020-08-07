@@ -52,6 +52,7 @@ import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.logging.Logger;
@@ -109,8 +110,12 @@ public class DebugShapeFactory {
     private static int maxVerticesToIndex = 6_000;
     /**
      * map keys to previously generated debug meshes, for reuse
+     *
+     * Synchronized so that it can be updated from the "Physics Cleaner" thread.
      */
-    final private static Map<DebugMeshKey, Mesh> cache = new WeakHashMap<>(200);
+    final private static Map<DebugMeshKey, Mesh> cache
+            = Collections.synchronizedMap(
+                    new WeakHashMap<DebugMeshKey, Mesh>(200));
     // *************************************************************************
     // constructors
 
@@ -348,9 +353,11 @@ public class DebugShapeFactory {
      * @param shapeId the ID of the shape to remove
      */
     public static void removeShapeFromCache(long shapeId) {
-        for (DebugMeshKey key : cache.keySet()) {
-            if (key.shapeId() == shapeId) {
-                cache.remove(key);
+        synchronized (cache) {
+            for (DebugMeshKey key : cache.keySet()) {
+                if (key.shapeId() == shapeId) {
+                    cache.remove(key);
+                }
             }
         }
     }
@@ -507,17 +514,21 @@ public class DebugShapeFactory {
         assert resolution <= highResolution : resolution;
 
         DebugMeshKey key = new DebugMeshKey(shape, normals, resolution);
-        Mesh mesh = cache.get(key);
-        if (mesh == null) {
-            if (shape instanceof PlaneCollisionShape) {
-                mesh = createPlaneMesh((PlaneCollisionShape) shape, normals);
-            } else {
-                mesh = createMesh(shape, normals, resolution);
+        Mesh mesh;
+        synchronized (cache) {
+            mesh = cache.get(key);
+            if (mesh == null) {
+                if (shape instanceof PlaneCollisionShape) {
+                    mesh = createPlaneMesh((PlaneCollisionShape) shape,
+                            normals);
+                } else {
+                    mesh = createMesh(shape, normals, resolution);
+                }
+                if (listener != null) {
+                    listener.debugMeshInit(mesh);
+                }
+                cache.put(key, mesh);
             }
-            if (listener != null) {
-                listener.debugMeshInit(mesh);
-            }
-            cache.put(key, mesh);
         }
 
         Geometry geometry = new Geometry("Bullet debug", mesh);
