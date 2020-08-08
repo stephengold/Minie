@@ -877,6 +877,20 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
+     * Describe a collision object in the context of another PCO.
+     *
+     * @param pco the object to describe (not null, unaffected)
+     * @param forceId true to force inclusion of the native ID, false to include
+     * it only if there's no user or application data
+     * @return descriptive text (not null, not empty)
+     */
+    String describePco(PhysicsCollisionObject pco, boolean forceId) {
+        StringBuilder result = new StringBuilder(80);
+        appendPco(result, pco, forceId);
+        return result.toString();
+    }
+
+    /**
      * Describe the user of a collision object.
      *
      * @param pco the collision object to describe (not null, unaffected)
@@ -969,6 +983,49 @@ public class PhysicsDescriber extends Describer {
                 desc = desc.substring(0, 47) + "...";
             }
             builder.append(MyString.quote(desc));
+        }
+    }
+
+    /**
+     * Append a description of a collision object in the context of another PCO.
+     *
+     * @param builder the StringBuilder to append to (not null, modified)
+     * @param pco the object to describe (not null, unaffected)
+     * @param forceId true to force inclusion of the native ID, false to include
+     * it only if there's no user or application data
+     */
+    private void appendPco(StringBuilder builder, PhysicsCollisionObject pco,
+            boolean forceId) {
+        String desc;
+        if (pco.getApplicationData() == null && pco.getUserObject() == null) {
+            desc = pco.toString();
+            builder.append(desc);
+
+        } else {
+            builder.append('[');
+
+            if (forceId) {
+                desc = pco.toString();
+                builder.append(desc);
+            } else {
+                desc = pco.getClass().getSimpleName();
+                desc = desc.replace("Control", "C");
+                desc = desc.replace("Physics", "");
+                desc = desc.replace("Object", "");
+                builder.append(desc);
+            }
+
+            desc = describeApplicationData(pco);
+            builder.append(desc);
+
+            desc = describeUser(pco);
+            builder.append(desc);
+
+            builder.append(']');
+        }
+
+        if (!pco.isInWorld()) {
+            builder.append("_NOT_IN_WORLD");
         }
     }
 

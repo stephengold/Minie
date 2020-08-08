@@ -1330,14 +1330,10 @@ public class PhysicsDumper extends Dumper {
         String moreIndent = indent + indentIncrement();
         for (long otherId : idList) {
             addLine(moreIndent);
+            PhysicsDescriber describer = getDescriber();
             PhysicsCollisionObject otherPco
                     = PhysicsCollisionObject.findInstance(otherId);
-            stream.print(otherPco.toString());
-
-            PhysicsDescriber describer = getDescriber();
-            String desc = describer.describeApplicationData(otherPco);
-            stream.print(desc);
-            desc = describer.describeUser(otherPco);
+            String desc = describer.describePco(otherPco, dumpNativeIDs);
             stream.print(desc);
         }
         addLine(indent);
