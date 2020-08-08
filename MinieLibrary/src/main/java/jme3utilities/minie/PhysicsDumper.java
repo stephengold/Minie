@@ -1354,7 +1354,8 @@ public class PhysicsDumper extends Dumper {
         for (PhysicsJoint joint : joints) {
             if (filter == null || filter.displayObject(joint)) {
                 addLine(moreIndent);
-                String desc = describer.describeJointInSpace(joint);
+                String desc
+                        = describer.describeJointInSpace(joint, dumpNativeIDs);
                 stream.print(desc);
 
                 if (joint instanceof SixDofJoint) {
@@ -1422,7 +1423,8 @@ public class PhysicsDumper extends Dumper {
         PhysicsDescriber describer = getDescriber();
         String moreIndent = indent + indentIncrement();
         for (PhysicsJoint joint : joints) {
-            String desc = describer.describeJointInBody(joint, body);
+            String desc
+                    = describer.describeJointInBody(joint, body, dumpNativeIDs);
             stream.printf("%n%s%s", moreIndent, desc);
         }
     }

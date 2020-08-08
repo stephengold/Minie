@@ -773,9 +773,12 @@ public class PhysicsDescriber extends Describer {
      *
      * @param joint the joint to describe (not null, unaffected)
      * @param body one end of the joint
+     * @param forceId true to force inclusion of the PCO native IDs, false to
+     * include them only when there's no user or application data
      * @return descriptive text (not null, not empty)
      */
-    public String describeJointInBody(PhysicsJoint joint, PhysicsBody body) {
+    public String describeJointInBody(PhysicsJoint joint, PhysicsBody body,
+            boolean forceId) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(joint);
@@ -830,9 +833,11 @@ public class PhysicsDescriber extends Describer {
      * Describe the specified joint in the context of a PhysicsSpace.
      *
      * @param joint the joint to describe (not null, unaffected)
+     * @param forceIds true to force inclusion of PCO native IDs, false to
+     * include them only when there's no user or application data
      * @return descriptive text (not null, not empty)
      */
-    public String describeJointInSpace(PhysicsJoint joint) {
+    public String describeJointInSpace(PhysicsJoint joint, boolean forceIds) {
         String result;
         if (joint instanceof Anchor) {
             result = describeAnchorInSpace((Anchor) joint);
