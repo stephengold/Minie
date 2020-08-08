@@ -585,7 +585,7 @@ public class PhysicsDescriber extends Describer {
      * @param anchor the Anchor to describe (not null, unaffected)
      * @return descriptive text (not null, not empty)
      */
-    public String describeAnchorInSpace(Anchor anchor) {
+    private String describeAnchorInSpace(Anchor anchor) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(anchor);
@@ -676,7 +676,7 @@ public class PhysicsDescriber extends Describer {
      * @param constraint the Constraint to describe (not null, unaffected)
      * @return descriptive text (not null, not empty)
      */
-    public String describeConstraintInSpace(Constraint constraint) {
+    private String describeConstraintInSpace(Constraint constraint) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(constraint);
@@ -995,7 +995,7 @@ public class PhysicsDescriber extends Describer {
      * @param joint the soft joint to describe (not null, unaffected)
      * @return descriptive text (not null, not empty)
      */
-    public String describeSoftJointInSpace(SoftPhysicsJoint joint) {
+    private String describeSoftJointInSpace(SoftPhysicsJoint joint) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(joint);
