@@ -53,6 +53,9 @@ import jme3utilities.Validate;
  * A rigid body for simplified vehicle simulation based on Bullet's
  * btRaycastVehicle.
  * <p>
+ * The wheels of a PhysicsVehicle aren't collision objects, so the vehicle's
+ * ignore list doesn't affect them.
+ * <p>
  * <i>From Bullet manual:</i><br>
  * For arcade style vehicle simulations, it is recommended to use the simplified
  * Bullet vehicle model as provided in btRaycastVehicle. Instead of simulation

@@ -250,8 +250,10 @@ abstract public class PhysicsCollisionObject
 
     /**
      * Add another collision object to this object's ignore list and vice versa.
-     *
-     * Any collisions with objects on the list will be ignored.
+     * <p>
+     * Any collisions with objects on the list will be ignored. However, the
+     * wheels of a PhysicsVehicle aren't collision objects, so the vehicle's
+     * ignore list doesn't affect them.
      *
      * @param otherPco the other collision object (not null, not this, modified)
      */
