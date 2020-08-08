@@ -346,7 +346,13 @@ public class PhysicsDumper extends Dumper {
          */
         CollisionShape shape = character.getCollisionShape();
         dump(shape, indent + " ");
-        // TODO ignored objects
+
+        addLine(indent);
+        int numIgnores = character.countIgnored();
+        stream.printf(" with %d ignore%s", numIgnores, (numIgnores == 1) ? "" : "s");
+        if (dumpIgnores && numIgnores > 0) {
+            dumpIgnores(character, indent);
+        }
     }
 
     /**
