@@ -840,12 +840,12 @@ public class PhysicsDescriber extends Describer {
     public String describeJointInSpace(PhysicsJoint joint, boolean forceIds) {
         String result;
         if (joint instanceof Anchor) {
-            result = describeAnchorInSpace((Anchor) joint);
+            result = describeAnchorInSpace((Anchor) joint, forceIds);
         } else if (joint instanceof Constraint) {
-            result = describeConstraintInSpace((Constraint) joint);
+            result = describeConstraintInSpace((Constraint) joint, forceIds);
         } else {
-            SoftPhysicsJoint softJoint = (SoftPhysicsJoint) joint;
-            result = describeSoftJointInSpace(softJoint);
+            result = describeSoftJointInSpace((SoftPhysicsJoint) joint,
+                    forceIds);
         }
 
         return result;
@@ -1033,9 +1033,11 @@ public class PhysicsDescriber extends Describer {
      * Describe the specified Anchor in the context of a PhysicsSpace.
      *
      * @param anchor the Anchor to describe (not null, unaffected)
+     * @param forceIds true to force inclusion of the PCO native IDs, false to
+     * include them only when there's no user or application data
      * @return descriptive text (not null, not empty)
      */
-    private String describeAnchorInSpace(Anchor anchor) {
+    private String describeAnchorInSpace(Anchor anchor, boolean forceIds) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(anchor);
@@ -1078,9 +1080,12 @@ public class PhysicsDescriber extends Describer {
      * Describe the specified Constraint in the context of a PhysicsSpace.
      *
      * @param constraint the Constraint to describe (not null, unaffected)
+     * @param forceIds true to force inclusion of the PCO native IDs, false to
+     * include them only when there's no user or application data
      * @return descriptive text (not null, not empty)
      */
-    private String describeConstraintInSpace(Constraint constraint) {
+    private String describeConstraintInSpace(Constraint constraint,
+            boolean forceIds) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(constraint);
@@ -1179,9 +1184,12 @@ public class PhysicsDescriber extends Describer {
      * Describe the specified soft joint in the context of a PhysicsSpace.
      *
      * @param joint the soft joint to describe (not null, unaffected)
+     * @param forceIds true to force inclusion of the PCO native IDs, false to
+     * include them only when there's no user or application data
      * @return descriptive text (not null, not empty)
      */
-    private String describeSoftJointInSpace(SoftPhysicsJoint joint) {
+    private String describeSoftJointInSpace(SoftPhysicsJoint joint,
+            boolean forceIds) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(joint);
