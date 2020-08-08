@@ -230,22 +230,6 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
-     * Generate a brief textual description for the specified
-     * PhysicsSoftBody.Material
-     *
-     * @param material the Material to describe (not null, unaffected)
-     * @return description (not null, not empty)
-     */
-    public String describe(SoftBodyMaterial material) {
-        String result = String.format(
-                "Material stiffness[ang=%s lin=%s vol=%s]",
-                MyString.describe(material.angularStiffness()),
-                MyString.describe(material.linearStiffness()),
-                MyString.describe(material.volumeStiffness()));
-        return result;
-    }
-
-    /**
      * Generate a brief textual description for a PhysicsJoint.
      *
      * @param joint (not null, unaffected)
@@ -334,6 +318,22 @@ public class PhysicsDescriber extends Describer {
         }
 
         return result.toString();
+    }
+
+    /**
+     * Generate a brief textual description for the specified
+     * PhysicsSoftBody.Material
+     *
+     * @param material the Material to describe (not null, unaffected)
+     * @return description (not null, not empty)
+     */
+    public String describe(SoftBodyMaterial material) {
+        String result = String.format(
+                "Material stiffness[ang=%s lin=%s vol=%s]",
+                MyString.describe(material.angularStiffness()),
+                MyString.describe(material.linearStiffness()),
+                MyString.describe(material.volumeStiffness()));
+        return result;
     }
 
     /**
@@ -580,51 +580,6 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
-     * Describe the specified Anchor in the context of a PhysicsSpace.
-     *
-     * @param anchor the Anchor to describe (not null, unaffected)
-     * @return descriptive text (not null, not empty)
-     */
-    private String describeAnchorInSpace(Anchor anchor) {
-        StringBuilder result = new StringBuilder(80);
-
-        String desc = describe(anchor);
-        result.append(desc);
-
-        result.append(" a=");
-        PhysicsSoftBody bodyA = anchor.getSoftBody();
-        long aId = bodyA.nativeId();
-        result.append(Long.toHexString(aId));
-        if (!bodyA.isInWorld()) {
-            result.append("_NOT_IN_WORLD");
-        }
-
-        result.append(" [");
-        int nodeIndex = anchor.nodeIndex();
-        result.append(nodeIndex);
-        result.append(']');
-
-        result.append(" b=");
-        PhysicsRigidBody bodyB = anchor.getRigidBody();
-        long bId = bodyB.nativeId();
-        result.append(Long.toHexString(bId));
-        if (!bodyB.isInWorld()) {
-            result.append("_NOT_IN_WORLD");
-        }
-
-        result.append(" piv[");
-        Vector3f pivot = anchor.copyPivot(null);
-        result.append(MyVector3f.describe(pivot));
-        result.append(']');
-
-        result.append(" infl=");
-        float influence = anchor.influence();
-        result.append(MyString.describe(influence));
-
-        return result.toString();
-    }
-
-    /**
      * Describe the angular components of the specified SixDofJoint.
      *
      * @param joint the joint to describe (not null, unaffected)
@@ -668,79 +623,6 @@ public class PhysicsDescriber extends Describer {
         }
 
         return result;
-    }
-
-    /**
-     * Describe the specified Constraint in the context of a PhysicsSpace.
-     *
-     * @param constraint the Constraint to describe (not null, unaffected)
-     * @return descriptive text (not null, not empty)
-     */
-    private String describeConstraintInSpace(Constraint constraint) {
-        StringBuilder result = new StringBuilder(80);
-
-        String desc = describe(constraint);
-        result.append(desc);
-
-        if (constraint.countEnds() == 2) {
-            boolean endsCollide = constraint.isCollisionBetweenLinkedBodies();
-            if (endsCollide) {
-                result.append(" collide");
-            } else {
-                result.append(" NOcollide");
-            }
-        }
-
-        int numIterations = constraint.getOverrideIterations();
-        if (numIterations != -1) {
-            result.append(" iters=");
-            result.append(numIterations);
-        }
-
-        int numDyn = 0;
-        PhysicsRigidBody bodyA = constraint.getBodyA();
-        if (bodyA != null) {
-            result.append(" a=");
-            long aId = bodyA.nativeId();
-            result.append(Long.toHexString(aId));
-            if (!bodyA.isInWorld()) {
-                result.append("_NOT_IN_WORLD");
-            }
-            if (bodyA.isDynamic()) {
-                ++numDyn;
-            }
-        }
-
-        PhysicsRigidBody bodyB = constraint.getBodyB();
-        if (bodyB != null) {
-            result.append(" b=");
-            long bId = bodyB.nativeId();
-            result.append(Long.toHexString(bId));
-            if (!bodyB.isInWorld()) {
-                result.append("_NOT_IN_WORLD");
-            }
-            if (bodyB.isDynamic()) {
-                ++numDyn;
-            }
-        }
-
-        if (numDyn == 0) {
-            result.append(" NO_DYNAMIC_END");
-        }
-
-        if (constraint.isFeedback()) {
-            float impulse = constraint.getAppliedImpulse();
-            result.append(" impulse=");
-            result.append(impulse);
-        }
-
-        float bit = constraint.getBreakingImpulseThreshold();
-        if (bit != Float.MAX_VALUE) {
-            result.append(" bit=");
-            result.append(MyString.describe(bit));
-        }
-
-        return result.toString();
     }
 
     /**
@@ -990,60 +872,6 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
-     * Describe the specified soft joint in the context of a PhysicsSpace.
-     *
-     * @param joint the soft joint to describe (not null, unaffected)
-     * @return descriptive text (not null, not empty)
-     */
-    private String describeSoftJointInSpace(SoftPhysicsJoint joint) {
-        StringBuilder result = new StringBuilder(80);
-
-        String desc = describe(joint);
-        result.append(desc);
-
-        PhysicsSoftBody bodyA = joint.getSoftBodyA();
-        result.append(" a=");
-        long aId = bodyA.nativeId();
-        result.append(Long.toHexString(aId));
-        if (!bodyA.isInWorld()) {
-            result.append("_NOT_IN_WORLD");
-        }
-
-        result.append(" [");
-        int clusterIndex = joint.clusterIndexA();
-        result.append(clusterIndex);
-        result.append(']');
-
-        PhysicsBody bodyB = joint.getBody(JointEnd.B);
-        result.append(" b=");
-        result.append(bodyB.toString());
-        if (!bodyB.isInWorld()) {
-            result.append("_NOT_IN_WORLD");
-        }
-
-        if (joint.isSoftSoft()) {
-            result.append(" [");
-            clusterIndex = joint.clusterIndexB();
-            result.append(clusterIndex);
-            result.append(']');
-        }
-
-        result.append(" cfm=");
-        float cfm = joint.getCFM();
-        result.append(MyString.describe(cfm));
-
-        result.append(" erp=");
-        float erp = joint.getERP();
-        result.append(MyString.describe(erp));
-
-        result.append(" split=");
-        float split = joint.getSplit();
-        result.append(MyString.describe(split));
-
-        return result.toString();
-    }
-
-    /**
      * Describe the user of a collision object.
      *
      * @param pco the collision object to describe (not null, unaffected)
@@ -1140,6 +968,124 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
+     * Describe the specified Anchor in the context of a PhysicsSpace.
+     *
+     * @param anchor the Anchor to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    private String describeAnchorInSpace(Anchor anchor) {
+        StringBuilder result = new StringBuilder(80);
+
+        String desc = describe(anchor);
+        result.append(desc);
+
+        result.append(" a=");
+        PhysicsSoftBody bodyA = anchor.getSoftBody();
+        long aId = bodyA.nativeId();
+        result.append(Long.toHexString(aId));
+        if (!bodyA.isInWorld()) {
+            result.append("_NOT_IN_WORLD");
+        }
+
+        result.append(" [");
+        int nodeIndex = anchor.nodeIndex();
+        result.append(nodeIndex);
+        result.append(']');
+
+        result.append(" b=");
+        PhysicsRigidBody bodyB = anchor.getRigidBody();
+        long bId = bodyB.nativeId();
+        result.append(Long.toHexString(bId));
+        if (!bodyB.isInWorld()) {
+            result.append("_NOT_IN_WORLD");
+        }
+
+        result.append(" piv[");
+        Vector3f pivot = anchor.copyPivot(null);
+        result.append(MyVector3f.describe(pivot));
+        result.append(']');
+
+        result.append(" infl=");
+        float influence = anchor.influence();
+        result.append(MyString.describe(influence));
+
+        return result.toString();
+    }
+
+    /**
+     * Describe the specified Constraint in the context of a PhysicsSpace.
+     *
+     * @param constraint the Constraint to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    private String describeConstraintInSpace(Constraint constraint) {
+        StringBuilder result = new StringBuilder(80);
+
+        String desc = describe(constraint);
+        result.append(desc);
+
+        if (constraint.countEnds() == 2) {
+            boolean endsCollide = constraint.isCollisionBetweenLinkedBodies();
+            if (endsCollide) {
+                result.append(" collide");
+            } else {
+                result.append(" NOcollide");
+            }
+        }
+
+        int numIterations = constraint.getOverrideIterations();
+        if (numIterations != -1) {
+            result.append(" iters=");
+            result.append(numIterations);
+        }
+
+        int numDyn = 0;
+        PhysicsRigidBody bodyA = constraint.getBodyA();
+        if (bodyA != null) {
+            result.append(" a=");
+            long aId = bodyA.nativeId();
+            result.append(Long.toHexString(aId));
+            if (!bodyA.isInWorld()) {
+                result.append("_NOT_IN_WORLD");
+            }
+            if (bodyA.isDynamic()) {
+                ++numDyn;
+            }
+        }
+
+        PhysicsRigidBody bodyB = constraint.getBodyB();
+        if (bodyB != null) {
+            result.append(" b=");
+            long bId = bodyB.nativeId();
+            result.append(Long.toHexString(bId));
+            if (!bodyB.isInWorld()) {
+                result.append("_NOT_IN_WORLD");
+            }
+            if (bodyB.isDynamic()) {
+                ++numDyn;
+            }
+        }
+
+        if (numDyn == 0) {
+            result.append(" NO_DYNAMIC_END");
+        }
+
+        if (constraint.isFeedback()) {
+            float impulse = constraint.getAppliedImpulse();
+            result.append(" impulse=");
+            result.append(impulse);
+        }
+
+        float bit = constraint.getBreakingImpulseThreshold();
+        if (bit != Float.MAX_VALUE) {
+            result.append(" bit=");
+            result.append(MyString.describe(bit));
+        }
+
+        return result.toString();
+    }
+
+    /**
      * Describe the specified half extents.
      *
      * @param he the half extent for each local axis (not null, unaffected)
@@ -1165,5 +1111,59 @@ public class PhysicsDescriber extends Describer {
         String result = String.format(" h=%s r=%s", hText, rText);
 
         return result;
+    }
+
+    /**
+     * Describe the specified soft joint in the context of a PhysicsSpace.
+     *
+     * @param joint the soft joint to describe (not null, unaffected)
+     * @return descriptive text (not null, not empty)
+     */
+    private String describeSoftJointInSpace(SoftPhysicsJoint joint) {
+        StringBuilder result = new StringBuilder(80);
+
+        String desc = describe(joint);
+        result.append(desc);
+
+        PhysicsSoftBody bodyA = joint.getSoftBodyA();
+        result.append(" a=");
+        long aId = bodyA.nativeId();
+        result.append(Long.toHexString(aId));
+        if (!bodyA.isInWorld()) {
+            result.append("_NOT_IN_WORLD");
+        }
+
+        result.append(" [");
+        int clusterIndex = joint.clusterIndexA();
+        result.append(clusterIndex);
+        result.append(']');
+
+        PhysicsBody bodyB = joint.getBody(JointEnd.B);
+        result.append(" b=");
+        result.append(bodyB.toString());
+        if (!bodyB.isInWorld()) {
+            result.append("_NOT_IN_WORLD");
+        }
+
+        if (joint.isSoftSoft()) {
+            result.append(" [");
+            clusterIndex = joint.clusterIndexB();
+            result.append(clusterIndex);
+            result.append(']');
+        }
+
+        result.append(" cfm=");
+        float cfm = joint.getCFM();
+        result.append(MyString.describe(cfm));
+
+        result.append(" erp=");
+        float erp = joint.getERP();
+        result.append(MyString.describe(erp));
+
+        result.append(" split=");
+        float split = joint.getSplit();
+        result.append(MyString.describe(split));
+
+        return result.toString();
     }
 }
