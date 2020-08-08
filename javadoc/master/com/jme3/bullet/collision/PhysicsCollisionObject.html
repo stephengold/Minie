@@ -1237,8 +1237,10 @@ com.jme3.math.Matrix3f&nbsp;orientation)</code></th>
 <h3><a id="addToIgnoreList(com.jme3.bullet.collision.PhysicsCollisionObject)">addToIgnoreList</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">addToIgnoreList</span>&#8203;(<span class="arguments"><a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;otherPco)</span></div>
 <div class="block">Add another collision object to this object's ignore list and vice versa.
-
- Any collisions with objects on the list will be ignored.</div>
+ <p>
+ Any collisions with objects on the list will be ignored. However, the
+ wheels of a PhysicsVehicle aren't collision objects, so the vehicle's
+ ignore list doesn't affect them.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>otherPco</code> - the other collision object (not null, not this, modified)</dd>
