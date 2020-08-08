@@ -1,0 +1,28 @@
+---
+# GitHub workflow for commits pushed to the Minie repo - master branch
+
+name: GitHub website
+on:
+  push:
+    branches: [master]
+
+jobs:
+  Website:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 14
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.18.3
+      - run: npm ci
+      - run: npm audit
+      - run: npm run buildDocs
+      - run: ./gradlew copyJavadocToSite --console=plain --no-daemon --stacktrace
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/site
