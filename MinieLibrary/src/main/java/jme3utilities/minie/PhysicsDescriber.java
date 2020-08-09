@@ -805,7 +805,7 @@ public class PhysicsDescriber extends Describer {
             result.append(" single-ended");
         } else {
             result.append(" to:");
-            result.append(otherBody.toString());
+            appendPco(result, otherBody, forceId);
         }
 
         if (pivot != null) {
@@ -1045,11 +1045,7 @@ public class PhysicsDescriber extends Describer {
 
         result.append(" a=");
         PhysicsSoftBody bodyA = anchor.getSoftBody();
-        long aId = bodyA.nativeId();
-        result.append(Long.toHexString(aId));
-        if (!bodyA.isInWorld()) {
-            result.append("_NOT_IN_WORLD");
-        }
+        appendPco(result, bodyA, forceIds);
 
         result.append(" [");
         int nodeIndex = anchor.nodeIndex();
@@ -1058,11 +1054,7 @@ public class PhysicsDescriber extends Describer {
 
         result.append(" b=");
         PhysicsRigidBody bodyB = anchor.getRigidBody();
-        long bId = bodyB.nativeId();
-        result.append(Long.toHexString(bId));
-        if (!bodyB.isInWorld()) {
-            result.append("_NOT_IN_WORLD");
-        }
+        appendPco(result, bodyB, forceIds);
 
         result.append(" piv[");
         Vector3f pivot = anchor.copyPivot(null);
@@ -1109,12 +1101,8 @@ public class PhysicsDescriber extends Describer {
         int numDyn = 0;
         PhysicsRigidBody bodyA = constraint.getBodyA();
         if (bodyA != null) {
-            result.append(" a=");
-            long aId = bodyA.nativeId();
-            result.append(Long.toHexString(aId));
-            if (!bodyA.isInWorld()) {
-                result.append("_NOT_IN_WORLD");
-            }
+            result.append(" a:");
+            appendPco(result, bodyA, forceIds);
             if (bodyA.isDynamic()) {
                 ++numDyn;
             }
@@ -1122,12 +1110,8 @@ public class PhysicsDescriber extends Describer {
 
         PhysicsRigidBody bodyB = constraint.getBodyB();
         if (bodyB != null) {
-            result.append(" b=");
-            long bId = bodyB.nativeId();
-            result.append(Long.toHexString(bId));
-            if (!bodyB.isInWorld()) {
-                result.append("_NOT_IN_WORLD");
-            }
+            result.append(" b:");
+            appendPco(result, bodyB, forceIds);
             if (bodyB.isDynamic()) {
                 ++numDyn;
             }
@@ -1197,11 +1181,7 @@ public class PhysicsDescriber extends Describer {
 
         PhysicsSoftBody bodyA = joint.getSoftBodyA();
         result.append(" a=");
-        long aId = bodyA.nativeId();
-        result.append(Long.toHexString(aId));
-        if (!bodyA.isInWorld()) {
-            result.append("_NOT_IN_WORLD");
-        }
+        appendPco(result, bodyA, forceIds);
 
         result.append(" [");
         int clusterIndex = joint.clusterIndexA();
@@ -1210,10 +1190,7 @@ public class PhysicsDescriber extends Describer {
 
         PhysicsBody bodyB = joint.getBody(JointEnd.B);
         result.append(" b=");
-        result.append(bodyB.toString());
-        if (!bodyB.isInWorld()) {
-            result.append("_NOT_IN_WORLD");
-        }
+        appendPco(result, bodyB, forceIds);
 
         if (joint.isSoftSoft()) {
             result.append(" [");
