@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 2.0.1 released on TBD
+## Version 2.0.1 released on 8 August 2020
 
 Bugfix: characters and ghosts ignore their own ignore lists!
 
