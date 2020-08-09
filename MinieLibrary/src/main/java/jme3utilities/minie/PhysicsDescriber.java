@@ -68,6 +68,7 @@ import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.objects.infos.SoftBodyMaterial;
+import com.jme3.material.Material;
 import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -957,7 +958,7 @@ public class PhysicsDescriber extends Describer {
     // private methods
 
     /**
-     * Append a description of an arbitrary Object.
+     * Append a description of an arbitrary Object, such as a PCO's user.
      *
      * @param builder the StringBuilder to append to (not null, modified)
      * @param subject the Object to describe (not null, unaffected)
@@ -967,7 +968,10 @@ public class PhysicsDescriber extends Describer {
         String className = subject.getClass().getSimpleName();
 
         String desc;
-        if (subject instanceof PhysicsLink) {
+        if (subject instanceof Material) {
+            builder.append(className);
+            desc = ((Material) subject).getName();
+        } else if (subject instanceof PhysicsLink) {
             builder.append(className);
             desc = ((PhysicsLink) subject).boneName();
         } else if (subject instanceof Spatial) {
