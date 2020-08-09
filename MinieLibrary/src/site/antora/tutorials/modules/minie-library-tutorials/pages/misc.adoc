@@ -1,6 +1,6 @@
 = Miscellaneous tutorial material
 :page-pagination:
-:url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
+:url-examples: https://github.com/stephengold/Minie/blob/v20x/MinieExamples/src/main/java/jme3utilities/minie/test
 
 This page acts as a holding area for tutorial material that's waiting
 to be organized.

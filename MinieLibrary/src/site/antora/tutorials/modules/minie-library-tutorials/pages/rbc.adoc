@@ -1,8 +1,8 @@
 = An introduction to `RigidBodyControl`
 :page-pagination:
-:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
-:url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
-:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
+:url-api: https://stephengold.github.io/Minie/javadoc/v2-0/com/jme3/bullet
+:url-examples: https://github.com/stephengold/Minie/blob/v20x/MinieExamples/src/main/java/jme3utilities/minie/test
+:url-tutorial: https://github.com/stephengold/Minie/blob/v20x/MinieExamples/src/main/java/jme3utilities/tutorial
 
 By themselves, collision objects are invisible,
 while scene-graph spatials have no effect on physics.

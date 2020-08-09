@@ -8,10 +8,10 @@ site:
 content:
   sources:
     - url: https://github.com/stephengold/Minie.git
-      branches: master
+      branches: v20x
       start_path: src/site/antora/minie-project
     - url: https://github.com/stephengold/Minie.git
-      branches: master
+      branches: v20x
       start_path: MinieLibrary/src/site/antora/tutorials
 ui:
   bundle:

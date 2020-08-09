@@ -47,7 +47,7 @@ While an understanding of classical mechanics is assumed,
 many of its technical terms are linked (at first use)
 to the relevant article in the English Wikipedia.
 
-https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE[Minie's BSD-style license]
+https://raw.githubusercontent.com/stephengold/Minie/v20x/LICENSE[Minie's BSD-style license]
 disclaims liability for defects.
 Please don't use this software in safety-critical applications.
 

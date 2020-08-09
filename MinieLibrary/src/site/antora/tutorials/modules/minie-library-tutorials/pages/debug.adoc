@@ -1,9 +1,9 @@
 = Debugging physics issues
 :page-pagination:
 :page-toclevels: 3
-:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
-:url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
-:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
+:url-api: https://stephengold.github.io/Minie/javadoc/v2-0/com/jme3/bullet
+:url-examples: https://github.com/stephengold/Minie/blob/v20x/MinieExamples/src/main/java/jme3utilities/minie/test
+:url-tutorial: https://github.com/stephengold/Minie/blob/v20x/MinieExamples/src/main/java/jme3utilities/tutorial
 
 Minie uses `assert` statements to verify assumptions made while coding.
 During development, Java assertions should be enabled using:
@@ -12,7 +12,7 @@ During development, Java assertions should be enabled using:
 * the `enableAssertions` setting of Gradle `JavaExec` tasks.
 
 Similarly, native-code assertions should be enabled during development,
-by specifying a Minie library of the "debug" type, such as "Minie-2.0.0+debug".
+by specifying a Minie library of the "debug" type, such as "Minie-2.0.1+debug".
 
 When a physics simulation doesn't behave as expected,
 _debug visualization_ should be enabled

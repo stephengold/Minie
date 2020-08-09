@@ -1,8 +1,8 @@
 = An introduction to New6Dof constraints
 :page-pagination:
-:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
+:url-api: https://stephengold.github.io/Minie/javadoc/v2-0/com/jme3/bullet
 :url-enwiki: https://en.wikipedia.org/wiki
-:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
+:url-tutorial: https://github.com/stephengold/Minie/blob/v20x/MinieExamples/src/main/java/jme3utilities/tutorial
 
 A _physics joint_ connects one physics body to another
 (or to a fixed point in space), constraining how the body(s) can move.

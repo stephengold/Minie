@@ -1,7 +1,7 @@
 = Physics simulation without appstates
 :page-pagination:
-:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
-:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
+:url-api: https://stephengold.github.io/Minie/javadoc/v2-0/com/jme3/bullet
+:url-tutorial: https://github.com/stephengold/Minie/blob/v20x/MinieExamples/src/main/java/jme3utilities/tutorial
 
 The {url-api}/BulletAppState.html[`BulletAppState`] class
 provides a convenient interface

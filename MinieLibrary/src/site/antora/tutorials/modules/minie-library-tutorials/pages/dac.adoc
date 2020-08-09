@@ -1,6 +1,6 @@
 = An introduction to `DynamicAnimControl`
 :page-pagination:
-:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
+:url-tutorial: https://github.com/stephengold/Minie/blob/v20x/MinieExamples/src/main/java/jme3utilities/tutorial
 
 The centerpiece of Minie is `DynamicAnimControl`, a kind of `PhysicsControl`.
 Adding a `DynamicAnimControl` to an animated model
@@ -62,7 +62,7 @@ stays rigid.
 
 As an alternative to hand-coding the control configuration,
 you can generate configuration code for a specific model using
-https://github.com/stephengold/Minie/tree/master/DacWizard[the DacWizard application],
+https://github.com/stephengold/Minie/tree/v20x/DacWizard[the DacWizard application],
 which samples animation tracks to estimate
 the range of motion for each linked bone.
 

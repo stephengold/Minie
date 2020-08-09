@@ -3,7 +3,7 @@
 
 name: minie
 title: The Minie project
-version: master
+version: v20x
 start_page: ROOT:overview.adoc
 nav:
   - modules/ROOT/nav.adoc

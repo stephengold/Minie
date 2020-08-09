@@ -2,9 +2,9 @@
 :item: &rarr;
 :page-pagination:
 :url-enwiki: https://en.wikipedia.org/wiki
-:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
-:url-shape: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes
-:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
+:url-api: https://stephengold.github.io/Minie/javadoc/v2-0/com/jme3/bullet
+:url-shape: https://stephengold.github.io/Minie/javadoc/v2-0/com/jme3/bullet/collision/shapes
+:url-tutorial: https://github.com/stephengold/Minie/blob/v20x/MinieExamples/src/main/java/jme3utilities/tutorial
 
 A _collision shape_
 describes the shape and size of a collision object such as a rigid body.

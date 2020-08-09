@@ -1,9 +1,9 @@
 = An introduction to vehicle physics
 :experimental:
 :page-pagination:
-:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
-:url-jme3test: https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test
-:url-tutorial: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial
+:url-api: https://stephengold.github.io/Minie/javadoc/v2-0/com/jme3/bullet
+:url-jme3test: https://github.com/stephengold/Minie/blob/v20x/Jme3Examples/src/main/java/jme3test
+:url-tutorial: https://github.com/stephengold/Minie/blob/v20x/MinieExamples/src/main/java/jme3utilities/tutorial
 
 A _physics vehicle_ is a collision object
 used to simulate a vehicle driving on (or gliding over) a smooth surface.
