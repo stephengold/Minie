@@ -290,15 +290,17 @@ int&nbsp;dofIndex)</code></th>
 </tr>
 <tr class="rowColor" id="i15">
 <td class="colFirst"><code>java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#describeJointInBody(com.jme3.bullet.joints.PhysicsJoint,com.jme3.bullet.objects.PhysicsBody)">describeJointInBody</a></span>&#8203;(<a href="../../com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint,
-<a href="../../com/jme3/bullet/objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;body)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#describeJointInBody(com.jme3.bullet.joints.PhysicsJoint,com.jme3.bullet.objects.PhysicsBody,boolean)">describeJointInBody</a></span>&#8203;(<a href="../../com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint,
+<a href="../../com/jme3/bullet/objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;body,
+boolean&nbsp;forceId)</code></th>
 <td class="colLast">
 <div class="block">Describe the specified PhysicsJoint in the context of the specified body.</div>
 </td>
 </tr>
 <tr class="altColor" id="i16">
 <td class="colFirst"><code>java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#describeJointInSpace(com.jme3.bullet.joints.PhysicsJoint)">describeJointInSpace</a></span>&#8203;(<a href="../../com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#describeJointInSpace(com.jme3.bullet.joints.PhysicsJoint,boolean)">describeJointInSpace</a></span>&#8203;(<a href="../../com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint,
+boolean&nbsp;forceIds)</code></th>
 <td class="colLast">
 <div class="block">Describe the specified joint in the context of a PhysicsSpace.</div>
 </td>
@@ -566,14 +568,17 @@ int&nbsp;dofIndex)</span></div>
 </li>
 <li class="blockList">
 <section class="detail">
-<h3><a id="describeJointInBody(com.jme3.bullet.joints.PhysicsJoint,com.jme3.bullet.objects.PhysicsBody)">describeJointInBody</a></h3>
+<h3><a id="describeJointInBody(com.jme3.bullet.joints.PhysicsJoint,com.jme3.bullet.objects.PhysicsBody,boolean)">describeJointInBody</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">java.lang.String</span>&nbsp;<span class="memberName">describeJointInBody</span>&#8203;(<span class="arguments"><a href="../../com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint,
-<a href="../../com/jme3/bullet/objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;body)</span></div>
+<a href="../../com/jme3/bullet/objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;body,
+boolean&nbsp;forceId)</span></div>
 <div class="block">Describe the specified PhysicsJoint in the context of the specified body.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>joint</code> - the joint to describe (not null, unaffected)</dd>
 <dd><code>body</code> - one end of the joint</dd>
+<dd><code>forceId</code> - true to force inclusion of the PCO native IDs, false to
+ include them only when there's no user or application data</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>descriptive text (not null, not empty)</dd>
 </dl>
@@ -581,12 +586,15 @@ int&nbsp;dofIndex)</span></div>
 </li>
 <li class="blockList">
 <section class="detail">
-<h3><a id="describeJointInSpace(com.jme3.bullet.joints.PhysicsJoint)">describeJointInSpace</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">java.lang.String</span>&nbsp;<span class="memberName">describeJointInSpace</span>&#8203;(<span class="arguments"><a href="../../com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint)</span></div>
+<h3><a id="describeJointInSpace(com.jme3.bullet.joints.PhysicsJoint,boolean)">describeJointInSpace</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">java.lang.String</span>&nbsp;<span class="memberName">describeJointInSpace</span>&#8203;(<span class="arguments"><a href="../../com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint,
+boolean&nbsp;forceIds)</span></div>
 <div class="block">Describe the specified joint in the context of a PhysicsSpace.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>joint</code> - the joint to describe (not null, unaffected)</dd>
+<dd><code>forceIds</code> - true to force inclusion of PCO native IDs, false to
+ include them only when there's no user or application data</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>descriptive text (not null, not empty)</dd>
 </dl>
