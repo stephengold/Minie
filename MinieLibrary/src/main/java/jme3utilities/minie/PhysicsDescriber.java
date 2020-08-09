@@ -614,11 +614,11 @@ public class PhysicsDescriber extends Describer {
         Validate.nonNull(pco, "collision object");
 
         String result = "";
-        Object appData = pco.getApplicationData();
-        if (appData != null) {
+        Object aData = pco.getApplicationData();
+        if (aData != null) {
             StringBuilder builder = new StringBuilder(64);
-            builder.append(" app=");
-            appendObjectDescription(builder, appData);
+            builder.append(" aData=");
+            appendObjectDescription(builder, aData);
             result = builder.toString();
         }
 
@@ -821,8 +821,8 @@ public class PhysicsDescriber extends Describer {
         } else if (joint instanceof SoftLinearJoint) {
             SoftLinearJoint slj = (SoftLinearJoint) joint;
             result.append(" loc[");
-            Vector3f location = slj.copyLocation(null);
-            result.append(MyVector3f.describe(location));
+            Vector3f loc = slj.copyLocation(null);
+            result.append(MyVector3f.describe(loc));
             result.append(']');
         }
 
@@ -865,12 +865,12 @@ public class PhysicsDescriber extends Describer {
         result.append(MyVector3f.describe(offset));
 
         result.append("] lo["); // TODO describe axis-by-axis
-        Vector3f lower = joint.getLinearLowerLimit(new Vector3f());
-        result.append(MyVector3f.describe(lower));
+        Vector3f lo = joint.getLinearLowerLimit(new Vector3f());
+        result.append(MyVector3f.describe(lo));
 
         result.append("] hi[");
-        Vector3f upper = joint.getLinearUpperLimit(new Vector3f());
-        result.append(MyVector3f.describe(upper));
+        Vector3f hi = joint.getLinearUpperLimit(new Vector3f());
+        result.append(MyVector3f.describe(hi));
         result.append(']');
 
         return result.toString();
@@ -964,13 +964,15 @@ public class PhysicsDescriber extends Describer {
      */
     private void appendObjectDescription(StringBuilder builder,
             Object subject) {
+        String className = subject.getClass().getSimpleName();
+
         String desc;
-        if (subject instanceof Spatial) {
-            builder.append(subject.getClass().getSimpleName());
-            desc = ((Spatial) subject).getName();
-        } else if (subject instanceof PhysicsLink) {
-            builder.append(subject.getClass().getSimpleName());
+        if (subject instanceof PhysicsLink) {
+            builder.append(className);
             desc = ((PhysicsLink) subject).boneName();
+        } else if (subject instanceof Spatial) {
+            builder.append(className);
+            desc = ((Spatial) subject).getName();
         } else if (subject instanceof String) {
             builder.append("String");
             desc = (String) subject;
@@ -1044,8 +1046,8 @@ public class PhysicsDescriber extends Describer {
         result.append(desc);
 
         result.append(" a=");
-        PhysicsSoftBody bodyA = anchor.getSoftBody();
-        appendPco(result, bodyA, forceIds);
+        PhysicsSoftBody a = anchor.getSoftBody();
+        appendPco(result, a, forceIds);
 
         result.append(" [");
         int nodeIndex = anchor.nodeIndex();
@@ -1053,17 +1055,17 @@ public class PhysicsDescriber extends Describer {
         result.append(']');
 
         result.append(" b=");
-        PhysicsRigidBody bodyB = anchor.getRigidBody();
-        appendPco(result, bodyB, forceIds);
+        PhysicsRigidBody b = anchor.getRigidBody();
+        appendPco(result, b, forceIds);
 
         result.append(" piv[");
-        Vector3f pivot = anchor.copyPivot(null);
-        result.append(MyVector3f.describe(pivot));
+        Vector3f piv = anchor.copyPivot(null);
+        result.append(MyVector3f.describe(piv));
         result.append(']');
 
         result.append(" infl=");
-        float influence = anchor.influence();
-        result.append(MyString.describe(influence));
+        float infl = anchor.influence();
+        result.append(MyString.describe(infl));
 
         return result.toString();
     }
@@ -1092,27 +1094,27 @@ public class PhysicsDescriber extends Describer {
             }
         }
 
-        int numIterations = constraint.getOverrideIterations();
-        if (numIterations != -1) {
+        int iters = constraint.getOverrideIterations();
+        if (iters != -1) {
             result.append(" iters=");
-            result.append(numIterations);
+            result.append(iters);
         }
 
         int numDyn = 0;
-        PhysicsRigidBody bodyA = constraint.getBodyA();
-        if (bodyA != null) {
+        PhysicsRigidBody a = constraint.getBodyA();
+        if (a != null) {
             result.append(" a:");
-            appendPco(result, bodyA, forceIds);
-            if (bodyA.isDynamic()) {
+            appendPco(result, a, forceIds);
+            if (a.isDynamic()) {
                 ++numDyn;
             }
         }
 
-        PhysicsRigidBody bodyB = constraint.getBodyB();
-        if (bodyB != null) {
+        PhysicsRigidBody b = constraint.getBodyB();
+        if (b != null) {
             result.append(" b:");
-            appendPco(result, bodyB, forceIds);
-            if (bodyB.isDynamic()) {
+            appendPco(result, b, forceIds);
+            if (b.isDynamic()) {
                 ++numDyn;
             }
         }
@@ -1179,18 +1181,18 @@ public class PhysicsDescriber extends Describer {
         String desc = describe(joint);
         result.append(desc);
 
-        PhysicsSoftBody bodyA = joint.getSoftBodyA();
+        PhysicsSoftBody a = joint.getSoftBodyA();
         result.append(" a=");
-        appendPco(result, bodyA, forceIds);
+        appendPco(result, a, forceIds);
 
         result.append(" [");
         int clusterIndex = joint.clusterIndexA();
         result.append(clusterIndex);
         result.append(']');
 
-        PhysicsBody bodyB = joint.getBody(JointEnd.B);
+        PhysicsBody b = joint.getBody(JointEnd.B);
         result.append(" b=");
-        appendPco(result, bodyB, forceIds);
+        appendPco(result, b, forceIds);
 
         if (joint.isSoftSoft()) {
             result.append(" [");
