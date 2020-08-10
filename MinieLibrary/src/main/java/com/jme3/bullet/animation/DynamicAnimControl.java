@@ -36,16 +36,21 @@ import com.jme3.anim.Joint;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.Point2PointJoint;
+import com.jme3.bullet.joints.motors.MotorParam;
+import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -63,6 +68,7 @@ import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * Before adding this Control to a Spatial, configure it by invoking
@@ -418,6 +424,42 @@ public class DynamicAnimControl
     }
 
     /**
+     * Add an IK joint that will fix the specified link in its current position.
+     * <p>
+     * Allowed only when the Control IS added to a Spatial and all links are
+     * ready for dynamic mode.
+     *
+     * @param link which link to fix (not null)
+     * @param disableForRagdoll true&rarr;disable the Constraint when entering
+     * ragdoll mode, false&rarr;unaffected by ragdoll mode
+     * @return a new joint, with the link body at the B end
+     */
+    public IKJoint fixToWorld(PhysicsLink link, boolean disableForRagdoll) {
+        verifyReadyForDynamicMode("add an IK joint");
+
+        PhysicsRigidBody linkBody = link.getRigidBody();
+        Transform localToWorld = link.physicsTransform(null);
+        Vector3f pivotInWorld = localToWorld.getTranslation();
+        Matrix3f rotInWorld = localToWorld.getRotation().toRotationMatrix();
+        New6Dof new6dof = new New6Dof(linkBody, Vector3f.ZERO, pivotInWorld,
+                Matrix3f.IDENTITY, rotInWorld, RotationOrder.XYZ);
+        for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
+            RotationMotor rotMotor = new6dof.getRotationMotor(axisIndex);
+            rotMotor.setSpringEnabled(true);
+            int rotDofIndex = axisIndex + 3;
+            new6dof.set(MotorParam.UpperLimit, rotDofIndex, 0f);
+            new6dof.set(MotorParam.LowerLimit, rotDofIndex, 0f);
+        }
+
+        IKJoint result = new IKJoint(new6dof, disableForRagdoll);
+        ikJoints.add(result);
+        getPhysicsSpace().addJoint(new6dof);
+
+        assert new6dof.getBodyB() == linkBody;
+        return result;
+    }
+
+    /**
      * Immediately freeze the specified link and all its descendants. Note:
      * recursive!
      * <p>
@@ -518,8 +560,8 @@ public class DynamicAnimControl
      * created)
      * @param pivotInGoalBody the pivot location (in the goal's local
      * coordinates, not null, unaffected)
-     * @return a new joint with the link body at the A end and the goal at the B
-     * end, which will be disabled by ragdoll mode (not null)
+     * @return a new joint, with the link body at the A end and the goal at the
+     * B end, which will be disabled by ragdoll mode (not null)
      */
     public IKJoint moveToBody(PhysicsLink link, Vector3f pivotInLinkBody,
             PhysicsRigidBody goalBody, Vector3f pivotInGoalBody) {
@@ -548,7 +590,7 @@ public class DynamicAnimControl
      * coordinates, not null, unaffected)
      * @param goalInWorld the goal location (in physics-space coordinates, not
      * null, unaffected)
-     * @return a new joint with the link body at the A end, which will be
+     * @return a new joint, with the link body at the A end, which will be
      * disabled by ragdoll mode (not null)
      */
     public IKJoint moveToWorld(PhysicsLink link, Vector3f pivotInLinkBody,
@@ -572,7 +614,7 @@ public class DynamicAnimControl
      * each other.
      * <p>
      * Allowed only when the Control IS added to a Spatial and all links are
-     * "ready".
+     * ready for dynamic mode.
      *
      * @param linkA the first link to pin (not null)
      * @param linkB the 2nd link to pin (not null)
@@ -605,12 +647,12 @@ public class DynamicAnimControl
      * a fixed pivot.
      * <p>
      * Allowed only when the Control IS added to a Spatial and all links are
-     * "ready".
+     * ready for dynamic mode.
      *
      * @param link which link to pin (not null)
      * @param pivotInWorld the pivot location (in physics-space coordinates, not
      * null, unaffected)
-     * @return a new joint with the link body at the A end, which will be
+     * @return a new joint, with the link body at the A end, which will be
      * disabled by ragdoll mode (not null)
      */
     public IKJoint pinToWorld(PhysicsLink link, Vector3f pivotInWorld) {
@@ -665,7 +707,7 @@ public class DynamicAnimControl
      * torso) into dynamic mode. Note: recursive!
      * <p>
      * Allowed only when the Control IS added to a Spatial and all links are
-     * "ready".
+     * ready for dynamic mode.
      *
      * @param startLink the start of the chain to modify (not null)
      * @param chainLength the maximum number of links to modify (&ge;0)
@@ -753,7 +795,7 @@ public class DynamicAnimControl
      * Immediately put all links and IK joints into ragdoll mode.
      * <p>
      * Allowed only when the Control IS added to a Spatial and all links are
-     * "ready".
+     * ready for dynamic mode.
      */
     public void setRagdollMode() {
         verifyReadyForDynamicMode("set ragdoll mode");
