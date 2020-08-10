@@ -231,7 +231,7 @@ task('copy20JavadocToSite', type: Copy) {
     into '../build/site/javadoc/v2-0'
 }
 task download20Javadoc(type: MyDownload) {
-    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/2.0.0/Minie-2.0.0-javadoc.jar'
+    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/2.0.1/Minie-2.0.1-javadoc.jar'
     target = file("${buildDir}/docs/v2-0.jar")
 }
 
