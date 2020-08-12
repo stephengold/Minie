@@ -36,6 +36,12 @@ in just enough detail to add verisimilitude to 3-D games.
 It's not intended for 2-D {url-enwiki}/wiki/Platform_game[platformers],
 nor for scientific research.
 
+Starting with version 1.6,
+Minie no longer supports the version 3.2.x JMonkeyEngine libraries.
+In order to use the latest Minie release,
+you'll need version 3.3.x JMonkeyEngine libraries, preferably v3.3.2-stable.
+(You can still use the JME 3.2 SDK, however.)
+
 Like JMonkeyEngine, Minie and its documentation
 assume a certain level of proficiency with
 {url-enwiki}/Java_(programming_language)[the Java programming language].

@@ -143,6 +143,14 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 . Similarly, add the Minie JAR(s).
 . Click on the btn:[OK] button to exit the "Project Properties" dialog.
 
+Starting with version 1.6,
+Minie no longer supports version 3.2.x JMonkeyEngine libraries.
+In order to use the latest Minie release,
+you'll need version 3.3.x JMonkeyEngine libraries.
+
+* Minie v2.0.1 depends on jme3-terrain-3.3.2-stable and
+* Heart v5.5.0 depends on jme3-core-3.3.2-stable
+
 == Attach a `BulletAppState`
 
 Strictly speaking, Minie doesn't require a
