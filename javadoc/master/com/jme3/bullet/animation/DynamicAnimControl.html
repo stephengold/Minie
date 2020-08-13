@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -382,14 +382,23 @@ com.jme3.math.Vector3f&nbsp;pivotInB)</code></th>
 </tr>
 <tr class="altColor" id="i20">
 <td class="colFirst"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pinToWorld(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f)">pinToWorld</a></span>&#8203;(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
-com.jme3.math.Vector3f&nbsp;pivotInWorld)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pinToWorld(com.jme3.bullet.animation.PhysicsLink,boolean)">pinToWorld</a></span>&#8203;(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
+boolean&nbsp;disableForRagdoll)</code></th>
 <td class="colLast">
-<div class="block">Add an IK joint that will restrict the specified link to pivoting around
- a fixed pivot.</div>
+<div class="block">Add an IK joint that restricts the specified link to rotating around a
+ pin location.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i21">
+<td class="colFirst"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pinToWorld(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f)">pinToWorld</a></span>&#8203;(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
+com.jme3.math.Vector3f&nbsp;pivotInWorld)</code></th>
+<td class="colLast">
+<div class="block">Add an IK joint that restricts the specified link to rotating around the
+ specified location.</div>
+</td>
+</tr>
+<tr class="altColor" id="i22">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#read(com.jme3.export.JmeImporter)">read</a></span>&#8203;(com.jme3.export.JmeImporter&nbsp;importer)</code></th>
 <td class="colLast">
@@ -397,14 +406,14 @@ com.jme3.math.Vector3f&nbsp;pivotInWorld)</code></th>
  loading from a J3O file.</div>
 </td>
 </tr>
-<tr class="altColor" id="i22">
+<tr class="rowColor" id="i23">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removePhysics()">removePhysics</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Remove all managed physics objects from the PhysicsSpace.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i23">
+<tr class="altColor" id="i24">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setContactResponseSubtree(com.jme3.bullet.animation.PhysicsLink,boolean)">setContactResponseSubtree</a></span>&#8203;(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;rootLink,
 boolean&nbsp;desiredResponse)</code></th>
@@ -413,7 +422,7 @@ boolean&nbsp;desiredResponse)</code></th>
  descendants (excluding released attachments).</div>
 </td>
 </tr>
-<tr class="altColor" id="i24">
+<tr class="rowColor" id="i25">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDynamicChain(com.jme3.bullet.animation.PhysicsLink,int,com.jme3.math.Vector3f,boolean)">setDynamicChain</a></span>&#8203;(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;startLink,
 int&nbsp;chainLength,
@@ -424,7 +433,7 @@ boolean&nbsp;lockAll)</code></th>
  torso) into dynamic mode.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i25">
+<tr class="altColor" id="i26">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDynamicSubtree(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f,boolean)">setDynamicSubtree</a></span>&#8203;(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;rootLink,
 com.jme3.math.Vector3f&nbsp;uniformAcceleration,
@@ -434,21 +443,21 @@ boolean&nbsp;lockAll)</code></th>
  released attachments) into dynamic mode.</div>
 </td>
 </tr>
-<tr class="altColor" id="i26">
+<tr class="rowColor" id="i27">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setKinematicMode()">setKinematicMode</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Immediately put all links into purely kinematic mode.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i27">
+<tr class="altColor" id="i28">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRagdollMode()">setRagdollMode</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Immediately put all links and IK joints into ragdoll mode.</div>
 </td>
 </tr>
-<tr class="altColor" id="i28">
+<tr class="rowColor" id="i29">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(com.jme3.export.JmeExporter)">write</a></span>&#8203;(com.jme3.export.JmeExporter&nbsp;exporter)</code></th>
 <td class="colLast">
@@ -803,22 +812,43 @@ com.jme3.math.Vector3f&nbsp;pivotInB)</span></div>
 </li>
 <li class="blockList">
 <section class="detail">
-<h3><a id="pinToWorld(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f)">pinToWorld</a></h3>
+<h3><a id="pinToWorld(com.jme3.bullet.animation.PhysicsLink,boolean)">pinToWorld</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></span>&nbsp;<span class="memberName">pinToWorld</span>&#8203;(<span class="arguments"><a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
-com.jme3.math.Vector3f&nbsp;pivotInWorld)</span></div>
-<div class="block">Add an IK joint that will restrict the specified link to pivoting around
- a fixed pivot.
+boolean&nbsp;disableForRagdoll)</span></div>
+<div class="block">Add an IK joint that restricts the specified link to rotating around a
+ pin location. The pin is initially located at the link's center. Its
+ location can be altered via the joint's TranslationMotor.
  <p>
  Allowed only when the Control IS added to a Spatial and all links are
  ready for dynamic mode.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>link</code> - which link to pin (not null)</dd>
-<dd><code>pivotInWorld</code> - the pivot location (in physics-space coordinates, not
+<dd><code>disableForRagdoll</code> - true&rarr;disable the joint when entering
+ ragdoll mode, false&rarr;unaffected by ragdoll mode</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new joint, with the link body at the B end</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="pinToWorld(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f)">pinToWorld</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></span>&nbsp;<span class="memberName">pinToWorld</span>&#8203;(<span class="arguments"><a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
+com.jme3.math.Vector3f&nbsp;pivotInWorld)</span></div>
+<div class="block">Add an IK joint that restricts the specified link to rotating around the
+ specified location.
+ <p>
+ Allowed only when the Control IS added to a Spatial and all links are
+ ready for dynamic mode.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>link</code> - which link to pin (not null)</dd>
+<dd><code>pivotInWorld</code> - the pin location (in physics-space coordinates, not
  null, unaffected)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new joint, with the link body at the A end, which will be
- disabled by ragdoll mode (not null)</dd>
+ disabled by ragdoll mode</dd>
 </dl>
 </section>
 </li>
