@@ -637,6 +637,7 @@ public class PhysicsDescriber extends Describer {
      * @return descriptive text (not null, not empty)
      */
     public String describeDof(New6Dof constraint, int dofIndex) {
+        Validate.inRange(dofIndex, "DOF index", 0, 5);
         StringBuilder result = new StringBuilder(80);
 
         float lo = constraint.get(MotorParam.LowerLimit, dofIndex);
@@ -644,7 +645,8 @@ public class PhysicsDescriber extends Describer {
         if (hi < lo) {
             result.append(" free");
         } else if (hi == lo) {
-            result.append(" locked");
+            result.append(" locked=");
+            result.append(MyString.describe(lo));
         } else {
             result.append(" lo=");
             result.append(MyString.describe(lo));
