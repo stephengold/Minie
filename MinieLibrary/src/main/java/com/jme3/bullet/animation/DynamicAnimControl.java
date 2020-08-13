@@ -45,6 +45,7 @@ import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.joints.motors.MotorParam;
 import com.jme3.bullet.joints.motors.RotationMotor;
+import com.jme3.bullet.joints.motors.TranslationMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -102,12 +103,20 @@ public class DynamicAnimControl
     final public static Logger logger35
             = Logger.getLogger(DynamicAnimControl.class.getName());
     /**
+     * local copy of {@link com.jme3.math.Matrix3f#IDENTITY}
+     */
+    final private static Matrix3f matrixIdentity = new Matrix3f();
+    /**
      * field names for serialization
      */
     final private static String tagCenterLocation = "centerLocation";
     final private static String tagCenterVelocity = "centerVelocity";
     final private static String tagIkJoints = "ikJoints";
     final private static String tagRagdollMass = "ragdollMass";
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#ZERO}
+     */
+    final private static Vector3f translateIdentity = new Vector3f(0f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -441,8 +450,8 @@ public class DynamicAnimControl
         Transform localToWorld = link.physicsTransform(null);
         Vector3f pivotInWorld = localToWorld.getTranslation();
         Matrix3f rotInWorld = localToWorld.getRotation().toRotationMatrix();
-        New6Dof new6dof = new New6Dof(linkBody, Vector3f.ZERO, pivotInWorld,
-                Matrix3f.IDENTITY, rotInWorld, RotationOrder.XYZ);
+        New6Dof new6dof = new New6Dof(linkBody, translateIdentity, pivotInWorld,
+                matrixIdentity, rotInWorld, RotationOrder.XYZ);
         for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
             RotationMotor rotMotor = new6dof.getRotationMotor(axisIndex);
             rotMotor.setSpringEnabled(true);
@@ -643,17 +652,53 @@ public class DynamicAnimControl
     }
 
     /**
-     * Add an IK joint that will restrict the specified link to pivoting around
-     * a fixed pivot.
+     * Add an IK joint that restricts the specified link to rotating around a
+     * pin location. The pin is initially located at the link's center. Its
+     * location can be altered via the joint's TranslationMotor.
      * <p>
      * Allowed only when the Control IS added to a Spatial and all links are
      * ready for dynamic mode.
      *
      * @param link which link to pin (not null)
-     * @param pivotInWorld the pivot location (in physics-space coordinates, not
+     * @param disableForRagdoll true&rarr;disable the joint when entering
+     * ragdoll mode, false&rarr;unaffected by ragdoll mode
+     * @return a new joint, with the link body at the B end
+     */
+    public IKJoint pinToWorld(PhysicsLink link, boolean disableForRagdoll) {
+        verifyReadyForDynamicMode("add an IK joint");
+
+        PhysicsRigidBody linkBody = link.getRigidBody();
+        New6Dof new6dof = new New6Dof(linkBody, translateIdentity,
+                translateIdentity, matrixIdentity, matrixIdentity,
+                RotationOrder.XYZ);
+        /*
+         * Initialize the pin location in physics-space coordinates.
+         */
+        TranslationMotor motor = new6dof.getTranslationMotor();
+        Vector3f location = linkBody.getPhysicsLocation(null);
+        motor.set(MotorParam.LowerLimit, location);
+        motor.set(MotorParam.UpperLimit, location);
+
+        IKJoint result = new IKJoint(new6dof, disableForRagdoll);
+        ikJoints.add(result);
+        getPhysicsSpace().addJoint(new6dof);
+
+        assert new6dof.getBodyB() == linkBody;
+        return result;
+    }
+
+    /**
+     * Add an IK joint that restricts the specified link to rotating around the
+     * specified location.
+     * <p>
+     * Allowed only when the Control IS added to a Spatial and all links are
+     * ready for dynamic mode.
+     *
+     * @param link which link to pin (not null)
+     * @param pivotInWorld the pin location (in physics-space coordinates, not
      * null, unaffected)
      * @return a new joint, with the link body at the A end, which will be
-     * disabled by ragdoll mode (not null)
+     * disabled by ragdoll mode
      */
     public IKJoint pinToWorld(PhysicsLink link, Vector3f pivotInWorld) {
         Validate.nonNull(pivotInWorld, "pivot location");
