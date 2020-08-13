@@ -435,6 +435,58 @@ public class New6Dof extends Constraint {
     }
 
     /**
+     * Instantiate a double-ended New6Dof constraint with all rotation DOFs free
+     * and all translation DOFs locked at zero. The pivot calculations assume
+     * all DOFs are initially at zero.
+     * <p>
+     * To be effective, the Constraint must be added to the PhysicsSpace of both
+     * bodies. Also, the bodies must be distinct and at least one of them must
+     * be dynamic.
+     *
+     * @param rigidBodyA the body for the A end (not null, alias created)
+     * @param rigidBodyB the body for the B end (not null, alias created)
+     * @param pivotInWorld the pivot location (in physics-space coordinates, not
+     * null, unaffected)
+     * @param rotInWorld the orientation of the constraint (in physics-space
+     * coordinates, not null, not zero, unaffected)
+     * @param rotationOrder the order in which to apply axis rotations (not
+     * null)
+     * @return a new instance, not in any PhysicsSpace
+     */
+    public static New6Dof newInstance(PhysicsRigidBody rigidBodyA,
+            PhysicsRigidBody rigidBodyB, Vector3f pivotInWorld,
+            Quaternion rotInWorld, RotationOrder rotationOrder) {
+        Validate.nonNull(rigidBodyA, "a");
+        Validate.nonNull(rigidBodyB, "b");
+        Validate.finite(pivotInWorld, "pivot location");
+        Validate.nonZero(rotInWorld, "pivot orientation");
+        Validate.nonNull(rotationOrder, "rotation order");
+
+        Transform tmpTransform = new Transform();
+
+        rigidBodyA.getTransform(tmpTransform);
+        tmpTransform.setScale(1f); // a2w
+        tmpTransform = tmpTransform.invert();  // w2a
+        Transform p2a = new Transform(pivotInWorld, rotInWorld);
+        p2a.combineWithParent(tmpTransform);
+        Vector3f pivotInA = p2a.getTranslation();
+        Matrix3f rotInA = p2a.getRotation().toRotationMatrix();
+
+        rigidBodyB.getTransform(tmpTransform);
+        tmpTransform.setScale(1f); // b2w
+        tmpTransform = tmpTransform.invert();  // w2b
+        Transform p2b = new Transform(pivotInWorld, rotInWorld);
+        p2b.combineWithParent(tmpTransform);
+        Vector3f pivotInB = p2b.getTranslation();
+        Matrix3f rotInB = p2b.getRotation().toRotationMatrix();
+
+        New6Dof result = new New6Dof(rigidBodyA, rigidBodyB, pivotInA,
+                pivotInB, rotInA, rotInB, rotationOrder);
+
+        return result;
+    }
+
+    /**
      * Alter the specified parameter for the indexed degree of freedom.
      *
      * @param parameter which parameter (not null)
