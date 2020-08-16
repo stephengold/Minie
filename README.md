@@ -14,7 +14,7 @@ It contains 5 sub-projects:
  5. Jme3Examples: physics examples from jme3-examples
 
 Complete source code (in Java) is provided under
-[a BSD license][license].
+[a 3-clause BSD license][license].
 
 <a name="toc"/>
 
@@ -125,8 +125,8 @@ Older Maven artifacts (v0.1.2 through v1.3.0) are available from
 
 ## Conventions
 
-Package names begin with
-`jme3utilities.` (if Stephen Gold holds the copyright) or
+Package names begin with `jme3utilities.`
+(if Stephen Gold holds the copyright) or
 `com.jme3.`/`jme3test.` (if the jMonkeyEngine Project holds the copyright).
 
 Both the source code and the pre-built libraries are compatible with JDK 7.
@@ -343,6 +343,7 @@ YouTube videos about Minie:
 [vhacdBindings]: https://github.com/riccardobl/v-hacd-java-bindings "V-HACD Java Bindings Project"
 [wes]: https://github.com/stephengold/Wes "Wes Project"
 [winmerge]: http://winmerge.org "WinMerge Project"
+[youtube]: https://www.youtube.com/ "YouTube"
 
 [Jump to table of contents](#toc)
 
@@ -394,8 +395,8 @@ artists and software developers:
     + the [Blender] 3-D animation suite
     + the [Bullet] real-time physics library
     + the [FindBugs] source-code analyzer
-    + the [Git] revision-control system and GitK commit viewer
     + the [Firefox] and [Google Chrome][chrome] web browsers
+    + the [Git] revision-control system and GitK commit viewer
     + the [Gradle] build tool
     + the Java compiler, standard doclet, and virtual machine
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
@@ -412,7 +413,7 @@ artists and software developers:
     + [ProFont], the programmers' font
     + the [WinMerge] differencing and merging tool
 
-I am grateful to [Github], [JFrog], and [Imgur]
+I am grateful to [Github], [JFrog], [YouTube], and [Imgur]
 for providing free hosting for this project
 and many other open-source projects.
 
