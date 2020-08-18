@@ -278,10 +278,10 @@ public class SeJointDemo extends AbstractDemo {
 
         dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
 
-        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
-        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
-        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
-        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
+        dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
+        dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
         dim.bind("signal shower", KeyInput.KEY_I);
 
         dim.bind("test 6dof", KeyInput.KEY_F6);
@@ -294,8 +294,8 @@ public class SeJointDemo extends AbstractDemo {
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+                KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 

@@ -248,8 +248,7 @@ public class BuoyDemo extends AbstractDemo {
         dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
         dim.bind(AbstractDemo.asDumpScenes, KeyInput.KEY_P);
         dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind("go floating", KeyInput.KEY_0);
-        dim.bind("go floating", KeyInput.KEY_SPACE);
+        dim.bind("go floating", KeyInput.KEY_0, KeyInput.KEY_SPACE);
 
         dim.bind("load BaseMesh", KeyInput.KEY_F11);
         dim.bind("load Elephant", KeyInput.KEY_F3);
@@ -262,18 +261,18 @@ public class BuoyDemo extends AbstractDemo {
         dim.bind("load SinbadWith1Sword", KeyInput.KEY_F10);
         dim.bind("load SinbadWithSwords", KeyInput.KEY_F4);
 
-        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
-        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
-        dim.bind("signal rotateLeft", KeyInput.KEY_LEFT);
-        dim.bind("signal rotateRight", KeyInput.KEY_RIGHT);
+        dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
+        dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
+        dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(AbstractDemo.asToggleDebug, KeyInput.KEY_SLASH);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+                KeyInput.KEY_PERIOD);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float margin = 10f; // in pixels

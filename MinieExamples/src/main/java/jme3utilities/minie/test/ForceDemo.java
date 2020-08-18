@@ -184,23 +184,23 @@ public class ForceDemo
         dim.bind(AbstractDemo.asDumpScene, KeyInput.KEY_P);
         dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
 
-        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
-        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
-        dim.bind("signal cf+Y", KeyInput.KEY_F3);
-        dim.bind("signal cf-Y", KeyInput.KEY_F4);
-        dim.bind("signal ci+Y", KeyInput.KEY_F7);
-        dim.bind("signal ci-Y", KeyInput.KEY_F8);
-        dim.bind("signal for+Y@+X", KeyInput.KEY_F6);
-        dim.bind("signal imp+Y@+X", KeyInput.KEY_F9);
-        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
-        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
-        dim.bind("signal torq+Y", KeyInput.KEY_F1);
-        dim.bind("signal torq-Y", KeyInput.KEY_F2);
+        dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
+        dim.bindSignal("cf+Y", KeyInput.KEY_F3);
+        dim.bindSignal("cf-Y", KeyInput.KEY_F4);
+        dim.bindSignal("ci+Y", KeyInput.KEY_F7);
+        dim.bindSignal("ci-Y", KeyInput.KEY_F8);
+        dim.bindSignal("for+Y@+X", KeyInput.KEY_F6);
+        dim.bindSignal("imp+Y@+X", KeyInput.KEY_F9);
+        dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
+        dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
+        dim.bindSignal("torq+Y", KeyInput.KEY_F1);
+        dim.bindSignal("torq-Y", KeyInput.KEY_F2);
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+                KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind(AbstractDemo.asToggleVArrows, KeyInput.KEY_K);
 

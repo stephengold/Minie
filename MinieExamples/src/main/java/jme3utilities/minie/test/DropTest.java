@@ -275,7 +275,7 @@ public class DropTest
         int maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
         int degree = Math.min(8, maxDegree);
         renderer.setDefaultAnisotropicFilter(degree);
-        
+
         addADrop(1);
     }
 
@@ -475,25 +475,20 @@ public class DropTest
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind("add", KeyInput.KEY_RETURN);
-        dim.bind("add", KeyInput.KEY_INSERT);
-        dim.bind("add", KeyInput.KEY_NUMPAD0);
-        dim.bind("add", KeyInput.KEY_SPACE);
+        dim.bind("add", KeyInput.KEY_RETURN, KeyInput.KEY_INSERT,
+                KeyInput.KEY_NUMPAD0, KeyInput.KEY_SPACE);
 
         dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
 
-        dim.bind("delete last", KeyInput.KEY_BACK);
-        dim.bind("delete last", KeyInput.KEY_SUBTRACT);
-        dim.bind("delete selected", KeyInput.KEY_DECIMAL);
-        dim.bind("delete selected", KeyInput.KEY_DELETE);
+        dim.bind("delete last", KeyInput.KEY_BACK, KeyInput.KEY_SUBTRACT);
+        dim.bind("delete selected", KeyInput.KEY_DECIMAL, KeyInput.KEY_DELETE);
 
         dim.bind("dump selected", KeyInput.KEY_LBRACKET);
         dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("next field", KeyInput.KEY_NUMPAD2);
-        dim.bind("next value", KeyInput.KEY_EQUALS);
-        dim.bind("next value", KeyInput.KEY_NUMPAD6);
+        dim.bind("next value", KeyInput.KEY_EQUALS, KeyInput.KEY_NUMPAD6);
 
         dim.bind("pick", "RMB");
         dim.bind("pick", KeyInput.KEY_R);
@@ -501,25 +496,23 @@ public class DropTest
         dim.bind("pop selected", KeyInput.KEY_PGUP);
 
         dim.bind("previous field", KeyInput.KEY_NUMPAD8);
-        dim.bind("previous value", KeyInput.KEY_MINUS);
-        dim.bind("previous value", KeyInput.KEY_NUMPAD4);
+        dim.bind("previous value", KeyInput.KEY_MINUS, KeyInput.KEY_NUMPAD4);
 
         dim.bind("restart", KeyInput.KEY_NUMPAD5);
 
-        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
-        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
-        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
-        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
-        dim.bind("signal shower", KeyInput.KEY_ADD);
-        dim.bind("signal shower", KeyInput.KEY_I);
+        dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
+        dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
+        dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
+        dim.bindSignal("shower", KeyInput.KEY_ADD, KeyInput.KEY_I);
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(AbstractDemo.asToggleCcdSpheres, KeyInput.KEY_L);
         dim.bind("toggle childColor", KeyInput.KEY_COMMA);
         dim.bind(AbstractDemo.asToggleGArrows, KeyInput.KEY_J);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+                KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind(AbstractDemo.asToggleVArrows, KeyInput.KEY_K);
         dim.bind("toggle wireframe", KeyInput.KEY_SLASH);

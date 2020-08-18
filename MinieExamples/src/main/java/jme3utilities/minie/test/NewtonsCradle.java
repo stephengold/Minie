@@ -190,28 +190,24 @@ public class NewtonsCradle
         dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
 
-        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
-        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
-        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
-        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
+        dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
+        dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
-        dim.bind("simulate 1", KeyInput.KEY_F1);
-        dim.bind("simulate 1", KeyInput.KEY_1);
-        dim.bind("simulate 1", KeyInput.KEY_NUMPAD1);
-        dim.bind("simulate 2", KeyInput.KEY_F2);
-        dim.bind("simulate 2", KeyInput.KEY_2);
-        dim.bind("simulate 2", KeyInput.KEY_NUMPAD2);
-        dim.bind("simulate 3", KeyInput.KEY_F3);
-        dim.bind("simulate 3", KeyInput.KEY_3);
-        dim.bind("simulate 3", KeyInput.KEY_NUMPAD3);
-        dim.bind("simulate 4", KeyInput.KEY_F4);
-        dim.bind("simulate 4", KeyInput.KEY_4);
-        dim.bind("simulate 4", KeyInput.KEY_NUMPAD4);
+        dim.bind("simulate 1", KeyInput.KEY_F1, KeyInput.KEY_1,
+                KeyInput.KEY_NUMPAD1);
+        dim.bind("simulate 2", KeyInput.KEY_F2, KeyInput.KEY_2,
+                KeyInput.KEY_NUMPAD2);
+        dim.bind("simulate 3", KeyInput.KEY_F3, KeyInput.KEY_3,
+                KeyInput.KEY_NUMPAD3);
+        dim.bind("simulate 4", KeyInput.KEY_F4, KeyInput.KEY_4,
+                KeyInput.KEY_NUMPAD4);
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+                KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind(AbstractDemo.asToggleVArrows, KeyInput.KEY_K);
 

@@ -350,10 +350,10 @@ public class TestSoftBody
         dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("next", KeyInput.KEY_N);
 
-        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
-        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
-        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
-        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
+        dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
+        dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
         dim.bind("test poleAndFlag", KeyInput.KEY_F3);
         dim.bind("test puppetInSkirt", KeyInput.KEY_F4);
@@ -362,8 +362,8 @@ public class TestSoftBody
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+                KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
 
         addHelp();

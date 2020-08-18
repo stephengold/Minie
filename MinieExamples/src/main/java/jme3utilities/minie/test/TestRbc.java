@@ -335,8 +335,7 @@ public class TestRbc
         dim.bind("cast ray", "RMB");
         dim.bind("cast ray", KeyInput.KEY_R);
 
-        dim.bind("clear shapes", KeyInput.KEY_BACK);
-        dim.bind("clear shapes", KeyInput.KEY_DELETE);
+        dim.bind("clear shapes", KeyInput.KEY_BACK, KeyInput.KEY_DELETE);
 
         dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
@@ -346,10 +345,8 @@ public class TestRbc
         dim.bind("less margin", KeyInput.KEY_V);
         dim.bind("more margin", KeyInput.KEY_F);
 
-        dim.bind("next test", KeyInput.KEY_EQUALS);
-        dim.bind("next test", KeyInput.KEY_NUMPAD6);
-        dim.bind("previous test", KeyInput.KEY_MINUS);
-        dim.bind("previous test", KeyInput.KEY_NUMPAD4);
+        dim.bind("next test", KeyInput.KEY_EQUALS, KeyInput.KEY_NUMPAD6);
+        dim.bind("previous test", KeyInput.KEY_MINUS, KeyInput.KEY_NUMPAD4);
 
         dim.bind("scale identity", KeyInput.KEY_I);
         dim.bind("scale nonuniform", KeyInput.KEY_N);
@@ -358,10 +355,10 @@ public class TestRbc
         dim.bind("scale y-xz", KeyInput.KEY_Y);
         dim.bind("scale z-xy", KeyInput.KEY_T);
 
-        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
-        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
-        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
-        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
+        dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
+        dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
         dim.bind("sweep", KeyInput.KEY_K);
 

@@ -320,8 +320,7 @@ public class RopeDemo extends AbstractDemo {
         dim.bind("add NooseSpliced", KeyInput.KEY_F8);
         dim.bind("add Slackline", KeyInput.KEY_F1);
 
-        dim.bind("delete", KeyInput.KEY_BACK);
-        dim.bind("delete", KeyInput.KEY_DELETE);
+        dim.bind("delete", KeyInput.KEY_BACK, KeyInput.KEY_DELETE);
 
         dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
         dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
@@ -330,17 +329,17 @@ public class RopeDemo extends AbstractDemo {
         dim.bind("pull a pin", KeyInput.KEY_X);
         dim.bind("save", KeyInput.KEY_SEMICOLON);
 
-        dim.bind("signal " + CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
-        dim.bind("signal " + CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
-        dim.bind("signal orbitLeft", KeyInput.KEY_LEFT);
-        dim.bind("signal orbitRight", KeyInput.KEY_RIGHT);
+        dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
+        dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
+        dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
+        dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(AbstractDemo.asToggleDebug, KeyInput.KEY_SLASH);
         dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PERIOD);
+        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+                KeyInput.KEY_PERIOD);
         dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
