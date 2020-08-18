@@ -52,6 +52,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -434,6 +435,7 @@ public class DynamicAnimControl
 
     /**
      * Add an IK joint that will fix the specified link in its current position.
+     * Its location can be altered via the joint's TranslationMotor.
      * <p>
      * Allowed only when the Control IS added to a Spatial and all links are
      * ready for dynamic mode.
@@ -446,12 +448,23 @@ public class DynamicAnimControl
     public IKJoint fixToWorld(PhysicsLink link, boolean disableForRagdoll) {
         verifyReadyForDynamicMode("add an IK joint");
 
-        PhysicsRigidBody linkBody = link.getRigidBody();
         Transform localToWorld = link.physicsTransform(null);
-        Vector3f pivotInWorld = localToWorld.getTranslation();
-        Matrix3f rotInWorld = localToWorld.getRotation().toRotationMatrix();
-        New6Dof new6dof = new New6Dof(linkBody, translateIdentity, pivotInWorld,
-                matrixIdentity, rotInWorld, RotationOrder.XYZ);
+        Quaternion rotToWorld = localToWorld.getRotation(); // alias
+        Matrix3f worldToLocal = rotToWorld.toRotationMatrix().invertLocal();
+        PhysicsRigidBody linkBody = link.getRigidBody();
+        New6Dof new6dof = new New6Dof(linkBody, translateIdentity,
+                translateIdentity, worldToLocal, matrixIdentity,
+                RotationOrder.XYZ);
+        /*
+         * Initialize the fix location in physics-space coordinates.
+         */
+        TranslationMotor motor = new6dof.getTranslationMotor();
+        Vector3f location = localToWorld.getTranslation(); // alias
+        motor.set(MotorParam.LowerLimit, location);
+        motor.set(MotorParam.UpperLimit, location);
+        /*
+         * Lock all rotation axes at 0.
+         */
         for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
             RotationMotor rotMotor = new6dof.getRotationMotor(axisIndex);
             rotMotor.setSpringEnabled(true);
