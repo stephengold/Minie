@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2020 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.jme3.bullet;
+
+import com.jme3.math.Matrix3f;
+import com.jme3.math.Vector3f;
+import jme3utilities.Validate;
 
 /**
  * Enumerate the orders in which axis rotations can be applied (native enum:
@@ -65,4 +69,28 @@ public enum RotationOrder {
      * Z then Y then X (native name: RO_ZYX)
      */
     ZYX;
+    // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Convert a rotation matrix to Euler angles for this RotationOrder.
+     *
+     * @param rotMatrix the matrix to convert (not null, unaffected)
+     * @param storeResult storage for the result (modified if not null)
+     * @return the Euler angles (either storeResult or a new vector, not null)
+     */
+    public Vector3f matrixToEuler(Matrix3f rotMatrix, Vector3f storeResult) {
+        Validate.nonNull(rotMatrix, "rot matrix");
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        int rotOrder = ordinal();
+        boolean b = matrixToEuler(rotOrder, rotMatrix, result); // TODO retval
+
+        return result;
+    }
+    // *************************************************************************
+    // native private methods
+
+    native private static boolean matrixToEuler(int rotOrder,
+            Matrix3f rotMatrix, Vector3f storeVector);
 }
