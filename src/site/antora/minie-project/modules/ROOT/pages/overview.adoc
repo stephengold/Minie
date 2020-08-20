@@ -35,6 +35,7 @@ Minie's focus is on simulating
 in just enough detail to add verisimilitude to 3-D games.
 It's not intended for 2-D {url-enwiki}/wiki/Platform_game[platformers],
 nor for scientific research.
+For 2-D physics, consider using http://www.dyn4j.org/[dyn4j] instead.
 
 Starting with version 1.6,
 Minie no longer supports the version 3.2.x JMonkeyEngine libraries.
