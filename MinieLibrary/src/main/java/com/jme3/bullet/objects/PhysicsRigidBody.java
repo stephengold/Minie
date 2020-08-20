@@ -1294,10 +1294,14 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @return true if the flags are equal, otherwise false
      */
     private boolean checkKinematicFlag() {
+        if (mass == massForStatic) {// don't invoke getCollisionFlags(long) TODO
+            return true;
+        }
+
         long objectId = nativeId();
         int flags = getCollisionFlags(objectId);
         boolean nativeKinematicFlag
-                = (flags & CollisionFlag.KINEMATIC_OBJECT) != 0;
+                = (flags & CollisionFlag.KINEMATIC_OBJECT) != 0x0;
 
         if (kinematic == nativeKinematicFlag) {
             return true;
