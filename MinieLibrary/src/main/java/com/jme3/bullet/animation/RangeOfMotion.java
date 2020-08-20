@@ -53,7 +53,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * Range of motion for a ragdoll joint. Immutable except for
+ * A range-of-motion preset for a ragdoll joint. Immutable except for
  * {@link #read(com.jme3.export.JmeImporter)}.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -121,6 +121,28 @@ public class RangeOfMotion implements Savable {
      * Instantiate a preset with no motion allowed.
      */
     public RangeOfMotion() {
+        // do nothing
+    }
+
+    /**
+     * Instantiate a preset with no motion allowed.
+     *
+     * @param angles the desired Euler rotation angles (not null, unaffected)
+     */
+    public RangeOfMotion(Vector3f angles) {
+        Validate.nonNull(angles, "angles");
+        Validate.inRange(angles.x, "X rotation", -FastMath.PI, FastMath.PI);
+        Validate.inRange(angles.y, "Y rotation", -FastMath.PI, FastMath.PI);
+        Validate.inRange(angles.z, "Z rotation", -FastMath.PI, FastMath.PI);
+
+        maxX = angles.x;
+        minX = angles.x;
+
+        maxY = angles.y;
+        minY = angles.y;
+
+        maxZ = angles.z;
+        minZ = angles.z;
     }
 
     /**
