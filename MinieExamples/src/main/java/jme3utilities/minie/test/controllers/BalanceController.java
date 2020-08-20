@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -118,7 +118,7 @@ public class BalanceController extends IKController {
     /**
      * Alter the support location.
      *
-     * @param newLocation (not null, unaffected
+     * @param newLocation the desired location (not null, unaffected
      */
     public void setCenterOfSupport(Vector3f newLocation) {
         centerOfSupport.set(newLocation);
@@ -127,7 +127,7 @@ public class BalanceController extends IKController {
     /**
      * Alter the location gain factor.
      *
-     * @param newFactor (default = 0.02)
+     * @param newFactor the desired factor (default = 0.02)
      */
     public void setLocationGainFactor(float newFactor) {
         locationGainFactor = newFactor;
@@ -136,7 +136,7 @@ public class BalanceController extends IKController {
     /**
      * Alter the velocity gain factor.
      *
-     * @param newFactor (default = 0.02)
+     * @param newFactor the desired factor (default = 0.02)
      */
     public void setVelocityGainFactor(float newFactor) {
         velocityGainFactor = newFactor;
@@ -229,8 +229,8 @@ public class BalanceController extends IKController {
 
         locationGainFactor = capsule.readFloat("locationGainFactor", 0.02f);
         velocityGainFactor = capsule.readFloat("velocityGainFactor", 0.02f);
-        centerOfSupport
-                = (Vector3f) capsule.readSavable("centerOfSupport", new Vector3f());
+        centerOfSupport = (Vector3f) capsule.readSavable("centerOfSupport",
+                new Vector3f());
     }
 
     /**
