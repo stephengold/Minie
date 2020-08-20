@@ -355,8 +355,8 @@ public class TestDac extends AbstractDemo {
 
         dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
-        dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
-        dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
+        dim.bindSignal("rotateLeft", KeyInput.KEY_LEFT);
+        dim.bindSignal("rotateRight", KeyInput.KEY_RIGHT);
         dim.bindSignal("shower", KeyInput.KEY_I);
 
         dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
