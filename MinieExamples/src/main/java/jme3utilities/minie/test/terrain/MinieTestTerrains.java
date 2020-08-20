@@ -70,6 +70,26 @@ public class MinieTestTerrains {
      */
     public static TerrainQuad largeQuad;
     /**
+     * 17x17 quad
+     */
+    public static TerrainQuad quad17x17;
+    /**
+     * 33x33 quad
+     */
+    public static TerrainQuad quad33x33;
+    /**
+     * 5x5 quad
+     */
+    public static TerrainQuad quad5x5;
+    /**
+     * 65x65 quad
+     */
+    public static TerrainQuad quad65x65;
+    /**
+     * 9x9 quad
+     */
+    public static TerrainQuad quad9x9;
+    /**
      * 3x3 quad
      */
     public static TerrainQuad smallQuad;
@@ -154,17 +174,63 @@ public class MinieTestTerrains {
      */
     public static void initialize(AssetManager assetManager) {
         HeightMap heightMap = loadHeightMap(assetManager);
-        int patchSize = 33; // in pixels
-        int terrainDiameter = heightMap.getSize(); // in pixels
+        int terrainDiameter = heightMap.getSize();
         int mapSize = terrainDiameter + 1; // number of samples on a side
         float[] heightArray = heightMap.getHeightMap();
+        int patchSize = 33; // number of samples on a side
         largeQuad = new TerrainQuad("large terrain", patchSize, mapSize,
                 heightArray);
 
         patchSize = 3;
-        mapSize = 3;
+        mapSize = patchSize;
         smallQuad = new TerrainQuad("small terrain", patchSize, mapSize,
                 nineHeights);
+
+        patchSize = 5;
+        float[] heights25 = new float[patchSize * patchSize];
+        for (int i = 0; i < patchSize * patchSize; ++i) {
+            heights25[i] = (i % 3) / 2f;
+        }
+        mapSize = patchSize;
+        quad5x5 = new TerrainQuad("5x5 terrain", patchSize, mapSize,
+                heights25);
+
+        patchSize = 9;
+        float[] heights81 = new float[patchSize * patchSize];
+        for (int i = 0; i < patchSize * patchSize; ++i) {
+            heights81[i] = (i % 5) / 4f;
+        }
+        mapSize = patchSize;
+        quad9x9 = new TerrainQuad("9x9 terrain", patchSize, mapSize,
+                heights81);
+
+        patchSize = 17;
+        mapSize = patchSize;
+        float[] heights289 = new float[patchSize * patchSize];
+        for (int i = 0; i < patchSize * patchSize; ++i) {
+            heights289[i] = (i % 3) / 2f;
+        }
+        quad17x17 = new TerrainQuad("17x17 terrain", patchSize, mapSize,
+                heights289);
+
+        patchSize = 33;
+        float[] heights1089 = new float[patchSize * patchSize];
+        for (int i = 0; i < patchSize * patchSize; ++i) {
+            heights1089[i] = (i % 5) / 4f;
+        }
+        mapSize = patchSize;
+        quad33x33 = new TerrainQuad("33x33 terrain", patchSize, mapSize,
+                heights1089);
+
+        patchSize = 65;
+        float[] heights4225 = new float[patchSize * patchSize];
+        for (int i = 0; i < patchSize * patchSize; ++i) {
+            heights4225[i] = (i % 3) / 2f;
+        }
+        mapSize = patchSize;
+        quad65x65 = new TerrainQuad("65x65 terrain", patchSize, mapSize,
+                heights4225);
+
     }
 
     /**
