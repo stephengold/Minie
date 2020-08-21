@@ -373,6 +373,38 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
+     * Copy animation data from the specified link, which must have the same
+     * name and the same managed bones.
+     *
+     * @param oldLink the link to copy from (not null, unaffected)
+     */
+    void postRebuild(BoneLink oldLink) {
+        int numManaged = countManaged();
+        assert oldLink.countManaged() == numManaged;
+
+        super.postRebuild(oldLink);
+        if (oldLink.isKinematic()) {
+            submode = oldLink.submode;
+        } else {
+            submode = KinematicSubmode.Frozen;
+        }
+
+        if (prevBoneTransforms == null) {
+            prevBoneTransforms = new Transform[numManaged];
+            for (int managedI = 0; managedI < numManaged; ++managedI) {
+                prevBoneTransforms[managedI] = new Transform();
+            }
+        }
+        for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
+            Transform transform = oldLink.prevBoneTransforms[managedIndex];
+            prevBoneTransforms[managedIndex].set(transform);
+
+            transform = oldLink.startBoneTransforms[managedIndex];
+            startBoneTransforms[managedIndex].set(transform);
+        }
+    }
+
+    /**
      * Immediately put this link into dynamic mode and update the range of
      * motion of its joint.
      *
@@ -394,19 +426,6 @@ public class BoneLink extends PhysicsLink {
         RangeOfMotion preset = getControl().getJointLimits(name);
         preset.setup(getJoint(), lockX, lockY, lockZ);
         setUserControl(true);
-    }
-
-    /**
-     * Immediately put this link into ragdoll mode. The control must be "ready"
-     * for dynamic mode.
-     */
-    @Override
-    public void setRagdollMode() {
-        getControl().verifyReadyForDynamicMode("put link into ragdoll mode");
-
-        Vector3f gravity = getControl().gravity(null);
-        setDynamic(gravity, false, false, false);
-        super.setRagdollMode();
     }
     // *************************************************************************
     // PhysicsLink methods
@@ -566,38 +585,6 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
-     * Copy animation data from the specified link, which must have the same
-     * name and the same managed bones.
-     *
-     * @param oldLink the link to copy from (not null, unaffected)
-     */
-    void postRebuild(BoneLink oldLink) {
-        int numManaged = countManaged();
-        assert oldLink.countManaged() == numManaged;
-
-        super.postRebuild(oldLink);
-        if (oldLink.isKinematic()) {
-            submode = oldLink.submode;
-        } else {
-            submode = KinematicSubmode.Frozen;
-        }
-
-        if (prevBoneTransforms == null) {
-            prevBoneTransforms = new Transform[numManaged];
-            for (int managedI = 0; managedI < numManaged; ++managedI) {
-                prevBoneTransforms[managedI] = new Transform();
-            }
-        }
-        for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
-            Transform transform = oldLink.prevBoneTransforms[managedIndex];
-            prevBoneTransforms[managedIndex].set(transform);
-
-            transform = oldLink.startBoneTransforms[managedIndex];
-            startBoneTransforms[managedIndex].set(transform);
-        }
-    }
-
-    /**
      * De-serialize this link from the specified importer, for example when
      * loading from a J3O file.
      *
@@ -650,6 +637,19 @@ public class BoneLink extends PhysicsLink {
 
         super.setDynamic(uniformAcceleration);
         setUserControl(true);
+    }
+
+    /**
+     * Immediately put this link into ragdoll mode. The control must be "ready"
+     * for dynamic mode.
+     */
+    @Override
+    public void setRagdollMode() {
+        getControl().verifyReadyForDynamicMode("put link into ragdoll mode");
+
+        Vector3f gravity = getControl().gravity(null);
+        setDynamic(gravity, false, false, false);
+        super.setRagdollMode();
     }
 
     /**
