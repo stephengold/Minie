@@ -134,14 +134,16 @@ public class TestRbc
      * list of test names, in ascending lexicographic order
      */
     final private static String[] testNames = {
-        "Box", "BoxGImpact", "BoxHull", "BoxMesh", "Cone", "ConeGImpact",
-        "ConeHull", "ConeMesh", "Cylinder", "CylinderGImpact", "CylinderHull",
-        "CylinderMesh", "FourSphere", "KissCapsule", "KissHull", "KissMesh",
-        "KissMultiSphere", "KissSphere", "LargeTerrain", "OneSphere", "Prism",
-        "Simplex", "SmallTerrain", "Sphere", "SphereCapsule", "SphereGImpact",
-        "SphereHull", "SphereMesh", "Square", "SquareBox", "SquareConvex2d",
-        "SquareGImpact", "SquareHeightfield", "SquareHull", "SquareMesh",
-        "TetraGImpact", "TetraHull", "TetraMesh", "TwoSphere"
+        "17x17Terrain", "33x33Terrain", "5x5Terrain", "65x65Terrain",
+        "9x9Terrain", "Box", "BoxGImpact", "BoxHull", "BoxMesh", "Cone",
+        "ConeGImpact", "ConeHull", "ConeMesh", "Cylinder", "CylinderGImpact",
+        "CylinderHull", "CylinderMesh", "FourSphere", "KissCapsule", "KissHull",
+        "KissMesh", "KissMultiSphere", "KissSphere", "LargeTerrain",
+        "OneSphere", "Prism", "Simplex", "SmallTerrain", "Sphere",
+        "SphereCapsule", "SphereGImpact", "SphereHull", "SphereMesh", "Square",
+        "SquareBox", "SquareConvex2d", "SquareGImpact", "SquareHeightfield",
+        "SquareHull", "SquareMesh", "TetraGImpact", "TetraHull", "TetraMesh",
+        "TwoSphere"
     };
     // *************************************************************************
     // fields
@@ -524,6 +526,26 @@ public class TestRbc
      */
     private void addAShape() {
         switch (testName) {
+            case "5x5Terrain":
+                addTerrain(5);
+                break;
+
+            case "9x9Terrain":
+                addTerrain(9);
+                break;
+
+            case "17x17Terrain":
+                addTerrain(17);
+                break;
+
+            case "33x33Terrain":
+                addTerrain(33);
+                break;
+
+            case "65x65Terrain":
+                addTerrain(65);
+                break;
+
             case "Box":
             case "BoxGImpact":
             case "BoxHull":
@@ -564,7 +586,7 @@ public class TestRbc
                 break;
 
             case "SmallTerrain":
-                addSmallTerrain();
+                addTerrain(3);
                 break;
 
             case "OneSphere":
@@ -708,6 +730,48 @@ public class TestRbc
                 throw new IllegalArgumentException(testName);
         }
 
+        makeTestShape();
+    }
+
+    /**
+     * Add terrain to the scene and PhysicsSpace.
+     */
+    private void addTerrain(int patchSize) {
+        switch (patchSize) {
+            case 3:
+                testSpatial = MinieTestTerrains.smallQuad;
+                break;
+
+            case 5:
+                testSpatial = MinieTestTerrains.quad5x5;
+                break;
+
+            case 9:
+                testSpatial = MinieTestTerrains.quad9x9;
+                break;
+
+            case 17:
+                testSpatial = MinieTestTerrains.quad17x17;
+                break;
+
+            case 33:
+                testSpatial = MinieTestTerrains.quad33x33;
+                break;
+
+            case 65:
+                testSpatial = MinieTestTerrains.quad65x65;
+                break;
+
+            default:
+                throw new IllegalArgumentException("patchSize = " + patchSize);
+        }
+        assert testSpatial != null : patchSize;
+
+        Material wireMaterial = findMaterial("green wire");
+        assert wireMaterial != null;
+        testSpatial.setMaterial(wireMaterial);
+
+        testShape = CollisionShapeFactory.createMeshShape(testSpatial);
         makeTestShape();
     }
 
@@ -1092,7 +1156,7 @@ public class TestRbc
      */
     private void configureCamera() {
         float near = 0.02f;
-        float far = 20f;
+        float far = 200f;
         MyCamera.setNearFar(cam, near, far);
 
         flyCam.setDragToRotate(true);
