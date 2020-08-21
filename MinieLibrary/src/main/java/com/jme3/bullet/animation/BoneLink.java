@@ -38,6 +38,7 @@ import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.New6Dof;
+import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
@@ -243,6 +244,36 @@ public class BoneLink extends PhysicsLink {
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             startBoneTransforms[managedIndex] = new Transform();
         }
+    }
+
+    /**
+     * Immediately put this link into dynamic mode with zero gravity and lock
+     * its PhysicsJoint at the specified rotation.
+     * <p>
+     * The control must be "ready" for dynamic mode.
+     *
+     * @param userRotation the desired rotation relative to the joint's bind
+     * rotation (not null, unaffected)
+     */
+    public void applyUserRotation(Quaternion userRotation) {
+        getControl().verifyReadyForDynamicMode("apply user rotation");
+
+        super.setDynamic(translateIdentity);
+        PhysicsJoint joint = getJoint();
+
+        RotationOrder rotOrder;
+        if (joint instanceof SixDofJoint) {
+            rotOrder = RotationOrder.XYZ;
+        } else {
+            rotOrder = ((New6Dof) joint).getRotationOrder();
+        }
+
+        Matrix3f rotMatrix = userRotation.toRotationMatrix();
+        Vector3f eulerAngles = rotOrder.matrixToEuler(rotMatrix, null);
+        RangeOfMotion rom = new RangeOfMotion(eulerAngles);
+        rom.setup(joint, false, false, false);
+
+        setUserControl(true);
     }
 
     /**
