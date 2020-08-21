@@ -285,10 +285,16 @@ public class TestRbc
     @Override
     public void generateMaterials() {
         super.generateMaterials();
+        /*
+         * Change the platform material to double-sided.
+         */
+        Material platformMaterial = findMaterial("platform");
+        RenderState ars = platformMaterial.getAdditionalRenderState();
+        ars.setFaceCullMode(RenderState.FaceCullMode.Off);
 
         Material wireMaterial = MyAsset.createWireframeMaterial(assetManager,
                 ColorRGBA.Green);
-        RenderState ars = wireMaterial.getAdditionalRenderState();
+        ars = wireMaterial.getAdditionalRenderState();
         ars.setFaceCullMode(RenderState.FaceCullMode.Off);
         registerMaterial("green wire", wireMaterial);
 
