@@ -7,10 +7,11 @@ description = 'demos, examples, tutorial apps, and non-automated tests'
 dependencies {
     implementation 'com.github.stephengold:Heart:' + heartVersion
     implementation 'com.github.stephengold:jme3-utilities-ui:' + jme3utilitiesuiVersion
+    implementation 'com.github.stephengold:Wes:' + wesVersion
+    implementation 'junit:junit:4.13'
     implementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
     implementation 'org.jmonkeyengine:jme3-effects:' + jmonkeyengineVersion
     implementation 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
-    implementation 'junit:junit:4.13'
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
     // select one version of LWJGL (from jcenter or mavenLocal)
