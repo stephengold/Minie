@@ -284,6 +284,31 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
+     * Find the index in the Armature/Skeleton of the indexed managed bone.
+     *
+     * @param managedIndex which managed bone (0 = the linked bone, &ge;0,
+     * &lt;numManaged)
+     * @return the index in the Armature or Skeleton (&ge;0)
+     */
+    public int boneIndex(int managedIndex) {
+        int numManaged = countManaged();
+        Validate.inRange(managedIndex, "managed index", 0, numManaged - 1);
+
+        int result;
+        if (managedBones != null) {
+            Bone managed = managedBones[managedIndex];
+            Skeleton skeleton = getControl().getSkeleton();
+            result = skeleton.getBoneIndex(managed);
+        } else {
+            Joint managed = managedArmatureJoints[managedIndex];
+            result = managed.getId();
+        }
+
+        assert result >= 0 : result;
+        return result;
+    }
+
+    /**
      * Determine the number of managed bones.
      *
      * @return the count (&ge;0)
@@ -652,27 +677,6 @@ public class BoneLink extends PhysicsLink {
     }
     // *************************************************************************
     // private methods
-
-    /**
-     * Find the index in the Armature/Skeleton of the indexed managed bone.
-     *
-     * @param managedIndex which managed bone (&ge;0, &lt;numManaged)
-     * @return index in the Armature/Skeleton (&ge;0)
-     */
-    private int boneIndex(int managedIndex) {
-        int result;
-        if (managedBones != null) {
-            Bone managed = managedBones[managedIndex];
-            Skeleton skeleton = getControl().getSkeleton();
-            result = skeleton.getBoneIndex(managed);
-        } else {
-            Joint managed = managedArmatureJoints[managedIndex];
-            result = managed.getId();
-        }
-
-        assert result >= 0 : result;
-        return result;
-    }
 
     /**
      * Copy the local transform of the indexed managed bone in this link.
