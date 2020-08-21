@@ -98,7 +98,7 @@ loadScripts(document, 'script');</script>
 <pre>public class <span class="typeNameLabel">RangeOfMotion</span>
 extends java.lang.Object
 implements com.jme3.export.Savable</pre>
-<div class="block">Range of motion for a ragdoll joint. Immutable except for
+<div class="block">A range-of-motion preset for a ragdoll joint. Immutable except for
  <a href="#read(com.jme3.export.JmeImporter)"><code>read(com.jme3.export.JmeImporter)</code></a>.</div>
 </section>
 <section class="summary">
@@ -183,6 +183,12 @@ float&nbsp;minZ)</code></th>
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(int)">RangeOfMotion</a></span>&#8203;(int&nbsp;axisIndex)</code></th>
 <td class="colLast">
 <div class="block">Instantiate a preset for rotation on a single axis.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(com.jme3.math.Vector3f)">RangeOfMotion</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;angles)</code></th>
+<td class="colLast">
+<div class="block">Instantiate a preset with no motion allowed.</div>
 </td>
 </tr>
 </tbody>
@@ -315,6 +321,17 @@ boolean&nbsp;lockZ)</code></th>
 <h3><a id="&lt;init&gt;()">RangeOfMotion</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">RangeOfMotion</span>()</div>
 <div class="block">Instantiate a preset with no motion allowed.</div>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="&lt;init&gt;(com.jme3.math.Vector3f)">RangeOfMotion</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">RangeOfMotion</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;angles)</span></div>
+<div class="block">Instantiate a preset with no motion allowed.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>angles</code> - the desired Euler rotation angles (not null, unaffected)</dd>
+</dl>
 </section>
 </li>
 <li class="blockList">
