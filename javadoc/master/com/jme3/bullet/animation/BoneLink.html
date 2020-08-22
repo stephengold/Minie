@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -187,28 +187,20 @@ extends <a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">Ph
 <tbody>
 <tr class="altColor" id="i0">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#applyUserRotation(com.jme3.math.Quaternion)">applyUserRotation</a></span>&#8203;(com.jme3.math.Quaternion&nbsp;userRotation)</code></th>
-<td class="colLast">
-<div class="block">Immediately put this link into dynamic mode with zero gravity and lock
- its PhysicsJoint at the specified rotation.</div>
-</td>
-</tr>
-<tr class="rowColor" id="i1">
-<td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#blendToKinematicMode(com.jme3.bullet.animation.KinematicSubmode,float)">blendToKinematicMode</a></span>&#8203;(<a href="KinematicSubmode.html" title="enum in com.jme3.bullet.animation">KinematicSubmode</a>&nbsp;submode,
 float&nbsp;blendInterval)</code></th>
 <td class="colLast">
 <div class="block">Begin blending this link to a purely kinematic mode.</div>
 </td>
 </tr>
-<tr class="altColor" id="i2">
+<tr class="rowColor" id="i1">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#boneIndex(int)">boneIndex</a></span>&#8203;(int&nbsp;managedIndex)</code></th>
 <td class="colLast">
-<div class="block">Find the index in the Armature/Skeleton of the indexed managed bone.</div>
+<div class="block">Determine the index in the Armature/Skeleton of the indexed managed bone.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i3">
+<tr class="altColor" id="i2">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)">cloneFields</a></span>&#8203;(com.jme3.util.clone.Cloner&nbsp;cloner,
 java.lang.Object&nbsp;original)</code></th>
@@ -218,14 +210,14 @@ java.lang.Object&nbsp;original)</code></th>
  and original to resolve copied fields.</div>
 </td>
 </tr>
-<tr class="altColor" id="i4">
+<tr class="rowColor" id="i3">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#countManaged()">countManaged</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Determine the number of managed bones.</div>
+<div class="block">Determine the number of managed skeleton bones or armature joints.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i5">
+<tr class="altColor" id="i4">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#dynamicUpdate()">dynamicUpdate</a></span>()</code></th>
 <td class="colLast">
@@ -233,42 +225,42 @@ java.lang.Object&nbsp;original)</code></th>
  based on the transform of the rigid body.</div>
 </td>
 </tr>
-<tr class="altColor" id="i6">
+<tr class="rowColor" id="i5">
 <td class="colFirst"><code>com.jme3.math.Vector3f[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#footprint()">footprint</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Estimate the footprint of this link.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i7">
+<tr class="altColor" id="i6">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#freeze(boolean)">freeze</a></span>&#8203;(boolean&nbsp;forceKinematic)</code></th>
 <td class="colLast">
 <div class="block">Immediately freeze this link.</div>
 </td>
 </tr>
-<tr class="altColor" id="i8">
+<tr class="rowColor" id="i7">
 <td class="colFirst"><code><a href="BoneLink.html" title="class in com.jme3.bullet.animation">BoneLink</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#jmeClone()">jmeClone</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Create a shallow clone for the JME cloner.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i9">
+<tr class="altColor" id="i8">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#kinematicUpdate(float)">kinematicUpdate</a></span>&#8203;(float&nbsp;tpf)</code></th>
 <td class="colLast">
 <div class="block">Update this link in blended Kinematic mode.</div>
 </td>
 </tr>
-<tr class="altColor" id="i10">
+<tr class="rowColor" id="i9">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#name()">name</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Unambiguously identify this link by name, within its DynamicAnimControl.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i11">
+<tr class="altColor" id="i10">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#read(com.jme3.export.JmeImporter)">read</a></span>&#8203;(com.jme3.export.JmeImporter&nbsp;importer)</code></th>
 <td class="colLast">
@@ -276,14 +268,14 @@ java.lang.Object&nbsp;original)</code></th>
  loading from a J3O file.</div>
 </td>
 </tr>
-<tr class="altColor" id="i12">
+<tr class="rowColor" id="i11">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDynamic(com.jme3.math.Vector3f)">setDynamic</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;uniformAcceleration)</code></th>
 <td class="colLast">
 <div class="block">Immediately put this link into dynamic mode.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i13">
+<tr class="altColor" id="i12">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDynamic(com.jme3.math.Vector3f,boolean,boolean,boolean)">setDynamic</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;uniformAcceleration,
 boolean&nbsp;lockX,
@@ -294,14 +286,31 @@ boolean&nbsp;lockZ)</code></th>
  motion of its joint.</div>
 </td>
 </tr>
+<tr class="rowColor" id="i13">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDynamic(com.jme3.math.Vector3f,com.jme3.math.Quaternion)">setDynamic</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;uniformAcceleration,
+com.jme3.math.Quaternion&nbsp;userRotation)</code></th>
+<td class="colLast">
+<div class="block">Immediately put this link into dynamic mode and lock its PhysicsJoint at
+ the specified rotation.</div>
+</td>
+</tr>
 <tr class="altColor" id="i14">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLocalTransform(int,com.jme3.math.Transform)">setLocalTransform</a></span>&#8203;(int&nbsp;mbIndex,
+com.jme3.math.Transform&nbsp;localTransform)</code></th>
+<td class="colLast">
+<div class="block">Alter the local transform of the indexed managed bone.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i15">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRagdollMode()">setRagdollMode</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Immediately put this link into ragdoll mode.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i15">
+<tr class="altColor" id="i16">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(com.jme3.export.JmeExporter)">write</a></span>&#8203;(com.jme3.export.JmeExporter&nbsp;exporter)</code></th>
 <td class="colLast">
@@ -372,21 +381,6 @@ boolean&nbsp;lockZ)</code></th>
 <ul class="blockList">
 <li class="blockList">
 <section class="detail">
-<h3><a id="applyUserRotation(com.jme3.math.Quaternion)">applyUserRotation</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">applyUserRotation</span>&#8203;(<span class="arguments">com.jme3.math.Quaternion&nbsp;userRotation)</span></div>
-<div class="block">Immediately put this link into dynamic mode with zero gravity and lock
- its PhysicsJoint at the specified rotation.
- <p>
- The control must be "ready" for dynamic mode.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>userRotation</code> - the desired rotation relative to the joint's bind
- rotation (not null, unaffected)</dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
 <h3><a id="blendToKinematicMode(com.jme3.bullet.animation.KinematicSubmode,float)">blendToKinematicMode</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">blendToKinematicMode</span>&#8203;(<span class="arguments"><a href="KinematicSubmode.html" title="enum in com.jme3.bullet.animation">KinematicSubmode</a>&nbsp;submode,
 float&nbsp;blendInterval)</span></div>
@@ -403,7 +397,7 @@ float&nbsp;blendInterval)</span></div>
 <section class="detail">
 <h3><a id="boneIndex(int)">boneIndex</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">boneIndex</span>&#8203;(<span class="arguments">int&nbsp;managedIndex)</span></div>
-<div class="block">Find the index in the Armature/Skeleton of the indexed managed bone.</div>
+<div class="block">Determine the index in the Armature/Skeleton of the indexed managed bone.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>managedIndex</code> - which managed bone (0 = the linked bone, &ge;0,
@@ -417,10 +411,10 @@ float&nbsp;blendInterval)</span></div>
 <section class="detail">
 <h3><a id="countManaged()">countManaged</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">countManaged</span>()</div>
-<div class="block">Determine the number of managed bones.</div>
+<div class="block">Determine the number of managed skeleton bones or armature joints.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the count (&ge;0)</dd>
+<dd>the count (&ge;1)</dd>
 </dl>
 </section>
 </li>
@@ -451,6 +445,39 @@ boolean&nbsp;lockZ)</span></div>
 <dd><code>lockX</code> - true to lock the joint's X-axis</dd>
 <dd><code>lockY</code> - true to lock the joint's Y-axis</dd>
 <dd><code>lockZ</code> - true to lock the joint's Z-axis</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="setDynamic(com.jme3.math.Vector3f,com.jme3.math.Quaternion)">setDynamic</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setDynamic</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;uniformAcceleration,
+com.jme3.math.Quaternion&nbsp;userRotation)</span></div>
+<div class="block">Immediately put this link into dynamic mode and lock its PhysicsJoint at
+ the specified rotation.
+ <p>
+ The control must be "ready" for dynamic mode.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>uniformAcceleration</code> - the uniform acceleration vector (in
+ physics-space coordinates, not null, unaffected)</dd>
+<dd><code>userRotation</code> - the desired rotation relative to the bind rotation of
+ the linked bone (not null, unaffected)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="setLocalTransform(int,com.jme3.math.Transform)">setLocalTransform</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setLocalTransform</span>&#8203;(<span class="arguments">int&nbsp;mbIndex,
+com.jme3.math.Transform&nbsp;localTransform)</span></div>
+<div class="block">Alter the local transform of the indexed managed bone. Use this method to
+ animate managed bones other than the linked one. Effective only once the
+ link has been updated.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>mbIndex</code> - the index of the managed bone (&ge;1, &lt;numManaged)</dd>
+<dd><code>localTransform</code> - the desired Transform (not null, unaffected)</dd>
 </dl>
 </section>
 </li>
