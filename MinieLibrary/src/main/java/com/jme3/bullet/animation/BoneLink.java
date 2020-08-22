@@ -253,36 +253,6 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
-     * Immediately put this link into dynamic mode with zero gravity and lock
-     * its PhysicsJoint at the specified rotation.
-     * <p>
-     * The control must be "ready" for dynamic mode.
-     *
-     * @param userRotation the desired rotation relative to the joint's bind
-     * rotation (not null, unaffected)
-     */
-    public void applyUserRotation(Quaternion userRotation) {
-        getControl().verifyReadyForDynamicMode("apply user rotation");
-
-        super.setDynamic(translateIdentity);
-        PhysicsJoint joint = getJoint();
-
-        RotationOrder rotOrder;
-        if (joint instanceof SixDofJoint) {
-            rotOrder = RotationOrder.XYZ;
-        } else {
-            rotOrder = ((New6Dof) joint).getRotationOrder();
-        }
-
-        userRotation.toRotationMatrix(tmpMatrix);
-        Vector3f eulerAngles = rotOrder.matrixToEuler(tmpMatrix, null);
-        RangeOfMotion rom = new RangeOfMotion(eulerAngles);
-        rom.setup(joint, false, false, false);
-
-        setUserControl(true);
-    }
-
-    /**
      * Begin blending this link to a purely kinematic mode.
      *
      * @param submode enum value (not null)
@@ -431,6 +401,37 @@ public class BoneLink extends PhysicsLink {
         String name = boneName();
         RangeOfMotion preset = getControl().getJointLimits(name);
         preset.setup(getJoint(), lockX, lockY, lockZ);
+        setUserControl(true);
+    }
+
+    /**
+     * Immediately put this link into dynamic mode with zero gravity and lock
+     * its PhysicsJoint at the specified rotation.
+     * <p>
+     * The control must be "ready" for dynamic mode.
+     *
+     * @param userRotation the desired rotation relative to the bind rotation of
+     * the linked bone (not null, unaffected)
+     */
+    public void setDynamic(Quaternion userRotation) {
+        String desiredAction = "put " + name() + " into dynamic mode";
+        getControl().verifyReadyForDynamicMode(desiredAction);
+
+        super.setDynamic(translateIdentity);
+        PhysicsJoint joint = getJoint();
+
+        RotationOrder rotOrder;
+        if (joint instanceof SixDofJoint) {
+            rotOrder = RotationOrder.XYZ;
+        } else {
+            rotOrder = ((New6Dof) joint).getRotationOrder();
+        }
+
+        userRotation.toRotationMatrix(tmpMatrix);
+        Vector3f eulerAngles = rotOrder.matrixToEuler(tmpMatrix, null);
+        RangeOfMotion rom = new RangeOfMotion(eulerAngles);
+        rom.setup(joint, false, false, false);
+
         setUserControl(true);
     }
     // *************************************************************************
