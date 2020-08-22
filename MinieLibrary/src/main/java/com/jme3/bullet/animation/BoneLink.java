@@ -97,8 +97,9 @@ public class BoneLink extends PhysicsLink {
     // fields
 
     /**
-     * bones managed by this link, in a pre-order, depth-first traversal of the
-     * Skeleton, starting with the linked bone, or null for an Armature
+     * skeleton bones managed by this link, in a pre-order, depth-first
+     * traversal of the Skeleton, starting with the linked bone, or null for an
+     * Armature
      */
     private Bone[] managedBones = null;
     /**
@@ -111,6 +112,10 @@ public class BoneLink extends PhysicsLink {
      * submode when kinematic
      */
     private KinematicSubmode submode = KinematicSubmode.Animated;
+    /**
+     * resuable temporary storage for a 3x3 matrix
+     */
+    final private Matrix3f tmpMatrix = new Matrix3f();
     /**
      * local transform of each managed bone from the previous update
      */
@@ -209,8 +214,9 @@ public class BoneLink extends PhysicsLink {
                 = parentToWorld.transformInverseVector(pivotWorld, null);
         Vector3f pivotChild
                 = childToWorld.transformInverseVector(pivotWorld, null);
-        Matrix3f rotParent = childToParent.getRotation().toRotationMatrix();
-        Matrix3f rotChild = matrixIdentity;
+        childToParent.getRotation().toRotationMatrix(tmpMatrix);
+        Matrix3f rotParent = tmpMatrix; // alias
+        Matrix3f rotChild = matrixIdentity; // alias
 
         Constraint constraint;
         String name = boneName();
@@ -268,8 +274,8 @@ public class BoneLink extends PhysicsLink {
             rotOrder = ((New6Dof) joint).getRotationOrder();
         }
 
-        Matrix3f rotMatrix = userRotation.toRotationMatrix();
-        Vector3f eulerAngles = rotOrder.matrixToEuler(rotMatrix, null);
+        userRotation.toRotationMatrix(tmpMatrix);
+        Vector3f eulerAngles = rotOrder.matrixToEuler(tmpMatrix, null);
         RangeOfMotion rom = new RangeOfMotion(eulerAngles);
         rom.setup(joint, false, false, false);
 
@@ -315,7 +321,7 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
-     * Find the index in the Armature/Skeleton of the indexed managed bone.
+     * Determine the index in the Armature/Skeleton of the indexed managed bone.
      *
      * @param managedIndex which managed bone (0 = the linked bone, &ge;0,
      * &lt;numManaged)
@@ -340,9 +346,9 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
-     * Determine the number of managed bones.
+     * Determine the number of managed skeleton bones or armature joints.
      *
-     * @return the count (&ge;0)
+     * @return the count (&ge;1)
      */
     public int countManaged() {
         int result;
