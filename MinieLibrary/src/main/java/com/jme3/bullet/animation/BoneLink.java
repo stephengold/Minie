@@ -438,6 +438,23 @@ public class BoneLink extends PhysicsLink {
 
         setUserControl(true);
     }
+
+    /**
+     * Alter the local transform of the indexed managed bone. Use this method to
+     * animate managed bones other than the linked one. Effective only once the
+     * link has been updated.
+     *
+     * @param mbIndex the index of the managed bone (&ge;1, &lt;numManaged)
+     * @param localTransform the desired Transform (not null, unaffected)
+     */
+    public void setLocalTransform(int mbIndex, Transform localTransform) {
+        int numManaged = countManaged();
+        Validate.inRange(mbIndex, "index", 1, numManaged - 1);
+
+        if (prevBoneTransforms != null) {
+            prevBoneTransforms[mbIndex].set(localTransform);
+        }
+    }
     // *************************************************************************
     // PhysicsLink methods
 
