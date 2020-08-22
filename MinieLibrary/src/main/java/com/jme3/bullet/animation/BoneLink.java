@@ -405,19 +405,23 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
-     * Immediately put this link into dynamic mode with zero gravity and lock
-     * its PhysicsJoint at the specified rotation.
+     * Immediately put this link into dynamic mode and lock its PhysicsJoint at
+     * the specified rotation.
      * <p>
      * The control must be "ready" for dynamic mode.
      *
+     * @param uniformAcceleration the uniform acceleration vector (in
+     * physics-space coordinates, not null, unaffected)
      * @param userRotation the desired rotation relative to the bind rotation of
      * the linked bone (not null, unaffected)
      */
-    public void setDynamic(Quaternion userRotation) {
+    public void setDynamic(Vector3f uniformAcceleration,
+            Quaternion userRotation) {
+        Validate.finite(uniformAcceleration, "uniform acceleration");
         String desiredAction = "put " + name() + " into dynamic mode";
         getControl().verifyReadyForDynamicMode(desiredAction);
 
-        super.setDynamic(translateIdentity);
+        super.setDynamic(uniformAcceleration);
         PhysicsJoint joint = getJoint();
 
         RotationOrder rotOrder;
@@ -428,7 +432,7 @@ public class BoneLink extends PhysicsLink {
         }
 
         userRotation.toRotationMatrix(tmpMatrix);
-        Vector3f eulerAngles = rotOrder.matrixToEuler(tmpMatrix, null);
+        Vector3f eulerAngles = rotOrder.matrixToEuler(tmpMatrix, null); // garbage
         RangeOfMotion rom = new RangeOfMotion(eulerAngles);
         rom.setup(joint, false, false, false);
 
