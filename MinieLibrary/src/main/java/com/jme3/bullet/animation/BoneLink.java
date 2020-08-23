@@ -485,27 +485,20 @@ public class BoneLink extends PhysicsLink {
     protected void dynamicUpdate() {
         assert !getRigidBody().isKinematic();
 
-        Transform transform = localBoneTransform(null);
+        int numManaged = countManaged();
+        for (int managedI = 1; managedI < numManaged; ++managedI) {
+            Transform t = prevBoneTransforms[managedI];
+            setManagedTransform(managedI, t);
+        }
+
+        Transform transform = localBoneTransform(null); // TODO garbage
         if (managedBones != null) {
             MySkeleton.setLocalTransform(getBone(), transform);
-            /*
-             * setUserControl(true) prevents the AnimControl from animating any
-             * managed bones.
-             */
             for (Bone managed : managedBones) {
                 managed.updateModelTransforms();
             }
         } else {
             getArmatureJoint().setLocalTransform(transform);
-            /*
-             * Apply the saved local transform to each managed armature joint,
-             * just in case the AnimComposer is trying to animate it.
-             */
-            int numManaged = countManaged();
-            for (int managedI = 1; managedI < numManaged; ++managedI) {
-                transform.set(prevBoneTransforms[managedI]);
-                setManagedTransform(managedI, transform);
-            }
             for (Joint managed : managedArmatureJoints) {
                 managed.updateModelTransforms();
             }
@@ -677,6 +670,7 @@ public class BoneLink extends PhysicsLink {
 
         Vector3f gravity = getControl().gravity(null);
         setDynamic(gravity, false, false, false);
+
         super.setRagdollMode();
     }
 
