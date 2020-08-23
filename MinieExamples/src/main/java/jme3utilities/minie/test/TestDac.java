@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.anim.AnimClip;
 import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
 import com.jme3.animation.AnimChannel;
@@ -38,6 +39,7 @@ import com.jme3.asset.AssetNotFoundException;
 import com.jme3.asset.ModelKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.animation.AttachmentLink;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DynamicAnimControl;
@@ -45,6 +47,7 @@ import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.MassHeuristic;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.ShapeHeuristic;
+import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -102,6 +105,8 @@ import jme3utilities.minie.test.tunings.SinbadControl;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 import jme3utilities.wes.AnimationEdit;
+import jme3utilities.wes.Pose;
+import jme3utilities.wes.TweenTransforms;
 
 /**
  * Test scaling and load/save on a DynamicAnimControl.
@@ -177,6 +182,10 @@ public class TestDac extends AbstractDemo {
      * root node of the C-G model on which the Control is being tested
      */
     private Node cgModel;
+    /**
+     * animation pose, or null if not in use
+     */
+    private Pose animPose;
     /**
      * visualizer for the skeleton of the C-G model
      */
@@ -324,7 +333,9 @@ public class TestDac extends AbstractDemo {
         dim.bind("freeze all", KeyInput.KEY_F);
         dim.bind("freeze upper body", KeyInput.KEY_U);
         dim.bind("ghost upper body", KeyInput.KEY_8);
+        dim.bind("go anim pose", KeyInput.KEY_6);
         dim.bind("go bind pose", KeyInput.KEY_B);
+        dim.bind("go dynamic bind pose", KeyInput.KEY_7);
         dim.bind("go floating", KeyInput.KEY_0);
         dim.bind("go frozen", KeyInput.KEY_MINUS);
         dim.bind("go limp", KeyInput.KEY_SPACE);
@@ -398,6 +409,7 @@ public class TestDac extends AbstractDemo {
                     dac.amputateSubtree(leftUlna, 2f);
                     return;
                 case "blend all to kinematic":
+                    animPose = null;
                     dac.blendToKinematicMode(2f, null);
                     return;
                 case "drop attachments":
@@ -405,6 +417,7 @@ public class TestDac extends AbstractDemo {
                     return;
 
                 case "freeze all":
+                    animPose = null;
                     dac.freezeSubtree(dac.getTorsoLink(), false);
                     return;
                 case "freeze upper body":
@@ -413,18 +426,29 @@ public class TestDac extends AbstractDemo {
                 case "ghost upper body":
                     dac.setContactResponseSubtree(upperBody, false);
                     return;
+
+                case "go anim pose":
+                    goAnimPose();
+                    return;
                 case "go bind pose":
+                    animPose = null;
                     dac.bindSubtree(dac.getTorsoLink(), 2f);
                     return;
-
+                case "go dynamic bind pose":
+                    if (dac.isReady()) {
+                        goDynamicBindPose();
+                    }
+                    return;
                 case "go floating":
                     if (dac.isReady()) {
+                        animPose = null;
                         dac.setDynamicSubtree(dac.getTorsoLink(), Vector3f.ZERO,
                                 false);
                     }
                     return;
                 case "go frozen":
                     if (dac.isReady()) {
+                        animPose = null;
                         Vector3f gravity = dac.gravity(null);
                         dac.setDynamicSubtree(dac.getTorsoLink(), gravity,
                                 true);
@@ -432,9 +456,11 @@ public class TestDac extends AbstractDemo {
                     return;
                 case "go limp":
                     if (dac.isReady()) {
+                        animPose = null;
                         dac.setRagdollMode();
                     }
                     return;
+
                 case "limp left arm":
                     if (dac.isReady()) {
                         dac.setDynamicSubtree(leftClavicle,
@@ -541,6 +567,10 @@ public class TestDac extends AbstractDemo {
             rotate.fromAngles(0f, rotateAngle, 0f);
             rotate.mult(orientation, orientation);
             MySpatial.setWorldOrientation(cgModel, orientation);
+        }
+
+        if (animPose != null) {
+            matchAnimPose();
         }
 
         updateStatusText();
@@ -655,6 +685,7 @@ public class TestDac extends AbstractDemo {
         }
 
         testName = modelName;
+        animPose = null;
 
         List<Spatial> list = MySpatial.listSpatials(cgModel);
         for (Spatial spatial : list) {
@@ -740,6 +771,35 @@ public class TestDac extends AbstractDemo {
         PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.setAccuracy(0.01f); // 10-msec timestep
         physicsSpace.getSolverInfo().setNumIterations(15);
+    }
+
+    /**
+     * Put all physics links into zero-g dynamic mode, fix the torso, and enable
+     * pose matching.
+     */
+    private void goAnimPose() {
+        TorsoLink torsoLink = dac.getTorsoLink();
+        torsoLink.setDynamic(Vector3f.ZERO);
+        boolean disableForRagdoll = true;
+        dac.fixToWorld(torsoLink, disableForRagdoll);
+
+        animPose = Pose.newInstance(sc);
+        matchAnimPose();
+    }
+
+    /**
+     * Put all bone/torso links into zero-g dynamic mode and lock all physics
+     * joints at bind pose.
+     */
+    private void goDynamicBindPose() {
+        animPose = null;
+
+        TorsoLink torsoLink = dac.getTorsoLink();
+        torsoLink.setDynamic(Vector3f.ZERO);
+
+        for (BoneLink boneLink : dac.listLinks(BoneLink.class)) {
+            boneLink.setDynamic(Vector3f.ZERO, Quaternion.IDENTITY);
+        }
     }
 
     /**
@@ -934,6 +994,68 @@ public class TestDac extends AbstractDemo {
         leftUlnaName = "Ulna.L";
         rightClavicleName = "Clavicle.R";
         upperBodyName = "Waist";
+    }
+
+    /**
+     * Update the animation pose and apply it to all bones except the main root
+     * bone.
+     */
+    private void matchAnimPose() {
+        assert animPose != null;
+        /*
+         * Update the animation pose.
+         */
+        Spatial controlledSpatial = sc.getSpatial();
+        if (sc instanceof SkeletonControl) {
+            AnimControl animControl
+                    = controlledSpatial.getControl(AnimControl.class);
+            Animation animation = animControl.getAnim(animationName);
+
+            float time = animControl.getChannel(0).getTime();
+            animPose.setToAnimation(animation, time, new TweenTransforms());
+
+        } else {
+            AnimComposer composer
+                    = controlledSpatial.getControl(AnimComposer.class);
+            AnimClip clip = composer.getAnimClip(animationName);
+            double time = composer.getTime(AnimComposer.DEFAULT_LAYER);
+            animPose.setToClip(clip, time);
+        }
+
+        Vector3f acceleration = Vector3f.ZERO;
+        /*
+         * Ensure that all attachment links are dynamic.
+         */
+        for (AttachmentLink link : dac.listLinks(AttachmentLink.class)) {
+            link.setDynamic(acceleration);
+        }
+        Transform tmpTransform = new Transform();
+        /*
+         * Apply the animation pose to the torso's managed bones.
+         */
+        TorsoLink torsoLink = dac.getTorsoLink();
+        int numManagedBones = torsoLink.countManaged();
+        for (int mbIndex = 1; mbIndex < numManagedBones; ++mbIndex) {
+            int boneIndex = torsoLink.boneIndex(mbIndex);
+            animPose.localTransform(boneIndex, tmpTransform);
+            torsoLink.setLocalTransform(mbIndex, tmpTransform);
+        }
+        /*
+         * Apply the animation pose to all bone links and their managed bones.
+         */
+        for (BoneLink boneLink : dac.listLinks(BoneLink.class)) {
+            int boneIndex = boneLink.boneIndex(0); // the linked bone
+            Quaternion userRotation = tmpTransform.getRotation();
+            animPose.userRotation(boneIndex, userRotation);
+            boneLink.setDynamic(acceleration, userRotation);
+
+            numManagedBones = boneLink.countManaged();
+            for (int mbIndex = 1; mbIndex < numManagedBones; ++mbIndex) {
+                boneIndex = boneLink.boneIndex(mbIndex);
+                animPose.localTransform(boneIndex, tmpTransform);
+                boneLink.setLocalTransform(mbIndex, tmpTransform);
+            }
+        }
     }
 
     /**
