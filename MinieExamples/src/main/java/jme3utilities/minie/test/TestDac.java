@@ -30,6 +30,7 @@ import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
+import com.jme3.animation.Animation;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
@@ -100,6 +101,7 @@ import jme3utilities.minie.test.tunings.PuppetControl;
 import jme3utilities.minie.test.tunings.SinbadControl;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
+import jme3utilities.wes.AnimationEdit;
 
 /**
  * Test scaling and load/save on a DynamicAnimControl.
@@ -191,7 +193,7 @@ public class TestDac extends AbstractDemo {
     private String rightClavicleName;
     private String upperBodyName;
     /**
-     * name of the test that's currently running
+     * name of the test (the model that's loaded)
      */
     private String testName = "";
     /**
@@ -777,6 +779,15 @@ public class TestDac extends AbstractDemo {
         leftUlnaName = "spine2_L.002";
         rightClavicleName = "spine2_R.001";
         upperBodyName = "spine2";
+        /*
+         * Normalize all quaternions in the animation to resolve some issues
+         * with the BaseMesh model.
+         */
+        Spatial spatial = RagUtils.findSControl(cgModel).getSpatial();
+        AnimControl animControl
+                = spatial.getControl(AnimControl.class);
+        Animation animation = animControl.getAnim(animationName);
+        AnimationEdit.normalizeQuaternions(animation, 0.0001f);
     }
 
     /**
@@ -926,7 +937,8 @@ public class TestDac extends AbstractDemo {
     }
 
     /**
-     * Pin the specified BoneLink to its current world location.
+     * Pin the specified BoneLink to its current world location. TODO use
+     * DynamicAnimControl.pinToWorld()
      *
      * @param boneLink (not null)
      */
