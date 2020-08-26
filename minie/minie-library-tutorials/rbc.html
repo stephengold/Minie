@@ -309,14 +309,21 @@ you get a dynamic body with <code>mass = 1</code>.</p>
 <p>If you construct an RBC without specifying a collision shape,
 you get an incomplete RBC.</p>
 </div>
-<div class="admonitionblock note">
+<div class="admonitionblock caution">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
-Adding an incomplete RBC to a physics space will cause an crash!
+<div class="paragraph">
+<p>You can&#8217;t do much with an incomplete RBC other than add it to a spatial.</p>
+</div>
+<div class="paragraph">
+<p>In particular, adding an incomplete RBC to a physics space will cause a
+crash&#8212;&#8203;as will accessing its activation state, CCD parameters, collision groups,
+friction parameters, ignore list, or restitution parameter.</p>
+</div>
 </td>
 </tr>
 </table>
