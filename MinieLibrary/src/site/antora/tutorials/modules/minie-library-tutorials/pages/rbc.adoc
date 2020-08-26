@@ -53,7 +53,14 @@ you get a dynamic body with `mass = 1`.
 If you construct an RBC without specifying a collision shape,
 you get an incomplete RBC.
 
-NOTE: Adding an incomplete RBC to a physics space will cause an crash!
+[CAUTION]
+====
+You can't do much with an incomplete RBC other than add it to a spatial.
+
+In particular, adding an incomplete RBC to a physics space will cause a
+crash--as will accessing its activation state, CCD parameters, collision groups,
+friction parameters, ignore list, or restitution parameter.
+====
 
 To complete the RBC,
 simply add it to a spatial (*before* adding it to a space).
