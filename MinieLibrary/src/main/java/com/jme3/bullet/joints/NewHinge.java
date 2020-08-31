@@ -224,13 +224,13 @@ public class NewHinge extends New6Dof {
      */
     final public void setLowerLimit(float angle1Min) {
         RotationMotor xMotor = getRotationMotor(PhysicsSpace.AXIS_X);
-        xMotor.set(MotorParam.UpperLimit, 1f);
+        xMotor.set(MotorParam.LowerLimit, 1f);
 
         RotationMotor yMotor = getRotationMotor(PhysicsSpace.AXIS_Y);
-        yMotor.set(MotorParam.UpperLimit, 0f);
+        yMotor.set(MotorParam.LowerLimit, 0f);
 
         RotationMotor zMotor = getRotationMotor(PhysicsSpace.AXIS_Z);
-        zMotor.set(MotorParam.UpperLimit, angle1Min);
+        zMotor.set(MotorParam.LowerLimit, angle1Min);
     }
 
     /**
