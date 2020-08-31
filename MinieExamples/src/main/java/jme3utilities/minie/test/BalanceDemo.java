@@ -630,7 +630,7 @@ public class BalanceDemo extends AbstractDemo {
      */
     private void loadMhGame() {
         cgModel = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
-        cgModel.rotate(0f, -1.6f, 0f);
+        cgModel.rotate(0f, 0f, 1.6f);
 
         dac = new MhGameControl();
         animationName = "expr-lib-pose";
