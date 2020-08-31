@@ -50,6 +50,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * A 6 degree-of-freedom Constraint based on Bullet's
@@ -74,10 +75,6 @@ public class New6Dof extends Constraint {
     // *************************************************************************
     // constants and loggers
 
-    /**
-     * number of axes in a vector
-     */
-    final private static int numAxes = 3;
     /**
      * message logger for this class
      */
@@ -628,7 +625,7 @@ public class New6Dof extends Constraint {
         int numIterations = old.getOverrideIterations();
         overrideIterations(numIterations);
 
-        for (int i = 0; i < numAxes; ++i) {
+        for (int i = 0; i < MyVector3f.numAxes; ++i) {
             RotationMotor motor = getRotationMotor(i);
             RotationMotor oldMotor = old.getRotationMotor(i);
 
@@ -646,7 +643,7 @@ public class New6Dof extends Constraint {
         TranslationMotor motor = getTranslationMotor();
         TranslationMotor oldMotor = old.getTranslationMotor();
 
-        for (int i = 0; i < numAxes; ++i) {
+        for (int i = 0; i < MyVector3f.numAxes; ++i) {
             motor.setDampingLimited(i, oldMotor.isDampingLimited(i));
             motor.setMotorEnabled(i, oldMotor.isMotorEnabled(i));
             motor.setServoEnabled(i, oldMotor.isServoEnabled(i));
@@ -694,7 +691,7 @@ public class New6Dof extends Constraint {
         createConstraint();
         readConstraintProperties(capsule);
 
-        for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
+        for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
             RotationMotor motor = getRotationMotor(axisIndex);
             String motorTag = tagRotMotor + axisIndex;
 
@@ -720,7 +717,7 @@ public class New6Dof extends Constraint {
         TranslationMotor motor = translationMotor;
         String motorTag = tagTransMotor;
 
-        for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
+        for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
             motor.setDampingLimited(axisIndex, capsule.readBoolean(
                     motorTag + tagDampingLimited + axisIndex, false));
             motor.setMotorEnabled(axisIndex, capsule.readBoolean(
@@ -758,7 +755,7 @@ public class New6Dof extends Constraint {
         capsule.write(rotB, tagRotB, null);
         capsule.write(rotationOrder, tagRotOrder, RotationOrder.XYZ);
 
-        for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
+        for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
             RotationMotor motor = rotationMotor[axisIndex];
             String motorTag = tagRotMotor + axisIndex;
 
@@ -784,7 +781,7 @@ public class New6Dof extends Constraint {
         TranslationMotor motor = translationMotor;
         String motorTag = tagTransMotor;
 
-        for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
+        for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
             capsule.write(motor.isDampingLimited(axisIndex),
                     motorTag + tagDampingLimited + axisIndex, false);
             capsule.write(motor.isMotorEnabled(axisIndex),
@@ -868,9 +865,9 @@ public class New6Dof extends Constraint {
         assert translationMotor == null;
 
         long constraintId = nativeId();
-        rotationMotor = new RotationMotor[numAxes];
+        rotationMotor = new RotationMotor[MyVector3f.numAxes];
 
-        for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
+        for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
             long motorId = getRotationalMotor(constraintId, axisIndex);
             rotationMotor[axisIndex] = new RotationMotor(motorId);
         }
