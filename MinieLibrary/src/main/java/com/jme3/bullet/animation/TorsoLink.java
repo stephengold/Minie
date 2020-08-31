@@ -582,6 +582,7 @@ public class TorsoLink extends PhysicsLink {
 
         Vector3f gravity = getControl().gravity(null);
         setDynamic(gravity);
+
         super.setRagdollMode();
     }
 

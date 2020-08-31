@@ -632,6 +632,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     final protected void setParent(PhysicsLink parent) {
         assert parent != null;
         assert this.parent == null;
+
         this.parent = parent;
         parent.children.add(this);
     }
