@@ -271,8 +271,7 @@ public class Anchor extends PhysicsJoint {
                 = capsule.readBoolean(tagAllowCollisions, true);
         influence = capsule.readFloat(tagInfluence, 1f);
         nodeIndexA = capsule.readInt(tagNodeIndexA, 0);
-        pivotInB
-                = (Vector3f) capsule.readSavable(tagPivotInB, new Vector3f());
+        pivotInB = (Vector3f) capsule.readSavable(tagPivotInB, new Vector3f());
 
         createAnchor();
     }
@@ -311,7 +310,7 @@ public class Anchor extends PhysicsJoint {
 
         long anchorId = createAnchor(aId, nodeIndexA, bId, pivotInB,
                 allowCollisions, influence);
-        setNativeId(anchorId);
+        setNativeIdNotTracked(anchorId);
     }
     // *************************************************************************
     // native private methods
