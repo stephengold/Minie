@@ -241,6 +241,40 @@ public class New6Dof extends Constraint {
     }
 
     /**
+     * Determine the translation component of the global transform of the offset
+     * for body A.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the origin location (either storeResult or a new vector, not
+     * null)
+     */
+    public Vector3f calculatedOriginA(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long constraintId = nativeId();
+        getCalculatedOriginA(constraintId, result);
+
+        return result;
+    }
+
+    /**
+     * Determine the translation component of the global transform of the offset
+     * for body B.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the origin location (either storeResult or a new vector, not
+     * null)
+     */
+    public Vector3f calculatedOriginB(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long constraintId = nativeId();
+        getCalculatedOriginB(constraintId, result);
+
+        return result;
+    }
+
+    /**
      * Copy the constraint's frame transform relative to the specified end.
      *
      * @param end which end (not null)
@@ -892,6 +926,12 @@ public class New6Dof extends Constraint {
             Vector3f storeVector);
 
     native private static void getAxis(long constraintId, int axisIndex,
+            Vector3f storeVector);
+
+    native private static void getCalculatedOriginA(long constraintId,
+            Vector3f storeVector);
+
+    native private static void getCalculatedOriginB(long constraintId,
             Vector3f storeVector);
 
     native private static void getFrameOffsetA(long constraintId,
