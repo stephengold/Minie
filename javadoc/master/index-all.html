@@ -978,6 +978,16 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">cache friendly</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/New6Dof.html#calculatedOriginA(com.jme3.math.Vector3f)">calculatedOriginA(Vector3f)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
+<dd>
+<div class="block">Determine the translation component of the global transform of the offset
+ for body A.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/New6Dof.html#calculatedOriginB(com.jme3.math.Vector3f)">calculatedOriginB(Vector3f)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
+<dd>
+<div class="block">Determine the translation component of the global transform of the offset
+ for body B.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/control/BetterCharacterControl.html#calculateNewForward(com.jme3.math.Quaternion,com.jme3.math.Vector3f,com.jme3.math.Vector3f)">calculateNewForward(Quaternion, Vector3f, Vector3f)</a></span> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
 <div class="block">This method works similar to Camera.lookAt but where lookAt sets the
@@ -1480,6 +1490,12 @@ loadScripts(document, 'script');</script>
  and original to resolve copied fields.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/New6Dof.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)">cloneFields(Cloner, Object)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
+<dd>
+<div class="block">Callback from <code>Cloner</code> to convert this
+ shallow-cloned constraint into a deep-cloned one, using the specified
+ Cloner and original to resolve copied fields.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)">cloneFields(Cloner, Object)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
 <dd>
 <div class="block">Callback from <code>Cloner</code> to convert this
  shallow-cloned constraint into a deep-cloned one, using the specified
@@ -3359,9 +3375,25 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Read the bias toward clipping along symmetry planes.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#getAnchor(com.jme3.math.Vector3f)">getAnchor(Vector3f)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">Determine the anchor location for body A.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#getAnchor2(com.jme3.math.Vector3f)">getAnchor2(Vector3f)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">Determine the anchor location for body B.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/motors/RotationalLimitMotor.html#getAngle()">getAngle()</a></span> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationalLimitMotor.html" title="class in com.jme3.bullet.joints.motors">RotationalLimitMotor</a></dt>
 <dd>
 <div class="block">Read this motor's current rotation angle (m_currentPosition).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#getAngle1()">getAngle1()</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">Determine the rotation angle for axis1.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#getAngle2()">getAngle2()</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">Determine the rotation angle for axis2.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/New6Dof.html#getAngles(com.jme3.math.Vector3f)">getAngles(Vector3f)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
@@ -3482,6 +3514,14 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/New6Dof.html#getAxis(int,com.jme3.math.Vector3f)">getAxis(int, Vector3f)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
 <div class="block">Calculate the indexed axis of the Constraint.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#getAxis1(com.jme3.math.Vector3f)">getAxis1(Vector3f)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">Determine the direction of axis1.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#getAxis2(com.jme3.math.Vector3f)">getAxis2(Vector3f)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">Determine the direction of axis2.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/VehicleWheel.html#getAxle(com.jme3.math.Vector3f)">getAxle(Vector3f)</a></span> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a></dt>
 <dd>
@@ -5973,6 +6013,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create a shallow clone for the JME cloner.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#jmeClone()">jmeClone()</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">Create a shallow clone for the JME cloner.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/PhysicsJoint.html#jmeClone()">jmeClone()</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a></dt>
 <dd>
 <div class="block">Create a shallow clone for the JME cloner.</div>
@@ -6756,6 +6800,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#logger3">logger3</a></span> - Static variable in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/SixDofSpringJoint.html#logger3">logger3</a></span> - Static variable in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/SixDofSpringJoint.html" title="class in com.jme3.bullet.joints">SixDofSpringJoint</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
@@ -7307,6 +7355,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create a new, empty btSoftBody for this PhysicsSoftBody, using the
  pre-existing worldInfo.</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints"><span class="typeNameLink">NewHinge</span></a> - Class in <a href="com/jme3/bullet/joints/package-summary.html">com.jme3.bullet.joints</a></dt>
+<dd>
+<div class="block">A 3 degree-of-freedom Constraint that mimics ODE's Hinge2 joint, such as
+ might be used to model one of the front wheels on a motor vehicle.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#%3Cinit%3E()">NewHinge()</a></span> - Constructor for class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">No-argument constructor needed by SavableClassUtil.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#%3Cinit%3E(com.jme3.bullet.objects.PhysicsRigidBody,com.jme3.bullet.objects.PhysicsRigidBody,com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.math.Vector3f)">NewHinge(PhysicsRigidBody, PhysicsRigidBody, Vector3f, Vector3f, Vector3f)</a></span> - Constructor for class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">Instantiate a double-ended constraint.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/New6Dof.html#newInstance(com.jme3.bullet.objects.PhysicsRigidBody,com.jme3.bullet.objects.PhysicsRigidBody,com.jme3.math.Vector3f,com.jme3.math.Quaternion,com.jme3.bullet.RotationOrder)">newInstance(PhysicsRigidBody, PhysicsRigidBody, Vector3f, Quaternion, RotationOrder)</a></span> - Static method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
@@ -8130,6 +8191,11 @@ loadScripts(document, 'script');</script>
  loading from a J3O file.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/New6Dof.html#read(com.jme3.export.JmeImporter)">read(JmeImporter)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
+<dd>
+<div class="block">De-serialize this Constraint from the specified importer, for example
+ when loading from a J3O file.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#read(com.jme3.export.JmeImporter)">read(JmeImporter)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
 <dd>
 <div class="block">De-serialize this Constraint from the specified importer, for example
  when loading from a J3O file.</div>
@@ -9640,6 +9706,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter this motor's constraint lower limit (m_loLimit).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#setLowerLimit(float)">setLowerLimit(float)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">Alter the lower limit for axis1 rotation.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/motors/TranslationalLimitMotor.html#setLowerLimit(com.jme3.math.Vector3f)">setLowerLimit(Vector3f)</a></span> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationalLimitMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationalLimitMotor</a></dt>
 <dd>
 <div class="block">Alter this motor's constraint lower limits (m_lowerLimit).</div>
@@ -10492,6 +10562,10 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/motors/RotationalLimitMotor.html#setUpperLimit(float)">setUpperLimit(float)</a></span> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationalLimitMotor.html" title="class in com.jme3.bullet.joints.motors">RotationalLimitMotor</a></dt>
 <dd>
 <div class="block">Alter this motor's constraint upper limit (m_hiLimit).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#setUpperLimit(float)">setUpperLimit(float)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
+<dd>
+<div class="block">Alter the upper limit for axis1 rotation.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/motors/TranslationalLimitMotor.html#setUpperLimit(com.jme3.math.Vector3f)">setUpperLimit(Vector3f)</a></span> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationalLimitMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationalLimitMotor</a></dt>
 <dd>
@@ -11950,6 +12024,11 @@ the order they are declared.</div>
  to a J3O file.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/New6Dof.html#write(com.jme3.export.JmeExporter)">write(JmeExporter)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
+<dd>
+<div class="block">Serialize this Constraint to the specified exporter, for example when
+ saving to a J3O file.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/NewHinge.html#write(com.jme3.export.JmeExporter)">write(JmeExporter)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
 <dd>
 <div class="block">Serialize this Constraint to the specified exporter, for example when
  saving to a J3O file.</div>
