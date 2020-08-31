@@ -37,6 +37,7 @@ import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.HingeJoint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.New6Dof;
+import com.jme3.bullet.joints.NewHinge;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.joints.SixDofJoint;
@@ -155,7 +156,7 @@ public class TestCloneJoints {
     }
 
     /**
-     * New6Dof: single- and double-ended
+     * New6Dof: single- and double-ended and NewHinge
      */
     private void cloneNew6Dof() {
         New6Dof deNew6 = new New6Dof(rigidA, rigidB, va, vb,
@@ -171,6 +172,13 @@ public class TestCloneJoints {
         verifyParameters(seNew6, 0f);
         New6Dof seNew6Clone = (New6Dof) Heart.deepCopy(seNew6);
         cloneTest(seNew6, seNew6Clone);
+
+        NewHinge newH = new NewHinge(rigidA, rigidB, Vector3f.ZERO,
+                Vector3f.UNIT_Y, Vector3f.UNIT_Z);
+        setParameters(newH, 0f);
+        verifyParameters(newH, 0f);
+        NewHinge newHClone = (NewHinge) Heart.deepCopy(newH);
+        cloneTest(newH, newHClone);
     }
 
     /**
@@ -642,23 +650,25 @@ public class TestCloneJoints {
     }
 
     private void verifyNew6Dof(New6Dof constraint, float b) {
-        Transform ta = constraint.getFrameTransform(JointEnd.A, null);
-        assert ta.getTranslation().x == va.x : ta;
-        assert ta.getTranslation().y == va.y : ta;
-        assert ta.getTranslation().z == va.z : ta;
-        assert ta.getRotation().getX() == qa.getX() : ta;
-        assert ta.getRotation().getY() == qa.getY() : ta;
-        assert ta.getRotation().getZ() == qa.getZ() : ta;
-        assert ta.getRotation().getW() == qa.getW() : ta;
+        if (!(constraint instanceof NewHinge)) {
+            Transform ta = constraint.getFrameTransform(JointEnd.A, null);
+            assert ta.getTranslation().x == va.x : ta;
+            assert ta.getTranslation().y == va.y : ta;
+            assert ta.getTranslation().z == va.z : ta;
+            assert ta.getRotation().getX() == qa.getX() : ta;
+            assert ta.getRotation().getY() == qa.getY() : ta;
+            assert ta.getRotation().getZ() == qa.getZ() : ta;
+            assert ta.getRotation().getW() == qa.getW() : ta;
 
-        Transform tb = constraint.getFrameTransform(JointEnd.B, null);
-        assert tb.getTranslation().x == vb.x : tb;
-        assert tb.getTranslation().y == vb.y : tb;
-        assert tb.getTranslation().z == vb.z : tb;
-        assert tb.getRotation().getX() == qb.getX() : tb;
-        assert tb.getRotation().getY() == qb.getY() : tb;
-        assert tb.getRotation().getZ() == qb.getZ() : tb;
-        assert tb.getRotation().getW() == qb.getW() : tb;
+            Transform tb = constraint.getFrameTransform(JointEnd.B, null);
+            assert tb.getTranslation().x == vb.x : tb;
+            assert tb.getTranslation().y == vb.y : tb;
+            assert tb.getTranslation().z == vb.z : tb;
+            assert tb.getRotation().getX() == qb.getX() : tb;
+            assert tb.getRotation().getY() == qb.getY() : tb;
+            assert tb.getRotation().getZ() == qb.getZ() : tb;
+            assert tb.getRotation().getW() == qb.getW() : tb;
+        }
 
         boolean flag = (b > 0.15f && b < 0.45f);
 

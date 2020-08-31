@@ -59,6 +59,7 @@ import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.New6Dof;
+import com.jme3.bullet.joints.NewHinge;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
@@ -374,6 +375,10 @@ public class TestDefaults {
                 RotationOrder.XYZ);
         testNew6Dof(deNew6Dof, 2);
 
+        NewHinge newHinge = new NewHinge(rigidA, rigidB, Vector3f.ZERO,
+                Vector3f.UNIT_Z, Vector3f.UNIT_X);
+        testNewHinge(newHinge);
+
         SixDofJoint deSix = new SixDofJoint(rigidA, rigidB, new Vector3f(),
                 new Vector3f(), false);
         testSixDof(deSix, 2);
@@ -483,6 +488,70 @@ public class TestDefaults {
             float def = param.defaultForTranslationMotor();
             Vector3f value = motor.get(param, null);
             assertEquals(def, def, def, value, 0f);
+        }
+    }
+
+    private void testNewHinge(NewHinge constraint) {
+        Assert.assertEquals(2, constraint.countEnds());
+        testConstraint(constraint);
+
+        for (int axisIndex = PhysicsSpace.AXIS_X;
+                axisIndex <= PhysicsSpace.AXIS_Z; ++axisIndex) {
+            RotationMotor motor = constraint.getRotationMotor(axisIndex);
+            Assert.assertFalse(motor.isDampingLimited());
+            Assert.assertFalse(motor.isMotorEnabled());
+            Assert.assertFalse(motor.isServoEnabled());
+            Assert.assertFalse(motor.isSpringEnabled());
+            Assert.assertFalse(motor.isStiffnessLimited());
+
+            for (MotorParam param : MotorParam.values()) {
+                float defaultValue = param.defaultForRotationMotor();
+                if (param == MotorParam.LowerLimit) {
+                    if (axisIndex == PhysicsSpace.AXIS_Y) {
+                        defaultValue = 0f;
+                    } else if (axisIndex == PhysicsSpace.AXIS_Z) {
+                        defaultValue = -FastMath.PI / 4f;
+                    }
+                } else if (param == MotorParam.UpperLimit) {
+                    if (axisIndex == PhysicsSpace.AXIS_Y) {
+                        defaultValue = 0f;
+                    } else if (axisIndex == PhysicsSpace.AXIS_Z) {
+                        defaultValue = FastMath.PI / 4f;
+                    }
+                }
+                float value = motor.get(param);
+                Assert.assertEquals(defaultValue, value, 0f);
+            }
+        }
+
+        TranslationMotor motor = constraint.getTranslationMotor();
+        for (int axisIndex = PhysicsSpace.AXIS_X;
+                axisIndex <= PhysicsSpace.AXIS_Z; ++axisIndex) {
+            Assert.assertFalse(motor.isDampingLimited(axisIndex));
+            Assert.assertFalse(motor.isMotorEnabled(axisIndex));
+            Assert.assertFalse(motor.isServoEnabled(axisIndex));
+            if (axisIndex == PhysicsSpace.AXIS_Z) {
+                Assert.assertTrue(motor.isSpringEnabled(axisIndex));
+            } else {
+                Assert.assertFalse(motor.isSpringEnabled(axisIndex));
+            }
+            Assert.assertFalse(motor.isStiffnessLimited(axisIndex));
+        }
+
+        for (MotorParam param : MotorParam.values()) {
+            Vector3f value = motor.get(param, null);
+            if (param == MotorParam.Damping) {
+                value.z = 0.01f;
+            } else if (param == MotorParam.LowerLimit) {
+                value.z = -1f;
+            } else if (param == MotorParam.Stiffness) {
+                value.z = 4f * FastMath.PI * FastMath.PI;
+            } else if (param == MotorParam.UpperLimit) {
+                value.z = 1f;
+            } else {
+                float def = param.defaultForTranslationMotor();
+                assertEquals(def, def, def, value, 0f);
+            }
         }
     }
 
