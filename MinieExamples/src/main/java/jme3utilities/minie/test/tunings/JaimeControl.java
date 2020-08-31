@@ -61,10 +61,10 @@ public class JaimeControl
      */
     public JaimeControl() {
         super();
-        LinkConfig hull = new LinkConfig(1f, MassHeuristic.Mass,
+        LinkConfig hull = new LinkConfig(0.005f, MassHeuristic.Mass,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean, RotationOrder.XZY);
-        LinkConfig hullZxy = new LinkConfig(1f, MassHeuristic.Mass,
+        LinkConfig hullZxy = new LinkConfig(0.005f, MassHeuristic.Mass,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean, RotationOrder.ZXY);
 
