@@ -619,9 +619,9 @@ public class BalanceDemo extends AbstractDemo {
 
         dac = new JaimeControl();
         animationName = "Punches";
-        uprightGain = 40f;
+        uprightGain = 10f;
         vaBias = 5f;
-        vaMagnitude = 15f;
+        vaMagnitude = 100f;
         torsoUpDirection = Vector3f.UNIT_Z;
     }
 
