@@ -30,8 +30,8 @@ Maven artifacts will be found in the "MinieLibrary/build/libs" directory.
 
 You can install the artifacts to your local cache:
 
-* using Bash:  `./gradlew :MinieLibrary:publishToMavenLocal`
-* using Windows Command Prompt:  `.\gradlew :MinieLibrary:publishToMavenLocal`
+* using Bash:  `./gradlew publishToMavenLocal`
+* using Windows Command Prompt:  `.\gradlew publishToMavenLocal`
 
 === Cleanup
 
