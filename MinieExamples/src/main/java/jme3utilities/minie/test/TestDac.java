@@ -51,8 +51,6 @@ import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.joints.Point2PointJoint;
-import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.xml.XMLExporter;
@@ -477,8 +475,12 @@ public class TestDac extends AbstractDemo {
                 case "load":
                     load();
                     return;
+
                 case "pin leftFemur":
-                    pin(leftFemur);
+                    if (dac.isReady()) {
+                        boolean disableForRagdoll = false;
+                        dac.pinToWorld(leftFemur, disableForRagdoll);
+                    }
                     return;
 
                 case "raise leftFoot":
@@ -1056,22 +1058,6 @@ public class TestDac extends AbstractDemo {
                 boneLink.setLocalTransform(mbIndex, tmpTransform);
             }
         }
-    }
-
-    /**
-     * Pin the specified BoneLink to its current world location. TODO use
-     * DynamicAnimControl.pinToWorld()
-     *
-     * @param boneLink (not null)
-     */
-    private void pin(BoneLink boneLink) {
-        PhysicsRigidBody body = boneLink.getRigidBody();
-        Vector3f currentWorld = body.getPhysicsLocation(null);
-        Point2PointJoint sep2p
-                = new Point2PointJoint(body, Vector3f.ZERO, currentWorld);
-
-        PhysicsSpace physicsSpace = getPhysicsSpace();
-        physicsSpace.add(sep2p);
     }
 
     /**
