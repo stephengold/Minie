@@ -1,5 +1,52 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 3.0.0 released on TBD
+
+ + Bug fixes:
+   + collision-group checks are ineffective due to missing parentheses
+   + `ConcurrentModificationException` thrown by the "Physics Cleaner" thread
+   + assertion failures while tracking the ID of a soft-body anchor
+   + JVM crash while reading the collision flags of a static rigid body
+   + assertion failure during `PhysicsLink.postTick()`
+ + API changes:
+   + changed the semantics of the `countJoints()` and `listJoints()` methods
+     in the `PhysicsBody` class
+   + changed the return type of the `rayTestRaw()` method
+     in the `CollisionSpace` class
+ + New `DynamicAnimControl` features:
+   + a mechanism to ignore collisions between physics links
+     that aren't directly joined
+   + a mechanism to apply bone rotations (from an `AnimClip`, for instance)
+     to linked bones in dynamic mode
+   + `setLocalTransform()` methods for the managed bones of physics links
+   + a `fixToWorld()` method to lock a `PhysicsLink` into position
+   + an adjustable `pinToWorld()` method
+ + Improvements to `New6Dof` constraints:
+   + enable springs in `RangeOfMotion` for more effective locking of axes
+   + a `NewHinge` subclass inspired by Bullet's `btHinge2Constraint`
+   + getters for the calculated transforms
+ + More convenience:
+   + added a factory method to construct a satisfied, double-ended `New6Dof`
+     constraint using physics-space coordinates (instead of local ones)
+   + added a `clearIgnoreList()` method to the `PhysicsCollisionObject` class
+   + added a `CcdFilter` class to select rigid bodies with CCD active
+   + added a `DacUserFilter` class to select physics objects belonging to
+     a particular `DynamicAnimControl`
+   + added `findEnd()` and `findOtherBody()` methods to the `PhysicsJoint` class
+   + publicized the `boneIndex()` methods of `BoneLink` and `TorsoLink`
+   + construct a `RangeOfMotion` (for a fixed joint) using Euler angles
+ + Improvements to `PhysicsDumper`:
+   + dump the positions of locked DoFs in a `New6Dof`
+   + an option to dump the ignored PCOs of a `PhysicsCollisionObject`
+   + dump the application data of a `PhysicsCollisionObject`
+ + Built using Gradle v6.6.1 .
+ + Based on:
+   + v6.0.0 of the Heart Library,
+   + v0.9.0 of the jme3-utilities-ui library,
+   + v0.6.0 of the Wes Library, and
+   + v0.9.15 of the jme3-utilities-nifty library.
+ + Updated the native libraries to v9.2.2 of Libbulletjme.
+
 ## Version 2.0.1 released on 8 August 2020
 
 Bugfix: characters and ghosts ignore their own ignore lists!
@@ -31,7 +78,7 @@ Bugfix: characters and ghosts ignore their own ignore lists!
  + Added 7 more tutorial apps.
  + Dump additional information for rigid bodies.
  + Improved descriptions of user objects.
- + Upgraded to Gradle v6.5.1 .
+ + Built using Gradle v6.5.1 .
  + Updated the native libraries to v8.3.0 of Libbulletjme.
 
 ## Version 2.0.0-test1 released on 19 June 2020
@@ -171,7 +218,7 @@ Bugfix: characters and ghosts ignore their own ignore lists!
    + v5.5.0 of the Heart Library,
    + v0.8.3 of the jme3-utilities-ui library, and
    + v0.5.0 of the Wes Library.
- + Upgraded to Gradle v6.4.1 .
+ + Built using Gradle v6.4.1 .
 
 ## Version 1.6.1 released on 28 April 2020
 
@@ -240,7 +287,7 @@ Fixed JME issue 1351 (crash during garbage collection)
    + v0.8.2 of the `jme3-utilities-ui` library,
    + v0.9.14 of the `jme3-utilities-nifty` library, and
    + v0.4.9 of the `Wes` library.
- + Upgraded to Gradle v6.3 .
+ + Built using Gradle v6.3 .
 
 ## Version 1.5.0for33 released on 12 March 2020
 
@@ -278,7 +325,7 @@ Fixed JME issue 1351 (crash during garbage collection)
  + Added validation for the angular limits of a `SixDofJoint`.
  + Updated the native libraries to version 5.0.0 of `Libbulletjme`.
  + Based on version 5.1 of the `Heart` library.
- + Upgraded to Gradle v6.2.2 .
+ + Built using Gradle v6.2.2 .
  + Continuous integration at TravisCI and GitHub.
 
 ## Version 1.4.1for33 released on 12 February 2020
@@ -331,7 +378,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
    + v5.0 of the `Heart` library,
    + v0.8.1 of the `jme3-utilities-ui` library, and
    + v0.4.8 of the `Wes` library.
- + Upgraded to Gradle v6.1.1 .
+ + Built using Gradle v6.1.1 .
 
 ## Version 1.3.0for33 released on 5 January 2020
 
@@ -421,7 +468,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
    + version 0.7.9 of the `jme3-utilities-ui` library, and
    + version 0.9.11 of the `jme3-utilities-nifty` library.
    + version 0.4.6 of the `Wes` library.
- + Upgraded to Gradle v6.0.1 .
+ + Built using Gradle v6.0.1 .
 
 ## Version 1.1.0for33 released on 4 November 2019
 
@@ -430,7 +477,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
  + Added some assertions to the `PhysicsRayTestResult` class.
  + Added the "application" Gradle plugin to the `DacWizard` build script.
  + Updated the native libraries to version 2.0.12 of `Libbulletjme`.
- + Upgraded to Gradle v5.6.4 .
+ + Built using Gradle v5.6.4 .
 
 ## Version 1.0.0for33 released on 8 October 2019
 
@@ -507,7 +554,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
    + Based on version 4.1 of the `jme3-utilities-heart` library, version
      0.7.8 of the `jme3-utilities-ui` library, and version 0.9.10 of the
      `jme3-utilities-nifty` library.
-   + Upgraded to Gradle v5.6.2 .
+   + Built using Gradle v5.6.2 .
 
 ## Version 0.9.15for33 released on 29 August 2019
 
@@ -593,7 +640,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
  + Extended the constructors for `CompoundMesh`, `GImpactCollisionShape`, and
    `HullCollisionShape` to accept multiple meshes.
  + Updated the `TestHullContact` app to be more like a demo.
- + Upgraded to Gradle v5.5.1 .
+ + Built using Gradle v5.5.1 .
 
 ## Version 0.9.6for33 released on 13 July 2019
 
@@ -792,7 +839,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
  + Moved the `FilterAll` class from MinieExamples into the library.
  + Added `getFrameTransform()` methods for cone, hinge, 6dof, and slider joints.
  + Updated the native libraries to version 1.0.50 of `Libbulletjme`.
- + Upgraded to Gradle v5.3.1 .
+ + Built using Gradle v5.3.1 .
  + Based on version 2.26 of the `jme3-utilities-heart` library.
 
 ## Version 0.8.0 released on 15 April 2019
