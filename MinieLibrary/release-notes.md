@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 3.0.0 released on TBD
+## Version 3.0.0 released on 31 August 2020
 
  + Bug fixes:
    + collision-group checks are ineffective due to missing parentheses

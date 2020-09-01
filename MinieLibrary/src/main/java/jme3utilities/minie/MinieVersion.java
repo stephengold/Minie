@@ -56,9 +56,9 @@ public class MinieVersion {
     /**
      * Read the terse version string for this library.
      *
-     * @return branch and revision (not null, not empty)
+     * @return the branch and revision string (not null, not empty)
      */
     public static String versionShort() {
-        return "master 3.0.0";
+        return "master 3.0.0-SNAPSHOT";
     }
 }
