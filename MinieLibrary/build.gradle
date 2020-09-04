@@ -243,6 +243,10 @@ task('pom', type: Copy) {
     rename '.*', baseName + '.pom'
 }
 
+publishToMavenLocal.doLast {
+    println 'published to ' + baseName
+}
+
 publishing {
     publications {
         maven(MavenPublication) {
