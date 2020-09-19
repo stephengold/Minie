@@ -4,7 +4,7 @@
 site:
   title: The Minie project (local test)
   start_page: minie:ROOT:overview.adoc
-  url: file:///home/sgold/Git/Minie/build/site
+  url: /home/sgold/Git/Minie/build/site
 content:
   sources:
     - url: /home/sgold/Git/Minie
