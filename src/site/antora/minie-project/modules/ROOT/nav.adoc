@@ -28,7 +28,6 @@
 ** https://stephengold.github.io/Minie/javadoc/v2-0[Version 2.0]
 * Minie at other sites
 ** https://hub.jmonkeyengine.org/c/user-code-projects/minie/63[JMonkeyEngine forum]
-** https://jmonkeystore.com/38308161-c3cf-4e23-8754-528ca8387c11[JmonkeyStore]
 ** https://bintray.com/stephengold/com.github.stephengold/Minie[Bintray]
 ** https://jitpack.io/#stephengold/Minie[JitPack (unofficial)]
 * Related projects
