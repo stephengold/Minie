@@ -214,7 +214,7 @@ use it only as a last resort.
 == Advanced vehicles
 
 For further inspiration, look at
-https://jmonkeystore.com/4477514f-a3ae-4d42-b928-d3a62335159f[James Khan's Advanced Vehicles demo]
+https://github.com/stephengold/jme-vehicles[James Khan's Advanced Vehicles demo]
 which includes:
 
 * a Pacejka model for tire friction,

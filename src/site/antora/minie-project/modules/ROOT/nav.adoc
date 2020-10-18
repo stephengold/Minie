@@ -36,6 +36,6 @@
 ** https://pybullet.org/wordpress[Bullet]
 ** https://github.com/kmammou/v-hacd[V-HACD]
 ** https://github.com/stephengold/Heart[Heart]
-** https://jmonkeystore.com/4477514f-a3ae-4d42-b928-d3a62335159f[Advanced vehicles]
-** https://jmonkeystore.com/1a85df6f-4bb6-4c85-9e77-b5119662ed54[Blocks]
+** https://github.com/stephengold/jme-vehicles[Advanced vehicles]
+** https://github.com/rvandoosselaer/Blocks[Blocks]
 ** https://github.com/stephengold/antora-ui-bundle[Website UI bundle]
