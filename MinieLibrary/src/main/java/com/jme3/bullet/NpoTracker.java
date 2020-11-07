@@ -32,6 +32,7 @@
 package com.jme3.bullet;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
@@ -107,7 +108,8 @@ class NpoTracker extends WeakReference<NativePhysicsObject> {
                 method.invoke(null, id);
 
                 ++invocationCount;
-            } catch (Exception exception) {
+            } catch (IllegalAccessException | IllegalArgumentException
+                    | SecurityException | InvocationTargetException exception) {
                 throw new RuntimeException(exception);
             }
         }
