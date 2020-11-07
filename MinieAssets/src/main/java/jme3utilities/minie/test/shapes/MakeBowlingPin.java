@@ -120,7 +120,8 @@ public class MakeBowlingPin {
          */
         CompoundCollisionShape shape;
         if (useManualDecomposition) {
-            shape = (CompoundCollisionShape) CollisionShapeFactory.createDynamicMeshShape(cgmRoot);
+            shape = (CompoundCollisionShape)
+                    CollisionShapeFactory.createDynamicMeshShape(cgmRoot);
         } else {
             VHACD.addProgressListener(new VHACDProgressListener() {
                 double lastOP = -1.0;
