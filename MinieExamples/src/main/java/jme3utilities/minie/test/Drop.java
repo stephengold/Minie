@@ -212,8 +212,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                 /*
                  * Transform scaled shape coordinates to physics-space.
                  */
-                Quaternion orientation
-                        = ((PhysicsRigidBody) body).getPhysicsRotation(null);
+                Quaternion orientation = body.getPhysicsRotation(null);
                 MyBuffer.rotate(vertices[bodyIndex], 0, numFloats, orientation);
                 Vector3f location = body.getPhysicsLocation(null);
                 MyBuffer.translate(vertices[bodyIndex], 0, numFloats, location);

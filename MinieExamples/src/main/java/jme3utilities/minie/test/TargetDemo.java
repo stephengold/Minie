@@ -620,7 +620,7 @@ public class TargetDemo
             Vector3f impulseVector = new Vector3f(0f, impulse, 0f);
             ShapeGenerator random = getGenerator();
             Vector3f offset = random.nextVector3f().multLocal(0.2f);
-            PhysicsRigidBody rigidBody = (PhysicsRigidBody) selectedBody;
+            PhysicsRigidBody rigidBody = selectedBody;
             rigidBody.applyImpulse(impulseVector, offset);
         }
     }
