@@ -120,7 +120,7 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
 
         long objectId = nativeId();
         long shapeId = shape.nativeId();
-        super.attachCollisionShape(objectId, shapeId);
+        attachCollisionShape(objectId, shapeId);
     }
 
     /**
