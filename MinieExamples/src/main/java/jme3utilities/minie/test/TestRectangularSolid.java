@@ -103,7 +103,7 @@ public class TestRectangularSolid extends AbstractDemo {
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState = new BulletAppState();
+    final private BulletAppState bulletAppState = new BulletAppState();
     /**
      * pseudo-random seed for the current/next trial
      */
