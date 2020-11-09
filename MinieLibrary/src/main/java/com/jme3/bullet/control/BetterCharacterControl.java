@@ -246,6 +246,15 @@ public class BetterCharacterControl
     }
 
     /**
+     * For compatibility with the jme3-bullet library.
+     *
+     * @return a new velocity vector
+     */
+    public Vector3f getVelocity() {
+        return getVelocity(null);
+    }
+
+    /**
      * Copy the character's linear velocity.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -258,6 +267,15 @@ public class BetterCharacterControl
         } else {
             return storeResult.set(velocity);
         }
+    }
+
+    /**
+     * For compatibility with the jme3-bullet library.
+     *
+     * @return a new direction vector (in physics-space coordinates)
+     */
+    public Vector3f getViewDirection() {
+        return getViewDirection(null);
     }
 
     /**
