@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -160,19 +160,26 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor" id="i2">
 <td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getHitNormalLocal()">getHitNormalLocal</a></span>()</code></th>
+<td class="colLast">
+<div class="block">For compatibility with jme3-bullet.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i3">
+<td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getHitNormalLocal(com.jme3.math.Vector3f)">getHitNormalLocal</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Copy the normal vector at the point of contact.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i3">
+<tr class="altColor" id="i4">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#partIndex()">partIndex</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the part index at the point of contact.</div>
 </td>
 </tr>
-<tr class="altColor" id="i4">
+<tr class="rowColor" id="i5">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#triangleIndex()">triangleIndex</a></span>()</code></th>
 <td class="colLast">
@@ -237,6 +244,17 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>fraction (from=0, to=1, &ge;0, &le;1)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="getHitNormalLocal()">getHitNormalLocal</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">com.jme3.math.Vector3f</span>&nbsp;<span class="memberName">getHitNormalLocal</span>()</div>
+<div class="block">For compatibility with jme3-bullet.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new unit vector</dd>
 </dl>
 </section>
 </li>
