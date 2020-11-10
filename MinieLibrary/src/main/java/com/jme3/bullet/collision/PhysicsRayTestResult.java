@@ -105,6 +105,15 @@ public class PhysicsRayTestResult {
     }
 
     /**
+     * For compatibility with jme3-bullet.
+     *
+     * @return a new unit vector
+     */
+    public Vector3f getHitNormalLocal() {
+        return getHitNormalLocal(null);
+    }
+
+    /**
      * Copy the normal vector at the point of contact.
      *
      * @param storeResult storage for the result (modified if not null)
