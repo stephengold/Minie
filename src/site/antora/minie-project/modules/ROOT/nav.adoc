@@ -25,6 +25,7 @@
 ** https://github.com/stephengold/Minie/issues[Issue tracker]
 * Library APIs
 ** https://stephengold.github.io/Minie/javadoc/master[Master branch]
+** https://stephengold.github.io/Minie/javadoc/v3-0[Version 3.0]
 ** https://stephengold.github.io/Minie/javadoc/v2-0[Version 2.0]
 * Minie at other sites
 ** https://hub.jmonkeyengine.org/c/user-code-projects/minie/63[JMonkeyEngine forum]

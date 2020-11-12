@@ -218,12 +218,21 @@ task cleanWindows64(type: Delete) {
 }
 
 task('copyJavadocToSite') {
-    dependsOn 'copyMasterJavadocToSite', 'copy20JavadocToSite'
+    dependsOn 'copyMasterJavadocToSite', 'copy30JavadocToSite', 'copy20JavadocToSite'
 }
 task('copyMasterJavadocToSite', type: Copy) {
     dependsOn 'javadoc'
     from "${buildDir}/docs/javadoc"
     into '../build/site/javadoc/master'
+}
+task('copy30JavadocToSite', type: Copy) {
+    dependsOn 'download30Javadoc'
+    from zipTree("${buildDir}/docs/v3-0.jar")
+    into '../build/site/javadoc/v3-0'
+}
+task download30Javadoc(type: MyDownload) {
+    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/3.0.0/Minie-3.0.0-javadoc.jar'
+    target = file("${buildDir}/docs/v3-0.jar")
 }
 task('copy20JavadocToSite', type: Copy) {
     dependsOn 'download20Javadoc'
