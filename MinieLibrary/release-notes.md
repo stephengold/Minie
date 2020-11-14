@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 3.1.0-test1 released on TBD
+## Version 3.1.0-test1 released on 14 November 2020
 
  + Updated the native libraries to v9.2.3 of Libbulletjme (Android SDK v30).
  + Added 3 compatibility methods:
