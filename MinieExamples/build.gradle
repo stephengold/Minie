@@ -8,7 +8,7 @@ dependencies {
     implementation 'com.github.stephengold:Heart:' + heartVersion
     implementation 'com.github.stephengold:jme3-utilities-ui:' + jme3utilitiesuiVersion
     implementation 'com.github.stephengold:Wes:' + wesVersion
-    implementation 'junit:junit:4.13'
+    implementation 'junit:junit:' + junitVersion
     implementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
     implementation 'org.jmonkeyengine:jme3-effects:' + jmonkeyengineVersion
     implementation 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion

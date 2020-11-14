@@ -96,7 +96,7 @@ dependencies {
     api 'com.github.stephengold:Heart:' + heartVersion
     api 'org.jmonkeyengine:jme3-terrain:' + jmonkeyengineVersion
 
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:' + junitVersion
     testImplementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
     testRuntimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 }
