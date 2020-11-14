@@ -1,5 +1,16 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 3.1.0-test1 released on TBD
+
+ + Updated the native libraries to v9.2.3 of Libbulletjme (Android SDK v30).
+ + Added 3 compatibility methods:
+   + `BetterCharacterControl.getVelocity()`
+   + `BetterCharacterControl.getViewDirection()`
+   + `PhysicRayTestResult.getHitNormalLocal()`
+ + Added tutorial app `HelloPoi`.
+ + Built using Gradle v6.7 .
+ + Based on v0.6.1 of the Wes Library.
+
 ## Version 3.0.0 released on 31 August 2020
 
  + Bug fixes:
