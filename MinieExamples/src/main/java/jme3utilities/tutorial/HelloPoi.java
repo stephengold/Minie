@@ -70,6 +70,8 @@ import jme3utilities.math.MyVector3f;
 /**
  * A simple example of point-of-impact prediction.
  *
+ * Press the spacebar or LMB to launch a missile.
+ *
  * Builds upon HelloWalk.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -166,7 +168,7 @@ public class HelloPoi
     // ActionListener methods
 
     /**
-     * Callback to handle keyboard input events.
+     * Callback to handle keyboard/button input events.
      *
      * @param action the name of the input event
      * @param ongoing true &rarr; pressed, false &rarr; released
