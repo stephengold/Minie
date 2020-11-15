@@ -1,5 +1,10 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 3.1.0-test2 released on TBD
+
+ + Updated the native libraries to v9.2.3 of Libbulletjme (minSdkVersion=22).
+ + Upgraded to JUnit v4.13.1 .
+
 ## Version 3.1.0-test1 released on 14 November 2020
 
  + Updated the native libraries to v9.2.3 of Libbulletjme (Android SDK v30).
