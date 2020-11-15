@@ -30,7 +30,7 @@ ext {
     jmeTarget = ''
 
     // current releases of various libraries
-    heartVersion = '6.0.0' + jmeTarget
+    heartVersion = '6.1.0' + jmeTarget
     jme3utilitiesuiVersion = '0.9.0' + jmeTarget
     jmonkeyengineVersion = '3.3.2-stable'
     junitVersion = '4.13.1'
