@@ -153,7 +153,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param force the desired amount of force (may be negative)
      */
     public void accelerate(int wheelIndex, float force) {
-        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size());
+        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size() - 1);
         assert isInWorld();
 
         VehicleWheel wheel = wheels.get(wheelIndex);
@@ -260,7 +260,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param impulse the desired impulse
      */
     public void brake(int wheelIndex, float impulse) {
-        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size());
+        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size() - 1);
         assert isInWorld();
 
         VehicleWheel wheel = wheels.get(wheelIndex);
@@ -275,7 +275,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @return the depth value, or -1 if the raycast finds no result
      */
     public float castRay(int wheelIndex) {
-        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size());
+        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size() - 1);
         assert isInWorld();
 
         VehicleWheel wheel = wheels.get(wheelIndex);
@@ -728,7 +728,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param angle the desired angle (in radians, 0=straight, positive=left)
      */
     public void steer(int wheelIndex, float angle) {
-        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size());
+        Validate.inRange(wheelIndex, "wheel index", 0, wheels.size() - 1);
         assert isInWorld();
 
         VehicleWheel wheel = wheels.get(wheelIndex);
