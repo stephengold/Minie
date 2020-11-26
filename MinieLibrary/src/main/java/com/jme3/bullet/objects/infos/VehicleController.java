@@ -250,11 +250,11 @@ public class VehicleController extends NativePhysicsObject {
      * Alter the coordinate system of the vehicle.
      *
      * @param rightAxisIndex the desired local axis index (0&rarr;X, 1&rarr;Y,
-     * 2&rarr;Z)
+     * 2&rarr;Z, default=0)
      * @param upAxisIndex the desired local axis index (0&rarr;X, 1&rarr;Y,
-     * 2&rarr;Z)
+     * 2&rarr;Z, default=1)
      * @param forwardAxisIndex the desired local axis index (0&rarr;X, 1&rarr;Y,
-     * 2&rarr;Z)
+     * 2&rarr;Z, default=2)
      */
     public void setCoordinateSystem(int rightAxisIndex, int upAxisIndex,
             int forwardAxisIndex) {
