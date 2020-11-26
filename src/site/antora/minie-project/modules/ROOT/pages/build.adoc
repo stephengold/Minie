@@ -2,9 +2,8 @@
 
 == Standard build
 
-. Install the _build tools_:
-.. a https://openjdk.java.net[Java Development Kit] and
-.. https://gradle.org[Gradle]
+. Install a https://openjdk.java.net[Java Development Kit (JDK)],
+  if you don't already have one.
 . Download and extract the source code from GitHub:
 .. using Git:
 ... `git clone https://github.com/stephengold/Minie.git`
