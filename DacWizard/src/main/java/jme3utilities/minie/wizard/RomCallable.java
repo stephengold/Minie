@@ -233,7 +233,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
          */
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
         assert physicsSpace.isEmpty();
-        physicsSpace.add(tempDac);
+        tempDac.setPhysicsSpace(physicsSpace);
         physicsSpace.addTickListener(this);
     }
     // *************************************************************************
@@ -249,7 +249,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
 
         tempModelRoot.removeFromParent();
         physicsSpace.removeTickListener(this);
-        physicsSpace.remove(tempDac);
+        tempDac.setPhysicsSpace(null);
         assert physicsSpace.isEmpty();
 
         if (!wasDebugEnabled) {

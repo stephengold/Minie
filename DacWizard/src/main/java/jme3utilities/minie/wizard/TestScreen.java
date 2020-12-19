@@ -192,7 +192,7 @@ class TestScreen extends GuiScreenController {
                 BulletAppState bulletAppState
                         = DacWizard.findAppState(BulletAppState.class);
                 PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
-                physicsSpace.add(dac);
+                dac.setPhysicsSpace(physicsSpace);
             }
         }
 
@@ -215,7 +215,7 @@ class TestScreen extends GuiScreenController {
             BulletAppState bulletAppState
                     = DacWizard.findAppState(BulletAppState.class);
             PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
-            physicsSpace.add(groundPlane);
+            physicsSpace.addCollisionObject(groundPlane);
         }
     }
 

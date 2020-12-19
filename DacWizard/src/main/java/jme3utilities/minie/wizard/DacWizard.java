@@ -142,7 +142,7 @@ public class DacWizard extends GuiApplication {
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
         DynamicAnimControl ragdoll = findDac();
         if (ragdoll != null) {
-            physicsSpace.remove(ragdoll);
+            ragdoll.setPhysicsSpace(null);
         }
         if (!physicsSpace.isEmpty()) {
             DacWizard.dumper.dump(physicsSpace);
