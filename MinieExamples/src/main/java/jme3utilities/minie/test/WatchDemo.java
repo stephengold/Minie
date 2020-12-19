@@ -216,8 +216,8 @@ public class WatchDemo extends AbstractDemo {
         float topY = 0f;
         attachCubePlatform(halfExtent, topY);
 
-        int markerSize = 16;
-        targetPoint = new PointVisualizer(assetManager, markerSize,
+        int indicatorSize = 16; // in pixels
+        targetPoint = new PointVisualizer(assetManager, indicatorSize,
                 ColorRGBA.Red, "ring");
         rootNode.attachChild(targetPoint);
 

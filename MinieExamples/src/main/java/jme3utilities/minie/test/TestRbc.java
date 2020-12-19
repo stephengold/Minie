@@ -258,9 +258,9 @@ public class TestRbc
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        int markerSize = 16; // pixels
-        hitPoint = new PointVisualizer(assetManager, markerSize, ColorRGBA.Red,
-                "saltire");
+        int indicatorSize = 16; // in pixels
+        hitPoint = new PointVisualizer(assetManager, indicatorSize,
+                ColorRGBA.Red, "saltire");
         rootNode.attachChild(hitPoint);
         hitPoint.setEnabled(false);
 

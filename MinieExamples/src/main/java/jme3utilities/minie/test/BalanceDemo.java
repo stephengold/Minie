@@ -242,12 +242,12 @@ public class BalanceDemo extends AbstractDemo {
          */
         stateManager.getState(StatsAppState.class).toggleStats();
 
-        int markerSize = 16; // pixels
-        comPoint = new PointVisualizer(assetManager, markerSize, ColorRGBA.Cyan,
-                "ring");
+        int indicatorSize = 16; // in pixels
+        comPoint = new PointVisualizer(assetManager, indicatorSize,
+                ColorRGBA.Cyan, "ring");
         rootNode.attachChild(comPoint);
 
-        supportPoint = new PointVisualizer(assetManager, markerSize,
+        supportPoint = new PointVisualizer(assetManager, indicatorSize,
                 ColorRGBA.Yellow, "square");
         rootNode.attachChild(supportPoint);
 
