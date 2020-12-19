@@ -284,7 +284,8 @@ public class PhysicsSpace extends CollisionSpace {
 
     /**
      * Add all physics controls in the specified subtree of the scene graph to
-     * this space (e.g. after loading from disk).
+     * this space (e.g. after loading from disk). For compatibility with the
+     * jme3-bullet library.
      * <p>
      * Does not add any joints.
      * <p>
@@ -474,7 +475,7 @@ public class PhysicsSpace extends CollisionSpace {
                 listener.collision(event);
             }
         }
-     }
+    }
 
     /**
      * Invoke the specified callable during the next physics tick. This is
@@ -649,7 +650,8 @@ public class PhysicsSpace extends CollisionSpace {
 
     /**
      * Remove all physics controls in the specified subtree of the scene graph
-     * from this space (e.g. before saving to disk).
+     * from this space (e.g. before saving to disk). For compatibility with the
+     * jme3-bullet library.
      * <p>
      * Does not remove any joints.
      * <p>
@@ -897,7 +899,8 @@ public class PhysicsSpace extends CollisionSpace {
     // CollisionSpace methods
 
     /**
-     * Add the specified object to this space.
+     * Add the specified object to this space. For compatibility with the
+     * jme3-bullet library.
      *
      * @param object the PhysicsControl, Spatial-with-PhysicsControl,
      * PhysicsCollisionObject, or PhysicsJoint to add (not null)
@@ -1011,7 +1014,8 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Remove the specified object from this space.
+     * Remove the specified object from this space. For compatibility with the
+     * jme3-bullet library.
      *
      * @param object the PhysicsControl, Spatial-with-PhysicsControl,
      * PhysicsCollisionObject, or PhysicsJoint to remove, or null
