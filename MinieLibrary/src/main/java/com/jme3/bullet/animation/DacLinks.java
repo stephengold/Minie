@@ -665,7 +665,7 @@ public class DacLinks
             rigidBody.setGravity(gravity);
 
             PhysicsJoint joint = boneLink.getJoint();
-            space.add(joint);
+            space.addJoint(joint);
         }
 
         for (AttachmentLink link : attachmentLinks.values()) {
@@ -674,7 +674,7 @@ public class DacLinks
             rigidBody.setGravity(gravity);
 
             PhysicsJoint joint = link.getJoint();
-            space.add(joint);
+            space.addJoint(joint);
         }
     }
 
@@ -1022,7 +1022,7 @@ public class DacLinks
             space.removeCollisionObject(rigidBody);
 
             PhysicsJoint joint = boneLink.getJoint();
-            space.remove(joint);
+            space.removeJoint(joint);
         }
 
         for (AttachmentLink link : attachmentLinks.values()) {
@@ -1031,7 +1031,7 @@ public class DacLinks
                 space.removeCollisionObject(rigidBody);
 
                 PhysicsJoint joint = link.getJoint();
-                space.remove(joint);
+                space.removeJoint(joint);
             }
         }
     }

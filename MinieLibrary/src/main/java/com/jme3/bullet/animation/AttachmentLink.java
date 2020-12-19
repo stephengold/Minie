@@ -299,7 +299,7 @@ public class AttachmentLink extends PhysicsLink {
         joint.destroy();
 
         PhysicsSpace space = getControl().getPhysicsSpace();
-        space.remove(joint);
+        space.removeJoint(joint);
         setJoint(null);
     }
     // *************************************************************************

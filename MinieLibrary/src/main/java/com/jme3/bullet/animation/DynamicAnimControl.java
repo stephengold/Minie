@@ -597,7 +597,7 @@ public class DynamicAnimControl
         IKJoint ikJoint = new IKJoint(newJoint, true);
 
         ikJoints.add(ikJoint);
-        getPhysicsSpace().add(newJoint);
+        getPhysicsSpace().addJoint(newJoint);
 
         assert newJoint.getBodyA() == linkBody;
         return ikJoint;
@@ -625,7 +625,7 @@ public class DynamicAnimControl
                 = new Point2PointJoint(linkBody, pivotInLinkBody, goalInWorld);
         IKJoint ikJoint = new IKJoint(newJoint, true);
         ikJoints.add(ikJoint);
-        getPhysicsSpace().add(newJoint);
+        getPhysicsSpace().addJoint(newJoint);
 
         assert newJoint.getBodyA() == linkBody;
         return ikJoint;
@@ -657,7 +657,7 @@ public class DynamicAnimControl
                 = new Point2PointJoint(bodyA, bodyB, pivotInA, pivotInB);
         IKJoint ikJoint = new IKJoint(newJoint, true);
         ikJoints.add(ikJoint);
-        getPhysicsSpace().add(newJoint);
+        getPhysicsSpace().addJoint(newJoint);
 
         assert newJoint.getBodyA() == bodyA;
         assert newJoint.getBodyB() == bodyB;
@@ -725,7 +725,7 @@ public class DynamicAnimControl
         Point2PointJoint newJoint = new Point2PointJoint(linkBody, pivotInBody);
         IKJoint ikJoint = new IKJoint(newJoint, true);
         ikJoints.add(ikJoint);
-        getPhysicsSpace().add(newJoint);
+        getPhysicsSpace().addJoint(newJoint);
 
         assert newJoint.getBodyA() == linkBody;
         return ikJoint;
@@ -886,7 +886,7 @@ public class DynamicAnimControl
 
         for (IKJoint ikJoint : ikJoints) {
             PhysicsJoint joint = ikJoint.getPhysicsJoint();
-            space.add(joint);
+            space.addJoint(joint);
         }
     }
 
@@ -959,7 +959,7 @@ public class DynamicAnimControl
 
         for (IKJoint ikJoint : ikJoints) {
             PhysicsJoint joint = ikJoint.getPhysicsJoint();
-            space.remove(joint);
+            space.removeJoint(joint);
         }
     }
 
