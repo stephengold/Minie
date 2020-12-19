@@ -278,7 +278,7 @@ public class MultiBodySpace extends PhysicsSpace {
      *
      * @param multiBody (not null)
      */
-    private void addMultiBody(MultiBody multiBody) {
+    public void addMultiBody(MultiBody multiBody) {
         long multiBodyId = multiBody.nativeId();
         if (multiBodyMap.containsKey(multiBodyId)) {
             logger2.log(Level.WARNING, "{0} is already added to {1}.",
@@ -299,7 +299,7 @@ public class MultiBodySpace extends PhysicsSpace {
      *
      * @param multiBody (not null)
      */
-    private void removeMultiBody(MultiBody multiBody) {
+    public void removeMultiBody(MultiBody multiBody) {
         long multiBodyId = multiBody.nativeId();
         if (!multiBodyMap.containsKey(multiBodyId)) {
             logger2.log(Level.WARNING, "{0} does not exist in {1}.",
