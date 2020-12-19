@@ -48,7 +48,6 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.material.Materials;
-import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -147,9 +146,8 @@ public class HelloPoi
         poiIndicator = new PointVisualizer(assetManager, indicatorSize,
                 ColorRGBA.Yellow, "cross");
         rootNode.attachChild(poiIndicator);
-        RenderState renderState
-                = poiIndicator.getMaterial().getAdditionalRenderState();
-        renderState.setDepthTest(true);
+        poiIndicator.setDepthTest(true);
+        poiIndicator.setQueueBucket(RenderQueue.Bucket.Translucent);
 
         // Add a static heightmap to represent the ground.
         addTerrain(physicsSpace);
