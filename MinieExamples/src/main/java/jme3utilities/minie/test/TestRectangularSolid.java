@@ -32,7 +32,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
-import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
@@ -112,6 +112,10 @@ public class TestRectangularSolid extends AbstractDemo {
      * scene-graph node for the current trial
      */
     private Node trialNode = null;
+    /**
+     * latest rigid body
+     */
+    private PhysicsRigidBody rigidBody;
     // *************************************************************************
     // new methods exposed
 
@@ -267,12 +271,14 @@ public class TestRectangularSolid extends AbstractDemo {
      *
      * @param shapeName type of collision shape to generate:
      * "square"&rarr;HullCollisionShape, "capsule"&rarr;MultiSphere with 2
-     * spheres, "rounded"&rarr;MultiSphere with 4 spheres
+     * spheres, or "rounded"&rarr;MultiSphere with 4 spheres
      */
     private void nextTrial(String shapeName) {
         if (trialNode != null) {
             PhysicsSpace space = bulletAppState.getPhysicsSpace();
-            space.removeAll(trialNode);
+            space.removeCollisionObject(rigidBody);
+            rigidBody = null;
+
             trialNode.removeFromParent();
             trialNode = null;
         }
@@ -354,13 +360,12 @@ public class TestRectangularSolid extends AbstractDemo {
                 throw new IllegalArgumentException(message);
         }
         /*
-         * Add a rigid-body control with that shape.
+         * Add a rigid body with that shape.
          */
-        RigidBodyControl rbc = new RigidBodyControl(collisionShape);
-        rbc.setDebugMeshResolution(DebugShapeFactory.highResolution);
+        rigidBody = new PhysicsRigidBody(collisionShape);
+        rigidBody.setDebugMeshResolution(DebugShapeFactory.highResolution);
         PhysicsSpace space = bulletAppState.getPhysicsSpace();
-        rbc.setPhysicsSpace(space);
-        trialNode.addControl(rbc);
+        space.addCollisionObject(rigidBody);
 
         ++trialSeed;
     }
