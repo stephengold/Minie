@@ -102,6 +102,27 @@ public class MultiBodySpace extends PhysicsSpace {
     // new methods exposed
 
     /**
+     * Add the specified MultiBody and all its colliders.
+     *
+     * @param multiBody (not null)
+     */
+    public void addMultiBody(MultiBody multiBody) {
+        long multiBodyId = multiBody.nativeId();
+        if (multiBodyMap.containsKey(multiBodyId)) {
+            logger2.log(Level.WARNING, "{0} is already added to {1}.",
+                    new Object[]{multiBody, this});
+            return;
+        }
+
+        multiBodyMap.put(multiBodyId, multiBody);
+        logger2.log(Level.FINE, "Adding {0} to {1}.",
+                new Object[]{multiBody, this});
+
+        long spaceId = nativeId();
+        addMultiBody(spaceId, multiBodyId);
+    }
+
+    /**
      * Count the multibodies in this space.
      *
      * @return the count (&ge;0)
@@ -134,6 +155,25 @@ public class MultiBodySpace extends PhysicsSpace {
      */
     public static MultiBodySpace getMultiBodySpace() {
         return (MultiBodySpace) getCollisionSpace();
+    }
+
+    /**
+     * Remove the specified MultiBody and all its colliders.
+     *
+     * @param multiBody (not null)
+     */
+    public void removeMultiBody(MultiBody multiBody) {
+        long multiBodyId = multiBody.nativeId();
+        if (!multiBodyMap.containsKey(multiBodyId)) {
+            logger2.log(Level.WARNING, "{0} does not exist in {1}.",
+                    new Object[]{multiBody, this});
+            return;
+        }
+        logger2.log(Level.FINE, "Removing {0} from {1}.",
+                new Object[]{multiBody, this});
+        multiBodyMap.remove(multiBodyId);
+        long spaceId = nativeId();
+        removeMultiBody(spaceId, multiBodyId);
     }
     // *************************************************************************
     // PhysicsSpace methods
@@ -269,48 +309,6 @@ public class MultiBodySpace extends PhysicsSpace {
         SolverType type = getSolverType();
         int ordinal = type.ordinal();
         setSolverType(spaceId, ordinal);
-    }
-    // *************************************************************************
-    // Java private methods
-
-    /**
-     * Add the specified MultiBody and all its colliders.
-     *
-     * @param multiBody (not null)
-     */
-    public void addMultiBody(MultiBody multiBody) {
-        long multiBodyId = multiBody.nativeId();
-        if (multiBodyMap.containsKey(multiBodyId)) {
-            logger2.log(Level.WARNING, "{0} is already added to {1}.",
-                    new Object[]{multiBody, this});
-            return;
-        }
-
-        multiBodyMap.put(multiBodyId, multiBody);
-        logger2.log(Level.FINE, "Adding {0} to {1}.",
-                new Object[]{multiBody, this});
-
-        long spaceId = nativeId();
-        addMultiBody(spaceId, multiBodyId);
-    }
-
-    /**
-     * Remove the specified MultiBody and all its colliders.
-     *
-     * @param multiBody (not null)
-     */
-    public void removeMultiBody(MultiBody multiBody) {
-        long multiBodyId = multiBody.nativeId();
-        if (!multiBodyMap.containsKey(multiBodyId)) {
-            logger2.log(Level.WARNING, "{0} does not exist in {1}.",
-                    new Object[]{multiBody, this});
-            return;
-        }
-        logger2.log(Level.FINE, "Removing {0} from {1}.",
-                new Object[]{multiBody, this});
-        multiBodyMap.remove(multiBodyId);
-        long spaceId = nativeId();
-        removeMultiBody(spaceId, multiBodyId);
     }
     // *************************************************************************
     // native private methods
