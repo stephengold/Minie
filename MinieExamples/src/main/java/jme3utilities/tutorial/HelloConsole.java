@@ -65,13 +65,13 @@ public class HelloConsole {
         // Create a dynamic body and add it to the space.
         float mass = 2f;
         PhysicsRigidBody dynaBall = new PhysicsRigidBody(ballShape, mass);
-        physicsSpace.add(dynaBall);
+        physicsSpace.addCollisionObject(dynaBall);
         dynaBall.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
 
         // Create a static body and add it to the space.
         PhysicsRigidBody statBall
                 = new PhysicsRigidBody(ballShape, PhysicsBody.massForStatic);
-        physicsSpace.add(statBall);
+        physicsSpace.addCollisionObject(statBall);
         statBall.setPhysicsLocation(new Vector3f(0.1f, 0f, 0f));
 
         // 50 iterations with a 20-msec timestep

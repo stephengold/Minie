@@ -122,8 +122,8 @@ public class HelloLocalPhysics extends SimpleApplication {
         kine.addControl(kineRbc);
 
         // Add the controls to the space.
-        physicsSpace.add(dynaRbc);
-        physicsSpace.add(kineRbc);
+        dynaRbc.setPhysicsSpace(physicsSpace);
+        kineRbc.setPhysicsSpace(physicsSpace);
 
         // Position the dynamic ball in physics space.
         dynaRbc.setPhysicsLocation(new Vector3f(0f, 4f, 0f));

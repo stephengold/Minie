@@ -85,9 +85,9 @@ public class HelloRigidBody extends SimpleApplication {
         // Create 2 balls (dynamic rigid bodies) and add them to the space.
         float ballMass = 2f;
         PhysicsRigidBody ball1 = new PhysicsRigidBody(ballShape, ballMass);
-        physicsSpace.add(ball1);
+        physicsSpace.addCollisionObject(ball1);
         PhysicsRigidBody ball2 = new PhysicsRigidBody(ballShape, ballMass);
-        physicsSpace.add(ball2);
+        physicsSpace.addCollisionObject(ball2);
 
         // Locate the balls initially 2 PSU (physics-space units) apart.
         // In other words, 4 PSU from center to center.

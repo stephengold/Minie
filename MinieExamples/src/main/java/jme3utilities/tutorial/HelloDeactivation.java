@@ -90,12 +90,12 @@ public class HelloDeactivation
         // Create a dynamic body and add it to the space.
         float cubeMass = 1f;
         dynamicCube = new PhysicsRigidBody(cubeShape, cubeMass);
-        physicsSpace.add(dynamicCube);
+        physicsSpace.addCollisionObject(dynamicCube);
         dynamicCube.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
 
         // Create a static body and add it to the space.
         staticCube = new PhysicsRigidBody(cubeShape, PhysicsBody.massForStatic);
-        physicsSpace.add(staticCube);
+        physicsSpace.addCollisionObject(staticCube);
 
         // Minie's BulletAppState simulates the dynamics...
     }

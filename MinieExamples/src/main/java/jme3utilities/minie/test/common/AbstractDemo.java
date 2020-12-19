@@ -203,7 +203,7 @@ abstract public class AbstractDemo extends ActionApplication {
         Validate.nonNull(joint, "joint");
 
         PhysicsSpace space = getPhysicsSpace();
-        space.add(joint);
+        space.addJoint(joint);
     }
 
     /**

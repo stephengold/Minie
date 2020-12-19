@@ -83,7 +83,7 @@ public class HelloDamping extends SimpleApplication {
         PhysicsRigidBody[] cube = new PhysicsRigidBody[4];
         for (int cubeIndex = 0; cubeIndex < numCubes; ++cubeIndex) {
             cube[cubeIndex] = new PhysicsRigidBody(cubeShape, cubeMass);
-            physicsSpace.add(cube[cubeIndex]);
+            physicsSpace.addCollisionObject(cube[cubeIndex]);
 
             // Disable sleep (deactivation) for clarity.
             cube[cubeIndex].setEnableSleep(false);

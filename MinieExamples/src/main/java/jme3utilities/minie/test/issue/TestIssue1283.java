@@ -163,7 +163,7 @@ public class TestIssue1283 extends SimpleApplication {
         geometry.addControl(physicsControl);
 
         physicsControl.setRestitution(0.8f);
-        physicsSpace.add(physicsControl);
+        physicsControl.setPhysicsSpace(physicsSpace);
     }
 
     /**
@@ -275,7 +275,7 @@ public class TestIssue1283 extends SimpleApplication {
         Vector3f initialVelocity = direction.mult(projectileSpeed);
         physicsControl.setLinearVelocity(initialVelocity);
 
-        physicsSpace.add(physicsControl);
+        physicsControl.setPhysicsSpace(physicsSpace);
     }
 
     /**

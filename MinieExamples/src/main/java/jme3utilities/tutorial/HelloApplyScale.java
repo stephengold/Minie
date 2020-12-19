@@ -106,7 +106,7 @@ public class HelloApplyScale extends SimpleApplication {
         cubeGeometry.addControl(kineRbc);
 
         // Add the control to the space.
-        physicsSpace.add(kineRbc);
+        kineRbc.setPhysicsSpace(physicsSpace);
 
         // Set the kinematic and "apply scale" flags on the RBC.
         kineRbc.setKinematic(true);

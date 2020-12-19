@@ -118,7 +118,7 @@ public class HelloCharacterControl
 
         // Add the control to the center node and the PhysicsSpace.
         centerNode.addControl(characterControl);
-        physicsSpace.add(characterControl);
+        characterControl.setPhysicsSpace(physicsSpace);
 
         // Add a square to represent the ground.
         float halfExtent = 4f;

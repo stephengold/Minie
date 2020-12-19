@@ -356,7 +356,7 @@ public class JointDemo extends AbstractDemo {
         zMotor.setMotorEnabled(true);
         zMotor.set(MotorParam.MaxMotorForce, 9e9f);
 
-        physicsSpace.add(joint);
+        physicsSpace.addJoint(joint);
 
         return zMotor;
     }

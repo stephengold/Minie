@@ -106,8 +106,8 @@ public class HelloRbc extends SimpleApplication {
         stat.addControl(statRbc);
 
         // Add the controls to the physics space.
-        physicsSpace.add(dynaRbc);
-        physicsSpace.add(statRbc);
+        dynaRbc.setPhysicsSpace(physicsSpace);
+        statRbc.setPhysicsSpace(physicsSpace);
 
         // Position the balls in physics space.
         dynaRbc.setPhysicsLocation(new Vector3f(0f, 4f, 0f));

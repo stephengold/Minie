@@ -119,7 +119,7 @@ public class HelloMassDistribution extends SimpleApplication {
         Vector3f inverseInertia = Vector3f.UNIT_XYZ.divide(inertiaVector);
         mallet.setInverseInertiaLocal(inverseInertia);
 
-        physicsSpace.add(mallet);
+        physicsSpace.addCollisionObject(mallet);
 
         // Create a static disc and add it to the space.
         float discRadius = 5f;
@@ -128,7 +128,7 @@ public class HelloMassDistribution extends SimpleApplication {
                 discThickness, PhysicsSpace.AXIS_Y);
         PhysicsRigidBody disc
                 = new PhysicsRigidBody(discShape, PhysicsBody.massForStatic);
-        physicsSpace.add(disc);
+        physicsSpace.addCollisionObject(disc);
         disc.setPhysicsLocation(new Vector3f(0f, -3f, 0f));
 
         // Re-position the camera for a better view.

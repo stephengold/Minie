@@ -86,13 +86,13 @@ public class HelloCcd extends SimpleApplication {
         // and add them to the space.
         float mass = 1f;
         PhysicsRigidBody ccdBall = new PhysicsRigidBody(ballShape, mass);
-        physicsSpace.add(ccdBall);
+        physicsSpace.addCollisionObject(ccdBall);
         ccdBall.setCcdMotionThreshold(ballRadius);
         ccdBall.setCcdSweptSphereRadius(ballRadius);
         ccdBall.setPhysicsLocation(new Vector3f(-1f, 4f, 0f));
 
         PhysicsRigidBody controlBall = new PhysicsRigidBody(ballShape, mass);
-        physicsSpace.add(controlBall);
+        physicsSpace.addCollisionObject(controlBall);
         controlBall.setPhysicsLocation(new Vector3f(1f, 4f, 0f));
 
         // Create a thin, static disc and add it to the space.
@@ -102,7 +102,7 @@ public class HelloCcd extends SimpleApplication {
                 discThickness, PhysicsSpace.AXIS_Y);
         PhysicsRigidBody disc
                 = new PhysicsRigidBody(discShape, PhysicsBody.massForStatic);
-        physicsSpace.add(disc);
+        physicsSpace.addCollisionObject(disc);
 
         // Minie's BulletAppState simulates the dynamics...
     }

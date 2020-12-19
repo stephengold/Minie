@@ -85,7 +85,8 @@ public class HelloMadMallet extends SimpleApplication {
         float handleLength = 3f;
         float handleRadius = 0.3f;
         hes.set(handleRadius, handleRadius, handleLength / 2f);
-        CollisionShape handleShape = new CylinderCollisionShape(hes, PhysicsSpace.AXIS_Z);
+        CollisionShape handleShape
+                = new CylinderCollisionShape(hes, PhysicsSpace.AXIS_Z);
 
         CompoundCollisionShape malletShape = new CompoundCollisionShape();
         malletShape.addChildShape(handleShape, 0f, 0f, handleLength / 2f);
@@ -99,7 +100,7 @@ public class HelloMadMallet extends SimpleApplication {
         // Increase the mallet's angular damping to stabilize it.
         mallet.setAngularDamping(0.9f);
 
-        physicsSpace.add(mallet);
+        physicsSpace.addCollisionObject(mallet);
 
         // Create a static disc and add it to the space.
         float discRadius = 5f;
@@ -108,7 +109,7 @@ public class HelloMadMallet extends SimpleApplication {
                 discThickness, PhysicsSpace.AXIS_Y);
         PhysicsRigidBody disc
                 = new PhysicsRigidBody(discShape, PhysicsBody.massForStatic);
-        physicsSpace.add(disc);
+        physicsSpace.addCollisionObject(disc);
         disc.setPhysicsLocation(new Vector3f(0f, -3f, 0f));
 
         // Re-position the camera for a better view.

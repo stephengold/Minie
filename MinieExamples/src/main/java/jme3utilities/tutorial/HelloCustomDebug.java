@@ -98,8 +98,8 @@ public class HelloCustomDebug extends SimpleApplication {
                 = new PhysicsRigidBody(ballShape, PhysicsBody.massForStatic);
 
         // Add the bodies to the physics space.
-        physicsSpace.add(dynaBall);
-        physicsSpace.add(statBall);
+        physicsSpace.addCollisionObject(dynaBall);
+        physicsSpace.addCollisionObject(statBall);
 
         // Position the balls in physics space.
         dynaBall.setPhysicsLocation(new Vector3f(0f, 4f, 0f));

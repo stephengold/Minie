@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -118,7 +118,7 @@ public class HelloSoftBody extends SimpleApplication {
         SoftBodyConfig config = body.getSoftConfig();
         config.set(Sbcp.PoseMatching, 0.5f);
 
-        physicsSpace.add(sbc);
+        sbc.setPhysicsSpace(physicsSpace);
     }
     // *************************************************************************
     // private methods

@@ -82,7 +82,7 @@ public class HelloContactResponse extends SimpleApplication {
         CollisionShape boxShape = new BoxCollisionShape(boxHalfExtent);
         PhysicsRigidBody box
                 = new PhysicsRigidBody(boxShape, PhysicsBody.massForStatic);
-        physicsSpace.add(box);
+        physicsSpace.addCollisionObject(box);
         box.setPhysicsLocation(new Vector3f(0f, -4f, 0f));
 
         // Add a dynamic ball to the space.
@@ -90,7 +90,7 @@ public class HelloContactResponse extends SimpleApplication {
         CollisionShape ballShape = new SphereCollisionShape(ballRadius);
         float ballMass = 2f;
         final PhysicsRigidBody ball = new PhysicsRigidBody(ballShape, ballMass);
-        physicsSpace.add(ball);
+        physicsSpace.addCollisionObject(ball);
         assert ball.isContactResponse();
 
         // Position the ball directly above the box.

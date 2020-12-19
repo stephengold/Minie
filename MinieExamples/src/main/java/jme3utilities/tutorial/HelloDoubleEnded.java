@@ -208,7 +208,7 @@ public class HelloDoubleEnded
 
         float mass = 0.2f;
         PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
-        physicsSpace.add(result);
+        physicsSpace.addCollisionObject(result);
 
         // Disable sleep (deactivation).
         result.setEnableSleep(false);
