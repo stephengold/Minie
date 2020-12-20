@@ -561,7 +561,7 @@ public class SeJointDemo extends AbstractDemo {
         rbc.setPhysicsSpace(physicsSpace);
         rbc.setGravity(gravity); // must be set *after* setPhysicsSpace!
 
-        physicsSpace.add(joint);
+        physicsSpace.addJoint(joint);
 
         geometry.addControl(rbc);
     }
@@ -574,7 +574,7 @@ public class SeJointDemo extends AbstractDemo {
         Collection<PhysicsJoint> jointList = physicsSpace.getJointList();
         for (PhysicsJoint joint : jointList) {
             joint.destroy();
-            physicsSpace.remove(joint);
+            physicsSpace.removeJoint(joint);
         }
 
         List<Spatial> seeds = meshesNode.getChildren();

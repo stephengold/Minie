@@ -1141,8 +1141,6 @@ public class TestRbc
         /*
          * Remove any added spatials from the scene.
          */
-        PhysicsSpace physicsSpace = getPhysicsSpace();
-        physicsSpace.removeAll(meshesNode);
         meshesNode.detachAllChildren();
         missileSpatial = null;
         testSpatial = null;
@@ -1150,6 +1148,7 @@ public class TestRbc
          * Remove all collision objects from the PhysicsSpace,
          * which also removes their debug meshes.
          */
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
         for (PhysicsCollisionObject pco : pcos) {
             physicsSpace.removeCollisionObject(pco);

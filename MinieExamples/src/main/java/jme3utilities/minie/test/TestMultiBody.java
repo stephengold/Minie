@@ -312,7 +312,8 @@ public class TestMultiBody extends AbstractDemo {
         CollisionShape linkShape = new BoxCollisionShape(0.3f);
         link.addCollider(linkShape);
 
-        getPhysicsSpace().add(multiBody);
+        MultiBodySpace space = (MultiBodySpace) getPhysicsSpace();
+        space.addMultiBody(multiBody);
     }
 
     /**

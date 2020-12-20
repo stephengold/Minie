@@ -309,7 +309,8 @@ public class TestSoftBodyControl
         psb.applyRotation(new Quaternion().fromAngles(0.4f, 0f, 1f));
         psb.applyTranslation(new Vector3f(0f, 1.2f, 0f));
 
-        getPhysicsSpace().add(sbc);
+        PhysicsSpace space = getPhysicsSpace();
+        sbc.setPhysicsSpace(space);
         hiddenObjects.addException(sbc);
     }
 
@@ -327,7 +328,7 @@ public class TestSoftBodyControl
         PhysicsSpace physicsSpace = getPhysicsSpace();
         Collection<PhysicsJoint> joints = physicsSpace.getJointList();
         for (PhysicsJoint joint : joints) {
-            physicsSpace.remove(joint);
+            physicsSpace.removeJoint(joint);
         }
         Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
         for (PhysicsCollisionObject pco : pcos) {

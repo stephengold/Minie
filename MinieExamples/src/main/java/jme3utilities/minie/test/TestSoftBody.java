@@ -598,13 +598,13 @@ public class TestSoftBody
         Vector3f initialLocation = flagPsb.nodeLocation(nodeIndex, null);
         Anchor anchor0 = new Anchor(flagPsb, nodeIndex, polePrb,
                 initialLocation, allowCollisions);
-        physicsSpace.add(anchor0);
+        physicsSpace.addJoint(anchor0);
 
         nodeIndex = xLines - 1; // lower left corner of flag
         flagPsb.nodeLocation(nodeIndex, initialLocation);
         Anchor anchor1 = new Anchor(flagPsb, nodeIndex, polePrb,
                 initialLocation, allowCollisions);
-        physicsSpace.add(anchor1);
+        physicsSpace.addJoint(anchor1);
     }
 
     /**
@@ -694,7 +694,7 @@ public class TestSoftBody
             Vector3f location = anchorLocs[anchorIndex];
             Anchor anchor = new Anchor(skirtPsb, anchorIndex, rigid, location,
                     allowCollisions);
-            physicsSpace.add(anchor);
+            physicsSpace.addJoint(anchor);
         }
     }
 
@@ -781,7 +781,7 @@ public class TestSoftBody
          */
         Collection<PhysicsJoint> joints = physicsSpace.getJointList();
         for (PhysicsJoint joint : joints) {
-            physicsSpace.remove(joint);
+            physicsSpace.removeJoint(joint);
         }
         Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
         for (PhysicsCollisionObject pco : pcos) {
