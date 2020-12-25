@@ -463,8 +463,7 @@ public class CollisionShapeFactory {
      * @return a new, indexed Mesh in Triangles mode, its bounds not set
      */
     private static Mesh makeMergedMesh(Spatial subtree) {
-        List<Geometry> allGeometries
-                = MySpatial.listSpatials(subtree, Geometry.class, null);
+        List<Geometry> allGeometries = MySpatial.listGeometries(subtree);
         List<Geometry> includedGeometries
                 = new ArrayList<>(allGeometries.size());
         int totalIndices = 0;

@@ -576,8 +576,7 @@ public class RagUtils {
     public static void validate(Spatial model) {
         Validate.nonNull(model, "model");
 
-        List<Geometry> geometries
-                = MySpatial.listSpatials(model, Geometry.class, null);
+        List<Geometry> geometries = MySpatial.listGeometries(model);
         if (geometries.isEmpty()) {
             throw new IllegalArgumentException("No meshes in the model.");
         }

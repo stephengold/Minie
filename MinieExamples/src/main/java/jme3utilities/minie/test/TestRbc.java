@@ -1239,8 +1239,7 @@ public class TestRbc
         meshesNode.attachChild(testSpatial);
 
         if (!(testSpatial instanceof TerrainQuad)) {
-            List<Geometry> list
-                    = MySpatial.listSpatials(testSpatial, Geometry.class, null);
+            List<Geometry> list = MySpatial.listGeometries(testSpatial);
             Material material = findMaterial("platform");
             assert material != null;
             for (Geometry geometry : list) {

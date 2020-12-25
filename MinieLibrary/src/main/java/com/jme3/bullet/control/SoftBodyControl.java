@@ -195,8 +195,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         body = new PhysicsSoftBody();
         body.setUserObject(spatial); // link from collision object
 
-        List<Geometry> geometries
-                = MySpatial.listSpatials(spatial, Geometry.class, null);
+        List<Geometry> geometries = MySpatial.listGeometries(spatial);
         geometry = geometries.get(0); // TODO use name
         Mesh mesh = geometry.getMesh();
         if (mesh.getBuffer(VertexBuffer.Type.Normal) == null) {

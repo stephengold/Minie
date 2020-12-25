@@ -208,8 +208,7 @@ public class MakeGlyphs {
         /*
          * Access the generated mesh.
          */
-        List<Geometry> list
-                = MySpatial.listSpatials(ttNode, Geometry.class, null);
+        List<Geometry> list = MySpatial.listGeometries(ttNode);
         assert list.size() == 1;
         Mesh mesh = list.get(0).getMesh();
         assert mesh.getMode() == Mesh.Mode.Triangles : mesh.getMode();
