@@ -3,10 +3,15 @@
 :page-pagination:
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 
-Adding Minie to an existing JMonkeyEngine project is a 6-step process:
+TIP: If you're creating a JMonkeyEngine desktop application from scratch,
+https://github.com/stephengold/BasicGame-on-Gradle[the BasicGame-on-Gradle project]
+provides a good template.
+
+Adding Minie to an existing JMonkeyEngine project is a 7-step process:
 
 . Remove any libraries that might interfere with Minie.
 . Add libraries to the classpath.
+. Load the native library.
 . Create, configure, and attach
   a {url-api}/BulletAppState.html[`BulletAppState`],
   if the application doesn't already do so.
@@ -150,6 +155,19 @@ you'll need version 3.3.x JMonkeyEngine libraries.
 
 * Minie v3.0.0 depends on jme3-terrain-3.3.2-stable and
 * Heart v6.0.0 depends on jme3-core-3.3.2-stable
+
+== Load the native library
+
+In a conventional JMonkeyEngine application,
+the required native libraries get loaded automatically by `Application.start()`.
+
+If your application doesn't invoke `Application.start()`,
+load Minie's native library before instantiating any physics objects:
+
+[source,java]
+----
+NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
+----
 
 == Attach a `BulletAppState`
 
