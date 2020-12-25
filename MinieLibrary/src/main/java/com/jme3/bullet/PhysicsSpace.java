@@ -298,8 +298,8 @@ public class PhysicsSpace extends CollisionSpace {
         //recursion
         if (spatial instanceof Node) {
             List<Spatial> children = ((Node) spatial).getChildren();
-            for (Spatial spat : children) {
-                addAll(spat);
+            for (Spatial child : children) {
+                addAll(child);
             }
         }
     }
@@ -664,8 +664,8 @@ public class PhysicsSpace extends CollisionSpace {
         //recursion
         if (spatial instanceof Node) {
             List<Spatial> children = ((Node) spatial).getChildren();
-            for (Spatial spat : children) {
-                removeAll(spat);
+            for (Spatial child : children) {
+                removeAll(child);
             }
         }
     }

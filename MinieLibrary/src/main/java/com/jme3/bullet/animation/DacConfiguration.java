@@ -846,8 +846,8 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         for (Map.Entry<String, Spatial> entry
                 : originalCdac.attachModelMap.entrySet()) {
             String boneName = entry.getKey();
-            Spatial spat = entry.getValue();
-            Spatial copySpatial = cloner.clone(spat);
+            Spatial spatial = entry.getValue();
+            Spatial copySpatial = cloner.clone(spatial);
             attachModelMap.put(boneName, copySpatial);
         }
 
