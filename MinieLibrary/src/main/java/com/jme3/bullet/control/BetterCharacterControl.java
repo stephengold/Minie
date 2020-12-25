@@ -812,12 +812,13 @@ public class BetterCharacterControl
         TempVars vars = TempVars.get();
         Vector3f loc = vars.vect1;
         Vector3f rayVector = vars.vect2;
-        float height = getFinalHeight();
-        loc.set(localUp).multLocal(height).addLocal(this.location);
-        rayVector.set(localUp).multLocal(-height - 0.1f).addLocal(loc);
+        float scaledHeight = getFinalHeight();
+        loc.set(localUp).multLocal(scaledHeight).addLocal(location);
+        rayVector.set(localUp).multLocal(-scaledHeight - 0.1f).addLocal(loc);
         List<PhysicsRayTestResult> results
                 = getPhysicsSpace().rayTestRaw(loc, rayVector);
         vars.release();
+
         for (PhysicsRayTestResult physicsRayTestResult : results) {
             if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
                 onGround = true;
