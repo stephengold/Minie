@@ -163,7 +163,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     /**
      * Add a wheel to this vehicle.
      *
-     * @param spat the associated spatial, or null if none
+     * @param subtree the scene-graph subtree for visualization (alias created)
+     * or null for none
      * @param connectionPoint the location where the suspension connects to the
      * chassis (in chassis coordinates, not null, unaffected)
      * @param direction the suspension direction (in chassis coordinates, not
@@ -177,30 +178,31 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * false&rarr;non-front wheel
      * @return a new VehicleWheel for access (not null)
      */
-    public VehicleWheel addWheel(Spatial spat, Vector3f connectionPoint,
+    public VehicleWheel addWheel(Spatial subtree, Vector3f connectionPoint,
             Vector3f direction, Vector3f axle, float suspensionRestLength,
             float wheelRadius, boolean isFrontWheel) {
         Validate.positive(wheelRadius, "wheel radius");
 
-        VehicleWheel wheel = new VehicleWheel(spat, connectionPoint, direction,
-                axle, suspensionRestLength, wheelRadius, isFrontWheel);
+        VehicleWheel result = new VehicleWheel(subtree, connectionPoint,
+                direction, axle, suspensionRestLength, wheelRadius,
+                isFrontWheel);
 
-        wheel.setFrictionSlip(tuning.getFrictionSlip());
-        wheel.setMaxSuspensionTravelCm(tuning.getMaxSuspensionTravelCm());
-        wheel.setSuspensionStiffness(tuning.getSuspensionStiffness());
-        wheel.setWheelsDampingCompression(tuning.getSuspensionCompression());
-        wheel.setWheelsDampingRelaxation(tuning.getSuspensionDamping());
-        wheel.setMaxSuspensionForce(tuning.getMaxSuspensionForce());
-        wheels.add(wheel);
+        result.setFrictionSlip(tuning.getFrictionSlip());
+        result.setMaxSuspensionTravelCm(tuning.getMaxSuspensionTravelCm());
+        result.setSuspensionStiffness(tuning.getSuspensionStiffness());
+        result.setWheelsDampingCompression(tuning.getSuspensionCompression());
+        result.setWheelsDampingRelaxation(tuning.getSuspensionDamping());
+        result.setMaxSuspensionForce(tuning.getMaxSuspensionForce());
+        wheels.add(result);
 
         if (controller != null) {
             long controllerId = controller.nativeId();
-            int wheelIndex = controller.addWheel(wheel, tuning);
-            wheel.setVehicleId(controllerId, wheelIndex);
-            assert wheel.checkCopies();
+            int wheelIndex = controller.addWheel(result, tuning);
+            result.setVehicleId(controllerId, wheelIndex);
+            assert result.checkCopies();
         }
 
-        return wheel;
+        return result;
     }
 
     /**
@@ -222,7 +224,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     public VehicleWheel addWheel(Vector3f connectionPoint,
             Vector3f direction, Vector3f axle, float suspensionRestLength,
             float wheelRadius, boolean isFrontWheel) {
-        return addWheel(null, connectionPoint, direction, axle,
+        Spatial subtree = null;
+        return addWheel(subtree, connectionPoint, direction, axle,
                 suspensionRestLength, wheelRadius, isFrontWheel);
     }
 

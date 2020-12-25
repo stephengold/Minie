@@ -125,9 +125,9 @@ public class VehicleWheel implements JmeCloneable, Savable {
      */
     private Quaternion wheelWorldRotation = new Quaternion();
     /**
-     * associated spatial, or null if none
+     * scene-graph subtree to visualize this wheel, or null if none
      */
-    private Spatial wheelSpatial;
+    private Spatial subtree;
     /**
      * axis direction (in chassis coordinates, typically to the right/-1,0,0)
      */
@@ -161,7 +161,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     /**
      * Instantiate a wheel.
      *
-     * @param spatial the associated spatial, or null if none
+     * @param subtree the scene-graph subtree to visualize this wheel (alias
+     * created) or null for none
      * @param location the location where the suspension connects to the chassis
      * (in chassis coordinates, not null, unaffected)
      * @param direction the suspension direction (in chassis coordinates, not
@@ -174,11 +175,11 @@ public class VehicleWheel implements JmeCloneable, Savable {
      * @param frontWheel true&rarr;front (steering) wheel, false&rarr;non-front
      * wheel
      */
-    public VehicleWheel(Spatial spatial, Vector3f location, Vector3f direction,
+    public VehicleWheel(Spatial subtree, Vector3f location, Vector3f direction,
             Vector3f axle, float restLength, float radius, boolean frontWheel) {
         Validate.positive(radius, "radius");
 
-        this.wheelSpatial = spatial;
+        this.subtree = subtree;
         this.location.set(location);
         this.suspensionDirection.set(direction);
         this.axisDirection.set(axle);
@@ -190,17 +191,17 @@ public class VehicleWheel implements JmeCloneable, Savable {
     // new methods exposed
 
     /**
-     * Apply this wheel's physics location and orientation to its associated
-     * Spatial, if any.
+     * Apply this wheel's physics location and orientation to its visualization,
+     * if any.
      */
     public void applyWheelTransform() {
-        if (wheelSpatial == null) {
+        if (subtree == null) {
             return;
         }
 
-        Quaternion localRotationQuat = wheelSpatial.getLocalRotation();
-        Vector3f localLocation = wheelSpatial.getLocalTranslation();
-        Spatial parent = wheelSpatial.getParent();
+        Quaternion localRotationQuat = subtree.getLocalRotation();
+        Vector3f localLocation = subtree.getLocalTranslation();
+        Spatial parent = subtree.getParent();
         if (!applyLocal && parent != null) {
             Vector3f parentOffset = parent.getWorldTranslation();
             Quaternion parentRot = parent.getWorldRotation();
@@ -213,11 +214,11 @@ public class VehicleWheel implements JmeCloneable, Savable {
             tmp_inverseWorldRotation.set(parentRot).inverseLocal()
                     .mult(localRotationQuat, localRotationQuat);
 
-            wheelSpatial.setLocalTranslation(localLocation);
-            wheelSpatial.setLocalRotation(localRotationQuat);
+            subtree.setLocalTranslation(localLocation);
+            subtree.setLocalRotation(localRotationQuat);
         } else {
-            wheelSpatial.setLocalTranslation(wheelWorldLocation);
-            wheelSpatial.setLocalRotation(wheelWorldRotation);
+            subtree.setLocalTranslation(wheelWorldLocation);
+            subtree.setLocalRotation(wheelWorldRotation);
         }
     }
 
@@ -518,12 +519,12 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Access the spatial associated with this wheel.
+     * Access the scene-graph subtree used to visualize this wheel.
      *
      * @return the pre-existing instance, or null
      */
     public Spatial getWheelSpatial() {
-        return wheelSpatial;
+        return subtree;
     }
 
     /**
@@ -754,8 +755,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
      * Set to k * 2 * FastMath.sqrt(m_suspensionStiffness) where k is the
      * damping ratio:
      * <p>
-     * k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
-     * 0.3 are good values
+     * k=0: undamped and bouncy, k=1: critical damping, k between 0.1 and 0.3
+     * are good values
      *
      * @param wheelsDampingRelaxation the desired damping (default=0.88)
      */
@@ -765,12 +766,12 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter which spatial is associated with this wheel.
+     * Alter which scene-graph subtree is used to visualize this wheel.
      *
-     * @param wheelSpatial the desired spatial, or null for none
+     * @param subtree the desired subtree (alias created) or null for none
      */
-    public void setWheelSpatial(Spatial wheelSpatial) {
-        this.wheelSpatial = wheelSpatial;
+    public void setWheelSpatial(Spatial subtree) {
+        this.subtree = subtree;
     }
 
     /**
@@ -801,7 +802,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
         tuning = cloner.clone(tuning);
         wheelWorldLocation = cloner.clone(wheelWorldLocation);
         wheelWorldRotation = cloner.clone(wheelWorldRotation);
-        wheelSpatial = cloner.clone(wheelSpatial);
+        subtree = cloner.clone(subtree);
         tmp_Matrix = cloner.clone(tmp_Matrix);
         tmp_inverseWorldRotation = cloner.clone(tmp_inverseWorldRotation);
 
@@ -838,7 +839,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        wheelSpatial = (Spatial) capsule.readSavable(tagWheelSpatial, null);
+        subtree = (Spatial) capsule.readSavable(tagWheelSpatial, null);
         isFront = capsule.readBoolean(tagFrontWheel, false);
         location = (Vector3f) capsule.readSavable(tagWheelLocation,
                 new Vector3f());
@@ -873,7 +874,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(wheelSpatial, tagWheelSpatial, null);
+        capsule.write(subtree, tagWheelSpatial, null);
         capsule.write(isFront, tagFrontWheel, false);
         capsule.write(location, tagWheelLocation, null);
         capsule.write(suspensionDirection, tagWheelDirection, null);
