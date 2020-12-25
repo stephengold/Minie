@@ -149,8 +149,8 @@ public class CollisionShapeFactory {
     public static MeshCollisionShape createMergedMeshShape(Spatial subtree) {
         Validate.nonNull(subtree, "subtree");
 
-        Mesh combinedMesh = makeMergedMesh(subtree);
-        MeshCollisionShape result = new MeshCollisionShape(combinedMesh);
+        Mesh mergedMesh = makeMergedMesh(subtree);
+        MeshCollisionShape result = new MeshCollisionShape(mergedMesh);
 
         return result;
     }
@@ -197,17 +197,17 @@ public class CollisionShapeFactory {
         Validate.nonNull(subtree, "subtree");
         Validate.nonNull(parameters, "parameters");
 
-        Mesh combinedMesh = makeMergedMesh(subtree);
+        Mesh mergedMesh = makeMergedMesh(subtree);
 
         FloatBuffer positionBuffer
-                = combinedMesh.getFloatBuffer(VertexBuffer.Type.Position);
+                = mergedMesh.getFloatBuffer(VertexBuffer.Type.Position);
         int numFloats = positionBuffer.limit();
         float[] positionArray = new float[numFloats];
         for (int offset = 0; offset < numFloats; ++offset) {
             positionArray[offset] = positionBuffer.get(offset);
         }
 
-        IndexBuffer indexBuffer = combinedMesh.getIndicesAsList();
+        IndexBuffer indexBuffer = mergedMesh.getIndicesAsList();
         int numIndices = indexBuffer.size();
         int[] indexArray = new int[numIndices];
         for (int offset = 0; offset < numIndices; ++offset) {
@@ -240,29 +240,29 @@ public class CollisionShapeFactory {
     // private methods
 
     /**
-     * Append transformed mesh triangles to a combined mesh.
+     * Append transformed mesh triangles to a merged mesh.
      *
      * @param geometry the Geometry from which to read triangles (not null,
      * unaffected)
      * @param modelRoot (not null, unaffected)
-     * @param addPositions the position buffer for the combined mesh (not null,
+     * @param addPositions the position buffer for the merged mesh (not null,
      * modified)
-     * @param addIndices the index buffer for the combined mesh (not null,
+     * @param addIndices the index buffer for the merged mesh (not null,
      * modified)
      */
     private static void appendTriangles(Geometry geometry, Spatial modelRoot,
             FloatBuffer addPositions, IndexBuffer addIndices) {
         Mesh jmeMesh = geometry.getMesh();
         /*
-         * Append combined-mesh indices to the IndexBuffer.
+         * Append merged-mesh indices to the IndexBuffer.
          */
         int indexBase = addPositions.position() / numAxes;
         IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
         int numIndices = indexBuffer.size();
         for (int offset = 0; offset < numIndices; ++offset) {
             int indexInGeometry = indexBuffer.get(offset);
-            int indexInCombinedMesh = indexBase + indexInGeometry;
-            MyBuffer.putRelative(addIndices, indexInCombinedMesh);
+            int indexInMergedMesh = indexBase + indexInGeometry;
+            MyBuffer.putRelative(addIndices, indexInMergedMesh);
         }
         /*
          * Append transformed vertex locations to the FloatBuffer.
@@ -439,7 +439,7 @@ public class CollisionShapeFactory {
     }
 
     /**
-     * Generate a Mesh that combines the triangles of non-empty geometries not
+     * Generate a Mesh that merges the triangles of non-empty geometries not
      * tagged with "JmePhysicsIgnore".
      *
      * @param subtree the scene-graph subtree on which to base the Mesh (not
