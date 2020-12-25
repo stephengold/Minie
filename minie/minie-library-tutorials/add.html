@@ -245,8 +245,22 @@
 <h1 class="page">How to add Minie to an existing project</h1>
 <div id="preamble">
 <div class="sectionbody">
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you&#8217;re creating a JMonkeyEngine desktop application from scratch,
+<a href="https://github.com/stephengold/BasicGame-on-Gradle">the BasicGame-on-Gradle project</a>
+provides a good template.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p>Adding Minie to an existing JMonkeyEngine project is a 6-step process:</p>
+<p>Adding Minie to an existing JMonkeyEngine project is a 7-step process:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -255,6 +269,9 @@
 </li>
 <li>
 <p>Add libraries to the classpath.</p>
+</li>
+<li>
+<p>Load the native library.</p>
 </li>
 <li>
 <p>Create, configure, and attach
@@ -549,6 +566,24 @@ you&#8217;ll need version 3.3.x JMonkeyEngine libraries.</p>
 <p>Heart v6.0.0 depends on jme3-core-3.3.2-stable</p>
 </li>
 </ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_load_the_native_library"><a class="anchor" href="#_load_the_native_library"></a>Load the native library</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In a conventional JMonkeyEngine application,
+the required native libraries get loaded automatically by <code>Application.start()</code>.</p>
+</div>
+<div class="paragraph">
+<p>If your application doesn&#8217;t invoke <code>Application.start()</code>,
+load Minie&#8217;s native library before instantiating any physics objects:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">NativeLibraryLoader.loadNativeLibrary("bulletjme", true);</code></pre>
 </div>
 </div>
 </div>
