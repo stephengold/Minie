@@ -139,6 +139,22 @@ public class CollisionShapeFactory {
     }
 
     /**
+     * Create a shape for a movable object, based on the specified Spatial.
+     *
+     * @param subtree the scene-graph subtree on which to base the shape (not
+     * null, unaffected)
+     * @return a new HullCollisionShape
+     */
+    public static HullCollisionShape createMergedHullShape(Spatial subtree) {
+        Validate.nonNull(subtree, "subtree");
+
+        Mesh mergedMesh = makeMergedMesh(subtree);
+        HullCollisionShape result = new HullCollisionShape(mergedMesh);
+
+        return result;
+    }
+
+    /**
      * Create a shape for an immovable object, based on the specified Spatial.
      * This version ignores terrain.
      *
