@@ -60,7 +60,7 @@ import jme3utilities.math.MyVector3f;
 /**
  * This class is intended to replace the CharacterControl class.
  * <p>
- * A rigid body with cylindrical CollisionShape is used and its velocity is set
+ * A rigid body with CapsuleCollisionShape is used and its velocity is set
  * continuously. A ray test is used to test whether the character is on the
  * ground.
  * <p>
