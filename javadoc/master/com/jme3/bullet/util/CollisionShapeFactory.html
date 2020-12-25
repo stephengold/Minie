@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9};
+<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -160,20 +160,27 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="altColor" id="i2">
+<td class="colFirst"><code>static <a href="../collision/shapes/HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createMergedHullShape(com.jme3.scene.Spatial)">createMergedHullShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree)</code></th>
+<td class="colLast">
+<div class="block">Create a shape for a movable object, based on the specified Spatial.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i3">
 <td class="colFirst"><code>static <a href="../collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createMergedMeshShape(com.jme3.scene.Spatial)">createMergedMeshShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree)</code></th>
 <td class="colLast">
 <div class="block">Create a shape for an immovable object, based on the specified Spatial.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i3">
+<tr class="altColor" id="i4">
 <td class="colFirst"><code>static <a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createMeshShape(com.jme3.scene.Spatial)">createMeshShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree)</code></th>
 <td class="colLast">
 <div class="block">Create a shape for an immovable object, based on the specified Spatial.</div>
 </td>
 </tr>
-<tr class="altColor" id="i4">
+<tr class="rowColor" id="i5">
 <td class="colFirst"><code>static <a href="../collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createVhacdShape(com.jme3.scene.Spatial,vhacd.VHACDParameters,com.jme3.bullet.collision.shapes.CompoundCollisionShape)">createVhacdShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree,
 <a href="../../../../vhacd/VHACDParameters.html" title="class in vhacd">VHACDParameters</a>&nbsp;parameters,
@@ -254,6 +261,20 @@ extends java.lang.Object</pre>
 <dd>a new HullCollisionShape (if spatial is a Geometry) or a new
  CompoundCollisionShape with hull shapes as children (if spatial is a
  Node)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="createMergedHullShape(com.jme3.scene.Spatial)">createMergedHullShape</a></h3>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></span>&nbsp;<span class="memberName">createMergedHullShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;subtree)</span></div>
+<div class="block">Create a shape for a movable object, based on the specified Spatial.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>subtree</code> - the scene-graph subtree on which to base the shape (not
+ null, unaffected)</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new HullCollisionShape</dd>
 </dl>
 </section>
 </li>

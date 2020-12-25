@@ -157,7 +157,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>&nbsp;</code></td>
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(com.jme3.scene.Spatial,com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.math.Vector3f,float,float,boolean)">VehicleWheel</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;spatial,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(com.jme3.scene.Spatial,com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.math.Vector3f,float,float,boolean)">VehicleWheel</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree,
 com.jme3.math.Vector3f&nbsp;location,
 com.jme3.math.Vector3f&nbsp;direction,
 com.jme3.math.Vector3f&nbsp;axle,
@@ -195,8 +195,8 @@ boolean&nbsp;frontWheel)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#applyWheelTransform()">applyWheelTransform</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Apply this wheel's physics location and orientation to its associated
- Spatial, if any.</div>
+<div class="block">Apply this wheel's physics location and orientation to its visualization,
+ if any.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i1">
@@ -396,7 +396,7 @@ java.lang.Object&nbsp;original)</code></th>
 <td class="colFirst"><code>com.jme3.scene.Spatial</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWheelSpatial()">getWheelSpatial</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Access the spatial associated with this wheel.</div>
+<div class="block">Access the scene-graph subtree used to visualize this wheel.</div>
 </td>
 </tr>
 <tr class="altColor" id="i28">
@@ -555,9 +555,9 @@ int&nbsp;wheelIndex)</code></th>
 </tr>
 <tr class="altColor" id="i48">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setWheelSpatial(com.jme3.scene.Spatial)">setWheelSpatial</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;wheelSpatial)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setWheelSpatial(com.jme3.scene.Spatial)">setWheelSpatial</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree)</code></th>
 <td class="colLast">
-<div class="block">Alter which spatial is associated with this wheel.</div>
+<div class="block">Alter which scene-graph subtree is used to visualize this wheel.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i49">
@@ -624,7 +624,7 @@ int&nbsp;wheelIndex)</code></th>
 <li class="blockList">
 <section class="detail">
 <h3><a id="&lt;init&gt;(com.jme3.scene.Spatial,com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.math.Vector3f,float,float,boolean)">VehicleWheel</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">VehicleWheel</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;spatial,
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">VehicleWheel</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;subtree,
 com.jme3.math.Vector3f&nbsp;location,
 com.jme3.math.Vector3f&nbsp;direction,
 com.jme3.math.Vector3f&nbsp;axle,
@@ -634,7 +634,8 @@ boolean&nbsp;frontWheel)</span></div>
 <div class="block">Instantiate a wheel.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>spatial</code> - the associated spatial, or null if none</dd>
+<dd><code>subtree</code> - the scene-graph subtree to visualize this wheel (alias
+ created) or null for none</dd>
 <dd><code>location</code> - the location where the suspension connects to the chassis
  (in chassis coordinates, not null, unaffected)</dd>
 <dd><code>direction</code> - the suspension direction (in chassis coordinates, not
@@ -663,8 +664,8 @@ boolean&nbsp;frontWheel)</span></div>
 <section class="detail">
 <h3><a id="applyWheelTransform()">applyWheelTransform</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">applyWheelTransform</span>()</div>
-<div class="block">Apply this wheel's physics location and orientation to its associated
- Spatial, if any.</div>
+<div class="block">Apply this wheel's physics location and orientation to its visualization,
+ if any.</div>
 </section>
 </li>
 <li class="blockList">
@@ -974,7 +975,7 @@ boolean&nbsp;frontWheel)</span></div>
 <section class="detail">
 <h3><a id="getWheelSpatial()">getWheelSpatial</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">com.jme3.scene.Spatial</span>&nbsp;<span class="memberName">getWheelSpatial</span>()</div>
-<div class="block">Access the spatial associated with this wheel.</div>
+<div class="block">Access the scene-graph subtree used to visualize this wheel.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the pre-existing instance, or null</dd>
@@ -1227,8 +1228,8 @@ int&nbsp;wheelIndex)</span></div>
  Set to k * 2 * FastMath.sqrt(m_suspensionStiffness) where k is the
  damping ratio:
  <p>
- k = 0.0 undamped and bouncy, k = 1.0 critical damping, k between 0.1 and
- 0.3 are good values</div>
+ k=0: undamped and bouncy, k=1: critical damping, k between 0.1 and 0.3
+ are good values</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>wheelsDampingRelaxation</code> - the desired damping (default=0.88)</dd>
@@ -1238,11 +1239,11 @@ int&nbsp;wheelIndex)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="setWheelSpatial(com.jme3.scene.Spatial)">setWheelSpatial</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setWheelSpatial</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;wheelSpatial)</span></div>
-<div class="block">Alter which spatial is associated with this wheel.</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setWheelSpatial</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;subtree)</span></div>
+<div class="block">Alter which scene-graph subtree is used to visualize this wheel.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>wheelSpatial</code> - the desired spatial, or null for none</dd>
+<dd><code>subtree</code> - the desired subtree (alias created) or null for none</dd>
 </dl>
 </section>
 </li>

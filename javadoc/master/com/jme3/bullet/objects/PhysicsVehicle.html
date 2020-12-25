@@ -270,7 +270,7 @@ boolean&nbsp;isFrontWheel)</code></th>
 </tr>
 <tr class="rowColor" id="i3">
 <td class="colFirst"><code><a href="VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addWheel(com.jme3.scene.Spatial,com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.math.Vector3f,float,float,boolean)">addWheel</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;spat,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addWheel(com.jme3.scene.Spatial,com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.math.Vector3f,float,float,boolean)">addWheel</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree,
 com.jme3.math.Vector3f&nbsp;connectionPoint,
 com.jme3.math.Vector3f&nbsp;direction,
 com.jme3.math.Vector3f&nbsp;axle,
@@ -742,7 +742,7 @@ float&nbsp;force)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="addWheel(com.jme3.scene.Spatial,com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.math.Vector3f,float,float,boolean)">addWheel</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a></span>&nbsp;<span class="memberName">addWheel</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;spat,
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a></span>&nbsp;<span class="memberName">addWheel</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;subtree,
 com.jme3.math.Vector3f&nbsp;connectionPoint,
 com.jme3.math.Vector3f&nbsp;direction,
 com.jme3.math.Vector3f&nbsp;axle,
@@ -752,7 +752,8 @@ boolean&nbsp;isFrontWheel)</span></div>
 <div class="block">Add a wheel to this vehicle.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>spat</code> - the associated spatial, or null if none</dd>
+<dd><code>subtree</code> - the scene-graph subtree for visualization (alias created)
+ or null for none</dd>
 <dd><code>connectionPoint</code> - the location where the suspension connects to the
  chassis (in chassis coordinates, not null, unaffected)</dd>
 <dd><code>direction</code> - the suspension direction (in chassis coordinates, not
