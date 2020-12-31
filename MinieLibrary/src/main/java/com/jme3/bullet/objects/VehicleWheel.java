@@ -250,11 +250,11 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Copy this wheel's axis direction.
+     * Determine this wheel's axis direction.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a new direction vector (in chassis coordinates, either
-     * storeResult or a new instance)
+     * @return a new unit vector (in chassis coordinates, either storeResult or
+     * a new instance)
      */
     public Vector3f getAxle(Vector3f storeResult) {
         if (storeResult == null) {
@@ -265,7 +265,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read this wheel's braking impulse (native field: m_brake).
+     * Determine this wheel's braking impulse (native field: m_brake).
      *
      * @return the amount of impulse
      */
@@ -284,7 +284,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Copy the location where the wheel touches the ground.
+     * Determine the location where the wheel touches the ground.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
@@ -306,7 +306,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Copy the normal where the wheel touches the ground.
+     * Determine the normal direction where the wheel touches the ground.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a unit vector (in physics-space coordinates, either storeResult
@@ -319,7 +319,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Calculate how much this wheel has turned since the last physics step.
+     * Determine how much this wheel has turned since the last physics step.
      *
      * @return the rotation angle (in radians)
      */
@@ -328,11 +328,11 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Copy this wheel's suspension direction.
+     * Determine this wheel's suspension direction.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a new direction vector (in chassis coordinates, either
-     * storeResult or a new instance)
+     * @return a unit vector (in chassis coordinates, either storeResult or a
+     * new instance)
      */
     public Vector3f getDirection(Vector3f storeResult) {
         if (storeResult == null) {
@@ -343,9 +343,9 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read this wheel's engine force (native field: m_engineForce).
+     * Determine this wheel's engine force (native field: m_engineForce).
      *
-     * @return the amount of force (typically negative)
+     * @return the amount of force applied (TODO positive direction?)
      */
     public float getEngineForce() {
         float result = getEngineForce(vehicleId, wheelIndex);
@@ -353,8 +353,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the friction between this wheel's tire and the ground (native field:
-     * m_frictionSlip).
+     * Determine the friction between this wheel's tire and the ground (native
+     * field: m_frictionSlip).
      *
      * @return the coefficient of friction
      */
@@ -381,7 +381,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Copy the location where the suspension connects to the chassis.
+     * Determine the location where the suspension connects to the chassis.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a new location vector (in chassis coordinates, either storeResult
@@ -396,8 +396,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the maximum force exerted by this wheel's suspension (native field:
-     * m_maxSuspensionForce).
+     * Determine the maximum force exerted by this wheel's suspension (native
+     * field: m_maxSuspensionForce).
      *
      * @return the maximum force
      */
@@ -420,7 +420,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the radius of this wheel (native field: m_wheelsRadius).
+     * Determine the radius of this wheel (native field: m_wheelsRadius).
      *
      * @return the radius (in physics-space units, &ge;0)
      */
@@ -429,7 +429,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the rest length of this wheel (native field:
+     * Determine the rest length of this wheel (native field:
      * m_suspensionRestLength1).
      *
      * @return the length
@@ -439,7 +439,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read this wheel's roll influence (native field: m_rollInfluence).
+     * Determine this wheel's roll influence (native field: m_rollInfluence).
      *
      * @return the roll-influence factor
      */
@@ -448,7 +448,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the total rotation of this wheel (native field: m_rotation).
+     * Determine the total rotation of this wheel (native field: m_rotation).
      *
      * @return the angle (in radians)
      */
@@ -458,7 +458,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Calculate to what extent the wheel is skidding (for skid sounds/smoke
+     * Determine to what extent the wheel is skidding (for skid sounds/smoke
      * etc.)
      *
      * @return the relative amount of traction (0&rarr;wheel is sliding,
@@ -469,7 +469,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read this wheel's steering angle (native field: m_steering).
+     * Determine this wheel's steering angle (native field: m_steering).
      *
      * @return angle (in radians, 0=straight, left is positive)
      */
@@ -479,7 +479,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the length of this wheel's suspension (native field:
+     * Determine the length of this wheel's suspension (native field:
      * m_suspensionLength).
      *
      * @return the length (in physics-space units)
@@ -490,7 +490,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the stiffness for this wheel's suspension (native field:
+     * Determine the stiffness of this wheel's suspension (native field:
      * m_suspensionStiffness).
      *
      * @return the stiffness constant
@@ -500,7 +500,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read this wheel's damping when the suspension is compressed.
+     * Determine this wheel's damping when the suspension is compressed (native
+     * field: m_wheelsDampingCompression).
      *
      * @return the damping
      */
@@ -509,8 +510,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Read this wheel's damping when the suspension is expanded (native field:
-     * m_wheelsDampingRelaxation).
+     * Determine this wheel's damping when the suspension is expanded (native
+     * field: m_wheelsDampingRelaxation).
      *
      * @return the damping
      */
@@ -528,7 +529,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Copy this wheel's location to the specified vector.
+     * Determine this wheel's location to the specified vector.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
@@ -543,7 +544,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Copy this wheel's orientation.
+     * Determine this wheel's orientation.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a Quaternion (in physics-space coordinates, either storeResult or
