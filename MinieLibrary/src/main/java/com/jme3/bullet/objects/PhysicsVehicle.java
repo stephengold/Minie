@@ -251,6 +251,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
 
         for (VehicleWheel wheel : wheels) {
             controller.brake(wheel, impulse);
+            assert wheel.getBrake() == impulse;
         }
     }
 

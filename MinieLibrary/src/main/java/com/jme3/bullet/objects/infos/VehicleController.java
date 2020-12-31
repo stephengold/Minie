@@ -126,6 +126,8 @@ public class VehicleController extends NativePhysicsObject {
         long controllerId = nativeId();
         int wheelIndex = wheel.getIndex();
         applyEngineForce(controllerId, wheelIndex, force);
+
+        assert wheel.getEngineForce() == force : wheel.getEngineForce();
     }
 
     /**
@@ -141,6 +143,8 @@ public class VehicleController extends NativePhysicsObject {
         long controllerId = nativeId();
         int wheelIndex = wheel.getIndex();
         brake(controllerId, wheelIndex, impulse);
+
+        assert wheel.getBrake() == impulse : wheel.getBrake();
     }
 
     /**
