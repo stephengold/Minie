@@ -364,11 +364,11 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the character's ducking state. When ducked the characters capsule
-     * collision shape height will be multiplied by duckedFactor to make the
-     * capsule smaller. When unducking, the character will check with a ray test
-     * if it can in fact unduck and only do so when its possible. You can test
-     * the state using isDucked().
+     * Alter the character's ducking state. When ducked, the character's
+     * collision-shape height is scaled by duckedFactor to make it shorter.
+     * Before unducking, the character performs a ray testl it grows taller only
+     * if there's room above its head. You can test the state using
+     * {@link #isDucked()}.
      *
      * @param enabled true&rarr;duck, false&rarr;unduck
      */
