@@ -459,7 +459,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
     /**
      * Determine to what extent the wheel is skidding (for skid sounds/smoke
-     * etc.)
+     * etcetera). Don't bother invoking this if the wheel is unsupported---in
+     * other words, if {@link PhysicsVehicle#castRay(int)} is negative!
      *
      * @return the relative amount of traction (0&rarr;wheel is sliding,
      * 1&rarr;wheel has full traction)
