@@ -351,7 +351,7 @@ java.lang.Object&nbsp;original)</code></th>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSkidInfo()">getSkidInfo</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine to what extent the wheel is skidding (for skid sounds/smoke
- etc.)</div>
+ etcetera).</div>
 </td>
 </tr>
 <tr class="altColor" id="i22">
@@ -906,7 +906,8 @@ boolean&nbsp;frontWheel)</span></div>
 <h3><a id="getSkidInfo()">getSkidInfo</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">float</span>&nbsp;<span class="memberName">getSkidInfo</span>()</div>
 <div class="block">Determine to what extent the wheel is skidding (for skid sounds/smoke
- etc.)</div>
+ etcetera). Don't bother invoking this if the wheel is unsupported---in
+ other words, if <a href="PhysicsVehicle.html#castRay(int)"><code>PhysicsVehicle.castRay(int)</code></a> is negative!</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the relative amount of traction (0&rarr;wheel is sliding,
