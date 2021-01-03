@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,12 @@ public class TestIssue3 extends SimpleApplication
     private PhysicsCharacter character;
     private PhysicsSpace physicsSpace;
 
-    public static void main(String[] args) {
+    /**
+     * Main entry point for the TestIssue3 application.
+     *
+     * @param ignored unused
+     */
+    public static void main(String[] ignored) {
         TestIssue3 app = new TestIssue3();
         app.start();
     }

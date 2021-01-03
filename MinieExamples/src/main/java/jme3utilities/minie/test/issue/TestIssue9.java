@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,7 @@ import org.junit.Assert;
 /**
  * Test case for Minie issue #9: JVM crash in
  * PhysicsCollisionObject.finalizeNative().
- * 
+ *
  * If successful, the app will start up without a JVM crash.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -64,11 +64,11 @@ public class TestIssue9 extends SimpleApplication {
     // new methods exposed
 
     /**
-     * Test cloning/saving/loading on subclasses of PhysicsBody.
+     * Main entry point for the TestIssue9 application.
      *
-     * @param args unused
+     * @param ignored unused
      */
-    public static void main(String[] args) {
+    public static void main(String[] ignored) {
         TestIssue9 app = new TestIssue9();
         app.start();
     }
