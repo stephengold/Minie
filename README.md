@@ -5,13 +5,14 @@ The [Minie Project][project] is about improving the integration of
 and [Khaled Mamou's V-HACD Library][vhacd]
 into the [jMonkeyEngine game engine][jme].
 
-It contains 5 sub-projects:
+It contains 6 sub-projects:
 
  1. MinieLibrary: the Minie runtime library and its automated tests
  2. [DacWizard]: a GUI application to configure a ragdoll
  3. MinieExamples: demos, examples, tutorials, and non-automated test software
  4. MinieAssets: generate assets used in MinieExamples
- 5. Jme3Examples: physics examples from jme3-examples
+ 5. MinieDump: a command-line utility to dump J3O assets
+ 6. Jme3Examples: physics examples from jme3-examples
 
 Complete source code (in Java) is provided under
 [a 3-clause BSD license][license].

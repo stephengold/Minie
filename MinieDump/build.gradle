@@ -1,0 +1,25 @@
+// Note: "common.gradle" in the root project contains additional initialization
+//   for this project. This initialization is applied in the "build.gradle"
+//   of the root project.
+
+plugins {
+    id 'application'
+}
+
+description = 'command-line tool to dump J3O assets'
+
+mainClassName = 'jme3utilities.minie.cli.MinieDump'
+if (!hasProperty('mainClass')) {
+    ext.mainClass = mainClassName
+}
+jar.manifest.attributes('Main-Class': mainClassName)
+
+dependencies {
+    implementation 'com.github.stephengold:Heart:' + heartVersion
+    implementation 'com.github.stephengold:Wes:' + wesVersion
+    implementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
+    implementation 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
+
+    //implementation 'com.github.stephengold:Minie:' + minieVersion
+    implementation project(':MinieLibrary')
+}
