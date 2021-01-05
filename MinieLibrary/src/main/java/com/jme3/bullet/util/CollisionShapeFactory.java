@@ -128,11 +128,15 @@ public class CollisionShapeFactory {
     public static CollisionShape createDynamicMeshShape(Spatial subtree) {
         if (subtree instanceof Geometry) {
             return createSingleHullShape((Geometry) subtree, subtree);
+
         } else if (subtree instanceof Node) {
+            Node node = (Node) subtree;
+            CompoundCollisionShape result = new CompoundCollisionShape();
             boolean meshAccurate = true;
             boolean dynamic = true;
-            return createCompoundShape((Node) subtree, (Node) subtree,
-                    new CompoundCollisionShape(), meshAccurate, dynamic);
+            createCompoundShape(node, node, result, meshAccurate, dynamic);
+            return result;
+
         } else {
             throw new IllegalArgumentException(
                     "The subtree must either be a Node or a Geometry!");
@@ -307,20 +311,21 @@ public class CollisionShapeFactory {
      */
     private static CompoundCollisionShape createBoxCompoundShape(
             Node modelRoot) {
+        CompoundCollisionShape result = new CompoundCollisionShape();
         boolean meshAccurate = false;
-        return createCompoundShape(modelRoot, new CompoundCollisionShape(),
-                meshAccurate);
+        createCompoundShape(modelRoot, result, meshAccurate);
+        return result;
     }
 
-    private static CompoundCollisionShape createCompoundShape(Node modelRoot,
+    private static void createCompoundShape(Node modelRoot,
             CompoundCollisionShape shape, boolean meshAccurate) {
         boolean dynamic = false;
-        return createCompoundShape(modelRoot, modelRoot, shape, meshAccurate,
+        createCompoundShape(modelRoot, modelRoot, shape, meshAccurate,
                 dynamic);
     }
 
-    private static CompoundCollisionShape createCompoundShape(Node modelRoot,
-            Node parent, CompoundCollisionShape shape, boolean meshAccurate,
+    private static void createCompoundShape(Node modelRoot, Node parent,
+            CompoundCollisionShape shape, boolean meshAccurate,
             boolean dynamic) {
         for (Spatial child : parent.getChildren()) {
             Boolean skipChild = child.getUserData(UserData.JME_PHYSICSIGNORE);
@@ -355,8 +360,6 @@ public class CollisionShapeFactory {
                 }
             }
         }
-
-        return shape;
     }
 
     /**
@@ -367,9 +370,10 @@ public class CollisionShapeFactory {
      */
     private static CompoundCollisionShape createMeshCompoundShape(
             Node rootNode) {
+        CompoundCollisionShape result = new CompoundCollisionShape();
         boolean meshAccurate = true;
-        return createCompoundShape(rootNode, new CompoundCollisionShape(),
-                meshAccurate);
+        createCompoundShape(rootNode, result, meshAccurate);
+        return result;
     }
 
     /**
