@@ -530,7 +530,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Determine this wheel's location to the specified vector.
+     * Determine this wheel's location.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
