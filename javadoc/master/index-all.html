@@ -1833,7 +1833,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/jme3/bullet/util/CollisionShapeFactory.html" title="class in com.jme3.bullet.util"><span class="typeNameLink">CollisionShapeFactory</span></a> - Class in <a href="com/jme3/bullet/util/package-summary.html">com.jme3.bullet.util</a></dt>
 <dd>
-<div class="block">Utility methods for generating collision shapes from spatials.</div>
+<div class="block">Utility methods for generating collision shapes from models.</div>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet"><span class="typeNameLink">CollisionSpace</span></a> - Class in <a href="com/jme3/bullet/package-summary.html">com.jme3.bullet</a></dt>
 <dd>
@@ -2462,8 +2462,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/util/CollisionShapeFactory.html#createBoxShape(com.jme3.scene.Spatial)">createBoxShape(Spatial)</a></span> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/CollisionShapeFactory.html" title="class in com.jme3.bullet.util">CollisionShapeFactory</a></dt>
 <dd>
-<div class="block">Create a simplified shape for the specified Spatial, based on the
- bounding volumes of its geometries.</div>
+<div class="block">Create a simplified shape for a movable object, based on the bounding
+ volumes of its model's geometries.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/control/RigidBodyControl.html#createCollisionShape()">createCollisionShape()</a></span> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/RigidBodyControl.html" title="class in com.jme3.bullet.control">RigidBodyControl</a></dt>
 <dd>
@@ -2484,7 +2484,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/util/CollisionShapeFactory.html#createDynamicMeshShape(com.jme3.scene.Spatial)">createDynamicMeshShape(Spatial)</a></span> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/CollisionShapeFactory.html" title="class in com.jme3.bullet.util">CollisionShapeFactory</a></dt>
 <dd>
-<div class="block">Create a shape for a movable object, based on the specified Spatial.</div>
+<div class="block">Create a shape for a movable object, based on the convex hulls of its
+ model's meshes.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/SixDofJoint.html#createJoint(long,long,com.jme3.math.Vector3f,com.jme3.math.Matrix3f,com.jme3.math.Vector3f,com.jme3.math.Matrix3f,boolean)">createJoint(long, long, Vector3f, Matrix3f, Vector3f, Matrix3f, boolean)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/SixDofJoint.html" title="class in com.jme3.bullet.joints">SixDofJoint</a></dt>
 <dd>
@@ -2504,15 +2505,16 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/util/CollisionShapeFactory.html#createMergedHullShape(com.jme3.scene.Spatial)">createMergedHullShape(Spatial)</a></span> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/CollisionShapeFactory.html" title="class in com.jme3.bullet.util">CollisionShapeFactory</a></dt>
 <dd>
-<div class="block">Create a shape for a movable object, based on the specified Spatial.</div>
+<div class="block">Create a simplified shape for a movable object, based the convex hull of
+ its model.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/util/CollisionShapeFactory.html#createMergedMeshShape(com.jme3.scene.Spatial)">createMergedMeshShape(Spatial)</a></span> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/CollisionShapeFactory.html" title="class in com.jme3.bullet.util">CollisionShapeFactory</a></dt>
 <dd>
-<div class="block">Create a shape for an immovable object, based on the specified Spatial.</div>
+<div class="block">Create a mesh-accurate shape for an immovable object, based on its model.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/util/CollisionShapeFactory.html#createMeshShape(com.jme3.scene.Spatial)">createMeshShape(Spatial)</a></span> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/CollisionShapeFactory.html" title="class in com.jme3.bullet.util">CollisionShapeFactory</a></dt>
 <dd>
-<div class="block">Create a shape for an immovable object, based on the specified Spatial.</div>
+<div class="block">Create a mesh-accurate shape for an immovable object, based on its model.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/BulletAppState.html#createPhysicsSpace(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType)">createPhysicsSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/BulletAppState.html" title="class in com.jme3.bullet">BulletAppState</a></dt>
 <dd>

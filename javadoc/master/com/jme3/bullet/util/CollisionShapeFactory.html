@@ -93,7 +93,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <pre>public class <span class="typeNameLabel">CollisionShapeFactory</span>
 extends java.lang.Object</pre>
-<div class="block">Utility methods for generating collision shapes from spatials.</div>
+<div class="block">Utility methods for generating collision shapes from models.</div>
 </section>
 <section class="summary">
 <ul class="blockList">
@@ -146,43 +146,45 @@ extends java.lang.Object</pre>
 <tbody>
 <tr class="altColor" id="i0">
 <td class="colFirst"><code>static <a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createBoxShape(com.jme3.scene.Spatial)">createBoxShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createBoxShape(com.jme3.scene.Spatial)">createBoxShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;modelRoot)</code></th>
 <td class="colLast">
-<div class="block">Create a simplified shape for the specified Spatial, based on the
- bounding volumes of its geometries.</div>
+<div class="block">Create a simplified shape for a movable object, based on the bounding
+ volumes of its model's geometries.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i1">
 <td class="colFirst"><code>static <a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createDynamicMeshShape(com.jme3.scene.Spatial)">createDynamicMeshShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createDynamicMeshShape(com.jme3.scene.Spatial)">createDynamicMeshShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;modelRoot)</code></th>
 <td class="colLast">
-<div class="block">Create a shape for a movable object, based on the specified Spatial.</div>
+<div class="block">Create a shape for a movable object, based on the convex hulls of its
+ model's meshes.</div>
 </td>
 </tr>
 <tr class="altColor" id="i2">
 <td class="colFirst"><code>static <a href="../collision/shapes/HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createMergedHullShape(com.jme3.scene.Spatial)">createMergedHullShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createMergedHullShape(com.jme3.scene.Spatial)">createMergedHullShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;modelRoot)</code></th>
 <td class="colLast">
-<div class="block">Create a shape for a movable object, based on the specified Spatial.</div>
+<div class="block">Create a simplified shape for a movable object, based the convex hull of
+ its model.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i3">
 <td class="colFirst"><code>static <a href="../collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createMergedMeshShape(com.jme3.scene.Spatial)">createMergedMeshShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createMergedMeshShape(com.jme3.scene.Spatial)">createMergedMeshShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;modelRoot)</code></th>
 <td class="colLast">
-<div class="block">Create a shape for an immovable object, based on the specified Spatial.</div>
+<div class="block">Create a mesh-accurate shape for an immovable object, based on its model.</div>
 </td>
 </tr>
 <tr class="altColor" id="i4">
 <td class="colFirst"><code>static <a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createMeshShape(com.jme3.scene.Spatial)">createMeshShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createMeshShape(com.jme3.scene.Spatial)">createMeshShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;modelRoot)</code></th>
 <td class="colLast">
-<div class="block">Create a shape for an immovable object, based on the specified Spatial.</div>
+<div class="block">Create a mesh-accurate shape for an immovable object, based on its model.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i5">
 <td class="colFirst"><code>static <a href="../collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createVhacdShape(com.jme3.scene.Spatial,vhacd.VHACDParameters,com.jme3.bullet.collision.shapes.CompoundCollisionShape)">createVhacdShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;subtree,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createVhacdShape(com.jme3.scene.Spatial,vhacd.VHACDParameters,com.jme3.bullet.collision.shapes.CompoundCollisionShape)">createVhacdShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;modelRoot,
 <a href="../../../../vhacd/VHACDParameters.html" title="class in vhacd">VHACDParameters</a>&nbsp;parameters,
 <a href="../collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a>&nbsp;addResult)</code></th>
 <td class="colLast">
@@ -231,35 +233,36 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <section class="detail">
 <h3><a id="createBoxShape(com.jme3.scene.Spatial)">createBoxShape</a></h3>
-<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="memberName">createBoxShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;subtree)</span></div>
-<div class="block">Create a simplified shape for the specified Spatial, based on the
- bounding volumes of its geometries. TODO buggy!</div>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="memberName">createBoxShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;modelRoot)</span></div>
+<div class="block">Create a simplified shape for a movable object, based on the bounding
+ volumes of its model's geometries. TODO buggy!</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>subtree</code> - the Spatial on which to base the shape (not null,
+<dd><code>modelRoot</code> - the model on which to base the shape (not null,
  unaffected)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new box/sphere CollisionShape (if spatial is a Geometry) or a
- CompoundCollisionShape with box/sphere shapes as children (if spatial is
- a Node)</dd>
+<dd>a new box/sphere CollisionShape (if modelRoot is a Geometry) or a
+ CompoundCollisionShape with box/sphere shapes as children (if modelRoot
+ is a Node)</dd>
 </dl>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="createDynamicMeshShape(com.jme3.scene.Spatial)">createDynamicMeshShape</a></h3>
-<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="memberName">createDynamicMeshShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;subtree)</span></div>
-<div class="block">Create a shape for a movable object, based on the specified Spatial.
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="memberName">createDynamicMeshShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;modelRoot)</span></div>
+<div class="block">Create a shape for a movable object, based on the convex hulls of its
+ model's meshes.
  <p>
  For mesh-accurate movable objects (CPU-intense!) use
  GImpactCollisionShape.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>subtree</code> - the Spatial on which to base the shape (not null,
+<dd><code>modelRoot</code> - the model on which to base the shape (not null,
  unaffected)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new HullCollisionShape (if spatial is a Geometry) or a new
- CompoundCollisionShape with hull shapes as children (if spatial is a
+<dd>a new HullCollisionShape (if modelRoot is a Geometry) or a new
+ CompoundCollisionShape with hull shapes as children (if modelRoot is a
  Node)</dd>
 </dl>
 </section>
@@ -267,12 +270,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <section class="detail">
 <h3><a id="createMergedHullShape(com.jme3.scene.Spatial)">createMergedHullShape</a></h3>
-<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></span>&nbsp;<span class="memberName">createMergedHullShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;subtree)</span></div>
-<div class="block">Create a shape for a movable object, based on the specified Spatial.</div>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></span>&nbsp;<span class="memberName">createMergedHullShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;modelRoot)</span></div>
+<div class="block">Create a simplified shape for a movable object, based the convex hull of
+ its model.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>subtree</code> - the scene-graph subtree on which to base the shape (not
- null, unaffected)</dd>
+<dd><code>modelRoot</code> - the model on which to base the shape (not null,
+ unaffected)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new HullCollisionShape</dd>
 </dl>
@@ -281,13 +285,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <section class="detail">
 <h3><a id="createMergedMeshShape(com.jme3.scene.Spatial)">createMergedMeshShape</a></h3>
-<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></span>&nbsp;<span class="memberName">createMergedMeshShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;subtree)</span></div>
-<div class="block">Create a shape for an immovable object, based on the specified Spatial.
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></span>&nbsp;<span class="memberName">createMergedMeshShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;modelRoot)</span></div>
+<div class="block">Create a mesh-accurate shape for an immovable object, based on its model.
  This version ignores terrain.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>subtree</code> - the scene-graph subtree on which to base the shape (not
- null, unaffected)</dd>
+<dd><code>modelRoot</code> - the model on which to base the shape (not null,
+ unaffected)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new MeshCollisionShape</dd>
 </dl>
@@ -296,32 +300,32 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <section class="detail">
 <h3><a id="createMeshShape(com.jme3.scene.Spatial)">createMeshShape</a></h3>
-<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="memberName">createMeshShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;subtree)</span></div>
-<div class="block">Create a shape for an immovable object, based on the specified Spatial.
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="memberName">createMeshShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;modelRoot)</span></div>
+<div class="block">Create a mesh-accurate shape for an immovable object, based on its model.
  This version handles terrain.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>subtree</code> - the Spatial on which to base the shape (not null,
+<dd><code>modelRoot</code> - the model on which to base the shape (not null,
  unaffected)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new MeshCollisionShape (if spatial is a Geometry) or a new
- HeightfieldCollisionShape (if spatial is a TerrainQuad or TerrainPatch)
+<dd>a new MeshCollisionShape (if modelRoot is a Geometry) or a new
+ HeightfieldCollisionShape (if modelRoot is a TerrainQuad or TerrainPatch)
  or a new CompoundCollisionShape with mesh/heightfield shapes as children
- (if spatial is a Node)</dd>
+ (if modelRoot is a Node)</dd>
 </dl>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="createVhacdShape(com.jme3.scene.Spatial,vhacd.VHACDParameters,com.jme3.bullet.collision.shapes.CompoundCollisionShape)">createVhacdShape</a></h3>
-<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></span>&nbsp;<span class="memberName">createVhacdShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;subtree,
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></span>&nbsp;<span class="memberName">createVhacdShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;modelRoot,
 <a href="../../../../vhacd/VHACDParameters.html" title="class in vhacd">VHACDParameters</a>&nbsp;parameters,
 <a href="../collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a>&nbsp;addResult)</span></div>
 <div class="block">Create a shape for a dynamic object using the V-HACD library.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>subtree</code> - the scene-graph subtree on which to base the shape (not
- null, unaffected)</dd>
+<dd><code>modelRoot</code> - the model on which to base the shape (not null,
+ unaffected)</dd>
 <dd><code>parameters</code> - (not null, unaffected)</dd>
 <dd><code>addResult</code> - the compound shape to append to (modified if not null)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
