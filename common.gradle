@@ -34,7 +34,7 @@ ext {
     jme3utilitiesuiVersion = '0.9.1' + jmeTarget
     jmonkeyengineVersion = '3.3.2-stable'
     junitVersion = '4.13.1'
-    minieVersion = '3.1.0-SNAPSHOT' + jmeTarget
+    minieVersion = '3.1.0-test3' + jmeTarget
     wesVersion = '0.6.1' + jmeTarget
 }
 

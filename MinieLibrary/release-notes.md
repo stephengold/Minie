@@ -1,5 +1,22 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 3.1.0-test3 released on TBD
+
+ + Bugfix: off-by-one in validation of wheel indices
+ + Added (experimental) support for the Linux_ARM32 platform.
+ + Added a `createMergedHullShape()` method
+   to the `CollisionShapeFactory` class.
+ + Publicized the `addMultiBody()` and `removeMultiBody()` methods
+   in the `MultiBodySpace` class.
+ + Minimized usage of `PhysicsSpace.add()` and `PhysicsSpace.remove()`.
+ + In `HelloPoi`, put the indicator in the `Translucent` bucket.
+ + Built using Gradle v6.7.1 .
+ + Based on:
+   + v6.2.0 of the Heart Library,
+   + v0.9.1 of the jme3-utilities-ui library,
+   + v0.9.17 of the jme3-utilities-nifty library.
+ + Updated the native libraries to v9.3.0 of Libbulletjme.
+
 ## Version 3.1.0-test2 released on 14 November 2020
 
  + Updated the native libraries to v9.2.3 of Libbulletjme (minSdkVersion=22).
