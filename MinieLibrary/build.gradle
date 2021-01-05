@@ -58,6 +58,7 @@ ext {
         btfAndroid_X86_64 = 'ReleaseSp'
         btfLinux32 = 'ReleaseSp'
         btfLinux64 = 'ReleaseSp'
+        btfLinux_ARM32 = 'ReleaseSp'
         btfLinux_ARM64 = 'ReleaseSp'
         btfMacOSX32 = 'ReleaseSp'
         btfMacOSX64 = 'ReleaseSp'
@@ -117,6 +118,7 @@ processResources.dependsOn((btfAndroid_X86 == '' ? 'clean' : 'download') + 'Andr
 processResources.dependsOn((btfAndroid_X86_64 == '' ? 'clean' : 'download') + 'Android_X86_64')
 processResources.dependsOn((btfLinux32 == '' ? 'clean' : 'download') + 'Linux32')
 processResources.dependsOn((btfLinux64 == '' ? 'clean' : 'download') + 'Linux64')
+processResources.dependsOn((btfLinux_ARM32 == '' ? 'clean' : 'download') + 'Linux_ARM32')
 processResources.dependsOn((btfLinux_ARM64 == '' ? 'clean' : 'download') + 'Linux_ARM64')
 processResources.dependsOn((btfMacOSX32 == '' ? 'clean' : 'download') + 'MacOSX32')
 processResources.dependsOn((btfMacOSX64 == '' ? 'clean' : 'download') + 'MacOSX64')
@@ -151,6 +153,10 @@ task downloadLinux64(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "Linux64${btfLinux64}_libbulletjme.so"
     target = file(nativeDir + 'linux/x86_64/libbulletjme.so')
 }
+task downloadLinux_ARM32(type: MyDownload) {
+    sourceUrl = libbulletjmeUrl + "Linux_ARM32${btfLinux_ARM32}_libbulletjme.so"
+    target = file(nativeDir + 'linux/arm32/libbulletjme.so')
+}
 task downloadLinux_ARM64(type: MyDownload) {
     sourceUrl = libbulletjmeUrl + "Linux_ARM64${btfLinux_ARM64}_libbulletjme.so"
     target = file(nativeDir + 'linux/arm64/libbulletjme.so')
@@ -180,7 +186,8 @@ task downloadPDBs(type: MyDownload) {
 // cleanup tasks
 
 clean.dependsOn('cleanAndroid_ARM7', 'cleanAndroid_ARM8', 'cleanAndroid_X86',
-    'cleanAndroid_X86_64', 'cleanLinux32', 'cleanLinux64', 'cleanLinux_ARM64',
+    'cleanAndroid_X86_64', 'cleanLinux32', 'cleanLinux64',
+    'cleanLinux_ARM32', 'cleanLinux_ARM64',
     'cleanMacOSX32', 'cleanMacOSX64', 'cleanWindows32', 'cleanWindows64')
 
 task cleanAndroid_ARM7(type: Delete) {
@@ -200,6 +207,9 @@ task cleanLinux32(type: Delete) {
 }
 task cleanLinux64(type: Delete) {
     delete nativeDir + 'linux/x86_64/libbulletjme.so'
+}
+task cleanLinux_ARM32(type: Delete) {
+    delete nativeDir + 'linux/arm32/libbulletjme.so'
 }
 task cleanLinux_ARM64(type: Delete) {
     delete nativeDir + 'linux/arm64/libbulletjme.so'
@@ -302,6 +312,7 @@ void configureAndroidBtfs(String btfValue) {
 void configureDesktopBtfs(String btfValue) {
     project.ext.btfLinux32 = btfValue
     project.ext.btfLinux64 = btfValue
+    project.ext.btfLinux_ARM32 = btfValue
     project.ext.btfLinux_ARM64 = btfValue
     project.ext.btfMacOSX32 = btfValue
     project.ext.btfMacOSX64 = btfValue
