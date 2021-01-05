@@ -63,7 +63,7 @@ import vhacd.VHACDHull;
 import vhacd.VHACDParameters;
 
 /**
- * Utility methods for generating collision shapes from spatials.
+ * Utility methods for generating collision shapes from models.
  *
  * @author normenhansen, tim8dev
  */
@@ -92,13 +92,13 @@ public class CollisionShapeFactory {
     // new methods exposed
 
     /**
-     * Create a simplified shape for the specified Spatial, based on the
-     * bounding volumes of its geometries. TODO buggy!
+     * Create a simplified shape for a movable object, based on the bounding
+     * volumes of its model's geometries. TODO buggy!
      *
-     * @param subtree the Spatial on which to base the shape (not null,
+     * @param subtree the model on which to base the shape (not null,
      * unaffected)
-     * @return a new box/sphere CollisionShape (if spatial is a Geometry) or a
-     * CompoundCollisionShape with box/sphere shapes as children (if spatial is
+     * @return a new box/sphere CollisionShape (if subtree is a Geometry) or a
+     * CompoundCollisionShape with box/sphere shapes as children (if subtree is
      * a Node)
      */
     public static CollisionShape createBoxShape(Spatial subtree) {
@@ -108,20 +108,21 @@ public class CollisionShapeFactory {
             return createBoxCompoundShape((Node) subtree);
         } else {
             throw new IllegalArgumentException(
-                    "The spatial must either be a Node or a Geometry!");
+                    "The subtree must either be a Node or a Geometry!");
         }
     }
 
     /**
-     * Create a shape for a movable object, based on the specified Spatial.
+     * Create a shape for a movable object, based on the convex hulls of its
+     * model's meshes.
      * <p>
      * For mesh-accurate movable objects (CPU-intense!) use
      * GImpactCollisionShape.
      *
-     * @param subtree the Spatial on which to base the shape (not null,
+     * @param subtree the model on which to base the shape (not null,
      * unaffected)
-     * @return a new HullCollisionShape (if spatial is a Geometry) or a new
-     * CompoundCollisionShape with hull shapes as children (if spatial is a
+     * @return a new HullCollisionShape (if subtree is a Geometry) or a new
+     * CompoundCollisionShape with hull shapes as children (if subtree is a
      * Node)
      */
     public static CollisionShape createDynamicMeshShape(Spatial subtree) {
@@ -134,15 +135,16 @@ public class CollisionShapeFactory {
                     new CompoundCollisionShape(), meshAccurate, dynamic);
         } else {
             throw new IllegalArgumentException(
-                    "The spatial must either be a Node or a Geometry!");
+                    "The subtree must either be a Node or a Geometry!");
         }
     }
 
     /**
-     * Create a shape for a movable object, based on the specified Spatial.
+     * Create a simplified shape for a movable object, based the convex hull of
+     * its model.
      *
-     * @param subtree the scene-graph subtree on which to base the shape (not
-     * null, unaffected)
+     * @param subtree the model on which to base the shape (not null,
+     * unaffected)
      * @return a new HullCollisionShape
      */
     public static HullCollisionShape createMergedHullShape(Spatial subtree) {
@@ -155,11 +157,11 @@ public class CollisionShapeFactory {
     }
 
     /**
-     * Create a shape for an immovable object, based on the specified Spatial.
+     * Create a mesh-accurate shape for an immovable object, based on its model.
      * This version ignores terrain.
      *
-     * @param subtree the scene-graph subtree on which to base the shape (not
-     * null, unaffected)
+     * @param subtree the model on which to base the shape (not null,
+     * unaffected)
      * @return a new MeshCollisionShape
      */
     public static MeshCollisionShape createMergedMeshShape(Spatial subtree) {
@@ -172,15 +174,15 @@ public class CollisionShapeFactory {
     }
 
     /**
-     * Create a shape for an immovable object, based on the specified Spatial.
+     * Create a mesh-accurate shape for an immovable object, based on its model.
      * This version handles terrain.
      *
-     * @param subtree the Spatial on which to base the shape (not null,
+     * @param subtree the model on which to base the shape (not null,
      * unaffected)
-     * @return a new MeshCollisionShape (if spatial is a Geometry) or a new
-     * HeightfieldCollisionShape (if spatial is a TerrainQuad or TerrainPatch)
+     * @return a new MeshCollisionShape (if subtree is a Geometry) or a new
+     * HeightfieldCollisionShape (if subtree is a TerrainQuad or TerrainPatch)
      * or a new CompoundCollisionShape with mesh/heightfield shapes as children
-     * (if spatial is a Node)
+     * (if subtree is a Node)
      */
     public static CollisionShape createMeshShape(Spatial subtree) {
         if (subtree instanceof Terrain) {
@@ -195,15 +197,15 @@ public class CollisionShapeFactory {
 
         } else {
             throw new IllegalArgumentException(
-                    "The spatial must either be a Node or a Geometry!");
+                    "The subtree must either be a Node or a Geometry!");
         }
     }
 
     /**
      * Create a shape for a dynamic object using the V-HACD library.
      *
-     * @param subtree the scene-graph subtree on which to base the shape (not
-     * null, unaffected)
+     * @param subtree the model on which to base the shape (not null,
+     * unaffected)
      * @param parameters (not null, unaffected)
      * @param addResult the compound shape to append to (modified if not null)
      * @return a compound shape (either addResult or a new shape, not null)
@@ -432,7 +434,7 @@ public class CollisionShapeFactory {
 
     /**
      * Calculate the Transform for a ChildCollisionShape relative to the
-     * ancestor for which the shape is being generated.
+     * ancestor for which the shape is being generated. TODO rename method
      *
      * @param spatial (not null, unaffected)
      * @param modelRoot the ancestor for which the shape is being generated (not
