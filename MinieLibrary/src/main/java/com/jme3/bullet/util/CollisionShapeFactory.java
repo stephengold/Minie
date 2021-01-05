@@ -104,8 +104,15 @@ public class CollisionShapeFactory {
     public static CollisionShape createBoxShape(Spatial subtree) {
         if (subtree instanceof Geometry) {
             return createSingleBoxShape(subtree);
+
         } else if (subtree instanceof Node) {
-            return createBoxCompoundShape((Node) subtree);
+            Node node = (Node) subtree;
+            CompoundCollisionShape result = new CompoundCollisionShape();
+            boolean meshAccurate = false;
+            boolean dynamic = false;
+            createCompoundShape(node, node, result, meshAccurate, dynamic);
+            return result;
+
         } else {
             throw new IllegalArgumentException(
                     "The subtree must either be a Node or a Geometry!");
@@ -197,7 +204,12 @@ public class CollisionShapeFactory {
             return createSingleMeshShape((Geometry) subtree, subtree);
 
         } else if (subtree instanceof Node) {
-            return createMeshCompoundShape((Node) subtree);
+            Node node = (Node) subtree;
+            CompoundCollisionShape result = new CompoundCollisionShape();
+            boolean meshAccurate = true;
+            boolean dynamic = false;
+            createCompoundShape(node, node, result, meshAccurate, dynamic);
+            return result;
 
         } else {
             throw new IllegalArgumentException(
@@ -302,28 +314,6 @@ public class CollisionShapeFactory {
         }
     }
 
-    /**
-     * Create a CompoundShape of boxes, based on the bounds of the Geometries in
-     * a scene-graph subtree.
-     *
-     * @param modelRoot the Node on which to base the shape (not null)
-     * @return a new shape (not null)
-     */
-    private static CompoundCollisionShape createBoxCompoundShape(
-            Node modelRoot) {
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        boolean meshAccurate = false;
-        createCompoundShape(modelRoot, result, meshAccurate);
-        return result;
-    }
-
-    private static void createCompoundShape(Node modelRoot,
-            CompoundCollisionShape shape, boolean meshAccurate) {
-        boolean dynamic = false;
-        createCompoundShape(modelRoot, modelRoot, shape, meshAccurate,
-                dynamic);
-    }
-
     private static void createCompoundShape(Node modelRoot, Node parent,
             CompoundCollisionShape shape, boolean meshAccurate,
             boolean dynamic) {
@@ -360,20 +350,6 @@ public class CollisionShapeFactory {
                 }
             }
         }
-    }
-
-    /**
-     * Create a mesh-accurate CollisionShape for an immovable object.
-     *
-     * @param rootNode the Node on which to base the shape (not null)
-     * @return a new shape (not null)
-     */
-    private static CompoundCollisionShape createMeshCompoundShape(
-            Node rootNode) {
-        CompoundCollisionShape result = new CompoundCollisionShape();
-        boolean meshAccurate = true;
-        createCompoundShape(rootNode, result, meshAccurate);
-        return result;
     }
 
     /**
