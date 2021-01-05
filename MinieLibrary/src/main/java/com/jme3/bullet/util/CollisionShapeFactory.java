@@ -95,18 +95,18 @@ public class CollisionShapeFactory {
      * Create a simplified shape for a movable object, based on the bounding
      * volumes of its model's geometries. TODO buggy!
      *
-     * @param subtree the model on which to base the shape (not null,
+     * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
-     * @return a new box/sphere CollisionShape (if subtree is a Geometry) or a
-     * CompoundCollisionShape with box/sphere shapes as children (if subtree is
-     * a Node)
+     * @return a new box/sphere CollisionShape (if modelRoot is a Geometry) or a
+     * CompoundCollisionShape with box/sphere shapes as children (if modelRoot
+     * is a Node)
      */
-    public static CollisionShape createBoxShape(Spatial subtree) {
-        if (subtree instanceof Geometry) {
-            return createSingleBoxShape(subtree);
+    public static CollisionShape createBoxShape(Spatial modelRoot) {
+        if (modelRoot instanceof Geometry) {
+            return createSingleBoxShape(modelRoot);
 
-        } else if (subtree instanceof Node) {
-            Node node = (Node) subtree;
+        } else if (modelRoot instanceof Node) {
+            Node node = (Node) modelRoot;
             CompoundCollisionShape result = new CompoundCollisionShape();
             boolean meshAccurate = false;
             boolean dynamic = false;
@@ -115,7 +115,7 @@ public class CollisionShapeFactory {
 
         } else {
             throw new IllegalArgumentException(
-                    "The subtree must either be a Node or a Geometry!");
+                    "The model root must either be a Node or a Geometry!");
         }
     }
 
@@ -126,18 +126,18 @@ public class CollisionShapeFactory {
      * For mesh-accurate movable objects (CPU-intense!) use
      * GImpactCollisionShape.
      *
-     * @param subtree the model on which to base the shape (not null,
+     * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
-     * @return a new HullCollisionShape (if subtree is a Geometry) or a new
-     * CompoundCollisionShape with hull shapes as children (if subtree is a
+     * @return a new HullCollisionShape (if modelRoot is a Geometry) or a new
+     * CompoundCollisionShape with hull shapes as children (if modelRoot is a
      * Node)
      */
-    public static CollisionShape createDynamicMeshShape(Spatial subtree) {
-        if (subtree instanceof Geometry) {
-            return createSingleHullShape((Geometry) subtree, subtree);
+    public static CollisionShape createDynamicMeshShape(Spatial modelRoot) {
+        if (modelRoot instanceof Geometry) {
+            return createSingleHullShape((Geometry) modelRoot, modelRoot);
 
-        } else if (subtree instanceof Node) {
-            Node node = (Node) subtree;
+        } else if (modelRoot instanceof Node) {
+            Node node = (Node) modelRoot;
             CompoundCollisionShape result = new CompoundCollisionShape();
             boolean meshAccurate = true;
             boolean dynamic = true;
@@ -146,7 +146,7 @@ public class CollisionShapeFactory {
 
         } else {
             throw new IllegalArgumentException(
-                    "The subtree must either be a Node or a Geometry!");
+                    "The model root must either be a Node or a Geometry!");
         }
     }
 
@@ -154,14 +154,14 @@ public class CollisionShapeFactory {
      * Create a simplified shape for a movable object, based the convex hull of
      * its model.
      *
-     * @param subtree the model on which to base the shape (not null,
+     * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
      * @return a new HullCollisionShape
      */
-    public static HullCollisionShape createMergedHullShape(Spatial subtree) {
-        Validate.nonNull(subtree, "subtree");
+    public static HullCollisionShape createMergedHullShape(Spatial modelRoot) {
+        Validate.nonNull(modelRoot, "model root");
 
-        Mesh mergedMesh = makeMergedMesh(subtree);
+        Mesh mergedMesh = makeMergedMesh(modelRoot);
         HullCollisionShape result = new HullCollisionShape(mergedMesh);
 
         return result;
@@ -171,14 +171,14 @@ public class CollisionShapeFactory {
      * Create a mesh-accurate shape for an immovable object, based on its model.
      * This version ignores terrain.
      *
-     * @param subtree the model on which to base the shape (not null,
+     * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
      * @return a new MeshCollisionShape
      */
-    public static MeshCollisionShape createMergedMeshShape(Spatial subtree) {
-        Validate.nonNull(subtree, "subtree");
+    public static MeshCollisionShape createMergedMeshShape(Spatial modelRoot) {
+        Validate.nonNull(modelRoot, "model root");
 
-        Mesh mergedMesh = makeMergedMesh(subtree);
+        Mesh mergedMesh = makeMergedMesh(modelRoot);
         MeshCollisionShape result = new MeshCollisionShape(mergedMesh);
 
         return result;
@@ -188,23 +188,23 @@ public class CollisionShapeFactory {
      * Create a mesh-accurate shape for an immovable object, based on its model.
      * This version handles terrain.
      *
-     * @param subtree the model on which to base the shape (not null,
+     * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
-     * @return a new MeshCollisionShape (if subtree is a Geometry) or a new
-     * HeightfieldCollisionShape (if subtree is a TerrainQuad or TerrainPatch)
+     * @return a new MeshCollisionShape (if modelRoot is a Geometry) or a new
+     * HeightfieldCollisionShape (if modelRoot is a TerrainQuad or TerrainPatch)
      * or a new CompoundCollisionShape with mesh/heightfield shapes as children
-     * (if subtree is a Node)
+     * (if modelRoot is a Node)
      */
-    public static CollisionShape createMeshShape(Spatial subtree) {
-        if (subtree instanceof Terrain) {
-            return new HeightfieldCollisionShape((Terrain) subtree,
-                    subtree.getLocalScale());
+    public static CollisionShape createMeshShape(Spatial modelRoot) {
+        if (modelRoot instanceof Terrain) {
+            return new HeightfieldCollisionShape((Terrain) modelRoot,
+                    modelRoot.getLocalScale());
 
-        } else if (subtree instanceof Geometry) {
-            return createSingleMeshShape((Geometry) subtree, subtree);
+        } else if (modelRoot instanceof Geometry) {
+            return createSingleMeshShape((Geometry) modelRoot, modelRoot);
 
-        } else if (subtree instanceof Node) {
-            Node node = (Node) subtree;
+        } else if (modelRoot instanceof Node) {
+            Node node = (Node) modelRoot;
             CompoundCollisionShape result = new CompoundCollisionShape();
             boolean meshAccurate = true;
             boolean dynamic = false;
@@ -213,25 +213,25 @@ public class CollisionShapeFactory {
 
         } else {
             throw new IllegalArgumentException(
-                    "The subtree must either be a Node or a Geometry!");
+                    "The model root must either be a Node or a Geometry!");
         }
     }
 
     /**
      * Create a shape for a dynamic object using the V-HACD library.
      *
-     * @param subtree the model on which to base the shape (not null,
+     * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
      * @param parameters (not null, unaffected)
      * @param addResult the compound shape to append to (modified if not null)
      * @return a compound shape (either addResult or a new shape, not null)
      */
-    public static CompoundCollisionShape createVhacdShape(Spatial subtree,
+    public static CompoundCollisionShape createVhacdShape(Spatial modelRoot,
             VHACDParameters parameters, CompoundCollisionShape addResult) {
-        Validate.nonNull(subtree, "subtree");
+        Validate.nonNull(modelRoot, "model root");
         Validate.nonNull(parameters, "parameters");
 
-        Mesh mergedMesh = makeMergedMesh(subtree);
+        Mesh mergedMesh = makeMergedMesh(modelRoot);
 
         FloatBuffer positionBuffer
                 = mergedMesh.getFloatBuffer(VertexBuffer.Type.Position);
