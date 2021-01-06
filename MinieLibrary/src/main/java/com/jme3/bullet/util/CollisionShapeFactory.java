@@ -31,7 +31,6 @@
  */
 package com.jme3.bullet.util;
 
-import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
@@ -58,6 +57,7 @@ import jme3utilities.MyMesh;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyVector3f;
 import vhacd.VHACD;
 import vhacd.VHACDHull;
 import vhacd.VHACDParameters;
@@ -92,31 +92,35 @@ public class CollisionShapeFactory {
     // new methods exposed
 
     /**
-     * Create a simplified shape for a movable object, based on the bounding
-     * volumes of its model's geometries. TODO buggy!
+     * Create a simplified shape for a movable object, based on the axis-aligned
+     * bounding boxes of its meshes.
      *
      * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
-     * @return a new box/sphere CollisionShape (if modelRoot is a Geometry) or a
-     * CompoundCollisionShape with box/sphere shapes as children (if modelRoot
-     * is a Node)
+     * @return a CompoundCollisionShape with box shapes as children
      */
     public static CollisionShape createBoxShape(Spatial modelRoot) {
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        boolean meshAccurate = false;
+        boolean dynamic = true;
+
         if (modelRoot instanceof Geometry) {
-            return createSingleBoxShape(modelRoot);
+            Geometry geometry = (Geometry) modelRoot;
+            Vector3f centerOffset = new Vector3f();
+            BoxCollisionShape box = createSingleBoxShape(geometry, geometry,
+                    centerOffset);
+            result.addChildShape(box, centerOffset);
 
         } else if (modelRoot instanceof Node) {
             Node node = (Node) modelRoot;
-            CompoundCollisionShape result = new CompoundCollisionShape();
-            boolean meshAccurate = false;
-            boolean dynamic = false;
             createCompoundShape(node, node, result, meshAccurate, dynamic);
-            return result;
 
         } else {
             throw new IllegalArgumentException(
                     "The model root must either be a Node or a Geometry!");
         }
+
+        return result;
     }
 
     /**
@@ -336,6 +340,7 @@ public class CollisionShapeFactory {
 
             } else if (child instanceof Geometry) {
                 Geometry geometry = (Geometry) child;
+                Vector3f centerOffset = new Vector3f(0f, 0f, 0f);
                 if (meshAccurate) {
                     if (dynamic) {
                         childShape = createSingleHullShape(geometry, modelRoot);
@@ -343,7 +348,10 @@ public class CollisionShapeFactory {
                         childShape = createSingleMeshShape(geometry, modelRoot);
                     }
                 } else {
-                    childShape = createSingleBoxShape(geometry);
+                    childShape = createSingleBoxShape(geometry, modelRoot,
+                            centerOffset);
+                    transform.getRotation().mult(centerOffset, centerOffset);
+                    transform.getTranslation().addLocal(centerOffset);
                 }
                 if (childShape != null) {
                     shape.addChildShape(childShape, transform);
@@ -353,19 +361,40 @@ public class CollisionShapeFactory {
     }
 
     /**
-     * Use the bounding volume of the supplied Spatial to create a non-compound
-     * CollisionShape.
+     * Create a BoxCollisionShape for the specified Geometry, based on the
+     * axis-aligned bounding box of its Mesh.
      *
-     * @param spatial the Spatial on which to base the shape (not null,
-     * unaffected)
-     * @return a new shape to match the Spatial's bounding box (not null)
+     * @param geometry the Geometry on which to base the shape (not null)
+     * @param modelRoot the ancestor for which the shape is being generated (not
+     * null, unaffected)
+     * @param storeCenter storage for the center offset (not null, modified)
+     * @return a new instance, or null if the Mesh is null or empty
      */
-    private static BoxCollisionShape createSingleBoxShape(Spatial spatial) {
-        //TODO using world bound here instead of "local world" bound...
-        //TODO the bound could be null or spherical
-        BoxCollisionShape shape = new BoxCollisionShape(
-                ((BoundingBox) spatial.getWorldBound()).getExtent(new Vector3f()));
-        return shape;
+    private static BoxCollisionShape createSingleBoxShape(Geometry geometry,
+            Spatial modelRoot, Vector3f storeCenter) {
+        Mesh mesh = geometry.getMesh();
+        if (mesh == null) {
+            return null;
+        }
+        int numVertices = mesh.getVertexCount();
+        if (numVertices < 1) {
+            return null;
+        }
+
+        Transform transform = getTransform(geometry, modelRoot);
+
+        int numFloats = numAxes * numVertices;
+        FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+        Vector3f maxima = new Vector3f();
+        Vector3f minima = new Vector3f();
+        MyBuffer.maxMin(positions, 0, numFloats, maxima, minima);
+
+        MyVector3f.midpoint(maxima, minima, storeCenter);
+        Vector3f halfExtents = maxima.subtract(storeCenter);
+        BoxCollisionShape result = new BoxCollisionShape(halfExtents);
+        result.setScale(transform.getScale());
+
+        return result;
     }
 
     /**
