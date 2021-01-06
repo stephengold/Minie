@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 3.1.0-test3 released on TBD
+## Version 3.1.0-test3 released on 5 January 2021
 
  + Bugfix: off-by-one in validation of wheel indices
  + Added (experimental) support for the Linux_ARM32 platform.
