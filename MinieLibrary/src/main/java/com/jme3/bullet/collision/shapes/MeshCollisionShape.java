@@ -272,11 +272,12 @@ public class MeshCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        bvh = (BoundingValueHierarchy) capsule.readSavable(tagBvh, null);
         Platform writePlatform
                 = capsule.readEnum(tagNativePlatform, Platform.class, null);
         if (writePlatform == null || writePlatform != JmeSystem.getPlatform()) {
             bvh = null; // will re-generate the BVH for the new platform
+        } else {
+            bvh = (BoundingValueHierarchy) capsule.readSavable(tagBvh, null);
         }
 
         nativeMesh = (CompoundMesh) capsule.readSavable(tagNativeMesh, null);
