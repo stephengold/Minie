@@ -155,6 +155,36 @@ public class CollisionShapeFactory {
     }
 
     /**
+     * Create a very simple shape for an object, based its model's bounding box.
+     *
+     * @param modelRoot the model on which to base the shape (not null,
+     * unaffected)
+     * @return a new CompoundCollisionShape
+     */
+    public static CollisionShape createMergedBoxShape(Spatial modelRoot) {
+        Validate.nonNull(modelRoot, "model root");
+
+        Mesh mergedMesh = makeMergedMesh(modelRoot);
+        int numVertices = mergedMesh.getVertexCount();
+        int numFloats = numAxes * numVertices;
+        FloatBuffer positions
+                = mergedMesh.getFloatBuffer(VertexBuffer.Type.Position);
+        Vector3f maxima = new Vector3f();
+        Vector3f minima = new Vector3f();
+        MyBuffer.maxMin(positions, 0, numFloats, maxima, minima);
+
+        Vector3f centerOffset = new Vector3f();
+        MyVector3f.midpoint(maxima, minima, centerOffset);
+        Vector3f halfExtents = maxima.subtract(centerOffset);
+        BoxCollisionShape box = new BoxCollisionShape(halfExtents);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(box, centerOffset);
+
+        return result;
+    }
+
+    /**
      * Create a simplified shape for a movable object, based the convex hull of
      * its model.
      *
