@@ -148,8 +148,8 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static <a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createBoxShape(com.jme3.scene.Spatial)">createBoxShape</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;modelRoot)</code></th>
 <td class="colLast">
-<div class="block">Create a simplified shape for a movable object, based on the bounding
- volumes of its model's geometries.</div>
+<div class="block">Create a simplified shape for a movable object, based on the axis-aligned
+ bounding boxes of its meshes.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i1">
@@ -234,16 +234,14 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="createBoxShape(com.jme3.scene.Spatial)">createBoxShape</a></h3>
 <div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="memberName">createBoxShape</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;modelRoot)</span></div>
-<div class="block">Create a simplified shape for a movable object, based on the bounding
- volumes of its model's geometries. TODO buggy!</div>
+<div class="block">Create a simplified shape for a movable object, based on the axis-aligned
+ bounding boxes of its meshes.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>modelRoot</code> - the model on which to base the shape (not null,
  unaffected)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new box/sphere CollisionShape (if modelRoot is a Geometry) or a
- CompoundCollisionShape with box/sphere shapes as children (if modelRoot
- is a Node)</dd>
+<dd>a CompoundCollisionShape with box shapes as children</dd>
 </dl>
 </section>
 </li>
