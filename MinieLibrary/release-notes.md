@@ -1,11 +1,12 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 3.1.0-test4 released on TBD
+## Version 3.1.0-test4 released on 6 January 2021
 
- + Bugfix: `CollisionShapeFactory.createBoxShape()` 
+ + Bugfix: `CollisionShapeFactory.createBoxShape()`
    positions the box incorrectly.
- + Added (experimental) support for the Linux_ARM32 platform with "hf".
- + Add a `createMergedBoxShape()` method to the `CollisionShapeFactory` class.
+ + Added (experimental) support for the Linux_ARM32 platform with
+   "hf" (hardware floating-point support).
+ + Added a `createMergedBoxShape()` method to the `CollisionShapeFactory` class.
  + Updated the native libraries to v9.3.1 of Libbulletjme.
 
 ## Version 3.1.0-test3 released on 5 January 2021
