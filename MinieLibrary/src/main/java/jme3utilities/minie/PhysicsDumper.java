@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2020, Stephen Gold
+ Copyright (c) 2013-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -349,7 +349,8 @@ public class PhysicsDumper extends Dumper {
 
         addLine(indent);
         int numIgnores = character.countIgnored();
-        stream.printf(" with %d ignore%s", numIgnores, (numIgnores == 1) ? "" : "s");
+        stream.printf(" with %d ignore%s",
+                numIgnores, (numIgnores == 1) ? "" : "s");
         if (dumpIgnores && numIgnores > 0) {
             dumpIgnores(character, indent);
         }
@@ -1626,6 +1627,12 @@ public class PhysicsDumper extends Dumper {
             stream.print(" raycast=");
             float raycast = vehicle.castRay(wheelIndex);
             stream.print(MyString.describe(raycast));
+
+            if (raycast >= 0f) {
+                stream.print(" skid=");
+                float skid = wheel.getSkidInfo();
+                stream.print(MyString.describe(skid));
+            }
         }
         addLine(indent);
     }
