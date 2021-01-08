@@ -381,7 +381,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#destroy()">destroy</a></span>()</code></th>
 <td class="colLast">
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">Remove all collision objects and physics joints.</div>
 </td>
 </tr>
 <tr class="altColor" id="i16">
@@ -961,13 +961,6 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 </li>
 <li class="blockList">
 <section class="detail">
-<h3><a id="destroy()">destroy</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">destroy</span>()</div>
-<div class="block">For compatibility with the jme3-bullet library.</div>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
 <h3><a id="distributeEvents()">distributeEvents</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">distributeEvents</span>()</div>
 <div class="block">Distribute each collision event to registered listeners.</div>
@@ -1435,6 +1428,17 @@ int&nbsp;maxSteps)</span></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="CollisionSpace.html#create()">create</a></code>&nbsp;in class&nbsp;<code><a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="destroy()">destroy</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">destroy</span>()</div>
+<div class="block">Remove all collision objects and physics joints.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="CollisionSpace.html#destroy()">destroy</a></code>&nbsp;in class&nbsp;<code><a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></dd>
 </dl>
 </section>
 </li>

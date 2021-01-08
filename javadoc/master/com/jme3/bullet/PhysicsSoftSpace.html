@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":9,"i8":10,"i9":10,"i10":10,"i11":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":9,"i9":10,"i10":10,"i11":10,"i12":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -244,6 +244,13 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 </td>
 </tr>
 <tr class="rowColor" id="i5">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#destroy()">destroy</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Remove all collision objects and physics joints.</div>
+</td>
+</tr>
+<tr class="altColor" id="i6">
 <td class="colFirst"><code>java.util.Collection&lt;<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPcoList()">getPcoList</a></span>()</code></th>
 <td class="colLast">
@@ -251,7 +258,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  yet removed.</div>
 </td>
 </tr>
-<tr class="altColor" id="i6">
+<tr class="rowColor" id="i7">
 <td class="colFirst"><code>java.util.Collection&lt;<a href="objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSoftBodyList()">getSoftBodyList</a></span>()</code></th>
 <td class="colLast">
@@ -259,35 +266,35 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  removed.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i7">
+<tr class="altColor" id="i8">
 <td class="colFirst"><code>static <a href="PhysicsSoftSpace.html" title="class in com.jme3.bullet">PhysicsSoftSpace</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSoftSpace()">getSoftSpace</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the PhysicsSoftSpace <b>running on this thread</b>.</div>
 </td>
 </tr>
-<tr class="altColor" id="i8">
+<tr class="rowColor" id="i9">
 <td class="colFirst"><code><a href="SoftBodyWorldInfo.html" title="class in com.jme3.bullet">SoftBodyWorldInfo</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWorldInfo()">getWorldInfo</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the parameters applied when soft bodies are added to this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i9">
+<tr class="altColor" id="i10">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty()">isEmpty</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether this space is empty.</div>
 </td>
 </tr>
-<tr class="altColor" id="i10">
+<tr class="rowColor" id="i11">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)">removeCollisionObject</a></span>&#8203;(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pco)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified collision object from this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i11">
+<tr class="altColor" id="i12">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setGravity(com.jme3.math.Vector3f)">setGravity</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;gravity)</code></th>
 <td class="colLast">
@@ -302,7 +309,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <h3>Methods inherited from class&nbsp;com.jme3.bullet.<a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></h3>
 <a id="methods.inherited.from.class.com.jme3.bullet.PhysicsSpace">
 <!--   -->
-</a><code><a href="PhysicsSpace.html#activateAll(boolean)">activateAll</a>, <a href="PhysicsSpace.html#add(java.lang.Object)">add</a>, <a href="PhysicsSpace.html#addAll(com.jme3.scene.Spatial)">addAll</a>, <a href="PhysicsSpace.html#addCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addCollisionListener</a>, <a href="PhysicsSpace.html#addJoint(com.jme3.bullet.joints.PhysicsJoint)">addJoint</a>, <a href="PhysicsSpace.html#addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addOngoingCollisionListener</a>, <a href="PhysicsSpace.html#addTickListener(com.jme3.bullet.PhysicsTickListener)">addTickListener</a>, <a href="PhysicsSpace.html#contains(com.jme3.bullet.joints.PhysicsJoint)">contains</a>, <a href="PhysicsSpace.html#countCollisionListeners()">countCollisionListeners</a>, <a href="PhysicsSpace.html#countRigidBodies()">countRigidBodies</a>, <a href="PhysicsSpace.html#countTickListeners()">countTickListeners</a>, <a href="PhysicsSpace.html#destroy()">destroy</a>, <a href="PhysicsSpace.html#distributeEvents()">distributeEvents</a>, <a href="PhysicsSpace.html#enqueue(java.util.concurrent.Callable)">enqueue</a>, <a href="PhysicsSpace.html#enqueueOnThisThread(java.util.concurrent.Callable)">enqueueOnThisThread</a>, <a href="PhysicsSpace.html#getAccuracy()">getAccuracy</a>, <a href="PhysicsSpace.html#getCharacterList()">getCharacterList</a>, <a href="PhysicsSpace.html#getGravity(com.jme3.math.Vector3f)">getGravity</a>, <a href="PhysicsSpace.html#getJointList()">getJointList</a>, <a href="PhysicsSpace.html#getJointMap()">getJointMap</a>, <a href="PhysicsSpace.html#getPhysicsSpace()">getPhysicsSpace</a>, <a href="PhysicsSpace.html#getRigidBodyList()">getRigidBodyList</a>, <a href="PhysicsSpace.html#getSolverInfo()">getSolverInfo</a>, <a href="PhysicsSpace.html#getSolverNumIterations()">getSolverNumIterations</a>, <a href="PhysicsSpace.html#getSolverType()">getSolverType</a>, <a href="PhysicsSpace.html#getVehicleList()">getVehicleList</a>, <a href="PhysicsSpace.html#getWorldType(long)">getWorldType</a>, <a href="PhysicsSpace.html#initSolverInfo()">initSolverInfo</a>, <a href="PhysicsSpace.html#isUsingScr()">isUsingScr</a>, <a href="PhysicsSpace.html#maxSubSteps()">maxSubSteps</a>, <a href="PhysicsSpace.html#maxTimeStep()">maxTimeStep</a>, <a href="PhysicsSpace.html#remove(java.lang.Object)">remove</a>, <a href="PhysicsSpace.html#removeAll(com.jme3.scene.Spatial)">removeAll</a>, <a href="PhysicsSpace.html#removeCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeCollisionListener</a>, <a href="PhysicsSpace.html#removeJoint(com.jme3.bullet.joints.PhysicsJoint)">removeJoint</a>, <a href="PhysicsSpace.html#removeOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeOngoingCollisionListener</a>, <a href="PhysicsSpace.html#removeTickListener(com.jme3.bullet.PhysicsTickListener)">removeTickListener</a>, <a href="PhysicsSpace.html#setAccuracy(float)">setAccuracy</a>, <a href="PhysicsSpace.html#setMaxSubSteps(int)">setMaxSubSteps</a>, <a href="PhysicsSpace.html#setMaxTimeStep(float)">setMaxTimeStep</a>, <a href="PhysicsSpace.html#setSolverNumIterations(int)">setSolverNumIterations</a>, <a href="PhysicsSpace.html#update(float)">update</a>, <a href="PhysicsSpace.html#update(float,int)">update</a>, <a href="PhysicsSpace.html#updateSolver()">updateSolver</a>, <a href="PhysicsSpace.html#useScr(boolean)">useScr</a></code></div>
+</a><code><a href="PhysicsSpace.html#activateAll(boolean)">activateAll</a>, <a href="PhysicsSpace.html#add(java.lang.Object)">add</a>, <a href="PhysicsSpace.html#addAll(com.jme3.scene.Spatial)">addAll</a>, <a href="PhysicsSpace.html#addCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addCollisionListener</a>, <a href="PhysicsSpace.html#addJoint(com.jme3.bullet.joints.PhysicsJoint)">addJoint</a>, <a href="PhysicsSpace.html#addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addOngoingCollisionListener</a>, <a href="PhysicsSpace.html#addTickListener(com.jme3.bullet.PhysicsTickListener)">addTickListener</a>, <a href="PhysicsSpace.html#contains(com.jme3.bullet.joints.PhysicsJoint)">contains</a>, <a href="PhysicsSpace.html#countCollisionListeners()">countCollisionListeners</a>, <a href="PhysicsSpace.html#countRigidBodies()">countRigidBodies</a>, <a href="PhysicsSpace.html#countTickListeners()">countTickListeners</a>, <a href="PhysicsSpace.html#distributeEvents()">distributeEvents</a>, <a href="PhysicsSpace.html#enqueue(java.util.concurrent.Callable)">enqueue</a>, <a href="PhysicsSpace.html#enqueueOnThisThread(java.util.concurrent.Callable)">enqueueOnThisThread</a>, <a href="PhysicsSpace.html#getAccuracy()">getAccuracy</a>, <a href="PhysicsSpace.html#getCharacterList()">getCharacterList</a>, <a href="PhysicsSpace.html#getGravity(com.jme3.math.Vector3f)">getGravity</a>, <a href="PhysicsSpace.html#getJointList()">getJointList</a>, <a href="PhysicsSpace.html#getJointMap()">getJointMap</a>, <a href="PhysicsSpace.html#getPhysicsSpace()">getPhysicsSpace</a>, <a href="PhysicsSpace.html#getRigidBodyList()">getRigidBodyList</a>, <a href="PhysicsSpace.html#getSolverInfo()">getSolverInfo</a>, <a href="PhysicsSpace.html#getSolverNumIterations()">getSolverNumIterations</a>, <a href="PhysicsSpace.html#getSolverType()">getSolverType</a>, <a href="PhysicsSpace.html#getVehicleList()">getVehicleList</a>, <a href="PhysicsSpace.html#getWorldType(long)">getWorldType</a>, <a href="PhysicsSpace.html#initSolverInfo()">initSolverInfo</a>, <a href="PhysicsSpace.html#isUsingScr()">isUsingScr</a>, <a href="PhysicsSpace.html#maxSubSteps()">maxSubSteps</a>, <a href="PhysicsSpace.html#maxTimeStep()">maxTimeStep</a>, <a href="PhysicsSpace.html#remove(java.lang.Object)">remove</a>, <a href="PhysicsSpace.html#removeAll(com.jme3.scene.Spatial)">removeAll</a>, <a href="PhysicsSpace.html#removeCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeCollisionListener</a>, <a href="PhysicsSpace.html#removeJoint(com.jme3.bullet.joints.PhysicsJoint)">removeJoint</a>, <a href="PhysicsSpace.html#removeOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeOngoingCollisionListener</a>, <a href="PhysicsSpace.html#removeTickListener(com.jme3.bullet.PhysicsTickListener)">removeTickListener</a>, <a href="PhysicsSpace.html#setAccuracy(float)">setAccuracy</a>, <a href="PhysicsSpace.html#setMaxSubSteps(int)">setMaxSubSteps</a>, <a href="PhysicsSpace.html#setMaxTimeStep(float)">setMaxTimeStep</a>, <a href="PhysicsSpace.html#setSolverNumIterations(int)">setSolverNumIterations</a>, <a href="PhysicsSpace.html#update(float)">update</a>, <a href="PhysicsSpace.html#update(float,int)">update</a>, <a href="PhysicsSpace.html#updateSolver()">updateSolver</a>, <a href="PhysicsSpace.html#useScr(boolean)">useScr</a></code></div>
 <div class="inheritedList">
 <h3>Methods inherited from class&nbsp;com.jme3.bullet.<a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></h3>
 <a id="methods.inherited.from.class.com.jme3.bullet.CollisionSpace">
@@ -472,6 +479,17 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="PhysicsSpace.html#create()">create</a></code>&nbsp;in class&nbsp;<code><a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></code></dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="destroy()">destroy</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">destroy</span>()</div>
+<div class="block">Remove all collision objects and physics joints.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="PhysicsSpace.html#destroy()">destroy</a></code>&nbsp;in class&nbsp;<code><a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></code></dd>
 </dl>
 </section>
 </li>

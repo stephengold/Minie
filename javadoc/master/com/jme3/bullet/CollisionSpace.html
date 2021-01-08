@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":9,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -244,6 +244,13 @@ int&nbsp;collisionGroup)</code></th>
 </td>
 </tr>
 <tr class="altColor" id="i8">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#destroy()">destroy</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Remove all collision objects and physics joints.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i9">
 <td class="colFirst"><code><a href="PhysicsSpace.BroadphaseType.html" title="enum in com.jme3.bullet">PhysicsSpace.BroadphaseType</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getBroadphaseType()">getBroadphaseType</a></span>()</code></th>
 <td class="colLast">
@@ -251,14 +258,14 @@ int&nbsp;collisionGroup)</code></th>
  detection.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i9">
+<tr class="altColor" id="i10">
 <td class="colFirst"><code>static <a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCollisionSpace()">getCollisionSpace</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the CollisionSpace <b>running on this thread</b>.</div>
 </td>
 </tr>
-<tr class="altColor" id="i10">
+<tr class="rowColor" id="i11">
 <td class="colFirst"><code>java.util.Collection&lt;<a href="objects/PhysicsGhostObject.html" title="class in com.jme3.bullet.objects">PhysicsGhostObject</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getGhostObjectList()">getGhostObjectList</a></span>()</code></th>
 <td class="colLast">
@@ -266,7 +273,7 @@ int&nbsp;collisionGroup)</code></th>
  removed.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i11">
+<tr class="altColor" id="i12">
 <td class="colFirst"><code>java.util.Collection&lt;<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPcoList()">getPcoList</a></span>()</code></th>
 <td class="colLast">
@@ -274,49 +281,49 @@ int&nbsp;collisionGroup)</code></th>
  yet removed.</div>
 </td>
 </tr>
-<tr class="altColor" id="i12">
+<tr class="rowColor" id="i13">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRayTestFlags()">getRayTestFlags</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the flags used in ray tests (native field: m_flags).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i13">
+<tr class="altColor" id="i14">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSpaceId()">getSpaceId</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the identifier of the native object.</div>
 </td>
 </tr>
-<tr class="altColor" id="i14">
+<tr class="rowColor" id="i15">
 <td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWorldMax(com.jme3.math.Vector3f)">getWorldMax</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Copy the maximum coordinate values for this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i15">
+<tr class="altColor" id="i16">
 <td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWorldMin(com.jme3.math.Vector3f)">getWorldMin</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Copy the minimum coordinate values for this space.</div>
 </td>
 </tr>
-<tr class="altColor" id="i16">
+<tr class="rowColor" id="i17">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initThread(long)">initThread</a></span>&#8203;(long&nbsp;spaceId)</code></th>
 <td class="colLast">
 <div class="block">Must be invoked on the designated physics thread.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i17">
+<tr class="altColor" id="i18">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty()">isEmpty</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether this space is empty.</div>
 </td>
 </tr>
-<tr class="altColor" id="i18">
+<tr class="rowColor" id="i19">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTest</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;from,
 com.jme3.math.Vector3f&nbsp;to)</code></th>
@@ -325,7 +332,7 @@ com.jme3.math.Vector3f&nbsp;to)</code></th>
  hitFraction.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i19">
+<tr class="altColor" id="i20">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTest</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;from,
 com.jme3.math.Vector3f&nbsp;to,
@@ -335,7 +342,7 @@ java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in 
  hitFraction.</div>
 </td>
 </tr>
-<tr class="altColor" id="i20">
+<tr class="rowColor" id="i21">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTestRaw</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;from,
 com.jme3.math.Vector3f&nbsp;to)</code></th>
@@ -344,7 +351,7 @@ com.jme3.math.Vector3f&nbsp;to)</code></th>
  arbitrary order.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i21">
+<tr class="altColor" id="i22">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTestRaw</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;from,
 com.jme3.math.Vector3f&nbsp;to,
@@ -354,35 +361,35 @@ java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in 
  arbitrary order.</div>
 </td>
 </tr>
-<tr class="altColor" id="i22">
+<tr class="rowColor" id="i23">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified object from this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i23">
+<tr class="altColor" id="i24">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeCollisionGroupListener(int)">removeCollisionGroupListener</a></span>&#8203;(int&nbsp;collisionGroup)</code></th>
 <td class="colLast">
 <div class="block">De-register the specified collision-group listener.</div>
 </td>
 </tr>
-<tr class="altColor" id="i24">
+<tr class="rowColor" id="i25">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)">removeCollisionObject</a></span>&#8203;(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pco)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified collision object from this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i25">
+<tr class="altColor" id="i26">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRayTestFlags(int)">setRayTestFlags</a></span>&#8203;(int&nbsp;flags)</code></th>
 <td class="colLast">
 <div class="block">Alter the m_flags used in ray tests.</div>
 </td>
 </tr>
-<tr class="altColor" id="i26">
+<tr class="rowColor" id="i27">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform)">sweepTest</a></span>&#8203;(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
 com.jme3.math.Transform&nbsp;start,
@@ -391,7 +398,7 @@ com.jme3.math.Transform&nbsp;end)</code></th>
 <div class="block">For compatibility with the jme3-bullet library.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i27">
+<tr class="altColor" id="i28">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List)">sweepTest</a></span>&#8203;(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
 com.jme3.math.Transform&nbsp;start,
@@ -401,7 +408,7 @@ java.util.List&lt;<a href="collision/PhysicsSweepTestResult.html" title="class i
 <div class="block">For compatibility with the jme3-bullet library.</div>
 </td>
 </tr>
-<tr class="altColor" id="i28">
+<tr class="rowColor" id="i29">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List,float)">sweepTest</a></span>&#8203;(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
 com.jme3.math.Transform&nbsp;start,
@@ -574,6 +581,13 @@ int&nbsp;collisionGroup)</span></div>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the count (&ge;0)</dd>
 </dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="destroy()">destroy</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">destroy</span>()</div>
+<div class="block">Remove all collision objects and physics joints.</div>
 </section>
 </li>
 <li class="blockList">
