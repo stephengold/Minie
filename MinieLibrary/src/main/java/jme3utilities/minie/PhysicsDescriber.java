@@ -476,10 +476,6 @@ public class PhysicsDescriber extends Describer {
         Vector3f axleDir = wheel.getAxle(null);
         result.append(MyVector3f.describe(axleDir));
 
-        result.append("] suspDown[");
-        Vector3f suspDown = wheel.getDirection(null);
-        result.append(MyVector3f.describe(suspDown));
-
         result.append("] fSlip=");
         float fSlip = wheel.getFrictionSlip();
         result.append(MyString.describe(fSlip));
@@ -487,6 +483,36 @@ public class PhysicsDescriber extends Describer {
         result.append(" rollInf=");
         float rollInf = wheel.getRollInfluence();
         result.append(MyString.describe(rollInf));
+
+        result.append(" sus[damp[co=");
+        float co = wheel.getWheelsDampingCompression();
+        result.append(MyString.describe(co));
+
+        result.append(" re=");
+        float re = wheel.getWheelsDampingRelaxation();
+        result.append(MyString.describe(re));
+
+        result.append("] down[");
+        Vector3f down = wheel.getDirection(null);
+        result.append(MyVector3f.describe(down));
+
+        result.append("] maxF=");
+        float maxF = wheel.getMaxSuspensionForce();
+        result.append(MyString.describe(maxF));
+
+        result.append("] maxTrav=");
+        float maxTrav = wheel.getMaxSuspensionTravelCm();
+        result.append(MyString.describe(maxTrav));
+
+        result.append(" restL=");
+        float restL = wheel.getRestLength();
+        result.append(MyString.describe(restL));
+
+        result.append(" stif=");
+        float stiff = wheel.getSuspensionStiffness();
+        result.append(MyString.describe(stiff));
+
+        result.append(']');
 
         return result.toString();
     }
@@ -589,6 +615,10 @@ public class PhysicsDescriber extends Describer {
         result.append(" steer=");
         float steer = wheel.getSteerAngle();
         result.append(MyString.describe(steer));
+
+        result.append(" susLen=");
+        float susLen = wheel.getSuspensionLength();
+        result.append(MyString.describe(susLen));
 
         return result.toString();
     }
