@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2020 jMonkeyEngine
+ * Copyright (c) 2009-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -260,6 +260,15 @@ public class CollisionSpace extends NativePhysicsObject {
         int count = getNumCollisionObjects(spaceId);
 
         return count;
+    }
+
+    /**
+     * Remove all collision objects and physics joints.
+     */
+    public void destroy() {
+        for (PhysicsGhostObject character : ghostMap.values()) {
+            removeGhostObject(character);
+        }
     }
 
     /**

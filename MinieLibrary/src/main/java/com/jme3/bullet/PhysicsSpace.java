@@ -452,13 +452,6 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
-     */
-    public void destroy() {
-        // do nothing
-    }
-
-    /**
      * Distribute each collision event to registered listeners.
      */
     public void distributeEvents() {
@@ -981,6 +974,24 @@ public class PhysicsSpace extends CollisionSpace {
         initThread(spaceId);
         initSolverInfo();
         logger.log(Level.FINE, "Created {0}.", this);
+    }
+
+    /**
+     * Remove all collision objects and physics joints.
+     */
+    @Override
+    public void destroy() {
+        super.destroy();
+
+        for (PhysicsCharacter character : characterMap.values()) {
+            removeCharacter(character);
+        }
+        for (PhysicsJoint joint : jointMap.values()) {
+            removeJoint(joint);
+        }
+        for (PhysicsRigidBody rigidBody : rigidMap.values()) {
+            removeRigidBody(rigidBody);
+        }
     }
 
     /**

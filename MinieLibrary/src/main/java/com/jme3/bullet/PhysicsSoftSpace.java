@@ -211,6 +211,18 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     }
 
     /**
+     * Remove all collision objects and physics joints.
+     */
+    @Override
+    public void destroy() {
+        super.destroy();
+
+        for (PhysicsSoftBody softBody : softBodyMap.values()) {
+            removeSoftBody(softBody);
+        }
+    }
+
+    /**
      * Enumerate collision objects that have been added to this space and not
      * yet removed.
      *

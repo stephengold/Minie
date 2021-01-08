@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -252,6 +252,18 @@ public class MultiBodySpace extends PhysicsSpace {
         initThread(nativeId);
         initSolverInfo();
         logger2.log(Level.FINE, "Created {0}.", this);
+    }
+
+    /**
+     * Remove all multibodies, collision objects, and physics joints.
+     */
+    @Override
+    public void destroy() {
+        super.destroy();
+
+        for (MultiBody multibody : multiBodyMap.values()) {
+            removeMultiBody(multibody);
+        }
     }
 
     /**
