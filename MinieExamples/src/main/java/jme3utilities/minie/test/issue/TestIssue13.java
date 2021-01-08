@@ -34,12 +34,18 @@ import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.VehicleWheel;
-import com.jme3.math.FastMath;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Plane;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
+import jme3utilities.MyAsset;
+import jme3utilities.debug.AxesVisualizer;
+import jme3utilities.mesh.PointMesh;
 
 /**
  * Test for Minie issue #13 (vehicle acceleration depends on its location).
@@ -47,6 +53,11 @@ import java.util.Random;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestIssue13 extends SimpleApplication {
+
+    private Material hiMat, loMat;
+    final private Random random = new Random();
+    // *************************************************************************
+    // new methods exposed
 
     /**
      * Main entry point for the TestIssue13 application.
@@ -62,31 +73,37 @@ public class TestIssue13 extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        Random random = new Random();
-        int largeVzCount = 0;
-        int smallVzCount = 0;
-        int otherCount = 0;
+        cam.setLocation(new Vector3f(39f, 64f, 172f));
+        cam.setRotation(new Quaternion(-0.013f, 0.98608f, -0.1254f, -0.1084f));
+        flyCam.setMoveSpeed(100f);
+
+        hiMat = MyAsset.createWireframeMaterial(assetManager,
+                ColorRGBA.Red, 3f);
+        loMat = MyAsset.createWireframeMaterial(assetManager,
+                ColorRGBA.Green, 3f);
+
+        // Add axes
+        float axisLength = 30f;
+        AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
+        axes.setLineWidth(AxesVisualizer.widthForSolid);
+        rootNode.addControl(axes);
+        axes.setEnabled(true);
 
         for (int i = 0; i < 1000; ++i) {
-            float x = random.nextFloat();
-            float z = random.nextFloat();
+            float x = -50f + 100f * random.nextFloat();
+            float z = -50f + 100f * random.nextFloat();
             float vz = test(x, z);
 
-            if (FastMath.approximateEquals(vz, 9.086558f)) {
-                ++largeVzCount;
-            } else if (FastMath.approximateEquals(vz, 0.06497696f)) {
-                ++smallVzCount;
+            PointMesh pointMesh = new PointMesh();
+            pointMesh.setLocation(new Vector3f(x, 5f * vz, z));
+            Geometry geometry = new Geometry("result", pointMesh);
+            if (vz > 1f) {
+                geometry.setMaterial(hiMat);
             } else {
-                ++otherCount;
-                System.out.println("vz = " + vz);
+                geometry.setMaterial(loMat);
             }
+            rootNode.attachChild(geometry);
         }
-
-        System.out.println("largeVzCount = " + largeVzCount);
-        System.out.println("smallVzCount = " + smallVzCount);
-        System.out.println("otherCount = " + otherCount);
-
-        stop();
     }
     // *************************************************************************
     // private methods
@@ -98,9 +115,9 @@ public class TestIssue13 extends SimpleApplication {
         // Add a static plane to represent the ground.
         Plane plane = new Plane(Vector3f.UNIT_Y, 0f);
         PlaneCollisionShape shape = new PlaneCollisionShape(plane);
-        PhysicsRigidBody body
+        PhysicsRigidBody ground
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
-        physicsSpace.addCollisionObject(body);
+        physicsSpace.addCollisionObject(ground);
 
         // Create a wedge-shaped vehicle with a low center of gravity.
         // The local forward direction is +Z.
@@ -165,7 +182,7 @@ public class TestIssue13 extends SimpleApplication {
         physicsSpace.update(1f / 60, 0);
         Vector3f velocity = vehicle.getLinearVelocity();
 
-        physicsSpace.removeCollisionObject(vehicle);
+        physicsSpace.destroy();
 
         return velocity.z;
     }
