@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -30,11 +30,9 @@ import com.jme3.app.Application;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.SoftBodyControl;
 import com.jme3.bullet.debug.DebugInitListener;
-import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
@@ -51,7 +49,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
@@ -326,14 +323,8 @@ public class TestSoftBodyControl
          * Remove physics objects, which also removes their debug meshes.
          */
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        Collection<PhysicsJoint> joints = physicsSpace.getJointList();
-        for (PhysicsJoint joint : joints) {
-            physicsSpace.removeJoint(joint);
-        }
-        Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
-        for (PhysicsCollisionObject pco : pcos) {
-            physicsSpace.removeCollisionObject(pco);
-        }
+        physicsSpace.destroy();
+        assert physicsSpace.isEmpty();
         /*
          * Clear the hidden-object list.
          */

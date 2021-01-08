@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,6 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.PhysicsSweepTestResult;
 import com.jme3.bullet.collision.shapes.Box2dShape;
@@ -79,7 +78,6 @@ import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -1149,10 +1147,7 @@ public class TestRbc
          * which also removes their debug meshes.
          */
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
-        for (PhysicsCollisionObject pco : pcos) {
-            physicsSpace.removeCollisionObject(pco);
-        }
+        physicsSpace.destroy();
         assert physicsSpace.isEmpty();
     }
 

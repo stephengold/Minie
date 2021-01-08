@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -185,11 +185,7 @@ public class TargetDemo
         selectBody(null);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
-        for (PhysicsCollisionObject pco : pcos) {
-            physicsSpace.removeCollisionObject(pco);
-        }
-
+        physicsSpace.destroy();
         assert physicsSpace.isEmpty();
 
         String platformName = status.platformType();

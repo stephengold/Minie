@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -36,14 +36,12 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.PhysicsLink;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.joints.Anchor;
-import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
@@ -779,14 +777,8 @@ public class TestSoftBody
         /*
          * Remove physics objects, which also removes their debug meshes.
          */
-        Collection<PhysicsJoint> joints = physicsSpace.getJointList();
-        for (PhysicsJoint joint : joints) {
-            physicsSpace.removeJoint(joint);
-        }
-        Collection<PhysicsCollisionObject> pcos = physicsSpace.getPcoList();
-        for (PhysicsCollisionObject pco : pcos) {
-            physicsSpace.removeCollisionObject(pco);
-        }
+        physicsSpace.destroy();
+        assert physicsSpace.isEmpty();
         /*
          * Clear the hidden-object list.
          */
