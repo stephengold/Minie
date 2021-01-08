@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2020, Stephen Gold
+ Copyright (c) 2013-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -484,21 +484,9 @@ public class PhysicsDescriber extends Describer {
         float fSlip = wheel.getFrictionSlip();
         result.append(MyString.describe(fSlip));
 
-        result.append(" brake=");
-        float brake = wheel.getBrake();
-        result.append(MyString.describe(brake));
-
-        result.append(" engF=");
-        float engF = wheel.getEngineForce();
-        result.append(MyString.describe(engF));
-
         result.append(" rollInf=");
         float rollInf = wheel.getRollInfluence();
         result.append(MyString.describe(rollInf));
-
-        result.append(" steer=");
-        float steer = wheel.getSteerAngle();
-        result.append(MyString.describe(steer));
 
         return result.toString();
     }
@@ -576,6 +564,31 @@ public class PhysicsDescriber extends Describer {
                 config.positionIterations(),
                 config.velocityIterations());
         result.append(description);
+
+        return result.toString();
+    }
+
+    /**
+     * Generate the 2nd line of a textual description for the specified
+     * VehicleWheel.
+     *
+     * @param wheel the wheel to describe (not null, unaffected)
+     * @return description (not null, not empty)
+     */
+    public String describe2(VehicleWheel wheel) {
+        StringBuilder result = new StringBuilder(120);
+
+        result.append(" brake=");
+        float brake = wheel.getBrake();
+        result.append(MyString.describe(brake));
+
+        result.append(" engF=");
+        float engF = wheel.getEngineForce();
+        result.append(MyString.describe(engF));
+
+        result.append(" steer=");
+        float steer = wheel.getSteerAngle();
+        result.append(MyString.describe(steer));
 
         return result.toString();
     }
