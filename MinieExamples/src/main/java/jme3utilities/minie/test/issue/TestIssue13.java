@@ -136,7 +136,7 @@ public class TestIssue13 extends SimpleApplication {
         HullCollisionShape wedgeShape
                 = new HullCollisionShape(cornerLocations);
 
-        float mass = 1525f;
+        float mass = 1.525f;
         PhysicsVehicle vehicle = new PhysicsVehicle(wedgeShape, mass);
         vehicle.setDamping(0.086f, 0f);
         vehicle.setSuspensionCompression(6f);
@@ -165,7 +165,7 @@ public class TestIssue13 extends SimpleApplication {
         for (int i = 0; i < 4; ++i) {
             VehicleWheel w = vehicle.getWheel(i);
             w.setFrictionSlip(0.32f);
-            w.setMaxSuspensionForce(8000f);
+            w.setMaxSuspensionForce(8f);
             w.setRestLength(0.225f);
             w.setSuspensionStiffness(10f);
             w.setWheelsDampingCompression(2.087f);
@@ -177,8 +177,8 @@ public class TestIssue13 extends SimpleApplication {
         physicsSpace.addCollisionObject(vehicle);
 
         // Simulate a single timestep.
-        vehicle.accelerate(2, 415710f);
-        vehicle.accelerate(3, 415710f);
+        vehicle.accelerate(2, 415.71f);
+        vehicle.accelerate(3, 415.71f);
         physicsSpace.update(1f / 60, 0);
         Vector3f velocity = vehicle.getLinearVelocity();
 
