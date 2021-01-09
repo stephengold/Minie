@@ -385,6 +385,7 @@ artists and software developers:
 + Riccardo Balbo (aka "riccardo") for creating and licensing
   the [V-HACD Java Bindings Project][vhacdBindings]
 + "ndebruyn" for early testing of Minie on Android platforms
++ Pavly Gerges (aka "Pavl_G") for testing Minie on Raspberry Pi
 + Adam T. Ryder (aka "tryder") for creating and licensing
   the [jME-TTF] rendering system
 + Paul Speed, for helpful insights
