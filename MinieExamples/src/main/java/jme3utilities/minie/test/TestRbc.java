@@ -519,7 +519,7 @@ public class TestRbc
             }
             missileSpatial.setLocalTranslation(location);
         } else {
-            System.out.println("Unexpected collision!");
+            throw new RuntimeException("Unexpected collision!");
         }
     }
     // *************************************************************************
