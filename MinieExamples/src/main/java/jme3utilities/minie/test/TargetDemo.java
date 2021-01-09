@@ -995,7 +995,7 @@ public class TargetDemo
             }
 
             case "brick wall": {
-                int numRows = 15;
+                int numRows = 14;
                 int numBricksPerRow = 10;
                 setUpBrickWall(numRows, numBricksPerRow);
                 break;
