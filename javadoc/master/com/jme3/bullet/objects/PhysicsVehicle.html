@@ -245,7 +245,7 @@ float&nbsp;mass)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#accelerate(float)">accelerate</a></span>&#8203;(float&nbsp;force)</code></th>
 <td class="colLast">
-<div class="block">Apply the specified engine force to all wheels.</div>
+<div class="block">Apply the specified engine force to each wheel.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i1">
@@ -253,7 +253,7 @@ float&nbsp;mass)</code></th>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#accelerate(int,float)">accelerate</a></span>&#8203;(int&nbsp;wheelIndex,
 float&nbsp;force)</code></th>
 <td class="colLast">
-<div class="block">Apply the given engine force to the indexed wheel.</div>
+<div class="block">Apply the specified engine force to the indexed wheel.</div>
 </td>
 </tr>
 <tr class="altColor" id="i2">
@@ -292,7 +292,7 @@ boolean&nbsp;isFrontWheel)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#brake(float)">brake</a></span>&#8203;(float&nbsp;impulse)</code></th>
 <td class="colLast">
-<div class="block">Apply the given brake impulse to all wheels.</div>
+<div class="block">Apply the specified brake impulse to all wheels.</div>
 </td>
 </tr>
 <tr class="altColor" id="i6">
@@ -698,7 +698,7 @@ float&nbsp;mass)</span></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>shape</code> - the desired shape (not null, alias created)</dd>
-<dd><code>mass</code> - (&gt;0)</dd>
+<dd><code>mass</code> - the desired mass for the chassis (&gt;0)</dd>
 </dl>
 </section>
 </li>
@@ -716,7 +716,7 @@ float&nbsp;mass)</span></div>
 <section class="detail">
 <h3><a id="accelerate(float)">accelerate</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">accelerate</span>&#8203;(<span class="arguments">float&nbsp;force)</span></div>
-<div class="block">Apply the specified engine force to all wheels. Works continuously. The
+<div class="block">Apply the specified engine force to each wheel. Works continuously. The
  vehicle must be added to a PhysicsSpace.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -729,8 +729,8 @@ float&nbsp;mass)</span></div>
 <h3><a id="accelerate(int,float)">accelerate</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">accelerate</span>&#8203;(<span class="arguments">int&nbsp;wheelIndex,
 float&nbsp;force)</span></div>
-<div class="block">Apply the given engine force to the indexed wheel. Works continuously.
- The vehicle must be added to a PhysicsSpace.</div>
+<div class="block">Apply the specified engine force to the indexed wheel. Works
+ continuously. The vehicle must be added to a PhysicsSpace.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>wheelIndex</code> - the index of the wheel to apply the force to (&ge;0,
@@ -809,7 +809,7 @@ boolean&nbsp;isFrontWheel)</span></div>
 <section class="detail">
 <h3><a id="brake(float)">brake</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">brake</span>&#8203;(<span class="arguments">float&nbsp;impulse)</span></div>
-<div class="block">Apply the given brake impulse to all wheels. Works continuously. The
+<div class="block">Apply the specified brake impulse to all wheels. Works continuously. The
  vehicle must be added to a PhysicsSpace.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
