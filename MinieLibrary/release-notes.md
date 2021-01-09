@@ -1,5 +1,14 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 3.1.0 released on TBD
+
+ + Re-implemented `CollisionSpace.destroy()` to prepare a space for re-use.
+ + Dump 7 more properties of each `VehicleWheel`.
+ + Added the `TestIssue13` application.
+ + Built using Gradle v6.8 .
+ + Updated the native libraries to v9.3.2 of Libbulletjme, which includes
+   fixes for issues #12 and #13.
+
 ## Version 3.1.0-test4 released on 6 January 2021
 
  + Bugfix: `CollisionShapeFactory.createBoxShape()`
