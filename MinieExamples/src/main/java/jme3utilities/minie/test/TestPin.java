@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -140,7 +140,8 @@ public class TestPin extends SimpleApplication {
             float x = (2 * xIndex - zLines + 1) * lineSpacing / 2f;
             for (int zIndex = 0; zIndex < xLines; ++zIndex) {
                 float z = (2 * zIndex - xLines + 1) * lineSpacing / 2f;
-                positionArray[vectorIndex++] = new Vector3f(x, 0f, z);
+                positionArray[vectorIndex] = new Vector3f(x, 0f, z);
+                vectorIndex++;
             }
         }
         assert vectorIndex == positionArray.length;
@@ -161,23 +162,24 @@ public class TestPin extends SimpleApplication {
                 int vi3 = vi1 + xLines;
                 if ((xIndex + zIndex) % 2 == 0) {
                     // major diagonal: joins vi1 to vi2
-                    indexArray[intIndex++] = vi0;
-                    indexArray[intIndex++] = vi1;
-                    indexArray[intIndex++] = vi2;
+                    indexArray[intIndex] = vi0;
+                    indexArray[intIndex + 1] = vi1;
+                    indexArray[intIndex + 2] = vi2;
 
-                    indexArray[intIndex++] = vi3;
-                    indexArray[intIndex++] = vi2;
-                    indexArray[intIndex++] = vi1;
+                    indexArray[intIndex + 3] = vi3;
+                    indexArray[intIndex + 4] = vi2;
+                    indexArray[intIndex + 5] = vi1;
                 } else {
                     // minor diagonal: joins vi0 to vi3
-                    indexArray[intIndex++] = vi0;
-                    indexArray[intIndex++] = vi1;
-                    indexArray[intIndex++] = vi3;
+                    indexArray[intIndex] = vi0;
+                    indexArray[intIndex + 1] = vi1;
+                    indexArray[intIndex + 2] = vi3;
 
-                    indexArray[intIndex++] = vi3;
-                    indexArray[intIndex++] = vi2;
-                    indexArray[intIndex++] = vi0;
+                    indexArray[intIndex + 3] = vi3;
+                    indexArray[intIndex + 4] = vi2;
+                    indexArray[intIndex + 5] = vi0;
                 }
+                intIndex += 6;
             }
         }
         assert intIndex == indexArray.length;
