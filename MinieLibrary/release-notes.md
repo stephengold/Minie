@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 3.1.0 released on TBD
+## Version 3.1.0 released on 9 January 2021
 
  + Re-implemented `CollisionSpace.destroy()` to prepare a space for re-use.
  + Dump 7 more properties of each `VehicleWheel`.
