@@ -779,7 +779,6 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         motionState.setVehicle(this);
 
         wheels = cloner.clone(wheels);
-        controller = cloner.clone(controller); // probably null
         tuning = cloner.clone(tuning);
     }
 
