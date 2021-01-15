@@ -154,7 +154,7 @@ some of the maxima might need to be increased accordingly.
 === Suspension rest length
 
 _Rest length_ is the length of a spring when no force is applied to it.
-If the subspension's rest lengths are too large,
+If the suspension's rest lengths are too large,
 the chassis will seem to be jacked up on stilts
 and the vehicle will be prone to tipping, even when not moving.
 
@@ -214,14 +214,15 @@ use it only as a last resort.
 == Advanced vehicles
 
 For further inspiration, look at
-https://github.com/stephengold/jme-vehicles[James Khan's Advanced Vehicles demo]
+https://github.com/stephengold/jme-vehicles[the More Advanced Vehicles demo]
 which includes:
 
 * a Pacejka model for tire friction,
 * multiple gears including reverse,
 * sound effects,
 * a speedometer display,
-* a tachometer display, and
+* a tachometer display,
+* tire smoke, and
 * skid marks.
 
 == Summary
