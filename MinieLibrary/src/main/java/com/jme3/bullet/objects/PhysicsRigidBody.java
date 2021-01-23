@@ -280,7 +280,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Clear all forces and torques acting on this body.
+     * Clear all forces and torques acting on this body, including gravity.
      */
     public void clearForces() {
         long objectId = nativeId();
