@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -195,22 +195,6 @@ public class MultiBody
     public float angularDamping() {
         long multiBodyId = nativeId();
         float result = getAngularDamping(multiBodyId);
-
-        return result;
-    }
-
-    /**
-     * Determine the total angular momentum of this MultiBody.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return the momentum vector (either storeResult or a new vector, not
-     * null)
-     */
-    public Vector3f angularMomentum(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-
-        long multiBodyId = nativeId();
-        getAngularMomentum(multiBodyId, result);
 
         return result;
     }
@@ -745,18 +729,6 @@ public class MultiBody
     }
 
     /**
-     * Determine the total kinetic energy of this MultiBody.
-     *
-     * @return the energy (&ge;0)
-     */
-    public float kineticEnergy() {
-        long multiBodyId = nativeId();
-        float result = getKineticEnergy(multiBodyId);
-
-        return result;
-    }
-
-    /**
      * Determine the linear damping.
      *
      * @return the damping
@@ -1244,9 +1216,6 @@ public class MultiBody
 
     native private static float getAngularDamping(long multiBodyId);
 
-    native private static void getAngularMomentum(long multiBodyId,
-            Vector3f storeVector);
-
     native private static long getBaseCollider(long multiBodyId);
 
     native private static void getBaseForce(long multiBodyId,
@@ -1279,8 +1248,6 @@ public class MultiBody
     native private static int getCollideWithGroups(long multiBodyId);
 
     native private static int getCollisionGroup(long multiBodyId);
-
-    native private static float getKineticEnergy(long multiBodyId);
 
     native private static float getLinearDamping(long multiBodyId);
 

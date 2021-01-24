@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -420,7 +420,6 @@ public class TestDefaults {
         link.addCollider(box);
 
         Assert.assertEquals(0.04f, mb.angularDamping(), 0f);
-        assertEquals(0f, 0f, 0f, mb.angularMomentum(null), 0f);
         assertEquals(0f, 0f, 0f, mb.baseAngularVelocity(null), 0f);
         assertEquals(0f, 0f, 0f, mb.baseForce(null), 0f);
         assertEquals(0f, 0f, 0f, mb.baseLocation(null), 0f);
@@ -438,7 +437,6 @@ public class TestDefaults {
         Assert.assertFalse(mb.isUsingGlobalVelocities());
         Assert.assertTrue(mb.isUsingGyroTerm());
         Assert.assertFalse(mb.isUsingRK4());
-        Assert.assertEquals(0f, mb.kineticEnergy(), 0f);
         Assert.assertEquals(0.04f, mb.linearDamping(), 0f);
         Assert.assertEquals(1000f, mb.maxAppliedImpulse(), 0f);
         Assert.assertEquals(100f, mb.maxCoordinateVelocity(), 0f);
