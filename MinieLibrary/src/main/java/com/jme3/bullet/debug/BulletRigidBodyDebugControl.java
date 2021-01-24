@@ -34,6 +34,7 @@ package com.jme3.bullet.debug;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.objects.infos.RigidBodyMotionState;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.Quaternion;
@@ -145,8 +146,9 @@ public class BulletRigidBodyDebugControl extends CollisionShapeDebugControl {
         }
 
         updateMaterial();
-        body.getPhysicsLocation(location);
-        body.getPhysicsRotation(rotation);
+        RigidBodyMotionState motionState = body.getMotionState();
+        motionState.getLocation(location);
+        motionState.getOrientation(rotation);
         applyPhysicsTransform(location, rotation);
     }
     // *************************************************************************

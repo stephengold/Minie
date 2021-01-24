@@ -33,6 +33,7 @@ package com.jme3.bullet.debug;
 
 import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.VehicleWheel;
+import com.jme3.bullet.objects.infos.RigidBodyMotionState;
 import com.jme3.material.Material;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -84,7 +85,7 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
     public BulletVehicleDebugControl(BulletDebugAppState debugAppState,
             PhysicsVehicle ve) {
         super(debugAppState);
-        vehicle = ve;
+        this.vehicle = ve;
         suspensionNode = new Node("Suspension");
         createVehicle();
     }
@@ -133,8 +134,10 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
             axleGeom.setLocalTranslation(wLocation.addLocal(wDirection));
             wheelGeom.setLocalTranslation(wLocation);
         }
-        applyPhysicsTransform(vehicle.getPhysicsLocation(location),
-                vehicle.getPhysicsRotation(rotation));
+        RigidBodyMotionState motionState = vehicle.getMotionState();
+        motionState.getLocation(location);
+        motionState.getOrientation(rotation);
+        applyPhysicsTransform(location, rotation);
     }
 
     /**
