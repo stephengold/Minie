@@ -59,6 +59,6 @@ public class MinieVersion {
      * @return the branch and revision string (not null, not empty)
      */
     public static String versionShort() {
-        return "master 3.1.0-SNAPSHOT";
+        return "master 4.0.0-SNAPSHOT";
     }
 }
