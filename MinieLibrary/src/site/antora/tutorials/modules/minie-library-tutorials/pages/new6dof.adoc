@@ -227,11 +227,24 @@ with limited translation DOFs.
 The joint's translations are limited,
 confining the ball to a 6x6 horizontal square centered on the origin.
 
-== Spring joints
+== Motors
+
+Each DOF has a motor, which is disabled by default.
+
+{url-tutorial}/HelloMotor.java[HelloMotor] is a simple application
+that demonstrates a double-ended {url-api}/joints/New6Dof.html[`New6Dof`]
+with its Y rotation motor enabled.
+
+. All DOFs except Y rotation are locked at zero.
+. Y rotation is limited between 0 and 1.2 radians.
+. The pivot is located just to the left of the door.
+. Press kbd:[Space bar] to reverse the direction of the motor.
+
+== Springs
 
 By default, a DOF that's limited or free has no preferred position.
 To change this, enable the DOF's spring
-and set its stiffness to a postive value.
+and set its stiffness to a positive value.
 If desired, you can also configure
 the spring's equilibrium value and damping ratio.
 
