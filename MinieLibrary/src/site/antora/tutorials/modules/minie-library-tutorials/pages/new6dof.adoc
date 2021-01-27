@@ -1,4 +1,5 @@
 = An introduction to New6Dof constraints
+:experimental:
 :page-pagination:
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 :url-enwiki: https://en.wikipedia.org/wiki
