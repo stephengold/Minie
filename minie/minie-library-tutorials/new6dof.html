@@ -647,12 +647,41 @@ confining the ball to a 6x6 horizontal square centered on the origin.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_spring_joints"><a class="anchor" href="#_spring_joints"></a>Spring joints</h2>
+<h2 id="_motors"><a class="anchor" href="#_motors"></a>Motors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Each DOF has a motor, which is disabled by default.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloMotor.java">HelloMotor</a> is a simple application
+that demonstrates a double-ended <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a>
+with its Y rotation motor enabled.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>All DOFs except Y rotation are locked at zero.</p>
+</li>
+<li>
+<p>Y rotation is limited between 0 and 1.2 radians.</p>
+</li>
+<li>
+<p>The pivot is located just to the left of the door.</p>
+</li>
+<li>
+<p>Press kbd:[Space bar] to reverse the direction of the motor.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_springs"><a class="anchor" href="#_springs"></a>Springs</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>By default, a DOF that&#8217;s limited or free has no preferred position.
 To change this, enable the DOF&#8217;s spring
-and set its stiffness to a postive value.
+and set its stiffness to a positive value.
 If desired, you can also configure
 the spring&#8217;s equilibrium value and damping ratio.</p>
 </div>
