@@ -312,6 +312,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
             int wheelIndex = controller.addWheel(wheel, tuning);
             wheel.setVehicleId(controllerId, wheelIndex);
             assert wheel.checkCopies();
+            wheel.setSuspensionLength(0f);
         }
     }
 
