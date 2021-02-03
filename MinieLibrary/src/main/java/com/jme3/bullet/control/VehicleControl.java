@@ -304,11 +304,12 @@ public class VehicleControl
             return;
         }
 
-        boolean wheelsUpdated = false;
         if (spatial != null) {
-            wheelsUpdated = getMotionState().applyTransform(spatial);
-        }
-        if (!wheelsUpdated) {
+            if (getMotionState().applyTransform(spatial)) {
+                spatial.getWorldTransform();
+                applyWheelTransforms();
+            }
+        } else {
             applyWheelTransforms();
         }
     }
