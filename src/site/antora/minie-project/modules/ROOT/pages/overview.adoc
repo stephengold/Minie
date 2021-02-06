@@ -33,7 +33,7 @@ you won't need any knowledge of C&#43;&#43; to use Minie.
 Minie's focus is on simulating
 {url-enwiki}/Classical_mechanics[classical mechanics]
 in just enough detail to add verisimilitude to 3-D games.
-It's not intended for 2-D {url-enwiki}/wiki/Platform_game[platformers],
+It's not intended for 2-D {url-enwiki}/Platform_game[platformers],
 nor for scientific research.
 For 2-D physics, consider using http://www.dyn4j.org/[dyn4j] instead.
 
