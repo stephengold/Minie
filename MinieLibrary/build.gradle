@@ -103,8 +103,6 @@ dependencies {
     testRuntimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 }
 
-compileJava.options.headerOutputDirectory = new File('build/cpp')
-
 test {
     failFast true // stop after first failure
     forkEvery 1  // don't run tests in parallel
