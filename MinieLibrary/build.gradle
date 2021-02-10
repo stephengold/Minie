@@ -8,7 +8,7 @@ plugins {
     id 'signing'
 }
 
-description = 'the Minie physics library for jMonkeyEngine'
+description = 'a physics library for jMonkeyEngine'
 ext {
     // Specify the URL from which native libraries should be copied:
 
@@ -279,6 +279,13 @@ publishing {
             artifactId artifact
             from components.java
             pom {
+                description = project.description
+                developers {
+                    developer {
+                        email = 'sgold@sonic.net'
+                        name = 'Stephen Gold'
+                    }
+                }
                 licenses {
                     license {
                         distribution = 'repo'
@@ -286,6 +293,13 @@ publishing {
                         url = 'https://opensource.org/licenses/BSD-3-Clause'
                     }
                 }
+                name = 'com.github.stephengold:' + artifact
+                scm {
+                    connection = 'scm:git:git://github.com/stephengold/Minie.git'
+                    developerConnection = 'scm:git:ssh://github.com:stephengold/Minie.git'
+                    url = 'https://github.com/stephengold/Minie/tree/master'
+                }
+                url = 'https://github.com/stephengold/Minie'
             }
             version project.ext.version
         }
