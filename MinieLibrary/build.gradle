@@ -274,6 +274,8 @@ publishToMavenLocal.doLast {
 publishing {
     publications {
         maven(MavenPublication) {
+            artifact javadocJar
+            artifact sourcesJar
             artifactId artifact
             from components.java
             pom {
