@@ -251,18 +251,34 @@ class TestMode extends InputMode {
     }
 
     /**
+     * Generate a textual description of a single-precision floating-point
+     * value. TODO use MyString
+     *
+     * @param fValue the value to describe
+     * @return a description (not null, not empty)
+     */
+    private static String describe(float fValue) {
+        String raw = String.format(Locale.US, "%g", fValue);
+        String result = MyString.trimFloat(raw);
+
+        assert result != null;
+        assert !result.isEmpty();
+        return result;
+    }
+
+    /**
      * Format a LinkConfig as Java source code.
      *
      * @param config (not null, unaffected)
      */
     private static String format(LinkConfig config) {
         Vector3f scale = config.shapeScale(null);
-        String scaleXString = MyString.describe(scale.x);
-        String scaleYString = MyString.describe(scale.y);
-        String scaleZString = MyString.describe(scale.z);
+        String scaleXString = describe(scale.x);
+        String scaleYString = describe(scale.y);
+        String scaleZString = describe(scale.z);
 
         float massP = config.massParameter();
-        String massPString = MyString.describe(massP);
+        String massPString = describe(massP);
 
         String code = String.format(
                 "new LinkConfig(%sf, MassHeuristic.%s,%n"
