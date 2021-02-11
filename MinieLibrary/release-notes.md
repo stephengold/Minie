@@ -1,5 +1,27 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.0.0 released on TBD
+
+ + Bug fixes:
+   + debug visualization of a body jitters relative to its `PhysicsControl`.
+   + `DacWizard` generates syntactically incorrect source code for some locales
+   + issue #14 (suspension lengths of a `PhysicsVehicle` are not initialized)
+   + `IllegalArgumentException` while cloning a `PhysicsVehicle`
+     in a `PhysicsSpace`
+ + A change to the library API:
+   + Delete the `angularMomentum()` and `kineticEnergy()` methods
+     from the `MultiBody` class.
+ + Added a `render()` method to the `AbstractPhysicsControl` class.
+ + Added tutorial app `HelloMotor`.
+ + Built using Gradle v6.8.2 .
+ + Based on:
+   + v6.4.2 of the Heart library,
+   + v0.6.2 of the Wes library,
+   + v0.9.2 of the jme3-utilities-ui library, and
+   + v0.9.18 of the jme3-utilities-nifty library.
+ + Updated the native libraries to v10.1.0 of Libbulletjme, which includes
+   Bullet v2 source code updated through 23 January 2021.
+
 ## Version 3.1.0 released on 9 January 2021
 
  + Re-implemented `CollisionSpace.destroy()` to prepare a space for re-use.
@@ -59,7 +81,7 @@
    + assertion failures while tracking the ID of a soft-body anchor
    + JVM crash while reading the collision flags of a static rigid body
    + assertion failure during `PhysicsLink.postTick()`
- + API changes:
+ + Changes to the library API:
    + changed the semantics of the `countJoints()` and `listJoints()` methods
      in the `PhysicsBody` class
    + changed the return type of the `rayTestRaw()` method
