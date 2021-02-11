@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,8 +42,6 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -916,19 +914,6 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
 
         torsoConfig = (LinkConfig) capsule.readSavable(tagTorsoConfig, null);
         gravityVector = (Vector3f) capsule.readSavable(tagGravity, null);
-    }
-
-    /**
-     * Render this control. Invoked once per ViewPort per frame, provided the
-     * control is added to a scene. Should be invoked only by a subclass or by
-     * the RenderManager.
-     *
-     * @param rm the render manager (unused)
-     * @param vp the view port to render (unused)
-     */
-    @Override
-    public void render(RenderManager rm, ViewPort vp) {
-        // do nothing
     }
 
     /**

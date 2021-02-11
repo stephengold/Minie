@@ -38,6 +38,8 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import com.jme3.util.clone.Cloner;
@@ -330,7 +332,20 @@ abstract public class AbstractPhysicsControl
     }
 
     /**
-     * Enable or disable this Control. TODO add a render() method
+     * Render this Control. Invoked once per ViewPort per frame, provided the
+     * Control is added to a scene. Should be invoked only by a subclass or by
+     * the RenderManager.
+     *
+     * @param rm the RenderManager (unused)
+     * @param vp the ViewPort to render (unused)
+     */
+    @Override
+    public void render(RenderManager rm, ViewPort vp) {
+        // do nothing
+    }
+
+    /**
+     * Enable or disable this Control.
      * <p>
      * When the Control is disabled, the physics object is removed from any
      * PhysicsSpace. When the Control is enabled again, the physics object is

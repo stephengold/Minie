@@ -42,8 +42,6 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
@@ -112,6 +110,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      * world coordinates, and update mesh normals if present.
      */
     public SoftBodyControl() {
+        // do nothing
     }
 
     /**
@@ -261,19 +260,6 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     protected void removeSpatialData(Spatial spatial) {
         body.setUserObject(null);
         body = null;
-    }
-
-    /**
-     * Render this Control. Invoked once per ViewPort per frame, provided the
-     * Control is added to a scene. Should be invoked only by a subclass or by
-     * the RenderManager.
-     *
-     * @param rm the RenderManager (unused)
-     * @param vp the ViewPort to render (unused)
-     */
-    @Override
-    public void render(RenderManager rm, ViewPort vp) {
-        // do nothing
     }
 
     /**
