@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,11 @@ public enum RotationOrder {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         int rotOrder = ordinal();
-        boolean b = matrixToEuler(rotOrder, rotMatrix, result); // TODO retval
+        /*
+         * matrixToEuler() returns false if the solution is not unique,
+         * but we ignore that information
+         */
+        matrixToEuler(rotOrder, rotMatrix, result);
 
         return result;
     }
