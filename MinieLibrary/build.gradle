@@ -76,14 +76,7 @@ ext {
     } else {
         version = "${minieVersion}+${metadata}"
     }
-    baseName = "${artifact}-${version}" // for POM and class JAR
-
-    if (jmeTarget.equals('')) {
-        srcVersion = minieVersion
-    } else {
-        srcVersion = "${minieVersion}+${jmeTarget}"
-    }
-    srcBaseName = "${artifact}-${srcVersion}" // for javadoc JAR and sources JAR
+    baseName = "${artifact}-${version}"
 
     resourcesDir = 'src/main/resources/'
     libDir = resourcesDir + 'lib/'       // for Android native libraries
@@ -91,8 +84,8 @@ ext {
 }
 
 jar { archiveBaseName = project.ext.baseName }
-javadocJar { archiveBaseName = project.ext.srcBaseName }
-sourcesJar { archiveBaseName = project.ext.srcBaseName }
+javadocJar { archiveBaseName = project.ext.baseName }
+sourcesJar { archiveBaseName = project.ext.baseName }
 
 dependencies {
     api 'com.github.stephengold:Heart:' + heartVersion
