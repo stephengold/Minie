@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -566,7 +566,7 @@ public class AttachmentLink extends PhysicsLink {
          */
         Transform worldToMesh = getControl().meshTransform(null).invert();
         result.combineWithParent(worldToMesh);
-        /**
+        /*
          * Convert to bone local coordinates.
          */
         Transform boneToMesh;

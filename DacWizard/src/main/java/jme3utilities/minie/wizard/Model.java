@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -1042,7 +1042,7 @@ class Model {
      */
     private void recalculateInitTransform() {
         Spatial cgmCopy = (Spatial) Heart.deepCopy(rootSpatial);
-        /**
+        /*
          * Scale the copy uniformly to the desired height, assuming Y-up
          * orientation.
          */
@@ -1053,7 +1053,7 @@ class Model {
         if (oldHeight > 0f) {
             cgmCopy.scale(cgmHeight / oldHeight);
         }
-        /**
+        /*
          * Translate a copy's center so that it rests on the X-Z plane, and its
          * center lies on the Y axis.
          */
