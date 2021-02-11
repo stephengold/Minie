@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -60,6 +60,7 @@ import java.io.PrintStream;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -241,7 +242,7 @@ class TestMode extends InputMode {
      * @return a description (not null, not empty)
      */
     private static String describeAngle(float fValue) {
-        String raw = String.format("%.2f", fValue);
+        String raw = String.format(Locale.US, "%.2f", fValue);
         String result = MyString.trimFloat(raw);
 
         assert result != null;
