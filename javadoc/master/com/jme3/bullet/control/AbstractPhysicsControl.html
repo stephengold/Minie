@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":6,"i1":10,"i2":10,"i3":10,"i4":6,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":6,"i14":6,"i15":10,"i16":10,"i17":6,"i18":6,"i19":10,"i20":10,"i21":10};
+<script type="text/javascript">var data = {"i0":6,"i1":10,"i2":10,"i3":10,"i4":6,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":6,"i14":6,"i15":10,"i16":10,"i17":10,"i18":6,"i19":6,"i20":10,"i21":10,"i22":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -300,34 +300,42 @@ java.lang.Object&nbsp;original)</code></th>
 </tr>
 <tr class="rowColor" id="i15">
 <td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#render(com.jme3.renderer.RenderManager,com.jme3.renderer.ViewPort)">render</a></span>&#8203;(com.jme3.renderer.RenderManager&nbsp;rm,
+com.jme3.renderer.ViewPort&nbsp;vp)</code></th>
+<td class="colLast">
+<div class="block">Render this Control.</div>
+</td>
+</tr>
+<tr class="altColor" id="i16">
+<td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setApplyPhysicsLocal(boolean)">setApplyPhysicsLocal</a></span>&#8203;(boolean&nbsp;applyPhysicsLocal)</code></th>
 <td class="colLast">
 <div class="block">Alter whether physics-space coordinates should match the Spatial's local
  coordinates.</div>
 </td>
 </tr>
-<tr class="altColor" id="i16">
+<tr class="rowColor" id="i17">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setEnabled(boolean)">setEnabled</a></span>&#8203;(boolean&nbsp;enable)</code></th>
 <td class="colLast">
 <div class="block">Enable or disable this Control.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i17">
+<tr class="altColor" id="i18">
 <td class="colFirst"><code>protected abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPhysicsLocation(com.jme3.math.Vector3f)">setPhysicsLocation</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;location)</code></th>
 <td class="colLast">
 <div class="block">Translate the physics object to the specified location.</div>
 </td>
 </tr>
-<tr class="altColor" id="i18">
+<tr class="rowColor" id="i19">
 <td class="colFirst"><code>protected abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPhysicsRotation(com.jme3.math.Quaternion)">setPhysicsRotation</a></span>&#8203;(com.jme3.math.Quaternion&nbsp;orientation)</code></th>
 <td class="colLast">
 <div class="block">Rotate the physics object to the specified orientation.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i19">
+<tr class="altColor" id="i20">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPhysicsSpace(com.jme3.bullet.PhysicsSpace)">setPhysicsSpace</a></span>&#8203;(<a href="../PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;newSpace)</code></th>
 <td class="colLast">
@@ -335,14 +343,14 @@ java.lang.Object&nbsp;original)</code></th>
  PhysicsSpace.</div>
 </td>
 </tr>
-<tr class="altColor" id="i20">
+<tr class="rowColor" id="i21">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSpatial(com.jme3.scene.Spatial)">setSpatial</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;newSpatial)</code></th>
 <td class="colLast">
 <div class="block">Alter which Spatial is controlled.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i21">
+<tr class="altColor" id="i22">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(com.jme3.export.JmeExporter)">write</a></span>&#8203;(com.jme3.export.JmeExporter&nbsp;exporter)</code></th>
 <td class="colLast">
@@ -363,7 +371,7 @@ java.lang.Object&nbsp;original)</code></th>
 <h3>Methods inherited from interface&nbsp;com.jme3.scene.control.Control</h3>
 <a id="methods.inherited.from.class.com.jme3.scene.control.Control">
 <!--   -->
-</a><code>render, update</code></div>
+</a><code>update</code></div>
 </section>
 </li>
 </ul>
@@ -649,9 +657,26 @@ java.lang.Object&nbsp;original)</span></div>
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="render(com.jme3.renderer.RenderManager,com.jme3.renderer.ViewPort)">render</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">render</span>&#8203;(<span class="arguments">com.jme3.renderer.RenderManager&nbsp;rm,
+com.jme3.renderer.ViewPort&nbsp;vp)</span></div>
+<div class="block">Render this Control. Invoked once per ViewPort per frame, provided the
+ Control is added to a scene. Should be invoked only by a subclass or by
+ the RenderManager.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>render</code>&nbsp;in interface&nbsp;<code>com.jme3.scene.control.Control</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>rm</code> - the RenderManager (unused)</dd>
+<dd><code>vp</code> - the ViewPort to render (unused)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="setEnabled(boolean)">setEnabled</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setEnabled</span>&#8203;(<span class="arguments">boolean&nbsp;enable)</span></div>
-<div class="block">Enable or disable this Control. TODO add a render() method
+<div class="block">Enable or disable this Control.
  <p>
  When the Control is disabled, the physics object is removed from any
  PhysicsSpace. When the Control is enabled again, the physics object is
