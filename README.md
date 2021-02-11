@@ -2,8 +2,8 @@
 
 The [Minie Project][project] is about improving the integration of
 [Bullet real-time physics simulation][bullet]
-and [Khaled Mamou's V-HACD Library][vhacd]
-into the [jMonkeyEngine game engine][jme].
+and [Khaled Mamou's V-HACD Library][vhacd] into
+[the jMonkeyEngine (JME) game engine][jme].
 
 It contains 6 sub-projects:
 
@@ -114,10 +114,13 @@ Newer releases (since v0.5.0) can be downloaded from
 Older releases (v0.1.1 through v0.4.5) can be downloaded from
 [the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
 
-Newer Maven artifacts (since v1.4.0) are available from
+Newer Maven artifacts (since v3.1.0) are available from
+[MavenCentral](https://search.maven.org/artifact/com.github.stephengold/Minie).
+
+Old Maven artifacts (v1.4.0 through v3.1.0) are available from
 [JCenter](https://bintray.com/stephengold/com.github.stephengold/Minie).
 
-Older Maven artifacts (v0.1.2 through v1.3.0) are available from
+The oldest Maven artifacts (v0.1.2 through v1.3.0) are available from
 [JFrog Bintray](https://bintray.com/stephengold/jme3utilities/Minie).
 
 [Jump to table of contents](#toc)
@@ -338,6 +341,7 @@ YouTube videos about Minie:
 [obs]: https://obsproject.com "Open Broadcaster Software Project"
 [profont]: http://tobiasjung.name/profont "ProFont Project"
 [project]: https://stephengold.github.io/Minie "Minie Project"
+[sonatype]: https://www.sonatype.com "Sonatype"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [vegdahl]: http://www.cessen.com "Nathan Vegdahl"
 [vhacd]: https://github.com/kmammou/v-hacd "V-HACD Library"
@@ -415,7 +419,7 @@ artists and software developers:
     + [ProFont], the programmers' font
     + the [WinMerge] differencing and merging tool
 
-I am grateful to [Github], [JFrog], [YouTube], and [Imgur]
+I am grateful to [Github], [Sonatype], [JFrog], [YouTube], and [Imgur]
 for providing free hosting for this project
 and many other open-source projects.
 

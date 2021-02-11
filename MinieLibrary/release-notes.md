@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.0.0 released on TBD
+## Version 4.0.0 released on 11 February 2021
 
  + Bug fixes:
    + debug visualization of a body jitters relative to its `PhysicsControl`.
@@ -11,6 +11,7 @@
  + A change to the library API:
    + Delete the `angularMomentum()` and `kineticEnergy()` methods
      from the `MultiBody` class.
+ + Published to MavenCentral instead of JCenter.
  + Added a `render()` method to the `AbstractPhysicsControl` class.
  + Added tutorial app `HelloMotor`.
  + Built using Gradle v6.8.2 .
