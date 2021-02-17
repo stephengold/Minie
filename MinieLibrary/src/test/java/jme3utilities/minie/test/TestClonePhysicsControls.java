@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,15 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
+import com.jme3.asset.ModelKey;
+import com.jme3.asset.plugins.ClasspathLocator;
+import com.jme3.bullet.RotationOrder;
+import com.jme3.bullet.animation.CenterHeuristic;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.LinkConfig;
+import com.jme3.bullet.animation.MassHeuristic;
+import com.jme3.bullet.animation.RangeOfMotion;
+import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.AbstractPhysicsControl;
 import com.jme3.bullet.control.BetterCharacterControl;
@@ -36,8 +44,13 @@ import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.SoftBodyControl;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.binary.BinaryExporter;
+import com.jme3.export.binary.BinaryLoader;
+import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.system.NativeLibraryLoader;
+import com.jme3.texture.plugins.AWTLoader;
 import jme3utilities.Heart;
 import org.junit.Assert;
 import org.junit.Test;
@@ -64,6 +77,10 @@ public class TestClonePhysicsControls {
     @Test
     public void testClonePhysicsControls() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
+        assetManager.registerLoader(AWTLoader.class, "jpg", "png");
+        assetManager.registerLoader(BinaryLoader.class, "j3o");
+        assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
+        assetManager.registerLocator(null, ClasspathLocator.class);
         /*
          * BetterCharacterControl
          */
@@ -95,7 +112,7 @@ public class TestClonePhysicsControls {
         DynamicAnimControl dacClone = (DynamicAnimControl) Heart.deepCopy(dac);
         cloneTest(dac, dacClone);
         /*
-         * Note: RigidBodyControl is tested in TestCloneBody. 
+         * Note: RigidBodyControl is tested in TestCloneBody.
          *
          * SoftBodyControl
          */
@@ -104,9 +121,38 @@ public class TestClonePhysicsControls {
         verifyParameters(sbc, 0f);
         SoftBodyControl sbcClone = (SoftBodyControl) Heart.deepCopy(sbc);
         cloneTest(sbc, sbcClone);
+        /*
+         * Test cloning/saving/loading abstract physics controls
+         * that have been added to a Spatial.
+         */
+        dac = new DynamicAnimControl();
+        LinkConfig hull = new LinkConfig(0.005f, MassHeuristic.Mass,
+                ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
+                CenterHeuristic.Mean, RotationOrder.XZY);
+        dac.setConfig(DynamicAnimControl.torsoName, hull);
+        dac.link("spine", hull, new RangeOfMotion(1f));
+        dac.link("ribs", hull, new RangeOfMotion(0.6f, 0.4f, 0.4f));
+        dac.link("head", hull,
+                new RangeOfMotion(0.3f, -0.6f, 0.5f, -0.5f, 0.5f, -0.5f));
+        dac.link("eye.L", hull, new RangeOfMotion(0.5f, 0f, 0.5f));
+        dac.link("eye.R", hull, new RangeOfMotion(0.5f, 0f, 0.5f));
+        dac.link("tail.001", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        dac.link("tail.002", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        dac.link("tail.003", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        dac.link("tail.004", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        dac.link("tail.005", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        dac.link("tail.007", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        dac.link("tail.009", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
 
-        // TODO test cloning/saving/loading abstract physics controls
-        // that have been added to a Spatial
+        ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
+        Spatial jaime = assetManager.loadModel(key);
+        jaime.addControl(dac);
+        setParameters(dac, 0f);
+        verifyParameters(dac, 0f);
+        Node jaimeClone = (Node) Heart.deepCopy(jaime);
+        cloneTest(jaime, jaimeClone);
+
+        // TODO more types
     }
     // *************************************************************************
     // private methods
@@ -148,6 +194,35 @@ public class TestClonePhysicsControls {
 
         AbstractPhysicsControl controlCloneCopy
                 = BinaryExporter.saveAndLoad(assetManager, controlClone);
+        verifyParameters(controlCloneCopy, 0.6f);
+    }
+
+    private void cloneTest(Spatial spatial, Spatial spatialClone) {
+        AbstractPhysicsControl control
+                = spatial.getControl(AbstractPhysicsControl.class);
+        AbstractPhysicsControl controlClone
+                = spatialClone.getControl(AbstractPhysicsControl.class);
+
+        verifyParameters(control, 0f);
+        verifyParameters(controlClone, 0f);
+
+        setParameters(control, 0.3f);
+        verifyParameters(control, 0.3f);
+        verifyParameters(controlClone, 0f);
+
+        setParameters(controlClone, 0.6f);
+        verifyParameters(control, 0.3f);
+        verifyParameters(controlClone, 0.6f);
+
+        Spatial spatialCopy = BinaryExporter.saveAndLoad(assetManager, spatial);
+        AbstractPhysicsControl controlCopy
+                = spatialCopy.getControl(AbstractPhysicsControl.class);
+        verifyParameters(controlCopy, 0.3f);
+
+        Spatial spatialCloneCopy
+                = BinaryExporter.saveAndLoad(assetManager, spatialClone);
+        AbstractPhysicsControl controlCloneCopy
+                = spatialCloneCopy.getControl(AbstractPhysicsControl.class);
         verifyParameters(controlCloneCopy, 0.6f);
     }
 
