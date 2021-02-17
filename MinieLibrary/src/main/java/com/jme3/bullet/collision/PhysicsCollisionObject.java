@@ -1213,8 +1213,17 @@ abstract public class PhysicsCollisionObject
         for (long oldPcoId : ignoredIds) {
             PhysicsCollisionObject oldPco
                     = PhysicsCollisionObject.findInstance(oldPcoId);
-            PhysicsCollisionObject newPco = cloner.clone(oldPco);
-            addToIgnoreList(newPco);
+            /*
+             * Don't do any real cloning here because rigid bodies get
+             * rebuilt during cloneFields(), which alters their native IDs.
+             * We want to ignore new IDs, not old ones,
+             * so if the other PCO hasn't been cloned yet,
+             * wait and let *that* PCO invoke addToIgnoreList().
+             */
+            if (cloner.isCloned(oldPco)) {
+                PhysicsCollisionObject newPco = cloner.clone(oldPco);
+                addToIgnoreList(newPco);
+            }
         }
     }
 
