@@ -125,6 +125,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * No-argument constructor needed by SavableClassUtil.
      */
     protected PhysicsRigidBody() {
+        // do nothing
     }
 
     /**
