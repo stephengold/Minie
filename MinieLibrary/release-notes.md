@@ -1,5 +1,10 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.0.1 released on TBD
+
+ + Bugfix: stack overflow while cloning a `DynamicAnimControl`
+ + Upgraded to JUnit v4.13.2 .
+
 ## Version 4.0.0 released on 11 February 2021
 
  + Bug fixes:
