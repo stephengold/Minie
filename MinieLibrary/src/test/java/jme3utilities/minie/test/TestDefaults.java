@@ -60,6 +60,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.NewHinge;
+import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.joints.SixDofSpringJoint;
 import com.jme3.bullet.joints.SliderJoint;
@@ -364,7 +365,6 @@ public class TestDefaults {
         // TODO Anchor
         // TODO ConeJoint
         // TODO HingeJoint
-        // TODO Point2PointJoint
         New6Dof seNew6Dof = new New6Dof(rigidB,
                 new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
                 RotationOrder.ZYX);
@@ -378,6 +378,13 @@ public class TestDefaults {
         NewHinge newHinge = new NewHinge(rigidA, rigidB, Vector3f.ZERO,
                 Vector3f.UNIT_Z, Vector3f.UNIT_X);
         testNewHinge(newHinge);
+
+        Point2PointJoint sep2p = new Point2PointJoint(rigidA, new Vector3f());
+        testP2P(sep2p, 1);
+
+        Point2PointJoint dep2p = new Point2PointJoint(rigidA, rigidB,
+                new Vector3f(), new Vector3f());
+        testP2P(dep2p, 2);
 
         SixDofJoint deSix = new SixDofJoint(rigidA, rigidB, new Vector3f(),
                 new Vector3f(), false);
@@ -551,6 +558,15 @@ public class TestDefaults {
                 assertEquals(def, def, def, value, 0f);
             }
         }
+    }
+
+    private void testP2P(Point2PointJoint p2p, int numEnds) {
+        Assert.assertEquals(numEnds, p2p.countEnds());
+        testConstraint(p2p);
+
+        Assert.assertEquals(1f, p2p.getDamping(), 0f);
+        Assert.assertEquals(0f, p2p.getImpulseClamp(), 0f);
+        Assert.assertEquals(0.3f, p2p.getTau(), 0f);
     }
 
     /**
