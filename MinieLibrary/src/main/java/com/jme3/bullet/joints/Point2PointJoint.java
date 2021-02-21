@@ -41,6 +41,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 
 /**
  * A 3 degree-of-freedom joint based on Bullet's btPoint2PointConstraint.
@@ -264,6 +265,34 @@ public class Point2PointJoint extends Constraint {
     }
 
     /**
+     * Alter the pivot location in A's scaled local coordinates.
+     *
+     * @param location the desired location (not null, unaffected)
+     */
+    @Override
+    public void setPivotInA(Vector3f location) {
+        Validate.nonNull(location, "location");
+
+        long constraintId = nativeId();
+        setPivotInA(constraintId, location);
+        super.setPivotInA(location);
+    }
+
+    /**
+     * Alter the pivot location in B's scaled local coordinates.
+     *
+     * @param location the desired location (not null, unaffected)
+     */
+    @Override
+    public void setPivotInB(Vector3f location) {
+        Validate.nonNull(location, "location");
+
+        long constraintId = nativeId();
+        setPivotInB(constraintId, location);
+        super.setPivotInB(location);
+    }
+
+    /**
      * Serialize this joint to the specified exporter, for example when saving
      * to a J3O file.
      *
@@ -344,12 +373,20 @@ public class Point2PointJoint extends Constraint {
 
     native private static float getImpulseClamp(long jointId);
 
+    native private static void getPivotInA(long jointId, Vector3f storeVector);
+
+    native private static void getPivotInB(long jointId, Vector3f storeVector);
+
     native private static float getTau(long jointId);
 
     native private static void setDamping(long jointId, float desiredDamping);
 
     native private static void setImpulseClamp(long jointId,
             float desiredClamp);
+
+    native private static void setPivotInA(long jointId, Vector3f pivotInA);
+
+    native private static void setPivotInB(long jointId, Vector3f pivotInB);
 
     native private static void setTau(long jointId, float desiredTau);
 }

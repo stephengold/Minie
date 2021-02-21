@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -441,6 +441,28 @@ abstract public class Constraint extends PhysicsJoint {
 
         int numIterations = capsule.readInt(tagNumIterations, -1);
         overrideIterations(numIterations);
+    }
+
+    /**
+     * Alter the pivot location in A's scaled local coordinates. The subclass is
+     * responsible for updating the native object.
+     *
+     * @param location the desired location (not null, unaffected)
+     */
+    protected void setPivotInA(Vector3f location) {
+        Validate.nonNull(location, "location");
+        pivotA.set(location);
+    }
+
+    /**
+     * Alter the pivot location in B's scaled local coordinates. The subclass is
+     * responsible for updating the native object.
+     *
+     * @param location the desired location (not null, unaffected)
+     */
+    protected void setPivotInB(Vector3f location) {
+        Validate.nonNull(location, "location");
+        pivotB.set(location);
     }
     // *************************************************************************
     // PhysicsJoint methods
