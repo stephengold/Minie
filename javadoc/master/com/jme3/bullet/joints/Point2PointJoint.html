@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -294,12 +294,26 @@ java.lang.Object&nbsp;original)</code></th>
 </tr>
 <tr class="altColor" id="i8">
 <td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPivotInA(com.jme3.math.Vector3f)">setPivotInA</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;location)</code></th>
+<td class="colLast">
+<div class="block">Alter the pivot location in A's scaled local coordinates.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i9">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPivotInB(com.jme3.math.Vector3f)">setPivotInB</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;location)</code></th>
+<td class="colLast">
+<div class="block">Alter the pivot location in B's scaled local coordinates.</div>
+</td>
+</tr>
+<tr class="altColor" id="i10">
+<td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTau(float)">setTau</a></span>&#8203;(float&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Alter the joint's tau value.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i9">
+<tr class="rowColor" id="i11">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(com.jme3.export.JmeExporter)">write</a></span>&#8203;(com.jme3.export.JmeExporter&nbsp;exporter)</code></th>
 <td class="colLast">
@@ -559,6 +573,32 @@ java.lang.Object&nbsp;original)</span></div>
 <dd><code>importer</code> - (not null)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code> - from the importer</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="setPivotInA(com.jme3.math.Vector3f)">setPivotInA</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setPivotInA</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;location)</span></div>
+<div class="block">Alter the pivot location in A's scaled local coordinates.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="Constraint.html#setPivotInA(com.jme3.math.Vector3f)">setPivotInA</a></code>&nbsp;in class&nbsp;<code><a href="Constraint.html" title="class in com.jme3.bullet.joints">Constraint</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>location</code> - the desired location (not null, unaffected)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="setPivotInB(com.jme3.math.Vector3f)">setPivotInB</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setPivotInB</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;location)</span></div>
+<div class="block">Alter the pivot location in B's scaled local coordinates.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="Constraint.html#setPivotInB(com.jme3.math.Vector3f)">setPivotInB</a></code>&nbsp;in class&nbsp;<code><a href="Constraint.html" title="class in com.jme3.bullet.joints">Constraint</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>location</code> - the desired location (not null, unaffected)</dd>
 </dl>
 </section>
 </li>
