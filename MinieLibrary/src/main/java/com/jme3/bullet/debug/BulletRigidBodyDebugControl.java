@@ -146,9 +146,15 @@ public class BulletRigidBodyDebugControl extends CollisionShapeDebugControl {
         }
 
         updateMaterial();
-        RigidBodyMotionState motionState = body.getMotionState();
-        motionState.getLocation(location);
-        motionState.getOrientation(rotation);
+
+        if (body.isDynamic()) {
+            RigidBodyMotionState motionState = body.getMotionState();
+            motionState.getLocation(location);
+            motionState.getOrientation(rotation);
+        } else {
+            body.getPhysicsLocation(location);
+            body.getPhysicsRotation(rotation);
+        }
         applyPhysicsTransform(location, rotation);
     }
     // *************************************************************************
