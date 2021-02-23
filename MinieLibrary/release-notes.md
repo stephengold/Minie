@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.0.2 released on TODO
+## Version 4.0.2 released on 23 February 2021
 
  + Bugfix: debug visualization not updated for kinematic rigid bodies
  + Updated the native libraries to v10.2.0 of Libbulletjme.
