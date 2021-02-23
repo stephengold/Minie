@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -128,6 +128,7 @@ public class TorsoLink extends PhysicsLink {
      * No-argument constructor needed by SavableClassUtil.
      */
     protected TorsoLink() {
+        // do nothing
     }
 
     /**
@@ -664,7 +665,8 @@ public class TorsoLink extends PhysicsLink {
             MySkeleton.copyLocalTransform(managed, result);
         } else {
             Joint managed = managedArmatureJoints[managedIndex];
-            result.set(managed.getLocalTransform());
+            Transform local = managed.getLocalTransform(); // alias
+            result.set(local);
         }
 
         return result;

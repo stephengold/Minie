@@ -462,7 +462,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * Internal callback, invoked just AFTER the physics is stepped.
      */
     void postTick() {
-        // Do nothing.
+        // do nothing
     }
 
     /**
