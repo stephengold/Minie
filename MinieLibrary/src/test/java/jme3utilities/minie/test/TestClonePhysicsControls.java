@@ -178,9 +178,9 @@ public class TestClonePhysicsControls {
                 = BinaryExporter.saveAndLoad(assetManager, controlClone);
         verifyParameters(controlCloneCopy, 0.6f);
 
-//        AbstractPhysicsControl xmlCopy
-//                = MinieTest.saveAndLoadXml(assetManager, control);
-//        verifyParameters(xmlCopy, 0.3f);
+        AbstractPhysicsControl xmlCopy
+                = MinieTest.saveAndLoadXml(assetManager, control);
+        verifyParameters(xmlCopy, 0.3f);
     }
 
     private void cloneTest(Spatial spatial, Spatial spatialClone) {
