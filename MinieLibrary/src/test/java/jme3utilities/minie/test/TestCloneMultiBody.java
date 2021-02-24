@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -116,16 +116,6 @@ public class TestCloneMultiBody {
         /*
          * TODO various links, added to space, etc.
          */
-    }
-
-    /**
-     * Verify that 2 vectors are equal to within some tolerance.
-     */
-    static void assertEquals(float x, float y, float z, Vector3f actual,
-            float tolerance) {
-        Assert.assertEquals(x, actual.x, tolerance);
-        Assert.assertEquals(y, actual.y, tolerance);
-        Assert.assertEquals(z, actual.z, tolerance);
     }
     // *************************************************************************
     // private methods
