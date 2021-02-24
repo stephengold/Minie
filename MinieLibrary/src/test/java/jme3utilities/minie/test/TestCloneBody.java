@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading on PhysicsRigidBody and all its subclasses.
+ * Test cloning/saving/loading on PhysicsBody and all its subclasses.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -97,13 +97,6 @@ public class TestCloneBody {
             clonePsb();
             cloneSbc();
         }
-    }
-
-    void assertEquals(float x, float y, float z, Vector3f vector,
-            float tolerance) {
-        Assert.assertEquals(x, vector.x, tolerance);
-        Assert.assertEquals(y, vector.y, tolerance);
-        Assert.assertEquals(z, vector.z, tolerance);
     }
     // *************************************************************************
     // private methods
@@ -225,6 +218,9 @@ public class TestCloneBody {
         PhysicsBody bodyCloneCopy
                 = BinaryExporter.saveAndLoad(assetManager, bodyClone);
         verifyParameters(bodyCloneCopy, 0.6f);
+
+        PhysicsBody xmlCopy = MinieTest.saveAndLoadXml(assetManager, body);
+        verifyParameters(xmlCopy, 0.3f);
     }
 
     /**
@@ -424,9 +420,9 @@ public class TestCloneBody {
         assert body.getRollingFriction() == b + 0.254f;
         assert body.getSpinningFriction() == b + 0.255f;
 
-        assertEquals(b + 0.231f, b + 0.232f, b + 0.233f,
+        MinieTest.assertEquals(b + 0.231f, b + 0.232f, b + 0.233f,
                 body.totalAppliedForce(null), 1e-6f);
-        assertEquals(b + 0.241f, b + 0.242f, b + 0.243f,
+        MinieTest.assertEquals(b + 0.241f, b + 0.242f, b + 0.243f,
                 body.totalAppliedTorque(null), 1e-6f);
 
         if (body.isDynamic()) {
@@ -461,7 +457,7 @@ public class TestCloneBody {
 
         SoftBodyWorldInfo info = body.getWorldInfo();
         Assert.assertEquals(b + 0.03f, info.airDensity(), 0f);
-        assertEquals(b + 0.031f, b + 0.032f, b + 0.033f,
+        MinieTest.assertEquals(b + 0.031f, b + 0.032f, b + 0.033f,
                 info.copyGravity(null), 0f);
         Assert.assertEquals(b + 0.034f, info.maxDisplacement(), 0f);
         Assert.assertEquals(b + 0.035f, info.waterDensity(), 0f);
@@ -469,7 +465,7 @@ public class TestCloneBody {
 
         Vector3f normal = new Vector3f(b + 0.1f, b + 0.2f, b + 0.3f);
         normal.normalizeLocal();
-        assertEquals(normal.x, normal.y, normal.z,
+        MinieTest.assertEquals(normal.x, normal.y, normal.z,
                 info.copyWaterNormal(null), 1e-5f);
 
         assert config.clusterIterations() == n;

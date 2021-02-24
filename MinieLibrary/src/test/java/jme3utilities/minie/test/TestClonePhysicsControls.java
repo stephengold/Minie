@@ -157,24 +157,6 @@ public class TestClonePhysicsControls {
     // *************************************************************************
     // private methods
 
-    /**
-     * Verify that 2 vectors are equal to within some tolerance.
-     */
-    void assertEquals(float x, float y, float z, Vector3f actual,
-            float tolerance) {
-        Assert.assertEquals(x, actual.x, tolerance);
-        Assert.assertEquals(y, actual.y, tolerance);
-        Assert.assertEquals(z, actual.z, tolerance);
-    }
-
-    /**
-     * Verify that 2 vectors are equal to within some tolerance.
-     */
-    private void assertEquals(Vector3f expected, Vector3f actual,
-            float tolerance) {
-        assertEquals(expected.x, expected.y, expected.z, actual, tolerance);
-    }
-
     private void cloneTest(AbstractPhysicsControl control,
             AbstractPhysicsControl controlClone) {
         verifyParameters(control, 0f);
@@ -195,6 +177,10 @@ public class TestClonePhysicsControls {
         AbstractPhysicsControl controlCloneCopy
                 = BinaryExporter.saveAndLoad(assetManager, controlClone);
         verifyParameters(controlCloneCopy, 0.6f);
+
+//        AbstractPhysicsControl xmlCopy
+//                = MinieTest.saveAndLoadXml(assetManager, control);
+//        verifyParameters(xmlCopy, 0.3f);
     }
 
     private void cloneTest(Spatial spatial, Spatial spatialClone) {
@@ -338,12 +324,12 @@ public class TestClonePhysicsControls {
      */
     private void verifyBcc(BetterCharacterControl bcc, float b) {
         assert bcc.getDuckedFactor() == b + 0.01f;
-        assertEquals(b + 0.05f, b + 0.06f, b + 0.07f,
+        MinieTest.assertEquals(b + 0.05f, b + 0.06f, b + 0.07f,
                 bcc.getJumpForce(null), 0f);
         assert bcc.getPhysicsDamping() == b + 0.08f;
-        assertEquals(b + 0.10f, b + 0.11f, b + 0.12f,
+        MinieTest.assertEquals(b + 0.10f, b + 0.11f, b + 0.12f,
                 bcc.getViewDirection(null), 0f);
-        assertEquals(b + 0.13f, b + 0.14f, b + 0.15f,
+        MinieTest.assertEquals(b + 0.13f, b + 0.14f, b + 0.15f,
                 bcc.getWalkDirection(null), 0f);
     }
 
@@ -361,7 +347,7 @@ public class TestClonePhysicsControls {
         PhysicsCharacter ch = cc.getCharacter();
 
         Assert.assertEquals(b + 0.01f, ch.getAngularDamping(), 0f);
-        assertEquals(b + 0.04f, b + 0.05f, b + 0.06f,
+        MinieTest.assertEquals(b + 0.04f, b + 0.05f, b + 0.06f,
                 ch.getAngularVelocity(null), 0f);
         Assert.assertEquals(b + 0.07f, ch.getCcdMotionThreshold(), 0f);
         Assert.assertEquals(b + 0.08f, ch.getCcdSweptSphereRadius(), 0f);
@@ -377,21 +363,21 @@ public class TestClonePhysicsControls {
         Assert.assertEquals(b + 0.03f, ch.getLinearDamping(), 0f);
         Assert.assertEquals(b + 0.281f, ch.getMaxPenetrationDepth(), 0f);
         Assert.assertEquals(b + 0.282f, ch.getMaxSlope(), 0f);
-        assertEquals(b + 0.18f, b + 0.19f, b + 0.20f,
+        MinieTest.assertEquals(b + 0.18f, b + 0.19f, b + 0.20f,
                 ch.getPhysicsLocation(null), 0f);
         Assert.assertEquals(b + 0.25f, ch.getRestitution(), 0f);
         Assert.assertEquals(b + 0.26f, ch.getRollingFriction(), 0f);
         Assert.assertEquals(b + 0.27f, ch.getSpinningFriction(), 0f);
         Assert.assertEquals(b + 0.29f, ch.getStepHeight(), 0f);
-        assertEquals(upDirection, ch.getUpDirection(null), 1e-5f);
-        assertEquals(viewDirection, cc.getViewDirection(null), 0f);
-        assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
+        MinieTest.assertEquals(upDirection, ch.getUpDirection(null), 1e-5f);
+        MinieTest.assertEquals(viewDirection, cc.getViewDirection(null), 0f);
+        MinieTest.assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
     }
 
     private void verifyDac(DynamicAnimControl dac, float b) {
         assert dac.damping() == b + 0.01f;
         assert dac.eventDispatchImpulseThreshold() == b + 0.02f;
-        assertEquals(b + 0.03f, b + 0.04f, b + 0.05f,
+        MinieTest.assertEquals(b + 0.03f, b + 0.04f, b + 0.05f,
                 dac.gravity(null), 0f);
     }
 
