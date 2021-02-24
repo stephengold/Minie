@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -989,8 +989,8 @@ public class DacLinks
             }
         }
 
-        Savable[] savableArray
-                = capsule.readSavableArray(tagAttachmentLinks, null);
+        Savable[] savableArray = capsule.readSavableArray(tagAttachmentLinks,
+                new AttachmentLink[0]);
         for (Savable savable : savableArray) {
             AttachmentLink link = (AttachmentLink) savable;
             String name = link.boneName();
