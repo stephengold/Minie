@@ -48,7 +48,28 @@ ext {
         configureDesktopBtfs('ReleaseDp')
         metadata = 'dp' + jmeTarget
 
-    } else { // neither -Pbtdebug nor -Pdp specified
+    } else if (gradle.rootProject.hasProperty('bare')) {
+        // -Pbare specified, but not -Pbtdebug nor -Pdp
+
+        configureAndroidBtfs('')
+        configureDesktopBtfs('')
+        metadata = 'bare' + jmeTarget
+
+    } else if (gradle.rootProject.hasProperty('big3')) {
+        // -Pbig3 specified, but not -Pbtdebug nor -Pdp nor -Pbare
+
+        configureAndroidBtfs('')
+        btfLinux32 = ''
+        btfLinux64 = 'ReleaseSp'
+        btfLinux_ARM32 = ''
+        btfLinux_ARM64 = ''
+        btfMacOSX32 = ''
+        btfMacOSX64 = 'ReleaseSp'
+        btfWindows32 = ''
+        btfWindows64 = 'ReleaseSp'
+        metadata = 'big3' + jmeTarget
+
+    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 specified
 
         // Specify the BTF (buildType + flavor) of native library for each platform:
         // (Specify '' for no native library.)
