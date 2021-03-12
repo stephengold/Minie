@@ -241,6 +241,8 @@ task cleanWindows64(type: Delete) {
     delete nativeDir + 'windows/x86_64/bulletjme.dll'
 }
 
+// javadoc to (web)site tasks, triggered by push-master.yml
+
 task('copyJavadocToSite') {
     dependsOn 'copyMasterJavadocToSite', 'copy31JavadocToSite', \
               'copy30JavadocToSite', 'copy20JavadocToSite'
@@ -277,6 +279,8 @@ task download20Javadoc(type: MyDownload) {
     sourceUrl = 'https://github.com/stephengold/Minie/releases/download/2.0.1/Minie-2.0.1-javadoc.jar'
     target = file("${buildDir}/docs/v2-0.jar")
 }
+
+// publishing tasks
 
 build.dependsOn('pom', 'pomAsc')
 task('pom', type: Copy) {
@@ -341,6 +345,8 @@ publishing {
     }
 }
 
+// signing tasks
+
 signing {
     sign configurations.archives
     sign publishing.publications.maven
@@ -350,6 +356,7 @@ tasks.withType(Sign) {
 }
 
 // helper class to wrap Ant download task
+
 class MyDownload extends DefaultTask {
     @Input
     String sourceUrl
