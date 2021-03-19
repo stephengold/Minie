@@ -103,14 +103,14 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java14-Linux:
+  Java15-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: 14
+          java-version: 15
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
@@ -119,14 +119,14 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java14-MacOS:
+  Java15-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: 14
+          java-version: 15
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
@@ -135,14 +135,14 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java14-Windows:
+  Java15-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: 14
+          java-version: 15
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
         shell: bash
