@@ -196,7 +196,6 @@ and distorts its effective shape.
 For this reason, it's undesirable to have a collision object
 with any radius smaller than about 0.2 psu.
 
-On the other hand, dynamic bodies should not be made too large.
 Dynamic bodies in forced contact tend to jiggle.
 Jiggling is mostly noticeable for sharp-edged bodies (such as boxes)
 resting on uneven surfaces, under high gravity.
@@ -205,7 +204,7 @@ the shorter the simulation time step (in seconds) needs to be.
 For efficient and realistic simulation of Earth-like gravity (9.8 m/s)
 with the default margin (0.04 psu) and time step (0.0167 seconds),
 the psu should be 0.3 meters or larger.
-This puts a soft upper limit on the size (in psu) of dynamic bodies.
+This puts a soft lower limit on the dimensions (in psu) of dynamic bodies.
 
 Since Minie's debug visualization assumes that physics coordinates are
 equivalent to world coordinates, these recommendations could impact
