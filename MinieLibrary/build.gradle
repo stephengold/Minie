@@ -344,11 +344,11 @@ publishing {
         }
     }
 }
+generateMetadataFileForMavenPublication.dependsOn('pom')
 
 // signing tasks
 
 signing {
-    sign configurations.archives
     sign publishing.publications.maven
 }
 tasks.withType(Sign) {

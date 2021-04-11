@@ -42,7 +42,7 @@ repositories {
     //mavenLocal()
     maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for jme3-testdata
     mavenCentral()
-    jcenter()
+    maven { url 'https://jcenter.bintray.com/' } // for jme3-ttf
 }
 
 // custom tasks for creating source/javadoc JARs
@@ -57,11 +57,6 @@ task javadocJar(type: Jar) {
     dependsOn 'javadoc'
     description 'Create a JAR of javadoc.'
     from javadoc.destinationDir
-}
-
-// add javadoc/source jar tasks as artifacts
-artifacts {
-    archives jar, sourcesJar, javadocJar
 }
 
 // cleanup tasks
