@@ -111,6 +111,7 @@ public class MinieTest {
      * @param object the object to save and then load (unaffected)
      * @return a new copy of the object
      */
+    @SuppressWarnings("unchecked")
     public static <T extends Savable> T saveAndLoadXml(
             AssetManager assetManager, T object) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
