@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -118,7 +118,7 @@ public class BalanceController extends IKController {
     /**
      * Alter the support location.
      *
-     * @param newLocation the desired location (not null, unaffected
+     * @param newLocation the desired location (not null, unaffected)
      */
     public void setCenterOfSupport(Vector3f newLocation) {
         centerOfSupport.set(newLocation);
