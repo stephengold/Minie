@@ -709,7 +709,7 @@ public class TargetDemo
     /**
      * Alter which rigid body is selected.
      *
-     * @param rigidBody the body to select (or null)
+     * @param rigidBody the body to select (alias created) or null for none
      */
     private void selectBody(PhysicsRigidBody rigidBody) {
         if (rigidBody != selectedBody) {

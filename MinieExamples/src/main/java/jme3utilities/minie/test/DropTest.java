@@ -888,9 +888,9 @@ public class DropTest
     }
 
     /**
-     * Alter which drop is selected.
+     * Alter which Drop is selected.
      *
-     * @param newDrop the drop to select (or null for none)
+     * @param newDrop the Drop to select (alias created) or null for none
      */
     private void selectDrop(Drop newDrop) {
         if (newDrop != selectedDrop) {

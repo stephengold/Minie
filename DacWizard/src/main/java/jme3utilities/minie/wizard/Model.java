@@ -768,10 +768,10 @@ class Model {
     }
 
     /**
-     * Replace the configuration of the named bone/torso.
+     * Reconfigure the named bone/torso.
      *
      * @param boneName the name of the bone, or torsoName (not null)
-     * @param config the desired LinkConfig (not null)
+     * @param config the desired configuration (not null)
      */
     void setConfig(String boneName, LinkConfig config) {
         assert boneName != null;
